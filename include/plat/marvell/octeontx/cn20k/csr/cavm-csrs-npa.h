@@ -2599,8 +2599,7 @@ union cavm_npa_af_gen_cfg
     struct cavm_npa_af_gen_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_17_63        : 47;
-        uint64_t stash_cmd_ststf       : 1;  /**< [ 16: 16](R/W) Replace the use of STSTP in NCBi commands with STSTF when the stashing command option is selected. */
+        uint64_t reserved_16_63        : 48;
         uint64_t ratem1                : 4;  /**< [ 15: 12](R/W) Limit peak alloc/frees to once per [RATEM1]+1 clock cycles to ensure all
                                                                  alloc/frees are slower. For diagnostic use only. */
         uint64_t reserved_11           : 1;
@@ -2622,8 +2621,7 @@ union cavm_npa_af_gen_cfg
         uint64_t reserved_11           : 1;
         uint64_t ratem1                : 4;  /**< [ 15: 12](R/W) Limit peak alloc/frees to once per [RATEM1]+1 clock cycles to ensure all
                                                                  alloc/frees are slower. For diagnostic use only. */
-        uint64_t stash_cmd_ststf       : 1;  /**< [ 16: 16](R/W) Replace the use of STSTP in NCBi commands with STSTF when the stashing command option is selected. */
-        uint64_t reserved_17_63        : 47;
+        uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_npa_af_gen_cfg_s cn; */

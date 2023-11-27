@@ -45,28 +45,7 @@
 #define CAVM_PEM_INT_VEC_E_INTD (6)
 #define CAVM_PEM_INT_VEC_E_INTD_CLEAR (7)
 #define CAVM_PEM_INT_VEC_E_INT_SUM (8)
-#define CAVM_PEM_INT_VEC_E_PEMOOR_INT (0xa)
 #define CAVM_PEM_INT_VEC_E_RST_INT (9)
-#define CAVM_PEM_INT_VEC_E_VDMX_INT(a) (0xb + (a))
-
-/**
- * Enumeration pem_perf_bus_e
- *
- * PEM Performance Bus Enumeration
- * Enumerates the internal bus associated with performance tracking registers.
- */
-#define CAVM_PEM_PERF_BUS_E_PERF_EBUS (1)
-#define CAVM_PEM_PERF_BUS_E_PERF_NCB (0)
-
-/**
- * Enumeration pem_perf_tlp_type_e
- *
- * PEM Performance TLP Type Enumeration
- * Enumerates the TLP type associated with performance tracking registers that are by type.
- */
-#define CAVM_PEM_PERF_TLP_TYPE_E_PERF_CPL (2)
-#define CAVM_PEM_PERF_TLP_TYPE_E_PERF_NPR (0)
-#define CAVM_PEM_PERF_TLP_TYPE_E_PERF_PR (1)
 
 /**
  * Enumeration pem_rst_source_e
@@ -116,485 +95,13 @@ union cavm_pem_ncbo_norm_memio_s
 };
 
 /**
- * Register (NCB) pem#_ats_diag_status
- *
- * PEM ATS Diagnostic Status Register
- * This register contains selection control for the ATS diagnostic bus.
- */
-union cavm_pemx_ats_diag_status
-{
-    uint64_t u;
-    struct cavm_pemx_ats_diag_status_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_10_63        : 54;
-        uint64_t dropped_invalidate    : 1;  /**< [  9:  9](R/W1C/H) This bit is set when an invalidate request from SMMU is dropped because PEM has
-                                                                 not seen a translation completion since MAC reset. See
-                                                                 PEM_ATS_INV_CONTROL[ALWAYS_FORWARD]. */
-        uint64_t malformed_ats_req     : 1;  /**< [  8:  8](R/W1C/H) This bit is set when an ATS translation request from an EP has a length greater than 2. */
-        uint64_t malformed_ats_completion : 1;/**< [  7:  7](R/W1C/H) This bit is set when an ATS completion from SMMU is malformed. */
-        uint64_t malformed_prg_rsp     : 1;  /**< [  6:  6](R/W1C/H) This bit is set when a PRG response from SMMU is malformed. */
-        uint64_t reserved_5            : 1;
-        uint64_t unmatched_itag        : 1;  /**< [  4:  4](R/W1C/H) This bit is set when an invalidate completion returns with an ITag that doesn't
-                                                                 match an outstanding one. */
-        uint64_t invalid_completion_count : 1;/**< [  3:  3](R/W1C/H) This bit is set when an invalidate completion returns with a completion count not equal to one. */
-        uint64_t unmatched_translation_id : 1;/**< [  2:  2](R/W1C/H) This bit is set when SMMU sends a translation response with a Translation ID
-                                                                 that doesn't match an outstanding one. */
-        uint64_t invalidate_response_timeout : 1;/**< [  1:  1](R/W1C/H) This bit is set when an EP does not return an invalidate completion, leading to a timeout. */
-        uint64_t unexpected_dti_sync   : 1;  /**< [  0:  0](R/W1C/H) This bit is set when PEM receives an ATS sync request from SMMU
-                                                                 when one was already in-flight. */
-#else /* Word 0 - Little Endian */
-        uint64_t unexpected_dti_sync   : 1;  /**< [  0:  0](R/W1C/H) This bit is set when PEM receives an ATS sync request from SMMU
-                                                                 when one was already in-flight. */
-        uint64_t invalidate_response_timeout : 1;/**< [  1:  1](R/W1C/H) This bit is set when an EP does not return an invalidate completion, leading to a timeout. */
-        uint64_t unmatched_translation_id : 1;/**< [  2:  2](R/W1C/H) This bit is set when SMMU sends a translation response with a Translation ID
-                                                                 that doesn't match an outstanding one. */
-        uint64_t invalid_completion_count : 1;/**< [  3:  3](R/W1C/H) This bit is set when an invalidate completion returns with a completion count not equal to one. */
-        uint64_t unmatched_itag        : 1;  /**< [  4:  4](R/W1C/H) This bit is set when an invalidate completion returns with an ITag that doesn't
-                                                                 match an outstanding one. */
-        uint64_t reserved_5            : 1;
-        uint64_t malformed_prg_rsp     : 1;  /**< [  6:  6](R/W1C/H) This bit is set when a PRG response from SMMU is malformed. */
-        uint64_t malformed_ats_completion : 1;/**< [  7:  7](R/W1C/H) This bit is set when an ATS completion from SMMU is malformed. */
-        uint64_t malformed_ats_req     : 1;  /**< [  8:  8](R/W1C/H) This bit is set when an ATS translation request from an EP has a length greater than 2. */
-        uint64_t dropped_invalidate    : 1;  /**< [  9:  9](R/W1C/H) This bit is set when an invalidate request from SMMU is dropped because PEM has
-                                                                 not seen a translation completion since MAC reset. See
-                                                                 PEM_ATS_INV_CONTROL[ALWAYS_FORWARD]. */
-        uint64_t reserved_10_63        : 54;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pemx_ats_diag_status_s cn; */
-};
-typedef union cavm_pemx_ats_diag_status cavm_pemx_ats_diag_status_t;
-
-static inline uint64_t CAVM_PEMX_ATS_DIAG_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PEMX_ATS_DIAG_STATUS(uint64_t a)
-{
-    if (a<=5)
-        return 0x8e0000007d08ll + 0x1000000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("PEMX_ATS_DIAG_STATUS", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PEMX_ATS_DIAG_STATUS(a) cavm_pemx_ats_diag_status_t
-#define bustype_CAVM_PEMX_ATS_DIAG_STATUS(a) CSR_TYPE_NCB
-#define basename_CAVM_PEMX_ATS_DIAG_STATUS(a) "PEMX_ATS_DIAG_STATUS"
-#define device_bar_CAVM_PEMX_ATS_DIAG_STATUS(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_PEMX_ATS_DIAG_STATUS(a) (a)
-#define arguments_CAVM_PEMX_ATS_DIAG_STATUS(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) pem#_ats_inv_control
- *
- * PEM ATS Invalidation Control Register
- */
-union cavm_pemx_ats_inv_control
-{
-    uint64_t u;
-    struct cavm_pemx_ats_inv_control_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_13_63        : 51;
-        uint64_t always_forward        : 1;  /**< [ 12: 12](R/W) When clear, PEM will only forward invalidate requests from SMMU if there has
-                                                                 been a translation completion since the last MAC reset. When set, PEM will
-                                                                 forward all invalidate requests received from SMMU. */
-        uint64_t outstanding_requests  : 6;  /**< [ 11:  6](RO/H) Contains the total number of in-flight invalidation requests which are pending
-                                                                 completions from an EP. */
-        uint64_t limit                 : 6;  /**< [  5:  0](R/W) Limits the total number of simultaneous ATC Invalidate Requests PEM will allow
-                                                                 outstanding (to an EP). When set to the default value, no limit will be imposed.
-                                                                 This value must not be changed while there are any outstanding invalidate
-                                                                 requests in flight. */
-#else /* Word 0 - Little Endian */
-        uint64_t limit                 : 6;  /**< [  5:  0](R/W) Limits the total number of simultaneous ATC Invalidate Requests PEM will allow
-                                                                 outstanding (to an EP). When set to the default value, no limit will be imposed.
-                                                                 This value must not be changed while there are any outstanding invalidate
-                                                                 requests in flight. */
-        uint64_t outstanding_requests  : 6;  /**< [ 11:  6](RO/H) Contains the total number of in-flight invalidation requests which are pending
-                                                                 completions from an EP. */
-        uint64_t always_forward        : 1;  /**< [ 12: 12](R/W) When clear, PEM will only forward invalidate requests from SMMU if there has
-                                                                 been a translation completion since the last MAC reset. When set, PEM will
-                                                                 forward all invalidate requests received from SMMU. */
-        uint64_t reserved_13_63        : 51;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pemx_ats_inv_control_s cn; */
-};
-typedef union cavm_pemx_ats_inv_control cavm_pemx_ats_inv_control_t;
-
-static inline uint64_t CAVM_PEMX_ATS_INV_CONTROL(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PEMX_ATS_INV_CONTROL(uint64_t a)
-{
-    if (a<=5)
-        return 0x8e0000007d48ll + 0x1000000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("PEMX_ATS_INV_CONTROL", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PEMX_ATS_INV_CONTROL(a) cavm_pemx_ats_inv_control_t
-#define bustype_CAVM_PEMX_ATS_INV_CONTROL(a) CSR_TYPE_NCB
-#define basename_CAVM_PEMX_ATS_INV_CONTROL(a) "PEMX_ATS_INV_CONTROL"
-#define device_bar_CAVM_PEMX_ATS_INV_CONTROL(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_PEMX_ATS_INV_CONTROL(a) (a)
-#define arguments_CAVM_PEMX_ATS_INV_CONTROL(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) pem#_ats_inv_latency_pc
- *
- * PEM ATS Invalidtion Latency Counter Register
- */
-union cavm_pemx_ats_inv_latency_pc
-{
-    uint64_t u;
-    struct cavm_pemx_ats_inv_latency_pc_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Contains the number of cycles waiting for Invalidates to be processed. Incremented every
-                                                                 10ns by the number of outstanding Invalidates. This
-                                                                 may be divided by PEM_ATS_INVAL_PC to determine the average latency. */
-#else /* Word 0 - Little Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Contains the number of cycles waiting for Invalidates to be processed. Incremented every
-                                                                 10ns by the number of outstanding Invalidates. This
-                                                                 may be divided by PEM_ATS_INVAL_PC to determine the average latency. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pemx_ats_inv_latency_pc_s cn; */
-};
-typedef union cavm_pemx_ats_inv_latency_pc cavm_pemx_ats_inv_latency_pc_t;
-
-static inline uint64_t CAVM_PEMX_ATS_INV_LATENCY_PC(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PEMX_ATS_INV_LATENCY_PC(uint64_t a)
-{
-    if (a<=5)
-        return 0x8e0000007d40ll + 0x1000000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("PEMX_ATS_INV_LATENCY_PC", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PEMX_ATS_INV_LATENCY_PC(a) cavm_pemx_ats_inv_latency_pc_t
-#define bustype_CAVM_PEMX_ATS_INV_LATENCY_PC(a) CSR_TYPE_NCB
-#define basename_CAVM_PEMX_ATS_INV_LATENCY_PC(a) "PEMX_ATS_INV_LATENCY_PC"
-#define device_bar_CAVM_PEMX_ATS_INV_LATENCY_PC(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_PEMX_ATS_INV_LATENCY_PC(a) (a)
-#define arguments_CAVM_PEMX_ATS_INV_LATENCY_PC(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) pem#_ats_inv_pc
- *
- * PEM ATS Invalidation Performance Counter Register
- */
-union cavm_pemx_ats_inv_pc
-{
-    uint64_t u;
-    struct cavm_pemx_ats_inv_pc_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Contains the total number of invalidates processed. */
-#else /* Word 0 - Little Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Contains the total number of invalidates processed. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pemx_ats_inv_pc_s cn; */
-};
-typedef union cavm_pemx_ats_inv_pc cavm_pemx_ats_inv_pc_t;
-
-static inline uint64_t CAVM_PEMX_ATS_INV_PC(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PEMX_ATS_INV_PC(uint64_t a)
-{
-    if (a<=5)
-        return 0x8e0000007d38ll + 0x1000000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("PEMX_ATS_INV_PC", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PEMX_ATS_INV_PC(a) cavm_pemx_ats_inv_pc_t
-#define bustype_CAVM_PEMX_ATS_INV_PC(a) CSR_TYPE_NCB
-#define basename_CAVM_PEMX_ATS_INV_PC(a) "PEMX_ATS_INV_PC"
-#define device_bar_CAVM_PEMX_ATS_INV_PC(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_PEMX_ATS_INV_PC(a) (a)
-#define arguments_CAVM_PEMX_ATS_INV_PC(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) pem#_ats_inv_sync
- *
- * PEM ATS Invalidation Sync Register
- * This register is used by PEM ATS on an ATC invalidation to synchronize outstanding
- * posted transactions using that translation.
- */
-union cavm_pemx_ats_inv_sync
-{
-    uint64_t u;
-    struct cavm_pemx_ats_inv_sync_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t sync                  : 1;  /**< [  0:  0](WO/H) Destination register for the loopback NCB write. */
-#else /* Word 0 - Little Endian */
-        uint64_t sync                  : 1;  /**< [  0:  0](WO/H) Destination register for the loopback NCB write. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pemx_ats_inv_sync_s cn; */
-};
-typedef union cavm_pemx_ats_inv_sync cavm_pemx_ats_inv_sync_t;
-
-static inline uint64_t CAVM_PEMX_ATS_INV_SYNC(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PEMX_ATS_INV_SYNC(uint64_t a)
-{
-    if (a<=5)
-        return 0x8e0000007d00ll + 0x1000000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("PEMX_ATS_INV_SYNC", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PEMX_ATS_INV_SYNC(a) cavm_pemx_ats_inv_sync_t
-#define bustype_CAVM_PEMX_ATS_INV_SYNC(a) CSR_TYPE_NCB
-#define basename_CAVM_PEMX_ATS_INV_SYNC(a) "PEMX_ATS_INV_SYNC"
-#define device_bar_CAVM_PEMX_ATS_INV_SYNC(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_PEMX_ATS_INV_SYNC(a) (a)
-#define arguments_CAVM_PEMX_ATS_INV_SYNC(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) pem#_ats_pri_latency_pc
- *
- * PEM ATS Page Request Latency Counter Register
- */
-union cavm_pemx_ats_pri_latency_pc
-{
-    uint64_t u;
-    struct cavm_pemx_ats_pri_latency_pc_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Contains the number of cycles waiting for Page Requests to be processed. Incremented every
-                                                                 10ns by the number of outstanding Page Requests. This
-                                                                 may be divided by PEM_ATS_PRI_PC to determine the average latency. */
-#else /* Word 0 - Little Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Contains the number of cycles waiting for Page Requests to be processed. Incremented every
-                                                                 10ns by the number of outstanding Page Requests. This
-                                                                 may be divided by PEM_ATS_PRI_PC to determine the average latency. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pemx_ats_pri_latency_pc_s cn; */
-};
-typedef union cavm_pemx_ats_pri_latency_pc cavm_pemx_ats_pri_latency_pc_t;
-
-static inline uint64_t CAVM_PEMX_ATS_PRI_LATENCY_PC(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PEMX_ATS_PRI_LATENCY_PC(uint64_t a)
-{
-    if (a<=5)
-        return 0x8e0000007d30ll + 0x1000000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("PEMX_ATS_PRI_LATENCY_PC", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PEMX_ATS_PRI_LATENCY_PC(a) cavm_pemx_ats_pri_latency_pc_t
-#define bustype_CAVM_PEMX_ATS_PRI_LATENCY_PC(a) CSR_TYPE_NCB
-#define basename_CAVM_PEMX_ATS_PRI_LATENCY_PC(a) "PEMX_ATS_PRI_LATENCY_PC"
-#define device_bar_CAVM_PEMX_ATS_PRI_LATENCY_PC(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_PEMX_ATS_PRI_LATENCY_PC(a) (a)
-#define arguments_CAVM_PEMX_ATS_PRI_LATENCY_PC(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) pem#_ats_pri_pc
- *
- * PEM ATS Page Request Performance Counter Register
- */
-union cavm_pemx_ats_pri_pc
-{
-    uint64_t u;
-    struct cavm_pemx_ats_pri_pc_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Contains the total number of page requests processed. */
-#else /* Word 0 - Little Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Contains the total number of page requests processed. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pemx_ats_pri_pc_s cn; */
-};
-typedef union cavm_pemx_ats_pri_pc cavm_pemx_ats_pri_pc_t;
-
-static inline uint64_t CAVM_PEMX_ATS_PRI_PC(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PEMX_ATS_PRI_PC(uint64_t a)
-{
-    if (a<=5)
-        return 0x8e0000007d28ll + 0x1000000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("PEMX_ATS_PRI_PC", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PEMX_ATS_PRI_PC(a) cavm_pemx_ats_pri_pc_t
-#define bustype_CAVM_PEMX_ATS_PRI_PC(a) CSR_TYPE_NCB
-#define basename_CAVM_PEMX_ATS_PRI_PC(a) "PEMX_ATS_PRI_PC"
-#define device_bar_CAVM_PEMX_ATS_PRI_PC(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_PEMX_ATS_PRI_PC(a) (a)
-#define arguments_CAVM_PEMX_ATS_PRI_PC(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) pem#_ats_tid_sts#
- *
- * PEM ATS Translation ID Status Register
- */
-union cavm_pemx_ats_tid_stsx
-{
-    uint64_t u;
-    struct cavm_pemx_ats_tid_stsx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t busy                  : 64; /**< [ 63:  0](RO/H) Contains the current status of the 256 Translation ID's for ATS translation
-                                                                 requests. Any bit that is set to one indicates that there has been a translation
-                                                                 request sent to SMMU with that TID which has not received a response. The 256
-                                                                 translation ID's are spread across 4 CSR's, so that register 0 houses bits
-                                                                 [63:0], register 1 houses [127:64], etc. */
-#else /* Word 0 - Little Endian */
-        uint64_t busy                  : 64; /**< [ 63:  0](RO/H) Contains the current status of the 256 Translation ID's for ATS translation
-                                                                 requests. Any bit that is set to one indicates that there has been a translation
-                                                                 request sent to SMMU with that TID which has not received a response. The 256
-                                                                 translation ID's are spread across 4 CSR's, so that register 0 houses bits
-                                                                 [63:0], register 1 houses [127:64], etc. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pemx_ats_tid_stsx_s cn; */
-};
-typedef union cavm_pemx_ats_tid_stsx cavm_pemx_ats_tid_stsx_t;
-
-static inline uint64_t CAVM_PEMX_ATS_TID_STSX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PEMX_ATS_TID_STSX(uint64_t a, uint64_t b)
-{
-    if ((a<=5) && (b<=3))
-        return 0x8e0000007d60ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
-    __cavm_csr_fatal("PEMX_ATS_TID_STSX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PEMX_ATS_TID_STSX(a,b) cavm_pemx_ats_tid_stsx_t
-#define bustype_CAVM_PEMX_ATS_TID_STSX(a,b) CSR_TYPE_NCB
-#define basename_CAVM_PEMX_ATS_TID_STSX(a,b) "PEMX_ATS_TID_STSX"
-#define device_bar_CAVM_PEMX_ATS_TID_STSX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_PEMX_ATS_TID_STSX(a,b) (a)
-#define arguments_CAVM_PEMX_ATS_TID_STSX(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB) pem#_ats_tlp_credits
- *
- * PEM ATS Inbound TLP Credits Register
- * This register specifies the number of credits for use in moving TLPs. When this register is
- * written, the credit values are reset to the register value. This register is for diagnostic
- * use only, and should only be written when PEM()_CTL_STATUS[LNK_ENB] is clear.
- *
- * This register is accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
- *
- * This register is reset on MAC reset.
- */
-union cavm_pemx_ats_tlp_credits
-{
-    uint64_t u;
-    struct cavm_pemx_ats_tlp_credits_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_21_63        : 43;
-        uint64_t ats_np                : 10; /**< [ 20: 11](R/W) TLP headers for non-posted ATS TLPs (Translation Requests) in the PEMs ATS buffers.
-                                                                 Legal values are 0x1 to 0x20. */
-        uint64_t ats_p                 : 11; /**< [ 10:  0](R/W) TLP headers for PRI requests & Invalidate completions in the PEMs ATS buffers.
-                                                                 Legal values are 0x1 to 0x20. */
-#else /* Word 0 - Little Endian */
-        uint64_t ats_p                 : 11; /**< [ 10:  0](R/W) TLP headers for PRI requests & Invalidate completions in the PEMs ATS buffers.
-                                                                 Legal values are 0x1 to 0x20. */
-        uint64_t ats_np                : 10; /**< [ 20: 11](R/W) TLP headers for non-posted ATS TLPs (Translation Requests) in the PEMs ATS buffers.
-                                                                 Legal values are 0x1 to 0x20. */
-        uint64_t reserved_21_63        : 43;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pemx_ats_tlp_credits_s cn; */
-};
-typedef union cavm_pemx_ats_tlp_credits cavm_pemx_ats_tlp_credits_t;
-
-static inline uint64_t CAVM_PEMX_ATS_TLP_CREDITS(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PEMX_ATS_TLP_CREDITS(uint64_t a)
-{
-    if (a<=5)
-        return 0x8e0000000090ll + 0x1000000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("PEMX_ATS_TLP_CREDITS", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PEMX_ATS_TLP_CREDITS(a) cavm_pemx_ats_tlp_credits_t
-#define bustype_CAVM_PEMX_ATS_TLP_CREDITS(a) CSR_TYPE_NCB
-#define basename_CAVM_PEMX_ATS_TLP_CREDITS(a) "PEMX_ATS_TLP_CREDITS"
-#define device_bar_CAVM_PEMX_ATS_TLP_CREDITS(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_PEMX_ATS_TLP_CREDITS(a) (a)
-#define arguments_CAVM_PEMX_ATS_TLP_CREDITS(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) pem#_ats_trans_latency_pc
- *
- * PEM ATS Translation Latency Counter Register
- */
-union cavm_pemx_ats_trans_latency_pc
-{
-    uint64_t u;
-    struct cavm_pemx_ats_trans_latency_pc_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Contains the number of cycles waiting for Translations to be processed. Incremented every
-                                                                 10ns by the number of outstanding Translation Requests. This
-                                                                 may be divided by PEM_ATS_TRANS_PC to determine the average latency. */
-#else /* Word 0 - Little Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Contains the number of cycles waiting for Translations to be processed. Incremented every
-                                                                 10ns by the number of outstanding Translation Requests. This
-                                                                 may be divided by PEM_ATS_TRANS_PC to determine the average latency. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pemx_ats_trans_latency_pc_s cn; */
-};
-typedef union cavm_pemx_ats_trans_latency_pc cavm_pemx_ats_trans_latency_pc_t;
-
-static inline uint64_t CAVM_PEMX_ATS_TRANS_LATENCY_PC(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PEMX_ATS_TRANS_LATENCY_PC(uint64_t a)
-{
-    if (a<=5)
-        return 0x8e0000007d20ll + 0x1000000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("PEMX_ATS_TRANS_LATENCY_PC", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PEMX_ATS_TRANS_LATENCY_PC(a) cavm_pemx_ats_trans_latency_pc_t
-#define bustype_CAVM_PEMX_ATS_TRANS_LATENCY_PC(a) CSR_TYPE_NCB
-#define basename_CAVM_PEMX_ATS_TRANS_LATENCY_PC(a) "PEMX_ATS_TRANS_LATENCY_PC"
-#define device_bar_CAVM_PEMX_ATS_TRANS_LATENCY_PC(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_PEMX_ATS_TRANS_LATENCY_PC(a) (a)
-#define arguments_CAVM_PEMX_ATS_TRANS_LATENCY_PC(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) pem#_ats_trans_pc
- *
- * PEM ATS Translation Performance Counter Register
- */
-union cavm_pemx_ats_trans_pc
-{
-    uint64_t u;
-    struct cavm_pemx_ats_trans_pc_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Contains the total number of translations processed. */
-#else /* Word 0 - Little Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Contains the total number of translations processed. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pemx_ats_trans_pc_s cn; */
-};
-typedef union cavm_pemx_ats_trans_pc cavm_pemx_ats_trans_pc_t;
-
-static inline uint64_t CAVM_PEMX_ATS_TRANS_PC(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PEMX_ATS_TRANS_PC(uint64_t a)
-{
-    if (a<=5)
-        return 0x8e0000007d18ll + 0x1000000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("PEMX_ATS_TRANS_PC", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PEMX_ATS_TRANS_PC(a) cavm_pemx_ats_trans_pc_t
-#define bustype_CAVM_PEMX_ATS_TRANS_PC(a) CSR_TYPE_NCB
-#define basename_CAVM_PEMX_ATS_TRANS_PC(a) "PEMX_ATS_TRANS_PC"
-#define device_bar_CAVM_PEMX_ATS_TRANS_PC(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_PEMX_ATS_TRANS_PC(a) (a)
-#define arguments_CAVM_PEMX_ATS_TRANS_PC(a) (a),-1,-1,-1
-
-/**
  * Register (NCB) pem#_bar2_mask
  *
  * PEM BAR2 Mask Register
  * This register contains the mask pattern that is ANDed with the address from the PCIe core for
  * inbound PF BAR2 hits in either RC or EP mode. This mask is only applied if
- * the address hits in PEM()_P2N_BAR2_START / PEM()_BAR_CTL[BAR2_SIZ] registers.
+ * PEM()_EBUS_CTL[PF_BAR2_SEL] is clear and the address hits in the PCIEEP_BAR2L / PCIEEP_BAR2U
+ * registers (EP mode) or PEM()_P2N_BAR2_START / PEM()_BAR_CTL[BAR2_SIZ] registers (RC mode).
  *
  * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
  *
@@ -622,7 +129,7 @@ typedef union cavm_pemx_bar2_mask cavm_pemx_bar2_mask_t;
 static inline uint64_t CAVM_PEMX_BAR2_MASK(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_BAR2_MASK(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000048ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_BAR2_MASK", 1, a, 0, 0, 0, 0, 0);
 }
@@ -639,7 +146,9 @@ static inline uint64_t CAVM_PEMX_BAR2_MASK(uint64_t a)
  *
  * PEM BAR4 Index 0-15 Register
  * This register contains the address index and control bits for access to memory ranges of BAR4.
- * The index is built from the PCI inbound address \<25:22\>.
+ * The index is built from the PCI inbound address \<25:22\>. The bits in this register only apply to
+ * inbound accesses targeting the NCB bus in both RC and EP modes, this register is ignored
+ * when PEM()_EBUS_CTL[PF_BAR4_SEL] is set.
  *
  * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
  *
@@ -671,7 +180,7 @@ typedef union cavm_pemx_bar4_indexx cavm_pemx_bar4_indexx_t;
 static inline uint64_t CAVM_PEMX_BAR4_INDEXX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_BAR4_INDEXX(uint64_t a, uint64_t b)
 {
-    if ((a<=5) && (b<=15))
+    if ((a<=7) && (b<=15))
         return 0x8e0000000700ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0xf);
     __cavm_csr_fatal("PEMX_BAR4_INDEXX", 2, a, b, 0, 0, 0, 0);
 }
@@ -716,32 +225,75 @@ union cavm_pemx_bar_ctl
                                                                  0xf = Stream ID is {PEM ECAM domain\<21:16\>, PCIe inbound requester\<15\>, 0\<14:0\>}.
                                                                  0x10 = Stream ID is {PEM ECAM domain\<21:16\>, 0}.
                                                                  0x11 and above = Reserved. */
-        uint64_t vf_bar0_enb           : 1;  /**< [ 35: 35](R/W) Reserved. */
-        uint64_t reserved_33_34        : 2;
-        uint64_t at_enb                : 1;  /**< [ 32: 32](R/W) 0 = Address translated requests will cause UR responses.
-                                                                 1 = Address translated requests will respond. */
-        uint64_t bar4_enb              : 1;  /**< [ 31: 31](R/W) 0 = BAR4 access will cause UR responses.
-                                                                 1 = BAR4 is enabled and will respond if the corresponding
-                                                                 bits in PEM()_BAR4_INDEX() are set and the address matches
-                                                                 an enabled indexed address range. */
-        uint64_t bar0_siz              : 5;  /**< [ 30: 26](R/W) Reserved. */
-        uint64_t bar0_enb              : 1;  /**< [ 25: 25](R/W) Reserved. */
+        uint64_t vf_bar0_enb           : 1;  /**< [ 35: 35](R/W) This bit controls whether BAR0 for all virtual functions is enabled.
+
+                                                                 In RC mode:
+                                                                 * VF BAR0 does not exist. This bit has no effect.
+
+                                                                 In EP mode:
+
+                                                                  * VF BAR0 hits are based on a combination of this bit and
+                                                                  config registers PCIEEP_SRIOV_BAR0U, PCIEEP_SRIOV_BAR0L, and
+                                                                  PCIEEP_SRIOV_CTL[VFE].  Both PCIEEP_SRIOV_CTL[VFE] and this
+                                                                  bit must be set to enable a VF BAR0 hit to the PCI address
+                                                                  specified by PCIEEP_SRIOV_BAR0U / PCIEEP_SRIOV_BAR0L. */
+        uint64_t reserved_32_34        : 3;
+        uint64_t bar4_enb              : 1;  /**< [ 31: 31](R/W) In RC mode:
+                                                                  0 = BAR4 access will cause UR responses. This applies no
+                                                                  matter the value of PEM()_EBUS_CTL[PF_BAR4_SEL].
+                                                                  1 = BAR4 is enabled and will respond if the corresponding
+                                                                  bits in PEM()_BAR4_INDEX() are set and the address matches
+                                                                  an enabled indexed address range.
+
+                                                                 In EP mode:
+
+                                                                  * If PEM()_EBUS_CTL[PF_BAR4_SEL] is set, BAR4 hits are based on
+                                                                  a combination of this bit and config registers PCIEEP_BAR4U / PCIEEP_BAR4L.
+                                                                  Both enable bits must be set to enable a BAR4 hit.
+                                                                  * If PEM()_EBUS_CTL[PF_BAR4_SEL] is clear, BAR4 hits are based
+                                                                  on a combination of this bit, the config registers PCIEEP_BAR4U /
+                                                                  PCIEEP_BAR4L, and the PEM()_BAR4_INDEX() registers.
+                                                                  Both enable bits must be set along with the appropriate bits in
+                                                                  PEM()_BAR4_INDEX() in order for a BAR4 access to respond. */
+        uint64_t bar0_siz              : 5;  /**< [ 30: 26](R/W) PCIe BAR0 size.
+                                                                 0x0 = Reserved.
+                                                                 0x1 = 64 KB; 2^16.
+                                                                 0x2 = 128 KB; 2^17.
+                                                                 0x3 = 256 KB; 2^18.
+                                                                 0x4 = 512 KB; 2^19.
+                                                                 0x5 = 1 MB; 2^20.
+                                                                 0x6 = 2 MB; 2^21.
+                                                                 0x7 = 4 MB; 2^22.
+                                                                 0x8 = 8 MB; 2^23.
+                                                                 0x9 = 16 MB; 2^24.
+                                                                 0xA = 32 MB; 2^25.
+                                                                 0xB = 64 MB; 2^26.
+                                                                 0xC - 0x1F = Reserved.
+
+                                                                 This field may not be changed while any of [BAR0_ENB], [BAR2_ENB], [BAR4_ENB],
+                                                                 or [VF_BAR0_ENB] are set. Wait 1 ms after writing this field to set any of
+                                                                 the [*_ENB] bits. */
+        uint64_t bar0_enb              : 1;  /**< [ 25: 25](R/W) In RC mode:
+                                                                  0 = BAR0 access will cause UR responses. This applies no
+                                                                  matter the value of PEM()_EBUS_CTL[PF_BAR0_SEL].
+                                                                  1 = BAR0 is enabled and will respond.
+
+                                                                 In EP mode:
+
+                                                                  * BAR0 hits are based on a combination of this bit and
+                                                                  config registers PCIEEP_BAR0U / PCIEEP_BAR0L. Both enable
+                                                                  bits must be set to enable a BAR0 hit. */
         uint64_t reserved_19_24        : 6;
         uint64_t bar2_cbit             : 6;  /**< [ 18: 13](R/W) Address bit to be mapped to BAR2's CAX. When 0x0, BAR2's CAX is disabled;
-                                                                 otherwise must be 16 to 63 inclusive.
+                                                                 otherwise must be 16 to 63 inclusive. Not used if PEM()_EBUS_CTL[PF_BAR2_SEL]
+                                                                 is set.
 
-                                                                 This field may not be changed while any of [BAR2_ENB] or [BAR4_ENB]
-                                                                 are set. Wait 1 ms after writing this field to set any of the [*_ENB] bits. */
-        uint64_t bar2_siz              : 6;  /**< [ 12:  7](R/W) Used in RC mode to create a mask that is ANDED with the address prior to applying
-                                                                 [BAR2_CAX]. Defaults to 0x21 (8192 TB).
-
-                                                                 Encoded as follows:
-                                                                  0    1 MB (2^20 bytes)
-                                                                  1    2 MB (2^21 bytes)
-                                                                  2    4 MB (2^22 bytes)
-                                                                  3    8 MB (2^23 bytes)
-                                                                  ...  ...
-                                                                  43   8 EB (2^63 bytes) */
+                                                                 This field may not be changed while any of [BAR0_ENB], [BAR2_ENB], [BAR4_ENB],
+                                                                 or [VF_BAR0_ENB] are set. Wait 1 ms after writing this field to set any of
+                                                                 the [*_ENB] bits. */
+        uint64_t bar2_siz              : 6;  /**< [ 12:  7](R/W) BAR2 size. Encoded similar to PCIEEP_RBAR_CTL[RBARS]. Used in RC mode to create
+                                                                 a mask that is ANDED with the address prior to applying
+                                                                 [BAR2_CAX]. Defaults to 0x21 (8192 TB). */
         uint64_t bar4_siz              : 3;  /**< [  6:  4](R/W) PCIe Port 0 BAR4 size.
                                                                  0x0 = Reserved.
                                                                  0x1 = 64 MB; 2^26.
@@ -755,23 +307,43 @@ union cavm_pemx_bar_ctl
                                                                  This field may not be changed while any of [BAR0_ENB], [BAR2_ENB], [BAR4_ENB],
                                                                  or [VF_BAR0_ENB] are set. Wait 1 ms after writing this field to set any of
                                                                  the [*_ENB] bits. */
-        uint64_t bar2_enb              : 1;  /**< [  3:  3](R/W) 0 = BAR2 access will cause UR responses.
-                                                                 1 = BAR2 is enabled and will respond. */
+        uint64_t bar2_enb              : 1;  /**< [  3:  3](R/W) In RC mode:
+                                                                  0 = BAR2 access will cause UR responses. This applies no
+                                                                  matter the value of PEM()_EBUS_CTL[PF_BAR2_SEL].
+                                                                  1 = BAR2 is enabled and will respond.
+
+                                                                 In EP mode:
+
+                                                                  * BAR2 hits are based on a combination of this bit and
+                                                                  config registers PCIEEP_BAR2U / PCIEEP_BAR2L. Both enable
+                                                                  bits must be set to enable a BAR2 hit. */
         uint64_t reserved_1_2          : 2;
         uint64_t bar2_cax              : 1;  /**< [  0:  0](R/W) Value is XORed with PCIe address as defined by [BAR2_CBIT] to determine the LLC
-                                                                 cache attribute. Not cached in LLC if XOR result is 1.
+                                                                 cache attribute. Not cached in LLC if XOR result is 1. Not used if PEM()_EBUS_CTL[PF_BAR2_SEL]
+                                                                 is set.
 
-                                                                 This field may not be changed while any of [BAR2_ENB] or [BAR4_ENB]
-                                                                 are set. Wait 1 ms after writing this field to set any of the [*_ENB] bits. */
+                                                                 This field may not be changed while any of [BAR0_ENB], [BAR2_ENB], [BAR4_ENB],
+                                                                 or [VF_BAR0_ENB] are set. Wait 1 ms after writing this field to set any of
+                                                                 the [*_ENB] bits. */
 #else /* Word 0 - Little Endian */
         uint64_t bar2_cax              : 1;  /**< [  0:  0](R/W) Value is XORed with PCIe address as defined by [BAR2_CBIT] to determine the LLC
-                                                                 cache attribute. Not cached in LLC if XOR result is 1.
+                                                                 cache attribute. Not cached in LLC if XOR result is 1. Not used if PEM()_EBUS_CTL[PF_BAR2_SEL]
+                                                                 is set.
 
-                                                                 This field may not be changed while any of [BAR2_ENB] or [BAR4_ENB]
-                                                                 are set. Wait 1 ms after writing this field to set any of the [*_ENB] bits. */
+                                                                 This field may not be changed while any of [BAR0_ENB], [BAR2_ENB], [BAR4_ENB],
+                                                                 or [VF_BAR0_ENB] are set. Wait 1 ms after writing this field to set any of
+                                                                 the [*_ENB] bits. */
         uint64_t reserved_1_2          : 2;
-        uint64_t bar2_enb              : 1;  /**< [  3:  3](R/W) 0 = BAR2 access will cause UR responses.
-                                                                 1 = BAR2 is enabled and will respond. */
+        uint64_t bar2_enb              : 1;  /**< [  3:  3](R/W) In RC mode:
+                                                                  0 = BAR2 access will cause UR responses. This applies no
+                                                                  matter the value of PEM()_EBUS_CTL[PF_BAR2_SEL].
+                                                                  1 = BAR2 is enabled and will respond.
+
+                                                                 In EP mode:
+
+                                                                  * BAR2 hits are based on a combination of this bit and
+                                                                  config registers PCIEEP_BAR2U / PCIEEP_BAR2L. Both enable
+                                                                  bits must be set to enable a BAR2 hit. */
         uint64_t bar4_siz              : 3;  /**< [  6:  4](R/W) PCIe Port 0 BAR4 size.
                                                                  0x0 = Reserved.
                                                                  0x1 = 64 MB; 2^26.
@@ -785,32 +357,75 @@ union cavm_pemx_bar_ctl
                                                                  This field may not be changed while any of [BAR0_ENB], [BAR2_ENB], [BAR4_ENB],
                                                                  or [VF_BAR0_ENB] are set. Wait 1 ms after writing this field to set any of
                                                                  the [*_ENB] bits. */
-        uint64_t bar2_siz              : 6;  /**< [ 12:  7](R/W) Used in RC mode to create a mask that is ANDED with the address prior to applying
-                                                                 [BAR2_CAX]. Defaults to 0x21 (8192 TB).
-
-                                                                 Encoded as follows:
-                                                                  0    1 MB (2^20 bytes)
-                                                                  1    2 MB (2^21 bytes)
-                                                                  2    4 MB (2^22 bytes)
-                                                                  3    8 MB (2^23 bytes)
-                                                                  ...  ...
-                                                                  43   8 EB (2^63 bytes) */
+        uint64_t bar2_siz              : 6;  /**< [ 12:  7](R/W) BAR2 size. Encoded similar to PCIEEP_RBAR_CTL[RBARS]. Used in RC mode to create
+                                                                 a mask that is ANDED with the address prior to applying
+                                                                 [BAR2_CAX]. Defaults to 0x21 (8192 TB). */
         uint64_t bar2_cbit             : 6;  /**< [ 18: 13](R/W) Address bit to be mapped to BAR2's CAX. When 0x0, BAR2's CAX is disabled;
-                                                                 otherwise must be 16 to 63 inclusive.
+                                                                 otherwise must be 16 to 63 inclusive. Not used if PEM()_EBUS_CTL[PF_BAR2_SEL]
+                                                                 is set.
 
-                                                                 This field may not be changed while any of [BAR2_ENB] or [BAR4_ENB]
-                                                                 are set. Wait 1 ms after writing this field to set any of the [*_ENB] bits. */
+                                                                 This field may not be changed while any of [BAR0_ENB], [BAR2_ENB], [BAR4_ENB],
+                                                                 or [VF_BAR0_ENB] are set. Wait 1 ms after writing this field to set any of
+                                                                 the [*_ENB] bits. */
         uint64_t reserved_19_24        : 6;
-        uint64_t bar0_enb              : 1;  /**< [ 25: 25](R/W) Reserved. */
-        uint64_t bar0_siz              : 5;  /**< [ 30: 26](R/W) Reserved. */
-        uint64_t bar4_enb              : 1;  /**< [ 31: 31](R/W) 0 = BAR4 access will cause UR responses.
-                                                                 1 = BAR4 is enabled and will respond if the corresponding
-                                                                 bits in PEM()_BAR4_INDEX() are set and the address matches
-                                                                 an enabled indexed address range. */
-        uint64_t at_enb                : 1;  /**< [ 32: 32](R/W) 0 = Address translated requests will cause UR responses.
-                                                                 1 = Address translated requests will respond. */
-        uint64_t reserved_33_34        : 2;
-        uint64_t vf_bar0_enb           : 1;  /**< [ 35: 35](R/W) Reserved. */
+        uint64_t bar0_enb              : 1;  /**< [ 25: 25](R/W) In RC mode:
+                                                                  0 = BAR0 access will cause UR responses. This applies no
+                                                                  matter the value of PEM()_EBUS_CTL[PF_BAR0_SEL].
+                                                                  1 = BAR0 is enabled and will respond.
+
+                                                                 In EP mode:
+
+                                                                  * BAR0 hits are based on a combination of this bit and
+                                                                  config registers PCIEEP_BAR0U / PCIEEP_BAR0L. Both enable
+                                                                  bits must be set to enable a BAR0 hit. */
+        uint64_t bar0_siz              : 5;  /**< [ 30: 26](R/W) PCIe BAR0 size.
+                                                                 0x0 = Reserved.
+                                                                 0x1 = 64 KB; 2^16.
+                                                                 0x2 = 128 KB; 2^17.
+                                                                 0x3 = 256 KB; 2^18.
+                                                                 0x4 = 512 KB; 2^19.
+                                                                 0x5 = 1 MB; 2^20.
+                                                                 0x6 = 2 MB; 2^21.
+                                                                 0x7 = 4 MB; 2^22.
+                                                                 0x8 = 8 MB; 2^23.
+                                                                 0x9 = 16 MB; 2^24.
+                                                                 0xA = 32 MB; 2^25.
+                                                                 0xB = 64 MB; 2^26.
+                                                                 0xC - 0x1F = Reserved.
+
+                                                                 This field may not be changed while any of [BAR0_ENB], [BAR2_ENB], [BAR4_ENB],
+                                                                 or [VF_BAR0_ENB] are set. Wait 1 ms after writing this field to set any of
+                                                                 the [*_ENB] bits. */
+        uint64_t bar4_enb              : 1;  /**< [ 31: 31](R/W) In RC mode:
+                                                                  0 = BAR4 access will cause UR responses. This applies no
+                                                                  matter the value of PEM()_EBUS_CTL[PF_BAR4_SEL].
+                                                                  1 = BAR4 is enabled and will respond if the corresponding
+                                                                  bits in PEM()_BAR4_INDEX() are set and the address matches
+                                                                  an enabled indexed address range.
+
+                                                                 In EP mode:
+
+                                                                  * If PEM()_EBUS_CTL[PF_BAR4_SEL] is set, BAR4 hits are based on
+                                                                  a combination of this bit and config registers PCIEEP_BAR4U / PCIEEP_BAR4L.
+                                                                  Both enable bits must be set to enable a BAR4 hit.
+                                                                  * If PEM()_EBUS_CTL[PF_BAR4_SEL] is clear, BAR4 hits are based
+                                                                  on a combination of this bit, the config registers PCIEEP_BAR4U /
+                                                                  PCIEEP_BAR4L, and the PEM()_BAR4_INDEX() registers.
+                                                                  Both enable bits must be set along with the appropriate bits in
+                                                                  PEM()_BAR4_INDEX() in order for a BAR4 access to respond. */
+        uint64_t reserved_32_34        : 3;
+        uint64_t vf_bar0_enb           : 1;  /**< [ 35: 35](R/W) This bit controls whether BAR0 for all virtual functions is enabled.
+
+                                                                 In RC mode:
+                                                                 * VF BAR0 does not exist. This bit has no effect.
+
+                                                                 In EP mode:
+
+                                                                  * VF BAR0 hits are based on a combination of this bit and
+                                                                  config registers PCIEEP_SRIOV_BAR0U, PCIEEP_SRIOV_BAR0L, and
+                                                                  PCIEEP_SRIOV_CTL[VFE].  Both PCIEEP_SRIOV_CTL[VFE] and this
+                                                                  bit must be set to enable a VF BAR0 hit to the PCI address
+                                                                  specified by PCIEEP_SRIOV_BAR0U / PCIEEP_SRIOV_BAR0L. */
         uint64_t stream_bits           : 5;  /**< [ 40: 36](R/W) When in endpoint mode, determines the formation of the inbound transaction's SMMU stream ID.
                                                                  When in RC mode or [STREAM_BITS] is zero, the stream ID is the PEM bus's ECAM domain
                                                                  (PCC_DEV_CON_E::PCIERC()\<21:16\>), concatenated with the inbound 16-bit requester ID (see the
@@ -834,7 +449,7 @@ typedef union cavm_pemx_bar_ctl cavm_pemx_bar_ctl_t;
 static inline uint64_t CAVM_PEMX_BAR_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_BAR_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000168ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_BAR_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -876,17 +491,17 @@ union cavm_pemx_cfg
 
                                                                  Resets to 0 when strapped as an endpoint (GPIO_STRAP_PIN_E::PCIEn_EP_MODE is
                                                                  strapped high), otherwise 1. */
-        uint64_t reserved_6_7          : 2;
-        uint64_t pipe                  : 2;  /**< [  5:  4](R/W) Configures the PEM pipe sources.
+        uint64_t pipe_grp_ptr          : 3;  /**< [  7:  5](R/W) Configures the PEM to point to the RX Pipe quad containing
+                                                                 Lane 0.
+                                                                 0x0 = grp0 (lane 0).
+                                                                 0x1 - 0x7 = Reserved. */
+        uint64_t pipe                  : 2;  /**< [  4:  3](R/W) Configures the PEM pipe sources.
                                                                  0x0 = Pipe 0.
                                                                  0x1 - 0x3 = Reserved. */
-        uint64_t lanes                 : 3;  /**< [  3:  1](R/W/H) Ties off RX Pipe for unused lanes.
-                                                                 0x0 = 1 lane (Only valid for PEM12-PEM15).
-                                                                 0x1 = Reserved.
-                                                                 0x2 = 4 lanes (Only valid for PEM0-PEM11).
-                                                                 0x3 = 8 lanes (Only valid for PEM0,PEM2,PEM4,PEM6,PEM8,PEM10).
-                                                                 0x4 = 16 lanes (Only valid for PEM0,PEM4,PEM8).
-                                                                 0x5 - 0x7 = Reserved.
+        uint64_t lanes                 : 2;  /**< [  2:  1](R/W/H) Ties off RX Pipe for unused lanes.
+                                                                 0x0 = 2 lanes.
+                                                                 0x1 = 4 lanes (PEM only, not supported for BPEM).
+                                                                 0x2 - 0x3 = Reserved.
 
                                                                  PCIERC_PORT_CTL[LME]/PCIEEP_PORT_CTL[LME] is required to be
                                                                  set to a value which is greater then or equal to [LANES]. */
@@ -899,20 +514,20 @@ union cavm_pemx_cfg
                                                                  0 = PEM is configured to be an end point (EP mode).
                                                                  1 = PEM is configured to be a root complex (RC mode).
                                                                  The reset value for this bit is controlled by a strapping pin. */
-        uint64_t lanes                 : 3;  /**< [  3:  1](R/W/H) Ties off RX Pipe for unused lanes.
-                                                                 0x0 = 1 lane (Only valid for PEM12-PEM15).
-                                                                 0x1 = Reserved.
-                                                                 0x2 = 4 lanes (Only valid for PEM0-PEM11).
-                                                                 0x3 = 8 lanes (Only valid for PEM0,PEM2,PEM4,PEM6,PEM8,PEM10).
-                                                                 0x4 = 16 lanes (Only valid for PEM0,PEM4,PEM8).
-                                                                 0x5 - 0x7 = Reserved.
+        uint64_t lanes                 : 2;  /**< [  2:  1](R/W/H) Ties off RX Pipe for unused lanes.
+                                                                 0x0 = 2 lanes.
+                                                                 0x1 = 4 lanes (PEM only, not supported for BPEM).
+                                                                 0x2 - 0x3 = Reserved.
 
                                                                  PCIERC_PORT_CTL[LME]/PCIEEP_PORT_CTL[LME] is required to be
                                                                  set to a value which is greater then or equal to [LANES]. */
-        uint64_t pipe                  : 2;  /**< [  5:  4](R/W) Configures the PEM pipe sources.
+        uint64_t pipe                  : 2;  /**< [  4:  3](R/W) Configures the PEM pipe sources.
                                                                  0x0 = Pipe 0.
                                                                  0x1 - 0x3 = Reserved. */
-        uint64_t reserved_6_7          : 2;
+        uint64_t pipe_grp_ptr          : 3;  /**< [  7:  5](R/W) Configures the PEM to point to the RX Pipe quad containing
+                                                                 Lane 0.
+                                                                 0x0 = grp0 (lane 0).
+                                                                 0x1 - 0x7 = Reserved. */
         uint64_t auto_dp_clr           : 1;  /**< [  8:  8](R/W/H) Auto disable-port clearing of PEM()_DIS_PORT[DIS_PORT] when link LTSSM
                                                                  state reaches L0 after a MAC reset.
 
@@ -936,7 +551,7 @@ typedef union cavm_pemx_cfg cavm_pemx_cfg_t;
 static inline uint64_t CAVM_PEMX_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_CFG(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e00000000d8ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1018,7 +633,7 @@ typedef union cavm_pemx_cfg_tblx cavm_pemx_cfg_tblx_t;
 static inline uint64_t CAVM_PEMX_CFG_TBLX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_CFG_TBLX(uint64_t a, uint64_t b)
 {
-    if ((a<=5) && (b<=1023))
+    if ((a<=7) && (b<=1023))
         return 0x8e0000002000ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3ff);
     __cavm_csr_fatal("PEMX_CFG_TBLX", 2, a, b, 0, 0, 0, 0);
 }
@@ -1068,7 +683,7 @@ typedef union cavm_pemx_cfg_tbl_size cavm_pemx_cfg_tbl_size_t;
 static inline uint64_t CAVM_PEMX_CFG_TBL_SIZE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_CFG_TBL_SIZE(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000220ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_CFG_TBL_SIZE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1084,7 +699,7 @@ static inline uint64_t CAVM_PEMX_CFG_TBL_SIZE(uint64_t a)
  * Register (NCB) pem#_clk_en
  *
  * PEM Clock Enable Register
- * This register contains the clock enable for CPCLK and PCE_CLK.
+ * This register contains the clock enable for CSCLK and PCE_CLK.
  *
  * This register is accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
  *
@@ -1096,7 +711,10 @@ union cavm_pemx_clk_en
     struct cavm_pemx_clk_en_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
+        uint64_t reserved_6_63         : 58;
+        uint64_t pclk_keep_on          : 1;  /**< [  5:  5](R/W) Turns pclk clock gating in pemc_pnr_retimer on. For diagnostic use only.
+                                                                 0 = Forces pclk to be forced on at all times.
+                                                                 1 = Enables coarse gain clock gating in retimer. */
         uint64_t pem_mdh_dis           : 1;  /**< [  4:  4](R/W) When set, the memory and diagnostic hubs inside PEM are disabled and
                                                                  will not respond commands from the MDC. If this PEM is not in use, this
                                                                  bit should be set to save power. */
@@ -1108,29 +726,23 @@ union cavm_pemx_clk_en
                                                                  1 = PCE_CLK (pipe clock) is gated off in PEM core.
 
                                                                  It is illegal to gate off PCE_CLK in a already active PEM. */
-        uint64_t pemc_cpclk_gate       : 1;  /**< [  1:  1](R/W) Conditional PCLK gate.
-                                                                 0 = PCLK is enabled in PEM core.
-                                                                 1 = PCLK is gated off in PEM core.
+        uint64_t pemc_csclk_gate       : 1;  /**< [  1:  1](R/W) Conditional SCLK gate.
+                                                                 0 = SCLK is enabled in PEM core.
+                                                                 1 = SCLK is gated off in PEM core.
 
-                                                                 It is illegal to gate off PCLK in a already active PEM. */
-        uint64_t pemm_cpclk_force      : 1;  /**< [  0:  0](R/W) Conditional PCLK/RCLK force. For diagnostic use only.
-                                                                 0 = CPCLK/CRCLK gating in PEM main is controlled by hardware.
-                                                                 1 = CPCLK/CRCLK is forced on at all times in PEM main.
-
-                                                                 Note: PCLK and RCLK share common clock gating logic.  Therefore forcing conditional PCLK
-                                                                 on will also force conditional RCLK on. */
+                                                                 It is illegal to gate off SCLK in a already active PEM. */
+        uint64_t pemm_csclk_force      : 1;  /**< [  0:  0](R/W) Conditional SCLK force. For diagnostic use only.
+                                                                 0 = CSCLK gating in PEM main is controlled by hardware.
+                                                                 1 = CSCLK is forced on at all times in PEM main. */
 #else /* Word 0 - Little Endian */
-        uint64_t pemm_cpclk_force      : 1;  /**< [  0:  0](R/W) Conditional PCLK/RCLK force. For diagnostic use only.
-                                                                 0 = CPCLK/CRCLK gating in PEM main is controlled by hardware.
-                                                                 1 = CPCLK/CRCLK is forced on at all times in PEM main.
+        uint64_t pemm_csclk_force      : 1;  /**< [  0:  0](R/W) Conditional SCLK force. For diagnostic use only.
+                                                                 0 = CSCLK gating in PEM main is controlled by hardware.
+                                                                 1 = CSCLK is forced on at all times in PEM main. */
+        uint64_t pemc_csclk_gate       : 1;  /**< [  1:  1](R/W) Conditional SCLK gate.
+                                                                 0 = SCLK is enabled in PEM core.
+                                                                 1 = SCLK is gated off in PEM core.
 
-                                                                 Note: PCLK and RCLK share common clock gating logic.  Therefore forcing conditional PCLK
-                                                                 on will also force conditional RCLK on. */
-        uint64_t pemc_cpclk_gate       : 1;  /**< [  1:  1](R/W) Conditional PCLK gate.
-                                                                 0 = PCLK is enabled in PEM core.
-                                                                 1 = PCLK is gated off in PEM core.
-
-                                                                 It is illegal to gate off PCLK in a already active PEM. */
+                                                                 It is illegal to gate off SCLK in a already active PEM. */
         uint64_t pceclk_gate           : 1;  /**< [  2:  2](R/W) Pipe clock gate.
                                                                  0 = PCE_CLK (pipe clock) is enabled in PEM core.
                                                                  1 = PCE_CLK (pipe clock) is gated off in PEM core.
@@ -1142,7 +754,10 @@ union cavm_pemx_clk_en
         uint64_t pem_mdh_dis           : 1;  /**< [  4:  4](R/W) When set, the memory and diagnostic hubs inside PEM are disabled and
                                                                  will not respond commands from the MDC. If this PEM is not in use, this
                                                                  bit should be set to save power. */
-        uint64_t reserved_5_63         : 59;
+        uint64_t pclk_keep_on          : 1;  /**< [  5:  5](R/W) Turns pclk clock gating in pemc_pnr_retimer on. For diagnostic use only.
+                                                                 0 = Forces pclk to be forced on at all times.
+                                                                 1 = Enables coarse gain clock gating in retimer. */
+        uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pemx_clk_en_s cn; */
@@ -1152,7 +767,7 @@ typedef union cavm_pemx_clk_en cavm_pemx_clk_en_t;
 static inline uint64_t CAVM_PEMX_CLK_EN(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_CLK_EN(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e00000000c8ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_CLK_EN", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1163,6 +778,89 @@ static inline uint64_t CAVM_PEMX_CLK_EN(uint64_t a)
 #define device_bar_CAVM_PEMX_CLK_EN(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_CLK_EN(a) (a)
 #define arguments_CAVM_PEMX_CLK_EN(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) pem#_cmerge_merged_pc
+ *
+ * PEM Merge Completions Merged Performance Counter Register
+ * This register is a performance counter of how many completions merged within the
+ * outbound completion merge units.
+ *
+ * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
+ *
+ * This register is reset on core domain reset.
+ */
+union cavm_pemx_cmerge_merged_pc
+{
+    uint64_t u;
+    struct cavm_pemx_cmerge_merged_pc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t cmerge_merged         : 64; /**< [ 63:  0](R/W/H) Each NCBO completion operation that merges with a previous
+                                                                 read will increment this count. */
+#else /* Word 0 - Little Endian */
+        uint64_t cmerge_merged         : 64; /**< [ 63:  0](R/W/H) Each NCBO completion operation that merges with a previous
+                                                                 read will increment this count. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pemx_cmerge_merged_pc_s cn; */
+};
+typedef union cavm_pemx_cmerge_merged_pc cavm_pemx_cmerge_merged_pc_t;
+
+static inline uint64_t CAVM_PEMX_CMERGE_MERGED_PC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PEMX_CMERGE_MERGED_PC(uint64_t a)
+{
+    if (a<=7)
+        return 0x8e00000001b8ll + 0x1000000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("PEMX_CMERGE_MERGED_PC", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PEMX_CMERGE_MERGED_PC(a) cavm_pemx_cmerge_merged_pc_t
+#define bustype_CAVM_PEMX_CMERGE_MERGED_PC(a) CSR_TYPE_NCB
+#define basename_CAVM_PEMX_CMERGE_MERGED_PC(a) "PEMX_CMERGE_MERGED_PC"
+#define device_bar_CAVM_PEMX_CMERGE_MERGED_PC(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_PEMX_CMERGE_MERGED_PC(a) (a)
+#define arguments_CAVM_PEMX_CMERGE_MERGED_PC(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) pem#_cmerge_received_pc
+ *
+ * PEM Merge Completions Received Performance Counter Register
+ * This register reports the number of reads that enter the outbound read merge unit.
+ *
+ * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
+ *
+ * This register is reset on core domain reset.
+ */
+union cavm_pemx_cmerge_received_pc
+{
+    uint64_t u;
+    struct cavm_pemx_cmerge_received_pc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t cmerge_reads          : 64; /**< [ 63:  0](R/W/H) Each NCBO completion operation increments this count. */
+#else /* Word 0 - Little Endian */
+        uint64_t cmerge_reads          : 64; /**< [ 63:  0](R/W/H) Each NCBO completion operation increments this count. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pemx_cmerge_received_pc_s cn; */
+};
+typedef union cavm_pemx_cmerge_received_pc cavm_pemx_cmerge_received_pc_t;
+
+static inline uint64_t CAVM_PEMX_CMERGE_RECEIVED_PC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PEMX_CMERGE_RECEIVED_PC(uint64_t a)
+{
+    if (a<=7)
+        return 0x8e00000001b0ll + 0x1000000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("PEMX_CMERGE_RECEIVED_PC", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PEMX_CMERGE_RECEIVED_PC(a) cavm_pemx_cmerge_received_pc_t
+#define bustype_CAVM_PEMX_CMERGE_RECEIVED_PC(a) CSR_TYPE_NCB
+#define basename_CAVM_PEMX_CMERGE_RECEIVED_PC(a) "PEMX_CMERGE_RECEIVED_PC"
+#define device_bar_CAVM_PEMX_CMERGE_RECEIVED_PC(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_PEMX_CMERGE_RECEIVED_PC(a) (a)
+#define arguments_CAVM_PEMX_CMERGE_RECEIVED_PC(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) pem#_const_acc
@@ -1194,7 +892,7 @@ typedef union cavm_pemx_const_acc cavm_pemx_const_acc_t;
 static inline uint64_t CAVM_PEMX_CONST_ACC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_CONST_ACC(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000218ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_CONST_ACC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1205,46 +903,6 @@ static inline uint64_t CAVM_PEMX_CONST_ACC(uint64_t a)
 #define device_bar_CAVM_PEMX_CONST_ACC(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_CONST_ACC(a) (a)
 #define arguments_CAVM_PEMX_CONST_ACC(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) pem#_cpclk_active_pc
- *
- * PEM Conditional Coprocessor Clock Counter Register
- * This register counts conditional clocks for power management.
- *
- * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
- *
- * This register is reset on core domain reset.
- */
-union cavm_pemx_cpclk_active_pc
-{
-    uint64_t u;
-    struct cavm_pemx_cpclk_active_pc_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of conditional coprocessor-clock cycles since reset. */
-#else /* Word 0 - Little Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of conditional coprocessor-clock cycles since reset. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pemx_cpclk_active_pc_s cn; */
-};
-typedef union cavm_pemx_cpclk_active_pc cavm_pemx_cpclk_active_pc_t;
-
-static inline uint64_t CAVM_PEMX_CPCLK_ACTIVE_PC(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PEMX_CPCLK_ACTIVE_PC(uint64_t a)
-{
-    if (a<=5)
-        return 0x8e0000000058ll + 0x1000000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("PEMX_CPCLK_ACTIVE_PC", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PEMX_CPCLK_ACTIVE_PC(a) cavm_pemx_cpclk_active_pc_t
-#define bustype_CAVM_PEMX_CPCLK_ACTIVE_PC(a) CSR_TYPE_NCB
-#define basename_CAVM_PEMX_CPCLK_ACTIVE_PC(a) "PEMX_CPCLK_ACTIVE_PC"
-#define device_bar_CAVM_PEMX_CPCLK_ACTIVE_PC(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_PEMX_CPCLK_ACTIVE_PC(a) (a)
-#define arguments_CAVM_PEMX_CPCLK_ACTIVE_PC(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) pem#_cpl_lut_valid
@@ -1276,7 +934,7 @@ typedef union cavm_pemx_cpl_lut_valid cavm_pemx_cpl_lut_valid_t;
 static inline uint64_t CAVM_PEMX_CPL_LUT_VALID(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_CPL_LUT_VALID(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000040ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_CPL_LUT_VALID", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1287,6 +945,46 @@ static inline uint64_t CAVM_PEMX_CPL_LUT_VALID(uint64_t a)
 #define device_bar_CAVM_PEMX_CPL_LUT_VALID(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_CPL_LUT_VALID(a) (a)
 #define arguments_CAVM_PEMX_CPL_LUT_VALID(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) pem#_csclk_active_pc
+ *
+ * PEM Conditional Coprocessor Clock Counter Register
+ * This register counts conditional clocks for power management.
+ *
+ * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
+ *
+ * This register is reset on core domain reset.
+ */
+union cavm_pemx_csclk_active_pc
+{
+    uint64_t u;
+    struct cavm_pemx_csclk_active_pc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of conditional coprocessor-clock cycles since reset. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of conditional coprocessor-clock cycles since reset. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pemx_csclk_active_pc_s cn; */
+};
+typedef union cavm_pemx_csclk_active_pc cavm_pemx_csclk_active_pc_t;
+
+static inline uint64_t CAVM_PEMX_CSCLK_ACTIVE_PC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PEMX_CSCLK_ACTIVE_PC(uint64_t a)
+{
+    if (a<=7)
+        return 0x8e0000000058ll + 0x1000000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("PEMX_CSCLK_ACTIVE_PC", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PEMX_CSCLK_ACTIVE_PC(a) cavm_pemx_csclk_active_pc_t
+#define bustype_CAVM_PEMX_CSCLK_ACTIVE_PC(a) CSR_TYPE_NCB
+#define basename_CAVM_PEMX_CSCLK_ACTIVE_PC(a) "PEMX_CSCLK_ACTIVE_PC"
+#define device_bar_CAVM_PEMX_CSCLK_ACTIVE_PC(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_PEMX_CSCLK_ACTIVE_PC(a) (a)
+#define arguments_CAVM_PEMX_CSCLK_ACTIVE_PC(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) pem#_ctl_status
@@ -1314,7 +1012,7 @@ union cavm_pemx_ctl_status
                                                                  already run. Typical usage is for the ROM script to test [SCR_DONE] and exit if
                                                                  true, else at the end of the ROM script, the script sets this bit. */
         uint64_t pm_xtoff              : 1;  /**< [ 12: 12](WO) When written with one, a single cycle pulse to request from application
-                                                                 to generate a PME_Turn_Off message to initiate the entry into L2. RC mode only. */
+                                                                 to generate a PM_Turn_Off message. RC mode. */
         uint64_t auto_mode             : 1;  /**< [ 11: 11](R/W) Hardware behavior after MAC reset occurs.
 
                                                                  0 = No hardware intervention for MAC reset / link down (including hot reset).
@@ -1330,7 +1028,7 @@ union cavm_pemx_ctl_status
                                                                  Hardware automatically sets this bit after MAC reset when [AUTO_MODE] is set. */
         uint64_t ccrs                  : 1;  /**< [  9:  9](R/W) When set, PEM will automatically clear [FRC_RETRY] after the config replay is complete. */
         uint64_t clk_req_n             : 1;  /**< [  8:  8](R/W) Indicates that the application logic is ready to have reference clock
-                                                                 removed (Not Supported).
+                                                                 removed.
 
                                                                  0 = The application does not want to have the reference clock removed.
 
@@ -1392,7 +1090,7 @@ union cavm_pemx_ctl_status
                                                                  until this signal becomes active. When this signal has been asserted
                                                                  by the application, it must be kept asserted until L2 entry has completed */
         uint64_t clk_req_n             : 1;  /**< [  8:  8](R/W) Indicates that the application logic is ready to have reference clock
-                                                                 removed (Not Supported).
+                                                                 removed.
 
                                                                  0 = The application does not want to have the reference clock removed.
 
@@ -1413,7 +1111,7 @@ union cavm_pemx_ctl_status
 
                                                                  For CNXXXX, this bit should always be set. */
         uint64_t pm_xtoff              : 1;  /**< [ 12: 12](WO) When written with one, a single cycle pulse to request from application
-                                                                 to generate a PME_Turn_Off message to initiate the entry into L2. RC mode only. */
+                                                                 to generate a PM_Turn_Off message. RC mode. */
         uint64_t scr_done              : 1;  /**< [ 13: 13](R/W) The ROM script (if present) can test this bit to see if the ROM script has
                                                                  already run. Typical usage is for the ROM script to test [SCR_DONE] and exit if
                                                                  true, else at the end of the ROM script, the script sets this bit. */
@@ -1432,7 +1130,7 @@ typedef union cavm_pemx_ctl_status cavm_pemx_ctl_status_t;
 static inline uint64_t CAVM_PEMX_CTL_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_CTL_STATUS(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000000ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_CTL_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1460,12 +1158,7 @@ union cavm_pemx_ctl_status2
     struct cavm_pemx_ctl_status2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_34_63        : 30;
-        uint64_t perf_latency_en       : 1;  /**< [ 33: 33](R/W) When set, the PEM_IB_LATENCY()_PC() and PEM_OB_LATENCY()_PC() counters are enabled to
-                                                                 calculate inbound/outbound read latency.
-
-                                                                 When clear, the PEM_IB_LATENCY()_PC() and PEM_OB_LATENCY()_PC() counters are clock gated
-                                                                 to save power. */
+        uint64_t reserved_33_63        : 31;
         uint64_t trgt1_ecc_cor_dis     : 1;  /**< [ 32: 32](R/W) Disable ECC error detection & correction on TRGT1 data from PEMC to PEMM. */
         uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time in units of 655,360 ns clocks to wait for a CPL to an
                                                                  outbound configuration read that does not carry a retry status. Until such time
@@ -1507,12 +1200,7 @@ union cavm_pemx_ctl_status2
                                                                  device to send a successful completion.  When enabled, only one CFG RD may be
                                                                  issued until either successful completion or CPL UR. */
         uint64_t trgt1_ecc_cor_dis     : 1;  /**< [ 32: 32](R/W) Disable ECC error detection & correction on TRGT1 data from PEMC to PEMM. */
-        uint64_t perf_latency_en       : 1;  /**< [ 33: 33](R/W) When set, the PEM_IB_LATENCY()_PC() and PEM_OB_LATENCY()_PC() counters are enabled to
-                                                                 calculate inbound/outbound read latency.
-
-                                                                 When clear, the PEM_IB_LATENCY()_PC() and PEM_OB_LATENCY()_PC() counters are clock gated
-                                                                 to save power. */
-        uint64_t reserved_34_63        : 30;
+        uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pemx_ctl_status2_s cn; */
@@ -1522,7 +1210,7 @@ typedef union cavm_pemx_ctl_status2 cavm_pemx_ctl_status2_t;
 static inline uint64_t CAVM_PEMX_CTL_STATUS2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_CTL_STATUS2(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000130ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_CTL_STATUS2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1694,7 +1382,7 @@ typedef union cavm_pemx_dbg_info cavm_pemx_dbg_info_t;
 static inline uint64_t CAVM_PEMX_DBG_INFO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_DBG_INFO(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000108ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_DBG_INFO", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1792,7 +1480,7 @@ typedef union cavm_pemx_debug cavm_pemx_debug_t;
 static inline uint64_t CAVM_PEMX_DEBUG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_DEBUG(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000110ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_DEBUG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1820,7 +1508,18 @@ union cavm_pemx_diag_status
     struct cavm_pemx_diag_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_37_63        : 27;
+        uint64_t reserved_43_63        : 21;
+        uint64_t l1sub_fsm             : 3;  /**< [ 42: 40](RO/H) Power management L1sub FSM state.
+
+                                                                 0x0 = Idle.
+                                                                 0x1 = L1_0.
+                                                                 0x2 = L1_0_WAIT4_ACK.
+                                                                 0x3 = L1_0_WAIT4_CLKREQ.
+                                                                 0x4 = L1_N_ENTRY.
+                                                                 0x5 = L1_N.
+                                                                 0x6 = L1_N_EXIT.
+                                                                 0x7 = L1_N_ABORT. */
+        uint64_t reserved_37_39        : 3;
         uint64_t pm_slv_fsm            : 5;  /**< [ 36: 32](RO/H) Power management slave FSM state.
 
                                                                  0x0 = Idle.
@@ -1869,10 +1568,7 @@ union cavm_pemx_diag_status
                                                                  0X18 = WAIT_LAST_PMDLLP.
                                                                  0X19 = WAIT_DSTATE_UPDATE.
                                                                  0x1a-0x1f = Reserved. */
-        uint64_t reserved_22_23        : 2;
-        uint64_t l1_aspm_enter_ready   : 1;  /**< [ 21: 21](RO/H) Indicates the controller is idle in L0 or L0s, and it is ready to enter L1 as
-                                                                 soon as application releases app_xfer_pending AND the L1 ASPM
-                                                                 timer expires. */
+        uint64_t reserved_21_23        : 3;
         uint64_t pclkreqn              : 1;  /**< [ 20: 20](RO/H) Request PCLK removal.
                                                                  0x0 = Do not request PCLK removal.
                                                                  0x1 = Request PCLK removal for executing L1 with Clock PM. */
@@ -1880,7 +1576,7 @@ union cavm_pemx_diag_status
         uint64_t sel_aux_clk           : 1;  /**< [ 18: 18](RO/H) When asserted, switches the source of aux_clk from core_clk to the low speed clock. */
         uint64_t lnk_up                : 1;  /**< [ 17: 17](RO/H) Link is up. */
         uint64_t lnkst_l1              : 1;  /**< [ 16: 16](RO/H) Power Management State in L1 state. */
-        uint64_t reserved_15           : 1;
+        uint64_t lnkst_l1sub           : 1;  /**< [ 15: 15](RO/H) Power Management State in L1 substate. */
         uint64_t lnkst_l2              : 1;  /**< [ 14: 14](RO/H) Power Management State in L2 state. */
         uint64_t lnkst_l2_exit         : 1;  /**< [ 13: 13](RO/H) Power Management State in L2 exit state.
                                                                  Not applicable for downstream port. */
@@ -1892,18 +1588,18 @@ union cavm_pemx_diag_status
                                                                  0x4 = GEN5.
                                                                  0x5 - 0x7 = Reserved. */
         uint64_t ltssm                 : 6;  /**< [  9:  4](RO/H) Current  smlh_ltssm_state. */
-        uint64_t pwrdwn                : 4;  /**< [  3:  0](RO/H) Current pipe mac_phy_powerdown state.
-                                                                 0x0 = P0.
-                                                                 0x1 = P0s.
-                                                                 0x2 = P1.
-                                                                 0x3 = P2.
+        uint64_t pwrdwn                : 4;  /**< [  3:  0](RO/H) Current mac_phy_powerdown state.
+                                                                 0x0 = D0.
+                                                                 0x1 = D1.
+                                                                 0x2 = D2.
+                                                                 0x3 = D3.
                                                                  0x4 - 0x7: Reserved. */
 #else /* Word 0 - Little Endian */
-        uint64_t pwrdwn                : 4;  /**< [  3:  0](RO/H) Current pipe mac_phy_powerdown state.
-                                                                 0x0 = P0.
-                                                                 0x1 = P0s.
-                                                                 0x2 = P1.
-                                                                 0x3 = P2.
+        uint64_t pwrdwn                : 4;  /**< [  3:  0](RO/H) Current mac_phy_powerdown state.
+                                                                 0x0 = D0.
+                                                                 0x1 = D1.
+                                                                 0x2 = D2.
+                                                                 0x3 = D3.
                                                                  0x4 - 0x7: Reserved. */
         uint64_t ltssm                 : 6;  /**< [  9:  4](RO/H) Current  smlh_ltssm_state. */
         uint64_t pclk_rate             : 3;  /**< [ 12: 10](RO/H) Current pclk rate.
@@ -1916,7 +1612,7 @@ union cavm_pemx_diag_status
         uint64_t lnkst_l2_exit         : 1;  /**< [ 13: 13](RO/H) Power Management State in L2 exit state.
                                                                  Not applicable for downstream port. */
         uint64_t lnkst_l2              : 1;  /**< [ 14: 14](RO/H) Power Management State in L2 state. */
-        uint64_t reserved_15           : 1;
+        uint64_t lnkst_l1sub           : 1;  /**< [ 15: 15](RO/H) Power Management State in L1 substate. */
         uint64_t lnkst_l1              : 1;  /**< [ 16: 16](RO/H) Power Management State in L1 state. */
         uint64_t lnk_up                : 1;  /**< [ 17: 17](RO/H) Link is up. */
         uint64_t sel_aux_clk           : 1;  /**< [ 18: 18](RO/H) When asserted, switches the source of aux_clk from core_clk to the low speed clock. */
@@ -1924,10 +1620,7 @@ union cavm_pemx_diag_status
         uint64_t pclkreqn              : 1;  /**< [ 20: 20](RO/H) Request PCLK removal.
                                                                  0x0 = Do not request PCLK removal.
                                                                  0x1 = Request PCLK removal for executing L1 with Clock PM. */
-        uint64_t l1_aspm_enter_ready   : 1;  /**< [ 21: 21](RO/H) Indicates the controller is idle in L0 or L0s, and it is ready to enter L1 as
-                                                                 soon as application releases app_xfer_pending AND the L1 ASPM
-                                                                 timer expires. */
-        uint64_t reserved_22_23        : 2;
+        uint64_t reserved_21_23        : 3;
         uint64_t pm_mst_fsm            : 5;  /**< [ 28: 24](RO/H) Power management master FSM state.
 
                                                                  0X0 = IDLE.
@@ -1976,180 +1669,28 @@ union cavm_pemx_diag_status
                                                                  0xe = WAIT_NAK_TLP_ACK.
                                                                  0xf = WAIT_NAK_TIMER.
                                                                  0x10 - 0x1f = Reserved. */
-        uint64_t reserved_37_63        : 27;
+        uint64_t reserved_37_39        : 3;
+        uint64_t l1sub_fsm             : 3;  /**< [ 42: 40](RO/H) Power management L1sub FSM state.
+
+                                                                 0x0 = Idle.
+                                                                 0x1 = L1_0.
+                                                                 0x2 = L1_0_WAIT4_ACK.
+                                                                 0x3 = L1_0_WAIT4_CLKREQ.
+                                                                 0x4 = L1_N_ENTRY.
+                                                                 0x5 = L1_N.
+                                                                 0x6 = L1_N_EXIT.
+                                                                 0x7 = L1_N_ABORT. */
+        uint64_t reserved_43_63        : 21;
 #endif /* Word 0 - End */
     } s;
-    struct cavm_pemx_diag_status_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_40_63        : 24;
-        uint64_t reserved_37_39        : 3;
-        uint64_t pm_slv_fsm            : 5;  /**< [ 36: 32](RO/H) Power management slave FSM state.
-
-                                                                 0x0 = Idle.
-                                                                 0x1 = RESPOND_NAK.
-                                                                 0x2 = BLOCK_TLP.
-                                                                 0x3 = WAIT_LAST_TLP_ACK.
-                                                                 0x4 = Reserved.
-                                                                 0x5 = LINK_ENTR_L1.
-                                                                 0x6 = L1.
-                                                                 0x7 = L1_EXIT.
-                                                                 0x8 = L23RDY.
-                                                                 0x9 = LINK_ENTR_L23.
-                                                                 0xa = L23RDY_WAIT4ALIVE.
-                                                                 0xb = ACK_WAIT4IDLE.
-                                                                 0xc = WAIT_LAST_PMDLLP.
-                                                                 0xd = NAK_BLOCK_TLP.
-                                                                 0xe = WAIT_NAK_TLP_ACK.
-                                                                 0xf = WAIT_NAK_TIMER.
-                                                                 0x10 - 0x1f = Reserved. */
-        uint64_t reserved_29_31        : 3;
-        uint64_t pm_mst_fsm            : 5;  /**< [ 28: 24](RO/H) Power management master FSM state.
-
-                                                                 0X0 = IDLE.
-                                                                 0X1 = L0.
-                                                                 0X2 = L0S.
-                                                                 0X3 = ENTER_L0S.
-                                                                 0X4 = PEM_L0S_EXIT.
-                                                                 0X5 = WAIT_PMCSR_CPL_SENT.
-                                                                 0X6-0X7 = Reserved.
-                                                                 0X8 = L1.
-                                                                 0X9 = L1_BLOCK_TLP.
-                                                                 0XA = L1_WAIT_LAST_TLP_ACK.
-                                                                 0XB = L1_WAIT_PMDLLP_ACK.
-                                                                 0XC = L1_LINK_ENTR_L1.
-                                                                 0XD = L1_EXIT.
-                                                                 0XE = Reserved.
-                                                                 0XF = PREP_4L1.
-                                                                 0X10 = L23_BLOCK_TLP.
-                                                                 0X11 = L23_WAIT_LAST_TLP_ACK.
-                                                                 0X12 = L23_WAIT_PMDLLP_ACK.
-                                                                 0X13 = L23_ENTR_L23.
-                                                                 0X14 = L23RDY.
-                                                                 0X15 = PREP_4L23.
-                                                                 0X16 = L23RDY_WAIT4ALIVE.
-                                                                 0X17 = L0S_BLOCK_TLP.
-                                                                 0X18 = WAIT_LAST_PMDLLP.
-                                                                 0X19 = WAIT_DSTATE_UPDATE.
-                                                                 0x1a-0x1f = Reserved. */
-        uint64_t reserved_22_23        : 2;
-        uint64_t l1_aspm_enter_ready   : 1;  /**< [ 21: 21](RO/H) Indicates the controller is idle in L0 or L0s, and it is ready to enter L1 as
-                                                                 soon as application releases app_xfer_pending AND the L1 ASPM
-                                                                 timer expires. */
-        uint64_t pclkreqn              : 1;  /**< [ 20: 20](RO/H) Request PCLK removal.
-                                                                 0x0 = Do not request PCLK removal.
-                                                                 0x1 = Request PCLK removal for executing L1 with Clock PM. */
-        uint64_t l1_entry_inprogress   : 1;  /**< [ 19: 19](RO/H) L1 entry process is in progress. */
-        uint64_t sel_aux_clk           : 1;  /**< [ 18: 18](RO/H) When asserted, switches the source of aux_clk from core_clk to the low speed clock. */
-        uint64_t lnk_up                : 1;  /**< [ 17: 17](RO/H) Link is up. */
-        uint64_t lnkst_l1              : 1;  /**< [ 16: 16](RO/H) Power Management State in L1 state. */
-        uint64_t reserved_15           : 1;
-        uint64_t lnkst_l2              : 1;  /**< [ 14: 14](RO/H) Power Management State in L2 state. */
-        uint64_t lnkst_l2_exit         : 1;  /**< [ 13: 13](RO/H) Power Management State in L2 exit state.
-                                                                 Not applicable for downstream port. */
-        uint64_t pclk_rate             : 3;  /**< [ 12: 10](RO/H) Current pclk rate.
-                                                                 0x0 = GEN1.
-                                                                 0x1 = GEN2.
-                                                                 0x2 = GEN3.
-                                                                 0x3 = GEN4.
-                                                                 0x4 = GEN5.
-                                                                 0x5 - 0x7 = Reserved. */
-        uint64_t ltssm                 : 6;  /**< [  9:  4](RO/H) Current  smlh_ltssm_state. */
-        uint64_t pwrdwn                : 4;  /**< [  3:  0](RO/H) Current pipe mac_phy_powerdown state.
-                                                                 0x0 = P0.
-                                                                 0x1 = P0s.
-                                                                 0x2 = P1.
-                                                                 0x3 = P2.
-                                                                 0x4 - 0x7: Reserved. */
-#else /* Word 0 - Little Endian */
-        uint64_t pwrdwn                : 4;  /**< [  3:  0](RO/H) Current pipe mac_phy_powerdown state.
-                                                                 0x0 = P0.
-                                                                 0x1 = P0s.
-                                                                 0x2 = P1.
-                                                                 0x3 = P2.
-                                                                 0x4 - 0x7: Reserved. */
-        uint64_t ltssm                 : 6;  /**< [  9:  4](RO/H) Current  smlh_ltssm_state. */
-        uint64_t pclk_rate             : 3;  /**< [ 12: 10](RO/H) Current pclk rate.
-                                                                 0x0 = GEN1.
-                                                                 0x1 = GEN2.
-                                                                 0x2 = GEN3.
-                                                                 0x3 = GEN4.
-                                                                 0x4 = GEN5.
-                                                                 0x5 - 0x7 = Reserved. */
-        uint64_t lnkst_l2_exit         : 1;  /**< [ 13: 13](RO/H) Power Management State in L2 exit state.
-                                                                 Not applicable for downstream port. */
-        uint64_t lnkst_l2              : 1;  /**< [ 14: 14](RO/H) Power Management State in L2 state. */
-        uint64_t reserved_15           : 1;
-        uint64_t lnkst_l1              : 1;  /**< [ 16: 16](RO/H) Power Management State in L1 state. */
-        uint64_t lnk_up                : 1;  /**< [ 17: 17](RO/H) Link is up. */
-        uint64_t sel_aux_clk           : 1;  /**< [ 18: 18](RO/H) When asserted, switches the source of aux_clk from core_clk to the low speed clock. */
-        uint64_t l1_entry_inprogress   : 1;  /**< [ 19: 19](RO/H) L1 entry process is in progress. */
-        uint64_t pclkreqn              : 1;  /**< [ 20: 20](RO/H) Request PCLK removal.
-                                                                 0x0 = Do not request PCLK removal.
-                                                                 0x1 = Request PCLK removal for executing L1 with Clock PM. */
-        uint64_t l1_aspm_enter_ready   : 1;  /**< [ 21: 21](RO/H) Indicates the controller is idle in L0 or L0s, and it is ready to enter L1 as
-                                                                 soon as application releases app_xfer_pending AND the L1 ASPM
-                                                                 timer expires. */
-        uint64_t reserved_22_23        : 2;
-        uint64_t pm_mst_fsm            : 5;  /**< [ 28: 24](RO/H) Power management master FSM state.
-
-                                                                 0X0 = IDLE.
-                                                                 0X1 = L0.
-                                                                 0X2 = L0S.
-                                                                 0X3 = ENTER_L0S.
-                                                                 0X4 = PEM_L0S_EXIT.
-                                                                 0X5 = WAIT_PMCSR_CPL_SENT.
-                                                                 0X6-0X7 = Reserved.
-                                                                 0X8 = L1.
-                                                                 0X9 = L1_BLOCK_TLP.
-                                                                 0XA = L1_WAIT_LAST_TLP_ACK.
-                                                                 0XB = L1_WAIT_PMDLLP_ACK.
-                                                                 0XC = L1_LINK_ENTR_L1.
-                                                                 0XD = L1_EXIT.
-                                                                 0XE = Reserved.
-                                                                 0XF = PREP_4L1.
-                                                                 0X10 = L23_BLOCK_TLP.
-                                                                 0X11 = L23_WAIT_LAST_TLP_ACK.
-                                                                 0X12 = L23_WAIT_PMDLLP_ACK.
-                                                                 0X13 = L23_ENTR_L23.
-                                                                 0X14 = L23RDY.
-                                                                 0X15 = PREP_4L23.
-                                                                 0X16 = L23RDY_WAIT4ALIVE.
-                                                                 0X17 = L0S_BLOCK_TLP.
-                                                                 0X18 = WAIT_LAST_PMDLLP.
-                                                                 0X19 = WAIT_DSTATE_UPDATE.
-                                                                 0x1a-0x1f = Reserved. */
-        uint64_t reserved_29_31        : 3;
-        uint64_t pm_slv_fsm            : 5;  /**< [ 36: 32](RO/H) Power management slave FSM state.
-
-                                                                 0x0 = Idle.
-                                                                 0x1 = RESPOND_NAK.
-                                                                 0x2 = BLOCK_TLP.
-                                                                 0x3 = WAIT_LAST_TLP_ACK.
-                                                                 0x4 = Reserved.
-                                                                 0x5 = LINK_ENTR_L1.
-                                                                 0x6 = L1.
-                                                                 0x7 = L1_EXIT.
-                                                                 0x8 = L23RDY.
-                                                                 0x9 = LINK_ENTR_L23.
-                                                                 0xa = L23RDY_WAIT4ALIVE.
-                                                                 0xb = ACK_WAIT4IDLE.
-                                                                 0xc = WAIT_LAST_PMDLLP.
-                                                                 0xd = NAK_BLOCK_TLP.
-                                                                 0xe = WAIT_NAK_TLP_ACK.
-                                                                 0xf = WAIT_NAK_TIMER.
-                                                                 0x10 - 0x1f = Reserved. */
-        uint64_t reserved_37_39        : 3;
-        uint64_t reserved_40_63        : 24;
-#endif /* Word 0 - End */
-    } cn;
+    /* struct cavm_pemx_diag_status_s cn; */
 };
 typedef union cavm_pemx_diag_status cavm_pemx_diag_status_t;
 
 static inline uint64_t CAVM_PEMX_DIAG_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_DIAG_STATUS(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000010ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_DIAG_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2209,7 +1750,7 @@ typedef union cavm_pemx_dis_port cavm_pemx_dis_port_t;
 static inline uint64_t CAVM_PEMX_DIS_PORT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_DIS_PORT(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000050ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_DIS_PORT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2240,19 +1781,19 @@ union cavm_pemx_ebi_tlp_credits
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t ebi_cpl               : 11; /**< [ 31: 21](R/W) TLP 32 B (QPEM/HPEM) / 64 B (FPEM) credits for completion TLPs in the PEMs inbound EBUS buffers.
-                                                                 Legal values are 0x21 to 0x100. */
+        uint64_t ebi_cpl               : 11; /**< [ 31: 21](R/W) TLP 32 B credits for completion TLPs in the PEMs inbound EBUS buffers.
+                                                                 Legal values are 0x9 to 0x40. */
         uint64_t ebi_np                : 10; /**< [ 20: 11](R/W) TLP headers for non-posted TLPs in the PEMs inbound EBUS buffers.
                                                                  Legal values are 0x1 to 0x20. */
-        uint64_t ebi_p                 : 11; /**< [ 10:  0](R/W) TLP 32 B (QPEM/HPEM) / 64 B (FPEM) credits for posted TLPs in the PEMs inbound EBUS buffers.
-                                                                 Legal values are 0x21 to 0x40. */
+        uint64_t ebi_p                 : 11; /**< [ 10:  0](R/W) TLP 32 B credits for posted TLPs in the PEMs inbound EBUS buffers.
+                                                                 Legal values are 0x8 to 0x40. */
 #else /* Word 0 - Little Endian */
-        uint64_t ebi_p                 : 11; /**< [ 10:  0](R/W) TLP 32 B (QPEM/HPEM) / 64 B (FPEM) credits for posted TLPs in the PEMs inbound EBUS buffers.
-                                                                 Legal values are 0x21 to 0x40. */
+        uint64_t ebi_p                 : 11; /**< [ 10:  0](R/W) TLP 32 B credits for posted TLPs in the PEMs inbound EBUS buffers.
+                                                                 Legal values are 0x8 to 0x40. */
         uint64_t ebi_np                : 10; /**< [ 20: 11](R/W) TLP headers for non-posted TLPs in the PEMs inbound EBUS buffers.
                                                                  Legal values are 0x1 to 0x20. */
-        uint64_t ebi_cpl               : 11; /**< [ 31: 21](R/W) TLP 32 B (QPEM/HPEM) / 64 B (FPEM) credits for completion TLPs in the PEMs inbound EBUS buffers.
-                                                                 Legal values are 0x21 to 0x100. */
+        uint64_t ebi_cpl               : 11; /**< [ 31: 21](R/W) TLP 32 B credits for completion TLPs in the PEMs inbound EBUS buffers.
+                                                                 Legal values are 0x9 to 0x40. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -2263,7 +1804,7 @@ typedef union cavm_pemx_ebi_tlp_credits cavm_pemx_ebi_tlp_credits_t;
 static inline uint64_t CAVM_PEMX_EBI_TLP_CREDITS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_EBI_TLP_CREDITS(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000028ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_EBI_TLP_CREDITS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2367,7 +1908,7 @@ typedef union cavm_pemx_ebo_fifo_status cavm_pemx_ebo_fifo_status_t;
 static inline uint64_t CAVM_PEMX_EBO_FIFO_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_EBO_FIFO_STATUS(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000140ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_EBO_FIFO_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2382,7 +1923,7 @@ static inline uint64_t CAVM_PEMX_EBO_FIFO_STATUS(uint64_t a)
 /**
  * Register (NCB) pem#_ebus_ctl
  *
- * PEMEBUS Control Register
+ * PEM EBUS Control Register
  * This register contains EBUS related control bits.
  *
  * This register is accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
@@ -2499,7 +2040,7 @@ typedef union cavm_pemx_ebus_ctl cavm_pemx_ebus_ctl_t;
 static inline uint64_t CAVM_PEMX_EBUS_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_EBUS_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000080ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_EBUS_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2516,9 +2057,8 @@ static inline uint64_t CAVM_PEMX_EBUS_CTL(uint64_t a)
  *
  * PEM End Merge Register
  * Any access (read or write) to this register over NCBO will create a merging barrier
- * for both the write and read streams within PEM outbound merging stations used by AP
- * traffic such that no NCBO reads or writes received from AP as the source after this
- * register's access will merge with any NCBO accesses received from AP as the source
+ * for both the write and read streams within PEM outbound pipelines such that no NCBO
+ * reads or writes received after this register's access will merge with any NCBO accesses
  * that occurred prior to this register's access.  Note that RSL accesses to this register
  * will have no effect on merging.
  *
@@ -2544,7 +2084,7 @@ typedef union cavm_pemx_end_merge cavm_pemx_end_merge_t;
 static inline uint64_t CAVM_PEMX_END_MERGE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_END_MERGE(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000188ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_END_MERGE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2559,7 +2099,7 @@ static inline uint64_t CAVM_PEMX_END_MERGE(uint64_t a)
 /**
  * Register (NCB) pem#_erom_bar_addr
  *
- * PEMEROM BAR Address Register
+ * PEM EROM BAR Address Register
  * This register configures PEM EROM BAR accesses targeted at NCBI.
  * Fields in this register are only used when PEM()_EBUS_CTL[EROM_SEL]
  * is clear and the PEM is configured for EP mode.
@@ -2600,7 +2140,7 @@ typedef union cavm_pemx_erom_bar_addr cavm_pemx_erom_bar_addr_t;
 static inline uint64_t CAVM_PEMX_EROM_BAR_ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_EROM_BAR_ADDR(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000160ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_EROM_BAR_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2615,7 +2155,7 @@ static inline uint64_t CAVM_PEMX_EROM_BAR_ADDR(uint64_t a)
 /**
  * Register (NCB) pem#_erom_size
  *
- * PEMPEM EROM BAR Address Register
+ * PEM EROM BAR Address Register
  * This register configures PEM EROM BAR accesses targeted at NCBI.
  * Fields in this register are only used when PEM()_EBUS_CTL[EROM_SEL]
  * is clear and the PEM is configured for EP mode.
@@ -2664,7 +2204,7 @@ typedef union cavm_pemx_erom_size cavm_pemx_erom_size_t;
 static inline uint64_t CAVM_PEMX_EROM_SIZE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_EROM_SIZE(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000230ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_EROM_SIZE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2679,7 +2219,7 @@ static inline uint64_t CAVM_PEMX_EROM_SIZE(uint64_t a)
 /**
  * Register (NCB) pem#_flr_ctl
  *
- * PEMPEM FLR Control Register
+ * PEM FLR Control Register
  * This register provides function level reset controls.
  *
  * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
@@ -2738,7 +2278,7 @@ typedef union cavm_pemx_flr_ctl cavm_pemx_flr_ctl_t;
 static inline uint64_t CAVM_PEMX_FLR_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_FLR_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000070ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_FLR_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2753,7 +2293,7 @@ static inline uint64_t CAVM_PEMX_FLR_CTL(uint64_t a)
 /**
  * Register (NCB) pem#_flr_pf#_stopreq
  *
- * PEMPEM PF Stop Request Register
+ * PEM PF Stop Request Register
  * PF function level reset stop outbound requests register.
  * Hardware automatically sets the STOPREQ bit for the PF when it enters a
  * function level reset (FLR).  Software is responsible for clearing the STOPREQ
@@ -2799,8 +2339,8 @@ typedef union cavm_pemx_flr_pfx_stopreq cavm_pemx_flr_pfx_stopreq_t;
 static inline uint64_t CAVM_PEMX_FLR_PFX_STOPREQ(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_FLR_PFX_STOPREQ(uint64_t a, uint64_t b)
 {
-    if ((a<=5) && (b==0))
-        return 0x8e0000000c00ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+    if ((a<=7) && (b<=1))
+        return 0x8e0000000c00ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("PEMX_FLR_PFX_STOPREQ", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2814,7 +2354,7 @@ static inline uint64_t CAVM_PEMX_FLR_PFX_STOPREQ(uint64_t a, uint64_t b)
 /**
  * Register (NCB) pem#_flr_stopreq_ctl
  *
- * PEMPEM FLR Global Count Control Register
+ * PEM FLR Global Count Control Register
  * Function level reset STOPREQ control register.
  *
  * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
@@ -2837,8 +2377,8 @@ union cavm_pemx_flr_stopreq_ctl
                                                                  PCIe core. In the case of a VF, only one STOPREQ bit gets cleared upon each FLR
                                                                  ack when [STOPREQCLR] is set.
 
-                                                                 The prst will assert upon a PF FLR, and prst could be used to reset all STOPREQ
-                                                                 bits regardless of [STOPREQCLR]. Otherwise, a PF FLR does not assert prst. */
+                                                                 The srst will assert upon a PF FLR, and srst could be used to reset all STOPREQ
+                                                                 bits regardless of [STOPREQCLR]. Otherwise, a PF FLR does not assert srst. */
 #else /* Word 0 - Little Endian */
         uint64_t stopreqclr            : 1;  /**< [  0:  0](R/W) Stop request clear behavior.
 
@@ -2849,8 +2389,8 @@ union cavm_pemx_flr_stopreq_ctl
                                                                  PCIe core. In the case of a VF, only one STOPREQ bit gets cleared upon each FLR
                                                                  ack when [STOPREQCLR] is set.
 
-                                                                 The prst will assert upon a PF FLR, and prst could be used to reset all STOPREQ
-                                                                 bits regardless of [STOPREQCLR]. Otherwise, a PF FLR does not assert prst. */
+                                                                 The srst will assert upon a PF FLR, and srst could be used to reset all STOPREQ
+                                                                 bits regardless of [STOPREQCLR]. Otherwise, a PF FLR does not assert srst. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -2861,7 +2401,7 @@ typedef union cavm_pemx_flr_stopreq_ctl cavm_pemx_flr_stopreq_ctl_t;
 static inline uint64_t CAVM_PEMX_FLR_STOPREQ_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_FLR_STOPREQ_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000078ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_FLR_STOPREQ_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2876,7 +2416,7 @@ static inline uint64_t CAVM_PEMX_FLR_STOPREQ_CTL(uint64_t a)
 /**
  * Register (NCB) pem#_flr_vf_stopreq
  *
- * PEMPEM VF Stop Request Register
+ * PEM VF Stop Request Register
  * VFI 0-63 virtual function level reset stop outbound requests register.
  * Hardware automatically sets the STOPREQ bit for the VF when it enters a
  * function level reset (FLR).  Software is responsible for clearing the STOPREQ
@@ -2926,7 +2466,7 @@ typedef union cavm_pemx_flr_vf_stopreq cavm_pemx_flr_vf_stopreq_t;
 static inline uint64_t CAVM_PEMX_FLR_VF_STOPREQ(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_FLR_VF_STOPREQ(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000e00ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_FLR_VF_STOPREQ", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2937,246 +2477,6 @@ static inline uint64_t CAVM_PEMX_FLR_VF_STOPREQ(uint64_t a)
 #define device_bar_CAVM_PEMX_FLR_VF_STOPREQ(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_FLR_VF_STOPREQ(a) (a)
 #define arguments_CAVM_PEMX_FLR_VF_STOPREQ(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) pem#_ib_latency#_pc#
- *
- * PEM Inbound Latency Time Registers
- * This register resets on core domain reset.  It measures the time portion
- * of the information set needed by software to calculate average inbound
- * read latency to the target bus.
- * Index {a} represents the internal target bus and is enumerated by PEM_PERF_BUS_E.
- * Index {b} represents a set of registers mapped by using PEM_MPAM_ASSOC_PC, however
- * the MPAM value is not used for these registers and accumulated latency will reflect
- * all inbound TLPs. All 8 registers will read the same.
- *
- * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
- */
-union cavm_pemx_ib_latencyx_pcx
-{
-    uint64_t u;
-    struct cavm_pemx_ib_latencyx_pcx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t latency               : 64; /**< [ 63:  0](R/W/H) Number of inbound read requests currently in flight directed to the target bus and
-                                                                 measured within PEMM from start to first completion sent back to PEMC incremented every 10ns. */
-#else /* Word 0 - Little Endian */
-        uint64_t latency               : 64; /**< [ 63:  0](R/W/H) Number of inbound read requests currently in flight directed to the target bus and
-                                                                 measured within PEMM from start to first completion sent back to PEMC incremented every 10ns. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pemx_ib_latencyx_pcx_s cn; */
-};
-typedef union cavm_pemx_ib_latencyx_pcx cavm_pemx_ib_latencyx_pcx_t;
-
-static inline uint64_t CAVM_PEMX_IB_LATENCYX_PCX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PEMX_IB_LATENCYX_PCX(uint64_t a, uint64_t b, uint64_t c)
-{
-    if ((a<=5) && (b==0) && (c<=7))
-        return 0x8e0000005200ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0) + 0x20ll * ((c) & 0x7);
-    __cavm_csr_fatal("PEMX_IB_LATENCYX_PCX", 3, a, b, c, 0, 0, 0);
-}
-
-#define typedef_CAVM_PEMX_IB_LATENCYX_PCX(a,b,c) cavm_pemx_ib_latencyx_pcx_t
-#define bustype_CAVM_PEMX_IB_LATENCYX_PCX(a,b,c) CSR_TYPE_NCB
-#define basename_CAVM_PEMX_IB_LATENCYX_PCX(a,b,c) "PEMX_IB_LATENCYX_PCX"
-#define device_bar_CAVM_PEMX_IB_LATENCYX_PCX(a,b,c) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_PEMX_IB_LATENCYX_PCX(a,b,c) (a)
-#define arguments_CAVM_PEMX_IB_LATENCYX_PCX(a,b,c) (a),(b),(c),-1
-
-/**
- * Register (NCB) pem#_ib_reads#_pc#
- *
- * PEM Inbound Read Count Registers
- * This register resets on core domain reset.  It measures the count portion
- * of the information set needed by software to calculate average inbound
- * read latency to the target bus.
- * Index {a} represents the internal target bus and is enumerated by PEM_PERF_BUS_E.
- * Index {b} represents a set of registers mapped by using PEM_MPAM_ASSOC_PC, however
- * the MPAM value is not used for these registers and accumulated value will reflect
- * all inbound TLPs. All 8 registers will read the same.
- *
- * When PEM_CTL_STATUS2.PERF_LATENCY_EN is clear, this register is clock gated.
- *
- * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
- */
-union cavm_pemx_ib_readsx_pcx
-{
-    uint64_t u;
-    struct cavm_pemx_ib_readsx_pcx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reads                 : 64; /**< [ 63:  0](R/W/H) Number of inbound read requests.  Software can calculate the average inbound
-                                                                 read latency with the following calculation:
-                                                                   * Average latency = (PEM()_IB_LATENCY_PC[LATENCY] / PEM()_IB_READS_PC[READS]) * 10 ns
-                                                                                       + fixed_delay
-
-                                                                 Where:
-                                                                   * fixed_delay = 110 ns (for PEM0, PEM4, PEM8)
-                                                                   * fixed_delay = 108 ns (for PEM2, PEM6, PEM10)
-                                                                   * fixed_delay = 106 ns (for all other PEMs)
-                                                                   * fixed_delay = 174 ns (for PEM0, PEM4, PEM8) with IDE enabled */
-#else /* Word 0 - Little Endian */
-        uint64_t reads                 : 64; /**< [ 63:  0](R/W/H) Number of inbound read requests.  Software can calculate the average inbound
-                                                                 read latency with the following calculation:
-                                                                   * Average latency = (PEM()_IB_LATENCY_PC[LATENCY] / PEM()_IB_READS_PC[READS]) * 10 ns
-                                                                                       + fixed_delay
-
-                                                                 Where:
-                                                                   * fixed_delay = 110 ns (for PEM0, PEM4, PEM8)
-                                                                   * fixed_delay = 108 ns (for PEM2, PEM6, PEM10)
-                                                                   * fixed_delay = 106 ns (for all other PEMs)
-                                                                   * fixed_delay = 174 ns (for PEM0, PEM4, PEM8) with IDE enabled */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pemx_ib_readsx_pcx_s cn; */
-};
-typedef union cavm_pemx_ib_readsx_pcx cavm_pemx_ib_readsx_pcx_t;
-
-static inline uint64_t CAVM_PEMX_IB_READSX_PCX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PEMX_IB_READSX_PCX(uint64_t a, uint64_t b, uint64_t c)
-{
-    if ((a<=5) && (b==0) && (c<=7))
-        return 0x8e0000005300ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0) + 0x20ll * ((c) & 0x7);
-    __cavm_csr_fatal("PEMX_IB_READSX_PCX", 3, a, b, c, 0, 0, 0);
-}
-
-#define typedef_CAVM_PEMX_IB_READSX_PCX(a,b,c) cavm_pemx_ib_readsx_pcx_t
-#define bustype_CAVM_PEMX_IB_READSX_PCX(a,b,c) CSR_TYPE_NCB
-#define basename_CAVM_PEMX_IB_READSX_PCX(a,b,c) "PEMX_IB_READSX_PCX"
-#define device_bar_CAVM_PEMX_IB_READSX_PCX(a,b,c) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_PEMX_IB_READSX_PCX(a,b,c) (a)
-#define arguments_CAVM_PEMX_IB_READSX_PCX(a,b,c) (a),(b),(c),-1
-
-/**
- * Register (NCB) pem#_ib_req#_no_ro_pc#
- *
- * PEM Inbound No Relaxed Ordering Registers
- * This register resets on core domain reset.  It measures the number of inbound requests
- * (non-posted/posted) directed to the target bus with the RO attribute not set.
- * Index {a} represents the internal target bus and is enumerated by PEM_PERF_BUS_E.
- * Index {b} represents a set of registers mapped by using PEM_MPAM_ASSOC_PC,
- * however the mapping is not used for these registers; instead, all 8 registers are
- * updated for all MPAM values.
- *
- * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
- */
-union cavm_pemx_ib_reqx_no_ro_pcx
-{
-    uint64_t u;
-    struct cavm_pemx_ib_reqx_no_ro_pcx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Number of inbound requests with RO attribute not set */
-#else /* Word 0 - Little Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Number of inbound requests with RO attribute not set */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pemx_ib_reqx_no_ro_pcx_s cn; */
-};
-typedef union cavm_pemx_ib_reqx_no_ro_pcx cavm_pemx_ib_reqx_no_ro_pcx_t;
-
-static inline uint64_t CAVM_PEMX_IB_REQX_NO_RO_PCX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PEMX_IB_REQX_NO_RO_PCX(uint64_t a, uint64_t b, uint64_t c)
-{
-    if ((a<=5) && (b<=1) && (c<=7))
-        return 0x8e0000005400ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1) + 0x20ll * ((c) & 0x7);
-    __cavm_csr_fatal("PEMX_IB_REQX_NO_RO_PCX", 3, a, b, c, 0, 0, 0);
-}
-
-#define typedef_CAVM_PEMX_IB_REQX_NO_RO_PCX(a,b,c) cavm_pemx_ib_reqx_no_ro_pcx_t
-#define bustype_CAVM_PEMX_IB_REQX_NO_RO_PCX(a,b,c) CSR_TYPE_NCB
-#define basename_CAVM_PEMX_IB_REQX_NO_RO_PCX(a,b,c) "PEMX_IB_REQX_NO_RO_PCX"
-#define device_bar_CAVM_PEMX_IB_REQX_NO_RO_PCX(a,b,c) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_PEMX_IB_REQX_NO_RO_PCX(a,b,c) (a)
-#define arguments_CAVM_PEMX_IB_REQX_NO_RO_PCX(a,b,c) (a),(b),(c),-1
-
-/**
- * Register (NCB) pem#_ib_tlp#_dwords_pc#
- *
- * PEM Inbound TLP DWORDS Registers
- * This register resets on core domain reset.  Otherwise, it continuously accumulates
- * the number of DWORDS (including header overhead) in every inbound TLP received
- * from PCIe and headed to the target bus.
- * Index {a} represents the TLP type and is enumerated by PEM_PERF_TLP_TYPE_E.
- * Index {b} represents a set of registers mapped by using PEM_MPAM_ASSOC_PC,
- * however the mapping only occurs when Index {a} indicates PERF_CPL; for other
- * types, all 8 registers are incremented for all MPAM values.
- *
- * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
- */
-union cavm_pemx_ib_tlpx_dwords_pcx
-{
-    uint64_t u;
-    struct cavm_pemx_ib_tlpx_dwords_pcx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t tlp_dwords            : 64; /**< [ 63:  0](R/W/H) TLP DWORD Count */
-#else /* Word 0 - Little Endian */
-        uint64_t tlp_dwords            : 64; /**< [ 63:  0](R/W/H) TLP DWORD Count */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pemx_ib_tlpx_dwords_pcx_s cn; */
-};
-typedef union cavm_pemx_ib_tlpx_dwords_pcx cavm_pemx_ib_tlpx_dwords_pcx_t;
-
-static inline uint64_t CAVM_PEMX_IB_TLPX_DWORDS_PCX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PEMX_IB_TLPX_DWORDS_PCX(uint64_t a, uint64_t b, uint64_t c)
-{
-    if ((a<=5) && (b<=2) && (c<=7))
-        return 0x8e0000005100ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3) + 0x20ll * ((c) & 0x7);
-    __cavm_csr_fatal("PEMX_IB_TLPX_DWORDS_PCX", 3, a, b, c, 0, 0, 0);
-}
-
-#define typedef_CAVM_PEMX_IB_TLPX_DWORDS_PCX(a,b,c) cavm_pemx_ib_tlpx_dwords_pcx_t
-#define bustype_CAVM_PEMX_IB_TLPX_DWORDS_PCX(a,b,c) CSR_TYPE_NCB
-#define basename_CAVM_PEMX_IB_TLPX_DWORDS_PCX(a,b,c) "PEMX_IB_TLPX_DWORDS_PCX"
-#define device_bar_CAVM_PEMX_IB_TLPX_DWORDS_PCX(a,b,c) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_PEMX_IB_TLPX_DWORDS_PCX(a,b,c) (a)
-#define arguments_CAVM_PEMX_IB_TLPX_DWORDS_PCX(a,b,c) (a),(b),(c),-1
-
-/**
- * Register (NCB) pem#_ib_tlp#_pc#
- *
- * PEM Inbound TLP Count Registers
- * This register resets on core domain reset.  Otherwise, it continuously increments
- * on every inbound TLP received from PCIe and headed to the target bus.
- * Index {a} represents the TLP type and is enumerated by PEM_PERF_TLP_TYPE_E.
- * Index {b} represents a set of registers mapped by using PEM_MPAM_ASSOC_PC,
- * however the mapping only occurs when Index {a} indicates PERF_CPL; for other
- * types, all 8 registers are incremented for all MPAM values.
- *
- * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
- */
-union cavm_pemx_ib_tlpx_pcx
-{
-    uint64_t u;
-    struct cavm_pemx_ib_tlpx_pcx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) TLP Count */
-#else /* Word 0 - Little Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) TLP Count */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pemx_ib_tlpx_pcx_s cn; */
-};
-typedef union cavm_pemx_ib_tlpx_pcx cavm_pemx_ib_tlpx_pcx_t;
-
-static inline uint64_t CAVM_PEMX_IB_TLPX_PCX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PEMX_IB_TLPX_PCX(uint64_t a, uint64_t b, uint64_t c)
-{
-    if ((a<=5) && (b<=2) && (c<=7))
-        return 0x8e0000005000ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3) + 0x20ll * ((c) & 0x7);
-    __cavm_csr_fatal("PEMX_IB_TLPX_PCX", 3, a, b, c, 0, 0, 0);
-}
-
-#define typedef_CAVM_PEMX_IB_TLPX_PCX(a,b,c) cavm_pemx_ib_tlpx_pcx_t
-#define bustype_CAVM_PEMX_IB_TLPX_PCX(a,b,c) CSR_TYPE_NCB
-#define basename_CAVM_PEMX_IB_TLPX_PCX(a,b,c) "PEMX_IB_TLPX_PCX"
-#define device_bar_CAVM_PEMX_IB_TLPX_PCX(a,b,c) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_PEMX_IB_TLPX_PCX(a,b,c) (a)
-#define arguments_CAVM_PEMX_IB_TLPX_PCX(a,b,c) (a),(b),(c),-1
 
 /**
  * Register (NCB) pem#_int_ena_w1c
@@ -3190,61 +2490,55 @@ union cavm_pemx_int_ena_w1c
     struct cavm_pemx_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_28_63        : 36;
-        uint64_t ats_itag_er           : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[ATS_ITAG_ER]. */
-        uint64_t up_at                 : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[UP_AT]. */
-        uint64_t un_at                 : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[UN_AT]. */
-        uint64_t ptm_rq_unexp_rto      : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[PTM_RQ_UNEXP_RTO]. */
-        uint64_t ptm_rq_duprx          : 1;  /**< [ 23: 23](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[PTM_RQ_DUPRX]. */
-        uint64_t ptm_rq_replaytx       : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[PTM_RQ_REPLAYTX]. */
-        uint64_t un_vf_b0              : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[UN_VF_B0]. */
+        uint64_t reserved_25_63        : 39;
+        uint64_t ptm_rq_unexp_rto      : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[PTM_RQ_UNEXP_RTO]. */
+        uint64_t ptm_rq_duprx          : 1;  /**< [ 23: 23](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[PTM_RQ_DUPRX]. */
+        uint64_t ptm_rq_replaytx       : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[PTM_RQ_REPLAYTX]. */
+        uint64_t un_vf_b0              : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UN_VF_B0]. */
         uint64_t reserved_19_20        : 2;
-        uint64_t up_vf_b0              : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[UP_VF_B0]. */
+        uint64_t up_vf_b0              : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UP_VF_B0]. */
         uint64_t reserved_16_17        : 2;
-        uint64_t ptm_rdy_val           : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[PTM_RDY_VAL]. */
-        uint64_t un_b0                 : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[UN_B0]. */
-        uint64_t up_b0                 : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[UP_B0]. */
-        uint64_t surp_down             : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[SURP_DOWN]. */
-        uint64_t cfg_inf               : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[CFG_INF]. */
-        uint64_t crs_dr                : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[CRS_DR]. */
-        uint64_t crs_er                : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[CRS_ER]. */
-        uint64_t rdlk                  : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[RDLK]. */
-        uint64_t un_bx                 : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[UN_BX]. */
-        uint64_t un_b2                 : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[UN_B2]. */
-        uint64_t un_b4                 : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[UN_B4]. */
-        uint64_t up_bx                 : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[UP_BX]. */
-        uint64_t up_b2                 : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[UP_B2]. */
-        uint64_t up_b4                 : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[UP_B4]. */
-        uint64_t up_b3                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[UP_B3]. */
-        uint64_t se                    : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[SE]. */
+        uint64_t ptm_rdy_val           : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[PTM_RDY_VAL]. */
+        uint64_t un_b0                 : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UN_B0]. */
+        uint64_t up_b0                 : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UP_B0]. */
+        uint64_t surp_down             : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[SURP_DOWN]. */
+        uint64_t cfg_inf               : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[CFG_INF]. */
+        uint64_t crs_dr                : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[CRS_DR]. */
+        uint64_t crs_er                : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[CRS_ER]. */
+        uint64_t rdlk                  : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[RDLK]. */
+        uint64_t un_bx                 : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UN_BX]. */
+        uint64_t un_b2                 : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UN_B2]. */
+        uint64_t un_b4                 : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UN_B4]. */
+        uint64_t up_bx                 : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UP_BX]. */
+        uint64_t up_b2                 : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UP_B2]. */
+        uint64_t up_b4                 : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UP_B4]. */
+        uint64_t up_b3                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UP_B3]. */
+        uint64_t se                    : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[SE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t se                    : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[SE]. */
-        uint64_t up_b3                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[UP_B3]. */
-        uint64_t up_b4                 : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[UP_B4]. */
-        uint64_t up_b2                 : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[UP_B2]. */
-        uint64_t up_bx                 : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[UP_BX]. */
-        uint64_t un_b4                 : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[UN_B4]. */
-        uint64_t un_b2                 : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[UN_B2]. */
-        uint64_t un_bx                 : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[UN_BX]. */
-        uint64_t rdlk                  : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[RDLK]. */
-        uint64_t crs_er                : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[CRS_ER]. */
-        uint64_t crs_dr                : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[CRS_DR]. */
-        uint64_t cfg_inf               : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[CFG_INF]. */
-        uint64_t surp_down             : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[SURP_DOWN]. */
-        uint64_t up_b0                 : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[UP_B0]. */
-        uint64_t un_b0                 : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[UN_B0]. */
-        uint64_t ptm_rdy_val           : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[PTM_RDY_VAL]. */
+        uint64_t se                    : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[SE]. */
+        uint64_t up_b3                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UP_B3]. */
+        uint64_t up_b4                 : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UP_B4]. */
+        uint64_t up_b2                 : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UP_B2]. */
+        uint64_t up_bx                 : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UP_BX]. */
+        uint64_t un_b4                 : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UN_B4]. */
+        uint64_t un_b2                 : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UN_B2]. */
+        uint64_t un_bx                 : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UN_BX]. */
+        uint64_t rdlk                  : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[RDLK]. */
+        uint64_t crs_er                : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[CRS_ER]. */
+        uint64_t crs_dr                : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[CRS_DR]. */
+        uint64_t cfg_inf               : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[CFG_INF]. */
+        uint64_t surp_down             : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[SURP_DOWN]. */
+        uint64_t up_b0                 : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UP_B0]. */
+        uint64_t un_b0                 : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UN_B0]. */
+        uint64_t ptm_rdy_val           : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[PTM_RDY_VAL]. */
         uint64_t reserved_16_17        : 2;
-        uint64_t up_vf_b0              : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[UP_VF_B0]. */
+        uint64_t up_vf_b0              : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UP_VF_B0]. */
         uint64_t reserved_19_20        : 2;
-        uint64_t un_vf_b0              : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[UN_VF_B0]. */
-        uint64_t ptm_rq_replaytx       : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[PTM_RQ_REPLAYTX]. */
-        uint64_t ptm_rq_duprx          : 1;  /**< [ 23: 23](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[PTM_RQ_DUPRX]. */
-        uint64_t ptm_rq_unexp_rto      : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[PTM_RQ_UNEXP_RTO]. */
-        uint64_t un_at                 : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[UN_AT]. */
-        uint64_t up_at                 : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[UP_AT]. */
-        uint64_t ats_itag_er           : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[ATS_ITAG_ER]. */
-        uint64_t reserved_28_63        : 36;
+        uint64_t un_vf_b0              : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UN_VF_B0]. */
+        uint64_t ptm_rq_replaytx       : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[PTM_RQ_REPLAYTX]. */
+        uint64_t ptm_rq_duprx          : 1;  /**< [ 23: 23](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[PTM_RQ_DUPRX]. */
+        uint64_t ptm_rq_unexp_rto      : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[PTM_RQ_UNEXP_RTO]. */
+        uint64_t reserved_25_63        : 39;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pemx_int_ena_w1c_s cn; */
@@ -3254,7 +2548,7 @@ typedef union cavm_pemx_int_ena_w1c cavm_pemx_int_ena_w1c_t;
 static inline uint64_t CAVM_PEMX_INT_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_INT_ENA_W1C(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e00000000f8ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3278,61 +2572,55 @@ union cavm_pemx_int_ena_w1s
     struct cavm_pemx_int_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_28_63        : 36;
-        uint64_t ats_itag_er           : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[ATS_ITAG_ER]. */
-        uint64_t up_at                 : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[UP_AT]. */
-        uint64_t un_at                 : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[UN_AT]. */
-        uint64_t ptm_rq_unexp_rto      : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[PTM_RQ_UNEXP_RTO]. */
-        uint64_t ptm_rq_duprx          : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[PTM_RQ_DUPRX]. */
-        uint64_t ptm_rq_replaytx       : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[PTM_RQ_REPLAYTX]. */
-        uint64_t un_vf_b0              : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[UN_VF_B0]. */
+        uint64_t reserved_25_63        : 39;
+        uint64_t ptm_rq_unexp_rto      : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[PTM_RQ_UNEXP_RTO]. */
+        uint64_t ptm_rq_duprx          : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[PTM_RQ_DUPRX]. */
+        uint64_t ptm_rq_replaytx       : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[PTM_RQ_REPLAYTX]. */
+        uint64_t un_vf_b0              : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UN_VF_B0]. */
         uint64_t reserved_19_20        : 2;
-        uint64_t up_vf_b0              : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[UP_VF_B0]. */
+        uint64_t up_vf_b0              : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UP_VF_B0]. */
         uint64_t reserved_16_17        : 2;
-        uint64_t ptm_rdy_val           : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[PTM_RDY_VAL]. */
-        uint64_t un_b0                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[UN_B0]. */
-        uint64_t up_b0                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[UP_B0]. */
-        uint64_t surp_down             : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[SURP_DOWN]. */
-        uint64_t cfg_inf               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[CFG_INF]. */
-        uint64_t crs_dr                : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[CRS_DR]. */
-        uint64_t crs_er                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[CRS_ER]. */
-        uint64_t rdlk                  : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[RDLK]. */
-        uint64_t un_bx                 : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[UN_BX]. */
-        uint64_t un_b2                 : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[UN_B2]. */
-        uint64_t un_b4                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[UN_B4]. */
-        uint64_t up_bx                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[UP_BX]. */
-        uint64_t up_b2                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[UP_B2]. */
-        uint64_t up_b4                 : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[UP_B4]. */
-        uint64_t up_b3                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[UP_B3]. */
-        uint64_t se                    : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[SE]. */
+        uint64_t ptm_rdy_val           : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[PTM_RDY_VAL]. */
+        uint64_t un_b0                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UN_B0]. */
+        uint64_t up_b0                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UP_B0]. */
+        uint64_t surp_down             : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[SURP_DOWN]. */
+        uint64_t cfg_inf               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[CFG_INF]. */
+        uint64_t crs_dr                : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[CRS_DR]. */
+        uint64_t crs_er                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[CRS_ER]. */
+        uint64_t rdlk                  : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[RDLK]. */
+        uint64_t un_bx                 : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UN_BX]. */
+        uint64_t un_b2                 : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UN_B2]. */
+        uint64_t un_b4                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UN_B4]. */
+        uint64_t up_bx                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UP_BX]. */
+        uint64_t up_b2                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UP_B2]. */
+        uint64_t up_b4                 : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UP_B4]. */
+        uint64_t up_b3                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UP_B3]. */
+        uint64_t se                    : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[SE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t se                    : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[SE]. */
-        uint64_t up_b3                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[UP_B3]. */
-        uint64_t up_b4                 : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[UP_B4]. */
-        uint64_t up_b2                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[UP_B2]. */
-        uint64_t up_bx                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[UP_BX]. */
-        uint64_t un_b4                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[UN_B4]. */
-        uint64_t un_b2                 : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[UN_B2]. */
-        uint64_t un_bx                 : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[UN_BX]. */
-        uint64_t rdlk                  : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[RDLK]. */
-        uint64_t crs_er                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[CRS_ER]. */
-        uint64_t crs_dr                : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[CRS_DR]. */
-        uint64_t cfg_inf               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[CFG_INF]. */
-        uint64_t surp_down             : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[SURP_DOWN]. */
-        uint64_t up_b0                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[UP_B0]. */
-        uint64_t un_b0                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[UN_B0]. */
-        uint64_t ptm_rdy_val           : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[PTM_RDY_VAL]. */
+        uint64_t se                    : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[SE]. */
+        uint64_t up_b3                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UP_B3]. */
+        uint64_t up_b4                 : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UP_B4]. */
+        uint64_t up_b2                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UP_B2]. */
+        uint64_t up_bx                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UP_BX]. */
+        uint64_t un_b4                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UN_B4]. */
+        uint64_t un_b2                 : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UN_B2]. */
+        uint64_t un_bx                 : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UN_BX]. */
+        uint64_t rdlk                  : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[RDLK]. */
+        uint64_t crs_er                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[CRS_ER]. */
+        uint64_t crs_dr                : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[CRS_DR]. */
+        uint64_t cfg_inf               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[CFG_INF]. */
+        uint64_t surp_down             : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[SURP_DOWN]. */
+        uint64_t up_b0                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UP_B0]. */
+        uint64_t un_b0                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UN_B0]. */
+        uint64_t ptm_rdy_val           : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[PTM_RDY_VAL]. */
         uint64_t reserved_16_17        : 2;
-        uint64_t up_vf_b0              : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[UP_VF_B0]. */
+        uint64_t up_vf_b0              : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UP_VF_B0]. */
         uint64_t reserved_19_20        : 2;
-        uint64_t un_vf_b0              : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[UN_VF_B0]. */
-        uint64_t ptm_rq_replaytx       : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[PTM_RQ_REPLAYTX]. */
-        uint64_t ptm_rq_duprx          : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[PTM_RQ_DUPRX]. */
-        uint64_t ptm_rq_unexp_rto      : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[PTM_RQ_UNEXP_RTO]. */
-        uint64_t un_at                 : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[UN_AT]. */
-        uint64_t up_at                 : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[UP_AT]. */
-        uint64_t ats_itag_er           : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[ATS_ITAG_ER]. */
-        uint64_t reserved_28_63        : 36;
+        uint64_t un_vf_b0              : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UN_VF_B0]. */
+        uint64_t ptm_rq_replaytx       : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[PTM_RQ_REPLAYTX]. */
+        uint64_t ptm_rq_duprx          : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[PTM_RQ_DUPRX]. */
+        uint64_t ptm_rq_unexp_rto      : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[PTM_RQ_UNEXP_RTO]. */
+        uint64_t reserved_25_63        : 39;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pemx_int_ena_w1s_s cn; */
@@ -3342,7 +2630,7 @@ typedef union cavm_pemx_int_ena_w1s cavm_pemx_int_ena_w1s_t;
 static inline uint64_t CAVM_PEMX_INT_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_INT_ENA_W1S(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000100ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3370,11 +2658,7 @@ union cavm_pemx_int_sum
     struct cavm_pemx_int_sum_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_28_63        : 36;
-        uint64_t ats_itag_er           : 1;  /**< [ 27: 27](R/W1C/H) ATS Invalidation Tag Error. Received an ATS Invalidate Completion for an ITag
-                                                                 with no outstanding Invalidation Request. */
-        uint64_t up_at                 : 1;  /**< [ 26: 26](R/W1C/H) Received an address translated P-TLP when PEM_BAR_CTL[AT_ENB] is disabled. */
-        uint64_t un_at                 : 1;  /**< [ 25: 25](R/W1C/H) Received an address translated N-TLP when PEM_BAR_CTL[AT_ENB] is disabled. */
+        uint64_t reserved_25_63        : 39;
         uint64_t ptm_rq_unexp_rto      : 1;  /**< [ 24: 24](R/W1C/H) PTM Requester Unexpected Response Timeout.  Indicates 100us timeout
                                                                  occured while waiting for a PTM Response/ResponseD message while a
                                                                  PTM update is in progress. */
@@ -3456,11 +2740,7 @@ union cavm_pemx_int_sum
         uint64_t ptm_rq_unexp_rto      : 1;  /**< [ 24: 24](R/W1C/H) PTM Requester Unexpected Response Timeout.  Indicates 100us timeout
                                                                  occured while waiting for a PTM Response/ResponseD message while a
                                                                  PTM update is in progress. */
-        uint64_t un_at                 : 1;  /**< [ 25: 25](R/W1C/H) Received an address translated N-TLP when PEM_BAR_CTL[AT_ENB] is disabled. */
-        uint64_t up_at                 : 1;  /**< [ 26: 26](R/W1C/H) Received an address translated P-TLP when PEM_BAR_CTL[AT_ENB] is disabled. */
-        uint64_t ats_itag_er           : 1;  /**< [ 27: 27](R/W1C/H) ATS Invalidation Tag Error. Received an ATS Invalidate Completion for an ITag
-                                                                 with no outstanding Invalidation Request. */
-        uint64_t reserved_28_63        : 36;
+        uint64_t reserved_25_63        : 39;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pemx_int_sum_s cn; */
@@ -3470,7 +2750,7 @@ typedef union cavm_pemx_int_sum cavm_pemx_int_sum_t;
 static inline uint64_t CAVM_PEMX_INT_SUM(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_INT_SUM(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e00000000e8ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_INT_SUM", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3494,61 +2774,55 @@ union cavm_pemx_int_sum_w1s
     struct cavm_pemx_int_sum_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_28_63        : 36;
-        uint64_t ats_itag_er           : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[ATS_ITAG_ER]. */
-        uint64_t up_at                 : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[UP_AT]. */
-        uint64_t un_at                 : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[UN_AT]. */
-        uint64_t ptm_rq_unexp_rto      : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[PTM_RQ_UNEXP_RTO]. */
-        uint64_t ptm_rq_duprx          : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[PTM_RQ_DUPRX]. */
-        uint64_t ptm_rq_replaytx       : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[PTM_RQ_REPLAYTX]. */
-        uint64_t un_vf_b0              : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[UN_VF_B0]. */
+        uint64_t reserved_25_63        : 39;
+        uint64_t ptm_rq_unexp_rto      : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[PTM_RQ_UNEXP_RTO]. */
+        uint64_t ptm_rq_duprx          : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[PTM_RQ_DUPRX]. */
+        uint64_t ptm_rq_replaytx       : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[PTM_RQ_REPLAYTX]. */
+        uint64_t un_vf_b0              : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UN_VF_B0]. */
         uint64_t reserved_19_20        : 2;
-        uint64_t up_vf_b0              : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[UP_VF_B0]. */
+        uint64_t up_vf_b0              : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UP_VF_B0]. */
         uint64_t reserved_16_17        : 2;
-        uint64_t ptm_rdy_val           : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[PTM_RDY_VAL]. */
-        uint64_t un_b0                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[UN_B0]. */
-        uint64_t up_b0                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[UP_B0]. */
-        uint64_t surp_down             : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[SURP_DOWN]. */
-        uint64_t cfg_inf               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[CFG_INF]. */
-        uint64_t crs_dr                : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[CRS_DR]. */
-        uint64_t crs_er                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[CRS_ER]. */
-        uint64_t rdlk                  : 1;  /**< [  8:  8](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[RDLK]. */
-        uint64_t un_bx                 : 1;  /**< [  7:  7](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[UN_BX]. */
-        uint64_t un_b2                 : 1;  /**< [  6:  6](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[UN_B2]. */
-        uint64_t un_b4                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[UN_B4]. */
-        uint64_t up_bx                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[UP_BX]. */
-        uint64_t up_b2                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[UP_B2]. */
-        uint64_t up_b4                 : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[UP_B4]. */
-        uint64_t up_b3                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[UP_B3]. */
-        uint64_t se                    : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[SE]. */
+        uint64_t ptm_rdy_val           : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[PTM_RDY_VAL]. */
+        uint64_t un_b0                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UN_B0]. */
+        uint64_t up_b0                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UP_B0]. */
+        uint64_t surp_down             : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[SURP_DOWN]. */
+        uint64_t cfg_inf               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[CFG_INF]. */
+        uint64_t crs_dr                : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[CRS_DR]. */
+        uint64_t crs_er                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[CRS_ER]. */
+        uint64_t rdlk                  : 1;  /**< [  8:  8](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[RDLK]. */
+        uint64_t un_bx                 : 1;  /**< [  7:  7](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UN_BX]. */
+        uint64_t un_b2                 : 1;  /**< [  6:  6](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UN_B2]. */
+        uint64_t un_b4                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UN_B4]. */
+        uint64_t up_bx                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UP_BX]. */
+        uint64_t up_b2                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UP_B2]. */
+        uint64_t up_b4                 : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UP_B4]. */
+        uint64_t up_b3                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UP_B3]. */
+        uint64_t se                    : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[SE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t se                    : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[SE]. */
-        uint64_t up_b3                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[UP_B3]. */
-        uint64_t up_b4                 : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[UP_B4]. */
-        uint64_t up_b2                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[UP_B2]. */
-        uint64_t up_bx                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[UP_BX]. */
-        uint64_t un_b4                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[UN_B4]. */
-        uint64_t un_b2                 : 1;  /**< [  6:  6](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[UN_B2]. */
-        uint64_t un_bx                 : 1;  /**< [  7:  7](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[UN_BX]. */
-        uint64_t rdlk                  : 1;  /**< [  8:  8](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[RDLK]. */
-        uint64_t crs_er                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[CRS_ER]. */
-        uint64_t crs_dr                : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[CRS_DR]. */
-        uint64_t cfg_inf               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[CFG_INF]. */
-        uint64_t surp_down             : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[SURP_DOWN]. */
-        uint64_t up_b0                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[UP_B0]. */
-        uint64_t un_b0                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[UN_B0]. */
-        uint64_t ptm_rdy_val           : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[PTM_RDY_VAL]. */
+        uint64_t se                    : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[SE]. */
+        uint64_t up_b3                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UP_B3]. */
+        uint64_t up_b4                 : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UP_B4]. */
+        uint64_t up_b2                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UP_B2]. */
+        uint64_t up_bx                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UP_BX]. */
+        uint64_t un_b4                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UN_B4]. */
+        uint64_t un_b2                 : 1;  /**< [  6:  6](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UN_B2]. */
+        uint64_t un_bx                 : 1;  /**< [  7:  7](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UN_BX]. */
+        uint64_t rdlk                  : 1;  /**< [  8:  8](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[RDLK]. */
+        uint64_t crs_er                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[CRS_ER]. */
+        uint64_t crs_dr                : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[CRS_DR]. */
+        uint64_t cfg_inf               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[CFG_INF]. */
+        uint64_t surp_down             : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[SURP_DOWN]. */
+        uint64_t up_b0                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UP_B0]. */
+        uint64_t un_b0                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UN_B0]. */
+        uint64_t ptm_rdy_val           : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[PTM_RDY_VAL]. */
         uint64_t reserved_16_17        : 2;
-        uint64_t up_vf_b0              : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[UP_VF_B0]. */
+        uint64_t up_vf_b0              : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UP_VF_B0]. */
         uint64_t reserved_19_20        : 2;
-        uint64_t un_vf_b0              : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[UN_VF_B0]. */
-        uint64_t ptm_rq_replaytx       : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[PTM_RQ_REPLAYTX]. */
-        uint64_t ptm_rq_duprx          : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[PTM_RQ_DUPRX]. */
-        uint64_t ptm_rq_unexp_rto      : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[PTM_RQ_UNEXP_RTO]. */
-        uint64_t un_at                 : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[UN_AT]. */
-        uint64_t up_at                 : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[UP_AT]. */
-        uint64_t ats_itag_er           : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[ATS_ITAG_ER]. */
-        uint64_t reserved_28_63        : 36;
+        uint64_t un_vf_b0              : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UN_VF_B0]. */
+        uint64_t ptm_rq_replaytx       : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[PTM_RQ_REPLAYTX]. */
+        uint64_t ptm_rq_duprx          : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[PTM_RQ_DUPRX]. */
+        uint64_t ptm_rq_unexp_rto      : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[PTM_RQ_UNEXP_RTO]. */
+        uint64_t reserved_25_63        : 39;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pemx_int_sum_w1s_s cn; */
@@ -3558,7 +2832,7 @@ typedef union cavm_pemx_int_sum_w1s cavm_pemx_int_sum_w1s_t;
 static inline uint64_t CAVM_PEMX_INT_SUM_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_INT_SUM_W1S(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e00000000f0ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_INT_SUM_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3571,9 +2845,143 @@ static inline uint64_t CAVM_PEMX_INT_SUM_W1S(uint64_t a)
 #define arguments_CAVM_PEMX_INT_SUM_W1S(a) (a),-1,-1,-1
 
 /**
+ * Register (NCB) pem#_latency_pc
+ *
+ * PEM Latency Count Register
+ * This register contains read latency count for debugging purposes.
+ *
+ * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
+ *
+ * This register is reset on core domain reset.
+ */
+union cavm_pemx_latency_pc
+{
+    uint64_t u;
+    struct cavm_pemx_latency_pc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t latency               : 64; /**< [ 63:  0](R/W/H) Total read latency count in 10 ns units measured from an internal point in PEM
+                                                                 after coming from either NCBO (but prior to any merging logic) or EBO, to an
+                                                                 internal point in PEM where the corresponding completion is sent to the NCBI
+                                                                 or EBI interface logic. PEM()_LATENCY_PC_CTL[EBO_SEL] controls which
+                                                                 outbound bus has its reads latency tracked.  This register can only be written
+                                                                 by software when PEM()_LATENCY_PC_CTL[ACTIVE] is clear. */
+#else /* Word 0 - Little Endian */
+        uint64_t latency               : 64; /**< [ 63:  0](R/W/H) Total read latency count in 10 ns units measured from an internal point in PEM
+                                                                 after coming from either NCBO (but prior to any merging logic) or EBO, to an
+                                                                 internal point in PEM where the corresponding completion is sent to the NCBI
+                                                                 or EBI interface logic. PEM()_LATENCY_PC_CTL[EBO_SEL] controls which
+                                                                 outbound bus has its reads latency tracked.  This register can only be written
+                                                                 by software when PEM()_LATENCY_PC_CTL[ACTIVE] is clear. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pemx_latency_pc_s cn; */
+};
+typedef union cavm_pemx_latency_pc cavm_pemx_latency_pc_t;
+
+static inline uint64_t CAVM_PEMX_LATENCY_PC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PEMX_LATENCY_PC(uint64_t a)
+{
+    if (a<=7)
+        return 0x8e0000000118ll + 0x1000000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("PEMX_LATENCY_PC", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PEMX_LATENCY_PC(a) cavm_pemx_latency_pc_t
+#define bustype_CAVM_PEMX_LATENCY_PC(a) CSR_TYPE_NCB
+#define basename_CAVM_PEMX_LATENCY_PC(a) "PEMX_LATENCY_PC"
+#define device_bar_CAVM_PEMX_LATENCY_PC(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_PEMX_LATENCY_PC(a) (a)
+#define arguments_CAVM_PEMX_LATENCY_PC(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) pem#_latency_pc_ctl
+ *
+ * PEM Latency Control Register
+ * This register controls read latency monitoring for debugging purposes.
+ *
+ * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
+ *
+ * This register is reset on core domain reset.
+ */
+union cavm_pemx_latency_pc_ctl
+{
+    uint64_t u;
+    struct cavm_pemx_latency_pc_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_3_63         : 61;
+        uint64_t ebo_sel               : 1;  /**< [  2:  2](R/W) If set, latency will be measured on EBO reads instead of NCBO reads. */
+        uint64_t complete              : 1;  /**< [  1:  1](RO/H) When software causes a rising edge on [ACTIVE], hardware will clear this
+                                                                 bit. Later, when software clears [ACTIVE], hardware will wait for all
+                                                                 outstanding reads to get their first data returned and then set this bit to
+                                                                 indicate that measurement operations are completed. */
+        uint64_t active                : 1;  /**< [  0:  0](R/W) When a software write causes a rising edge on [ACTIVE], PEM will begin a
+                                                                 measurement using existing values for PEM()_LATENCY_PC and PEM()_READS_PC
+                                                                 as well as clear [COMPLETE]. Only NCBO reads that occur
+                                                                 after this rising edge will be added into the results. When software wants
+                                                                 to halt measurement, it can clear this bit which will block further reads
+                                                                 from being considered. When software reads [COMPLETE] as set,
+                                                                 it can know that all measurement is completed and PEM()_LATENCY_PC and
+                                                                 PEM()_READS_PC reflect a completely accurate and stable set of values.
+
+                                                                 Note that [ACTIVE] does not need to be cleared in order to read
+                                                                 PEM()_LATENCY_PC and PEM()_READS_PC to calculate average latency during active
+                                                                 processing, but there will be some small error.
+
+                                                                 Note that because software can write PEM()_LATENCY_PC and PEM()_READS_PC,
+                                                                 PEM will not clear these values when a software write causes a rising edge on
+                                                                 [ACTIVE].  Instead, software must initialize these two registers (probably
+                                                                 both to 0) prior to starting a measurement. */
+#else /* Word 0 - Little Endian */
+        uint64_t active                : 1;  /**< [  0:  0](R/W) When a software write causes a rising edge on [ACTIVE], PEM will begin a
+                                                                 measurement using existing values for PEM()_LATENCY_PC and PEM()_READS_PC
+                                                                 as well as clear [COMPLETE]. Only NCBO reads that occur
+                                                                 after this rising edge will be added into the results. When software wants
+                                                                 to halt measurement, it can clear this bit which will block further reads
+                                                                 from being considered. When software reads [COMPLETE] as set,
+                                                                 it can know that all measurement is completed and PEM()_LATENCY_PC and
+                                                                 PEM()_READS_PC reflect a completely accurate and stable set of values.
+
+                                                                 Note that [ACTIVE] does not need to be cleared in order to read
+                                                                 PEM()_LATENCY_PC and PEM()_READS_PC to calculate average latency during active
+                                                                 processing, but there will be some small error.
+
+                                                                 Note that because software can write PEM()_LATENCY_PC and PEM()_READS_PC,
+                                                                 PEM will not clear these values when a software write causes a rising edge on
+                                                                 [ACTIVE].  Instead, software must initialize these two registers (probably
+                                                                 both to 0) prior to starting a measurement. */
+        uint64_t complete              : 1;  /**< [  1:  1](RO/H) When software causes a rising edge on [ACTIVE], hardware will clear this
+                                                                 bit. Later, when software clears [ACTIVE], hardware will wait for all
+                                                                 outstanding reads to get their first data returned and then set this bit to
+                                                                 indicate that measurement operations are completed. */
+        uint64_t ebo_sel               : 1;  /**< [  2:  2](R/W) If set, latency will be measured on EBO reads instead of NCBO reads. */
+        uint64_t reserved_3_63         : 61;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pemx_latency_pc_ctl_s cn; */
+};
+typedef union cavm_pemx_latency_pc_ctl cavm_pemx_latency_pc_ctl_t;
+
+static inline uint64_t CAVM_PEMX_LATENCY_PC_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PEMX_LATENCY_PC_CTL(uint64_t a)
+{
+    if (a<=7)
+        return 0x8e0000000128ll + 0x1000000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("PEMX_LATENCY_PC_CTL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PEMX_LATENCY_PC_CTL(a) cavm_pemx_latency_pc_ctl_t
+#define bustype_CAVM_PEMX_LATENCY_PC_CTL(a) CSR_TYPE_NCB
+#define basename_CAVM_PEMX_LATENCY_PC_CTL(a) "PEMX_LATENCY_PC_CTL"
+#define device_bar_CAVM_PEMX_LATENCY_PC_CTL(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_PEMX_LATENCY_PC_CTL(a) (a)
+#define arguments_CAVM_PEMX_LATENCY_PC_CTL(a) (a),-1,-1,-1
+
+/**
  * Register (NCB) pem#_ltr_latency
  *
- * PEMPEM Latency Tolerance Reporting Register
+ * PEM Latency Tolerance Reporting Register
  * This register contains the current LTR values reported and in-use
  * by the downstream device.
  *
@@ -3601,7 +3009,7 @@ typedef union cavm_pemx_ltr_latency cavm_pemx_ltr_latency_t;
 static inline uint64_t CAVM_PEMX_LTR_LATENCY(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_LTR_LATENCY(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e00000000c0ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_LTR_LATENCY", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3616,7 +3024,7 @@ static inline uint64_t CAVM_PEMX_LTR_LATENCY(uint64_t a)
 /**
  * Register (NCB) pem#_ltr_val#
  *
- * PEMPEM Latency Tolerance Reporting Register
+ * PEM Latency Tolerance Reporting Register
  * This register contains the values to put into the latency tolerance reporting (LTM) message
  * when triggered by hardware.  EP Mode.
  *
@@ -3646,7 +3054,7 @@ typedef union cavm_pemx_ltr_valx cavm_pemx_ltr_valx_t;
 static inline uint64_t CAVM_PEMX_LTR_VALX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_LTR_VALX(uint64_t a, uint64_t b)
 {
-    if ((a<=5) && (b<=1))
+    if ((a<=7) && (b<=1))
         return 0x8e00000000b0ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("PEMX_LTR_VALX", 2, a, b, 0, 0, 0, 0);
 }
@@ -3659,15 +3067,68 @@ static inline uint64_t CAVM_PEMX_LTR_VALX(uint64_t a, uint64_t b)
 #define arguments_CAVM_PEMX_LTR_VALX(a,b) (a),(b),-1,-1
 
 /**
+ * Register (NCB) pem#_mac_lane#_eq
+ *
+ * PEM MAC Lane RX/TX Equalization Info Register
+ * This register specifies the per lane RX/TX Equalization values advertised
+ * by the link partner.
+ *
+ * This register is accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
+ *
+ * This register is reset on MAC reset.
+ */
+union cavm_pemx_mac_lanex_eq
+{
+    uint64_t u;
+    struct cavm_pemx_mac_lanex_eq_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_50_63        : 14;
+        uint64_t pset_coef             : 18; /**< [ 49: 32](RO/H) Presets and coefficients chosen by the PEM. */
+        uint64_t reserved_15_31        : 17;
+        uint64_t rxphint               : 3;  /**< [ 14: 12](RO/H) Represents the RX equalization preset hint
+                                                                 for the receiver. */
+        uint64_t lf                    : 6;  /**< [ 11:  6](RO/H) Represents the low frequency value of the remote transmitter
+                                                                 captured in Recovery.Equalization Phase 1. */
+        uint64_t fs                    : 6;  /**< [  5:  0](RO/H) Represents the full swing value of the remote transmitter
+                                                                 captured in Recovery.Equalization Phase 1. */
+#else /* Word 0 - Little Endian */
+        uint64_t fs                    : 6;  /**< [  5:  0](RO/H) Represents the full swing value of the remote transmitter
+                                                                 captured in Recovery.Equalization Phase 1. */
+        uint64_t lf                    : 6;  /**< [ 11:  6](RO/H) Represents the low frequency value of the remote transmitter
+                                                                 captured in Recovery.Equalization Phase 1. */
+        uint64_t rxphint               : 3;  /**< [ 14: 12](RO/H) Represents the RX equalization preset hint
+                                                                 for the receiver. */
+        uint64_t reserved_15_31        : 17;
+        uint64_t pset_coef             : 18; /**< [ 49: 32](RO/H) Presets and coefficients chosen by the PEM. */
+        uint64_t reserved_50_63        : 14;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pemx_mac_lanex_eq_s cn; */
+};
+typedef union cavm_pemx_mac_lanex_eq cavm_pemx_mac_lanex_eq_t;
+
+static inline uint64_t CAVM_PEMX_MAC_LANEX_EQ(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PEMX_MAC_LANEX_EQ(uint64_t a, uint64_t b)
+{
+    if ((a<=7) && (b<=3))
+        return 0x8e0000000780ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
+    __cavm_csr_fatal("PEMX_MAC_LANEX_EQ", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PEMX_MAC_LANEX_EQ(a,b) cavm_pemx_mac_lanex_eq_t
+#define bustype_CAVM_PEMX_MAC_LANEX_EQ(a,b) CSR_TYPE_NCB
+#define basename_CAVM_PEMX_MAC_LANEX_EQ(a,b) "PEMX_MAC_LANEX_EQ"
+#define device_bar_CAVM_PEMX_MAC_LANEX_EQ(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_PEMX_MAC_LANEX_EQ(a,b) (a)
+#define arguments_CAVM_PEMX_MAC_LANEX_EQ(a,b) (a),(b),-1,-1
+
+/**
  * Register (NCB) pem#_merge_timer_ctl
  *
  * PEM Merge Timer Control Register
  * This register controls merging timers and overrides for maximum merging size
- * for outbound reads, writes, and completions.  The TIMER fields in this
- * register reset to values that will allow merging and therefore improved
- * bandwidth across all PEM configurations.  If a system is more sensitive to
- * reducing latency, then these fields can be written to smaller values to
- * ensure transactions do not wait too long to merge before being sent to PCIe.
+ * for outbound reads, writes, and completions.
  *
  * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
  *
@@ -3689,17 +3150,17 @@ union cavm_pemx_merge_timer_ctl
                                                                  from the PCIe core. */
         uint64_t cmerge_total_timer    : 7;  /**< [ 59: 53](R/W) Completion merge encapsulation timer. When PEM accepts an outbound completion
                                                                  which begins a completion merging process, [CMERGE_TOTAL_TIMER] specifies the
-                                                                 maximum wait, in units of (pclk clock cycles * 64), to merge additional
+                                                                 maximum wait, in units of (coprocessor-clock cycles * 64), to merge additional
                                                                  completion transfers into one larger overall completion. The values for this
                                                                  field range from 1 to 127, with 0x0 used for diagnostics only and treated as
-                                                                 never expire. This translates into a range of 64 to 8128 in units of pclk
-                                                                 clock cycles. */
-        uint64_t cmerge_segment_timer  : 7;  /**< [ 52: 46](R/W) Completion merge segment timer. The maximum wait, in pclk clock cycles,
+                                                                 never expire. This translates into a range of 64 to 8128 in units of
+                                                                 co-processor-clock cycles. */
+        uint64_t cmerge_segment_timer  : 7;  /**< [ 52: 46](R/W) Completion merge segment timer. The maximum wait, in coprocessor-clock cycles,
                                                                  to wait between each segment of the overall merge operation. Each iterative
                                                                  completion transfer added to the overall merge restarts this timer. The values
                                                                  for this field range from 1 to 127, with 0x0 used for diagnostics only and
                                                                  treated as never expire. This translates into a range of 64 to 8128 in units of
-                                                                 pclk clock cycles (uses multiples of 64 like [CMERGE_TOTAL_TIMER]). */
+                                                                 co-processor-clock cycles. */
         uint64_t wmerge_mps_limit      : 3;  /**< [ 45: 43](R/W) Write merge maximum payload size limit value. Software can use this value to
                                                                  reduce the maximum size of a merged write operation to a level below the MPS
                                                                  value coming from the PCIe core. A value of 0 limits to 128 bytes with each
@@ -3709,11 +3170,11 @@ union cavm_pemx_merge_timer_ctl
                                                                  from the PCIe core. */
         uint64_t wmerge_total_timer    : 10; /**< [ 42: 33](R/W) Write merge encapsulation timer. When PEM accepts an outbound write which begins
                                                                  a write merging process, [WMERGE_TOTAL_TIMER] specifies the maximum wait, in
-                                                                 pclk clock cycles, to merge additional write operations into one larger
+                                                                 coprocessor-clock cycles, to merge additional write operations into one larger
                                                                  write. The values for this field range from 1 to 1023, with 0x0 used for
                                                                  diagnostics only and treated as never expire. */
         uint64_t wmerge_segment_timer  : 10; /**< [ 32: 23](R/W) Write merge segment timer. The maximum wait,
-                                                                 in pclk clock cycles, to wait between each segment of the overall merge
+                                                                 in coprocessor-clock cycles, to wait between each segment of the overall merge
                                                                  operation.  Each iterative write operation added to the overall merge restarts this
                                                                  timer.  The values for this field range from 1 to 1023, with 0x0 used for
                                                                  diagnostics only and treated as never expire. */
@@ -3726,23 +3187,23 @@ union cavm_pemx_merge_timer_ctl
                                                                  for MRRS coming from the PCIe core. */
         uint64_t rmerge_total_timer    : 10; /**< [ 19: 10](R/W) Read merge encapsulation timer. When PEM accepts an outbound read which begins a
                                                                  read merging process, [RMERGE_TOTAL_TIMER] specifies the maximum wait, in
-                                                                 pclk clock cycles, to merge additional read operations into one larger
+                                                                 coprocessor-clock cycles, to merge additional read operations into one larger
                                                                  read. The values for this field range from 1 to 1023, with 0x0 used for
                                                                  diagnostics only and treated as never expire. */
-        uint64_t rmerge_segment_timer  : 10; /**< [  9:  0](R/W) Read merge segment timer. specifies the maximum wait, in pclk clock
+        uint64_t rmerge_segment_timer  : 10; /**< [  9:  0](R/W) Read merge segment timer. specifies the maximum wait, in coprocessor-clock
                                                                  cycles, to wait between each segment of the overall merge operation. Each
                                                                  iterative read operation added to the overall merge restarts this timer. The
                                                                  values for this field range from 1 to 1023, with 0x0 used for diagnostics only
                                                                  and treated as never expire. */
 #else /* Word 0 - Little Endian */
-        uint64_t rmerge_segment_timer  : 10; /**< [  9:  0](R/W) Read merge segment timer. specifies the maximum wait, in pclk clock
+        uint64_t rmerge_segment_timer  : 10; /**< [  9:  0](R/W) Read merge segment timer. specifies the maximum wait, in coprocessor-clock
                                                                  cycles, to wait between each segment of the overall merge operation. Each
                                                                  iterative read operation added to the overall merge restarts this timer. The
                                                                  values for this field range from 1 to 1023, with 0x0 used for diagnostics only
                                                                  and treated as never expire. */
         uint64_t rmerge_total_timer    : 10; /**< [ 19: 10](R/W) Read merge encapsulation timer. When PEM accepts an outbound read which begins a
                                                                  read merging process, [RMERGE_TOTAL_TIMER] specifies the maximum wait, in
-                                                                 pclk clock cycles, to merge additional read operations into one larger
+                                                                 coprocessor-clock cycles, to merge additional read operations into one larger
                                                                  read. The values for this field range from 1 to 1023, with 0x0 used for
                                                                  diagnostics only and treated as never expire. */
         uint64_t rmerge_mrrs_limit     : 3;  /**< [ 22: 20](R/W) Read merge maximum read request size limit value. Software can use this value to
@@ -3753,13 +3214,13 @@ union cavm_pemx_merge_timer_ctl
                                                                  core. Resets to a value guaranteed to be at least as large as any legal value
                                                                  for MRRS coming from the PCIe core. */
         uint64_t wmerge_segment_timer  : 10; /**< [ 32: 23](R/W) Write merge segment timer. The maximum wait,
-                                                                 in pclk clock cycles, to wait between each segment of the overall merge
+                                                                 in coprocessor-clock cycles, to wait between each segment of the overall merge
                                                                  operation.  Each iterative write operation added to the overall merge restarts this
                                                                  timer.  The values for this field range from 1 to 1023, with 0x0 used for
                                                                  diagnostics only and treated as never expire. */
         uint64_t wmerge_total_timer    : 10; /**< [ 42: 33](R/W) Write merge encapsulation timer. When PEM accepts an outbound write which begins
                                                                  a write merging process, [WMERGE_TOTAL_TIMER] specifies the maximum wait, in
-                                                                 pclk clock cycles, to merge additional write operations into one larger
+                                                                 coprocessor-clock cycles, to merge additional write operations into one larger
                                                                  write. The values for this field range from 1 to 1023, with 0x0 used for
                                                                  diagnostics only and treated as never expire. */
         uint64_t wmerge_mps_limit      : 3;  /**< [ 45: 43](R/W) Write merge maximum payload size limit value. Software can use this value to
@@ -3769,19 +3230,19 @@ union cavm_pemx_merge_timer_ctl
                                                                  LOWER of [WMERGE_MPS_LIMIT] and the MPS value coming from the PCIe core. Resets
                                                                  to a value guaranteed to be at least as large as any legal value for MPS coming
                                                                  from the PCIe core. */
-        uint64_t cmerge_segment_timer  : 7;  /**< [ 52: 46](R/W) Completion merge segment timer. The maximum wait, in pclk clock cycles,
+        uint64_t cmerge_segment_timer  : 7;  /**< [ 52: 46](R/W) Completion merge segment timer. The maximum wait, in coprocessor-clock cycles,
                                                                  to wait between each segment of the overall merge operation. Each iterative
                                                                  completion transfer added to the overall merge restarts this timer. The values
                                                                  for this field range from 1 to 127, with 0x0 used for diagnostics only and
                                                                  treated as never expire. This translates into a range of 64 to 8128 in units of
-                                                                 pclk clock cycles (uses multiples of 64 like [CMERGE_TOTAL_TIMER]). */
+                                                                 co-processor-clock cycles. */
         uint64_t cmerge_total_timer    : 7;  /**< [ 59: 53](R/W) Completion merge encapsulation timer. When PEM accepts an outbound completion
                                                                  which begins a completion merging process, [CMERGE_TOTAL_TIMER] specifies the
-                                                                 maximum wait, in units of (pclk clock cycles * 64), to merge additional
+                                                                 maximum wait, in units of (coprocessor-clock cycles * 64), to merge additional
                                                                  completion transfers into one larger overall completion. The values for this
                                                                  field range from 1 to 127, with 0x0 used for diagnostics only and treated as
-                                                                 never expire. This translates into a range of 64 to 8128 in units of pclk
-                                                                 clock cycles. */
+                                                                 never expire. This translates into a range of 64 to 8128 in units of
+                                                                 co-processor-clock cycles. */
         uint64_t cmerge_mps_limit      : 3;  /**< [ 62: 60](R/W) Completion merge maximum payload size limit value. Software can use this value
                                                                  to reduce the maximum size of a merged completion operation to a level below the
                                                                  MPS value coming from the PCIe core. A value of 0x0 limits to 128 bytes with
@@ -3799,7 +3260,7 @@ typedef union cavm_pemx_merge_timer_ctl cavm_pemx_merge_timer_ctl_t;
 static inline uint64_t CAVM_PEMX_MERGE_TIMER_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_MERGE_TIMER_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000180ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_MERGE_TIMER_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3810,47 +3271,6 @@ static inline uint64_t CAVM_PEMX_MERGE_TIMER_CTL(uint64_t a)
 #define device_bar_CAVM_PEMX_MERGE_TIMER_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_MERGE_TIMER_CTL(a) (a)
 #define arguments_CAVM_PEMX_MERGE_TIMER_CTL(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) pem#_mpam_assoc_pc#
- *
- * PEM NCB Outbound Merge Count Register
- * This register is used to create a mapping of MPAM ID to one of eight sets of
- * hardware performance counters.
- *
- * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
- */
-union cavm_pemx_mpam_assoc_pcx
-{
-    uint64_t u;
-    struct cavm_pemx_mpam_assoc_pcx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_3_63         : 61;
-        uint64_t id                    : 3;  /**< [  2:  0](R/W) Register set to use for MPAM ID {a} where [ID] is the index of the performance counter. */
-#else /* Word 0 - Little Endian */
-        uint64_t id                    : 3;  /**< [  2:  0](R/W) Register set to use for MPAM ID {a} where [ID] is the index of the performance counter. */
-        uint64_t reserved_3_63         : 61;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pemx_mpam_assoc_pcx_s cn; */
-};
-typedef union cavm_pemx_mpam_assoc_pcx cavm_pemx_mpam_assoc_pcx_t;
-
-static inline uint64_t CAVM_PEMX_MPAM_ASSOC_PCX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PEMX_MPAM_ASSOC_PCX(uint64_t a, uint64_t b)
-{
-    if ((a<=5) && (b<=255))
-        return 0x8e0000006000ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0xff);
-    __cavm_csr_fatal("PEMX_MPAM_ASSOC_PCX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PEMX_MPAM_ASSOC_PCX(a,b) cavm_pemx_mpam_assoc_pcx_t
-#define bustype_CAVM_PEMX_MPAM_ASSOC_PCX(a,b) CSR_TYPE_NCB
-#define basename_CAVM_PEMX_MPAM_ASSOC_PCX(a,b) "PEMX_MPAM_ASSOC_PCX"
-#define device_bar_CAVM_PEMX_MPAM_ASSOC_PCX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_PEMX_MPAM_ASSOC_PCX(a,b) (a)
-#define arguments_CAVM_PEMX_MPAM_ASSOC_PCX(a,b) (a),(b),-1,-1
 
 /**
  * Register (NCB) pem#_msix_pba#
@@ -3882,7 +3302,7 @@ typedef union cavm_pemx_msix_pbax cavm_pemx_msix_pbax_t;
 static inline uint64_t CAVM_PEMX_MSIX_PBAX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_MSIX_PBAX(uint64_t a, uint64_t b)
 {
-    if ((a<=5) && (b==0))
+    if ((a<=7) && (b==0))
         return 0x8e0f000f0000ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("PEMX_MSIX_PBAX", 2, a, b, 0, 0, 0, 0);
 }
@@ -3972,7 +3392,7 @@ typedef union cavm_pemx_msix_vecx_addr cavm_pemx_msix_vecx_addr_t;
 static inline uint64_t CAVM_PEMX_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
-    if ((a<=5) && (b<=11))
+    if ((a<=7) && (b<=9))
         return 0x8e0f00000000ll + 0x1000000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0xf);
     __cavm_csr_fatal("PEMX_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
@@ -4016,7 +3436,7 @@ typedef union cavm_pemx_msix_vecx_ctl cavm_pemx_msix_vecx_ctl_t;
 static inline uint64_t CAVM_PEMX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
-    if ((a<=5) && (b<=11))
+    if ((a<=7) && (b<=9))
         return 0x8e0f00000008ll + 0x1000000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0xf);
     __cavm_csr_fatal("PEMX_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
@@ -4033,6 +3453,7 @@ static inline uint64_t CAVM_PEMX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
  *
  * PEM Inbound NCBI Control Register
  * This register contains control bits for memory accesses targeting the NCBI bus.
+ * This register is ignored when PEM()_EBUS_CTL[PF_BAR*_SEL] is set.
  *
  * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
  *
@@ -4045,9 +3466,7 @@ union cavm_pemx_ncbi_ctl
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_21_63        : 43;
-        uint64_t bige                  : 1;  /**< [ 20: 20](R/W) Atomics sent on NCBI will be marked as big endian.  If the link partner is
-                                                                 big-endian and the processors are big-endian, this allows exchange of big-endian
-                                                                 atomics without byte swapping. */
+        uint64_t bige                  : 1;  /**< [ 20: 20](R/W) Reserved. */
         uint64_t reserved_11_19        : 9;
         uint64_t clken_force           : 1;  /**< [ 10: 10](R/W) Force clock enable on NCBI bus to always enabled. For diagnostic use only. */
         uint64_t ntlp_ro_dis           : 1;  /**< [  9:  9](R/W) Relaxed ordering disable for non-posted TLPs. Will force relaxed ordering bit off when
@@ -4063,9 +3482,21 @@ union cavm_pemx_ncbi_ctl
                                                                  0x1 = LDI.
                                                                  0x2 = LDE.
                                                                  0x3 = LDY. */
-        uint64_t reserved_0            : 1;
+        uint64_t wait_com              : 1;  /**< [  0:  0](R/W) Wait for commit. For diagnostic use only.
+
+                                                                 When set, replaces the default automatic store-store ordering with a more
+                                                                 conservative and lower performing rule. This causes the PEM to wait for a store
+                                                                 done from the NCB before sending additional stores to the NCB from the MAC. The
+                                                                 PEM requests a commit on the last store if more than one STORE operation is
+                                                                 required on NCBI. */
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0            : 1;
+        uint64_t wait_com              : 1;  /**< [  0:  0](R/W) Wait for commit. For diagnostic use only.
+
+                                                                 When set, replaces the default automatic store-store ordering with a more
+                                                                 conservative and lower performing rule. This causes the PEM to wait for a store
+                                                                 done from the NCB before sending additional stores to the NCB from the MAC. The
+                                                                 PEM requests a commit on the last store if more than one STORE operation is
+                                                                 required on NCBI. */
         uint64_t ld_cmd                : 2;  /**< [  2:  1](R/W) When PEM issues a load command over NCBI to the LLC that is to be cached, this field
                                                                  selects the type of load command to use. Un-cached loads will use LDT:
                                                                  0x0 = LDD.
@@ -4081,9 +3512,7 @@ union cavm_pemx_ncbi_ctl
                                                                  non-posted TLPs are forwarded to IOB over NCBI. */
         uint64_t clken_force           : 1;  /**< [ 10: 10](R/W) Force clock enable on NCBI bus to always enabled. For diagnostic use only. */
         uint64_t reserved_11_19        : 9;
-        uint64_t bige                  : 1;  /**< [ 20: 20](R/W) Atomics sent on NCBI will be marked as big endian.  If the link partner is
-                                                                 big-endian and the processors are big-endian, this allows exchange of big-endian
-                                                                 atomics without byte swapping. */
+        uint64_t bige                  : 1;  /**< [ 20: 20](R/W) Reserved. */
         uint64_t reserved_21_63        : 43;
 #endif /* Word 0 - End */
     } s;
@@ -4091,9 +3520,7 @@ union cavm_pemx_ncbi_ctl
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_21_63        : 43;
-        uint64_t bige                  : 1;  /**< [ 20: 20](R/W) Atomics sent on NCBI will be marked as big endian.  If the link partner is
-                                                                 big-endian and the processors are big-endian, this allows exchange of big-endian
-                                                                 atomics without byte swapping. */
+        uint64_t bige                  : 1;  /**< [ 20: 20](R/W) Reserved. */
         uint64_t reserved_11_19        : 9;
         uint64_t clken_force           : 1;  /**< [ 10: 10](R/W) Force clock enable on NCBI bus to always enabled. For diagnostic use only. */
         uint64_t ntlp_ro_dis           : 1;  /**< [  9:  9](R/W) Relaxed ordering disable for non-posted TLPs. Will force relaxed ordering bit off when
@@ -4111,9 +3538,21 @@ union cavm_pemx_ncbi_ctl
                                                                  0x1 = LDI.
                                                                  0x2 = LDE.
                                                                  0x3 = LDY. */
-        uint64_t reserved_0            : 1;
+        uint64_t wait_com              : 1;  /**< [  0:  0](R/W) Wait for commit. For diagnostic use only.
+
+                                                                 When set, replaces the default automatic store-store ordering with a more
+                                                                 conservative and lower performing rule. This causes the PEM to wait for a store
+                                                                 done from the NCB before sending additional stores to the NCB from the MAC. The
+                                                                 PEM requests a commit on the last store if more than one STORE operation is
+                                                                 required on NCBI. */
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0            : 1;
+        uint64_t wait_com              : 1;  /**< [  0:  0](R/W) Wait for commit. For diagnostic use only.
+
+                                                                 When set, replaces the default automatic store-store ordering with a more
+                                                                 conservative and lower performing rule. This causes the PEM to wait for a store
+                                                                 done from the NCB before sending additional stores to the NCB from the MAC. The
+                                                                 PEM requests a commit on the last store if more than one STORE operation is
+                                                                 required on NCBI. */
         uint64_t ld_cmd                : 2;  /**< [  2:  1](R/W) When PEM issues a load command over NCBI to the LLC that is to be cached, this field
                                                                  selects the type of load command to use. Un-cached loads will use LDT:
                                                                  0x0 = LDD.
@@ -4131,9 +3570,7 @@ union cavm_pemx_ncbi_ctl
                                                                  non-posted TLPs are forwarded to IOB over NCBI. */
         uint64_t clken_force           : 1;  /**< [ 10: 10](R/W) Force clock enable on NCBI bus to always enabled. For diagnostic use only. */
         uint64_t reserved_11_19        : 9;
-        uint64_t bige                  : 1;  /**< [ 20: 20](R/W) Atomics sent on NCBI will be marked as big endian.  If the link partner is
-                                                                 big-endian and the processors are big-endian, this allows exchange of big-endian
-                                                                 atomics without byte swapping. */
+        uint64_t bige                  : 1;  /**< [ 20: 20](R/W) Reserved. */
         uint64_t reserved_21_63        : 43;
 #endif /* Word 0 - End */
     } cn;
@@ -4143,7 +3580,7 @@ typedef union cavm_pemx_ncbi_ctl cavm_pemx_ncbi_ctl_t;
 static inline uint64_t CAVM_PEMX_NCBI_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_NCBI_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000178ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_NCBI_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4174,19 +3611,19 @@ union cavm_pemx_ncbi_tlp_credits
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t ncbi_cpl              : 11; /**< [ 31: 21](R/W) TLP 32 B (QPEM/HPEM) / 64 B (FPEM) credits for completion TLPs in the PEMs NCBI buffers.
-                                                                 Legal values are 0x21 to 0x100. */
+        uint64_t ncbi_cpl              : 11; /**< [ 31: 21](R/W) TLP 32 B credits for completion TLPs in the PEMs NCBI buffers.
+                                                                 Legal values are 0x9 to 0x40. */
         uint64_t ncbi_np               : 10; /**< [ 20: 11](R/W) TLP headers for non-posted TLPs in the PEMs NCBI buffers.
                                                                  Legal values are 0x20 to 0x100. */
-        uint64_t ncbi_p                : 11; /**< [ 10:  0](R/W) TLP 32 B (QPEM/HPEM) / 64 B (FPEM) credits for posted TLPs in the PEMs NCBI buffers.
-                                                                 Legal values are 0x21 to 0x100. */
+        uint64_t ncbi_p                : 11; /**< [ 10:  0](R/W) TLP 32 B credits for posted TLPs in the PEMs NCBI buffers.
+                                                                 Legal values are 0x9 to 0x40. */
 #else /* Word 0 - Little Endian */
-        uint64_t ncbi_p                : 11; /**< [ 10:  0](R/W) TLP 32 B (QPEM/HPEM) / 64 B (FPEM) credits for posted TLPs in the PEMs NCBI buffers.
-                                                                 Legal values are 0x21 to 0x100. */
+        uint64_t ncbi_p                : 11; /**< [ 10:  0](R/W) TLP 32 B credits for posted TLPs in the PEMs NCBI buffers.
+                                                                 Legal values are 0x9 to 0x40. */
         uint64_t ncbi_np               : 10; /**< [ 20: 11](R/W) TLP headers for non-posted TLPs in the PEMs NCBI buffers.
                                                                  Legal values are 0x20 to 0x100. */
-        uint64_t ncbi_cpl              : 11; /**< [ 31: 21](R/W) TLP 32 B (QPEM/HPEM) / 64 B (FPEM) credits for completion TLPs in the PEMs NCBI buffers.
-                                                                 Legal values are 0x21 to 0x100. */
+        uint64_t ncbi_cpl              : 11; /**< [ 31: 21](R/W) TLP 32 B credits for completion TLPs in the PEMs NCBI buffers.
+                                                                 Legal values are 0x9 to 0x40. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -4197,7 +3634,7 @@ typedef union cavm_pemx_ncbi_tlp_credits cavm_pemx_ncbi_tlp_credits_t;
 static inline uint64_t CAVM_PEMX_NCBI_TLP_CREDITS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_NCBI_TLP_CREDITS(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000030ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_NCBI_TLP_CREDITS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4230,9 +3667,10 @@ union cavm_pemx_ncbo_fifo_status
                                                                  FIFO. Each entry represents an NCBO-based CSR access and the value read can
                                                                  range from 0x0 to a maximum of 128 which would represent completely full.
                                                                  For diagnostic use only. */
-        uint64_t n_volume              : 8;  /**< [ 15:  8](RO/H) Reports the number of valid entries currently held in the NCBO nonposted
+        uint64_t reserved_15           : 1;
+        uint64_t n_volume              : 7;  /**< [ 14:  8](RO/H) Reports the number of valid entries currently held in the NCBO nonposted
                                                                  offloading FIFO. Each entry represents a beat of the NCBO bus related to a
-                                                                 nonposted operation and the value read can range from 0x0 to a maximum of 128
+                                                                 nonposted operation and the value read can range from 0x0 to a maximum of 64
                                                                  which would represent completely full.
                                                                  For diagnostic use only. */
         uint64_t p_volume              : 8;  /**< [  7:  0](RO/H) Reports the number of valid entries currently held in the NCBO posted offloading
@@ -4246,11 +3684,12 @@ union cavm_pemx_ncbo_fifo_status
                                                                  the value read can range from 0x0 to a maximum of 128 which would represent
                                                                  completely full.
                                                                  For diagnostic use only. */
-        uint64_t n_volume              : 8;  /**< [ 15:  8](RO/H) Reports the number of valid entries currently held in the NCBO nonposted
+        uint64_t n_volume              : 7;  /**< [ 14:  8](RO/H) Reports the number of valid entries currently held in the NCBO nonposted
                                                                  offloading FIFO. Each entry represents a beat of the NCBO bus related to a
-                                                                 nonposted operation and the value read can range from 0x0 to a maximum of 128
+                                                                 nonposted operation and the value read can range from 0x0 to a maximum of 64
                                                                  which would represent completely full.
                                                                  For diagnostic use only. */
+        uint64_t reserved_15           : 1;
         uint64_t csr_volume            : 8;  /**< [ 23: 16](RO/H) Reports the number of valid entries currently held in the NCBO CSR offloading
                                                                  FIFO. Each entry represents an NCBO-based CSR access and the value read can
                                                                  range from 0x0 to a maximum of 128 which would represent completely full.
@@ -4265,7 +3704,7 @@ typedef union cavm_pemx_ncbo_fifo_status cavm_pemx_ncbo_fifo_status_t;
 static inline uint64_t CAVM_PEMX_NCBO_FIFO_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_NCBO_FIFO_STATUS(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000138ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_NCBO_FIFO_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4308,7 +3747,7 @@ typedef union cavm_pemx_ob_cmerge_limit cavm_pemx_ob_cmerge_limit_t;
 static inline uint64_t CAVM_PEMX_OB_CMERGE_LIMIT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_OB_CMERGE_LIMIT(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000330ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_OB_CMERGE_LIMIT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4374,7 +3813,7 @@ typedef union cavm_pemx_ob_cpl_fifo_status cavm_pemx_ob_cpl_fifo_status_t;
 static inline uint64_t CAVM_PEMX_OB_CPL_FIFO_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_OB_CPL_FIFO_STATUS(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000170ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_OB_CPL_FIFO_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4385,235 +3824,6 @@ static inline uint64_t CAVM_PEMX_OB_CPL_FIFO_STATUS(uint64_t a)
 #define device_bar_CAVM_PEMX_OB_CPL_FIFO_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_OB_CPL_FIFO_STATUS(a) (a)
 #define arguments_CAVM_PEMX_OB_CPL_FIFO_STATUS(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) pem#_ob_latency#_pc#
- *
- * PEM Outbound Latency Time Registers
- * This register resets on core domain reset.  It measures the time portion
- * of the information set needed by software to calculate average outbound
- * read latency originating from the target bus.
- * Index {a} represents the TLP type and is enumerated by PEM_PERF_TLP_TYPE_E.
- * Index {b} represents a set of registers mapped by using PEM_MPAM_ASSOC_PC.
- *
- * When PEM_CTL_STATUS2.PERF_LATENCY_EN is clear, this register is clock gated.
- *
- * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
- */
-union cavm_pemx_ob_latencyx_pcx
-{
-    uint64_t u;
-    struct cavm_pemx_ob_latencyx_pcx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t latency               : 64; /**< [ 63:  0](R/W/H) Number of outbound read requests currently in flight originating from the target bus and
-                                                                 measured within PEMM from start to first completion sent back internally incremented every 10ns. */
-#else /* Word 0 - Little Endian */
-        uint64_t latency               : 64; /**< [ 63:  0](R/W/H) Number of outbound read requests currently in flight originating from the target bus and
-                                                                 measured within PEMM from start to first completion sent back internally incremented every 10ns. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pemx_ob_latencyx_pcx_s cn; */
-};
-typedef union cavm_pemx_ob_latencyx_pcx cavm_pemx_ob_latencyx_pcx_t;
-
-static inline uint64_t CAVM_PEMX_OB_LATENCYX_PCX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PEMX_OB_LATENCYX_PCX(uint64_t a, uint64_t b, uint64_t c)
-{
-    if ((a<=5) && (b==0) && (c<=7))
-        return 0x8e0000005700ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0) + 0x20ll * ((c) & 0x7);
-    __cavm_csr_fatal("PEMX_OB_LATENCYX_PCX", 3, a, b, c, 0, 0, 0);
-}
-
-#define typedef_CAVM_PEMX_OB_LATENCYX_PCX(a,b,c) cavm_pemx_ob_latencyx_pcx_t
-#define bustype_CAVM_PEMX_OB_LATENCYX_PCX(a,b,c) CSR_TYPE_NCB
-#define basename_CAVM_PEMX_OB_LATENCYX_PCX(a,b,c) "PEMX_OB_LATENCYX_PCX"
-#define device_bar_CAVM_PEMX_OB_LATENCYX_PCX(a,b,c) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_PEMX_OB_LATENCYX_PCX(a,b,c) (a)
-#define arguments_CAVM_PEMX_OB_LATENCYX_PCX(a,b,c) (a),(b),(c),-1
-
-/**
- * Register (NCB) pem#_ob_reads#_pc#
- *
- * PEM Outbound Read Count Registers
- * This register resets on core domain reset.  It measures the count portion
- * of the information set needed by software to calculate average outbound
- * read latency originating from the target bus.
- * Index {a} represents the TLP type and is enumerated by PEM_PERF_TLP_TYPE_E.
- * Index {b} represents a set of registers mapped by using PEM_MPAM_ASSOC_PC.
- *
- * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
- */
-union cavm_pemx_ob_readsx_pcx
-{
-    uint64_t u;
-    struct cavm_pemx_ob_readsx_pcx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reads                 : 64; /**< [ 63:  0](R/W/H) Number of outbound read requests.  Software can calculate the average outbound
-                                                                 external read latency (pins to pins) with the following calculation:
-                                                                   * Average latency = (PEM()_OB_LATENCY()_PC[LATENCY] / PEM()_OB_READS()_PC[READS]) * 10 ns
-                                                                                       - fixed_delay
-                                                                 Where:
-                                                                   * fixed_delay = 92 ns (for PEM0, PEM4, PEM8)
-                                                                   * fixed_delay = 87 ns (for PEM2, PEM6, PEM10)
-                                                                   * fixed_delay = 87 ns (for all other PEMs)
-                                                                   * fixed_delay = 147 ns (for PEM0, PEM4, PEM8) with IDE enabled */
-#else /* Word 0 - Little Endian */
-        uint64_t reads                 : 64; /**< [ 63:  0](R/W/H) Number of outbound read requests.  Software can calculate the average outbound
-                                                                 external read latency (pins to pins) with the following calculation:
-                                                                   * Average latency = (PEM()_OB_LATENCY()_PC[LATENCY] / PEM()_OB_READS()_PC[READS]) * 10 ns
-                                                                                       - fixed_delay
-                                                                 Where:
-                                                                   * fixed_delay = 92 ns (for PEM0, PEM4, PEM8)
-                                                                   * fixed_delay = 87 ns (for PEM2, PEM6, PEM10)
-                                                                   * fixed_delay = 87 ns (for all other PEMs)
-                                                                   * fixed_delay = 147 ns (for PEM0, PEM4, PEM8) with IDE enabled */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pemx_ob_readsx_pcx_s cn; */
-};
-typedef union cavm_pemx_ob_readsx_pcx cavm_pemx_ob_readsx_pcx_t;
-
-static inline uint64_t CAVM_PEMX_OB_READSX_PCX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PEMX_OB_READSX_PCX(uint64_t a, uint64_t b, uint64_t c)
-{
-    if ((a<=5) && (b==0) && (c<=7))
-        return 0x8e0000005800ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0) + 0x20ll * ((c) & 0x7);
-    __cavm_csr_fatal("PEMX_OB_READSX_PCX", 3, a, b, c, 0, 0, 0);
-}
-
-#define typedef_CAVM_PEMX_OB_READSX_PCX(a,b,c) cavm_pemx_ob_readsx_pcx_t
-#define bustype_CAVM_PEMX_OB_READSX_PCX(a,b,c) CSR_TYPE_NCB
-#define basename_CAVM_PEMX_OB_READSX_PCX(a,b,c) "PEMX_OB_READSX_PCX"
-#define device_bar_CAVM_PEMX_OB_READSX_PCX(a,b,c) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_PEMX_OB_READSX_PCX(a,b,c) (a)
-#define arguments_CAVM_PEMX_OB_READSX_PCX(a,b,c) (a),(b),(c),-1
-
-/**
- * Register (NCB) pem#_ob_tlp#_dwords_pc#
- *
- * PEM Outbound TLP DWORDS Registers
- * This register resets on core domain reset.  Otherwise, it continuously accumulates
- * the number of DWORDS (including header overhead) in every outbound TLP received
- * from the target bus and headed to PCIe.
- * Index {a} represents the TLP type and is enumerated by PEM_PERF_TLP_TYPE_E.
- * Index {b} represents a set of registers mapped by using PEM_MPAM_ASSOC_PC.
- *
- * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
- */
-union cavm_pemx_ob_tlpx_dwords_pcx
-{
-    uint64_t u;
-    struct cavm_pemx_ob_tlpx_dwords_pcx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t tlp_dwords            : 64; /**< [ 63:  0](R/W/H) TLP DWORD Count */
-#else /* Word 0 - Little Endian */
-        uint64_t tlp_dwords            : 64; /**< [ 63:  0](R/W/H) TLP DWORD Count */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pemx_ob_tlpx_dwords_pcx_s cn; */
-};
-typedef union cavm_pemx_ob_tlpx_dwords_pcx cavm_pemx_ob_tlpx_dwords_pcx_t;
-
-static inline uint64_t CAVM_PEMX_OB_TLPX_DWORDS_PCX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PEMX_OB_TLPX_DWORDS_PCX(uint64_t a, uint64_t b, uint64_t c)
-{
-    if ((a<=5) && (b<=2) && (c<=7))
-        return 0x8e0000005600ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3) + 0x20ll * ((c) & 0x7);
-    __cavm_csr_fatal("PEMX_OB_TLPX_DWORDS_PCX", 3, a, b, c, 0, 0, 0);
-}
-
-#define typedef_CAVM_PEMX_OB_TLPX_DWORDS_PCX(a,b,c) cavm_pemx_ob_tlpx_dwords_pcx_t
-#define bustype_CAVM_PEMX_OB_TLPX_DWORDS_PCX(a,b,c) CSR_TYPE_NCB
-#define basename_CAVM_PEMX_OB_TLPX_DWORDS_PCX(a,b,c) "PEMX_OB_TLPX_DWORDS_PCX"
-#define device_bar_CAVM_PEMX_OB_TLPX_DWORDS_PCX(a,b,c) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_PEMX_OB_TLPX_DWORDS_PCX(a,b,c) (a)
-#define arguments_CAVM_PEMX_OB_TLPX_DWORDS_PCX(a,b,c) (a),(b),(c),-1
-
-/**
- * Register (NCB) pem#_ob_tlp#_merges_pc#
- *
- * PEM NCB Outbound Merge Count Register
- * This register resets on core domain reset.  Otherwise, it continuously tracks the
- * number of outbound transactions from NCBO that are part of a merging sequence.
- * Currently only NCBO transactions can be merged.
- * Index {a} represents the TLP type and is enumerated by PEM_PERF_TLP_TYPE_E.
- * Index {b} represents a set of registers mapped by using PEM_MPAM_ASSOC_PC.
- *
- * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
- */
-union cavm_pemx_ob_tlpx_merges_pcx
-{
-    uint64_t u;
-    struct cavm_pemx_ob_tlpx_merges_pcx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Transactions included in merging sequences */
-#else /* Word 0 - Little Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Transactions included in merging sequences */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pemx_ob_tlpx_merges_pcx_s cn; */
-};
-typedef union cavm_pemx_ob_tlpx_merges_pcx cavm_pemx_ob_tlpx_merges_pcx_t;
-
-static inline uint64_t CAVM_PEMX_OB_TLPX_MERGES_PCX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PEMX_OB_TLPX_MERGES_PCX(uint64_t a, uint64_t b, uint64_t c)
-{
-    if ((a<=5) && (b<=2) && (c<=7))
-        return 0x8e0000005900ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3) + 0x20ll * ((c) & 0x7);
-    __cavm_csr_fatal("PEMX_OB_TLPX_MERGES_PCX", 3, a, b, c, 0, 0, 0);
-}
-
-#define typedef_CAVM_PEMX_OB_TLPX_MERGES_PCX(a,b,c) cavm_pemx_ob_tlpx_merges_pcx_t
-#define bustype_CAVM_PEMX_OB_TLPX_MERGES_PCX(a,b,c) CSR_TYPE_NCB
-#define basename_CAVM_PEMX_OB_TLPX_MERGES_PCX(a,b,c) "PEMX_OB_TLPX_MERGES_PCX"
-#define device_bar_CAVM_PEMX_OB_TLPX_MERGES_PCX(a,b,c) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_PEMX_OB_TLPX_MERGES_PCX(a,b,c) (a)
-#define arguments_CAVM_PEMX_OB_TLPX_MERGES_PCX(a,b,c) (a),(b),(c),-1
-
-/**
- * Register (NCB) pem#_ob_tlp#_pc#
- *
- * PEM Outbound TLP Count Registers
- * This register resets on core domain reset.  Otherwise, it continuously increments
- * on every outbound TLP received from the target bus and headed to PCIe.
- * Index {a} represents the TLP type and is enumerated by PEM_PERF_TLP_TYPE_E.
- * Index {b} represents a set of registers mapped by using PEM_MPAM_ASSOC_PC.
- *
- * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
- */
-union cavm_pemx_ob_tlpx_pcx
-{
-    uint64_t u;
-    struct cavm_pemx_ob_tlpx_pcx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) TLP Count */
-#else /* Word 0 - Little Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) TLP Count */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pemx_ob_tlpx_pcx_s cn; */
-};
-typedef union cavm_pemx_ob_tlpx_pcx cavm_pemx_ob_tlpx_pcx_t;
-
-static inline uint64_t CAVM_PEMX_OB_TLPX_PCX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PEMX_OB_TLPX_PCX(uint64_t a, uint64_t b, uint64_t c)
-{
-    if ((a<=5) && (b<=2) && (c<=7))
-        return 0x8e0000005500ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3) + 0x20ll * ((c) & 0x7);
-    __cavm_csr_fatal("PEMX_OB_TLPX_PCX", 3, a, b, c, 0, 0, 0);
-}
-
-#define typedef_CAVM_PEMX_OB_TLPX_PCX(a,b,c) cavm_pemx_ob_tlpx_pcx_t
-#define bustype_CAVM_PEMX_OB_TLPX_PCX(a,b,c) CSR_TYPE_NCB
-#define basename_CAVM_PEMX_OB_TLPX_PCX(a,b,c) "PEMX_OB_TLPX_PCX"
-#define device_bar_CAVM_PEMX_OB_TLPX_PCX(a,b,c) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_PEMX_OB_TLPX_PCX(a,b,c) (a)
-#define arguments_CAVM_PEMX_OB_TLPX_PCX(a,b,c) (a),(b),(c),-1
 
 /**
  * Register (NCB) pem#_on
@@ -4635,7 +3845,7 @@ union cavm_pemx_on
         uint64_t aclr                  : 1;  /**< [  2:  2](R/W) When this bit is set, [PEMON] will auto-clear on core domain reset, in addition
                                                                  to being reset on cold reset. [ACLR] should be 0 in an EP configuration where
                                                                  it is desired to leave the link operational while resetting the chip core.
-                                                                 It should be 1 in root complex mode. */
+                                                                 It should normally be 1 in root complex mode. */
         uint64_t pemoor                : 1;  /**< [  1:  1](RO/H) Indication to software that the PEM has been taken out of MAC reset and it
                                                                  is safe to configure CSRs marked as being on MAC reset, as well as all PCIe configuration
                                                                  registers. */
@@ -4654,7 +3864,7 @@ union cavm_pemx_on
         uint64_t aclr                  : 1;  /**< [  2:  2](R/W) When this bit is set, [PEMON] will auto-clear on core domain reset, in addition
                                                                  to being reset on cold reset. [ACLR] should be 0 in an EP configuration where
                                                                  it is desired to leave the link operational while resetting the chip core.
-                                                                 It should be 1 in root complex mode. */
+                                                                 It should normally be 1 in root complex mode. */
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;
@@ -4665,7 +3875,7 @@ typedef union cavm_pemx_on cavm_pemx_on_t;
 static inline uint64_t CAVM_PEMX_ON(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_ON(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e00000000e0ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_ON", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4678,78 +3888,9 @@ static inline uint64_t CAVM_PEMX_ON(uint64_t a)
 #define arguments_CAVM_PEMX_ON(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_override_pclk_rate
- *
- * PEM Reset Mac Register
- * This register provides a mechanism to override the divide ratio pemx__div_max_pclk_ratio
- * to modify the PCLK rate
- *
- * This register is accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
- *
- * This register is reset on cold reset.
- */
-union cavm_pemx_override_pclk_rate
-{
-    uint64_t u;
-    struct cavm_pemx_override_pclk_rate_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
-        uint64_t override_div_pclk_en  : 1;  /**< [  7:  7](R/W) Allow software override control for pemx__div_max_pclk_ratio, the divide ratio from MAC.
-                                                                 Software override is only permitted if the link up is not up (PEM()_CTL_STATUS[LNK_ENB] is clear).
-                                                                 0x0: do not override.
-                                                                 0x1: force the value in OVERRIDE_DIV_PCLK_VAL to be output on pemx__div_max_pclk_ratio. */
-        uint64_t override_div_pclk_val : 7;  /**< [  6:  0](R/W) When OVERRIDE_DIV_PCLK_EN is set, use as the value software would like to override
-                                                                 on pemx__div_max_pclk_ratio.
-                                                                 The divided result is ONLY used as an input into the clock detection logic.
-
-                                                                 0x1:  1Ghhz.
-                                                                 0x2:  500Mhz.
-                                                                 0x4:  250Mhz.
-                                                                 0x8:  125Mhz (supported when PLL is configured at 1Ghyz).
-                                                                 0x10: 62.5Mhz (supported when PLL is configured at 1Ghyz).
-                                                                 0x20: Reserved. */
-#else /* Word 0 - Little Endian */
-        uint64_t override_div_pclk_val : 7;  /**< [  6:  0](R/W) When OVERRIDE_DIV_PCLK_EN is set, use as the value software would like to override
-                                                                 on pemx__div_max_pclk_ratio.
-                                                                 The divided result is ONLY used as an input into the clock detection logic.
-
-                                                                 0x1:  1Ghhz.
-                                                                 0x2:  500Mhz.
-                                                                 0x4:  250Mhz.
-                                                                 0x8:  125Mhz (supported when PLL is configured at 1Ghyz).
-                                                                 0x10: 62.5Mhz (supported when PLL is configured at 1Ghyz).
-                                                                 0x20: Reserved. */
-        uint64_t override_div_pclk_en  : 1;  /**< [  7:  7](R/W) Allow software override control for pemx__div_max_pclk_ratio, the divide ratio from MAC.
-                                                                 Software override is only permitted if the link up is not up (PEM()_CTL_STATUS[LNK_ENB] is clear).
-                                                                 0x0: do not override.
-                                                                 0x1: force the value in OVERRIDE_DIV_PCLK_VAL to be output on pemx__div_max_pclk_ratio. */
-        uint64_t reserved_8_63         : 56;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pemx_override_pclk_rate_s cn; */
-};
-typedef union cavm_pemx_override_pclk_rate cavm_pemx_override_pclk_rate_t;
-
-static inline uint64_t CAVM_PEMX_OVERRIDE_PCLK_RATE(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PEMX_OVERRIDE_PCLK_RATE(uint64_t a)
-{
-    if (a<=5)
-        return 0x8e00000002a0ll + 0x1000000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("PEMX_OVERRIDE_PCLK_RATE", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PEMX_OVERRIDE_PCLK_RATE(a) cavm_pemx_override_pclk_rate_t
-#define bustype_CAVM_PEMX_OVERRIDE_PCLK_RATE(a) CSR_TYPE_NCB
-#define basename_CAVM_PEMX_OVERRIDE_PCLK_RATE(a) "PEMX_OVERRIDE_PCLK_RATE"
-#define device_bar_CAVM_PEMX_OVERRIDE_PCLK_RATE(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_PEMX_OVERRIDE_PCLK_RATE(a) (a)
-#define arguments_CAVM_PEMX_OVERRIDE_PCLK_RATE(a) (a),-1,-1,-1
-
-/**
  * Register (NCB) pem#_p2n_bar0_start
  *
- * PEMPCIe RC BAR0 Start Register
+ * PEM PCIe RC BAR0 Start Register
  * This register specifies the starting address for memory requests that are to be forwarded to
  * NCB/EBUS in RC mode. In EP mode, the standard PCIe config space BAR registers are used, and
  * this register is ignored.
@@ -4780,7 +3921,7 @@ typedef union cavm_pemx_p2n_bar0_start cavm_pemx_p2n_bar0_start_t;
 static inline uint64_t CAVM_PEMX_P2N_BAR0_START(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_P2N_BAR0_START(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000158ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_P2N_BAR0_START", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4826,7 +3967,7 @@ typedef union cavm_pemx_p2n_bar2_start cavm_pemx_p2n_bar2_start_t;
 static inline uint64_t CAVM_PEMX_P2N_BAR2_START(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_P2N_BAR2_START(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000150ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_P2N_BAR2_START", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4870,7 +4011,7 @@ typedef union cavm_pemx_p2n_bar4_start cavm_pemx_p2n_bar4_start_t;
 static inline uint64_t CAVM_PEMX_P2N_BAR4_START(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_P2N_BAR4_START(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000148ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_P2N_BAR4_START", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4881,162 +4022,6 @@ static inline uint64_t CAVM_PEMX_P2N_BAR4_START(uint64_t a)
 #define device_bar_CAVM_PEMX_P2N_BAR4_START(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_P2N_BAR4_START(a) (a)
 #define arguments_CAVM_PEMX_P2N_BAR4_START(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) pem#_pemoor_int
- *
- * PEM PEMOOR Interrupt Register
- * This register contains the interrupt bits for PEMOOR.
- *
- * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
- *
- * This register is reset on core domain reset.
- */
-union cavm_pemx_pemoor_int
-{
-    uint64_t u;
-    struct cavm_pemx_pemoor_int_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t pemoor                : 1;  /**< [  0:  0](R/W1C/H) Indicates that the PEM MAC is out of reset. */
-#else /* Word 0 - Little Endian */
-        uint64_t pemoor                : 1;  /**< [  0:  0](R/W1C/H) Indicates that the PEM MAC is out of reset. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pemx_pemoor_int_s cn; */
-};
-typedef union cavm_pemx_pemoor_int cavm_pemx_pemoor_int_t;
-
-static inline uint64_t CAVM_PEMX_PEMOOR_INT(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PEMX_PEMOOR_INT(uint64_t a)
-{
-    if (a<=5)
-        return 0x8e0000000350ll + 0x1000000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("PEMX_PEMOOR_INT", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PEMX_PEMOOR_INT(a) cavm_pemx_pemoor_int_t
-#define bustype_CAVM_PEMX_PEMOOR_INT(a) CSR_TYPE_NCB
-#define basename_CAVM_PEMX_PEMOOR_INT(a) "PEMX_PEMOOR_INT"
-#define device_bar_CAVM_PEMX_PEMOOR_INT(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_PEMX_PEMOOR_INT(a) (a)
-#define arguments_CAVM_PEMX_PEMOOR_INT(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) pem#_pemoor_int_ena_w1c
- *
- * PEM PEMOOR Interrupt Enable Clear Register
- * This register clears interrupt enable bits.
- */
-union cavm_pemx_pemoor_int_ena_w1c
-{
-    uint64_t u;
-    struct cavm_pemx_pemoor_int_ena_w1c_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t pemoor                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PEM(0..5)_PEMOOR_INT[PEMOOR]. */
-#else /* Word 0 - Little Endian */
-        uint64_t pemoor                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PEM(0..5)_PEMOOR_INT[PEMOOR]. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pemx_pemoor_int_ena_w1c_s cn; */
-};
-typedef union cavm_pemx_pemoor_int_ena_w1c cavm_pemx_pemoor_int_ena_w1c_t;
-
-static inline uint64_t CAVM_PEMX_PEMOOR_INT_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PEMX_PEMOOR_INT_ENA_W1C(uint64_t a)
-{
-    if (a<=5)
-        return 0x8e0000000360ll + 0x1000000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("PEMX_PEMOOR_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PEMX_PEMOOR_INT_ENA_W1C(a) cavm_pemx_pemoor_int_ena_w1c_t
-#define bustype_CAVM_PEMX_PEMOOR_INT_ENA_W1C(a) CSR_TYPE_NCB
-#define basename_CAVM_PEMX_PEMOOR_INT_ENA_W1C(a) "PEMX_PEMOOR_INT_ENA_W1C"
-#define device_bar_CAVM_PEMX_PEMOOR_INT_ENA_W1C(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_PEMX_PEMOOR_INT_ENA_W1C(a) (a)
-#define arguments_CAVM_PEMX_PEMOOR_INT_ENA_W1C(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) pem#_pemoor_int_ena_w1s
- *
- * PEM PEMOOR Interrupt Enable Set Register
- * This register sets interrupt enable bits.
- */
-union cavm_pemx_pemoor_int_ena_w1s
-{
-    uint64_t u;
-    struct cavm_pemx_pemoor_int_ena_w1s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t pemoor                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PEM(0..5)_PEMOOR_INT[PEMOOR]. */
-#else /* Word 0 - Little Endian */
-        uint64_t pemoor                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PEM(0..5)_PEMOOR_INT[PEMOOR]. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pemx_pemoor_int_ena_w1s_s cn; */
-};
-typedef union cavm_pemx_pemoor_int_ena_w1s cavm_pemx_pemoor_int_ena_w1s_t;
-
-static inline uint64_t CAVM_PEMX_PEMOOR_INT_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PEMX_PEMOOR_INT_ENA_W1S(uint64_t a)
-{
-    if (a<=5)
-        return 0x8e0000000368ll + 0x1000000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("PEMX_PEMOOR_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PEMX_PEMOOR_INT_ENA_W1S(a) cavm_pemx_pemoor_int_ena_w1s_t
-#define bustype_CAVM_PEMX_PEMOOR_INT_ENA_W1S(a) CSR_TYPE_NCB
-#define basename_CAVM_PEMX_PEMOOR_INT_ENA_W1S(a) "PEMX_PEMOOR_INT_ENA_W1S"
-#define device_bar_CAVM_PEMX_PEMOOR_INT_ENA_W1S(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_PEMX_PEMOOR_INT_ENA_W1S(a) (a)
-#define arguments_CAVM_PEMX_PEMOOR_INT_ENA_W1S(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) pem#_pemoor_int_w1s
- *
- * PEM PEMOOR Interrupt Set Register
- * This register sets interrupt bits.
- */
-union cavm_pemx_pemoor_int_w1s
-{
-    uint64_t u;
-    struct cavm_pemx_pemoor_int_w1s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t pemoor                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PEM(0..5)_PEMOOR_INT[PEMOOR]. */
-#else /* Word 0 - Little Endian */
-        uint64_t pemoor                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PEM(0..5)_PEMOOR_INT[PEMOOR]. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pemx_pemoor_int_w1s_s cn; */
-};
-typedef union cavm_pemx_pemoor_int_w1s cavm_pemx_pemoor_int_w1s_t;
-
-static inline uint64_t CAVM_PEMX_PEMOOR_INT_W1S(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PEMX_PEMOOR_INT_W1S(uint64_t a)
-{
-    if (a<=5)
-        return 0x8e0000000358ll + 0x1000000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("PEMX_PEMOOR_INT_W1S", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PEMX_PEMOOR_INT_W1S(a) cavm_pemx_pemoor_int_w1s_t
-#define bustype_CAVM_PEMX_PEMOOR_INT_W1S(a) CSR_TYPE_NCB
-#define basename_CAVM_PEMX_PEMOOR_INT_W1S(a) "PEMX_PEMOOR_INT_W1S"
-#define device_bar_CAVM_PEMX_PEMOOR_INT_W1S(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_PEMX_PEMOOR_INT_W1S(a) (a)
-#define arguments_CAVM_PEMX_PEMOOR_INT_W1S(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) pem#_perr_status
@@ -5094,7 +4079,7 @@ typedef union cavm_pemx_perr_status cavm_pemx_perr_status_t;
 static inline uint64_t CAVM_PEMX_PERR_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_PERR_STATUS(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e00000001d8ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_PERR_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5109,7 +4094,7 @@ static inline uint64_t CAVM_PEMX_PERR_STATUS(uint64_t a)
 /**
  * Register (NCB) pem#_pf#_clr_flr_req
  *
- * PEMPEM PF Clear FLR Request Register
+ * PEM PF Clear FLR Request Register
  * This register provides clear request for PCIe PF function level reset (FLR).
  *
  * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
@@ -5138,8 +4123,8 @@ typedef union cavm_pemx_pfx_clr_flr_req cavm_pemx_pfx_clr_flr_req_t;
 static inline uint64_t CAVM_PEMX_PFX_CLR_FLR_REQ(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_PFX_CLR_FLR_REQ(uint64_t a, uint64_t b)
 {
-    if ((a<=5) && (b==0))
-        return 0x8e0000000a00ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+    if ((a<=7) && (b<=1))
+        return 0x8e0000000a00ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("PEMX_PFX_CLR_FLR_REQ", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -5159,8 +4144,8 @@ static inline uint64_t CAVM_PEMX_PFX_CLR_FLR_REQ(uint64_t a, uint64_t b)
  * simultaneously.)  Although an unsupported 64-bit access attempt will have
  * unpredictable results, it will not cause a hang situation.
  *
- * Index {c} is the register number, which is the configuration offset divided by 0x2;
- * e.g. index 0 is either for PCIERC_CMD/PCIEEP_CMD (DATA_HI) or PCIERC_ID/PCIEEP_ID (DATA_LO).
+ * Index {d} is the register number, which is the configuration offset divided by 0x4;
+ * e.g. index 1 is for PCIERC_CMD or PCIEEP_CMD.
  *
  * This register is accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
  *
@@ -5186,8 +4171,8 @@ typedef union cavm_pemx_pfx_csx_pfcfgx cavm_pemx_pfx_csx_pfcfgx_t;
 static inline uint64_t CAVM_PEMX_PFX_CSX_PFCFGX(uint64_t a, uint64_t b, uint64_t c, uint64_t d) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_PFX_CSX_PFCFGX(uint64_t a, uint64_t b, uint64_t c, uint64_t d)
 {
-    if ((a<=5) && (b==0) && (c<=1) && (d<=511))
-        return 0x8e0000008000ll + 0x1000000000ll * ((a) & 0x7) + 0x40000ll * ((b) & 0x0) + 0x10000ll * ((c) & 0x1) + 8ll * ((d) & 0x1ff);
+    if ((a<=7) && (b<=1) && (c<=1) && (d<=511))
+        return 0x8e0000008000ll + 0x1000000000ll * ((a) & 0x7) + 0x40000ll * ((b) & 0x1) + 0x10000ll * ((c) & 0x1) + 8ll * ((d) & 0x1ff);
     __cavm_csr_fatal("PEMX_PFX_CSX_PFCFGX", 4, a, b, c, d, 0, 0);
 }
 
@@ -5216,9 +4201,7 @@ union cavm_pemx_pfx_ctl_status
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
-        uint64_t ob_p_cmd              : 1;  /**< [  4:  4](WO) Wake up (Not Supported).
-
-                                                                 Writing to a one to set this bit creates a pulse
+        uint64_t ob_p_cmd              : 1;  /**< [  4:  4](WO) Wake up.  Writing to a one to set this bit creates a pulse
                                                                  in the application to wake up the PMC state machine
                                                                  from a D1, D2 or D3 power state. This bit will always
                                                                  read a zero.
@@ -5248,9 +4231,7 @@ union cavm_pemx_pfx_ctl_status
                                                                  The reset controller can decide whether to reset the chip core based on this indication.
                                                                  These bits control which PFs can notify of the reset controller.  If the corresponding
                                                                  bit is set, the PF-FLR will be forwarded to the reset controller. */
-        uint64_t ob_p_cmd              : 1;  /**< [  4:  4](WO) Wake up (Not Supported).
-
-                                                                 Writing to a one to set this bit creates a pulse
+        uint64_t ob_p_cmd              : 1;  /**< [  4:  4](WO) Wake up.  Writing to a one to set this bit creates a pulse
                                                                  in the application to wake up the PMC state machine
                                                                  from a D1, D2 or D3 power state. This bit will always
                                                                  read a zero.
@@ -5265,8 +4246,8 @@ typedef union cavm_pemx_pfx_ctl_status cavm_pemx_pfx_ctl_status_t;
 static inline uint64_t CAVM_PEMX_PFX_CTL_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_PFX_CTL_STATUS(uint64_t a, uint64_t b)
 {
-    if ((a<=5) && (b==0))
-        return 0x8e0000000800ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+    if ((a<=7) && (b<=1))
+        return 0x8e0000000800ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("PEMX_PFX_CTL_STATUS", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -5280,14 +4261,14 @@ static inline uint64_t CAVM_PEMX_PFX_CTL_STATUS(uint64_t a, uint64_t b)
 /**
  * Register (NCB) pem#_pf#_vf#_vfcfg#
  *
- * PEMPEM PCIe Direct Config VF Registers
+ * PEM PCIe Direct Config VF Registers
  * This register is used to modify VF configuration space. It can only be accessed
  * using 32-bit instructions (either [DATA_LO] or [DATA_HI] but not both
  * simultaneously.)  Although an unsupported 64-bit access attempt will have
  * unpredictable results, it will not cause a hang situation.
  *
- * Index {c} is the register number, which is the configuration offset divided by 0x2;
- * e.g. index 0 is either for PCIEEPVF_CMD (DATA_HI) or PCIEEPVF_ID (DATA_LO).
+ * Index {d} is the register number, which is the configuration offset divided by 0x4;
+ * e.g. index 1 is for PCIEEPVF_CMD.
  *
  * This register is accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
  *
@@ -5313,8 +4294,8 @@ typedef union cavm_pemx_pfx_vfx_vfcfgx cavm_pemx_pfx_vfx_vfcfgx_t;
 static inline uint64_t CAVM_PEMX_PFX_VFX_VFCFGX(uint64_t a, uint64_t b, uint64_t c, uint64_t d) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_PFX_VFX_VFCFGX(uint64_t a, uint64_t b, uint64_t c, uint64_t d)
 {
-    if ((a<=5) && (b==0) && (c<=63) && (d<=511))
-        return 0x8e0000028000ll + 0x1000000000ll * ((a) & 0x7) + 0x40000ll * ((b) & 0x0) + 0x400000ll * ((c) & 0x3f) + 8ll * ((d) & 0x1ff);
+    if ((a<=7) && (b<=1) && (c<=63) && (d<=511))
+        return 0x8e0000028000ll + 0x1000000000ll * ((a) & 0x7) + 0x40000ll * ((b) & 0x1) + 0x400000ll * ((c) & 0x3f) + 8ll * ((d) & 0x1ff);
     __cavm_csr_fatal("PEMX_PFX_VFX_VFCFGX", 4, a, b, c, d, 0, 0);
 }
 
@@ -5361,7 +4342,7 @@ typedef union cavm_pemx_pspi_tlp_credits cavm_pemx_pspi_tlp_credits_t;
 static inline uint64_t CAVM_PEMX_PSPI_TLP_CREDITS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_PSPI_TLP_CREDITS(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000038ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_PSPI_TLP_CREDITS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5391,7 +4372,7 @@ union cavm_pemx_ptm_ctl
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_12_63        : 52;
         uint64_t ptm_auto_update       : 1;  /**< [ 11: 11](R/W) When set, indicates the Mac should update the PTM requester context
-                                                                 automatically every 10 ms (Not Supported). */
+                                                                 automatically every 10 ms. */
         uint64_t ptm_lcl_cap           : 1;  /**< [ 10: 10](WO) When set, causes a hardware pulse to update the following:
 
                                                                  The local time (PCIEEP_PTM_REQ_LOCALL & PCIEEP_PTM_REQ_LOCALM) is
@@ -5414,15 +4395,13 @@ union cavm_pemx_ptm_ctl
 
                                                                  To calculate an accurate delay:
 
-                                                                   [PTM_MSTR_ADJ] = 2 gclk (100Mhz) cycles + channel_flop_delays (100Mhz) + 3.5 pclk cycles.
+                                                                   [PTM_MSTR_ADJ] = 2 sclk cycles + channel_flop_delay + 3.5 core_clk cycles.
 
-                                                                   channel_flop_delay is by PCX.
-                                                                   PCX3: 3 flops  (QPEM12-15)
-                                                                   PCX2: 6 flops (FPEM8, HPEM10, QPEM9/11)
-                                                                   PCX1: 9 flops (FPEM4, HPEM6, QPEM5/7)
-                                                                   PCX0: 12 flops (FPEM0, HPEM2, QPEM1/3)
+                                                                   channel_flop_delay (PEM2 and PEM3 when [PTM_MSTR_SEL] is 0) = 6 sclk cycles
+                                                                   channel_flop_delay (All other cases) = 5 sclk cycles
 
-                                                                 The default value assumes the PCX0 MAC operating at GEN1 (62.5Mhz). */
+                                                                 The default value assumes the MAC is operating at GEN1, and there are 2 channel
+                                                                 flops on the master time inputs. */
 #else /* Word 0 - Little Endian */
         uint64_t ptm_mstr_adj          : 8;  /**< [  7:  0](R/W) This value (in ns) is added to the selected ([PTM_MSTR_SEL]) master time input
                                                                  to account for insertion (including clock domain crossing) delays, before
@@ -5430,15 +4409,13 @@ union cavm_pemx_ptm_ctl
 
                                                                  To calculate an accurate delay:
 
-                                                                   [PTM_MSTR_ADJ] = 2 gclk (100Mhz) cycles + channel_flop_delays (100Mhz) + 3.5 pclk cycles.
+                                                                   [PTM_MSTR_ADJ] = 2 sclk cycles + channel_flop_delay + 3.5 core_clk cycles.
 
-                                                                   channel_flop_delay is by PCX.
-                                                                   PCX3: 3 flops  (QPEM12-15)
-                                                                   PCX2: 6 flops (FPEM8, HPEM10, QPEM9/11)
-                                                                   PCX1: 9 flops (FPEM4, HPEM6, QPEM5/7)
-                                                                   PCX0: 12 flops (FPEM0, HPEM2, QPEM1/3)
+                                                                   channel_flop_delay (PEM2 and PEM3 when [PTM_MSTR_SEL] is 0) = 6 sclk cycles
+                                                                   channel_flop_delay (All other cases) = 5 sclk cycles
 
-                                                                 The default value assumes the PCX0 MAC operating at GEN1 (62.5Mhz). */
+                                                                 The default value assumes the MAC is operating at GEN1, and there are 2 channel
+                                                                 flops on the master time inputs. */
         uint64_t ptm_mstr_sel          : 1;  /**< [  8:  8](R/W) Determines for precision time management protocol which master clock input to use.
                                                                  0 = Master clock from PTP timestamp.
                                                                  1 = Master clock from GTI_CC_CNTCV. */
@@ -5456,7 +4433,7 @@ union cavm_pemx_ptm_ctl
 
                                                                  This bit will always read as a zero. */
         uint64_t ptm_auto_update       : 1;  /**< [ 11: 11](R/W) When set, indicates the Mac should update the PTM requester context
-                                                                 automatically every 10 ms (Not Supported). */
+                                                                 automatically every 10 ms. */
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } s;
@@ -5467,7 +4444,7 @@ typedef union cavm_pemx_ptm_ctl cavm_pemx_ptm_ctl_t;
 static inline uint64_t CAVM_PEMX_PTM_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_PTM_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000098ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_PTM_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5511,7 +4488,7 @@ typedef union cavm_pemx_ptm_lcl_time cavm_pemx_ptm_lcl_time_t;
 static inline uint64_t CAVM_PEMX_PTM_LCL_TIME(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_PTM_LCL_TIME(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e00000000a0ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_PTM_LCL_TIME", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5555,7 +4532,7 @@ typedef union cavm_pemx_ptm_mas_time cavm_pemx_ptm_mas_time_t;
 static inline uint64_t CAVM_PEMX_PTM_MAS_TIME(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_PTM_MAS_TIME(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e00000000a8ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_PTM_MAS_TIME", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5613,7 +4590,7 @@ typedef union cavm_pemx_ras_tba_ctl cavm_pemx_ras_tba_ctl_t;
 static inline uint64_t CAVM_PEMX_RAS_TBA_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_RAS_TBA_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000068ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_RAS_TBA_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5624,6 +4601,62 @@ static inline uint64_t CAVM_PEMX_RAS_TBA_CTL(uint64_t a)
 #define device_bar_CAVM_PEMX_RAS_TBA_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_RAS_TBA_CTL(a) (a)
 #define arguments_CAVM_PEMX_RAS_TBA_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) pem#_reads_pc
+ *
+ * PEM Read Count Register
+ * This register contains read count for debugging purposes.
+ *
+ * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
+ *
+ * This register is reset on core domain reset.
+ */
+union cavm_pemx_reads_pc
+{
+    uint64_t u;
+    struct cavm_pemx_reads_pc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reads                 : 64; /**< [ 63:  0](R/W/H) Total number of NCBO or EBO reads from remote memory since latency tracking logic was
+                                                                 enabled.  PEM()_LATENCY_PC_CTL[EBO_SEL] controls which outbound bus has its reads
+                                                                 latency tracked.  This register can only be written by software when
+                                                                 PEM()_LATENCY_PC_CTL[ACTIVE] is clear.  Software can calculate the average read
+                                                                 latency through PEM and external PCIe interface with the following calculation:
+                                                                   * Average Latency = PEM()_LATENCY_PC[LATENCY] / PEM()_READS_PC[READS] * 10 ns
+                                                                 This calculation can be done at any time while PEM()_LATENCY_PC_CTL[ACTIVE] is set,
+                                                                 but will only be fully accurate by following the control flow outlined in the
+                                                                 PEM()_LATENCY_PC_CTL[ACTIVE] description. */
+#else /* Word 0 - Little Endian */
+        uint64_t reads                 : 64; /**< [ 63:  0](R/W/H) Total number of NCBO or EBO reads from remote memory since latency tracking logic was
+                                                                 enabled.  PEM()_LATENCY_PC_CTL[EBO_SEL] controls which outbound bus has its reads
+                                                                 latency tracked.  This register can only be written by software when
+                                                                 PEM()_LATENCY_PC_CTL[ACTIVE] is clear.  Software can calculate the average read
+                                                                 latency through PEM and external PCIe interface with the following calculation:
+                                                                   * Average Latency = PEM()_LATENCY_PC[LATENCY] / PEM()_READS_PC[READS] * 10 ns
+                                                                 This calculation can be done at any time while PEM()_LATENCY_PC_CTL[ACTIVE] is set,
+                                                                 but will only be fully accurate by following the control flow outlined in the
+                                                                 PEM()_LATENCY_PC_CTL[ACTIVE] description. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pemx_reads_pc_s cn; */
+};
+typedef union cavm_pemx_reads_pc cavm_pemx_reads_pc_t;
+
+static inline uint64_t CAVM_PEMX_READS_PC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PEMX_READS_PC(uint64_t a)
+{
+    if (a<=7)
+        return 0x8e0000000120ll + 0x1000000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("PEMX_READS_PC", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PEMX_READS_PC(a) cavm_pemx_reads_pc_t
+#define bustype_CAVM_PEMX_READS_PC(a) CSR_TYPE_NCB
+#define basename_CAVM_PEMX_READS_PC(a) "PEMX_READS_PC"
+#define device_bar_CAVM_PEMX_READS_PC(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_PEMX_READS_PC(a) (a)
+#define arguments_CAVM_PEMX_READS_PC(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) pem#_reg_ctl
@@ -5657,7 +4690,7 @@ typedef union cavm_pemx_reg_ctl cavm_pemx_reg_ctl_t;
 static inline uint64_t CAVM_PEMX_REG_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_REG_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000060ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_REG_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5772,7 +4805,7 @@ typedef union cavm_pemx_reg_normx_acc cavm_pemx_reg_normx_acc_t;
 static inline uint64_t CAVM_PEMX_REG_NORMX_ACC(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_REG_NORMX_ACC(uint64_t a, uint64_t b)
 {
-    if ((a<=5) && (b<=255))
+    if ((a<=7) && (b<=255))
         return 0x8e0000004000ll + 0x1000000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0xff);
     __cavm_csr_fatal("PEMX_REG_NORMX_ACC", 2, a, b, 0, 0, 0, 0);
 }
@@ -5810,7 +4843,7 @@ typedef union cavm_pemx_reg_normx_acc2 cavm_pemx_reg_normx_acc2_t;
 static inline uint64_t CAVM_PEMX_REG_NORMX_ACC2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_REG_NORMX_ACC2(uint64_t a, uint64_t b)
 {
-    if ((a<=5) && (b<=255))
+    if ((a<=7) && (b<=255))
         return 0x8e0000004008ll + 0x1000000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0xff);
     __cavm_csr_fatal("PEMX_REG_NORMX_ACC2", 2, a, b, 0, 0, 0, 0);
 }
@@ -5821,6 +4854,88 @@ static inline uint64_t CAVM_PEMX_REG_NORMX_ACC2(uint64_t a, uint64_t b)
 #define device_bar_CAVM_PEMX_REG_NORMX_ACC2(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_REG_NORMX_ACC2(a,b) (a)
 #define arguments_CAVM_PEMX_REG_NORMX_ACC2(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) pem#_rmerge_merged_pc
+ *
+ * PEM Merge Reads Merged Performance Counter Register
+ * This register reports how many reads merged within the outbound read merge unit.
+ *
+ * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
+ *
+ * This register is reset on core domain reset.
+ */
+union cavm_pemx_rmerge_merged_pc
+{
+    uint64_t u;
+    struct cavm_pemx_rmerge_merged_pc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t rmerge_merged         : 64; /**< [ 63:  0](R/W/H) Each NCBO read operation mapped to MEM type by the ACC table that merges with a previous
+                                                                 read will increment this count. */
+#else /* Word 0 - Little Endian */
+        uint64_t rmerge_merged         : 64; /**< [ 63:  0](R/W/H) Each NCBO read operation mapped to MEM type by the ACC table that merges with a previous
+                                                                 read will increment this count. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pemx_rmerge_merged_pc_s cn; */
+};
+typedef union cavm_pemx_rmerge_merged_pc cavm_pemx_rmerge_merged_pc_t;
+
+static inline uint64_t CAVM_PEMX_RMERGE_MERGED_PC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PEMX_RMERGE_MERGED_PC(uint64_t a)
+{
+    if (a<=7)
+        return 0x8e00000001a8ll + 0x1000000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("PEMX_RMERGE_MERGED_PC", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PEMX_RMERGE_MERGED_PC(a) cavm_pemx_rmerge_merged_pc_t
+#define bustype_CAVM_PEMX_RMERGE_MERGED_PC(a) CSR_TYPE_NCB
+#define basename_CAVM_PEMX_RMERGE_MERGED_PC(a) "PEMX_RMERGE_MERGED_PC"
+#define device_bar_CAVM_PEMX_RMERGE_MERGED_PC(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_PEMX_RMERGE_MERGED_PC(a) (a)
+#define arguments_CAVM_PEMX_RMERGE_MERGED_PC(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) pem#_rmerge_received_pc
+ *
+ * PEM Merge Reads Received Performance Counter Register
+ * This register reports the number of reads that enter the outbound read merge unit.
+ *
+ * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
+ *
+ * This register is reset on core domain reset.
+ */
+union cavm_pemx_rmerge_received_pc
+{
+    uint64_t u;
+    struct cavm_pemx_rmerge_received_pc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t rmerge_reads          : 64; /**< [ 63:  0](R/W/H) Each NCBO read operation mapped to MEM type by the ACC table will increment this count. */
+#else /* Word 0 - Little Endian */
+        uint64_t rmerge_reads          : 64; /**< [ 63:  0](R/W/H) Each NCBO read operation mapped to MEM type by the ACC table will increment this count. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pemx_rmerge_received_pc_s cn; */
+};
+typedef union cavm_pemx_rmerge_received_pc cavm_pemx_rmerge_received_pc_t;
+
+static inline uint64_t CAVM_PEMX_RMERGE_RECEIVED_PC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PEMX_RMERGE_RECEIVED_PC(uint64_t a)
+{
+    if (a<=7)
+        return 0x8e00000001a0ll + 0x1000000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("PEMX_RMERGE_RECEIVED_PC", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PEMX_RMERGE_RECEIVED_PC(a) cavm_pemx_rmerge_received_pc_t
+#define bustype_CAVM_PEMX_RMERGE_RECEIVED_PC(a) CSR_TYPE_NCB
+#define basename_CAVM_PEMX_RMERGE_RECEIVED_PC(a) "PEMX_RMERGE_RECEIVED_PC"
+#define device_bar_CAVM_PEMX_RMERGE_RECEIVED_PC(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_PEMX_RMERGE_RECEIVED_PC(a) (a)
+#define arguments_CAVM_PEMX_RMERGE_RECEIVED_PC(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) pem#_rst_cold_state_w1c
@@ -5868,7 +4983,7 @@ typedef union cavm_pemx_rst_cold_state_w1c cavm_pemx_rst_cold_state_w1c_t;
 static inline uint64_t CAVM_PEMX_RST_COLD_STATE_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_RST_COLD_STATE_W1C(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000320ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_RST_COLD_STATE_W1C", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5921,7 +5036,7 @@ typedef union cavm_pemx_rst_cold_state_w1s cavm_pemx_rst_cold_state_w1s_t;
 static inline uint64_t CAVM_PEMX_RST_COLD_STATE_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_RST_COLD_STATE_W1S(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000328ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_RST_COLD_STATE_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5991,7 +5106,7 @@ typedef union cavm_pemx_rst_int cavm_pemx_rst_int_t;
 static inline uint64_t CAVM_PEMX_RST_INT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_RST_INT(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000300ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_RST_INT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6016,13 +5131,13 @@ union cavm_pemx_rst_int_ena_w1c
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_3_63         : 61;
-        uint64_t l2                    : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PEM(0..5)_RST_INT[L2]. */
-        uint64_t linkdown              : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PEM(0..5)_RST_INT[LINKDOWN]. */
-        uint64_t perst                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PEM(0..5)_RST_INT[PERST]. */
+        uint64_t l2                    : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PEM(0..7)_RST_INT[L2]. */
+        uint64_t linkdown              : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PEM(0..7)_RST_INT[LINKDOWN]. */
+        uint64_t perst                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PEM(0..7)_RST_INT[PERST]. */
 #else /* Word 0 - Little Endian */
-        uint64_t perst                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PEM(0..5)_RST_INT[PERST]. */
-        uint64_t linkdown              : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PEM(0..5)_RST_INT[LINKDOWN]. */
-        uint64_t l2                    : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PEM(0..5)_RST_INT[L2]. */
+        uint64_t perst                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PEM(0..7)_RST_INT[PERST]. */
+        uint64_t linkdown              : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PEM(0..7)_RST_INT[LINKDOWN]. */
+        uint64_t l2                    : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PEM(0..7)_RST_INT[L2]. */
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;
@@ -6033,7 +5148,7 @@ typedef union cavm_pemx_rst_int_ena_w1c cavm_pemx_rst_int_ena_w1c_t;
 static inline uint64_t CAVM_PEMX_RST_INT_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_RST_INT_ENA_W1C(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000310ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_RST_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6058,13 +5173,13 @@ union cavm_pemx_rst_int_ena_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_3_63         : 61;
-        uint64_t l2                    : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PEM(0..5)_RST_INT[L2]. */
-        uint64_t linkdown              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PEM(0..5)_RST_INT[LINKDOWN]. */
-        uint64_t perst                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PEM(0..5)_RST_INT[PERST]. */
+        uint64_t l2                    : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PEM(0..7)_RST_INT[L2]. */
+        uint64_t linkdown              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PEM(0..7)_RST_INT[LINKDOWN]. */
+        uint64_t perst                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PEM(0..7)_RST_INT[PERST]. */
 #else /* Word 0 - Little Endian */
-        uint64_t perst                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PEM(0..5)_RST_INT[PERST]. */
-        uint64_t linkdown              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PEM(0..5)_RST_INT[LINKDOWN]. */
-        uint64_t l2                    : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PEM(0..5)_RST_INT[L2]. */
+        uint64_t perst                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PEM(0..7)_RST_INT[PERST]. */
+        uint64_t linkdown              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PEM(0..7)_RST_INT[LINKDOWN]. */
+        uint64_t l2                    : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PEM(0..7)_RST_INT[L2]. */
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;
@@ -6075,7 +5190,7 @@ typedef union cavm_pemx_rst_int_ena_w1s cavm_pemx_rst_int_ena_w1s_t;
 static inline uint64_t CAVM_PEMX_RST_INT_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_RST_INT_ENA_W1S(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000318ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_RST_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6100,13 +5215,13 @@ union cavm_pemx_rst_int_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_3_63         : 61;
-        uint64_t l2                    : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PEM(0..5)_RST_INT[L2]. */
-        uint64_t linkdown              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PEM(0..5)_RST_INT[LINKDOWN]. */
-        uint64_t perst                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PEM(0..5)_RST_INT[PERST]. */
+        uint64_t l2                    : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PEM(0..7)_RST_INT[L2]. */
+        uint64_t linkdown              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PEM(0..7)_RST_INT[LINKDOWN]. */
+        uint64_t perst                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PEM(0..7)_RST_INT[PERST]. */
 #else /* Word 0 - Little Endian */
-        uint64_t perst                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PEM(0..5)_RST_INT[PERST]. */
-        uint64_t linkdown              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PEM(0..5)_RST_INT[LINKDOWN]. */
-        uint64_t l2                    : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PEM(0..5)_RST_INT[L2]. */
+        uint64_t perst                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PEM(0..7)_RST_INT[PERST]. */
+        uint64_t linkdown              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PEM(0..7)_RST_INT[LINKDOWN]. */
+        uint64_t l2                    : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PEM(0..7)_RST_INT[L2]. */
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;
@@ -6117,7 +5232,7 @@ typedef union cavm_pemx_rst_int_w1s cavm_pemx_rst_int_w1s_t;
 static inline uint64_t CAVM_PEMX_RST_INT_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_RST_INT_W1S(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000308ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_RST_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6163,7 +5278,7 @@ typedef union cavm_pemx_rst_lboot cavm_pemx_rst_lboot_t;
 static inline uint64_t CAVM_PEMX_RST_LBOOT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_RST_LBOOT(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000280ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_RST_LBOOT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6179,7 +5294,7 @@ static inline uint64_t CAVM_PEMX_RST_LBOOT(uint64_t a)
  * Register (NCB) pem#_rst_mac
  *
  * PEM Reset Mac Register
- * This register provides controls and modes related to resets to the MAC.
+ * This register provides a mechanism to reset the Mac.
  *
  * This register is accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
  *
@@ -6191,36 +5306,7 @@ union cavm_pemx_rst_mac
     struct cavm_pemx_rst_mac_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_9_63         : 55;
-        uint64_t insecure_mode         : 1;  /**< [  8:  8](R/W) For PEMs where IDE is supported, if the IDE logic detects a transition from Secure
-                                                                 state to Insecure state due to a Type 1 Error, this mode will force the PEM to auto-
-                                                                 drop new traffic arriving over NCBO, and return completions with error for every new
-                                                                 nonposted that arrives. PEM will also return completion with error for every outstanding
-                                                                 nonposted that has previously been sent. To exit this drop mode and retrain the link,
-                                                                 a MAC reset is required, the recommended mechanism being software setting then
-                                                                 clearing PCIERC_INT[SBRST].
-
-                                                                 1 = Drop all oubound and inbound traffic and enter auto-complete mode for nonposteds.
-
-                                                                 0 = Drop all outbound and inbound traffic but do not auto-complete nonposteds. May
-                                                                 result in system instability until the link is reset. At the time the link is reset,
-                                                                 all outstanding completions will be returned with error. */
-        uint64_t mac_perst             : 1;  /**< [  7:  7](R/W) When set, asserts PERST input to the MAC. */
-        uint64_t ns_rst                : 1;  /**< [  6:  6](R/W) When set, asserts nonsticky reset which resets the root bridge or endpoint config space. */
-        uint64_t ns_mode               : 1;  /**< [  5:  5](R/W) Setting this bit to 0 when operating in root complex mode will preserve the PCIe root bridge
-                                                                 config state during a hot plug operation. This may be desireable operation to support native
-                                                                 Linux hot plug. Note this bit MUST be set to 1 when entering L2 state by means of writing
-                                                                 PEM_CTL_STATUS[PM_XTOFF] and the root bridge state cannot be preserved during L2 state.
-
-                                                                 * If set to 1, and PEM_CFG[HOSTMD] is 1, the nonsticky reset which controls the
-                                                                   PCIe root bridge config space will get reset on a link down. This also enables
-                                                                   PERST to be asserted to the MAC when asserted to the external device as an RC.
-                                                                   This is the legacy behavior.
-                                                                 * If set to 0, and PEM_CFG[HOSTMD] is 1, then the nonsticky reset will not get
-                                                                   asserted on a link down, and PERST will not get asserted to the MAC. [ACLR] must be 1
-                                                                   in this case for proper operation.
-                                                                 * If PEM_CFG[HOSTMD] is 0, then a link down will always cause a nonsticky reset,
-                                                                   and PERST input will be driven to the MAC, and this bit has no effect. */
+        uint64_t reserved_5_63         : 59;
         uint64_t dis_pipe_rst          : 1;  /**< [  4:  4](R/W) For LTSSM transitions into DETECT_QUIET after reaching CONFIG, the application will
                                                                  insure the pipe reset is asserted.   Setting this bit will disable this function. */
         uint64_t diag_clr_phystatus    : 1;  /**< [  3:  3](R/W) This is a diagnostic bit to force the pipe phystatus inputs to the Mac low. */
@@ -6234,36 +5320,7 @@ union cavm_pemx_rst_mac
         uint64_t diag_clr_phystatus    : 1;  /**< [  3:  3](R/W) This is a diagnostic bit to force the pipe phystatus inputs to the Mac low. */
         uint64_t dis_pipe_rst          : 1;  /**< [  4:  4](R/W) For LTSSM transitions into DETECT_QUIET after reaching CONFIG, the application will
                                                                  insure the pipe reset is asserted.   Setting this bit will disable this function. */
-        uint64_t ns_mode               : 1;  /**< [  5:  5](R/W) Setting this bit to 0 when operating in root complex mode will preserve the PCIe root bridge
-                                                                 config state during a hot plug operation. This may be desireable operation to support native
-                                                                 Linux hot plug. Note this bit MUST be set to 1 when entering L2 state by means of writing
-                                                                 PEM_CTL_STATUS[PM_XTOFF] and the root bridge state cannot be preserved during L2 state.
-
-                                                                 * If set to 1, and PEM_CFG[HOSTMD] is 1, the nonsticky reset which controls the
-                                                                   PCIe root bridge config space will get reset on a link down. This also enables
-                                                                   PERST to be asserted to the MAC when asserted to the external device as an RC.
-                                                                   This is the legacy behavior.
-                                                                 * If set to 0, and PEM_CFG[HOSTMD] is 1, then the nonsticky reset will not get
-                                                                   asserted on a link down, and PERST will not get asserted to the MAC. [ACLR] must be 1
-                                                                   in this case for proper operation.
-                                                                 * If PEM_CFG[HOSTMD] is 0, then a link down will always cause a nonsticky reset,
-                                                                   and PERST input will be driven to the MAC, and this bit has no effect. */
-        uint64_t ns_rst                : 1;  /**< [  6:  6](R/W) When set, asserts nonsticky reset which resets the root bridge or endpoint config space. */
-        uint64_t mac_perst             : 1;  /**< [  7:  7](R/W) When set, asserts PERST input to the MAC. */
-        uint64_t insecure_mode         : 1;  /**< [  8:  8](R/W) For PEMs where IDE is supported, if the IDE logic detects a transition from Secure
-                                                                 state to Insecure state due to a Type 1 Error, this mode will force the PEM to auto-
-                                                                 drop new traffic arriving over NCBO, and return completions with error for every new
-                                                                 nonposted that arrives. PEM will also return completion with error for every outstanding
-                                                                 nonposted that has previously been sent. To exit this drop mode and retrain the link,
-                                                                 a MAC reset is required, the recommended mechanism being software setting then
-                                                                 clearing PCIERC_INT[SBRST].
-
-                                                                 1 = Drop all oubound and inbound traffic and enter auto-complete mode for nonposteds.
-
-                                                                 0 = Drop all outbound and inbound traffic but do not auto-complete nonposteds. May
-                                                                 result in system instability until the link is reset. At the time the link is reset,
-                                                                 all outstanding completions will be returned with error. */
-        uint64_t reserved_9_63         : 55;
+        uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pemx_rst_mac_s cn; */
@@ -6273,7 +5330,7 @@ typedef union cavm_pemx_rst_mac cavm_pemx_rst_mac_t;
 static inline uint64_t CAVM_PEMX_RST_MAC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_RST_MAC(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000290ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_RST_MAC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6355,7 +5412,7 @@ typedef union cavm_pemx_rst_soft_perst cavm_pemx_rst_soft_perst_t;
 static inline uint64_t CAVM_PEMX_RST_SOFT_PERST(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_RST_SOFT_PERST(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000298ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_RST_SOFT_PERST", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6396,10 +5453,8 @@ union cavm_pemx_s_rst_ctl
                                                                  specified by [RESET_TYPE].
 
                                                                  On a cold reset, the field is initialized as follows:
-                                                                 _ 0 when PEM_CFG[HOSTMD] is set.
-                                                                 _ 1 when PEM_CFG[HOSTMD] is cleared.
-
-                                                                 This field should not be set to 1 when PEM_CFG[HOSTMD] is set.
+                                                                 _ 0 when PEM()_CFG.HOSTMD is set.
+                                                                 _ 1 when PEM()_CFG.HOSTMD is cleared.
 
                                                                  0 = Upon a Powerdown event PEM()_RST_COLD_STATE_W1S[RST_L2] will be set.
                                                                  1 = Upon a Powerdown event no L2 interrupt will occur, regardless of
@@ -6424,9 +5479,7 @@ union cavm_pemx_s_rst_ctl
 
                                                                  On cold reset, this field is initialized as follows:
                                                                  _ 0 when PEM()_CFG[HOSTMD] = 1.
-                                                                 _ 1 when PEM()_CFG[HOSTMD] = 0.
-
-                                                                 This field should not be set to 1 when PEM_CFG[HOSTMD] is set. */
+                                                                 _ 1 when PEM()_CFG[HOSTMD] = 0. */
         uint64_t rst_lnkdwn            : 1;  /**< [  9:  9](SR/W) Link down / hot reset event internal reset enable.
                                                                  0 = Link down or hot reset do not cause an internal reset.
                                                                  1 = A link-down or hot-reset event on the PCIe interface causes the internal
@@ -6435,8 +5488,6 @@ union cavm_pemx_s_rst_ctl
                                                                  On a cold reset, the field is initialized as follows:
                                                                  _ 0 when PEM()_CFG[HOSTMD] is set.
                                                                  _ 1 when PEM()_CFG[HOSTMD] is cleared.
-
-                                                                 This field should not be set to 1 when PEM_CFG[HOSTMD] is set.
 
                                                                  0 = Upon a Linkdown event PEM()_RST_COLD_STATE_W1S[RST_LINKDWN] will be set.
                                                                  1 = Upon a Linkdown event no LINKDWN interrupt will occur, Regardless of
@@ -6568,8 +5619,6 @@ union cavm_pemx_s_rst_ctl
                                                                  _ 0 when PEM()_CFG[HOSTMD] is set.
                                                                  _ 1 when PEM()_CFG[HOSTMD] is cleared.
 
-                                                                 This field should not be set to 1 when PEM_CFG[HOSTMD] is set.
-
                                                                  0 = Upon a Linkdown event PEM()_RST_COLD_STATE_W1S[RST_LINKDWN] will be set.
                                                                  1 = Upon a Linkdown event no LINKDWN interrupt will occur, Regardless of
                                                                  PEM()_RST_INT_ENA_W1S[RST_LINKDWN]
@@ -6583,9 +5632,7 @@ union cavm_pemx_s_rst_ctl
 
                                                                  On cold reset, this field is initialized as follows:
                                                                  _ 0 when PEM()_CFG[HOSTMD] = 1.
-                                                                 _ 1 when PEM()_CFG[HOSTMD] = 0.
-
-                                                                 This field should not be set to 1 when PEM_CFG[HOSTMD] is set. */
+                                                                 _ 1 when PEM()_CFG[HOSTMD] = 0. */
         uint64_t prst_l2               : 1;  /**< [ 11: 11](SR/W) PEM reset on power down.
                                                                  0 = PEM entering L2/P2 power state will set PEM()_RST_INT[RST_L2] for the
                                                                  corresponding controller, and (provided properly configured) the link should
@@ -6602,10 +5649,8 @@ union cavm_pemx_s_rst_ctl
                                                                  specified by [RESET_TYPE].
 
                                                                  On a cold reset, the field is initialized as follows:
-                                                                 _ 0 when PEM_CFG[HOSTMD] is set.
-                                                                 _ 1 when PEM_CFG[HOSTMD] is cleared.
-
-                                                                 This field should not be set to 1 when PEM_CFG[HOSTMD] is set.
+                                                                 _ 0 when PEM()_CFG.HOSTMD is set.
+                                                                 _ 1 when PEM()_CFG.HOSTMD is cleared.
 
                                                                  0 = Upon a Powerdown event PEM()_RST_COLD_STATE_W1S[RST_L2] will be set.
                                                                  1 = Upon a Powerdown event no L2 interrupt will occur, regardless of
@@ -6633,7 +5678,7 @@ typedef union cavm_pemx_s_rst_ctl cavm_pemx_s_rst_ctl_t;
 static inline uint64_t CAVM_PEMX_S_RST_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_S_RST_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000288ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_S_RST_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6679,7 +5724,7 @@ typedef union cavm_pemx_strap cavm_pemx_strap_t;
 static inline uint64_t CAVM_PEMX_STRAP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_STRAP(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e00000000d0ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_STRAP", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6692,1029 +5737,9 @@ static inline uint64_t CAVM_PEMX_STRAP(uint64_t a)
 #define arguments_CAVM_PEMX_STRAP(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_vdm#_ctl
- *
- * PEM VDM Control Register
- * This register provides control of the Vendor Defined Message (VDM) inbound
- * and outbound message mailboxes. Type 1 PCIe VDM messages are received and sent
- * via the VDM message mailbox interface.
- *
- * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
- *
- * This register is reset on core domain reset.
- *
- * This register is restricted to 64-bit access. Unsupported 32-bit access will
- * have unpredictable results, however will not cause an access hang or timeout.
- *
- * The operation of this register is restricted if PEMSEC()_VDM()_CFG[VDM_SEC_MODE]
- * is set to 1. Refer to the PEMSEC()_VDM()_CFG register description.
- */
-union cavm_pemx_vdmx_ctl
-{
-    uint64_t u;
-    struct cavm_pemx_vdmx_ctl_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t ob_mbx_snd            : 1;  /**< [ 31: 31](WO/H) Outbound Message Mailbox Send.
-
-                                                                 Set [OB_MBX_SND] to 1 to start an outbound VDM message transmission.
-                                                                 This bit is self-clearing.
-
-                                                                 The following registers must be programmed before setting the [OB_MBX_SND]
-                                                                 bit to 1. Refer to the description for these registers for more information..
-                                                                       PEM()_VDM()_OB_HDRL
-                                                                       PEM()_VDM()_OB_HDRH
-                                                                       PEM()_VDM()_OB_PLD */
-        uint64_t reserved_4_30         : 27;
-        uint64_t mbx_cfg               : 1;  /**< [  3:  3](R/W) Reserved. */
-        uint64_t reserved_2            : 1;
-        uint64_t ob_mbx_rst            : 1;  /**< [  1:  1](R/W) Outbound Message Mailbox Reset.
-
-                                                                 Set [OB_MBX_RST] to 1 to reset the VDM outbound message mailbox and
-                                                                 associated payload FIFO, clear PEM()_VDM()_STATUS[OB_MBX_BUSY] bit and
-                                                                 clear PEM()_VDM()_STATUS[OB_MBX_ERR] bit.
-
-                                                                 [OB_MBX_RST] is not self-clearing, and must be set to 0 before sending
-                                                                 VDM Type 1 message data via the VDM outbound message mailbox. */
-        uint64_t ib_mbx_rst            : 1;  /**< [  0:  0](R/W) Inbound Message Mailbox Reset.
-
-                                                                 Set [IB_MBX_RST] to 1 to reset the VDM inbound message mailbox header
-                                                                 and payload FIFOs, clear PEM()_VDM()_STATUS[IB_MBX_ERR] bit and clear
-                                                                 the PEM()_VDM()_STATUS[IB_MBX_RDY] bit.
-
-                                                                 [IB_MBX_RST] is not self-clearing and must be set to 0 to receive
-                                                                 inbound VDM Type 1 message data in the VDM inbound message mailbox. */
-#else /* Word 0 - Little Endian */
-        uint64_t ib_mbx_rst            : 1;  /**< [  0:  0](R/W) Inbound Message Mailbox Reset.
-
-                                                                 Set [IB_MBX_RST] to 1 to reset the VDM inbound message mailbox header
-                                                                 and payload FIFOs, clear PEM()_VDM()_STATUS[IB_MBX_ERR] bit and clear
-                                                                 the PEM()_VDM()_STATUS[IB_MBX_RDY] bit.
-
-                                                                 [IB_MBX_RST] is not self-clearing and must be set to 0 to receive
-                                                                 inbound VDM Type 1 message data in the VDM inbound message mailbox. */
-        uint64_t ob_mbx_rst            : 1;  /**< [  1:  1](R/W) Outbound Message Mailbox Reset.
-
-                                                                 Set [OB_MBX_RST] to 1 to reset the VDM outbound message mailbox and
-                                                                 associated payload FIFO, clear PEM()_VDM()_STATUS[OB_MBX_BUSY] bit and
-                                                                 clear PEM()_VDM()_STATUS[OB_MBX_ERR] bit.
-
-                                                                 [OB_MBX_RST] is not self-clearing, and must be set to 0 before sending
-                                                                 VDM Type 1 message data via the VDM outbound message mailbox. */
-        uint64_t reserved_2            : 1;
-        uint64_t mbx_cfg               : 1;  /**< [  3:  3](R/W) Reserved. */
-        uint64_t reserved_4_30         : 27;
-        uint64_t ob_mbx_snd            : 1;  /**< [ 31: 31](WO/H) Outbound Message Mailbox Send.
-
-                                                                 Set [OB_MBX_SND] to 1 to start an outbound VDM message transmission.
-                                                                 This bit is self-clearing.
-
-                                                                 The following registers must be programmed before setting the [OB_MBX_SND]
-                                                                 bit to 1. Refer to the description for these registers for more information..
-                                                                       PEM()_VDM()_OB_HDRL
-                                                                       PEM()_VDM()_OB_HDRH
-                                                                       PEM()_VDM()_OB_PLD */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pemx_vdmx_ctl_s cn; */
-};
-typedef union cavm_pemx_vdmx_ctl cavm_pemx_vdmx_ctl_t;
-
-static inline uint64_t CAVM_PEMX_VDMX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PEMX_VDMX_CTL(uint64_t a, uint64_t b)
-{
-    if ((a<=5) && (b==0))
-        return 0x8e0000007f00ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
-    __cavm_csr_fatal("PEMX_VDMX_CTL", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PEMX_VDMX_CTL(a,b) cavm_pemx_vdmx_ctl_t
-#define bustype_CAVM_PEMX_VDMX_CTL(a,b) CSR_TYPE_NCB
-#define basename_CAVM_PEMX_VDMX_CTL(a,b) "PEMX_VDMX_CTL"
-#define device_bar_CAVM_PEMX_VDMX_CTL(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_PEMX_VDMX_CTL(a,b) (a)
-#define arguments_CAVM_PEMX_VDMX_CTL(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB) pem#_vdm#_ib_hdr
- *
- * PEM VDM Inbound Message Header Register
- * Vendor Defined Message Inbound Message Header Register.
- *
- * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
- *
- * This register is reset on core domain reset.
- *
- * This register is restricted to 64-bit access. Unsupported 32-bit access will
- * have unpredictable results, however will not cause an access hang or timeout.
- *
- * The operation of this register is restricted if PEMSEC()_VDM()_CFG[VDM_SEC_MODE]
- * is set to 1. Refer to the PEMSEC()_VDM()_CFG register description.
- */
-union cavm_pemx_vdmx_ib_hdr
-{
-    uint64_t u;
-    struct cavm_pemx_vdmx_ib_hdr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ib_msg_hdr            : 64; /**< [ 63:  0](RO/H) Inbound Message Header.
-
-                                                                 When PEM()_VDM()_STATUS[IB_MBX_RDY] is set to 1, read the [IB_MSG_HDR]
-                                                                 register to retrieve the inbound VDM Type 1 message TLP header.
-
-                                                                 Software must read the [IB_MSG_HDR] register twice to retrieve
-                                                                 all sixteen bytes of the current inbound VDM Type 1 message TLP header.
-
-                                                                 The first read access of [IB_MSG_HDR] contains VDM Type 1 message
-                                                                 TLP header Byte 0 to Byte 7. The second read access of the [IB_MSG_HDR]
-                                                                 contains TLP header Byte 8 to Byte 15.
-
-                                                                 Refer to the DMTF MCTP over PCIe VDM Binding specification for
-                                                                 more information regarding the MCTP VDM Type 1 message header fields.
-
-                                                                 Writes to this register have no effect.
-
-                                                                 Software must not read the PEM()_VDM()_IB_HDR[IB_MSG_HDR] register
-                                                                 when PEM()_VDM()_STATUS[IB_MBX_RDY] is set to 0 otherwise a
-                                                                 VDM IB message mailbox FIFO underflow will occur and
-                                                                 PEM()_VDM()_STATUS[IB_MBX_ERR] will be set to 1. */
-#else /* Word 0 - Little Endian */
-        uint64_t ib_msg_hdr            : 64; /**< [ 63:  0](RO/H) Inbound Message Header.
-
-                                                                 When PEM()_VDM()_STATUS[IB_MBX_RDY] is set to 1, read the [IB_MSG_HDR]
-                                                                 register to retrieve the inbound VDM Type 1 message TLP header.
-
-                                                                 Software must read the [IB_MSG_HDR] register twice to retrieve
-                                                                 all sixteen bytes of the current inbound VDM Type 1 message TLP header.
-
-                                                                 The first read access of [IB_MSG_HDR] contains VDM Type 1 message
-                                                                 TLP header Byte 0 to Byte 7. The second read access of the [IB_MSG_HDR]
-                                                                 contains TLP header Byte 8 to Byte 15.
-
-                                                                 Refer to the DMTF MCTP over PCIe VDM Binding specification for
-                                                                 more information regarding the MCTP VDM Type 1 message header fields.
-
-                                                                 Writes to this register have no effect.
-
-                                                                 Software must not read the PEM()_VDM()_IB_HDR[IB_MSG_HDR] register
-                                                                 when PEM()_VDM()_STATUS[IB_MBX_RDY] is set to 0 otherwise a
-                                                                 VDM IB message mailbox FIFO underflow will occur and
-                                                                 PEM()_VDM()_STATUS[IB_MBX_ERR] will be set to 1. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pemx_vdmx_ib_hdr_s cn; */
-};
-typedef union cavm_pemx_vdmx_ib_hdr cavm_pemx_vdmx_ib_hdr_t;
-
-static inline uint64_t CAVM_PEMX_VDMX_IB_HDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PEMX_VDMX_IB_HDR(uint64_t a, uint64_t b)
-{
-    if ((a<=5) && (b==0))
-        return 0x8e0000007f50ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
-    __cavm_csr_fatal("PEMX_VDMX_IB_HDR", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PEMX_VDMX_IB_HDR(a,b) cavm_pemx_vdmx_ib_hdr_t
-#define bustype_CAVM_PEMX_VDMX_IB_HDR(a,b) CSR_TYPE_NCB
-#define basename_CAVM_PEMX_VDMX_IB_HDR(a,b) "PEMX_VDMX_IB_HDR"
-#define device_bar_CAVM_PEMX_VDMX_IB_HDR(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_PEMX_VDMX_IB_HDR(a,b) (a)
-#define arguments_CAVM_PEMX_VDMX_IB_HDR(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB) pem#_vdm#_ib_pld
- *
- * PEM VDM Inbound Message Payload Register
- * Vendor Defined Message Inbound Message Payload Register.
- *
- * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
- *
- * This register is reset on core domain reset.
- *
- * This register is restricted to 64-bit access. Unsupported 32-bit access will
- * have unpredictable results, however will not cause an access hang or timeout.
- *
- * The operation of this register is restricted if PEMSEC()_VDM()_CFG[VDM_SEC_MODE]
- * is set to 1. Refer to the PEMSEC()_VDM()_CFG register description.
- */
-union cavm_pemx_vdmx_ib_pld
-{
-    uint64_t u;
-    struct cavm_pemx_vdmx_ib_pld_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ib_msg_pld            : 64; /**< [ 63:  0](RO/H) Inbound Message Payload.
-
-                                                                 When PEM()_VDM()_STATUS[IB_MBX_RDY] is set to 1 read the [IB_MSG_PLD]
-                                                                 register to retrieve the inbound VDM Type 1 message TLP payload.
-
-                                                                 The current VDM Type 1 message header TLP previously read from
-                                                                 PEM()_VDM()_IB_HDR[IB_MSG_HDR] will indicate in TLP header
-                                                                 bytes 2 and 3 the VDM message payload length in doublewords.
-                                                                 Pad the length to the next 64-byte boundary and use that padded
-                                                                 length value in bytes divided by 8-bytes as the number of [IB_MSG_PLD]
-                                                                 reads required to read the entire VDM message payload from the
-                                                                 VDM inbound payload mailbox FIFO.  For example a VDM message with a
-                                                                 TLP payload length of 1 (4-bytes) requires eight reads of [IB_MSG_PLD]
-                                                                 in order to flush the inbound VDM mailbox payload FIFO. The
-                                                                 inbound VDM mailbox FIFO must be read in 64-byte chunks in order
-                                                                 to prevent bubbles between message payloads of consecutive inbound
-                                                                 VDM messages.
-
-                                                                 Refer to the DMTF MCTP over PCIe VDM Binding specification for
-                                                                 more information regarding the MCTP VDM Type 1 message payload
-                                                                 fields.
-
-                                                                 Writes to this register have no effect.
-
-                                                                 Software must not read the PEM()_VDM()_IB_PLD[IB_MSG_PLD] register
-                                                                 when PEM()_VDM()_STATUS[IB_MBX_RDY] is set to 0 otherwise a
-                                                                 VDM IB message mailbox FIFO underflow will occur and
-                                                                 PEM()_VDM()_STATUS[IB_MBX_ERR] will be set to 1. */
-#else /* Word 0 - Little Endian */
-        uint64_t ib_msg_pld            : 64; /**< [ 63:  0](RO/H) Inbound Message Payload.
-
-                                                                 When PEM()_VDM()_STATUS[IB_MBX_RDY] is set to 1 read the [IB_MSG_PLD]
-                                                                 register to retrieve the inbound VDM Type 1 message TLP payload.
-
-                                                                 The current VDM Type 1 message header TLP previously read from
-                                                                 PEM()_VDM()_IB_HDR[IB_MSG_HDR] will indicate in TLP header
-                                                                 bytes 2 and 3 the VDM message payload length in doublewords.
-                                                                 Pad the length to the next 64-byte boundary and use that padded
-                                                                 length value in bytes divided by 8-bytes as the number of [IB_MSG_PLD]
-                                                                 reads required to read the entire VDM message payload from the
-                                                                 VDM inbound payload mailbox FIFO.  For example a VDM message with a
-                                                                 TLP payload length of 1 (4-bytes) requires eight reads of [IB_MSG_PLD]
-                                                                 in order to flush the inbound VDM mailbox payload FIFO. The
-                                                                 inbound VDM mailbox FIFO must be read in 64-byte chunks in order
-                                                                 to prevent bubbles between message payloads of consecutive inbound
-                                                                 VDM messages.
-
-                                                                 Refer to the DMTF MCTP over PCIe VDM Binding specification for
-                                                                 more information regarding the MCTP VDM Type 1 message payload
-                                                                 fields.
-
-                                                                 Writes to this register have no effect.
-
-                                                                 Software must not read the PEM()_VDM()_IB_PLD[IB_MSG_PLD] register
-                                                                 when PEM()_VDM()_STATUS[IB_MBX_RDY] is set to 0 otherwise a
-                                                                 VDM IB message mailbox FIFO underflow will occur and
-                                                                 PEM()_VDM()_STATUS[IB_MBX_ERR] will be set to 1. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pemx_vdmx_ib_pld_s cn; */
-};
-typedef union cavm_pemx_vdmx_ib_pld cavm_pemx_vdmx_ib_pld_t;
-
-static inline uint64_t CAVM_PEMX_VDMX_IB_PLD(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PEMX_VDMX_IB_PLD(uint64_t a, uint64_t b)
-{
-    if ((a<=5) && (b==0))
-        return 0x8e0000007f60ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
-    __cavm_csr_fatal("PEMX_VDMX_IB_PLD", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PEMX_VDMX_IB_PLD(a,b) cavm_pemx_vdmx_ib_pld_t
-#define bustype_CAVM_PEMX_VDMX_IB_PLD(a,b) CSR_TYPE_NCB
-#define basename_CAVM_PEMX_VDMX_IB_PLD(a,b) "PEMX_VDMX_IB_PLD"
-#define device_bar_CAVM_PEMX_VDMX_IB_PLD(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_PEMX_VDMX_IB_PLD(a,b) (a)
-#define arguments_CAVM_PEMX_VDMX_IB_PLD(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB) pem#_vdm#_ib_vid#
- *
- * PEM VDM Inbound Message VID Match Register
- * Vendor Defined Message Inbound Message VID Match Register.
- *
- * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
- *
- * This register is reset on core domain reset.
- *
- * This register is restricted to 64-bit access. Unsupported 32-bit access will
- * have unpredictable results, however will not cause an access hang or timeout.
- *
- * The operation of this register is restricted if PEMSEC()_VDM()_CFG[VDM_SEC_MODE]
- * is set to 1. Refer to the PEMSEC()_VDM()_CFG register description.
- */
-union cavm_pemx_vdmx_ib_vidx
-{
-    uint64_t u;
-    struct cavm_pemx_vdmx_ib_vidx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t valid                 : 1;  /**< [ 31: 31](R/W) Valid.
-
-                                                                 See description for Vendor ID [VID] below. */
-        uint64_t reserved_16_30        : 15;
-        uint64_t vid                   : 16; /**< [ 15:  0](R/W) Vendor ID.
-
-                                                                 When the PEM()_VDM()_IB_VID()[VALID] bit is set to 1 the inbound VDM mailbox
-                                                                 logic compares the [VID] value to the VID field in the inbound Type 1 VDM
-                                                                 message TLP header.  If there is a match the inbound Type 1 VDM message is
-                                                                 forwarded to the inbound VDM message mailbox header and payload FIFOs for
-                                                                 receipt.  If there is not a match the incoming Type 1 VDM message
-                                                                 is silently discarded.
-
-                                                                 Up to eight unique Vendor IDs (VIDs) can be programmed via the
-                                                                 PEM()_VDM()_IB_VID() registers to filter inbound Type 1 VDM messages
-                                                                 by VID type.
-
-                                                                 The default [VID] value of 0x1AB4 indicates a DMTF/MCTP Type 1 VDM message.
-
-                                                                 For PCI-SIG-Defined VDMs use a VID value of 0x0001.
-
-                                                                 Refer to the DMTF MCTP over PCIe VDM Binding specification for
-                                                                 more information regarding the MCTP VDM Type 1 message header
-                                                                 fields and VID value. */
-#else /* Word 0 - Little Endian */
-        uint64_t vid                   : 16; /**< [ 15:  0](R/W) Vendor ID.
-
-                                                                 When the PEM()_VDM()_IB_VID()[VALID] bit is set to 1 the inbound VDM mailbox
-                                                                 logic compares the [VID] value to the VID field in the inbound Type 1 VDM
-                                                                 message TLP header.  If there is a match the inbound Type 1 VDM message is
-                                                                 forwarded to the inbound VDM message mailbox header and payload FIFOs for
-                                                                 receipt.  If there is not a match the incoming Type 1 VDM message
-                                                                 is silently discarded.
-
-                                                                 Up to eight unique Vendor IDs (VIDs) can be programmed via the
-                                                                 PEM()_VDM()_IB_VID() registers to filter inbound Type 1 VDM messages
-                                                                 by VID type.
-
-                                                                 The default [VID] value of 0x1AB4 indicates a DMTF/MCTP Type 1 VDM message.
-
-                                                                 For PCI-SIG-Defined VDMs use a VID value of 0x0001.
-
-                                                                 Refer to the DMTF MCTP over PCIe VDM Binding specification for
-                                                                 more information regarding the MCTP VDM Type 1 message header
-                                                                 fields and VID value. */
-        uint64_t reserved_16_30        : 15;
-        uint64_t valid                 : 1;  /**< [ 31: 31](R/W) Valid.
-
-                                                                 See description for Vendor ID [VID] below. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pemx_vdmx_ib_vidx_s cn; */
-};
-typedef union cavm_pemx_vdmx_ib_vidx cavm_pemx_vdmx_ib_vidx_t;
-
-static inline uint64_t CAVM_PEMX_VDMX_IB_VIDX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PEMX_VDMX_IB_VIDX(uint64_t a, uint64_t b, uint64_t c)
-{
-    if ((a<=5) && (b==0) && (c<=7))
-        return 0x8e0000007f80ll + 0x1000000000ll * ((a) & 0x7) + 0x40ll * ((b) & 0x0) + 8ll * ((c) & 0x7);
-    __cavm_csr_fatal("PEMX_VDMX_IB_VIDX", 3, a, b, c, 0, 0, 0);
-}
-
-#define typedef_CAVM_PEMX_VDMX_IB_VIDX(a,b,c) cavm_pemx_vdmx_ib_vidx_t
-#define bustype_CAVM_PEMX_VDMX_IB_VIDX(a,b,c) CSR_TYPE_NCB
-#define basename_CAVM_PEMX_VDMX_IB_VIDX(a,b,c) "PEMX_VDMX_IB_VIDX"
-#define device_bar_CAVM_PEMX_VDMX_IB_VIDX(a,b,c) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_PEMX_VDMX_IB_VIDX(a,b,c) (a)
-#define arguments_CAVM_PEMX_VDMX_IB_VIDX(a,b,c) (a),(b),(c),-1
-
-/**
- * Register (NCB) pem#_vdm#_int
- *
- * PEM VDM Interrupt Register
- * This register contains the interrupt bits for VDM.
- *
- * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
- *
- * This register is reset on core domain reset.
- *
- * The operation of this register is restricted if PEMSEC()_VDM()_CFG[VDM_SEC_MODE]
- * is set to 1. Refer to the PEMSEC()_VDM()_CFG register description.
- */
-union cavm_pemx_vdmx_int
-{
-    uint64_t u;
-    struct cavm_pemx_vdmx_int_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t rx_rcv                : 1;  /**< [  0:  0](R/W1C/H) Indicates that a VDM message has been received and placed in the VDM FIFO. */
-#else /* Word 0 - Little Endian */
-        uint64_t rx_rcv                : 1;  /**< [  0:  0](R/W1C/H) Indicates that a VDM message has been received and placed in the VDM FIFO. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pemx_vdmx_int_s cn; */
-};
-typedef union cavm_pemx_vdmx_int cavm_pemx_vdmx_int_t;
-
-static inline uint64_t CAVM_PEMX_VDMX_INT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PEMX_VDMX_INT(uint64_t a, uint64_t b)
-{
-    if ((a<=5) && (b==0))
-        return 0x8e0000007e00ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
-    __cavm_csr_fatal("PEMX_VDMX_INT", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PEMX_VDMX_INT(a,b) cavm_pemx_vdmx_int_t
-#define bustype_CAVM_PEMX_VDMX_INT(a,b) CSR_TYPE_NCB
-#define basename_CAVM_PEMX_VDMX_INT(a,b) "PEMX_VDMX_INT"
-#define device_bar_CAVM_PEMX_VDMX_INT(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_PEMX_VDMX_INT(a,b) (a)
-#define arguments_CAVM_PEMX_VDMX_INT(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB) pem#_vdm#_int_ena_w1c
- *
- * PEM VDM Interrupt Enable Clear Register
- * This register clears interrupt enable bits.
- */
-union cavm_pemx_vdmx_int_ena_w1c
-{
-    uint64_t u;
-    struct cavm_pemx_vdmx_int_ena_w1c_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t rx_rcv                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PEM(0..5)_VDM(0)_INT[RX_RCV]. */
-#else /* Word 0 - Little Endian */
-        uint64_t rx_rcv                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PEM(0..5)_VDM(0)_INT[RX_RCV]. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pemx_vdmx_int_ena_w1c_s cn; */
-};
-typedef union cavm_pemx_vdmx_int_ena_w1c cavm_pemx_vdmx_int_ena_w1c_t;
-
-static inline uint64_t CAVM_PEMX_VDMX_INT_ENA_W1C(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PEMX_VDMX_INT_ENA_W1C(uint64_t a, uint64_t b)
-{
-    if ((a<=5) && (b==0))
-        return 0x8e0000007e20ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
-    __cavm_csr_fatal("PEMX_VDMX_INT_ENA_W1C", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PEMX_VDMX_INT_ENA_W1C(a,b) cavm_pemx_vdmx_int_ena_w1c_t
-#define bustype_CAVM_PEMX_VDMX_INT_ENA_W1C(a,b) CSR_TYPE_NCB
-#define basename_CAVM_PEMX_VDMX_INT_ENA_W1C(a,b) "PEMX_VDMX_INT_ENA_W1C"
-#define device_bar_CAVM_PEMX_VDMX_INT_ENA_W1C(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_PEMX_VDMX_INT_ENA_W1C(a,b) (a)
-#define arguments_CAVM_PEMX_VDMX_INT_ENA_W1C(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB) pem#_vdm#_int_ena_w1s
- *
- * PEM VDM Interrupt Enable Set Register
- * This register sets interrupt enable bits.
- */
-union cavm_pemx_vdmx_int_ena_w1s
-{
-    uint64_t u;
-    struct cavm_pemx_vdmx_int_ena_w1s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t rx_rcv                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PEM(0..5)_VDM(0)_INT[RX_RCV]. */
-#else /* Word 0 - Little Endian */
-        uint64_t rx_rcv                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PEM(0..5)_VDM(0)_INT[RX_RCV]. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pemx_vdmx_int_ena_w1s_s cn; */
-};
-typedef union cavm_pemx_vdmx_int_ena_w1s cavm_pemx_vdmx_int_ena_w1s_t;
-
-static inline uint64_t CAVM_PEMX_VDMX_INT_ENA_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PEMX_VDMX_INT_ENA_W1S(uint64_t a, uint64_t b)
-{
-    if ((a<=5) && (b==0))
-        return 0x8e0000007e30ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
-    __cavm_csr_fatal("PEMX_VDMX_INT_ENA_W1S", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PEMX_VDMX_INT_ENA_W1S(a,b) cavm_pemx_vdmx_int_ena_w1s_t
-#define bustype_CAVM_PEMX_VDMX_INT_ENA_W1S(a,b) CSR_TYPE_NCB
-#define basename_CAVM_PEMX_VDMX_INT_ENA_W1S(a,b) "PEMX_VDMX_INT_ENA_W1S"
-#define device_bar_CAVM_PEMX_VDMX_INT_ENA_W1S(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_PEMX_VDMX_INT_ENA_W1S(a,b) (a)
-#define arguments_CAVM_PEMX_VDMX_INT_ENA_W1S(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB) pem#_vdm#_int_w1s
- *
- * PEM VDM Interrupt Set Register
- * This register sets interrupt bits.
- */
-union cavm_pemx_vdmx_int_w1s
-{
-    uint64_t u;
-    struct cavm_pemx_vdmx_int_w1s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t rx_rcv                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PEM(0..5)_VDM(0)_INT[RX_RCV]. */
-#else /* Word 0 - Little Endian */
-        uint64_t rx_rcv                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PEM(0..5)_VDM(0)_INT[RX_RCV]. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pemx_vdmx_int_w1s_s cn; */
-};
-typedef union cavm_pemx_vdmx_int_w1s cavm_pemx_vdmx_int_w1s_t;
-
-static inline uint64_t CAVM_PEMX_VDMX_INT_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PEMX_VDMX_INT_W1S(uint64_t a, uint64_t b)
-{
-    if ((a<=5) && (b==0))
-        return 0x8e0000007e10ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
-    __cavm_csr_fatal("PEMX_VDMX_INT_W1S", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PEMX_VDMX_INT_W1S(a,b) cavm_pemx_vdmx_int_w1s_t
-#define bustype_CAVM_PEMX_VDMX_INT_W1S(a,b) CSR_TYPE_NCB
-#define basename_CAVM_PEMX_VDMX_INT_W1S(a,b) "PEMX_VDMX_INT_W1S"
-#define device_bar_CAVM_PEMX_VDMX_INT_W1S(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_PEMX_VDMX_INT_W1S(a,b) (a)
-#define arguments_CAVM_PEMX_VDMX_INT_W1S(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB) pem#_vdm#_ob_hdrh
- *
- * PEM VDM Outbound Message Header Hi Register
- * Vendor Defined Message Outbound Message Header Hi Register.
- *
- * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
- *
- * This register is reset on core domain reset.
- *
- * This register is restricted to 64-bit access. Unsupported 32-bit access will
- * have unpredictable results, however will not cause an access hang or timeout.
- *
- * The operation of this register is restricted if PEMSEC()_VDM()_CFG[VDM_SEC_MODE]
- * is set to 1. Refer to the PEMSEC()_VDM()_CFG register description.
- */
-union cavm_pemx_vdmx_ob_hdrh
-{
-    uint64_t u;
-    struct cavm_pemx_vdmx_ob_hdrh_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t msg_vid               : 16; /**< [ 47: 32](R/W) Message Vendor ID.  Program [MSG_VID] to specify the
-                                                                 Type 1 VDM outbound message Vendor ID value.
-
-                                                                 Set to 0x1AB4 to denote DMTF for MCTP VDM Type 1 messages.
-
-                                                                 Software should ensure the [MSG_VID] is set to 0x1AB4 when
-                                                                 sending MCTP Vendor Defined Type 1 messages.
-                                                                 Refer to the DMTF MCTP over PCIe VDM Binding specification for
-                                                                 more information. */
-        uint64_t msg_tlp_hdr15         : 8;  /**< [ 31: 24](R/W) "Message TLP Header Byte 15.
-
-                                                                 Program [MSG_TLP_HDR15] with byte 15 data of the
-                                                                 outbound VDM Type 1 message TLP header.  This byte is the
-                                                                 MCTP transport header SOF, EOM, Pkt Seq #, TO, Msg Tag fields.
-                                                                 Refer to the DMTF MCTP over PCIe VDM Binding specification for
-                                                                 more information." */
-        uint64_t msg_tlp_hdr14         : 8;  /**< [ 23: 16](R/W) Message TLP Header Byte 14.
-
-                                                                 Program [MSG_TLP_HDR14] with byte 14 data of the
-                                                                 outbound VDM Type 1 message TLP header.  This byte is the
-                                                                 MCTP transport header Source Endpoint IDE field.
-                                                                 Refer to the DMTF MCTP over PCIe VDM Binding specification for
-                                                                 more information. */
-        uint64_t msg_tlp_hdr13         : 8;  /**< [ 15:  8](R/W) Message TLP Header Byte 13.
-
-                                                                 Program the [MSG_TLP_HDR13] with byte 13 data of the
-                                                                 outbound VDM Type 1 message TLP header.  This byte is the
-                                                                 MCTP transport header Destination Endpoint ID field.
-                                                                 Refer to the DMTF MCTP over PCIe VDM Binding specification for
-                                                                 more information. */
-        uint64_t msg_tlp_hdr12         : 8;  /**< [  7:  0](R/W) Message TLP Header Byte 12.
-
-                                                                 Program the [MSG_TLP_HDR12] with byte 12 data of the
-                                                                 outbound VDM Type 1 message TLP header.  This byte is the
-                                                                 MCTP transport header RSVD and header version fields.
-                                                                 Refer to the DMTF MCTP over PCIe VDM Binding specification for
-                                                                 more information. */
-#else /* Word 0 - Little Endian */
-        uint64_t msg_tlp_hdr12         : 8;  /**< [  7:  0](R/W) Message TLP Header Byte 12.
-
-                                                                 Program the [MSG_TLP_HDR12] with byte 12 data of the
-                                                                 outbound VDM Type 1 message TLP header.  This byte is the
-                                                                 MCTP transport header RSVD and header version fields.
-                                                                 Refer to the DMTF MCTP over PCIe VDM Binding specification for
-                                                                 more information. */
-        uint64_t msg_tlp_hdr13         : 8;  /**< [ 15:  8](R/W) Message TLP Header Byte 13.
-
-                                                                 Program the [MSG_TLP_HDR13] with byte 13 data of the
-                                                                 outbound VDM Type 1 message TLP header.  This byte is the
-                                                                 MCTP transport header Destination Endpoint ID field.
-                                                                 Refer to the DMTF MCTP over PCIe VDM Binding specification for
-                                                                 more information. */
-        uint64_t msg_tlp_hdr14         : 8;  /**< [ 23: 16](R/W) Message TLP Header Byte 14.
-
-                                                                 Program [MSG_TLP_HDR14] with byte 14 data of the
-                                                                 outbound VDM Type 1 message TLP header.  This byte is the
-                                                                 MCTP transport header Source Endpoint IDE field.
-                                                                 Refer to the DMTF MCTP over PCIe VDM Binding specification for
-                                                                 more information. */
-        uint64_t msg_tlp_hdr15         : 8;  /**< [ 31: 24](R/W) "Message TLP Header Byte 15.
-
-                                                                 Program [MSG_TLP_HDR15] with byte 15 data of the
-                                                                 outbound VDM Type 1 message TLP header.  This byte is the
-                                                                 MCTP transport header SOF, EOM, Pkt Seq #, TO, Msg Tag fields.
-                                                                 Refer to the DMTF MCTP over PCIe VDM Binding specification for
-                                                                 more information." */
-        uint64_t msg_vid               : 16; /**< [ 47: 32](R/W) Message Vendor ID.  Program [MSG_VID] to specify the
-                                                                 Type 1 VDM outbound message Vendor ID value.
-
-                                                                 Set to 0x1AB4 to denote DMTF for MCTP VDM Type 1 messages.
-
-                                                                 Software should ensure the [MSG_VID] is set to 0x1AB4 when
-                                                                 sending MCTP Vendor Defined Type 1 messages.
-                                                                 Refer to the DMTF MCTP over PCIe VDM Binding specification for
-                                                                 more information. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pemx_vdmx_ob_hdrh_s cn; */
-};
-typedef union cavm_pemx_vdmx_ob_hdrh cavm_pemx_vdmx_ob_hdrh_t;
-
-static inline uint64_t CAVM_PEMX_VDMX_OB_HDRH(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PEMX_VDMX_OB_HDRH(uint64_t a, uint64_t b)
-{
-    if ((a<=5) && (b==0))
-        return 0x8e0000007f30ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
-    __cavm_csr_fatal("PEMX_VDMX_OB_HDRH", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PEMX_VDMX_OB_HDRH(a,b) cavm_pemx_vdmx_ob_hdrh_t
-#define bustype_CAVM_PEMX_VDMX_OB_HDRH(a,b) CSR_TYPE_NCB
-#define basename_CAVM_PEMX_VDMX_OB_HDRH(a,b) "PEMX_VDMX_OB_HDRH"
-#define device_bar_CAVM_PEMX_VDMX_OB_HDRH(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_PEMX_VDMX_OB_HDRH(a,b) (a)
-#define arguments_CAVM_PEMX_VDMX_OB_HDRH(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB) pem#_vdm#_ob_hdrl
- *
- * PEM VDM Outbound Message Header Low Register
- * Vendor Defined Message Outbound Message Header Low Register.
- *
- * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
- *
- * This register is reset on core domain reset.
- *
- * This register is restricted to 64-bit access. Unsupported 32-bit access will
- * have unpredictable results, however will not cause an access hang or timeout.
- *
- * The operation of this register is restricted if PEMSEC()_VDM()_CFG[VDM_SEC_MODE]
- * is set to 1. Refer to the PEMSEC()_VDM()_CFG register description.
- */
-union cavm_pemx_vdmx_ob_hdrl
-{
-    uint64_t u;
-    struct cavm_pemx_vdmx_ob_hdrl_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_51_63        : 13;
-        uint64_t msg_rt                : 3;  /**< [ 50: 48](R/W) Message Routing. Program [MSG_RT] to indicate the Type 1
-                                                                 VDM outbound message routing method.
-
-                                                                    3'b000 = Route to Root Complex
-                                                                    3'b010 = Route by ID
-                                                                    3'b011 = Broadcast from Root Complex
-
-                                                                 All other values are reserved.
-
-                                                                 Refer to the DMTF MCTP over PCIe VDM Binding specification for
-                                                                 more information. */
-        uint64_t reserved_33_47        : 15;
-        uint64_t msg_err               : 1;  /**< [ 32: 32](R/W) Message Error.  Test feature.  Set to 0. */
-        uint64_t trgt_id               : 16; /**< [ 31: 16](R/W) PCIe Target ID.  Program [TRGT_ID] to specify the
-                                                                 Type 1 VDM outbound message target id.
-
-                                                                 Refer to the DMTF MCTP over PCIe VDM Binding specification for
-                                                                 more information. */
-        uint64_t msg_tag               : 8;  /**< [ 15:  8](R/W) Message Tag.  Program [MSG_TAG] to specify the
-                                                                 Type 1 VDM outbound message tag.
-
-                                                                 The VDM MSG_TAG field should be programmed as follows:
-
-                                                                 [15:14] = Reserved. Program to 2'b00
-                                                                 [13:12] = Pad Length in bytes
-                                                                 [11:8]  = MCTP VDM Code.  Program to 4'h0
-
-                                                                 Refer to the DMTF MCTP over PCIe VDM Binding specification for
-                                                                 more information. */
-        uint64_t reserved_6_7          : 2;
-        uint64_t msg_len               : 6;  /**< [  5:  0](R/W) Message Length in 32-bit doublewords.  Program [MSG_LEN]
-                                                                 to indicate the Type 1 VDM outbound message payload length
-                                                                 padded to a 32-bit doubleword (4 byte) boundary.
-
-                                                                 Legal values are 1 to 32 corresponding to 4-bytes and 128 bytes.
-
-                                                                 Refer to the DMTF MCTP over PCIe VDM Binding specification for
-                                                                 more information. */
-#else /* Word 0 - Little Endian */
-        uint64_t msg_len               : 6;  /**< [  5:  0](R/W) Message Length in 32-bit doublewords.  Program [MSG_LEN]
-                                                                 to indicate the Type 1 VDM outbound message payload length
-                                                                 padded to a 32-bit doubleword (4 byte) boundary.
-
-                                                                 Legal values are 1 to 32 corresponding to 4-bytes and 128 bytes.
-
-                                                                 Refer to the DMTF MCTP over PCIe VDM Binding specification for
-                                                                 more information. */
-        uint64_t reserved_6_7          : 2;
-        uint64_t msg_tag               : 8;  /**< [ 15:  8](R/W) Message Tag.  Program [MSG_TAG] to specify the
-                                                                 Type 1 VDM outbound message tag.
-
-                                                                 The VDM MSG_TAG field should be programmed as follows:
-
-                                                                 [15:14] = Reserved. Program to 2'b00
-                                                                 [13:12] = Pad Length in bytes
-                                                                 [11:8]  = MCTP VDM Code.  Program to 4'h0
-
-                                                                 Refer to the DMTF MCTP over PCIe VDM Binding specification for
-                                                                 more information. */
-        uint64_t trgt_id               : 16; /**< [ 31: 16](R/W) PCIe Target ID.  Program [TRGT_ID] to specify the
-                                                                 Type 1 VDM outbound message target id.
-
-                                                                 Refer to the DMTF MCTP over PCIe VDM Binding specification for
-                                                                 more information. */
-        uint64_t msg_err               : 1;  /**< [ 32: 32](R/W) Message Error.  Test feature.  Set to 0. */
-        uint64_t reserved_33_47        : 15;
-        uint64_t msg_rt                : 3;  /**< [ 50: 48](R/W) Message Routing. Program [MSG_RT] to indicate the Type 1
-                                                                 VDM outbound message routing method.
-
-                                                                    3'b000 = Route to Root Complex
-                                                                    3'b010 = Route by ID
-                                                                    3'b011 = Broadcast from Root Complex
-
-                                                                 All other values are reserved.
-
-                                                                 Refer to the DMTF MCTP over PCIe VDM Binding specification for
-                                                                 more information. */
-        uint64_t reserved_51_63        : 13;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pemx_vdmx_ob_hdrl_s cn; */
-};
-typedef union cavm_pemx_vdmx_ob_hdrl cavm_pemx_vdmx_ob_hdrl_t;
-
-static inline uint64_t CAVM_PEMX_VDMX_OB_HDRL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PEMX_VDMX_OB_HDRL(uint64_t a, uint64_t b)
-{
-    if ((a<=5) && (b==0))
-        return 0x8e0000007f20ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
-    __cavm_csr_fatal("PEMX_VDMX_OB_HDRL", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PEMX_VDMX_OB_HDRL(a,b) cavm_pemx_vdmx_ob_hdrl_t
-#define bustype_CAVM_PEMX_VDMX_OB_HDRL(a,b) CSR_TYPE_NCB
-#define basename_CAVM_PEMX_VDMX_OB_HDRL(a,b) "PEMX_VDMX_OB_HDRL"
-#define device_bar_CAVM_PEMX_VDMX_OB_HDRL(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_PEMX_VDMX_OB_HDRL(a,b) (a)
-#define arguments_CAVM_PEMX_VDMX_OB_HDRL(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB) pem#_vdm#_ob_pld
- *
- * PEM VDM Outbound Message Payload Register
- * Vendor Defined Message Outbound Message Payload Register.
- *
- * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
- *
- * This register is reset on core domain reset.
- *
- * This register is restricted to 64-bit access. Unsupported 32-bit access will
- * have unpredictable results, however will not cause an access hang or timeout.
- *
- * The operation of this register is restricted if PEMSEC()_VDM()_CFG[VDM_SEC_MODE]
- * is set to 1. Refer to the PEMSEC()_VDM()_CFG register description.
- */
-union cavm_pemx_vdmx_ob_pld
-{
-    uint64_t u;
-    struct cavm_pemx_vdmx_ob_pld_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ob_msg_pld            : 64; /**< [ 63:  0](R/W) Outbound Message Payload.
-
-                                                                 Outbound VDM message payload data is written to the outbound VDM Type 1
-                                                                 message payload mailbox FIFO via 64-bit writes to the [OB_MSG_PLD] field.
-                                                                 The message payload data is loaded a 64-bit word (8 bytes) at a time into
-                                                                 the outbound VDM message mailbox payload FIFO.
-
-                                                                 VDM outbound message payload data between 1 byte and 64-bytes in length must
-                                                                 be padded to 64-bytes in the outbound message mailbox FIFO and requires
-                                                                 that the PEM()_VDM()_OB_PLD[OB_MSG_PLD] be written eight consecutive times
-                                                                 to load the message payload data.
-
-                                                                 Message payload data greater than 64-bytes (up to 128 bytes) must be padded
-                                                                 to 128-bytes and requires sixteen 64-bit (8 byte) writes to the
-                                                                 PEM()_VDM()_OB_PLD[OB_MSG_PLD] register to load the message payload data.
-
-                                                                 The maximum PCIe VDM Type 1 outbound message payload size is 128 bytes.
-
-                                                                 Software must not write the PEM()_VDM()_OB_PLD[OB_MSG_PLD] register more
-                                                                 than sixteen consecutive times prior to sending a VDM message otherwise a
-                                                                 VDM OB message mailbox FIFO overflow will occur and
-                                                                 PEM()_VDM()_STATUS[OB_MBX_ERR] will be set to 1. */
-#else /* Word 0 - Little Endian */
-        uint64_t ob_msg_pld            : 64; /**< [ 63:  0](R/W) Outbound Message Payload.
-
-                                                                 Outbound VDM message payload data is written to the outbound VDM Type 1
-                                                                 message payload mailbox FIFO via 64-bit writes to the [OB_MSG_PLD] field.
-                                                                 The message payload data is loaded a 64-bit word (8 bytes) at a time into
-                                                                 the outbound VDM message mailbox payload FIFO.
-
-                                                                 VDM outbound message payload data between 1 byte and 64-bytes in length must
-                                                                 be padded to 64-bytes in the outbound message mailbox FIFO and requires
-                                                                 that the PEM()_VDM()_OB_PLD[OB_MSG_PLD] be written eight consecutive times
-                                                                 to load the message payload data.
-
-                                                                 Message payload data greater than 64-bytes (up to 128 bytes) must be padded
-                                                                 to 128-bytes and requires sixteen 64-bit (8 byte) writes to the
-                                                                 PEM()_VDM()_OB_PLD[OB_MSG_PLD] register to load the message payload data.
-
-                                                                 The maximum PCIe VDM Type 1 outbound message payload size is 128 bytes.
-
-                                                                 Software must not write the PEM()_VDM()_OB_PLD[OB_MSG_PLD] register more
-                                                                 than sixteen consecutive times prior to sending a VDM message otherwise a
-                                                                 VDM OB message mailbox FIFO overflow will occur and
-                                                                 PEM()_VDM()_STATUS[OB_MBX_ERR] will be set to 1. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pemx_vdmx_ob_pld_s cn; */
-};
-typedef union cavm_pemx_vdmx_ob_pld cavm_pemx_vdmx_ob_pld_t;
-
-static inline uint64_t CAVM_PEMX_VDMX_OB_PLD(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PEMX_VDMX_OB_PLD(uint64_t a, uint64_t b)
-{
-    if ((a<=5) && (b==0))
-        return 0x8e0000007f40ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
-    __cavm_csr_fatal("PEMX_VDMX_OB_PLD", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PEMX_VDMX_OB_PLD(a,b) cavm_pemx_vdmx_ob_pld_t
-#define bustype_CAVM_PEMX_VDMX_OB_PLD(a,b) CSR_TYPE_NCB
-#define basename_CAVM_PEMX_VDMX_OB_PLD(a,b) "PEMX_VDMX_OB_PLD"
-#define device_bar_CAVM_PEMX_VDMX_OB_PLD(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_PEMX_VDMX_OB_PLD(a,b) (a)
-#define arguments_CAVM_PEMX_VDMX_OB_PLD(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB) pem#_vdm#_status
- *
- * PEM VDM Status Register
- * This register provides status of the Vendor Defined Message (VDM) inbound
- * and outbound message mailboxes.
- *
- * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
- *
- * This register is reset on core domain reset.
- *
- * This register is restricted to 64-bit access. Unsupported 32-bit access will
- * have unpredictable results, however will not cause an access hang or timeout.
- *
- * The operation of this register is restricted if PEMSEC()_VDM()_CFG[VDM_SEC_MODE]
- * is set to 1. Refer to the PEMSEC()_VDM()_CFG register description.
- */
-union cavm_pemx_vdmx_status
-{
-    uint64_t u;
-    struct cavm_pemx_vdmx_status_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t ib_mbx_rdy            : 1;  /**< [ 31: 31](RO/H) Inbound Mailbox Ready.  The [IB_MBX_RDY] is set to 1 to indicate the VDM
-                                                                 inbound message mailbox contains message data.  The [IB_MBX_RDY] bit is
-                                                                 cleared to 0 when there is no VDM message data in the inbound message
-                                                                 mailbox FIFOs.
-
-                                                                 Interrupt on receipt of inbound VDM mailbox messages.
-
-                                                                 Write PEM()_VDM()_INT_ENA_W1S to enable the MSIX interrupt on
-                                                                 receipt of an inbound VDM message.  When a VDM Type 1 message
-                                                                 is received in the inbound VDM mailbox the PEM()_VDM_INT[RX_RCV]
-                                                                 bit will be set to 1 and a MSIX interrupt will be signaled.
-                                                                 Read the inbound VDM mailbox header and payload FIFOs and
-                                                                 empty the FIFOs to clear the interrupt.  Additionally set
-                                                                 PEM()_VDM()_INT[RX_RCV] to 0 to clear the MSIX interrupt.
-
-                                                                 For more information refer to the following register descriptions.
-                                                                     PEM()_VDM()_INT
-                                                                     PEM()_VDM()_INT_W1S
-                                                                     PEM()_VDM()_INT_ENA_W1C
-                                                                     PEM()_VDM()_INT_ENA_W1S */
-        uint64_t ib_mbx_sts            : 13; /**< [ 30: 18](RO/H) Inbound Mailbox Status. For diagnostic use only. */
-        uint64_t ob_mbx_sts            : 14; /**< [ 17:  4](RO/H) Outbound Mailbox Status. For diagnostic use only. */
-        uint64_t ob_mbx_err            : 1;  /**< [  3:  3](RO/H) Outbound Mailbox Error. The [OB_MBX_ERR] bit is set to 1 if an error
-                                                                 occurred in the VDM outbound message mailbox.  The [OB_MBX_ERR] bit is set to 1
-                                                                 when the outbound message mailbox FIFO overflows due to writing more than
-                                                                 128bytes to the VDM outbound message FIFO via the PEM()_VDM()_OB_PLD register.
-
-                                                                 Set the PEM()_VDM()_CTL[OB_MBX_RST] bit to 1 to clear the [OB_MBX_ERR] bit and
-                                                                 the VDM outbound message mailbox FIFO. */
-        uint64_t ib_mbx_err            : 1;  /**< [  2:  2](RO/H) Inbound Mailbox Error. The [IB_MBX_ERR] bit is set to 1 if an error
-                                                                 occurred in the VDM inbound message mailbox. The error bit is set to 1 if
-                                                                 either the inbound message header FIFO or inbound message payload FIFO overflows.
-
-                                                                 Set the PEM()_VDM()_CTL[IB_MBX_RST] bit to 1 to clear the [IB_MBX_ERR] bit and
-                                                                 the VDM inbound message mailbox header and payload FIFOs. */
-        uint64_t reserved_1            : 1;
-        uint64_t ob_mbx_busy           : 1;  /**< [  0:  0](RO/H) Outbound Mailbox Busy.  [OB_MBX_BUSY] is set to 1 when the VDM outbound message
-                                                                 mailbox is busy sending a VDM outbound message on the PCIe bus. The [OB_MBX_BUSY]
-                                                                 bit will set to 1 immediately after the PEM()_VDM()_CTL[OB_MBX_SND] bit is set to
-                                                                 1. The [OB_MBX_BUSY] bit will be cleared to 0 by the VDM outbound mailbox logic
-                                                                 when the outbound VDM message has completed transmission on the PCIe bus.
-
-                                                                 Software must check that the [OB_MBX_BUSY] bit is cleared to 0 before programming
-                                                                 the following outbound VDM message registers PEM()_VDM()_OB_HDRH,
-                                                                 PEM()_VDM()_OB_HDRL, PEM()_VDM()_OB_PLD, and PEM()_VDM()_CTL[OB_MBX_SND].
-
-                                                                 Setting the PEM()_VDM()_CTL[OB_MBX_RST] to 1 will clear the [OB_MBX_BUSY] bit to 0.
-                                                                 This should only be done if the PEM()_VDM()_STATUS[OB_MBX_ERR] bit is set to 1
-                                                                 indicating an VDM outbound mailbox error. */
-#else /* Word 0 - Little Endian */
-        uint64_t ob_mbx_busy           : 1;  /**< [  0:  0](RO/H) Outbound Mailbox Busy.  [OB_MBX_BUSY] is set to 1 when the VDM outbound message
-                                                                 mailbox is busy sending a VDM outbound message on the PCIe bus. The [OB_MBX_BUSY]
-                                                                 bit will set to 1 immediately after the PEM()_VDM()_CTL[OB_MBX_SND] bit is set to
-                                                                 1. The [OB_MBX_BUSY] bit will be cleared to 0 by the VDM outbound mailbox logic
-                                                                 when the outbound VDM message has completed transmission on the PCIe bus.
-
-                                                                 Software must check that the [OB_MBX_BUSY] bit is cleared to 0 before programming
-                                                                 the following outbound VDM message registers PEM()_VDM()_OB_HDRH,
-                                                                 PEM()_VDM()_OB_HDRL, PEM()_VDM()_OB_PLD, and PEM()_VDM()_CTL[OB_MBX_SND].
-
-                                                                 Setting the PEM()_VDM()_CTL[OB_MBX_RST] to 1 will clear the [OB_MBX_BUSY] bit to 0.
-                                                                 This should only be done if the PEM()_VDM()_STATUS[OB_MBX_ERR] bit is set to 1
-                                                                 indicating an VDM outbound mailbox error. */
-        uint64_t reserved_1            : 1;
-        uint64_t ib_mbx_err            : 1;  /**< [  2:  2](RO/H) Inbound Mailbox Error. The [IB_MBX_ERR] bit is set to 1 if an error
-                                                                 occurred in the VDM inbound message mailbox. The error bit is set to 1 if
-                                                                 either the inbound message header FIFO or inbound message payload FIFO overflows.
-
-                                                                 Set the PEM()_VDM()_CTL[IB_MBX_RST] bit to 1 to clear the [IB_MBX_ERR] bit and
-                                                                 the VDM inbound message mailbox header and payload FIFOs. */
-        uint64_t ob_mbx_err            : 1;  /**< [  3:  3](RO/H) Outbound Mailbox Error. The [OB_MBX_ERR] bit is set to 1 if an error
-                                                                 occurred in the VDM outbound message mailbox.  The [OB_MBX_ERR] bit is set to 1
-                                                                 when the outbound message mailbox FIFO overflows due to writing more than
-                                                                 128bytes to the VDM outbound message FIFO via the PEM()_VDM()_OB_PLD register.
-
-                                                                 Set the PEM()_VDM()_CTL[OB_MBX_RST] bit to 1 to clear the [OB_MBX_ERR] bit and
-                                                                 the VDM outbound message mailbox FIFO. */
-        uint64_t ob_mbx_sts            : 14; /**< [ 17:  4](RO/H) Outbound Mailbox Status. For diagnostic use only. */
-        uint64_t ib_mbx_sts            : 13; /**< [ 30: 18](RO/H) Inbound Mailbox Status. For diagnostic use only. */
-        uint64_t ib_mbx_rdy            : 1;  /**< [ 31: 31](RO/H) Inbound Mailbox Ready.  The [IB_MBX_RDY] is set to 1 to indicate the VDM
-                                                                 inbound message mailbox contains message data.  The [IB_MBX_RDY] bit is
-                                                                 cleared to 0 when there is no VDM message data in the inbound message
-                                                                 mailbox FIFOs.
-
-                                                                 Interrupt on receipt of inbound VDM mailbox messages.
-
-                                                                 Write PEM()_VDM()_INT_ENA_W1S to enable the MSIX interrupt on
-                                                                 receipt of an inbound VDM message.  When a VDM Type 1 message
-                                                                 is received in the inbound VDM mailbox the PEM()_VDM_INT[RX_RCV]
-                                                                 bit will be set to 1 and a MSIX interrupt will be signaled.
-                                                                 Read the inbound VDM mailbox header and payload FIFOs and
-                                                                 empty the FIFOs to clear the interrupt.  Additionally set
-                                                                 PEM()_VDM()_INT[RX_RCV] to 0 to clear the MSIX interrupt.
-
-                                                                 For more information refer to the following register descriptions.
-                                                                     PEM()_VDM()_INT
-                                                                     PEM()_VDM()_INT_W1S
-                                                                     PEM()_VDM()_INT_ENA_W1C
-                                                                     PEM()_VDM()_INT_ENA_W1S */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pemx_vdmx_status_s cn; */
-};
-typedef union cavm_pemx_vdmx_status cavm_pemx_vdmx_status_t;
-
-static inline uint64_t CAVM_PEMX_VDMX_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PEMX_VDMX_STATUS(uint64_t a, uint64_t b)
-{
-    if ((a<=5) && (b==0))
-        return 0x8e0000007f10ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
-    __cavm_csr_fatal("PEMX_VDMX_STATUS", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PEMX_VDMX_STATUS(a,b) cavm_pemx_vdmx_status_t
-#define bustype_CAVM_PEMX_VDMX_STATUS(a,b) CSR_TYPE_NCB
-#define basename_CAVM_PEMX_VDMX_STATUS(a,b) "PEMX_VDMX_STATUS"
-#define device_bar_CAVM_PEMX_VDMX_STATUS(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_PEMX_VDMX_STATUS(a,b) (a)
-#define arguments_CAVM_PEMX_VDMX_STATUS(a,b) (a),(b),-1,-1
-
-/**
  * Register (NCB) pem#_vf_clr_flr_req
  *
- * PEMPEM FLR Request VF Clear Register
+ * PEM FLR Request VF Clear Register
  * This register provides clear request for PCIe PF function level reset (FLR).
  *
  * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
@@ -7745,7 +5770,7 @@ typedef union cavm_pemx_vf_clr_flr_req cavm_pemx_vf_clr_flr_req_t;
 static inline uint64_t CAVM_PEMX_VF_CLR_FLR_REQ(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_VF_CLR_FLR_REQ(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8e0000000228ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_VF_CLR_FLR_REQ", 1, a, 0, 0, 0, 0, 0);
 }
@@ -7756,5 +5781,87 @@ static inline uint64_t CAVM_PEMX_VF_CLR_FLR_REQ(uint64_t a)
 #define device_bar_CAVM_PEMX_VF_CLR_FLR_REQ(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_VF_CLR_FLR_REQ(a) (a)
 #define arguments_CAVM_PEMX_VF_CLR_FLR_REQ(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) pem#_wmerge_merged_pc
+ *
+ * PEM Merge Writes Merged Performance Counter Register
+ * This register reports how many writes merged within the outbound write merge unit.
+ *
+ * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
+ *
+ * This register is reset on core domain reset.
+ */
+union cavm_pemx_wmerge_merged_pc
+{
+    uint64_t u;
+    struct cavm_pemx_wmerge_merged_pc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t wmerge_merged         : 64; /**< [ 63:  0](R/W/H) Each NCBO write operation mapped to MEM type by the ACC table that merges with a previous
+                                                                 write will increment this count. */
+#else /* Word 0 - Little Endian */
+        uint64_t wmerge_merged         : 64; /**< [ 63:  0](R/W/H) Each NCBO write operation mapped to MEM type by the ACC table that merges with a previous
+                                                                 write will increment this count. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pemx_wmerge_merged_pc_s cn; */
+};
+typedef union cavm_pemx_wmerge_merged_pc cavm_pemx_wmerge_merged_pc_t;
+
+static inline uint64_t CAVM_PEMX_WMERGE_MERGED_PC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PEMX_WMERGE_MERGED_PC(uint64_t a)
+{
+    if (a<=7)
+        return 0x8e0000000198ll + 0x1000000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("PEMX_WMERGE_MERGED_PC", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PEMX_WMERGE_MERGED_PC(a) cavm_pemx_wmerge_merged_pc_t
+#define bustype_CAVM_PEMX_WMERGE_MERGED_PC(a) CSR_TYPE_NCB
+#define basename_CAVM_PEMX_WMERGE_MERGED_PC(a) "PEMX_WMERGE_MERGED_PC"
+#define device_bar_CAVM_PEMX_WMERGE_MERGED_PC(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_PEMX_WMERGE_MERGED_PC(a) (a)
+#define arguments_CAVM_PEMX_WMERGE_MERGED_PC(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) pem#_wmerge_received_pc
+ *
+ * PEM Merge Writes Received Performance Counter Register
+ * This register reports the number of writes that enter the outbound write merge unit.
+ *
+ * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
+ *
+ * This register is reset on core domain reset.
+ */
+union cavm_pemx_wmerge_received_pc
+{
+    uint64_t u;
+    struct cavm_pemx_wmerge_received_pc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t wmerge_writes         : 64; /**< [ 63:  0](R/W/H) Each NCBO write operation mapped to MEM type by the ACC table will increment this count. */
+#else /* Word 0 - Little Endian */
+        uint64_t wmerge_writes         : 64; /**< [ 63:  0](R/W/H) Each NCBO write operation mapped to MEM type by the ACC table will increment this count. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pemx_wmerge_received_pc_s cn; */
+};
+typedef union cavm_pemx_wmerge_received_pc cavm_pemx_wmerge_received_pc_t;
+
+static inline uint64_t CAVM_PEMX_WMERGE_RECEIVED_PC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PEMX_WMERGE_RECEIVED_PC(uint64_t a)
+{
+    if (a<=7)
+        return 0x8e0000000190ll + 0x1000000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("PEMX_WMERGE_RECEIVED_PC", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PEMX_WMERGE_RECEIVED_PC(a) cavm_pemx_wmerge_received_pc_t
+#define bustype_CAVM_PEMX_WMERGE_RECEIVED_PC(a) CSR_TYPE_NCB
+#define basename_CAVM_PEMX_WMERGE_RECEIVED_PC(a) "PEMX_WMERGE_RECEIVED_PC"
+#define device_bar_CAVM_PEMX_WMERGE_RECEIVED_PC(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_PEMX_WMERGE_RECEIVED_PC(a) (a)
+#define arguments_CAVM_PEMX_WMERGE_RECEIVED_PC(a) (a),-1,-1,-1
 
 #endif /* __CAVM_CSRS_PEM_H__ */

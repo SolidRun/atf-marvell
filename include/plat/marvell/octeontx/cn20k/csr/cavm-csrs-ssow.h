@@ -116,218 +116,6 @@ static inline uint64_t CAVM_SSOW_AF_BAR2_SEL_FUNC(void)
 #define arguments_CAVM_SSOW_AF_BAR2_SEL -1,-1,-1,-1
 
 /**
- * Register (RVU_PF_BAR0) ssow_af_flr_ggrp_digest#
- *
- * SSO AF FLR GGRP Summary Registers
- * One bit per GGRP to indicate which groups are currently mapped to SSOW_AF_LF_FLR[LF].
- */
-union cavm_ssow_af_flr_ggrp_digestx
-{
-    uint64_t u;
-    struct cavm_ssow_af_flr_ggrp_digestx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ggrp                  : 64; /**< [ 63:  0](R/W1C/H) One bit per GGRP. Only valid after SSOW_AF_LF_FLR[STEP3] has completed. */
-#else /* Word 0 - Little Endian */
-        uint64_t ggrp                  : 64; /**< [ 63:  0](R/W1C/H) One bit per GGRP. Only valid after SSOW_AF_LF_FLR[STEP3] has completed. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_ssow_af_flr_ggrp_digestx_s cn; */
-};
-typedef union cavm_ssow_af_flr_ggrp_digestx cavm_ssow_af_flr_ggrp_digestx_t;
-
-static inline uint64_t CAVM_SSOW_AF_FLR_GGRP_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SSOW_AF_FLR_GGRP_DIGESTX(uint64_t a)
-{
-    if (a<=3)
-        return 0x840080000200ll + 8ll * ((a) & 0x3);
-    __cavm_csr_fatal("SSOW_AF_FLR_GGRP_DIGESTX", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SSOW_AF_FLR_GGRP_DIGESTX(a) cavm_ssow_af_flr_ggrp_digestx_t
-#define bustype_CAVM_SSOW_AF_FLR_GGRP_DIGESTX(a) CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_SSOW_AF_FLR_GGRP_DIGESTX(a) "SSOW_AF_FLR_GGRP_DIGESTX"
-#define device_bar_CAVM_SSOW_AF_FLR_GGRP_DIGESTX(a) 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_SSOW_AF_FLR_GGRP_DIGESTX(a) (a)
-#define arguments_CAVM_SSOW_AF_FLR_GGRP_DIGESTX(a) (a),-1,-1,-1
-
-/**
- * Register (RVU_PF_BAR0) ssow_af_flr_gws_digest
- *
- * SSO AF FLR GSLT Summary Registers
- * One bit per GSLT to indicate which groups are currently mapped to SSOW_AF_LF_FLR[LF].
- */
-union cavm_ssow_af_flr_gws_digest
-{
-    uint64_t u;
-    struct cavm_ssow_af_flr_gws_digest_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t gws                   : 64; /**< [ 63:  0](R/W1C/H) One bit per HWS. Only valid after SSOW_AF_LF_FLR[STEP3] has completed. */
-#else /* Word 0 - Little Endian */
-        uint64_t gws                   : 64; /**< [ 63:  0](R/W1C/H) One bit per HWS. Only valid after SSOW_AF_LF_FLR[STEP3] has completed. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_ssow_af_flr_gws_digest_s cn; */
-};
-typedef union cavm_ssow_af_flr_gws_digest cavm_ssow_af_flr_gws_digest_t;
-
-#define CAVM_SSOW_AF_FLR_GWS_DIGEST CAVM_SSOW_AF_FLR_GWS_DIGEST_FUNC()
-static inline uint64_t CAVM_SSOW_AF_FLR_GWS_DIGEST_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SSOW_AF_FLR_GWS_DIGEST_FUNC(void)
-{
-    return 0x840080000400ll;
-}
-
-#define typedef_CAVM_SSOW_AF_FLR_GWS_DIGEST cavm_ssow_af_flr_gws_digest_t
-#define bustype_CAVM_SSOW_AF_FLR_GWS_DIGEST CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_SSOW_AF_FLR_GWS_DIGEST "SSOW_AF_FLR_GWS_DIGEST"
-#define device_bar_CAVM_SSOW_AF_FLR_GWS_DIGEST 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_SSOW_AF_FLR_GWS_DIGEST 0
-#define arguments_CAVM_SSOW_AF_FLR_GWS_DIGEST -1,-1,-1,-1
-
-/**
- * Register (RVU_PF_BAR0) ssow_af_flr_hwgrp_digest#
- *
- * SSO AF FLR HWGRP Summary Registers
- * One bit per HWGRP to indicate which groups are currently mapped to SSOW_AF_LF_FLR[LF].
- */
-union cavm_ssow_af_flr_hwgrp_digestx
-{
-    uint64_t u;
-    struct cavm_ssow_af_flr_hwgrp_digestx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1C/H) One bit per HWGRP. Only valid after SSOW_AF_LF_FLR[STEP3] has completed. */
-#else /* Word 0 - Little Endian */
-        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1C/H) One bit per HWGRP. Only valid after SSOW_AF_LF_FLR[STEP3] has completed. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_ssow_af_flr_hwgrp_digestx_s cn; */
-};
-typedef union cavm_ssow_af_flr_hwgrp_digestx cavm_ssow_af_flr_hwgrp_digestx_t;
-
-static inline uint64_t CAVM_SSOW_AF_FLR_HWGRP_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SSOW_AF_FLR_HWGRP_DIGESTX(uint64_t a)
-{
-    if (a<=3)
-        return 0x840080000100ll + 8ll * ((a) & 0x3);
-    __cavm_csr_fatal("SSOW_AF_FLR_HWGRP_DIGESTX", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SSOW_AF_FLR_HWGRP_DIGESTX(a) cavm_ssow_af_flr_hwgrp_digestx_t
-#define bustype_CAVM_SSOW_AF_FLR_HWGRP_DIGESTX(a) CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_SSOW_AF_FLR_HWGRP_DIGESTX(a) "SSOW_AF_FLR_HWGRP_DIGESTX"
-#define device_bar_CAVM_SSOW_AF_FLR_HWGRP_DIGESTX(a) 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_SSOW_AF_FLR_HWGRP_DIGESTX(a) (a)
-#define arguments_CAVM_SSOW_AF_FLR_HWGRP_DIGESTX(a) (a),-1,-1,-1
-
-/**
- * Register (RVU_PF_BAR0) ssow_af_flr_hws_digest
- *
- * SSO AF FLR HWS Summary Registers
- * One bit per HWS to indicate which groups are currently mapped to SSOW_AF_LF_FLR[LF].
- */
-union cavm_ssow_af_flr_hws_digest
-{
-    uint64_t u;
-    struct cavm_ssow_af_flr_hws_digest_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t hws                   : 64; /**< [ 63:  0](R/W1C/H) One bit per HWS. Only valid after SSOW_AF_LF_FLR[STEP3] has completed. */
-#else /* Word 0 - Little Endian */
-        uint64_t hws                   : 64; /**< [ 63:  0](R/W1C/H) One bit per HWS. Only valid after SSOW_AF_LF_FLR[STEP3] has completed. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_ssow_af_flr_hws_digest_s cn; */
-};
-typedef union cavm_ssow_af_flr_hws_digest cavm_ssow_af_flr_hws_digest_t;
-
-#define CAVM_SSOW_AF_FLR_HWS_DIGEST CAVM_SSOW_AF_FLR_HWS_DIGEST_FUNC()
-static inline uint64_t CAVM_SSOW_AF_FLR_HWS_DIGEST_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SSOW_AF_FLR_HWS_DIGEST_FUNC(void)
-{
-    return 0x840080000300ll;
-}
-
-#define typedef_CAVM_SSOW_AF_FLR_HWS_DIGEST cavm_ssow_af_flr_hws_digest_t
-#define bustype_CAVM_SSOW_AF_FLR_HWS_DIGEST CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_SSOW_AF_FLR_HWS_DIGEST "SSOW_AF_FLR_HWS_DIGEST"
-#define device_bar_CAVM_SSOW_AF_FLR_HWS_DIGEST 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_SSOW_AF_FLR_HWS_DIGEST 0
-#define arguments_CAVM_SSOW_AF_FLR_HWS_DIGEST -1,-1,-1,-1
-
-/**
- * Register (RVU_PF_BAR0) ssow_af_lf_flr
- *
- * SSOW AF LF Reset Register
- */
-union cavm_ssow_af_lf_flr
-{
-    uint64_t u;
-    struct cavm_ssow_af_lf_flr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_33_63        : 31;
-        uint64_t flr_abort             : 1;  /**< [ 32: 32](R/W1S) Terminate hardware FLR in progress. */
-        uint64_t flr_error             : 1;  /**< [ 31: 31](RO) The last set step bit received an error. Hardware FLR was aborted. */
-        uint64_t reserved_21_30        : 10;
-        uint64_t step7                 : 1;  /**< [ 20: 20](R/W1S/H) Step 7 Hardware FLR. When set, hardware will perform
-                                                                 GET_WORK operations. Steps 3-6 are performed first if set.
-                                                                 Hardware clears this bit when done. */
-        uint64_t step6                 : 1;  /**< [ 19: 19](R/W1S/H) Step 6 Hardware FLR. When set, hardware will write
-                                                                 SSO_AF_HWS(0..51)_S(0..1)_GRPMSK(0..3). Steps 3-5 are
-                                                                 performed first if set. Hardware clears this bit when done. */
-        uint64_t step5                 : 1;  /**< [ 18: 18](R/W1S/H) Step 5 Hardware FLR. When set, hardware will write
-                                                                 SSOW_LF_GWS_OP_DESCHED, SSOW_LF_GWS_OP_SWTAG_FLUSH.
-                                                                 Steps 3-4 are performed first if set. Hardware clears this bit when done. */
-        uint64_t step4                 : 1;  /**< [ 17: 17](R/W1S/H) Step 4 Hardware FLR. When set, hardware will write SSO_AF_GWS_INV,
-                                                                 SSOW_LF_GWS_NW_TIM, and SSO_AF_HWS(0..51)_LSW_CFG. Step 3 is performed
-                                                                 first if set. Hardware clears this bit when done. */
-        uint64_t step3                 : 1;  /**< [ 16: 16](R/W1S/H) Step 3 Hardware FLR. When set, hardware will create 4 map files
-                                                                 Hardware clears this bit when done. */
-        uint64_t pf_func               : 16; /**< [ 15:  0](R/W) Local function that is FLR'd when any STEP bits are set. */
-#else /* Word 0 - Little Endian */
-        uint64_t pf_func               : 16; /**< [ 15:  0](R/W) Local function that is FLR'd when any STEP bits are set. */
-        uint64_t step3                 : 1;  /**< [ 16: 16](R/W1S/H) Step 3 Hardware FLR. When set, hardware will create 4 map files
-                                                                 Hardware clears this bit when done. */
-        uint64_t step4                 : 1;  /**< [ 17: 17](R/W1S/H) Step 4 Hardware FLR. When set, hardware will write SSO_AF_GWS_INV,
-                                                                 SSOW_LF_GWS_NW_TIM, and SSO_AF_HWS(0..51)_LSW_CFG. Step 3 is performed
-                                                                 first if set. Hardware clears this bit when done. */
-        uint64_t step5                 : 1;  /**< [ 18: 18](R/W1S/H) Step 5 Hardware FLR. When set, hardware will write
-                                                                 SSOW_LF_GWS_OP_DESCHED, SSOW_LF_GWS_OP_SWTAG_FLUSH.
-                                                                 Steps 3-4 are performed first if set. Hardware clears this bit when done. */
-        uint64_t step6                 : 1;  /**< [ 19: 19](R/W1S/H) Step 6 Hardware FLR. When set, hardware will write
-                                                                 SSO_AF_HWS(0..51)_S(0..1)_GRPMSK(0..3). Steps 3-5 are
-                                                                 performed first if set. Hardware clears this bit when done. */
-        uint64_t step7                 : 1;  /**< [ 20: 20](R/W1S/H) Step 7 Hardware FLR. When set, hardware will perform
-                                                                 GET_WORK operations. Steps 3-6 are performed first if set.
-                                                                 Hardware clears this bit when done. */
-        uint64_t reserved_21_30        : 10;
-        uint64_t flr_error             : 1;  /**< [ 31: 31](RO) The last set step bit received an error. Hardware FLR was aborted. */
-        uint64_t flr_abort             : 1;  /**< [ 32: 32](R/W1S) Terminate hardware FLR in progress. */
-        uint64_t reserved_33_63        : 31;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_ssow_af_lf_flr_s cn; */
-};
-typedef union cavm_ssow_af_lf_flr cavm_ssow_af_lf_flr_t;
-
-#define CAVM_SSOW_AF_LF_FLR CAVM_SSOW_AF_LF_FLR_FUNC()
-static inline uint64_t CAVM_SSOW_AF_LF_FLR_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SSOW_AF_LF_FLR_FUNC(void)
-{
-    return 0x840080000040ll;
-}
-
-#define typedef_CAVM_SSOW_AF_LF_FLR cavm_ssow_af_lf_flr_t
-#define bustype_CAVM_SSOW_AF_LF_FLR CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_SSOW_AF_LF_FLR "SSOW_AF_LF_FLR"
-#define device_bar_CAVM_SSOW_AF_LF_FLR 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_SSOW_AF_LF_FLR 0
-#define arguments_CAVM_SSOW_AF_LF_FLR -1,-1,-1,-1
-
-/**
  * Register (RVU_PF_BAR0) ssow_af_lf_hws_rst
  *
  * SSOW AF LF Reset Register
@@ -706,8 +494,7 @@ union cavm_ssow_lf_gws_int
     struct cavm_ssow_lf_gws_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_15_63        : 49;
-        uint64_t illegal_swprf_req     : 1;  /**< [ 14: 14](R/W1C/H) Received an illegal SWPRF_REQ. */
+        uint64_t reserved_14_63        : 50;
         uint64_t cpu_psn               : 1;  /**< [ 13: 13](R/W1C/H) Poison signaled on data. Generally indicates a hardware failure. */
         uint64_t illegal_slmtst        : 1;  /**< [ 12: 12](R/W1C/H) Received illegal Scheduled LMTST. */
         uint64_t swtag_dis             : 1;  /**< [ 11: 11](R/W1C/H) Received UPD_WQP_GRP/SWTAG_FULL/SWTAG_DESCH when SSO_AF_HWGRP()_AW_CFG[SWTAG_DIS] was set. */
@@ -749,8 +536,7 @@ union cavm_ssow_lf_gws_int
         uint64_t swtag_dis             : 1;  /**< [ 11: 11](R/W1C/H) Received UPD_WQP_GRP/SWTAG_FULL/SWTAG_DESCH when SSO_AF_HWGRP()_AW_CFG[SWTAG_DIS] was set. */
         uint64_t illegal_slmtst        : 1;  /**< [ 12: 12](R/W1C/H) Received illegal Scheduled LMTST. */
         uint64_t cpu_psn               : 1;  /**< [ 13: 13](R/W1C/H) Poison signaled on data. Generally indicates a hardware failure. */
-        uint64_t illegal_swprf_req     : 1;  /**< [ 14: 14](R/W1C/H) Received an illegal SWPRF_REQ. */
-        uint64_t reserved_15_63        : 49;
+        uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ssow_lf_gws_int_s cn; */
@@ -783,8 +569,7 @@ union cavm_ssow_lf_gws_int_ena_w1c
     struct cavm_ssow_lf_gws_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_15_63        : 49;
-        uint64_t illegal_swprf_req     : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for SSOW_LF_GWS_INT[ILLEGAL_SWPRF_REQ]. */
+        uint64_t reserved_14_63        : 50;
         uint64_t cpu_psn               : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for SSOW_LF_GWS_INT[CPU_PSN]. */
         uint64_t illegal_slmtst        : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for SSOW_LF_GWS_INT[ILLEGAL_SLMTST]. */
         uint64_t swtag_dis             : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for SSOW_LF_GWS_INT[SWTAG_DIS]. */
@@ -810,8 +595,7 @@ union cavm_ssow_lf_gws_int_ena_w1c
         uint64_t swtag_dis             : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for SSOW_LF_GWS_INT[SWTAG_DIS]. */
         uint64_t illegal_slmtst        : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for SSOW_LF_GWS_INT[ILLEGAL_SLMTST]. */
         uint64_t cpu_psn               : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for SSOW_LF_GWS_INT[CPU_PSN]. */
-        uint64_t illegal_swprf_req     : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for SSOW_LF_GWS_INT[ILLEGAL_SWPRF_REQ]. */
-        uint64_t reserved_15_63        : 49;
+        uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ssow_lf_gws_int_ena_w1c_s cn; */
@@ -844,8 +628,7 @@ union cavm_ssow_lf_gws_int_ena_w1s
     struct cavm_ssow_lf_gws_int_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_15_63        : 49;
-        uint64_t illegal_swprf_req     : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for SSOW_LF_GWS_INT[ILLEGAL_SWPRF_REQ]. */
+        uint64_t reserved_14_63        : 50;
         uint64_t cpu_psn               : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for SSOW_LF_GWS_INT[CPU_PSN]. */
         uint64_t illegal_slmtst        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for SSOW_LF_GWS_INT[ILLEGAL_SLMTST]. */
         uint64_t swtag_dis             : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for SSOW_LF_GWS_INT[SWTAG_DIS]. */
@@ -871,8 +654,7 @@ union cavm_ssow_lf_gws_int_ena_w1s
         uint64_t swtag_dis             : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for SSOW_LF_GWS_INT[SWTAG_DIS]. */
         uint64_t illegal_slmtst        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for SSOW_LF_GWS_INT[ILLEGAL_SLMTST]. */
         uint64_t cpu_psn               : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for SSOW_LF_GWS_INT[CPU_PSN]. */
-        uint64_t illegal_swprf_req     : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for SSOW_LF_GWS_INT[ILLEGAL_SWPRF_REQ]. */
-        uint64_t reserved_15_63        : 49;
+        uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ssow_lf_gws_int_ena_w1s_s cn; */
@@ -905,8 +687,7 @@ union cavm_ssow_lf_gws_int_w1s
     struct cavm_ssow_lf_gws_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_15_63        : 49;
-        uint64_t illegal_swprf_req     : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets SSOW_LF_GWS_INT[ILLEGAL_SWPRF_REQ]. */
+        uint64_t reserved_14_63        : 50;
         uint64_t cpu_psn               : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets SSOW_LF_GWS_INT[CPU_PSN]. */
         uint64_t illegal_slmtst        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets SSOW_LF_GWS_INT[ILLEGAL_SLMTST]. */
         uint64_t swtag_dis             : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets SSOW_LF_GWS_INT[SWTAG_DIS]. */
@@ -932,8 +713,7 @@ union cavm_ssow_lf_gws_int_w1s
         uint64_t swtag_dis             : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets SSOW_LF_GWS_INT[SWTAG_DIS]. */
         uint64_t illegal_slmtst        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets SSOW_LF_GWS_INT[ILLEGAL_SLMTST]. */
         uint64_t cpu_psn               : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets SSOW_LF_GWS_INT[CPU_PSN]. */
-        uint64_t illegal_swprf_req     : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets SSOW_LF_GWS_INT[ILLEGAL_SWPRF_REQ]. */
-        uint64_t reserved_15_63        : 49;
+        uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ssow_lf_gws_int_w1s_s cn; */
@@ -1271,84 +1051,6 @@ static inline uint64_t CAVM_SSOW_LF_GWS_OP_GWC_INVAL_FUNC(void)
 #define device_bar_CAVM_SSOW_LF_GWS_OP_GWC_INVAL 0x2 /* RVU_BAR2 */
 #define busnum_CAVM_SSOW_LF_GWS_OP_GWC_INVAL 0
 #define arguments_CAVM_SSOW_LF_GWS_OP_GWC_INVAL -1,-1,-1,-1
-
-/**
- * Register (RVU_PFVF_BAR2) ssow_lf_gws_op_prf_getwork
- *
- * SSO Workslot LF PRF Operator Register
- * Contains information for the attributes of the Work Entry to be prefetched during a
- * Software Prefetch. A 64 - bit write to this register initiates a SWPRF_REQ operation.
- * If DISABLE_PREFETCH is set in the SSO AF Configuration Register, then the SWPRF_REQ
- * is effectively dropped and no IOP errors are reported.
- */
-union cavm_ssow_lf_gws_op_prf_getwork
-{
-    uint64_t u;
-    struct cavm_ssow_lf_gws_op_prf_getwork_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_19_63        : 45;
-        uint64_t grouped               : 1;  /**< [ 18: 18](WO) Get from a specific group number, specified in [GGRP_MASK]. */
-        uint64_t reserved_17           : 1;
-        uint64_t waitw                 : 1;  /**< [ 16: 16](WO) If set, wait for work; don't complete GET_WORK until work is available
-                                                                 or timeout. */
-        uint64_t reserved_8_15         : 8;
-        uint64_t ggrp_mask             : 8;  /**< [  7:  0](WO) Guest group or masks.
-
-                                                                 * If [GROUPED]=0, \<1:0\> indicates how to use the mask sets
-                                                                 in SSO_AF_HWS()_S()_GRPMSK() (\<13:2\> are ignored):
-                                                                 0x0 = use mask set 0 as high priority, and mask set 1 as lower priority if no groups
-                                                                 satisfy mask set 0.
-                                                                 0x1 = use mask set 0.
-                                                                 0x2 = use mask set 1.
-                                                                 0x3 = reserved, behaves as 0x0.
-
-                                                                 * If [GROUPED] = 1, \<7:0\> provides the guest group number.
-
-                                                                  o GGRP is translated to a hardware group as described in SSOW_LF_GWS_GRPMSK_CHG.
-                                                                    If no match or a multi-match is found SSO_AF_ERR2[WS_UNMAP] or
-                                                                    SSO_AF_ERR2[WS_MULTI] is set respectively and no-work is returned. */
-#else /* Word 0 - Little Endian */
-        uint64_t ggrp_mask             : 8;  /**< [  7:  0](WO) Guest group or masks.
-
-                                                                 * If [GROUPED]=0, \<1:0\> indicates how to use the mask sets
-                                                                 in SSO_AF_HWS()_S()_GRPMSK() (\<13:2\> are ignored):
-                                                                 0x0 = use mask set 0 as high priority, and mask set 1 as lower priority if no groups
-                                                                 satisfy mask set 0.
-                                                                 0x1 = use mask set 0.
-                                                                 0x2 = use mask set 1.
-                                                                 0x3 = reserved, behaves as 0x0.
-
-                                                                 * If [GROUPED] = 1, \<7:0\> provides the guest group number.
-
-                                                                  o GGRP is translated to a hardware group as described in SSOW_LF_GWS_GRPMSK_CHG.
-                                                                    If no match or a multi-match is found SSO_AF_ERR2[WS_UNMAP] or
-                                                                    SSO_AF_ERR2[WS_MULTI] is set respectively and no-work is returned. */
-        uint64_t reserved_8_15         : 8;
-        uint64_t waitw                 : 1;  /**< [ 16: 16](WO) If set, wait for work; don't complete GET_WORK until work is available
-                                                                 or timeout. */
-        uint64_t reserved_17           : 1;
-        uint64_t grouped               : 1;  /**< [ 18: 18](WO) Get from a specific group number, specified in [GGRP_MASK]. */
-        uint64_t reserved_19_63        : 45;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_ssow_lf_gws_op_prf_getwork_s cn; */
-};
-typedef union cavm_ssow_lf_gws_op_prf_getwork cavm_ssow_lf_gws_op_prf_getwork_t;
-
-#define CAVM_SSOW_LF_GWS_OP_PRF_GETWORK CAVM_SSOW_LF_GWS_OP_PRF_GETWORK_FUNC()
-static inline uint64_t CAVM_SSOW_LF_GWS_OP_PRF_GETWORK_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SSOW_LF_GWS_OP_PRF_GETWORK_FUNC(void)
-{
-    return 0x840200800610ll;
-}
-
-#define typedef_CAVM_SSOW_LF_GWS_OP_PRF_GETWORK cavm_ssow_lf_gws_op_prf_getwork_t
-#define bustype_CAVM_SSOW_LF_GWS_OP_PRF_GETWORK CSR_TYPE_RVU_PFVF_BAR2
-#define basename_CAVM_SSOW_LF_GWS_OP_PRF_GETWORK "SSOW_LF_GWS_OP_PRF_GETWORK"
-#define device_bar_CAVM_SSOW_LF_GWS_OP_PRF_GETWORK 0x2 /* RVU_BAR2 */
-#define busnum_CAVM_SSOW_LF_GWS_OP_PRF_GETWORK 0
-#define arguments_CAVM_SSOW_LF_GWS_OP_PRF_GETWORK -1,-1,-1,-1
 
 /**
  * Register (RVU_PFVF_BAR2) ssow_lf_gws_op_swtag_desched

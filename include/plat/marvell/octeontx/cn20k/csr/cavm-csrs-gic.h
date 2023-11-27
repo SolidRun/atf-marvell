@@ -25,7 +25,7 @@
  * GIC Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define CAVM_GIC_BAR_E_GICDA_BAR (0x801001500000ll)
+#define CAVM_GIC_BAR_E_GICDA_BAR (0x801000680000ll)
 #define CAVM_GIC_BAR_E_GICDA_BAR_SIZE 0x10000ull
 #define CAVM_GIC_BAR_E_GIC_PF_BAR0 (0x801000000000ll)
 #define CAVM_GIC_BAR_E_GIC_PF_BAR0_SIZE 0x80000000ull
@@ -38,7 +38,7 @@
  * GIC MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define CAVM_GIC_INT_VEC_E_GICD_INT (0x20)
+#define CAVM_GIC_INT_VEC_E_GICD_INT (0x18)
 #define CAVM_GIC_INT_VEC_E_GIC_WAKE_INTX(a) (0 + (a))
 
 /**
@@ -1018,11 +1018,11 @@ union cavm_gic_anb_aximstr_status
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t anb_aximstr_wr_resp_nok : 1;/**< [  1:  1](RO/H) Set indicates there was an axi read response of not ok. */
-        uint64_t anb_aximstr_rd_resp_nok : 1;/**< [  0:  0](RO/H) Set indicates there was an axi read response of not ok. */
+        uint64_t anb_aximstr_wr_resp_nok : 1;/**< [  1:  1](RO/H) set indicates there was an axi read response of not ok */
+        uint64_t anb_aximstr_rd_resp_nok : 1;/**< [  0:  0](RO/H) set indicates there was an axi read response of not ok */
 #else /* Word 0 - Little Endian */
-        uint64_t anb_aximstr_rd_resp_nok : 1;/**< [  0:  0](RO/H) Set indicates there was an axi read response of not ok. */
-        uint64_t anb_aximstr_wr_resp_nok : 1;/**< [  1:  1](RO/H) Set indicates there was an axi read response of not ok. */
+        uint64_t anb_aximstr_rd_resp_nok : 1;/**< [  0:  0](RO/H) set indicates there was an axi read response of not ok */
+        uint64_t anb_aximstr_wr_resp_nok : 1;/**< [  1:  1](RO/H) set indicates there was an axi read response of not ok */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
@@ -1034,7 +1034,7 @@ typedef union cavm_gic_anb_aximstr_status cavm_gic_anb_aximstr_status_t;
 static inline uint64_t CAVM_GIC_ANB_AXIMSTR_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GIC_ANB_AXIMSTR_STATUS_FUNC(void)
 {
-    return 0x801010012060ll;
+    return 0x801010011060ll;
 }
 
 #define typedef_CAVM_GIC_ANB_AXIMSTR_STATUS cavm_gic_anb_aximstr_status_t
@@ -1055,11 +1055,7 @@ union cavm_gic_anb_axislv_status
     struct cavm_gic_anb_axislv_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_13_63        : 51;
-        uint64_t anb_axislv_bad_narrow_write_64 : 1;/**< [ 12: 12](RO/H) An unsupported narrow write transfer of 64 bit DOUBLEWORDs occurred. */
-        uint64_t anb_axislv_bad_narrow_write_32 : 1;/**< [ 11: 11](RO/H) An unsupported narrow write transfer of 32 bit WORDs occurred. */
-        uint64_t anb_axislv_bad_narrow_write_16 : 1;/**< [ 10: 10](RO/H) An unsupported narrow write transfer of 16 bit HALFWORDs occurred. */
-        uint64_t anb_axislv_bad_narrow_write_8 : 1;/**< [  9:  9](RO/H) An unsupported narrow write transfer of 8 bit BYTEs occurred. */
+        uint64_t reserved_9_63         : 55;
         uint64_t anb_axislv_single_beat_nrw_rd : 1;/**< [  8:  8](RO/H) A single data beat narrow read occurred. */
         uint64_t anb_axislv_single_beat_nrw_wr : 1;/**< [  7:  7](RO/H) A single data beat narrow write occurred. */
         uint64_t anb_axislv_multi_beat_nrw_rd : 1;/**< [  6:  6](RO/H) A multi data beat narrow read occurred. */
@@ -1067,11 +1063,11 @@ union cavm_gic_anb_axislv_status
         uint64_t anb_axislv_empty_write : 1; /**< [  4:  4](RO/H) An AXI write occurred with no data beats have any BE set. */
         uint64_t anb_axislv_write_size_exc : 1;/**< [  3:  3](RO/H) A write awlen exceeded supported size. */
         uint64_t anb_axislv_load_size_exc : 1;/**< [  2:  2](RO/H) A read arlen exceeded supported size. */
-        uint64_t anb_axislv_r_fifo_overrun : 1;/**< [  1:  1](RO/H) Set indicates there was a load data response fifo overrun. */
-        uint64_t anb_axislv_b_fifo_overrun : 1;/**< [  0:  0](RO/H) Set indicates there was a write response fifo overrun. */
+        uint64_t anb_axislv_r_fifo_overrun : 1;/**< [  1:  1](RO/H) set indicates there was a load data response fifo overrun */
+        uint64_t anb_axislv_b_fifo_overrun : 1;/**< [  0:  0](RO/H) set indicates there was a write response fifo overrun */
 #else /* Word 0 - Little Endian */
-        uint64_t anb_axislv_b_fifo_overrun : 1;/**< [  0:  0](RO/H) Set indicates there was a write response fifo overrun. */
-        uint64_t anb_axislv_r_fifo_overrun : 1;/**< [  1:  1](RO/H) Set indicates there was a load data response fifo overrun. */
+        uint64_t anb_axislv_b_fifo_overrun : 1;/**< [  0:  0](RO/H) set indicates there was a write response fifo overrun */
+        uint64_t anb_axislv_r_fifo_overrun : 1;/**< [  1:  1](RO/H) set indicates there was a load data response fifo overrun */
         uint64_t anb_axislv_load_size_exc : 1;/**< [  2:  2](RO/H) A read arlen exceeded supported size. */
         uint64_t anb_axislv_write_size_exc : 1;/**< [  3:  3](RO/H) A write awlen exceeded supported size. */
         uint64_t anb_axislv_empty_write : 1; /**< [  4:  4](RO/H) An AXI write occurred with no data beats have any BE set. */
@@ -1079,11 +1075,7 @@ union cavm_gic_anb_axislv_status
         uint64_t anb_axislv_multi_beat_nrw_rd : 1;/**< [  6:  6](RO/H) A multi data beat narrow read occurred. */
         uint64_t anb_axislv_single_beat_nrw_wr : 1;/**< [  7:  7](RO/H) A single data beat narrow write occurred. */
         uint64_t anb_axislv_single_beat_nrw_rd : 1;/**< [  8:  8](RO/H) A single data beat narrow read occurred. */
-        uint64_t anb_axislv_bad_narrow_write_8 : 1;/**< [  9:  9](RO/H) An unsupported narrow write transfer of 8 bit BYTEs occurred. */
-        uint64_t anb_axislv_bad_narrow_write_16 : 1;/**< [ 10: 10](RO/H) An unsupported narrow write transfer of 16 bit HALFWORDs occurred. */
-        uint64_t anb_axislv_bad_narrow_write_32 : 1;/**< [ 11: 11](RO/H) An unsupported narrow write transfer of 32 bit WORDs occurred. */
-        uint64_t anb_axislv_bad_narrow_write_64 : 1;/**< [ 12: 12](RO/H) An unsupported narrow write transfer of 64 bit DOUBLEWORDs occurred. */
-        uint64_t reserved_13_63        : 51;
+        uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gic_anb_axislv_status_s cn; */
@@ -1094,7 +1086,7 @@ typedef union cavm_gic_anb_axislv_status cavm_gic_anb_axislv_status_t;
 static inline uint64_t CAVM_GIC_ANB_AXISLV_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GIC_ANB_AXISLV_STATUS_FUNC(void)
 {
-    return 0x801010012030ll;
+    return 0x801010011030ll;
 }
 
 #define typedef_CAVM_GIC_ANB_AXISLV_STATUS cavm_gic_anb_axislv_status_t
@@ -1115,10 +1107,7 @@ union cavm_gic_anb_backp_disable
     struct cavm_gic_anb_backp_disable_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
-        uint64_t anb_ncb_rst_drain_axislv_fifos : 1;/**< [  4:  4](R/W) for NCB reset active, respond to transactions with slverr */
-        uint64_t anb_force_ncb_rst_active : 1;/**< [  3:  3](R/W) force ncb reset active to anb */
-        uint64_t anb_chicken_w_wait_for_aw : 1;/**< [  2:  2](R/W) force AXI wready to wait for aw arrival */
+        uint64_t reserved_2_63         : 62;
         uint64_t anb_extmstr_r_backp_disable : 1;/**< [  1:  1](R/W) On the anb-\>ncbitx path (axi external master) disable backpressure from the r
                                                                  fifo to awready if it is guaranteed that the axi external master will not deassert rready.
                                                                  This is NOT part of the axi spec and may result in lost load data responses if
@@ -1138,10 +1127,7 @@ union cavm_gic_anb_backp_disable
                                                                  This is NOT part of the axi spec and may result in lost load data responses if
                                                                  configured improperly
                                                                  but is provided to improve throughput. */
-        uint64_t anb_chicken_w_wait_for_aw : 1;/**< [  2:  2](R/W) force AXI wready to wait for aw arrival */
-        uint64_t anb_force_ncb_rst_active : 1;/**< [  3:  3](R/W) force ncb reset active to anb */
-        uint64_t anb_ncb_rst_drain_axislv_fifos : 1;/**< [  4:  4](R/W) for NCB reset active, respond to transactions with slverr */
-        uint64_t reserved_5_63         : 59;
+        uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gic_anb_backp_disable_s cn; */
@@ -1152,7 +1138,7 @@ typedef union cavm_gic_anb_backp_disable cavm_gic_anb_backp_disable_t;
 static inline uint64_t CAVM_GIC_ANB_BACKP_DISABLE_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GIC_ANB_BACKP_DISABLE_FUNC(void)
 {
-    return 0x801010012000ll;
+    return 0x801010011000ll;
 }
 
 #define typedef_CAVM_GIC_ANB_BACKP_DISABLE cavm_gic_anb_backp_disable_t
@@ -1173,35 +1159,33 @@ union cavm_gic_anb_ncbi_np_ovr
     struct cavm_gic_anb_ncbi_np_ovr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t anb_ncbi_np_ldd_frc   : 1;  /**< [ 31: 31](R/W) force NCB load type to LDD */
-        uint64_t anb_ncbi_np_mpamdid_ovr : 10;/**< [ 30: 21](R/W) Value to set mpamdid field in p path cmd going to ncb_cmn. */
-        uint64_t anb_ncbi_np_mpamdid_ovr_vld : 1;/**< [ 20: 20](R/W) Use [ANB_NCBI_NP_MPAMDID_OVR] to set mpamdid field in p path cmd going to ncb_cmn. */
-        uint64_t anb_ncbi_np_mpadid_val_ovr : 1;/**< [ 19: 19](R/W) Value to set mpadid_val field in p path cmd going to ncb_cmn. */
-        uint64_t anb_ncbi_np_mpadid_val_ovr_vld : 1;/**< [ 18: 18](R/W) Use [ANB_NCBI_NP_MPADID_VAL_OVR] to set mpadid_val field in p path cmd going to ncb_cmn. */
-        uint64_t anb_ncbi_np_ro_ovr    : 1;  /**< [ 17: 17](R/W) Value to set ro field in p path cmd going to ncb_cmn. */
-        uint64_t anb_ncbi_np_ro_ovr_vld : 1; /**< [ 16: 16](R/W) Use [ANB_NCBI_NP_RO_OVR] to set ro field in p path cmd going to ncb_cmn. */
-        uint64_t anb_ncbi_np_paddr_ovr : 1;  /**< [ 15: 15](R/W) Value to set paddr field in p path cmd going to ncb_cmn. */
-        uint64_t anb_ncbi_np_paddr_ovr_vld : 1;/**< [ 14: 14](R/W) Use [ANB_NCBI_NP_PADDR_OVR] to set paddr field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_ns_ovr    : 1;  /**< [ 13: 13](R/W) Value to set ns field in p path cmd going to ncb_cmn. */
-        uint64_t anb_ncbi_np_ns_ovr_vld : 1; /**< [ 12: 12](R/W) Use [ANB_NCBI_NP_NS_OVR] to set ns field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_msh_dst_ovr : 11;/**< [ 11:  1](R/W) Value to set msh_dst field in p path cmd going to ncb_cmn. */
-        uint64_t anb_ncbi_np_msh_dst_ovr_vld : 1;/**< [  0:  0](R/W) Use [ANB_NCBI_NP_MSH_DST_OVR] to set msh_dst field in p path cmd going to ncb_cmn. */
+        uint64_t reserved_31_63        : 33;
+        uint64_t anb_ncbi_np_mpamdid_ovr : 10;/**< [ 30: 21](R/W) value to set mpamdid field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_np_mpamdid_ovr_vld : 1;/**< [ 20: 20](R/W) Use PADDR_OVR to set mpamdid field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_np_mpadid_val_ovr : 1;/**< [ 19: 19](R/W) value to set mpadid_val field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_np_mpadid_val_ovr_vld : 1;/**< [ 18: 18](R/W) Use PADDR_OVR to set mpadid_val field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_np_ro_ovr    : 1;  /**< [ 17: 17](R/W) value to set ro field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_np_ro_ovr_vld : 1; /**< [ 16: 16](R/W) Use PADDR_OVR to set ro field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_np_paddr_ovr : 1;  /**< [ 15: 15](R/W) value to set paddr field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_np_paddr_ovr_vld : 1;/**< [ 14: 14](R/W) Use PADDR_OVR to set paddr field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_np_ns_ovr    : 1;  /**< [ 13: 13](R/W) value to set ns field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_np_ns_ovr_vld : 1; /**< [ 12: 12](R/W) Use NS_OVR to set ns field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_np_msh_dst_ovr : 11;/**< [ 11:  1](R/W) value to set msh_dst field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_np_msh_dst_ovr_vld : 1;/**< [  0:  0](R/W) Use MSH_DST_OVR to set msh_dst field in p path cmd going to ncb_cmn */
 #else /* Word 0 - Little Endian */
-        uint64_t anb_ncbi_np_msh_dst_ovr_vld : 1;/**< [  0:  0](R/W) Use [ANB_NCBI_NP_MSH_DST_OVR] to set msh_dst field in p path cmd going to ncb_cmn. */
-        uint64_t anb_ncbi_np_msh_dst_ovr : 11;/**< [ 11:  1](R/W) Value to set msh_dst field in p path cmd going to ncb_cmn. */
-        uint64_t anb_ncbi_np_ns_ovr_vld : 1; /**< [ 12: 12](R/W) Use [ANB_NCBI_NP_NS_OVR] to set ns field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_ns_ovr    : 1;  /**< [ 13: 13](R/W) Value to set ns field in p path cmd going to ncb_cmn. */
-        uint64_t anb_ncbi_np_paddr_ovr_vld : 1;/**< [ 14: 14](R/W) Use [ANB_NCBI_NP_PADDR_OVR] to set paddr field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_paddr_ovr : 1;  /**< [ 15: 15](R/W) Value to set paddr field in p path cmd going to ncb_cmn. */
-        uint64_t anb_ncbi_np_ro_ovr_vld : 1; /**< [ 16: 16](R/W) Use [ANB_NCBI_NP_RO_OVR] to set ro field in p path cmd going to ncb_cmn. */
-        uint64_t anb_ncbi_np_ro_ovr    : 1;  /**< [ 17: 17](R/W) Value to set ro field in p path cmd going to ncb_cmn. */
-        uint64_t anb_ncbi_np_mpadid_val_ovr_vld : 1;/**< [ 18: 18](R/W) Use [ANB_NCBI_NP_MPADID_VAL_OVR] to set mpadid_val field in p path cmd going to ncb_cmn. */
-        uint64_t anb_ncbi_np_mpadid_val_ovr : 1;/**< [ 19: 19](R/W) Value to set mpadid_val field in p path cmd going to ncb_cmn. */
-        uint64_t anb_ncbi_np_mpamdid_ovr_vld : 1;/**< [ 20: 20](R/W) Use [ANB_NCBI_NP_MPAMDID_OVR] to set mpamdid field in p path cmd going to ncb_cmn. */
-        uint64_t anb_ncbi_np_mpamdid_ovr : 10;/**< [ 30: 21](R/W) Value to set mpamdid field in p path cmd going to ncb_cmn. */
-        uint64_t anb_ncbi_np_ldd_frc   : 1;  /**< [ 31: 31](R/W) force NCB load type to LDD */
-        uint64_t reserved_32_63        : 32;
+        uint64_t anb_ncbi_np_msh_dst_ovr_vld : 1;/**< [  0:  0](R/W) Use MSH_DST_OVR to set msh_dst field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_np_msh_dst_ovr : 11;/**< [ 11:  1](R/W) value to set msh_dst field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_np_ns_ovr_vld : 1; /**< [ 12: 12](R/W) Use NS_OVR to set ns field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_np_ns_ovr    : 1;  /**< [ 13: 13](R/W) value to set ns field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_np_paddr_ovr_vld : 1;/**< [ 14: 14](R/W) Use PADDR_OVR to set paddr field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_np_paddr_ovr : 1;  /**< [ 15: 15](R/W) value to set paddr field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_np_ro_ovr_vld : 1; /**< [ 16: 16](R/W) Use PADDR_OVR to set ro field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_np_ro_ovr    : 1;  /**< [ 17: 17](R/W) value to set ro field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_np_mpadid_val_ovr_vld : 1;/**< [ 18: 18](R/W) Use PADDR_OVR to set mpadid_val field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_np_mpadid_val_ovr : 1;/**< [ 19: 19](R/W) value to set mpadid_val field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_np_mpamdid_ovr_vld : 1;/**< [ 20: 20](R/W) Use PADDR_OVR to set mpamdid field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_np_mpamdid_ovr : 10;/**< [ 30: 21](R/W) value to set mpamdid field in p path cmd going to ncb_cmn */
+        uint64_t reserved_31_63        : 33;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gic_anb_ncbi_np_ovr_s cn; */
@@ -1212,7 +1196,7 @@ typedef union cavm_gic_anb_ncbi_np_ovr cavm_gic_anb_ncbi_np_ovr_t;
 static inline uint64_t CAVM_GIC_ANB_NCBI_NP_OVR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GIC_ANB_NCBI_NP_OVR_FUNC(void)
 {
-    return 0x801010012020ll;
+    return 0x801010011020ll;
 }
 
 #define typedef_CAVM_GIC_ANB_NCBI_NP_OVR cavm_gic_anb_ncbi_np_ovr_t
@@ -1233,35 +1217,33 @@ union cavm_gic_anb_ncbi_p_ovr
     struct cavm_gic_anb_ncbi_p_ovr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t anb_ncbi_p_stt_frc    : 1;  /**< [ 31: 31](R/W) force NCB store type to STT */
-        uint64_t anb_ncbi_p_mpamdid_ovr : 10;/**< [ 30: 21](R/W) Value to set mpamdid field in p path cmd going to ncb_cmn. */
-        uint64_t anb_ncbi_p_mpamdid_ovr_vld : 1;/**< [ 20: 20](R/W) Use [ANB_NCBI_P_MPAMDID_OVR] to set mpamdid field in p path cmd going to ncb_cmn. */
-        uint64_t anb_ncbi_p_mpadid_val_ovr : 1;/**< [ 19: 19](R/W) Value to set mpadid_val field in p path cmd going to ncb_cmn. */
-        uint64_t anb_ncbi_p_mpadid_val_ovr_vld : 1;/**< [ 18: 18](R/W) Use [ANB_NCBI_P_MPADID_VAL_OVR] to set mpadid_val field in p path cmd going to ncb_cmn. */
-        uint64_t anb_ncbi_p_ro_ovr     : 1;  /**< [ 17: 17](R/W) Value to set ro field in p path cmd going to ncb_cmn. */
-        uint64_t anb_ncbi_p_ro_ovr_vld : 1;  /**< [ 16: 16](R/W) Use [ANB_NCBI_P_RO_OVR] to set ro field in p path cmd going to ncb_cmn. */
-        uint64_t anb_ncbi_p_paddr_ovr  : 1;  /**< [ 15: 15](R/W) Value to set paddr field in p path cmd going to ncb_cmn. */
-        uint64_t anb_ncbi_p_paddr_ovr_vld : 1;/**< [ 14: 14](R/W) Use [ANB_NCBI_P_PADDR_OVR] to set paddr field in p path cmd going to ncb_cmn. */
-        uint64_t anb_ncbi_p_ns_ovr     : 1;  /**< [ 13: 13](R/W) Value to set ns field in p path cmd going to ncb_cmn. */
-        uint64_t anb_ncbi_p_ns_ovr_vld : 1;  /**< [ 12: 12](R/W) Use [ANB_NCBI_P_NS_OVR] to set ns field in p path cmd going to ncb_cmn. */
-        uint64_t anb_ncbi_p_msh_dst_ovr : 11;/**< [ 11:  1](R/W) Value to set msh_dst field in p path cmd going to ncb_cmn. */
-        uint64_t anb_ncbi_p_msh_dst_ovr_vld : 1;/**< [  0:  0](R/W) Use [ANB_NCBI_P_MSH_DST_OVR] to set msh_dst field in p path cmd going to ncb_cmn. */
+        uint64_t reserved_31_63        : 33;
+        uint64_t anb_ncbi_p_mpamdid_ovr : 10;/**< [ 30: 21](R/W) value to set mpamdid field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_p_mpamdid_ovr_vld : 1;/**< [ 20: 20](R/W) Use PADDR_OVR to set mpamdid field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_p_mpadid_val_ovr : 1;/**< [ 19: 19](R/W) value to set mpadid_val field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_p_mpadid_val_ovr_vld : 1;/**< [ 18: 18](R/W) Use PADDR_OVR to set mpadid_val field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_p_ro_ovr     : 1;  /**< [ 17: 17](R/W) value to set ro field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_p_ro_ovr_vld : 1;  /**< [ 16: 16](R/W) Use PADDR_OVR to set ro field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_p_paddr_ovr  : 1;  /**< [ 15: 15](R/W) value to set paddr field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_p_paddr_ovr_vld : 1;/**< [ 14: 14](R/W) Use PADDR_OVR to set paddr field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_p_ns_ovr     : 1;  /**< [ 13: 13](R/W) value to set ns field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_p_ns_ovr_vld : 1;  /**< [ 12: 12](R/W) Use NS_OVR to set ns field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_p_msh_dst_ovr : 11;/**< [ 11:  1](R/W) value to set msh_dst field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_p_msh_dst_ovr_vld : 1;/**< [  0:  0](R/W) Use MSH_DST_OVR to set msh_dst field in p path cmd going to ncb_cmn */
 #else /* Word 0 - Little Endian */
-        uint64_t anb_ncbi_p_msh_dst_ovr_vld : 1;/**< [  0:  0](R/W) Use [ANB_NCBI_P_MSH_DST_OVR] to set msh_dst field in p path cmd going to ncb_cmn. */
-        uint64_t anb_ncbi_p_msh_dst_ovr : 11;/**< [ 11:  1](R/W) Value to set msh_dst field in p path cmd going to ncb_cmn. */
-        uint64_t anb_ncbi_p_ns_ovr_vld : 1;  /**< [ 12: 12](R/W) Use [ANB_NCBI_P_NS_OVR] to set ns field in p path cmd going to ncb_cmn. */
-        uint64_t anb_ncbi_p_ns_ovr     : 1;  /**< [ 13: 13](R/W) Value to set ns field in p path cmd going to ncb_cmn. */
-        uint64_t anb_ncbi_p_paddr_ovr_vld : 1;/**< [ 14: 14](R/W) Use [ANB_NCBI_P_PADDR_OVR] to set paddr field in p path cmd going to ncb_cmn. */
-        uint64_t anb_ncbi_p_paddr_ovr  : 1;  /**< [ 15: 15](R/W) Value to set paddr field in p path cmd going to ncb_cmn. */
-        uint64_t anb_ncbi_p_ro_ovr_vld : 1;  /**< [ 16: 16](R/W) Use [ANB_NCBI_P_RO_OVR] to set ro field in p path cmd going to ncb_cmn. */
-        uint64_t anb_ncbi_p_ro_ovr     : 1;  /**< [ 17: 17](R/W) Value to set ro field in p path cmd going to ncb_cmn. */
-        uint64_t anb_ncbi_p_mpadid_val_ovr_vld : 1;/**< [ 18: 18](R/W) Use [ANB_NCBI_P_MPADID_VAL_OVR] to set mpadid_val field in p path cmd going to ncb_cmn. */
-        uint64_t anb_ncbi_p_mpadid_val_ovr : 1;/**< [ 19: 19](R/W) Value to set mpadid_val field in p path cmd going to ncb_cmn. */
-        uint64_t anb_ncbi_p_mpamdid_ovr_vld : 1;/**< [ 20: 20](R/W) Use [ANB_NCBI_P_MPAMDID_OVR] to set mpamdid field in p path cmd going to ncb_cmn. */
-        uint64_t anb_ncbi_p_mpamdid_ovr : 10;/**< [ 30: 21](R/W) Value to set mpamdid field in p path cmd going to ncb_cmn. */
-        uint64_t anb_ncbi_p_stt_frc    : 1;  /**< [ 31: 31](R/W) force NCB store type to STT */
-        uint64_t reserved_32_63        : 32;
+        uint64_t anb_ncbi_p_msh_dst_ovr_vld : 1;/**< [  0:  0](R/W) Use MSH_DST_OVR to set msh_dst field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_p_msh_dst_ovr : 11;/**< [ 11:  1](R/W) value to set msh_dst field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_p_ns_ovr_vld : 1;  /**< [ 12: 12](R/W) Use NS_OVR to set ns field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_p_ns_ovr     : 1;  /**< [ 13: 13](R/W) value to set ns field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_p_paddr_ovr_vld : 1;/**< [ 14: 14](R/W) Use PADDR_OVR to set paddr field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_p_paddr_ovr  : 1;  /**< [ 15: 15](R/W) value to set paddr field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_p_ro_ovr_vld : 1;  /**< [ 16: 16](R/W) Use PADDR_OVR to set ro field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_p_ro_ovr     : 1;  /**< [ 17: 17](R/W) value to set ro field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_p_mpadid_val_ovr_vld : 1;/**< [ 18: 18](R/W) Use PADDR_OVR to set mpadid_val field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_p_mpadid_val_ovr : 1;/**< [ 19: 19](R/W) value to set mpadid_val field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_p_mpamdid_ovr_vld : 1;/**< [ 20: 20](R/W) Use PADDR_OVR to set mpamdid field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_p_mpamdid_ovr : 10;/**< [ 30: 21](R/W) value to set mpamdid field in p path cmd going to ncb_cmn */
+        uint64_t reserved_31_63        : 33;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gic_anb_ncbi_p_ovr_s cn; */
@@ -1272,7 +1254,7 @@ typedef union cavm_gic_anb_ncbi_p_ovr cavm_gic_anb_ncbi_p_ovr_t;
 static inline uint64_t CAVM_GIC_ANB_NCBI_P_OVR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GIC_ANB_NCBI_P_OVR_FUNC(void)
 {
-    return 0x801010012010ll;
+    return 0x801010011010ll;
 }
 
 #define typedef_CAVM_GIC_ANB_NCBI_P_OVR cavm_gic_anb_ncbi_p_ovr_t
@@ -1294,11 +1276,11 @@ union cavm_gic_anb_ncbitx_status
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t anb_ncbitx_split_wr   : 1;  /**< [  1:  1](RO/H) Set indicates there was a split write to ncb. */
-        uint64_t anb_ncbitx_split_rd   : 1;  /**< [  0:  0](RO/H) Set indicates there was a split read to ncb. */
+        uint64_t anb_ncbitx_split_wr   : 1;  /**< [  1:  1](RO/H) set indicates there was a split write to ncb */
+        uint64_t anb_ncbitx_split_rd   : 1;  /**< [  0:  0](RO/H) set indicates there was a split read to ncb */
 #else /* Word 0 - Little Endian */
-        uint64_t anb_ncbitx_split_rd   : 1;  /**< [  0:  0](RO/H) Set indicates there was a split read to ncb. */
-        uint64_t anb_ncbitx_split_wr   : 1;  /**< [  1:  1](RO/H) Set indicates there was a split write to ncb. */
+        uint64_t anb_ncbitx_split_rd   : 1;  /**< [  0:  0](RO/H) set indicates there was a split read to ncb */
+        uint64_t anb_ncbitx_split_wr   : 1;  /**< [  1:  1](RO/H) set indicates there was a split write to ncb */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
@@ -1310,7 +1292,7 @@ typedef union cavm_gic_anb_ncbitx_status cavm_gic_anb_ncbitx_status_t;
 static inline uint64_t CAVM_GIC_ANB_NCBITX_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GIC_ANB_NCBITX_STATUS_FUNC(void)
 {
-    return 0x801010012040ll;
+    return 0x801010011040ll;
 }
 
 #define typedef_CAVM_GIC_ANB_NCBITX_STATUS cavm_gic_anb_ncbitx_status_t
@@ -1340,9 +1322,9 @@ union cavm_gic_anb_ncborx_status
                                                                  because only supporting class A transactions. */
         uint64_t anb_nbcorx_max_num_ncb_ld_exc : 1;/**< [  1:  1](RO/H) Indicates there were more outstanding ncb loads than intended to be
                                                                  supported by ANB. Limit is 3. */
-        uint64_t anb_ncborx_rcvd_unsupported_op : 1;/**< [  0:  0](RO/H) Set indicates there was a write response fifo overrun. */
+        uint64_t anb_ncborx_rcvd_unsupported_op : 1;/**< [  0:  0](RO/H) set indicates there was a write response fifo overrun */
 #else /* Word 0 - Little Endian */
-        uint64_t anb_ncborx_rcvd_unsupported_op : 1;/**< [  0:  0](RO/H) Set indicates there was a write response fifo overrun. */
+        uint64_t anb_ncborx_rcvd_unsupported_op : 1;/**< [  0:  0](RO/H) set indicates there was a write response fifo overrun */
         uint64_t anb_nbcorx_max_num_ncb_ld_exc : 1;/**< [  1:  1](RO/H) Indicates there were more outstanding ncb loads than intended to be
                                                                  supported by ANB. Limit is 3. */
         uint64_t anb_nbcorx_max_size_ncb_ld_exc : 1;/**< [  2:  2](RO/H) Indicates there was an NCB load larger than supported by ANB. Placeholder
@@ -1362,7 +1344,7 @@ typedef union cavm_gic_anb_ncborx_status cavm_gic_anb_ncborx_status_t;
 static inline uint64_t CAVM_GIC_ANB_NCBORX_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GIC_ANB_NCBORX_STATUS_FUNC(void)
 {
-    return 0x801010012050ll;
+    return 0x801010011050ll;
 }
 
 #define typedef_CAVM_GIC_ANB_NCBORX_STATUS cavm_gic_anb_ncborx_status_t
@@ -1383,11 +1365,9 @@ union cavm_gic_msix_pbax
     struct cavm_gic_msix_pbax_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](RO) Pending message for the associated GIC_MSIX_VEC()_CTL, enumerated by GIC_INT_VEC_E.
-                                                                 Bits that have no associated GIC_INT_VEC_E are zero. */
+        uint64_t pend                  : 64; /**< [ 63:  0](RO) TBD */
 #else /* Word 0 - Little Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](RO) Pending message for the associated GIC_MSIX_VEC()_CTL, enumerated by GIC_INT_VEC_E.
-                                                                 Bits that have no associated GIC_INT_VEC_E are zero. */
+        uint64_t pend                  : 64; /**< [ 63:  0](RO) TBD */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gic_msix_pbax_s cn; */
@@ -1424,23 +1404,9 @@ union cavm_gic_msix_vecx_addr
         uint64_t reserved_53_63        : 11;
         uint64_t addr                  : 51; /**< [ 52:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
-        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or nonsecure states.
-                                                                 1 = This vector's GIC_MSIX_VEC()_ADDR, GIC_MSIX_VEC()_CTL, and corresponding
-                                                                 bit of GIC_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the nonsecure world.
-
-                                                                 If PCCPF_GIC_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC])
-                                                                 is set, all vectors are secure and function as if [SECVEC] was set. */
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) TBD */
 #else /* Word 0 - Little Endian */
-        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or nonsecure states.
-                                                                 1 = This vector's GIC_MSIX_VEC()_ADDR, GIC_MSIX_VEC()_CTL, and corresponding
-                                                                 bit of GIC_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the nonsecure world.
-
-                                                                 If PCCPF_GIC_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC])
-                                                                 is set, all vectors are secure and function as if [SECVEC] was set. */
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) TBD */
         uint64_t reserved_1            : 1;
         uint64_t addr                  : 51; /**< [ 52:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_53_63        : 11;
@@ -1453,8 +1419,8 @@ typedef union cavm_gic_msix_vecx_addr cavm_gic_msix_vecx_addr_t;
 static inline uint64_t CAVM_GIC_MSIX_VECX_ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GIC_MSIX_VECX_ADDR(uint64_t a)
 {
-    if (a<=32)
-        return 0x801080000000ll + 0x10ll * ((a) & 0x3f);
+    if (a<=24)
+        return 0x801080000000ll + 0x10ll * ((a) & 0x1f);
     __cavm_csr_fatal("GIC_MSIX_VECX_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1493,8 +1459,8 @@ typedef union cavm_gic_msix_vecx_ctl cavm_gic_msix_vecx_ctl_t;
 static inline uint64_t CAVM_GIC_MSIX_VECX_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GIC_MSIX_VECX_CTL(uint64_t a)
 {
-    if (a<=32)
-        return 0x801080000008ll + 0x10ll * ((a) & 0x3f);
+    if (a<=24)
+        return 0x801080000008ll + 0x10ll * ((a) & 0x1f);
     __cavm_csr_fatal("GIC_MSIX_VECX_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1518,9 +1484,9 @@ union cavm_gic_wake_int_ena_w1cx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t pe_wake               : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for GIC_WAKE_INT_W1C(0..31)[PE_WAKE]. */
+        uint64_t pe_wake               : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for GIC_WAKE_INT_W1C(0..23)[PE_WAKE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t pe_wake               : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for GIC_WAKE_INT_W1C(0..31)[PE_WAKE]. */
+        uint64_t pe_wake               : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for GIC_WAKE_INT_W1C(0..23)[PE_WAKE]. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -1531,8 +1497,8 @@ typedef union cavm_gic_wake_int_ena_w1cx cavm_gic_wake_int_ena_w1cx_t;
 static inline uint64_t CAVM_GIC_WAKE_INT_ENA_W1CX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GIC_WAKE_INT_ENA_W1CX(uint64_t a)
 {
-    if (a<=31)
-        return 0x801010001018ll + 0x20ll * ((a) & 0x1f);
+    if (a<=23)
+        return 0x801010000818ll + 0x20ll * ((a) & 0x1f);
     __cavm_csr_fatal("GIC_WAKE_INT_ENA_W1CX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1556,9 +1522,9 @@ union cavm_gic_wake_int_ena_w1sx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t pe_wake               : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for GIC_WAKE_INT_W1C(0..31)[PE_WAKE]. */
+        uint64_t pe_wake               : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for GIC_WAKE_INT_W1C(0..23)[PE_WAKE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t pe_wake               : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for GIC_WAKE_INT_W1C(0..31)[PE_WAKE]. */
+        uint64_t pe_wake               : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for GIC_WAKE_INT_W1C(0..23)[PE_WAKE]. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -1569,8 +1535,8 @@ typedef union cavm_gic_wake_int_ena_w1sx cavm_gic_wake_int_ena_w1sx_t;
 static inline uint64_t CAVM_GIC_WAKE_INT_ENA_W1SX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GIC_WAKE_INT_ENA_W1SX(uint64_t a)
 {
-    if (a<=31)
-        return 0x801010001010ll + 0x20ll * ((a) & 0x1f);
+    if (a<=23)
+        return 0x801010000810ll + 0x20ll * ((a) & 0x1f);
     __cavm_csr_fatal("GIC_WAKE_INT_ENA_W1SX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1606,8 +1572,8 @@ typedef union cavm_gic_wake_int_w1cx cavm_gic_wake_int_w1cx_t;
 static inline uint64_t CAVM_GIC_WAKE_INT_W1CX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GIC_WAKE_INT_W1CX(uint64_t a)
 {
-    if (a<=31)
-        return 0x801010001000ll + 0x20ll * ((a) & 0x1f);
+    if (a<=23)
+        return 0x801010000800ll + 0x20ll * ((a) & 0x1f);
     __cavm_csr_fatal("GIC_WAKE_INT_W1CX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1631,9 +1597,9 @@ union cavm_gic_wake_int_w1sx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t pe_wake               : 1;  /**< [  0:  0](R/W1S/H) Reads or sets GIC_WAKE_INT_W1C(0..31)[PE_WAKE]. */
+        uint64_t pe_wake               : 1;  /**< [  0:  0](R/W1S/H) Reads or sets GIC_WAKE_INT_W1C(0..23)[PE_WAKE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t pe_wake               : 1;  /**< [  0:  0](R/W1S/H) Reads or sets GIC_WAKE_INT_W1C(0..31)[PE_WAKE]. */
+        uint64_t pe_wake               : 1;  /**< [  0:  0](R/W1S/H) Reads or sets GIC_WAKE_INT_W1C(0..23)[PE_WAKE]. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -1644,8 +1610,8 @@ typedef union cavm_gic_wake_int_w1sx cavm_gic_wake_int_w1sx_t;
 static inline uint64_t CAVM_GIC_WAKE_INT_W1SX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GIC_WAKE_INT_W1SX(uint64_t a)
 {
-    if (a<=31)
-        return 0x801010001008ll + 0x20ll * ((a) & 0x1f);
+    if (a<=23)
+        return 0x801010000808ll + 0x20ll * ((a) & 0x1f);
     __cavm_csr_fatal("GIC_WAKE_INT_W1SX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2005,14 +1971,11 @@ union cavm_gica_iidr
     struct cavm_gica_iidr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t productid             : 8;  /**< [ 31: 24](RO) Indicates the product ID:
-
-                                                                 * 0x04 - GIC-700 */
+        uint32_t productid             : 8;  /**< [ 31: 24](RO) Indicates the product ID: */
         uint32_t reserved_20_23        : 4;
         uint32_t variant               : 4;  /**< [ 19: 16](RO) Indicates the major revision, or variant, of the product rxpy identifier:
 
-                                                                 * 0x1 - r1
-                                                                 * 0x2 - r2 */
+                                                                 * 0x1 - r1 */
         uint32_t revision              : 4;  /**< [ 15: 12](RO) Indicates the minor revision of the product rxpy identifier:
 
                                                                  * 0x0 - p0 */
@@ -2028,12 +1991,9 @@ union cavm_gica_iidr
                                                                  * 0x0 - p0 */
         uint32_t variant               : 4;  /**< [ 19: 16](RO) Indicates the major revision, or variant, of the product rxpy identifier:
 
-                                                                 * 0x1 - r1
-                                                                 * 0x2 - r2 */
+                                                                 * 0x1 - r1 */
         uint32_t reserved_20_23        : 4;
-        uint32_t productid             : 8;  /**< [ 31: 24](RO) Indicates the product ID:
-
-                                                                 * 0x04 - GIC-700 */
+        uint32_t productid             : 8;  /**< [ 31: 24](RO) Indicates the product ID: */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gica_iidr_s cn; */
@@ -2735,7 +2695,7 @@ union cavm_gicd_cfgid
         uint64_t reserved_53_63        : 11;
         uint64_t pewidth               : 5;  /**< [ 52: 48](RO) PEWidth width of the TGT idientifier
 
-                                                                 * 7
+                                                                 * 5
 
                                                                  \> *Note*
                                                                  \> This does not indicate the number of supported PEs. */
@@ -2744,7 +2704,7 @@ union cavm_gicd_cfgid
                                                                  * 0 affinity3 bits */
         uint64_t affinity2bits         : 4;  /**< [ 43: 40](RO) Returns the Affinity2 bits
 
-                                                                 * 7 affinity2 bits */
+                                                                 * 6 affinity2 bits */
         uint64_t affinity1bits         : 4;  /**< [ 39: 36](RO) Returns the Affinity1 bits
 
                                                                  * 0 affinity1 bits */
@@ -2754,15 +2714,11 @@ union cavm_gicd_cfgid
         uint64_t chips                 : 4;  /**< [ 31: 28](RO) Returns the number of supported chips minus one
 
                                                                  * 0 - 1 chip */
-        uint64_t reserved_26_27        : 2;
-        uint64_t extendeditssupport    : 1;  /**< [ 25: 25](RO) More than 16 ITS support
-
-                                                                 * 0 - Up to 16 ITSs supported */
+        uint64_t reserved_25_27        : 3;
         uint64_t rdcollapsesupport     : 1;  /**< [ 24: 24](RO) Redistributor Collapse.
 
                                                                  * 0 - Secure software cannot program the core numbering. */
-        uint64_t reserved_22_23        : 2;
-        uint64_t localchipaddressing   : 1;  /**< [ 21: 21](RO) * 0 - Global chip addressing scheme. */
+        uint64_t reserved_21_23        : 3;
         uint64_t spigroups             : 6;  /**< [ 20: 15](RO) Number of SPI blocks supported
 
                                                                  * 16 */
@@ -2777,21 +2733,21 @@ union cavm_gicd_cfgid
                                                                  * 1 - LPI supported */
         uint64_t itscount              : 4;  /**< [ 11:  8](RO) Number of supported ITSs
 
-                                                                 * 0 - 1 ITS blocks supported. */
+                                                                 * 0 - 1 ITS block supported. */
         uint64_t socketnumber          : 4;  /**< [  7:  4](RO) RES0 */
         uint64_t reserved_1_3          : 3;
-        uint64_t socketonline          : 1;  /**< [  0:  0](RO) Chip online
+        uint64_t socketoffline         : 1;  /**< [  0:  0](RO) Chip offline
 
                                                                  RES0 */
 #else /* Word 0 - Little Endian */
-        uint64_t socketonline          : 1;  /**< [  0:  0](RO) Chip online
+        uint64_t socketoffline         : 1;  /**< [  0:  0](RO) Chip offline
 
                                                                  RES0 */
         uint64_t reserved_1_3          : 3;
         uint64_t socketnumber          : 4;  /**< [  7:  4](RO) RES0 */
         uint64_t itscount              : 4;  /**< [ 11:  8](RO) Number of supported ITSs
 
-                                                                 * 0 - 1 ITS blocks supported. */
+                                                                 * 0 - 1 ITS block supported. */
         uint64_t lpisupport            : 1;  /**< [ 12: 12](RO) LPI support
 
                                                                  * 1 - LPI supported */
@@ -2804,15 +2760,11 @@ union cavm_gicd_cfgid
         uint64_t spigroups             : 6;  /**< [ 20: 15](RO) Number of SPI blocks supported
 
                                                                  * 16 */
-        uint64_t localchipaddressing   : 1;  /**< [ 21: 21](RO) * 0 - Global chip addressing scheme. */
-        uint64_t reserved_22_23        : 2;
+        uint64_t reserved_21_23        : 3;
         uint64_t rdcollapsesupport     : 1;  /**< [ 24: 24](RO) Redistributor Collapse.
 
                                                                  * 0 - Secure software cannot program the core numbering. */
-        uint64_t extendeditssupport    : 1;  /**< [ 25: 25](RO) More than 16 ITS support
-
-                                                                 * 0 - Up to 16 ITSs supported */
-        uint64_t reserved_26_27        : 2;
+        uint64_t reserved_25_27        : 3;
         uint64_t chips                 : 4;  /**< [ 31: 28](RO) Returns the number of supported chips minus one
 
                                                                  * 0 - 1 chip */
@@ -2824,13 +2776,13 @@ union cavm_gicd_cfgid
                                                                  * 0 affinity1 bits */
         uint64_t affinity2bits         : 4;  /**< [ 43: 40](RO) Returns the Affinity2 bits
 
-                                                                 * 7 affinity2 bits */
+                                                                 * 6 affinity2 bits */
         uint64_t affinity3bits         : 4;  /**< [ 47: 44](RO) Returns the Affinity3 bits
 
                                                                  * 0 affinity3 bits */
         uint64_t pewidth               : 5;  /**< [ 52: 48](RO) PEWidth width of the TGT idientifier
 
-                                                                 * 7
+                                                                 * 5
 
                                                                  \> *Note*
                                                                  \> This does not indicate the number of supported PEs. */
@@ -3463,7 +3415,7 @@ union cavm_gicd_errinsrx
     struct cavm_gicd_errinsrx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t valid                 : 1;  /**< [ 63: 63](RO) "* Write access:
+        uint64_t valid                 : 1;  /**< [ 63: 63](R/W) "* Write access:
                                                                  Set to 1, to start the error injection process. The GIC sets this bit to 0 when
                                                                  it completes the process.
 
@@ -3527,7 +3479,7 @@ union cavm_gicd_errinsrx
                                                                  * 0 - Include an encoder check
                                                                  * 1 - Disable an encoder check - GIC should report an encoder/decoder mismatch */
         uint64_t reserved_61_62        : 2;
-        uint64_t valid                 : 1;  /**< [ 63: 63](RO) "* Write access:
+        uint64_t valid                 : 1;  /**< [ 63: 63](R/W) "* Write access:
                                                                  Set to 1, to start the error injection process. The GIC sets this bit to 0 when
                                                                  it completes the process.
 
@@ -3580,8 +3532,8 @@ union cavm_gicd_fctlr
         uint32_t pos                   : 1;  /**< [ 26: 26](R/W) Point Of Serialization.
 
                                                                  RES0 */
-        uint32_t reserved_24_25        : 2;
-        uint32_t clpl                  : 4;  /**< [ 23: 20](R/W) Cross-chip LPI limit.
+        uint32_t reserved_21_25        : 5;
+        uint32_t clpl                  : 1;  /**< [ 20: 20](R/W) Cross-chip LPI limit.
 
                                                                  RES0 */
         uint32_t reserved_18_19        : 2;
@@ -3629,10 +3581,10 @@ union cavm_gicd_fctlr
 
                                                                  Secure access only. */
         uint32_t reserved_18_19        : 2;
-        uint32_t clpl                  : 4;  /**< [ 23: 20](R/W) Cross-chip LPI limit.
+        uint32_t clpl                  : 1;  /**< [ 20: 20](R/W) Cross-chip LPI limit.
 
                                                                  RES0 */
-        uint32_t reserved_24_25        : 2;
+        uint32_t reserved_21_25        : 5;
         uint32_t pos                   : 1;  /**< [ 26: 26](R/W) Point Of Serialization.
 
                                                                  RES0 */
@@ -3646,8 +3598,8 @@ union cavm_gicd_fctlr
         uint32_t pos                   : 1;  /**< [ 26: 26](R/W) Point Of Serialization.
 
                                                                  RES0 */
-        uint32_t reserved_24_25        : 2;
-        uint32_t clpl                  : 4;  /**< [ 23: 20](R/W) Cross-chip LPI limit.
+        uint32_t reserved_21_25        : 5;
+        uint32_t clpl                  : 1;  /**< [ 20: 20](R/W) Cross-chip LPI limit.
 
                                                                  RES0 */
         uint32_t reserved_19           : 1;
@@ -3703,10 +3655,10 @@ union cavm_gicd_fctlr
                                                                  Secure access only. */
         uint32_t reserved_18           : 1;
         uint32_t reserved_19           : 1;
-        uint32_t clpl                  : 4;  /**< [ 23: 20](R/W) Cross-chip LPI limit.
+        uint32_t clpl                  : 1;  /**< [ 20: 20](R/W) Cross-chip LPI limit.
 
                                                                  RES0 */
-        uint32_t reserved_24_25        : 2;
+        uint32_t reserved_21_25        : 5;
         uint32_t pos                   : 1;  /**< [ 26: 26](R/W) Point Of Serialization.
 
                                                                  RES0 */
@@ -10913,14 +10865,11 @@ union cavm_gicd_iidr
     struct cavm_gicd_iidr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t productid             : 8;  /**< [ 31: 24](RO) This is the Product Identifier:
-
-                                                                 * 4 - GIC700 */
+        uint32_t productid             : 8;  /**< [ 31: 24](RO) This is the Product Identifier: */
         uint32_t reserved_20_23        : 4;
         uint32_t variant               : 4;  /**< [ 19: 16](RO) This is the Product Variant:
 
-                                                                 * 0x1 - r1
-                                                                 * 0x2 - r2 */
+                                                                 * 0x1 - r1 */
         uint32_t revision              : 4;  /**< [ 15: 12](RO) This is the Product Revision:
 
                                                                  * 0 - p0 */
@@ -10940,12 +10889,9 @@ union cavm_gicd_iidr
                                                                  * 0 - p0 */
         uint32_t variant               : 4;  /**< [ 19: 16](RO) This is the Product Variant:
 
-                                                                 * 0x1 - r1
-                                                                 * 0x2 - r2 */
+                                                                 * 0x1 - r1 */
         uint32_t reserved_20_23        : 4;
-        uint32_t productid             : 8;  /**< [ 31: 24](RO) This is the Product Identifier:
-
-                                                                 * 4 - GIC700 */
+        uint32_t productid             : 8;  /**< [ 31: 24](RO) This is the Product Identifier: */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gicd_iidr_s cn; */
@@ -11001,7 +10947,7 @@ typedef union cavm_gicd_int_ena_w1c cavm_gicd_int_ena_w1c_t;
 static inline uint64_t CAVM_GICD_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICD_INT_ENA_W1C_FUNC(void)
 {
-    return 0x801010002018ll;
+    return 0x801010001018ll;
 }
 
 #define typedef_CAVM_GICD_INT_ENA_W1C cavm_gicd_int_ena_w1c_t
@@ -11046,7 +10992,7 @@ typedef union cavm_gicd_int_ena_w1s cavm_gicd_int_ena_w1s_t;
 static inline uint64_t CAVM_GICD_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICD_INT_ENA_W1S_FUNC(void)
 {
-    return 0x801010002010ll;
+    return 0x801010001010ll;
 }
 
 #define typedef_CAVM_GICD_INT_ENA_W1S cavm_gicd_int_ena_w1s_t
@@ -11090,7 +11036,7 @@ typedef union cavm_gicd_int_w1c cavm_gicd_int_w1c_t;
 static inline uint64_t CAVM_GICD_INT_W1C_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICD_INT_W1C_FUNC(void)
 {
-    return 0x801010002000ll;
+    return 0x801010001000ll;
 }
 
 #define typedef_CAVM_GICD_INT_W1C cavm_gicd_int_w1c_t
@@ -11135,7 +11081,7 @@ typedef union cavm_gicd_int_w1s cavm_gicd_int_w1s_t;
 static inline uint64_t CAVM_GICD_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICD_INT_W1S_FUNC(void)
 {
-    return 0x801010002008ll;
+    return 0x801010001008ll;
 }
 
 #define typedef_CAVM_GICD_INT_W1S cavm_gicd_int_w1s_t
@@ -11192,7 +11138,7 @@ union cavm_gicd_ipriorityrx
                                                                  Sets the priority of interrupt 35.
 
                                                                  \> *Note*
-                                                                 \> The GIC only uses the top 5 bits of the field and the other bits are RAZ/WI.
+                                                                 \> The GIC only uses the top 5 bits of the field and the other bits are RAZ/WI
 
                                                                  * If read returns the current interrupt priority based on the security type of the register access
                                                                  * if written sets the priority of the corresponding interrupt based on the
@@ -11263,7 +11209,7 @@ union cavm_gicd_ipriorityrx
                                                                  Sets the priority of interrupt 35.
 
                                                                  \> *Note*
-                                                                 \> The GIC only uses the top 5 bits of the field and the other bits are RAZ/WI.
+                                                                 \> The GIC only uses the top 5 bits of the field and the other bits are RAZ/WI
 
                                                                  * If read returns the current interrupt priority based on the security type of the register access
                                                                  * if written sets the priority of the corresponding interrupt based on the
@@ -11332,7 +11278,7 @@ union cavm_gicd_irouterx
         uint64_t affinity2             : 8;  /**< [ 23: 16](R/W) Affinity level 2 of the target PE
 
                                                                  \> *Note*
-                                                                 \> The GIC only uses the bottom 7 bits of the field and the other bits are RAZ/WI */
+                                                                 \> The GIC only uses the bottom 6 bits of the field and the other bits are RAZ/WI */
         uint64_t affinity1             : 8;  /**< [ 15:  8](RO) Affinity level 1 of the target PE
 
                                                                  \> *Note*
@@ -11353,7 +11299,7 @@ union cavm_gicd_irouterx
         uint64_t affinity2             : 8;  /**< [ 23: 16](R/W) Affinity level 2 of the target PE
 
                                                                  \> *Note*
-                                                                 \> The GIC only uses the bottom 7 bits of the field and the other bits are RAZ/WI */
+                                                                 \> The GIC only uses the bottom 6 bits of the field and the other bits are RAZ/WI */
         uint64_t reserved_24_30        : 7;
         uint64_t interruptroutingmode  : 1;  /**< [ 31: 31](R/W) Interrupt Routing Mode. Defines how SPIs are routed in the affinity hierarchy:
 
@@ -16190,7 +16136,7 @@ union cavm_gicda_cfgid
         uint64_t reserved_53_63        : 11;
         uint64_t pewidth               : 5;  /**< [ 52: 48](RO) PEWidth width of the TGT idientifier
 
-                                                                 * 7
+                                                                 * 5
 
                                                                  \> *Note*
                                                                  \> This does not indicate the number of supported PEs. */
@@ -16199,7 +16145,7 @@ union cavm_gicda_cfgid
                                                                  * 0 affinity3 bits */
         uint64_t affinity2bits         : 4;  /**< [ 43: 40](RO) Returns the Affinity2 bits
 
-                                                                 * 7 affinity2 bits */
+                                                                 * 6 affinity2 bits */
         uint64_t affinity1bits         : 4;  /**< [ 39: 36](RO) Returns the Affinity1 bits
 
                                                                  * 0 affinity1 bits */
@@ -16209,15 +16155,11 @@ union cavm_gicda_cfgid
         uint64_t chips                 : 4;  /**< [ 31: 28](RO) Returns the number of supported chips minus one
 
                                                                  * 0 - 1 chip */
-        uint64_t reserved_26_27        : 2;
-        uint64_t extendeditssupport    : 1;  /**< [ 25: 25](RO) More than 16 ITS support
-
-                                                                 * 0 - Up to 16 ITSs supported */
+        uint64_t reserved_25_27        : 3;
         uint64_t rdcollapsesupport     : 1;  /**< [ 24: 24](RO) Redistributor Collapse.
 
                                                                  * 0 - Secure software cannot program the core numbering. */
-        uint64_t reserved_22_23        : 2;
-        uint64_t localchipaddressing   : 1;  /**< [ 21: 21](RO) * 0 - Global chip addressing scheme. */
+        uint64_t reserved_21_23        : 3;
         uint64_t spigroups             : 6;  /**< [ 20: 15](RO) Number of SPI blocks supported
 
                                                                  * 16 */
@@ -16232,21 +16174,21 @@ union cavm_gicda_cfgid
                                                                  * 1 - LPI supported */
         uint64_t itscount              : 4;  /**< [ 11:  8](RO) Number of supported ITSs
 
-                                                                 * 0 - 1 ITS blocks supported. */
+                                                                 * 0 - 1 ITS block supported. */
         uint64_t socketnumber          : 4;  /**< [  7:  4](RO) RES0 */
         uint64_t reserved_1_3          : 3;
-        uint64_t socketonline          : 1;  /**< [  0:  0](RO) Chip online
+        uint64_t socketoffline         : 1;  /**< [  0:  0](RO) Chip offline
 
                                                                  RES0 */
 #else /* Word 0 - Little Endian */
-        uint64_t socketonline          : 1;  /**< [  0:  0](RO) Chip online
+        uint64_t socketoffline         : 1;  /**< [  0:  0](RO) Chip offline
 
                                                                  RES0 */
         uint64_t reserved_1_3          : 3;
         uint64_t socketnumber          : 4;  /**< [  7:  4](RO) RES0 */
         uint64_t itscount              : 4;  /**< [ 11:  8](RO) Number of supported ITSs
 
-                                                                 * 0 - 1 ITS blocks supported. */
+                                                                 * 0 - 1 ITS block supported. */
         uint64_t lpisupport            : 1;  /**< [ 12: 12](RO) LPI support
 
                                                                  * 1 - LPI supported */
@@ -16259,15 +16201,11 @@ union cavm_gicda_cfgid
         uint64_t spigroups             : 6;  /**< [ 20: 15](RO) Number of SPI blocks supported
 
                                                                  * 16 */
-        uint64_t localchipaddressing   : 1;  /**< [ 21: 21](RO) * 0 - Global chip addressing scheme. */
-        uint64_t reserved_22_23        : 2;
+        uint64_t reserved_21_23        : 3;
         uint64_t rdcollapsesupport     : 1;  /**< [ 24: 24](RO) Redistributor Collapse.
 
                                                                  * 0 - Secure software cannot program the core numbering. */
-        uint64_t extendeditssupport    : 1;  /**< [ 25: 25](RO) More than 16 ITS support
-
-                                                                 * 0 - Up to 16 ITSs supported */
-        uint64_t reserved_26_27        : 2;
+        uint64_t reserved_25_27        : 3;
         uint64_t chips                 : 4;  /**< [ 31: 28](RO) Returns the number of supported chips minus one
 
                                                                  * 0 - 1 chip */
@@ -16279,13 +16217,13 @@ union cavm_gicda_cfgid
                                                                  * 0 affinity1 bits */
         uint64_t affinity2bits         : 4;  /**< [ 43: 40](RO) Returns the Affinity2 bits
 
-                                                                 * 7 affinity2 bits */
+                                                                 * 6 affinity2 bits */
         uint64_t affinity3bits         : 4;  /**< [ 47: 44](RO) Returns the Affinity3 bits
 
                                                                  * 0 affinity3 bits */
         uint64_t pewidth               : 5;  /**< [ 52: 48](RO) PEWidth width of the TGT idientifier
 
-                                                                 * 7
+                                                                 * 5
 
                                                                  \> *Note*
                                                                  \> This does not indicate the number of supported PEs. */
@@ -16300,7 +16238,7 @@ typedef union cavm_gicda_cfgid cavm_gicda_cfgid_t;
 static inline uint64_t CAVM_GICDA_CFGID_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICDA_CFGID_FUNC(void)
 {
-    return 0x80100150f000ll;
+    return 0x80100068f000ll;
 }
 
 #define typedef_CAVM_GICDA_CFGID cavm_gicda_cfgid_t
@@ -16347,7 +16285,7 @@ typedef union cavm_gicda_cidr0 cavm_gicda_cidr0_t;
 static inline uint64_t CAVM_GICDA_CIDR0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICDA_CIDR0_FUNC(void)
 {
-    return 0x80100150fff0ll;
+    return 0x80100068fff0ll;
 }
 
 #define typedef_CAVM_GICDA_CIDR0 cavm_gicda_cidr0_t
@@ -16400,7 +16338,7 @@ typedef union cavm_gicda_cidr1 cavm_gicda_cidr1_t;
 static inline uint64_t CAVM_GICDA_CIDR1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICDA_CIDR1_FUNC(void)
 {
-    return 0x80100150fff4ll;
+    return 0x80100068fff4ll;
 }
 
 #define typedef_CAVM_GICDA_CIDR1 cavm_gicda_cidr1_t
@@ -16447,7 +16385,7 @@ typedef union cavm_gicda_cidr2 cavm_gicda_cidr2_t;
 static inline uint64_t CAVM_GICDA_CIDR2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICDA_CIDR2_FUNC(void)
 {
-    return 0x80100150fff8ll;
+    return 0x80100068fff8ll;
 }
 
 #define typedef_CAVM_GICDA_CIDR2 cavm_gicda_cidr2_t
@@ -16494,7 +16432,7 @@ typedef union cavm_gicda_cidr3 cavm_gicda_cidr3_t;
 static inline uint64_t CAVM_GICDA_CIDR3_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICDA_CIDR3_FUNC(void)
 {
-    return 0x80100150fffcll;
+    return 0x80100068fffcll;
 }
 
 #define typedef_CAVM_GICDA_CIDR3 cavm_gicda_cidr3_t
@@ -16560,7 +16498,7 @@ typedef union cavm_gicda_clrspi_nsr cavm_gicda_clrspi_nsr_t;
 static inline uint64_t CAVM_GICDA_CLRSPI_NSR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICDA_CLRSPI_NSR_FUNC(void)
 {
-    return 0x801001500048ll;
+    return 0x801000680048ll;
 }
 
 #define typedef_CAVM_GICDA_CLRSPI_NSR cavm_gicda_clrspi_nsr_t
@@ -16625,7 +16563,7 @@ typedef union cavm_gicda_clrspi_sr cavm_gicda_clrspi_sr_t;
 static inline uint64_t CAVM_GICDA_CLRSPI_SR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICDA_CLRSPI_SR_FUNC(void)
 {
-    return 0x801001500058ll;
+    return 0x801000680058ll;
 }
 
 #define typedef_CAVM_GICDA_CLRSPI_SR cavm_gicda_clrspi_sr_t
@@ -16879,7 +16817,7 @@ typedef union cavm_gicda_ctlr cavm_gicda_ctlr_t;
 static inline uint64_t CAVM_GICDA_CTLR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICDA_CTLR_FUNC(void)
 {
-    return 0x801001500000ll;
+    return 0x801000680000ll;
 }
 
 #define typedef_CAVM_GICDA_CTLR cavm_gicda_ctlr_t
@@ -16993,7 +16931,7 @@ static inline uint64_t CAVM_GICDA_ERRINSRX(uint64_t a) __attribute__ ((pure, alw
 static inline uint64_t CAVM_GICDA_ERRINSRX(uint64_t a)
 {
     if (a<=14)
-        return 0x80100150ea00ll + 8ll * ((a) & 0xf);
+        return 0x80100068ea00ll + 8ll * ((a) & 0xf);
     __cavm_csr_fatal("GICDA_ERRINSRX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -17026,8 +16964,8 @@ union cavm_gicda_fctlr
         uint32_t pos                   : 1;  /**< [ 26: 26](R/W) Point Of Serialization.
 
                                                                  RES0 */
-        uint32_t reserved_24_25        : 2;
-        uint32_t clpl                  : 4;  /**< [ 23: 20](R/W) Cross-chip LPI limit.
+        uint32_t reserved_21_25        : 5;
+        uint32_t clpl                  : 1;  /**< [ 20: 20](R/W) Cross-chip LPI limit.
 
                                                                  RES0 */
         uint32_t reserved_18_19        : 2;
@@ -17075,10 +17013,10 @@ union cavm_gicda_fctlr
 
                                                                  Secure access only. */
         uint32_t reserved_18_19        : 2;
-        uint32_t clpl                  : 4;  /**< [ 23: 20](R/W) Cross-chip LPI limit.
+        uint32_t clpl                  : 1;  /**< [ 20: 20](R/W) Cross-chip LPI limit.
 
                                                                  RES0 */
-        uint32_t reserved_24_25        : 2;
+        uint32_t reserved_21_25        : 5;
         uint32_t pos                   : 1;  /**< [ 26: 26](R/W) Point Of Serialization.
 
                                                                  RES0 */
@@ -17092,8 +17030,8 @@ union cavm_gicda_fctlr
         uint32_t pos                   : 1;  /**< [ 26: 26](R/W) Point Of Serialization.
 
                                                                  RES0 */
-        uint32_t reserved_24_25        : 2;
-        uint32_t clpl                  : 4;  /**< [ 23: 20](R/W) Cross-chip LPI limit.
+        uint32_t reserved_21_25        : 5;
+        uint32_t clpl                  : 1;  /**< [ 20: 20](R/W) Cross-chip LPI limit.
 
                                                                  RES0 */
         uint32_t reserved_19           : 1;
@@ -17149,10 +17087,10 @@ union cavm_gicda_fctlr
                                                                  Secure access only. */
         uint32_t reserved_18           : 1;
         uint32_t reserved_19           : 1;
-        uint32_t clpl                  : 4;  /**< [ 23: 20](R/W) Cross-chip LPI limit.
+        uint32_t clpl                  : 1;  /**< [ 20: 20](R/W) Cross-chip LPI limit.
 
                                                                  RES0 */
-        uint32_t reserved_24_25        : 2;
+        uint32_t reserved_21_25        : 5;
         uint32_t pos                   : 1;  /**< [ 26: 26](R/W) Point Of Serialization.
 
                                                                  RES0 */
@@ -17166,7 +17104,7 @@ typedef union cavm_gicda_fctlr cavm_gicda_fctlr_t;
 static inline uint64_t CAVM_GICDA_FCTLR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICDA_FCTLR_FUNC(void)
 {
-    return 0x801001500020ll;
+    return 0x801000680020ll;
 }
 
 #define typedef_CAVM_GICDA_FCTLR cavm_gicda_fctlr_t
@@ -17479,7 +17417,7 @@ typedef union cavm_gicda_fctlr2 cavm_gicda_fctlr2_t;
 static inline uint64_t CAVM_GICDA_FCTLR2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICDA_FCTLR2_FUNC(void)
 {
-    return 0x801001500030ll;
+    return 0x801000680030ll;
 }
 
 #define typedef_CAVM_GICDA_FCTLR2 cavm_gicda_fctlr2_t
@@ -17534,7 +17472,7 @@ typedef union cavm_gicda_fctlr3 cavm_gicda_fctlr3_t;
 static inline uint64_t CAVM_GICDA_FCTLR3_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICDA_FCTLR3_FUNC(void)
 {
-    return 0x801001500038ll;
+    return 0x801000680038ll;
 }
 
 #define typedef_CAVM_GICDA_FCTLR3 cavm_gicda_fctlr3_t
@@ -18226,7 +18164,7 @@ static inline uint64_t CAVM_GICDA_ICACTIVERX(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_GICDA_ICACTIVERX(uint64_t a)
 {
     if ((a>=1)&&(a<=16))
-        return 0x801001500380ll + 4ll * ((a) & 0x1f);
+        return 0x801000680380ll + 4ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICDA_ICACTIVERX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -19056,7 +18994,7 @@ static inline uint64_t CAVM_GICDA_ICENABLERX(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_GICDA_ICENABLERX(uint64_t a)
 {
     if ((a>=1)&&(a<=16))
-        return 0x801001500180ll + 4ll * ((a) & 0x1f);
+        return 0x801000680180ll + 4ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICDA_ICENABLERX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -19808,7 +19746,7 @@ static inline uint64_t CAVM_GICDA_ICERRRX(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_GICDA_ICERRRX(uint64_t a)
 {
     if ((a>=1)&&(a<=16))
-        return 0x80100150e100ll + 4ll * ((a) & 0x1f);
+        return 0x80100068e100ll + 4ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICDA_ICERRRX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -20088,7 +20026,7 @@ static inline uint64_t CAVM_GICDA_ICFGRX(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_GICDA_ICFGRX(uint64_t a)
 {
     if ((a>=2)&&(a<=33))
-        return 0x801001500c00ll + 4ll * ((a) & 0x3f);
+        return 0x801000680c00ll + 4ll * ((a) & 0x3f);
     __cavm_csr_fatal("GICDA_ICFGRX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -20844,7 +20782,7 @@ static inline uint64_t CAVM_GICDA_ICGERRRX(uint64_t a) __attribute__ ((pure, alw
 static inline uint64_t CAVM_GICDA_ICGERRRX(uint64_t a)
 {
     if ((a>=1)&&(a<=16))
-        return 0x80100150e180ll + 4ll * ((a) & 0x1f);
+        return 0x80100068e180ll + 4ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICDA_ICGERRRX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -21150,7 +21088,7 @@ static inline uint64_t CAVM_GICDA_ICLARX(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_GICDA_ICLARX(uint64_t a)
 {
     if ((a>=2)&&(a<=33))
-        return 0x80100150e000ll + 4ll * ((a) & 0x3f);
+        return 0x80100068e000ll + 4ll * ((a) & 0x3f);
     __cavm_csr_fatal("GICDA_ICLARX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22226,7 +22164,7 @@ static inline uint64_t CAVM_GICDA_ICPENDRX(uint64_t a) __attribute__ ((pure, alw
 static inline uint64_t CAVM_GICDA_ICPENDRX(uint64_t a)
 {
     if ((a>=1)&&(a<=16))
-        return 0x801001500280ll + 4ll * ((a) & 0x1f);
+        return 0x801000680280ll + 4ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICDA_ICPENDRX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23043,7 +22981,7 @@ static inline uint64_t CAVM_GICDA_IGROUPRX(uint64_t a) __attribute__ ((pure, alw
 static inline uint64_t CAVM_GICDA_IGROUPRX(uint64_t a)
 {
     if ((a>=1)&&(a<=16))
-        return 0x801001500080ll + 4ll * ((a) & 0x1f);
+        return 0x801000680080ll + 4ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICDA_IGROUPRX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24316,7 +24254,7 @@ static inline uint64_t CAVM_GICDA_IGRPMODRX(uint64_t a) __attribute__ ((pure, al
 static inline uint64_t CAVM_GICDA_IGRPMODRX(uint64_t a)
 {
     if ((a>=1)&&(a<=16))
-        return 0x801001500d00ll + 4ll * ((a) & 0x1f);
+        return 0x801000680d00ll + 4ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICDA_IGRPMODRX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24347,14 +24285,11 @@ union cavm_gicda_iidr
     struct cavm_gicda_iidr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t productid             : 8;  /**< [ 31: 24](RO) This is the Product Identifier:
-
-                                                                 * 4 - GIC700 */
+        uint32_t productid             : 8;  /**< [ 31: 24](RO) This is the Product Identifier: */
         uint32_t reserved_20_23        : 4;
         uint32_t variant               : 4;  /**< [ 19: 16](RO) This is the Product Variant:
 
-                                                                 * 0x1 - r1
-                                                                 * 0x2 - r2 */
+                                                                 * 0x1 - r1 */
         uint32_t revision              : 4;  /**< [ 15: 12](RO) This is the Product Revision:
 
                                                                  * 0 - p0 */
@@ -24374,12 +24309,9 @@ union cavm_gicda_iidr
                                                                  * 0 - p0 */
         uint32_t variant               : 4;  /**< [ 19: 16](RO) This is the Product Variant:
 
-                                                                 * 0x1 - r1
-                                                                 * 0x2 - r2 */
+                                                                 * 0x1 - r1 */
         uint32_t reserved_20_23        : 4;
-        uint32_t productid             : 8;  /**< [ 31: 24](RO) This is the Product Identifier:
-
-                                                                 * 4 - GIC700 */
+        uint32_t productid             : 8;  /**< [ 31: 24](RO) This is the Product Identifier: */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gicda_iidr_s cn; */
@@ -24390,7 +24322,7 @@ typedef union cavm_gicda_iidr cavm_gicda_iidr_t;
 static inline uint64_t CAVM_GICDA_IIDR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICDA_IIDR_FUNC(void)
 {
-    return 0x801001500008ll;
+    return 0x801000680008ll;
 }
 
 #define typedef_CAVM_GICDA_IIDR cavm_gicda_iidr_t
@@ -24532,7 +24464,7 @@ static inline uint64_t CAVM_GICDA_IPRIORITYRX(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_GICDA_IPRIORITYRX(uint64_t a)
 {
     if ((a>=8)&&(a<=135))
-        return 0x801001500400ll + 4ll * ((a) & 0xff);
+        return 0x801000680400ll + 4ll * ((a) & 0xff);
     __cavm_csr_fatal("GICDA_IPRIORITYRX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24585,7 +24517,7 @@ union cavm_gicda_irouterx
         uint64_t affinity2             : 8;  /**< [ 23: 16](R/W) Affinity level 2 of the target PE
 
                                                                  \> *Note*
-                                                                 \> The GIC only uses the bottom 7 bits of the field and the other bits are RAZ/WI */
+                                                                 \> The GIC only uses the bottom 6 bits of the field and the other bits are RAZ/WI */
         uint64_t affinity1             : 8;  /**< [ 15:  8](RO) Affinity level 1 of the target PE
 
                                                                  \> *Note*
@@ -24606,7 +24538,7 @@ union cavm_gicda_irouterx
         uint64_t affinity2             : 8;  /**< [ 23: 16](R/W) Affinity level 2 of the target PE
 
                                                                  \> *Note*
-                                                                 \> The GIC only uses the bottom 7 bits of the field and the other bits are RAZ/WI */
+                                                                 \> The GIC only uses the bottom 6 bits of the field and the other bits are RAZ/WI */
         uint64_t reserved_24_30        : 7;
         uint64_t interruptroutingmode  : 1;  /**< [ 31: 31](R/W) Interrupt Routing Mode. Defines how SPIs are routed in the affinity hierarchy:
 
@@ -24634,7 +24566,7 @@ static inline uint64_t CAVM_GICDA_IROUTERX(uint64_t a) __attribute__ ((pure, alw
 static inline uint64_t CAVM_GICDA_IROUTERX(uint64_t a)
 {
     if ((a>=32)&&(a<=543))
-        return 0x801001506000ll + 8ll * ((a) & 0x3ff);
+        return 0x801000686000ll + 8ll * ((a) & 0x3ff);
     __cavm_csr_fatal("GICDA_IROUTERX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -25393,7 +25325,7 @@ static inline uint64_t CAVM_GICDA_ISACTIVERX(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_GICDA_ISACTIVERX(uint64_t a)
 {
     if ((a>=1)&&(a<=16))
-        return 0x801001500300ll + 4ll * ((a) & 0x1f);
+        return 0x801000680300ll + 4ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICDA_ISACTIVERX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -26153,7 +26085,7 @@ static inline uint64_t CAVM_GICDA_ISENABLERX(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_GICDA_ISENABLERX(uint64_t a)
 {
     if ((a>=1)&&(a<=16))
-        return 0x801001500100ll + 4ll * ((a) & 0x1f);
+        return 0x801000680100ll + 4ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICDA_ISENABLERX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -26651,7 +26583,7 @@ static inline uint64_t CAVM_GICDA_ISERRRX(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_GICDA_ISERRRX(uint64_t a)
 {
     if ((a>=1)&&(a<=16))
-        return 0x80100150e200ll + 4ll * ((a) & 0x1f);
+        return 0x80100068e200ll + 4ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICDA_ISERRRX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -27599,7 +27531,7 @@ static inline uint64_t CAVM_GICDA_ISPENDRX(uint64_t a) __attribute__ ((pure, alw
 static inline uint64_t CAVM_GICDA_ISPENDRX(uint64_t a)
 {
     if ((a>=1)&&(a<=16))
-        return 0x801001500200ll + 4ll * ((a) & 0x1f);
+        return 0x801000680200ll + 4ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICDA_ISPENDRX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -28387,7 +28319,7 @@ static inline uint64_t CAVM_GICDA_NSACRX(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_GICDA_NSACRX(uint64_t a)
 {
     if ((a>=2)&&(a<=33))
-        return 0x801001500e00ll + 4ll * ((a) & 0x3f);
+        return 0x801000680e00ll + 4ll * ((a) & 0x3f);
     __cavm_csr_fatal("GICDA_NSACRX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -28440,7 +28372,7 @@ typedef union cavm_gicda_pidr0 cavm_gicda_pidr0_t;
 static inline uint64_t CAVM_GICDA_PIDR0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICDA_PIDR0_FUNC(void)
 {
-    return 0x80100150ffe0ll;
+    return 0x80100068ffe0ll;
 }
 
 #define typedef_CAVM_GICDA_PIDR0 cavm_gicda_pidr0_t
@@ -28506,7 +28438,7 @@ typedef union cavm_gicda_pidr1 cavm_gicda_pidr1_t;
 static inline uint64_t CAVM_GICDA_PIDR1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICDA_PIDR1_FUNC(void)
 {
-    return 0x80100150ffe4ll;
+    return 0x80100068ffe4ll;
 }
 
 #define typedef_CAVM_GICDA_PIDR1 cavm_gicda_pidr1_t
@@ -28572,7 +28504,7 @@ typedef union cavm_gicda_pidr2 cavm_gicda_pidr2_t;
 static inline uint64_t CAVM_GICDA_PIDR2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICDA_PIDR2_FUNC(void)
 {
-    return 0x80100150ffe8ll;
+    return 0x80100068ffe8ll;
 }
 
 #define typedef_CAVM_GICDA_PIDR2 cavm_gicda_pidr2_t
@@ -28626,7 +28558,7 @@ typedef union cavm_gicda_pidr3 cavm_gicda_pidr3_t;
 static inline uint64_t CAVM_GICDA_PIDR3_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICDA_PIDR3_FUNC(void)
 {
-    return 0x80100150ffecll;
+    return 0x80100068ffecll;
 }
 
 #define typedef_CAVM_GICDA_PIDR3 cavm_gicda_pidr3_t
@@ -28686,7 +28618,7 @@ typedef union cavm_gicda_pidr4 cavm_gicda_pidr4_t;
 static inline uint64_t CAVM_GICDA_PIDR4_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICDA_PIDR4_FUNC(void)
 {
-    return 0x80100150ffd0ll;
+    return 0x80100068ffd0ll;
 }
 
 #define typedef_CAVM_GICDA_PIDR4 cavm_gicda_pidr4_t
@@ -28735,7 +28667,7 @@ typedef union cavm_gicda_pidr5 cavm_gicda_pidr5_t;
 static inline uint64_t CAVM_GICDA_PIDR5_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICDA_PIDR5_FUNC(void)
 {
-    return 0x80100150ffd4ll;
+    return 0x80100068ffd4ll;
 }
 
 #define typedef_CAVM_GICDA_PIDR5 cavm_gicda_pidr5_t
@@ -28784,7 +28716,7 @@ typedef union cavm_gicda_pidr6 cavm_gicda_pidr6_t;
 static inline uint64_t CAVM_GICDA_PIDR6_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICDA_PIDR6_FUNC(void)
 {
-    return 0x80100150ffd8ll;
+    return 0x80100068ffd8ll;
 }
 
 #define typedef_CAVM_GICDA_PIDR6 cavm_gicda_pidr6_t
@@ -28833,7 +28765,7 @@ typedef union cavm_gicda_pidr7 cavm_gicda_pidr7_t;
 static inline uint64_t CAVM_GICDA_PIDR7_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICDA_PIDR7_FUNC(void)
 {
-    return 0x80100150ffdcll;
+    return 0x80100068ffdcll;
 }
 
 #define typedef_CAVM_GICDA_PIDR7 cavm_gicda_pidr7_t
@@ -28892,7 +28824,7 @@ typedef union cavm_gicda_sac cavm_gicda_sac_t;
 static inline uint64_t CAVM_GICDA_SAC_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICDA_SAC_FUNC(void)
 {
-    return 0x801001500024ll;
+    return 0x801000680024ll;
 }
 
 #define typedef_CAVM_GICDA_SAC cavm_gicda_sac_t
@@ -28958,7 +28890,7 @@ typedef union cavm_gicda_setspi_nsr cavm_gicda_setspi_nsr_t;
 static inline uint64_t CAVM_GICDA_SETSPI_NSR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICDA_SETSPI_NSR_FUNC(void)
 {
-    return 0x801001500040ll;
+    return 0x801000680040ll;
 }
 
 #define typedef_CAVM_GICDA_SETSPI_NSR cavm_gicda_setspi_nsr_t
@@ -29023,7 +28955,7 @@ typedef union cavm_gicda_setspi_sr cavm_gicda_setspi_sr_t;
 static inline uint64_t CAVM_GICDA_SETSPI_SR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICDA_SETSPI_SR_FUNC(void)
 {
-    return 0x801001500050ll;
+    return 0x801000680050ll;
 }
 
 #define typedef_CAVM_GICDA_SETSPI_SR cavm_gicda_setspi_sr_t
@@ -29068,7 +29000,7 @@ typedef union cavm_gicda_statusr cavm_gicda_statusr_t;
 static inline uint64_t CAVM_GICDA_STATUSR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICDA_STATUSR_FUNC(void)
 {
-    return 0x801001500010ll;
+    return 0x801000680010ll;
 }
 
 #define typedef_CAVM_GICDA_STATUSR cavm_gicda_statusr_t
@@ -29222,7 +29154,7 @@ typedef union cavm_gicda_typer cavm_gicda_typer_t;
 static inline uint64_t CAVM_GICDA_TYPER_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICDA_TYPER_FUNC(void)
 {
-    return 0x801001500004ll;
+    return 0x801000680004ll;
 }
 
 #define typedef_CAVM_GICDA_TYPER cavm_gicda_typer_t
@@ -29276,7 +29208,7 @@ typedef union cavm_gicda_typer2 cavm_gicda_typer2_t;
 static inline uint64_t CAVM_GICDA_TYPER2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICDA_TYPER2_FUNC(void)
 {
-    return 0x80100150000cll;
+    return 0x80100068000cll;
 }
 
 #define typedef_CAVM_GICDA_TYPER2 cavm_gicda_typer2_t
@@ -29391,7 +29323,7 @@ typedef union cavm_gicda_utilr cavm_gicda_utilr_t;
 static inline uint64_t CAVM_GICDA_UTILR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICDA_UTILR_FUNC(void)
 {
-    return 0x801001500034ll;
+    return 0x801000680034ll;
 }
 
 #define typedef_CAVM_GICDA_UTILR cavm_gicda_utilr_t
@@ -31203,7 +31135,7 @@ typedef union cavm_gicrx_cfgid0 cavm_gicrx_cfgid0_t;
 static inline uint64_t CAVM_GICRX_CFGID0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_CFGID0(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x80100009f000ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_CFGID0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -31235,8 +31167,7 @@ union cavm_gicrx_cfgid1
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t version_f             : 4;  /**< [ 31: 28](RO) Identifies the major and minor revisions of GIC-700:
 
-                                                                 * 0x1 = r1p0.
-                                                                 * 0x2 = r2p0. */
+                                                                 * 0x2 = r1p0. */
         uint32_t revand                : 4;  /**< [ 27: 24](RO) Indicates which minor errata fixes specific to the revision of the component have been applied. */
         uint32_t ppisperprocessor      : 8;  /**< [ 23: 16](RO) The number of PPIs for each core.
 
@@ -31254,8 +31185,7 @@ union cavm_gicrx_cfgid1
         uint32_t revand                : 4;  /**< [ 27: 24](RO) Indicates which minor errata fixes specific to the revision of the component have been applied. */
         uint32_t version_f             : 4;  /**< [ 31: 28](RO) Identifies the major and minor revisions of GIC-700:
 
-                                                                 * 0x1 = r1p0.
-                                                                 * 0x2 = r2p0. */
+                                                                 * 0x2 = r1p0. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gicrx_cfgid1_s cn; */
@@ -31265,7 +31195,7 @@ typedef union cavm_gicrx_cfgid1 cavm_gicrx_cfgid1_t;
 static inline uint64_t CAVM_GICRX_CFGID1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_CFGID1(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x80100009f004ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_CFGID1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -31314,7 +31244,7 @@ typedef union cavm_gicrx_cidr0 cavm_gicrx_cidr0_t;
 static inline uint64_t CAVM_GICRX_CIDR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_CIDR0(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x80100008fff0ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_CIDR0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -31369,7 +31299,7 @@ typedef union cavm_gicrx_cidr1 cavm_gicrx_cidr1_t;
 static inline uint64_t CAVM_GICRX_CIDR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_CIDR1(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x80100008fff4ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_CIDR1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -31418,7 +31348,7 @@ typedef union cavm_gicrx_cidr2 cavm_gicrx_cidr2_t;
 static inline uint64_t CAVM_GICRX_CIDR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_CIDR2(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x80100008fff8ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_CIDR2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -31467,7 +31397,7 @@ typedef union cavm_gicrx_cidr3 cavm_gicrx_cidr3_t;
 static inline uint64_t CAVM_GICRX_CIDR3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_CIDR3(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x80100008fffcll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_CIDR3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -31517,7 +31447,7 @@ typedef union cavm_gicrx_class cavm_gicrx_class_t;
 static inline uint64_t CAVM_GICRX_CLASS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_CLASS(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000080028ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_CLASS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -31648,7 +31578,7 @@ typedef union cavm_gicrx_ctlr cavm_gicrx_ctlr_t;
 static inline uint64_t CAVM_GICRX_CTLR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_CTLR(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000080000ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_CTLR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -31715,7 +31645,7 @@ typedef union cavm_gicrx_dprir cavm_gicrx_dprir_t;
 static inline uint64_t CAVM_GICRX_DPRIR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_DPRIR(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x80100009c018ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_DPRIR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -31828,7 +31758,7 @@ typedef union cavm_gicrx_errinsr cavm_gicrx_errinsr_t;
 static inline uint64_t CAVM_GICRX_ERRINSR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_ERRINSR(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x80100009f010ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_ERRINSR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -32015,7 +31945,7 @@ typedef union cavm_gicrx_fctlr cavm_gicrx_fctlr_t;
 static inline uint64_t CAVM_GICRX_FCTLR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_FCTLR(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000080020ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_FCTLR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -32699,7 +32629,7 @@ typedef union cavm_gicrx_icactiver0 cavm_gicrx_icactiver0_t;
 static inline uint64_t CAVM_GICRX_ICACTIVER0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_ICACTIVER0(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000090380ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_ICACTIVER0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -33383,7 +33313,7 @@ typedef union cavm_gicrx_icactiver1e cavm_gicrx_icactiver1e_t;
 static inline uint64_t CAVM_GICRX_ICACTIVER1E(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_ICACTIVER1E(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000090384ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_ICACTIVER1E", 1, a, 0, 0, 0, 0, 0);
 }
@@ -34192,7 +34122,7 @@ typedef union cavm_gicrx_icenabler0 cavm_gicrx_icenabler0_t;
 static inline uint64_t CAVM_GICRX_ICENABLER0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_ICENABLER0(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000090180ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_ICENABLER0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -35002,7 +34932,7 @@ typedef union cavm_gicrx_icenabler1e cavm_gicrx_icenabler1e_t;
 static inline uint64_t CAVM_GICRX_ICENABLER1E(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_ICENABLER1E(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000090184ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_ICENABLER1E", 1, a, 0, 0, 0, 0, 0);
 }
@@ -35748,7 +35678,7 @@ typedef union cavm_gicrx_icerrr0 cavm_gicrx_icerrr0_t;
 static inline uint64_t CAVM_GICRX_ICERRR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_ICERRR0(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x80100009c100ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_ICERRR0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -36494,7 +36424,7 @@ typedef union cavm_gicrx_icerrr1e cavm_gicrx_icerrr1e_t;
 static inline uint64_t CAVM_GICRX_ICERRR1E(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_ICERRR1E(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x80100009c104ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_ICERRR1E", 1, a, 0, 0, 0, 0, 0);
 }
@@ -36727,7 +36657,7 @@ typedef union cavm_gicrx_icfgr0 cavm_gicrx_icfgr0_t;
 static inline uint64_t CAVM_GICRX_ICFGR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_ICFGR0(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000090c00ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_ICFGR0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -36992,7 +36922,7 @@ typedef union cavm_gicrx_icfgr1 cavm_gicrx_icfgr1_t;
 static inline uint64_t CAVM_GICRX_ICFGR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_ICFGR1(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000090c04ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_ICFGR1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -37258,7 +37188,7 @@ typedef union cavm_gicrx_icfgr2e cavm_gicrx_icfgr2e_t;
 static inline uint64_t CAVM_GICRX_ICFGR2E(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_ICFGR2E(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000090c08ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_ICFGR2E", 1, a, 0, 0, 0, 0, 0);
 }
@@ -37524,7 +37454,7 @@ typedef union cavm_gicrx_icfgr3e cavm_gicrx_icfgr3e_t;
 static inline uint64_t CAVM_GICRX_ICFGR3E(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_ICFGR3E(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000090c0cll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_ICFGR3E", 1, a, 0, 0, 0, 0, 0);
 }
@@ -38591,7 +38521,7 @@ typedef union cavm_gicrx_icpendr0 cavm_gicrx_icpendr0_t;
 static inline uint64_t CAVM_GICRX_ICPENDR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_ICPENDR0(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000090280ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_ICPENDR0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -39658,7 +39588,7 @@ typedef union cavm_gicrx_icpendr1e cavm_gicrx_icpendr1e_t;
 static inline uint64_t CAVM_GICRX_ICPENDR1E(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_ICPENDR1E(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000090284ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_ICPENDR1E", 1, a, 0, 0, 0, 0, 0);
 }
@@ -40055,7 +39985,7 @@ typedef union cavm_gicrx_ierrvr cavm_gicrx_ierrvr_t;
 static inline uint64_t CAVM_GICRX_IERRVR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_IERRVR(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x80100009c008ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_IERRVR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -40863,7 +40793,7 @@ typedef union cavm_gicrx_igroupr0 cavm_gicrx_igroupr0_t;
 static inline uint64_t CAVM_GICRX_IGROUPR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_IGROUPR0(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000090080ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_IGROUPR0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -41671,7 +41601,7 @@ typedef union cavm_gicrx_igroupr1e cavm_gicrx_igroupr1e_t;
 static inline uint64_t CAVM_GICRX_IGROUPR1E(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_IGROUPR1E(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000090084ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_IGROUPR1E", 1, a, 0, 0, 0, 0, 0);
 }
@@ -42934,7 +42864,7 @@ typedef union cavm_gicrx_igrpmodr0 cavm_gicrx_igrpmodr0_t;
 static inline uint64_t CAVM_GICRX_IGRPMODR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_IGRPMODR0(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000090d00ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_IGRPMODR0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -44197,7 +44127,7 @@ typedef union cavm_gicrx_igrpmodr1e cavm_gicrx_igrpmodr1e_t;
 static inline uint64_t CAVM_GICRX_IGRPMODR1E(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_IGRPMODR1E(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000090d04ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_IGRPMODR1E", 1, a, 0, 0, 0, 0, 0);
 }
@@ -44227,14 +44157,11 @@ union cavm_gicrx_iidr
     struct cavm_gicrx_iidr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t productid             : 8;  /**< [ 31: 24](RO) Indicates the product ID:
-
-                                                                 * 0x04 - GIC-700 */
+        uint32_t productid             : 8;  /**< [ 31: 24](RO) Indicates the product ID: */
         uint32_t reserved_20_23        : 4;
         uint32_t variant               : 4;  /**< [ 19: 16](RO) Indicates the major revision, or variant, of the product rxpy identifier:
 
-                                                                 * 0x1 - r1
-                                                                 * 0x2 - r2 */
+                                                                 * 0x1 - r1 */
         uint32_t revision              : 4;  /**< [ 15: 12](RO) Indicates the minor revision of the product rxpy identifier:
 
                                                                  * 0x0 - p0 */
@@ -44250,12 +44177,9 @@ union cavm_gicrx_iidr
                                                                  * 0x0 - p0 */
         uint32_t variant               : 4;  /**< [ 19: 16](RO) Indicates the major revision, or variant, of the product rxpy identifier:
 
-                                                                 * 0x1 - r1
-                                                                 * 0x2 - r2 */
+                                                                 * 0x1 - r1 */
         uint32_t reserved_20_23        : 4;
-        uint32_t productid             : 8;  /**< [ 31: 24](RO) Indicates the product ID:
-
-                                                                 * 0x04 - GIC-700 */
+        uint32_t productid             : 8;  /**< [ 31: 24](RO) Indicates the product ID: */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gicrx_iidr_s cn; */
@@ -44265,7 +44189,7 @@ typedef union cavm_gicrx_iidr cavm_gicrx_iidr_t;
 static inline uint64_t CAVM_GICRX_IIDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_IIDR(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000080004ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_IIDR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -44334,7 +44258,7 @@ typedef union cavm_gicrx_invallr cavm_gicrx_invallr_t;
 static inline uint64_t CAVM_GICRX_INVALLR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_INVALLR(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x8010000800b0ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_INVALLR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -44409,7 +44333,7 @@ typedef union cavm_gicrx_invlpir cavm_gicrx_invlpir_t;
 static inline uint64_t CAVM_GICRX_INVLPIR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_INVLPIR(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x8010000800a0ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_INVLPIR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -44534,7 +44458,7 @@ typedef union cavm_gicrx_ipriorityr10e cavm_gicrx_ipriorityr10e_t;
 static inline uint64_t CAVM_GICRX_IPRIORITYR10E(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_IPRIORITYR10E(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000090428ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_IPRIORITYR10E", 1, a, 0, 0, 0, 0, 0);
 }
@@ -44659,7 +44583,7 @@ typedef union cavm_gicrx_ipriorityr11e cavm_gicrx_ipriorityr11e_t;
 static inline uint64_t CAVM_GICRX_IPRIORITYR11E(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_IPRIORITYR11E(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x80100009042cll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_IPRIORITYR11E", 1, a, 0, 0, 0, 0, 0);
 }
@@ -44785,7 +44709,7 @@ typedef union cavm_gicrx_ipriorityr12e cavm_gicrx_ipriorityr12e_t;
 static inline uint64_t CAVM_GICRX_IPRIORITYR12E(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_IPRIORITYR12E(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000090430ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_IPRIORITYR12E", 1, a, 0, 0, 0, 0, 0);
 }
@@ -44911,7 +44835,7 @@ typedef union cavm_gicrx_ipriorityr13e cavm_gicrx_ipriorityr13e_t;
 static inline uint64_t CAVM_GICRX_IPRIORITYR13E(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_IPRIORITYR13E(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000090434ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_IPRIORITYR13E", 1, a, 0, 0, 0, 0, 0);
 }
@@ -45037,7 +44961,7 @@ typedef union cavm_gicrx_ipriorityr14e cavm_gicrx_ipriorityr14e_t;
 static inline uint64_t CAVM_GICRX_IPRIORITYR14E(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_IPRIORITYR14E(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000090438ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_IPRIORITYR14E", 1, a, 0, 0, 0, 0, 0);
 }
@@ -45163,7 +45087,7 @@ typedef union cavm_gicrx_ipriorityr15e cavm_gicrx_ipriorityr15e_t;
 static inline uint64_t CAVM_GICRX_IPRIORITYR15E(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_IPRIORITYR15E(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x80100009043cll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_IPRIORITYR15E", 1, a, 0, 0, 0, 0, 0);
 }
@@ -45288,7 +45212,7 @@ typedef union cavm_gicrx_ipriorityr8e cavm_gicrx_ipriorityr8e_t;
 static inline uint64_t CAVM_GICRX_IPRIORITYR8E(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_IPRIORITYR8E(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000090420ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_IPRIORITYR8E", 1, a, 0, 0, 0, 0, 0);
 }
@@ -45413,7 +45337,7 @@ typedef union cavm_gicrx_ipriorityr9e cavm_gicrx_ipriorityr9e_t;
 static inline uint64_t CAVM_GICRX_IPRIORITYR9E(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_IPRIORITYR9E(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000090424ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_IPRIORITYR9E", 1, a, 0, 0, 0, 0, 0);
 }
@@ -45538,7 +45462,7 @@ typedef union cavm_gicrx_ipriorityr_0 cavm_gicrx_ipriorityr_0_t;
 static inline uint64_t CAVM_GICRX_IPRIORITYR_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_IPRIORITYR_0(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000090400ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_IPRIORITYR_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -45663,7 +45587,7 @@ typedef union cavm_gicrx_ipriorityr_1 cavm_gicrx_ipriorityr_1_t;
 static inline uint64_t CAVM_GICRX_IPRIORITYR_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_IPRIORITYR_1(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000090404ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_IPRIORITYR_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -45788,7 +45712,7 @@ typedef union cavm_gicrx_ipriorityr_2 cavm_gicrx_ipriorityr_2_t;
 static inline uint64_t CAVM_GICRX_IPRIORITYR_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_IPRIORITYR_2(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000090408ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_IPRIORITYR_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -45913,7 +45837,7 @@ typedef union cavm_gicrx_ipriorityr_3 cavm_gicrx_ipriorityr_3_t;
 static inline uint64_t CAVM_GICRX_IPRIORITYR_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_IPRIORITYR_3(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x80100009040cll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_IPRIORITYR_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -46038,7 +45962,7 @@ typedef union cavm_gicrx_ipriorityr_4 cavm_gicrx_ipriorityr_4_t;
 static inline uint64_t CAVM_GICRX_IPRIORITYR_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_IPRIORITYR_4(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000090410ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_IPRIORITYR_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -46163,7 +46087,7 @@ typedef union cavm_gicrx_ipriorityr_5 cavm_gicrx_ipriorityr_5_t;
 static inline uint64_t CAVM_GICRX_IPRIORITYR_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_IPRIORITYR_5(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000090414ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_IPRIORITYR_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -46288,7 +46212,7 @@ typedef union cavm_gicrx_ipriorityr_6 cavm_gicrx_ipriorityr_6_t;
 static inline uint64_t CAVM_GICRX_IPRIORITYR_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_IPRIORITYR_6(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000090418ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_IPRIORITYR_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -46413,7 +46337,7 @@ typedef union cavm_gicrx_ipriorityr_7 cavm_gicrx_ipriorityr_7_t;
 static inline uint64_t CAVM_GICRX_IPRIORITYR_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_IPRIORITYR_7(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x80100009041cll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_IPRIORITYR_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -47161,7 +47085,7 @@ typedef union cavm_gicrx_isactiver0 cavm_gicrx_isactiver0_t;
 static inline uint64_t CAVM_GICRX_ISACTIVER0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_ISACTIVER0(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000090300ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_ISACTIVER0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -47909,7 +47833,7 @@ typedef union cavm_gicrx_isactiver1e cavm_gicrx_isactiver1e_t;
 static inline uint64_t CAVM_GICRX_ISACTIVER1E(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_ISACTIVER1E(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000090304ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_ISACTIVER1E", 1, a, 0, 0, 0, 0, 0);
 }
@@ -48654,7 +48578,7 @@ typedef union cavm_gicrx_isenabler0 cavm_gicrx_isenabler0_t;
 static inline uint64_t CAVM_GICRX_ISENABLER0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_ISENABLER0(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000090100ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_ISENABLER0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -49399,7 +49323,7 @@ typedef union cavm_gicrx_isenabler1e cavm_gicrx_isenabler1e_t;
 static inline uint64_t CAVM_GICRX_ISENABLER1E(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_ISENABLER1E(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000090104ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_ISENABLER1E", 1, a, 0, 0, 0, 0, 0);
 }
@@ -49889,7 +49813,7 @@ typedef union cavm_gicrx_iserrr0 cavm_gicrx_iserrr0_t;
 static inline uint64_t CAVM_GICRX_ISERRR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_ISERRR0(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x80100009c180ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_ISERRR0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -50379,7 +50303,7 @@ typedef union cavm_gicrx_iserrr1e cavm_gicrx_iserrr1e_t;
 static inline uint64_t CAVM_GICRX_ISERRR1E(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_ISERRR1E(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x80100009c184ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_ISERRR1E", 1, a, 0, 0, 0, 0, 0);
 }
@@ -51318,7 +51242,7 @@ typedef union cavm_gicrx_ispendr0 cavm_gicrx_ispendr0_t;
 static inline uint64_t CAVM_GICRX_ISPENDR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_ISPENDR0(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000090200ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_ISPENDR0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -52257,7 +52181,7 @@ typedef union cavm_gicrx_ispendr1e cavm_gicrx_ispendr1e_t;
 static inline uint64_t CAVM_GICRX_ISPENDR1E(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_ISPENDR1E(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000090204ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_ISPENDR1E", 1, a, 0, 0, 0, 0, 0);
 }
@@ -52365,7 +52289,7 @@ typedef union cavm_gicrx_miscstatusr cavm_gicrx_miscstatusr_t;
 static inline uint64_t CAVM_GICRX_MISCSTATUSR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_MISCSTATUSR(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x80100009c000ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_MISCSTATUSR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -52423,7 +52347,7 @@ typedef union cavm_gicrx_mpamidr cavm_gicrx_mpamidr_t;
 static inline uint64_t CAVM_GICRX_MPAMIDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_MPAMIDR(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000080018ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_MPAMIDR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -52789,7 +52713,7 @@ typedef union cavm_gicrx_nsacr cavm_gicrx_nsacr_t;
 static inline uint64_t CAVM_GICRX_NSACR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_NSACR(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000090e00ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_NSACR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -52842,7 +52766,7 @@ typedef union cavm_gicrx_partidr cavm_gicrx_partidr_t;
 static inline uint64_t CAVM_GICRX_PARTIDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_PARTIDR(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x80100008001cll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_PARTIDR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -52994,7 +52918,7 @@ typedef union cavm_gicrx_pendbaser cavm_gicrx_pendbaser_t;
 static inline uint64_t CAVM_GICRX_PENDBASER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_PENDBASER(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000080078ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_PENDBASER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -53048,7 +52972,7 @@ typedef union cavm_gicrx_pidr0 cavm_gicrx_pidr0_t;
 static inline uint64_t CAVM_GICRX_PIDR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_PIDR0(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x80100008ffe0ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_PIDR0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -53116,7 +53040,7 @@ typedef union cavm_gicrx_pidr1 cavm_gicrx_pidr1_t;
 static inline uint64_t CAVM_GICRX_PIDR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_PIDR1(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x80100008ffe4ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_PIDR1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -53184,7 +53108,7 @@ typedef union cavm_gicrx_pidr2 cavm_gicrx_pidr2_t;
 static inline uint64_t CAVM_GICRX_PIDR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_PIDR2(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x80100008ffe8ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_PIDR2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -53240,7 +53164,7 @@ typedef union cavm_gicrx_pidr3 cavm_gicrx_pidr3_t;
 static inline uint64_t CAVM_GICRX_PIDR3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_PIDR3(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x80100008ffecll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_PIDR3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -53302,7 +53226,7 @@ typedef union cavm_gicrx_pidr4 cavm_gicrx_pidr4_t;
 static inline uint64_t CAVM_GICRX_PIDR4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_PIDR4(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x80100008ffd0ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_PIDR4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -53353,7 +53277,7 @@ typedef union cavm_gicrx_pidr5 cavm_gicrx_pidr5_t;
 static inline uint64_t CAVM_GICRX_PIDR5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_PIDR5(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x80100008ffd4ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_PIDR5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -53404,7 +53328,7 @@ typedef union cavm_gicrx_pidr6 cavm_gicrx_pidr6_t;
 static inline uint64_t CAVM_GICRX_PIDR6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_PIDR6(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x80100008ffd8ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_PIDR6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -53455,7 +53379,7 @@ typedef union cavm_gicrx_pidr7 cavm_gicrx_pidr7_t;
 static inline uint64_t CAVM_GICRX_PIDR7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_PIDR7(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x80100008ffdcll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_PIDR7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -53580,7 +53504,7 @@ typedef union cavm_gicrx_propbaser cavm_gicrx_propbaser_t;
 static inline uint64_t CAVM_GICRX_PROPBASER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_PROPBASER(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000080070ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_PROPBASER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -53679,7 +53603,7 @@ typedef union cavm_gicrx_pwrr cavm_gicrx_pwrr_t;
 static inline uint64_t CAVM_GICRX_PWRR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_PWRR(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000080024ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_PWRR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -53851,7 +53775,7 @@ typedef union cavm_gicrx_sgidr cavm_gicrx_sgidr_t;
 static inline uint64_t CAVM_GICRX_SGIDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_SGIDR(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x80100009c010ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_SGIDR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -53895,7 +53819,7 @@ typedef union cavm_gicrx_statusr cavm_gicrx_statusr_t;
 static inline uint64_t CAVM_GICRX_STATUSR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_STATUSR(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000080010ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_STATUSR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -53955,7 +53879,7 @@ typedef union cavm_gicrx_syncr cavm_gicrx_syncr_t;
 static inline uint64_t CAVM_GICRX_SYNCR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_SYNCR(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x8010000800c0ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_SYNCR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -54087,7 +54011,7 @@ typedef union cavm_gicrx_typer cavm_gicrx_typer_t;
 static inline uint64_t CAVM_GICRX_TYPER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_TYPER(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000080008ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_TYPER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -54307,7 +54231,7 @@ typedef union cavm_gicrx_vcfgbaser cavm_gicrx_vcfgbaser_t;
 static inline uint64_t CAVM_GICRX_VCFGBASER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_VCFGBASER(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x8010000ac100ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_VCFGBASER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -54401,7 +54325,7 @@ typedef union cavm_gicrx_verrr cavm_gicrx_verrr_t;
 static inline uint64_t CAVM_GICRX_VERRR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_VERRR(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x8010000ae100ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_VERRR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -54432,10 +54356,7 @@ union cavm_gicrx_vfctlr
     struct cavm_gicrx_vfctlr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_5_31         : 27;
-        uint32_t credlimcount          : 2;  /**< [  4:  3](R/W) CC VSGI token limit Count
-
-                                                                 Number of vSGI available tokens minus 1 when CredLim set */
+        uint32_t reserved_3_31         : 29;
         uint32_t lpilim                : 1;  /**< [  2:  2](R/W) VLPI buffer limit
 
                                                                  * 1 - Limit buffer usage to 1
@@ -54455,10 +54376,7 @@ union cavm_gicrx_vfctlr
 
                                                                  * 1 - Limit buffer usage to 1
                                                                  * 0 - Use all the buffers */
-        uint32_t credlimcount          : 2;  /**< [  4:  3](R/W) CC VSGI token limit Count
-
-                                                                 Number of vSGI available tokens minus 1 when CredLim set */
-        uint32_t reserved_5_31         : 27;
+        uint32_t reserved_3_31         : 29;
 #endif /* Word 0 - End */
     } s;
     struct cavm_gicrx_vfctlr_cn
@@ -54466,10 +54384,7 @@ union cavm_gicrx_vfctlr
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_10_31        : 22;
         uint32_t reserved_9            : 1;
-        uint32_t reserved_5_8          : 4;
-        uint32_t credlimcount          : 2;  /**< [  4:  3](R/W) CC VSGI token limit Count
-
-                                                                 Number of vSGI available tokens minus 1 when CredLim set */
+        uint32_t reserved_3_8          : 6;
         uint32_t lpilim                : 1;  /**< [  2:  2](R/W) VLPI buffer limit
 
                                                                  * 1 - Limit buffer usage to 1
@@ -54489,10 +54404,7 @@ union cavm_gicrx_vfctlr
 
                                                                  * 1 - Limit buffer usage to 1
                                                                  * 0 - Use all the buffers */
-        uint32_t credlimcount          : 2;  /**< [  4:  3](R/W) CC VSGI token limit Count
-
-                                                                 Number of vSGI available tokens minus 1 when CredLim set */
-        uint32_t reserved_5_8          : 4;
+        uint32_t reserved_3_8          : 6;
         uint32_t reserved_9            : 1;
         uint32_t reserved_10_31        : 22;
 #endif /* Word 0 - End */
@@ -54503,7 +54415,7 @@ typedef union cavm_gicrx_vfctlr cavm_gicrx_vfctlr_t;
 static inline uint64_t CAVM_GICRX_VFCTLR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_VFCTLR(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x8010000ac000ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_VFCTLR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -54534,9 +54446,9 @@ union cavm_gicrx_vinvchipr
         uint32_t valid                 : 1;  /**< [ 31: 31](RO) RES0 */
         uint32_t vid                   : 1;  /**< [ 30: 30](RO) RES0 */
         uint32_t reserved_1_29         : 29;
-        uint32_t chiplist              : 1;  /**< [  0:  0](WO) RES0 */
+        uint32_t chiplist              : 1;  /**< [  0:  0](RO) RES0 */
 #else /* Word 0 - Little Endian */
-        uint32_t chiplist              : 1;  /**< [  0:  0](WO) RES0 */
+        uint32_t chiplist              : 1;  /**< [  0:  0](RO) RES0 */
         uint32_t reserved_1_29         : 29;
         uint32_t vid                   : 1;  /**< [ 30: 30](RO) RES0 */
         uint32_t valid                 : 1;  /**< [ 31: 31](RO) RES0 */
@@ -54549,7 +54461,7 @@ typedef union cavm_gicrx_vinvchipr cavm_gicrx_vinvchipr_t;
 static inline uint64_t CAVM_GICRX_VINVCHIPR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_VINVCHIPR(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x8010000a0120ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_VINVCHIPR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -54704,7 +54616,7 @@ typedef union cavm_gicrx_vpendbaser cavm_gicrx_vpendbaser_t;
 static inline uint64_t CAVM_GICRX_VPENDBASER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_VPENDBASER(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x8010000a0078ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_VPENDBASER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -54878,7 +54790,7 @@ typedef union cavm_gicrx_vpropbaser cavm_gicrx_vpropbaser_t;
 static inline uint64_t CAVM_GICRX_VPROPBASER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_VPROPBASER(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x8010000a0070ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_VPROPBASER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -54932,7 +54844,7 @@ typedef union cavm_gicrx_vsgipendr cavm_gicrx_vsgipendr_t;
 static inline uint64_t CAVM_GICRX_VSGIPENDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_VSGIPENDR(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x8010000a0088ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_VSGIPENDR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -54975,7 +54887,7 @@ typedef union cavm_gicrx_vsgir cavm_gicrx_vsgir_t;
 static inline uint64_t CAVM_GICRX_VSGIR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_VSGIR(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x8010000a0080ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_VSGIR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -55085,7 +54997,7 @@ typedef union cavm_gicrx_waker cavm_gicrx_waker_t;
 static inline uint64_t CAVM_GICRX_WAKER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GICRX_WAKER(uint64_t a)
 {
-    if (a<=31)
+    if (a<=23)
         return 0x801000080014ll + 0x40000ll * ((a) & 0x1f);
     __cavm_csr_fatal("GICRX_WAKER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -55845,15 +55757,15 @@ union cavm_gict_errx_misc1_b
     struct cavm_gict_errx_misc1_b_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](R/W) For the relevant uncorrectable RAM error record, will contain the corrupted data
+        uint64_t data                  : 64; /**< [ 63:  0](R/W) For the relavant uncorrectable RAM error record, will contain the corrupted data
                                                                  that is read from the RAM.
-                                                                 For ITS software errors, will contain information relevant to the ITS software
+                                                                 For ITS software errors, will contain information relavant to the ITS software
                                                                  error. Details can be found in Table "3-22 ITS command and translation errors,
                                                                  records 27+" in the TRM. */
 #else /* Word 0 - Little Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](R/W) For the relevant uncorrectable RAM error record, will contain the corrupted data
+        uint64_t data                  : 64; /**< [ 63:  0](R/W) For the relavant uncorrectable RAM error record, will contain the corrupted data
                                                                  that is read from the RAM.
-                                                                 For ITS software errors, will contain information relevant to the ITS software
+                                                                 For ITS software errors, will contain information relavant to the ITS software
                                                                  error. Details can be found in Table "3-22 ITS command and translation errors,
                                                                  records 27+" in the TRM. */
 #endif /* Word 0 - End */
@@ -56985,7 +56897,7 @@ union cavm_gits0_baser2
 
                                                                  \> *Note*
                                                                  \> The values in this register must reference the same alloated memory in all
-                                                                 GITS0_BASER2 and GICR_VPROPBASER registers in the same AffinityGroup as
+                                                                 GITS0_BASER2 and GICR\<n/\>_VPROPBASER registers in the same AffinityGroup as
                                                                  defined by GITS0_TYPER.SVPET */
         uint64_t outercacheability     : 3;  /**< [ 55: 53](R/W) Indicates the Outer Cacheability attributes of accesses to the table. The
                                                                  possible values of this field are:
@@ -57100,7 +57012,7 @@ union cavm_gits0_baser2
 
                                                                  \> *Note*
                                                                  \> The values in this register must reference the same alloated memory in all
-                                                                 GITS0_BASER2 and GICR_VPROPBASER registers in the same AffinityGroup as
+                                                                 GITS0_BASER2 and GICR\<n/\>_VPROPBASER registers in the same AffinityGroup as
                                                                  defined by GITS0_TYPER.SVPET */
         uint64_t cacheability          : 3;  /**< [ 61: 59](R/W) Indicates the Inner Cacheability attributes of accesses to the table. The
                                                                  possible values of this field are:
@@ -57622,7 +57534,7 @@ union cavm_gits0_cfgid
                                                                  * 0 - MSI-64 not accesses supported */
         uint64_t target_bits           : 4;  /**< [ 15: 12](RO) Indicates the number of supported target bits
 
-                                                                 * 7 bits */
+                                                                 * 5 bits */
         uint64_t lpi_credit_count      : 4;  /**< [ 11:  8](RO) Indicates the number LPI credits supported minus one
 
                                                                  * 0 -  1 Credits */
@@ -57636,7 +57548,7 @@ union cavm_gits0_cfgid
                                                                  * 0 -  1 Credits */
         uint64_t target_bits           : 4;  /**< [ 15: 12](RO) Indicates the number of supported target bits
 
-                                                                 * 7 bits */
+                                                                 * 5 bits */
         uint64_t msi_64                : 1;  /**< [ 16: 16](RO) Indicates if the ITS supports MSI-64 accesses
 
                                                                  * 0 - MSI-64 not accesses supported */
@@ -58524,14 +58436,11 @@ union cavm_gits0_iidr
     struct cavm_gits0_iidr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t productid             : 8;  /**< [ 31: 24](RO) Indicates the product ID
-
-                                                                 * 0x04 - GIC-700 */
+        uint32_t productid             : 8;  /**< [ 31: 24](RO) Indicates the product ID */
         uint32_t reserved_20_23        : 4;
         uint32_t variant               : 4;  /**< [ 19: 16](RO) Indicates the major revision, or variant, of the product rxpy identifier
 
-                                                                 * 0x1 - r1
-                                                                 * 0x2 - r2 */
+                                                                 * 0x1 - r1 */
         uint32_t revision              : 4;  /**< [ 15: 12](RO) Indicates the minor revision of the product rxpy identifier
 
                                                                  * 0x0 - p0 */
@@ -58547,12 +58456,9 @@ union cavm_gits0_iidr
                                                                  * 0x0 - p0 */
         uint32_t variant               : 4;  /**< [ 19: 16](RO) Indicates the major revision, or variant, of the product rxpy identifier
 
-                                                                 * 0x1 - r1
-                                                                 * 0x2 - r2 */
+                                                                 * 0x1 - r1 */
         uint32_t reserved_20_23        : 4;
-        uint32_t productid             : 8;  /**< [ 31: 24](RO) Indicates the product ID
-
-                                                                 * 0x04 - GIC-700 */
+        uint32_t productid             : 8;  /**< [ 31: 24](RO) Indicates the product ID */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gits0_iidr_s cn; */
@@ -59504,7 +59410,7 @@ union cavm_gits0_typer
                                                                  * 0d19 - 20 bits */
         uint64_t idbits                : 5;  /**< [ 12:  8](RO) The number of EventID bits implemented, minus one.
 
-                                                                 * 0d20 - 21 bits */
+                                                                 * 0d19 - 20 bits */
         uint64_t ittentrysize          : 4;  /**< [  7:  4](RO) Indicates the number of bytes per translation table entry, minus one.
 
                                                                  * 0d3 - 4 bytes */
@@ -59536,7 +59442,7 @@ union cavm_gits0_typer
                                                                  * 0d3 - 4 bytes */
         uint64_t idbits                : 5;  /**< [ 12:  8](RO) The number of EventID bits implemented, minus one.
 
-                                                                 * 0d20 - 21 bits */
+                                                                 * 0d19 - 20 bits */
         uint64_t devbits               : 5;  /**< [ 17: 13](RO) The number of DeviceID bits implemented, minus one.
 
                                                                  * 0d19 - 20 bits */

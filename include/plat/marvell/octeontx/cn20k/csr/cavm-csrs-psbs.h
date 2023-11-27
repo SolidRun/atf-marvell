@@ -376,7 +376,7 @@ static inline uint64_t CAVM_PSBS_SYSX_ACCUMX(uint64_t a, uint64_t b)
  *
  * PSB Slave System Accumulator Select Register
  * Index {b} is enumerated by the appropriate slaves' accumulator enumeration:
- * GSERN_PSB_ACC_E, IOBN_PSB_ACC_E, LMC_PSB_ACC_E, CPT_PSB_ACC_E.
+ * GSERM_PSB_ACC_E, CPT_PSB_ACC_E.
  */
 union cavm_psbs_sysx_accumx_sel
 {
@@ -526,7 +526,7 @@ static inline uint64_t CAVM_PSBS_SYSX_CONST(uint64_t a)
  *
  * PSB Slave System Events Configuration Register
  * Index {b} is enumerated by the appropriate slaves' event enumeration:
- * GSERN_PSB_EVENT_E, IOBN_PSB_EVENT_E, LMC_PSB_EVENT_E, CPT_PSB_EVENT_E.
+ * GSERM_PSB_EVENT_E, NCB_PSB_EVENT_E, CPT_PSB_EVENT_E.
  */
 union cavm_psbs_sysx_eventx_cfg
 {

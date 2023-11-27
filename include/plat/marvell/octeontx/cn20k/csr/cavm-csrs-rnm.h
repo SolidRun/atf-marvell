@@ -86,7 +86,7 @@ union cavm_rnm_ctl_status
                                                                  RNM_CTL_STATUS[DRBG_ENT_DISABLE]. */
         uint64_t ebg_poll_delay        : 10; /**< [ 12:  3](SR/W/H) Number of cycles for hardware to wait before polling the EBG APB bus for new entropy. */
         uint64_t ebg_poll_en           : 1;  /**< [  2:  2](SR/W/H) Set this bit to enable polling and accumulation of entropy from EBG.
-                                                                 Before setting this bit EBG must be initialized and [EBG_CTL_LOCK] set.
+                                                                 Before setting this bit EBG must be initialized and EBG_CTL_LOCK set.
                                                                  Automatically cleared when a health failure occurs (see RNM_PF_EBG_HEALTH[CT_ERR]). */
         uint64_t ebg_ctl_lock          : 1;  /**< [  1:  1](SR/W1S/H) Set this bit to lock write access to RNM_EBG_CTL.
                                                                  Locked until system is reset or a health failure occurs (see RNM_PF_EBG_HEALTH[CT_ERR]). */
@@ -96,7 +96,7 @@ union cavm_rnm_ctl_status
         uint64_t ebg_ctl_lock          : 1;  /**< [  1:  1](SR/W1S/H) Set this bit to lock write access to RNM_EBG_CTL.
                                                                  Locked until system is reset or a health failure occurs (see RNM_PF_EBG_HEALTH[CT_ERR]). */
         uint64_t ebg_poll_en           : 1;  /**< [  2:  2](SR/W/H) Set this bit to enable polling and accumulation of entropy from EBG.
-                                                                 Before setting this bit EBG must be initialized and [EBG_CTL_LOCK] set.
+                                                                 Before setting this bit EBG must be initialized and EBG_CTL_LOCK set.
                                                                  Automatically cleared when a health failure occurs (see RNM_PF_EBG_HEALTH[CT_ERR]). */
         uint64_t ebg_poll_delay        : 10; /**< [ 12:  3](SR/W/H) Number of cycles for hardware to wait before polling the EBG APB bus for new entropy. */
         uint64_t drbg_en               : 1;  /**< [ 13: 13](SR/W/H) Set this bit to 0x0 to put the DRBG into reset. Must be 0x0 before
@@ -178,11 +178,11 @@ union cavm_rnm_drbg_rndr
     struct cavm_rnm_drbg_rndr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit NIST-90A Compliant CTR DRBG Deterministic Random Number
+        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit NIST-90A Compliant CTR_DRBG Deterministic Random Number
                                                                  Read RNM_DRBG_RNDR_RESULT for result status.
                                                                  For immediate reseed see RNM_DRBG_RNDRRS. */
 #else /* Word 0 - Little Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit NIST-90A Compliant CTR DRBG Deterministic Random Number
+        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit NIST-90A Compliant CTR_DRBG Deterministic Random Number
                                                                  Read RNM_DRBG_RNDR_RESULT for result status.
                                                                  For immediate reseed see RNM_DRBG_RNDRRS. */
 #endif /* Word 0 - End */
@@ -256,12 +256,12 @@ union cavm_rnm_drbg_rndrrs
     struct cavm_rnm_drbg_rndrrs_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit NIST-90A Compliant CTR DRBG deterministic random number.
+        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit NIST-90A Compliant CTR_DRBG deterministic random number.
                                                                  DRBG is reseeded immediately on read, blocks until complete and new bits available.
                                                                  Read RNM_DRBG_RNDRRS_RESULT for result status.
                                                                  All DRBG related CSR operations will be blocked until reseed completes. */
 #else /* Word 0 - Little Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit NIST-90A Compliant CTR DRBG deterministic random number.
+        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit NIST-90A Compliant CTR_DRBG deterministic random number.
                                                                  DRBG is reseeded immediately on read, blocks until complete and new bits available.
                                                                  Read RNM_DRBG_RNDRRS_RESULT for result status.
                                                                  All DRBG related CSR operations will be blocked until reseed completes. */
@@ -352,13 +352,13 @@ union cavm_rnm_ebg_ctl
                                                                  Recommend to leave it as default 0x21 to have sufficient noise (at least
                                                                  0x1E).
 
-                                                                 Examples:
-                                                                 0x2: brn_ck_freq = noise_ck_freq/4.
-                                                                 0x3: brn_ck_freq = noise_ck_freq/6.
-                                                                 0x10: brn_ck_freq = noise_ck_freq/32. */
+                                                                 Examples
+                                                                 0x2  - BRN_CK_FREQ = NOISE_CK_FREQ/4.
+                                                                 0x3  - BRN_CK_FREQ = NOISE_CK_FREQ/6.
+                                                                 0x10 - BRN_CK_FREQ = NOISE_CK_FREQ/32. */
         uint64_t reserved_15           : 1;
         uint64_t entropy_sel           : 2;  /**< [ 14: 13](SR/W/H) Entropy source select.
-                                                                 Must only be changed when [RNG_RSTN] and [ENTROPY_REQ] field are 0.
+                                                                 Must only be changed when RNG_RSTN and ENTROPY_REQ field are 0.
 
                                                                  Internal mode:
                                                                  0x0 = RNG data latched by RNG clock.
@@ -433,7 +433,7 @@ union cavm_rnm_ebg_ctl
         uint64_t entropy_req           : 1;  /**< [ 12: 12](SR/W/H) 0 = Stop.
                                                                  1 = Request new entropy bits into shift register/FIFO. */
         uint64_t entropy_sel           : 2;  /**< [ 14: 13](SR/W/H) Entropy source select.
-                                                                 Must only be changed when [RNG_RSTN] and [ENTROPY_REQ] field are 0.
+                                                                 Must only be changed when RNG_RSTN and ENTROPY_REQ field are 0.
 
                                                                  Internal mode:
                                                                  0x0 = RNG data latched by RNG clock.
@@ -446,10 +446,10 @@ union cavm_rnm_ebg_ctl
                                                                  Recommend to leave it as default 0x21 to have sufficient noise (at least
                                                                  0x1E).
 
-                                                                 Examples:
-                                                                 0x2: brn_ck_freq = noise_ck_freq/4.
-                                                                 0x3: brn_ck_freq = noise_ck_freq/6.
-                                                                 0x10: brn_ck_freq = noise_ck_freq/32. */
+                                                                 Examples
+                                                                 0x2  - BRN_CK_FREQ = NOISE_CK_FREQ/4.
+                                                                 0x3  - BRN_CK_FREQ = NOISE_CK_FREQ/6.
+                                                                 0x10 - BRN_CK_FREQ = NOISE_CK_FREQ/32. */
         uint64_t ds_ratio              : 8;  /**< [ 31: 24](SR/W/H) Down sampling ratio in hex in the EBG downsampling circuit, which further
                                                                  downsamples the RNG slow (Noisy) oscillator output. This downsampling is
                                                                  done outside of the RNG macro.
@@ -606,7 +606,7 @@ static inline uint64_t CAVM_RNM_ENTROPY_STATUS_FUNC(void)
  *
  * RNM DRBG Reseed Counter Register
  * Number of DRBG engine requests serviced since the last reseed.
- * Read RNM_PF_DRBG_RESEED_INTERVAL for the number of requests before a reseed occurs.
+ * Read RNM_DRBG_RESEED_INTERVAL for the number of requests before a reseed occurs.
  * When RNM_PF_DRBG_RESEED_CTR reaches RNM_PF_DRBG_RESEED_INTERVAL the engines will reseed
  * themselves.
  */
@@ -711,14 +711,14 @@ union cavm_rnm_pf_ebg_health
                                                                  0 = Normal.
                                                                  1 = Test error, EBG entropy output disabled. */
         uint64_t c_rep                 : 9;  /**< [ 19: 11](SR/W/H) Cutoff value for repetition health test, default to H=0.6, a=2(-20), so C=35
-                                                                 Only writable when [RNG_RSTN] is 0. */
+                                                                 Only writable when RNG_RSTN is 0. */
         uint64_t c_adp                 : 11; /**< [ 10:  0](SR/W/H) Cutoff value for adaptive health test, default to H=0.6, a=2(-20) so C=748
-                                                                 Only writable when [RNG_RSTN] is 0. */
+                                                                 Only writable when RNG_RSTN is 0. */
 #else /* Word 0 - Little Endian */
         uint64_t c_adp                 : 11; /**< [ 10:  0](SR/W/H) Cutoff value for adaptive health test, default to H=0.6, a=2(-20) so C=748
-                                                                 Only writable when [RNG_RSTN] is 0. */
+                                                                 Only writable when RNG_RSTN is 0. */
         uint64_t c_rep                 : 9;  /**< [ 19: 11](SR/W/H) Cutoff value for repetition health test, default to H=0.6, a=2(-20), so C=35
-                                                                 Only writable when [RNG_RSTN] is 0. */
+                                                                 Only writable when RNG_RSTN is 0. */
         uint64_t ct_err                : 1;  /**< [ 20: 20](RO/H) Error flag for EBG continuous tests.
                                                                  0 = Normal.
                                                                  1 = Test error, EBG entropy output disabled. */
@@ -766,9 +766,11 @@ union cavm_rnm_pf_trng
     struct cavm_rnm_pf_trng_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit true random number or 0x0 if entropy is unavailable. */
+        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit true random number.
+                                                                 Must also read RNM_TRNG_RESULT for result status. */
 #else /* Word 0 - Little Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit true random number or 0x0 if entropy is unavailable. */
+        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit true random number.
+                                                                 Must also read RNM_TRNG_RESULT for result status. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rnm_pf_trng_s cn; */
@@ -790,88 +792,6 @@ static inline uint64_t CAVM_RNM_PF_TRNG_FUNC(void)
 #define arguments_CAVM_RNM_PF_TRNG -1,-1,-1,-1
 
 /**
- * Register (RSL) rnm_pf_trng_dat#
- *
- * RNM True Random Number Register
- */
-union cavm_rnm_pf_trng_datx
-{
-    uint64_t u;
-    struct cavm_rnm_pf_trng_datx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit true random number.
-                                                                 Will return 0x0 on either a true randomly-generated zero, or on not being ready.
-                                                                 Thus after reading this register software must also read RNM_PF_TRNG_RES to
-                                                                 differentiate between these two 0x0 return cases. */
-#else /* Word 0 - Little Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit true random number.
-                                                                 Will return 0x0 on either a true randomly-generated zero, or on not being ready.
-                                                                 Thus after reading this register software must also read RNM_PF_TRNG_RES to
-                                                                 differentiate between these two 0x0 return cases. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rnm_pf_trng_datx_s cn; */
-};
-typedef union cavm_rnm_pf_trng_datx cavm_rnm_pf_trng_datx_t;
-
-static inline uint64_t CAVM_RNM_PF_TRNG_DATX(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RNM_PF_TRNG_DATX(uint64_t a)
-{
-    if (a<=127)
-        return 0x87e00f001000ll + 0x10ll * ((a) & 0x7f);
-    __cavm_csr_fatal("RNM_PF_TRNG_DATX", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RNM_PF_TRNG_DATX(a) cavm_rnm_pf_trng_datx_t
-#define bustype_CAVM_RNM_PF_TRNG_DATX(a) CSR_TYPE_RSL
-#define basename_CAVM_RNM_PF_TRNG_DATX(a) "RNM_PF_TRNG_DATX"
-#define device_bar_CAVM_RNM_PF_TRNG_DATX(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RNM_PF_TRNG_DATX(a) (a)
-#define arguments_CAVM_RNM_PF_TRNG_DATX(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) rnm_pf_trng_res#
- *
- * RNM Random Result Register
- */
-union cavm_rnm_pf_trng_resx
-{
-    uint64_t u;
-    struct cavm_rnm_pf_trng_resx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t res                   : 1;  /**< [  0:  0](RO/H) Status of the most recent RNM_PF_TRNG_DAT() read to the same given register index.
-                                                                 0 = Failure, RNM_PF_TRNG_DAT() also returned 0x0.
-                                                                 1 = Success, RNM_PF_TRNG_DAT() returned true random data, which in 2^64 chance may be a 0x0. */
-#else /* Word 0 - Little Endian */
-        uint64_t res                   : 1;  /**< [  0:  0](RO/H) Status of the most recent RNM_PF_TRNG_DAT() read to the same given register index.
-                                                                 0 = Failure, RNM_PF_TRNG_DAT() also returned 0x0.
-                                                                 1 = Success, RNM_PF_TRNG_DAT() returned true random data, which in 2^64 chance may be a 0x0. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rnm_pf_trng_resx_s cn; */
-};
-typedef union cavm_rnm_pf_trng_resx cavm_rnm_pf_trng_resx_t;
-
-static inline uint64_t CAVM_RNM_PF_TRNG_RESX(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RNM_PF_TRNG_RESX(uint64_t a)
-{
-    if (a<=127)
-        return 0x87e00f001008ll + 0x10ll * ((a) & 0x7f);
-    __cavm_csr_fatal("RNM_PF_TRNG_RESX", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RNM_PF_TRNG_RESX(a) cavm_rnm_pf_trng_resx_t
-#define bustype_CAVM_RNM_PF_TRNG_RESX(a) CSR_TYPE_RSL
-#define basename_CAVM_RNM_PF_TRNG_RESX(a) "RNM_PF_TRNG_RESX"
-#define device_bar_CAVM_RNM_PF_TRNG_RESX(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RNM_PF_TRNG_RESX(a) (a)
-#define arguments_CAVM_RNM_PF_TRNG_RESX(a) (a),-1,-1,-1
-
-/**
  * Register (RSL) rnm_pf_trng_result
  *
  * RNM Random Result Register
@@ -882,9 +802,15 @@ union cavm_rnm_pf_trng_result
     struct cavm_rnm_pf_trng_result_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
+        uint64_t reserved_1_63         : 63;
+        uint64_t res                   : 1;  /**< [  0:  0](RO/H) Status of RNM_TRNG (True Random Number) Read
+                                                                 0 = Failure, RNM_TRNG will also return 0x0.
+                                                                 1 = Success, always accompanied by data in RNM_TRNG */
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
+        uint64_t res                   : 1;  /**< [  0:  0](RO/H) Status of RNM_TRNG (True Random Number) Read
+                                                                 0 = Failure, RNM_TRNG will also return 0x0.
+                                                                 1 = Success, always accompanied by data in RNM_TRNG */
+        uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rnm_pf_trng_result_s cn; */
@@ -906,6 +832,40 @@ static inline uint64_t CAVM_RNM_PF_TRNG_RESULT_FUNC(void)
 #define arguments_CAVM_RNM_PF_TRNG_RESULT -1,-1,-1,-1
 
 /**
+ * Register (NCB) rnm_random
+ *
+ * RNM Random Register
+ */
+union cavm_rnm_random
+{
+    uint64_t u;
+    struct cavm_rnm_random_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_0_63         : 64;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_63         : 64;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rnm_random_s cn; */
+};
+typedef union cavm_rnm_random cavm_rnm_random_t;
+
+#define CAVM_RNM_RANDOM CAVM_RNM_RANDOM_FUNC()
+static inline uint64_t CAVM_RNM_RANDOM_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RNM_RANDOM_FUNC(void)
+{
+    return 0x80f000800000ll;
+}
+
+#define typedef_CAVM_RNM_RANDOM cavm_rnm_random_t
+#define bustype_CAVM_RNM_RANDOM CSR_TYPE_NCB
+#define basename_CAVM_RNM_RANDOM "RNM_RANDOM"
+#define device_bar_CAVM_RNM_RANDOM 0x0 /* VF_BAR0 */
+#define busnum_CAVM_RNM_RANDOM 0
+#define arguments_CAVM_RNM_RANDOM -1,-1,-1,-1
+
+/**
  * Register (NCB) rnm_trng
  *
  * RNM True Random Number Register
@@ -916,9 +876,11 @@ union cavm_rnm_trng
     struct cavm_rnm_trng_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit true random number or 0x0 if entropy is unavailable. */
+        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit true random number.
+                                                                 Must also read RNM_TRNG_RESULT for result status. */
 #else /* Word 0 - Little Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit true random number or 0x0 if entropy is unavailable. */
+        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit true random number.
+                                                                 Must also read RNM_TRNG_RESULT for result status. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rnm_trng_s cn; */
@@ -950,9 +912,15 @@ union cavm_rnm_trng_result
     struct cavm_rnm_trng_result_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
+        uint64_t reserved_1_63         : 63;
+        uint64_t res                   : 1;  /**< [  0:  0](RO/H) Status of RNM_TRNG (True Random Number) Read
+                                                                 0 = Failure, RNM_TRNG will also return 0x0.
+                                                                 1 = Success, always accompanied by data in RNM_TRNG */
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
+        uint64_t res                   : 1;  /**< [  0:  0](RO/H) Status of RNM_TRNG (True Random Number) Read
+                                                                 0 = Failure, RNM_TRNG will also return 0x0.
+                                                                 1 = Success, always accompanied by data in RNM_TRNG */
+        uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rnm_trng_result_s cn; */
@@ -1120,87 +1088,5 @@ static inline uint64_t CAVM_RNM_VF_EBG_HEALTH_FUNC(void)
 #define device_bar_CAVM_RNM_VF_EBG_HEALTH 0x0 /* VF_BAR0 */
 #define busnum_CAVM_RNM_VF_EBG_HEALTH 0
 #define arguments_CAVM_RNM_VF_EBG_HEALTH -1,-1,-1,-1
-
-/**
- * Register (NCB) rnm_vf_trng_dat#
- *
- * RNM True Random Number Register
- */
-union cavm_rnm_vf_trng_datx
-{
-    uint64_t u;
-    struct cavm_rnm_vf_trng_datx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit true random number.
-                                                                 Will return 0x0 on either a true randomly-generated zero, or on not being ready.
-                                                                 Thus after reading this register software must also read RNM_VF_TRNG_RES to
-                                                                 differentiate between these two 0x0 return cases. */
-#else /* Word 0 - Little Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit true random number.
-                                                                 Will return 0x0 on either a true randomly-generated zero, or on not being ready.
-                                                                 Thus after reading this register software must also read RNM_VF_TRNG_RES to
-                                                                 differentiate between these two 0x0 return cases. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rnm_vf_trng_datx_s cn; */
-};
-typedef union cavm_rnm_vf_trng_datx cavm_rnm_vf_trng_datx_t;
-
-static inline uint64_t CAVM_RNM_VF_TRNG_DATX(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RNM_VF_TRNG_DATX(uint64_t a)
-{
-    if (a<=127)
-        return 0x80f000800800ll + 0x10ll * ((a) & 0x7f);
-    __cavm_csr_fatal("RNM_VF_TRNG_DATX", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RNM_VF_TRNG_DATX(a) cavm_rnm_vf_trng_datx_t
-#define bustype_CAVM_RNM_VF_TRNG_DATX(a) CSR_TYPE_NCB
-#define basename_CAVM_RNM_VF_TRNG_DATX(a) "RNM_VF_TRNG_DATX"
-#define device_bar_CAVM_RNM_VF_TRNG_DATX(a) 0x0 /* VF_BAR0 */
-#define busnum_CAVM_RNM_VF_TRNG_DATX(a) (a)
-#define arguments_CAVM_RNM_VF_TRNG_DATX(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) rnm_vf_trng_res#
- *
- * RNM Random Result Register
- */
-union cavm_rnm_vf_trng_resx
-{
-    uint64_t u;
-    struct cavm_rnm_vf_trng_resx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t res                   : 1;  /**< [  0:  0](RO/H) Status of the most recent RNM_VF_TRNG_DAT() read to the same given register index.
-                                                                 0 = Failure, RNM_VF_TRNG_DAT() also returned 0x0.
-                                                                 1 = Success, RNM_VF_TRNG_DAT() returned true random data, which in 2^64 chance may be a 0x0. */
-#else /* Word 0 - Little Endian */
-        uint64_t res                   : 1;  /**< [  0:  0](RO/H) Status of the most recent RNM_VF_TRNG_DAT() read to the same given register index.
-                                                                 0 = Failure, RNM_VF_TRNG_DAT() also returned 0x0.
-                                                                 1 = Success, RNM_VF_TRNG_DAT() returned true random data, which in 2^64 chance may be a 0x0. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rnm_vf_trng_resx_s cn; */
-};
-typedef union cavm_rnm_vf_trng_resx cavm_rnm_vf_trng_resx_t;
-
-static inline uint64_t CAVM_RNM_VF_TRNG_RESX(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RNM_VF_TRNG_RESX(uint64_t a)
-{
-    if (a<=127)
-        return 0x80f000800808ll + 0x10ll * ((a) & 0x7f);
-    __cavm_csr_fatal("RNM_VF_TRNG_RESX", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RNM_VF_TRNG_RESX(a) cavm_rnm_vf_trng_resx_t
-#define bustype_CAVM_RNM_VF_TRNG_RESX(a) CSR_TYPE_NCB
-#define basename_CAVM_RNM_VF_TRNG_RESX(a) "RNM_VF_TRNG_RESX"
-#define device_bar_CAVM_RNM_VF_TRNG_RESX(a) 0x0 /* VF_BAR0 */
-#define busnum_CAVM_RNM_VF_TRNG_RESX(a) (a)
-#define arguments_CAVM_RNM_VF_TRNG_RESX(a) (a),-1,-1,-1
 
 #endif /* __CAVM_CSRS_RNM_H__ */

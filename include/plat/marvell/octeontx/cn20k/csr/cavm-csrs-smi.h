@@ -25,11 +25,11 @@
  * SMI Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define CAVM_SMI_BAR_E_SMIX_PF_BAR0(a) (0x87e040000000ll + 0x1000000ll * (a))
-#define CAVM_SMI_BAR_E_SMIX_PF_BAR0_SIZE 0x100000ull
+#define CAVM_SMI_BAR_E_SMI_PF_BAR0 (0x87e005000000ll)
+#define CAVM_SMI_BAR_E_SMI_PF_BAR0_SIZE 0x100000ull
 
 /**
- * Register (RSL) smi#_clk
+ * Register (RSL) smi_#_clk
  *
  * SMI Clock Control Register
  * This register determines the SMI timing characteristics.
@@ -37,10 +37,10 @@
  * must delay the SMI_()_CLK CSR write by at least 512 of the 100 MHz reference clock
  * cycles after the previous SMI operation is finished.
  */
-union cavm_smix_clk
+union cavm_smi_x_clk
 {
     uint64_t u;
-    struct cavm_smix_clk_s
+    struct cavm_smi_x_clk_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_25_63        : 39;
@@ -100,35 +100,35 @@ union cavm_smix_clk
         uint64_t reserved_25_63        : 39;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_smix_clk_s cn; */
+    /* struct cavm_smi_x_clk_s cn; */
 };
-typedef union cavm_smix_clk cavm_smix_clk_t;
+typedef union cavm_smi_x_clk cavm_smi_x_clk_t;
 
-static inline uint64_t CAVM_SMIX_CLK(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMIX_CLK(uint64_t a)
+static inline uint64_t CAVM_SMI_X_CLK(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMI_X_CLK(uint64_t a)
 {
     if (a<=1)
-        return 0x87e040003818ll + 0x1000000ll * ((a) & 0x1);
-    __cavm_csr_fatal("SMIX_CLK", 1, a, 0, 0, 0, 0, 0);
+        return 0x87e005003818ll + 0x80ll * ((a) & 0x1);
+    __cavm_csr_fatal("SMI_X_CLK", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_SMIX_CLK(a) cavm_smix_clk_t
-#define bustype_CAVM_SMIX_CLK(a) CSR_TYPE_RSL
-#define basename_CAVM_SMIX_CLK(a) "SMIX_CLK"
-#define device_bar_CAVM_SMIX_CLK(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMIX_CLK(a) (a)
-#define arguments_CAVM_SMIX_CLK(a) (a),-1,-1,-1
+#define typedef_CAVM_SMI_X_CLK(a) cavm_smi_x_clk_t
+#define bustype_CAVM_SMI_X_CLK(a) CSR_TYPE_RSL
+#define basename_CAVM_SMI_X_CLK(a) "SMI_X_CLK"
+#define device_bar_CAVM_SMI_X_CLK(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMI_X_CLK(a) (a)
+#define arguments_CAVM_SMI_X_CLK(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) smi#_clken
+ * Register (RSL) smi_#_clken
  *
  * SMI Clock Enable Register
  * This register is to force conditional clock enable.
  */
-union cavm_smix_clken
+union cavm_smi_x_clken
 {
     uint64_t u;
-    struct cavm_smix_clken_s
+    struct cavm_smi_x_clken_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
@@ -138,36 +138,36 @@ union cavm_smix_clken
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_smix_clken_s cn; */
+    /* struct cavm_smi_x_clken_s cn; */
 };
-typedef union cavm_smix_clken cavm_smix_clken_t;
+typedef union cavm_smi_x_clken cavm_smi_x_clken_t;
 
-static inline uint64_t CAVM_SMIX_CLKEN(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMIX_CLKEN(uint64_t a)
+static inline uint64_t CAVM_SMI_X_CLKEN(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMI_X_CLKEN(uint64_t a)
 {
     if (a<=1)
-        return 0x87e040003830ll + 0x1000000ll * ((a) & 0x1);
-    __cavm_csr_fatal("SMIX_CLKEN", 1, a, 0, 0, 0, 0, 0);
+        return 0x87e005003830ll + 0x80ll * ((a) & 0x1);
+    __cavm_csr_fatal("SMI_X_CLKEN", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_SMIX_CLKEN(a) cavm_smix_clken_t
-#define bustype_CAVM_SMIX_CLKEN(a) CSR_TYPE_RSL
-#define basename_CAVM_SMIX_CLKEN(a) "SMIX_CLKEN"
-#define device_bar_CAVM_SMIX_CLKEN(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMIX_CLKEN(a) (a)
-#define arguments_CAVM_SMIX_CLKEN(a) (a),-1,-1,-1
+#define typedef_CAVM_SMI_X_CLKEN(a) cavm_smi_x_clken_t
+#define bustype_CAVM_SMI_X_CLKEN(a) CSR_TYPE_RSL
+#define basename_CAVM_SMI_X_CLKEN(a) "SMI_X_CLKEN"
+#define device_bar_CAVM_SMI_X_CLKEN(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMI_X_CLKEN(a) (a)
+#define arguments_CAVM_SMI_X_CLKEN(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) smi#_cmd
+ * Register (RSL) smi_#_cmd
  *
  * SMI Command Control Register
  * This register forces a read or write command to the PHY. Write operations to this register
  * create SMI transactions. Software will poll (depending on the transaction type).
  */
-union cavm_smix_cmd
+union cavm_smi_x_cmd
 {
     uint64_t u;
-    struct cavm_smix_cmd_s
+    struct cavm_smi_x_cmd_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_18_63        : 46;
@@ -203,35 +203,35 @@ union cavm_smix_cmd
         uint64_t reserved_18_63        : 46;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_smix_cmd_s cn; */
+    /* struct cavm_smi_x_cmd_s cn; */
 };
-typedef union cavm_smix_cmd cavm_smix_cmd_t;
+typedef union cavm_smi_x_cmd cavm_smi_x_cmd_t;
 
-static inline uint64_t CAVM_SMIX_CMD(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMIX_CMD(uint64_t a)
+static inline uint64_t CAVM_SMI_X_CMD(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMI_X_CMD(uint64_t a)
 {
     if (a<=1)
-        return 0x87e040003800ll + 0x1000000ll * ((a) & 0x1);
-    __cavm_csr_fatal("SMIX_CMD", 1, a, 0, 0, 0, 0, 0);
+        return 0x87e005003800ll + 0x80ll * ((a) & 0x1);
+    __cavm_csr_fatal("SMI_X_CMD", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_SMIX_CMD(a) cavm_smix_cmd_t
-#define bustype_CAVM_SMIX_CMD(a) CSR_TYPE_RSL
-#define basename_CAVM_SMIX_CMD(a) "SMIX_CMD"
-#define device_bar_CAVM_SMIX_CMD(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMIX_CMD(a) (a)
-#define arguments_CAVM_SMIX_CMD(a) (a),-1,-1,-1
+#define typedef_CAVM_SMI_X_CMD(a) cavm_smi_x_cmd_t
+#define bustype_CAVM_SMI_X_CMD(a) CSR_TYPE_RSL
+#define basename_CAVM_SMI_X_CMD(a) "SMI_X_CMD"
+#define device_bar_CAVM_SMI_X_CMD(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMI_X_CMD(a) (a)
+#define arguments_CAVM_SMI_X_CMD(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) smi#_en
+ * Register (RSL) smi_#_en
  *
  * SMI Enable Register
  * Enables the SMI interface.
  */
-union cavm_smix_en
+union cavm_smi_x_en
 {
     uint64_t u;
-    struct cavm_smix_en_s
+    struct cavm_smi_x_en_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
@@ -245,35 +245,35 @@ union cavm_smix_en
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_smix_en_s cn; */
+    /* struct cavm_smi_x_en_s cn; */
 };
-typedef union cavm_smix_en cavm_smix_en_t;
+typedef union cavm_smi_x_en cavm_smi_x_en_t;
 
-static inline uint64_t CAVM_SMIX_EN(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMIX_EN(uint64_t a)
+static inline uint64_t CAVM_SMI_X_EN(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMI_X_EN(uint64_t a)
 {
     if (a<=1)
-        return 0x87e040003820ll + 0x1000000ll * ((a) & 0x1);
-    __cavm_csr_fatal("SMIX_EN", 1, a, 0, 0, 0, 0, 0);
+        return 0x87e005003820ll + 0x80ll * ((a) & 0x1);
+    __cavm_csr_fatal("SMI_X_EN", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_SMIX_EN(a) cavm_smix_en_t
-#define bustype_CAVM_SMIX_EN(a) CSR_TYPE_RSL
-#define basename_CAVM_SMIX_EN(a) "SMIX_EN"
-#define device_bar_CAVM_SMIX_EN(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMIX_EN(a) (a)
-#define arguments_CAVM_SMIX_EN(a) (a),-1,-1,-1
+#define typedef_CAVM_SMI_X_EN(a) cavm_smi_x_en_t
+#define bustype_CAVM_SMI_X_EN(a) CSR_TYPE_RSL
+#define basename_CAVM_SMI_X_EN(a) "SMI_X_EN"
+#define device_bar_CAVM_SMI_X_EN(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMI_X_EN(a) (a)
+#define arguments_CAVM_SMI_X_EN(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) smi#_rd_dat
+ * Register (RSL) smi_#_rd_dat
  *
  * SMI Read Data Register
  * This register contains the data in a read operation.
  */
-union cavm_smix_rd_dat
+union cavm_smi_x_rd_dat
 {
     uint64_t u;
-    struct cavm_smix_rd_dat_s
+    struct cavm_smi_x_rd_dat_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_18_63        : 46;
@@ -287,35 +287,35 @@ union cavm_smix_rd_dat
         uint64_t reserved_18_63        : 46;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_smix_rd_dat_s cn; */
+    /* struct cavm_smi_x_rd_dat_s cn; */
 };
-typedef union cavm_smix_rd_dat cavm_smix_rd_dat_t;
+typedef union cavm_smi_x_rd_dat cavm_smi_x_rd_dat_t;
 
-static inline uint64_t CAVM_SMIX_RD_DAT(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMIX_RD_DAT(uint64_t a)
+static inline uint64_t CAVM_SMI_X_RD_DAT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMI_X_RD_DAT(uint64_t a)
 {
     if (a<=1)
-        return 0x87e040003810ll + 0x1000000ll * ((a) & 0x1);
-    __cavm_csr_fatal("SMIX_RD_DAT", 1, a, 0, 0, 0, 0, 0);
+        return 0x87e005003810ll + 0x80ll * ((a) & 0x1);
+    __cavm_csr_fatal("SMI_X_RD_DAT", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_SMIX_RD_DAT(a) cavm_smix_rd_dat_t
-#define bustype_CAVM_SMIX_RD_DAT(a) CSR_TYPE_RSL
-#define basename_CAVM_SMIX_RD_DAT(a) "SMIX_RD_DAT"
-#define device_bar_CAVM_SMIX_RD_DAT(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMIX_RD_DAT(a) (a)
-#define arguments_CAVM_SMIX_RD_DAT(a) (a),-1,-1,-1
+#define typedef_CAVM_SMI_X_RD_DAT(a) cavm_smi_x_rd_dat_t
+#define bustype_CAVM_SMI_X_RD_DAT(a) CSR_TYPE_RSL
+#define basename_CAVM_SMI_X_RD_DAT(a) "SMI_X_RD_DAT"
+#define device_bar_CAVM_SMI_X_RD_DAT(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMI_X_RD_DAT(a) (a)
+#define arguments_CAVM_SMI_X_RD_DAT(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) smi#_wr_dat
+ * Register (RSL) smi_#_wr_dat
  *
  * SMI Write Data Register
  * This register provides the data for a write operation.
  */
-union cavm_smix_wr_dat
+union cavm_smi_x_wr_dat
 {
     uint64_t u;
-    struct cavm_smix_wr_dat_s
+    struct cavm_smi_x_wr_dat_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_18_63        : 46;
@@ -331,23 +331,23 @@ union cavm_smix_wr_dat
         uint64_t reserved_18_63        : 46;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_smix_wr_dat_s cn; */
+    /* struct cavm_smi_x_wr_dat_s cn; */
 };
-typedef union cavm_smix_wr_dat cavm_smix_wr_dat_t;
+typedef union cavm_smi_x_wr_dat cavm_smi_x_wr_dat_t;
 
-static inline uint64_t CAVM_SMIX_WR_DAT(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMIX_WR_DAT(uint64_t a)
+static inline uint64_t CAVM_SMI_X_WR_DAT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMI_X_WR_DAT(uint64_t a)
 {
     if (a<=1)
-        return 0x87e040003808ll + 0x1000000ll * ((a) & 0x1);
-    __cavm_csr_fatal("SMIX_WR_DAT", 1, a, 0, 0, 0, 0, 0);
+        return 0x87e005003808ll + 0x80ll * ((a) & 0x1);
+    __cavm_csr_fatal("SMI_X_WR_DAT", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_SMIX_WR_DAT(a) cavm_smix_wr_dat_t
-#define bustype_CAVM_SMIX_WR_DAT(a) CSR_TYPE_RSL
-#define basename_CAVM_SMIX_WR_DAT(a) "SMIX_WR_DAT"
-#define device_bar_CAVM_SMIX_WR_DAT(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMIX_WR_DAT(a) (a)
-#define arguments_CAVM_SMIX_WR_DAT(a) (a),-1,-1,-1
+#define typedef_CAVM_SMI_X_WR_DAT(a) cavm_smi_x_wr_dat_t
+#define bustype_CAVM_SMI_X_WR_DAT(a) CSR_TYPE_RSL
+#define basename_CAVM_SMI_X_WR_DAT(a) "SMI_X_WR_DAT"
+#define device_bar_CAVM_SMI_X_WR_DAT(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMI_X_WR_DAT(a) (a)
+#define arguments_CAVM_SMI_X_WR_DAT(a) (a),-1,-1,-1
 
 #endif /* __CAVM_CSRS_SMI_H__ */

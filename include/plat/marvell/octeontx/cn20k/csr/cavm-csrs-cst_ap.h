@@ -1,0 +1,13238 @@
+#ifndef __CAVM_CSRS_CST_AP_H__
+#define __CAVM_CSRS_CST_AP_H__
+/* This file is auto-generated. Do not edit */
+
+/***********************license start***********************************
+* Copyright (C) 2021-2023 Marvell.
+* SPDX-License-Identifier: BSD-3-Clause
+* https://spdx.org/licenses
+***********************license end**************************************/
+
+
+/**
+ * @file
+ *
+ * Configuration and status register (CSR) address and type definitions for
+ * CST_AP.
+ *
+ * This file is auto generated. Do not edit.
+ *
+ */
+
+/**
+ * Register (NCB32b) cst_ap#_corerom_authstatus
+ *
+ * CST Ap Corerom Authstatus Register
+ * Provides information about the state of the authentication interface for debug.
+ */
+union cavm_cst_apx_corerom_authstatus
+{
+    uint32_t u;
+    struct cavm_cst_apx_corerom_authstatus_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t snid                  : 2;  /**< [  7:  6](RO) Secure Non-invasive Debug.
+                                                                 ExternalSecureNoninvasiveDebugEnabled() == ExternalSecureInvasiveDebugEnabled().
+                                                                 This field has the same value as the SID field. */
+        uint32_t sid                   : 2;  /**< [  5:  4](RO) Secure Invasive Debug. */
+        uint32_t nsnid                 : 2;  /**< [  3:  2](RO) Non-secure Non-invasive Debug. */
+        uint32_t nsid                  : 2;  /**< [  1:  0](RO) Non-secure Invasive Debug. */
+#else /* Word 0 - Little Endian */
+        uint32_t nsid                  : 2;  /**< [  1:  0](RO) Non-secure Invasive Debug. */
+        uint32_t nsnid                 : 2;  /**< [  3:  2](RO) Non-secure Non-invasive Debug. */
+        uint32_t sid                   : 2;  /**< [  5:  4](RO) Secure Invasive Debug. */
+        uint32_t snid                  : 2;  /**< [  7:  6](RO) Secure Non-invasive Debug.
+                                                                 ExternalSecureNoninvasiveDebugEnabled() == ExternalSecureInvasiveDebugEnabled().
+                                                                 This field has the same value as the SID field. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_corerom_authstatus_s cn; */
+};
+typedef union cavm_cst_apx_corerom_authstatus cavm_cst_apx_corerom_authstatus_t;
+
+static inline uint64_t CAVM_CST_APX_COREROM_AUTHSTATUS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_COREROM_AUTHSTATUS(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081000fb8ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_COREROM_AUTHSTATUS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_COREROM_AUTHSTATUS(a) cavm_cst_apx_corerom_authstatus_t
+#define bustype_CAVM_CST_APX_COREROM_AUTHSTATUS(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_COREROM_AUTHSTATUS(a) "CST_APX_COREROM_AUTHSTATUS"
+#define busnum_CAVM_CST_APX_COREROM_AUTHSTATUS(a) (a)
+#define arguments_CAVM_CST_APX_COREROM_AUTHSTATUS(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_corerom_cidr0
+ *
+ * CST Ap Corerom Cidr0 Register
+ * Provides CoreSight discovery information.
+ */
+union cavm_cst_apx_corerom_cidr0
+{
+    uint32_t u;
+    struct cavm_cst_apx_corerom_cidr0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t prmbl_0               : 8;  /**< [  7:  0](RO) CoreSight component identification preamble. */
+#else /* Word 0 - Little Endian */
+        uint32_t prmbl_0               : 8;  /**< [  7:  0](RO) CoreSight component identification preamble. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_corerom_cidr0_s cn; */
+};
+typedef union cavm_cst_apx_corerom_cidr0 cavm_cst_apx_corerom_cidr0_t;
+
+static inline uint64_t CAVM_CST_APX_COREROM_CIDR0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_COREROM_CIDR0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081000ff0ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_COREROM_CIDR0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_COREROM_CIDR0(a) cavm_cst_apx_corerom_cidr0_t
+#define bustype_CAVM_CST_APX_COREROM_CIDR0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_COREROM_CIDR0(a) "CST_APX_COREROM_CIDR0"
+#define busnum_CAVM_CST_APX_COREROM_CIDR0(a) (a)
+#define arguments_CAVM_CST_APX_COREROM_CIDR0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_corerom_cidr1
+ *
+ * CST Ap Corerom Cidr1 Register
+ * Provides CoreSight discovery information.
+ */
+union cavm_cst_apx_corerom_cidr1
+{
+    uint32_t u;
+    struct cavm_cst_apx_corerom_cidr1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t class_f               : 4;  /**< [  7:  4](RO) CoreSight component class. */
+        uint32_t prmbl_1               : 4;  /**< [  3:  0](RO) CoreSight component identification preamble. */
+#else /* Word 0 - Little Endian */
+        uint32_t prmbl_1               : 4;  /**< [  3:  0](RO) CoreSight component identification preamble. */
+        uint32_t class_f               : 4;  /**< [  7:  4](RO) CoreSight component class. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_corerom_cidr1_s cn; */
+};
+typedef union cavm_cst_apx_corerom_cidr1 cavm_cst_apx_corerom_cidr1_t;
+
+static inline uint64_t CAVM_CST_APX_COREROM_CIDR1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_COREROM_CIDR1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081000ff4ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_COREROM_CIDR1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_COREROM_CIDR1(a) cavm_cst_apx_corerom_cidr1_t
+#define bustype_CAVM_CST_APX_COREROM_CIDR1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_COREROM_CIDR1(a) "CST_APX_COREROM_CIDR1"
+#define busnum_CAVM_CST_APX_COREROM_CIDR1(a) (a)
+#define arguments_CAVM_CST_APX_COREROM_CIDR1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_corerom_cidr2
+ *
+ * CST Ap Corerom Cidr2 Register
+ * Provides CoreSight discovery information.
+ */
+union cavm_cst_apx_corerom_cidr2
+{
+    uint32_t u;
+    struct cavm_cst_apx_corerom_cidr2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t prmbl_2               : 8;  /**< [  7:  0](RO) CoreSight component identification preamble. */
+#else /* Word 0 - Little Endian */
+        uint32_t prmbl_2               : 8;  /**< [  7:  0](RO) CoreSight component identification preamble. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_corerom_cidr2_s cn; */
+};
+typedef union cavm_cst_apx_corerom_cidr2 cavm_cst_apx_corerom_cidr2_t;
+
+static inline uint64_t CAVM_CST_APX_COREROM_CIDR2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_COREROM_CIDR2(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081000ff8ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_COREROM_CIDR2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_COREROM_CIDR2(a) cavm_cst_apx_corerom_cidr2_t
+#define bustype_CAVM_CST_APX_COREROM_CIDR2(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_COREROM_CIDR2(a) "CST_APX_COREROM_CIDR2"
+#define busnum_CAVM_CST_APX_COREROM_CIDR2(a) (a)
+#define arguments_CAVM_CST_APX_COREROM_CIDR2(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_corerom_cidr3
+ *
+ * CST Ap Corerom Cidr3 Register
+ * Provides CoreSight discovery information.
+ */
+union cavm_cst_apx_corerom_cidr3
+{
+    uint32_t u;
+    struct cavm_cst_apx_corerom_cidr3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t prmbl_3               : 8;  /**< [  7:  0](RO) CoreSight component identification preamble. */
+#else /* Word 0 - Little Endian */
+        uint32_t prmbl_3               : 8;  /**< [  7:  0](RO) CoreSight component identification preamble. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_corerom_cidr3_s cn; */
+};
+typedef union cavm_cst_apx_corerom_cidr3 cavm_cst_apx_corerom_cidr3_t;
+
+static inline uint64_t CAVM_CST_APX_COREROM_CIDR3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_COREROM_CIDR3(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081000ffcll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_COREROM_CIDR3", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_COREROM_CIDR3(a) cavm_cst_apx_corerom_cidr3_t
+#define bustype_CAVM_CST_APX_COREROM_CIDR3(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_COREROM_CIDR3(a) "CST_APX_COREROM_CIDR3"
+#define busnum_CAVM_CST_APX_COREROM_CIDR3(a) (a)
+#define arguments_CAVM_CST_APX_COREROM_CIDR3(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_corerom_devarch
+ *
+ * CST Ap Corerom Devarch Register
+ * Identifies the architect and architecture of a CoreSight component.
+ */
+union cavm_cst_apx_corerom_devarch
+{
+    uint32_t u;
+    struct cavm_cst_apx_corerom_devarch_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t architect             : 11; /**< [ 31: 21](RO) Architect. */
+        uint32_t present               : 1;  /**< [ 20: 20](RO) Present. */
+        uint32_t revision              : 4;  /**< [ 19: 16](RO) Revision. */
+        uint32_t archid                : 16; /**< [ 15:  0](RO) Architecture ID. */
+#else /* Word 0 - Little Endian */
+        uint32_t archid                : 16; /**< [ 15:  0](RO) Architecture ID. */
+        uint32_t revision              : 4;  /**< [ 19: 16](RO) Revision. */
+        uint32_t present               : 1;  /**< [ 20: 20](RO) Present. */
+        uint32_t architect             : 11; /**< [ 31: 21](RO) Architect. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_corerom_devarch_s cn; */
+};
+typedef union cavm_cst_apx_corerom_devarch cavm_cst_apx_corerom_devarch_t;
+
+static inline uint64_t CAVM_CST_APX_COREROM_DEVARCH(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_COREROM_DEVARCH(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081000fbcll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_COREROM_DEVARCH", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_COREROM_DEVARCH(a) cavm_cst_apx_corerom_devarch_t
+#define bustype_CAVM_CST_APX_COREROM_DEVARCH(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_COREROM_DEVARCH(a) "CST_APX_COREROM_DEVARCH"
+#define busnum_CAVM_CST_APX_COREROM_DEVARCH(a) (a)
+#define arguments_CAVM_CST_APX_COREROM_DEVARCH(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_corerom_devtype
+ *
+ * CST Ap Corerom Devtype Register
+ * A debugger can use DEVTYPE to obtain information about a component that has an
+ * unrecognized part number.
+ */
+union cavm_cst_apx_corerom_devtype
+{
+    uint32_t u;
+    struct cavm_cst_apx_corerom_devtype_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t sub                   : 4;  /**< [  7:  4](RO) Sub number */
+        uint32_t major                 : 4;  /**< [  3:  0](RO) Major number */
+#else /* Word 0 - Little Endian */
+        uint32_t major                 : 4;  /**< [  3:  0](RO) Major number */
+        uint32_t sub                   : 4;  /**< [  7:  4](RO) Sub number */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_corerom_devtype_s cn; */
+};
+typedef union cavm_cst_apx_corerom_devtype cavm_cst_apx_corerom_devtype_t;
+
+static inline uint64_t CAVM_CST_APX_COREROM_DEVTYPE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_COREROM_DEVTYPE(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081000fccll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_COREROM_DEVTYPE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_COREROM_DEVTYPE(a) cavm_cst_apx_corerom_devtype_t
+#define bustype_CAVM_CST_APX_COREROM_DEVTYPE(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_COREROM_DEVTYPE(a) "CST_APX_COREROM_DEVTYPE"
+#define busnum_CAVM_CST_APX_COREROM_DEVTYPE(a) (a)
+#define arguments_CAVM_CST_APX_COREROM_DEVTYPE(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_corerom_pidr0
+ *
+ * CST Ap Corerom Pidr0 Register
+ * Provides CoreSight discovery information.
+ */
+union cavm_cst_apx_corerom_pidr0
+{
+    uint32_t u;
+    struct cavm_cst_apx_corerom_pidr0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t part_0                : 8;  /**< [  7:  0](RO) Part number bits [7:0]. */
+#else /* Word 0 - Little Endian */
+        uint32_t part_0                : 8;  /**< [  7:  0](RO) Part number bits [7:0]. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_corerom_pidr0_s cn; */
+};
+typedef union cavm_cst_apx_corerom_pidr0 cavm_cst_apx_corerom_pidr0_t;
+
+static inline uint64_t CAVM_CST_APX_COREROM_PIDR0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_COREROM_PIDR0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081000fe0ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_COREROM_PIDR0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_COREROM_PIDR0(a) cavm_cst_apx_corerom_pidr0_t
+#define bustype_CAVM_CST_APX_COREROM_PIDR0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_COREROM_PIDR0(a) "CST_APX_COREROM_PIDR0"
+#define busnum_CAVM_CST_APX_COREROM_PIDR0(a) (a)
+#define arguments_CAVM_CST_APX_COREROM_PIDR0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_corerom_pidr1
+ *
+ * CST Ap Corerom Pidr1 Register
+ * Provides CoreSight discovery information.
+ */
+union cavm_cst_apx_corerom_pidr1
+{
+    uint32_t u;
+    struct cavm_cst_apx_corerom_pidr1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t des_0                 : 4;  /**< [  7:  4](RO) JEP106 identification code bits [3:0]. */
+        uint32_t part_1                : 4;  /**< [  3:  0](RO) Part number bits [11:8]. */
+#else /* Word 0 - Little Endian */
+        uint32_t part_1                : 4;  /**< [  3:  0](RO) Part number bits [11:8]. */
+        uint32_t des_0                 : 4;  /**< [  7:  4](RO) JEP106 identification code bits [3:0]. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_corerom_pidr1_s cn; */
+};
+typedef union cavm_cst_apx_corerom_pidr1 cavm_cst_apx_corerom_pidr1_t;
+
+static inline uint64_t CAVM_CST_APX_COREROM_PIDR1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_COREROM_PIDR1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081000fe4ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_COREROM_PIDR1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_COREROM_PIDR1(a) cavm_cst_apx_corerom_pidr1_t
+#define bustype_CAVM_CST_APX_COREROM_PIDR1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_COREROM_PIDR1(a) "CST_APX_COREROM_PIDR1"
+#define busnum_CAVM_CST_APX_COREROM_PIDR1(a) (a)
+#define arguments_CAVM_CST_APX_COREROM_PIDR1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_corerom_pidr2
+ *
+ * CST Ap Corerom Pidr2 Register
+ * Provides CoreSight discovery information.
+ */
+union cavm_cst_apx_corerom_pidr2
+{
+    uint32_t u;
+    struct cavm_cst_apx_corerom_pidr2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t revision              : 4;  /**< [  7:  4](RO) Part major revision */
+        uint32_t jedec                 : 1;  /**< [  3:  3](RO) JEDEC assignee. */
+        uint32_t des_1                 : 3;  /**< [  2:  0](RO) JEP106 identification code bits [6:4]. */
+#else /* Word 0 - Little Endian */
+        uint32_t des_1                 : 3;  /**< [  2:  0](RO) JEP106 identification code bits [6:4]. */
+        uint32_t jedec                 : 1;  /**< [  3:  3](RO) JEDEC assignee. */
+        uint32_t revision              : 4;  /**< [  7:  4](RO) Part major revision */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_corerom_pidr2_s cn; */
+};
+typedef union cavm_cst_apx_corerom_pidr2 cavm_cst_apx_corerom_pidr2_t;
+
+static inline uint64_t CAVM_CST_APX_COREROM_PIDR2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_COREROM_PIDR2(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081000fe8ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_COREROM_PIDR2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_COREROM_PIDR2(a) cavm_cst_apx_corerom_pidr2_t
+#define bustype_CAVM_CST_APX_COREROM_PIDR2(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_COREROM_PIDR2(a) "CST_APX_COREROM_PIDR2"
+#define busnum_CAVM_CST_APX_COREROM_PIDR2(a) (a)
+#define arguments_CAVM_CST_APX_COREROM_PIDR2(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_corerom_pidr3
+ *
+ * CST Ap Corerom Pidr3 Register
+ * Provides CoreSight discovery information.
+ */
+union cavm_cst_apx_corerom_pidr3
+{
+    uint32_t u;
+    struct cavm_cst_apx_corerom_pidr3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t revand                : 4;  /**< [  7:  4](RO) Part minor revision */
+        uint32_t cmod                  : 4;  /**< [  3:  0](RO) Customer Modified. */
+#else /* Word 0 - Little Endian */
+        uint32_t cmod                  : 4;  /**< [  3:  0](RO) Customer Modified. */
+        uint32_t revand                : 4;  /**< [  7:  4](RO) Part minor revision */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_corerom_pidr3_s cn; */
+};
+typedef union cavm_cst_apx_corerom_pidr3 cavm_cst_apx_corerom_pidr3_t;
+
+static inline uint64_t CAVM_CST_APX_COREROM_PIDR3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_COREROM_PIDR3(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081000fecll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_COREROM_PIDR3", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_COREROM_PIDR3(a) cavm_cst_apx_corerom_pidr3_t
+#define bustype_CAVM_CST_APX_COREROM_PIDR3(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_COREROM_PIDR3(a) "CST_APX_COREROM_PIDR3"
+#define busnum_CAVM_CST_APX_COREROM_PIDR3(a) (a)
+#define arguments_CAVM_CST_APX_COREROM_PIDR3(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_corerom_pidr4
+ *
+ * CST Ap Corerom Pidr4 Register
+ * Provides CoreSight discovery information.
+ */
+union cavm_cst_apx_corerom_pidr4
+{
+    uint32_t u;
+    struct cavm_cst_apx_corerom_pidr4_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t size                  : 4;  /**< [  7:  4](RO) 4KB count. */
+        uint32_t des_2                 : 4;  /**< [  3:  0](RO) JEP106 continuation code. */
+#else /* Word 0 - Little Endian */
+        uint32_t des_2                 : 4;  /**< [  3:  0](RO) JEP106 continuation code. */
+        uint32_t size                  : 4;  /**< [  7:  4](RO) 4KB count. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_corerom_pidr4_s cn; */
+};
+typedef union cavm_cst_apx_corerom_pidr4 cavm_cst_apx_corerom_pidr4_t;
+
+static inline uint64_t CAVM_CST_APX_COREROM_PIDR4(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_COREROM_PIDR4(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081000fd0ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_COREROM_PIDR4", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_COREROM_PIDR4(a) cavm_cst_apx_corerom_pidr4_t
+#define bustype_CAVM_CST_APX_COREROM_PIDR4(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_COREROM_PIDR4(a) "CST_APX_COREROM_PIDR4"
+#define busnum_CAVM_CST_APX_COREROM_PIDR4(a) (a)
+#define arguments_CAVM_CST_APX_COREROM_PIDR4(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_corerom_romentry0
+ *
+ * CST Ap Corerom Romentry0 Register
+ * Provides the address offset for one CoreSight component.
+ */
+union cavm_cst_apx_corerom_romentry0
+{
+    uint32_t u;
+    struct cavm_cst_apx_corerom_romentry0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t offset                : 20; /**< [ 31: 12](RO) The component address, relative to the base address of this ROM Table. The
+                                                                 component address is calculated using the following equation:
+                                                                 Component Address = ROM Table Base Address + (OFFSET \<\< 12). */
+        uint32_t reserved_3_11         : 9;
+        uint32_t poweridvalid          : 1;  /**< [  2:  2](RO) Indicates if the Power domain ID field contains a Power domain ID. */
+        uint32_t present               : 2;  /**< [  1:  0](RO) Indicates whether an entry is present at this location in the ROM Table. */
+#else /* Word 0 - Little Endian */
+        uint32_t present               : 2;  /**< [  1:  0](RO) Indicates whether an entry is present at this location in the ROM Table. */
+        uint32_t poweridvalid          : 1;  /**< [  2:  2](RO) Indicates if the Power domain ID field contains a Power domain ID. */
+        uint32_t reserved_3_11         : 9;
+        uint32_t offset                : 20; /**< [ 31: 12](RO) The component address, relative to the base address of this ROM Table. The
+                                                                 component address is calculated using the following equation:
+                                                                 Component Address = ROM Table Base Address + (OFFSET \<\< 12). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_corerom_romentry0_s cn; */
+};
+typedef union cavm_cst_apx_corerom_romentry0 cavm_cst_apx_corerom_romentry0_t;
+
+static inline uint64_t CAVM_CST_APX_COREROM_ROMENTRY0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_COREROM_ROMENTRY0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081000000ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_COREROM_ROMENTRY0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_COREROM_ROMENTRY0(a) cavm_cst_apx_corerom_romentry0_t
+#define bustype_CAVM_CST_APX_COREROM_ROMENTRY0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_COREROM_ROMENTRY0(a) "CST_APX_COREROM_ROMENTRY0"
+#define busnum_CAVM_CST_APX_COREROM_ROMENTRY0(a) (a)
+#define arguments_CAVM_CST_APX_COREROM_ROMENTRY0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_corerom_romentry1
+ *
+ * CST Ap Corerom Romentry1 Register
+ * Provides the address offset for one CoreSight component.
+ */
+union cavm_cst_apx_corerom_romentry1
+{
+    uint32_t u;
+    struct cavm_cst_apx_corerom_romentry1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t offset                : 20; /**< [ 31: 12](RO) The component address, relative to the base address of this ROM Table. The
+                                                                 component address is calculated using the following equation:
+                                                                 Component Address = ROM Table Base Address + (OFFSET \<\< 12). */
+        uint32_t reserved_3_11         : 9;
+        uint32_t poweridvalid          : 1;  /**< [  2:  2](RO) Indicates if the Power domain ID field contains a Power domain ID. */
+        uint32_t present               : 2;  /**< [  1:  0](RO) Indicates whether an entry is present at this location in the ROM Table. */
+#else /* Word 0 - Little Endian */
+        uint32_t present               : 2;  /**< [  1:  0](RO) Indicates whether an entry is present at this location in the ROM Table. */
+        uint32_t poweridvalid          : 1;  /**< [  2:  2](RO) Indicates if the Power domain ID field contains a Power domain ID. */
+        uint32_t reserved_3_11         : 9;
+        uint32_t offset                : 20; /**< [ 31: 12](RO) The component address, relative to the base address of this ROM Table. The
+                                                                 component address is calculated using the following equation:
+                                                                 Component Address = ROM Table Base Address + (OFFSET \<\< 12). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_corerom_romentry1_s cn; */
+};
+typedef union cavm_cst_apx_corerom_romentry1 cavm_cst_apx_corerom_romentry1_t;
+
+static inline uint64_t CAVM_CST_APX_COREROM_ROMENTRY1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_COREROM_ROMENTRY1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081000004ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_COREROM_ROMENTRY1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_COREROM_ROMENTRY1(a) cavm_cst_apx_corerom_romentry1_t
+#define bustype_CAVM_CST_APX_COREROM_ROMENTRY1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_COREROM_ROMENTRY1(a) "CST_APX_COREROM_ROMENTRY1"
+#define busnum_CAVM_CST_APX_COREROM_ROMENTRY1(a) (a)
+#define arguments_CAVM_CST_APX_COREROM_ROMENTRY1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_corerom_romentry2
+ *
+ * CST Ap Corerom Romentry2 Register
+ * Provides the address offset for one CoreSight component.
+ */
+union cavm_cst_apx_corerom_romentry2
+{
+    uint32_t u;
+    struct cavm_cst_apx_corerom_romentry2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t offset                : 20; /**< [ 31: 12](RO) The component address, relative to the base address of this ROM Table. The
+                                                                 component address is calculated using the following equation:
+                                                                 Component Address = ROM Table Base Address + (OFFSET \<\< 12). */
+        uint32_t reserved_3_11         : 9;
+        uint32_t poweridvalid          : 1;  /**< [  2:  2](RO) Indicates if the Power domain ID field contains a Power domain ID. */
+        uint32_t present               : 2;  /**< [  1:  0](RO) Indicates whether an entry is present at this location in the ROM Table. */
+#else /* Word 0 - Little Endian */
+        uint32_t present               : 2;  /**< [  1:  0](RO) Indicates whether an entry is present at this location in the ROM Table. */
+        uint32_t poweridvalid          : 1;  /**< [  2:  2](RO) Indicates if the Power domain ID field contains a Power domain ID. */
+        uint32_t reserved_3_11         : 9;
+        uint32_t offset                : 20; /**< [ 31: 12](RO) The component address, relative to the base address of this ROM Table. The
+                                                                 component address is calculated using the following equation:
+                                                                 Component Address = ROM Table Base Address + (OFFSET \<\< 12). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_corerom_romentry2_s cn; */
+};
+typedef union cavm_cst_apx_corerom_romentry2 cavm_cst_apx_corerom_romentry2_t;
+
+static inline uint64_t CAVM_CST_APX_COREROM_ROMENTRY2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_COREROM_ROMENTRY2(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081000008ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_COREROM_ROMENTRY2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_COREROM_ROMENTRY2(a) cavm_cst_apx_corerom_romentry2_t
+#define bustype_CAVM_CST_APX_COREROM_ROMENTRY2(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_COREROM_ROMENTRY2(a) "CST_APX_COREROM_ROMENTRY2"
+#define busnum_CAVM_CST_APX_COREROM_ROMENTRY2(a) (a)
+#define arguments_CAVM_CST_APX_COREROM_ROMENTRY2(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_corerom_romentry3
+ *
+ * CST Ap Corerom Romentry3 Register
+ * Provides the address offset for one CoreSight component.
+ */
+union cavm_cst_apx_corerom_romentry3
+{
+    uint32_t u;
+    struct cavm_cst_apx_corerom_romentry3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t offset                : 20; /**< [ 31: 12](RO) The component address, relative to the base address of this ROM Table. The
+                                                                 component address is calculated using the following equation:
+                                                                 Component Address = ROM Table Base Address + (OFFSET \<\< 12). */
+        uint32_t reserved_3_11         : 9;
+        uint32_t poweridvalid          : 1;  /**< [  2:  2](RO) Indicates if the Power domain ID field contains a Power domain ID. */
+        uint32_t present               : 2;  /**< [  1:  0](RO) Indicates whether an entry is present at this location in the ROM Table. */
+#else /* Word 0 - Little Endian */
+        uint32_t present               : 2;  /**< [  1:  0](RO) Indicates whether an entry is present at this location in the ROM Table. */
+        uint32_t poweridvalid          : 1;  /**< [  2:  2](RO) Indicates if the Power domain ID field contains a Power domain ID. */
+        uint32_t reserved_3_11         : 9;
+        uint32_t offset                : 20; /**< [ 31: 12](RO) The component address, relative to the base address of this ROM Table. The
+                                                                 component address is calculated using the following equation:
+                                                                 Component Address = ROM Table Base Address + (OFFSET \<\< 12). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_corerom_romentry3_s cn; */
+};
+typedef union cavm_cst_apx_corerom_romentry3 cavm_cst_apx_corerom_romentry3_t;
+
+static inline uint64_t CAVM_CST_APX_COREROM_ROMENTRY3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_COREROM_ROMENTRY3(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a08100000cll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_COREROM_ROMENTRY3", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_COREROM_ROMENTRY3(a) cavm_cst_apx_corerom_romentry3_t
+#define bustype_CAVM_CST_APX_COREROM_ROMENTRY3(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_COREROM_ROMENTRY3(a) "CST_APX_COREROM_ROMENTRY3"
+#define busnum_CAVM_CST_APX_COREROM_ROMENTRY3(a) (a)
+#define arguments_CAVM_CST_APX_COREROM_ROMENTRY3(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_dbgauthstatus_el1
+ *
+ * CST Ap Dbg Dbgauthstatus El1 Register
+ * Provides information about the state of the IMPLEMENTATION DEFINED authentication
+ * interface for debug.
+ */
+union cavm_cst_apx_dbg_dbgauthstatus_el1
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_dbgauthstatus_el1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t snid                  : 2;  /**< [  7:  6](RO) Secure non-invasive debug.
+                                                                 ExternalSecureNoninvasiveDebugEnabled() == ExternalSecureInvasiveDebugEnabled().
+                                                                 This field has the same value as DBGAUTHSTATUS_EL1.SID. */
+        uint32_t sid                   : 2;  /**< [  5:  4](RO) Secure invasive debug.
+                                                                 All other values are reserved. */
+        uint32_t nsnid                 : 2;  /**< [  3:  2](RO) Non-secure non-invasive debug.
+                                                                 All other values are reserved. */
+        uint32_t nsid                  : 2;  /**< [  1:  0](RO) Non-secure invasive debug.
+                                                                 All other values are reserved. */
+#else /* Word 0 - Little Endian */
+        uint32_t nsid                  : 2;  /**< [  1:  0](RO) Non-secure invasive debug.
+                                                                 All other values are reserved. */
+        uint32_t nsnid                 : 2;  /**< [  3:  2](RO) Non-secure non-invasive debug.
+                                                                 All other values are reserved. */
+        uint32_t sid                   : 2;  /**< [  5:  4](RO) Secure invasive debug.
+                                                                 All other values are reserved. */
+        uint32_t snid                  : 2;  /**< [  7:  6](RO) Secure non-invasive debug.
+                                                                 ExternalSecureNoninvasiveDebugEnabled() == ExternalSecureInvasiveDebugEnabled().
+                                                                 This field has the same value as DBGAUTHSTATUS_EL1.SID. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_dbgauthstatus_el1_s cn; */
+};
+typedef union cavm_cst_apx_dbg_dbgauthstatus_el1 cavm_cst_apx_dbg_dbgauthstatus_el1_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_DBGAUTHSTATUS_EL1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_DBGAUTHSTATUS_EL1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010fb8ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_DBGAUTHSTATUS_EL1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_DBGAUTHSTATUS_EL1(a) cavm_cst_apx_dbg_dbgauthstatus_el1_t
+#define bustype_CAVM_CST_APX_DBG_DBGAUTHSTATUS_EL1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_DBGAUTHSTATUS_EL1(a) "CST_APX_DBG_DBGAUTHSTATUS_EL1"
+#define busnum_CAVM_CST_APX_DBG_DBGAUTHSTATUS_EL1(a) (a)
+#define arguments_CAVM_CST_APX_DBG_DBGAUTHSTATUS_EL1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_dbgbcr0_el1
+ *
+ * CST Ap Dbg Dbgbcr0 El1 Register
+ * Holds control information for a breakpoint. Forms breakpoint n together with value
+ * register ext-DBGBVR&lt;n&gt;_EL1.
+ */
+union cavm_cst_apx_dbg_dbgbcr0_el1
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_dbgbcr0_el1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t bt                    : 4;  /**< [ 23: 20](R/W) Breakpoint Type. Possible values are:
+                                                                 Constraints on breakpoint programming mean some values are reserved under certain conditions.
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, and on
+                                                                 the effect of programming this field to a reserved value, see x['Execution
+                                                                 conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm) and x['Reserved
+                                                                 DBGBCR0_EL1.BT values'](CJADCAEE|D_aarch64_self_hosted_debug.fm). */
+        uint32_t lbn                   : 4;  /**< [ 19: 16](R/W) Linked breakpoint number. For Linked address matching breakpoints, this
+                                                                 specifies the index of the Context-matching breakpoint linked to.
+                                                                 For all other breakpoint types this field is ignored and reads of the register
+                                                                 return an UNKNOWN value.
+                                                                 This field is ignored when the value of DBGBCR&lt;n&gt;_EL1.E is 0. */
+        uint32_t ssc                   : 2;  /**< [ 15: 14](R/W) Security state control. Determines the Security states under which a Breakpoint
+                                                                 debug event for breakpoint n is generated. This field must be interpreted along
+                                                                 with the HMC and PMC fields, and there are constraints on the permitted values
+                                                                 of the {HMC, SSC, PMC} fields. For more information, including the effect of
+                                                                 programming the fields to a reserved set of values, see x['Reserved
+                                                                 DBGBCR&lt;n&gt;_EL1.{SSC, HMC, PMC}
+                                                                 values'](CJAGFIAA|D_aarch64_self_hosted_debug.fm).
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, see
+                                                                 x['Execution conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm). */
+        uint32_t hmc                   : 1;  /**< [ 13: 13](R/W) Higher mode control. Determines the debug perspective for deciding when a
+                                                                 Breakpoint debug event for breakpoint n is generated. This field must be
+                                                                 interpreted along with the SSC and PMC fields, and there are constraints on the
+                                                                 permitted values of the {HMC, SSC, PMC} fields. For more information see ext-
+                                                                 DBGBCR&lt;n&gt;_EL1.SSC description.
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, see
+                                                                 x['Execution conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm). */
+        uint32_t reserved_9_12         : 4;
+        uint32_t bas                   : 4;  /**< [  8:  5](R/W) Byte address select. Defines which half-words an address-matching breakpoint
+                                                                 matches, regardless of the instruction set and Execution state.
+                                                                 The permitted values depend on the breakpoint type.
+                                                                 For Address match breakpoints in either AArch32 or AArch64 state, the permitted values are:
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 | BAS    | Match instruction at            | Constraint for debuggers         |
+                                                                 +========+=================================+==================================+
+                                                                 | 0b0011 | AArch64-DBGBVR&lt;n&gt;_EL1     | Use for T32 instructions         |
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 | 0b1100 | AArch64-DBGBVR&lt;n&gt;_EL1 + 2 | Use for T32 instructions         |
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 | 0b1111 | AArch64-DBGBVR&lt;n&gt;_EL1     | Use for A64 and A32 instructions |
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 All other values are reserved.
+                                                                 For more information, see x['Using the BAS field in Address Match
+                                                                 breakpoints'](BGBJCDEC|G_aarch32_self_hosted_debug.fm).
+                                                                 For Address mismatch breakpoints in an AArch32 stage 1 translation regime, the
+                                                                 permitted values are:
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | BAS    | Match instruction at        | Constraint for debuggers                  |
+                                                                 +========+=============================+===========================================+
+                                                                 | 0b0000 | -                           | Use for a match anywhere breakpoint       |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | 0b0011 | ext-DBGBVR&lt;n&gt;_EL1     | Use for stepping T32 instructions         |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | 0b1100 | ext-DBGBVR&lt;n&gt;_EL1 + 2 | Use for stepping T32 instructions         |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | 0b1111 | ext-DBGBVR&lt;n&gt;_EL1     | Use for stepping A64 and A32 instructions |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 For more information, see x['Using the BAS field in Address Match
+                                                                 breakpoints'](BGBJCDEC|G_aarch32_self_hosted_debug.fm).
+                                                                 For Context matching breakpoints, this field is RES1 and ignored. */
+        uint32_t reserved_3_4          : 2;
+        uint32_t pmc                   : 2;  /**< [  2:  1](R/W) Privilege mode control. Determines the Exception level or levels at which a
+                                                                 Breakpoint debug event for breakpoint n is generated. This field must be
+                                                                 interpreted along with the SSC and HMC fields, and there are constraints on the
+                                                                 permitted values of the {HMC, SSC, PMC} fields. For more information see the
+                                                                 ext-DBGBCR&lt;n&gt;_EL1.SSC description.
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, see
+                                                                 x['Execution conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm). */
+        uint32_t e_f                   : 1;  /**< [  0:  0](R/W) Enable breakpoint ext-DBGBVR&lt;n&gt;_EL1. Possible values are: */
+#else /* Word 0 - Little Endian */
+        uint32_t e_f                   : 1;  /**< [  0:  0](R/W) Enable breakpoint ext-DBGBVR&lt;n&gt;_EL1. Possible values are: */
+        uint32_t pmc                   : 2;  /**< [  2:  1](R/W) Privilege mode control. Determines the Exception level or levels at which a
+                                                                 Breakpoint debug event for breakpoint n is generated. This field must be
+                                                                 interpreted along with the SSC and HMC fields, and there are constraints on the
+                                                                 permitted values of the {HMC, SSC, PMC} fields. For more information see the
+                                                                 ext-DBGBCR&lt;n&gt;_EL1.SSC description.
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, see
+                                                                 x['Execution conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm). */
+        uint32_t reserved_3_4          : 2;
+        uint32_t bas                   : 4;  /**< [  8:  5](R/W) Byte address select. Defines which half-words an address-matching breakpoint
+                                                                 matches, regardless of the instruction set and Execution state.
+                                                                 The permitted values depend on the breakpoint type.
+                                                                 For Address match breakpoints in either AArch32 or AArch64 state, the permitted values are:
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 | BAS    | Match instruction at            | Constraint for debuggers         |
+                                                                 +========+=================================+==================================+
+                                                                 | 0b0011 | AArch64-DBGBVR&lt;n&gt;_EL1     | Use for T32 instructions         |
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 | 0b1100 | AArch64-DBGBVR&lt;n&gt;_EL1 + 2 | Use for T32 instructions         |
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 | 0b1111 | AArch64-DBGBVR&lt;n&gt;_EL1     | Use for A64 and A32 instructions |
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 All other values are reserved.
+                                                                 For more information, see x['Using the BAS field in Address Match
+                                                                 breakpoints'](BGBJCDEC|G_aarch32_self_hosted_debug.fm).
+                                                                 For Address mismatch breakpoints in an AArch32 stage 1 translation regime, the
+                                                                 permitted values are:
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | BAS    | Match instruction at        | Constraint for debuggers                  |
+                                                                 +========+=============================+===========================================+
+                                                                 | 0b0000 | -                           | Use for a match anywhere breakpoint       |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | 0b0011 | ext-DBGBVR&lt;n&gt;_EL1     | Use for stepping T32 instructions         |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | 0b1100 | ext-DBGBVR&lt;n&gt;_EL1 + 2 | Use for stepping T32 instructions         |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | 0b1111 | ext-DBGBVR&lt;n&gt;_EL1     | Use for stepping A64 and A32 instructions |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 For more information, see x['Using the BAS field in Address Match
+                                                                 breakpoints'](BGBJCDEC|G_aarch32_self_hosted_debug.fm).
+                                                                 For Context matching breakpoints, this field is RES1 and ignored. */
+        uint32_t reserved_9_12         : 4;
+        uint32_t hmc                   : 1;  /**< [ 13: 13](R/W) Higher mode control. Determines the debug perspective for deciding when a
+                                                                 Breakpoint debug event for breakpoint n is generated. This field must be
+                                                                 interpreted along with the SSC and PMC fields, and there are constraints on the
+                                                                 permitted values of the {HMC, SSC, PMC} fields. For more information see ext-
+                                                                 DBGBCR&lt;n&gt;_EL1.SSC description.
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, see
+                                                                 x['Execution conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm). */
+        uint32_t ssc                   : 2;  /**< [ 15: 14](R/W) Security state control. Determines the Security states under which a Breakpoint
+                                                                 debug event for breakpoint n is generated. This field must be interpreted along
+                                                                 with the HMC and PMC fields, and there are constraints on the permitted values
+                                                                 of the {HMC, SSC, PMC} fields. For more information, including the effect of
+                                                                 programming the fields to a reserved set of values, see x['Reserved
+                                                                 DBGBCR&lt;n&gt;_EL1.{SSC, HMC, PMC}
+                                                                 values'](CJAGFIAA|D_aarch64_self_hosted_debug.fm).
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, see
+                                                                 x['Execution conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm). */
+        uint32_t lbn                   : 4;  /**< [ 19: 16](R/W) Linked breakpoint number. For Linked address matching breakpoints, this
+                                                                 specifies the index of the Context-matching breakpoint linked to.
+                                                                 For all other breakpoint types this field is ignored and reads of the register
+                                                                 return an UNKNOWN value.
+                                                                 This field is ignored when the value of DBGBCR&lt;n&gt;_EL1.E is 0. */
+        uint32_t bt                    : 4;  /**< [ 23: 20](R/W) Breakpoint Type. Possible values are:
+                                                                 Constraints on breakpoint programming mean some values are reserved under certain conditions.
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, and on
+                                                                 the effect of programming this field to a reserved value, see x['Execution
+                                                                 conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm) and x['Reserved
+                                                                 DBGBCR0_EL1.BT values'](CJADCAEE|D_aarch64_self_hosted_debug.fm). */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_dbgbcr0_el1_s cn; */
+};
+typedef union cavm_cst_apx_dbg_dbgbcr0_el1 cavm_cst_apx_dbg_dbgbcr0_el1_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_DBGBCR0_EL1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_DBGBCR0_EL1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010408ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_DBGBCR0_EL1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_DBGBCR0_EL1(a) cavm_cst_apx_dbg_dbgbcr0_el1_t
+#define bustype_CAVM_CST_APX_DBG_DBGBCR0_EL1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_DBGBCR0_EL1(a) "CST_APX_DBG_DBGBCR0_EL1"
+#define busnum_CAVM_CST_APX_DBG_DBGBCR0_EL1(a) (a)
+#define arguments_CAVM_CST_APX_DBG_DBGBCR0_EL1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_dbgbcr1_el1
+ *
+ * CST Ap Dbg Dbgbcr1 El1 Register
+ * Holds control information for a breakpoint. Forms breakpoint n together with value
+ * register ext-DBGBVR&lt;n&gt;_EL1.
+ */
+union cavm_cst_apx_dbg_dbgbcr1_el1
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_dbgbcr1_el1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t bt                    : 4;  /**< [ 23: 20](R/W) Breakpoint Type. Possible values are:
+                                                                 Constraints on breakpoint programming mean some values are reserved under certain conditions.
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, and on
+                                                                 the effect of programming this field to a reserved value, see x['Execution
+                                                                 conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm) and x['Reserved
+                                                                 DBGBCR1_EL1.BT values'](CJADCAEE|D_aarch64_self_hosted_debug.fm). */
+        uint32_t lbn                   : 4;  /**< [ 19: 16](R/W) Linked breakpoint number. For Linked address matching breakpoints, this
+                                                                 specifies the index of the Context-matching breakpoint linked to.
+                                                                 For all other breakpoint types this field is ignored and reads of the register
+                                                                 return an UNKNOWN value.
+                                                                 This field is ignored when the value of DBGBCR&lt;n&gt;_EL1.E is 0. */
+        uint32_t ssc                   : 2;  /**< [ 15: 14](R/W) Security state control. Determines the Security states under which a Breakpoint
+                                                                 debug event for breakpoint n is generated. This field must be interpreted along
+                                                                 with the HMC and PMC fields, and there are constraints on the permitted values
+                                                                 of the {HMC, SSC, PMC} fields. For more information, including the effect of
+                                                                 programming the fields to a reserved set of values, see x['Reserved
+                                                                 DBGBCR&lt;n&gt;_EL1.{SSC, HMC, PMC}
+                                                                 values'](CJAGFIAA|D_aarch64_self_hosted_debug.fm).
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, see
+                                                                 x['Execution conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm). */
+        uint32_t hmc                   : 1;  /**< [ 13: 13](R/W) Higher mode control. Determines the debug perspective for deciding when a
+                                                                 Breakpoint debug event for breakpoint n is generated. This field must be
+                                                                 interpreted along with the SSC and PMC fields, and there are constraints on the
+                                                                 permitted values of the {HMC, SSC, PMC} fields. For more information see ext-
+                                                                 DBGBCR&lt;n&gt;_EL1.SSC description.
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, see
+                                                                 x['Execution conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm). */
+        uint32_t reserved_9_12         : 4;
+        uint32_t bas                   : 4;  /**< [  8:  5](R/W) Byte address select. Defines which half-words an address-matching breakpoint
+                                                                 matches, regardless of the instruction set and Execution state.
+                                                                 The permitted values depend on the breakpoint type.
+                                                                 For Address match breakpoints in either AArch32 or AArch64 state, the permitted values are:
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 | BAS    | Match instruction at            | Constraint for debuggers         |
+                                                                 +========+=================================+==================================+
+                                                                 | 0b0011 | AArch64-DBGBVR&lt;n&gt;_EL1     | Use for T32 instructions         |
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 | 0b1100 | AArch64-DBGBVR&lt;n&gt;_EL1 + 2 | Use for T32 instructions         |
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 | 0b1111 | AArch64-DBGBVR&lt;n&gt;_EL1     | Use for A64 and A32 instructions |
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 All other values are reserved.
+                                                                 For more information, see x['Using the BAS field in Address Match
+                                                                 breakpoints'](BGBJCDEC|G_aarch32_self_hosted_debug.fm).
+                                                                 For Address mismatch breakpoints in an AArch32 stage 1 translation regime, the
+                                                                 permitted values are:
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | BAS    | Match instruction at        | Constraint for debuggers                  |
+                                                                 +========+=============================+===========================================+
+                                                                 | 0b0000 | -                           | Use for a match anywhere breakpoint       |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | 0b0011 | ext-DBGBVR&lt;n&gt;_EL1     | Use for stepping T32 instructions         |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | 0b1100 | ext-DBGBVR&lt;n&gt;_EL1 + 2 | Use for stepping T32 instructions         |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | 0b1111 | ext-DBGBVR&lt;n&gt;_EL1     | Use for stepping A64 and A32 instructions |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 For more information, see x['Using the BAS field in Address Match
+                                                                 breakpoints'](BGBJCDEC|G_aarch32_self_hosted_debug.fm).
+                                                                 For Context matching breakpoints, this field is RES1 and ignored. */
+        uint32_t reserved_3_4          : 2;
+        uint32_t pmc                   : 2;  /**< [  2:  1](R/W) Privilege mode control. Determines the Exception level or levels at which a
+                                                                 Breakpoint debug event for breakpoint n is generated. This field must be
+                                                                 interpreted along with the SSC and HMC fields, and there are constraints on the
+                                                                 permitted values of the {HMC, SSC, PMC} fields. For more information see the
+                                                                 ext-DBGBCR&lt;n&gt;_EL1.SSC description.
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, see
+                                                                 x['Execution conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm). */
+        uint32_t e_f                   : 1;  /**< [  0:  0](R/W) Enable breakpoint ext-DBGBVR&lt;n&gt;_EL1. Possible values are: */
+#else /* Word 0 - Little Endian */
+        uint32_t e_f                   : 1;  /**< [  0:  0](R/W) Enable breakpoint ext-DBGBVR&lt;n&gt;_EL1. Possible values are: */
+        uint32_t pmc                   : 2;  /**< [  2:  1](R/W) Privilege mode control. Determines the Exception level or levels at which a
+                                                                 Breakpoint debug event for breakpoint n is generated. This field must be
+                                                                 interpreted along with the SSC and HMC fields, and there are constraints on the
+                                                                 permitted values of the {HMC, SSC, PMC} fields. For more information see the
+                                                                 ext-DBGBCR&lt;n&gt;_EL1.SSC description.
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, see
+                                                                 x['Execution conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm). */
+        uint32_t reserved_3_4          : 2;
+        uint32_t bas                   : 4;  /**< [  8:  5](R/W) Byte address select. Defines which half-words an address-matching breakpoint
+                                                                 matches, regardless of the instruction set and Execution state.
+                                                                 The permitted values depend on the breakpoint type.
+                                                                 For Address match breakpoints in either AArch32 or AArch64 state, the permitted values are:
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 | BAS    | Match instruction at            | Constraint for debuggers         |
+                                                                 +========+=================================+==================================+
+                                                                 | 0b0011 | AArch64-DBGBVR&lt;n&gt;_EL1     | Use for T32 instructions         |
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 | 0b1100 | AArch64-DBGBVR&lt;n&gt;_EL1 + 2 | Use for T32 instructions         |
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 | 0b1111 | AArch64-DBGBVR&lt;n&gt;_EL1     | Use for A64 and A32 instructions |
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 All other values are reserved.
+                                                                 For more information, see x['Using the BAS field in Address Match
+                                                                 breakpoints'](BGBJCDEC|G_aarch32_self_hosted_debug.fm).
+                                                                 For Address mismatch breakpoints in an AArch32 stage 1 translation regime, the
+                                                                 permitted values are:
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | BAS    | Match instruction at        | Constraint for debuggers                  |
+                                                                 +========+=============================+===========================================+
+                                                                 | 0b0000 | -                           | Use for a match anywhere breakpoint       |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | 0b0011 | ext-DBGBVR&lt;n&gt;_EL1     | Use for stepping T32 instructions         |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | 0b1100 | ext-DBGBVR&lt;n&gt;_EL1 + 2 | Use for stepping T32 instructions         |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | 0b1111 | ext-DBGBVR&lt;n&gt;_EL1     | Use for stepping A64 and A32 instructions |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 For more information, see x['Using the BAS field in Address Match
+                                                                 breakpoints'](BGBJCDEC|G_aarch32_self_hosted_debug.fm).
+                                                                 For Context matching breakpoints, this field is RES1 and ignored. */
+        uint32_t reserved_9_12         : 4;
+        uint32_t hmc                   : 1;  /**< [ 13: 13](R/W) Higher mode control. Determines the debug perspective for deciding when a
+                                                                 Breakpoint debug event for breakpoint n is generated. This field must be
+                                                                 interpreted along with the SSC and PMC fields, and there are constraints on the
+                                                                 permitted values of the {HMC, SSC, PMC} fields. For more information see ext-
+                                                                 DBGBCR&lt;n&gt;_EL1.SSC description.
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, see
+                                                                 x['Execution conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm). */
+        uint32_t ssc                   : 2;  /**< [ 15: 14](R/W) Security state control. Determines the Security states under which a Breakpoint
+                                                                 debug event for breakpoint n is generated. This field must be interpreted along
+                                                                 with the HMC and PMC fields, and there are constraints on the permitted values
+                                                                 of the {HMC, SSC, PMC} fields. For more information, including the effect of
+                                                                 programming the fields to a reserved set of values, see x['Reserved
+                                                                 DBGBCR&lt;n&gt;_EL1.{SSC, HMC, PMC}
+                                                                 values'](CJAGFIAA|D_aarch64_self_hosted_debug.fm).
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, see
+                                                                 x['Execution conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm). */
+        uint32_t lbn                   : 4;  /**< [ 19: 16](R/W) Linked breakpoint number. For Linked address matching breakpoints, this
+                                                                 specifies the index of the Context-matching breakpoint linked to.
+                                                                 For all other breakpoint types this field is ignored and reads of the register
+                                                                 return an UNKNOWN value.
+                                                                 This field is ignored when the value of DBGBCR&lt;n&gt;_EL1.E is 0. */
+        uint32_t bt                    : 4;  /**< [ 23: 20](R/W) Breakpoint Type. Possible values are:
+                                                                 Constraints on breakpoint programming mean some values are reserved under certain conditions.
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, and on
+                                                                 the effect of programming this field to a reserved value, see x['Execution
+                                                                 conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm) and x['Reserved
+                                                                 DBGBCR1_EL1.BT values'](CJADCAEE|D_aarch64_self_hosted_debug.fm). */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_dbgbcr1_el1_s cn; */
+};
+typedef union cavm_cst_apx_dbg_dbgbcr1_el1 cavm_cst_apx_dbg_dbgbcr1_el1_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_DBGBCR1_EL1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_DBGBCR1_EL1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010418ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_DBGBCR1_EL1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_DBGBCR1_EL1(a) cavm_cst_apx_dbg_dbgbcr1_el1_t
+#define bustype_CAVM_CST_APX_DBG_DBGBCR1_EL1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_DBGBCR1_EL1(a) "CST_APX_DBG_DBGBCR1_EL1"
+#define busnum_CAVM_CST_APX_DBG_DBGBCR1_EL1(a) (a)
+#define arguments_CAVM_CST_APX_DBG_DBGBCR1_EL1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_dbgbcr2_el1
+ *
+ * CST Ap Dbg Dbgbcr2 El1 Register
+ * Holds control information for a breakpoint. Forms breakpoint n together with value
+ * register ext-DBGBVR&lt;n&gt;_EL1.
+ */
+union cavm_cst_apx_dbg_dbgbcr2_el1
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_dbgbcr2_el1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t bt                    : 4;  /**< [ 23: 20](R/W) Breakpoint Type. Possible values are:
+                                                                 Constraints on breakpoint programming mean some values are reserved under certain conditions.
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, and on
+                                                                 the effect of programming this field to a reserved value, see x['Execution
+                                                                 conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm) and x['Reserved
+                                                                 DBGBCR2_EL1.BT values'](CJADCAEE|D_aarch64_self_hosted_debug.fm). */
+        uint32_t lbn                   : 4;  /**< [ 19: 16](R/W) Linked breakpoint number. For Linked address matching breakpoints, this
+                                                                 specifies the index of the Context-matching breakpoint linked to.
+                                                                 For all other breakpoint types this field is ignored and reads of the register
+                                                                 return an UNKNOWN value.
+                                                                 This field is ignored when the value of DBGBCR&lt;n&gt;_EL1.E is 0. */
+        uint32_t ssc                   : 2;  /**< [ 15: 14](R/W) Security state control. Determines the Security states under which a Breakpoint
+                                                                 debug event for breakpoint n is generated. This field must be interpreted along
+                                                                 with the HMC and PMC fields, and there are constraints on the permitted values
+                                                                 of the {HMC, SSC, PMC} fields. For more information, including the effect of
+                                                                 programming the fields to a reserved set of values, see x['Reserved
+                                                                 DBGBCR&lt;n&gt;_EL1.{SSC, HMC, PMC}
+                                                                 values'](CJAGFIAA|D_aarch64_self_hosted_debug.fm).
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, see
+                                                                 x['Execution conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm). */
+        uint32_t hmc                   : 1;  /**< [ 13: 13](R/W) Higher mode control. Determines the debug perspective for deciding when a
+                                                                 Breakpoint debug event for breakpoint n is generated. This field must be
+                                                                 interpreted along with the SSC and PMC fields, and there are constraints on the
+                                                                 permitted values of the {HMC, SSC, PMC} fields. For more information see ext-
+                                                                 DBGBCR&lt;n&gt;_EL1.SSC description.
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, see
+                                                                 x['Execution conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm). */
+        uint32_t reserved_9_12         : 4;
+        uint32_t bas                   : 4;  /**< [  8:  5](R/W) Byte address select. Defines which half-words an address-matching breakpoint
+                                                                 matches, regardless of the instruction set and Execution state.
+                                                                 The permitted values depend on the breakpoint type.
+                                                                 For Address match breakpoints in either AArch32 or AArch64 state, the permitted values are:
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 | BAS    | Match instruction at            | Constraint for debuggers         |
+                                                                 +========+=================================+==================================+
+                                                                 | 0b0011 | AArch64-DBGBVR&lt;n&gt;_EL1     | Use for T32 instructions         |
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 | 0b1100 | AArch64-DBGBVR&lt;n&gt;_EL1 + 2 | Use for T32 instructions         |
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 | 0b1111 | AArch64-DBGBVR&lt;n&gt;_EL1     | Use for A64 and A32 instructions |
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 All other values are reserved.
+                                                                 For more information, see x['Using the BAS field in Address Match
+                                                                 breakpoints'](BGBJCDEC|G_aarch32_self_hosted_debug.fm).
+                                                                 For Address mismatch breakpoints in an AArch32 stage 1 translation regime, the
+                                                                 permitted values are:
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | BAS    | Match instruction at        | Constraint for debuggers                  |
+                                                                 +========+=============================+===========================================+
+                                                                 | 0b0000 | -                           | Use for a match anywhere breakpoint       |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | 0b0011 | ext-DBGBVR&lt;n&gt;_EL1     | Use for stepping T32 instructions         |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | 0b1100 | ext-DBGBVR&lt;n&gt;_EL1 + 2 | Use for stepping T32 instructions         |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | 0b1111 | ext-DBGBVR&lt;n&gt;_EL1     | Use for stepping A64 and A32 instructions |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 For more information, see x['Using the BAS field in Address Match
+                                                                 breakpoints'](BGBJCDEC|G_aarch32_self_hosted_debug.fm).
+                                                                 For Context matching breakpoints, this field is RES1 and ignored. */
+        uint32_t reserved_3_4          : 2;
+        uint32_t pmc                   : 2;  /**< [  2:  1](R/W) Privilege mode control. Determines the Exception level or levels at which a
+                                                                 Breakpoint debug event for breakpoint n is generated. This field must be
+                                                                 interpreted along with the SSC and HMC fields, and there are constraints on the
+                                                                 permitted values of the {HMC, SSC, PMC} fields. For more information see the
+                                                                 ext-DBGBCR&lt;n&gt;_EL1.SSC description.
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, see
+                                                                 x['Execution conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm). */
+        uint32_t e_f                   : 1;  /**< [  0:  0](R/W) Enable breakpoint ext-DBGBVR&lt;n&gt;_EL1. Possible values are: */
+#else /* Word 0 - Little Endian */
+        uint32_t e_f                   : 1;  /**< [  0:  0](R/W) Enable breakpoint ext-DBGBVR&lt;n&gt;_EL1. Possible values are: */
+        uint32_t pmc                   : 2;  /**< [  2:  1](R/W) Privilege mode control. Determines the Exception level or levels at which a
+                                                                 Breakpoint debug event for breakpoint n is generated. This field must be
+                                                                 interpreted along with the SSC and HMC fields, and there are constraints on the
+                                                                 permitted values of the {HMC, SSC, PMC} fields. For more information see the
+                                                                 ext-DBGBCR&lt;n&gt;_EL1.SSC description.
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, see
+                                                                 x['Execution conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm). */
+        uint32_t reserved_3_4          : 2;
+        uint32_t bas                   : 4;  /**< [  8:  5](R/W) Byte address select. Defines which half-words an address-matching breakpoint
+                                                                 matches, regardless of the instruction set and Execution state.
+                                                                 The permitted values depend on the breakpoint type.
+                                                                 For Address match breakpoints in either AArch32 or AArch64 state, the permitted values are:
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 | BAS    | Match instruction at            | Constraint for debuggers         |
+                                                                 +========+=================================+==================================+
+                                                                 | 0b0011 | AArch64-DBGBVR&lt;n&gt;_EL1     | Use for T32 instructions         |
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 | 0b1100 | AArch64-DBGBVR&lt;n&gt;_EL1 + 2 | Use for T32 instructions         |
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 | 0b1111 | AArch64-DBGBVR&lt;n&gt;_EL1     | Use for A64 and A32 instructions |
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 All other values are reserved.
+                                                                 For more information, see x['Using the BAS field in Address Match
+                                                                 breakpoints'](BGBJCDEC|G_aarch32_self_hosted_debug.fm).
+                                                                 For Address mismatch breakpoints in an AArch32 stage 1 translation regime, the
+                                                                 permitted values are:
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | BAS    | Match instruction at        | Constraint for debuggers                  |
+                                                                 +========+=============================+===========================================+
+                                                                 | 0b0000 | -                           | Use for a match anywhere breakpoint       |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | 0b0011 | ext-DBGBVR&lt;n&gt;_EL1     | Use for stepping T32 instructions         |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | 0b1100 | ext-DBGBVR&lt;n&gt;_EL1 + 2 | Use for stepping T32 instructions         |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | 0b1111 | ext-DBGBVR&lt;n&gt;_EL1     | Use for stepping A64 and A32 instructions |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 For more information, see x['Using the BAS field in Address Match
+                                                                 breakpoints'](BGBJCDEC|G_aarch32_self_hosted_debug.fm).
+                                                                 For Context matching breakpoints, this field is RES1 and ignored. */
+        uint32_t reserved_9_12         : 4;
+        uint32_t hmc                   : 1;  /**< [ 13: 13](R/W) Higher mode control. Determines the debug perspective for deciding when a
+                                                                 Breakpoint debug event for breakpoint n is generated. This field must be
+                                                                 interpreted along with the SSC and PMC fields, and there are constraints on the
+                                                                 permitted values of the {HMC, SSC, PMC} fields. For more information see ext-
+                                                                 DBGBCR&lt;n&gt;_EL1.SSC description.
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, see
+                                                                 x['Execution conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm). */
+        uint32_t ssc                   : 2;  /**< [ 15: 14](R/W) Security state control. Determines the Security states under which a Breakpoint
+                                                                 debug event for breakpoint n is generated. This field must be interpreted along
+                                                                 with the HMC and PMC fields, and there are constraints on the permitted values
+                                                                 of the {HMC, SSC, PMC} fields. For more information, including the effect of
+                                                                 programming the fields to a reserved set of values, see x['Reserved
+                                                                 DBGBCR&lt;n&gt;_EL1.{SSC, HMC, PMC}
+                                                                 values'](CJAGFIAA|D_aarch64_self_hosted_debug.fm).
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, see
+                                                                 x['Execution conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm). */
+        uint32_t lbn                   : 4;  /**< [ 19: 16](R/W) Linked breakpoint number. For Linked address matching breakpoints, this
+                                                                 specifies the index of the Context-matching breakpoint linked to.
+                                                                 For all other breakpoint types this field is ignored and reads of the register
+                                                                 return an UNKNOWN value.
+                                                                 This field is ignored when the value of DBGBCR&lt;n&gt;_EL1.E is 0. */
+        uint32_t bt                    : 4;  /**< [ 23: 20](R/W) Breakpoint Type. Possible values are:
+                                                                 Constraints on breakpoint programming mean some values are reserved under certain conditions.
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, and on
+                                                                 the effect of programming this field to a reserved value, see x['Execution
+                                                                 conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm) and x['Reserved
+                                                                 DBGBCR2_EL1.BT values'](CJADCAEE|D_aarch64_self_hosted_debug.fm). */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_dbgbcr2_el1_s cn; */
+};
+typedef union cavm_cst_apx_dbg_dbgbcr2_el1 cavm_cst_apx_dbg_dbgbcr2_el1_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_DBGBCR2_EL1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_DBGBCR2_EL1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010428ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_DBGBCR2_EL1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_DBGBCR2_EL1(a) cavm_cst_apx_dbg_dbgbcr2_el1_t
+#define bustype_CAVM_CST_APX_DBG_DBGBCR2_EL1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_DBGBCR2_EL1(a) "CST_APX_DBG_DBGBCR2_EL1"
+#define busnum_CAVM_CST_APX_DBG_DBGBCR2_EL1(a) (a)
+#define arguments_CAVM_CST_APX_DBG_DBGBCR2_EL1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_dbgbcr3_el1
+ *
+ * CST Ap Dbg Dbgbcr3 El1 Register
+ * Holds control information for a breakpoint. Forms breakpoint n together with value
+ * register ext-DBGBVR&lt;n&gt;_EL1.
+ */
+union cavm_cst_apx_dbg_dbgbcr3_el1
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_dbgbcr3_el1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t bt                    : 4;  /**< [ 23: 20](R/W) Breakpoint Type. Possible values are:
+                                                                 Constraints on breakpoint programming mean some values are reserved under certain conditions.
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, and on
+                                                                 the effect of programming this field to a reserved value, see x['Execution
+                                                                 conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm) and x['Reserved
+                                                                 DBGBCR3_EL1.BT values'](CJADCAEE|D_aarch64_self_hosted_debug.fm). */
+        uint32_t lbn                   : 4;  /**< [ 19: 16](R/W) Linked breakpoint number. For Linked address matching breakpoints, this
+                                                                 specifies the index of the Context-matching breakpoint linked to.
+                                                                 For all other breakpoint types this field is ignored and reads of the register
+                                                                 return an UNKNOWN value.
+                                                                 This field is ignored when the value of DBGBCR&lt;n&gt;_EL1.E is 0. */
+        uint32_t ssc                   : 2;  /**< [ 15: 14](R/W) Security state control. Determines the Security states under which a Breakpoint
+                                                                 debug event for breakpoint n is generated. This field must be interpreted along
+                                                                 with the HMC and PMC fields, and there are constraints on the permitted values
+                                                                 of the {HMC, SSC, PMC} fields. For more information, including the effect of
+                                                                 programming the fields to a reserved set of values, see x['Reserved
+                                                                 DBGBCR&lt;n&gt;_EL1.{SSC, HMC, PMC}
+                                                                 values'](CJAGFIAA|D_aarch64_self_hosted_debug.fm).
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, see
+                                                                 x['Execution conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm). */
+        uint32_t hmc                   : 1;  /**< [ 13: 13](R/W) Higher mode control. Determines the debug perspective for deciding when a
+                                                                 Breakpoint debug event for breakpoint n is generated. This field must be
+                                                                 interpreted along with the SSC and PMC fields, and there are constraints on the
+                                                                 permitted values of the {HMC, SSC, PMC} fields. For more information see ext-
+                                                                 DBGBCR&lt;n&gt;_EL1.SSC description.
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, see
+                                                                 x['Execution conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm). */
+        uint32_t reserved_9_12         : 4;
+        uint32_t bas                   : 4;  /**< [  8:  5](R/W) Byte address select. Defines which half-words an address-matching breakpoint
+                                                                 matches, regardless of the instruction set and Execution state.
+                                                                 The permitted values depend on the breakpoint type.
+                                                                 For Address match breakpoints in either AArch32 or AArch64 state, the permitted values are:
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 | BAS    | Match instruction at            | Constraint for debuggers         |
+                                                                 +========+=================================+==================================+
+                                                                 | 0b0011 | AArch64-DBGBVR&lt;n&gt;_EL1     | Use for T32 instructions         |
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 | 0b1100 | AArch64-DBGBVR&lt;n&gt;_EL1 + 2 | Use for T32 instructions         |
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 | 0b1111 | AArch64-DBGBVR&lt;n&gt;_EL1     | Use for A64 and A32 instructions |
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 All other values are reserved.
+                                                                 For more information, see x['Using the BAS field in Address Match
+                                                                 breakpoints'](BGBJCDEC|G_aarch32_self_hosted_debug.fm).
+                                                                 For Address mismatch breakpoints in an AArch32 stage 1 translation regime, the
+                                                                 permitted values are:
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | BAS    | Match instruction at        | Constraint for debuggers                  |
+                                                                 +========+=============================+===========================================+
+                                                                 | 0b0000 | -                           | Use for a match anywhere breakpoint       |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | 0b0011 | ext-DBGBVR&lt;n&gt;_EL1     | Use for stepping T32 instructions         |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | 0b1100 | ext-DBGBVR&lt;n&gt;_EL1 + 2 | Use for stepping T32 instructions         |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | 0b1111 | ext-DBGBVR&lt;n&gt;_EL1     | Use for stepping A64 and A32 instructions |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 For more information, see x['Using the BAS field in Address Match
+                                                                 breakpoints'](BGBJCDEC|G_aarch32_self_hosted_debug.fm).
+                                                                 For Context matching breakpoints, this field is RES1 and ignored. */
+        uint32_t reserved_3_4          : 2;
+        uint32_t pmc                   : 2;  /**< [  2:  1](R/W) Privilege mode control. Determines the Exception level or levels at which a
+                                                                 Breakpoint debug event for breakpoint n is generated. This field must be
+                                                                 interpreted along with the SSC and HMC fields, and there are constraints on the
+                                                                 permitted values of the {HMC, SSC, PMC} fields. For more information see the
+                                                                 ext-DBGBCR&lt;n&gt;_EL1.SSC description.
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, see
+                                                                 x['Execution conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm). */
+        uint32_t e_f                   : 1;  /**< [  0:  0](R/W) Enable breakpoint ext-DBGBVR&lt;n&gt;_EL1. Possible values are: */
+#else /* Word 0 - Little Endian */
+        uint32_t e_f                   : 1;  /**< [  0:  0](R/W) Enable breakpoint ext-DBGBVR&lt;n&gt;_EL1. Possible values are: */
+        uint32_t pmc                   : 2;  /**< [  2:  1](R/W) Privilege mode control. Determines the Exception level or levels at which a
+                                                                 Breakpoint debug event for breakpoint n is generated. This field must be
+                                                                 interpreted along with the SSC and HMC fields, and there are constraints on the
+                                                                 permitted values of the {HMC, SSC, PMC} fields. For more information see the
+                                                                 ext-DBGBCR&lt;n&gt;_EL1.SSC description.
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, see
+                                                                 x['Execution conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm). */
+        uint32_t reserved_3_4          : 2;
+        uint32_t bas                   : 4;  /**< [  8:  5](R/W) Byte address select. Defines which half-words an address-matching breakpoint
+                                                                 matches, regardless of the instruction set and Execution state.
+                                                                 The permitted values depend on the breakpoint type.
+                                                                 For Address match breakpoints in either AArch32 or AArch64 state, the permitted values are:
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 | BAS    | Match instruction at            | Constraint for debuggers         |
+                                                                 +========+=================================+==================================+
+                                                                 | 0b0011 | AArch64-DBGBVR&lt;n&gt;_EL1     | Use for T32 instructions         |
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 | 0b1100 | AArch64-DBGBVR&lt;n&gt;_EL1 + 2 | Use for T32 instructions         |
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 | 0b1111 | AArch64-DBGBVR&lt;n&gt;_EL1     | Use for A64 and A32 instructions |
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 All other values are reserved.
+                                                                 For more information, see x['Using the BAS field in Address Match
+                                                                 breakpoints'](BGBJCDEC|G_aarch32_self_hosted_debug.fm).
+                                                                 For Address mismatch breakpoints in an AArch32 stage 1 translation regime, the
+                                                                 permitted values are:
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | BAS    | Match instruction at        | Constraint for debuggers                  |
+                                                                 +========+=============================+===========================================+
+                                                                 | 0b0000 | -                           | Use for a match anywhere breakpoint       |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | 0b0011 | ext-DBGBVR&lt;n&gt;_EL1     | Use for stepping T32 instructions         |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | 0b1100 | ext-DBGBVR&lt;n&gt;_EL1 + 2 | Use for stepping T32 instructions         |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | 0b1111 | ext-DBGBVR&lt;n&gt;_EL1     | Use for stepping A64 and A32 instructions |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 For more information, see x['Using the BAS field in Address Match
+                                                                 breakpoints'](BGBJCDEC|G_aarch32_self_hosted_debug.fm).
+                                                                 For Context matching breakpoints, this field is RES1 and ignored. */
+        uint32_t reserved_9_12         : 4;
+        uint32_t hmc                   : 1;  /**< [ 13: 13](R/W) Higher mode control. Determines the debug perspective for deciding when a
+                                                                 Breakpoint debug event for breakpoint n is generated. This field must be
+                                                                 interpreted along with the SSC and PMC fields, and there are constraints on the
+                                                                 permitted values of the {HMC, SSC, PMC} fields. For more information see ext-
+                                                                 DBGBCR&lt;n&gt;_EL1.SSC description.
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, see
+                                                                 x['Execution conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm). */
+        uint32_t ssc                   : 2;  /**< [ 15: 14](R/W) Security state control. Determines the Security states under which a Breakpoint
+                                                                 debug event for breakpoint n is generated. This field must be interpreted along
+                                                                 with the HMC and PMC fields, and there are constraints on the permitted values
+                                                                 of the {HMC, SSC, PMC} fields. For more information, including the effect of
+                                                                 programming the fields to a reserved set of values, see x['Reserved
+                                                                 DBGBCR&lt;n&gt;_EL1.{SSC, HMC, PMC}
+                                                                 values'](CJAGFIAA|D_aarch64_self_hosted_debug.fm).
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, see
+                                                                 x['Execution conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm). */
+        uint32_t lbn                   : 4;  /**< [ 19: 16](R/W) Linked breakpoint number. For Linked address matching breakpoints, this
+                                                                 specifies the index of the Context-matching breakpoint linked to.
+                                                                 For all other breakpoint types this field is ignored and reads of the register
+                                                                 return an UNKNOWN value.
+                                                                 This field is ignored when the value of DBGBCR&lt;n&gt;_EL1.E is 0. */
+        uint32_t bt                    : 4;  /**< [ 23: 20](R/W) Breakpoint Type. Possible values are:
+                                                                 Constraints on breakpoint programming mean some values are reserved under certain conditions.
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, and on
+                                                                 the effect of programming this field to a reserved value, see x['Execution
+                                                                 conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm) and x['Reserved
+                                                                 DBGBCR3_EL1.BT values'](CJADCAEE|D_aarch64_self_hosted_debug.fm). */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_dbgbcr3_el1_s cn; */
+};
+typedef union cavm_cst_apx_dbg_dbgbcr3_el1 cavm_cst_apx_dbg_dbgbcr3_el1_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_DBGBCR3_EL1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_DBGBCR3_EL1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010438ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_DBGBCR3_EL1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_DBGBCR3_EL1(a) cavm_cst_apx_dbg_dbgbcr3_el1_t
+#define bustype_CAVM_CST_APX_DBG_DBGBCR3_EL1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_DBGBCR3_EL1(a) "CST_APX_DBG_DBGBCR3_EL1"
+#define busnum_CAVM_CST_APX_DBG_DBGBCR3_EL1(a) (a)
+#define arguments_CAVM_CST_APX_DBG_DBGBCR3_EL1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_dbgbcr4_el1
+ *
+ * CST Ap Dbg Dbgbcr4 El1 Register
+ * Holds control information for a breakpoint. Forms breakpoint n together with value
+ * register ext-DBGBVR&lt;n&gt;_EL1.
+ */
+union cavm_cst_apx_dbg_dbgbcr4_el1
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_dbgbcr4_el1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t bt                    : 4;  /**< [ 23: 20](R/W) Breakpoint Type. Possible values are:
+                                                                 Constraints on breakpoint programming mean some values are reserved under certain conditions.
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, and on
+                                                                 the effect of programming this field to a reserved value, see x['Execution
+                                                                 conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm) and x['Reserved
+                                                                 DBGBCR4_EL1.BT values'](CJADCAEE|D_aarch64_self_hosted_debug.fm). */
+        uint32_t lbn                   : 4;  /**< [ 19: 16](R/W) Linked breakpoint number. For Linked address matching breakpoints, this
+                                                                 specifies the index of the Context-matching breakpoint linked to.
+                                                                 For all other breakpoint types this field is ignored and reads of the register
+                                                                 return an UNKNOWN value.
+                                                                 This field is ignored when the value of DBGBCR&lt;n&gt;_EL1.E is 0. */
+        uint32_t ssc                   : 2;  /**< [ 15: 14](R/W) Security state control. Determines the Security states under which a Breakpoint
+                                                                 debug event for breakpoint n is generated. This field must be interpreted along
+                                                                 with the HMC and PMC fields, and there are constraints on the permitted values
+                                                                 of the {HMC, SSC, PMC} fields. For more information, including the effect of
+                                                                 programming the fields to a reserved set of values, see x['Reserved
+                                                                 DBGBCR&lt;n&gt;_EL1.{SSC, HMC, PMC}
+                                                                 values'](CJAGFIAA|D_aarch64_self_hosted_debug.fm).
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, see
+                                                                 x['Execution conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm). */
+        uint32_t hmc                   : 1;  /**< [ 13: 13](R/W) Higher mode control. Determines the debug perspective for deciding when a
+                                                                 Breakpoint debug event for breakpoint n is generated. This field must be
+                                                                 interpreted along with the SSC and PMC fields, and there are constraints on the
+                                                                 permitted values of the {HMC, SSC, PMC} fields. For more information see ext-
+                                                                 DBGBCR&lt;n&gt;_EL1.SSC description.
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, see
+                                                                 x['Execution conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm). */
+        uint32_t reserved_9_12         : 4;
+        uint32_t bas                   : 4;  /**< [  8:  5](R/W) Byte address select. Defines which half-words an address-matching breakpoint
+                                                                 matches, regardless of the instruction set and Execution state.
+                                                                 The permitted values depend on the breakpoint type.
+                                                                 For Address match breakpoints in either AArch32 or AArch64 state, the permitted values are:
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 | BAS    | Match instruction at            | Constraint for debuggers         |
+                                                                 +========+=================================+==================================+
+                                                                 | 0b0011 | AArch64-DBGBVR&lt;n&gt;_EL1     | Use for T32 instructions         |
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 | 0b1100 | AArch64-DBGBVR&lt;n&gt;_EL1 + 2 | Use for T32 instructions         |
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 | 0b1111 | AArch64-DBGBVR&lt;n&gt;_EL1     | Use for A64 and A32 instructions |
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 All other values are reserved.
+                                                                 For more information, see x['Using the BAS field in Address Match
+                                                                 breakpoints'](BGBJCDEC|G_aarch32_self_hosted_debug.fm).
+                                                                 For Address mismatch breakpoints in an AArch32 stage 1 translation regime, the
+                                                                 permitted values are:
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | BAS    | Match instruction at        | Constraint for debuggers                  |
+                                                                 +========+=============================+===========================================+
+                                                                 | 0b0000 | -                           | Use for a match anywhere breakpoint       |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | 0b0011 | ext-DBGBVR&lt;n&gt;_EL1     | Use for stepping T32 instructions         |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | 0b1100 | ext-DBGBVR&lt;n&gt;_EL1 + 2 | Use for stepping T32 instructions         |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | 0b1111 | ext-DBGBVR&lt;n&gt;_EL1     | Use for stepping A64 and A32 instructions |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 For more information, see x['Using the BAS field in Address Match
+                                                                 breakpoints'](BGBJCDEC|G_aarch32_self_hosted_debug.fm).
+                                                                 For Context matching breakpoints, this field is RES1 and ignored. */
+        uint32_t reserved_3_4          : 2;
+        uint32_t pmc                   : 2;  /**< [  2:  1](R/W) Privilege mode control. Determines the Exception level or levels at which a
+                                                                 Breakpoint debug event for breakpoint n is generated. This field must be
+                                                                 interpreted along with the SSC and HMC fields, and there are constraints on the
+                                                                 permitted values of the {HMC, SSC, PMC} fields. For more information see the
+                                                                 ext-DBGBCR&lt;n&gt;_EL1.SSC description.
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, see
+                                                                 x['Execution conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm). */
+        uint32_t e_f                   : 1;  /**< [  0:  0](R/W) Enable breakpoint ext-DBGBVR&lt;n&gt;_EL1. Possible values are: */
+#else /* Word 0 - Little Endian */
+        uint32_t e_f                   : 1;  /**< [  0:  0](R/W) Enable breakpoint ext-DBGBVR&lt;n&gt;_EL1. Possible values are: */
+        uint32_t pmc                   : 2;  /**< [  2:  1](R/W) Privilege mode control. Determines the Exception level or levels at which a
+                                                                 Breakpoint debug event for breakpoint n is generated. This field must be
+                                                                 interpreted along with the SSC and HMC fields, and there are constraints on the
+                                                                 permitted values of the {HMC, SSC, PMC} fields. For more information see the
+                                                                 ext-DBGBCR&lt;n&gt;_EL1.SSC description.
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, see
+                                                                 x['Execution conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm). */
+        uint32_t reserved_3_4          : 2;
+        uint32_t bas                   : 4;  /**< [  8:  5](R/W) Byte address select. Defines which half-words an address-matching breakpoint
+                                                                 matches, regardless of the instruction set and Execution state.
+                                                                 The permitted values depend on the breakpoint type.
+                                                                 For Address match breakpoints in either AArch32 or AArch64 state, the permitted values are:
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 | BAS    | Match instruction at            | Constraint for debuggers         |
+                                                                 +========+=================================+==================================+
+                                                                 | 0b0011 | AArch64-DBGBVR&lt;n&gt;_EL1     | Use for T32 instructions         |
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 | 0b1100 | AArch64-DBGBVR&lt;n&gt;_EL1 + 2 | Use for T32 instructions         |
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 | 0b1111 | AArch64-DBGBVR&lt;n&gt;_EL1     | Use for A64 and A32 instructions |
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 All other values are reserved.
+                                                                 For more information, see x['Using the BAS field in Address Match
+                                                                 breakpoints'](BGBJCDEC|G_aarch32_self_hosted_debug.fm).
+                                                                 For Address mismatch breakpoints in an AArch32 stage 1 translation regime, the
+                                                                 permitted values are:
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | BAS    | Match instruction at        | Constraint for debuggers                  |
+                                                                 +========+=============================+===========================================+
+                                                                 | 0b0000 | -                           | Use for a match anywhere breakpoint       |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | 0b0011 | ext-DBGBVR&lt;n&gt;_EL1     | Use for stepping T32 instructions         |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | 0b1100 | ext-DBGBVR&lt;n&gt;_EL1 + 2 | Use for stepping T32 instructions         |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | 0b1111 | ext-DBGBVR&lt;n&gt;_EL1     | Use for stepping A64 and A32 instructions |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 For more information, see x['Using the BAS field in Address Match
+                                                                 breakpoints'](BGBJCDEC|G_aarch32_self_hosted_debug.fm).
+                                                                 For Context matching breakpoints, this field is RES1 and ignored. */
+        uint32_t reserved_9_12         : 4;
+        uint32_t hmc                   : 1;  /**< [ 13: 13](R/W) Higher mode control. Determines the debug perspective for deciding when a
+                                                                 Breakpoint debug event for breakpoint n is generated. This field must be
+                                                                 interpreted along with the SSC and PMC fields, and there are constraints on the
+                                                                 permitted values of the {HMC, SSC, PMC} fields. For more information see ext-
+                                                                 DBGBCR&lt;n&gt;_EL1.SSC description.
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, see
+                                                                 x['Execution conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm). */
+        uint32_t ssc                   : 2;  /**< [ 15: 14](R/W) Security state control. Determines the Security states under which a Breakpoint
+                                                                 debug event for breakpoint n is generated. This field must be interpreted along
+                                                                 with the HMC and PMC fields, and there are constraints on the permitted values
+                                                                 of the {HMC, SSC, PMC} fields. For more information, including the effect of
+                                                                 programming the fields to a reserved set of values, see x['Reserved
+                                                                 DBGBCR&lt;n&gt;_EL1.{SSC, HMC, PMC}
+                                                                 values'](CJAGFIAA|D_aarch64_self_hosted_debug.fm).
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, see
+                                                                 x['Execution conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm). */
+        uint32_t lbn                   : 4;  /**< [ 19: 16](R/W) Linked breakpoint number. For Linked address matching breakpoints, this
+                                                                 specifies the index of the Context-matching breakpoint linked to.
+                                                                 For all other breakpoint types this field is ignored and reads of the register
+                                                                 return an UNKNOWN value.
+                                                                 This field is ignored when the value of DBGBCR&lt;n&gt;_EL1.E is 0. */
+        uint32_t bt                    : 4;  /**< [ 23: 20](R/W) Breakpoint Type. Possible values are:
+                                                                 Constraints on breakpoint programming mean some values are reserved under certain conditions.
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, and on
+                                                                 the effect of programming this field to a reserved value, see x['Execution
+                                                                 conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm) and x['Reserved
+                                                                 DBGBCR4_EL1.BT values'](CJADCAEE|D_aarch64_self_hosted_debug.fm). */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_dbgbcr4_el1_s cn; */
+};
+typedef union cavm_cst_apx_dbg_dbgbcr4_el1 cavm_cst_apx_dbg_dbgbcr4_el1_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_DBGBCR4_EL1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_DBGBCR4_EL1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010448ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_DBGBCR4_EL1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_DBGBCR4_EL1(a) cavm_cst_apx_dbg_dbgbcr4_el1_t
+#define bustype_CAVM_CST_APX_DBG_DBGBCR4_EL1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_DBGBCR4_EL1(a) "CST_APX_DBG_DBGBCR4_EL1"
+#define busnum_CAVM_CST_APX_DBG_DBGBCR4_EL1(a) (a)
+#define arguments_CAVM_CST_APX_DBG_DBGBCR4_EL1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_dbgbcr5_el1
+ *
+ * CST Ap Dbg Dbgbcr5 El1 Register
+ * Holds control information for a breakpoint. Forms breakpoint n together with value
+ * register ext-DBGBVR&lt;n&gt;_EL1.
+ */
+union cavm_cst_apx_dbg_dbgbcr5_el1
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_dbgbcr5_el1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t bt                    : 4;  /**< [ 23: 20](R/W) Breakpoint Type. Possible values are:
+                                                                 Constraints on breakpoint programming mean some values are reserved under certain conditions.
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, and on
+                                                                 the effect of programming this field to a reserved value, see x['Execution
+                                                                 conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm) and x['Reserved
+                                                                 DBGBCR5_EL1.BT values'](CJADCAEE|D_aarch64_self_hosted_debug.fm). */
+        uint32_t lbn                   : 4;  /**< [ 19: 16](R/W) Linked breakpoint number. For Linked address matching breakpoints, this
+                                                                 specifies the index of the Context-matching breakpoint linked to.
+                                                                 For all other breakpoint types this field is ignored and reads of the register
+                                                                 return an UNKNOWN value.
+                                                                 This field is ignored when the value of DBGBCR&lt;n&gt;_EL1.E is 0. */
+        uint32_t ssc                   : 2;  /**< [ 15: 14](R/W) Security state control. Determines the Security states under which a Breakpoint
+                                                                 debug event for breakpoint n is generated. This field must be interpreted along
+                                                                 with the HMC and PMC fields, and there are constraints on the permitted values
+                                                                 of the {HMC, SSC, PMC} fields. For more information, including the effect of
+                                                                 programming the fields to a reserved set of values, see x['Reserved
+                                                                 DBGBCR&lt;n&gt;_EL1.{SSC, HMC, PMC}
+                                                                 values'](CJAGFIAA|D_aarch64_self_hosted_debug.fm).
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, see
+                                                                 x['Execution conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm). */
+        uint32_t hmc                   : 1;  /**< [ 13: 13](R/W) Higher mode control. Determines the debug perspective for deciding when a
+                                                                 Breakpoint debug event for breakpoint n is generated. This field must be
+                                                                 interpreted along with the SSC and PMC fields, and there are constraints on the
+                                                                 permitted values of the {HMC, SSC, PMC} fields. For more information see ext-
+                                                                 DBGBCR&lt;n&gt;_EL1.SSC description.
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, see
+                                                                 x['Execution conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm). */
+        uint32_t reserved_9_12         : 4;
+        uint32_t bas                   : 4;  /**< [  8:  5](R/W) Byte address select. Defines which half-words an address-matching breakpoint
+                                                                 matches, regardless of the instruction set and Execution state.
+                                                                 The permitted values depend on the breakpoint type.
+                                                                 For Address match breakpoints in either AArch32 or AArch64 state, the permitted values are:
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 | BAS    | Match instruction at            | Constraint for debuggers         |
+                                                                 +========+=================================+==================================+
+                                                                 | 0b0011 | AArch64-DBGBVR&lt;n&gt;_EL1     | Use for T32 instructions         |
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 | 0b1100 | AArch64-DBGBVR&lt;n&gt;_EL1 + 2 | Use for T32 instructions         |
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 | 0b1111 | AArch64-DBGBVR&lt;n&gt;_EL1     | Use for A64 and A32 instructions |
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 All other values are reserved.
+                                                                 For more information, see x['Using the BAS field in Address Match
+                                                                 breakpoints'](BGBJCDEC|G_aarch32_self_hosted_debug.fm).
+                                                                 For Address mismatch breakpoints in an AArch32 stage 1 translation regime, the
+                                                                 permitted values are:
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | BAS    | Match instruction at        | Constraint for debuggers                  |
+                                                                 +========+=============================+===========================================+
+                                                                 | 0b0000 | -                           | Use for a match anywhere breakpoint       |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | 0b0011 | ext-DBGBVR&lt;n&gt;_EL1     | Use for stepping T32 instructions         |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | 0b1100 | ext-DBGBVR&lt;n&gt;_EL1 + 2 | Use for stepping T32 instructions         |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | 0b1111 | ext-DBGBVR&lt;n&gt;_EL1     | Use for stepping A64 and A32 instructions |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 For more information, see x['Using the BAS field in Address Match
+                                                                 breakpoints'](BGBJCDEC|G_aarch32_self_hosted_debug.fm).
+                                                                 For Context matching breakpoints, this field is RES1 and ignored. */
+        uint32_t reserved_3_4          : 2;
+        uint32_t pmc                   : 2;  /**< [  2:  1](R/W) Privilege mode control. Determines the Exception level or levels at which a
+                                                                 Breakpoint debug event for breakpoint n is generated. This field must be
+                                                                 interpreted along with the SSC and HMC fields, and there are constraints on the
+                                                                 permitted values of the {HMC, SSC, PMC} fields. For more information see the
+                                                                 ext-DBGBCR&lt;n&gt;_EL1.SSC description.
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, see
+                                                                 x['Execution conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm). */
+        uint32_t e_f                   : 1;  /**< [  0:  0](R/W) Enable breakpoint ext-DBGBVR&lt;n&gt;_EL1. Possible values are: */
+#else /* Word 0 - Little Endian */
+        uint32_t e_f                   : 1;  /**< [  0:  0](R/W) Enable breakpoint ext-DBGBVR&lt;n&gt;_EL1. Possible values are: */
+        uint32_t pmc                   : 2;  /**< [  2:  1](R/W) Privilege mode control. Determines the Exception level or levels at which a
+                                                                 Breakpoint debug event for breakpoint n is generated. This field must be
+                                                                 interpreted along with the SSC and HMC fields, and there are constraints on the
+                                                                 permitted values of the {HMC, SSC, PMC} fields. For more information see the
+                                                                 ext-DBGBCR&lt;n&gt;_EL1.SSC description.
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, see
+                                                                 x['Execution conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm). */
+        uint32_t reserved_3_4          : 2;
+        uint32_t bas                   : 4;  /**< [  8:  5](R/W) Byte address select. Defines which half-words an address-matching breakpoint
+                                                                 matches, regardless of the instruction set and Execution state.
+                                                                 The permitted values depend on the breakpoint type.
+                                                                 For Address match breakpoints in either AArch32 or AArch64 state, the permitted values are:
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 | BAS    | Match instruction at            | Constraint for debuggers         |
+                                                                 +========+=================================+==================================+
+                                                                 | 0b0011 | AArch64-DBGBVR&lt;n&gt;_EL1     | Use for T32 instructions         |
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 | 0b1100 | AArch64-DBGBVR&lt;n&gt;_EL1 + 2 | Use for T32 instructions         |
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 | 0b1111 | AArch64-DBGBVR&lt;n&gt;_EL1     | Use for A64 and A32 instructions |
+                                                                 +--------+---------------------------------+----------------------------------+
+                                                                 All other values are reserved.
+                                                                 For more information, see x['Using the BAS field in Address Match
+                                                                 breakpoints'](BGBJCDEC|G_aarch32_self_hosted_debug.fm).
+                                                                 For Address mismatch breakpoints in an AArch32 stage 1 translation regime, the
+                                                                 permitted values are:
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | BAS    | Match instruction at        | Constraint for debuggers                  |
+                                                                 +========+=============================+===========================================+
+                                                                 | 0b0000 | -                           | Use for a match anywhere breakpoint       |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | 0b0011 | ext-DBGBVR&lt;n&gt;_EL1     | Use for stepping T32 instructions         |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | 0b1100 | ext-DBGBVR&lt;n&gt;_EL1 + 2 | Use for stepping T32 instructions         |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 | 0b1111 | ext-DBGBVR&lt;n&gt;_EL1     | Use for stepping A64 and A32 instructions |
+                                                                 +--------+-----------------------------+-------------------------------------------+
+                                                                 For more information, see x['Using the BAS field in Address Match
+                                                                 breakpoints'](BGBJCDEC|G_aarch32_self_hosted_debug.fm).
+                                                                 For Context matching breakpoints, this field is RES1 and ignored. */
+        uint32_t reserved_9_12         : 4;
+        uint32_t hmc                   : 1;  /**< [ 13: 13](R/W) Higher mode control. Determines the debug perspective for deciding when a
+                                                                 Breakpoint debug event for breakpoint n is generated. This field must be
+                                                                 interpreted along with the SSC and PMC fields, and there are constraints on the
+                                                                 permitted values of the {HMC, SSC, PMC} fields. For more information see ext-
+                                                                 DBGBCR&lt;n&gt;_EL1.SSC description.
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, see
+                                                                 x['Execution conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm). */
+        uint32_t ssc                   : 2;  /**< [ 15: 14](R/W) Security state control. Determines the Security states under which a Breakpoint
+                                                                 debug event for breakpoint n is generated. This field must be interpreted along
+                                                                 with the HMC and PMC fields, and there are constraints on the permitted values
+                                                                 of the {HMC, SSC, PMC} fields. For more information, including the effect of
+                                                                 programming the fields to a reserved set of values, see x['Reserved
+                                                                 DBGBCR&lt;n&gt;_EL1.{SSC, HMC, PMC}
+                                                                 values'](CJAGFIAA|D_aarch64_self_hosted_debug.fm).
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, see
+                                                                 x['Execution conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm). */
+        uint32_t lbn                   : 4;  /**< [ 19: 16](R/W) Linked breakpoint number. For Linked address matching breakpoints, this
+                                                                 specifies the index of the Context-matching breakpoint linked to.
+                                                                 For all other breakpoint types this field is ignored and reads of the register
+                                                                 return an UNKNOWN value.
+                                                                 This field is ignored when the value of DBGBCR&lt;n&gt;_EL1.E is 0. */
+        uint32_t bt                    : 4;  /**< [ 23: 20](R/W) Breakpoint Type. Possible values are:
+                                                                 Constraints on breakpoint programming mean some values are reserved under certain conditions.
+                                                                 For more information on the operation of the SSC, HMC, and PMC fields, and on
+                                                                 the effect of programming this field to a reserved value, see x['Execution
+                                                                 conditions for which a breakpoint generates Breakpoint
+                                                                 exceptions'](BCGCFEJJ|D_aarch64_self_hosted_debug.fm) and x['Reserved
+                                                                 DBGBCR5_EL1.BT values'](CJADCAEE|D_aarch64_self_hosted_debug.fm). */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_dbgbcr5_el1_s cn; */
+};
+typedef union cavm_cst_apx_dbg_dbgbcr5_el1 cavm_cst_apx_dbg_dbgbcr5_el1_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_DBGBCR5_EL1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_DBGBCR5_EL1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010458ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_DBGBCR5_EL1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_DBGBCR5_EL1(a) cavm_cst_apx_dbg_dbgbcr5_el1_t
+#define bustype_CAVM_CST_APX_DBG_DBGBCR5_EL1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_DBGBCR5_EL1(a) "CST_APX_DBG_DBGBCR5_EL1"
+#define busnum_CAVM_CST_APX_DBG_DBGBCR5_EL1(a) (a)
+#define arguments_CAVM_CST_APX_DBG_DBGBCR5_EL1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_dbgclaimclr_el1
+ *
+ * CST Ap Dbg Dbgclaimclr El1 Register
+ * Used by software to read the values of the CLAIM tag bits, and to clear CLAIM tag bits to 0.
+ *
+ * The architecture does not define any functionality for the CLAIM tag bits.
+ *
+ * [note]CLAIM tags are typically used for communication between the debugger and
+ * target software.[/note]
+ *
+ * Used in conjunction with the ext-DBGCLAIMSET_EL1 register.
+ */
+union cavm_cst_apx_dbg_dbgclaimclr_el1
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_dbgclaimclr_el1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t raz_sbz               : 24; /**< [ 31:  8](R/W) This field is RAZSBZ */
+        uint32_t claim                 : 8;  /**< [  7:  0](R/W) Read or clear CLAIM tag bits. Reading this field returns the current value of the CLAIM tag bits.
+                                                                 Writing a 1 to one of these bits clears the corresponding CLAIM tag bit to 0.
+                                                                 This is an indirect write to the CLAIM tag bits. A single write operation can
+                                                                 clear multiple CLAIM tag bits to 0.
+                                                                 Writing 0 to one of these bits has no effect. */
+#else /* Word 0 - Little Endian */
+        uint32_t claim                 : 8;  /**< [  7:  0](R/W) Read or clear CLAIM tag bits. Reading this field returns the current value of the CLAIM tag bits.
+                                                                 Writing a 1 to one of these bits clears the corresponding CLAIM tag bit to 0.
+                                                                 This is an indirect write to the CLAIM tag bits. A single write operation can
+                                                                 clear multiple CLAIM tag bits to 0.
+                                                                 Writing 0 to one of these bits has no effect. */
+        uint32_t raz_sbz               : 24; /**< [ 31:  8](R/W) This field is RAZSBZ */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_dbgclaimclr_el1_s cn; */
+};
+typedef union cavm_cst_apx_dbg_dbgclaimclr_el1 cavm_cst_apx_dbg_dbgclaimclr_el1_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_DBGCLAIMCLR_EL1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_DBGCLAIMCLR_EL1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010fa4ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_DBGCLAIMCLR_EL1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_DBGCLAIMCLR_EL1(a) cavm_cst_apx_dbg_dbgclaimclr_el1_t
+#define bustype_CAVM_CST_APX_DBG_DBGCLAIMCLR_EL1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_DBGCLAIMCLR_EL1(a) "CST_APX_DBG_DBGCLAIMCLR_EL1"
+#define busnum_CAVM_CST_APX_DBG_DBGCLAIMCLR_EL1(a) (a)
+#define arguments_CAVM_CST_APX_DBG_DBGCLAIMCLR_EL1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_dbgclaimset_el1
+ *
+ * CST Ap Dbg Dbgclaimset El1 Register
+ * Used by software to set the CLAIM tag bits to 1.
+ *
+ * The architecture does not define any functionality for the CLAIM tag bits.
+ *
+ * [note]CLAIM tags are typically used for communication between the debugger and
+ * target software.[/note]
+ *
+ * Used in conjunction with the ext-DBGCLAIMCLR_EL1 register.
+ */
+union cavm_cst_apx_dbg_dbgclaimset_el1
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_dbgclaimset_el1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t raz_sbz               : 24; /**< [ 31:  8](R/W) This field is RAZSBZ */
+        uint32_t claim                 : 8;  /**< [  7:  0](R/W) Set CLAIM tag bits.
+                                                                 This field is RAO.
+                                                                 Writing a 1 to one of these bits sets the corresponding CLAIM tag bit to 1. This
+                                                                 is an indirect write to the CLAIM tag bits. A single write operation can set
+                                                                 multiple CLAIM tag bits to 1.
+                                                                 Writing 0 to one of these bits has no effect. */
+#else /* Word 0 - Little Endian */
+        uint32_t claim                 : 8;  /**< [  7:  0](R/W) Set CLAIM tag bits.
+                                                                 This field is RAO.
+                                                                 Writing a 1 to one of these bits sets the corresponding CLAIM tag bit to 1. This
+                                                                 is an indirect write to the CLAIM tag bits. A single write operation can set
+                                                                 multiple CLAIM tag bits to 1.
+                                                                 Writing 0 to one of these bits has no effect. */
+        uint32_t raz_sbz               : 24; /**< [ 31:  8](R/W) This field is RAZSBZ */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_dbgclaimset_el1_s cn; */
+};
+typedef union cavm_cst_apx_dbg_dbgclaimset_el1 cavm_cst_apx_dbg_dbgclaimset_el1_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_DBGCLAIMSET_EL1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_DBGCLAIMSET_EL1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010fa0ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_DBGCLAIMSET_EL1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_DBGCLAIMSET_EL1(a) cavm_cst_apx_dbg_dbgclaimset_el1_t
+#define bustype_CAVM_CST_APX_DBG_DBGCLAIMSET_EL1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_DBGCLAIMSET_EL1(a) "CST_APX_DBG_DBGCLAIMSET_EL1"
+#define busnum_CAVM_CST_APX_DBG_DBGCLAIMSET_EL1(a) (a)
+#define arguments_CAVM_CST_APX_DBG_DBGCLAIMSET_EL1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_dbgdtrrx_el0
+ *
+ * CST Ap Dbg Dbgdtrrx El0 Register
+ * Transfers data from an external debugger to the PE. For example, it is used by a
+ * debugger transferring commands and data to a debug target. See AArch64-DBGDTR_EL0
+ * for additional architectural mappings. It is a component of the Debug Communications
+ * Channel.
+ */
+union cavm_cst_apx_dbg_dbgdtrrx_el0
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_dbgdtrrx_el0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t dbgdtrrx_el0          : 32; /**< [ 31:  0](R/W) Update DTRRX.
+                                                                 Writes to this register:
+                                                                   - If RXfull is set to 1, set DTRRX to UNKNOWN.
+                                                                   - If RXfull is set to 0, update the value in DTRRX.
+                                                                 After the write, RXfull is set to 1.
+                                                                 Reads of this register:
+                                                                   - If RXfull is set to 1, return the last value written to DTRRX.
+                                                                   - If RXfull is set to 0, return an UNKNOWN value.
+                                                                 After the read, RXfull remains unchanged.
+                                                                 For the full behavior of the Debug Communications Channel, see x['The Debug
+                                                                 Communication Channel and Instruction Transfer
+                                                                 Register'](BABHHAAE|H_the_debug_communication_channel__.fm). */
+#else /* Word 0 - Little Endian */
+        uint32_t dbgdtrrx_el0          : 32; /**< [ 31:  0](R/W) Update DTRRX.
+                                                                 Writes to this register:
+                                                                   - If RXfull is set to 1, set DTRRX to UNKNOWN.
+                                                                   - If RXfull is set to 0, update the value in DTRRX.
+                                                                 After the write, RXfull is set to 1.
+                                                                 Reads of this register:
+                                                                   - If RXfull is set to 1, return the last value written to DTRRX.
+                                                                   - If RXfull is set to 0, return an UNKNOWN value.
+                                                                 After the read, RXfull remains unchanged.
+                                                                 For the full behavior of the Debug Communications Channel, see x['The Debug
+                                                                 Communication Channel and Instruction Transfer
+                                                                 Register'](BABHHAAE|H_the_debug_communication_channel__.fm). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_dbgdtrrx_el0_s cn; */
+};
+typedef union cavm_cst_apx_dbg_dbgdtrrx_el0 cavm_cst_apx_dbg_dbgdtrrx_el0_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_DBGDTRRX_EL0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_DBGDTRRX_EL0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010080ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_DBGDTRRX_EL0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_DBGDTRRX_EL0(a) cavm_cst_apx_dbg_dbgdtrrx_el0_t
+#define bustype_CAVM_CST_APX_DBG_DBGDTRRX_EL0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_DBGDTRRX_EL0(a) "CST_APX_DBG_DBGDTRRX_EL0"
+#define busnum_CAVM_CST_APX_DBG_DBGDTRRX_EL0(a) (a)
+#define arguments_CAVM_CST_APX_DBG_DBGDTRRX_EL0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_dbgdtrtx_el0
+ *
+ * CST Ap Dbg Dbgdtrtx El0 Register
+ * Transfers data from the PE to an external debugger. For example, it is used by a
+ * debug target to transfer data to the debugger. See AArch64-DBGDTR_EL0 for additional
+ * architectural mappings. It is a component of the Debug Communication Channel.
+ */
+union cavm_cst_apx_dbg_dbgdtrtx_el0
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_dbgdtrtx_el0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t dbgdtrtx_el0          : 32; /**< [ 31:  0](R/W) Return DTRTX.
+                                                                 Reads of this register:
+                                                                   - If TXfull is set to 1, return the last value written to DTRTX.
+                                                                   - If TXfull is set to 0, return an UNKNOWN value.
+                                                                 After the read, TXfull is cleared to 0.
+                                                                 Writes to this register:
+                                                                   - If TXfull is set to 1, set DTRTX to UNKNOWN.
+                                                                   - If TXfull is set to 0, update the value in DTRTX.
+                                                                 After the write, TXfull remains unchanged.
+                                                                 For the full behavior of the Debug Communications Channel, see x['The Debug
+                                                                 Communication Channel and Instruction Transfer
+                                                                 Register'](BABHHAAE|H_the_debug_communication_channel__.fm). */
+#else /* Word 0 - Little Endian */
+        uint32_t dbgdtrtx_el0          : 32; /**< [ 31:  0](R/W) Return DTRTX.
+                                                                 Reads of this register:
+                                                                   - If TXfull is set to 1, return the last value written to DTRTX.
+                                                                   - If TXfull is set to 0, return an UNKNOWN value.
+                                                                 After the read, TXfull is cleared to 0.
+                                                                 Writes to this register:
+                                                                   - If TXfull is set to 1, set DTRTX to UNKNOWN.
+                                                                   - If TXfull is set to 0, update the value in DTRTX.
+                                                                 After the write, TXfull remains unchanged.
+                                                                 For the full behavior of the Debug Communications Channel, see x['The Debug
+                                                                 Communication Channel and Instruction Transfer
+                                                                 Register'](BABHHAAE|H_the_debug_communication_channel__.fm). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_dbgdtrtx_el0_s cn; */
+};
+typedef union cavm_cst_apx_dbg_dbgdtrtx_el0 cavm_cst_apx_dbg_dbgdtrtx_el0_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_DBGDTRTX_EL0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_DBGDTRTX_EL0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a08101008cll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_DBGDTRTX_EL0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_DBGDTRTX_EL0(a) cavm_cst_apx_dbg_dbgdtrtx_el0_t
+#define bustype_CAVM_CST_APX_DBG_DBGDTRTX_EL0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_DBGDTRTX_EL0(a) "CST_APX_DBG_DBGDTRTX_EL0"
+#define busnum_CAVM_CST_APX_DBG_DBGDTRTX_EL0(a) (a)
+#define arguments_CAVM_CST_APX_DBG_DBGDTRTX_EL0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_dbgwcr0_el1
+ *
+ * CST Ap Dbg Dbgwcr0 El1 Register
+ * Holds control information for a watchpoint. Forms watchpoint n together with value
+ * register ext-DBGWVR&lt;n&gt;_EL1.
+ */
+union cavm_cst_apx_dbg_dbgwcr0_el1
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_dbgwcr0_el1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_29_31        : 3;
+        uint32_t mask                  : 5;  /**< [ 28: 24](R/W) Address mask. Only objects up to 2GB can be watched using a single mask.
+                                                                 If programmed with a reserved value, a watchpoint must behave as if either:
+                                                                   - MASK has been programmed with a defined value, which might be 0 (no mask),
+                                                                 other than for a direct read of DBGWCRn_EL1.
+                                                                   - The watchpoint is disabled.
+                                                                 Software must not rely on this property because the behavior of reserved values
+                                                                 might change in a future revision of the architecture.
+                                                                 Other values mask the corresponding number of address bits, from 0b00011 masking
+                                                                 3 address bits (0x00000007 mask for address) to 0b11111 masking 31 address bits
+                                                                 (0x7FFFFFFF mask for address). */
+        uint32_t reserved_21_23        : 3;
+        uint32_t wt                    : 1;  /**< [ 20: 20](R/W) Watchpoint type. Possible values are: */
+        uint32_t lbn                   : 4;  /**< [ 19: 16](R/W) Linked breakpoint number. For Linked data address watchpoints, this specifies
+                                                                 the index of the Context-matching breakpoint linked to. */
+        uint32_t ssc                   : 2;  /**< [ 15: 14](R/W) Security state control. Determines the Security states under which a Watchpoint
+                                                                 debug event for watchpoint n is generated. This field must be interpreted along
+                                                                 with the HMC and PAC fields.
+                                                                 For more information on the operation of the SSC, HMC, and PAC fields, see
+                                                                 x['Execution conditions for which a watchpoint generates Watchpoint
+                                                                 exceptions'](BCGGCHFB|D_aarch64_self_hosted_debug.fm). */
+        uint32_t hmc                   : 1;  /**< [ 13: 13](R/W) Higher mode control. Determines the debug perspective for deciding when a
+                                                                 Watchpoint debug event for watchpoint n is generated. This field must be
+                                                                 interpreted along with the SSC and PAC fields.
+                                                                 For more information on the operation of the SSC, HMC, and PAC fields, see
+                                                                 x['Execution conditions for which a watchpoint generates Watchpoint
+                                                                 exceptions'](BCGGCHFB|D_aarch64_self_hosted_debug.fm). */
+        uint32_t bas                   : 8;  /**< [ 12:  5](R/W) Byte address select. Each bit of this field selects whether a byte from within
+                                                                 the word or double-word addressed by ext-DBGWVR&lt;n&gt;_EL1 is being watched.
+                                                                 +----------+-----------------------------------------------+
+                                                                 | BAS      | Description                                   |
+                                                                 +==========+===============================================+
+                                                                 | xxxxxxx1 | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1     |
+                                                                 +----------+-----------------------------------------------+
+                                                                 | xxxxxx1x | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 1 |
+                                                                 +----------+-----------------------------------------------+
+                                                                 | xxxxx1xx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 2 |
+                                                                 +----------+-----------------------------------------------+
+                                                                 | xxxx1xxx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 3 |
+                                                                 +----------+-----------------------------------------------+
+                                                                 In cases where ext-DBGWVR&lt;n&gt;_EL1 addresses a double-word:
+                                                                 +----------+-----------------------------------------------------+
+                                                                 | BAS      | Description, if AArch64-DBGWVR&lt;n&gt;_EL1[2] == 0 |
+                                                                 +==========+=====================================================+
+                                                                 | xxx1xxxx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 4       |
+                                                                 +----------+-----------------------------------------------------+
+                                                                 | xx1xxxxx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 5       |
+                                                                 +----------+-----------------------------------------------------+
+                                                                 | x1xxxxxx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 6       |
+                                                                 +----------+-----------------------------------------------------+
+                                                                 | 1xxxxxxx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 7       |
+                                                                 +----------+-----------------------------------------------------+
+                                                                 If ext-DBGWVR&lt;n&gt;_EL1[2] == 1, only BAS[3:0] is used. Arm deprecates
+                                                                 setting ext-DBGWVR&lt;n&gt;_EL1[2] == 1.
+                                                                 The valid values for BAS are non-zero binary number all of whose set bits are
+                                                                 contiguous. All other values are reserved and must not be used by software. See
+                                                                 x['Reserved DBGWCR&lt;n&gt;.BAS
+                                                                 values'](BABJCEEE|G_aarch32_self_hosted_debug.fm). */
+        uint32_t lsc                   : 2;  /**< [  4:  3](R/W) Load/store control. This field enables watchpoint matching on the type of access
+                                                                 being made. Possible values of this field are:
+                                                                 All other values are reserved, but must behave as if the watchpoint is disabled.
+                                                                 Software must not rely on this property as the behavior of reserved values might
+                                                                 change in a future revision of the architecture. */
+        uint32_t pac                   : 2;  /**< [  2:  1](R/W) Privilege of access control. Determines the Exception level or levels at which a
+                                                                 Watchpoint debug event for watchpoint n is generated. This field must be
+                                                                 interpreted along with the SSC and HMC fields.
+                                                                 For more information on the operation of the SSC, HMC, and PAC fields, see
+                                                                 x['Execution conditions for which a watchpoint generates Watchpoint
+                                                                 exceptions'](BCGGCHFB|D_aarch64_self_hosted_debug.fm). */
+        uint32_t e_f                   : 1;  /**< [  0:  0](R/W) Enable watchpoint n. Possible values are: */
+#else /* Word 0 - Little Endian */
+        uint32_t e_f                   : 1;  /**< [  0:  0](R/W) Enable watchpoint n. Possible values are: */
+        uint32_t pac                   : 2;  /**< [  2:  1](R/W) Privilege of access control. Determines the Exception level or levels at which a
+                                                                 Watchpoint debug event for watchpoint n is generated. This field must be
+                                                                 interpreted along with the SSC and HMC fields.
+                                                                 For more information on the operation of the SSC, HMC, and PAC fields, see
+                                                                 x['Execution conditions for which a watchpoint generates Watchpoint
+                                                                 exceptions'](BCGGCHFB|D_aarch64_self_hosted_debug.fm). */
+        uint32_t lsc                   : 2;  /**< [  4:  3](R/W) Load/store control. This field enables watchpoint matching on the type of access
+                                                                 being made. Possible values of this field are:
+                                                                 All other values are reserved, but must behave as if the watchpoint is disabled.
+                                                                 Software must not rely on this property as the behavior of reserved values might
+                                                                 change in a future revision of the architecture. */
+        uint32_t bas                   : 8;  /**< [ 12:  5](R/W) Byte address select. Each bit of this field selects whether a byte from within
+                                                                 the word or double-word addressed by ext-DBGWVR&lt;n&gt;_EL1 is being watched.
+                                                                 +----------+-----------------------------------------------+
+                                                                 | BAS      | Description                                   |
+                                                                 +==========+===============================================+
+                                                                 | xxxxxxx1 | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1     |
+                                                                 +----------+-----------------------------------------------+
+                                                                 | xxxxxx1x | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 1 |
+                                                                 +----------+-----------------------------------------------+
+                                                                 | xxxxx1xx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 2 |
+                                                                 +----------+-----------------------------------------------+
+                                                                 | xxxx1xxx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 3 |
+                                                                 +----------+-----------------------------------------------+
+                                                                 In cases where ext-DBGWVR&lt;n&gt;_EL1 addresses a double-word:
+                                                                 +----------+-----------------------------------------------------+
+                                                                 | BAS      | Description, if AArch64-DBGWVR&lt;n&gt;_EL1[2] == 0 |
+                                                                 +==========+=====================================================+
+                                                                 | xxx1xxxx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 4       |
+                                                                 +----------+-----------------------------------------------------+
+                                                                 | xx1xxxxx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 5       |
+                                                                 +----------+-----------------------------------------------------+
+                                                                 | x1xxxxxx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 6       |
+                                                                 +----------+-----------------------------------------------------+
+                                                                 | 1xxxxxxx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 7       |
+                                                                 +----------+-----------------------------------------------------+
+                                                                 If ext-DBGWVR&lt;n&gt;_EL1[2] == 1, only BAS[3:0] is used. Arm deprecates
+                                                                 setting ext-DBGWVR&lt;n&gt;_EL1[2] == 1.
+                                                                 The valid values for BAS are non-zero binary number all of whose set bits are
+                                                                 contiguous. All other values are reserved and must not be used by software. See
+                                                                 x['Reserved DBGWCR&lt;n&gt;.BAS
+                                                                 values'](BABJCEEE|G_aarch32_self_hosted_debug.fm). */
+        uint32_t hmc                   : 1;  /**< [ 13: 13](R/W) Higher mode control. Determines the debug perspective for deciding when a
+                                                                 Watchpoint debug event for watchpoint n is generated. This field must be
+                                                                 interpreted along with the SSC and PAC fields.
+                                                                 For more information on the operation of the SSC, HMC, and PAC fields, see
+                                                                 x['Execution conditions for which a watchpoint generates Watchpoint
+                                                                 exceptions'](BCGGCHFB|D_aarch64_self_hosted_debug.fm). */
+        uint32_t ssc                   : 2;  /**< [ 15: 14](R/W) Security state control. Determines the Security states under which a Watchpoint
+                                                                 debug event for watchpoint n is generated. This field must be interpreted along
+                                                                 with the HMC and PAC fields.
+                                                                 For more information on the operation of the SSC, HMC, and PAC fields, see
+                                                                 x['Execution conditions for which a watchpoint generates Watchpoint
+                                                                 exceptions'](BCGGCHFB|D_aarch64_self_hosted_debug.fm). */
+        uint32_t lbn                   : 4;  /**< [ 19: 16](R/W) Linked breakpoint number. For Linked data address watchpoints, this specifies
+                                                                 the index of the Context-matching breakpoint linked to. */
+        uint32_t wt                    : 1;  /**< [ 20: 20](R/W) Watchpoint type. Possible values are: */
+        uint32_t reserved_21_23        : 3;
+        uint32_t mask                  : 5;  /**< [ 28: 24](R/W) Address mask. Only objects up to 2GB can be watched using a single mask.
+                                                                 If programmed with a reserved value, a watchpoint must behave as if either:
+                                                                   - MASK has been programmed with a defined value, which might be 0 (no mask),
+                                                                 other than for a direct read of DBGWCRn_EL1.
+                                                                   - The watchpoint is disabled.
+                                                                 Software must not rely on this property because the behavior of reserved values
+                                                                 might change in a future revision of the architecture.
+                                                                 Other values mask the corresponding number of address bits, from 0b00011 masking
+                                                                 3 address bits (0x00000007 mask for address) to 0b11111 masking 31 address bits
+                                                                 (0x7FFFFFFF mask for address). */
+        uint32_t reserved_29_31        : 3;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_dbgwcr0_el1_s cn; */
+};
+typedef union cavm_cst_apx_dbg_dbgwcr0_el1 cavm_cst_apx_dbg_dbgwcr0_el1_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_DBGWCR0_EL1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_DBGWCR0_EL1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010808ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_DBGWCR0_EL1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_DBGWCR0_EL1(a) cavm_cst_apx_dbg_dbgwcr0_el1_t
+#define bustype_CAVM_CST_APX_DBG_DBGWCR0_EL1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_DBGWCR0_EL1(a) "CST_APX_DBG_DBGWCR0_EL1"
+#define busnum_CAVM_CST_APX_DBG_DBGWCR0_EL1(a) (a)
+#define arguments_CAVM_CST_APX_DBG_DBGWCR0_EL1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_dbgwcr1_el1
+ *
+ * CST Ap Dbg Dbgwcr1 El1 Register
+ * Holds control information for a watchpoint. Forms watchpoint n together with value
+ * register ext-DBGWVR&lt;n&gt;_EL1.
+ */
+union cavm_cst_apx_dbg_dbgwcr1_el1
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_dbgwcr1_el1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_29_31        : 3;
+        uint32_t mask                  : 5;  /**< [ 28: 24](R/W) Address mask. Only objects up to 2GB can be watched using a single mask.
+                                                                 If programmed with a reserved value, a watchpoint must behave as if either:
+                                                                   - MASK has been programmed with a defined value, which might be 0 (no mask),
+                                                                 other than for a direct read of DBGWCRn_EL1.
+                                                                   - The watchpoint is disabled.
+                                                                 Software must not rely on this property because the behavior of reserved values
+                                                                 might change in a future revision of the architecture.
+                                                                 Other values mask the corresponding number of address bits, from 0b00011 masking
+                                                                 3 address bits (0x00000007 mask for address) to 0b11111 masking 31 address bits
+                                                                 (0x7FFFFFFF mask for address). */
+        uint32_t reserved_21_23        : 3;
+        uint32_t wt                    : 1;  /**< [ 20: 20](R/W) Watchpoint type. Possible values are: */
+        uint32_t lbn                   : 4;  /**< [ 19: 16](R/W) Linked breakpoint number. For Linked data address watchpoints, this specifies
+                                                                 the index of the Context-matching breakpoint linked to. */
+        uint32_t ssc                   : 2;  /**< [ 15: 14](R/W) Security state control. Determines the Security states under which a Watchpoint
+                                                                 debug event for watchpoint n is generated. This field must be interpreted along
+                                                                 with the HMC and PAC fields.
+                                                                 For more information on the operation of the SSC, HMC, and PAC fields, see
+                                                                 x['Execution conditions for which a watchpoint generates Watchpoint
+                                                                 exceptions'](BCGGCHFB|D_aarch64_self_hosted_debug.fm). */
+        uint32_t hmc                   : 1;  /**< [ 13: 13](R/W) Higher mode control. Determines the debug perspective for deciding when a
+                                                                 Watchpoint debug event for watchpoint n is generated. This field must be
+                                                                 interpreted along with the SSC and PAC fields.
+                                                                 For more information on the operation of the SSC, HMC, and PAC fields, see
+                                                                 x['Execution conditions for which a watchpoint generates Watchpoint
+                                                                 exceptions'](BCGGCHFB|D_aarch64_self_hosted_debug.fm). */
+        uint32_t bas                   : 8;  /**< [ 12:  5](R/W) Byte address select. Each bit of this field selects whether a byte from within
+                                                                 the word or double-word addressed by ext-DBGWVR&lt;n&gt;_EL1 is being watched.
+                                                                 +----------+-----------------------------------------------+
+                                                                 | BAS      | Description                                   |
+                                                                 +==========+===============================================+
+                                                                 | xxxxxxx1 | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1     |
+                                                                 +----------+-----------------------------------------------+
+                                                                 | xxxxxx1x | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 1 |
+                                                                 +----------+-----------------------------------------------+
+                                                                 | xxxxx1xx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 2 |
+                                                                 +----------+-----------------------------------------------+
+                                                                 | xxxx1xxx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 3 |
+                                                                 +----------+-----------------------------------------------+
+                                                                 In cases where ext-DBGWVR&lt;n&gt;_EL1 addresses a double-word:
+                                                                 +----------+-----------------------------------------------------+
+                                                                 | BAS      | Description, if AArch64-DBGWVR&lt;n&gt;_EL1[2] == 0 |
+                                                                 +==========+=====================================================+
+                                                                 | xxx1xxxx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 4       |
+                                                                 +----------+-----------------------------------------------------+
+                                                                 | xx1xxxxx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 5       |
+                                                                 +----------+-----------------------------------------------------+
+                                                                 | x1xxxxxx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 6       |
+                                                                 +----------+-----------------------------------------------------+
+                                                                 | 1xxxxxxx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 7       |
+                                                                 +----------+-----------------------------------------------------+
+                                                                 If ext-DBGWVR&lt;n&gt;_EL1[2] == 1, only BAS[3:0] is used. Arm deprecates
+                                                                 setting ext-DBGWVR&lt;n&gt;_EL1[2] == 1.
+                                                                 The valid values for BAS are non-zero binary number all of whose set bits are
+                                                                 contiguous. All other values are reserved and must not be used by software. See
+                                                                 x['Reserved DBGWCR&lt;n&gt;.BAS
+                                                                 values'](BABJCEEE|G_aarch32_self_hosted_debug.fm). */
+        uint32_t lsc                   : 2;  /**< [  4:  3](R/W) Load/store control. This field enables watchpoint matching on the type of access
+                                                                 being made. Possible values of this field are:
+                                                                 All other values are reserved, but must behave as if the watchpoint is disabled.
+                                                                 Software must not rely on this property as the behavior of reserved values might
+                                                                 change in a future revision of the architecture. */
+        uint32_t pac                   : 2;  /**< [  2:  1](R/W) Privilege of access control. Determines the Exception level or levels at which a
+                                                                 Watchpoint debug event for watchpoint n is generated. This field must be
+                                                                 interpreted along with the SSC and HMC fields.
+                                                                 For more information on the operation of the SSC, HMC, and PAC fields, see
+                                                                 x['Execution conditions for which a watchpoint generates Watchpoint
+                                                                 exceptions'](BCGGCHFB|D_aarch64_self_hosted_debug.fm). */
+        uint32_t e_f                   : 1;  /**< [  0:  0](R/W) Enable watchpoint n. Possible values are: */
+#else /* Word 0 - Little Endian */
+        uint32_t e_f                   : 1;  /**< [  0:  0](R/W) Enable watchpoint n. Possible values are: */
+        uint32_t pac                   : 2;  /**< [  2:  1](R/W) Privilege of access control. Determines the Exception level or levels at which a
+                                                                 Watchpoint debug event for watchpoint n is generated. This field must be
+                                                                 interpreted along with the SSC and HMC fields.
+                                                                 For more information on the operation of the SSC, HMC, and PAC fields, see
+                                                                 x['Execution conditions for which a watchpoint generates Watchpoint
+                                                                 exceptions'](BCGGCHFB|D_aarch64_self_hosted_debug.fm). */
+        uint32_t lsc                   : 2;  /**< [  4:  3](R/W) Load/store control. This field enables watchpoint matching on the type of access
+                                                                 being made. Possible values of this field are:
+                                                                 All other values are reserved, but must behave as if the watchpoint is disabled.
+                                                                 Software must not rely on this property as the behavior of reserved values might
+                                                                 change in a future revision of the architecture. */
+        uint32_t bas                   : 8;  /**< [ 12:  5](R/W) Byte address select. Each bit of this field selects whether a byte from within
+                                                                 the word or double-word addressed by ext-DBGWVR&lt;n&gt;_EL1 is being watched.
+                                                                 +----------+-----------------------------------------------+
+                                                                 | BAS      | Description                                   |
+                                                                 +==========+===============================================+
+                                                                 | xxxxxxx1 | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1     |
+                                                                 +----------+-----------------------------------------------+
+                                                                 | xxxxxx1x | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 1 |
+                                                                 +----------+-----------------------------------------------+
+                                                                 | xxxxx1xx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 2 |
+                                                                 +----------+-----------------------------------------------+
+                                                                 | xxxx1xxx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 3 |
+                                                                 +----------+-----------------------------------------------+
+                                                                 In cases where ext-DBGWVR&lt;n&gt;_EL1 addresses a double-word:
+                                                                 +----------+-----------------------------------------------------+
+                                                                 | BAS      | Description, if AArch64-DBGWVR&lt;n&gt;_EL1[2] == 0 |
+                                                                 +==========+=====================================================+
+                                                                 | xxx1xxxx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 4       |
+                                                                 +----------+-----------------------------------------------------+
+                                                                 | xx1xxxxx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 5       |
+                                                                 +----------+-----------------------------------------------------+
+                                                                 | x1xxxxxx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 6       |
+                                                                 +----------+-----------------------------------------------------+
+                                                                 | 1xxxxxxx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 7       |
+                                                                 +----------+-----------------------------------------------------+
+                                                                 If ext-DBGWVR&lt;n&gt;_EL1[2] == 1, only BAS[3:0] is used. Arm deprecates
+                                                                 setting ext-DBGWVR&lt;n&gt;_EL1[2] == 1.
+                                                                 The valid values for BAS are non-zero binary number all of whose set bits are
+                                                                 contiguous. All other values are reserved and must not be used by software. See
+                                                                 x['Reserved DBGWCR&lt;n&gt;.BAS
+                                                                 values'](BABJCEEE|G_aarch32_self_hosted_debug.fm). */
+        uint32_t hmc                   : 1;  /**< [ 13: 13](R/W) Higher mode control. Determines the debug perspective for deciding when a
+                                                                 Watchpoint debug event for watchpoint n is generated. This field must be
+                                                                 interpreted along with the SSC and PAC fields.
+                                                                 For more information on the operation of the SSC, HMC, and PAC fields, see
+                                                                 x['Execution conditions for which a watchpoint generates Watchpoint
+                                                                 exceptions'](BCGGCHFB|D_aarch64_self_hosted_debug.fm). */
+        uint32_t ssc                   : 2;  /**< [ 15: 14](R/W) Security state control. Determines the Security states under which a Watchpoint
+                                                                 debug event for watchpoint n is generated. This field must be interpreted along
+                                                                 with the HMC and PAC fields.
+                                                                 For more information on the operation of the SSC, HMC, and PAC fields, see
+                                                                 x['Execution conditions for which a watchpoint generates Watchpoint
+                                                                 exceptions'](BCGGCHFB|D_aarch64_self_hosted_debug.fm). */
+        uint32_t lbn                   : 4;  /**< [ 19: 16](R/W) Linked breakpoint number. For Linked data address watchpoints, this specifies
+                                                                 the index of the Context-matching breakpoint linked to. */
+        uint32_t wt                    : 1;  /**< [ 20: 20](R/W) Watchpoint type. Possible values are: */
+        uint32_t reserved_21_23        : 3;
+        uint32_t mask                  : 5;  /**< [ 28: 24](R/W) Address mask. Only objects up to 2GB can be watched using a single mask.
+                                                                 If programmed with a reserved value, a watchpoint must behave as if either:
+                                                                   - MASK has been programmed with a defined value, which might be 0 (no mask),
+                                                                 other than for a direct read of DBGWCRn_EL1.
+                                                                   - The watchpoint is disabled.
+                                                                 Software must not rely on this property because the behavior of reserved values
+                                                                 might change in a future revision of the architecture.
+                                                                 Other values mask the corresponding number of address bits, from 0b00011 masking
+                                                                 3 address bits (0x00000007 mask for address) to 0b11111 masking 31 address bits
+                                                                 (0x7FFFFFFF mask for address). */
+        uint32_t reserved_29_31        : 3;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_dbgwcr1_el1_s cn; */
+};
+typedef union cavm_cst_apx_dbg_dbgwcr1_el1 cavm_cst_apx_dbg_dbgwcr1_el1_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_DBGWCR1_EL1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_DBGWCR1_EL1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010818ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_DBGWCR1_EL1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_DBGWCR1_EL1(a) cavm_cst_apx_dbg_dbgwcr1_el1_t
+#define bustype_CAVM_CST_APX_DBG_DBGWCR1_EL1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_DBGWCR1_EL1(a) "CST_APX_DBG_DBGWCR1_EL1"
+#define busnum_CAVM_CST_APX_DBG_DBGWCR1_EL1(a) (a)
+#define arguments_CAVM_CST_APX_DBG_DBGWCR1_EL1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_dbgwcr2_el1
+ *
+ * CST Ap Dbg Dbgwcr2 El1 Register
+ * Holds control information for a watchpoint. Forms watchpoint n together with value
+ * register ext-DBGWVR&lt;n&gt;_EL1.
+ */
+union cavm_cst_apx_dbg_dbgwcr2_el1
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_dbgwcr2_el1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_29_31        : 3;
+        uint32_t mask                  : 5;  /**< [ 28: 24](R/W) Address mask. Only objects up to 2GB can be watched using a single mask.
+                                                                 If programmed with a reserved value, a watchpoint must behave as if either:
+                                                                   - MASK has been programmed with a defined value, which might be 0 (no mask),
+                                                                 other than for a direct read of DBGWCRn_EL1.
+                                                                   - The watchpoint is disabled.
+                                                                 Software must not rely on this property because the behavior of reserved values
+                                                                 might change in a future revision of the architecture.
+                                                                 Other values mask the corresponding number of address bits, from 0b00011 masking
+                                                                 3 address bits (0x00000007 mask for address) to 0b11111 masking 31 address bits
+                                                                 (0x7FFFFFFF mask for address). */
+        uint32_t reserved_21_23        : 3;
+        uint32_t wt                    : 1;  /**< [ 20: 20](R/W) Watchpoint type. Possible values are: */
+        uint32_t lbn                   : 4;  /**< [ 19: 16](R/W) Linked breakpoint number. For Linked data address watchpoints, this specifies
+                                                                 the index of the Context-matching breakpoint linked to. */
+        uint32_t ssc                   : 2;  /**< [ 15: 14](R/W) Security state control. Determines the Security states under which a Watchpoint
+                                                                 debug event for watchpoint n is generated. This field must be interpreted along
+                                                                 with the HMC and PAC fields.
+                                                                 For more information on the operation of the SSC, HMC, and PAC fields, see
+                                                                 x['Execution conditions for which a watchpoint generates Watchpoint
+                                                                 exceptions'](BCGGCHFB|D_aarch64_self_hosted_debug.fm). */
+        uint32_t hmc                   : 1;  /**< [ 13: 13](R/W) Higher mode control. Determines the debug perspective for deciding when a
+                                                                 Watchpoint debug event for watchpoint n is generated. This field must be
+                                                                 interpreted along with the SSC and PAC fields.
+                                                                 For more information on the operation of the SSC, HMC, and PAC fields, see
+                                                                 x['Execution conditions for which a watchpoint generates Watchpoint
+                                                                 exceptions'](BCGGCHFB|D_aarch64_self_hosted_debug.fm). */
+        uint32_t bas                   : 8;  /**< [ 12:  5](R/W) Byte address select. Each bit of this field selects whether a byte from within
+                                                                 the word or double-word addressed by ext-DBGWVR&lt;n&gt;_EL1 is being watched.
+                                                                 +----------+-----------------------------------------------+
+                                                                 | BAS      | Description                                   |
+                                                                 +==========+===============================================+
+                                                                 | xxxxxxx1 | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1     |
+                                                                 +----------+-----------------------------------------------+
+                                                                 | xxxxxx1x | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 1 |
+                                                                 +----------+-----------------------------------------------+
+                                                                 | xxxxx1xx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 2 |
+                                                                 +----------+-----------------------------------------------+
+                                                                 | xxxx1xxx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 3 |
+                                                                 +----------+-----------------------------------------------+
+                                                                 In cases where ext-DBGWVR&lt;n&gt;_EL1 addresses a double-word:
+                                                                 +----------+-----------------------------------------------------+
+                                                                 | BAS      | Description, if AArch64-DBGWVR&lt;n&gt;_EL1[2] == 0 |
+                                                                 +==========+=====================================================+
+                                                                 | xxx1xxxx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 4       |
+                                                                 +----------+-----------------------------------------------------+
+                                                                 | xx1xxxxx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 5       |
+                                                                 +----------+-----------------------------------------------------+
+                                                                 | x1xxxxxx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 6       |
+                                                                 +----------+-----------------------------------------------------+
+                                                                 | 1xxxxxxx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 7       |
+                                                                 +----------+-----------------------------------------------------+
+                                                                 If ext-DBGWVR&lt;n&gt;_EL1[2] == 1, only BAS[3:0] is used. Arm deprecates
+                                                                 setting ext-DBGWVR&lt;n&gt;_EL1[2] == 1.
+                                                                 The valid values for BAS are non-zero binary number all of whose set bits are
+                                                                 contiguous. All other values are reserved and must not be used by software. See
+                                                                 x['Reserved DBGWCR&lt;n&gt;.BAS
+                                                                 values'](BABJCEEE|G_aarch32_self_hosted_debug.fm). */
+        uint32_t lsc                   : 2;  /**< [  4:  3](R/W) Load/store control. This field enables watchpoint matching on the type of access
+                                                                 being made. Possible values of this field are:
+                                                                 All other values are reserved, but must behave as if the watchpoint is disabled.
+                                                                 Software must not rely on this property as the behavior of reserved values might
+                                                                 change in a future revision of the architecture. */
+        uint32_t pac                   : 2;  /**< [  2:  1](R/W) Privilege of access control. Determines the Exception level or levels at which a
+                                                                 Watchpoint debug event for watchpoint n is generated. This field must be
+                                                                 interpreted along with the SSC and HMC fields.
+                                                                 For more information on the operation of the SSC, HMC, and PAC fields, see
+                                                                 x['Execution conditions for which a watchpoint generates Watchpoint
+                                                                 exceptions'](BCGGCHFB|D_aarch64_self_hosted_debug.fm). */
+        uint32_t e_f                   : 1;  /**< [  0:  0](R/W) Enable watchpoint n. Possible values are: */
+#else /* Word 0 - Little Endian */
+        uint32_t e_f                   : 1;  /**< [  0:  0](R/W) Enable watchpoint n. Possible values are: */
+        uint32_t pac                   : 2;  /**< [  2:  1](R/W) Privilege of access control. Determines the Exception level or levels at which a
+                                                                 Watchpoint debug event for watchpoint n is generated. This field must be
+                                                                 interpreted along with the SSC and HMC fields.
+                                                                 For more information on the operation of the SSC, HMC, and PAC fields, see
+                                                                 x['Execution conditions for which a watchpoint generates Watchpoint
+                                                                 exceptions'](BCGGCHFB|D_aarch64_self_hosted_debug.fm). */
+        uint32_t lsc                   : 2;  /**< [  4:  3](R/W) Load/store control. This field enables watchpoint matching on the type of access
+                                                                 being made. Possible values of this field are:
+                                                                 All other values are reserved, but must behave as if the watchpoint is disabled.
+                                                                 Software must not rely on this property as the behavior of reserved values might
+                                                                 change in a future revision of the architecture. */
+        uint32_t bas                   : 8;  /**< [ 12:  5](R/W) Byte address select. Each bit of this field selects whether a byte from within
+                                                                 the word or double-word addressed by ext-DBGWVR&lt;n&gt;_EL1 is being watched.
+                                                                 +----------+-----------------------------------------------+
+                                                                 | BAS      | Description                                   |
+                                                                 +==========+===============================================+
+                                                                 | xxxxxxx1 | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1     |
+                                                                 +----------+-----------------------------------------------+
+                                                                 | xxxxxx1x | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 1 |
+                                                                 +----------+-----------------------------------------------+
+                                                                 | xxxxx1xx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 2 |
+                                                                 +----------+-----------------------------------------------+
+                                                                 | xxxx1xxx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 3 |
+                                                                 +----------+-----------------------------------------------+
+                                                                 In cases where ext-DBGWVR&lt;n&gt;_EL1 addresses a double-word:
+                                                                 +----------+-----------------------------------------------------+
+                                                                 | BAS      | Description, if AArch64-DBGWVR&lt;n&gt;_EL1[2] == 0 |
+                                                                 +==========+=====================================================+
+                                                                 | xxx1xxxx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 4       |
+                                                                 +----------+-----------------------------------------------------+
+                                                                 | xx1xxxxx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 5       |
+                                                                 +----------+-----------------------------------------------------+
+                                                                 | x1xxxxxx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 6       |
+                                                                 +----------+-----------------------------------------------------+
+                                                                 | 1xxxxxxx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 7       |
+                                                                 +----------+-----------------------------------------------------+
+                                                                 If ext-DBGWVR&lt;n&gt;_EL1[2] == 1, only BAS[3:0] is used. Arm deprecates
+                                                                 setting ext-DBGWVR&lt;n&gt;_EL1[2] == 1.
+                                                                 The valid values for BAS are non-zero binary number all of whose set bits are
+                                                                 contiguous. All other values are reserved and must not be used by software. See
+                                                                 x['Reserved DBGWCR&lt;n&gt;.BAS
+                                                                 values'](BABJCEEE|G_aarch32_self_hosted_debug.fm). */
+        uint32_t hmc                   : 1;  /**< [ 13: 13](R/W) Higher mode control. Determines the debug perspective for deciding when a
+                                                                 Watchpoint debug event for watchpoint n is generated. This field must be
+                                                                 interpreted along with the SSC and PAC fields.
+                                                                 For more information on the operation of the SSC, HMC, and PAC fields, see
+                                                                 x['Execution conditions for which a watchpoint generates Watchpoint
+                                                                 exceptions'](BCGGCHFB|D_aarch64_self_hosted_debug.fm). */
+        uint32_t ssc                   : 2;  /**< [ 15: 14](R/W) Security state control. Determines the Security states under which a Watchpoint
+                                                                 debug event for watchpoint n is generated. This field must be interpreted along
+                                                                 with the HMC and PAC fields.
+                                                                 For more information on the operation of the SSC, HMC, and PAC fields, see
+                                                                 x['Execution conditions for which a watchpoint generates Watchpoint
+                                                                 exceptions'](BCGGCHFB|D_aarch64_self_hosted_debug.fm). */
+        uint32_t lbn                   : 4;  /**< [ 19: 16](R/W) Linked breakpoint number. For Linked data address watchpoints, this specifies
+                                                                 the index of the Context-matching breakpoint linked to. */
+        uint32_t wt                    : 1;  /**< [ 20: 20](R/W) Watchpoint type. Possible values are: */
+        uint32_t reserved_21_23        : 3;
+        uint32_t mask                  : 5;  /**< [ 28: 24](R/W) Address mask. Only objects up to 2GB can be watched using a single mask.
+                                                                 If programmed with a reserved value, a watchpoint must behave as if either:
+                                                                   - MASK has been programmed with a defined value, which might be 0 (no mask),
+                                                                 other than for a direct read of DBGWCRn_EL1.
+                                                                   - The watchpoint is disabled.
+                                                                 Software must not rely on this property because the behavior of reserved values
+                                                                 might change in a future revision of the architecture.
+                                                                 Other values mask the corresponding number of address bits, from 0b00011 masking
+                                                                 3 address bits (0x00000007 mask for address) to 0b11111 masking 31 address bits
+                                                                 (0x7FFFFFFF mask for address). */
+        uint32_t reserved_29_31        : 3;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_dbgwcr2_el1_s cn; */
+};
+typedef union cavm_cst_apx_dbg_dbgwcr2_el1 cavm_cst_apx_dbg_dbgwcr2_el1_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_DBGWCR2_EL1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_DBGWCR2_EL1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010828ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_DBGWCR2_EL1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_DBGWCR2_EL1(a) cavm_cst_apx_dbg_dbgwcr2_el1_t
+#define bustype_CAVM_CST_APX_DBG_DBGWCR2_EL1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_DBGWCR2_EL1(a) "CST_APX_DBG_DBGWCR2_EL1"
+#define busnum_CAVM_CST_APX_DBG_DBGWCR2_EL1(a) (a)
+#define arguments_CAVM_CST_APX_DBG_DBGWCR2_EL1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_dbgwcr3_el1
+ *
+ * CST Ap Dbg Dbgwcr3 El1 Register
+ * Holds control information for a watchpoint. Forms watchpoint n together with value
+ * register ext-DBGWVR&lt;n&gt;_EL1.
+ */
+union cavm_cst_apx_dbg_dbgwcr3_el1
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_dbgwcr3_el1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_29_31        : 3;
+        uint32_t mask                  : 5;  /**< [ 28: 24](R/W) Address mask. Only objects up to 2GB can be watched using a single mask.
+                                                                 If programmed with a reserved value, a watchpoint must behave as if either:
+                                                                   - MASK has been programmed with a defined value, which might be 0 (no mask),
+                                                                 other than for a direct read of DBGWCRn_EL1.
+                                                                   - The watchpoint is disabled.
+                                                                 Software must not rely on this property because the behavior of reserved values
+                                                                 might change in a future revision of the architecture.
+                                                                 Other values mask the corresponding number of address bits, from 0b00011 masking
+                                                                 3 address bits (0x00000007 mask for address) to 0b11111 masking 31 address bits
+                                                                 (0x7FFFFFFF mask for address). */
+        uint32_t reserved_21_23        : 3;
+        uint32_t wt                    : 1;  /**< [ 20: 20](R/W) Watchpoint type. Possible values are: */
+        uint32_t lbn                   : 4;  /**< [ 19: 16](R/W) Linked breakpoint number. For Linked data address watchpoints, this specifies
+                                                                 the index of the Context-matching breakpoint linked to. */
+        uint32_t ssc                   : 2;  /**< [ 15: 14](R/W) Security state control. Determines the Security states under which a Watchpoint
+                                                                 debug event for watchpoint n is generated. This field must be interpreted along
+                                                                 with the HMC and PAC fields.
+                                                                 For more information on the operation of the SSC, HMC, and PAC fields, see
+                                                                 x['Execution conditions for which a watchpoint generates Watchpoint
+                                                                 exceptions'](BCGGCHFB|D_aarch64_self_hosted_debug.fm). */
+        uint32_t hmc                   : 1;  /**< [ 13: 13](R/W) Higher mode control. Determines the debug perspective for deciding when a
+                                                                 Watchpoint debug event for watchpoint n is generated. This field must be
+                                                                 interpreted along with the SSC and PAC fields.
+                                                                 For more information on the operation of the SSC, HMC, and PAC fields, see
+                                                                 x['Execution conditions for which a watchpoint generates Watchpoint
+                                                                 exceptions'](BCGGCHFB|D_aarch64_self_hosted_debug.fm). */
+        uint32_t bas                   : 8;  /**< [ 12:  5](R/W) Byte address select. Each bit of this field selects whether a byte from within
+                                                                 the word or double-word addressed by ext-DBGWVR&lt;n&gt;_EL1 is being watched.
+                                                                 +----------+-----------------------------------------------+
+                                                                 | BAS      | Description                                   |
+                                                                 +==========+===============================================+
+                                                                 | xxxxxxx1 | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1     |
+                                                                 +----------+-----------------------------------------------+
+                                                                 | xxxxxx1x | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 1 |
+                                                                 +----------+-----------------------------------------------+
+                                                                 | xxxxx1xx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 2 |
+                                                                 +----------+-----------------------------------------------+
+                                                                 | xxxx1xxx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 3 |
+                                                                 +----------+-----------------------------------------------+
+                                                                 In cases where ext-DBGWVR&lt;n&gt;_EL1 addresses a double-word:
+                                                                 +----------+-----------------------------------------------------+
+                                                                 | BAS      | Description, if AArch64-DBGWVR&lt;n&gt;_EL1[2] == 0 |
+                                                                 +==========+=====================================================+
+                                                                 | xxx1xxxx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 4       |
+                                                                 +----------+-----------------------------------------------------+
+                                                                 | xx1xxxxx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 5       |
+                                                                 +----------+-----------------------------------------------------+
+                                                                 | x1xxxxxx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 6       |
+                                                                 +----------+-----------------------------------------------------+
+                                                                 | 1xxxxxxx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 7       |
+                                                                 +----------+-----------------------------------------------------+
+                                                                 If ext-DBGWVR&lt;n&gt;_EL1[2] == 1, only BAS[3:0] is used. Arm deprecates
+                                                                 setting ext-DBGWVR&lt;n&gt;_EL1[2] == 1.
+                                                                 The valid values for BAS are non-zero binary number all of whose set bits are
+                                                                 contiguous. All other values are reserved and must not be used by software. See
+                                                                 x['Reserved DBGWCR&lt;n&gt;.BAS
+                                                                 values'](BABJCEEE|G_aarch32_self_hosted_debug.fm). */
+        uint32_t lsc                   : 2;  /**< [  4:  3](R/W) Load/store control. This field enables watchpoint matching on the type of access
+                                                                 being made. Possible values of this field are:
+                                                                 All other values are reserved, but must behave as if the watchpoint is disabled.
+                                                                 Software must not rely on this property as the behavior of reserved values might
+                                                                 change in a future revision of the architecture. */
+        uint32_t pac                   : 2;  /**< [  2:  1](R/W) Privilege of access control. Determines the Exception level or levels at which a
+                                                                 Watchpoint debug event for watchpoint n is generated. This field must be
+                                                                 interpreted along with the SSC and HMC fields.
+                                                                 For more information on the operation of the SSC, HMC, and PAC fields, see
+                                                                 x['Execution conditions for which a watchpoint generates Watchpoint
+                                                                 exceptions'](BCGGCHFB|D_aarch64_self_hosted_debug.fm). */
+        uint32_t e_f                   : 1;  /**< [  0:  0](R/W) Enable watchpoint n. Possible values are: */
+#else /* Word 0 - Little Endian */
+        uint32_t e_f                   : 1;  /**< [  0:  0](R/W) Enable watchpoint n. Possible values are: */
+        uint32_t pac                   : 2;  /**< [  2:  1](R/W) Privilege of access control. Determines the Exception level or levels at which a
+                                                                 Watchpoint debug event for watchpoint n is generated. This field must be
+                                                                 interpreted along with the SSC and HMC fields.
+                                                                 For more information on the operation of the SSC, HMC, and PAC fields, see
+                                                                 x['Execution conditions for which a watchpoint generates Watchpoint
+                                                                 exceptions'](BCGGCHFB|D_aarch64_self_hosted_debug.fm). */
+        uint32_t lsc                   : 2;  /**< [  4:  3](R/W) Load/store control. This field enables watchpoint matching on the type of access
+                                                                 being made. Possible values of this field are:
+                                                                 All other values are reserved, but must behave as if the watchpoint is disabled.
+                                                                 Software must not rely on this property as the behavior of reserved values might
+                                                                 change in a future revision of the architecture. */
+        uint32_t bas                   : 8;  /**< [ 12:  5](R/W) Byte address select. Each bit of this field selects whether a byte from within
+                                                                 the word or double-word addressed by ext-DBGWVR&lt;n&gt;_EL1 is being watched.
+                                                                 +----------+-----------------------------------------------+
+                                                                 | BAS      | Description                                   |
+                                                                 +==========+===============================================+
+                                                                 | xxxxxxx1 | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1     |
+                                                                 +----------+-----------------------------------------------+
+                                                                 | xxxxxx1x | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 1 |
+                                                                 +----------+-----------------------------------------------+
+                                                                 | xxxxx1xx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 2 |
+                                                                 +----------+-----------------------------------------------+
+                                                                 | xxxx1xxx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 3 |
+                                                                 +----------+-----------------------------------------------+
+                                                                 In cases where ext-DBGWVR&lt;n&gt;_EL1 addresses a double-word:
+                                                                 +----------+-----------------------------------------------------+
+                                                                 | BAS      | Description, if AArch64-DBGWVR&lt;n&gt;_EL1[2] == 0 |
+                                                                 +==========+=====================================================+
+                                                                 | xxx1xxxx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 4       |
+                                                                 +----------+-----------------------------------------------------+
+                                                                 | xx1xxxxx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 5       |
+                                                                 +----------+-----------------------------------------------------+
+                                                                 | x1xxxxxx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 6       |
+                                                                 +----------+-----------------------------------------------------+
+                                                                 | 1xxxxxxx | Match byte at AArch64-DBGWVR&lt;n&gt;_EL1 + 7       |
+                                                                 +----------+-----------------------------------------------------+
+                                                                 If ext-DBGWVR&lt;n&gt;_EL1[2] == 1, only BAS[3:0] is used. Arm deprecates
+                                                                 setting ext-DBGWVR&lt;n&gt;_EL1[2] == 1.
+                                                                 The valid values for BAS are non-zero binary number all of whose set bits are
+                                                                 contiguous. All other values are reserved and must not be used by software. See
+                                                                 x['Reserved DBGWCR&lt;n&gt;.BAS
+                                                                 values'](BABJCEEE|G_aarch32_self_hosted_debug.fm). */
+        uint32_t hmc                   : 1;  /**< [ 13: 13](R/W) Higher mode control. Determines the debug perspective for deciding when a
+                                                                 Watchpoint debug event for watchpoint n is generated. This field must be
+                                                                 interpreted along with the SSC and PAC fields.
+                                                                 For more information on the operation of the SSC, HMC, and PAC fields, see
+                                                                 x['Execution conditions for which a watchpoint generates Watchpoint
+                                                                 exceptions'](BCGGCHFB|D_aarch64_self_hosted_debug.fm). */
+        uint32_t ssc                   : 2;  /**< [ 15: 14](R/W) Security state control. Determines the Security states under which a Watchpoint
+                                                                 debug event for watchpoint n is generated. This field must be interpreted along
+                                                                 with the HMC and PAC fields.
+                                                                 For more information on the operation of the SSC, HMC, and PAC fields, see
+                                                                 x['Execution conditions for which a watchpoint generates Watchpoint
+                                                                 exceptions'](BCGGCHFB|D_aarch64_self_hosted_debug.fm). */
+        uint32_t lbn                   : 4;  /**< [ 19: 16](R/W) Linked breakpoint number. For Linked data address watchpoints, this specifies
+                                                                 the index of the Context-matching breakpoint linked to. */
+        uint32_t wt                    : 1;  /**< [ 20: 20](R/W) Watchpoint type. Possible values are: */
+        uint32_t reserved_21_23        : 3;
+        uint32_t mask                  : 5;  /**< [ 28: 24](R/W) Address mask. Only objects up to 2GB can be watched using a single mask.
+                                                                 If programmed with a reserved value, a watchpoint must behave as if either:
+                                                                   - MASK has been programmed with a defined value, which might be 0 (no mask),
+                                                                 other than for a direct read of DBGWCRn_EL1.
+                                                                   - The watchpoint is disabled.
+                                                                 Software must not rely on this property because the behavior of reserved values
+                                                                 might change in a future revision of the architecture.
+                                                                 Other values mask the corresponding number of address bits, from 0b00011 masking
+                                                                 3 address bits (0x00000007 mask for address) to 0b11111 masking 31 address bits
+                                                                 (0x7FFFFFFF mask for address). */
+        uint32_t reserved_29_31        : 3;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_dbgwcr3_el1_s cn; */
+};
+typedef union cavm_cst_apx_dbg_dbgwcr3_el1 cavm_cst_apx_dbg_dbgwcr3_el1_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_DBGWCR3_EL1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_DBGWCR3_EL1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010838ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_DBGWCR3_EL1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_DBGWCR3_EL1(a) cavm_cst_apx_dbg_dbgwcr3_el1_t
+#define bustype_CAVM_CST_APX_DBG_DBGWCR3_EL1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_DBGWCR3_EL1(a) "CST_APX_DBG_DBGWCR3_EL1"
+#define busnum_CAVM_CST_APX_DBG_DBGWCR3_EL1(a) (a)
+#define arguments_CAVM_CST_APX_DBG_DBGWCR3_EL1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) cst_ap#_dbg_dbgwvr0_el1
+ *
+ * CST Ap Dbg Dbgwvr0 El1 Register
+ * Holds a data address value for use in watchpoint matching. Forms watchpoint n
+ * together with control register ext-DBGWCR&lt;n&gt;_EL1.
+ */
+union cavm_cst_apx_dbg_dbgwvr0_el1
+{
+    uint64_t u;
+    struct cavm_cst_apx_dbg_dbgwvr0_el1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t ress_14_4             : 11; /**< [ 63: 53](R/W) Reserved, Sign extended. Hardware and software must treat this field as RES0 if
+                                                                 the most significant bit of VA is 0 or RES0, and as RES1 if the most significant
+                                                                 bit of VA is 1.
+                                                                 Hardware always ignores the value of these bits and it is IMPLEMENTATION DEFINED whether:
+                                                                   - The bits are hardwired to a copy of the most significant bit of VA, meaning
+                                                                 writes to these bits are ignored, and reads to the bits always return the
+                                                                 hardwired value.
+                                                                   - The value in those bits can be written, and reads will return the last value
+                                                                 written. The value held in those bits is ignored by hardware. */
+        uint64_t ress_3_0              : 4;  /**< [ 52: 49](R/W) Extension to RESS[14:4]. See RESS[14:4] for more details. */
+        uint64_t va_48_2               : 47; /**< [ 48:  2](R/W) Bits[48:2] of the address value for comparison.
+                                                                 When x[ARMv8.2-LVA](v8.2.LVA|A_armv8_architecture_extensions.fm) is implemented,
+                                                                 VA[52:49] forms the upper part of the address value. Otherwise, VA[52:49] are
+                                                                 RESS.
+                                                                 Arm deprecates setting ext-DBGWVR&lt;n&gt;_EL1[2] == 1. */
+        uint64_t reserved_0_1          : 2;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_1          : 2;
+        uint64_t va_48_2               : 47; /**< [ 48:  2](R/W) Bits[48:2] of the address value for comparison.
+                                                                 When x[ARMv8.2-LVA](v8.2.LVA|A_armv8_architecture_extensions.fm) is implemented,
+                                                                 VA[52:49] forms the upper part of the address value. Otherwise, VA[52:49] are
+                                                                 RESS.
+                                                                 Arm deprecates setting ext-DBGWVR&lt;n&gt;_EL1[2] == 1. */
+        uint64_t ress_3_0              : 4;  /**< [ 52: 49](R/W) Extension to RESS[14:4]. See RESS[14:4] for more details. */
+        uint64_t ress_14_4             : 11; /**< [ 63: 53](R/W) Reserved, Sign extended. Hardware and software must treat this field as RES0 if
+                                                                 the most significant bit of VA is 0 or RES0, and as RES1 if the most significant
+                                                                 bit of VA is 1.
+                                                                 Hardware always ignores the value of these bits and it is IMPLEMENTATION DEFINED whether:
+                                                                   - The bits are hardwired to a copy of the most significant bit of VA, meaning
+                                                                 writes to these bits are ignored, and reads to the bits always return the
+                                                                 hardwired value.
+                                                                   - The value in those bits can be written, and reads will return the last value
+                                                                 written. The value held in those bits is ignored by hardware. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_dbgwvr0_el1_s cn; */
+};
+typedef union cavm_cst_apx_dbg_dbgwvr0_el1 cavm_cst_apx_dbg_dbgwvr0_el1_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_DBGWVR0_EL1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_DBGWVR0_EL1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010800ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_DBGWVR0_EL1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_DBGWVR0_EL1(a) cavm_cst_apx_dbg_dbgwvr0_el1_t
+#define bustype_CAVM_CST_APX_DBG_DBGWVR0_EL1(a) CSR_TYPE_NCB
+#define basename_CAVM_CST_APX_DBG_DBGWVR0_EL1(a) "CST_APX_DBG_DBGWVR0_EL1"
+#define busnum_CAVM_CST_APX_DBG_DBGWVR0_EL1(a) (a)
+#define arguments_CAVM_CST_APX_DBG_DBGWVR0_EL1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) cst_ap#_dbg_dbgwvr1_el1
+ *
+ * CST Ap Dbg Dbgwvr1 El1 Register
+ * Holds a data address value for use in watchpoint matching. Forms watchpoint n
+ * together with control register ext-DBGWCR&lt;n&gt;_EL1.
+ */
+union cavm_cst_apx_dbg_dbgwvr1_el1
+{
+    uint64_t u;
+    struct cavm_cst_apx_dbg_dbgwvr1_el1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t ress_14_4             : 11; /**< [ 63: 53](R/W) Reserved, Sign extended. Hardware and software must treat this field as RES0 if
+                                                                 the most significant bit of VA is 0 or RES0, and as RES1 if the most significant
+                                                                 bit of VA is 1.
+                                                                 Hardware always ignores the value of these bits and it is IMPLEMENTATION DEFINED whether:
+                                                                   - The bits are hardwired to a copy of the most significant bit of VA, meaning
+                                                                 writes to these bits are ignored, and reads to the bits always return the
+                                                                 hardwired value.
+                                                                   - The value in those bits can be written, and reads will return the last value
+                                                                 written. The value held in those bits is ignored by hardware. */
+        uint64_t ress_3_0              : 4;  /**< [ 52: 49](R/W) Extension to RESS[14:4]. See RESS[14:4] for more details. */
+        uint64_t va_48_2               : 47; /**< [ 48:  2](R/W) Bits[48:2] of the address value for comparison.
+                                                                 When x[ARMv8.2-LVA](v8.2.LVA|A_armv8_architecture_extensions.fm) is implemented,
+                                                                 VA[52:49] forms the upper part of the address value. Otherwise, VA[52:49] are
+                                                                 RESS.
+                                                                 Arm deprecates setting ext-DBGWVR&lt;n&gt;_EL1[2] == 1. */
+        uint64_t reserved_0_1          : 2;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_1          : 2;
+        uint64_t va_48_2               : 47; /**< [ 48:  2](R/W) Bits[48:2] of the address value for comparison.
+                                                                 When x[ARMv8.2-LVA](v8.2.LVA|A_armv8_architecture_extensions.fm) is implemented,
+                                                                 VA[52:49] forms the upper part of the address value. Otherwise, VA[52:49] are
+                                                                 RESS.
+                                                                 Arm deprecates setting ext-DBGWVR&lt;n&gt;_EL1[2] == 1. */
+        uint64_t ress_3_0              : 4;  /**< [ 52: 49](R/W) Extension to RESS[14:4]. See RESS[14:4] for more details. */
+        uint64_t ress_14_4             : 11; /**< [ 63: 53](R/W) Reserved, Sign extended. Hardware and software must treat this field as RES0 if
+                                                                 the most significant bit of VA is 0 or RES0, and as RES1 if the most significant
+                                                                 bit of VA is 1.
+                                                                 Hardware always ignores the value of these bits and it is IMPLEMENTATION DEFINED whether:
+                                                                   - The bits are hardwired to a copy of the most significant bit of VA, meaning
+                                                                 writes to these bits are ignored, and reads to the bits always return the
+                                                                 hardwired value.
+                                                                   - The value in those bits can be written, and reads will return the last value
+                                                                 written. The value held in those bits is ignored by hardware. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_dbgwvr1_el1_s cn; */
+};
+typedef union cavm_cst_apx_dbg_dbgwvr1_el1 cavm_cst_apx_dbg_dbgwvr1_el1_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_DBGWVR1_EL1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_DBGWVR1_EL1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010810ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_DBGWVR1_EL1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_DBGWVR1_EL1(a) cavm_cst_apx_dbg_dbgwvr1_el1_t
+#define bustype_CAVM_CST_APX_DBG_DBGWVR1_EL1(a) CSR_TYPE_NCB
+#define basename_CAVM_CST_APX_DBG_DBGWVR1_EL1(a) "CST_APX_DBG_DBGWVR1_EL1"
+#define busnum_CAVM_CST_APX_DBG_DBGWVR1_EL1(a) (a)
+#define arguments_CAVM_CST_APX_DBG_DBGWVR1_EL1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) cst_ap#_dbg_dbgwvr2_el1
+ *
+ * CST Ap Dbg Dbgwvr2 El1 Register
+ * Holds a data address value for use in watchpoint matching. Forms watchpoint n
+ * together with control register ext-DBGWCR&lt;n&gt;_EL1.
+ */
+union cavm_cst_apx_dbg_dbgwvr2_el1
+{
+    uint64_t u;
+    struct cavm_cst_apx_dbg_dbgwvr2_el1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t ress_14_4             : 11; /**< [ 63: 53](R/W) Reserved, Sign extended. Hardware and software must treat this field as RES0 if
+                                                                 the most significant bit of VA is 0 or RES0, and as RES1 if the most significant
+                                                                 bit of VA is 1.
+                                                                 Hardware always ignores the value of these bits and it is IMPLEMENTATION DEFINED whether:
+                                                                   - The bits are hardwired to a copy of the most significant bit of VA, meaning
+                                                                 writes to these bits are ignored, and reads to the bits always return the
+                                                                 hardwired value.
+                                                                   - The value in those bits can be written, and reads will return the last value
+                                                                 written. The value held in those bits is ignored by hardware. */
+        uint64_t ress_3_0              : 4;  /**< [ 52: 49](R/W) Extension to RESS[14:4]. See RESS[14:4] for more details. */
+        uint64_t va_48_2               : 47; /**< [ 48:  2](R/W) Bits[48:2] of the address value for comparison.
+                                                                 When x[ARMv8.2-LVA](v8.2.LVA|A_armv8_architecture_extensions.fm) is implemented,
+                                                                 VA[52:49] forms the upper part of the address value. Otherwise, VA[52:49] are
+                                                                 RESS.
+                                                                 Arm deprecates setting ext-DBGWVR&lt;n&gt;_EL1[2] == 1. */
+        uint64_t reserved_0_1          : 2;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_1          : 2;
+        uint64_t va_48_2               : 47; /**< [ 48:  2](R/W) Bits[48:2] of the address value for comparison.
+                                                                 When x[ARMv8.2-LVA](v8.2.LVA|A_armv8_architecture_extensions.fm) is implemented,
+                                                                 VA[52:49] forms the upper part of the address value. Otherwise, VA[52:49] are
+                                                                 RESS.
+                                                                 Arm deprecates setting ext-DBGWVR&lt;n&gt;_EL1[2] == 1. */
+        uint64_t ress_3_0              : 4;  /**< [ 52: 49](R/W) Extension to RESS[14:4]. See RESS[14:4] for more details. */
+        uint64_t ress_14_4             : 11; /**< [ 63: 53](R/W) Reserved, Sign extended. Hardware and software must treat this field as RES0 if
+                                                                 the most significant bit of VA is 0 or RES0, and as RES1 if the most significant
+                                                                 bit of VA is 1.
+                                                                 Hardware always ignores the value of these bits and it is IMPLEMENTATION DEFINED whether:
+                                                                   - The bits are hardwired to a copy of the most significant bit of VA, meaning
+                                                                 writes to these bits are ignored, and reads to the bits always return the
+                                                                 hardwired value.
+                                                                   - The value in those bits can be written, and reads will return the last value
+                                                                 written. The value held in those bits is ignored by hardware. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_dbgwvr2_el1_s cn; */
+};
+typedef union cavm_cst_apx_dbg_dbgwvr2_el1 cavm_cst_apx_dbg_dbgwvr2_el1_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_DBGWVR2_EL1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_DBGWVR2_EL1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010820ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_DBGWVR2_EL1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_DBGWVR2_EL1(a) cavm_cst_apx_dbg_dbgwvr2_el1_t
+#define bustype_CAVM_CST_APX_DBG_DBGWVR2_EL1(a) CSR_TYPE_NCB
+#define basename_CAVM_CST_APX_DBG_DBGWVR2_EL1(a) "CST_APX_DBG_DBGWVR2_EL1"
+#define busnum_CAVM_CST_APX_DBG_DBGWVR2_EL1(a) (a)
+#define arguments_CAVM_CST_APX_DBG_DBGWVR2_EL1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) cst_ap#_dbg_dbgwvr3_el1
+ *
+ * CST Ap Dbg Dbgwvr3 El1 Register
+ * Holds a data address value for use in watchpoint matching. Forms watchpoint n
+ * together with control register ext-DBGWCR&lt;n&gt;_EL1.
+ */
+union cavm_cst_apx_dbg_dbgwvr3_el1
+{
+    uint64_t u;
+    struct cavm_cst_apx_dbg_dbgwvr3_el1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t ress_14_4             : 11; /**< [ 63: 53](R/W) Reserved, Sign extended. Hardware and software must treat this field as RES0 if
+                                                                 the most significant bit of VA is 0 or RES0, and as RES1 if the most significant
+                                                                 bit of VA is 1.
+                                                                 Hardware always ignores the value of these bits and it is IMPLEMENTATION DEFINED whether:
+                                                                   - The bits are hardwired to a copy of the most significant bit of VA, meaning
+                                                                 writes to these bits are ignored, and reads to the bits always return the
+                                                                 hardwired value.
+                                                                   - The value in those bits can be written, and reads will return the last value
+                                                                 written. The value held in those bits is ignored by hardware. */
+        uint64_t ress_3_0              : 4;  /**< [ 52: 49](R/W) Extension to RESS[14:4]. See RESS[14:4] for more details. */
+        uint64_t va_48_2               : 47; /**< [ 48:  2](R/W) Bits[48:2] of the address value for comparison.
+                                                                 When x[ARMv8.2-LVA](v8.2.LVA|A_armv8_architecture_extensions.fm) is implemented,
+                                                                 VA[52:49] forms the upper part of the address value. Otherwise, VA[52:49] are
+                                                                 RESS.
+                                                                 Arm deprecates setting ext-DBGWVR&lt;n&gt;_EL1[2] == 1. */
+        uint64_t reserved_0_1          : 2;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_1          : 2;
+        uint64_t va_48_2               : 47; /**< [ 48:  2](R/W) Bits[48:2] of the address value for comparison.
+                                                                 When x[ARMv8.2-LVA](v8.2.LVA|A_armv8_architecture_extensions.fm) is implemented,
+                                                                 VA[52:49] forms the upper part of the address value. Otherwise, VA[52:49] are
+                                                                 RESS.
+                                                                 Arm deprecates setting ext-DBGWVR&lt;n&gt;_EL1[2] == 1. */
+        uint64_t ress_3_0              : 4;  /**< [ 52: 49](R/W) Extension to RESS[14:4]. See RESS[14:4] for more details. */
+        uint64_t ress_14_4             : 11; /**< [ 63: 53](R/W) Reserved, Sign extended. Hardware and software must treat this field as RES0 if
+                                                                 the most significant bit of VA is 0 or RES0, and as RES1 if the most significant
+                                                                 bit of VA is 1.
+                                                                 Hardware always ignores the value of these bits and it is IMPLEMENTATION DEFINED whether:
+                                                                   - The bits are hardwired to a copy of the most significant bit of VA, meaning
+                                                                 writes to these bits are ignored, and reads to the bits always return the
+                                                                 hardwired value.
+                                                                   - The value in those bits can be written, and reads will return the last value
+                                                                 written. The value held in those bits is ignored by hardware. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_dbgwvr3_el1_s cn; */
+};
+typedef union cavm_cst_apx_dbg_dbgwvr3_el1 cavm_cst_apx_dbg_dbgwvr3_el1_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_DBGWVR3_EL1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_DBGWVR3_EL1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010830ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_DBGWVR3_EL1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_DBGWVR3_EL1(a) cavm_cst_apx_dbg_dbgwvr3_el1_t
+#define bustype_CAVM_CST_APX_DBG_DBGWVR3_EL1(a) CSR_TYPE_NCB
+#define basename_CAVM_CST_APX_DBG_DBGWVR3_EL1(a) "CST_APX_DBG_DBGWVR3_EL1"
+#define busnum_CAVM_CST_APX_DBG_DBGWVR3_EL1(a) (a)
+#define arguments_CAVM_CST_APX_DBG_DBGWVR3_EL1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) cst_ap#_dbg_edaa32pfr
+ *
+ * CST Ap Dbg Edaa32pfr Register
+ * Provides information about implemented PE features.
+ *
+ * For general information about the interpretation of the ID registers, see
+ * x['Principles of the ID scheme for fields in ID
+ * registers'](BABFAFHI|D_aarch64_system_register_descriptions.fm).
+ */
+union cavm_cst_apx_dbg_edaa32pfr
+{
+    uint64_t u;
+    struct cavm_cst_apx_dbg_edaa32pfr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t el3                   : 4;  /**< [ 15: 12](RO) AArch32 EL3 Exception level handling. Defined values are:
+                                                                 When the value of ext-EDPFR.EL3 is non-zero, this field must be 0b0000.
+                                                                 All other values are reserved.
+                                                                 [note]ext-EDPFR.{EL1, EL0} indicate whether EL1 and EL0 can only be executed in
+                                                                 AArch32 state.[/note] */
+        uint64_t el2                   : 4;  /**< [ 11:  8](RO) AArch32 EL2 Exception level handling. Defined values are:
+                                                                 When the value of ext-EDPFR.EL2 is non-zero, this field must be 0b0000.
+                                                                 All other values are reserved.
+                                                                 [note]ext-EDPFR.{EL1, EL0} indicate whether EL1 and EL0 can only be executed in
+                                                                 AArch32 state.[/note] */
+        uint64_t pmsa                  : 4;  /**< [  7:  4](RO) Indicates support for a PMSA. Defined values are:
+                                                                 All other values are reserved. In Armv8-A, the only permitted value is 0b0000. */
+        uint64_t vmsa                  : 4;  /**< [  3:  0](RO) Indicates support for a VMSA. When the PMSA field is nonzero, determines support
+                                                                 for a VMSA. When the PMSA field is 0b0000, VMSA is supported. Defined values
+                                                                 are:
+                                                                 All other values are reserved. In Armv8-A, the only permitted value is 0b0000. */
+#else /* Word 0 - Little Endian */
+        uint64_t vmsa                  : 4;  /**< [  3:  0](RO) Indicates support for a VMSA. When the PMSA field is nonzero, determines support
+                                                                 for a VMSA. When the PMSA field is 0b0000, VMSA is supported. Defined values
+                                                                 are:
+                                                                 All other values are reserved. In Armv8-A, the only permitted value is 0b0000. */
+        uint64_t pmsa                  : 4;  /**< [  7:  4](RO) Indicates support for a PMSA. Defined values are:
+                                                                 All other values are reserved. In Armv8-A, the only permitted value is 0b0000. */
+        uint64_t el2                   : 4;  /**< [ 11:  8](RO) AArch32 EL2 Exception level handling. Defined values are:
+                                                                 When the value of ext-EDPFR.EL2 is non-zero, this field must be 0b0000.
+                                                                 All other values are reserved.
+                                                                 [note]ext-EDPFR.{EL1, EL0} indicate whether EL1 and EL0 can only be executed in
+                                                                 AArch32 state.[/note] */
+        uint64_t el3                   : 4;  /**< [ 15: 12](RO) AArch32 EL3 Exception level handling. Defined values are:
+                                                                 When the value of ext-EDPFR.EL3 is non-zero, this field must be 0b0000.
+                                                                 All other values are reserved.
+                                                                 [note]ext-EDPFR.{EL1, EL0} indicate whether EL1 and EL0 can only be executed in
+                                                                 AArch32 state.[/note] */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_edaa32pfr_s cn; */
+};
+typedef union cavm_cst_apx_dbg_edaa32pfr cavm_cst_apx_dbg_edaa32pfr_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_EDAA32PFR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_EDAA32PFR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010d60ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_EDAA32PFR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_EDAA32PFR(a) cavm_cst_apx_dbg_edaa32pfr_t
+#define bustype_CAVM_CST_APX_DBG_EDAA32PFR(a) CSR_TYPE_NCB
+#define basename_CAVM_CST_APX_DBG_EDAA32PFR(a) "CST_APX_DBG_EDAA32PFR"
+#define busnum_CAVM_CST_APX_DBG_EDAA32PFR(a) (a)
+#define arguments_CAVM_CST_APX_DBG_EDAA32PFR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_edacr
+ *
+ * CST Ap Dbg Edacr Register
+ * Allows implementations to support IMPLEMENTATION DEFINED controls.
+ */
+union cavm_cst_apx_dbg_edacr
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_edacr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_edacr_s cn; */
+};
+typedef union cavm_cst_apx_dbg_edacr cavm_cst_apx_dbg_edacr_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_EDACR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_EDACR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010094ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_EDACR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_EDACR(a) cavm_cst_apx_dbg_edacr_t
+#define bustype_CAVM_CST_APX_DBG_EDACR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_EDACR(a) "CST_APX_DBG_EDACR"
+#define busnum_CAVM_CST_APX_DBG_EDACR(a) (a)
+#define arguments_CAVM_CST_APX_DBG_EDACR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_edcidr0
+ *
+ * CST Ap Dbg Edcidr0 Register
+ * Provides information to identify an external debug component.
+ *
+ * For more information, see x['About the Component Identification
+ * scheme'](BABBFIID|appx_recommended_external_debug_interface.fm).
+ */
+union cavm_cst_apx_dbg_edcidr0
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_edcidr0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t prmbl_0               : 8;  /**< [  7:  0](RO) Preamble. */
+#else /* Word 0 - Little Endian */
+        uint32_t prmbl_0               : 8;  /**< [  7:  0](RO) Preamble. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_edcidr0_s cn; */
+};
+typedef union cavm_cst_apx_dbg_edcidr0 cavm_cst_apx_dbg_edcidr0_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_EDCIDR0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_EDCIDR0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010ff0ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_EDCIDR0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_EDCIDR0(a) cavm_cst_apx_dbg_edcidr0_t
+#define bustype_CAVM_CST_APX_DBG_EDCIDR0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_EDCIDR0(a) "CST_APX_DBG_EDCIDR0"
+#define busnum_CAVM_CST_APX_DBG_EDCIDR0(a) (a)
+#define arguments_CAVM_CST_APX_DBG_EDCIDR0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_edcidr1
+ *
+ * CST Ap Dbg Edcidr1 Register
+ * Provides information to identify an external debug component.
+ *
+ * For more information, see x['About the Component Identification
+ * scheme'](BABBFIID|appx_recommended_external_debug_interface.fm).
+ */
+union cavm_cst_apx_dbg_edcidr1
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_edcidr1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t class_f               : 4;  /**< [  7:  4](RO) Component class. Debug component. */
+        uint32_t prmbl_1               : 4;  /**< [  3:  0](RO) Preamble. */
+#else /* Word 0 - Little Endian */
+        uint32_t prmbl_1               : 4;  /**< [  3:  0](RO) Preamble. */
+        uint32_t class_f               : 4;  /**< [  7:  4](RO) Component class. Debug component. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_edcidr1_s cn; */
+};
+typedef union cavm_cst_apx_dbg_edcidr1 cavm_cst_apx_dbg_edcidr1_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_EDCIDR1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_EDCIDR1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010ff4ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_EDCIDR1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_EDCIDR1(a) cavm_cst_apx_dbg_edcidr1_t
+#define bustype_CAVM_CST_APX_DBG_EDCIDR1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_EDCIDR1(a) "CST_APX_DBG_EDCIDR1"
+#define busnum_CAVM_CST_APX_DBG_EDCIDR1(a) (a)
+#define arguments_CAVM_CST_APX_DBG_EDCIDR1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_edcidr2
+ *
+ * CST Ap Dbg Edcidr2 Register
+ * Provides information to identify an external debug component.
+ *
+ * For more information, see x['About the Component Identification
+ * scheme'](BABBFIID|appx_recommended_external_debug_interface.fm).
+ */
+union cavm_cst_apx_dbg_edcidr2
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_edcidr2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t prmbl_2               : 8;  /**< [  7:  0](RO) Preamble. */
+#else /* Word 0 - Little Endian */
+        uint32_t prmbl_2               : 8;  /**< [  7:  0](RO) Preamble. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_edcidr2_s cn; */
+};
+typedef union cavm_cst_apx_dbg_edcidr2 cavm_cst_apx_dbg_edcidr2_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_EDCIDR2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_EDCIDR2(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010ff8ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_EDCIDR2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_EDCIDR2(a) cavm_cst_apx_dbg_edcidr2_t
+#define bustype_CAVM_CST_APX_DBG_EDCIDR2(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_EDCIDR2(a) "CST_APX_DBG_EDCIDR2"
+#define busnum_CAVM_CST_APX_DBG_EDCIDR2(a) (a)
+#define arguments_CAVM_CST_APX_DBG_EDCIDR2(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_edcidr3
+ *
+ * CST Ap Dbg Edcidr3 Register
+ * Provides information to identify an external debug component.
+ *
+ * For more information, see x['About the Component Identification
+ * scheme'](BABBFIID|appx_recommended_external_debug_interface.fm).
+ */
+union cavm_cst_apx_dbg_edcidr3
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_edcidr3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t prmbl_3               : 8;  /**< [  7:  0](RO) Preamble. */
+#else /* Word 0 - Little Endian */
+        uint32_t prmbl_3               : 8;  /**< [  7:  0](RO) Preamble. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_edcidr3_s cn; */
+};
+typedef union cavm_cst_apx_dbg_edcidr3 cavm_cst_apx_dbg_edcidr3_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_EDCIDR3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_EDCIDR3(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010ffcll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_EDCIDR3", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_EDCIDR3(a) cavm_cst_apx_dbg_edcidr3_t
+#define bustype_CAVM_CST_APX_DBG_EDCIDR3(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_EDCIDR3(a) "CST_APX_DBG_EDCIDR3"
+#define busnum_CAVM_CST_APX_DBG_EDCIDR3(a) (a)
+#define arguments_CAVM_CST_APX_DBG_EDCIDR3(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_edcidsr
+ *
+ * CST Ap Dbg Edcidsr Register
+ * Contains the sampled value of the Context ID, captured on reading ext-EDPCSR[31:0].
+ */
+union cavm_cst_apx_dbg_edcidsr
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_edcidsr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_edcidsr_s cn; */
+};
+typedef union cavm_cst_apx_dbg_edcidsr cavm_cst_apx_dbg_edcidsr_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_EDCIDSR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_EDCIDSR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a0810100a4ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_EDCIDSR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_EDCIDSR(a) cavm_cst_apx_dbg_edcidsr_t
+#define bustype_CAVM_CST_APX_DBG_EDCIDSR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_EDCIDSR(a) "CST_APX_DBG_EDCIDSR"
+#define busnum_CAVM_CST_APX_DBG_EDCIDSR(a) (a)
+#define arguments_CAVM_CST_APX_DBG_EDCIDSR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_eddevaff0
+ *
+ * CST Ap Dbg Eddevaff0 Register
+ * Copy of the low half of the PE AArch64-MPIDR_EL1 register that allows a debugger to
+ * determine which PE in a multiprocessor system the external debug component relates
+ * to.
+ */
+union cavm_cst_apx_dbg_eddevaff0
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_eddevaff0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t mpidr_el1lo           : 32; /**< [ 31:  0](RO) AArch64-MPIDR_EL1 low half. Read-only copy of the low half of AArch64-MPIDR_EL1,
+                                                                 as seen from the highest implemented Exception level. */
+#else /* Word 0 - Little Endian */
+        uint32_t mpidr_el1lo           : 32; /**< [ 31:  0](RO) AArch64-MPIDR_EL1 low half. Read-only copy of the low half of AArch64-MPIDR_EL1,
+                                                                 as seen from the highest implemented Exception level. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_eddevaff0_s cn; */
+};
+typedef union cavm_cst_apx_dbg_eddevaff0 cavm_cst_apx_dbg_eddevaff0_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_EDDEVAFF0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_EDDEVAFF0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010fa8ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_EDDEVAFF0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_EDDEVAFF0(a) cavm_cst_apx_dbg_eddevaff0_t
+#define bustype_CAVM_CST_APX_DBG_EDDEVAFF0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_EDDEVAFF0(a) "CST_APX_DBG_EDDEVAFF0"
+#define busnum_CAVM_CST_APX_DBG_EDDEVAFF0(a) (a)
+#define arguments_CAVM_CST_APX_DBG_EDDEVAFF0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_eddevaff1
+ *
+ * CST Ap Dbg Eddevaff1 Register
+ * Copy of the high half of the PE AArch64-MPIDR_EL1 register that allows a debugger to
+ * determine which PE in a multiprocessor system the external debug component relates
+ * to.
+ */
+union cavm_cst_apx_dbg_eddevaff1
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_eddevaff1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t mpidr_el1hi           : 32; /**< [ 31:  0](RO) AArch64-MPIDR_EL1 high half. Read-only copy of the high half of
+                                                                 AArch64-MPIDR_EL1, as seen from the highest implemented Exception level. */
+#else /* Word 0 - Little Endian */
+        uint32_t mpidr_el1hi           : 32; /**< [ 31:  0](RO) AArch64-MPIDR_EL1 high half. Read-only copy of the high half of
+                                                                 AArch64-MPIDR_EL1, as seen from the highest implemented Exception level. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_eddevaff1_s cn; */
+};
+typedef union cavm_cst_apx_dbg_eddevaff1 cavm_cst_apx_dbg_eddevaff1_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_EDDEVAFF1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_EDDEVAFF1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010facll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_EDDEVAFF1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_EDDEVAFF1(a) cavm_cst_apx_dbg_eddevaff1_t
+#define bustype_CAVM_CST_APX_DBG_EDDEVAFF1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_EDDEVAFF1(a) "CST_APX_DBG_EDDEVAFF1"
+#define busnum_CAVM_CST_APX_DBG_EDDEVAFF1(a) (a)
+#define arguments_CAVM_CST_APX_DBG_EDDEVAFF1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_eddevarch
+ *
+ * CST Ap Dbg Eddevarch Register
+ * Identifies the programmers' model architecture of the external debug component.
+ */
+union cavm_cst_apx_dbg_eddevarch
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_eddevarch_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t architect             : 11; /**< [ 31: 21](RO) Defines the architecture of the component. For debug, this is Arm Limited.
+                                                                 Bits [31:28] are the JEP106 continuation code, 0x4.
+                                                                 Bits [27:21] are the JEP106 ID code, 0x3B. */
+        uint32_t present               : 1;  /**< [ 20: 20](RO) When set to 1, indicates that the DEVARCH is present.
+                                                                 This field is 1 in Armv8. */
+        uint32_t revision              : 4;  /**< [ 19: 16](RO) Defines the architecture revision. For architectures defined by Arm this is the minor revision.
+                                                                 For debug, the revision defined by Armv8-A is 0x0.
+                                                                 All other values are reserved. */
+        uint32_t archver               : 4;  /**< [ 15: 12](RO) Defines the architecture version of the component. This is the same value as
+                                                                 AArch64-ID_AA64DFR0_EL1.DebugVer and AArch32-DBGDIDR.Version. This value is : */
+        uint32_t archpart              : 12; /**< [ 11:  0](RO) The fields ARCHVER and ARCHPART together form the field ARCHID, so that ARCHPART is ARCHID[11:0]. */
+#else /* Word 0 - Little Endian */
+        uint32_t archpart              : 12; /**< [ 11:  0](RO) The fields ARCHVER and ARCHPART together form the field ARCHID, so that ARCHPART is ARCHID[11:0]. */
+        uint32_t archver               : 4;  /**< [ 15: 12](RO) Defines the architecture version of the component. This is the same value as
+                                                                 AArch64-ID_AA64DFR0_EL1.DebugVer and AArch32-DBGDIDR.Version. This value is : */
+        uint32_t revision              : 4;  /**< [ 19: 16](RO) Defines the architecture revision. For architectures defined by Arm this is the minor revision.
+                                                                 For debug, the revision defined by Armv8-A is 0x0.
+                                                                 All other values are reserved. */
+        uint32_t present               : 1;  /**< [ 20: 20](RO) When set to 1, indicates that the DEVARCH is present.
+                                                                 This field is 1 in Armv8. */
+        uint32_t architect             : 11; /**< [ 31: 21](RO) Defines the architecture of the component. For debug, this is Arm Limited.
+                                                                 Bits [31:28] are the JEP106 continuation code, 0x4.
+                                                                 Bits [27:21] are the JEP106 ID code, 0x3B. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_eddevarch_s cn; */
+};
+typedef union cavm_cst_apx_dbg_eddevarch cavm_cst_apx_dbg_eddevarch_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_EDDEVARCH(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_EDDEVARCH(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010fbcll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_EDDEVARCH", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_EDDEVARCH(a) cavm_cst_apx_dbg_eddevarch_t
+#define bustype_CAVM_CST_APX_DBG_EDDEVARCH(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_EDDEVARCH(a) "CST_APX_DBG_EDDEVARCH"
+#define busnum_CAVM_CST_APX_DBG_EDDEVARCH(a) (a)
+#define arguments_CAVM_CST_APX_DBG_EDDEVARCH(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_eddevid
+ *
+ * CST Ap Dbg Eddevid Register
+ * Provides extra information for external debuggers about features of the debug implementation.
+ */
+union cavm_cst_apx_dbg_eddevid
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_eddevid_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_28_31        : 4;
+        uint32_t auxregs               : 4;  /**< [ 27: 24](RO) Indicates support for Auxiliary registers. */
+        uint32_t reserved_8_23         : 16;
+        uint32_t debugpower            : 4;  /**< [  7:  4](RO) Indicates support for the x[ARMv8.3-DoPD](v8.3.DoPD|A_armv8_architecture_extensions.fm) feature. */
+        uint32_t pcsample              : 4;  /**< [  3:  0](RO) Indicates the level of PC Sample-based Profiling support using external debug registers. */
+#else /* Word 0 - Little Endian */
+        uint32_t pcsample              : 4;  /**< [  3:  0](RO) Indicates the level of PC Sample-based Profiling support using external debug registers. */
+        uint32_t debugpower            : 4;  /**< [  7:  4](RO) Indicates support for the x[ARMv8.3-DoPD](v8.3.DoPD|A_armv8_architecture_extensions.fm) feature. */
+        uint32_t reserved_8_23         : 16;
+        uint32_t auxregs               : 4;  /**< [ 27: 24](RO) Indicates support for Auxiliary registers. */
+        uint32_t reserved_28_31        : 4;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_eddevid_s cn; */
+};
+typedef union cavm_cst_apx_dbg_eddevid cavm_cst_apx_dbg_eddevid_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_EDDEVID(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_EDDEVID(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010fc8ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_EDDEVID", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_EDDEVID(a) cavm_cst_apx_dbg_eddevid_t
+#define bustype_CAVM_CST_APX_DBG_EDDEVID(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_EDDEVID(a) "CST_APX_DBG_EDDEVID"
+#define busnum_CAVM_CST_APX_DBG_EDDEVID(a) (a)
+#define arguments_CAVM_CST_APX_DBG_EDDEVID(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_eddevid1
+ *
+ * CST Ap Dbg Eddevid1 Register
+ * Provides extra information for external debuggers about features of the debug implementation.
+ */
+union cavm_cst_apx_dbg_eddevid1
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_eddevid1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_4_31         : 28;
+        uint32_t pcsroffset            : 4;  /**< [  3:  0](RO) This field indicates the offset applied to PC samples returned by reads of ext-EDPCSR. */
+#else /* Word 0 - Little Endian */
+        uint32_t pcsroffset            : 4;  /**< [  3:  0](RO) This field indicates the offset applied to PC samples returned by reads of ext-EDPCSR. */
+        uint32_t reserved_4_31         : 28;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_eddevid1_s cn; */
+};
+typedef union cavm_cst_apx_dbg_eddevid1 cavm_cst_apx_dbg_eddevid1_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_EDDEVID1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_EDDEVID1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010fc4ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_EDDEVID1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_EDDEVID1(a) cavm_cst_apx_dbg_eddevid1_t
+#define bustype_CAVM_CST_APX_DBG_EDDEVID1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_EDDEVID1(a) "CST_APX_DBG_EDDEVID1"
+#define busnum_CAVM_CST_APX_DBG_EDDEVID1(a) (a)
+#define arguments_CAVM_CST_APX_DBG_EDDEVID1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_eddevid2
+ *
+ * CST Ap Dbg Eddevid2 Register
+ * Reserved for future descriptions of features of the debug implementation.
+ */
+union cavm_cst_apx_dbg_eddevid2
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_eddevid2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_eddevid2_s cn; */
+};
+typedef union cavm_cst_apx_dbg_eddevid2 cavm_cst_apx_dbg_eddevid2_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_EDDEVID2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_EDDEVID2(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010fc0ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_EDDEVID2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_EDDEVID2(a) cavm_cst_apx_dbg_eddevid2_t
+#define bustype_CAVM_CST_APX_DBG_EDDEVID2(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_EDDEVID2(a) "CST_APX_DBG_EDDEVID2"
+#define busnum_CAVM_CST_APX_DBG_EDDEVID2(a) (a)
+#define arguments_CAVM_CST_APX_DBG_EDDEVID2(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_eddevtype
+ *
+ * CST Ap Dbg Eddevtype Register
+ * Indicates to a debugger that this component is part of a PEs debug logic.
+ */
+union cavm_cst_apx_dbg_eddevtype
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_eddevtype_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t sub                   : 4;  /**< [  7:  4](RO) Subtype. Must read as 0x1 to indicate this is a component within a PE. */
+        uint32_t major                 : 4;  /**< [  3:  0](RO) Major type. Must read as 0x5 to indicate this is a debug logic component. */
+#else /* Word 0 - Little Endian */
+        uint32_t major                 : 4;  /**< [  3:  0](RO) Major type. Must read as 0x5 to indicate this is a debug logic component. */
+        uint32_t sub                   : 4;  /**< [  7:  4](RO) Subtype. Must read as 0x1 to indicate this is a component within a PE. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_eddevtype_s cn; */
+};
+typedef union cavm_cst_apx_dbg_eddevtype cavm_cst_apx_dbg_eddevtype_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_EDDEVTYPE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_EDDEVTYPE(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010fccll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_EDDEVTYPE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_EDDEVTYPE(a) cavm_cst_apx_dbg_eddevtype_t
+#define bustype_CAVM_CST_APX_DBG_EDDEVTYPE(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_EDDEVTYPE(a) "CST_APX_DBG_EDDEVTYPE"
+#define busnum_CAVM_CST_APX_DBG_EDDEVTYPE(a) (a)
+#define arguments_CAVM_CST_APX_DBG_EDDEVTYPE(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) cst_ap#_dbg_eddfr
+ *
+ * CST Ap Dbg Eddfr Register
+ * Provides top level information about the debug system.
+ *
+ * [note]Debuggers must use ext-EDDEVARCH to determine the Debug architecture version.[/note]
+ *
+ * For general information about the interpretation of the ID registers, see
+ * x['Principles of the ID scheme for fields in ID
+ * registers'](BABFAFHI|D_aarch64_system_register_descriptions.fm).
+ */
+union cavm_cst_apx_dbg_eddfr
+{
+    uint64_t u;
+    struct cavm_cst_apx_dbg_eddfr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_44_63        : 20;
+        uint64_t tracefilt             : 4;  /**< [ 43: 40](RO) Armv8.4 Self-hosted Trace Extension version. This value is : */
+        uint64_t unknown_02            : 8;  /**< [ 39: 32](RO) This field is UNKNOWN */
+        uint64_t ctx_cmps              : 4;  /**< [ 31: 28](RO) Number of breakpoints that are context-aware, minus 1. These are the highest numbered breakpoints.
+                                                                 In an Armv8-A implementation that supports AArch64 state in at least one
+                                                                 Exception level, this field returns the value of
+                                                                 AArch64-ID_AA64DFR0_EL1.CTX_CMPs. */
+        uint64_t reserved_24_27        : 4;
+        uint64_t wrps                  : 4;  /**< [ 23: 20](RO) Number of watchpoints, minus 1. The value of 0b0000 is reserved.
+                                                                 In an Armv8-A implementation that supports AArch64 state in at least one
+                                                                 Exception level, this field returns the value of AArch64-ID_AA64DFR0_EL1.WRPs. */
+        uint64_t reserved_16_19        : 4;
+        uint64_t brps                  : 4;  /**< [ 15: 12](RO) Number of breakpoints, minus 1. The value of 0b0000 is reserved.
+                                                                 In an Armv8-A implementation that supports AArch64 state in at least one
+                                                                 Exception level, this field returns the value of AArch64-ID_AA64DFR0_EL1.BRPs. */
+        uint64_t pmuver                : 4;  /**< [ 11:  8](RO) Performance Monitors Extension version. */
+        uint64_t tracever              : 4;  /**< [  7:  4](RO) Trace support. Indicates whether System register interface to a PE trace unit is implemented. */
+        uint64_t unknown_01            : 4;  /**< [  3:  0](RO) This field is UNKNOWN */
+#else /* Word 0 - Little Endian */
+        uint64_t unknown_01            : 4;  /**< [  3:  0](RO) This field is UNKNOWN */
+        uint64_t tracever              : 4;  /**< [  7:  4](RO) Trace support. Indicates whether System register interface to a PE trace unit is implemented. */
+        uint64_t pmuver                : 4;  /**< [ 11:  8](RO) Performance Monitors Extension version. */
+        uint64_t brps                  : 4;  /**< [ 15: 12](RO) Number of breakpoints, minus 1. The value of 0b0000 is reserved.
+                                                                 In an Armv8-A implementation that supports AArch64 state in at least one
+                                                                 Exception level, this field returns the value of AArch64-ID_AA64DFR0_EL1.BRPs. */
+        uint64_t reserved_16_19        : 4;
+        uint64_t wrps                  : 4;  /**< [ 23: 20](RO) Number of watchpoints, minus 1. The value of 0b0000 is reserved.
+                                                                 In an Armv8-A implementation that supports AArch64 state in at least one
+                                                                 Exception level, this field returns the value of AArch64-ID_AA64DFR0_EL1.WRPs. */
+        uint64_t reserved_24_27        : 4;
+        uint64_t ctx_cmps              : 4;  /**< [ 31: 28](RO) Number of breakpoints that are context-aware, minus 1. These are the highest numbered breakpoints.
+                                                                 In an Armv8-A implementation that supports AArch64 state in at least one
+                                                                 Exception level, this field returns the value of
+                                                                 AArch64-ID_AA64DFR0_EL1.CTX_CMPs. */
+        uint64_t unknown_02            : 8;  /**< [ 39: 32](RO) This field is UNKNOWN */
+        uint64_t tracefilt             : 4;  /**< [ 43: 40](RO) Armv8.4 Self-hosted Trace Extension version. This value is : */
+        uint64_t reserved_44_63        : 20;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_eddfr_s cn; */
+};
+typedef union cavm_cst_apx_dbg_eddfr cavm_cst_apx_dbg_eddfr_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_EDDFR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_EDDFR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010d28ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_EDDFR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_EDDFR(a) cavm_cst_apx_dbg_eddfr_t
+#define bustype_CAVM_CST_APX_DBG_EDDFR(a) CSR_TYPE_NCB
+#define basename_CAVM_CST_APX_DBG_EDDFR(a) "CST_APX_DBG_EDDFR"
+#define busnum_CAVM_CST_APX_DBG_EDDFR(a) (a)
+#define arguments_CAVM_CST_APX_DBG_EDDFR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_edeccr
+ *
+ * CST Ap Dbg Edeccr Register
+ * Controls Exception Catch debug events.
+ */
+union cavm_cst_apx_dbg_edeccr
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_edeccr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t nsr3                  : 1;  /**< [ 15: 15](R/W) Controls Non-secure exception catch on exception return to EL&lt;n&gt; in
+                                                                 conjunction with NSE&lt;n&gt;. For information, see x['Summary of Exception
+                                                                 Catch debug event control'](BEIHJDGD|H_halting_debug_events.fm).
+                                                                 [note]It is IMPLEMENTATION DEFINED whether a reset entry to an Exception level
+                                                                 is permitted to generate an Exception Catch debug event.[/note]
+                                                                 A value of the NSR field that enables an Exception Catch debug event for an
+                                                                 Exception level that is not implemented is reserved. If the NSR field is
+                                                                 programmed with a reserved value then:
+                                                                   - The PE behaves as if it is programmed with a defined value, other than for a read of EDECCR.
+                                                                   - The value returned for NSR by a read of EDECCR is UNKNOWN. */
+        uint32_t nsr2                  : 1;  /**< [ 14: 14](R/W) Controls Non-secure exception catch on exception return to EL&lt;n&gt; in
+                                                                 conjunction with NSE&lt;n&gt;. For information, see x['Summary of Exception
+                                                                 Catch debug event control'](BEIHJDGD|H_halting_debug_events.fm).
+                                                                 [note]It is IMPLEMENTATION DEFINED whether a reset entry to an Exception level
+                                                                 is permitted to generate an Exception Catch debug event.[/note]
+                                                                 A value of the NSR field that enables an Exception Catch debug event for an
+                                                                 Exception level that is not implemented is reserved. If the NSR field is
+                                                                 programmed with a reserved value then:
+                                                                   - The PE behaves as if it is programmed with a defined value, other than for a read of EDECCR.
+                                                                   - The value returned for NSR by a read of EDECCR is UNKNOWN. */
+        uint32_t nsr1                  : 1;  /**< [ 13: 13](R/W) Controls Non-secure exception catch on exception return to EL&lt;n&gt; in
+                                                                 conjunction with NSE&lt;n&gt;. For information, see x['Summary of Exception
+                                                                 Catch debug event control'](BEIHJDGD|H_halting_debug_events.fm).
+                                                                 [note]It is IMPLEMENTATION DEFINED whether a reset entry to an Exception level
+                                                                 is permitted to generate an Exception Catch debug event.[/note]
+                                                                 A value of the NSR field that enables an Exception Catch debug event for an
+                                                                 Exception level that is not implemented is reserved. If the NSR field is
+                                                                 programmed with a reserved value then:
+                                                                   - The PE behaves as if it is programmed with a defined value, other than for a read of EDECCR.
+                                                                   - The value returned for NSR by a read of EDECCR is UNKNOWN. */
+        uint32_t nsr0                  : 1;  /**< [ 12: 12](R/W) Controls Non-secure exception catch on exception return to EL&lt;n&gt; in
+                                                                 conjunction with NSE&lt;n&gt;. For information, see x['Summary of Exception
+                                                                 Catch debug event control'](BEIHJDGD|H_halting_debug_events.fm).
+                                                                 [note]It is IMPLEMENTATION DEFINED whether a reset entry to an Exception level
+                                                                 is permitted to generate an Exception Catch debug event.[/note]
+                                                                 A value of the NSR field that enables an Exception Catch debug event for an
+                                                                 Exception level that is not implemented is reserved. If the NSR field is
+                                                                 programmed with a reserved value then:
+                                                                   - The PE behaves as if it is programmed with a defined value, other than for a read of EDECCR.
+                                                                   - The value returned for NSR by a read of EDECCR is UNKNOWN. */
+        uint32_t sr3                   : 1;  /**< [ 11: 11](R/W) Controls Secure exception catch on exception return to EL&lt;n&gt; in
+                                                                 conjunction with SE&lt;n&gt;. For information, see x['Summary of Exception Catch
+                                                                 debug event control'](BEIHJDGD|H_halting_debug_events.fm).
+                                                                 [note]It is IMPLEMENTATION DEFINED whether a reset entry to an Exception level
+                                                                 is permitted to generate an Exception Catch debug event.[/note]
+                                                                 A value of the SR field that enables an Exception Catch debug event for an
+                                                                 Exception level that is not implemented is reserved. If the SR field is
+                                                                 programmed with a reserved value then:
+                                                                   - The PE behaves as if it is programmed with a defined value, other than for a read of EDECCR.
+                                                                   - The value returned for SR by a read of EDECCR is UNKNOWN. */
+        uint32_t sr2                   : 1;  /**< [ 10: 10](R/W) Controls Secure exception catch on exception return to EL&lt;n&gt; in
+                                                                 conjunction with SE&lt;n&gt;. For information, see x['Summary of Exception Catch
+                                                                 debug event control'](BEIHJDGD|H_halting_debug_events.fm).
+                                                                 [note]It is IMPLEMENTATION DEFINED whether a reset entry to an Exception level
+                                                                 is permitted to generate an Exception Catch debug event.[/note]
+                                                                 A value of the SR field that enables an Exception Catch debug event for an
+                                                                 Exception level that is not implemented is reserved. If the SR field is
+                                                                 programmed with a reserved value then:
+                                                                   - The PE behaves as if it is programmed with a defined value, other than for a read of EDECCR.
+                                                                   - The value returned for SR by a read of EDECCR is UNKNOWN. */
+        uint32_t sr1                   : 1;  /**< [  9:  9](R/W) Controls Secure exception catch on exception return to EL&lt;n&gt; in
+                                                                 conjunction with SE&lt;n&gt;. For information, see x['Summary of Exception Catch
+                                                                 debug event control'](BEIHJDGD|H_halting_debug_events.fm).
+                                                                 [note]It is IMPLEMENTATION DEFINED whether a reset entry to an Exception level
+                                                                 is permitted to generate an Exception Catch debug event.[/note]
+                                                                 A value of the SR field that enables an Exception Catch debug event for an
+                                                                 Exception level that is not implemented is reserved. If the SR field is
+                                                                 programmed with a reserved value then:
+                                                                   - The PE behaves as if it is programmed with a defined value, other than for a read of EDECCR.
+                                                                   - The value returned for SR by a read of EDECCR is UNKNOWN. */
+        uint32_t sr0                   : 1;  /**< [  8:  8](R/W) Controls Secure exception catch on exception return to EL&lt;n&gt; in
+                                                                 conjunction with SE&lt;n&gt;. For information, see x['Summary of Exception Catch
+                                                                 debug event control'](BEIHJDGD|H_halting_debug_events.fm).
+                                                                 [note]It is IMPLEMENTATION DEFINED whether a reset entry to an Exception level
+                                                                 is permitted to generate an Exception Catch debug event.[/note]
+                                                                 A value of the SR field that enables an Exception Catch debug event for an
+                                                                 Exception level that is not implemented is reserved. If the SR field is
+                                                                 programmed with a reserved value then:
+                                                                   - The PE behaves as if it is programmed with a defined value, other than for a read of EDECCR.
+                                                                   - The value returned for SR by a read of EDECCR is UNKNOWN. */
+        uint32_t nse3                  : 1;  /**< [  7:  7](R/W) Coarse-grained Non-secure exception catch for EL&lt;n&gt;. This controls whether
+                                                                 Exception Catch debug events are enabled for Non-secure EL&lt;n&gt;. This also
+                                                                 controls:
+                                                                   - The behavior of exception catch on exception entry to EL&lt;n&gt;.
+                                                                   - The behavior of exception catch on exception return to EL&lt;n&gt; in
+                                                                 conjunction with NSR&lt;n&gt;.
+                                                                 A value of the NSE field that enables an Exception Catch debug event for an
+                                                                 Exception level that is not implemented is reserved. If the NSE field is
+                                                                 programmed with a reserved value then:
+                                                                   - The PE behaves as if it is programmed with a defined value, other than for a read of EDECCR.
+                                                                   - The value returned for NSE by a read of EDECCR is UNKNOWN. */
+        uint32_t nse2                  : 1;  /**< [  6:  6](R/W) Coarse-grained Non-secure exception catch for EL&lt;n&gt;. This controls whether
+                                                                 Exception Catch debug events are enabled for Non-secure EL&lt;n&gt;. This also
+                                                                 controls:
+                                                                   - The behavior of exception catch on exception entry to EL&lt;n&gt;.
+                                                                   - The behavior of exception catch on exception return to EL&lt;n&gt; in
+                                                                 conjunction with NSR&lt;n&gt;.
+                                                                 A value of the NSE field that enables an Exception Catch debug event for an
+                                                                 Exception level that is not implemented is reserved. If the NSE field is
+                                                                 programmed with a reserved value then:
+                                                                   - The PE behaves as if it is programmed with a defined value, other than for a read of EDECCR.
+                                                                   - The value returned for NSE by a read of EDECCR is UNKNOWN. */
+        uint32_t nse1                  : 1;  /**< [  5:  5](R/W) Coarse-grained Non-secure exception catch for EL&lt;n&gt;. This controls whether
+                                                                 Exception Catch debug events are enabled for Non-secure EL&lt;n&gt;. This also
+                                                                 controls:
+                                                                   - The behavior of exception catch on exception entry to EL&lt;n&gt;.
+                                                                   - The behavior of exception catch on exception return to EL&lt;n&gt; in
+                                                                 conjunction with NSR&lt;n&gt;.
+                                                                 A value of the NSE field that enables an Exception Catch debug event for an
+                                                                 Exception level that is not implemented is reserved. If the NSE field is
+                                                                 programmed with a reserved value then:
+                                                                   - The PE behaves as if it is programmed with a defined value, other than for a read of EDECCR.
+                                                                   - The value returned for NSE by a read of EDECCR is UNKNOWN. */
+        uint32_t nse0                  : 1;  /**< [  4:  4](R/W) Coarse-grained Non-secure exception catch for EL&lt;n&gt;. This controls whether
+                                                                 Exception Catch debug events are enabled for Non-secure EL&lt;n&gt;. This also
+                                                                 controls:
+                                                                   - The behavior of exception catch on exception entry to EL&lt;n&gt;.
+                                                                   - The behavior of exception catch on exception return to EL&lt;n&gt; in
+                                                                 conjunction with NSR&lt;n&gt;.
+                                                                 A value of the NSE field that enables an Exception Catch debug event for an
+                                                                 Exception level that is not implemented is reserved. If the NSE field is
+                                                                 programmed with a reserved value then:
+                                                                   - The PE behaves as if it is programmed with a defined value, other than for a read of EDECCR.
+                                                                   - The value returned for NSE by a read of EDECCR is UNKNOWN. */
+        uint32_t se3                   : 1;  /**< [  3:  3](R/W) Coarse-grained Secure exception catch for EL&lt;n&gt;. This field controls
+                                                                 whether Exception Catch debug events are enabled for Secure EL&lt;n&gt;.
+                                                                   - The behavior of exception catch on exception entry to EL&lt;n&gt;.
+                                                                   - The behavior of exception catch on exception return to EL&lt;n&gt; in
+                                                                 conjunction with SR&lt;n&gt;.
+                                                                 A value of the SE field that enables an Exception Catch debug event for an
+                                                                 Exception level that is not implemented is reserved. If the SE field is
+                                                                 programmed with a reserved value then:
+                                                                   - The PE behaves as if it is programmed with a defined value, other than for a read of EDECCR.
+                                                                   - The value returned for SE by a read of EDECCR is UNKNOWN. */
+        uint32_t se2                   : 1;  /**< [  2:  2](R/W) Coarse-grained Secure exception catch for EL&lt;n&gt;. This field controls
+                                                                 whether Exception Catch debug events are enabled for Secure EL&lt;n&gt;.
+                                                                   - The behavior of exception catch on exception entry to EL&lt;n&gt;.
+                                                                   - The behavior of exception catch on exception return to EL&lt;n&gt; in
+                                                                 conjunction with SR&lt;n&gt;.
+                                                                 A value of the SE field that enables an Exception Catch debug event for an
+                                                                 Exception level that is not implemented is reserved. If the SE field is
+                                                                 programmed with a reserved value then:
+                                                                   - The PE behaves as if it is programmed with a defined value, other than for a read of EDECCR.
+                                                                   - The value returned for SE by a read of EDECCR is UNKNOWN. */
+        uint32_t se1                   : 1;  /**< [  1:  1](R/W) Coarse-grained Secure exception catch for EL&lt;n&gt;. This field controls
+                                                                 whether Exception Catch debug events are enabled for Secure EL&lt;n&gt;.
+                                                                   - The behavior of exception catch on exception entry to EL&lt;n&gt;.
+                                                                   - The behavior of exception catch on exception return to EL&lt;n&gt; in
+                                                                 conjunction with SR&lt;n&gt;.
+                                                                 A value of the SE field that enables an Exception Catch debug event for an
+                                                                 Exception level that is not implemented is reserved. If the SE field is
+                                                                 programmed with a reserved value then:
+                                                                   - The PE behaves as if it is programmed with a defined value, other than for a read of EDECCR.
+                                                                   - The value returned for SE by a read of EDECCR is UNKNOWN. */
+        uint32_t se0                   : 1;  /**< [  0:  0](R/W) Coarse-grained Secure exception catch for EL&lt;n&gt;. This field controls
+                                                                 whether Exception Catch debug events are enabled for Secure EL&lt;n&gt;.
+                                                                   - The behavior of exception catch on exception entry to EL&lt;n&gt;.
+                                                                   - The behavior of exception catch on exception return to EL&lt;n&gt; in
+                                                                 conjunction with SR&lt;n&gt;.
+                                                                 A value of the SE field that enables an Exception Catch debug event for an
+                                                                 Exception level that is not implemented is reserved. If the SE field is
+                                                                 programmed with a reserved value then:
+                                                                   - The PE behaves as if it is programmed with a defined value, other than for a read of EDECCR.
+                                                                   - The value returned for SE by a read of EDECCR is UNKNOWN. */
+#else /* Word 0 - Little Endian */
+        uint32_t se0                   : 1;  /**< [  0:  0](R/W) Coarse-grained Secure exception catch for EL&lt;n&gt;. This field controls
+                                                                 whether Exception Catch debug events are enabled for Secure EL&lt;n&gt;.
+                                                                   - The behavior of exception catch on exception entry to EL&lt;n&gt;.
+                                                                   - The behavior of exception catch on exception return to EL&lt;n&gt; in
+                                                                 conjunction with SR&lt;n&gt;.
+                                                                 A value of the SE field that enables an Exception Catch debug event for an
+                                                                 Exception level that is not implemented is reserved. If the SE field is
+                                                                 programmed with a reserved value then:
+                                                                   - The PE behaves as if it is programmed with a defined value, other than for a read of EDECCR.
+                                                                   - The value returned for SE by a read of EDECCR is UNKNOWN. */
+        uint32_t se1                   : 1;  /**< [  1:  1](R/W) Coarse-grained Secure exception catch for EL&lt;n&gt;. This field controls
+                                                                 whether Exception Catch debug events are enabled for Secure EL&lt;n&gt;.
+                                                                   - The behavior of exception catch on exception entry to EL&lt;n&gt;.
+                                                                   - The behavior of exception catch on exception return to EL&lt;n&gt; in
+                                                                 conjunction with SR&lt;n&gt;.
+                                                                 A value of the SE field that enables an Exception Catch debug event for an
+                                                                 Exception level that is not implemented is reserved. If the SE field is
+                                                                 programmed with a reserved value then:
+                                                                   - The PE behaves as if it is programmed with a defined value, other than for a read of EDECCR.
+                                                                   - The value returned for SE by a read of EDECCR is UNKNOWN. */
+        uint32_t se2                   : 1;  /**< [  2:  2](R/W) Coarse-grained Secure exception catch for EL&lt;n&gt;. This field controls
+                                                                 whether Exception Catch debug events are enabled for Secure EL&lt;n&gt;.
+                                                                   - The behavior of exception catch on exception entry to EL&lt;n&gt;.
+                                                                   - The behavior of exception catch on exception return to EL&lt;n&gt; in
+                                                                 conjunction with SR&lt;n&gt;.
+                                                                 A value of the SE field that enables an Exception Catch debug event for an
+                                                                 Exception level that is not implemented is reserved. If the SE field is
+                                                                 programmed with a reserved value then:
+                                                                   - The PE behaves as if it is programmed with a defined value, other than for a read of EDECCR.
+                                                                   - The value returned for SE by a read of EDECCR is UNKNOWN. */
+        uint32_t se3                   : 1;  /**< [  3:  3](R/W) Coarse-grained Secure exception catch for EL&lt;n&gt;. This field controls
+                                                                 whether Exception Catch debug events are enabled for Secure EL&lt;n&gt;.
+                                                                   - The behavior of exception catch on exception entry to EL&lt;n&gt;.
+                                                                   - The behavior of exception catch on exception return to EL&lt;n&gt; in
+                                                                 conjunction with SR&lt;n&gt;.
+                                                                 A value of the SE field that enables an Exception Catch debug event for an
+                                                                 Exception level that is not implemented is reserved. If the SE field is
+                                                                 programmed with a reserved value then:
+                                                                   - The PE behaves as if it is programmed with a defined value, other than for a read of EDECCR.
+                                                                   - The value returned for SE by a read of EDECCR is UNKNOWN. */
+        uint32_t nse0                  : 1;  /**< [  4:  4](R/W) Coarse-grained Non-secure exception catch for EL&lt;n&gt;. This controls whether
+                                                                 Exception Catch debug events are enabled for Non-secure EL&lt;n&gt;. This also
+                                                                 controls:
+                                                                   - The behavior of exception catch on exception entry to EL&lt;n&gt;.
+                                                                   - The behavior of exception catch on exception return to EL&lt;n&gt; in
+                                                                 conjunction with NSR&lt;n&gt;.
+                                                                 A value of the NSE field that enables an Exception Catch debug event for an
+                                                                 Exception level that is not implemented is reserved. If the NSE field is
+                                                                 programmed with a reserved value then:
+                                                                   - The PE behaves as if it is programmed with a defined value, other than for a read of EDECCR.
+                                                                   - The value returned for NSE by a read of EDECCR is UNKNOWN. */
+        uint32_t nse1                  : 1;  /**< [  5:  5](R/W) Coarse-grained Non-secure exception catch for EL&lt;n&gt;. This controls whether
+                                                                 Exception Catch debug events are enabled for Non-secure EL&lt;n&gt;. This also
+                                                                 controls:
+                                                                   - The behavior of exception catch on exception entry to EL&lt;n&gt;.
+                                                                   - The behavior of exception catch on exception return to EL&lt;n&gt; in
+                                                                 conjunction with NSR&lt;n&gt;.
+                                                                 A value of the NSE field that enables an Exception Catch debug event for an
+                                                                 Exception level that is not implemented is reserved. If the NSE field is
+                                                                 programmed with a reserved value then:
+                                                                   - The PE behaves as if it is programmed with a defined value, other than for a read of EDECCR.
+                                                                   - The value returned for NSE by a read of EDECCR is UNKNOWN. */
+        uint32_t nse2                  : 1;  /**< [  6:  6](R/W) Coarse-grained Non-secure exception catch for EL&lt;n&gt;. This controls whether
+                                                                 Exception Catch debug events are enabled for Non-secure EL&lt;n&gt;. This also
+                                                                 controls:
+                                                                   - The behavior of exception catch on exception entry to EL&lt;n&gt;.
+                                                                   - The behavior of exception catch on exception return to EL&lt;n&gt; in
+                                                                 conjunction with NSR&lt;n&gt;.
+                                                                 A value of the NSE field that enables an Exception Catch debug event for an
+                                                                 Exception level that is not implemented is reserved. If the NSE field is
+                                                                 programmed with a reserved value then:
+                                                                   - The PE behaves as if it is programmed with a defined value, other than for a read of EDECCR.
+                                                                   - The value returned for NSE by a read of EDECCR is UNKNOWN. */
+        uint32_t nse3                  : 1;  /**< [  7:  7](R/W) Coarse-grained Non-secure exception catch for EL&lt;n&gt;. This controls whether
+                                                                 Exception Catch debug events are enabled for Non-secure EL&lt;n&gt;. This also
+                                                                 controls:
+                                                                   - The behavior of exception catch on exception entry to EL&lt;n&gt;.
+                                                                   - The behavior of exception catch on exception return to EL&lt;n&gt; in
+                                                                 conjunction with NSR&lt;n&gt;.
+                                                                 A value of the NSE field that enables an Exception Catch debug event for an
+                                                                 Exception level that is not implemented is reserved. If the NSE field is
+                                                                 programmed with a reserved value then:
+                                                                   - The PE behaves as if it is programmed with a defined value, other than for a read of EDECCR.
+                                                                   - The value returned for NSE by a read of EDECCR is UNKNOWN. */
+        uint32_t sr0                   : 1;  /**< [  8:  8](R/W) Controls Secure exception catch on exception return to EL&lt;n&gt; in
+                                                                 conjunction with SE&lt;n&gt;. For information, see x['Summary of Exception Catch
+                                                                 debug event control'](BEIHJDGD|H_halting_debug_events.fm).
+                                                                 [note]It is IMPLEMENTATION DEFINED whether a reset entry to an Exception level
+                                                                 is permitted to generate an Exception Catch debug event.[/note]
+                                                                 A value of the SR field that enables an Exception Catch debug event for an
+                                                                 Exception level that is not implemented is reserved. If the SR field is
+                                                                 programmed with a reserved value then:
+                                                                   - The PE behaves as if it is programmed with a defined value, other than for a read of EDECCR.
+                                                                   - The value returned for SR by a read of EDECCR is UNKNOWN. */
+        uint32_t sr1                   : 1;  /**< [  9:  9](R/W) Controls Secure exception catch on exception return to EL&lt;n&gt; in
+                                                                 conjunction with SE&lt;n&gt;. For information, see x['Summary of Exception Catch
+                                                                 debug event control'](BEIHJDGD|H_halting_debug_events.fm).
+                                                                 [note]It is IMPLEMENTATION DEFINED whether a reset entry to an Exception level
+                                                                 is permitted to generate an Exception Catch debug event.[/note]
+                                                                 A value of the SR field that enables an Exception Catch debug event for an
+                                                                 Exception level that is not implemented is reserved. If the SR field is
+                                                                 programmed with a reserved value then:
+                                                                   - The PE behaves as if it is programmed with a defined value, other than for a read of EDECCR.
+                                                                   - The value returned for SR by a read of EDECCR is UNKNOWN. */
+        uint32_t sr2                   : 1;  /**< [ 10: 10](R/W) Controls Secure exception catch on exception return to EL&lt;n&gt; in
+                                                                 conjunction with SE&lt;n&gt;. For information, see x['Summary of Exception Catch
+                                                                 debug event control'](BEIHJDGD|H_halting_debug_events.fm).
+                                                                 [note]It is IMPLEMENTATION DEFINED whether a reset entry to an Exception level
+                                                                 is permitted to generate an Exception Catch debug event.[/note]
+                                                                 A value of the SR field that enables an Exception Catch debug event for an
+                                                                 Exception level that is not implemented is reserved. If the SR field is
+                                                                 programmed with a reserved value then:
+                                                                   - The PE behaves as if it is programmed with a defined value, other than for a read of EDECCR.
+                                                                   - The value returned for SR by a read of EDECCR is UNKNOWN. */
+        uint32_t sr3                   : 1;  /**< [ 11: 11](R/W) Controls Secure exception catch on exception return to EL&lt;n&gt; in
+                                                                 conjunction with SE&lt;n&gt;. For information, see x['Summary of Exception Catch
+                                                                 debug event control'](BEIHJDGD|H_halting_debug_events.fm).
+                                                                 [note]It is IMPLEMENTATION DEFINED whether a reset entry to an Exception level
+                                                                 is permitted to generate an Exception Catch debug event.[/note]
+                                                                 A value of the SR field that enables an Exception Catch debug event for an
+                                                                 Exception level that is not implemented is reserved. If the SR field is
+                                                                 programmed with a reserved value then:
+                                                                   - The PE behaves as if it is programmed with a defined value, other than for a read of EDECCR.
+                                                                   - The value returned for SR by a read of EDECCR is UNKNOWN. */
+        uint32_t nsr0                  : 1;  /**< [ 12: 12](R/W) Controls Non-secure exception catch on exception return to EL&lt;n&gt; in
+                                                                 conjunction with NSE&lt;n&gt;. For information, see x['Summary of Exception
+                                                                 Catch debug event control'](BEIHJDGD|H_halting_debug_events.fm).
+                                                                 [note]It is IMPLEMENTATION DEFINED whether a reset entry to an Exception level
+                                                                 is permitted to generate an Exception Catch debug event.[/note]
+                                                                 A value of the NSR field that enables an Exception Catch debug event for an
+                                                                 Exception level that is not implemented is reserved. If the NSR field is
+                                                                 programmed with a reserved value then:
+                                                                   - The PE behaves as if it is programmed with a defined value, other than for a read of EDECCR.
+                                                                   - The value returned for NSR by a read of EDECCR is UNKNOWN. */
+        uint32_t nsr1                  : 1;  /**< [ 13: 13](R/W) Controls Non-secure exception catch on exception return to EL&lt;n&gt; in
+                                                                 conjunction with NSE&lt;n&gt;. For information, see x['Summary of Exception
+                                                                 Catch debug event control'](BEIHJDGD|H_halting_debug_events.fm).
+                                                                 [note]It is IMPLEMENTATION DEFINED whether a reset entry to an Exception level
+                                                                 is permitted to generate an Exception Catch debug event.[/note]
+                                                                 A value of the NSR field that enables an Exception Catch debug event for an
+                                                                 Exception level that is not implemented is reserved. If the NSR field is
+                                                                 programmed with a reserved value then:
+                                                                   - The PE behaves as if it is programmed with a defined value, other than for a read of EDECCR.
+                                                                   - The value returned for NSR by a read of EDECCR is UNKNOWN. */
+        uint32_t nsr2                  : 1;  /**< [ 14: 14](R/W) Controls Non-secure exception catch on exception return to EL&lt;n&gt; in
+                                                                 conjunction with NSE&lt;n&gt;. For information, see x['Summary of Exception
+                                                                 Catch debug event control'](BEIHJDGD|H_halting_debug_events.fm).
+                                                                 [note]It is IMPLEMENTATION DEFINED whether a reset entry to an Exception level
+                                                                 is permitted to generate an Exception Catch debug event.[/note]
+                                                                 A value of the NSR field that enables an Exception Catch debug event for an
+                                                                 Exception level that is not implemented is reserved. If the NSR field is
+                                                                 programmed with a reserved value then:
+                                                                   - The PE behaves as if it is programmed with a defined value, other than for a read of EDECCR.
+                                                                   - The value returned for NSR by a read of EDECCR is UNKNOWN. */
+        uint32_t nsr3                  : 1;  /**< [ 15: 15](R/W) Controls Non-secure exception catch on exception return to EL&lt;n&gt; in
+                                                                 conjunction with NSE&lt;n&gt;. For information, see x['Summary of Exception
+                                                                 Catch debug event control'](BEIHJDGD|H_halting_debug_events.fm).
+                                                                 [note]It is IMPLEMENTATION DEFINED whether a reset entry to an Exception level
+                                                                 is permitted to generate an Exception Catch debug event.[/note]
+                                                                 A value of the NSR field that enables an Exception Catch debug event for an
+                                                                 Exception level that is not implemented is reserved. If the NSR field is
+                                                                 programmed with a reserved value then:
+                                                                   - The PE behaves as if it is programmed with a defined value, other than for a read of EDECCR.
+                                                                   - The value returned for NSR by a read of EDECCR is UNKNOWN. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_edeccr_s cn; */
+};
+typedef union cavm_cst_apx_dbg_edeccr cavm_cst_apx_dbg_edeccr_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_EDECCR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_EDECCR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010098ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_EDECCR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_EDECCR(a) cavm_cst_apx_dbg_edeccr_t
+#define bustype_CAVM_CST_APX_DBG_EDECCR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_EDECCR(a) "CST_APX_DBG_EDECCR"
+#define busnum_CAVM_CST_APX_DBG_EDECCR(a) (a)
+#define arguments_CAVM_CST_APX_DBG_EDECCR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_edecr
+ *
+ * CST Ap Dbg Edecr Register
+ * Controls Halting debug events.
+ */
+union cavm_cst_apx_dbg_edecr
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_edecr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_3_31         : 29;
+        uint32_t ss                    : 1;  /**< [  2:  2](R/W) Halting step enable. Possible values of this field are:
+                                                                 If the value of EDECR.SS is changed when the PE is in Non-debug state, behavior
+                                                                 is CONSTRAINED UNPREDICTABLE as described in x['Changing the value of EDECR.SS
+                                                                 when not in Debug state'](BEICCCHJ|H_halting_debug_events.fm). */
+        uint32_t reserved_0_1          : 2;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_1          : 2;
+        uint32_t ss                    : 1;  /**< [  2:  2](R/W) Halting step enable. Possible values of this field are:
+                                                                 If the value of EDECR.SS is changed when the PE is in Non-debug state, behavior
+                                                                 is CONSTRAINED UNPREDICTABLE as described in x['Changing the value of EDECR.SS
+                                                                 when not in Debug state'](BEICCCHJ|H_halting_debug_events.fm). */
+        uint32_t reserved_3_31         : 29;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_edecr_s cn; */
+};
+typedef union cavm_cst_apx_dbg_edecr cavm_cst_apx_dbg_edecr_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_EDECR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_EDECR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010024ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_EDECR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_EDECR(a) cavm_cst_apx_dbg_edecr_t
+#define bustype_CAVM_CST_APX_DBG_EDECR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_EDECR(a) "CST_APX_DBG_EDECR"
+#define busnum_CAVM_CST_APX_DBG_EDECR(a) (a)
+#define arguments_CAVM_CST_APX_DBG_EDECR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_edesr
+ *
+ * CST Ap Dbg Edesr Register
+ * Indicates the status of internally pending Halting debug events.
+ */
+union cavm_cst_apx_dbg_edesr
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_edesr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_3_31         : 29;
+        uint32_t ss                    : 1;  /**< [  2:  2](R/W) Halting step debug event pending. Possible values of this field are: */
+        uint32_t rc                    : 1;  /**< [  1:  1](R/W) Reset Catch debug event pending. Possible values of this field are: */
+        uint32_t osuc                  : 1;  /**< [  0:  0](R/W) OS Unlock Catch debug event pending. Possible values of this field are: */
+#else /* Word 0 - Little Endian */
+        uint32_t osuc                  : 1;  /**< [  0:  0](R/W) OS Unlock Catch debug event pending. Possible values of this field are: */
+        uint32_t rc                    : 1;  /**< [  1:  1](R/W) Reset Catch debug event pending. Possible values of this field are: */
+        uint32_t ss                    : 1;  /**< [  2:  2](R/W) Halting step debug event pending. Possible values of this field are: */
+        uint32_t reserved_3_31         : 29;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_edesr_s cn; */
+};
+typedef union cavm_cst_apx_dbg_edesr cavm_cst_apx_dbg_edesr_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_EDESR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_EDESR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010020ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_EDESR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_EDESR(a) cavm_cst_apx_dbg_edesr_t
+#define bustype_CAVM_CST_APX_DBG_EDESR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_EDESR(a) "CST_APX_DBG_EDESR"
+#define busnum_CAVM_CST_APX_DBG_EDESR(a) (a)
+#define arguments_CAVM_CST_APX_DBG_EDESR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_editctrl
+ *
+ * CST Ap Dbg Editctrl Register
+ * Enables the external debug to switch from its default mode into integration mode,
+ * where test software can control directly the inputs and outputs of the PE, for
+ * integration testing or topology detection.
+ */
+union cavm_cst_apx_dbg_editctrl
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_editctrl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_1_31         : 31;
+        uint32_t ime                   : 1;  /**< [  0:  0](R/W) Integration mode enable. When IME == 1, the device reverts to an integration
+                                                                 mode to enable integration testing or topology detection. The integration mode
+                                                                 behavior is IMPLEMENTATION DEFINED. */
+#else /* Word 0 - Little Endian */
+        uint32_t ime                   : 1;  /**< [  0:  0](R/W) Integration mode enable. When IME == 1, the device reverts to an integration
+                                                                 mode to enable integration testing or topology detection. The integration mode
+                                                                 behavior is IMPLEMENTATION DEFINED. */
+        uint32_t reserved_1_31         : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_editctrl_s cn; */
+};
+typedef union cavm_cst_apx_dbg_editctrl cavm_cst_apx_dbg_editctrl_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_EDITCTRL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_EDITCTRL(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010f00ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_EDITCTRL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_EDITCTRL(a) cavm_cst_apx_dbg_editctrl_t
+#define bustype_CAVM_CST_APX_DBG_EDITCTRL(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_EDITCTRL(a) "CST_APX_DBG_EDITCTRL"
+#define busnum_CAVM_CST_APX_DBG_EDITCTRL(a) (a)
+#define arguments_CAVM_CST_APX_DBG_EDITCTRL(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_edlar
+ *
+ * CST Ap Dbg Edlar Register
+ * Allows or disallows access to the external debug registers through a memory-mapped interface.
+ *
+ * The optional Software Lock provides a lock to prevent memory-mapped writes to the
+ * debug registers. Use of this lock mechanism reduces the risk of accidental damage to
+ * the contents of the debug registers. It does not, and cannot, prevent all accidental
+ * or malicious damage.
+ */
+union cavm_cst_apx_dbg_edlar
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_edlar_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key                   : 32; /**< [ 31:  0](WO) Lock Access control. Writing the key value 0xC5ACCE55 to this field unlocks the
+                                                                 lock, enabling write accesses to this component's registers through a memory-
+                                                                 mapped interface.
+                                                                 Writing any other value to this register locks the lock, disabling write
+                                                                 accesses to this component's registers through a memory mapped interface. */
+#else /* Word 0 - Little Endian */
+        uint32_t key                   : 32; /**< [ 31:  0](WO) Lock Access control. Writing the key value 0xC5ACCE55 to this field unlocks the
+                                                                 lock, enabling write accesses to this component's registers through a memory-
+                                                                 mapped interface.
+                                                                 Writing any other value to this register locks the lock, disabling write
+                                                                 accesses to this component's registers through a memory mapped interface. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_edlar_s cn; */
+};
+typedef union cavm_cst_apx_dbg_edlar cavm_cst_apx_dbg_edlar_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_EDLAR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_EDLAR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010fb0ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_EDLAR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_EDLAR(a) cavm_cst_apx_dbg_edlar_t
+#define bustype_CAVM_CST_APX_DBG_EDLAR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_EDLAR(a) "CST_APX_DBG_EDLAR"
+#define busnum_CAVM_CST_APX_DBG_EDLAR(a) (a)
+#define arguments_CAVM_CST_APX_DBG_EDLAR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_edlsr
+ *
+ * CST Ap Dbg Edlsr Register
+ * Indicates the current status of the software lock for external debug registers.
+ *
+ * The optional Software Lock provides a lock to prevent memory-mapped writes to the
+ * debug registers. Use of this lock mechanism reduces the risk of accidental damage to
+ * the contents of the debug registers. It does not, and cannot, prevent all accidental
+ * or malicious damage.
+ */
+union cavm_cst_apx_dbg_edlsr
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_edlsr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_3_31         : 29;
+        uint32_t ntt                   : 1;  /**< [  2:  2](RO) Not thirty-two bit access required. RAZ. */
+        uint32_t slk                   : 1;  /**< [  1:  1](RO) Software Lock status for this component. For an access to LSR that is not a
+                                                                 memory-mapped access, or when the Software Lock is not implemented, this field
+                                                                 is RES0.
+                                                                 For memory-mapped accesses when the Software Lock is implemented, possible
+                                                                 values of this field are: */
+        uint32_t sli                   : 1;  /**< [  0:  0](RO) Software Lock implemented. For an access to LSR that is not a memory-mapped
+                                                                 access, this field is RAZ. For memory-mapped accesses, the value of this field
+                                                                 is IMPLEMENTATION DEFINED. Permitted values are: */
+#else /* Word 0 - Little Endian */
+        uint32_t sli                   : 1;  /**< [  0:  0](RO) Software Lock implemented. For an access to LSR that is not a memory-mapped
+                                                                 access, this field is RAZ. For memory-mapped accesses, the value of this field
+                                                                 is IMPLEMENTATION DEFINED. Permitted values are: */
+        uint32_t slk                   : 1;  /**< [  1:  1](RO) Software Lock status for this component. For an access to LSR that is not a
+                                                                 memory-mapped access, or when the Software Lock is not implemented, this field
+                                                                 is RES0.
+                                                                 For memory-mapped accesses when the Software Lock is implemented, possible
+                                                                 values of this field are: */
+        uint32_t ntt                   : 1;  /**< [  2:  2](RO) Not thirty-two bit access required. RAZ. */
+        uint32_t reserved_3_31         : 29;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_edlsr_s cn; */
+};
+typedef union cavm_cst_apx_dbg_edlsr cavm_cst_apx_dbg_edlsr_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_EDLSR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_EDLSR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010fb4ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_EDLSR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_EDLSR(a) cavm_cst_apx_dbg_edlsr_t
+#define bustype_CAVM_CST_APX_DBG_EDLSR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_EDLSR(a) "CST_APX_DBG_EDLSR"
+#define busnum_CAVM_CST_APX_DBG_EDLSR(a) (a)
+#define arguments_CAVM_CST_APX_DBG_EDLSR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) cst_ap#_dbg_edpfr
+ *
+ * CST Ap Dbg Edpfr Register
+ * Provides information about implemented PE features.
+ *
+ * For general information about the interpretation of the ID registers, see
+ * x['Principles of the ID scheme for fields in ID
+ * registers'](BABFAFHI|D_aarch64_system_register_descriptions.fm).
+ */
+union cavm_cst_apx_dbg_edpfr
+{
+    uint64_t u;
+    struct cavm_cst_apx_dbg_edpfr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t unknown_04            : 8;  /**< [ 63: 56](RO) This field is UNKNOWN */
+        uint64_t reserved_52_55        : 4;
+        uint64_t unknown_03            : 4;  /**< [ 51: 48](RO) This field is UNKNOWN */
+        uint64_t amu                   : 4;  /**< [ 47: 44](RO) Activity Monitors Extension. This value is : */
+        uint64_t unknown_02            : 4;  /**< [ 43: 40](RO) This field is UNKNOWN */
+        uint64_t sel2                  : 4;  /**< [ 39: 36](RO) Secure EL2. This value is : */
+        uint64_t sve                   : 4;  /**< [ 35: 32](RO) Scalable Vector Extension. This value is : */
+        uint64_t unknown_01            : 4;  /**< [ 31: 28](RO) This field is UNKNOWN */
+        uint64_t gic                   : 4;  /**< [ 27: 24](RO) System register GIC interface support */
+        uint64_t advsimd               : 4;  /**< [ 23: 20](RO) Advanced SIMD. This value is: */
+        uint64_t fp                    : 4;  /**< [ 19: 16](RO) Floating Point. This value is: */
+        uint64_t el3                   : 4;  /**< [ 15: 12](RO) AArch64 EL3 Exception level handling */
+        uint64_t el2                   : 4;  /**< [ 11:  8](RO) AArch64 EL2 Exception level handling */
+        uint64_t el1                   : 4;  /**< [  7:  4](RO) AArch64 EL1 Exception level handling */
+        uint64_t el0                   : 4;  /**< [  3:  0](RO) AArch64 EL0 Exception level handling */
+#else /* Word 0 - Little Endian */
+        uint64_t el0                   : 4;  /**< [  3:  0](RO) AArch64 EL0 Exception level handling */
+        uint64_t el1                   : 4;  /**< [  7:  4](RO) AArch64 EL1 Exception level handling */
+        uint64_t el2                   : 4;  /**< [ 11:  8](RO) AArch64 EL2 Exception level handling */
+        uint64_t el3                   : 4;  /**< [ 15: 12](RO) AArch64 EL3 Exception level handling */
+        uint64_t fp                    : 4;  /**< [ 19: 16](RO) Floating Point. This value is: */
+        uint64_t advsimd               : 4;  /**< [ 23: 20](RO) Advanced SIMD. This value is: */
+        uint64_t gic                   : 4;  /**< [ 27: 24](RO) System register GIC interface support */
+        uint64_t unknown_01            : 4;  /**< [ 31: 28](RO) This field is UNKNOWN */
+        uint64_t sve                   : 4;  /**< [ 35: 32](RO) Scalable Vector Extension. This value is : */
+        uint64_t sel2                  : 4;  /**< [ 39: 36](RO) Secure EL2. This value is : */
+        uint64_t unknown_02            : 4;  /**< [ 43: 40](RO) This field is UNKNOWN */
+        uint64_t amu                   : 4;  /**< [ 47: 44](RO) Activity Monitors Extension. This value is : */
+        uint64_t unknown_03            : 4;  /**< [ 51: 48](RO) This field is UNKNOWN */
+        uint64_t reserved_52_55        : 4;
+        uint64_t unknown_04            : 8;  /**< [ 63: 56](RO) This field is UNKNOWN */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_edpfr_s cn; */
+};
+typedef union cavm_cst_apx_dbg_edpfr cavm_cst_apx_dbg_edpfr_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_EDPFR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_EDPFR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010d20ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_EDPFR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_EDPFR(a) cavm_cst_apx_dbg_edpfr_t
+#define bustype_CAVM_CST_APX_DBG_EDPFR(a) CSR_TYPE_NCB
+#define basename_CAVM_CST_APX_DBG_EDPFR(a) "CST_APX_DBG_EDPFR"
+#define busnum_CAVM_CST_APX_DBG_EDPFR(a) (a)
+#define arguments_CAVM_CST_APX_DBG_EDPFR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_edpidr0
+ *
+ * CST Ap Dbg Edpidr0 Register
+ * Provides information to identify an external debug component.
+ *
+ * For more information, see x['About the Peripheral identification
+ * scheme'](BABDFHAH|appx_recommended_external_debug_interface.fm).
+ */
+union cavm_cst_apx_dbg_edpidr0
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_edpidr0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t part_0                : 8;  /**< [  7:  0](RO) Part number, least significant byte. */
+#else /* Word 0 - Little Endian */
+        uint32_t part_0                : 8;  /**< [  7:  0](RO) Part number, least significant byte. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_edpidr0_s cn; */
+};
+typedef union cavm_cst_apx_dbg_edpidr0 cavm_cst_apx_dbg_edpidr0_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_EDPIDR0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_EDPIDR0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010fe0ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_EDPIDR0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_EDPIDR0(a) cavm_cst_apx_dbg_edpidr0_t
+#define bustype_CAVM_CST_APX_DBG_EDPIDR0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_EDPIDR0(a) "CST_APX_DBG_EDPIDR0"
+#define busnum_CAVM_CST_APX_DBG_EDPIDR0(a) (a)
+#define arguments_CAVM_CST_APX_DBG_EDPIDR0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_edpidr1
+ *
+ * CST Ap Dbg Edpidr1 Register
+ * Provides information to identify an external debug component.
+ *
+ * For more information, see x['About the Peripheral identification
+ * scheme'](BABDFHAH|appx_recommended_external_debug_interface.fm).
+ */
+union cavm_cst_apx_dbg_edpidr1
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_edpidr1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t des_0                 : 4;  /**< [  7:  4](RO) Designer, least significant nibble of JEP106 ID code. For Arm Limited, this field is 0b1011. */
+        uint32_t part_1                : 4;  /**< [  3:  0](RO) Part number, most significant nibble. */
+#else /* Word 0 - Little Endian */
+        uint32_t part_1                : 4;  /**< [  3:  0](RO) Part number, most significant nibble. */
+        uint32_t des_0                 : 4;  /**< [  7:  4](RO) Designer, least significant nibble of JEP106 ID code. For Arm Limited, this field is 0b1011. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_edpidr1_s cn; */
+};
+typedef union cavm_cst_apx_dbg_edpidr1 cavm_cst_apx_dbg_edpidr1_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_EDPIDR1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_EDPIDR1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010fe4ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_EDPIDR1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_EDPIDR1(a) cavm_cst_apx_dbg_edpidr1_t
+#define bustype_CAVM_CST_APX_DBG_EDPIDR1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_EDPIDR1(a) "CST_APX_DBG_EDPIDR1"
+#define busnum_CAVM_CST_APX_DBG_EDPIDR1(a) (a)
+#define arguments_CAVM_CST_APX_DBG_EDPIDR1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_edpidr2
+ *
+ * CST Ap Dbg Edpidr2 Register
+ * Provides information to identify an external debug component.
+ *
+ * For more information, see x['About the Peripheral identification
+ * scheme'](BABDFHAH|appx_recommended_external_debug_interface.fm).
+ */
+union cavm_cst_apx_dbg_edpidr2
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_edpidr2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t revision              : 4;  /**< [  7:  4](RO) Part major revision. Parts can also use this field to extend Part number to 16-bits. */
+        uint32_t jedec                 : 1;  /**< [  3:  3](RO) RAO. Indicates a JEP106 identity code is used. */
+        uint32_t des_1                 : 3;  /**< [  2:  0](RO) Designer, most significant bits of JEP106 ID code. For Arm Limited, this field is 0b011. */
+#else /* Word 0 - Little Endian */
+        uint32_t des_1                 : 3;  /**< [  2:  0](RO) Designer, most significant bits of JEP106 ID code. For Arm Limited, this field is 0b011. */
+        uint32_t jedec                 : 1;  /**< [  3:  3](RO) RAO. Indicates a JEP106 identity code is used. */
+        uint32_t revision              : 4;  /**< [  7:  4](RO) Part major revision. Parts can also use this field to extend Part number to 16-bits. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_edpidr2_s cn; */
+};
+typedef union cavm_cst_apx_dbg_edpidr2 cavm_cst_apx_dbg_edpidr2_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_EDPIDR2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_EDPIDR2(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010fe8ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_EDPIDR2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_EDPIDR2(a) cavm_cst_apx_dbg_edpidr2_t
+#define bustype_CAVM_CST_APX_DBG_EDPIDR2(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_EDPIDR2(a) "CST_APX_DBG_EDPIDR2"
+#define busnum_CAVM_CST_APX_DBG_EDPIDR2(a) (a)
+#define arguments_CAVM_CST_APX_DBG_EDPIDR2(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_edpidr3
+ *
+ * CST Ap Dbg Edpidr3 Register
+ * Provides information to identify an external debug component.
+ *
+ * For more information, see x['About the Peripheral identification
+ * scheme'](BABDFHAH|appx_recommended_external_debug_interface.fm).
+ */
+union cavm_cst_apx_dbg_edpidr3
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_edpidr3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t revand                : 4;  /**< [  7:  4](RO) Part minor revision. Parts using ext-EDPIDR2.REVISION as an extension to the
+                                                                 Part number must use this field as a major revision number. */
+        uint32_t cmod                  : 4;  /**< [  3:  0](RO) Customer modified. Indicates someone other than the Designer has modified the component. */
+#else /* Word 0 - Little Endian */
+        uint32_t cmod                  : 4;  /**< [  3:  0](RO) Customer modified. Indicates someone other than the Designer has modified the component. */
+        uint32_t revand                : 4;  /**< [  7:  4](RO) Part minor revision. Parts using ext-EDPIDR2.REVISION as an extension to the
+                                                                 Part number must use this field as a major revision number. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_edpidr3_s cn; */
+};
+typedef union cavm_cst_apx_dbg_edpidr3 cavm_cst_apx_dbg_edpidr3_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_EDPIDR3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_EDPIDR3(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010fecll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_EDPIDR3", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_EDPIDR3(a) cavm_cst_apx_dbg_edpidr3_t
+#define bustype_CAVM_CST_APX_DBG_EDPIDR3(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_EDPIDR3(a) "CST_APX_DBG_EDPIDR3"
+#define busnum_CAVM_CST_APX_DBG_EDPIDR3(a) (a)
+#define arguments_CAVM_CST_APX_DBG_EDPIDR3(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_edpidr4
+ *
+ * CST Ap Dbg Edpidr4 Register
+ * Provides information to identify an external debug component.
+ *
+ * For more information, see x['About the Peripheral identification
+ * scheme'](BABDFHAH|appx_recommended_external_debug_interface.fm).
+ */
+union cavm_cst_apx_dbg_edpidr4
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_edpidr4_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t size                  : 4;  /**< [  7:  4](RO) 4KB count. */
+        uint32_t des_2                 : 4;  /**< [  3:  0](RO) Designer, JEP106 continuation code, least significant nibble. For Arm Limited,
+                                                                 this field is 0b0100. */
+#else /* Word 0 - Little Endian */
+        uint32_t des_2                 : 4;  /**< [  3:  0](RO) Designer, JEP106 continuation code, least significant nibble. For Arm Limited,
+                                                                 this field is 0b0100. */
+        uint32_t size                  : 4;  /**< [  7:  4](RO) 4KB count. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_edpidr4_s cn; */
+};
+typedef union cavm_cst_apx_dbg_edpidr4 cavm_cst_apx_dbg_edpidr4_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_EDPIDR4(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_EDPIDR4(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010fd0ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_EDPIDR4", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_EDPIDR4(a) cavm_cst_apx_dbg_edpidr4_t
+#define bustype_CAVM_CST_APX_DBG_EDPIDR4(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_EDPIDR4(a) "CST_APX_DBG_EDPIDR4"
+#define busnum_CAVM_CST_APX_DBG_EDPIDR4(a) (a)
+#define arguments_CAVM_CST_APX_DBG_EDPIDR4(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_edprcr
+ *
+ * CST Ap Dbg Edprcr Register
+ * Controls the PE functionality related to powerup, reset, and powerdown.
+ */
+union cavm_cst_apx_dbg_edprcr
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_edprcr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_2_31         : 30;
+        uint32_t cwrr                  : 1;  /**< [  1:  1](R/W) This feature is not supported. Writes to this bit are ignored */
+        uint32_t corenpdrq             : 1;  /**< [  0:  0](R/W) This field is in the Core power domain, and permitted accesses to this field map
+                                                                 to the AArch32-DBGPRCR.CORENPDRQ and AArch64-DBGPRCR_EL1.CORENPDRQ fields. */
+#else /* Word 0 - Little Endian */
+        uint32_t corenpdrq             : 1;  /**< [  0:  0](R/W) This field is in the Core power domain, and permitted accesses to this field map
+                                                                 to the AArch32-DBGPRCR.CORENPDRQ and AArch64-DBGPRCR_EL1.CORENPDRQ fields. */
+        uint32_t cwrr                  : 1;  /**< [  1:  1](R/W) This feature is not supported. Writes to this bit are ignored */
+        uint32_t reserved_2_31         : 30;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_edprcr_s cn; */
+};
+typedef union cavm_cst_apx_dbg_edprcr cavm_cst_apx_dbg_edprcr_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_EDPRCR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_EDPRCR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010310ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_EDPRCR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_EDPRCR(a) cavm_cst_apx_dbg_edprcr_t
+#define bustype_CAVM_CST_APX_DBG_EDPRCR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_EDPRCR(a) "CST_APX_DBG_EDPRCR"
+#define busnum_CAVM_CST_APX_DBG_EDPRCR(a) (a)
+#define arguments_CAVM_CST_APX_DBG_EDPRCR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_edprsr
+ *
+ * CST Ap Dbg Edprsr Register
+ * Holds information about the reset and powerdown state of the PE.
+ */
+union cavm_cst_apx_dbg_edprsr
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_edprsr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_14_31        : 18;
+        uint32_t stad                  : 1;  /**< [ 13: 13](RO) Sticky ETAD error. Set to 1 when a Non-secure external debug interface access to
+                                                                 an external PE Trace Unit register returns an error because
+                                                                 \<function\>AllowExternalTraceAccess()\</function\> == FALSE for the access.
+                                                                 If the Core power domain is powered up, then, following a read of EDPRSR:
+                                                                   -  If
+                                                                 x[ARMv8.0-DoubleLock](v8.0.DoubleLock|A_armv8_architecture_extensions.fm) is not
+                                                                 implemented or \<function\>DoubleLockStatus()\</function\> == FALSE then this bit
+                                                                 clears to 0.
+                                                                   -  If
+                                                                 x[ARMv8.0-DoubleLock](v8.0.DoubleLock|A_armv8_architecture_extensions.fm) is
+                                                                 implemented and \<function\>DoubleLockStatus()\</function\> == TRUE then it is \<arm-
+                                                                 defined-word\>CONSTRAINED UNPREDICTABLE\</arm-defined-word\> whether this bit
+                                                                 clears to 0 or is unchanged.
+                                                                 This bit is in the Core power domain. */
+        uint32_t etad                  : 1;  /**< [ 12: 12](RO) External Trace Access Disable status.
+                                                                 This field is in the Core power domain. */
+        uint32_t sdr                   : 1;  /**< [ 11: 11](RO) Sticky Debug Restart. Set to 1 when the PE exits Debug state.
+                                                                 Permitted values are:
+                                                                 [note]If a reset occurs when the PE is in Debug state, the PE exits Debug state.
+                                                                 SDR is UNKNOWN on Warm reset, meaning a debugger must also use the SR bit to
+                                                                 determine whether the PE has left Debug state.[/note]
+                                                                 If The Core power domain is powered up, then following a read of EDPRSR:
+                                                                   - If x[ARMv8.0-DoubleLock](v8.0.DoubleLock|A_armv8_architecture_extensions.fm)
+                                                                 is not implemented or \<function\>DoubleLockStatus()\</function\> == FALSE this bit
+                                                                 clears to 0.
+                                                                   - If x[ARMv8.0-DoubleLock](v8.0.DoubleLock|A_armv8_architecture_extensions.fm)
+                                                                 is implemented and \<function\>DoubleLockStatus()\</function\> == TRUE, it is
+                                                                 CONSTRAINED UNPREDICTABLE whether this bit clears to 0 or is unchanged.
+                                                                 This field is in the Core power domain and the Warm reset domain. */
+        uint32_t spmad                 : 1;  /**< [ 10: 10](RO) Sticky EPMAD error. Set to 1 if an external debug interface access to a
+                                                                 Performance Monitors register returns an error because
+                                                                 \<function\>AllowExternalPMUAccess()\</function\> == FALSE.
+                                                                 Permitted values are:
+                                                                 If the Core power domain is powered up, then, following a read of EDPRSR:
+                                                                   - If x[ARMv8.0-DoubleLock](v8.0.DoubleLock|A_armv8_architecture_extensions.fm)
+                                                                 is not implemented or \<function\>DoubleLockStatus()\</function\> == FALSE, this bit
+                                                                 clears to 0.
+                                                                   - If x[ARMv8.0-DoubleLock](v8.0.DoubleLock|A_armv8_architecture_extensions.fm)
+                                                                 is implemented, and \<function\>DoubleLockStatus()\</function\> == TRUE, it is
+                                                                 CONSTRAINED UNPREDICTABLE whether this bit clears to 0 or is unchanged.
+                                                                 This field is in the Core power domain. */
+        uint32_t epmad                 : 1;  /**< [  9:  9](RO) External Performance Monitors Access Disable status.
+                                                                 This field is in the Core power domain. */
+        uint32_t sdad                  : 1;  /**< [  8:  8](RO) Sticky EDAD error. Set to 1 if an external debug interface access to a debug
+                                                                 register returns an error because
+                                                                 \<function\>AllowExternalDebugAccess()\</function\> == FALSE.
+                                                                 If the Core power domain is powered up, then, following a read of EDPRSR:
+                                                                   - If x[ARMv8.0-DoubleLock](v8.0.DoubleLock|A_armv8_architecture_extensions.fm)
+                                                                 is not implemented or \<function\>DoubleLockStatus()\</function\> == FALSE this bit
+                                                                 clears to 0.
+                                                                   - If x[ARMv8.0-DoubleLock](v8.0.DoubleLock|A_armv8_architecture_extensions.fm)
+                                                                 is implemented and \<function\>DoubleLockStatus()\</function\> == TRUE, it is
+                                                                 CONSTRAINED UNPREDICTABLE whether this bit clears to 0 or is unchanged.
+                                                                 This field is in the Core power domain. */
+        uint32_t edad                  : 1;  /**< [  7:  7](RO) External Debug Access Disable status.
+                                                                 This field is in the Core power domain. */
+        uint32_t dlk                   : 1;  /**< [  6:  6](RO) Reserved0. */
+        uint32_t oslk                  : 1;  /**< [  5:  5](RO) OS Lock status bit.
+                                                                 A read of this bit returns the value of AArch64-OSLSR_EL1.OSLK.
+                                                                 This field is in the Core power domain. */
+        uint32_t halted                : 1;  /**< [  4:  4](RO) Halted status bit.
+                                                                 This field is in the Core power domain. */
+        uint32_t sr                    : 1;  /**< [  3:  3](RO) Sticky core Reset status bit.
+                                                                 Permitted values are:
+                                                                 If EDPRSR.PU reads as 1 and EDPRSR.R reads as 0, which means that the Core power
+                                                                 domain is in a powerup state and that the non-debug logic of the PE is not in
+                                                                 reset state, then following a read of EDPRSR:
+                                                                   - If x[ARMv8.0-DoubleLock](v8.0.DoubleLock|A_armv8_architecture_extensions.fm)
+                                                                 is not implemented or \<function\>DoubleLockStatus()\</function\> == FALSE this bit
+                                                                 clears to 0.
+                                                                   - If x[ARMv8.0-DoubleLock](v8.0.DoubleLock|A_armv8_architecture_extensions.fm)
+                                                                 is implemented and \<function\>DoubleLockStatus()\</function\> == TRUE, it is
+                                                                 UNPREDICTABLE whether this bit clears to 0 or is unchanged.
+                                                                 This field is in the Core power domain and the Warm reset domain. */
+        uint32_t r                     : 1;  /**< [  2:  2](RO) PE Reset status bit.
+                                                                 Permitted values are:
+                                                                 If x[ARMv8.0-DoubleLock](v8.0.DoubleLock|A_armv8_architecture_extensions.fm) is
+                                                                 implemented, the PE is in reset state, and the PE entered reset state with the
+                                                                 OS Double Lock locked this bit has a CONSTRAINED UNPREDICTABLE value. For more
+                                                                 information, see x['EDPRSR.{DLK, R} and reset
+                                                                 state'](BABEBAFB|H_debug_reset_and_powerdown_support.fm).
+                                                                 This field is in the Core power domain. */
+        uint32_t spd                   : 1;  /**< [  1:  1](RO) Sticky core Powerdown status bit.
+                                                                 If x[ARMv8.0-DoubleLock](v8.0.DoubleLock|A_armv8_architecture_extensions.fm) is
+                                                                 implemented and \<function\>DoubleLockStatus()\</function\> == TRUE, then:
+                                                                  - If x[ARMv8.2-Debug](v8.2.Debug|A_armv8_architecture_extensions.fm) is
+                                                                 implemented, this bit reads as 0.
+                                                                  - If x[ARMv8.2-Debug](v8.2.Debug|A_armv8_architecture_extensions.fm) is not
+                                                                 implemented, this bit might read as 0 or 1.
+                                                                 For more information, see x['EDPRSR.{DLK, SPD, PU} and the Core power
+                                                                 domain'](BABFCFCG|H_debug_reset_and_powerdown_support.fm).
+                                                                 If the Core power domain is powered up, then, following a read of EDPRSR:
+                                                                   - If x[ARMv8.0-DoubleLock](v8.0.DoubleLock|A_armv8_architecture_extensions.fm)
+                                                                 is not implemented or \<function\>DoubleLockStatus()\</function\> == FALSE this bit
+                                                                 clears to 0.
+                                                                   - If x[ARMv8.0-DoubleLock](v8.0.DoubleLock|A_armv8_architecture_extensions.fm)
+                                                                 is implemented and \<function\>DoubleLockStatus()\</function\> == TRUE, it is
+                                                                 CONSTRAINED UNPREDICTABLE whether this bit clears to 0 or is unchanged.
+                                                                 When the Core power domain is in either retention or powerdown state, the value
+                                                                 of EDPRSR.SPD is IMPLEMENTATION DEFINED. For more information, see x['EDPRSR.SPD
+                                                                 when the Core domain is in either retention or powerdown
+                                                                 state'](BABHEJCI|H_debug_reset_and_powerdown_support.fm).
+                                                                 EDPRSR.{DLK, SPD, PU} describe whether registers in the Core power domain can be
+                                                                 accessed, and whether their state has been lost since the last time the register
+                                                                 was read. For more information, see x['EDPRSR.{DLK, SPD, PU} and the Core power
+                                                                 domain'](BABFCFCG|H_debug_reset_and_powerdown_support.fm).
+                                                                 This field is in the Core power domain and the Cold reset domain. */
+        uint32_t pu                    : 1;  /**< [  0:  0](RO) Core powerup status bit. */
+#else /* Word 0 - Little Endian */
+        uint32_t pu                    : 1;  /**< [  0:  0](RO) Core powerup status bit. */
+        uint32_t spd                   : 1;  /**< [  1:  1](RO) Sticky core Powerdown status bit.
+                                                                 If x[ARMv8.0-DoubleLock](v8.0.DoubleLock|A_armv8_architecture_extensions.fm) is
+                                                                 implemented and \<function\>DoubleLockStatus()\</function\> == TRUE, then:
+                                                                  - If x[ARMv8.2-Debug](v8.2.Debug|A_armv8_architecture_extensions.fm) is
+                                                                 implemented, this bit reads as 0.
+                                                                  - If x[ARMv8.2-Debug](v8.2.Debug|A_armv8_architecture_extensions.fm) is not
+                                                                 implemented, this bit might read as 0 or 1.
+                                                                 For more information, see x['EDPRSR.{DLK, SPD, PU} and the Core power
+                                                                 domain'](BABFCFCG|H_debug_reset_and_powerdown_support.fm).
+                                                                 If the Core power domain is powered up, then, following a read of EDPRSR:
+                                                                   - If x[ARMv8.0-DoubleLock](v8.0.DoubleLock|A_armv8_architecture_extensions.fm)
+                                                                 is not implemented or \<function\>DoubleLockStatus()\</function\> == FALSE this bit
+                                                                 clears to 0.
+                                                                   - If x[ARMv8.0-DoubleLock](v8.0.DoubleLock|A_armv8_architecture_extensions.fm)
+                                                                 is implemented and \<function\>DoubleLockStatus()\</function\> == TRUE, it is
+                                                                 CONSTRAINED UNPREDICTABLE whether this bit clears to 0 or is unchanged.
+                                                                 When the Core power domain is in either retention or powerdown state, the value
+                                                                 of EDPRSR.SPD is IMPLEMENTATION DEFINED. For more information, see x['EDPRSR.SPD
+                                                                 when the Core domain is in either retention or powerdown
+                                                                 state'](BABHEJCI|H_debug_reset_and_powerdown_support.fm).
+                                                                 EDPRSR.{DLK, SPD, PU} describe whether registers in the Core power domain can be
+                                                                 accessed, and whether their state has been lost since the last time the register
+                                                                 was read. For more information, see x['EDPRSR.{DLK, SPD, PU} and the Core power
+                                                                 domain'](BABFCFCG|H_debug_reset_and_powerdown_support.fm).
+                                                                 This field is in the Core power domain and the Cold reset domain. */
+        uint32_t r                     : 1;  /**< [  2:  2](RO) PE Reset status bit.
+                                                                 Permitted values are:
+                                                                 If x[ARMv8.0-DoubleLock](v8.0.DoubleLock|A_armv8_architecture_extensions.fm) is
+                                                                 implemented, the PE is in reset state, and the PE entered reset state with the
+                                                                 OS Double Lock locked this bit has a CONSTRAINED UNPREDICTABLE value. For more
+                                                                 information, see x['EDPRSR.{DLK, R} and reset
+                                                                 state'](BABEBAFB|H_debug_reset_and_powerdown_support.fm).
+                                                                 This field is in the Core power domain. */
+        uint32_t sr                    : 1;  /**< [  3:  3](RO) Sticky core Reset status bit.
+                                                                 Permitted values are:
+                                                                 If EDPRSR.PU reads as 1 and EDPRSR.R reads as 0, which means that the Core power
+                                                                 domain is in a powerup state and that the non-debug logic of the PE is not in
+                                                                 reset state, then following a read of EDPRSR:
+                                                                   - If x[ARMv8.0-DoubleLock](v8.0.DoubleLock|A_armv8_architecture_extensions.fm)
+                                                                 is not implemented or \<function\>DoubleLockStatus()\</function\> == FALSE this bit
+                                                                 clears to 0.
+                                                                   - If x[ARMv8.0-DoubleLock](v8.0.DoubleLock|A_armv8_architecture_extensions.fm)
+                                                                 is implemented and \<function\>DoubleLockStatus()\</function\> == TRUE, it is
+                                                                 UNPREDICTABLE whether this bit clears to 0 or is unchanged.
+                                                                 This field is in the Core power domain and the Warm reset domain. */
+        uint32_t halted                : 1;  /**< [  4:  4](RO) Halted status bit.
+                                                                 This field is in the Core power domain. */
+        uint32_t oslk                  : 1;  /**< [  5:  5](RO) OS Lock status bit.
+                                                                 A read of this bit returns the value of AArch64-OSLSR_EL1.OSLK.
+                                                                 This field is in the Core power domain. */
+        uint32_t dlk                   : 1;  /**< [  6:  6](RO) Reserved0. */
+        uint32_t edad                  : 1;  /**< [  7:  7](RO) External Debug Access Disable status.
+                                                                 This field is in the Core power domain. */
+        uint32_t sdad                  : 1;  /**< [  8:  8](RO) Sticky EDAD error. Set to 1 if an external debug interface access to a debug
+                                                                 register returns an error because
+                                                                 \<function\>AllowExternalDebugAccess()\</function\> == FALSE.
+                                                                 If the Core power domain is powered up, then, following a read of EDPRSR:
+                                                                   - If x[ARMv8.0-DoubleLock](v8.0.DoubleLock|A_armv8_architecture_extensions.fm)
+                                                                 is not implemented or \<function\>DoubleLockStatus()\</function\> == FALSE this bit
+                                                                 clears to 0.
+                                                                   - If x[ARMv8.0-DoubleLock](v8.0.DoubleLock|A_armv8_architecture_extensions.fm)
+                                                                 is implemented and \<function\>DoubleLockStatus()\</function\> == TRUE, it is
+                                                                 CONSTRAINED UNPREDICTABLE whether this bit clears to 0 or is unchanged.
+                                                                 This field is in the Core power domain. */
+        uint32_t epmad                 : 1;  /**< [  9:  9](RO) External Performance Monitors Access Disable status.
+                                                                 This field is in the Core power domain. */
+        uint32_t spmad                 : 1;  /**< [ 10: 10](RO) Sticky EPMAD error. Set to 1 if an external debug interface access to a
+                                                                 Performance Monitors register returns an error because
+                                                                 \<function\>AllowExternalPMUAccess()\</function\> == FALSE.
+                                                                 Permitted values are:
+                                                                 If the Core power domain is powered up, then, following a read of EDPRSR:
+                                                                   - If x[ARMv8.0-DoubleLock](v8.0.DoubleLock|A_armv8_architecture_extensions.fm)
+                                                                 is not implemented or \<function\>DoubleLockStatus()\</function\> == FALSE, this bit
+                                                                 clears to 0.
+                                                                   - If x[ARMv8.0-DoubleLock](v8.0.DoubleLock|A_armv8_architecture_extensions.fm)
+                                                                 is implemented, and \<function\>DoubleLockStatus()\</function\> == TRUE, it is
+                                                                 CONSTRAINED UNPREDICTABLE whether this bit clears to 0 or is unchanged.
+                                                                 This field is in the Core power domain. */
+        uint32_t sdr                   : 1;  /**< [ 11: 11](RO) Sticky Debug Restart. Set to 1 when the PE exits Debug state.
+                                                                 Permitted values are:
+                                                                 [note]If a reset occurs when the PE is in Debug state, the PE exits Debug state.
+                                                                 SDR is UNKNOWN on Warm reset, meaning a debugger must also use the SR bit to
+                                                                 determine whether the PE has left Debug state.[/note]
+                                                                 If The Core power domain is powered up, then following a read of EDPRSR:
+                                                                   - If x[ARMv8.0-DoubleLock](v8.0.DoubleLock|A_armv8_architecture_extensions.fm)
+                                                                 is not implemented or \<function\>DoubleLockStatus()\</function\> == FALSE this bit
+                                                                 clears to 0.
+                                                                   - If x[ARMv8.0-DoubleLock](v8.0.DoubleLock|A_armv8_architecture_extensions.fm)
+                                                                 is implemented and \<function\>DoubleLockStatus()\</function\> == TRUE, it is
+                                                                 CONSTRAINED UNPREDICTABLE whether this bit clears to 0 or is unchanged.
+                                                                 This field is in the Core power domain and the Warm reset domain. */
+        uint32_t etad                  : 1;  /**< [ 12: 12](RO) External Trace Access Disable status.
+                                                                 This field is in the Core power domain. */
+        uint32_t stad                  : 1;  /**< [ 13: 13](RO) Sticky ETAD error. Set to 1 when a Non-secure external debug interface access to
+                                                                 an external PE Trace Unit register returns an error because
+                                                                 \<function\>AllowExternalTraceAccess()\</function\> == FALSE for the access.
+                                                                 If the Core power domain is powered up, then, following a read of EDPRSR:
+                                                                   -  If
+                                                                 x[ARMv8.0-DoubleLock](v8.0.DoubleLock|A_armv8_architecture_extensions.fm) is not
+                                                                 implemented or \<function\>DoubleLockStatus()\</function\> == FALSE then this bit
+                                                                 clears to 0.
+                                                                   -  If
+                                                                 x[ARMv8.0-DoubleLock](v8.0.DoubleLock|A_armv8_architecture_extensions.fm) is
+                                                                 implemented and \<function\>DoubleLockStatus()\</function\> == TRUE then it is \<arm-
+                                                                 defined-word\>CONSTRAINED UNPREDICTABLE\</arm-defined-word\> whether this bit
+                                                                 clears to 0 or is unchanged.
+                                                                 This bit is in the Core power domain. */
+        uint32_t reserved_14_31        : 18;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_edprsr_s cn; */
+};
+typedef union cavm_cst_apx_dbg_edprsr cavm_cst_apx_dbg_edprsr_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_EDPRSR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_EDPRSR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010314ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_EDPRSR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_EDPRSR(a) cavm_cst_apx_dbg_edprsr_t
+#define bustype_CAVM_CST_APX_DBG_EDPRSR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_EDPRSR(a) "CST_APX_DBG_EDPRSR"
+#define busnum_CAVM_CST_APX_DBG_EDPRSR(a) (a)
+#define arguments_CAVM_CST_APX_DBG_EDPRSR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_edrcr
+ *
+ * CST Ap Dbg Edrcr Register
+ * This register is used to allow imprecise entry to Debug state and clear sticky bits in ext-EDSCR.
+ */
+union cavm_cst_apx_dbg_edrcr
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_edrcr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_5_31         : 27;
+        uint32_t cbrrq                 : 1;  /**< [  4:  4](WO) This feature is not supported. Writes to this bit are ignored */
+        uint32_t cspa                  : 1;  /**< [  3:  3](WO) Clear Sticky Pipeline Advance. This bit is used to clear the ext-EDSCR.PipeAdv bit to 0. */
+        uint32_t cse                   : 1;  /**< [  2:  2](WO) Clear Sticky Error. Used to clear the ext-EDSCR cumulative error bits to 0. */
+        uint32_t reserved_0_1          : 2;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_1          : 2;
+        uint32_t cse                   : 1;  /**< [  2:  2](WO) Clear Sticky Error. Used to clear the ext-EDSCR cumulative error bits to 0. */
+        uint32_t cspa                  : 1;  /**< [  3:  3](WO) Clear Sticky Pipeline Advance. This bit is used to clear the ext-EDSCR.PipeAdv bit to 0. */
+        uint32_t cbrrq                 : 1;  /**< [  4:  4](WO) This feature is not supported. Writes to this bit are ignored */
+        uint32_t reserved_5_31         : 27;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_edrcr_s cn; */
+};
+typedef union cavm_cst_apx_dbg_edrcr cavm_cst_apx_dbg_edrcr_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_EDRCR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_EDRCR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010090ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_EDRCR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_EDRCR(a) cavm_cst_apx_dbg_edrcr_t
+#define bustype_CAVM_CST_APX_DBG_EDRCR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_EDRCR(a) "CST_APX_DBG_EDRCR"
+#define busnum_CAVM_CST_APX_DBG_EDRCR(a) (a)
+#define arguments_CAVM_CST_APX_DBG_EDRCR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_edscr
+ *
+ * CST Ap Dbg Edscr Register
+ * Main control register for the debug implementation.
+ */
+union cavm_cst_apx_dbg_edscr
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_edscr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t tfo                   : 1;  /**< [ 31: 31](R/W) Trace Filter Override. Overrides the Trace Filter controls allowing the external
+                                                                 debugger to trace any visible Exception level.
+                                                                 When AArch64-OSLSR_EL1.OSLK == 1, this bit can be indirectly read and written
+                                                                 through the AArch64-MDSCR_EL1 and AArch32-DBGDSCRext System registers.
+                                                                 This bit is ignored by the PE when ExternalSecureNoninvasiveDebugEnabled() ==
+                                                                 FALSE and the Effective value of AArch64-MDCR_EL3.STE == 1. */
+        uint32_t rxfull                : 1;  /**< [ 30: 30](R/W) DTRRX full. */
+        uint32_t txfull                : 1;  /**< [ 29: 29](R/W) DTRTX full. */
+        uint32_t ito                   : 1;  /**< [ 28: 28](R/W) ITR overrun.
+                                                                 If the PE is in Non-debug state, this bit is UNKNOWN. ITO is set to 0 on entry to Debug state. */
+        uint32_t rxo                   : 1;  /**< [ 27: 27](R/W) DTRRX overrun. */
+        uint32_t txu                   : 1;  /**< [ 26: 26](R/W) DTRTX underrun. */
+        uint32_t pipeadv               : 1;  /**< [ 25: 25](R/W) Pipeline advance. Set to 1 every time the PE pipeline retires one or more
+                                                                 instructions. Cleared to 0 by a write to ext-EDRCR.CSPA.
+                                                                 The architecture does not define precisely when this bit is set to 1. It
+                                                                 requires only that this happen periodically in Non-debug state to indicate that
+                                                                 software execution is progressing. */
+        uint32_t ite                   : 1;  /**< [ 24: 24](R/W) ITR empty.
+                                                                 If the PE is in Non-debug state, this bit is UNKNOWN. It is always valid in Debug state. */
+        uint32_t intdis                : 2;  /**< [ 23: 22](R/W) Interrupt disable. Disables taking interrupts in Non-Debug state.
+                                                                 When AArch64-OSLSR_EL1.OSLK == 1, this field can be indirectly read and written
+                                                                 through the AArch64-MDSCR_EL1 and AArch32-DBGDSCRext System registers.
+                                                                 This field is ignored by the PE and treated as zero when ExternalDebugEnabled() == FALSE. */
+        uint32_t tda                   : 1;  /**< [ 21: 21](R/W) Traps accesses to the following debug System registers:
+                                                                   - AArch64: ext-DBGBCR&lt;n&gt;_EL1, ext-DBGBVR&lt;n&gt;_EL1, ext-
+                                                                 DBGWCR&lt;n&gt;_EL1, ext-DBGWVR&lt;n&gt;_EL1.
+                                                                   - AArch32: AArch32-DBGBCR&lt;n&gt;, AArch32-DBGBVR&lt;n&gt;,
+                                                                 AArch32-DBGBXVR&lt;n&gt;, AArch32-DBGWCR&lt;n&gt;, AArch32-DBGWVR&lt;n&gt;.
+                                                                 The possible values of this field are: */
+        uint32_t ma                    : 1;  /**< [ 20: 20](R/W) Memory access mode. Controls the use of memory-access mode for accessing ITR and
+                                                                 the DCC. This bit is ignored if in Non-debug state and set to zero on entry to
+                                                                 Debug state.
+                                                                 Possible values of this field are: */
+        uint32_t reserved_19           : 1;
+        uint32_t ns_f                  : 1;  /**< [ 18: 18](R/W) Non-secure status. When in Debug state, gives the current Security state:
+                                                                 In Non-debug state, this bit is UNKNOWN. */
+        uint32_t reserved_17           : 1;
+        uint32_t sdd                   : 1;  /**< [ 16: 16](R/W) Secure debug disabled.
+                                                                 On entry to Debug state:
+                                                                   - If entering in Secure state, SDD is set to 0.
+                                                                   - If entering in Non-secure state, SDD is set to the inverse of
+                                                                 ExternalSecureInvasiveDebugEnabled().
+                                                                 In Debug state, the value of the SDD bit does not change, even if
+                                                                 ExternalSecureInvasiveDebugEnabled() changes.
+                                                                 In Non-debug state:
+                                                                   - SDD returns the inverse of ExternalSecureInvasiveDebugEnabled(). If the
+                                                                 authentication signals that control ExternalSecureInvasiveDebugEnabled() change,
+                                                                 a context synchronization event is required to guarantee their effect.
+                                                                   - This bit is unaffected by the Security state of the PE. */
+        uint32_t reserved_15           : 1;
+        uint32_t hde                   : 1;  /**< [ 14: 14](R/W) Halting debug enable. The possible values of this field are: */
+        uint32_t rw                    : 4;  /**< [ 13: 10](R/W) Exception level Execution state status. In Debug state, each bit gives the
+                                                                 current Execution state of each Exception level.
+                                                                 In Non-debug state, this field is RAO. */
+        uint32_t el                    : 2;  /**< [  9:  8](R/W) Exception level. In Debug state, this gives the current Exception level of the PE.
+                                                                 In Non-debug state, this field is RAZ. */
+        uint32_t a_f                   : 1;  /**< [  7:  7](R/W) SError interrupt pending. In Debug state, indicates whether an SError interrupt is pending:
+                                                                   - If AArch64-HCR_EL2.{AMO, TGE} = {1, 0}, EL2 is enabled in the current
+                                                                 Security state, and the PE is executing at EL0 or EL1, a virtual SError
+                                                                 interrupt.
+                                                                   - Otherwise, a physical SError interrupt.
+                                                                 A debugger can read EDSCR to check whether an SError interrupt is pending
+                                                                 without having to execute further instructions. A pending SError might indicate
+                                                                 data from target memory is corrupted.
+                                                                 UNKNOWN in Non-debug state. */
+        uint32_t err_f                 : 1;  /**< [  6:  6](R/W) Cumulative error flag. This bit is set to 1 following exceptions in Debug state
+                                                                 and on any signaled overrun or underrun on the DTR or EDITR. */
+        uint32_t status                : 6;  /**< [  5:  0](R/W) Debug status flags.
+                                                                 All other values of STATUS are reserved. */
+#else /* Word 0 - Little Endian */
+        uint32_t status                : 6;  /**< [  5:  0](R/W) Debug status flags.
+                                                                 All other values of STATUS are reserved. */
+        uint32_t err_f                 : 1;  /**< [  6:  6](R/W) Cumulative error flag. This bit is set to 1 following exceptions in Debug state
+                                                                 and on any signaled overrun or underrun on the DTR or EDITR. */
+        uint32_t a_f                   : 1;  /**< [  7:  7](R/W) SError interrupt pending. In Debug state, indicates whether an SError interrupt is pending:
+                                                                   - If AArch64-HCR_EL2.{AMO, TGE} = {1, 0}, EL2 is enabled in the current
+                                                                 Security state, and the PE is executing at EL0 or EL1, a virtual SError
+                                                                 interrupt.
+                                                                   - Otherwise, a physical SError interrupt.
+                                                                 A debugger can read EDSCR to check whether an SError interrupt is pending
+                                                                 without having to execute further instructions. A pending SError might indicate
+                                                                 data from target memory is corrupted.
+                                                                 UNKNOWN in Non-debug state. */
+        uint32_t el                    : 2;  /**< [  9:  8](R/W) Exception level. In Debug state, this gives the current Exception level of the PE.
+                                                                 In Non-debug state, this field is RAZ. */
+        uint32_t rw                    : 4;  /**< [ 13: 10](R/W) Exception level Execution state status. In Debug state, each bit gives the
+                                                                 current Execution state of each Exception level.
+                                                                 In Non-debug state, this field is RAO. */
+        uint32_t hde                   : 1;  /**< [ 14: 14](R/W) Halting debug enable. The possible values of this field are: */
+        uint32_t reserved_15           : 1;
+        uint32_t sdd                   : 1;  /**< [ 16: 16](R/W) Secure debug disabled.
+                                                                 On entry to Debug state:
+                                                                   - If entering in Secure state, SDD is set to 0.
+                                                                   - If entering in Non-secure state, SDD is set to the inverse of
+                                                                 ExternalSecureInvasiveDebugEnabled().
+                                                                 In Debug state, the value of the SDD bit does not change, even if
+                                                                 ExternalSecureInvasiveDebugEnabled() changes.
+                                                                 In Non-debug state:
+                                                                   - SDD returns the inverse of ExternalSecureInvasiveDebugEnabled(). If the
+                                                                 authentication signals that control ExternalSecureInvasiveDebugEnabled() change,
+                                                                 a context synchronization event is required to guarantee their effect.
+                                                                   - This bit is unaffected by the Security state of the PE. */
+        uint32_t reserved_17           : 1;
+        uint32_t ns_f                  : 1;  /**< [ 18: 18](R/W) Non-secure status. When in Debug state, gives the current Security state:
+                                                                 In Non-debug state, this bit is UNKNOWN. */
+        uint32_t reserved_19           : 1;
+        uint32_t ma                    : 1;  /**< [ 20: 20](R/W) Memory access mode. Controls the use of memory-access mode for accessing ITR and
+                                                                 the DCC. This bit is ignored if in Non-debug state and set to zero on entry to
+                                                                 Debug state.
+                                                                 Possible values of this field are: */
+        uint32_t tda                   : 1;  /**< [ 21: 21](R/W) Traps accesses to the following debug System registers:
+                                                                   - AArch64: ext-DBGBCR&lt;n&gt;_EL1, ext-DBGBVR&lt;n&gt;_EL1, ext-
+                                                                 DBGWCR&lt;n&gt;_EL1, ext-DBGWVR&lt;n&gt;_EL1.
+                                                                   - AArch32: AArch32-DBGBCR&lt;n&gt;, AArch32-DBGBVR&lt;n&gt;,
+                                                                 AArch32-DBGBXVR&lt;n&gt;, AArch32-DBGWCR&lt;n&gt;, AArch32-DBGWVR&lt;n&gt;.
+                                                                 The possible values of this field are: */
+        uint32_t intdis                : 2;  /**< [ 23: 22](R/W) Interrupt disable. Disables taking interrupts in Non-Debug state.
+                                                                 When AArch64-OSLSR_EL1.OSLK == 1, this field can be indirectly read and written
+                                                                 through the AArch64-MDSCR_EL1 and AArch32-DBGDSCRext System registers.
+                                                                 This field is ignored by the PE and treated as zero when ExternalDebugEnabled() == FALSE. */
+        uint32_t ite                   : 1;  /**< [ 24: 24](R/W) ITR empty.
+                                                                 If the PE is in Non-debug state, this bit is UNKNOWN. It is always valid in Debug state. */
+        uint32_t pipeadv               : 1;  /**< [ 25: 25](R/W) Pipeline advance. Set to 1 every time the PE pipeline retires one or more
+                                                                 instructions. Cleared to 0 by a write to ext-EDRCR.CSPA.
+                                                                 The architecture does not define precisely when this bit is set to 1. It
+                                                                 requires only that this happen periodically in Non-debug state to indicate that
+                                                                 software execution is progressing. */
+        uint32_t txu                   : 1;  /**< [ 26: 26](R/W) DTRTX underrun. */
+        uint32_t rxo                   : 1;  /**< [ 27: 27](R/W) DTRRX overrun. */
+        uint32_t ito                   : 1;  /**< [ 28: 28](R/W) ITR overrun.
+                                                                 If the PE is in Non-debug state, this bit is UNKNOWN. ITO is set to 0 on entry to Debug state. */
+        uint32_t txfull                : 1;  /**< [ 29: 29](R/W) DTRTX full. */
+        uint32_t rxfull                : 1;  /**< [ 30: 30](R/W) DTRRX full. */
+        uint32_t tfo                   : 1;  /**< [ 31: 31](R/W) Trace Filter Override. Overrides the Trace Filter controls allowing the external
+                                                                 debugger to trace any visible Exception level.
+                                                                 When AArch64-OSLSR_EL1.OSLK == 1, this bit can be indirectly read and written
+                                                                 through the AArch64-MDSCR_EL1 and AArch32-DBGDSCRext System registers.
+                                                                 This bit is ignored by the PE when ExternalSecureNoninvasiveDebugEnabled() ==
+                                                                 FALSE and the Effective value of AArch64-MDCR_EL3.STE == 1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_edscr_s cn; */
+};
+typedef union cavm_cst_apx_dbg_edscr cavm_cst_apx_dbg_edscr_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_EDSCR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_EDSCR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010088ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_EDSCR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_EDSCR(a) cavm_cst_apx_dbg_edscr_t
+#define bustype_CAVM_CST_APX_DBG_EDSCR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_EDSCR(a) "CST_APX_DBG_EDSCR"
+#define busnum_CAVM_CST_APX_DBG_EDSCR(a) (a)
+#define arguments_CAVM_CST_APX_DBG_EDSCR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_edvidsr
+ *
+ * CST Ap Dbg Edvidsr Register
+ * Contains sampled values captured on reading ext-EDPCSR[31:0].
+ */
+union cavm_cst_apx_dbg_edvidsr
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_edvidsr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_edvidsr_s cn; */
+};
+typedef union cavm_cst_apx_dbg_edvidsr cavm_cst_apx_dbg_edvidsr_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_EDVIDSR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_EDVIDSR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a0810100a8ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_EDVIDSR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_EDVIDSR(a) cavm_cst_apx_dbg_edvidsr_t
+#define bustype_CAVM_CST_APX_DBG_EDVIDSR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_EDVIDSR(a) "CST_APX_DBG_EDVIDSR"
+#define busnum_CAVM_CST_APX_DBG_EDVIDSR(a) (a)
+#define arguments_CAVM_CST_APX_DBG_EDVIDSR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) cst_ap#_dbg_edwar
+ *
+ * CST Ap Dbg Edwar Register
+ * Returns the virtual data address being accessed when a Watchpoint Debug Event was triggered.
+ */
+union cavm_cst_apx_dbg_edwar
+{
+    uint64_t u;
+    struct cavm_cst_apx_dbg_edwar_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t edwar                 : 64; /**< [ 63:  0](RO) Watchpoint address. The data virtual address being accessed when a Watchpoint
+                                                                 Debug Event was triggered and caused entry to Debug state. This address must be
+                                                                 within a naturally-aligned block of memory of power-of-two size no larger than
+                                                                 the r[DC ZVA](AArch64-dc-zva) block size.
+                                                                 The value of this register is UNKNOWN if the PE is in Non-debug state, or if
+                                                                 Debug state was entered other than for a Watchpoint debug event.
+                                                                 The value of EDWAR[63:32] is UNKNOWN if Debug state was entered for a Watchpoint
+                                                                 debug event taken from AArch32 state.
+                                                                 The EDWAR is subject to the same alignment rules as the reporting of a
+                                                                 watchpointed address in the FAR. See x['Determining the memory location that
+                                                                 caused a Watchpoint exception'](BCGEIJIC|D_aarch64_self_hosted_debug.fm). */
+#else /* Word 0 - Little Endian */
+        uint64_t edwar                 : 64; /**< [ 63:  0](RO) Watchpoint address. The data virtual address being accessed when a Watchpoint
+                                                                 Debug Event was triggered and caused entry to Debug state. This address must be
+                                                                 within a naturally-aligned block of memory of power-of-two size no larger than
+                                                                 the r[DC ZVA](AArch64-dc-zva) block size.
+                                                                 The value of this register is UNKNOWN if the PE is in Non-debug state, or if
+                                                                 Debug state was entered other than for a Watchpoint debug event.
+                                                                 The value of EDWAR[63:32] is UNKNOWN if Debug state was entered for a Watchpoint
+                                                                 debug event taken from AArch32 state.
+                                                                 The EDWAR is subject to the same alignment rules as the reporting of a
+                                                                 watchpointed address in the FAR. See x['Determining the memory location that
+                                                                 caused a Watchpoint exception'](BCGEIJIC|D_aarch64_self_hosted_debug.fm). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_edwar_s cn; */
+};
+typedef union cavm_cst_apx_dbg_edwar cavm_cst_apx_dbg_edwar_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_EDWAR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_EDWAR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010030ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_EDWAR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_EDWAR(a) cavm_cst_apx_dbg_edwar_t
+#define bustype_CAVM_CST_APX_DBG_EDWAR(a) CSR_TYPE_NCB
+#define basename_CAVM_CST_APX_DBG_EDWAR(a) "CST_APX_DBG_EDWAR"
+#define busnum_CAVM_CST_APX_DBG_EDWAR(a) (a)
+#define arguments_CAVM_CST_APX_DBG_EDWAR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_midr_el1
+ *
+ * CST Ap Dbg Midr El1 Register
+ * Provides identification information for the PE, including an implementer code for
+ * the device and a device ID number.
+ */
+union cavm_cst_apx_dbg_midr_el1
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_midr_el1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t implementer           : 8;  /**< [ 31: 24](RO) Indicates the implementer code. This value is: */
+        uint32_t variant               : 4;  /**< [ 23: 20](RO) An IMPLEMENTATION DEFINED variant number. Typically, this field is used to
+                                                                 distinguish between different product variants, or major revisions of a product. */
+        uint32_t architecture          : 4;  /**< [ 19: 16](RO) Indicates the architecture code. This value is: */
+        uint32_t partnum               : 12; /**< [ 15:  4](RO) An IMPLEMENTATION DEFINED primary part number for the device.
+                                                                 On processors implemented by Arm, if the top four bits of the primary part
+                                                                 number are 0x0 or 0x7, the variant and architecture are encoded differently. */
+        uint32_t revision              : 4;  /**< [  3:  0](RO) An IMPLEMENTATION DEFINED revision number for the device. */
+#else /* Word 0 - Little Endian */
+        uint32_t revision              : 4;  /**< [  3:  0](RO) An IMPLEMENTATION DEFINED revision number for the device. */
+        uint32_t partnum               : 12; /**< [ 15:  4](RO) An IMPLEMENTATION DEFINED primary part number for the device.
+                                                                 On processors implemented by Arm, if the top four bits of the primary part
+                                                                 number are 0x0 or 0x7, the variant and architecture are encoded differently. */
+        uint32_t architecture          : 4;  /**< [ 19: 16](RO) Indicates the architecture code. This value is: */
+        uint32_t variant               : 4;  /**< [ 23: 20](RO) An IMPLEMENTATION DEFINED variant number. Typically, this field is used to
+                                                                 distinguish between different product variants, or major revisions of a product. */
+        uint32_t implementer           : 8;  /**< [ 31: 24](RO) Indicates the implementer code. This value is: */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_midr_el1_s cn; */
+};
+typedef union cavm_cst_apx_dbg_midr_el1 cavm_cst_apx_dbg_midr_el1_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_MIDR_EL1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_MIDR_EL1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010d00ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_MIDR_EL1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_MIDR_EL1(a) cavm_cst_apx_dbg_midr_el1_t
+#define bustype_CAVM_CST_APX_DBG_MIDR_EL1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_MIDR_EL1(a) "CST_APX_DBG_MIDR_EL1"
+#define busnum_CAVM_CST_APX_DBG_MIDR_EL1(a) (a)
+#define arguments_CAVM_CST_APX_DBG_MIDR_EL1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_dbg_oslar_el1
+ *
+ * CST Ap Dbg Oslar El1 Register
+ * Used to lock or unlock the OS lock.
+ */
+union cavm_cst_apx_dbg_oslar_el1
+{
+    uint32_t u;
+    struct cavm_cst_apx_dbg_oslar_el1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_1_31         : 31;
+        uint32_t oslk                  : 1;  /**< [  0:  0](WO) On writes to OSLAR_EL1, bit[0] is copied to the OS lock.
+                                                                 Use ext-EDPRSR.OSLK to check the current status of the lock. */
+#else /* Word 0 - Little Endian */
+        uint32_t oslk                  : 1;  /**< [  0:  0](WO) On writes to OSLAR_EL1, bit[0] is copied to the OS lock.
+                                                                 Use ext-EDPRSR.OSLK to check the current status of the lock. */
+        uint32_t reserved_1_31         : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_dbg_oslar_el1_s cn; */
+};
+typedef union cavm_cst_apx_dbg_oslar_el1 cavm_cst_apx_dbg_oslar_el1_t;
+
+static inline uint64_t CAVM_CST_APX_DBG_OSLAR_EL1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_DBG_OSLAR_EL1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081010300ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_DBG_OSLAR_EL1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_DBG_OSLAR_EL1(a) cavm_cst_apx_dbg_oslar_el1_t
+#define bustype_CAVM_CST_APX_DBG_OSLAR_EL1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_DBG_OSLAR_EL1(a) "CST_APX_DBG_OSLAR_EL1"
+#define busnum_CAVM_CST_APX_DBG_OSLAR_EL1(a) (a)
+#define arguments_CAVM_CST_APX_DBG_OSLAR_EL1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcauthstatus
+ *
+ * CST Ap Etm Trcauthstatus Register
+ * Provides information about the state of the IMPLEMENTATION DEFINED authentication
+ * interface for debug.
+ *
+ * For additional information see the CoreSight Architecture Specification.
+ */
+union cavm_cst_apx_etm_trcauthstatus
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcauthstatus_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t snid                  : 2;  /**< [  7:  6](RO) Secure Non-invasive Debug. Indicates whether Secure non-invasive debug features
+                                                                 are implemented and enabled.
+                                                                 All other values are reserved.
+                                                                 When EL3 is implemented, this field takes the value 0b10 or 0b11 depending
+                                                                 whether Secure non-invasive debug is enabled. */
+        uint32_t sid                   : 2;  /**< [  5:  4](RO) Secure Invasive Debug. Indicates whether Secure invasive debug features are
+                                                                 implemented and enabled.
+                                                                 All other values are reserved.
+                                                                 This field reads as 0b00. */
+        uint32_t nsnid                 : 2;  /**< [  3:  2](RO) Non-secure Non-invasive Debug. Indicates whether Non-secure non-invasive debug
+                                                                 features are implemented and enabled.
+                                                                 All other values are reserved.
+                                                                 When EL3 is implemented, this field reads as 0b11. */
+        uint32_t nsid                  : 2;  /**< [  1:  0](RO) Non-secure Invasive Debug. Indicates whether Non-secure invasive debug features
+                                                                 are implemented and enabled.
+                                                                 All other values are reserved.
+                                                                 This field reads as 0b00. */
+#else /* Word 0 - Little Endian */
+        uint32_t nsid                  : 2;  /**< [  1:  0](RO) Non-secure Invasive Debug. Indicates whether Non-secure invasive debug features
+                                                                 are implemented and enabled.
+                                                                 All other values are reserved.
+                                                                 This field reads as 0b00. */
+        uint32_t nsnid                 : 2;  /**< [  3:  2](RO) Non-secure Non-invasive Debug. Indicates whether Non-secure non-invasive debug
+                                                                 features are implemented and enabled.
+                                                                 All other values are reserved.
+                                                                 When EL3 is implemented, this field reads as 0b11. */
+        uint32_t sid                   : 2;  /**< [  5:  4](RO) Secure Invasive Debug. Indicates whether Secure invasive debug features are
+                                                                 implemented and enabled.
+                                                                 All other values are reserved.
+                                                                 This field reads as 0b00. */
+        uint32_t snid                  : 2;  /**< [  7:  6](RO) Secure Non-invasive Debug. Indicates whether Secure non-invasive debug features
+                                                                 are implemented and enabled.
+                                                                 All other values are reserved.
+                                                                 When EL3 is implemented, this field takes the value 0b10 or 0b11 depending
+                                                                 whether Secure non-invasive debug is enabled. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcauthstatus_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcauthstatus cavm_cst_apx_etm_trcauthstatus_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCAUTHSTATUS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCAUTHSTATUS(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030fb8ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCAUTHSTATUS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCAUTHSTATUS(a) cavm_cst_apx_etm_trcauthstatus_t
+#define bustype_CAVM_CST_APX_ETM_TRCAUTHSTATUS(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCAUTHSTATUS(a) "CST_APX_ETM_TRCAUTHSTATUS"
+#define busnum_CAVM_CST_APX_ETM_TRCAUTHSTATUS(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCAUTHSTATUS(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcauxctlr
+ *
+ * CST Ap Etm Trcauxctlr Register
+ * The function of this register is IMPLEMENTATION DEFINED.
+ */
+union cavm_cst_apx_etm_trcauxctlr
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcauxctlr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcauxctlr_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcauxctlr cavm_cst_apx_etm_trcauxctlr_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCAUXCTLR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCAUXCTLR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030018ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCAUXCTLR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCAUXCTLR(a) cavm_cst_apx_etm_trcauxctlr_t
+#define bustype_CAVM_CST_APX_ETM_TRCAUXCTLR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCAUXCTLR(a) "CST_APX_ETM_TRCAUXCTLR"
+#define busnum_CAVM_CST_APX_ETM_TRCAUXCTLR(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCAUXCTLR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcbbctlr
+ *
+ * CST Ap Etm Trcbbctlr Register
+ * Controls the regions in the memory map where branch broadcasting is active.
+ */
+union cavm_cst_apx_etm_trcbbctlr
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcbbctlr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_9_31         : 23;
+        uint32_t mode                  : 1;  /**< [  8:  8](R/W) Mode. */
+        uint32_t rangem                : 8;  /**< [  7:  0](R/W) Address range field.
+                                                                 Selects which Address Range Comparators are in use with branch broadcasting.
+                                                                 This bit is RES0 if m &gt;= ext-TRCIDR4.NUMACPAIRS. */
+#else /* Word 0 - Little Endian */
+        uint32_t rangem                : 8;  /**< [  7:  0](R/W) Address range field.
+                                                                 Selects which Address Range Comparators are in use with branch broadcasting.
+                                                                 This bit is RES0 if m &gt;= ext-TRCIDR4.NUMACPAIRS. */
+        uint32_t mode                  : 1;  /**< [  8:  8](R/W) Mode. */
+        uint32_t reserved_9_31         : 23;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcbbctlr_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcbbctlr cavm_cst_apx_etm_trcbbctlr_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCBBCTLR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCBBCTLR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a08103003cll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCBBCTLR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCBBCTLR(a) cavm_cst_apx_etm_trcbbctlr_t
+#define bustype_CAVM_CST_APX_ETM_TRCBBCTLR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCBBCTLR(a) "CST_APX_ETM_TRCBBCTLR"
+#define busnum_CAVM_CST_APX_ETM_TRCBBCTLR(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCBBCTLR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcccctlr
+ *
+ * CST Ap Etm Trcccctlr Register
+ * Set the threshold value for cycle counting.
+ */
+union cavm_cst_apx_etm_trcccctlr
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcccctlr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_12_31        : 20;
+        uint32_t threshold             : 12; /**< [ 11:  0](R/W) Sets the threshold value for instruction trace cycle counting.
+                                                                 The minimum threshold value that can be programmed into THRESHOLD is given in
+                                                                 ext-TRCIDR3.CCITMIN. If the THRESHOLD value is smaller than the value in ext-
+                                                                 TRCIDR3.CCITMIN then the behavior is CONSTRAINED UNPREDICTABLE. That is, cycle
+                                                                 counts might or might not be included in the trace and the cycle count threshold
+                                                                 is not known.
+                                                                 Writing a value of zero when ext-TRCCONFIGR.CCI is set to enable instruction
+                                                                 trace cycle counting, results in CONSTRAINED UNPREDICTABLE behavior. That is,
+                                                                 cycle counts might or might not be included in the trace and the cycle count
+                                                                 threshold is not known. */
+#else /* Word 0 - Little Endian */
+        uint32_t threshold             : 12; /**< [ 11:  0](R/W) Sets the threshold value for instruction trace cycle counting.
+                                                                 The minimum threshold value that can be programmed into THRESHOLD is given in
+                                                                 ext-TRCIDR3.CCITMIN. If the THRESHOLD value is smaller than the value in ext-
+                                                                 TRCIDR3.CCITMIN then the behavior is CONSTRAINED UNPREDICTABLE. That is, cycle
+                                                                 counts might or might not be included in the trace and the cycle count threshold
+                                                                 is not known.
+                                                                 Writing a value of zero when ext-TRCCONFIGR.CCI is set to enable instruction
+                                                                 trace cycle counting, results in CONSTRAINED UNPREDICTABLE behavior. That is,
+                                                                 cycle counts might or might not be included in the trace and the cycle count
+                                                                 threshold is not known. */
+        uint32_t reserved_12_31        : 20;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcccctlr_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcccctlr cavm_cst_apx_etm_trcccctlr_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCCCCTLR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCCCCTLR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030038ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCCCCTLR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCCCCTLR(a) cavm_cst_apx_etm_trcccctlr_t
+#define bustype_CAVM_CST_APX_ETM_TRCCCCTLR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCCCCTLR(a) "CST_APX_ETM_TRCCCCTLR"
+#define busnum_CAVM_CST_APX_ETM_TRCCCCTLR(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCCCCTLR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trccidcctlr0
+ *
+ * CST Ap Etm Trccidcctlr0 Register
+ * Contains Context identifier mask values for the ext-TRCCIDCVR&lt;n&gt; registers, for n = 0 to 3.
+ */
+union cavm_cst_apx_etm_trccidcctlr0
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trccidcctlr0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t comp0m                : 8;  /**< [  7:  0](R/W) TRCCIDCVR0 mask control. Specifies the mask value that the trace unit applies to
+                                                                 TRCCIDCVR0. Each bit in this field corresponds to a byte in TRCCIDCVR0.
+                                                                 This bit is RES0 if m &gt;= ext-TRCIDR2.CIDSIZE. */
+#else /* Word 0 - Little Endian */
+        uint32_t comp0m                : 8;  /**< [  7:  0](R/W) TRCCIDCVR0 mask control. Specifies the mask value that the trace unit applies to
+                                                                 TRCCIDCVR0. Each bit in this field corresponds to a byte in TRCCIDCVR0.
+                                                                 This bit is RES0 if m &gt;= ext-TRCIDR2.CIDSIZE. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trccidcctlr0_s cn; */
+};
+typedef union cavm_cst_apx_etm_trccidcctlr0 cavm_cst_apx_etm_trccidcctlr0_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCCIDCCTLR0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCCIDCCTLR0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030680ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCCIDCCTLR0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCCIDCCTLR0(a) cavm_cst_apx_etm_trccidcctlr0_t
+#define bustype_CAVM_CST_APX_ETM_TRCCIDCCTLR0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCCIDCCTLR0(a) "CST_APX_ETM_TRCCIDCCTLR0"
+#define busnum_CAVM_CST_APX_ETM_TRCCIDCCTLR0(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCCIDCCTLR0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trccidcctlr1
+ *
+ * CST Ap Etm Trccidcctlr1 Register
+ * Contains Context identifier mask values for the ext-TRCCIDCVR&lt;n&gt; registers, for n = 4 to 7.
+ */
+union cavm_cst_apx_etm_trccidcctlr1
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trccidcctlr1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trccidcctlr1_s cn; */
+};
+typedef union cavm_cst_apx_etm_trccidcctlr1 cavm_cst_apx_etm_trccidcctlr1_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCCIDCCTLR1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCCIDCCTLR1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030684ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCCIDCCTLR1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCCIDCCTLR1(a) cavm_cst_apx_etm_trccidcctlr1_t
+#define bustype_CAVM_CST_APX_ETM_TRCCIDCCTLR1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCCIDCCTLR1(a) "CST_APX_ETM_TRCCIDCCTLR1"
+#define busnum_CAVM_CST_APX_ETM_TRCCIDCCTLR1(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCCIDCCTLR1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trccidr0
+ *
+ * CST Ap Etm Trccidr0 Register
+ * Provides discovery information about the component.
+ *
+ * For additional information see the CoreSight Architecture Specification.
+ */
+union cavm_cst_apx_etm_trccidr0
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trccidr0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t prmbl_0               : 8;  /**< [  7:  0](RO) Component identification preamble, segment 0. */
+#else /* Word 0 - Little Endian */
+        uint32_t prmbl_0               : 8;  /**< [  7:  0](RO) Component identification preamble, segment 0. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trccidr0_s cn; */
+};
+typedef union cavm_cst_apx_etm_trccidr0 cavm_cst_apx_etm_trccidr0_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCCIDR0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCCIDR0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030ff0ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCCIDR0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCCIDR0(a) cavm_cst_apx_etm_trccidr0_t
+#define bustype_CAVM_CST_APX_ETM_TRCCIDR0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCCIDR0(a) "CST_APX_ETM_TRCCIDR0"
+#define busnum_CAVM_CST_APX_ETM_TRCCIDR0(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCCIDR0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trccidr1
+ *
+ * CST Ap Etm Trccidr1 Register
+ * Provides discovery information about the component.
+ *
+ * For additional information see the CoreSight Architecture Specification.
+ */
+union cavm_cst_apx_etm_trccidr1
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trccidr1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t class_f               : 4;  /**< [  7:  4](RO) Component class. */
+        uint32_t prmbl_1               : 4;  /**< [  3:  0](RO) Component identification preamble, segment 1. */
+#else /* Word 0 - Little Endian */
+        uint32_t prmbl_1               : 4;  /**< [  3:  0](RO) Component identification preamble, segment 1. */
+        uint32_t class_f               : 4;  /**< [  7:  4](RO) Component class. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trccidr1_s cn; */
+};
+typedef union cavm_cst_apx_etm_trccidr1 cavm_cst_apx_etm_trccidr1_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCCIDR1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCCIDR1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030ff4ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCCIDR1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCCIDR1(a) cavm_cst_apx_etm_trccidr1_t
+#define bustype_CAVM_CST_APX_ETM_TRCCIDR1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCCIDR1(a) "CST_APX_ETM_TRCCIDR1"
+#define busnum_CAVM_CST_APX_ETM_TRCCIDR1(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCCIDR1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trccidr2
+ *
+ * CST Ap Etm Trccidr2 Register
+ * Provides discovery information about the component.
+ *
+ * For additional information see the CoreSight Architecture Specification.
+ */
+union cavm_cst_apx_etm_trccidr2
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trccidr2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t prmbl_2               : 8;  /**< [  7:  0](RO) Component identification preamble, segment 2. */
+#else /* Word 0 - Little Endian */
+        uint32_t prmbl_2               : 8;  /**< [  7:  0](RO) Component identification preamble, segment 2. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trccidr2_s cn; */
+};
+typedef union cavm_cst_apx_etm_trccidr2 cavm_cst_apx_etm_trccidr2_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCCIDR2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCCIDR2(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030ff8ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCCIDR2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCCIDR2(a) cavm_cst_apx_etm_trccidr2_t
+#define bustype_CAVM_CST_APX_ETM_TRCCIDR2(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCCIDR2(a) "CST_APX_ETM_TRCCIDR2"
+#define busnum_CAVM_CST_APX_ETM_TRCCIDR2(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCCIDR2(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trccidr3
+ *
+ * CST Ap Etm Trccidr3 Register
+ * Provides discovery information about the component.
+ *
+ * For additional information see the CoreSight Architecture Specification.
+ */
+union cavm_cst_apx_etm_trccidr3
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trccidr3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t prmbl_3               : 8;  /**< [  7:  0](RO) Component identification preamble, segment 3. */
+#else /* Word 0 - Little Endian */
+        uint32_t prmbl_3               : 8;  /**< [  7:  0](RO) Component identification preamble, segment 3. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trccidr3_s cn; */
+};
+typedef union cavm_cst_apx_etm_trccidr3 cavm_cst_apx_etm_trccidr3_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCCIDR3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCCIDR3(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030ffcll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCCIDR3", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCCIDR3(a) cavm_cst_apx_etm_trccidr3_t
+#define bustype_CAVM_CST_APX_ETM_TRCCIDR3(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCCIDR3(a) "CST_APX_ETM_TRCCIDR3"
+#define busnum_CAVM_CST_APX_ETM_TRCCIDR3(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCCIDR3(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcclaimclr
+ *
+ * CST Ap Etm Trcclaimclr Register
+ * In conjunction with ext-TRCCLAIMSET, provides Claim Tag bits that can be separately
+ * set and cleared to indicate whether functionality is in use by a debug agent.
+ *
+ * For additional information see the CoreSight Architecture Specification.
+ */
+union cavm_cst_apx_etm_trcclaimclr
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcclaimclr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t clrm                  : 32; /**< [ 31:  0](R/W) Claim Tag Clear. Indicates the current status of the Claim Tag bit m, and is
+                                                                 used to clear Claim Tag bit m to 0b0.
+                                                                 The number of Claim Tag bits implemented is indicated in ext-TRCCLAIMSET. */
+#else /* Word 0 - Little Endian */
+        uint32_t clrm                  : 32; /**< [ 31:  0](R/W) Claim Tag Clear. Indicates the current status of the Claim Tag bit m, and is
+                                                                 used to clear Claim Tag bit m to 0b0.
+                                                                 The number of Claim Tag bits implemented is indicated in ext-TRCCLAIMSET. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcclaimclr_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcclaimclr cavm_cst_apx_etm_trcclaimclr_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCCLAIMCLR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCCLAIMCLR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030fa4ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCCLAIMCLR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCCLAIMCLR(a) cavm_cst_apx_etm_trcclaimclr_t
+#define bustype_CAVM_CST_APX_ETM_TRCCLAIMCLR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCCLAIMCLR(a) "CST_APX_ETM_TRCCLAIMCLR"
+#define busnum_CAVM_CST_APX_ETM_TRCCLAIMCLR(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCCLAIMCLR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcclaimset
+ *
+ * CST Ap Etm Trcclaimset Register
+ * In conjunction with ext-TRCCLAIMCLR, provides Claim Tag bits that can be separately
+ * set and cleared to indicate whether functionality is in use by a debug agent.
+ *
+ * For additional information see the CoreSight Architecture Specification.
+ */
+union cavm_cst_apx_etm_trcclaimset
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcclaimset_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t setm                  : 32; /**< [ 31:  0](R/W) Claim Tag Set. Indicates whether Claim Tag bit m is implemented, and is used to
+                                                                 set Claim Tag bit m to 0b1. */
+#else /* Word 0 - Little Endian */
+        uint32_t setm                  : 32; /**< [ 31:  0](R/W) Claim Tag Set. Indicates whether Claim Tag bit m is implemented, and is used to
+                                                                 set Claim Tag bit m to 0b1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcclaimset_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcclaimset cavm_cst_apx_etm_trcclaimset_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCCLAIMSET(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCCLAIMSET(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030fa0ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCCLAIMSET", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCCLAIMSET(a) cavm_cst_apx_etm_trcclaimset_t
+#define bustype_CAVM_CST_APX_ETM_TRCCLAIMSET(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCCLAIMSET(a) "CST_APX_ETM_TRCCLAIMSET"
+#define busnum_CAVM_CST_APX_ETM_TRCCLAIMSET(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCCLAIMSET(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trccntctlr0
+ *
+ * CST Ap Etm Trccntctlr0 Register
+ * Controls the operation of Counter &lt;n&gt;.
+ */
+union cavm_cst_apx_etm_trccntctlr0
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trccntctlr0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_18_31        : 14;
+        uint32_t cntchain              : 1;  /**< [ 17: 17](R/W) For TRCCNTCTLR3 and TRCCNTCTLR1, this bit controls whether the Counter
+                                                                 decrements when a reload event occurs for Counter &lt;n-1&gt;.
+                                                                 CNTCHAIN is not implemented for TRCCNTCTLR0 and TRCCNTCTLR2. */
+        uint32_t rldself               : 1;  /**< [ 16: 16](R/W) Controls whether a reload event occurs for the Counter, when the Counter reaches zero. */
+        uint32_t rldevent_type         : 1;  /**< [ 15: 15](R/W) Chooses the type of Resource Selector.
+                                                                 Selects an event, that when it occurs causes a reload event for Counter &lt;n&gt;. */
+        uint32_t reserved_13_14        : 2;
+        uint32_t rldevent_sel          : 5;  /**< [ 12:  8](R/W) Defines the selected Resource Selector or pair of Resource Selectors.
+                                                                 TRCCNTCTLR&lt;n&gt;.RLDEVENT.TYPE controls whether
+                                                                 TRCCNTCTLR&lt;n&gt;.RLDEVENT.SEL is the index of a single Resource Selector, or
+                                                                 the index of a pair of Resource Selectors.
+                                                                 Selects an event, that when it occurs causes a reload event for Counter &lt;n&gt;.
+                                                                 If an unimplemented Resource Selector is selected using this field, the behavior
+                                                                 of the resource event is UNPREDICTABLE, and the resource event might fire or
+                                                                 might not fire. */
+        uint32_t cntevent_type         : 1;  /**< [  7:  7](R/W) Chooses the type of Resource Selector.
+                                                                 Selects an event, that when it occurs causes Counter &lt;n&gt; to decrement. */
+        uint32_t reserved_5_6          : 2;
+        uint32_t cntevent_sel          : 5;  /**< [  4:  0](R/W) Defines the selected Resource Selector or pair of Resource Selectors.
+                                                                 TRCCNTCTLR&lt;n&gt;.CNTEVENT.TYPE controls whether
+                                                                 TRCCNTCTLR&lt;n&gt;.CNTEVENT.SEL is the index of a single Resource Selector, or
+                                                                 the index of a pair of Resource Selectors.
+                                                                 Selects an event, that when it occurs causes Counter &lt;n&gt; to decrement.
+                                                                 If an unimplemented Resource Selector is selected using this field, the behavior
+                                                                 of the resource event is UNPREDICTABLE, and the resource event might fire or
+                                                                 might not fire. */
+#else /* Word 0 - Little Endian */
+        uint32_t cntevent_sel          : 5;  /**< [  4:  0](R/W) Defines the selected Resource Selector or pair of Resource Selectors.
+                                                                 TRCCNTCTLR&lt;n&gt;.CNTEVENT.TYPE controls whether
+                                                                 TRCCNTCTLR&lt;n&gt;.CNTEVENT.SEL is the index of a single Resource Selector, or
+                                                                 the index of a pair of Resource Selectors.
+                                                                 Selects an event, that when it occurs causes Counter &lt;n&gt; to decrement.
+                                                                 If an unimplemented Resource Selector is selected using this field, the behavior
+                                                                 of the resource event is UNPREDICTABLE, and the resource event might fire or
+                                                                 might not fire. */
+        uint32_t reserved_5_6          : 2;
+        uint32_t cntevent_type         : 1;  /**< [  7:  7](R/W) Chooses the type of Resource Selector.
+                                                                 Selects an event, that when it occurs causes Counter &lt;n&gt; to decrement. */
+        uint32_t rldevent_sel          : 5;  /**< [ 12:  8](R/W) Defines the selected Resource Selector or pair of Resource Selectors.
+                                                                 TRCCNTCTLR&lt;n&gt;.RLDEVENT.TYPE controls whether
+                                                                 TRCCNTCTLR&lt;n&gt;.RLDEVENT.SEL is the index of a single Resource Selector, or
+                                                                 the index of a pair of Resource Selectors.
+                                                                 Selects an event, that when it occurs causes a reload event for Counter &lt;n&gt;.
+                                                                 If an unimplemented Resource Selector is selected using this field, the behavior
+                                                                 of the resource event is UNPREDICTABLE, and the resource event might fire or
+                                                                 might not fire. */
+        uint32_t reserved_13_14        : 2;
+        uint32_t rldevent_type         : 1;  /**< [ 15: 15](R/W) Chooses the type of Resource Selector.
+                                                                 Selects an event, that when it occurs causes a reload event for Counter &lt;n&gt;. */
+        uint32_t rldself               : 1;  /**< [ 16: 16](R/W) Controls whether a reload event occurs for the Counter, when the Counter reaches zero. */
+        uint32_t cntchain              : 1;  /**< [ 17: 17](R/W) For TRCCNTCTLR3 and TRCCNTCTLR1, this bit controls whether the Counter
+                                                                 decrements when a reload event occurs for Counter &lt;n-1&gt;.
+                                                                 CNTCHAIN is not implemented for TRCCNTCTLR0 and TRCCNTCTLR2. */
+        uint32_t reserved_18_31        : 14;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trccntctlr0_s cn; */
+};
+typedef union cavm_cst_apx_etm_trccntctlr0 cavm_cst_apx_etm_trccntctlr0_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCCNTCTLR0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCCNTCTLR0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030150ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCCNTCTLR0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCCNTCTLR0(a) cavm_cst_apx_etm_trccntctlr0_t
+#define bustype_CAVM_CST_APX_ETM_TRCCNTCTLR0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCCNTCTLR0(a) "CST_APX_ETM_TRCCNTCTLR0"
+#define busnum_CAVM_CST_APX_ETM_TRCCNTCTLR0(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCCNTCTLR0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trccntctlr1
+ *
+ * CST Ap Etm Trccntctlr1 Register
+ * Controls the operation of Counter &lt;n&gt;.
+ */
+union cavm_cst_apx_etm_trccntctlr1
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trccntctlr1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_18_31        : 14;
+        uint32_t cntchain              : 1;  /**< [ 17: 17](R/W) For TRCCNTCTLR3 and TRCCNTCTLR1, this bit controls whether the Counter
+                                                                 decrements when a reload event occurs for Counter &lt;n-1&gt;.
+                                                                 CNTCHAIN is not implemented for TRCCNTCTLR0 and TRCCNTCTLR2. */
+        uint32_t rldself               : 1;  /**< [ 16: 16](R/W) Controls whether a reload event occurs for the Counter, when the Counter reaches zero. */
+        uint32_t rldevent_type         : 1;  /**< [ 15: 15](R/W) Chooses the type of Resource Selector.
+                                                                 Selects an event, that when it occurs causes a reload event for Counter &lt;n&gt;. */
+        uint32_t reserved_13_14        : 2;
+        uint32_t rldevent_sel          : 5;  /**< [ 12:  8](R/W) Defines the selected Resource Selector or pair of Resource Selectors.
+                                                                 TRCCNTCTLR&lt;n&gt;.RLDEVENT.TYPE controls whether
+                                                                 TRCCNTCTLR&lt;n&gt;.RLDEVENT.SEL is the index of a single Resource Selector, or
+                                                                 the index of a pair of Resource Selectors.
+                                                                 Selects an event, that when it occurs causes a reload event for Counter &lt;n&gt;.
+                                                                 If an unimplemented Resource Selector is selected using this field, the behavior
+                                                                 of the resource event is UNPREDICTABLE, and the resource event might fire or
+                                                                 might not fire. */
+        uint32_t cntevent_type         : 1;  /**< [  7:  7](R/W) Chooses the type of Resource Selector.
+                                                                 Selects an event, that when it occurs causes Counter &lt;n&gt; to decrement. */
+        uint32_t reserved_5_6          : 2;
+        uint32_t cntevent_sel          : 5;  /**< [  4:  0](R/W) Defines the selected Resource Selector or pair of Resource Selectors.
+                                                                 TRCCNTCTLR&lt;n&gt;.CNTEVENT.TYPE controls whether
+                                                                 TRCCNTCTLR&lt;n&gt;.CNTEVENT.SEL is the index of a single Resource Selector, or
+                                                                 the index of a pair of Resource Selectors.
+                                                                 Selects an event, that when it occurs causes Counter &lt;n&gt; to decrement.
+                                                                 If an unimplemented Resource Selector is selected using this field, the behavior
+                                                                 of the resource event is UNPREDICTABLE, and the resource event might fire or
+                                                                 might not fire. */
+#else /* Word 0 - Little Endian */
+        uint32_t cntevent_sel          : 5;  /**< [  4:  0](R/W) Defines the selected Resource Selector or pair of Resource Selectors.
+                                                                 TRCCNTCTLR&lt;n&gt;.CNTEVENT.TYPE controls whether
+                                                                 TRCCNTCTLR&lt;n&gt;.CNTEVENT.SEL is the index of a single Resource Selector, or
+                                                                 the index of a pair of Resource Selectors.
+                                                                 Selects an event, that when it occurs causes Counter &lt;n&gt; to decrement.
+                                                                 If an unimplemented Resource Selector is selected using this field, the behavior
+                                                                 of the resource event is UNPREDICTABLE, and the resource event might fire or
+                                                                 might not fire. */
+        uint32_t reserved_5_6          : 2;
+        uint32_t cntevent_type         : 1;  /**< [  7:  7](R/W) Chooses the type of Resource Selector.
+                                                                 Selects an event, that when it occurs causes Counter &lt;n&gt; to decrement. */
+        uint32_t rldevent_sel          : 5;  /**< [ 12:  8](R/W) Defines the selected Resource Selector or pair of Resource Selectors.
+                                                                 TRCCNTCTLR&lt;n&gt;.RLDEVENT.TYPE controls whether
+                                                                 TRCCNTCTLR&lt;n&gt;.RLDEVENT.SEL is the index of a single Resource Selector, or
+                                                                 the index of a pair of Resource Selectors.
+                                                                 Selects an event, that when it occurs causes a reload event for Counter &lt;n&gt;.
+                                                                 If an unimplemented Resource Selector is selected using this field, the behavior
+                                                                 of the resource event is UNPREDICTABLE, and the resource event might fire or
+                                                                 might not fire. */
+        uint32_t reserved_13_14        : 2;
+        uint32_t rldevent_type         : 1;  /**< [ 15: 15](R/W) Chooses the type of Resource Selector.
+                                                                 Selects an event, that when it occurs causes a reload event for Counter &lt;n&gt;. */
+        uint32_t rldself               : 1;  /**< [ 16: 16](R/W) Controls whether a reload event occurs for the Counter, when the Counter reaches zero. */
+        uint32_t cntchain              : 1;  /**< [ 17: 17](R/W) For TRCCNTCTLR3 and TRCCNTCTLR1, this bit controls whether the Counter
+                                                                 decrements when a reload event occurs for Counter &lt;n-1&gt;.
+                                                                 CNTCHAIN is not implemented for TRCCNTCTLR0 and TRCCNTCTLR2. */
+        uint32_t reserved_18_31        : 14;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trccntctlr1_s cn; */
+};
+typedef union cavm_cst_apx_etm_trccntctlr1 cavm_cst_apx_etm_trccntctlr1_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCCNTCTLR1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCCNTCTLR1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030154ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCCNTCTLR1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCCNTCTLR1(a) cavm_cst_apx_etm_trccntctlr1_t
+#define bustype_CAVM_CST_APX_ETM_TRCCNTCTLR1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCCNTCTLR1(a) "CST_APX_ETM_TRCCNTCTLR1"
+#define busnum_CAVM_CST_APX_ETM_TRCCNTCTLR1(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCCNTCTLR1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trccntrldvr0
+ *
+ * CST Ap Etm Trccntrldvr0 Register
+ * This sets or returns the reload count value for Counter &lt;n&gt;.
+ */
+union cavm_cst_apx_etm_trccntrldvr0
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trccntrldvr0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t value                 : 16; /**< [ 15:  0](R/W) Contains the reload value for Counter &lt;n&gt;. When a reload event occurs for
+                                                                 Counter &lt;n&gt; then the trace unit copies the VALUE&lt;n&gt; field into
+                                                                 Counter &lt;n&gt;. */
+#else /* Word 0 - Little Endian */
+        uint32_t value                 : 16; /**< [ 15:  0](R/W) Contains the reload value for Counter &lt;n&gt;. When a reload event occurs for
+                                                                 Counter &lt;n&gt; then the trace unit copies the VALUE&lt;n&gt; field into
+                                                                 Counter &lt;n&gt;. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trccntrldvr0_s cn; */
+};
+typedef union cavm_cst_apx_etm_trccntrldvr0 cavm_cst_apx_etm_trccntrldvr0_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCCNTRLDVR0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCCNTRLDVR0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030140ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCCNTRLDVR0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCCNTRLDVR0(a) cavm_cst_apx_etm_trccntrldvr0_t
+#define bustype_CAVM_CST_APX_ETM_TRCCNTRLDVR0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCCNTRLDVR0(a) "CST_APX_ETM_TRCCNTRLDVR0"
+#define busnum_CAVM_CST_APX_ETM_TRCCNTRLDVR0(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCCNTRLDVR0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trccntrldvr1
+ *
+ * CST Ap Etm Trccntrldvr1 Register
+ * This sets or returns the reload count value for Counter &lt;n&gt;.
+ */
+union cavm_cst_apx_etm_trccntrldvr1
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trccntrldvr1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t value                 : 16; /**< [ 15:  0](R/W) Contains the reload value for Counter &lt;n&gt;. When a reload event occurs for
+                                                                 Counter &lt;n&gt; then the trace unit copies the VALUE&lt;n&gt; field into
+                                                                 Counter &lt;n&gt;. */
+#else /* Word 0 - Little Endian */
+        uint32_t value                 : 16; /**< [ 15:  0](R/W) Contains the reload value for Counter &lt;n&gt;. When a reload event occurs for
+                                                                 Counter &lt;n&gt; then the trace unit copies the VALUE&lt;n&gt; field into
+                                                                 Counter &lt;n&gt;. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trccntrldvr1_s cn; */
+};
+typedef union cavm_cst_apx_etm_trccntrldvr1 cavm_cst_apx_etm_trccntrldvr1_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCCNTRLDVR1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCCNTRLDVR1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030144ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCCNTRLDVR1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCCNTRLDVR1(a) cavm_cst_apx_etm_trccntrldvr1_t
+#define bustype_CAVM_CST_APX_ETM_TRCCNTRLDVR1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCCNTRLDVR1(a) "CST_APX_ETM_TRCCNTRLDVR1"
+#define busnum_CAVM_CST_APX_ETM_TRCCNTRLDVR1(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCCNTRLDVR1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trccntvr0
+ *
+ * CST Ap Etm Trccntvr0 Register
+ * This sets or returns the value of Counter &lt;n&gt;.
+ */
+union cavm_cst_apx_etm_trccntvr0
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trccntvr0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t value                 : 16; /**< [ 15:  0](R/W) Contains the count value of Counter. */
+#else /* Word 0 - Little Endian */
+        uint32_t value                 : 16; /**< [ 15:  0](R/W) Contains the count value of Counter. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trccntvr0_s cn; */
+};
+typedef union cavm_cst_apx_etm_trccntvr0 cavm_cst_apx_etm_trccntvr0_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCCNTVR0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCCNTVR0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030160ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCCNTVR0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCCNTVR0(a) cavm_cst_apx_etm_trccntvr0_t
+#define bustype_CAVM_CST_APX_ETM_TRCCNTVR0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCCNTVR0(a) "CST_APX_ETM_TRCCNTVR0"
+#define busnum_CAVM_CST_APX_ETM_TRCCNTVR0(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCCNTVR0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trccntvr1
+ *
+ * CST Ap Etm Trccntvr1 Register
+ * This sets or returns the value of Counter &lt;n&gt;.
+ */
+union cavm_cst_apx_etm_trccntvr1
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trccntvr1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t value                 : 16; /**< [ 15:  0](R/W) Contains the count value of Counter. */
+#else /* Word 0 - Little Endian */
+        uint32_t value                 : 16; /**< [ 15:  0](R/W) Contains the count value of Counter. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trccntvr1_s cn; */
+};
+typedef union cavm_cst_apx_etm_trccntvr1 cavm_cst_apx_etm_trccntvr1_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCCNTVR1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCCNTVR1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030164ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCCNTVR1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCCNTVR1(a) cavm_cst_apx_etm_trccntvr1_t
+#define bustype_CAVM_CST_APX_ETM_TRCCNTVR1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCCNTVR1(a) "CST_APX_ETM_TRCCNTVR1"
+#define busnum_CAVM_CST_APX_ETM_TRCCNTVR1(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCCNTVR1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcconfigr
+ *
+ * CST Ap Etm Trcconfigr Register
+ * Controls the tracing options.
+ */
+union cavm_cst_apx_etm_trcconfigr
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcconfigr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_13_31        : 19;
+        uint32_t rs                    : 1;  /**< [ 12: 12](R/W) Return stack control. */
+        uint32_t ts                    : 1;  /**< [ 11: 11](R/W) Global timestamp tracing control. */
+        uint32_t reserved_8_10         : 3;
+        uint32_t vmid                  : 1;  /**< [  7:  7](R/W) Virtual context identifier tracing control. */
+        uint32_t cid                   : 1;  /**< [  6:  6](R/W) Context identifier tracing control. */
+        uint32_t reserved_5            : 1;
+        uint32_t cci                   : 1;  /**< [  4:  4](R/W) Cycle counting instruction tracing control. */
+        uint32_t bb                    : 1;  /**< [  3:  3](R/W) Branch broadcasting control. */
+        uint32_t reserved_0_2          : 3;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_2          : 3;
+        uint32_t bb                    : 1;  /**< [  3:  3](R/W) Branch broadcasting control. */
+        uint32_t cci                   : 1;  /**< [  4:  4](R/W) Cycle counting instruction tracing control. */
+        uint32_t reserved_5            : 1;
+        uint32_t cid                   : 1;  /**< [  6:  6](R/W) Context identifier tracing control. */
+        uint32_t vmid                  : 1;  /**< [  7:  7](R/W) Virtual context identifier tracing control. */
+        uint32_t reserved_8_10         : 3;
+        uint32_t ts                    : 1;  /**< [ 11: 11](R/W) Global timestamp tracing control. */
+        uint32_t rs                    : 1;  /**< [ 12: 12](R/W) Return stack control. */
+        uint32_t reserved_13_31        : 19;
+#endif /* Word 0 - End */
+    } s;
+    struct cavm_cst_apx_etm_trcconfigr_cn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t reserved_15           : 1;
+        uint32_t reserved_13_14        : 2;
+        uint32_t rs                    : 1;  /**< [ 12: 12](R/W) Return stack control. */
+        uint32_t ts                    : 1;  /**< [ 11: 11](R/W) Global timestamp tracing control. */
+        uint32_t reserved_8_10         : 3;
+        uint32_t vmid                  : 1;  /**< [  7:  7](R/W) Virtual context identifier tracing control. */
+        uint32_t cid                   : 1;  /**< [  6:  6](R/W) Context identifier tracing control. */
+        uint32_t reserved_5            : 1;
+        uint32_t cci                   : 1;  /**< [  4:  4](R/W) Cycle counting instruction tracing control. */
+        uint32_t bb                    : 1;  /**< [  3:  3](R/W) Branch broadcasting control. */
+        uint32_t reserved_1_2          : 2;
+        uint32_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0            : 1;
+        uint32_t reserved_1_2          : 2;
+        uint32_t bb                    : 1;  /**< [  3:  3](R/W) Branch broadcasting control. */
+        uint32_t cci                   : 1;  /**< [  4:  4](R/W) Cycle counting instruction tracing control. */
+        uint32_t reserved_5            : 1;
+        uint32_t cid                   : 1;  /**< [  6:  6](R/W) Context identifier tracing control. */
+        uint32_t vmid                  : 1;  /**< [  7:  7](R/W) Virtual context identifier tracing control. */
+        uint32_t reserved_8_10         : 3;
+        uint32_t ts                    : 1;  /**< [ 11: 11](R/W) Global timestamp tracing control. */
+        uint32_t rs                    : 1;  /**< [ 12: 12](R/W) Return stack control. */
+        uint32_t reserved_13_14        : 2;
+        uint32_t reserved_15           : 1;
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } cn;
+};
+typedef union cavm_cst_apx_etm_trcconfigr cavm_cst_apx_etm_trcconfigr_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCCONFIGR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCCONFIGR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030010ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCCONFIGR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCCONFIGR(a) cavm_cst_apx_etm_trcconfigr_t
+#define bustype_CAVM_CST_APX_ETM_TRCCONFIGR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCCONFIGR(a) "CST_APX_ETM_TRCCONFIGR"
+#define busnum_CAVM_CST_APX_ETM_TRCCONFIGR(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCCONFIGR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) cst_ap#_etm_trcdevaff
+ *
+ * CST Ap Etm Trcdevaff Register
+ * For additional information see the CoreSight Architecture Specification.
+ *
+ * Reads the same value as the AArch64-MPIDR_EL1 register for the PE that this trace
+ * unit has affinity with.
+ */
+union cavm_cst_apx_etm_trcdevaff
+{
+    uint64_t u;
+    struct cavm_cst_apx_etm_trcdevaff_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t mpidr_el1             : 64; /**< [ 63:  0](RO) Read-only copy of AArch64-MPIDR_EL1, as seen from the highest implemented Exception level. */
+#else /* Word 0 - Little Endian */
+        uint64_t mpidr_el1             : 64; /**< [ 63:  0](RO) Read-only copy of AArch64-MPIDR_EL1, as seen from the highest implemented Exception level. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcdevaff_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcdevaff cavm_cst_apx_etm_trcdevaff_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCDEVAFF(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCDEVAFF(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030fa8ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCDEVAFF", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCDEVAFF(a) cavm_cst_apx_etm_trcdevaff_t
+#define bustype_CAVM_CST_APX_ETM_TRCDEVAFF(a) CSR_TYPE_NCB
+#define basename_CAVM_CST_APX_ETM_TRCDEVAFF(a) "CST_APX_ETM_TRCDEVAFF"
+#define busnum_CAVM_CST_APX_ETM_TRCDEVAFF(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCDEVAFF(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcdevarch
+ *
+ * CST Ap Etm Trcdevarch Register
+ * Provides discovery information for the component.
+ *
+ * For additional information see the CoreSight Architecture Specification.
+ */
+union cavm_cst_apx_etm_trcdevarch
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcdevarch_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t architect             : 11; /**< [ 31: 21](RO) Defines the architect of the component. Bits [31:28] are the JEP106 continuation
+                                                                 code (JEP106 bank ID, minus 1) and bits [27:21] are the JEP106 ID code. */
+        uint32_t present               : 1;  /**< [ 20: 20](RO) DEVARCH Present. Defines that the DEVARCH register is present. */
+        uint32_t revision              : 4;  /**< [ 19: 16](RO) Revision. Defines the architecture revision of the component. */
+        uint32_t archver               : 4;  /**< [ 15: 12](RO) Architecture Version. Defines the architecture version of the component.
+                                                                 ARCHVER and ARCHPART are also defined as a single field, ARCHID, so that ARCHVER is ARCHID[15:12].
+                                                                 This field reads as 0x5. */
+        uint32_t archpart              : 12; /**< [ 11:  0](RO) Architecture Part. Defines the architecture of the component. */
+#else /* Word 0 - Little Endian */
+        uint32_t archpart              : 12; /**< [ 11:  0](RO) Architecture Part. Defines the architecture of the component. */
+        uint32_t archver               : 4;  /**< [ 15: 12](RO) Architecture Version. Defines the architecture version of the component.
+                                                                 ARCHVER and ARCHPART are also defined as a single field, ARCHID, so that ARCHVER is ARCHID[15:12].
+                                                                 This field reads as 0x5. */
+        uint32_t revision              : 4;  /**< [ 19: 16](RO) Revision. Defines the architecture revision of the component. */
+        uint32_t present               : 1;  /**< [ 20: 20](RO) DEVARCH Present. Defines that the DEVARCH register is present. */
+        uint32_t architect             : 11; /**< [ 31: 21](RO) Defines the architect of the component. Bits [31:28] are the JEP106 continuation
+                                                                 code (JEP106 bank ID, minus 1) and bits [27:21] are the JEP106 ID code. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcdevarch_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcdevarch cavm_cst_apx_etm_trcdevarch_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCDEVARCH(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCDEVARCH(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030fbcll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCDEVARCH", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCDEVARCH(a) cavm_cst_apx_etm_trcdevarch_t
+#define bustype_CAVM_CST_APX_ETM_TRCDEVARCH(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCDEVARCH(a) "CST_APX_ETM_TRCDEVARCH"
+#define busnum_CAVM_CST_APX_ETM_TRCDEVARCH(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCDEVARCH(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcdevid
+ *
+ * CST Ap Etm Trcdevid Register
+ * Provides discovery information for the component.
+ *
+ * For additional information see the CoreSight Architecture Specification.
+ */
+union cavm_cst_apx_etm_trcdevid
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcdevid_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcdevid_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcdevid cavm_cst_apx_etm_trcdevid_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCDEVID(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCDEVID(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030fc8ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCDEVID", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCDEVID(a) cavm_cst_apx_etm_trcdevid_t
+#define bustype_CAVM_CST_APX_ETM_TRCDEVID(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCDEVID(a) "CST_APX_ETM_TRCDEVID"
+#define busnum_CAVM_CST_APX_ETM_TRCDEVID(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCDEVID(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcdevid1
+ *
+ * CST Ap Etm Trcdevid1 Register
+ * Provides discovery information for the component.
+ *
+ * For additional information see the CoreSight Architecture Specification.
+ */
+union cavm_cst_apx_etm_trcdevid1
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcdevid1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcdevid1_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcdevid1 cavm_cst_apx_etm_trcdevid1_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCDEVID1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCDEVID1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030fc4ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCDEVID1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCDEVID1(a) cavm_cst_apx_etm_trcdevid1_t
+#define bustype_CAVM_CST_APX_ETM_TRCDEVID1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCDEVID1(a) "CST_APX_ETM_TRCDEVID1"
+#define busnum_CAVM_CST_APX_ETM_TRCDEVID1(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCDEVID1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcdevid2
+ *
+ * CST Ap Etm Trcdevid2 Register
+ * Provides discovery information for the component.
+ *
+ * For additional information see the CoreSight Architecture Specification.
+ */
+union cavm_cst_apx_etm_trcdevid2
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcdevid2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcdevid2_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcdevid2 cavm_cst_apx_etm_trcdevid2_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCDEVID2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCDEVID2(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030fc0ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCDEVID2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCDEVID2(a) cavm_cst_apx_etm_trcdevid2_t
+#define bustype_CAVM_CST_APX_ETM_TRCDEVID2(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCDEVID2(a) "CST_APX_ETM_TRCDEVID2"
+#define busnum_CAVM_CST_APX_ETM_TRCDEVID2(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCDEVID2(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcdevtype
+ *
+ * CST Ap Etm Trcdevtype Register
+ * Provides discovery information for the component. If the part number field is not
+ * recognised, a debugger can report the information that is provided by TRCDEVTYPE
+ * about the component instead.
+ *
+ * For additional information see the CoreSight Architecture Specification.
+ */
+union cavm_cst_apx_etm_trcdevtype
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcdevtype_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t sub                   : 4;  /**< [  7:  4](RO) Component sub-type.
+                                                                 This field reads as 0x1. */
+        uint32_t major                 : 4;  /**< [  3:  0](RO) Component major type.
+                                                                 Other values are defined by the CoreSight Architecture.
+                                                                 This field reads as 0x3. */
+#else /* Word 0 - Little Endian */
+        uint32_t major                 : 4;  /**< [  3:  0](RO) Component major type.
+                                                                 Other values are defined by the CoreSight Architecture.
+                                                                 This field reads as 0x3. */
+        uint32_t sub                   : 4;  /**< [  7:  4](RO) Component sub-type.
+                                                                 This field reads as 0x1. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcdevtype_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcdevtype cavm_cst_apx_etm_trcdevtype_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCDEVTYPE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCDEVTYPE(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030fccll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCDEVTYPE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCDEVTYPE(a) cavm_cst_apx_etm_trcdevtype_t
+#define bustype_CAVM_CST_APX_ETM_TRCDEVTYPE(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCDEVTYPE(a) "CST_APX_ETM_TRCDEVTYPE"
+#define busnum_CAVM_CST_APX_ETM_TRCDEVTYPE(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCDEVTYPE(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trceventctl0r
+ *
+ * CST Ap Etm Trceventctl0r Register
+ * Controls the generation of ETEEvents.
+ */
+union cavm_cst_apx_etm_trceventctl0r
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trceventctl0r_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t event3_type           : 1;  /**< [ 31: 31](R/W) Chooses the type of Resource Selector. */
+        uint32_t reserved_29_30        : 2;
+        uint32_t event3_sel            : 5;  /**< [ 28: 24](R/W) Defines the selected Resource Selector or pair of Resource Selectors.
+                                                                 TRCEVENTCTL0R.EVENT3.TYPE controls whether TRCEVENTCTL0R.EVENT3.SEL is the index
+                                                                 of a single Resource Selector, or the index of a pair of Resource Selectors.
+                                                                 If an unimplemented Resource Selector is selected using this field, the behavior
+                                                                 of the resource event is UNPREDICTABLE, and the resource event might fire or
+                                                                 might not fire.
+                                                                 When any of the selected resource events occurs and ext-TRCEVENTCTL1R.INSTEN[3]
+                                                                 == 0b1, then Event element 3 is generated in the instruction trace element
+                                                                 stream. */
+        uint32_t event2_type           : 1;  /**< [ 23: 23](R/W) Chooses the type of Resource Selector. */
+        uint32_t reserved_21_22        : 2;
+        uint32_t event2_sel            : 5;  /**< [ 20: 16](R/W) Defines the selected Resource Selector or pair of Resource Selectors.
+                                                                 TRCEVENTCTL0R.EVENT2.TYPE controls whether TRCEVENTCTL0R.EVENT2.SEL is the index
+                                                                 of a single Resource Selector, or the index of a pair of Resource Selectors.
+                                                                 If an unimplemented Resource Selector is selected using this field, the behavior
+                                                                 of the resource event is UNPREDICTABLE, and the resource event might fire or
+                                                                 might not fire.
+                                                                 When any of the selected resource events occurs and ext-TRCEVENTCTL1R.INSTEN[2]
+                                                                 == 0b1, then Event element 2 is generated in the instruction trace element
+                                                                 stream. */
+        uint32_t event1_type           : 1;  /**< [ 15: 15](R/W) Chooses the type of Resource Selector. */
+        uint32_t reserved_13_14        : 2;
+        uint32_t event1_sel            : 5;  /**< [ 12:  8](R/W) Defines the selected Resource Selector or pair of Resource Selectors.
+                                                                 TRCEVENTCTL0R.EVENT1.TYPE controls whether TRCEVENTCTL0R.EVENT1.SEL is the index
+                                                                 of a single Resource Selector, or the index of a pair of Resource Selectors.
+                                                                 If an unimplemented Resource Selector is selected using this field, the behavior
+                                                                 of the resource event is UNPREDICTABLE, and the resource event might fire or
+                                                                 might not fire.
+                                                                 When any of the selected resource events occurs and ext-TRCEVENTCTL1R.INSTEN[1]
+                                                                 == 0b1, then Event element 1 is generated in the instruction trace element
+                                                                 stream. */
+        uint32_t event0_type           : 1;  /**< [  7:  7](R/W) Chooses the type of Resource Selector. */
+        uint32_t reserved_5_6          : 2;
+        uint32_t event0_sel            : 5;  /**< [  4:  0](R/W) Defines the selected Resource Selector or pair of Resource Selectors.
+                                                                 TRCEVENTCTL0R.EVENT0.TYPE controls whether TRCEVENTCTL0R.EVENT0.SEL is the index
+                                                                 of a single Resource Selector, or the index of a pair of Resource Selectors.
+                                                                 If an unimplemented Resource Selector is selected using this field, the behavior
+                                                                 of the resource event is UNPREDICTABLE, and the resource event might fire or
+                                                                 might not fire.
+                                                                 When any of the selected resource events occurs and ext-TRCEVENTCTL1R.INSTEN[0]
+                                                                 == 0b1, then Event element 0 is generated in the instruction trace element
+                                                                 stream. */
+#else /* Word 0 - Little Endian */
+        uint32_t event0_sel            : 5;  /**< [  4:  0](R/W) Defines the selected Resource Selector or pair of Resource Selectors.
+                                                                 TRCEVENTCTL0R.EVENT0.TYPE controls whether TRCEVENTCTL0R.EVENT0.SEL is the index
+                                                                 of a single Resource Selector, or the index of a pair of Resource Selectors.
+                                                                 If an unimplemented Resource Selector is selected using this field, the behavior
+                                                                 of the resource event is UNPREDICTABLE, and the resource event might fire or
+                                                                 might not fire.
+                                                                 When any of the selected resource events occurs and ext-TRCEVENTCTL1R.INSTEN[0]
+                                                                 == 0b1, then Event element 0 is generated in the instruction trace element
+                                                                 stream. */
+        uint32_t reserved_5_6          : 2;
+        uint32_t event0_type           : 1;  /**< [  7:  7](R/W) Chooses the type of Resource Selector. */
+        uint32_t event1_sel            : 5;  /**< [ 12:  8](R/W) Defines the selected Resource Selector or pair of Resource Selectors.
+                                                                 TRCEVENTCTL0R.EVENT1.TYPE controls whether TRCEVENTCTL0R.EVENT1.SEL is the index
+                                                                 of a single Resource Selector, or the index of a pair of Resource Selectors.
+                                                                 If an unimplemented Resource Selector is selected using this field, the behavior
+                                                                 of the resource event is UNPREDICTABLE, and the resource event might fire or
+                                                                 might not fire.
+                                                                 When any of the selected resource events occurs and ext-TRCEVENTCTL1R.INSTEN[1]
+                                                                 == 0b1, then Event element 1 is generated in the instruction trace element
+                                                                 stream. */
+        uint32_t reserved_13_14        : 2;
+        uint32_t event1_type           : 1;  /**< [ 15: 15](R/W) Chooses the type of Resource Selector. */
+        uint32_t event2_sel            : 5;  /**< [ 20: 16](R/W) Defines the selected Resource Selector or pair of Resource Selectors.
+                                                                 TRCEVENTCTL0R.EVENT2.TYPE controls whether TRCEVENTCTL0R.EVENT2.SEL is the index
+                                                                 of a single Resource Selector, or the index of a pair of Resource Selectors.
+                                                                 If an unimplemented Resource Selector is selected using this field, the behavior
+                                                                 of the resource event is UNPREDICTABLE, and the resource event might fire or
+                                                                 might not fire.
+                                                                 When any of the selected resource events occurs and ext-TRCEVENTCTL1R.INSTEN[2]
+                                                                 == 0b1, then Event element 2 is generated in the instruction trace element
+                                                                 stream. */
+        uint32_t reserved_21_22        : 2;
+        uint32_t event2_type           : 1;  /**< [ 23: 23](R/W) Chooses the type of Resource Selector. */
+        uint32_t event3_sel            : 5;  /**< [ 28: 24](R/W) Defines the selected Resource Selector or pair of Resource Selectors.
+                                                                 TRCEVENTCTL0R.EVENT3.TYPE controls whether TRCEVENTCTL0R.EVENT3.SEL is the index
+                                                                 of a single Resource Selector, or the index of a pair of Resource Selectors.
+                                                                 If an unimplemented Resource Selector is selected using this field, the behavior
+                                                                 of the resource event is UNPREDICTABLE, and the resource event might fire or
+                                                                 might not fire.
+                                                                 When any of the selected resource events occurs and ext-TRCEVENTCTL1R.INSTEN[3]
+                                                                 == 0b1, then Event element 3 is generated in the instruction trace element
+                                                                 stream. */
+        uint32_t reserved_29_30        : 2;
+        uint32_t event3_type           : 1;  /**< [ 31: 31](R/W) Chooses the type of Resource Selector. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trceventctl0r_s cn; */
+};
+typedef union cavm_cst_apx_etm_trceventctl0r cavm_cst_apx_etm_trceventctl0r_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCEVENTCTL0R(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCEVENTCTL0R(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030020ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCEVENTCTL0R", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCEVENTCTL0R(a) cavm_cst_apx_etm_trceventctl0r_t
+#define bustype_CAVM_CST_APX_ETM_TRCEVENTCTL0R(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCEVENTCTL0R(a) "CST_APX_ETM_TRCEVENTCTL0R"
+#define busnum_CAVM_CST_APX_ETM_TRCEVENTCTL0R(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCEVENTCTL0R(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trceventctl1r
+ *
+ * CST Ap Etm Trceventctl1r Register
+ * Controls the behavior of the ETEEvents that ext-TRCEVENTCTL0R selects.
+ */
+union cavm_cst_apx_etm_trceventctl1r
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trceventctl1r_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_13_31        : 19;
+        uint32_t lpoverride            : 1;  /**< [ 12: 12](R/W) Low-power Override Mode select. */
+        uint32_t atb                   : 1;  /**< [ 11: 11](R/W) AMBA Trace Bus (ATB) trigger enable.
+                                                                 If a CoreSight ATB interface is implemented then when ETEEvent 0 occurs the trace unit sets:
+                                                                   -  ATID == 0x7D.
+                                                                   -  ATDATA to the value of ext-TRCTRACEIDR.
+                                                                 If the width of ATDATA is greater than the width of ext-TRCTRACEIDR.TRACEID then
+                                                                 the trace unit zeros the upper ATDATA bits.
+                                                                 If ETEEvent 0 is programmed to occur based on program execution, such as an
+                                                                 Address Comparator, the ATB trigger might not be inserted into the ATB stream at
+                                                                 the same time as any trace generated by that program execution is output by the
+                                                                 trace unit. Typically, the generated trace might be buffered in a trace unit
+                                                                 which means that the ATB trigger would be output before the associated trace is
+                                                                 output.
+                                                                 If ETEEvent 0 is asserted multiple times in close succession, the trace unit is
+                                                                 required to generate an ATB trigger for the first assertion, but might ignore
+                                                                 one or more of the subsequent assertions. Arm recommends that the window in
+                                                                 which ETEEvent 0 is ignored is limited only by the time taken to output an ATB
+                                                                 trigger. */
+        uint32_t reserved_4_10         : 7;
+        uint32_t instenm               : 4;  /**< [  3:  0](R/W) Event element control.
+                                                                 This bit is RES0 if m &gt;= the number indicated by ext-TRCIDR0.NUMEVENT. */
+#else /* Word 0 - Little Endian */
+        uint32_t instenm               : 4;  /**< [  3:  0](R/W) Event element control.
+                                                                 This bit is RES0 if m &gt;= the number indicated by ext-TRCIDR0.NUMEVENT. */
+        uint32_t reserved_4_10         : 7;
+        uint32_t atb                   : 1;  /**< [ 11: 11](R/W) AMBA Trace Bus (ATB) trigger enable.
+                                                                 If a CoreSight ATB interface is implemented then when ETEEvent 0 occurs the trace unit sets:
+                                                                   -  ATID == 0x7D.
+                                                                   -  ATDATA to the value of ext-TRCTRACEIDR.
+                                                                 If the width of ATDATA is greater than the width of ext-TRCTRACEIDR.TRACEID then
+                                                                 the trace unit zeros the upper ATDATA bits.
+                                                                 If ETEEvent 0 is programmed to occur based on program execution, such as an
+                                                                 Address Comparator, the ATB trigger might not be inserted into the ATB stream at
+                                                                 the same time as any trace generated by that program execution is output by the
+                                                                 trace unit. Typically, the generated trace might be buffered in a trace unit
+                                                                 which means that the ATB trigger would be output before the associated trace is
+                                                                 output.
+                                                                 If ETEEvent 0 is asserted multiple times in close succession, the trace unit is
+                                                                 required to generate an ATB trigger for the first assertion, but might ignore
+                                                                 one or more of the subsequent assertions. Arm recommends that the window in
+                                                                 which ETEEvent 0 is ignored is limited only by the time taken to output an ATB
+                                                                 trigger. */
+        uint32_t lpoverride            : 1;  /**< [ 12: 12](R/W) Low-power Override Mode select. */
+        uint32_t reserved_13_31        : 19;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trceventctl1r_s cn; */
+};
+typedef union cavm_cst_apx_etm_trceventctl1r cavm_cst_apx_etm_trceventctl1r_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCEVENTCTL1R(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCEVENTCTL1R(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030024ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCEVENTCTL1R", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCEVENTCTL1R(a) cavm_cst_apx_etm_trceventctl1r_t
+#define bustype_CAVM_CST_APX_ETM_TRCEVENTCTL1R(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCEVENTCTL1R(a) "CST_APX_ETM_TRCEVENTCTL1R"
+#define busnum_CAVM_CST_APX_ETM_TRCEVENTCTL1R(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCEVENTCTL1R(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcextinselr0
+ *
+ * CST Ap Etm Trcextinselr0 Register
+ * Use this to set, or read, which External Inputs are resources to the trace unit.
+ */
+union cavm_cst_apx_etm_trcextinselr0
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcextinselr0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t evtcount              : 16; /**< [ 15:  0](R/W) PMU event to select.
+                                                                 The event number as defined by the Arm ARM.
+                                                                 Software must program this field with a PMU event that is supported by the PE being programmed.
+                                                                 There are three ranges of PMU event numbers:
+                                                                   -  PMU event numbers in the range 0x0000 to 0x003F are common architectural
+                                                                 and microarchitectural events.
+                                                                   -  PMU event numbers in the range 0x0040 to 0x00BF are Arm recommended common
+                                                                 architectural and microarchitectural PMU events.
+                                                                   -  PMU event numbers in the range 0x00C0 to 0x03FF are IMPLEMENTATION DEFINED PMU events.
+                                                                 If evtCount is programmed to a PMU event that is reserved or not supported by
+                                                                 the PE, the behavior depends on the PMU event type:
+                                                                   -  For the range 0x0000 to 0x003F, then the PMU event is not active, and the
+                                                                 value returned by a direct or external read of the evtCount field is the value
+                                                                 written to the field.
+                                                                   -  For IMPLEMENTATION DEFINED PMU events, it is UNPREDICTABLE what PMU event,
+                                                                 if any, is counted, and the value returned by a direct or external read of the
+                                                                 evtCount field is UNKNOWN.
+                                                                 UNPREDICTABLE means the PMU event must not expose privileged information.
+                                                                 Arm recommends that the behavior across a family of implementations is defined
+                                                                 such that if a given implementation does not include a PMU event from a set of
+                                                                 common IMPLEMENTATION DEFINED PMU events, then no PMU event is counted and the
+                                                                 value read back on evtCount is the value written. */
+#else /* Word 0 - Little Endian */
+        uint32_t evtcount              : 16; /**< [ 15:  0](R/W) PMU event to select.
+                                                                 The event number as defined by the Arm ARM.
+                                                                 Software must program this field with a PMU event that is supported by the PE being programmed.
+                                                                 There are three ranges of PMU event numbers:
+                                                                   -  PMU event numbers in the range 0x0000 to 0x003F are common architectural
+                                                                 and microarchitectural events.
+                                                                   -  PMU event numbers in the range 0x0040 to 0x00BF are Arm recommended common
+                                                                 architectural and microarchitectural PMU events.
+                                                                   -  PMU event numbers in the range 0x00C0 to 0x03FF are IMPLEMENTATION DEFINED PMU events.
+                                                                 If evtCount is programmed to a PMU event that is reserved or not supported by
+                                                                 the PE, the behavior depends on the PMU event type:
+                                                                   -  For the range 0x0000 to 0x003F, then the PMU event is not active, and the
+                                                                 value returned by a direct or external read of the evtCount field is the value
+                                                                 written to the field.
+                                                                   -  For IMPLEMENTATION DEFINED PMU events, it is UNPREDICTABLE what PMU event,
+                                                                 if any, is counted, and the value returned by a direct or external read of the
+                                                                 evtCount field is UNKNOWN.
+                                                                 UNPREDICTABLE means the PMU event must not expose privileged information.
+                                                                 Arm recommends that the behavior across a family of implementations is defined
+                                                                 such that if a given implementation does not include a PMU event from a set of
+                                                                 common IMPLEMENTATION DEFINED PMU events, then no PMU event is counted and the
+                                                                 value read back on evtCount is the value written. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcextinselr0_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcextinselr0 cavm_cst_apx_etm_trcextinselr0_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCEXTINSELR0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCEXTINSELR0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030120ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCEXTINSELR0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCEXTINSELR0(a) cavm_cst_apx_etm_trcextinselr0_t
+#define bustype_CAVM_CST_APX_ETM_TRCEXTINSELR0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCEXTINSELR0(a) "CST_APX_ETM_TRCEXTINSELR0"
+#define busnum_CAVM_CST_APX_ETM_TRCEXTINSELR0(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCEXTINSELR0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcextinselr1
+ *
+ * CST Ap Etm Trcextinselr1 Register
+ * Use this to set, or read, which External Inputs are resources to the trace unit.
+ */
+union cavm_cst_apx_etm_trcextinselr1
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcextinselr1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t evtcount              : 16; /**< [ 15:  0](R/W) PMU event to select.
+                                                                 The event number as defined by the Arm ARM.
+                                                                 Software must program this field with a PMU event that is supported by the PE being programmed.
+                                                                 There are three ranges of PMU event numbers:
+                                                                   -  PMU event numbers in the range 0x0000 to 0x003F are common architectural
+                                                                 and microarchitectural events.
+                                                                   -  PMU event numbers in the range 0x0040 to 0x00BF are Arm recommended common
+                                                                 architectural and microarchitectural PMU events.
+                                                                   -  PMU event numbers in the range 0x00C0 to 0x03FF are IMPLEMENTATION DEFINED PMU events.
+                                                                 If evtCount is programmed to a PMU event that is reserved or not supported by
+                                                                 the PE, the behavior depends on the PMU event type:
+                                                                   -  For the range 0x0000 to 0x003F, then the PMU event is not active, and the
+                                                                 value returned by a direct or external read of the evtCount field is the value
+                                                                 written to the field.
+                                                                   -  For IMPLEMENTATION DEFINED PMU events, it is UNPREDICTABLE what PMU event,
+                                                                 if any, is counted, and the value returned by a direct or external read of the
+                                                                 evtCount field is UNKNOWN.
+                                                                 UNPREDICTABLE means the PMU event must not expose privileged information.
+                                                                 Arm recommends that the behavior across a family of implementations is defined
+                                                                 such that if a given implementation does not include a PMU event from a set of
+                                                                 common IMPLEMENTATION DEFINED PMU events, then no PMU event is counted and the
+                                                                 value read back on evtCount is the value written. */
+#else /* Word 0 - Little Endian */
+        uint32_t evtcount              : 16; /**< [ 15:  0](R/W) PMU event to select.
+                                                                 The event number as defined by the Arm ARM.
+                                                                 Software must program this field with a PMU event that is supported by the PE being programmed.
+                                                                 There are three ranges of PMU event numbers:
+                                                                   -  PMU event numbers in the range 0x0000 to 0x003F are common architectural
+                                                                 and microarchitectural events.
+                                                                   -  PMU event numbers in the range 0x0040 to 0x00BF are Arm recommended common
+                                                                 architectural and microarchitectural PMU events.
+                                                                   -  PMU event numbers in the range 0x00C0 to 0x03FF are IMPLEMENTATION DEFINED PMU events.
+                                                                 If evtCount is programmed to a PMU event that is reserved or not supported by
+                                                                 the PE, the behavior depends on the PMU event type:
+                                                                   -  For the range 0x0000 to 0x003F, then the PMU event is not active, and the
+                                                                 value returned by a direct or external read of the evtCount field is the value
+                                                                 written to the field.
+                                                                   -  For IMPLEMENTATION DEFINED PMU events, it is UNPREDICTABLE what PMU event,
+                                                                 if any, is counted, and the value returned by a direct or external read of the
+                                                                 evtCount field is UNKNOWN.
+                                                                 UNPREDICTABLE means the PMU event must not expose privileged information.
+                                                                 Arm recommends that the behavior across a family of implementations is defined
+                                                                 such that if a given implementation does not include a PMU event from a set of
+                                                                 common IMPLEMENTATION DEFINED PMU events, then no PMU event is counted and the
+                                                                 value read back on evtCount is the value written. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcextinselr1_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcextinselr1 cavm_cst_apx_etm_trcextinselr1_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCEXTINSELR1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCEXTINSELR1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030124ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCEXTINSELR1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCEXTINSELR1(a) cavm_cst_apx_etm_trcextinselr1_t
+#define bustype_CAVM_CST_APX_ETM_TRCEXTINSELR1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCEXTINSELR1(a) "CST_APX_ETM_TRCEXTINSELR1"
+#define busnum_CAVM_CST_APX_ETM_TRCEXTINSELR1(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCEXTINSELR1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcextinselr2
+ *
+ * CST Ap Etm Trcextinselr2 Register
+ * Use this to set, or read, which External Inputs are resources to the trace unit.
+ */
+union cavm_cst_apx_etm_trcextinselr2
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcextinselr2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t evtcount              : 16; /**< [ 15:  0](R/W) PMU event to select.
+                                                                 The event number as defined by the Arm ARM.
+                                                                 Software must program this field with a PMU event that is supported by the PE being programmed.
+                                                                 There are three ranges of PMU event numbers:
+                                                                   -  PMU event numbers in the range 0x0000 to 0x003F are common architectural
+                                                                 and microarchitectural events.
+                                                                   -  PMU event numbers in the range 0x0040 to 0x00BF are Arm recommended common
+                                                                 architectural and microarchitectural PMU events.
+                                                                   -  PMU event numbers in the range 0x00C0 to 0x03FF are IMPLEMENTATION DEFINED PMU events.
+                                                                 If evtCount is programmed to a PMU event that is reserved or not supported by
+                                                                 the PE, the behavior depends on the PMU event type:
+                                                                   -  For the range 0x0000 to 0x003F, then the PMU event is not active, and the
+                                                                 value returned by a direct or external read of the evtCount field is the value
+                                                                 written to the field.
+                                                                   -  For IMPLEMENTATION DEFINED PMU events, it is UNPREDICTABLE what PMU event,
+                                                                 if any, is counted, and the value returned by a direct or external read of the
+                                                                 evtCount field is UNKNOWN.
+                                                                 UNPREDICTABLE means the PMU event must not expose privileged information.
+                                                                 Arm recommends that the behavior across a family of implementations is defined
+                                                                 such that if a given implementation does not include a PMU event from a set of
+                                                                 common IMPLEMENTATION DEFINED PMU events, then no PMU event is counted and the
+                                                                 value read back on evtCount is the value written. */
+#else /* Word 0 - Little Endian */
+        uint32_t evtcount              : 16; /**< [ 15:  0](R/W) PMU event to select.
+                                                                 The event number as defined by the Arm ARM.
+                                                                 Software must program this field with a PMU event that is supported by the PE being programmed.
+                                                                 There are three ranges of PMU event numbers:
+                                                                   -  PMU event numbers in the range 0x0000 to 0x003F are common architectural
+                                                                 and microarchitectural events.
+                                                                   -  PMU event numbers in the range 0x0040 to 0x00BF are Arm recommended common
+                                                                 architectural and microarchitectural PMU events.
+                                                                   -  PMU event numbers in the range 0x00C0 to 0x03FF are IMPLEMENTATION DEFINED PMU events.
+                                                                 If evtCount is programmed to a PMU event that is reserved or not supported by
+                                                                 the PE, the behavior depends on the PMU event type:
+                                                                   -  For the range 0x0000 to 0x003F, then the PMU event is not active, and the
+                                                                 value returned by a direct or external read of the evtCount field is the value
+                                                                 written to the field.
+                                                                   -  For IMPLEMENTATION DEFINED PMU events, it is UNPREDICTABLE what PMU event,
+                                                                 if any, is counted, and the value returned by a direct or external read of the
+                                                                 evtCount field is UNKNOWN.
+                                                                 UNPREDICTABLE means the PMU event must not expose privileged information.
+                                                                 Arm recommends that the behavior across a family of implementations is defined
+                                                                 such that if a given implementation does not include a PMU event from a set of
+                                                                 common IMPLEMENTATION DEFINED PMU events, then no PMU event is counted and the
+                                                                 value read back on evtCount is the value written. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcextinselr2_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcextinselr2 cavm_cst_apx_etm_trcextinselr2_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCEXTINSELR2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCEXTINSELR2(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030128ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCEXTINSELR2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCEXTINSELR2(a) cavm_cst_apx_etm_trcextinselr2_t
+#define bustype_CAVM_CST_APX_ETM_TRCEXTINSELR2(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCEXTINSELR2(a) "CST_APX_ETM_TRCEXTINSELR2"
+#define busnum_CAVM_CST_APX_ETM_TRCEXTINSELR2(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCEXTINSELR2(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcextinselr3
+ *
+ * CST Ap Etm Trcextinselr3 Register
+ * Use this to set, or read, which External Inputs are resources to the trace unit.
+ */
+union cavm_cst_apx_etm_trcextinselr3
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcextinselr3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t evtcount              : 16; /**< [ 15:  0](R/W) PMU event to select.
+                                                                 The event number as defined by the Arm ARM.
+                                                                 Software must program this field with a PMU event that is supported by the PE being programmed.
+                                                                 There are three ranges of PMU event numbers:
+                                                                   -  PMU event numbers in the range 0x0000 to 0x003F are common architectural
+                                                                 and microarchitectural events.
+                                                                   -  PMU event numbers in the range 0x0040 to 0x00BF are Arm recommended common
+                                                                 architectural and microarchitectural PMU events.
+                                                                   -  PMU event numbers in the range 0x00C0 to 0x03FF are IMPLEMENTATION DEFINED PMU events.
+                                                                 If evtCount is programmed to a PMU event that is reserved or not supported by
+                                                                 the PE, the behavior depends on the PMU event type:
+                                                                   -  For the range 0x0000 to 0x003F, then the PMU event is not active, and the
+                                                                 value returned by a direct or external read of the evtCount field is the value
+                                                                 written to the field.
+                                                                   -  For IMPLEMENTATION DEFINED PMU events, it is UNPREDICTABLE what PMU event,
+                                                                 if any, is counted, and the value returned by a direct or external read of the
+                                                                 evtCount field is UNKNOWN.
+                                                                 UNPREDICTABLE means the PMU event must not expose privileged information.
+                                                                 Arm recommends that the behavior across a family of implementations is defined
+                                                                 such that if a given implementation does not include a PMU event from a set of
+                                                                 common IMPLEMENTATION DEFINED PMU events, then no PMU event is counted and the
+                                                                 value read back on evtCount is the value written. */
+#else /* Word 0 - Little Endian */
+        uint32_t evtcount              : 16; /**< [ 15:  0](R/W) PMU event to select.
+                                                                 The event number as defined by the Arm ARM.
+                                                                 Software must program this field with a PMU event that is supported by the PE being programmed.
+                                                                 There are three ranges of PMU event numbers:
+                                                                   -  PMU event numbers in the range 0x0000 to 0x003F are common architectural
+                                                                 and microarchitectural events.
+                                                                   -  PMU event numbers in the range 0x0040 to 0x00BF are Arm recommended common
+                                                                 architectural and microarchitectural PMU events.
+                                                                   -  PMU event numbers in the range 0x00C0 to 0x03FF are IMPLEMENTATION DEFINED PMU events.
+                                                                 If evtCount is programmed to a PMU event that is reserved or not supported by
+                                                                 the PE, the behavior depends on the PMU event type:
+                                                                   -  For the range 0x0000 to 0x003F, then the PMU event is not active, and the
+                                                                 value returned by a direct or external read of the evtCount field is the value
+                                                                 written to the field.
+                                                                   -  For IMPLEMENTATION DEFINED PMU events, it is UNPREDICTABLE what PMU event,
+                                                                 if any, is counted, and the value returned by a direct or external read of the
+                                                                 evtCount field is UNKNOWN.
+                                                                 UNPREDICTABLE means the PMU event must not expose privileged information.
+                                                                 Arm recommends that the behavior across a family of implementations is defined
+                                                                 such that if a given implementation does not include a PMU event from a set of
+                                                                 common IMPLEMENTATION DEFINED PMU events, then no PMU event is counted and the
+                                                                 value read back on evtCount is the value written. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcextinselr3_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcextinselr3 cavm_cst_apx_etm_trcextinselr3_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCEXTINSELR3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCEXTINSELR3(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a08103012cll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCEXTINSELR3", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCEXTINSELR3(a) cavm_cst_apx_etm_trcextinselr3_t
+#define bustype_CAVM_CST_APX_ETM_TRCEXTINSELR3(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCEXTINSELR3(a) "CST_APX_ETM_TRCEXTINSELR3"
+#define busnum_CAVM_CST_APX_ETM_TRCEXTINSELR3(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCEXTINSELR3(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcidr0
+ *
+ * CST Ap Etm Trcidr0 Register
+ * Returns the tracing capabilities of the trace unit.
+ */
+union cavm_cst_apx_etm_trcidr0
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcidr0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_31           : 1;
+        uint32_t commtrans             : 1;  /**< [ 30: 30](RO) Transaction Start element behavior. */
+        uint32_t commopt               : 1;  /**< [ 29: 29](RO) Indicates the contents and encodings of Cycle count packets. */
+        uint32_t tssize                : 5;  /**< [ 28: 24](RO) Indicates that the trace unit implements Global timestamping and the size of the timestamp value. */
+        uint32_t reserved_18_23        : 6;
+        uint32_t trcexdata             : 1;  /**< [ 17: 17](RO) Indicates if the trace unit implements tracing of data transfers for exceptions
+                                                                 and exception returns. Data tracing is not implemented in ETE and this field is
+                                                                 reserved for other trace architectures. Allocated in other trace architectures. */
+        uint32_t qsupp                 : 2;  /**< [ 16: 15](RO) Indicates that the trace unit implements Q element support. */
+        uint32_t qfilt                 : 1;  /**< [ 14: 14](RO) Indicates if the trace unit implements Q element filtering. */
+        uint32_t reserved_12_13        : 2;
+        uint32_t numevent              : 2;  /**< [ 11: 10](RO) Indicates the number of ETEEvents implemented. */
+        uint32_t retstack              : 1;  /**< [  9:  9](RO) Indicates if the trace unit supports the return stack. */
+        uint32_t reserved_8            : 1;
+        uint32_t trccci                : 1;  /**< [  7:  7](RO) Indicates if the trace unit implements cycle counting. */
+        uint32_t trccond               : 1;  /**< [  6:  6](RO) Indicates if the trace unit implements conditional instruction tracing.
+                                                                 Conditional instruction tracing is not implemented in ETE and this field is
+                                                                 reserved for other trace architectures. */
+        uint32_t trcbb                 : 1;  /**< [  5:  5](RO) Indicates if the trace unit implements branch broadcasting. */
+        uint32_t trcdata               : 2;  /**< [  4:  3](RO) Indicates if the trace unit implements data tracing. Data tracing is not
+                                                                 implemented in ETE and this field is reserved for other trace architectures. */
+        uint32_t instp0                : 2;  /**< [  2:  1](RO) Indicates if load and store instructions are P0 instructions. Load and store
+                                                                 instructions as P0 instructions is not implemented in ETE and this field is
+                                                                 reserved for other trace architectures. */
+        uint32_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0            : 1;
+        uint32_t instp0                : 2;  /**< [  2:  1](RO) Indicates if load and store instructions are P0 instructions. Load and store
+                                                                 instructions as P0 instructions is not implemented in ETE and this field is
+                                                                 reserved for other trace architectures. */
+        uint32_t trcdata               : 2;  /**< [  4:  3](RO) Indicates if the trace unit implements data tracing. Data tracing is not
+                                                                 implemented in ETE and this field is reserved for other trace architectures. */
+        uint32_t trcbb                 : 1;  /**< [  5:  5](RO) Indicates if the trace unit implements branch broadcasting. */
+        uint32_t trccond               : 1;  /**< [  6:  6](RO) Indicates if the trace unit implements conditional instruction tracing.
+                                                                 Conditional instruction tracing is not implemented in ETE and this field is
+                                                                 reserved for other trace architectures. */
+        uint32_t trccci                : 1;  /**< [  7:  7](RO) Indicates if the trace unit implements cycle counting. */
+        uint32_t reserved_8            : 1;
+        uint32_t retstack              : 1;  /**< [  9:  9](RO) Indicates if the trace unit supports the return stack. */
+        uint32_t numevent              : 2;  /**< [ 11: 10](RO) Indicates the number of ETEEvents implemented. */
+        uint32_t reserved_12_13        : 2;
+        uint32_t qfilt                 : 1;  /**< [ 14: 14](RO) Indicates if the trace unit implements Q element filtering. */
+        uint32_t qsupp                 : 2;  /**< [ 16: 15](RO) Indicates that the trace unit implements Q element support. */
+        uint32_t trcexdata             : 1;  /**< [ 17: 17](RO) Indicates if the trace unit implements tracing of data transfers for exceptions
+                                                                 and exception returns. Data tracing is not implemented in ETE and this field is
+                                                                 reserved for other trace architectures. Allocated in other trace architectures. */
+        uint32_t reserved_18_23        : 6;
+        uint32_t tssize                : 5;  /**< [ 28: 24](RO) Indicates that the trace unit implements Global timestamping and the size of the timestamp value. */
+        uint32_t commopt               : 1;  /**< [ 29: 29](RO) Indicates the contents and encodings of Cycle count packets. */
+        uint32_t commtrans             : 1;  /**< [ 30: 30](RO) Transaction Start element behavior. */
+        uint32_t reserved_31           : 1;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcidr0_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcidr0 cavm_cst_apx_etm_trcidr0_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCIDR0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCIDR0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a0810301e0ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCIDR0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCIDR0(a) cavm_cst_apx_etm_trcidr0_t
+#define bustype_CAVM_CST_APX_ETM_TRCIDR0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCIDR0(a) "CST_APX_ETM_TRCIDR0"
+#define busnum_CAVM_CST_APX_ETM_TRCIDR0(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCIDR0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcidr1
+ *
+ * CST Ap Etm Trcidr1 Register
+ * Returns the tracing capabilities of the trace unit.
+ */
+union cavm_cst_apx_etm_trcidr1
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcidr1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t designer              : 8;  /**< [ 31: 24](RO) Indicates which company designed the trace unit. The permitted values of this
+                                                                 field are the same as AArch64-MIDR_EL1.Implementer. */
+        uint32_t reserved_12_23        : 12;
+        uint32_t trcarchmaj            : 4;  /**< [ 11:  8](RO) Major architecture version. */
+        uint32_t trcarchmin            : 4;  /**< [  7:  4](RO) Minor architecture version. */
+        uint32_t revision              : 4;  /**< [  3:  0](RO) Implementation revision that identifies the revision of the trace and OS Lock registers. */
+#else /* Word 0 - Little Endian */
+        uint32_t revision              : 4;  /**< [  3:  0](RO) Implementation revision that identifies the revision of the trace and OS Lock registers. */
+        uint32_t trcarchmin            : 4;  /**< [  7:  4](RO) Minor architecture version. */
+        uint32_t trcarchmaj            : 4;  /**< [ 11:  8](RO) Major architecture version. */
+        uint32_t reserved_12_23        : 12;
+        uint32_t designer              : 8;  /**< [ 31: 24](RO) Indicates which company designed the trace unit. The permitted values of this
+                                                                 field are the same as AArch64-MIDR_EL1.Implementer. */
+#endif /* Word 0 - End */
+    } s;
+    struct cavm_cst_apx_etm_trcidr1_cn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t designer              : 8;  /**< [ 31: 24](RO) Indicates which company designed the trace unit. The permitted values of this
+                                                                 field are the same as AArch64-MIDR_EL1.Implementer. */
+        uint32_t reserved_16_23        : 8;
+        uint32_t reserved_12_15        : 4;
+        uint32_t trcarchmaj            : 4;  /**< [ 11:  8](RO) Major architecture version. */
+        uint32_t trcarchmin            : 4;  /**< [  7:  4](RO) Minor architecture version. */
+        uint32_t revision              : 4;  /**< [  3:  0](RO) Implementation revision that identifies the revision of the trace and OS Lock registers. */
+#else /* Word 0 - Little Endian */
+        uint32_t revision              : 4;  /**< [  3:  0](RO) Implementation revision that identifies the revision of the trace and OS Lock registers. */
+        uint32_t trcarchmin            : 4;  /**< [  7:  4](RO) Minor architecture version. */
+        uint32_t trcarchmaj            : 4;  /**< [ 11:  8](RO) Major architecture version. */
+        uint32_t reserved_12_15        : 4;
+        uint32_t reserved_16_23        : 8;
+        uint32_t designer              : 8;  /**< [ 31: 24](RO) Indicates which company designed the trace unit. The permitted values of this
+                                                                 field are the same as AArch64-MIDR_EL1.Implementer. */
+#endif /* Word 0 - End */
+    } cn;
+};
+typedef union cavm_cst_apx_etm_trcidr1 cavm_cst_apx_etm_trcidr1_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCIDR1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCIDR1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a0810301e4ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCIDR1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCIDR1(a) cavm_cst_apx_etm_trcidr1_t
+#define bustype_CAVM_CST_APX_ETM_TRCIDR1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCIDR1(a) "CST_APX_ETM_TRCIDR1"
+#define busnum_CAVM_CST_APX_ETM_TRCIDR1(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCIDR1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcidr10
+ *
+ * CST Ap Etm Trcidr10 Register
+ * Returns the tracing capabilities of the trace unit.
+ */
+union cavm_cst_apx_etm_trcidr10
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcidr10_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t nump1key              : 32; /**< [ 31:  0](RO) Indicates the number of P1 right-hand keys. Data tracing is not implemented in
+                                                                 ETE and this field is reserved for other trace architectures. Allocated in other
+                                                                 trace architectures. */
+#else /* Word 0 - Little Endian */
+        uint32_t nump1key              : 32; /**< [ 31:  0](RO) Indicates the number of P1 right-hand keys. Data tracing is not implemented in
+                                                                 ETE and this field is reserved for other trace architectures. Allocated in other
+                                                                 trace architectures. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcidr10_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcidr10 cavm_cst_apx_etm_trcidr10_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCIDR10(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCIDR10(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030188ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCIDR10", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCIDR10(a) cavm_cst_apx_etm_trcidr10_t
+#define bustype_CAVM_CST_APX_ETM_TRCIDR10(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCIDR10(a) "CST_APX_ETM_TRCIDR10"
+#define busnum_CAVM_CST_APX_ETM_TRCIDR10(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCIDR10(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcidr11
+ *
+ * CST Ap Etm Trcidr11 Register
+ * Returns the tracing capabilities of the trace unit.
+ */
+union cavm_cst_apx_etm_trcidr11
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcidr11_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t nump1spc              : 32; /**< [ 31:  0](RO) Indicates the number of special P1 right-hand keys. Data tracing is not
+                                                                 implemented in ETE and this field is reserved for other trace architectures.
+                                                                 Allocated in other trace architectures. */
+#else /* Word 0 - Little Endian */
+        uint32_t nump1spc              : 32; /**< [ 31:  0](RO) Indicates the number of special P1 right-hand keys. Data tracing is not
+                                                                 implemented in ETE and this field is reserved for other trace architectures.
+                                                                 Allocated in other trace architectures. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcidr11_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcidr11 cavm_cst_apx_etm_trcidr11_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCIDR11(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCIDR11(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a08103018cll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCIDR11", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCIDR11(a) cavm_cst_apx_etm_trcidr11_t
+#define bustype_CAVM_CST_APX_ETM_TRCIDR11(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCIDR11(a) "CST_APX_ETM_TRCIDR11"
+#define busnum_CAVM_CST_APX_ETM_TRCIDR11(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCIDR11(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcidr12
+ *
+ * CST Ap Etm Trcidr12 Register
+ * Returns the tracing capabilities of the trace unit.
+ */
+union cavm_cst_apx_etm_trcidr12
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcidr12_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcidr12_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcidr12 cavm_cst_apx_etm_trcidr12_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCIDR12(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCIDR12(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030190ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCIDR12", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCIDR12(a) cavm_cst_apx_etm_trcidr12_t
+#define bustype_CAVM_CST_APX_ETM_TRCIDR12(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCIDR12(a) "CST_APX_ETM_TRCIDR12"
+#define busnum_CAVM_CST_APX_ETM_TRCIDR12(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCIDR12(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcidr13
+ *
+ * CST Ap Etm Trcidr13 Register
+ * Returns the tracing capabilities of the trace unit.
+ */
+union cavm_cst_apx_etm_trcidr13
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcidr13_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcidr13_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcidr13 cavm_cst_apx_etm_trcidr13_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCIDR13(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCIDR13(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030194ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCIDR13", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCIDR13(a) cavm_cst_apx_etm_trcidr13_t
+#define bustype_CAVM_CST_APX_ETM_TRCIDR13(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCIDR13(a) "CST_APX_ETM_TRCIDR13"
+#define busnum_CAVM_CST_APX_ETM_TRCIDR13(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCIDR13(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcidr2
+ *
+ * CST Ap Etm Trcidr2 Register
+ * Returns the tracing capabilities of the trace unit.
+ */
+union cavm_cst_apx_etm_trcidr2
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcidr2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t wfxmode               : 1;  /**< [ 31: 31](RO) Indicates whether WFI and WFE instructions are classified as P0 instructions. */
+        uint32_t vmidopt               : 2;  /**< [ 30: 29](RO) Indicates the options for Virtual context identifier selection. */
+        uint32_t ccsize                : 4;  /**< [ 28: 25](RO) Indicates the size of the cycle counter. */
+        uint32_t dvsize                : 5;  /**< [ 24: 20](RO) Indicates the data value size in bytes. Data tracing is not implemented in ETE
+                                                                 and this field is reserved for other trace architectures. Allocated in other
+                                                                 trace architectures. */
+        uint32_t dasize                : 5;  /**< [ 19: 15](RO) Indicates the data value size in bytes. Data tracing is not implemented in ETE
+                                                                 and this field is reserved for other trace architectures. Allocated in other
+                                                                 trace architectures. */
+        uint32_t vmidsize              : 5;  /**< [ 14: 10](RO) Indicates the trace unit Virtual context identifier size. */
+        uint32_t cidsize               : 5;  /**< [  9:  5](RO) Indicates the Context identifier size. */
+        uint32_t iasize                : 5;  /**< [  4:  0](RO) Virtual instruction address size. */
+#else /* Word 0 - Little Endian */
+        uint32_t iasize                : 5;  /**< [  4:  0](RO) Virtual instruction address size. */
+        uint32_t cidsize               : 5;  /**< [  9:  5](RO) Indicates the Context identifier size. */
+        uint32_t vmidsize              : 5;  /**< [ 14: 10](RO) Indicates the trace unit Virtual context identifier size. */
+        uint32_t dasize                : 5;  /**< [ 19: 15](RO) Indicates the data value size in bytes. Data tracing is not implemented in ETE
+                                                                 and this field is reserved for other trace architectures. Allocated in other
+                                                                 trace architectures. */
+        uint32_t dvsize                : 5;  /**< [ 24: 20](RO) Indicates the data value size in bytes. Data tracing is not implemented in ETE
+                                                                 and this field is reserved for other trace architectures. Allocated in other
+                                                                 trace architectures. */
+        uint32_t ccsize                : 4;  /**< [ 28: 25](RO) Indicates the size of the cycle counter. */
+        uint32_t vmidopt               : 2;  /**< [ 30: 29](RO) Indicates the options for Virtual context identifier selection. */
+        uint32_t wfxmode               : 1;  /**< [ 31: 31](RO) Indicates whether WFI and WFE instructions are classified as P0 instructions. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcidr2_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcidr2 cavm_cst_apx_etm_trcidr2_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCIDR2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCIDR2(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a0810301e8ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCIDR2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCIDR2(a) cavm_cst_apx_etm_trcidr2_t
+#define bustype_CAVM_CST_APX_ETM_TRCIDR2(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCIDR2(a) "CST_APX_ETM_TRCIDR2"
+#define busnum_CAVM_CST_APX_ETM_TRCIDR2(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCIDR2(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcidr3
+ *
+ * CST Ap Etm Trcidr3 Register
+ * Returns the base architecture of the trace unit.
+ */
+union cavm_cst_apx_etm_trcidr3
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcidr3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t nooverflow            : 1;  /**< [ 31: 31](RO) Indicates if overflow prevention is implemented. */
+        uint32_t numproc_30_28         : 3;  /**< [ 30: 28](RO) Indicates the number of PEs available for tracing. */
+        uint32_t sysstall              : 1;  /**< [ 27: 27](RO) Indicates if stalling of the PE is permitted. */
+        uint32_t stallctl              : 1;  /**< [ 26: 26](RO) Indicates if trace unit implements stalling of the PE. */
+        uint32_t syncpr                : 1;  /**< [ 25: 25](RO) Indicates if an implementation has a fixed synchronization period. */
+        uint32_t trcerr                : 1;  /**< [ 24: 24](RO) Indicates forced tracing of System Error exceptions is implemented. */
+        uint32_t reserved_23           : 1;
+        uint32_t exlevel_ns_el2        : 1;  /**< [ 22: 22](RO) Indicates if Non-secure EL2 implemented. */
+        uint32_t exlevel_ns_el1        : 1;  /**< [ 21: 21](RO) Indicates if Non-secure EL1 implemented. */
+        uint32_t exlevel_ns_el0        : 1;  /**< [ 20: 20](RO) Indicates if Non-secure EL0 implemented. */
+        uint32_t exlevel_s_el3         : 1;  /**< [ 19: 19](RO) Indicates if Secure EL3 implemented. */
+        uint32_t exlevel_s_el2         : 1;  /**< [ 18: 18](RO) Indicates if Secure EL2 implemented. */
+        uint32_t exlevel_s_el1         : 1;  /**< [ 17: 17](RO) Indicates if Secure EL1 implemented. */
+        uint32_t exlevel_s_el0         : 1;  /**< [ 16: 16](RO) Indicates if Secure EL0 implemented. */
+        uint32_t reserved_14_15        : 2;
+        uint32_t numproc_13_12         : 2;  /**< [ 13: 12](RO) Indicates the number of PEs available for tracing. */
+        uint32_t ccitmin               : 12; /**< [ 11:  0](RO) Indicates the minimum value that can be programmed in ext-TRCCCCTLR.THRESHOLD.
+                                                                 If ext-TRCIDR0.TRCCCI == 0b1 then the minimum value of this field is 0x001.
+                                                                 If ext-TRCIDR0.TRCCCI == 0b0 then this field is zero. */
+#else /* Word 0 - Little Endian */
+        uint32_t ccitmin               : 12; /**< [ 11:  0](RO) Indicates the minimum value that can be programmed in ext-TRCCCCTLR.THRESHOLD.
+                                                                 If ext-TRCIDR0.TRCCCI == 0b1 then the minimum value of this field is 0x001.
+                                                                 If ext-TRCIDR0.TRCCCI == 0b0 then this field is zero. */
+        uint32_t numproc_13_12         : 2;  /**< [ 13: 12](RO) Indicates the number of PEs available for tracing. */
+        uint32_t reserved_14_15        : 2;
+        uint32_t exlevel_s_el0         : 1;  /**< [ 16: 16](RO) Indicates if Secure EL0 implemented. */
+        uint32_t exlevel_s_el1         : 1;  /**< [ 17: 17](RO) Indicates if Secure EL1 implemented. */
+        uint32_t exlevel_s_el2         : 1;  /**< [ 18: 18](RO) Indicates if Secure EL2 implemented. */
+        uint32_t exlevel_s_el3         : 1;  /**< [ 19: 19](RO) Indicates if Secure EL3 implemented. */
+        uint32_t exlevel_ns_el0        : 1;  /**< [ 20: 20](RO) Indicates if Non-secure EL0 implemented. */
+        uint32_t exlevel_ns_el1        : 1;  /**< [ 21: 21](RO) Indicates if Non-secure EL1 implemented. */
+        uint32_t exlevel_ns_el2        : 1;  /**< [ 22: 22](RO) Indicates if Non-secure EL2 implemented. */
+        uint32_t reserved_23           : 1;
+        uint32_t trcerr                : 1;  /**< [ 24: 24](RO) Indicates forced tracing of System Error exceptions is implemented. */
+        uint32_t syncpr                : 1;  /**< [ 25: 25](RO) Indicates if an implementation has a fixed synchronization period. */
+        uint32_t stallctl              : 1;  /**< [ 26: 26](RO) Indicates if trace unit implements stalling of the PE. */
+        uint32_t sysstall              : 1;  /**< [ 27: 27](RO) Indicates if stalling of the PE is permitted. */
+        uint32_t numproc_30_28         : 3;  /**< [ 30: 28](RO) Indicates the number of PEs available for tracing. */
+        uint32_t nooverflow            : 1;  /**< [ 31: 31](RO) Indicates if overflow prevention is implemented. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcidr3_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcidr3 cavm_cst_apx_etm_trcidr3_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCIDR3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCIDR3(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a0810301ecll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCIDR3", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCIDR3(a) cavm_cst_apx_etm_trcidr3_t
+#define bustype_CAVM_CST_APX_ETM_TRCIDR3(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCIDR3(a) "CST_APX_ETM_TRCIDR3"
+#define busnum_CAVM_CST_APX_ETM_TRCIDR3(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCIDR3(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcidr4
+ *
+ * CST Ap Etm Trcidr4 Register
+ * Returns the tracing capabilities of the trace unit.
+ */
+union cavm_cst_apx_etm_trcidr4
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcidr4_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t numvmidc              : 4;  /**< [ 31: 28](RO) Indicates the number of Virtual Context Identifier Comparators that are available for tracing. */
+        uint32_t numcidc               : 4;  /**< [ 27: 24](RO) Indicates the number of Context Identifier Comparators that are available for tracing. */
+        uint32_t numsscc               : 4;  /**< [ 23: 20](RO) Indicates the number of Single-shot Comparator Controls that are available for tracing. */
+        uint32_t numrspair             : 4;  /**< [ 19: 16](RO) Indicates the number of resource selector pairs that are available for tracing. */
+        uint32_t numpc                 : 4;  /**< [ 15: 12](RO) Indicates the number of PE Comparator Inputs that are available for tracing. */
+        uint32_t reserved_9_11         : 3;
+        uint32_t suppdac               : 1;  /**< [  8:  8](RO) Indicates whether data address comparisons are implemented. Data address
+                                                                 comparisons are not implemented in ETE and are reserved for other trace
+                                                                 architectures. Allocated in other trace architectures. */
+        uint32_t numdvc                : 4;  /**< [  7:  4](RO) Indicates the number of data value comparators. Data value comparators are not
+                                                                 implemented in ETE and are reserved for other trace architectures. Allocated in
+                                                                 other trace architectures. */
+        uint32_t numacpairs            : 4;  /**< [  3:  0](RO) Indicates the number of Address Comparator pairs that are available for tracing. */
+#else /* Word 0 - Little Endian */
+        uint32_t numacpairs            : 4;  /**< [  3:  0](RO) Indicates the number of Address Comparator pairs that are available for tracing. */
+        uint32_t numdvc                : 4;  /**< [  7:  4](RO) Indicates the number of data value comparators. Data value comparators are not
+                                                                 implemented in ETE and are reserved for other trace architectures. Allocated in
+                                                                 other trace architectures. */
+        uint32_t suppdac               : 1;  /**< [  8:  8](RO) Indicates whether data address comparisons are implemented. Data address
+                                                                 comparisons are not implemented in ETE and are reserved for other trace
+                                                                 architectures. Allocated in other trace architectures. */
+        uint32_t reserved_9_11         : 3;
+        uint32_t numpc                 : 4;  /**< [ 15: 12](RO) Indicates the number of PE Comparator Inputs that are available for tracing. */
+        uint32_t numrspair             : 4;  /**< [ 19: 16](RO) Indicates the number of resource selector pairs that are available for tracing. */
+        uint32_t numsscc               : 4;  /**< [ 23: 20](RO) Indicates the number of Single-shot Comparator Controls that are available for tracing. */
+        uint32_t numcidc               : 4;  /**< [ 27: 24](RO) Indicates the number of Context Identifier Comparators that are available for tracing. */
+        uint32_t numvmidc              : 4;  /**< [ 31: 28](RO) Indicates the number of Virtual Context Identifier Comparators that are available for tracing. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcidr4_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcidr4 cavm_cst_apx_etm_trcidr4_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCIDR4(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCIDR4(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a0810301f0ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCIDR4", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCIDR4(a) cavm_cst_apx_etm_trcidr4_t
+#define bustype_CAVM_CST_APX_ETM_TRCIDR4(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCIDR4(a) "CST_APX_ETM_TRCIDR4"
+#define busnum_CAVM_CST_APX_ETM_TRCIDR4(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCIDR4(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcidr5
+ *
+ * CST Ap Etm Trcidr5 Register
+ * Returns the tracing capabilities of the trace unit.
+ */
+union cavm_cst_apx_etm_trcidr5
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcidr5_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_31           : 1;
+        uint32_t numcntr               : 3;  /**< [ 30: 28](RO) Indicates the number of Counters that are available for tracing. */
+        uint32_t numseqstate           : 3;  /**< [ 27: 25](RO) Indicates if the Sequencer is implemented and the number of Sequencer states that are implemented. */
+        uint32_t reserved_24           : 1;
+        uint32_t lpoverride            : 1;  /**< [ 23: 23](RO) Indicates support for Low-power Override Mode. */
+        uint32_t atbtrig               : 1;  /**< [ 22: 22](RO) Indicates if the implementation can support ATB triggers. */
+        uint32_t traceidsize           : 6;  /**< [ 21: 16](RO) Indicates the trace ID width. */
+        uint32_t reserved_12_15        : 4;
+        uint32_t numextinsel           : 3;  /**< [ 11:  9](RO) Indicates how many External Input Selector resources are implemented. */
+        uint32_t numextin              : 9;  /**< [  8:  0](RO) Indicates how many External Inputs are implemented.
+                                                                 All other values are reserved. */
+#else /* Word 0 - Little Endian */
+        uint32_t numextin              : 9;  /**< [  8:  0](RO) Indicates how many External Inputs are implemented.
+                                                                 All other values are reserved. */
+        uint32_t numextinsel           : 3;  /**< [ 11:  9](RO) Indicates how many External Input Selector resources are implemented. */
+        uint32_t reserved_12_15        : 4;
+        uint32_t traceidsize           : 6;  /**< [ 21: 16](RO) Indicates the trace ID width. */
+        uint32_t atbtrig               : 1;  /**< [ 22: 22](RO) Indicates if the implementation can support ATB triggers. */
+        uint32_t lpoverride            : 1;  /**< [ 23: 23](RO) Indicates support for Low-power Override Mode. */
+        uint32_t reserved_24           : 1;
+        uint32_t numseqstate           : 3;  /**< [ 27: 25](RO) Indicates if the Sequencer is implemented and the number of Sequencer states that are implemented. */
+        uint32_t numcntr               : 3;  /**< [ 30: 28](RO) Indicates the number of Counters that are available for tracing. */
+        uint32_t reserved_31           : 1;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcidr5_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcidr5 cavm_cst_apx_etm_trcidr5_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCIDR5(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCIDR5(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a0810301f4ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCIDR5", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCIDR5(a) cavm_cst_apx_etm_trcidr5_t
+#define bustype_CAVM_CST_APX_ETM_TRCIDR5(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCIDR5(a) "CST_APX_ETM_TRCIDR5"
+#define busnum_CAVM_CST_APX_ETM_TRCIDR5(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCIDR5(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcidr6
+ *
+ * CST Ap Etm Trcidr6 Register
+ * Returns the tracing capabilities of the trace unit.
+ */
+union cavm_cst_apx_etm_trcidr6
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcidr6_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcidr6_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcidr6 cavm_cst_apx_etm_trcidr6_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCIDR6(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCIDR6(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a0810301f8ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCIDR6", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCIDR6(a) cavm_cst_apx_etm_trcidr6_t
+#define bustype_CAVM_CST_APX_ETM_TRCIDR6(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCIDR6(a) "CST_APX_ETM_TRCIDR6"
+#define busnum_CAVM_CST_APX_ETM_TRCIDR6(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCIDR6(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcidr7
+ *
+ * CST Ap Etm Trcidr7 Register
+ * Returns the tracing capabilities of the trace unit.
+ */
+union cavm_cst_apx_etm_trcidr7
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcidr7_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcidr7_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcidr7 cavm_cst_apx_etm_trcidr7_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCIDR7(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCIDR7(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a0810301fcll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCIDR7", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCIDR7(a) cavm_cst_apx_etm_trcidr7_t
+#define bustype_CAVM_CST_APX_ETM_TRCIDR7(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCIDR7(a) "CST_APX_ETM_TRCIDR7"
+#define busnum_CAVM_CST_APX_ETM_TRCIDR7(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCIDR7(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcidr8
+ *
+ * CST Ap Etm Trcidr8 Register
+ * Returns the maximum speculation depth of the instruction trace element stream.
+ */
+union cavm_cst_apx_etm_trcidr8
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcidr8_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t maxspec               : 32; /**< [ 31:  0](RO) Indicates the maximum speculation depth of the instruction trace element stream.
+                                                                 This is the maximum number of P0 elements in the trace element stream that can
+                                                                 be speculative at any time. */
+#else /* Word 0 - Little Endian */
+        uint32_t maxspec               : 32; /**< [ 31:  0](RO) Indicates the maximum speculation depth of the instruction trace element stream.
+                                                                 This is the maximum number of P0 elements in the trace element stream that can
+                                                                 be speculative at any time. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcidr8_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcidr8 cavm_cst_apx_etm_trcidr8_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCIDR8(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCIDR8(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030180ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCIDR8", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCIDR8(a) cavm_cst_apx_etm_trcidr8_t
+#define bustype_CAVM_CST_APX_ETM_TRCIDR8(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCIDR8(a) "CST_APX_ETM_TRCIDR8"
+#define busnum_CAVM_CST_APX_ETM_TRCIDR8(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCIDR8(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcidr9
+ *
+ * CST Ap Etm Trcidr9 Register
+ * Returns the tracing capabilities of the trace unit.
+ */
+union cavm_cst_apx_etm_trcidr9
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcidr9_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t nump0key              : 32; /**< [ 31:  0](RO) Indicates the number of P0 right-hand keys. Data tracing is not implemented in
+                                                                 ETE and this field is reserved for other trace architectures. Allocated in other
+                                                                 trace architectures. */
+#else /* Word 0 - Little Endian */
+        uint32_t nump0key              : 32; /**< [ 31:  0](RO) Indicates the number of P0 right-hand keys. Data tracing is not implemented in
+                                                                 ETE and this field is reserved for other trace architectures. Allocated in other
+                                                                 trace architectures. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcidr9_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcidr9 cavm_cst_apx_etm_trcidr9_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCIDR9(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCIDR9(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030184ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCIDR9", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCIDR9(a) cavm_cst_apx_etm_trcidr9_t
+#define bustype_CAVM_CST_APX_ETM_TRCIDR9(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCIDR9(a) "CST_APX_ETM_TRCIDR9"
+#define busnum_CAVM_CST_APX_ETM_TRCIDR9(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCIDR9(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcimspec0
+ *
+ * CST Ap Etm Trcimspec0 Register
+ * TRCIMSPEC0 shows the presence of any IMPLEMENTATION DEFINED features, and provides
+ * an interface to enable the features that are provided.
+ */
+union cavm_cst_apx_etm_trcimspec0
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcimspec0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t en                    : 4;  /**< [  7:  4](R/W) Enable. Controls whether the IMPLEMENTATION DEFINED features are enabled. */
+        uint32_t support               : 4;  /**< [  3:  0](R/W) Indicates whether the implementation supports IMPLEMENTATION DEFINED features. */
+#else /* Word 0 - Little Endian */
+        uint32_t support               : 4;  /**< [  3:  0](R/W) Indicates whether the implementation supports IMPLEMENTATION DEFINED features. */
+        uint32_t en                    : 4;  /**< [  7:  4](R/W) Enable. Controls whether the IMPLEMENTATION DEFINED features are enabled. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcimspec0_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcimspec0 cavm_cst_apx_etm_trcimspec0_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCIMSPEC0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCIMSPEC0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a0810301c0ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCIMSPEC0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCIMSPEC0(a) cavm_cst_apx_etm_trcimspec0_t
+#define bustype_CAVM_CST_APX_ETM_TRCIMSPEC0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCIMSPEC0(a) "CST_APX_ETM_TRCIMSPEC0"
+#define busnum_CAVM_CST_APX_ETM_TRCIMSPEC0(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCIMSPEC0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcitctrl
+ *
+ * CST Ap Etm Trcitctrl Register
+ * A component can use TRCITCTRL to dynamically switch between functional mode and
+ * integration mode. In integration mode, topology detection is enabled. After
+ * switching to integration mode and performing integration tests or topology
+ * detection, reset the system to ensure correct behavior of CoreSight and other
+ * connected system components.
+ *
+ * For additional information see the CoreSight Architecture Specification.
+ */
+union cavm_cst_apx_etm_trcitctrl
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcitctrl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_1_31         : 31;
+        uint32_t ime                   : 1;  /**< [  0:  0](R/W) Integration Mode Enable.
+                                                                 This bit is RES0 if no topology detection or integration functionality is implemented. */
+#else /* Word 0 - Little Endian */
+        uint32_t ime                   : 1;  /**< [  0:  0](R/W) Integration Mode Enable.
+                                                                 This bit is RES0 if no topology detection or integration functionality is implemented. */
+        uint32_t reserved_1_31         : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcitctrl_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcitctrl cavm_cst_apx_etm_trcitctrl_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCITCTRL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCITCTRL(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030f00ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCITCTRL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCITCTRL(a) cavm_cst_apx_etm_trcitctrl_t
+#define bustype_CAVM_CST_APX_ETM_TRCITCTRL(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCITCTRL(a) "CST_APX_ETM_TRCITCTRL"
+#define busnum_CAVM_CST_APX_ETM_TRCITCTRL(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCITCTRL(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trclar
+ *
+ * CST Ap Etm Trclar Register
+ * Used to lock and unlock the Software Lock.
+ *
+ * Note that ETE does not implement the Software Lock.
+ *
+ * For additional information see the CoreSight Architecture Specification.
+ */
+union cavm_cst_apx_etm_trclar
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trclar_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key                   : 32; /**< [ 31:  0](WO) Software Lock Key.
+                                                                 A value of 0xC5ACCE55 unlocks the Software Lock.
+                                                                 Any other value locks the Software Lock. */
+#else /* Word 0 - Little Endian */
+        uint32_t key                   : 32; /**< [ 31:  0](WO) Software Lock Key.
+                                                                 A value of 0xC5ACCE55 unlocks the Software Lock.
+                                                                 Any other value locks the Software Lock. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trclar_s cn; */
+};
+typedef union cavm_cst_apx_etm_trclar cavm_cst_apx_etm_trclar_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCLAR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCLAR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030fb0ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCLAR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCLAR(a) cavm_cst_apx_etm_trclar_t
+#define bustype_CAVM_CST_APX_ETM_TRCLAR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCLAR(a) "CST_APX_ETM_TRCLAR"
+#define busnum_CAVM_CST_APX_ETM_TRCLAR(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCLAR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trclsr
+ *
+ * CST Ap Etm Trclsr Register
+ * Indicates whether the Software Lock is implemented, and the current status of the Software Lock.
+ *
+ * For additional information see the CoreSight Architecture Specification.
+ */
+union cavm_cst_apx_etm_trclsr
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trclsr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_3_31         : 29;
+        uint32_t ntt                   : 1;  /**< [  2:  2](RO) Software lock size.
+                                                                 This bit reads as 0b0. */
+        uint32_t slk                   : 1;  /**< [  1:  1](RO) The current Software Lock status.
+                                                                 This bit reads as zero. */
+        uint32_t sli                   : 1;  /**< [  0:  0](RO) Indicates whether the Software Lock is implemented.
+                                                                 This bit reads as zero. */
+#else /* Word 0 - Little Endian */
+        uint32_t sli                   : 1;  /**< [  0:  0](RO) Indicates whether the Software Lock is implemented.
+                                                                 This bit reads as zero. */
+        uint32_t slk                   : 1;  /**< [  1:  1](RO) The current Software Lock status.
+                                                                 This bit reads as zero. */
+        uint32_t ntt                   : 1;  /**< [  2:  2](RO) Software lock size.
+                                                                 This bit reads as 0b0. */
+        uint32_t reserved_3_31         : 29;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trclsr_s cn; */
+};
+typedef union cavm_cst_apx_etm_trclsr cavm_cst_apx_etm_trclsr_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCLSR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCLSR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030fb4ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCLSR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCLSR(a) cavm_cst_apx_etm_trclsr_t
+#define bustype_CAVM_CST_APX_ETM_TRCLSR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCLSR(a) "CST_APX_ETM_TRCLSR"
+#define busnum_CAVM_CST_APX_ETM_TRCLSR(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCLSR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcoslsr
+ *
+ * CST Ap Etm Trcoslsr Register
+ * Returns the status of the Trace OS Lock.
+ */
+union cavm_cst_apx_etm_trcoslsr
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcoslsr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_5_31         : 27;
+        uint32_t oslm_4_3              : 2;  /**< [  4:  3](RO) OS Lock model.
+                                                                 All other values are reserved.
+                                                                 This field reads as 0b100. */
+        uint32_t reserved_2            : 1;
+        uint32_t oslk                  : 1;  /**< [  1:  1](RO) OS Lock status.
+                                                                 Note that this field indicates the state of the PE OS Lock. */
+        uint32_t oslm_0                : 1;  /**< [  0:  0](RO) OS Lock model.
+                                                                 All other values are reserved.
+                                                                 This field reads as 0b100. */
+#else /* Word 0 - Little Endian */
+        uint32_t oslm_0                : 1;  /**< [  0:  0](RO) OS Lock model.
+                                                                 All other values are reserved.
+                                                                 This field reads as 0b100. */
+        uint32_t oslk                  : 1;  /**< [  1:  1](RO) OS Lock status.
+                                                                 Note that this field indicates the state of the PE OS Lock. */
+        uint32_t reserved_2            : 1;
+        uint32_t oslm_4_3              : 2;  /**< [  4:  3](RO) OS Lock model.
+                                                                 All other values are reserved.
+                                                                 This field reads as 0b100. */
+        uint32_t reserved_5_31         : 27;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcoslsr_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcoslsr cavm_cst_apx_etm_trcoslsr_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCOSLSR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCOSLSR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030304ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCOSLSR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCOSLSR(a) cavm_cst_apx_etm_trcoslsr_t
+#define bustype_CAVM_CST_APX_ETM_TRCOSLSR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCOSLSR(a) "CST_APX_ETM_TRCOSLSR"
+#define busnum_CAVM_CST_APX_ETM_TRCOSLSR(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCOSLSR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcpdcr
+ *
+ * CST Ap Etm Trcpdcr Register
+ * Requests the system to provide power to the trace unit.
+ */
+union cavm_cst_apx_etm_trcpdcr
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcpdcr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_4_31         : 28;
+        uint32_t pu                    : 1;  /**< [  3:  3](R/W) Power Up Request.
+                                                                 This bit is RES0. */
+        uint32_t reserved_0_2          : 3;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_2          : 3;
+        uint32_t pu                    : 1;  /**< [  3:  3](R/W) Power Up Request.
+                                                                 This bit is RES0. */
+        uint32_t reserved_4_31         : 28;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcpdcr_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcpdcr cavm_cst_apx_etm_trcpdcr_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCPDCR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCPDCR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030310ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCPDCR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCPDCR(a) cavm_cst_apx_etm_trcpdcr_t
+#define bustype_CAVM_CST_APX_ETM_TRCPDCR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCPDCR(a) "CST_APX_ETM_TRCPDCR"
+#define busnum_CAVM_CST_APX_ETM_TRCPDCR(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCPDCR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcpdsr
+ *
+ * CST Ap Etm Trcpdsr Register
+ * Indicates the power status of the trace unit.
+ */
+union cavm_cst_apx_etm_trcpdsr
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcpdsr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_6_31         : 26;
+        uint32_t oslk                  : 1;  /**< [  5:  5](RO) OS Lock Status.
+                                                                 Note that this field indicates the state of the PE OS Lock. */
+        uint32_t reserved_2_4          : 3;
+        uint32_t stickypd              : 1;  /**< [  1:  1](RO) Sticky powerdown status. Indicates whether the trace register state is valid.
+                                                                 This field is set to 0b1 if the power to the trace unit core power domain is
+                                                                 removed and the trace unit register state is not valid.
+                                                                 The STICKYPD field is read-sensitive. On a read of the TRCPDSR, this field is
+                                                                 cleared to 0b0 after the register has been read. */
+        uint32_t power                 : 1;  /**< [  0:  0](RO) Power Status. */
+#else /* Word 0 - Little Endian */
+        uint32_t power                 : 1;  /**< [  0:  0](RO) Power Status. */
+        uint32_t stickypd              : 1;  /**< [  1:  1](RO) Sticky powerdown status. Indicates whether the trace register state is valid.
+                                                                 This field is set to 0b1 if the power to the trace unit core power domain is
+                                                                 removed and the trace unit register state is not valid.
+                                                                 The STICKYPD field is read-sensitive. On a read of the TRCPDSR, this field is
+                                                                 cleared to 0b0 after the register has been read. */
+        uint32_t reserved_2_4          : 3;
+        uint32_t oslk                  : 1;  /**< [  5:  5](RO) OS Lock Status.
+                                                                 Note that this field indicates the state of the PE OS Lock. */
+        uint32_t reserved_6_31         : 26;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcpdsr_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcpdsr cavm_cst_apx_etm_trcpdsr_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCPDSR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCPDSR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030314ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCPDSR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCPDSR(a) cavm_cst_apx_etm_trcpdsr_t
+#define bustype_CAVM_CST_APX_ETM_TRCPDSR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCPDSR(a) "CST_APX_ETM_TRCPDSR"
+#define busnum_CAVM_CST_APX_ETM_TRCPDSR(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCPDSR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcpidr0
+ *
+ * CST Ap Etm Trcpidr0 Register
+ * Provides discovery information about the component.
+ *
+ * For additional information see the CoreSight Architecture Specification.
+ */
+union cavm_cst_apx_etm_trcpidr0
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcpidr0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t part_0                : 8;  /**< [  7:  0](RO) Least significant byte of the ETM trace unit part. */
+#else /* Word 0 - Little Endian */
+        uint32_t part_0                : 8;  /**< [  7:  0](RO) Least significant byte of the ETM trace unit part. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcpidr0_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcpidr0 cavm_cst_apx_etm_trcpidr0_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCPIDR0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCPIDR0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030fe0ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCPIDR0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCPIDR0(a) cavm_cst_apx_etm_trcpidr0_t
+#define bustype_CAVM_CST_APX_ETM_TRCPIDR0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCPIDR0(a) "CST_APX_ETM_TRCPIDR0"
+#define busnum_CAVM_CST_APX_ETM_TRCPIDR0(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCPIDR0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcpidr1
+ *
+ * CST Ap Etm Trcpidr1 Register
+ * Provides discovery information about the component.
+ *
+ * For additional information see the CoreSight Architecture Specification.
+ */
+union cavm_cst_apx_etm_trcpidr1
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcpidr1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t des_0                 : 4;  /**< [  7:  4](RO) Arm Limited. This is the least significant nibble of JEP106 ID code. */
+        uint32_t part_1                : 4;  /**< [  3:  0](RO) Part number, most significant nibble. */
+#else /* Word 0 - Little Endian */
+        uint32_t part_1                : 4;  /**< [  3:  0](RO) Part number, most significant nibble. */
+        uint32_t des_0                 : 4;  /**< [  7:  4](RO) Arm Limited. This is the least significant nibble of JEP106 ID code. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcpidr1_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcpidr1 cavm_cst_apx_etm_trcpidr1_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCPIDR1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCPIDR1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030fe4ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCPIDR1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCPIDR1(a) cavm_cst_apx_etm_trcpidr1_t
+#define bustype_CAVM_CST_APX_ETM_TRCPIDR1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCPIDR1(a) "CST_APX_ETM_TRCPIDR1"
+#define busnum_CAVM_CST_APX_ETM_TRCPIDR1(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCPIDR1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcpidr2
+ *
+ * CST Ap Etm Trcpidr2 Register
+ * Provides discovery information about the component.
+ *
+ * For additional information see the CoreSight Architecture Specification.
+ */
+union cavm_cst_apx_etm_trcpidr2
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcpidr2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t revision              : 4;  /**< [  7:  4](RO) R0p0 - Part major revision. */
+        uint32_t jedec                 : 1;  /**< [  3:  3](RO) JEDEC-assigned JEP106 implementer code is used. */
+        uint32_t des_1                 : 3;  /**< [  2:  0](RO) Arm Limited. Most significant nibble of JEP106 ID code. */
+#else /* Word 0 - Little Endian */
+        uint32_t des_1                 : 3;  /**< [  2:  0](RO) Arm Limited. Most significant nibble of JEP106 ID code. */
+        uint32_t jedec                 : 1;  /**< [  3:  3](RO) JEDEC-assigned JEP106 implementer code is used. */
+        uint32_t revision              : 4;  /**< [  7:  4](RO) R0p0 - Part major revision. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcpidr2_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcpidr2 cavm_cst_apx_etm_trcpidr2_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCPIDR2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCPIDR2(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030fe8ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCPIDR2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCPIDR2(a) cavm_cst_apx_etm_trcpidr2_t
+#define bustype_CAVM_CST_APX_ETM_TRCPIDR2(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCPIDR2(a) "CST_APX_ETM_TRCPIDR2"
+#define busnum_CAVM_CST_APX_ETM_TRCPIDR2(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCPIDR2(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcpidr3
+ *
+ * CST Ap Etm Trcpidr3 Register
+ * Provides discovery information about the component.
+ *
+ * For additional information see the CoreSight Architecture Specification.
+ */
+union cavm_cst_apx_etm_trcpidr3
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcpidr3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t revand                : 4;  /**< [  7:  4](RO) Part minor revision. */
+        uint32_t cmod                  : 4;  /**< [  3:  0](RO) Not Customer modified. */
+#else /* Word 0 - Little Endian */
+        uint32_t cmod                  : 4;  /**< [  3:  0](RO) Not Customer modified. */
+        uint32_t revand                : 4;  /**< [  7:  4](RO) Part minor revision. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcpidr3_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcpidr3 cavm_cst_apx_etm_trcpidr3_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCPIDR3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCPIDR3(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030fecll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCPIDR3", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCPIDR3(a) cavm_cst_apx_etm_trcpidr3_t
+#define bustype_CAVM_CST_APX_ETM_TRCPIDR3(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCPIDR3(a) "CST_APX_ETM_TRCPIDR3"
+#define busnum_CAVM_CST_APX_ETM_TRCPIDR3(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCPIDR3(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcpidr4
+ *
+ * CST Ap Etm Trcpidr4 Register
+ * Provides discovery information about the component.
+ *
+ * For additional information see the CoreSight Architecture Specification.
+ */
+union cavm_cst_apx_etm_trcpidr4
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcpidr4_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t size                  : 4;  /**< [  7:  4](RO) The component uses a single 4KB block. */
+        uint32_t des_2                 : 4;  /**< [  3:  0](RO) Arm Limited. This is bits[3:0] of the JEP106 continuation code. */
+#else /* Word 0 - Little Endian */
+        uint32_t des_2                 : 4;  /**< [  3:  0](RO) Arm Limited. This is bits[3:0] of the JEP106 continuation code. */
+        uint32_t size                  : 4;  /**< [  7:  4](RO) The component uses a single 4KB block. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcpidr4_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcpidr4 cavm_cst_apx_etm_trcpidr4_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCPIDR4(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCPIDR4(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030fd0ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCPIDR4", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCPIDR4(a) cavm_cst_apx_etm_trcpidr4_t
+#define bustype_CAVM_CST_APX_ETM_TRCPIDR4(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCPIDR4(a) "CST_APX_ETM_TRCPIDR4"
+#define busnum_CAVM_CST_APX_ETM_TRCPIDR4(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCPIDR4(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcpidr5
+ *
+ * CST Ap Etm Trcpidr5 Register
+ * Provides discovery information about the component.
+ *
+ * For additional information see the CoreSight Architecture Specification.
+ */
+union cavm_cst_apx_etm_trcpidr5
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcpidr5_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcpidr5_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcpidr5 cavm_cst_apx_etm_trcpidr5_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCPIDR5(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCPIDR5(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030fd4ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCPIDR5", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCPIDR5(a) cavm_cst_apx_etm_trcpidr5_t
+#define bustype_CAVM_CST_APX_ETM_TRCPIDR5(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCPIDR5(a) "CST_APX_ETM_TRCPIDR5"
+#define busnum_CAVM_CST_APX_ETM_TRCPIDR5(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCPIDR5(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcpidr6
+ *
+ * CST Ap Etm Trcpidr6 Register
+ * Provides discovery information about the component.
+ *
+ * For additional information see the CoreSight Architecture Specification.
+ */
+union cavm_cst_apx_etm_trcpidr6
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcpidr6_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcpidr6_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcpidr6 cavm_cst_apx_etm_trcpidr6_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCPIDR6(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCPIDR6(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030fd8ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCPIDR6", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCPIDR6(a) cavm_cst_apx_etm_trcpidr6_t
+#define bustype_CAVM_CST_APX_ETM_TRCPIDR6(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCPIDR6(a) "CST_APX_ETM_TRCPIDR6"
+#define busnum_CAVM_CST_APX_ETM_TRCPIDR6(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCPIDR6(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcpidr7
+ *
+ * CST Ap Etm Trcpidr7 Register
+ * Provides discovery information about the component.
+ *
+ * For additional information see the CoreSight Architecture Specification.
+ */
+union cavm_cst_apx_etm_trcpidr7
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcpidr7_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcpidr7_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcpidr7 cavm_cst_apx_etm_trcpidr7_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCPIDR7(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCPIDR7(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030fdcll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCPIDR7", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCPIDR7(a) cavm_cst_apx_etm_trcpidr7_t
+#define bustype_CAVM_CST_APX_ETM_TRCPIDR7(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCPIDR7(a) "CST_APX_ETM_TRCPIDR7"
+#define busnum_CAVM_CST_APX_ETM_TRCPIDR7(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCPIDR7(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcprgctlr
+ *
+ * CST Ap Etm Trcprgctlr Register
+ * Enables the trace unit.
+ */
+union cavm_cst_apx_etm_trcprgctlr
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcprgctlr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_1_31         : 31;
+        uint32_t en                    : 1;  /**< [  0:  0](R/W) Trace unit enable. */
+#else /* Word 0 - Little Endian */
+        uint32_t en                    : 1;  /**< [  0:  0](R/W) Trace unit enable. */
+        uint32_t reserved_1_31         : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcprgctlr_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcprgctlr cavm_cst_apx_etm_trcprgctlr_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCPRGCTLR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCPRGCTLR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030004ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCPRGCTLR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCPRGCTLR(a) cavm_cst_apx_etm_trcprgctlr_t
+#define bustype_CAVM_CST_APX_ETM_TRCPRGCTLR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCPRGCTLR(a) "CST_APX_ETM_TRCPRGCTLR"
+#define busnum_CAVM_CST_APX_ETM_TRCPRGCTLR(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCPRGCTLR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcqctlr
+ *
+ * CST Ap Etm Trcqctlr Register
+ * Controls when Q elements are enabled.
+ */
+union cavm_cst_apx_etm_trcqctlr
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcqctlr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_9_31         : 23;
+        uint32_t mode                  : 1;  /**< [  8:  8](R/W) Selects whether the Address Range Comparators selected by the RANGE field
+                                                                 indicate address ranges where the trace unit is permitted to generate Q elements
+                                                                 or address ranges where the trace unit is not permitted to generate Q elements: */
+        uint32_t rangem                : 8;  /**< [  7:  0](R/W) Specifies the Address Range Comparators to be used for controlling Q elements.
+                                                                 This bit is RES0 if m &gt;= ext-TRCIDR4.NUMACPAIRS. */
+#else /* Word 0 - Little Endian */
+        uint32_t rangem                : 8;  /**< [  7:  0](R/W) Specifies the Address Range Comparators to be used for controlling Q elements.
+                                                                 This bit is RES0 if m &gt;= ext-TRCIDR4.NUMACPAIRS. */
+        uint32_t mode                  : 1;  /**< [  8:  8](R/W) Selects whether the Address Range Comparators selected by the RANGE field
+                                                                 indicate address ranges where the trace unit is permitted to generate Q elements
+                                                                 or address ranges where the trace unit is not permitted to generate Q elements: */
+        uint32_t reserved_9_31         : 23;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcqctlr_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcqctlr cavm_cst_apx_etm_trcqctlr_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCQCTLR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCQCTLR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030044ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCQCTLR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCQCTLR(a) cavm_cst_apx_etm_trcqctlr_t
+#define bustype_CAVM_CST_APX_ETM_TRCQCTLR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCQCTLR(a) "CST_APX_ETM_TRCQCTLR"
+#define busnum_CAVM_CST_APX_ETM_TRCQCTLR(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCQCTLR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcrsr
+ *
+ * CST Ap Etm Trcrsr Register
+ * Use this to set, or read, the status of the resources.
+ */
+union cavm_cst_apx_etm_trcrsr
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcrsr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_13_31        : 19;
+        uint32_t ta                    : 1;  /**< [ 12: 12](R/W) Tracing active. */
+        uint32_t eventm                : 4;  /**< [ 11:  8](R/W) Untraced status of ETEEvents.
+                                                                 This bit is RES0 if ext-TRCIDR4.NUMRSPAIR == 0b0 || m &gt; ext-TRCIDR0.NUMEVENT. */
+        uint32_t reserved_4_7          : 4;
+        uint32_t extinm                : 4;  /**< [  3:  0](R/W) The sticky status of the External Input Selectors.
+                                                                 This bit is RES0 if m &gt;= ext-TRCIDR5.NUMEXTINSEL. */
+#else /* Word 0 - Little Endian */
+        uint32_t extinm                : 4;  /**< [  3:  0](R/W) The sticky status of the External Input Selectors.
+                                                                 This bit is RES0 if m &gt;= ext-TRCIDR5.NUMEXTINSEL. */
+        uint32_t reserved_4_7          : 4;
+        uint32_t eventm                : 4;  /**< [ 11:  8](R/W) Untraced status of ETEEvents.
+                                                                 This bit is RES0 if ext-TRCIDR4.NUMRSPAIR == 0b0 || m &gt; ext-TRCIDR0.NUMEVENT. */
+        uint32_t ta                    : 1;  /**< [ 12: 12](R/W) Tracing active. */
+        uint32_t reserved_13_31        : 19;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcrsr_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcrsr cavm_cst_apx_etm_trcrsr_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCRSR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCRSR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030028ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCRSR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCRSR(a) cavm_cst_apx_etm_trcrsr_t
+#define bustype_CAVM_CST_APX_ETM_TRCRSR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCRSR(a) "CST_APX_ETM_TRCRSR"
+#define busnum_CAVM_CST_APX_ETM_TRCRSR(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCRSR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcseqevr0
+ *
+ * CST Ap Etm Trcseqevr0 Register
+ * Moves the Sequencer state:
+ *
+ *   -  Backwards, from state n+1 to state n when a programmed resource event occurs.
+ *   -  Forwards, from state n to state n+1 when a programmed resource event occurs.
+ */
+union cavm_cst_apx_etm_trcseqevr0
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcseqevr0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t b_type                : 1;  /**< [ 15: 15](R/W) Chooses the type of Resource Selector.
+                                                                 Backward field. Defines whether the backward resource event is a single Resource
+                                                                 Selector or a Resource Selector pair. When the resource event occurs then the
+                                                                 Sequencer state moves from state n+1 to state n. For example, if
+                                                                 TRCSEQEVR2.B.SEL == 0x14 then when event 0x14 occurs, the Sequencer moves from
+                                                                 state 3 to state 2. */
+        uint32_t reserved_13_14        : 2;
+        uint32_t b_sel                 : 5;  /**< [ 12:  8](R/W) Defines the selected Resource Selector or pair of Resource Selectors.
+                                                                 TRCSEQEVR&lt;n&gt;.B.TYPE controls whether TRCSEQEVR&lt;n&gt;.B.SEL is the index
+                                                                 of a single Resource Selector, or the index of a pair of Resource Selectors.
+                                                                 Backward field. Selects the single Resource Selector or Resource Selector pair.
+                                                                 If an unimplemented Resource Selector is selected using this field, the behavior
+                                                                 of the resource event is UNPREDICTABLE, and the resource event might fire or
+                                                                 might not fire. */
+        uint32_t f_type                : 1;  /**< [  7:  7](R/W) Chooses the type of Resource Selector.
+                                                                 Backward field. Defines whether the forward resource event is a single Resource
+                                                                 Selector or a Resource Selector pair. When the resource event occurs then the
+                                                                 Sequencer state moves from state n to state n+1. For example,  if
+                                                                 TRCSEQEVR1.F.SEL == 0x12 then when event 0x12 occurs, the Sequencer moves from
+                                                                 state 1 to state 2. */
+        uint32_t reserved_5_6          : 2;
+        uint32_t f_sel                 : 5;  /**< [  4:  0](R/W) Defines the selected Resource Selector or pair of Resource Selectors.
+                                                                 TRCSEQEVR&lt;n&gt;.F.TYPE controls whether TRCSEQEVR&lt;n&gt;.F.SEL is the index
+                                                                 of a single Resource Selector, or the index of a pair of Resource Selectors.
+                                                                 Forward field. Selects the single Resource Selector or Resource Selector pair.
+                                                                 If an unimplemented Resource Selector is selected using this field, the behavior
+                                                                 of the resource event is UNPREDICTABLE, and the resource event might fire or
+                                                                 might not fire. */
+#else /* Word 0 - Little Endian */
+        uint32_t f_sel                 : 5;  /**< [  4:  0](R/W) Defines the selected Resource Selector or pair of Resource Selectors.
+                                                                 TRCSEQEVR&lt;n&gt;.F.TYPE controls whether TRCSEQEVR&lt;n&gt;.F.SEL is the index
+                                                                 of a single Resource Selector, or the index of a pair of Resource Selectors.
+                                                                 Forward field. Selects the single Resource Selector or Resource Selector pair.
+                                                                 If an unimplemented Resource Selector is selected using this field, the behavior
+                                                                 of the resource event is UNPREDICTABLE, and the resource event might fire or
+                                                                 might not fire. */
+        uint32_t reserved_5_6          : 2;
+        uint32_t f_type                : 1;  /**< [  7:  7](R/W) Chooses the type of Resource Selector.
+                                                                 Backward field. Defines whether the forward resource event is a single Resource
+                                                                 Selector or a Resource Selector pair. When the resource event occurs then the
+                                                                 Sequencer state moves from state n to state n+1. For example,  if
+                                                                 TRCSEQEVR1.F.SEL == 0x12 then when event 0x12 occurs, the Sequencer moves from
+                                                                 state 1 to state 2. */
+        uint32_t b_sel                 : 5;  /**< [ 12:  8](R/W) Defines the selected Resource Selector or pair of Resource Selectors.
+                                                                 TRCSEQEVR&lt;n&gt;.B.TYPE controls whether TRCSEQEVR&lt;n&gt;.B.SEL is the index
+                                                                 of a single Resource Selector, or the index of a pair of Resource Selectors.
+                                                                 Backward field. Selects the single Resource Selector or Resource Selector pair.
+                                                                 If an unimplemented Resource Selector is selected using this field, the behavior
+                                                                 of the resource event is UNPREDICTABLE, and the resource event might fire or
+                                                                 might not fire. */
+        uint32_t reserved_13_14        : 2;
+        uint32_t b_type                : 1;  /**< [ 15: 15](R/W) Chooses the type of Resource Selector.
+                                                                 Backward field. Defines whether the backward resource event is a single Resource
+                                                                 Selector or a Resource Selector pair. When the resource event occurs then the
+                                                                 Sequencer state moves from state n+1 to state n. For example, if
+                                                                 TRCSEQEVR2.B.SEL == 0x14 then when event 0x14 occurs, the Sequencer moves from
+                                                                 state 3 to state 2. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcseqevr0_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcseqevr0 cavm_cst_apx_etm_trcseqevr0_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCSEQEVR0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCSEQEVR0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030100ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCSEQEVR0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCSEQEVR0(a) cavm_cst_apx_etm_trcseqevr0_t
+#define bustype_CAVM_CST_APX_ETM_TRCSEQEVR0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCSEQEVR0(a) "CST_APX_ETM_TRCSEQEVR0"
+#define busnum_CAVM_CST_APX_ETM_TRCSEQEVR0(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCSEQEVR0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcseqevr1
+ *
+ * CST Ap Etm Trcseqevr1 Register
+ * Moves the Sequencer state:
+ *
+ *   -  Backwards, from state n+1 to state n when a programmed resource event occurs.
+ *   -  Forwards, from state n to state n+1 when a programmed resource event occurs.
+ */
+union cavm_cst_apx_etm_trcseqevr1
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcseqevr1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t b_type                : 1;  /**< [ 15: 15](R/W) Chooses the type of Resource Selector.
+                                                                 Backward field. Defines whether the backward resource event is a single Resource
+                                                                 Selector or a Resource Selector pair. When the resource event occurs then the
+                                                                 Sequencer state moves from state n+1 to state n. For example, if
+                                                                 TRCSEQEVR2.B.SEL == 0x14 then when event 0x14 occurs, the Sequencer moves from
+                                                                 state 3 to state 2. */
+        uint32_t reserved_13_14        : 2;
+        uint32_t b_sel                 : 5;  /**< [ 12:  8](R/W) Defines the selected Resource Selector or pair of Resource Selectors.
+                                                                 TRCSEQEVR&lt;n&gt;.B.TYPE controls whether TRCSEQEVR&lt;n&gt;.B.SEL is the index
+                                                                 of a single Resource Selector, or the index of a pair of Resource Selectors.
+                                                                 Backward field. Selects the single Resource Selector or Resource Selector pair.
+                                                                 If an unimplemented Resource Selector is selected using this field, the behavior
+                                                                 of the resource event is UNPREDICTABLE, and the resource event might fire or
+                                                                 might not fire. */
+        uint32_t f_type                : 1;  /**< [  7:  7](R/W) Chooses the type of Resource Selector.
+                                                                 Backward field. Defines whether the forward resource event is a single Resource
+                                                                 Selector or a Resource Selector pair. When the resource event occurs then the
+                                                                 Sequencer state moves from state n to state n+1. For example,  if
+                                                                 TRCSEQEVR1.F.SEL == 0x12 then when event 0x12 occurs, the Sequencer moves from
+                                                                 state 1 to state 2. */
+        uint32_t reserved_5_6          : 2;
+        uint32_t f_sel                 : 5;  /**< [  4:  0](R/W) Defines the selected Resource Selector or pair of Resource Selectors.
+                                                                 TRCSEQEVR&lt;n&gt;.F.TYPE controls whether TRCSEQEVR&lt;n&gt;.F.SEL is the index
+                                                                 of a single Resource Selector, or the index of a pair of Resource Selectors.
+                                                                 Forward field. Selects the single Resource Selector or Resource Selector pair.
+                                                                 If an unimplemented Resource Selector is selected using this field, the behavior
+                                                                 of the resource event is UNPREDICTABLE, and the resource event might fire or
+                                                                 might not fire. */
+#else /* Word 0 - Little Endian */
+        uint32_t f_sel                 : 5;  /**< [  4:  0](R/W) Defines the selected Resource Selector or pair of Resource Selectors.
+                                                                 TRCSEQEVR&lt;n&gt;.F.TYPE controls whether TRCSEQEVR&lt;n&gt;.F.SEL is the index
+                                                                 of a single Resource Selector, or the index of a pair of Resource Selectors.
+                                                                 Forward field. Selects the single Resource Selector or Resource Selector pair.
+                                                                 If an unimplemented Resource Selector is selected using this field, the behavior
+                                                                 of the resource event is UNPREDICTABLE, and the resource event might fire or
+                                                                 might not fire. */
+        uint32_t reserved_5_6          : 2;
+        uint32_t f_type                : 1;  /**< [  7:  7](R/W) Chooses the type of Resource Selector.
+                                                                 Backward field. Defines whether the forward resource event is a single Resource
+                                                                 Selector or a Resource Selector pair. When the resource event occurs then the
+                                                                 Sequencer state moves from state n to state n+1. For example,  if
+                                                                 TRCSEQEVR1.F.SEL == 0x12 then when event 0x12 occurs, the Sequencer moves from
+                                                                 state 1 to state 2. */
+        uint32_t b_sel                 : 5;  /**< [ 12:  8](R/W) Defines the selected Resource Selector or pair of Resource Selectors.
+                                                                 TRCSEQEVR&lt;n&gt;.B.TYPE controls whether TRCSEQEVR&lt;n&gt;.B.SEL is the index
+                                                                 of a single Resource Selector, or the index of a pair of Resource Selectors.
+                                                                 Backward field. Selects the single Resource Selector or Resource Selector pair.
+                                                                 If an unimplemented Resource Selector is selected using this field, the behavior
+                                                                 of the resource event is UNPREDICTABLE, and the resource event might fire or
+                                                                 might not fire. */
+        uint32_t reserved_13_14        : 2;
+        uint32_t b_type                : 1;  /**< [ 15: 15](R/W) Chooses the type of Resource Selector.
+                                                                 Backward field. Defines whether the backward resource event is a single Resource
+                                                                 Selector or a Resource Selector pair. When the resource event occurs then the
+                                                                 Sequencer state moves from state n+1 to state n. For example, if
+                                                                 TRCSEQEVR2.B.SEL == 0x14 then when event 0x14 occurs, the Sequencer moves from
+                                                                 state 3 to state 2. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcseqevr1_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcseqevr1 cavm_cst_apx_etm_trcseqevr1_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCSEQEVR1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCSEQEVR1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030104ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCSEQEVR1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCSEQEVR1(a) cavm_cst_apx_etm_trcseqevr1_t
+#define bustype_CAVM_CST_APX_ETM_TRCSEQEVR1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCSEQEVR1(a) "CST_APX_ETM_TRCSEQEVR1"
+#define busnum_CAVM_CST_APX_ETM_TRCSEQEVR1(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCSEQEVR1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcseqevr2
+ *
+ * CST Ap Etm Trcseqevr2 Register
+ * Moves the Sequencer state:
+ *
+ *   -  Backwards, from state n+1 to state n when a programmed resource event occurs.
+ *   -  Forwards, from state n to state n+1 when a programmed resource event occurs.
+ */
+union cavm_cst_apx_etm_trcseqevr2
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcseqevr2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t b_type                : 1;  /**< [ 15: 15](R/W) Chooses the type of Resource Selector.
+                                                                 Backward field. Defines whether the backward resource event is a single Resource
+                                                                 Selector or a Resource Selector pair. When the resource event occurs then the
+                                                                 Sequencer state moves from state n+1 to state n. For example, if
+                                                                 TRCSEQEVR2.B.SEL == 0x14 then when event 0x14 occurs, the Sequencer moves from
+                                                                 state 3 to state 2. */
+        uint32_t reserved_13_14        : 2;
+        uint32_t b_sel                 : 5;  /**< [ 12:  8](R/W) Defines the selected Resource Selector or pair of Resource Selectors.
+                                                                 TRCSEQEVR&lt;n&gt;.B.TYPE controls whether TRCSEQEVR&lt;n&gt;.B.SEL is the index
+                                                                 of a single Resource Selector, or the index of a pair of Resource Selectors.
+                                                                 Backward field. Selects the single Resource Selector or Resource Selector pair.
+                                                                 If an unimplemented Resource Selector is selected using this field, the behavior
+                                                                 of the resource event is UNPREDICTABLE, and the resource event might fire or
+                                                                 might not fire. */
+        uint32_t f_type                : 1;  /**< [  7:  7](R/W) Chooses the type of Resource Selector.
+                                                                 Backward field. Defines whether the forward resource event is a single Resource
+                                                                 Selector or a Resource Selector pair. When the resource event occurs then the
+                                                                 Sequencer state moves from state n to state n+1. For example,  if
+                                                                 TRCSEQEVR1.F.SEL == 0x12 then when event 0x12 occurs, the Sequencer moves from
+                                                                 state 1 to state 2. */
+        uint32_t reserved_5_6          : 2;
+        uint32_t f_sel                 : 5;  /**< [  4:  0](R/W) Defines the selected Resource Selector or pair of Resource Selectors.
+                                                                 TRCSEQEVR&lt;n&gt;.F.TYPE controls whether TRCSEQEVR&lt;n&gt;.F.SEL is the index
+                                                                 of a single Resource Selector, or the index of a pair of Resource Selectors.
+                                                                 Forward field. Selects the single Resource Selector or Resource Selector pair.
+                                                                 If an unimplemented Resource Selector is selected using this field, the behavior
+                                                                 of the resource event is UNPREDICTABLE, and the resource event might fire or
+                                                                 might not fire. */
+#else /* Word 0 - Little Endian */
+        uint32_t f_sel                 : 5;  /**< [  4:  0](R/W) Defines the selected Resource Selector or pair of Resource Selectors.
+                                                                 TRCSEQEVR&lt;n&gt;.F.TYPE controls whether TRCSEQEVR&lt;n&gt;.F.SEL is the index
+                                                                 of a single Resource Selector, or the index of a pair of Resource Selectors.
+                                                                 Forward field. Selects the single Resource Selector or Resource Selector pair.
+                                                                 If an unimplemented Resource Selector is selected using this field, the behavior
+                                                                 of the resource event is UNPREDICTABLE, and the resource event might fire or
+                                                                 might not fire. */
+        uint32_t reserved_5_6          : 2;
+        uint32_t f_type                : 1;  /**< [  7:  7](R/W) Chooses the type of Resource Selector.
+                                                                 Backward field. Defines whether the forward resource event is a single Resource
+                                                                 Selector or a Resource Selector pair. When the resource event occurs then the
+                                                                 Sequencer state moves from state n to state n+1. For example,  if
+                                                                 TRCSEQEVR1.F.SEL == 0x12 then when event 0x12 occurs, the Sequencer moves from
+                                                                 state 1 to state 2. */
+        uint32_t b_sel                 : 5;  /**< [ 12:  8](R/W) Defines the selected Resource Selector or pair of Resource Selectors.
+                                                                 TRCSEQEVR&lt;n&gt;.B.TYPE controls whether TRCSEQEVR&lt;n&gt;.B.SEL is the index
+                                                                 of a single Resource Selector, or the index of a pair of Resource Selectors.
+                                                                 Backward field. Selects the single Resource Selector or Resource Selector pair.
+                                                                 If an unimplemented Resource Selector is selected using this field, the behavior
+                                                                 of the resource event is UNPREDICTABLE, and the resource event might fire or
+                                                                 might not fire. */
+        uint32_t reserved_13_14        : 2;
+        uint32_t b_type                : 1;  /**< [ 15: 15](R/W) Chooses the type of Resource Selector.
+                                                                 Backward field. Defines whether the backward resource event is a single Resource
+                                                                 Selector or a Resource Selector pair. When the resource event occurs then the
+                                                                 Sequencer state moves from state n+1 to state n. For example, if
+                                                                 TRCSEQEVR2.B.SEL == 0x14 then when event 0x14 occurs, the Sequencer moves from
+                                                                 state 3 to state 2. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcseqevr2_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcseqevr2 cavm_cst_apx_etm_trcseqevr2_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCSEQEVR2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCSEQEVR2(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030108ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCSEQEVR2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCSEQEVR2(a) cavm_cst_apx_etm_trcseqevr2_t
+#define bustype_CAVM_CST_APX_ETM_TRCSEQEVR2(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCSEQEVR2(a) "CST_APX_ETM_TRCSEQEVR2"
+#define busnum_CAVM_CST_APX_ETM_TRCSEQEVR2(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCSEQEVR2(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcseqrstevr
+ *
+ * CST Ap Etm Trcseqrstevr Register
+ * Moves the Sequencer to state 0 when a programmed resource event occurs.
+ */
+union cavm_cst_apx_etm_trcseqrstevr
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcseqrstevr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t rst_type              : 1;  /**< [  7:  7](R/W) Chooses the type of Resource Selector. */
+        uint32_t reserved_5_6          : 2;
+        uint32_t rst_sel               : 5;  /**< [  4:  0](R/W) Defines the selected Resource Selector or pair of Resource Selectors.
+                                                                 TRCSEQRSTEVR.RST.TYPE controls whether TRCSEQRSTEVR.RST.SEL is the index of a
+                                                                 single Resource Selector, or the index of a pair of Resource Selectors.
+                                                                 If an unimplemented Resource Selector is selected using this field, the behavior
+                                                                 of the resource event is UNPREDICTABLE, and the resource event might fire or
+                                                                 might not fire. */
+#else /* Word 0 - Little Endian */
+        uint32_t rst_sel               : 5;  /**< [  4:  0](R/W) Defines the selected Resource Selector or pair of Resource Selectors.
+                                                                 TRCSEQRSTEVR.RST.TYPE controls whether TRCSEQRSTEVR.RST.SEL is the index of a
+                                                                 single Resource Selector, or the index of a pair of Resource Selectors.
+                                                                 If an unimplemented Resource Selector is selected using this field, the behavior
+                                                                 of the resource event is UNPREDICTABLE, and the resource event might fire or
+                                                                 might not fire. */
+        uint32_t reserved_5_6          : 2;
+        uint32_t rst_type              : 1;  /**< [  7:  7](R/W) Chooses the type of Resource Selector. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcseqrstevr_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcseqrstevr cavm_cst_apx_etm_trcseqrstevr_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCSEQRSTEVR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCSEQRSTEVR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030118ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCSEQRSTEVR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCSEQRSTEVR(a) cavm_cst_apx_etm_trcseqrstevr_t
+#define bustype_CAVM_CST_APX_ETM_TRCSEQRSTEVR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCSEQRSTEVR(a) "CST_APX_ETM_TRCSEQRSTEVR"
+#define busnum_CAVM_CST_APX_ETM_TRCSEQRSTEVR(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCSEQRSTEVR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcseqstr
+ *
+ * CST Ap Etm Trcseqstr Register
+ * Use this to set, or read, the Sequencer state.
+ */
+union cavm_cst_apx_etm_trcseqstr
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcseqstr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_2_31         : 30;
+        uint32_t state                 : 2;  /**< [  1:  0](R/W) Set or returns the state of the Sequencer. */
+#else /* Word 0 - Little Endian */
+        uint32_t state                 : 2;  /**< [  1:  0](R/W) Set or returns the state of the Sequencer. */
+        uint32_t reserved_2_31         : 30;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcseqstr_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcseqstr cavm_cst_apx_etm_trcseqstr_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCSEQSTR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCSEQSTR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a08103011cll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCSEQSTR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCSEQSTR(a) cavm_cst_apx_etm_trcseqstr_t
+#define bustype_CAVM_CST_APX_ETM_TRCSEQSTR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCSEQSTR(a) "CST_APX_ETM_TRCSEQSTR"
+#define busnum_CAVM_CST_APX_ETM_TRCSEQSTR(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCSEQSTR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcstallctlr
+ *
+ * CST Ap Etm Trcstallctlr Register
+ * Enables trace unit functionality that prevents trace unit buffer overflows.
+ */
+union cavm_cst_apx_etm_trcstallctlr
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcstallctlr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcstallctlr_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcstallctlr cavm_cst_apx_etm_trcstallctlr_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCSTALLCTLR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCSTALLCTLR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a08103002cll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCSTALLCTLR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCSTALLCTLR(a) cavm_cst_apx_etm_trcstallctlr_t
+#define bustype_CAVM_CST_APX_ETM_TRCSTALLCTLR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCSTALLCTLR(a) "CST_APX_ETM_TRCSTALLCTLR"
+#define busnum_CAVM_CST_APX_ETM_TRCSTALLCTLR(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCSTALLCTLR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcstatr
+ *
+ * CST Ap Etm Trcstatr Register
+ * Returns the trace unit status.
+ */
+union cavm_cst_apx_etm_trcstatr
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcstatr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_2_31         : 30;
+        uint32_t pmstable              : 1;  /**< [  1:  1](RO) Programmers' model stable.
+                                                                 This bit is UNKNOWN while the trace unit is enabled. */
+        uint32_t idle                  : 1;  /**< [  0:  0](RO) Idle status. */
+#else /* Word 0 - Little Endian */
+        uint32_t idle                  : 1;  /**< [  0:  0](RO) Idle status. */
+        uint32_t pmstable              : 1;  /**< [  1:  1](RO) Programmers' model stable.
+                                                                 This bit is UNKNOWN while the trace unit is enabled. */
+        uint32_t reserved_2_31         : 30;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcstatr_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcstatr cavm_cst_apx_etm_trcstatr_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCSTATR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCSTATR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a08103000cll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCSTATR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCSTATR(a) cavm_cst_apx_etm_trcstatr_t
+#define bustype_CAVM_CST_APX_ETM_TRCSTATR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCSTATR(a) "CST_APX_ETM_TRCSTATR"
+#define busnum_CAVM_CST_APX_ETM_TRCSTATR(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCSTATR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcsyncpr
+ *
+ * CST Ap Etm Trcsyncpr Register
+ * Controls how often trace protocol synchronization requests occur.
+ */
+union cavm_cst_apx_etm_trcsyncpr
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcsyncpr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_5_31         : 27;
+        uint32_t period                : 5;  /**< [  4:  0](R/W) Defines the number of bytes of trace between each periodic trace protocol synchronization request.
+                                                                 Other values are reserved. If a reserved value is programmed into PERIOD, then
+                                                                 the behavior of the synchronization period counter is CONSTRAINED UNPREDICTABLE
+                                                                 and one of the following behaviors occurs:
+                                                                   -  No trace protocol synchronization requests are generated by this counter.
+                                                                   -  Trace protocol synchronization requests occur at the specified period.
+                                                                   -  Trace protocol synchronization requests occur at some other UNKNOWN period which can vary. */
+#else /* Word 0 - Little Endian */
+        uint32_t period                : 5;  /**< [  4:  0](R/W) Defines the number of bytes of trace between each periodic trace protocol synchronization request.
+                                                                 Other values are reserved. If a reserved value is programmed into PERIOD, then
+                                                                 the behavior of the synchronization period counter is CONSTRAINED UNPREDICTABLE
+                                                                 and one of the following behaviors occurs:
+                                                                   -  No trace protocol synchronization requests are generated by this counter.
+                                                                   -  Trace protocol synchronization requests occur at the specified period.
+                                                                   -  Trace protocol synchronization requests occur at some other UNKNOWN period which can vary. */
+        uint32_t reserved_5_31         : 27;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcsyncpr_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcsyncpr cavm_cst_apx_etm_trcsyncpr_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCSYNCPR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCSYNCPR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030034ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCSYNCPR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCSYNCPR(a) cavm_cst_apx_etm_trcsyncpr_t
+#define bustype_CAVM_CST_APX_ETM_TRCSYNCPR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCSYNCPR(a) "CST_APX_ETM_TRCSYNCPR"
+#define busnum_CAVM_CST_APX_ETM_TRCSYNCPR(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCSYNCPR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trctraceidr
+ *
+ * CST Ap Etm Trctraceidr Register
+ * Sets the trace ID for instruction trace.
+ */
+union cavm_cst_apx_etm_trctraceidr
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trctraceidr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_7_31         : 25;
+        uint32_t traceid               : 7;  /**< [  6:  0](R/W) Trace ID field. Sets the trace ID value for instruction trace. The width of the
+                                                                 field is indicated by the value of ext-TRCIDR5.TRACEIDSIZE. Unimplemented bits
+                                                                 are RES0.
+                                                                 If an implementation supports AMBA ATB, then:
+                                                                   -  The width of the field is 7 bits.
+                                                                   -  Writing a reserved trace ID value does not affect behavior of the trace
+                                                                 unit but it might cause UNPREDICTABLE behavior of the trace capture
+                                                                 infrastructure.
+                                                                 See the AMBA ATB Protocol Specification for information about which ATID values are reserved. */
+#else /* Word 0 - Little Endian */
+        uint32_t traceid               : 7;  /**< [  6:  0](R/W) Trace ID field. Sets the trace ID value for instruction trace. The width of the
+                                                                 field is indicated by the value of ext-TRCIDR5.TRACEIDSIZE. Unimplemented bits
+                                                                 are RES0.
+                                                                 If an implementation supports AMBA ATB, then:
+                                                                   -  The width of the field is 7 bits.
+                                                                   -  Writing a reserved trace ID value does not affect behavior of the trace
+                                                                 unit but it might cause UNPREDICTABLE behavior of the trace capture
+                                                                 infrastructure.
+                                                                 See the AMBA ATB Protocol Specification for information about which ATID values are reserved. */
+        uint32_t reserved_7_31         : 25;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trctraceidr_s cn; */
+};
+typedef union cavm_cst_apx_etm_trctraceidr cavm_cst_apx_etm_trctraceidr_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCTRACEIDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCTRACEIDR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030040ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCTRACEIDR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCTRACEIDR(a) cavm_cst_apx_etm_trctraceidr_t
+#define bustype_CAVM_CST_APX_ETM_TRCTRACEIDR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCTRACEIDR(a) "CST_APX_ETM_TRCTRACEIDR"
+#define busnum_CAVM_CST_APX_ETM_TRCTRACEIDR(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCTRACEIDR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trctsctlr
+ *
+ * CST Ap Etm Trctsctlr Register
+ * Controls the insertion of global timestamps in the trace stream.
+ */
+union cavm_cst_apx_etm_trctsctlr
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trctsctlr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t event_type            : 1;  /**< [  7:  7](R/W) Chooses the type of Resource Selector. */
+        uint32_t reserved_5_6          : 2;
+        uint32_t event_sel             : 5;  /**< [  4:  0](R/W) Defines the selected Resource Selector or pair of Resource Selectors.
+                                                                 TRCTSCTLR.EVENT.TYPE controls whether TRCTSCTLR.EVENT.SEL is the index of a
+                                                                 single Resource Selector, or the index of a pair of Resource Selectors.
+                                                                 If an unimplemented Resource Selector is selected using this field, the behavior
+                                                                 of the resource event is UNPREDICTABLE, and the resource event might fire or
+                                                                 might not fire. */
+#else /* Word 0 - Little Endian */
+        uint32_t event_sel             : 5;  /**< [  4:  0](R/W) Defines the selected Resource Selector or pair of Resource Selectors.
+                                                                 TRCTSCTLR.EVENT.TYPE controls whether TRCTSCTLR.EVENT.SEL is the index of a
+                                                                 single Resource Selector, or the index of a pair of Resource Selectors.
+                                                                 If an unimplemented Resource Selector is selected using this field, the behavior
+                                                                 of the resource event is UNPREDICTABLE, and the resource event might fire or
+                                                                 might not fire. */
+        uint32_t reserved_5_6          : 2;
+        uint32_t event_type            : 1;  /**< [  7:  7](R/W) Chooses the type of Resource Selector. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trctsctlr_s cn; */
+};
+typedef union cavm_cst_apx_etm_trctsctlr cavm_cst_apx_etm_trctsctlr_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCTSCTLR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCTSCTLR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030030ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCTSCTLR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCTSCTLR(a) cavm_cst_apx_etm_trctsctlr_t
+#define bustype_CAVM_CST_APX_ETM_TRCTSCTLR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCTSCTLR(a) "CST_APX_ETM_TRCTSCTLR"
+#define busnum_CAVM_CST_APX_ETM_TRCTSCTLR(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCTSCTLR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcvictlr
+ *
+ * CST Ap Etm Trcvictlr Register
+ * Controls instruction trace filtering.
+ */
+union cavm_cst_apx_etm_trcvictlr
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcvictlr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_20_31        : 12;
+        uint32_t exlevel_s_el3         : 1;  /**< [ 19: 19](R/W) Filter instruction trace for EL3 in Secure state. */
+        uint32_t exlevel_s_el2         : 1;  /**< [ 18: 18](R/W) Filter instruction trace for EL2 in Secure state. */
+        uint32_t exlevel_s_el1         : 1;  /**< [ 17: 17](R/W) Filter instruction trace for EL1 in Secure state. */
+        uint32_t exlevel_s_el0         : 1;  /**< [ 16: 16](R/W) Filter instruction trace for EL0 in Secure state. */
+        uint32_t reserved_12_15        : 4;
+        uint32_t trcerr                : 1;  /**< [ 11: 11](R/W) Controls the forced tracing of System Error exceptions. */
+        uint32_t trcreset              : 1;  /**< [ 10: 10](R/W) Controls the forced tracing of PE Resets. */
+        uint32_t ssstatus              : 1;  /**< [  9:  9](R/W) ViewInst start/stop function status.
+                                                                 Before software enables the trace unit, it must write to this bit to set the
+                                                                 initial state of the ViewInst start/stop function. If the ViewInst start/stop
+                                                                 function is not used then set this bit to 0b1. Arm recommends that the value of
+                                                                 this bit is set before each trace session begins.
+                                                                 If the trace unit becomes disabled while a start point or stop point is still
+                                                                 speculative, then the value of TRCVICTLR.SSSTATUS is UNKNOWN and might represent
+                                                                 the result of a speculative start point or stop point.
+                                                                 If software which is running on the PE being traced disables the trace unit,
+                                                                 either by clearing ext-TRCPRGCTLR.EN or locking the OS Lock, Arm recommends that
+                                                                 a DSB and an ISB instruction are executed before disabling the trace unit to
+                                                                 prevent any start points or stop points being speculative at the point of
+                                                                 disabling the trace unit. This procedure assumes that all start points or stop
+                                                                 points occur before the barrier instructions are executed. The procedure does
+                                                                 not guarantee that there are no speculative start points or stop points when
+                                                                 disabling, although it helps minimize the probability.
+                                                                 This bit is RES1 if ext-TRCIDR4.NUMACPAIRS == 0b0000 and ext-TRCIDR4.NUMPC == 0b0000. */
+        uint32_t reserved_8            : 1;
+        uint32_t event_type            : 1;  /**< [  7:  7](R/W) Chooses the type of Resource Selector. */
+        uint32_t reserved_5_6          : 2;
+        uint32_t event_sel             : 5;  /**< [  4:  0](R/W) Defines the selected Resource Selector or pair of Resource Selectors.
+                                                                 TRCVICTLR.EVENT.TYPE controls whether TRCVICTLR.EVENT.SEL is the index of a
+                                                                 single Resource Selector, or the index of a pair of Resource Selectors.
+                                                                 If an unimplemented Resource Selector is selected using this field, the behavior
+                                                                 of the resource event is UNPREDICTABLE, and the resource event might fire or
+                                                                 might not fire. */
+#else /* Word 0 - Little Endian */
+        uint32_t event_sel             : 5;  /**< [  4:  0](R/W) Defines the selected Resource Selector or pair of Resource Selectors.
+                                                                 TRCVICTLR.EVENT.TYPE controls whether TRCVICTLR.EVENT.SEL is the index of a
+                                                                 single Resource Selector, or the index of a pair of Resource Selectors.
+                                                                 If an unimplemented Resource Selector is selected using this field, the behavior
+                                                                 of the resource event is UNPREDICTABLE, and the resource event might fire or
+                                                                 might not fire. */
+        uint32_t reserved_5_6          : 2;
+        uint32_t event_type            : 1;  /**< [  7:  7](R/W) Chooses the type of Resource Selector. */
+        uint32_t reserved_8            : 1;
+        uint32_t ssstatus              : 1;  /**< [  9:  9](R/W) ViewInst start/stop function status.
+                                                                 Before software enables the trace unit, it must write to this bit to set the
+                                                                 initial state of the ViewInst start/stop function. If the ViewInst start/stop
+                                                                 function is not used then set this bit to 0b1. Arm recommends that the value of
+                                                                 this bit is set before each trace session begins.
+                                                                 If the trace unit becomes disabled while a start point or stop point is still
+                                                                 speculative, then the value of TRCVICTLR.SSSTATUS is UNKNOWN and might represent
+                                                                 the result of a speculative start point or stop point.
+                                                                 If software which is running on the PE being traced disables the trace unit,
+                                                                 either by clearing ext-TRCPRGCTLR.EN or locking the OS Lock, Arm recommends that
+                                                                 a DSB and an ISB instruction are executed before disabling the trace unit to
+                                                                 prevent any start points or stop points being speculative at the point of
+                                                                 disabling the trace unit. This procedure assumes that all start points or stop
+                                                                 points occur before the barrier instructions are executed. The procedure does
+                                                                 not guarantee that there are no speculative start points or stop points when
+                                                                 disabling, although it helps minimize the probability.
+                                                                 This bit is RES1 if ext-TRCIDR4.NUMACPAIRS == 0b0000 and ext-TRCIDR4.NUMPC == 0b0000. */
+        uint32_t trcreset              : 1;  /**< [ 10: 10](R/W) Controls the forced tracing of PE Resets. */
+        uint32_t trcerr                : 1;  /**< [ 11: 11](R/W) Controls the forced tracing of System Error exceptions. */
+        uint32_t reserved_12_15        : 4;
+        uint32_t exlevel_s_el0         : 1;  /**< [ 16: 16](R/W) Filter instruction trace for EL0 in Secure state. */
+        uint32_t exlevel_s_el1         : 1;  /**< [ 17: 17](R/W) Filter instruction trace for EL1 in Secure state. */
+        uint32_t exlevel_s_el2         : 1;  /**< [ 18: 18](R/W) Filter instruction trace for EL2 in Secure state. */
+        uint32_t exlevel_s_el3         : 1;  /**< [ 19: 19](R/W) Filter instruction trace for EL3 in Secure state. */
+        uint32_t reserved_20_31        : 12;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcvictlr_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcvictlr cavm_cst_apx_etm_trcvictlr_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCVICTLR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCVICTLR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030080ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCVICTLR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCVICTLR(a) cavm_cst_apx_etm_trcvictlr_t
+#define bustype_CAVM_CST_APX_ETM_TRCVICTLR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCVICTLR(a) "CST_APX_ETM_TRCVICTLR"
+#define busnum_CAVM_CST_APX_ETM_TRCVICTLR(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCVICTLR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcviiectlr
+ *
+ * CST Ap Etm Trcviiectlr Register
+ * Use this to select, or read, the Address Range Comparators for the ViewInst
+ * include/exclude function.
+ */
+union cavm_cst_apx_etm_trcviiectlr
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcviiectlr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t excludem              : 8;  /**< [ 23: 16](R/W) Selects which Address Range Comparators are in use with the ViewInst exclude function.
+                                                                 Each bit represents an Address Range Comparator, so bit[m] controls the
+                                                                 selection of Address Range Comparator m.
+                                                                 This bit is RES0 if m &gt;= ext-TRCIDR4.NUMACPAIRS. */
+        uint32_t reserved_8_15         : 8;
+        uint32_t includem              : 8;  /**< [  7:  0](R/W) Selects which Address Range Comparators are in use with the ViewInst include function.
+                                                                 Each bit represents an Address Range Comparator, so bit[m] controls the
+                                                                 selection of Address Range Comparator m.
+                                                                 Selecting no comparators for the ViewInst include function indicates that all
+                                                                 instructions are included by default.
+                                                                 The ViewInst exclude function then indicates which ranges are excluded.
+                                                                 This bit is RES0 if m &gt;= ext-TRCIDR4.NUMACPAIRS. */
+#else /* Word 0 - Little Endian */
+        uint32_t includem              : 8;  /**< [  7:  0](R/W) Selects which Address Range Comparators are in use with the ViewInst include function.
+                                                                 Each bit represents an Address Range Comparator, so bit[m] controls the
+                                                                 selection of Address Range Comparator m.
+                                                                 Selecting no comparators for the ViewInst include function indicates that all
+                                                                 instructions are included by default.
+                                                                 The ViewInst exclude function then indicates which ranges are excluded.
+                                                                 This bit is RES0 if m &gt;= ext-TRCIDR4.NUMACPAIRS. */
+        uint32_t reserved_8_15         : 8;
+        uint32_t excludem              : 8;  /**< [ 23: 16](R/W) Selects which Address Range Comparators are in use with the ViewInst exclude function.
+                                                                 Each bit represents an Address Range Comparator, so bit[m] controls the
+                                                                 selection of Address Range Comparator m.
+                                                                 This bit is RES0 if m &gt;= ext-TRCIDR4.NUMACPAIRS. */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcviiectlr_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcviiectlr cavm_cst_apx_etm_trcviiectlr_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCVIIECTLR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCVIIECTLR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030084ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCVIIECTLR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCVIIECTLR(a) cavm_cst_apx_etm_trcviiectlr_t
+#define bustype_CAVM_CST_APX_ETM_TRCVIIECTLR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCVIIECTLR(a) "CST_APX_ETM_TRCVIIECTLR"
+#define busnum_CAVM_CST_APX_ETM_TRCVIIECTLR(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCVIIECTLR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcvipcssctlr
+ *
+ * CST Ap Etm Trcvipcssctlr Register
+ * Use this to select, or read, which PE Comparator Inputs can control the ViewInst
+ * start/stop function.
+ */
+union cavm_cst_apx_etm_trcvipcssctlr
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcvipcssctlr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcvipcssctlr_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcvipcssctlr cavm_cst_apx_etm_trcvipcssctlr_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCVIPCSSCTLR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCVIPCSSCTLR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a08103008cll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCVIPCSSCTLR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCVIPCSSCTLR(a) cavm_cst_apx_etm_trcvipcssctlr_t
+#define bustype_CAVM_CST_APX_ETM_TRCVIPCSSCTLR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCVIPCSSCTLR(a) "CST_APX_ETM_TRCVIPCSSCTLR"
+#define busnum_CAVM_CST_APX_ETM_TRCVIPCSSCTLR(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCVIPCSSCTLR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcvissctlr
+ *
+ * CST Ap Etm Trcvissctlr Register
+ * Use this to select, or read, the Single Address Comparators for the ViewInst start/stop function.
+ */
+union cavm_cst_apx_etm_trcvissctlr
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcvissctlr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t stopm                 : 16; /**< [ 31: 16](R/W) Selects which Single Address Comparators are in use with ViewInst start/stop
+                                                                 function, for the purpose of stopping trace.
+                                                                 This bit is RES0 if m &gt;= 2  ext-TRCIDR4.NUMACPAIRS. */
+        uint32_t startm                : 16; /**< [ 15:  0](R/W) Selects which Single Address Comparators are in use with ViewInst start/stop
+                                                                 function, for the purpose of starting trace.
+                                                                 This bit is RES0 if m &gt;= 2  ext-TRCIDR4.NUMACPAIRS. */
+#else /* Word 0 - Little Endian */
+        uint32_t startm                : 16; /**< [ 15:  0](R/W) Selects which Single Address Comparators are in use with ViewInst start/stop
+                                                                 function, for the purpose of starting trace.
+                                                                 This bit is RES0 if m &gt;= 2  ext-TRCIDR4.NUMACPAIRS. */
+        uint32_t stopm                 : 16; /**< [ 31: 16](R/W) Selects which Single Address Comparators are in use with ViewInst start/stop
+                                                                 function, for the purpose of stopping trace.
+                                                                 This bit is RES0 if m &gt;= 2  ext-TRCIDR4.NUMACPAIRS. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcvissctlr_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcvissctlr cavm_cst_apx_etm_trcvissctlr_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCVISSCTLR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCVISSCTLR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030088ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCVISSCTLR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCVISSCTLR(a) cavm_cst_apx_etm_trcvissctlr_t
+#define bustype_CAVM_CST_APX_ETM_TRCVISSCTLR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCVISSCTLR(a) "CST_APX_ETM_TRCVISSCTLR"
+#define busnum_CAVM_CST_APX_ETM_TRCVISSCTLR(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCVISSCTLR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcvmidcctlr0
+ *
+ * CST Ap Etm Trcvmidcctlr0 Register
+ * Virtual Context Identifier Comparator mask values for the ext-TRCVMIDCVR&lt;n&gt;
+ * registers, where n=0-3.
+ */
+union cavm_cst_apx_etm_trcvmidcctlr0
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcvmidcctlr0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t comp0m                : 8;  /**< [  7:  0](R/W) TRCVMIDCVR0 mask control. Specifies the mask value that the trace unit applies
+                                                                 to TRCVMIDCVR0. Each bit in this field corresponds to a byte in TRCVMIDCVR0.
+                                                                 This bit is RES0 if m &gt;= ext-TRCIDR2.VMIDSIZE. */
+#else /* Word 0 - Little Endian */
+        uint32_t comp0m                : 8;  /**< [  7:  0](R/W) TRCVMIDCVR0 mask control. Specifies the mask value that the trace unit applies
+                                                                 to TRCVMIDCVR0. Each bit in this field corresponds to a byte in TRCVMIDCVR0.
+                                                                 This bit is RES0 if m &gt;= ext-TRCIDR2.VMIDSIZE. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcvmidcctlr0_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcvmidcctlr0 cavm_cst_apx_etm_trcvmidcctlr0_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCVMIDCCTLR0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCVMIDCCTLR0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081030688ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCVMIDCCTLR0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCVMIDCCTLR0(a) cavm_cst_apx_etm_trcvmidcctlr0_t
+#define bustype_CAVM_CST_APX_ETM_TRCVMIDCCTLR0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCVMIDCCTLR0(a) "CST_APX_ETM_TRCVMIDCCTLR0"
+#define busnum_CAVM_CST_APX_ETM_TRCVMIDCCTLR0(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCVMIDCCTLR0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_etm_trcvmidcctlr1
+ *
+ * CST Ap Etm Trcvmidcctlr1 Register
+ * Virtual Context Identifier Comparator mask values for the ext-TRCVMIDCVR&lt;n&gt;
+ * registers, where n=4-7.
+ */
+union cavm_cst_apx_etm_trcvmidcctlr1
+{
+    uint32_t u;
+    struct cavm_cst_apx_etm_trcvmidcctlr1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_etm_trcvmidcctlr1_s cn; */
+};
+typedef union cavm_cst_apx_etm_trcvmidcctlr1 cavm_cst_apx_etm_trcvmidcctlr1_t;
+
+static inline uint64_t CAVM_CST_APX_ETM_TRCVMIDCCTLR1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_ETM_TRCVMIDCCTLR1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a08103068cll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_ETM_TRCVMIDCCTLR1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_ETM_TRCVMIDCCTLR1(a) cavm_cst_apx_etm_trcvmidcctlr1_t
+#define bustype_CAVM_CST_APX_ETM_TRCVMIDCCTLR1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_ETM_TRCVMIDCCTLR1(a) "CST_APX_ETM_TRCVMIDCCTLR1"
+#define busnum_CAVM_CST_APX_ETM_TRCVMIDCCTLR1(a) (a)
+#define arguments_CAVM_CST_APX_ETM_TRCVMIDCCTLR1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmauthstatus
+ *
+ * CST Ap Pmu Pmauthstatus Register
+ * Provides information about the state of the IMPLEMENTATION DEFINED authentication
+ * interface for Performance Monitors.
+ */
+union cavm_cst_apx_pmu_pmauthstatus
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmauthstatus_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t snid                  : 2;  /**< [  7:  6](RO) Holds the same value as ext-DBGAUTHSTATUS_EL1.SNID. */
+        uint32_t sid                   : 2;  /**< [  5:  4](RO) Secure invasive debug. Possible values of this field are:
+                                                                 All other values are reserved. */
+        uint32_t nsnid                 : 2;  /**< [  3:  2](RO) Holds the same value as ext-DBGAUTHSTATUS_EL1.NSNID. */
+        uint32_t nsid                  : 2;  /**< [  1:  0](RO) Non-secure invasive debug. Possible values of this field are:
+                                                                 All other values are reserved. */
+#else /* Word 0 - Little Endian */
+        uint32_t nsid                  : 2;  /**< [  1:  0](RO) Non-secure invasive debug. Possible values of this field are:
+                                                                 All other values are reserved. */
+        uint32_t nsnid                 : 2;  /**< [  3:  2](RO) Holds the same value as ext-DBGAUTHSTATUS_EL1.NSNID. */
+        uint32_t sid                   : 2;  /**< [  5:  4](RO) Secure invasive debug. Possible values of this field are:
+                                                                 All other values are reserved. */
+        uint32_t snid                  : 2;  /**< [  7:  6](RO) Holds the same value as ext-DBGAUTHSTATUS_EL1.SNID. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmauthstatus_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmauthstatus cavm_cst_apx_pmu_pmauthstatus_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMAUTHSTATUS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMAUTHSTATUS(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020fb8ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMAUTHSTATUS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMAUTHSTATUS(a) cavm_cst_apx_pmu_pmauthstatus_t
+#define bustype_CAVM_CST_APX_PMU_PMAUTHSTATUS(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMAUTHSTATUS(a) "CST_APX_PMU_PMAUTHSTATUS"
+#define busnum_CAVM_CST_APX_PMU_PMAUTHSTATUS(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMAUTHSTATUS(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmccfiltr_el0
+ *
+ * CST Ap Pmu Pmccfiltr El0 Register
+ * Determines the modes in which the Cycle Counter, ext-PMCCNTR_EL0, increments.
+ */
+union cavm_cst_apx_pmu_pmccfiltr_el0
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmccfiltr_el0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t p                     : 1;  /**< [ 31: 31](R/W) Privileged filtering bit. Controls counting in EL1.
+                                                                 If EL3 is implemented, then counting in Non-secure EL1 is further controlled by
+                                                                 the PMCCFILTR_EL0.NSK bit. */
+        uint32_t u                     : 1;  /**< [ 30: 30](R/W) User filtering bit. Controls counting in EL0.
+                                                                 If EL3 is implemented, then counting in Non-secure EL0 is further controlled by
+                                                                 the PMCCFILTR_EL0.NSU bit. */
+        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Non-secure EL1 (kernel) modes filtering bit. Controls counting in Non-secure EL1.
+                                                                 If the value of this bit is equal to the value of the PMCCFILTR_EL0.P bit,
+                                                                 cycles in Non-secure EL1 are counted.
+                                                                 Otherwise, cycles in Non-secure EL1 are not counted. */
+        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Non-secure EL0 (Unprivileged) filtering bit. Controls counting in Non-secure EL0.
+                                                                 If the value of this bit is equal to the value of the PMCCFILTR_EL0.U bit,
+                                                                 cycles in Non-secure EL0 are counted.
+                                                                 Otherwise, cycles in Non-secure EL0 are not counted. */
+        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) EL2 (Hypervisor) filtering bit. Controls counting in EL2.
+                                                                 If Secure EL2 is implemented, counting in Secure EL2 is further controlled by
+                                                                 the PMCCFILTR_EL0.SH bit. */
+        uint32_t m                     : 1;  /**< [ 26: 26](R/W) Secure EL3 filtering bit.
+                                                                 If the value of this bit is equal to the value of the PMCCFILTR_EL0.P bit,
+                                                                 cycles in Secure EL3 are counted.
+                                                                 Otherwise, cycles in Secure EL3 are not counted.
+                                                                 Most applications can ignore this field and set its value to 0.
+                                                                 [note]This field is not visible in the AArch32 AArch32-PMCCFILTR System register.[/note] */
+        uint32_t reserved_25           : 1;
+        uint32_t sh                    : 1;  /**< [ 24: 24](R/W) Secure EL2 filtering.
+                                                                 If the value of this bit is not equal to the value of the PMCCFILTR_EL0.NSH bit,
+                                                                 cycles in Secure EL2 are counted.
+                                                                 Otherwise, cycles in Secure EL2 are not counted.
+                                                                 If Secure EL2 is disabled, this field is RES0.
+                                                                 [note]This field is not visible in the AArch32 AArch32-PMCCFILTR System register.[/note] */
+        uint32_t reserved_0_23         : 24;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_23         : 24;
+        uint32_t sh                    : 1;  /**< [ 24: 24](R/W) Secure EL2 filtering.
+                                                                 If the value of this bit is not equal to the value of the PMCCFILTR_EL0.NSH bit,
+                                                                 cycles in Secure EL2 are counted.
+                                                                 Otherwise, cycles in Secure EL2 are not counted.
+                                                                 If Secure EL2 is disabled, this field is RES0.
+                                                                 [note]This field is not visible in the AArch32 AArch32-PMCCFILTR System register.[/note] */
+        uint32_t reserved_25           : 1;
+        uint32_t m                     : 1;  /**< [ 26: 26](R/W) Secure EL3 filtering bit.
+                                                                 If the value of this bit is equal to the value of the PMCCFILTR_EL0.P bit,
+                                                                 cycles in Secure EL3 are counted.
+                                                                 Otherwise, cycles in Secure EL3 are not counted.
+                                                                 Most applications can ignore this field and set its value to 0.
+                                                                 [note]This field is not visible in the AArch32 AArch32-PMCCFILTR System register.[/note] */
+        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) EL2 (Hypervisor) filtering bit. Controls counting in EL2.
+                                                                 If Secure EL2 is implemented, counting in Secure EL2 is further controlled by
+                                                                 the PMCCFILTR_EL0.SH bit. */
+        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Non-secure EL0 (Unprivileged) filtering bit. Controls counting in Non-secure EL0.
+                                                                 If the value of this bit is equal to the value of the PMCCFILTR_EL0.U bit,
+                                                                 cycles in Non-secure EL0 are counted.
+                                                                 Otherwise, cycles in Non-secure EL0 are not counted. */
+        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Non-secure EL1 (kernel) modes filtering bit. Controls counting in Non-secure EL1.
+                                                                 If the value of this bit is equal to the value of the PMCCFILTR_EL0.P bit,
+                                                                 cycles in Non-secure EL1 are counted.
+                                                                 Otherwise, cycles in Non-secure EL1 are not counted. */
+        uint32_t u                     : 1;  /**< [ 30: 30](R/W) User filtering bit. Controls counting in EL0.
+                                                                 If EL3 is implemented, then counting in Non-secure EL0 is further controlled by
+                                                                 the PMCCFILTR_EL0.NSU bit. */
+        uint32_t p                     : 1;  /**< [ 31: 31](R/W) Privileged filtering bit. Controls counting in EL1.
+                                                                 If EL3 is implemented, then counting in Non-secure EL1 is further controlled by
+                                                                 the PMCCFILTR_EL0.NSK bit. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmccfiltr_el0_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmccfiltr_el0 cavm_cst_apx_pmu_pmccfiltr_el0_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMCCFILTR_EL0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMCCFILTR_EL0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a08102047cll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMCCFILTR_EL0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMCCFILTR_EL0(a) cavm_cst_apx_pmu_pmccfiltr_el0_t
+#define bustype_CAVM_CST_APX_PMU_PMCCFILTR_EL0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMCCFILTR_EL0(a) "CST_APX_PMU_PMCCFILTR_EL0"
+#define busnum_CAVM_CST_APX_PMU_PMCCFILTR_EL0(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMCCFILTR_EL0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) cst_ap#_pmu_pmccntr_el0
+ *
+ * CST Ap Pmu Pmccntr El0 Register
+ * Holds the value of the processor Cycle Counter, CCNT, that counts processor clock
+ * cycles. For more information, see x['Time as measured by the Performance Monitors
+ * cycle counter'](CACHDEJH|D_the_performance_monitors_extension.fm).
+ *
+ * ext-PMCCFILTR_EL0 determines the modes and states in which the PMCCNTR_EL0 can increment.
+ */
+union cavm_cst_apx_pmu_pmccntr_el0
+{
+    uint64_t u;
+    struct cavm_cst_apx_pmu_pmccntr_el0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t ccnt                  : 64; /**< [ 63:  0](R/W) Cycle count. Depending on the values of ext-PMCR_EL0.{LC,D}, the cycle count
+                                                                 increments in one of the following ways:
+                                                                   - Every processor clock cycle.
+                                                                   - Every 64th processor clock cycle.
+                                                                 Writing 1 to ext-PMCR_EL0.C sets this field to 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t ccnt                  : 64; /**< [ 63:  0](R/W) Cycle count. Depending on the values of ext-PMCR_EL0.{LC,D}, the cycle count
+                                                                 increments in one of the following ways:
+                                                                   - Every processor clock cycle.
+                                                                   - Every 64th processor clock cycle.
+                                                                 Writing 1 to ext-PMCR_EL0.C sets this field to 0. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmccntr_el0_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmccntr_el0 cavm_cst_apx_pmu_pmccntr_el0_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMCCNTR_EL0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMCCNTR_EL0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a0810200f8ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMCCNTR_EL0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMCCNTR_EL0(a) cavm_cst_apx_pmu_pmccntr_el0_t
+#define bustype_CAVM_CST_APX_PMU_PMCCNTR_EL0(a) CSR_TYPE_NCB
+#define basename_CAVM_CST_APX_PMU_PMCCNTR_EL0(a) "CST_APX_PMU_PMCCNTR_EL0"
+#define busnum_CAVM_CST_APX_PMU_PMCCNTR_EL0(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMCCNTR_EL0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) cst_ap#_pmu_pmccntsr
+ *
+ * CST Ap Pmu Pmccntsr Register
+ * Captured copy of PMCCNTR_EL0. Once captured, the value in PMCCNTSR is unaffected by
+ * writes to PMCCNTR_EL0 and PMCR_EL0.C.
+ */
+union cavm_cst_apx_pmu_pmccntsr
+{
+    uint64_t u;
+    struct cavm_cst_apx_pmu_pmccntsr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t pmccntsr              : 64; /**< [ 63:  0](RO) PMCCNTR_EL0 sample. Sampled cycle count. */
+#else /* Word 0 - Little Endian */
+        uint64_t pmccntsr              : 64; /**< [ 63:  0](RO) PMCCNTR_EL0 sample. Sampled cycle count. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmccntsr_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmccntsr cavm_cst_apx_pmu_pmccntsr_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMCCNTSR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMCCNTSR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020618ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMCCNTSR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMCCNTSR(a) cavm_cst_apx_pmu_pmccntsr_t
+#define bustype_CAVM_CST_APX_PMU_PMCCNTSR(a) CSR_TYPE_NCB
+#define basename_CAVM_CST_APX_PMU_PMCCNTSR(a) "CST_APX_PMU_PMCCNTSR"
+#define busnum_CAVM_CST_APX_PMU_PMCCNTSR(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMCCNTSR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmceid0
+ *
+ * CST Ap Pmu Pmceid0 Register
+ * Defines which common architectural events and common microarchitectural  events are
+ * implemented, or counted, using PMU events in the range 0x0000 to 0x001F
+ *
+ * When the value of a bit in the register is 1 the corresponding common event is
+ * implemented and counted.
+ *
+ * For more information about the common events and the use of the PMCEIDn registers,
+ * see x['The PMU event number space and common
+ * events'](CACIDECJ|D_the_performance_monitors_extension.fm).
+ *
+ * [note]
+ *
+ *   - Arm recommends that, if a common event is never counted, the value of the
+ * corresponding register bit is 0.
+ *   - This view of the register was previously called PMCEID0_EL0.
+ *
+ * [/note]
+ */
+union cavm_cst_apx_pmu_pmceid0
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmceid0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t id31                  : 1;  /**< [ 31: 31](RO) ID31 corresponds to common event (0x1f) L1D_CACHE_ALLOCATE */
+        uint32_t id30                  : 1;  /**< [ 30: 30](RO) ID30 corresponds to common event (0x1e) CHAIN */
+        uint32_t id29                  : 1;  /**< [ 29: 29](RO) ID29 corresponds to common event (0x1d) BUS_CYCLES */
+        uint32_t id28                  : 1;  /**< [ 28: 28](RO) ID28 corresponds to common event (0x1c) TTBR_WRITE_RETIRED */
+        uint32_t id27                  : 1;  /**< [ 27: 27](RO) ID27 corresponds to common event (0x1b) INST_SPEC */
+        uint32_t id26                  : 1;  /**< [ 26: 26](RO) ID26 corresponds to common event (0x1a) MEMORY_ERROR */
+        uint32_t id25                  : 1;  /**< [ 25: 25](RO) ID25 corresponds to common event (0x19) BUS_ACCESS */
+        uint32_t id24                  : 1;  /**< [ 24: 24](RO) ID24 corresponds to common event (0x18) L2D_CACHE_WB */
+        uint32_t id23                  : 1;  /**< [ 23: 23](RO) ID23 corresponds to common event (0x17) L2D_CACHE_REFILL */
+        uint32_t id22                  : 1;  /**< [ 22: 22](RO) ID22 corresponds to common event (0x16) L2D_CACHE */
+        uint32_t id21                  : 1;  /**< [ 21: 21](RO) ID21 corresponds to common event (0x15) L1D_CACHE_WB */
+        uint32_t id20                  : 1;  /**< [ 20: 20](RO) ID20 corresponds to common event (0x14) L1I_CACHE */
+        uint32_t id19                  : 1;  /**< [ 19: 19](RO) ID19 corresponds to common event (0x13) MEM_ACCESS */
+        uint32_t id18                  : 1;  /**< [ 18: 18](RO) ID18 corresponds to common event (0x12) BR_PRED */
+        uint32_t id17                  : 1;  /**< [ 17: 17](RO) ID17 corresponds to common event (0x11) CPU_CYCLES */
+        uint32_t id16                  : 1;  /**< [ 16: 16](RO) ID16 corresponds to common event (0x10) BR_MIS_PRED */
+        uint32_t id15                  : 1;  /**< [ 15: 15](RO) ID15 corresponds to common event (0xf) UNALIGNED_LDST_RETIRED */
+        uint32_t id14                  : 1;  /**< [ 14: 14](RO) ID14 corresponds to common event (0xe) BR_RETURN_RETIRED */
+        uint32_t id13                  : 1;  /**< [ 13: 13](RO) ID13 corresponds to common event (0xd) BR_IMMED_RETIRED */
+        uint32_t id12                  : 1;  /**< [ 12: 12](RO) ID12 corresponds to common event (0xc) PC_WRITE_RETIRED */
+        uint32_t id11                  : 1;  /**< [ 11: 11](RO) ID11 corresponds to common event (0xb) CID_WRITE_RETIRED */
+        uint32_t id10                  : 1;  /**< [ 10: 10](RO) ID10 corresponds to common event (0xa) EXC_RETURN */
+        uint32_t id9                   : 1;  /**< [  9:  9](RO) ID9 corresponds to common event (0x9) EXC_TAKEN */
+        uint32_t id8                   : 1;  /**< [  8:  8](RO) ID8 corresponds to common event (0x8) INST_RETIRED */
+        uint32_t id7                   : 1;  /**< [  7:  7](RO) ID7 corresponds to common event (0x7) ST_RETIRED */
+        uint32_t id6                   : 1;  /**< [  6:  6](RO) ID6 corresponds to common event (0x6) LD_RETIRED */
+        uint32_t id5                   : 1;  /**< [  5:  5](RO) ID5 corresponds to common event (0x5) L1D_TLB_REFILL */
+        uint32_t id4                   : 1;  /**< [  4:  4](RO) ID4 corresponds to common event (0x4) L1D_CACHE */
+        uint32_t id3                   : 1;  /**< [  3:  3](RO) ID3 corresponds to common event (0x3) L1D_CACHE_REFILL */
+        uint32_t id2                   : 1;  /**< [  2:  2](RO) ID2 corresponds to common event (0x2) L1I_TLB_REFILL */
+        uint32_t id1                   : 1;  /**< [  1:  1](RO) ID1 corresponds to common event (0x1) L1I_CACHE_REFILL */
+        uint32_t id0                   : 1;  /**< [  0:  0](RO) ID0 corresponds to common event (0x0) SW_INCR */
+#else /* Word 0 - Little Endian */
+        uint32_t id0                   : 1;  /**< [  0:  0](RO) ID0 corresponds to common event (0x0) SW_INCR */
+        uint32_t id1                   : 1;  /**< [  1:  1](RO) ID1 corresponds to common event (0x1) L1I_CACHE_REFILL */
+        uint32_t id2                   : 1;  /**< [  2:  2](RO) ID2 corresponds to common event (0x2) L1I_TLB_REFILL */
+        uint32_t id3                   : 1;  /**< [  3:  3](RO) ID3 corresponds to common event (0x3) L1D_CACHE_REFILL */
+        uint32_t id4                   : 1;  /**< [  4:  4](RO) ID4 corresponds to common event (0x4) L1D_CACHE */
+        uint32_t id5                   : 1;  /**< [  5:  5](RO) ID5 corresponds to common event (0x5) L1D_TLB_REFILL */
+        uint32_t id6                   : 1;  /**< [  6:  6](RO) ID6 corresponds to common event (0x6) LD_RETIRED */
+        uint32_t id7                   : 1;  /**< [  7:  7](RO) ID7 corresponds to common event (0x7) ST_RETIRED */
+        uint32_t id8                   : 1;  /**< [  8:  8](RO) ID8 corresponds to common event (0x8) INST_RETIRED */
+        uint32_t id9                   : 1;  /**< [  9:  9](RO) ID9 corresponds to common event (0x9) EXC_TAKEN */
+        uint32_t id10                  : 1;  /**< [ 10: 10](RO) ID10 corresponds to common event (0xa) EXC_RETURN */
+        uint32_t id11                  : 1;  /**< [ 11: 11](RO) ID11 corresponds to common event (0xb) CID_WRITE_RETIRED */
+        uint32_t id12                  : 1;  /**< [ 12: 12](RO) ID12 corresponds to common event (0xc) PC_WRITE_RETIRED */
+        uint32_t id13                  : 1;  /**< [ 13: 13](RO) ID13 corresponds to common event (0xd) BR_IMMED_RETIRED */
+        uint32_t id14                  : 1;  /**< [ 14: 14](RO) ID14 corresponds to common event (0xe) BR_RETURN_RETIRED */
+        uint32_t id15                  : 1;  /**< [ 15: 15](RO) ID15 corresponds to common event (0xf) UNALIGNED_LDST_RETIRED */
+        uint32_t id16                  : 1;  /**< [ 16: 16](RO) ID16 corresponds to common event (0x10) BR_MIS_PRED */
+        uint32_t id17                  : 1;  /**< [ 17: 17](RO) ID17 corresponds to common event (0x11) CPU_CYCLES */
+        uint32_t id18                  : 1;  /**< [ 18: 18](RO) ID18 corresponds to common event (0x12) BR_PRED */
+        uint32_t id19                  : 1;  /**< [ 19: 19](RO) ID19 corresponds to common event (0x13) MEM_ACCESS */
+        uint32_t id20                  : 1;  /**< [ 20: 20](RO) ID20 corresponds to common event (0x14) L1I_CACHE */
+        uint32_t id21                  : 1;  /**< [ 21: 21](RO) ID21 corresponds to common event (0x15) L1D_CACHE_WB */
+        uint32_t id22                  : 1;  /**< [ 22: 22](RO) ID22 corresponds to common event (0x16) L2D_CACHE */
+        uint32_t id23                  : 1;  /**< [ 23: 23](RO) ID23 corresponds to common event (0x17) L2D_CACHE_REFILL */
+        uint32_t id24                  : 1;  /**< [ 24: 24](RO) ID24 corresponds to common event (0x18) L2D_CACHE_WB */
+        uint32_t id25                  : 1;  /**< [ 25: 25](RO) ID25 corresponds to common event (0x19) BUS_ACCESS */
+        uint32_t id26                  : 1;  /**< [ 26: 26](RO) ID26 corresponds to common event (0x1a) MEMORY_ERROR */
+        uint32_t id27                  : 1;  /**< [ 27: 27](RO) ID27 corresponds to common event (0x1b) INST_SPEC */
+        uint32_t id28                  : 1;  /**< [ 28: 28](RO) ID28 corresponds to common event (0x1c) TTBR_WRITE_RETIRED */
+        uint32_t id29                  : 1;  /**< [ 29: 29](RO) ID29 corresponds to common event (0x1d) BUS_CYCLES */
+        uint32_t id30                  : 1;  /**< [ 30: 30](RO) ID30 corresponds to common event (0x1e) CHAIN */
+        uint32_t id31                  : 1;  /**< [ 31: 31](RO) ID31 corresponds to common event (0x1f) L1D_CACHE_ALLOCATE */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmceid0_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmceid0 cavm_cst_apx_pmu_pmceid0_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMCEID0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMCEID0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020e20ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMCEID0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMCEID0(a) cavm_cst_apx_pmu_pmceid0_t
+#define bustype_CAVM_CST_APX_PMU_PMCEID0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMCEID0(a) "CST_APX_PMU_PMCEID0"
+#define busnum_CAVM_CST_APX_PMU_PMCEID0(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMCEID0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmceid1
+ *
+ * CST Ap Pmu Pmceid1 Register
+ * Defines which common architectural events and common microarchitectural  events are
+ * implemented, or counted, using PMU events in the range 0x020 to 0x03F.
+ *
+ * When the value of a bit in the register is 1 the corresponding common event is
+ * implemented and counted.
+ *
+ * For more information about the common events and the use of the PMCEIDn registers,
+ * see x['The PMU event number space and common
+ * events'](CACIDECJ|D_the_performance_monitors_extension.fm).
+ *
+ * [note]
+ *
+ *   - Arm recommends that, if a common event is never counted, the value of the
+ * corresponding register bit is 0.
+ *   - This view of the register was previously called PMCEID1_EL0.
+ *
+ * [/note]
+ */
+union cavm_cst_apx_pmu_pmceid1
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmceid1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t id31                  : 1;  /**< [ 31: 31](RO) ID31 corresponds to common event (0x3f) STALL_SLOT */
+        uint32_t id30                  : 1;  /**< [ 30: 30](RO) ID30 corresponds to common event (0x3e) STALL_SLOT_FRONTEND */
+        uint32_t id29                  : 1;  /**< [ 29: 29](RO) ID29 corresponds to common event (0x3d) STALL_SLOT_BACKEND */
+        uint32_t id28                  : 1;  /**< [ 28: 28](RO) ID28 corresponds to common event (0x3c) STALL */
+        uint32_t id27                  : 1;  /**< [ 27: 27](RO) ID27 corresponds to common event (0x3b) OP_SPEC */
+        uint32_t id26                  : 1;  /**< [ 26: 26](RO) ID26 corresponds to common event (0x3a) OP_RETIRED */
+        uint32_t id25                  : 1;  /**< [ 25: 25](RO) ID25 corresponds to common event (0x39) L1D_CACHE_LMISS_RD */
+        uint32_t id24                  : 1;  /**< [ 24: 24](RO) ID24 corresponds to common event (0x38) REMOTE_ACCESS_RD */
+        uint32_t id23                  : 1;  /**< [ 23: 23](RO) ID23 corresponds to common event (0x37) LL_CACHE_MISS_RD */
+        uint32_t id22                  : 1;  /**< [ 22: 22](RO) ID22 corresponds to common event (0x36) LL_CACHE_RD */
+        uint32_t id21                  : 1;  /**< [ 21: 21](RO) ID21 corresponds to common event (0x35) ITLB_WLK */
+        uint32_t id20                  : 1;  /**< [ 20: 20](RO) ID20 corresponds to common event (0x34) DTLB_WLK */
+        uint32_t id19                  : 1;  /**< [ 19: 19](RO) ID19 corresponds to a Reserved Event event (0x33) */
+        uint32_t id18                  : 1;  /**< [ 18: 18](RO) ID18 corresponds to a Reserved Event event (0x32) */
+        uint32_t id17                  : 1;  /**< [ 17: 17](RO) ID17 corresponds to common event (0x31) REMOTE_ACCESS */
+        uint32_t id16                  : 1;  /**< [ 16: 16](RO) ID16 corresponds to common event (0x30) L2I_TLB */
+        uint32_t id15                  : 1;  /**< [ 15: 15](RO) ID15 corresponds to common event (0x2f) L2TLB_REQ */
+        uint32_t id14                  : 1;  /**< [ 14: 14](RO) ID14 corresponds to common event (0x2e) L2I_TLB_REFILL */
+        uint32_t id13                  : 1;  /**< [ 13: 13](RO) ID13 corresponds to common event (0x2d) L2TLB_REFILL */
+        uint32_t id12                  : 1;  /**< [ 12: 12](RO) ID12 corresponds to common event (0x2c) Reserved */
+        uint32_t id11                  : 1;  /**< [ 11: 11](RO) ID11 corresponds to common event (0x2b) L3D_CACHE */
+        uint32_t id10                  : 1;  /**< [ 10: 10](RO) ID10 corresponds to common event (0x2a) L3D_CACHE_REFILL */
+        uint32_t id9                   : 1;  /**< [  9:  9](RO) ID9 corresponds to common event (0x29) L3D_CACHE_ALLOCATE */
+        uint32_t id8                   : 1;  /**< [  8:  8](RO) ID8 corresponds to common event (0x28) L2I_CACHE_REFILL */
+        uint32_t id7                   : 1;  /**< [  7:  7](RO) ID7 corresponds to common event (0x27) L2I_CACHE */
+        uint32_t id6                   : 1;  /**< [  6:  6](RO) ID6 corresponds to common event (0x26) L1I_TLB */
+        uint32_t id5                   : 1;  /**< [  5:  5](RO) ID5 corresponds to common event (0x25) L1D_TLB */
+        uint32_t id4                   : 1;  /**< [  4:  4](RO) ID4 corresponds to common event (0x24) STALL_BACKEND */
+        uint32_t id3                   : 1;  /**< [  3:  3](RO) ID3 corresponds to common event (0x23) STALL_FRONTEND */
+        uint32_t id2                   : 1;  /**< [  2:  2](RO) ID2 corresponds to common event (0x22) BR_MIS_PRED_RETIRED */
+        uint32_t id1                   : 1;  /**< [  1:  1](RO) ID1 corresponds to common event (0x21) BR_RETIRED */
+        uint32_t id0                   : 1;  /**< [  0:  0](RO) ID0 corresponds to common event (0x20) L2D_CACHE_ALLOCATE */
+#else /* Word 0 - Little Endian */
+        uint32_t id0                   : 1;  /**< [  0:  0](RO) ID0 corresponds to common event (0x20) L2D_CACHE_ALLOCATE */
+        uint32_t id1                   : 1;  /**< [  1:  1](RO) ID1 corresponds to common event (0x21) BR_RETIRED */
+        uint32_t id2                   : 1;  /**< [  2:  2](RO) ID2 corresponds to common event (0x22) BR_MIS_PRED_RETIRED */
+        uint32_t id3                   : 1;  /**< [  3:  3](RO) ID3 corresponds to common event (0x23) STALL_FRONTEND */
+        uint32_t id4                   : 1;  /**< [  4:  4](RO) ID4 corresponds to common event (0x24) STALL_BACKEND */
+        uint32_t id5                   : 1;  /**< [  5:  5](RO) ID5 corresponds to common event (0x25) L1D_TLB */
+        uint32_t id6                   : 1;  /**< [  6:  6](RO) ID6 corresponds to common event (0x26) L1I_TLB */
+        uint32_t id7                   : 1;  /**< [  7:  7](RO) ID7 corresponds to common event (0x27) L2I_CACHE */
+        uint32_t id8                   : 1;  /**< [  8:  8](RO) ID8 corresponds to common event (0x28) L2I_CACHE_REFILL */
+        uint32_t id9                   : 1;  /**< [  9:  9](RO) ID9 corresponds to common event (0x29) L3D_CACHE_ALLOCATE */
+        uint32_t id10                  : 1;  /**< [ 10: 10](RO) ID10 corresponds to common event (0x2a) L3D_CACHE_REFILL */
+        uint32_t id11                  : 1;  /**< [ 11: 11](RO) ID11 corresponds to common event (0x2b) L3D_CACHE */
+        uint32_t id12                  : 1;  /**< [ 12: 12](RO) ID12 corresponds to common event (0x2c) Reserved */
+        uint32_t id13                  : 1;  /**< [ 13: 13](RO) ID13 corresponds to common event (0x2d) L2TLB_REFILL */
+        uint32_t id14                  : 1;  /**< [ 14: 14](RO) ID14 corresponds to common event (0x2e) L2I_TLB_REFILL */
+        uint32_t id15                  : 1;  /**< [ 15: 15](RO) ID15 corresponds to common event (0x2f) L2TLB_REQ */
+        uint32_t id16                  : 1;  /**< [ 16: 16](RO) ID16 corresponds to common event (0x30) L2I_TLB */
+        uint32_t id17                  : 1;  /**< [ 17: 17](RO) ID17 corresponds to common event (0x31) REMOTE_ACCESS */
+        uint32_t id18                  : 1;  /**< [ 18: 18](RO) ID18 corresponds to a Reserved Event event (0x32) */
+        uint32_t id19                  : 1;  /**< [ 19: 19](RO) ID19 corresponds to a Reserved Event event (0x33) */
+        uint32_t id20                  : 1;  /**< [ 20: 20](RO) ID20 corresponds to common event (0x34) DTLB_WLK */
+        uint32_t id21                  : 1;  /**< [ 21: 21](RO) ID21 corresponds to common event (0x35) ITLB_WLK */
+        uint32_t id22                  : 1;  /**< [ 22: 22](RO) ID22 corresponds to common event (0x36) LL_CACHE_RD */
+        uint32_t id23                  : 1;  /**< [ 23: 23](RO) ID23 corresponds to common event (0x37) LL_CACHE_MISS_RD */
+        uint32_t id24                  : 1;  /**< [ 24: 24](RO) ID24 corresponds to common event (0x38) REMOTE_ACCESS_RD */
+        uint32_t id25                  : 1;  /**< [ 25: 25](RO) ID25 corresponds to common event (0x39) L1D_CACHE_LMISS_RD */
+        uint32_t id26                  : 1;  /**< [ 26: 26](RO) ID26 corresponds to common event (0x3a) OP_RETIRED */
+        uint32_t id27                  : 1;  /**< [ 27: 27](RO) ID27 corresponds to common event (0x3b) OP_SPEC */
+        uint32_t id28                  : 1;  /**< [ 28: 28](RO) ID28 corresponds to common event (0x3c) STALL */
+        uint32_t id29                  : 1;  /**< [ 29: 29](RO) ID29 corresponds to common event (0x3d) STALL_SLOT_BACKEND */
+        uint32_t id30                  : 1;  /**< [ 30: 30](RO) ID30 corresponds to common event (0x3e) STALL_SLOT_FRONTEND */
+        uint32_t id31                  : 1;  /**< [ 31: 31](RO) ID31 corresponds to common event (0x3f) STALL_SLOT */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmceid1_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmceid1 cavm_cst_apx_pmu_pmceid1_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMCEID1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMCEID1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020e24ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMCEID1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMCEID1(a) cavm_cst_apx_pmu_pmceid1_t
+#define bustype_CAVM_CST_APX_PMU_PMCEID1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMCEID1(a) "CST_APX_PMU_PMCEID1"
+#define busnum_CAVM_CST_APX_PMU_PMCEID1(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMCEID1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmceid2
+ *
+ * CST Ap Pmu Pmceid2 Register
+ * Defines which common architectural events and common microarchitectural  events are
+ * implemented, or counted, using PMU events in the range 0x4000 to 0x401F.
+ *
+ * When the value of a bit in the register is 1 the corresponding common event is
+ * implemented and counted.
+ *
+ * [note]Arm recommends that, if a common event is never counted, the value of the
+ * corresponding register bit is 0.[/note]
+ *
+ * For more information about the common events and the use of the PMCEIDn registers,
+ * see x['The PMU event number space and common
+ * events'](CACIDECJ|D_the_performance_monitors_extension.fm).
+ */
+union cavm_cst_apx_pmu_pmceid2
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmceid2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t idhi31                : 1;  /**< [ 31: 31](RO) IDhi31 corresponds to a Reserved Event event (0x401f) */
+        uint32_t idhi30                : 1;  /**< [ 30: 30](RO) IDhi30 corresponds to a Reserved Event event (0x401e) */
+        uint32_t idhi29                : 1;  /**< [ 29: 29](RO) IDhi29 corresponds to a Reserved Event event (0x401d) */
+        uint32_t idhi28                : 1;  /**< [ 28: 28](RO) IDhi28 corresponds to a Reserved Event event (0x401c) */
+        uint32_t idhi27                : 1;  /**< [ 27: 27](RO) IDhi27 corresponds to common event (0x401b) CTI_TRIGOUT7 */
+        uint32_t idhi26                : 1;  /**< [ 26: 26](RO) IDhi26 corresponds to common event (0x401a) CTI_TRIGOUT6 */
+        uint32_t idhi25                : 1;  /**< [ 25: 25](RO) IDhi25 corresponds to common event (0x4019) CTI_TRIGOUT5 */
+        uint32_t idhi24                : 1;  /**< [ 24: 24](RO) IDhi24 corresponds to common event (0x4018) CTI_TRIGOUT4 */
+        uint32_t idhi23                : 1;  /**< [ 23: 23](RO) IDhi23 corresponds to a Reserved Event event (0x4017) */
+        uint32_t idhi22                : 1;  /**< [ 22: 22](RO) IDhi22 corresponds to a Reserved Event event (0x4016) */
+        uint32_t idhi21                : 1;  /**< [ 21: 21](RO) IDhi21 corresponds to a Reserved Event event (0x4015) */
+        uint32_t idhi20                : 1;  /**< [ 20: 20](RO) IDhi20 corresponds to a Reserved Event event (0x4014) */
+        uint32_t idhi19                : 1;  /**< [ 19: 19](RO) IDhi19 corresponds to common event (0x4013) TRCEXTOUT3 */
+        uint32_t idhi18                : 1;  /**< [ 18: 18](RO) IDhi18 corresponds to common event (0x4012) TRCEXTOUT2 */
+        uint32_t idhi17                : 1;  /**< [ 17: 17](RO) IDhi17 corresponds to common event (0x4011) TRCEXTOUT1 */
+        uint32_t idhi16                : 1;  /**< [ 16: 16](RO) IDhi16 corresponds to common event (0x4010) TRCEXTOUT0 */
+        uint32_t idhi15                : 1;  /**< [ 15: 15](RO) IDhi15 corresponds to common event (0x400f) Reserved */
+        uint32_t idhi14                : 1;  /**< [ 14: 14](RO) IDhi14 corresponds to common event (0x400e) TRB_TRIG */
+        uint32_t idhi13                : 1;  /**< [ 13: 13](RO) IDhi13 corresponds to common event (0x400d) PMU_OVFS */
+        uint32_t idhi12                : 1;  /**< [ 12: 12](RO) IDhi12 corresponds to common event (0x400c) TRB_WRAP */
+        uint32_t idhi11                : 1;  /**< [ 11: 11](RO) IDhi11 corresponds to common event (0x400b) L3D_CACHE_LMISS_RD */
+        uint32_t idhi10                : 1;  /**< [ 10: 10](RO) IDhi10 corresponds to common event (0x400a) L2I_CACHE_LMISS */
+        uint32_t idhi9                 : 1;  /**< [  9:  9](RO) IDhi9 corresponds to common event (0x4009) L2D_CACHE_LMISS_RD */
+        uint32_t idhi8                 : 1;  /**< [  8:  8](RO) IDhi8 corresponds to common event (0x4008) Reserved */
+        uint32_t idhi7                 : 1;  /**< [  7:  7](RO) IDhi7 corresponds to common event (0x4007) Reserved */
+        uint32_t idhi6                 : 1;  /**< [  6:  6](RO) IDhi6 corresponds to common event (0x4006) L1I_CACHE_LMISS */
+        uint32_t idhi5                 : 1;  /**< [  5:  5](RO) IDhi5 corresponds to common event (0x4005) STALL_BACKEND_MEM */
+        uint32_t idhi4                 : 1;  /**< [  4:  4](RO) IDhi4 corresponds to common event (0x4004) CNT_CYCLES */
+        uint32_t idhi3                 : 1;  /**< [  3:  3](RO) IDhi3 corresponds to common event (0x4003) SAMPLE_COLLISION */
+        uint32_t idhi2                 : 1;  /**< [  2:  2](RO) IDhi2 corresponds to common event (0x4002) SAMPLE_FILTRATE */
+        uint32_t idhi1                 : 1;  /**< [  1:  1](RO) IDhi1 corresponds to common event (0x4001) SAMPLE_FEED */
+        uint32_t idhi0                 : 1;  /**< [  0:  0](RO) IDhi0 corresponds to common event (0x4000) SAMPLE_POP */
+#else /* Word 0 - Little Endian */
+        uint32_t idhi0                 : 1;  /**< [  0:  0](RO) IDhi0 corresponds to common event (0x4000) SAMPLE_POP */
+        uint32_t idhi1                 : 1;  /**< [  1:  1](RO) IDhi1 corresponds to common event (0x4001) SAMPLE_FEED */
+        uint32_t idhi2                 : 1;  /**< [  2:  2](RO) IDhi2 corresponds to common event (0x4002) SAMPLE_FILTRATE */
+        uint32_t idhi3                 : 1;  /**< [  3:  3](RO) IDhi3 corresponds to common event (0x4003) SAMPLE_COLLISION */
+        uint32_t idhi4                 : 1;  /**< [  4:  4](RO) IDhi4 corresponds to common event (0x4004) CNT_CYCLES */
+        uint32_t idhi5                 : 1;  /**< [  5:  5](RO) IDhi5 corresponds to common event (0x4005) STALL_BACKEND_MEM */
+        uint32_t idhi6                 : 1;  /**< [  6:  6](RO) IDhi6 corresponds to common event (0x4006) L1I_CACHE_LMISS */
+        uint32_t idhi7                 : 1;  /**< [  7:  7](RO) IDhi7 corresponds to common event (0x4007) Reserved */
+        uint32_t idhi8                 : 1;  /**< [  8:  8](RO) IDhi8 corresponds to common event (0x4008) Reserved */
+        uint32_t idhi9                 : 1;  /**< [  9:  9](RO) IDhi9 corresponds to common event (0x4009) L2D_CACHE_LMISS_RD */
+        uint32_t idhi10                : 1;  /**< [ 10: 10](RO) IDhi10 corresponds to common event (0x400a) L2I_CACHE_LMISS */
+        uint32_t idhi11                : 1;  /**< [ 11: 11](RO) IDhi11 corresponds to common event (0x400b) L3D_CACHE_LMISS_RD */
+        uint32_t idhi12                : 1;  /**< [ 12: 12](RO) IDhi12 corresponds to common event (0x400c) TRB_WRAP */
+        uint32_t idhi13                : 1;  /**< [ 13: 13](RO) IDhi13 corresponds to common event (0x400d) PMU_OVFS */
+        uint32_t idhi14                : 1;  /**< [ 14: 14](RO) IDhi14 corresponds to common event (0x400e) TRB_TRIG */
+        uint32_t idhi15                : 1;  /**< [ 15: 15](RO) IDhi15 corresponds to common event (0x400f) Reserved */
+        uint32_t idhi16                : 1;  /**< [ 16: 16](RO) IDhi16 corresponds to common event (0x4010) TRCEXTOUT0 */
+        uint32_t idhi17                : 1;  /**< [ 17: 17](RO) IDhi17 corresponds to common event (0x4011) TRCEXTOUT1 */
+        uint32_t idhi18                : 1;  /**< [ 18: 18](RO) IDhi18 corresponds to common event (0x4012) TRCEXTOUT2 */
+        uint32_t idhi19                : 1;  /**< [ 19: 19](RO) IDhi19 corresponds to common event (0x4013) TRCEXTOUT3 */
+        uint32_t idhi20                : 1;  /**< [ 20: 20](RO) IDhi20 corresponds to a Reserved Event event (0x4014) */
+        uint32_t idhi21                : 1;  /**< [ 21: 21](RO) IDhi21 corresponds to a Reserved Event event (0x4015) */
+        uint32_t idhi22                : 1;  /**< [ 22: 22](RO) IDhi22 corresponds to a Reserved Event event (0x4016) */
+        uint32_t idhi23                : 1;  /**< [ 23: 23](RO) IDhi23 corresponds to a Reserved Event event (0x4017) */
+        uint32_t idhi24                : 1;  /**< [ 24: 24](RO) IDhi24 corresponds to common event (0x4018) CTI_TRIGOUT4 */
+        uint32_t idhi25                : 1;  /**< [ 25: 25](RO) IDhi25 corresponds to common event (0x4019) CTI_TRIGOUT5 */
+        uint32_t idhi26                : 1;  /**< [ 26: 26](RO) IDhi26 corresponds to common event (0x401a) CTI_TRIGOUT6 */
+        uint32_t idhi27                : 1;  /**< [ 27: 27](RO) IDhi27 corresponds to common event (0x401b) CTI_TRIGOUT7 */
+        uint32_t idhi28                : 1;  /**< [ 28: 28](RO) IDhi28 corresponds to a Reserved Event event (0x401c) */
+        uint32_t idhi29                : 1;  /**< [ 29: 29](RO) IDhi29 corresponds to a Reserved Event event (0x401d) */
+        uint32_t idhi30                : 1;  /**< [ 30: 30](RO) IDhi30 corresponds to a Reserved Event event (0x401e) */
+        uint32_t idhi31                : 1;  /**< [ 31: 31](RO) IDhi31 corresponds to a Reserved Event event (0x401f) */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmceid2_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmceid2 cavm_cst_apx_pmu_pmceid2_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMCEID2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMCEID2(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020e28ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMCEID2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMCEID2(a) cavm_cst_apx_pmu_pmceid2_t
+#define bustype_CAVM_CST_APX_PMU_PMCEID2(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMCEID2(a) "CST_APX_PMU_PMCEID2"
+#define busnum_CAVM_CST_APX_PMU_PMCEID2(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMCEID2(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmceid3
+ *
+ * CST Ap Pmu Pmceid3 Register
+ * Defines which common architectural events and common microarchitectural  events are
+ * implemented, or counted, using PMU events in the range 0x4020 to 0x403F.
+ *
+ * When the value of a bit in the register is 1 the corresponding common event is
+ * implemented and counted.
+ *
+ * [note]Arm recommends that, if a common event is never counted, the value of the
+ * corresponding register bit is 0.[/note]
+ *
+ * For more information about the common events and the use of the PMCEIDn registers,
+ * see x['The PMU event number space and common
+ * events'](CACIDECJ|D_the_performance_monitors_extension.fm).
+ */
+union cavm_cst_apx_pmu_pmceid3
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmceid3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t idhi31                : 1;  /**< [ 31: 31](RO) IDhi31 corresponds to a Reserved Event event (0x403f) */
+        uint32_t idhi30                : 1;  /**< [ 30: 30](RO) IDhi30 corresponds to a Reserved Event event (0x403e) */
+        uint32_t idhi29                : 1;  /**< [ 29: 29](RO) IDhi29 corresponds to a Reserved Event event (0x403d) */
+        uint32_t idhi28                : 1;  /**< [ 28: 28](RO) IDhi28 corresponds to a Reserved Event event (0x403c) */
+        uint32_t idhi27                : 1;  /**< [ 27: 27](RO) IDhi27 corresponds to a Reserved Event event (0x403b) */
+        uint32_t idhi26                : 1;  /**< [ 26: 26](RO) IDhi26 corresponds to a Reserved Event event (0x403a) */
+        uint32_t idhi25                : 1;  /**< [ 25: 25](RO) IDhi25 corresponds to a Reserved Event event (0x4039) */
+        uint32_t idhi24                : 1;  /**< [ 24: 24](RO) IDhi24 corresponds to a Reserved Event event (0x4038) */
+        uint32_t idhi23                : 1;  /**< [ 23: 23](RO) IDhi23 corresponds to a Reserved Event event (0x4037) */
+        uint32_t idhi22                : 1;  /**< [ 22: 22](RO) IDhi22 corresponds to a Reserved Event event (0x4036) */
+        uint32_t idhi21                : 1;  /**< [ 21: 21](RO) IDhi21 corresponds to a Reserved Event event (0x4035) */
+        uint32_t idhi20                : 1;  /**< [ 20: 20](RO) IDhi20 corresponds to a Reserved Event event (0x4034) */
+        uint32_t idhi19                : 1;  /**< [ 19: 19](RO) IDhi19 corresponds to a Reserved Event event (0x4033) */
+        uint32_t idhi18                : 1;  /**< [ 18: 18](RO) IDhi18 corresponds to a Reserved Event event (0x4032) */
+        uint32_t idhi17                : 1;  /**< [ 17: 17](RO) IDhi17 corresponds to a Reserved Event event (0x4031) */
+        uint32_t idhi16                : 1;  /**< [ 16: 16](RO) IDhi16 corresponds to a Reserved Event event (0x4030) */
+        uint32_t idhi15                : 1;  /**< [ 15: 15](RO) IDhi15 corresponds to a Reserved Event event (0x402f) */
+        uint32_t idhi14                : 1;  /**< [ 14: 14](RO) IDhi14 corresponds to a Reserved Event event (0x402e) */
+        uint32_t idhi13                : 1;  /**< [ 13: 13](RO) IDhi13 corresponds to a Reserved Event event (0x402d) */
+        uint32_t idhi12                : 1;  /**< [ 12: 12](RO) IDhi12 corresponds to a Reserved Event event (0x402c) */
+        uint32_t idhi11                : 1;  /**< [ 11: 11](RO) IDhi11 corresponds to a Reserved Event event (0x402b) */
+        uint32_t idhi10                : 1;  /**< [ 10: 10](RO) IDhi10 corresponds to a Reserved Event event (0x402a) */
+        uint32_t idhi9                 : 1;  /**< [  9:  9](RO) IDhi9 corresponds to a Reserved Event event (0x4029) */
+        uint32_t idhi8                 : 1;  /**< [  8:  8](RO) IDhi8 corresponds to a Reserved Event event (0x4028) */
+        uint32_t idhi7                 : 1;  /**< [  7:  7](RO) IDhi7 corresponds to a Reserved Event event (0x4027) */
+        uint32_t idhi6                 : 1;  /**< [  6:  6](RO) IDhi6 corresponds to common event (0x4026) MEM_ACCESS_CHECKED_WR */
+        uint32_t idhi5                 : 1;  /**< [  5:  5](RO) IDhi5 corresponds to common event (0x4025) MEM_ACCESS_CHECKED_RD */
+        uint32_t idhi4                 : 1;  /**< [  4:  4](RO) IDhi4 corresponds to common event (0x4024) MEM_ACCESS_CHECKED */
+        uint32_t idhi3                 : 1;  /**< [  3:  3](RO) IDhi3 corresponds to common event (0x4023) Reserved */
+        uint32_t idhi2                 : 1;  /**< [  2:  2](RO) IDhi2 corresponds to common event (0x4022) ST_ALIGN_LAT */
+        uint32_t idhi1                 : 1;  /**< [  1:  1](RO) IDhi1 corresponds to common event (0x4021) LD_ALIGN_LAT */
+        uint32_t idhi0                 : 1;  /**< [  0:  0](RO) IDhi0 corresponds to common event (0x4020) LDST_ALIGN_LAT */
+#else /* Word 0 - Little Endian */
+        uint32_t idhi0                 : 1;  /**< [  0:  0](RO) IDhi0 corresponds to common event (0x4020) LDST_ALIGN_LAT */
+        uint32_t idhi1                 : 1;  /**< [  1:  1](RO) IDhi1 corresponds to common event (0x4021) LD_ALIGN_LAT */
+        uint32_t idhi2                 : 1;  /**< [  2:  2](RO) IDhi2 corresponds to common event (0x4022) ST_ALIGN_LAT */
+        uint32_t idhi3                 : 1;  /**< [  3:  3](RO) IDhi3 corresponds to common event (0x4023) Reserved */
+        uint32_t idhi4                 : 1;  /**< [  4:  4](RO) IDhi4 corresponds to common event (0x4024) MEM_ACCESS_CHECKED */
+        uint32_t idhi5                 : 1;  /**< [  5:  5](RO) IDhi5 corresponds to common event (0x4025) MEM_ACCESS_CHECKED_RD */
+        uint32_t idhi6                 : 1;  /**< [  6:  6](RO) IDhi6 corresponds to common event (0x4026) MEM_ACCESS_CHECKED_WR */
+        uint32_t idhi7                 : 1;  /**< [  7:  7](RO) IDhi7 corresponds to a Reserved Event event (0x4027) */
+        uint32_t idhi8                 : 1;  /**< [  8:  8](RO) IDhi8 corresponds to a Reserved Event event (0x4028) */
+        uint32_t idhi9                 : 1;  /**< [  9:  9](RO) IDhi9 corresponds to a Reserved Event event (0x4029) */
+        uint32_t idhi10                : 1;  /**< [ 10: 10](RO) IDhi10 corresponds to a Reserved Event event (0x402a) */
+        uint32_t idhi11                : 1;  /**< [ 11: 11](RO) IDhi11 corresponds to a Reserved Event event (0x402b) */
+        uint32_t idhi12                : 1;  /**< [ 12: 12](RO) IDhi12 corresponds to a Reserved Event event (0x402c) */
+        uint32_t idhi13                : 1;  /**< [ 13: 13](RO) IDhi13 corresponds to a Reserved Event event (0x402d) */
+        uint32_t idhi14                : 1;  /**< [ 14: 14](RO) IDhi14 corresponds to a Reserved Event event (0x402e) */
+        uint32_t idhi15                : 1;  /**< [ 15: 15](RO) IDhi15 corresponds to a Reserved Event event (0x402f) */
+        uint32_t idhi16                : 1;  /**< [ 16: 16](RO) IDhi16 corresponds to a Reserved Event event (0x4030) */
+        uint32_t idhi17                : 1;  /**< [ 17: 17](RO) IDhi17 corresponds to a Reserved Event event (0x4031) */
+        uint32_t idhi18                : 1;  /**< [ 18: 18](RO) IDhi18 corresponds to a Reserved Event event (0x4032) */
+        uint32_t idhi19                : 1;  /**< [ 19: 19](RO) IDhi19 corresponds to a Reserved Event event (0x4033) */
+        uint32_t idhi20                : 1;  /**< [ 20: 20](RO) IDhi20 corresponds to a Reserved Event event (0x4034) */
+        uint32_t idhi21                : 1;  /**< [ 21: 21](RO) IDhi21 corresponds to a Reserved Event event (0x4035) */
+        uint32_t idhi22                : 1;  /**< [ 22: 22](RO) IDhi22 corresponds to a Reserved Event event (0x4036) */
+        uint32_t idhi23                : 1;  /**< [ 23: 23](RO) IDhi23 corresponds to a Reserved Event event (0x4037) */
+        uint32_t idhi24                : 1;  /**< [ 24: 24](RO) IDhi24 corresponds to a Reserved Event event (0x4038) */
+        uint32_t idhi25                : 1;  /**< [ 25: 25](RO) IDhi25 corresponds to a Reserved Event event (0x4039) */
+        uint32_t idhi26                : 1;  /**< [ 26: 26](RO) IDhi26 corresponds to a Reserved Event event (0x403a) */
+        uint32_t idhi27                : 1;  /**< [ 27: 27](RO) IDhi27 corresponds to a Reserved Event event (0x403b) */
+        uint32_t idhi28                : 1;  /**< [ 28: 28](RO) IDhi28 corresponds to a Reserved Event event (0x403c) */
+        uint32_t idhi29                : 1;  /**< [ 29: 29](RO) IDhi29 corresponds to a Reserved Event event (0x403d) */
+        uint32_t idhi30                : 1;  /**< [ 30: 30](RO) IDhi30 corresponds to a Reserved Event event (0x403e) */
+        uint32_t idhi31                : 1;  /**< [ 31: 31](RO) IDhi31 corresponds to a Reserved Event event (0x403f) */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmceid3_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmceid3 cavm_cst_apx_pmu_pmceid3_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMCEID3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMCEID3(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020e2cll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMCEID3", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMCEID3(a) cavm_cst_apx_pmu_pmceid3_t
+#define bustype_CAVM_CST_APX_PMU_PMCEID3(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMCEID3(a) "CST_APX_PMU_PMCEID3"
+#define busnum_CAVM_CST_APX_PMU_PMCEID3(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMCEID3(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmcfgr
+ *
+ * CST Ap Pmu Pmcfgr Register
+ * Contains PMU-specific configuration data.
+ */
+union cavm_cst_apx_pmu_pmcfgr
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmcfgr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ncg                   : 4;  /**< [ 31: 28](RO) This feature is not supported, so this field is RAZ. */
+        uint32_t reserved_20_27        : 8;
+        uint32_t uen                   : 1;  /**< [ 19: 19](RO) User-mode Enable Register supported. AArch64-PMUSERENR_EL0 is not visible in the
+                                                                 external debug interface, so this bit is RAZ. */
+        uint32_t wt                    : 1;  /**< [ 18: 18](RO) This feature is not supported, so this bit is RAZ. */
+        uint32_t na                    : 1;  /**< [ 17: 17](RO) This feature is not supported, so this bit is RAZ. */
+        uint32_t ex                    : 1;  /**< [ 16: 16](RO) Export supported. */
+        uint32_t ccd                   : 1;  /**< [ 15: 15](RO) Cycle counter has prescale. */
+        uint32_t cc                    : 1;  /**< [ 14: 14](RO) Dedicated cycle counter (counter 31) supported. This bit is RAO. */
+        uint32_t size                  : 6;  /**< [ 13:  8](RO) Size of counters, minus one. This field defines the size of the largest counter
+                                                                 implemented by the Performance Monitors Unit.
+                                                                 From Armv8, the largest counter is 64-bits, so the value of this field is 0b111111.
+                                                                 This field is used by software to determine the spacing of the counters in the
+                                                                 memory-map. From Armv8, the counters are a doubleword-aligned addresses. */
+        uint32_t n                     : 8;  /**< [  7:  0](RO) Number of counters implemented in addition to the cycle counter, ext-
+                                                                 PMCCNTR_EL0. The maximum number of event counters is 31. */
+#else /* Word 0 - Little Endian */
+        uint32_t n                     : 8;  /**< [  7:  0](RO) Number of counters implemented in addition to the cycle counter, ext-
+                                                                 PMCCNTR_EL0. The maximum number of event counters is 31. */
+        uint32_t size                  : 6;  /**< [ 13:  8](RO) Size of counters, minus one. This field defines the size of the largest counter
+                                                                 implemented by the Performance Monitors Unit.
+                                                                 From Armv8, the largest counter is 64-bits, so the value of this field is 0b111111.
+                                                                 This field is used by software to determine the spacing of the counters in the
+                                                                 memory-map. From Armv8, the counters are a doubleword-aligned addresses. */
+        uint32_t cc                    : 1;  /**< [ 14: 14](RO) Dedicated cycle counter (counter 31) supported. This bit is RAO. */
+        uint32_t ccd                   : 1;  /**< [ 15: 15](RO) Cycle counter has prescale. */
+        uint32_t ex                    : 1;  /**< [ 16: 16](RO) Export supported. */
+        uint32_t na                    : 1;  /**< [ 17: 17](RO) This feature is not supported, so this bit is RAZ. */
+        uint32_t wt                    : 1;  /**< [ 18: 18](RO) This feature is not supported, so this bit is RAZ. */
+        uint32_t uen                   : 1;  /**< [ 19: 19](RO) User-mode Enable Register supported. AArch64-PMUSERENR_EL0 is not visible in the
+                                                                 external debug interface, so this bit is RAZ. */
+        uint32_t reserved_20_27        : 8;
+        uint32_t ncg                   : 4;  /**< [ 31: 28](RO) This feature is not supported, so this field is RAZ. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmcfgr_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmcfgr cavm_cst_apx_pmu_pmcfgr_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMCFGR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMCFGR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020e00ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMCFGR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMCFGR(a) cavm_cst_apx_pmu_pmcfgr_t
+#define bustype_CAVM_CST_APX_PMU_PMCFGR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMCFGR(a) "CST_APX_PMU_PMCFGR"
+#define busnum_CAVM_CST_APX_PMU_PMCFGR(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMCFGR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmcid1sr
+ *
+ * CST Ap Pmu Pmcid1sr Register
+ * Contains the sampled value of AArch64-CONTEXTIDR_EL1, captured on reading ext-PMPCSR[31:0].
+ */
+union cavm_cst_apx_pmu_pmcid1sr
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmcid1sr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t contextidr_el1        : 32; /**< [ 31:  0](RO) Context ID. The value of x[CONTEXTIDR](CEGFHHCG|appx_registers_index.fm) that is
+                                                                 associated with the most recent ext-PMPCSR sample. When the most recent ext-
+                                                                 PMPCSR sample was generated:
+                                                                  - If EL1 is using AArch64, then the Context ID is sampled from AArch64-CONTEXTIDR_EL1.
+                                                                 Because the value written to PMCID1SR is an indirect read of
+                                                                 x[CONTEXTIDR](CEGFHHCG|appx_registers_index.fm), it is CONSTRAINED UNPREDICTABLE
+                                                                 whether PMCID1SR is set to the original or new value if ext-PMPCSR samples:
+                                                                  - An instruction that writes to x[CONTEXTIDR](CEGFHHCG|appx_registers_index.fm).
+                                                                  - The next Context synchronization event.
+                                                                  - Any instruction executed between these two instructions. */
+#else /* Word 0 - Little Endian */
+        uint32_t contextidr_el1        : 32; /**< [ 31:  0](RO) Context ID. The value of x[CONTEXTIDR](CEGFHHCG|appx_registers_index.fm) that is
+                                                                 associated with the most recent ext-PMPCSR sample. When the most recent ext-
+                                                                 PMPCSR sample was generated:
+                                                                  - If EL1 is using AArch64, then the Context ID is sampled from AArch64-CONTEXTIDR_EL1.
+                                                                 Because the value written to PMCID1SR is an indirect read of
+                                                                 x[CONTEXTIDR](CEGFHHCG|appx_registers_index.fm), it is CONSTRAINED UNPREDICTABLE
+                                                                 whether PMCID1SR is set to the original or new value if ext-PMPCSR samples:
+                                                                  - An instruction that writes to x[CONTEXTIDR](CEGFHHCG|appx_registers_index.fm).
+                                                                  - The next Context synchronization event.
+                                                                  - Any instruction executed between these two instructions. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmcid1sr_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmcid1sr cavm_cst_apx_pmu_pmcid1sr_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMCID1SR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMCID1SR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020208ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMCID1SR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMCID1SR(a) cavm_cst_apx_pmu_pmcid1sr_t
+#define bustype_CAVM_CST_APX_PMU_PMCID1SR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMCID1SR(a) "CST_APX_PMU_PMCID1SR"
+#define busnum_CAVM_CST_APX_PMU_PMCID1SR(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMCID1SR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmcid2sr
+ *
+ * CST Ap Pmu Pmcid2sr Register
+ * Contains the sampled value of AArch64-CONTEXTIDR_EL2, captured on reading ext-PMPCSR[31:0].
+ */
+union cavm_cst_apx_pmu_pmcid2sr
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmcid2sr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t contextidr_el2        : 32; /**< [ 31:  0](RO) Context ID. The value of AArch64-CONTEXTIDR_EL2 that is associated with the most
+                                                                 recent ext-PMPCSR sample. When the most recent ext-PMPCSR sample was generated:
+                                                                   - If EL2 is using AArch64, then this field is set to the Context ID sampled
+                                                                 from AArch64-CONTEXTIDR_EL2.
+                                                                   - If EL2 is using AArch32, then this field is set to an UNKNOWN value.
+                                                                 Because the value written to PMCID2SR is an indirect read of
+                                                                 AArch64-CONTEXTIDR_EL2, it is CONSTRAINED UNPREDICTABLE whether PMCID2SR is set
+                                                                 to the original or new value if ext-PMPCSR samples:
+                                                                   - An instruction that writes to AArch64-CONTEXTIDR_EL2.
+                                                                   - The next Context synchronization event.
+                                                                   - Any instruction executed between these two instructions. */
+#else /* Word 0 - Little Endian */
+        uint32_t contextidr_el2        : 32; /**< [ 31:  0](RO) Context ID. The value of AArch64-CONTEXTIDR_EL2 that is associated with the most
+                                                                 recent ext-PMPCSR sample. When the most recent ext-PMPCSR sample was generated:
+                                                                   - If EL2 is using AArch64, then this field is set to the Context ID sampled
+                                                                 from AArch64-CONTEXTIDR_EL2.
+                                                                   - If EL2 is using AArch32, then this field is set to an UNKNOWN value.
+                                                                 Because the value written to PMCID2SR is an indirect read of
+                                                                 AArch64-CONTEXTIDR_EL2, it is CONSTRAINED UNPREDICTABLE whether PMCID2SR is set
+                                                                 to the original or new value if ext-PMPCSR samples:
+                                                                   - An instruction that writes to AArch64-CONTEXTIDR_EL2.
+                                                                   - The next Context synchronization event.
+                                                                   - Any instruction executed between these two instructions. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmcid2sr_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmcid2sr cavm_cst_apx_pmu_pmcid2sr_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMCID2SR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMCID2SR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a08102022cll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMCID2SR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMCID2SR(a) cavm_cst_apx_pmu_pmcid2sr_t
+#define bustype_CAVM_CST_APX_PMU_PMCID2SR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMCID2SR(a) "CST_APX_PMU_PMCID2SR"
+#define busnum_CAVM_CST_APX_PMU_PMCID2SR(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMCID2SR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmcid2ssr
+ *
+ * CST Ap Pmu Pmcid2ssr Register
+ * Captured copy of the CONTEXTIDR_EL2 register.
+ *
+ * The value captured must relate to the instruction captured in PMPCSSR.
+ */
+union cavm_cst_apx_pmu_pmcid2ssr
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmcid2ssr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pmccid2ssr            : 32; /**< [ 31:  0](RO) PMCID2SR sample. Sampled CONTEXTIDR_EL2 snapshot. */
+#else /* Word 0 - Little Endian */
+        uint32_t pmccid2ssr            : 32; /**< [ 31:  0](RO) PMCID2SR sample. Sampled CONTEXTIDR_EL2 snapshot. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmcid2ssr_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmcid2ssr cavm_cst_apx_pmu_pmcid2ssr_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMCID2SSR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMCID2SSR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a08102060cll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMCID2SSR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMCID2SSR(a) cavm_cst_apx_pmu_pmcid2ssr_t
+#define bustype_CAVM_CST_APX_PMU_PMCID2SSR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMCID2SSR(a) "CST_APX_PMU_PMCID2SSR"
+#define busnum_CAVM_CST_APX_PMU_PMCID2SSR(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMCID2SSR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmcidr0
+ *
+ * CST Ap Pmu Pmcidr0 Register
+ * Provides information to identify a Performance Monitor component.
+ *
+ * For more information, see x['About the Component Identification
+ * scheme'](BABBFIID|appx_recommended_external_debug_interface.fm).
+ */
+union cavm_cst_apx_pmu_pmcidr0
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmcidr0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t prmbl_0               : 8;  /**< [  7:  0](RO) Preamble. Must read as 0x0D. */
+#else /* Word 0 - Little Endian */
+        uint32_t prmbl_0               : 8;  /**< [  7:  0](RO) Preamble. Must read as 0x0D. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmcidr0_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmcidr0 cavm_cst_apx_pmu_pmcidr0_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMCIDR0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMCIDR0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020ff0ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMCIDR0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMCIDR0(a) cavm_cst_apx_pmu_pmcidr0_t
+#define bustype_CAVM_CST_APX_PMU_PMCIDR0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMCIDR0(a) "CST_APX_PMU_PMCIDR0"
+#define busnum_CAVM_CST_APX_PMU_PMCIDR0(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMCIDR0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmcidr1
+ *
+ * CST Ap Pmu Pmcidr1 Register
+ * Provides information to identify a Performance Monitor component.
+ *
+ * For more information, see x['About the Component Identification
+ * scheme'](BABBFIID|appx_recommended_external_debug_interface.fm).
+ */
+union cavm_cst_apx_pmu_pmcidr1
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmcidr1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t class_f               : 4;  /**< [  7:  4](RO) Component class. Reads as 0x9, debug component. */
+        uint32_t prmbl_1               : 4;  /**< [  3:  0](RO) Preamble. RAZ. */
+#else /* Word 0 - Little Endian */
+        uint32_t prmbl_1               : 4;  /**< [  3:  0](RO) Preamble. RAZ. */
+        uint32_t class_f               : 4;  /**< [  7:  4](RO) Component class. Reads as 0x9, debug component. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmcidr1_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmcidr1 cavm_cst_apx_pmu_pmcidr1_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMCIDR1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMCIDR1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020ff4ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMCIDR1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMCIDR1(a) cavm_cst_apx_pmu_pmcidr1_t
+#define bustype_CAVM_CST_APX_PMU_PMCIDR1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMCIDR1(a) "CST_APX_PMU_PMCIDR1"
+#define busnum_CAVM_CST_APX_PMU_PMCIDR1(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMCIDR1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmcidr2
+ *
+ * CST Ap Pmu Pmcidr2 Register
+ * Provides information to identify a Performance Monitor component.
+ *
+ * For more information, see x['About the Component Identification
+ * scheme'](BABBFIID|appx_recommended_external_debug_interface.fm).
+ */
+union cavm_cst_apx_pmu_pmcidr2
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmcidr2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t prmbl_2               : 8;  /**< [  7:  0](RO) Preamble. Must read as 0x05. */
+#else /* Word 0 - Little Endian */
+        uint32_t prmbl_2               : 8;  /**< [  7:  0](RO) Preamble. Must read as 0x05. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmcidr2_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmcidr2 cavm_cst_apx_pmu_pmcidr2_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMCIDR2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMCIDR2(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020ff8ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMCIDR2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMCIDR2(a) cavm_cst_apx_pmu_pmcidr2_t
+#define bustype_CAVM_CST_APX_PMU_PMCIDR2(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMCIDR2(a) "CST_APX_PMU_PMCIDR2"
+#define busnum_CAVM_CST_APX_PMU_PMCIDR2(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMCIDR2(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmcidr3
+ *
+ * CST Ap Pmu Pmcidr3 Register
+ * Provides information to identify a Performance Monitor component.
+ *
+ * For more information, see x['About the Component Identification
+ * scheme'](BABBFIID|appx_recommended_external_debug_interface.fm).
+ */
+union cavm_cst_apx_pmu_pmcidr3
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmcidr3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t prmbl_3               : 8;  /**< [  7:  0](RO) Preamble. Must read as 0xB1. */
+#else /* Word 0 - Little Endian */
+        uint32_t prmbl_3               : 8;  /**< [  7:  0](RO) Preamble. Must read as 0xB1. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmcidr3_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmcidr3 cavm_cst_apx_pmu_pmcidr3_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMCIDR3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMCIDR3(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020ffcll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMCIDR3", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMCIDR3(a) cavm_cst_apx_pmu_pmcidr3_t
+#define bustype_CAVM_CST_APX_PMU_PMCIDR3(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMCIDR3(a) "CST_APX_PMU_PMCIDR3"
+#define busnum_CAVM_CST_APX_PMU_PMCIDR3(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMCIDR3(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmcidssr
+ *
+ * CST Ap Pmu Pmcidssr Register
+ * Captured copy of the CONTEXTIDR_EL1 register.
+ *
+ * The value captured must relate to the instruction captured in PMPCSSR.
+ */
+union cavm_cst_apx_pmu_pmcidssr
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmcidssr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pmccidssr             : 32; /**< [ 31:  0](RO) PMCIDSR sample. Sampled CONTEXTIDR_EL1 snapshot. */
+#else /* Word 0 - Little Endian */
+        uint32_t pmccidssr             : 32; /**< [ 31:  0](RO) PMCIDSR sample. Sampled CONTEXTIDR_EL1 snapshot. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmcidssr_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmcidssr cavm_cst_apx_pmu_pmcidssr_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMCIDSSR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMCIDSSR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020608ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMCIDSSR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMCIDSSR(a) cavm_cst_apx_pmu_pmcidssr_t
+#define bustype_CAVM_CST_APX_PMU_PMCIDSSR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMCIDSSR(a) "CST_APX_PMU_PMCIDSSR"
+#define busnum_CAVM_CST_APX_PMU_PMCIDSSR(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMCIDSSR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmcntenclr_el0
+ *
+ * CST Ap Pmu Pmcntenclr El0 Register
+ * Disables the Cycle Count Register, ext-PMCCNTR_EL0, and any implemented event
+ * counters AArch32-PMEVCNTR&lt;n&gt;. Reading this register shows which counters are
+ * enabled.
+ */
+union cavm_cst_apx_pmu_pmcntenclr_el0
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmcntenclr_el0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t c_f                   : 1;  /**< [ 31: 31](R/W) Ext-PMCCNTR_EL0 disable bit. Disables the cycle counter register. Possible values are: */
+        uint32_t pn                    : 31; /**< [ 30:  0](R/W) Event counter disable bit for ext-PMEVCNTR&lt;n&gt;_EL0.
+                                                                 If ext-PMCFGR.N is less than 31, bits [30:ext-PMCFGR.N] are RAZ/WI. */
+#else /* Word 0 - Little Endian */
+        uint32_t pn                    : 31; /**< [ 30:  0](R/W) Event counter disable bit for ext-PMEVCNTR&lt;n&gt;_EL0.
+                                                                 If ext-PMCFGR.N is less than 31, bits [30:ext-PMCFGR.N] are RAZ/WI. */
+        uint32_t c_f                   : 1;  /**< [ 31: 31](R/W) Ext-PMCCNTR_EL0 disable bit. Disables the cycle counter register. Possible values are: */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmcntenclr_el0_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmcntenclr_el0 cavm_cst_apx_pmu_pmcntenclr_el0_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMCNTENCLR_EL0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMCNTENCLR_EL0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020c20ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMCNTENCLR_EL0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMCNTENCLR_EL0(a) cavm_cst_apx_pmu_pmcntenclr_el0_t
+#define bustype_CAVM_CST_APX_PMU_PMCNTENCLR_EL0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMCNTENCLR_EL0(a) "CST_APX_PMU_PMCNTENCLR_EL0"
+#define busnum_CAVM_CST_APX_PMU_PMCNTENCLR_EL0(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMCNTENCLR_EL0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmcntenset_el0
+ *
+ * CST Ap Pmu Pmcntenset El0 Register
+ * Enables the Cycle Count Register, ext-PMCCNTR_EL0, and any implemented event
+ * counters AArch32-PMEVCNTR&lt;n&gt;. Reading this register shows which counters are
+ * enabled.
+ */
+union cavm_cst_apx_pmu_pmcntenset_el0
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmcntenset_el0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t c_f                   : 1;  /**< [ 31: 31](R/W) Ext-PMCCNTR_EL0 enable bit. Enables the cycle counter register. Possible values are: */
+        uint32_t pn                    : 31; /**< [ 30:  0](R/W) Event counter enable bit for ext-PMEVCNTR&lt;n&gt;_EL0.
+                                                                 If ext-PMCFGR.N is less than 31, bits [30:ext-PMCFGR.N] are RAZ/WI. */
+#else /* Word 0 - Little Endian */
+        uint32_t pn                    : 31; /**< [ 30:  0](R/W) Event counter enable bit for ext-PMEVCNTR&lt;n&gt;_EL0.
+                                                                 If ext-PMCFGR.N is less than 31, bits [30:ext-PMCFGR.N] are RAZ/WI. */
+        uint32_t c_f                   : 1;  /**< [ 31: 31](R/W) Ext-PMCCNTR_EL0 enable bit. Enables the cycle counter register. Possible values are: */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmcntenset_el0_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmcntenset_el0 cavm_cst_apx_pmu_pmcntenset_el0_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMCNTENSET_EL0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMCNTENSET_EL0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020c00ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMCNTENSET_EL0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMCNTENSET_EL0(a) cavm_cst_apx_pmu_pmcntenset_el0_t
+#define bustype_CAVM_CST_APX_PMU_PMCNTENSET_EL0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMCNTENSET_EL0(a) "CST_APX_PMU_PMCNTENSET_EL0"
+#define busnum_CAVM_CST_APX_PMU_PMCNTENSET_EL0(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMCNTENSET_EL0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmcr_el0
+ *
+ * CST Ap Pmu Pmcr El0 Register
+ * Provides details of the Performance Monitors implementation, including the number of
+ * counters implemented, and configures and controls the counters.
+ */
+union cavm_cst_apx_pmu_pmcr_el0
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmcr_el0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t raz_wi                : 21; /**< [ 31: 11](R/W) Hardware must implement this field as RAZ/WI. Software must not rely on the
+                                                                 register reading as zero, and must use a read-modify-write sequence to write to
+                                                                 the register. */
+        uint32_t reserved_8_10         : 3;
+        uint32_t lp                    : 1;  /**< [  7:  7](R/W) Long event counter enable. Determines when unsigned overflow is recorded by a counter overflow bit. */
+        uint32_t lc                    : 1;  /**< [  6:  6](R/W) Long cycle counter enable. Determines when unsigned overflow is recorded by the
+                                                                 cycle counter overflow bit. */
+        uint32_t dp                    : 1;  /**< [  5:  5](R/W) Disable cycle counter when event counting is prohibited. The possible values of this bit are: */
+        uint32_t x                     : 1;  /**< [  4:  4](R/W) Enable export of events in an IMPLEMENTATION DEFINED PMU event export bus.
+                                                                 This field enables the exporting of events over an IMPLEMENTATION DEFINED PMU
+                                                                 event export bus to another device, for example to an OPTIONAL PE trace unit.
+                                                                 No events are exported when counting is prohibited.
+                                                                 This field does not affect the generation of Performance Monitors overflow
+                                                                 interrupt requests or signaling to a cross-trigger interface (CTI) that can be
+                                                                 implemented as signals exported from the PE. */
+        uint32_t d_f                   : 1;  /**< [  3:  3](R/W) Clock divider. */
+        uint32_t c_f                   : 1;  /**< [  2:  2](R/W) Cycle counter reset. The effects of writing to this bit are: */
+        uint32_t p                     : 1;  /**< [  1:  1](R/W) Event counter reset. The effects of writing to this bit are: */
+        uint32_t e_f                   : 1;  /**< [  0:  0](R/W) Enable */
+#else /* Word 0 - Little Endian */
+        uint32_t e_f                   : 1;  /**< [  0:  0](R/W) Enable */
+        uint32_t p                     : 1;  /**< [  1:  1](R/W) Event counter reset. The effects of writing to this bit are: */
+        uint32_t c_f                   : 1;  /**< [  2:  2](R/W) Cycle counter reset. The effects of writing to this bit are: */
+        uint32_t d_f                   : 1;  /**< [  3:  3](R/W) Clock divider. */
+        uint32_t x                     : 1;  /**< [  4:  4](R/W) Enable export of events in an IMPLEMENTATION DEFINED PMU event export bus.
+                                                                 This field enables the exporting of events over an IMPLEMENTATION DEFINED PMU
+                                                                 event export bus to another device, for example to an OPTIONAL PE trace unit.
+                                                                 No events are exported when counting is prohibited.
+                                                                 This field does not affect the generation of Performance Monitors overflow
+                                                                 interrupt requests or signaling to a cross-trigger interface (CTI) that can be
+                                                                 implemented as signals exported from the PE. */
+        uint32_t dp                    : 1;  /**< [  5:  5](R/W) Disable cycle counter when event counting is prohibited. The possible values of this bit are: */
+        uint32_t lc                    : 1;  /**< [  6:  6](R/W) Long cycle counter enable. Determines when unsigned overflow is recorded by the
+                                                                 cycle counter overflow bit. */
+        uint32_t lp                    : 1;  /**< [  7:  7](R/W) Long event counter enable. Determines when unsigned overflow is recorded by a counter overflow bit. */
+        uint32_t reserved_8_10         : 3;
+        uint32_t raz_wi                : 21; /**< [ 31: 11](R/W) Hardware must implement this field as RAZ/WI. Software must not rely on the
+                                                                 register reading as zero, and must use a read-modify-write sequence to write to
+                                                                 the register. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmcr_el0_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmcr_el0 cavm_cst_apx_pmu_pmcr_el0_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMCR_EL0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMCR_EL0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020e04ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMCR_EL0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMCR_EL0(a) cavm_cst_apx_pmu_pmcr_el0_t
+#define bustype_CAVM_CST_APX_PMU_PMCR_EL0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMCR_EL0(a) "CST_APX_PMU_PMCR_EL0"
+#define busnum_CAVM_CST_APX_PMU_PMCR_EL0(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMCR_EL0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmdevaff0
+ *
+ * CST Ap Pmu Pmdevaff0 Register
+ * Copy of the low half of the PE AArch64-MPIDR_EL1 register that allows a debugger to
+ * determine which PE in a multiprocessor system the Performance Monitor component
+ * relates to.
+ */
+union cavm_cst_apx_pmu_pmdevaff0
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmdevaff0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t mpidr_el1lo           : 32; /**< [ 31:  0](RO) AArch64-MPIDR_EL1 low half. Read-only copy of the low half of AArch64-MPIDR_EL1,
+                                                                 as seen from the highest implemented Exception level. */
+#else /* Word 0 - Little Endian */
+        uint32_t mpidr_el1lo           : 32; /**< [ 31:  0](RO) AArch64-MPIDR_EL1 low half. Read-only copy of the low half of AArch64-MPIDR_EL1,
+                                                                 as seen from the highest implemented Exception level. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmdevaff0_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmdevaff0 cavm_cst_apx_pmu_pmdevaff0_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMDEVAFF0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMDEVAFF0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020fa8ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMDEVAFF0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMDEVAFF0(a) cavm_cst_apx_pmu_pmdevaff0_t
+#define bustype_CAVM_CST_APX_PMU_PMDEVAFF0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMDEVAFF0(a) "CST_APX_PMU_PMDEVAFF0"
+#define busnum_CAVM_CST_APX_PMU_PMDEVAFF0(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMDEVAFF0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmdevaff1
+ *
+ * CST Ap Pmu Pmdevaff1 Register
+ * Copy of the high half of the PE AArch64-MPIDR_EL1 register that allows a debugger to
+ * determine which PE in a multiprocessor system the Performance Monitor component
+ * relates to.
+ */
+union cavm_cst_apx_pmu_pmdevaff1
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmdevaff1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t mpidr_el1hi           : 32; /**< [ 31:  0](RO) AArch64-MPIDR_EL1 high half. Read-only copy of the high half of
+                                                                 AArch64-MPIDR_EL1, as seen from the highest implemented Exception level. */
+#else /* Word 0 - Little Endian */
+        uint32_t mpidr_el1hi           : 32; /**< [ 31:  0](RO) AArch64-MPIDR_EL1 high half. Read-only copy of the high half of
+                                                                 AArch64-MPIDR_EL1, as seen from the highest implemented Exception level. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmdevaff1_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmdevaff1 cavm_cst_apx_pmu_pmdevaff1_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMDEVAFF1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMDEVAFF1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020facll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMDEVAFF1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMDEVAFF1(a) cavm_cst_apx_pmu_pmdevaff1_t
+#define bustype_CAVM_CST_APX_PMU_PMDEVAFF1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMDEVAFF1(a) "CST_APX_PMU_PMDEVAFF1"
+#define busnum_CAVM_CST_APX_PMU_PMDEVAFF1(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMDEVAFF1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmdevarch
+ *
+ * CST Ap Pmu Pmdevarch Register
+ * Identifies the programmers' model architecture of the Performance Monitor component.
+ */
+union cavm_cst_apx_pmu_pmdevarch
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmdevarch_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t architect             : 11; /**< [ 31: 21](RO) Defines the architecture of the component. For Performance Monitors, this is Arm Limited.
+                                                                 Bits [31:28] are the JEP106 continuation code, 0x4.
+                                                                 Bits [27:21] are the JEP106 ID code, 0x3B. */
+        uint32_t present               : 1;  /**< [ 20: 20](RO) When set to 1, indicates that the DEVARCH is present.
+                                                                 This field is 1 in Armv8. */
+        uint32_t revision              : 4;  /**< [ 19: 16](RO) Defines the architecture revision. For architectures defined by Arm this is the minor revision.
+                                                                 For Performance Monitors, the revision defined by Armv8 is 0x0.
+                                                                 All other values are reserved. */
+        uint32_t archid                : 16; /**< [ 15:  0](RO) Defines this part to be an Armv8 debug component. For architectures defined by
+                                                                 Arm this is further subdivided.
+                                                                 For Performance Monitors:
+                                                                   - Bits [15:12] are the architecture version, 0x2.
+                                                                   - Bits [11:0] are the architecture part number, 0xA16.
+                                                                 This corresponds to Performance Monitors architecture version PMUv3.
+                                                                 [note]The PMUv3 memory-mapped programmers' model can be used by devices other
+                                                                 than Armv8 processors. Software must determine whether the PMU is attached to an
+                                                                 Armv8 processor by using the ext-PMDEVAFF0 and ext-PMDEVAFF1 registers to
+                                                                 discover the x[affinity](BABIJFGF|D_the_performance_monitors_Extension.fm) of
+                                                                 the PMU to any Armv8 processors.[/note] */
+#else /* Word 0 - Little Endian */
+        uint32_t archid                : 16; /**< [ 15:  0](RO) Defines this part to be an Armv8 debug component. For architectures defined by
+                                                                 Arm this is further subdivided.
+                                                                 For Performance Monitors:
+                                                                   - Bits [15:12] are the architecture version, 0x2.
+                                                                   - Bits [11:0] are the architecture part number, 0xA16.
+                                                                 This corresponds to Performance Monitors architecture version PMUv3.
+                                                                 [note]The PMUv3 memory-mapped programmers' model can be used by devices other
+                                                                 than Armv8 processors. Software must determine whether the PMU is attached to an
+                                                                 Armv8 processor by using the ext-PMDEVAFF0 and ext-PMDEVAFF1 registers to
+                                                                 discover the x[affinity](BABIJFGF|D_the_performance_monitors_Extension.fm) of
+                                                                 the PMU to any Armv8 processors.[/note] */
+        uint32_t revision              : 4;  /**< [ 19: 16](RO) Defines the architecture revision. For architectures defined by Arm this is the minor revision.
+                                                                 For Performance Monitors, the revision defined by Armv8 is 0x0.
+                                                                 All other values are reserved. */
+        uint32_t present               : 1;  /**< [ 20: 20](RO) When set to 1, indicates that the DEVARCH is present.
+                                                                 This field is 1 in Armv8. */
+        uint32_t architect             : 11; /**< [ 31: 21](RO) Defines the architecture of the component. For Performance Monitors, this is Arm Limited.
+                                                                 Bits [31:28] are the JEP106 continuation code, 0x4.
+                                                                 Bits [27:21] are the JEP106 ID code, 0x3B. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmdevarch_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmdevarch cavm_cst_apx_pmu_pmdevarch_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMDEVARCH(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMDEVARCH(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020fbcll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMDEVARCH", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMDEVARCH(a) cavm_cst_apx_pmu_pmdevarch_t
+#define bustype_CAVM_CST_APX_PMU_PMDEVARCH(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMDEVARCH(a) "CST_APX_PMU_PMDEVARCH"
+#define busnum_CAVM_CST_APX_PMU_PMDEVARCH(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMDEVARCH(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmdevid
+ *
+ * CST Ap Pmu Pmdevid Register
+ * Provides information about features of the Performance Monitors implementation.
+ */
+union cavm_cst_apx_pmu_pmdevid
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmdevid_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_4_31         : 28;
+        uint32_t pcsample              : 4;  /**< [  3:  0](RO) Indicates the level of PC Sample-based Profiling support using Performance Monitors registers. */
+#else /* Word 0 - Little Endian */
+        uint32_t pcsample              : 4;  /**< [  3:  0](RO) Indicates the level of PC Sample-based Profiling support using Performance Monitors registers. */
+        uint32_t reserved_4_31         : 28;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmdevid_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmdevid cavm_cst_apx_pmu_pmdevid_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMDEVID(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMDEVID(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020fc8ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMDEVID", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMDEVID(a) cavm_cst_apx_pmu_pmdevid_t
+#define bustype_CAVM_CST_APX_PMU_PMDEVID(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMDEVID(a) "CST_APX_PMU_PMDEVID"
+#define busnum_CAVM_CST_APX_PMU_PMDEVID(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMDEVID(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmdevtype
+ *
+ * CST Ap Pmu Pmdevtype Register
+ * Indicates to a debugger that this component is part of a PEs performance monitor interface.
+ */
+union cavm_cst_apx_pmu_pmdevtype
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmdevtype_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t sub                   : 4;  /**< [  7:  4](RO) Subtype. Must read as 0x1 to indicate this is a component within a PE. */
+        uint32_t major                 : 4;  /**< [  3:  0](RO) Major type. Must read as 0x6 to indicate this is a performance monitor component. */
+#else /* Word 0 - Little Endian */
+        uint32_t major                 : 4;  /**< [  3:  0](RO) Major type. Must read as 0x6 to indicate this is a performance monitor component. */
+        uint32_t sub                   : 4;  /**< [  7:  4](RO) Subtype. Must read as 0x1 to indicate this is a component within a PE. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmdevtype_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmdevtype cavm_cst_apx_pmu_pmdevtype_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMDEVTYPE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMDEVTYPE(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020fccll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMDEVTYPE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMDEVTYPE(a) cavm_cst_apx_pmu_pmdevtype_t
+#define bustype_CAVM_CST_APX_PMU_PMDEVTYPE(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMDEVTYPE(a) "CST_APX_PMU_PMDEVTYPE"
+#define busnum_CAVM_CST_APX_PMU_PMDEVTYPE(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMDEVTYPE(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) cst_ap#_pmu_pmevcntr0_el0
+ *
+ * CST Ap Pmu Pmevcntr0 El0 Register
+ * Holds event counter n, which counts events, where n is 0 to 30.
+ */
+union cavm_cst_apx_pmu_pmevcntr0_el0
+{
+    uint64_t u;
+    struct cavm_cst_apx_pmu_pmevcntr0_el0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t pmevcntr0_el0         : 64; /**< [ 63:  0](R/W) Event counter n. Value of event counter n, where n is the number of this
+                                                                 register and is a number from 0 to 30.
+                                                                 If the highest implemented Exception level is using AArch32, the optional
+                                                                 external interface to the performance monitors is implemented, and the
+                                                                 AArch32-PMCR.LP and AArch32-HDCR.HLP bits are RAZ/WI, then locations in the
+                                                                 external interface to the performance monitors that map to
+                                                                 PMEVCNTR&lt;n&gt;_EL0[63:32] return UNKNOWN values on reads.
+                                                                 If the implementation does not support AArch64 at any Exception level, bits
+                                                                 [63:32] of the event counters are not required to be implemented. */
+#else /* Word 0 - Little Endian */
+        uint64_t pmevcntr0_el0         : 64; /**< [ 63:  0](R/W) Event counter n. Value of event counter n, where n is the number of this
+                                                                 register and is a number from 0 to 30.
+                                                                 If the highest implemented Exception level is using AArch32, the optional
+                                                                 external interface to the performance monitors is implemented, and the
+                                                                 AArch32-PMCR.LP and AArch32-HDCR.HLP bits are RAZ/WI, then locations in the
+                                                                 external interface to the performance monitors that map to
+                                                                 PMEVCNTR&lt;n&gt;_EL0[63:32] return UNKNOWN values on reads.
+                                                                 If the implementation does not support AArch64 at any Exception level, bits
+                                                                 [63:32] of the event counters are not required to be implemented. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmevcntr0_el0_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmevcntr0_el0 cavm_cst_apx_pmu_pmevcntr0_el0_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMEVCNTR0_EL0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMEVCNTR0_EL0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020000ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMEVCNTR0_EL0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMEVCNTR0_EL0(a) cavm_cst_apx_pmu_pmevcntr0_el0_t
+#define bustype_CAVM_CST_APX_PMU_PMEVCNTR0_EL0(a) CSR_TYPE_NCB
+#define basename_CAVM_CST_APX_PMU_PMEVCNTR0_EL0(a) "CST_APX_PMU_PMEVCNTR0_EL0"
+#define busnum_CAVM_CST_APX_PMU_PMEVCNTR0_EL0(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMEVCNTR0_EL0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) cst_ap#_pmu_pmevcntr1_el0
+ *
+ * CST Ap Pmu Pmevcntr1 El0 Register
+ * Holds event counter n, which counts events, where n is 0 to 30.
+ */
+union cavm_cst_apx_pmu_pmevcntr1_el0
+{
+    uint64_t u;
+    struct cavm_cst_apx_pmu_pmevcntr1_el0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t pmevcntr1_el0         : 64; /**< [ 63:  0](R/W) Event counter n. Value of event counter n, where n is the number of this
+                                                                 register and is a number from 0 to 30.
+                                                                 If the highest implemented Exception level is using AArch32, the optional
+                                                                 external interface to the performance monitors is implemented, and the
+                                                                 AArch32-PMCR.LP and AArch32-HDCR.HLP bits are RAZ/WI, then locations in the
+                                                                 external interface to the performance monitors that map to
+                                                                 PMEVCNTR&lt;n&gt;_EL0[63:32] return UNKNOWN values on reads.
+                                                                 If the implementation does not support AArch64 at any Exception level, bits
+                                                                 [63:32] of the event counters are not required to be implemented. */
+#else /* Word 0 - Little Endian */
+        uint64_t pmevcntr1_el0         : 64; /**< [ 63:  0](R/W) Event counter n. Value of event counter n, where n is the number of this
+                                                                 register and is a number from 0 to 30.
+                                                                 If the highest implemented Exception level is using AArch32, the optional
+                                                                 external interface to the performance monitors is implemented, and the
+                                                                 AArch32-PMCR.LP and AArch32-HDCR.HLP bits are RAZ/WI, then locations in the
+                                                                 external interface to the performance monitors that map to
+                                                                 PMEVCNTR&lt;n&gt;_EL0[63:32] return UNKNOWN values on reads.
+                                                                 If the implementation does not support AArch64 at any Exception level, bits
+                                                                 [63:32] of the event counters are not required to be implemented. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmevcntr1_el0_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmevcntr1_el0 cavm_cst_apx_pmu_pmevcntr1_el0_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMEVCNTR1_EL0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMEVCNTR1_EL0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020008ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMEVCNTR1_EL0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMEVCNTR1_EL0(a) cavm_cst_apx_pmu_pmevcntr1_el0_t
+#define bustype_CAVM_CST_APX_PMU_PMEVCNTR1_EL0(a) CSR_TYPE_NCB
+#define basename_CAVM_CST_APX_PMU_PMEVCNTR1_EL0(a) "CST_APX_PMU_PMEVCNTR1_EL0"
+#define busnum_CAVM_CST_APX_PMU_PMEVCNTR1_EL0(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMEVCNTR1_EL0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) cst_ap#_pmu_pmevcntr2_el0
+ *
+ * CST Ap Pmu Pmevcntr2 El0 Register
+ * Holds event counter n, which counts events, where n is 0 to 30.
+ */
+union cavm_cst_apx_pmu_pmevcntr2_el0
+{
+    uint64_t u;
+    struct cavm_cst_apx_pmu_pmevcntr2_el0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t pmevcntr2_el0         : 64; /**< [ 63:  0](R/W) Event counter n. Value of event counter n, where n is the number of this
+                                                                 register and is a number from 0 to 30.
+                                                                 If the highest implemented Exception level is using AArch32, the optional
+                                                                 external interface to the performance monitors is implemented, and the
+                                                                 AArch32-PMCR.LP and AArch32-HDCR.HLP bits are RAZ/WI, then locations in the
+                                                                 external interface to the performance monitors that map to
+                                                                 PMEVCNTR&lt;n&gt;_EL0[63:32] return UNKNOWN values on reads.
+                                                                 If the implementation does not support AArch64 at any Exception level, bits
+                                                                 [63:32] of the event counters are not required to be implemented. */
+#else /* Word 0 - Little Endian */
+        uint64_t pmevcntr2_el0         : 64; /**< [ 63:  0](R/W) Event counter n. Value of event counter n, where n is the number of this
+                                                                 register and is a number from 0 to 30.
+                                                                 If the highest implemented Exception level is using AArch32, the optional
+                                                                 external interface to the performance monitors is implemented, and the
+                                                                 AArch32-PMCR.LP and AArch32-HDCR.HLP bits are RAZ/WI, then locations in the
+                                                                 external interface to the performance monitors that map to
+                                                                 PMEVCNTR&lt;n&gt;_EL0[63:32] return UNKNOWN values on reads.
+                                                                 If the implementation does not support AArch64 at any Exception level, bits
+                                                                 [63:32] of the event counters are not required to be implemented. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmevcntr2_el0_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmevcntr2_el0 cavm_cst_apx_pmu_pmevcntr2_el0_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMEVCNTR2_EL0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMEVCNTR2_EL0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020010ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMEVCNTR2_EL0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMEVCNTR2_EL0(a) cavm_cst_apx_pmu_pmevcntr2_el0_t
+#define bustype_CAVM_CST_APX_PMU_PMEVCNTR2_EL0(a) CSR_TYPE_NCB
+#define basename_CAVM_CST_APX_PMU_PMEVCNTR2_EL0(a) "CST_APX_PMU_PMEVCNTR2_EL0"
+#define busnum_CAVM_CST_APX_PMU_PMEVCNTR2_EL0(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMEVCNTR2_EL0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) cst_ap#_pmu_pmevcntr3_el0
+ *
+ * CST Ap Pmu Pmevcntr3 El0 Register
+ * Holds event counter n, which counts events, where n is 0 to 30.
+ */
+union cavm_cst_apx_pmu_pmevcntr3_el0
+{
+    uint64_t u;
+    struct cavm_cst_apx_pmu_pmevcntr3_el0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t pmevcntr3_el0         : 64; /**< [ 63:  0](R/W) Event counter n. Value of event counter n, where n is the number of this
+                                                                 register and is a number from 0 to 30.
+                                                                 If the highest implemented Exception level is using AArch32, the optional
+                                                                 external interface to the performance monitors is implemented, and the
+                                                                 AArch32-PMCR.LP and AArch32-HDCR.HLP bits are RAZ/WI, then locations in the
+                                                                 external interface to the performance monitors that map to
+                                                                 PMEVCNTR&lt;n&gt;_EL0[63:32] return UNKNOWN values on reads.
+                                                                 If the implementation does not support AArch64 at any Exception level, bits
+                                                                 [63:32] of the event counters are not required to be implemented. */
+#else /* Word 0 - Little Endian */
+        uint64_t pmevcntr3_el0         : 64; /**< [ 63:  0](R/W) Event counter n. Value of event counter n, where n is the number of this
+                                                                 register and is a number from 0 to 30.
+                                                                 If the highest implemented Exception level is using AArch32, the optional
+                                                                 external interface to the performance monitors is implemented, and the
+                                                                 AArch32-PMCR.LP and AArch32-HDCR.HLP bits are RAZ/WI, then locations in the
+                                                                 external interface to the performance monitors that map to
+                                                                 PMEVCNTR&lt;n&gt;_EL0[63:32] return UNKNOWN values on reads.
+                                                                 If the implementation does not support AArch64 at any Exception level, bits
+                                                                 [63:32] of the event counters are not required to be implemented. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmevcntr3_el0_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmevcntr3_el0 cavm_cst_apx_pmu_pmevcntr3_el0_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMEVCNTR3_EL0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMEVCNTR3_EL0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020018ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMEVCNTR3_EL0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMEVCNTR3_EL0(a) cavm_cst_apx_pmu_pmevcntr3_el0_t
+#define bustype_CAVM_CST_APX_PMU_PMEVCNTR3_EL0(a) CSR_TYPE_NCB
+#define basename_CAVM_CST_APX_PMU_PMEVCNTR3_EL0(a) "CST_APX_PMU_PMEVCNTR3_EL0"
+#define busnum_CAVM_CST_APX_PMU_PMEVCNTR3_EL0(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMEVCNTR3_EL0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) cst_ap#_pmu_pmevcntr4_el0
+ *
+ * CST Ap Pmu Pmevcntr4 El0 Register
+ * Holds event counter n, which counts events, where n is 0 to 30.
+ */
+union cavm_cst_apx_pmu_pmevcntr4_el0
+{
+    uint64_t u;
+    struct cavm_cst_apx_pmu_pmevcntr4_el0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t pmevcntr4_el0         : 64; /**< [ 63:  0](R/W) Event counter n. Value of event counter n, where n is the number of this
+                                                                 register and is a number from 0 to 30.
+                                                                 If the highest implemented Exception level is using AArch32, the optional
+                                                                 external interface to the performance monitors is implemented, and the
+                                                                 AArch32-PMCR.LP and AArch32-HDCR.HLP bits are RAZ/WI, then locations in the
+                                                                 external interface to the performance monitors that map to
+                                                                 PMEVCNTR&lt;n&gt;_EL0[63:32] return UNKNOWN values on reads.
+                                                                 If the implementation does not support AArch64 at any Exception level, bits
+                                                                 [63:32] of the event counters are not required to be implemented. */
+#else /* Word 0 - Little Endian */
+        uint64_t pmevcntr4_el0         : 64; /**< [ 63:  0](R/W) Event counter n. Value of event counter n, where n is the number of this
+                                                                 register and is a number from 0 to 30.
+                                                                 If the highest implemented Exception level is using AArch32, the optional
+                                                                 external interface to the performance monitors is implemented, and the
+                                                                 AArch32-PMCR.LP and AArch32-HDCR.HLP bits are RAZ/WI, then locations in the
+                                                                 external interface to the performance monitors that map to
+                                                                 PMEVCNTR&lt;n&gt;_EL0[63:32] return UNKNOWN values on reads.
+                                                                 If the implementation does not support AArch64 at any Exception level, bits
+                                                                 [63:32] of the event counters are not required to be implemented. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmevcntr4_el0_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmevcntr4_el0 cavm_cst_apx_pmu_pmevcntr4_el0_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMEVCNTR4_EL0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMEVCNTR4_EL0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020020ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMEVCNTR4_EL0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMEVCNTR4_EL0(a) cavm_cst_apx_pmu_pmevcntr4_el0_t
+#define bustype_CAVM_CST_APX_PMU_PMEVCNTR4_EL0(a) CSR_TYPE_NCB
+#define basename_CAVM_CST_APX_PMU_PMEVCNTR4_EL0(a) "CST_APX_PMU_PMEVCNTR4_EL0"
+#define busnum_CAVM_CST_APX_PMU_PMEVCNTR4_EL0(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMEVCNTR4_EL0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) cst_ap#_pmu_pmevcntr5_el0
+ *
+ * CST Ap Pmu Pmevcntr5 El0 Register
+ * Holds event counter n, which counts events, where n is 0 to 30.
+ */
+union cavm_cst_apx_pmu_pmevcntr5_el0
+{
+    uint64_t u;
+    struct cavm_cst_apx_pmu_pmevcntr5_el0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t pmevcntr5_el0         : 64; /**< [ 63:  0](R/W) Event counter n. Value of event counter n, where n is the number of this
+                                                                 register and is a number from 0 to 30.
+                                                                 If the highest implemented Exception level is using AArch32, the optional
+                                                                 external interface to the performance monitors is implemented, and the
+                                                                 AArch32-PMCR.LP and AArch32-HDCR.HLP bits are RAZ/WI, then locations in the
+                                                                 external interface to the performance monitors that map to
+                                                                 PMEVCNTR&lt;n&gt;_EL0[63:32] return UNKNOWN values on reads.
+                                                                 If the implementation does not support AArch64 at any Exception level, bits
+                                                                 [63:32] of the event counters are not required to be implemented. */
+#else /* Word 0 - Little Endian */
+        uint64_t pmevcntr5_el0         : 64; /**< [ 63:  0](R/W) Event counter n. Value of event counter n, where n is the number of this
+                                                                 register and is a number from 0 to 30.
+                                                                 If the highest implemented Exception level is using AArch32, the optional
+                                                                 external interface to the performance monitors is implemented, and the
+                                                                 AArch32-PMCR.LP and AArch32-HDCR.HLP bits are RAZ/WI, then locations in the
+                                                                 external interface to the performance monitors that map to
+                                                                 PMEVCNTR&lt;n&gt;_EL0[63:32] return UNKNOWN values on reads.
+                                                                 If the implementation does not support AArch64 at any Exception level, bits
+                                                                 [63:32] of the event counters are not required to be implemented. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmevcntr5_el0_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmevcntr5_el0 cavm_cst_apx_pmu_pmevcntr5_el0_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMEVCNTR5_EL0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMEVCNTR5_EL0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020028ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMEVCNTR5_EL0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMEVCNTR5_EL0(a) cavm_cst_apx_pmu_pmevcntr5_el0_t
+#define bustype_CAVM_CST_APX_PMU_PMEVCNTR5_EL0(a) CSR_TYPE_NCB
+#define basename_CAVM_CST_APX_PMU_PMEVCNTR5_EL0(a) "CST_APX_PMU_PMEVCNTR5_EL0"
+#define busnum_CAVM_CST_APX_PMU_PMEVCNTR5_EL0(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMEVCNTR5_EL0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) cst_ap#_pmu_pmevcntsr0
+ *
+ * CST Ap Pmu Pmevcntsr0 Register
+ * Captured copy of PMEVCNTR&lt;n&gt;_EL0. Once captured, the value in
+ * PMSSEVCNTR&lt;n&gt; is unaffected by writes to PMSSEVCNTR&lt;n&gt;_EL0 and
+ * PMCR_EL0.P.
+ */
+union cavm_cst_apx_pmu_pmevcntsr0
+{
+    uint64_t u;
+    struct cavm_cst_apx_pmu_pmevcntsr0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t pmevcntsrn            : 64; /**< [ 63:  0](RO) PMEVCNTR&lt;n&gt;_EL0 sample. Sampled event count. */
+#else /* Word 0 - Little Endian */
+        uint64_t pmevcntsrn            : 64; /**< [ 63:  0](RO) PMEVCNTR&lt;n&gt;_EL0 sample. Sampled event count. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmevcntsr0_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmevcntsr0 cavm_cst_apx_pmu_pmevcntsr0_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMEVCNTSR0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMEVCNTSR0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020620ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMEVCNTSR0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMEVCNTSR0(a) cavm_cst_apx_pmu_pmevcntsr0_t
+#define bustype_CAVM_CST_APX_PMU_PMEVCNTSR0(a) CSR_TYPE_NCB
+#define basename_CAVM_CST_APX_PMU_PMEVCNTSR0(a) "CST_APX_PMU_PMEVCNTSR0"
+#define busnum_CAVM_CST_APX_PMU_PMEVCNTSR0(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMEVCNTSR0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) cst_ap#_pmu_pmevcntsr1
+ *
+ * CST Ap Pmu Pmevcntsr1 Register
+ * Captured copy of PMEVCNTR&lt;n&gt;_EL0. Once captured, the value in
+ * PMSSEVCNTR&lt;n&gt; is unaffected by writes to PMSSEVCNTR&lt;n&gt;_EL0 and
+ * PMCR_EL0.P.
+ */
+union cavm_cst_apx_pmu_pmevcntsr1
+{
+    uint64_t u;
+    struct cavm_cst_apx_pmu_pmevcntsr1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t pmevcntsrn            : 64; /**< [ 63:  0](RO) PMEVCNTR&lt;n&gt;_EL0 sample. Sampled event count. */
+#else /* Word 0 - Little Endian */
+        uint64_t pmevcntsrn            : 64; /**< [ 63:  0](RO) PMEVCNTR&lt;n&gt;_EL0 sample. Sampled event count. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmevcntsr1_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmevcntsr1 cavm_cst_apx_pmu_pmevcntsr1_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMEVCNTSR1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMEVCNTSR1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020628ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMEVCNTSR1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMEVCNTSR1(a) cavm_cst_apx_pmu_pmevcntsr1_t
+#define bustype_CAVM_CST_APX_PMU_PMEVCNTSR1(a) CSR_TYPE_NCB
+#define basename_CAVM_CST_APX_PMU_PMEVCNTSR1(a) "CST_APX_PMU_PMEVCNTSR1"
+#define busnum_CAVM_CST_APX_PMU_PMEVCNTSR1(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMEVCNTSR1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) cst_ap#_pmu_pmevcntsr2
+ *
+ * CST Ap Pmu Pmevcntsr2 Register
+ * Captured copy of PMEVCNTR&lt;n&gt;_EL0. Once captured, the value in
+ * PMSSEVCNTR&lt;n&gt; is unaffected by writes to PMSSEVCNTR&lt;n&gt;_EL0 and
+ * PMCR_EL0.P.
+ */
+union cavm_cst_apx_pmu_pmevcntsr2
+{
+    uint64_t u;
+    struct cavm_cst_apx_pmu_pmevcntsr2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t pmevcntsrn            : 64; /**< [ 63:  0](RO) PMEVCNTR&lt;n&gt;_EL0 sample. Sampled event count. */
+#else /* Word 0 - Little Endian */
+        uint64_t pmevcntsrn            : 64; /**< [ 63:  0](RO) PMEVCNTR&lt;n&gt;_EL0 sample. Sampled event count. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmevcntsr2_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmevcntsr2 cavm_cst_apx_pmu_pmevcntsr2_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMEVCNTSR2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMEVCNTSR2(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020630ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMEVCNTSR2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMEVCNTSR2(a) cavm_cst_apx_pmu_pmevcntsr2_t
+#define bustype_CAVM_CST_APX_PMU_PMEVCNTSR2(a) CSR_TYPE_NCB
+#define basename_CAVM_CST_APX_PMU_PMEVCNTSR2(a) "CST_APX_PMU_PMEVCNTSR2"
+#define busnum_CAVM_CST_APX_PMU_PMEVCNTSR2(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMEVCNTSR2(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) cst_ap#_pmu_pmevcntsr3
+ *
+ * CST Ap Pmu Pmevcntsr3 Register
+ * Captured copy of PMEVCNTR&lt;n&gt;_EL0. Once captured, the value in
+ * PMSSEVCNTR&lt;n&gt; is unaffected by writes to PMSSEVCNTR&lt;n&gt;_EL0 and
+ * PMCR_EL0.P.
+ */
+union cavm_cst_apx_pmu_pmevcntsr3
+{
+    uint64_t u;
+    struct cavm_cst_apx_pmu_pmevcntsr3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t pmevcntsrn            : 64; /**< [ 63:  0](RO) PMEVCNTR&lt;n&gt;_EL0 sample. Sampled event count. */
+#else /* Word 0 - Little Endian */
+        uint64_t pmevcntsrn            : 64; /**< [ 63:  0](RO) PMEVCNTR&lt;n&gt;_EL0 sample. Sampled event count. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmevcntsr3_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmevcntsr3 cavm_cst_apx_pmu_pmevcntsr3_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMEVCNTSR3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMEVCNTSR3(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020638ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMEVCNTSR3", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMEVCNTSR3(a) cavm_cst_apx_pmu_pmevcntsr3_t
+#define bustype_CAVM_CST_APX_PMU_PMEVCNTSR3(a) CSR_TYPE_NCB
+#define basename_CAVM_CST_APX_PMU_PMEVCNTSR3(a) "CST_APX_PMU_PMEVCNTSR3"
+#define busnum_CAVM_CST_APX_PMU_PMEVCNTSR3(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMEVCNTSR3(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) cst_ap#_pmu_pmevcntsr4
+ *
+ * CST Ap Pmu Pmevcntsr4 Register
+ * Captured copy of PMEVCNTR&lt;n&gt;_EL0. Once captured, the value in
+ * PMSSEVCNTR&lt;n&gt; is unaffected by writes to PMSSEVCNTR&lt;n&gt;_EL0 and
+ * PMCR_EL0.P.
+ */
+union cavm_cst_apx_pmu_pmevcntsr4
+{
+    uint64_t u;
+    struct cavm_cst_apx_pmu_pmevcntsr4_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t pmevcntsrn            : 64; /**< [ 63:  0](RO) PMEVCNTR&lt;n&gt;_EL0 sample. Sampled event count. */
+#else /* Word 0 - Little Endian */
+        uint64_t pmevcntsrn            : 64; /**< [ 63:  0](RO) PMEVCNTR&lt;n&gt;_EL0 sample. Sampled event count. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmevcntsr4_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmevcntsr4 cavm_cst_apx_pmu_pmevcntsr4_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMEVCNTSR4(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMEVCNTSR4(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020640ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMEVCNTSR4", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMEVCNTSR4(a) cavm_cst_apx_pmu_pmevcntsr4_t
+#define bustype_CAVM_CST_APX_PMU_PMEVCNTSR4(a) CSR_TYPE_NCB
+#define basename_CAVM_CST_APX_PMU_PMEVCNTSR4(a) "CST_APX_PMU_PMEVCNTSR4"
+#define busnum_CAVM_CST_APX_PMU_PMEVCNTSR4(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMEVCNTSR4(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) cst_ap#_pmu_pmevcntsr5
+ *
+ * CST Ap Pmu Pmevcntsr5 Register
+ * Captured copy of PMEVCNTR&lt;n&gt;_EL0. Once captured, the value in
+ * PMSSEVCNTR&lt;n&gt; is unaffected by writes to PMSSEVCNTR&lt;n&gt;_EL0 and
+ * PMCR_EL0.P.
+ */
+union cavm_cst_apx_pmu_pmevcntsr5
+{
+    uint64_t u;
+    struct cavm_cst_apx_pmu_pmevcntsr5_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t pmevcntsrn            : 64; /**< [ 63:  0](RO) PMEVCNTR&lt;n&gt;_EL0 sample. Sampled event count. */
+#else /* Word 0 - Little Endian */
+        uint64_t pmevcntsrn            : 64; /**< [ 63:  0](RO) PMEVCNTR&lt;n&gt;_EL0 sample. Sampled event count. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmevcntsr5_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmevcntsr5 cavm_cst_apx_pmu_pmevcntsr5_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMEVCNTSR5(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMEVCNTSR5(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020648ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMEVCNTSR5", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMEVCNTSR5(a) cavm_cst_apx_pmu_pmevcntsr5_t
+#define bustype_CAVM_CST_APX_PMU_PMEVCNTSR5(a) CSR_TYPE_NCB
+#define basename_CAVM_CST_APX_PMU_PMEVCNTSR5(a) "CST_APX_PMU_PMEVCNTSR5"
+#define busnum_CAVM_CST_APX_PMU_PMEVCNTSR5(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMEVCNTSR5(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmevtyper0_el0
+ *
+ * CST Ap Pmu Pmevtyper0 El0 Register
+ * Configures event counter n, where n is 0 to 30.
+ */
+union cavm_cst_apx_pmu_pmevtyper0_el0
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmevtyper0_el0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t p                     : 1;  /**< [ 31: 31](R/W) Privileged filtering bit. Controls counting in EL1.
+                                                                 If EL3 is implemented, then counting in Non-secure EL1 is further controlled by
+                                                                 the PMEVTYPER&lt;n&gt;_EL0.NSK bit. */
+        uint32_t u                     : 1;  /**< [ 30: 30](R/W) User filtering bit. Controls counting in EL0.
+                                                                 If EL3 is implemented, then counting in Non-secure EL0 is further controlled by
+                                                                 the PMEVTYPER&lt;n&gt;_EL0.NSU bit. */
+        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Non-secure EL1 (kernel) modes filtering bit. Controls counting in Non-secure EL1.
+                                                                 If the value of this bit is equal to the value of the PMEVTYPER&lt;n&gt;_EL0.P
+                                                                 bit, events in Non-secure EL1 are counted.
+                                                                 Otherwise, events in Non-secure EL1 are not counted. */
+        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Non-secure EL0 (Unprivileged) filtering bit. Controls counting in Non-secure EL0.
+                                                                 If the value of this bit is equal to the value of the PMEVTYPER&lt;n&gt;_EL0.U
+                                                                 bit, events in Non-secure EL0 are counted.
+                                                                 Otherwise, events in Non-secure EL0 are not counted. */
+        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) EL2 (Hypervisor) filtering bit. Controls counting in EL2.
+                                                                 If Secure EL2 is implemented, counting in Secure EL2 is further controlled by
+                                                                 the PMEVTYPER&lt;n&gt;_EL0.SH bit. */
+        uint32_t m                     : 1;  /**< [ 26: 26](R/W) Secure EL3 filtering bit.
+                                                                 If the value of this bit is equal to the value of the PMEVTYPER&lt;n&gt;_EL0.P
+                                                                 bit, events in Secure EL3 are counted.
+                                                                 Otherwise, events in Secure EL3 are not counted.
+                                                                 Most applications can ignore this field and set its value to 0b0.
+                                                                 [note]This field is not visible in the AArch32 AArch32-PMEVTYPER&lt;n&gt; System register.[/note] */
+        uint32_t mt                    : 1;  /**< [ 25: 25](R/W) Multithreading.
+                                                                 [note]
+                                                                   - When the lowest level of
+                                                                 x[affinity](BABIJFGF|D_the_performance_monitors_Extension.fm) consists of
+                                                                 logical PEs that are implemented using a multi-threading type approach, an
+                                                                 implementation is described as multi-threaded. That is, the performance of PEs
+                                                                 at the lowest affinity level is highly interdependent.
+                                                                   - Events from a different thread of a multithreaded implementation are not
+                                                                 Attributable to the thread counting the event.
+                                                                 [/note] */
+        uint32_t sh                    : 1;  /**< [ 24: 24](R/W) Secure EL2 filtering.
+                                                                 If the value of this bit is not equal to the value of the
+                                                                 PMEVTYPER&lt;n&gt;_EL0.NSH bit, events in Secure EL2 are counted.
+                                                                 Otherwise, events in Secure EL2 are not counted.
+                                                                 [note]This field is not visible in the AArch32 AArch32-PMEVTYPER&lt;n&gt; System register.[/note] */
+        uint32_t reserved_16_23        : 8;
+        uint32_t evtcount_15_10        : 6;  /**< [ 15: 10](R/W) Extension to evtCount[9:0]. See evtCount[9:0] for more details. */
+        uint32_t evtcount_9_0          : 10; /**< [  9:  0](R/W) Event to count. The event number of the event that is counted by event counter
+                                                                 ext-PMEVCNTR&lt;n&gt;_EL0.
+                                                                 Software must program this field with an event that is supported by the PE being programmed.
+                                                                 The ranges of event numbers allocated to each type of event are shown in
+                                                                 x['Allocation of the PMU event number
+                                                                 space'](CACBHBFJ|D_the_performance_monitors_extension.fm).
+                                                                 If evtCount is programmed to an event that is reserved or not supported by the
+                                                                 PE, the behavior depends on the value written:
+                                                                  - For the range 0x0000 to 0x003F, no events are counted, and the value returned
+                                                                 by a direct or external read of the evtCount field is the value written to the
+                                                                 field.
+                                                                  - If 16-bit evtCount is implemented, for the range 0x4000 to 0x403F, no events
+                                                                 are counted, and the value returned by a direct or external read of the evtCount
+                                                                 field is the value written to the field.
+                                                                  - For IMPLEMENTATION DEFINED events, it is UNPREDICTABLE what event, if any, is
+                                                                 counted, and the value returned by a direct or external read of the evtCount
+                                                                 field is UNKNOWN.
+                                                                 [note]UNPREDICTABLE means the event must not expose privileged information.[/note]
+                                                                 Arm recommends that the behavior across a family of implementations is defined
+                                                                 such that if a given implementation does not include an event from a set of
+                                                                 common IMPLEMENTATION DEFINED events, then no event is counted and the value
+                                                                 read back on evtCount is the value written. */
+#else /* Word 0 - Little Endian */
+        uint32_t evtcount_9_0          : 10; /**< [  9:  0](R/W) Event to count. The event number of the event that is counted by event counter
+                                                                 ext-PMEVCNTR&lt;n&gt;_EL0.
+                                                                 Software must program this field with an event that is supported by the PE being programmed.
+                                                                 The ranges of event numbers allocated to each type of event are shown in
+                                                                 x['Allocation of the PMU event number
+                                                                 space'](CACBHBFJ|D_the_performance_monitors_extension.fm).
+                                                                 If evtCount is programmed to an event that is reserved or not supported by the
+                                                                 PE, the behavior depends on the value written:
+                                                                  - For the range 0x0000 to 0x003F, no events are counted, and the value returned
+                                                                 by a direct or external read of the evtCount field is the value written to the
+                                                                 field.
+                                                                  - If 16-bit evtCount is implemented, for the range 0x4000 to 0x403F, no events
+                                                                 are counted, and the value returned by a direct or external read of the evtCount
+                                                                 field is the value written to the field.
+                                                                  - For IMPLEMENTATION DEFINED events, it is UNPREDICTABLE what event, if any, is
+                                                                 counted, and the value returned by a direct or external read of the evtCount
+                                                                 field is UNKNOWN.
+                                                                 [note]UNPREDICTABLE means the event must not expose privileged information.[/note]
+                                                                 Arm recommends that the behavior across a family of implementations is defined
+                                                                 such that if a given implementation does not include an event from a set of
+                                                                 common IMPLEMENTATION DEFINED events, then no event is counted and the value
+                                                                 read back on evtCount is the value written. */
+        uint32_t evtcount_15_10        : 6;  /**< [ 15: 10](R/W) Extension to evtCount[9:0]. See evtCount[9:0] for more details. */
+        uint32_t reserved_16_23        : 8;
+        uint32_t sh                    : 1;  /**< [ 24: 24](R/W) Secure EL2 filtering.
+                                                                 If the value of this bit is not equal to the value of the
+                                                                 PMEVTYPER&lt;n&gt;_EL0.NSH bit, events in Secure EL2 are counted.
+                                                                 Otherwise, events in Secure EL2 are not counted.
+                                                                 [note]This field is not visible in the AArch32 AArch32-PMEVTYPER&lt;n&gt; System register.[/note] */
+        uint32_t mt                    : 1;  /**< [ 25: 25](R/W) Multithreading.
+                                                                 [note]
+                                                                   - When the lowest level of
+                                                                 x[affinity](BABIJFGF|D_the_performance_monitors_Extension.fm) consists of
+                                                                 logical PEs that are implemented using a multi-threading type approach, an
+                                                                 implementation is described as multi-threaded. That is, the performance of PEs
+                                                                 at the lowest affinity level is highly interdependent.
+                                                                   - Events from a different thread of a multithreaded implementation are not
+                                                                 Attributable to the thread counting the event.
+                                                                 [/note] */
+        uint32_t m                     : 1;  /**< [ 26: 26](R/W) Secure EL3 filtering bit.
+                                                                 If the value of this bit is equal to the value of the PMEVTYPER&lt;n&gt;_EL0.P
+                                                                 bit, events in Secure EL3 are counted.
+                                                                 Otherwise, events in Secure EL3 are not counted.
+                                                                 Most applications can ignore this field and set its value to 0b0.
+                                                                 [note]This field is not visible in the AArch32 AArch32-PMEVTYPER&lt;n&gt; System register.[/note] */
+        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) EL2 (Hypervisor) filtering bit. Controls counting in EL2.
+                                                                 If Secure EL2 is implemented, counting in Secure EL2 is further controlled by
+                                                                 the PMEVTYPER&lt;n&gt;_EL0.SH bit. */
+        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Non-secure EL0 (Unprivileged) filtering bit. Controls counting in Non-secure EL0.
+                                                                 If the value of this bit is equal to the value of the PMEVTYPER&lt;n&gt;_EL0.U
+                                                                 bit, events in Non-secure EL0 are counted.
+                                                                 Otherwise, events in Non-secure EL0 are not counted. */
+        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Non-secure EL1 (kernel) modes filtering bit. Controls counting in Non-secure EL1.
+                                                                 If the value of this bit is equal to the value of the PMEVTYPER&lt;n&gt;_EL0.P
+                                                                 bit, events in Non-secure EL1 are counted.
+                                                                 Otherwise, events in Non-secure EL1 are not counted. */
+        uint32_t u                     : 1;  /**< [ 30: 30](R/W) User filtering bit. Controls counting in EL0.
+                                                                 If EL3 is implemented, then counting in Non-secure EL0 is further controlled by
+                                                                 the PMEVTYPER&lt;n&gt;_EL0.NSU bit. */
+        uint32_t p                     : 1;  /**< [ 31: 31](R/W) Privileged filtering bit. Controls counting in EL1.
+                                                                 If EL3 is implemented, then counting in Non-secure EL1 is further controlled by
+                                                                 the PMEVTYPER&lt;n&gt;_EL0.NSK bit. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmevtyper0_el0_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmevtyper0_el0 cavm_cst_apx_pmu_pmevtyper0_el0_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMEVTYPER0_EL0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMEVTYPER0_EL0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020400ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMEVTYPER0_EL0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMEVTYPER0_EL0(a) cavm_cst_apx_pmu_pmevtyper0_el0_t
+#define bustype_CAVM_CST_APX_PMU_PMEVTYPER0_EL0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMEVTYPER0_EL0(a) "CST_APX_PMU_PMEVTYPER0_EL0"
+#define busnum_CAVM_CST_APX_PMU_PMEVTYPER0_EL0(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMEVTYPER0_EL0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmevtyper1_el0
+ *
+ * CST Ap Pmu Pmevtyper1 El0 Register
+ * Configures event counter n, where n is 0 to 30.
+ */
+union cavm_cst_apx_pmu_pmevtyper1_el0
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmevtyper1_el0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t p                     : 1;  /**< [ 31: 31](R/W) Privileged filtering bit. Controls counting in EL1.
+                                                                 If EL3 is implemented, then counting in Non-secure EL1 is further controlled by
+                                                                 the PMEVTYPER&lt;n&gt;_EL0.NSK bit. */
+        uint32_t u                     : 1;  /**< [ 30: 30](R/W) User filtering bit. Controls counting in EL0.
+                                                                 If EL3 is implemented, then counting in Non-secure EL0 is further controlled by
+                                                                 the PMEVTYPER&lt;n&gt;_EL0.NSU bit. */
+        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Non-secure EL1 (kernel) modes filtering bit. Controls counting in Non-secure EL1.
+                                                                 If the value of this bit is equal to the value of the PMEVTYPER&lt;n&gt;_EL0.P
+                                                                 bit, events in Non-secure EL1 are counted.
+                                                                 Otherwise, events in Non-secure EL1 are not counted. */
+        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Non-secure EL0 (Unprivileged) filtering bit. Controls counting in Non-secure EL0.
+                                                                 If the value of this bit is equal to the value of the PMEVTYPER&lt;n&gt;_EL0.U
+                                                                 bit, events in Non-secure EL0 are counted.
+                                                                 Otherwise, events in Non-secure EL0 are not counted. */
+        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) EL2 (Hypervisor) filtering bit. Controls counting in EL2.
+                                                                 If Secure EL2 is implemented, counting in Secure EL2 is further controlled by
+                                                                 the PMEVTYPER&lt;n&gt;_EL0.SH bit. */
+        uint32_t m                     : 1;  /**< [ 26: 26](R/W) Secure EL3 filtering bit.
+                                                                 If the value of this bit is equal to the value of the PMEVTYPER&lt;n&gt;_EL0.P
+                                                                 bit, events in Secure EL3 are counted.
+                                                                 Otherwise, events in Secure EL3 are not counted.
+                                                                 Most applications can ignore this field and set its value to 0b0.
+                                                                 [note]This field is not visible in the AArch32 AArch32-PMEVTYPER&lt;n&gt; System register.[/note] */
+        uint32_t mt                    : 1;  /**< [ 25: 25](R/W) Multithreading.
+                                                                 [note]
+                                                                   - When the lowest level of
+                                                                 x[affinity](BABIJFGF|D_the_performance_monitors_Extension.fm) consists of
+                                                                 logical PEs that are implemented using a multi-threading type approach, an
+                                                                 implementation is described as multi-threaded. That is, the performance of PEs
+                                                                 at the lowest affinity level is highly interdependent.
+                                                                   - Events from a different thread of a multithreaded implementation are not
+                                                                 Attributable to the thread counting the event.
+                                                                 [/note] */
+        uint32_t sh                    : 1;  /**< [ 24: 24](R/W) Secure EL2 filtering.
+                                                                 If the value of this bit is not equal to the value of the
+                                                                 PMEVTYPER&lt;n&gt;_EL0.NSH bit, events in Secure EL2 are counted.
+                                                                 Otherwise, events in Secure EL2 are not counted.
+                                                                 [note]This field is not visible in the AArch32 AArch32-PMEVTYPER&lt;n&gt; System register.[/note] */
+        uint32_t reserved_16_23        : 8;
+        uint32_t evtcount_15_10        : 6;  /**< [ 15: 10](R/W) Extension to evtCount[9:0]. See evtCount[9:0] for more details. */
+        uint32_t evtcount_9_0          : 10; /**< [  9:  0](R/W) Event to count. The event number of the event that is counted by event counter
+                                                                 ext-PMEVCNTR&lt;n&gt;_EL0.
+                                                                 Software must program this field with an event that is supported by the PE being programmed.
+                                                                 The ranges of event numbers allocated to each type of event are shown in
+                                                                 x['Allocation of the PMU event number
+                                                                 space'](CACBHBFJ|D_the_performance_monitors_extension.fm).
+                                                                 If evtCount is programmed to an event that is reserved or not supported by the
+                                                                 PE, the behavior depends on the value written:
+                                                                  - For the range 0x0000 to 0x003F, no events are counted, and the value returned
+                                                                 by a direct or external read of the evtCount field is the value written to the
+                                                                 field.
+                                                                  - If 16-bit evtCount is implemented, for the range 0x4000 to 0x403F, no events
+                                                                 are counted, and the value returned by a direct or external read of the evtCount
+                                                                 field is the value written to the field.
+                                                                  - For IMPLEMENTATION DEFINED events, it is UNPREDICTABLE what event, if any, is
+                                                                 counted, and the value returned by a direct or external read of the evtCount
+                                                                 field is UNKNOWN.
+                                                                 [note]UNPREDICTABLE means the event must not expose privileged information.[/note]
+                                                                 Arm recommends that the behavior across a family of implementations is defined
+                                                                 such that if a given implementation does not include an event from a set of
+                                                                 common IMPLEMENTATION DEFINED events, then no event is counted and the value
+                                                                 read back on evtCount is the value written. */
+#else /* Word 0 - Little Endian */
+        uint32_t evtcount_9_0          : 10; /**< [  9:  0](R/W) Event to count. The event number of the event that is counted by event counter
+                                                                 ext-PMEVCNTR&lt;n&gt;_EL0.
+                                                                 Software must program this field with an event that is supported by the PE being programmed.
+                                                                 The ranges of event numbers allocated to each type of event are shown in
+                                                                 x['Allocation of the PMU event number
+                                                                 space'](CACBHBFJ|D_the_performance_monitors_extension.fm).
+                                                                 If evtCount is programmed to an event that is reserved or not supported by the
+                                                                 PE, the behavior depends on the value written:
+                                                                  - For the range 0x0000 to 0x003F, no events are counted, and the value returned
+                                                                 by a direct or external read of the evtCount field is the value written to the
+                                                                 field.
+                                                                  - If 16-bit evtCount is implemented, for the range 0x4000 to 0x403F, no events
+                                                                 are counted, and the value returned by a direct or external read of the evtCount
+                                                                 field is the value written to the field.
+                                                                  - For IMPLEMENTATION DEFINED events, it is UNPREDICTABLE what event, if any, is
+                                                                 counted, and the value returned by a direct or external read of the evtCount
+                                                                 field is UNKNOWN.
+                                                                 [note]UNPREDICTABLE means the event must not expose privileged information.[/note]
+                                                                 Arm recommends that the behavior across a family of implementations is defined
+                                                                 such that if a given implementation does not include an event from a set of
+                                                                 common IMPLEMENTATION DEFINED events, then no event is counted and the value
+                                                                 read back on evtCount is the value written. */
+        uint32_t evtcount_15_10        : 6;  /**< [ 15: 10](R/W) Extension to evtCount[9:0]. See evtCount[9:0] for more details. */
+        uint32_t reserved_16_23        : 8;
+        uint32_t sh                    : 1;  /**< [ 24: 24](R/W) Secure EL2 filtering.
+                                                                 If the value of this bit is not equal to the value of the
+                                                                 PMEVTYPER&lt;n&gt;_EL0.NSH bit, events in Secure EL2 are counted.
+                                                                 Otherwise, events in Secure EL2 are not counted.
+                                                                 [note]This field is not visible in the AArch32 AArch32-PMEVTYPER&lt;n&gt; System register.[/note] */
+        uint32_t mt                    : 1;  /**< [ 25: 25](R/W) Multithreading.
+                                                                 [note]
+                                                                   - When the lowest level of
+                                                                 x[affinity](BABIJFGF|D_the_performance_monitors_Extension.fm) consists of
+                                                                 logical PEs that are implemented using a multi-threading type approach, an
+                                                                 implementation is described as multi-threaded. That is, the performance of PEs
+                                                                 at the lowest affinity level is highly interdependent.
+                                                                   - Events from a different thread of a multithreaded implementation are not
+                                                                 Attributable to the thread counting the event.
+                                                                 [/note] */
+        uint32_t m                     : 1;  /**< [ 26: 26](R/W) Secure EL3 filtering bit.
+                                                                 If the value of this bit is equal to the value of the PMEVTYPER&lt;n&gt;_EL0.P
+                                                                 bit, events in Secure EL3 are counted.
+                                                                 Otherwise, events in Secure EL3 are not counted.
+                                                                 Most applications can ignore this field and set its value to 0b0.
+                                                                 [note]This field is not visible in the AArch32 AArch32-PMEVTYPER&lt;n&gt; System register.[/note] */
+        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) EL2 (Hypervisor) filtering bit. Controls counting in EL2.
+                                                                 If Secure EL2 is implemented, counting in Secure EL2 is further controlled by
+                                                                 the PMEVTYPER&lt;n&gt;_EL0.SH bit. */
+        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Non-secure EL0 (Unprivileged) filtering bit. Controls counting in Non-secure EL0.
+                                                                 If the value of this bit is equal to the value of the PMEVTYPER&lt;n&gt;_EL0.U
+                                                                 bit, events in Non-secure EL0 are counted.
+                                                                 Otherwise, events in Non-secure EL0 are not counted. */
+        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Non-secure EL1 (kernel) modes filtering bit. Controls counting in Non-secure EL1.
+                                                                 If the value of this bit is equal to the value of the PMEVTYPER&lt;n&gt;_EL0.P
+                                                                 bit, events in Non-secure EL1 are counted.
+                                                                 Otherwise, events in Non-secure EL1 are not counted. */
+        uint32_t u                     : 1;  /**< [ 30: 30](R/W) User filtering bit. Controls counting in EL0.
+                                                                 If EL3 is implemented, then counting in Non-secure EL0 is further controlled by
+                                                                 the PMEVTYPER&lt;n&gt;_EL0.NSU bit. */
+        uint32_t p                     : 1;  /**< [ 31: 31](R/W) Privileged filtering bit. Controls counting in EL1.
+                                                                 If EL3 is implemented, then counting in Non-secure EL1 is further controlled by
+                                                                 the PMEVTYPER&lt;n&gt;_EL0.NSK bit. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmevtyper1_el0_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmevtyper1_el0 cavm_cst_apx_pmu_pmevtyper1_el0_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMEVTYPER1_EL0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMEVTYPER1_EL0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020404ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMEVTYPER1_EL0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMEVTYPER1_EL0(a) cavm_cst_apx_pmu_pmevtyper1_el0_t
+#define bustype_CAVM_CST_APX_PMU_PMEVTYPER1_EL0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMEVTYPER1_EL0(a) "CST_APX_PMU_PMEVTYPER1_EL0"
+#define busnum_CAVM_CST_APX_PMU_PMEVTYPER1_EL0(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMEVTYPER1_EL0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmevtyper2_el0
+ *
+ * CST Ap Pmu Pmevtyper2 El0 Register
+ * Configures event counter n, where n is 0 to 30.
+ */
+union cavm_cst_apx_pmu_pmevtyper2_el0
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmevtyper2_el0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t p                     : 1;  /**< [ 31: 31](R/W) Privileged filtering bit. Controls counting in EL1.
+                                                                 If EL3 is implemented, then counting in Non-secure EL1 is further controlled by
+                                                                 the PMEVTYPER&lt;n&gt;_EL0.NSK bit. */
+        uint32_t u                     : 1;  /**< [ 30: 30](R/W) User filtering bit. Controls counting in EL0.
+                                                                 If EL3 is implemented, then counting in Non-secure EL0 is further controlled by
+                                                                 the PMEVTYPER&lt;n&gt;_EL0.NSU bit. */
+        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Non-secure EL1 (kernel) modes filtering bit. Controls counting in Non-secure EL1.
+                                                                 If the value of this bit is equal to the value of the PMEVTYPER&lt;n&gt;_EL0.P
+                                                                 bit, events in Non-secure EL1 are counted.
+                                                                 Otherwise, events in Non-secure EL1 are not counted. */
+        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Non-secure EL0 (Unprivileged) filtering bit. Controls counting in Non-secure EL0.
+                                                                 If the value of this bit is equal to the value of the PMEVTYPER&lt;n&gt;_EL0.U
+                                                                 bit, events in Non-secure EL0 are counted.
+                                                                 Otherwise, events in Non-secure EL0 are not counted. */
+        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) EL2 (Hypervisor) filtering bit. Controls counting in EL2.
+                                                                 If Secure EL2 is implemented, counting in Secure EL2 is further controlled by
+                                                                 the PMEVTYPER&lt;n&gt;_EL0.SH bit. */
+        uint32_t m                     : 1;  /**< [ 26: 26](R/W) Secure EL3 filtering bit.
+                                                                 If the value of this bit is equal to the value of the PMEVTYPER&lt;n&gt;_EL0.P
+                                                                 bit, events in Secure EL3 are counted.
+                                                                 Otherwise, events in Secure EL3 are not counted.
+                                                                 Most applications can ignore this field and set its value to 0b0.
+                                                                 [note]This field is not visible in the AArch32 AArch32-PMEVTYPER&lt;n&gt; System register.[/note] */
+        uint32_t mt                    : 1;  /**< [ 25: 25](R/W) Multithreading.
+                                                                 [note]
+                                                                   - When the lowest level of
+                                                                 x[affinity](BABIJFGF|D_the_performance_monitors_Extension.fm) consists of
+                                                                 logical PEs that are implemented using a multi-threading type approach, an
+                                                                 implementation is described as multi-threaded. That is, the performance of PEs
+                                                                 at the lowest affinity level is highly interdependent.
+                                                                   - Events from a different thread of a multithreaded implementation are not
+                                                                 Attributable to the thread counting the event.
+                                                                 [/note] */
+        uint32_t sh                    : 1;  /**< [ 24: 24](R/W) Secure EL2 filtering.
+                                                                 If the value of this bit is not equal to the value of the
+                                                                 PMEVTYPER&lt;n&gt;_EL0.NSH bit, events in Secure EL2 are counted.
+                                                                 Otherwise, events in Secure EL2 are not counted.
+                                                                 [note]This field is not visible in the AArch32 AArch32-PMEVTYPER&lt;n&gt; System register.[/note] */
+        uint32_t reserved_16_23        : 8;
+        uint32_t evtcount_15_10        : 6;  /**< [ 15: 10](R/W) Extension to evtCount[9:0]. See evtCount[9:0] for more details. */
+        uint32_t evtcount_9_0          : 10; /**< [  9:  0](R/W) Event to count. The event number of the event that is counted by event counter
+                                                                 ext-PMEVCNTR&lt;n&gt;_EL0.
+                                                                 Software must program this field with an event that is supported by the PE being programmed.
+                                                                 The ranges of event numbers allocated to each type of event are shown in
+                                                                 x['Allocation of the PMU event number
+                                                                 space'](CACBHBFJ|D_the_performance_monitors_extension.fm).
+                                                                 If evtCount is programmed to an event that is reserved or not supported by the
+                                                                 PE, the behavior depends on the value written:
+                                                                  - For the range 0x0000 to 0x003F, no events are counted, and the value returned
+                                                                 by a direct or external read of the evtCount field is the value written to the
+                                                                 field.
+                                                                  - If 16-bit evtCount is implemented, for the range 0x4000 to 0x403F, no events
+                                                                 are counted, and the value returned by a direct or external read of the evtCount
+                                                                 field is the value written to the field.
+                                                                  - For IMPLEMENTATION DEFINED events, it is UNPREDICTABLE what event, if any, is
+                                                                 counted, and the value returned by a direct or external read of the evtCount
+                                                                 field is UNKNOWN.
+                                                                 [note]UNPREDICTABLE means the event must not expose privileged information.[/note]
+                                                                 Arm recommends that the behavior across a family of implementations is defined
+                                                                 such that if a given implementation does not include an event from a set of
+                                                                 common IMPLEMENTATION DEFINED events, then no event is counted and the value
+                                                                 read back on evtCount is the value written. */
+#else /* Word 0 - Little Endian */
+        uint32_t evtcount_9_0          : 10; /**< [  9:  0](R/W) Event to count. The event number of the event that is counted by event counter
+                                                                 ext-PMEVCNTR&lt;n&gt;_EL0.
+                                                                 Software must program this field with an event that is supported by the PE being programmed.
+                                                                 The ranges of event numbers allocated to each type of event are shown in
+                                                                 x['Allocation of the PMU event number
+                                                                 space'](CACBHBFJ|D_the_performance_monitors_extension.fm).
+                                                                 If evtCount is programmed to an event that is reserved or not supported by the
+                                                                 PE, the behavior depends on the value written:
+                                                                  - For the range 0x0000 to 0x003F, no events are counted, and the value returned
+                                                                 by a direct or external read of the evtCount field is the value written to the
+                                                                 field.
+                                                                  - If 16-bit evtCount is implemented, for the range 0x4000 to 0x403F, no events
+                                                                 are counted, and the value returned by a direct or external read of the evtCount
+                                                                 field is the value written to the field.
+                                                                  - For IMPLEMENTATION DEFINED events, it is UNPREDICTABLE what event, if any, is
+                                                                 counted, and the value returned by a direct or external read of the evtCount
+                                                                 field is UNKNOWN.
+                                                                 [note]UNPREDICTABLE means the event must not expose privileged information.[/note]
+                                                                 Arm recommends that the behavior across a family of implementations is defined
+                                                                 such that if a given implementation does not include an event from a set of
+                                                                 common IMPLEMENTATION DEFINED events, then no event is counted and the value
+                                                                 read back on evtCount is the value written. */
+        uint32_t evtcount_15_10        : 6;  /**< [ 15: 10](R/W) Extension to evtCount[9:0]. See evtCount[9:0] for more details. */
+        uint32_t reserved_16_23        : 8;
+        uint32_t sh                    : 1;  /**< [ 24: 24](R/W) Secure EL2 filtering.
+                                                                 If the value of this bit is not equal to the value of the
+                                                                 PMEVTYPER&lt;n&gt;_EL0.NSH bit, events in Secure EL2 are counted.
+                                                                 Otherwise, events in Secure EL2 are not counted.
+                                                                 [note]This field is not visible in the AArch32 AArch32-PMEVTYPER&lt;n&gt; System register.[/note] */
+        uint32_t mt                    : 1;  /**< [ 25: 25](R/W) Multithreading.
+                                                                 [note]
+                                                                   - When the lowest level of
+                                                                 x[affinity](BABIJFGF|D_the_performance_monitors_Extension.fm) consists of
+                                                                 logical PEs that are implemented using a multi-threading type approach, an
+                                                                 implementation is described as multi-threaded. That is, the performance of PEs
+                                                                 at the lowest affinity level is highly interdependent.
+                                                                   - Events from a different thread of a multithreaded implementation are not
+                                                                 Attributable to the thread counting the event.
+                                                                 [/note] */
+        uint32_t m                     : 1;  /**< [ 26: 26](R/W) Secure EL3 filtering bit.
+                                                                 If the value of this bit is equal to the value of the PMEVTYPER&lt;n&gt;_EL0.P
+                                                                 bit, events in Secure EL3 are counted.
+                                                                 Otherwise, events in Secure EL3 are not counted.
+                                                                 Most applications can ignore this field and set its value to 0b0.
+                                                                 [note]This field is not visible in the AArch32 AArch32-PMEVTYPER&lt;n&gt; System register.[/note] */
+        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) EL2 (Hypervisor) filtering bit. Controls counting in EL2.
+                                                                 If Secure EL2 is implemented, counting in Secure EL2 is further controlled by
+                                                                 the PMEVTYPER&lt;n&gt;_EL0.SH bit. */
+        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Non-secure EL0 (Unprivileged) filtering bit. Controls counting in Non-secure EL0.
+                                                                 If the value of this bit is equal to the value of the PMEVTYPER&lt;n&gt;_EL0.U
+                                                                 bit, events in Non-secure EL0 are counted.
+                                                                 Otherwise, events in Non-secure EL0 are not counted. */
+        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Non-secure EL1 (kernel) modes filtering bit. Controls counting in Non-secure EL1.
+                                                                 If the value of this bit is equal to the value of the PMEVTYPER&lt;n&gt;_EL0.P
+                                                                 bit, events in Non-secure EL1 are counted.
+                                                                 Otherwise, events in Non-secure EL1 are not counted. */
+        uint32_t u                     : 1;  /**< [ 30: 30](R/W) User filtering bit. Controls counting in EL0.
+                                                                 If EL3 is implemented, then counting in Non-secure EL0 is further controlled by
+                                                                 the PMEVTYPER&lt;n&gt;_EL0.NSU bit. */
+        uint32_t p                     : 1;  /**< [ 31: 31](R/W) Privileged filtering bit. Controls counting in EL1.
+                                                                 If EL3 is implemented, then counting in Non-secure EL1 is further controlled by
+                                                                 the PMEVTYPER&lt;n&gt;_EL0.NSK bit. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmevtyper2_el0_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmevtyper2_el0 cavm_cst_apx_pmu_pmevtyper2_el0_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMEVTYPER2_EL0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMEVTYPER2_EL0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020408ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMEVTYPER2_EL0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMEVTYPER2_EL0(a) cavm_cst_apx_pmu_pmevtyper2_el0_t
+#define bustype_CAVM_CST_APX_PMU_PMEVTYPER2_EL0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMEVTYPER2_EL0(a) "CST_APX_PMU_PMEVTYPER2_EL0"
+#define busnum_CAVM_CST_APX_PMU_PMEVTYPER2_EL0(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMEVTYPER2_EL0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmevtyper3_el0
+ *
+ * CST Ap Pmu Pmevtyper3 El0 Register
+ * Configures event counter n, where n is 0 to 30.
+ */
+union cavm_cst_apx_pmu_pmevtyper3_el0
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmevtyper3_el0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t p                     : 1;  /**< [ 31: 31](R/W) Privileged filtering bit. Controls counting in EL1.
+                                                                 If EL3 is implemented, then counting in Non-secure EL1 is further controlled by
+                                                                 the PMEVTYPER&lt;n&gt;_EL0.NSK bit. */
+        uint32_t u                     : 1;  /**< [ 30: 30](R/W) User filtering bit. Controls counting in EL0.
+                                                                 If EL3 is implemented, then counting in Non-secure EL0 is further controlled by
+                                                                 the PMEVTYPER&lt;n&gt;_EL0.NSU bit. */
+        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Non-secure EL1 (kernel) modes filtering bit. Controls counting in Non-secure EL1.
+                                                                 If the value of this bit is equal to the value of the PMEVTYPER&lt;n&gt;_EL0.P
+                                                                 bit, events in Non-secure EL1 are counted.
+                                                                 Otherwise, events in Non-secure EL1 are not counted. */
+        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Non-secure EL0 (Unprivileged) filtering bit. Controls counting in Non-secure EL0.
+                                                                 If the value of this bit is equal to the value of the PMEVTYPER&lt;n&gt;_EL0.U
+                                                                 bit, events in Non-secure EL0 are counted.
+                                                                 Otherwise, events in Non-secure EL0 are not counted. */
+        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) EL2 (Hypervisor) filtering bit. Controls counting in EL2.
+                                                                 If Secure EL2 is implemented, counting in Secure EL2 is further controlled by
+                                                                 the PMEVTYPER&lt;n&gt;_EL0.SH bit. */
+        uint32_t m                     : 1;  /**< [ 26: 26](R/W) Secure EL3 filtering bit.
+                                                                 If the value of this bit is equal to the value of the PMEVTYPER&lt;n&gt;_EL0.P
+                                                                 bit, events in Secure EL3 are counted.
+                                                                 Otherwise, events in Secure EL3 are not counted.
+                                                                 Most applications can ignore this field and set its value to 0b0.
+                                                                 [note]This field is not visible in the AArch32 AArch32-PMEVTYPER&lt;n&gt; System register.[/note] */
+        uint32_t mt                    : 1;  /**< [ 25: 25](R/W) Multithreading.
+                                                                 [note]
+                                                                   - When the lowest level of
+                                                                 x[affinity](BABIJFGF|D_the_performance_monitors_Extension.fm) consists of
+                                                                 logical PEs that are implemented using a multi-threading type approach, an
+                                                                 implementation is described as multi-threaded. That is, the performance of PEs
+                                                                 at the lowest affinity level is highly interdependent.
+                                                                   - Events from a different thread of a multithreaded implementation are not
+                                                                 Attributable to the thread counting the event.
+                                                                 [/note] */
+        uint32_t sh                    : 1;  /**< [ 24: 24](R/W) Secure EL2 filtering.
+                                                                 If the value of this bit is not equal to the value of the
+                                                                 PMEVTYPER&lt;n&gt;_EL0.NSH bit, events in Secure EL2 are counted.
+                                                                 Otherwise, events in Secure EL2 are not counted.
+                                                                 [note]This field is not visible in the AArch32 AArch32-PMEVTYPER&lt;n&gt; System register.[/note] */
+        uint32_t reserved_16_23        : 8;
+        uint32_t evtcount_15_10        : 6;  /**< [ 15: 10](R/W) Extension to evtCount[9:0]. See evtCount[9:0] for more details. */
+        uint32_t evtcount_9_0          : 10; /**< [  9:  0](R/W) Event to count. The event number of the event that is counted by event counter
+                                                                 ext-PMEVCNTR&lt;n&gt;_EL0.
+                                                                 Software must program this field with an event that is supported by the PE being programmed.
+                                                                 The ranges of event numbers allocated to each type of event are shown in
+                                                                 x['Allocation of the PMU event number
+                                                                 space'](CACBHBFJ|D_the_performance_monitors_extension.fm).
+                                                                 If evtCount is programmed to an event that is reserved or not supported by the
+                                                                 PE, the behavior depends on the value written:
+                                                                  - For the range 0x0000 to 0x003F, no events are counted, and the value returned
+                                                                 by a direct or external read of the evtCount field is the value written to the
+                                                                 field.
+                                                                  - If 16-bit evtCount is implemented, for the range 0x4000 to 0x403F, no events
+                                                                 are counted, and the value returned by a direct or external read of the evtCount
+                                                                 field is the value written to the field.
+                                                                  - For IMPLEMENTATION DEFINED events, it is UNPREDICTABLE what event, if any, is
+                                                                 counted, and the value returned by a direct or external read of the evtCount
+                                                                 field is UNKNOWN.
+                                                                 [note]UNPREDICTABLE means the event must not expose privileged information.[/note]
+                                                                 Arm recommends that the behavior across a family of implementations is defined
+                                                                 such that if a given implementation does not include an event from a set of
+                                                                 common IMPLEMENTATION DEFINED events, then no event is counted and the value
+                                                                 read back on evtCount is the value written. */
+#else /* Word 0 - Little Endian */
+        uint32_t evtcount_9_0          : 10; /**< [  9:  0](R/W) Event to count. The event number of the event that is counted by event counter
+                                                                 ext-PMEVCNTR&lt;n&gt;_EL0.
+                                                                 Software must program this field with an event that is supported by the PE being programmed.
+                                                                 The ranges of event numbers allocated to each type of event are shown in
+                                                                 x['Allocation of the PMU event number
+                                                                 space'](CACBHBFJ|D_the_performance_monitors_extension.fm).
+                                                                 If evtCount is programmed to an event that is reserved or not supported by the
+                                                                 PE, the behavior depends on the value written:
+                                                                  - For the range 0x0000 to 0x003F, no events are counted, and the value returned
+                                                                 by a direct or external read of the evtCount field is the value written to the
+                                                                 field.
+                                                                  - If 16-bit evtCount is implemented, for the range 0x4000 to 0x403F, no events
+                                                                 are counted, and the value returned by a direct or external read of the evtCount
+                                                                 field is the value written to the field.
+                                                                  - For IMPLEMENTATION DEFINED events, it is UNPREDICTABLE what event, if any, is
+                                                                 counted, and the value returned by a direct or external read of the evtCount
+                                                                 field is UNKNOWN.
+                                                                 [note]UNPREDICTABLE means the event must not expose privileged information.[/note]
+                                                                 Arm recommends that the behavior across a family of implementations is defined
+                                                                 such that if a given implementation does not include an event from a set of
+                                                                 common IMPLEMENTATION DEFINED events, then no event is counted and the value
+                                                                 read back on evtCount is the value written. */
+        uint32_t evtcount_15_10        : 6;  /**< [ 15: 10](R/W) Extension to evtCount[9:0]. See evtCount[9:0] for more details. */
+        uint32_t reserved_16_23        : 8;
+        uint32_t sh                    : 1;  /**< [ 24: 24](R/W) Secure EL2 filtering.
+                                                                 If the value of this bit is not equal to the value of the
+                                                                 PMEVTYPER&lt;n&gt;_EL0.NSH bit, events in Secure EL2 are counted.
+                                                                 Otherwise, events in Secure EL2 are not counted.
+                                                                 [note]This field is not visible in the AArch32 AArch32-PMEVTYPER&lt;n&gt; System register.[/note] */
+        uint32_t mt                    : 1;  /**< [ 25: 25](R/W) Multithreading.
+                                                                 [note]
+                                                                   - When the lowest level of
+                                                                 x[affinity](BABIJFGF|D_the_performance_monitors_Extension.fm) consists of
+                                                                 logical PEs that are implemented using a multi-threading type approach, an
+                                                                 implementation is described as multi-threaded. That is, the performance of PEs
+                                                                 at the lowest affinity level is highly interdependent.
+                                                                   - Events from a different thread of a multithreaded implementation are not
+                                                                 Attributable to the thread counting the event.
+                                                                 [/note] */
+        uint32_t m                     : 1;  /**< [ 26: 26](R/W) Secure EL3 filtering bit.
+                                                                 If the value of this bit is equal to the value of the PMEVTYPER&lt;n&gt;_EL0.P
+                                                                 bit, events in Secure EL3 are counted.
+                                                                 Otherwise, events in Secure EL3 are not counted.
+                                                                 Most applications can ignore this field and set its value to 0b0.
+                                                                 [note]This field is not visible in the AArch32 AArch32-PMEVTYPER&lt;n&gt; System register.[/note] */
+        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) EL2 (Hypervisor) filtering bit. Controls counting in EL2.
+                                                                 If Secure EL2 is implemented, counting in Secure EL2 is further controlled by
+                                                                 the PMEVTYPER&lt;n&gt;_EL0.SH bit. */
+        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Non-secure EL0 (Unprivileged) filtering bit. Controls counting in Non-secure EL0.
+                                                                 If the value of this bit is equal to the value of the PMEVTYPER&lt;n&gt;_EL0.U
+                                                                 bit, events in Non-secure EL0 are counted.
+                                                                 Otherwise, events in Non-secure EL0 are not counted. */
+        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Non-secure EL1 (kernel) modes filtering bit. Controls counting in Non-secure EL1.
+                                                                 If the value of this bit is equal to the value of the PMEVTYPER&lt;n&gt;_EL0.P
+                                                                 bit, events in Non-secure EL1 are counted.
+                                                                 Otherwise, events in Non-secure EL1 are not counted. */
+        uint32_t u                     : 1;  /**< [ 30: 30](R/W) User filtering bit. Controls counting in EL0.
+                                                                 If EL3 is implemented, then counting in Non-secure EL0 is further controlled by
+                                                                 the PMEVTYPER&lt;n&gt;_EL0.NSU bit. */
+        uint32_t p                     : 1;  /**< [ 31: 31](R/W) Privileged filtering bit. Controls counting in EL1.
+                                                                 If EL3 is implemented, then counting in Non-secure EL1 is further controlled by
+                                                                 the PMEVTYPER&lt;n&gt;_EL0.NSK bit. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmevtyper3_el0_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmevtyper3_el0 cavm_cst_apx_pmu_pmevtyper3_el0_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMEVTYPER3_EL0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMEVTYPER3_EL0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a08102040cll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMEVTYPER3_EL0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMEVTYPER3_EL0(a) cavm_cst_apx_pmu_pmevtyper3_el0_t
+#define bustype_CAVM_CST_APX_PMU_PMEVTYPER3_EL0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMEVTYPER3_EL0(a) "CST_APX_PMU_PMEVTYPER3_EL0"
+#define busnum_CAVM_CST_APX_PMU_PMEVTYPER3_EL0(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMEVTYPER3_EL0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmevtyper4_el0
+ *
+ * CST Ap Pmu Pmevtyper4 El0 Register
+ * Configures event counter n, where n is 0 to 30.
+ */
+union cavm_cst_apx_pmu_pmevtyper4_el0
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmevtyper4_el0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t p                     : 1;  /**< [ 31: 31](R/W) Privileged filtering bit. Controls counting in EL1.
+                                                                 If EL3 is implemented, then counting in Non-secure EL1 is further controlled by
+                                                                 the PMEVTYPER&lt;n&gt;_EL0.NSK bit. */
+        uint32_t u                     : 1;  /**< [ 30: 30](R/W) User filtering bit. Controls counting in EL0.
+                                                                 If EL3 is implemented, then counting in Non-secure EL0 is further controlled by
+                                                                 the PMEVTYPER&lt;n&gt;_EL0.NSU bit. */
+        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Non-secure EL1 (kernel) modes filtering bit. Controls counting in Non-secure EL1.
+                                                                 If the value of this bit is equal to the value of the PMEVTYPER&lt;n&gt;_EL0.P
+                                                                 bit, events in Non-secure EL1 are counted.
+                                                                 Otherwise, events in Non-secure EL1 are not counted. */
+        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Non-secure EL0 (Unprivileged) filtering bit. Controls counting in Non-secure EL0.
+                                                                 If the value of this bit is equal to the value of the PMEVTYPER&lt;n&gt;_EL0.U
+                                                                 bit, events in Non-secure EL0 are counted.
+                                                                 Otherwise, events in Non-secure EL0 are not counted. */
+        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) EL2 (Hypervisor) filtering bit. Controls counting in EL2.
+                                                                 If Secure EL2 is implemented, counting in Secure EL2 is further controlled by
+                                                                 the PMEVTYPER&lt;n&gt;_EL0.SH bit. */
+        uint32_t m                     : 1;  /**< [ 26: 26](R/W) Secure EL3 filtering bit.
+                                                                 If the value of this bit is equal to the value of the PMEVTYPER&lt;n&gt;_EL0.P
+                                                                 bit, events in Secure EL3 are counted.
+                                                                 Otherwise, events in Secure EL3 are not counted.
+                                                                 Most applications can ignore this field and set its value to 0b0.
+                                                                 [note]This field is not visible in the AArch32 AArch32-PMEVTYPER&lt;n&gt; System register.[/note] */
+        uint32_t mt                    : 1;  /**< [ 25: 25](R/W) Multithreading.
+                                                                 [note]
+                                                                   - When the lowest level of
+                                                                 x[affinity](BABIJFGF|D_the_performance_monitors_Extension.fm) consists of
+                                                                 logical PEs that are implemented using a multi-threading type approach, an
+                                                                 implementation is described as multi-threaded. That is, the performance of PEs
+                                                                 at the lowest affinity level is highly interdependent.
+                                                                   - Events from a different thread of a multithreaded implementation are not
+                                                                 Attributable to the thread counting the event.
+                                                                 [/note] */
+        uint32_t sh                    : 1;  /**< [ 24: 24](R/W) Secure EL2 filtering.
+                                                                 If the value of this bit is not equal to the value of the
+                                                                 PMEVTYPER&lt;n&gt;_EL0.NSH bit, events in Secure EL2 are counted.
+                                                                 Otherwise, events in Secure EL2 are not counted.
+                                                                 [note]This field is not visible in the AArch32 AArch32-PMEVTYPER&lt;n&gt; System register.[/note] */
+        uint32_t reserved_16_23        : 8;
+        uint32_t evtcount_15_10        : 6;  /**< [ 15: 10](R/W) Extension to evtCount[9:0]. See evtCount[9:0] for more details. */
+        uint32_t evtcount_9_0          : 10; /**< [  9:  0](R/W) Event to count. The event number of the event that is counted by event counter
+                                                                 ext-PMEVCNTR&lt;n&gt;_EL0.
+                                                                 Software must program this field with an event that is supported by the PE being programmed.
+                                                                 The ranges of event numbers allocated to each type of event are shown in
+                                                                 x['Allocation of the PMU event number
+                                                                 space'](CACBHBFJ|D_the_performance_monitors_extension.fm).
+                                                                 If evtCount is programmed to an event that is reserved or not supported by the
+                                                                 PE, the behavior depends on the value written:
+                                                                  - For the range 0x0000 to 0x003F, no events are counted, and the value returned
+                                                                 by a direct or external read of the evtCount field is the value written to the
+                                                                 field.
+                                                                  - If 16-bit evtCount is implemented, for the range 0x4000 to 0x403F, no events
+                                                                 are counted, and the value returned by a direct or external read of the evtCount
+                                                                 field is the value written to the field.
+                                                                  - For IMPLEMENTATION DEFINED events, it is UNPREDICTABLE what event, if any, is
+                                                                 counted, and the value returned by a direct or external read of the evtCount
+                                                                 field is UNKNOWN.
+                                                                 [note]UNPREDICTABLE means the event must not expose privileged information.[/note]
+                                                                 Arm recommends that the behavior across a family of implementations is defined
+                                                                 such that if a given implementation does not include an event from a set of
+                                                                 common IMPLEMENTATION DEFINED events, then no event is counted and the value
+                                                                 read back on evtCount is the value written. */
+#else /* Word 0 - Little Endian */
+        uint32_t evtcount_9_0          : 10; /**< [  9:  0](R/W) Event to count. The event number of the event that is counted by event counter
+                                                                 ext-PMEVCNTR&lt;n&gt;_EL0.
+                                                                 Software must program this field with an event that is supported by the PE being programmed.
+                                                                 The ranges of event numbers allocated to each type of event are shown in
+                                                                 x['Allocation of the PMU event number
+                                                                 space'](CACBHBFJ|D_the_performance_monitors_extension.fm).
+                                                                 If evtCount is programmed to an event that is reserved or not supported by the
+                                                                 PE, the behavior depends on the value written:
+                                                                  - For the range 0x0000 to 0x003F, no events are counted, and the value returned
+                                                                 by a direct or external read of the evtCount field is the value written to the
+                                                                 field.
+                                                                  - If 16-bit evtCount is implemented, for the range 0x4000 to 0x403F, no events
+                                                                 are counted, and the value returned by a direct or external read of the evtCount
+                                                                 field is the value written to the field.
+                                                                  - For IMPLEMENTATION DEFINED events, it is UNPREDICTABLE what event, if any, is
+                                                                 counted, and the value returned by a direct or external read of the evtCount
+                                                                 field is UNKNOWN.
+                                                                 [note]UNPREDICTABLE means the event must not expose privileged information.[/note]
+                                                                 Arm recommends that the behavior across a family of implementations is defined
+                                                                 such that if a given implementation does not include an event from a set of
+                                                                 common IMPLEMENTATION DEFINED events, then no event is counted and the value
+                                                                 read back on evtCount is the value written. */
+        uint32_t evtcount_15_10        : 6;  /**< [ 15: 10](R/W) Extension to evtCount[9:0]. See evtCount[9:0] for more details. */
+        uint32_t reserved_16_23        : 8;
+        uint32_t sh                    : 1;  /**< [ 24: 24](R/W) Secure EL2 filtering.
+                                                                 If the value of this bit is not equal to the value of the
+                                                                 PMEVTYPER&lt;n&gt;_EL0.NSH bit, events in Secure EL2 are counted.
+                                                                 Otherwise, events in Secure EL2 are not counted.
+                                                                 [note]This field is not visible in the AArch32 AArch32-PMEVTYPER&lt;n&gt; System register.[/note] */
+        uint32_t mt                    : 1;  /**< [ 25: 25](R/W) Multithreading.
+                                                                 [note]
+                                                                   - When the lowest level of
+                                                                 x[affinity](BABIJFGF|D_the_performance_monitors_Extension.fm) consists of
+                                                                 logical PEs that are implemented using a multi-threading type approach, an
+                                                                 implementation is described as multi-threaded. That is, the performance of PEs
+                                                                 at the lowest affinity level is highly interdependent.
+                                                                   - Events from a different thread of a multithreaded implementation are not
+                                                                 Attributable to the thread counting the event.
+                                                                 [/note] */
+        uint32_t m                     : 1;  /**< [ 26: 26](R/W) Secure EL3 filtering bit.
+                                                                 If the value of this bit is equal to the value of the PMEVTYPER&lt;n&gt;_EL0.P
+                                                                 bit, events in Secure EL3 are counted.
+                                                                 Otherwise, events in Secure EL3 are not counted.
+                                                                 Most applications can ignore this field and set its value to 0b0.
+                                                                 [note]This field is not visible in the AArch32 AArch32-PMEVTYPER&lt;n&gt; System register.[/note] */
+        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) EL2 (Hypervisor) filtering bit. Controls counting in EL2.
+                                                                 If Secure EL2 is implemented, counting in Secure EL2 is further controlled by
+                                                                 the PMEVTYPER&lt;n&gt;_EL0.SH bit. */
+        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Non-secure EL0 (Unprivileged) filtering bit. Controls counting in Non-secure EL0.
+                                                                 If the value of this bit is equal to the value of the PMEVTYPER&lt;n&gt;_EL0.U
+                                                                 bit, events in Non-secure EL0 are counted.
+                                                                 Otherwise, events in Non-secure EL0 are not counted. */
+        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Non-secure EL1 (kernel) modes filtering bit. Controls counting in Non-secure EL1.
+                                                                 If the value of this bit is equal to the value of the PMEVTYPER&lt;n&gt;_EL0.P
+                                                                 bit, events in Non-secure EL1 are counted.
+                                                                 Otherwise, events in Non-secure EL1 are not counted. */
+        uint32_t u                     : 1;  /**< [ 30: 30](R/W) User filtering bit. Controls counting in EL0.
+                                                                 If EL3 is implemented, then counting in Non-secure EL0 is further controlled by
+                                                                 the PMEVTYPER&lt;n&gt;_EL0.NSU bit. */
+        uint32_t p                     : 1;  /**< [ 31: 31](R/W) Privileged filtering bit. Controls counting in EL1.
+                                                                 If EL3 is implemented, then counting in Non-secure EL1 is further controlled by
+                                                                 the PMEVTYPER&lt;n&gt;_EL0.NSK bit. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmevtyper4_el0_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmevtyper4_el0 cavm_cst_apx_pmu_pmevtyper4_el0_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMEVTYPER4_EL0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMEVTYPER4_EL0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020410ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMEVTYPER4_EL0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMEVTYPER4_EL0(a) cavm_cst_apx_pmu_pmevtyper4_el0_t
+#define bustype_CAVM_CST_APX_PMU_PMEVTYPER4_EL0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMEVTYPER4_EL0(a) "CST_APX_PMU_PMEVTYPER4_EL0"
+#define busnum_CAVM_CST_APX_PMU_PMEVTYPER4_EL0(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMEVTYPER4_EL0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmevtyper5_el0
+ *
+ * CST Ap Pmu Pmevtyper5 El0 Register
+ * Configures event counter n, where n is 0 to 30.
+ */
+union cavm_cst_apx_pmu_pmevtyper5_el0
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmevtyper5_el0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t p                     : 1;  /**< [ 31: 31](R/W) Privileged filtering bit. Controls counting in EL1.
+                                                                 If EL3 is implemented, then counting in Non-secure EL1 is further controlled by
+                                                                 the PMEVTYPER&lt;n&gt;_EL0.NSK bit. */
+        uint32_t u                     : 1;  /**< [ 30: 30](R/W) User filtering bit. Controls counting in EL0.
+                                                                 If EL3 is implemented, then counting in Non-secure EL0 is further controlled by
+                                                                 the PMEVTYPER&lt;n&gt;_EL0.NSU bit. */
+        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Non-secure EL1 (kernel) modes filtering bit. Controls counting in Non-secure EL1.
+                                                                 If the value of this bit is equal to the value of the PMEVTYPER&lt;n&gt;_EL0.P
+                                                                 bit, events in Non-secure EL1 are counted.
+                                                                 Otherwise, events in Non-secure EL1 are not counted. */
+        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Non-secure EL0 (Unprivileged) filtering bit. Controls counting in Non-secure EL0.
+                                                                 If the value of this bit is equal to the value of the PMEVTYPER&lt;n&gt;_EL0.U
+                                                                 bit, events in Non-secure EL0 are counted.
+                                                                 Otherwise, events in Non-secure EL0 are not counted. */
+        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) EL2 (Hypervisor) filtering bit. Controls counting in EL2.
+                                                                 If Secure EL2 is implemented, counting in Secure EL2 is further controlled by
+                                                                 the PMEVTYPER&lt;n&gt;_EL0.SH bit. */
+        uint32_t m                     : 1;  /**< [ 26: 26](R/W) Secure EL3 filtering bit.
+                                                                 If the value of this bit is equal to the value of the PMEVTYPER&lt;n&gt;_EL0.P
+                                                                 bit, events in Secure EL3 are counted.
+                                                                 Otherwise, events in Secure EL3 are not counted.
+                                                                 Most applications can ignore this field and set its value to 0b0.
+                                                                 [note]This field is not visible in the AArch32 AArch32-PMEVTYPER&lt;n&gt; System register.[/note] */
+        uint32_t mt                    : 1;  /**< [ 25: 25](R/W) Multithreading.
+                                                                 [note]
+                                                                   - When the lowest level of
+                                                                 x[affinity](BABIJFGF|D_the_performance_monitors_Extension.fm) consists of
+                                                                 logical PEs that are implemented using a multi-threading type approach, an
+                                                                 implementation is described as multi-threaded. That is, the performance of PEs
+                                                                 at the lowest affinity level is highly interdependent.
+                                                                   - Events from a different thread of a multithreaded implementation are not
+                                                                 Attributable to the thread counting the event.
+                                                                 [/note] */
+        uint32_t sh                    : 1;  /**< [ 24: 24](R/W) Secure EL2 filtering.
+                                                                 If the value of this bit is not equal to the value of the
+                                                                 PMEVTYPER&lt;n&gt;_EL0.NSH bit, events in Secure EL2 are counted.
+                                                                 Otherwise, events in Secure EL2 are not counted.
+                                                                 [note]This field is not visible in the AArch32 AArch32-PMEVTYPER&lt;n&gt; System register.[/note] */
+        uint32_t reserved_16_23        : 8;
+        uint32_t evtcount_15_10        : 6;  /**< [ 15: 10](R/W) Extension to evtCount[9:0]. See evtCount[9:0] for more details. */
+        uint32_t evtcount_9_0          : 10; /**< [  9:  0](R/W) Event to count. The event number of the event that is counted by event counter
+                                                                 ext-PMEVCNTR&lt;n&gt;_EL0.
+                                                                 Software must program this field with an event that is supported by the PE being programmed.
+                                                                 The ranges of event numbers allocated to each type of event are shown in
+                                                                 x['Allocation of the PMU event number
+                                                                 space'](CACBHBFJ|D_the_performance_monitors_extension.fm).
+                                                                 If evtCount is programmed to an event that is reserved or not supported by the
+                                                                 PE, the behavior depends on the value written:
+                                                                  - For the range 0x0000 to 0x003F, no events are counted, and the value returned
+                                                                 by a direct or external read of the evtCount field is the value written to the
+                                                                 field.
+                                                                  - If 16-bit evtCount is implemented, for the range 0x4000 to 0x403F, no events
+                                                                 are counted, and the value returned by a direct or external read of the evtCount
+                                                                 field is the value written to the field.
+                                                                  - For IMPLEMENTATION DEFINED events, it is UNPREDICTABLE what event, if any, is
+                                                                 counted, and the value returned by a direct or external read of the evtCount
+                                                                 field is UNKNOWN.
+                                                                 [note]UNPREDICTABLE means the event must not expose privileged information.[/note]
+                                                                 Arm recommends that the behavior across a family of implementations is defined
+                                                                 such that if a given implementation does not include an event from a set of
+                                                                 common IMPLEMENTATION DEFINED events, then no event is counted and the value
+                                                                 read back on evtCount is the value written. */
+#else /* Word 0 - Little Endian */
+        uint32_t evtcount_9_0          : 10; /**< [  9:  0](R/W) Event to count. The event number of the event that is counted by event counter
+                                                                 ext-PMEVCNTR&lt;n&gt;_EL0.
+                                                                 Software must program this field with an event that is supported by the PE being programmed.
+                                                                 The ranges of event numbers allocated to each type of event are shown in
+                                                                 x['Allocation of the PMU event number
+                                                                 space'](CACBHBFJ|D_the_performance_monitors_extension.fm).
+                                                                 If evtCount is programmed to an event that is reserved or not supported by the
+                                                                 PE, the behavior depends on the value written:
+                                                                  - For the range 0x0000 to 0x003F, no events are counted, and the value returned
+                                                                 by a direct or external read of the evtCount field is the value written to the
+                                                                 field.
+                                                                  - If 16-bit evtCount is implemented, for the range 0x4000 to 0x403F, no events
+                                                                 are counted, and the value returned by a direct or external read of the evtCount
+                                                                 field is the value written to the field.
+                                                                  - For IMPLEMENTATION DEFINED events, it is UNPREDICTABLE what event, if any, is
+                                                                 counted, and the value returned by a direct or external read of the evtCount
+                                                                 field is UNKNOWN.
+                                                                 [note]UNPREDICTABLE means the event must not expose privileged information.[/note]
+                                                                 Arm recommends that the behavior across a family of implementations is defined
+                                                                 such that if a given implementation does not include an event from a set of
+                                                                 common IMPLEMENTATION DEFINED events, then no event is counted and the value
+                                                                 read back on evtCount is the value written. */
+        uint32_t evtcount_15_10        : 6;  /**< [ 15: 10](R/W) Extension to evtCount[9:0]. See evtCount[9:0] for more details. */
+        uint32_t reserved_16_23        : 8;
+        uint32_t sh                    : 1;  /**< [ 24: 24](R/W) Secure EL2 filtering.
+                                                                 If the value of this bit is not equal to the value of the
+                                                                 PMEVTYPER&lt;n&gt;_EL0.NSH bit, events in Secure EL2 are counted.
+                                                                 Otherwise, events in Secure EL2 are not counted.
+                                                                 [note]This field is not visible in the AArch32 AArch32-PMEVTYPER&lt;n&gt; System register.[/note] */
+        uint32_t mt                    : 1;  /**< [ 25: 25](R/W) Multithreading.
+                                                                 [note]
+                                                                   - When the lowest level of
+                                                                 x[affinity](BABIJFGF|D_the_performance_monitors_Extension.fm) consists of
+                                                                 logical PEs that are implemented using a multi-threading type approach, an
+                                                                 implementation is described as multi-threaded. That is, the performance of PEs
+                                                                 at the lowest affinity level is highly interdependent.
+                                                                   - Events from a different thread of a multithreaded implementation are not
+                                                                 Attributable to the thread counting the event.
+                                                                 [/note] */
+        uint32_t m                     : 1;  /**< [ 26: 26](R/W) Secure EL3 filtering bit.
+                                                                 If the value of this bit is equal to the value of the PMEVTYPER&lt;n&gt;_EL0.P
+                                                                 bit, events in Secure EL3 are counted.
+                                                                 Otherwise, events in Secure EL3 are not counted.
+                                                                 Most applications can ignore this field and set its value to 0b0.
+                                                                 [note]This field is not visible in the AArch32 AArch32-PMEVTYPER&lt;n&gt; System register.[/note] */
+        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) EL2 (Hypervisor) filtering bit. Controls counting in EL2.
+                                                                 If Secure EL2 is implemented, counting in Secure EL2 is further controlled by
+                                                                 the PMEVTYPER&lt;n&gt;_EL0.SH bit. */
+        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Non-secure EL0 (Unprivileged) filtering bit. Controls counting in Non-secure EL0.
+                                                                 If the value of this bit is equal to the value of the PMEVTYPER&lt;n&gt;_EL0.U
+                                                                 bit, events in Non-secure EL0 are counted.
+                                                                 Otherwise, events in Non-secure EL0 are not counted. */
+        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Non-secure EL1 (kernel) modes filtering bit. Controls counting in Non-secure EL1.
+                                                                 If the value of this bit is equal to the value of the PMEVTYPER&lt;n&gt;_EL0.P
+                                                                 bit, events in Non-secure EL1 are counted.
+                                                                 Otherwise, events in Non-secure EL1 are not counted. */
+        uint32_t u                     : 1;  /**< [ 30: 30](R/W) User filtering bit. Controls counting in EL0.
+                                                                 If EL3 is implemented, then counting in Non-secure EL0 is further controlled by
+                                                                 the PMEVTYPER&lt;n&gt;_EL0.NSU bit. */
+        uint32_t p                     : 1;  /**< [ 31: 31](R/W) Privileged filtering bit. Controls counting in EL1.
+                                                                 If EL3 is implemented, then counting in Non-secure EL1 is further controlled by
+                                                                 the PMEVTYPER&lt;n&gt;_EL0.NSK bit. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmevtyper5_el0_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmevtyper5_el0 cavm_cst_apx_pmu_pmevtyper5_el0_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMEVTYPER5_EL0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMEVTYPER5_EL0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020414ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMEVTYPER5_EL0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMEVTYPER5_EL0(a) cavm_cst_apx_pmu_pmevtyper5_el0_t
+#define bustype_CAVM_CST_APX_PMU_PMEVTYPER5_EL0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMEVTYPER5_EL0(a) "CST_APX_PMU_PMEVTYPER5_EL0"
+#define busnum_CAVM_CST_APX_PMU_PMEVTYPER5_EL0(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMEVTYPER5_EL0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmintenclr_el1
+ *
+ * CST Ap Pmu Pmintenclr El1 Register
+ * Disables the generation of interrupt requests on overflows from the Cycle Count
+ * Register, ext-PMCCNTR_EL0, and the event counters ext-PMEVCNTR&lt;n&gt;_EL0. Reading
+ * the register shows which overflow interrupt requests are enabled.
+ */
+union cavm_cst_apx_pmu_pmintenclr_el1
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmintenclr_el1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t c_f                   : 1;  /**< [ 31: 31](R/W) Ext-PMCCNTR_EL0 overflow interrupt request disable bit. Possible values are: */
+        uint32_t pn                    : 31; /**< [ 30:  0](R/W) Event counter overflow interrupt request disable bit for ext-PMEVCNTR&lt;n&gt;_EL0.
+                                                                 If ext-PMCFGR.N is less than 31, bits [30:ext-PMCFGR.N] are RAZ/WI. */
+#else /* Word 0 - Little Endian */
+        uint32_t pn                    : 31; /**< [ 30:  0](R/W) Event counter overflow interrupt request disable bit for ext-PMEVCNTR&lt;n&gt;_EL0.
+                                                                 If ext-PMCFGR.N is less than 31, bits [30:ext-PMCFGR.N] are RAZ/WI. */
+        uint32_t c_f                   : 1;  /**< [ 31: 31](R/W) Ext-PMCCNTR_EL0 overflow interrupt request disable bit. Possible values are: */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmintenclr_el1_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmintenclr_el1 cavm_cst_apx_pmu_pmintenclr_el1_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMINTENCLR_EL1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMINTENCLR_EL1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020c60ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMINTENCLR_EL1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMINTENCLR_EL1(a) cavm_cst_apx_pmu_pmintenclr_el1_t
+#define bustype_CAVM_CST_APX_PMU_PMINTENCLR_EL1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMINTENCLR_EL1(a) "CST_APX_PMU_PMINTENCLR_EL1"
+#define busnum_CAVM_CST_APX_PMU_PMINTENCLR_EL1(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMINTENCLR_EL1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmintenset_el1
+ *
+ * CST Ap Pmu Pmintenset El1 Register
+ * Enables the generation of interrupt requests on overflows from the Cycle Count
+ * Register, ext-PMCCNTR_EL0, and the event counters ext-PMEVCNTR&lt;n&gt;_EL0. Reading
+ * the register shows which overflow interrupt requests are enabled.
+ */
+union cavm_cst_apx_pmu_pmintenset_el1
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmintenset_el1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t c_f                   : 1;  /**< [ 31: 31](R/W) Ext-PMCCNTR_EL0 overflow interrupt request enable bit. Possible values are: */
+        uint32_t pn                    : 31; /**< [ 30:  0](R/W) Event counter overflow interrupt request enable bit for ext-PMEVCNTR&lt;n&gt;_EL0.
+                                                                 If ext-PMCFGR.N is less than 31, bits [30:ext-PMCFGR.N] are RAZ/WI. */
+#else /* Word 0 - Little Endian */
+        uint32_t pn                    : 31; /**< [ 30:  0](R/W) Event counter overflow interrupt request enable bit for ext-PMEVCNTR&lt;n&gt;_EL0.
+                                                                 If ext-PMCFGR.N is less than 31, bits [30:ext-PMCFGR.N] are RAZ/WI. */
+        uint32_t c_f                   : 1;  /**< [ 31: 31](R/W) Ext-PMCCNTR_EL0 overflow interrupt request enable bit. Possible values are: */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmintenset_el1_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmintenset_el1 cavm_cst_apx_pmu_pmintenset_el1_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMINTENSET_EL1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMINTENSET_EL1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020c40ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMINTENSET_EL1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMINTENSET_EL1(a) cavm_cst_apx_pmu_pmintenset_el1_t
+#define bustype_CAVM_CST_APX_PMU_PMINTENSET_EL1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMINTENSET_EL1(a) "CST_APX_PMU_PMINTENSET_EL1"
+#define busnum_CAVM_CST_APX_PMU_PMINTENSET_EL1(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMINTENSET_EL1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmitctrl
+ *
+ * CST Ap Pmu Pmitctrl Register
+ * Enables the Performance Monitors to switch from default mode into integration mode,
+ * where test software can control directly the inputs and outputs of the PE, for
+ * integration testing or topology detection.
+ */
+union cavm_cst_apx_pmu_pmitctrl
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmitctrl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_1_31         : 31;
+        uint32_t ime                   : 1;  /**< [  0:  0](R/W) Integration mode enable. When IME == 1, the device reverts to an integration
+                                                                 mode to enable integration testing or topology detection. The integration mode
+                                                                 behavior is IMPLEMENTATION DEFINED. */
+#else /* Word 0 - Little Endian */
+        uint32_t ime                   : 1;  /**< [  0:  0](R/W) Integration mode enable. When IME == 1, the device reverts to an integration
+                                                                 mode to enable integration testing or topology detection. The integration mode
+                                                                 behavior is IMPLEMENTATION DEFINED. */
+        uint32_t reserved_1_31         : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmitctrl_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmitctrl cavm_cst_apx_pmu_pmitctrl_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMITCTRL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMITCTRL(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020f00ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMITCTRL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMITCTRL(a) cavm_cst_apx_pmu_pmitctrl_t
+#define bustype_CAVM_CST_APX_PMU_PMITCTRL(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMITCTRL(a) "CST_APX_PMU_PMITCTRL"
+#define busnum_CAVM_CST_APX_PMU_PMITCTRL(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMITCTRL(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmlar
+ *
+ * CST Ap Pmu Pmlar Register
+ * Allows or disallows access to the Performance Monitors registers through a memory-mapped interface.
+ *
+ * The optional Software Lock provides a lock to prevent memory-mapped writes to the
+ * Performance Monitors registers. Use of this lock mechanism reduces the risk of
+ * accidental damage to the contents of the Performance Monitors registers. It does
+ * not, and cannot, prevent all accidental or malicious damage.
+ */
+union cavm_cst_apx_pmu_pmlar
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmlar_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key                   : 32; /**< [ 31:  0](WO) Lock Access control. Writing the key value 0xC5ACCE55 to this field unlocks the
+                                                                 lock, enabling write accesses to this component's registers through a memory-
+                                                                 mapped interface.
+                                                                 Writing any other value to this register locks the lock, disabling write
+                                                                 accesses to this component's registers through a memory mapped interface. */
+#else /* Word 0 - Little Endian */
+        uint32_t key                   : 32; /**< [ 31:  0](WO) Lock Access control. Writing the key value 0xC5ACCE55 to this field unlocks the
+                                                                 lock, enabling write accesses to this component's registers through a memory-
+                                                                 mapped interface.
+                                                                 Writing any other value to this register locks the lock, disabling write
+                                                                 accesses to this component's registers through a memory mapped interface. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmlar_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmlar cavm_cst_apx_pmu_pmlar_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMLAR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMLAR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020fb0ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMLAR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMLAR(a) cavm_cst_apx_pmu_pmlar_t
+#define bustype_CAVM_CST_APX_PMU_PMLAR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMLAR(a) "CST_APX_PMU_PMLAR"
+#define busnum_CAVM_CST_APX_PMU_PMLAR(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMLAR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmlsr
+ *
+ * CST Ap Pmu Pmlsr Register
+ * Indicates the current status of the software lock for Performance Monitors registers.
+ *
+ * The optional Software Lock provides a lock to prevent memory-mapped writes to the
+ * Performance Monitors registers. Use of this lock mechanism reduces the risk of
+ * accidental damage to the contents of the Performance Monitors registers. It does
+ * not, and cannot, prevent all accidental or malicious damage.
+ */
+union cavm_cst_apx_pmu_pmlsr
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmlsr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_3_31         : 29;
+        uint32_t ntt                   : 1;  /**< [  2:  2](RO) Not thirty-two bit access required. RAZ. */
+        uint32_t slk                   : 1;  /**< [  1:  1](RO) Software Lock status for this component. For an access to LSR that is not a
+                                                                 memory-mapped access, or when the Software Lock is not implemented, this field
+                                                                 is RES0.
+                                                                 For memory-mapped accesses when the software lock is implemented, possible
+                                                                 values of this field are: */
+        uint32_t sli                   : 1;  /**< [  0:  0](RO) Software Lock implemented. For an access to LSR that is not a memory-mapped
+                                                                 access, this field is RAZ. For memory-mapped accesses, the value of this field
+                                                                 is IMPLEMENTATION DEFINED. Permitted values are: */
+#else /* Word 0 - Little Endian */
+        uint32_t sli                   : 1;  /**< [  0:  0](RO) Software Lock implemented. For an access to LSR that is not a memory-mapped
+                                                                 access, this field is RAZ. For memory-mapped accesses, the value of this field
+                                                                 is IMPLEMENTATION DEFINED. Permitted values are: */
+        uint32_t slk                   : 1;  /**< [  1:  1](RO) Software Lock status for this component. For an access to LSR that is not a
+                                                                 memory-mapped access, or when the Software Lock is not implemented, this field
+                                                                 is RES0.
+                                                                 For memory-mapped accesses when the software lock is implemented, possible
+                                                                 values of this field are: */
+        uint32_t ntt                   : 1;  /**< [  2:  2](RO) Not thirty-two bit access required. RAZ. */
+        uint32_t reserved_3_31         : 29;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmlsr_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmlsr cavm_cst_apx_pmu_pmlsr_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMLSR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMLSR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020fb4ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMLSR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMLSR(a) cavm_cst_apx_pmu_pmlsr_t
+#define bustype_CAVM_CST_APX_PMU_PMLSR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMLSR(a) "CST_APX_PMU_PMLSR"
+#define busnum_CAVM_CST_APX_PMU_PMLSR(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMLSR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmmir
+ *
+ * CST Ap Pmu Pmmir Register
+ * Describes Performance Monitors parameters specific to the implementation.
+ */
+union cavm_cst_apx_pmu_pmmir
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmmir_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t slots                 : 8;  /**< [  7:  0](RO) Operation width. The largest value by which the STALL_SLOT event might increment
+                                                                 by in a single cycle. If the STALL_SLOT event is implemented, this field must
+                                                                 not be zero. */
+#else /* Word 0 - Little Endian */
+        uint32_t slots                 : 8;  /**< [  7:  0](RO) Operation width. The largest value by which the STALL_SLOT event might increment
+                                                                 by in a single cycle. If the STALL_SLOT event is implemented, this field must
+                                                                 not be zero. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmmir_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmmir cavm_cst_apx_pmu_pmmir_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMMIR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMMIR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020e40ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMMIR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMMIR(a) cavm_cst_apx_pmu_pmmir_t
+#define bustype_CAVM_CST_APX_PMU_PMMIR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMMIR(a) "CST_APX_PMU_PMMIR"
+#define busnum_CAVM_CST_APX_PMU_PMMIR(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMMIR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmovsclr_el0
+ *
+ * CST Ap Pmu Pmovsclr El0 Register
+ * Contains the state of the overflow bit for the Cycle Count Register, ext-
+ * PMCCNTR_EL0, and each of the implemented event counters AArch32-PMEVCNTR&lt;n&gt;.
+ * Writing to this register clears these bits.
+ */
+union cavm_cst_apx_pmu_pmovsclr_el0
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmovsclr_el0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t c_f                   : 1;  /**< [ 31: 31](R/W) Cycle counter overflow clear bit.
+                                                                 ext-PMCR_EL0.LC controls whether an overflow is detected from unsigned overflow
+                                                                 of ext-PMCCNTR_EL0[31:0] or unsigned overflow of ext-PMCCNTR_EL0[63:0]. */
+        uint32_t pn                    : 31; /**< [ 30:  0](R/W) Event counter overflow clear bit for ext-PMEVCNTR&lt;n&gt;_EL0.
+                                                                 If ext-PMCFGR.N is less than 31, bits [30:ext-PMCFGR.N] are RAZ/WI.
+                                                                 If ARMv8.5-PMU is implemented, AArch64-MDCR_EL2.HLP and ext-PMCR_EL0.LP control
+                                                                 whether an overflow is detected from unsigned overflow of ext-
+                                                                 PMEVCNTR&lt;n&gt;_EL0[31:0] or unsigned overflow of ext-
+                                                                 PMEVCNTR&lt;n&gt;_EL0[63:0]. */
+#else /* Word 0 - Little Endian */
+        uint32_t pn                    : 31; /**< [ 30:  0](R/W) Event counter overflow clear bit for ext-PMEVCNTR&lt;n&gt;_EL0.
+                                                                 If ext-PMCFGR.N is less than 31, bits [30:ext-PMCFGR.N] are RAZ/WI.
+                                                                 If ARMv8.5-PMU is implemented, AArch64-MDCR_EL2.HLP and ext-PMCR_EL0.LP control
+                                                                 whether an overflow is detected from unsigned overflow of ext-
+                                                                 PMEVCNTR&lt;n&gt;_EL0[31:0] or unsigned overflow of ext-
+                                                                 PMEVCNTR&lt;n&gt;_EL0[63:0]. */
+        uint32_t c_f                   : 1;  /**< [ 31: 31](R/W) Cycle counter overflow clear bit.
+                                                                 ext-PMCR_EL0.LC controls whether an overflow is detected from unsigned overflow
+                                                                 of ext-PMCCNTR_EL0[31:0] or unsigned overflow of ext-PMCCNTR_EL0[63:0]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmovsclr_el0_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmovsclr_el0 cavm_cst_apx_pmu_pmovsclr_el0_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMOVSCLR_EL0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMOVSCLR_EL0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020c80ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMOVSCLR_EL0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMOVSCLR_EL0(a) cavm_cst_apx_pmu_pmovsclr_el0_t
+#define bustype_CAVM_CST_APX_PMU_PMOVSCLR_EL0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMOVSCLR_EL0(a) "CST_APX_PMU_PMOVSCLR_EL0"
+#define busnum_CAVM_CST_APX_PMU_PMOVSCLR_EL0(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMOVSCLR_EL0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmovsset_el0
+ *
+ * CST Ap Pmu Pmovsset El0 Register
+ * Sets the state of the overflow bit for the Cycle Count Register, ext-PMCCNTR_EL0,
+ * and each of the implemented event counters AArch32-PMEVCNTR&lt;n&gt;.
+ */
+union cavm_cst_apx_pmu_pmovsset_el0
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmovsset_el0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t c_f                   : 1;  /**< [ 31: 31](R/W) Cycle counter overflow set bit.
+                                                                 ext-PMCR_EL0.LC controls whether an overflow is detected from unsigned overflow
+                                                                 of ext-PMCCNTR_EL0[31:0] or unsigned overflow of ext-PMCCNTR_EL0[63:0]. */
+        uint32_t pn                    : 31; /**< [ 30:  0](R/W) Event counter overflow set bit for ext-PMEVCNTR&lt;n&gt;_EL0.
+                                                                 If ext-PMCFGR.N is less than 31, bits [30:ext-PMCFGR.N] are RAZ/WI.
+                                                                 If ARMv8.5-PMU is implemented, AArch64-MDCR_EL2.HLP and ext-PMCR_EL0.LP control
+                                                                 whether an overflow is detected from unsigned overflow of ext-
+                                                                 PMEVCNTR&lt;n&gt;_EL0[31:0] or unsigned overflow of ext-
+                                                                 PMEVCNTR&lt;n&gt;_EL0[63:0]. */
+#else /* Word 0 - Little Endian */
+        uint32_t pn                    : 31; /**< [ 30:  0](R/W) Event counter overflow set bit for ext-PMEVCNTR&lt;n&gt;_EL0.
+                                                                 If ext-PMCFGR.N is less than 31, bits [30:ext-PMCFGR.N] are RAZ/WI.
+                                                                 If ARMv8.5-PMU is implemented, AArch64-MDCR_EL2.HLP and ext-PMCR_EL0.LP control
+                                                                 whether an overflow is detected from unsigned overflow of ext-
+                                                                 PMEVCNTR&lt;n&gt;_EL0[31:0] or unsigned overflow of ext-
+                                                                 PMEVCNTR&lt;n&gt;_EL0[63:0]. */
+        uint32_t c_f                   : 1;  /**< [ 31: 31](R/W) Cycle counter overflow set bit.
+                                                                 ext-PMCR_EL0.LC controls whether an overflow is detected from unsigned overflow
+                                                                 of ext-PMCCNTR_EL0[31:0] or unsigned overflow of ext-PMCCNTR_EL0[63:0]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmovsset_el0_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmovsset_el0 cavm_cst_apx_pmu_pmovsset_el0_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMOVSSET_EL0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMOVSSET_EL0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020cc0ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMOVSSET_EL0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMOVSSET_EL0(a) cavm_cst_apx_pmu_pmovsset_el0_t
+#define bustype_CAVM_CST_APX_PMU_PMOVSSET_EL0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMOVSSET_EL0(a) "CST_APX_PMU_PMOVSSET_EL0"
+#define busnum_CAVM_CST_APX_PMU_PMOVSSET_EL0(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMOVSSET_EL0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) cst_ap#_pmu_pmpcsr
+ *
+ * CST Ap Pmu Pmpcsr Register
+ * Holds a sampled instruction address value.
+ */
+union cavm_cst_apx_pmu_pmpcsr
+{
+    uint64_t u;
+    struct cavm_cst_apx_pmu_pmpcsr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t ns_f                  : 1;  /**< [ 63: 63](RO) Non-secure state sample. Indicates the Security state that is associated with
+                                                                 the most recent PMPCSR sample or, when it is read as a single atomic 64-bit
+                                                                 read, the current PMPCSR sample. */
+        uint64_t el                    : 2;  /**< [ 62: 61](RO) Exception level status sample. Indicates the Exception level that is associated
+                                                                 with the most recent PMPCSR sample or, when it is read as a single atomic 64-bit
+                                                                 read, the current PMPCSR sample. */
+        uint64_t reserved_56_60        : 5;
+        uint64_t pcsample_55_32        : 24; /**< [ 55: 32](RO) Bits[55:32] of the sampled instruction address value. The translation regime
+                                                                 that PMPCSR samples can be determined from PMPCSR.{NS,EL}. */
+        uint64_t pcsample_31_0         : 32; /**< [ 31:  0](RO) Bits[31:0] of the sampled instruction address value.
+                                                                 PMPCSR[31:0] reads as 0xFFFFFFFF when any of the following are true:
+                                                                   - The PE is in Debug state.
+                                                                   - PC Sample-based profiling is prohibited.
+                                                                 If an instruction has retired since the PE left Reset state, then the first read
+                                                                 of PMPCSR[31:0] is permitted but not required to return 0xFFFFFFFF.
+                                                                 PMPCSR[31:0] reads as an UNKNOWN value when any of the following are true:
+                                                                   - The PE is in Reset state.
+                                                                   - No instruction has retired since the PE left Reset state, Debug state, or a
+                                                                 state where PC Sample-based Profiling is prohibited.
+                                                                   - No instruction has retired since the last read of PMPCSR[31:0].
+                                                                 For the cases where a read of PMPCSR[31:0] returns 0xFFFFFFFF or an UNKNOWN
+                                                                 value, the read has the side-effect of setting PMPCSR[63:32], ext-PMCID1SR, ext-
+                                                                 PMCID2SR, and ext-PMVIDSR to UNKNOWN values.
+                                                                 Otherwise, a read of PMPCSR[31:0] returns bits [31:0] of the sampled instruction
+                                                                 address value and has the side-effect of indirectly writing to PMPCSR[63:32],
+                                                                 ext-PMCID1SR, ext-PMCID2SR, and ext-PMVIDSR. The translation regime that PMPCSR
+                                                                 samples can be determined from PMPCSR.{NS,EL}.
+                                                                 For a read of PMPCSR[31:0] from the memory-mapped interface, if PMLSR.SLK == 1,
+                                                                 meaning the OPTIONAL Software Lock is locked, then the side-effect of the access
+                                                                 does not occur and PMPCSR[63:32], ext-PMCID1SR, ext-PMCID2SR, and ext-PMVIDSR
+                                                                 are unchanged. */
+#else /* Word 0 - Little Endian */
+        uint64_t pcsample_31_0         : 32; /**< [ 31:  0](RO) Bits[31:0] of the sampled instruction address value.
+                                                                 PMPCSR[31:0] reads as 0xFFFFFFFF when any of the following are true:
+                                                                   - The PE is in Debug state.
+                                                                   - PC Sample-based profiling is prohibited.
+                                                                 If an instruction has retired since the PE left Reset state, then the first read
+                                                                 of PMPCSR[31:0] is permitted but not required to return 0xFFFFFFFF.
+                                                                 PMPCSR[31:0] reads as an UNKNOWN value when any of the following are true:
+                                                                   - The PE is in Reset state.
+                                                                   - No instruction has retired since the PE left Reset state, Debug state, or a
+                                                                 state where PC Sample-based Profiling is prohibited.
+                                                                   - No instruction has retired since the last read of PMPCSR[31:0].
+                                                                 For the cases where a read of PMPCSR[31:0] returns 0xFFFFFFFF or an UNKNOWN
+                                                                 value, the read has the side-effect of setting PMPCSR[63:32], ext-PMCID1SR, ext-
+                                                                 PMCID2SR, and ext-PMVIDSR to UNKNOWN values.
+                                                                 Otherwise, a read of PMPCSR[31:0] returns bits [31:0] of the sampled instruction
+                                                                 address value and has the side-effect of indirectly writing to PMPCSR[63:32],
+                                                                 ext-PMCID1SR, ext-PMCID2SR, and ext-PMVIDSR. The translation regime that PMPCSR
+                                                                 samples can be determined from PMPCSR.{NS,EL}.
+                                                                 For a read of PMPCSR[31:0] from the memory-mapped interface, if PMLSR.SLK == 1,
+                                                                 meaning the OPTIONAL Software Lock is locked, then the side-effect of the access
+                                                                 does not occur and PMPCSR[63:32], ext-PMCID1SR, ext-PMCID2SR, and ext-PMVIDSR
+                                                                 are unchanged. */
+        uint64_t pcsample_55_32        : 24; /**< [ 55: 32](RO) Bits[55:32] of the sampled instruction address value. The translation regime
+                                                                 that PMPCSR samples can be determined from PMPCSR.{NS,EL}. */
+        uint64_t reserved_56_60        : 5;
+        uint64_t el                    : 2;  /**< [ 62: 61](RO) Exception level status sample. Indicates the Exception level that is associated
+                                                                 with the most recent PMPCSR sample or, when it is read as a single atomic 64-bit
+                                                                 read, the current PMPCSR sample. */
+        uint64_t ns_f                  : 1;  /**< [ 63: 63](RO) Non-secure state sample. Indicates the Security state that is associated with
+                                                                 the most recent PMPCSR sample or, when it is read as a single atomic 64-bit
+                                                                 read, the current PMPCSR sample. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmpcsr_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmpcsr cavm_cst_apx_pmu_pmpcsr_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMPCSR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMPCSR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020200ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMPCSR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMPCSR(a) cavm_cst_apx_pmu_pmpcsr_t
+#define bustype_CAVM_CST_APX_PMU_PMPCSR(a) CSR_TYPE_NCB
+#define basename_CAVM_CST_APX_PMU_PMPCSR(a) "CST_APX_PMU_PMPCSR"
+#define busnum_CAVM_CST_APX_PMU_PMPCSR(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMPCSR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) cst_ap#_pmu_pmpcssr
+ *
+ * CST Ap Pmu Pmpcssr Register
+ * Captured copy of the Program Counter.
+ */
+union cavm_cst_apx_pmu_pmpcssr
+{
+    uint64_t u;
+    struct cavm_cst_apx_pmu_pmpcssr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t ns_f                  : 1;  /**< [ 63: 63](RO) Non-secure sample. */
+        uint64_t el                    : 2;  /**< [ 62: 61](RO) Exception level sample. The Exception level the captured instruction was executed at. */
+        uint64_t reserved_56_60        : 5;
+        uint64_t pc                    : 56; /**< [ 55:  0](RO) Sampled PC.
+                                                                 The instruction address for the sampled instruction. The sampled instruction
+                                                                 must be an instruction recently executed by the PE.
+                                                                 The architecture does not require that all instructions are eligible for
+                                                                 sampling. However, it must be possible to reference instructions at branch
+                                                                 targets. The branch target for a conditional branch instruction that fails its
+                                                                 Condition code check is the instruction following the conditional branch target.
+                                                                 The sampled instruction must be architecturally executed. However, in
+                                                                 exceptional circumstances, such as a change in security state or other boundary
+                                                                 condition, it is permissible to sample an instruction that was speculatively
+                                                                 executed and not architecturally executed.
+                                                                 [note]The ARM architecture does not define recently executed.[/note] */
+#else /* Word 0 - Little Endian */
+        uint64_t pc                    : 56; /**< [ 55:  0](RO) Sampled PC.
+                                                                 The instruction address for the sampled instruction. The sampled instruction
+                                                                 must be an instruction recently executed by the PE.
+                                                                 The architecture does not require that all instructions are eligible for
+                                                                 sampling. However, it must be possible to reference instructions at branch
+                                                                 targets. The branch target for a conditional branch instruction that fails its
+                                                                 Condition code check is the instruction following the conditional branch target.
+                                                                 The sampled instruction must be architecturally executed. However, in
+                                                                 exceptional circumstances, such as a change in security state or other boundary
+                                                                 condition, it is permissible to sample an instruction that was speculatively
+                                                                 executed and not architecturally executed.
+                                                                 [note]The ARM architecture does not define recently executed.[/note] */
+        uint64_t reserved_56_60        : 5;
+        uint64_t el                    : 2;  /**< [ 62: 61](RO) Exception level sample. The Exception level the captured instruction was executed at. */
+        uint64_t ns_f                  : 1;  /**< [ 63: 63](RO) Non-secure sample. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmpcssr_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmpcssr cavm_cst_apx_pmu_pmpcssr_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMPCSSR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMPCSSR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020600ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMPCSSR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMPCSSR(a) cavm_cst_apx_pmu_pmpcssr_t
+#define bustype_CAVM_CST_APX_PMU_PMPCSSR(a) CSR_TYPE_NCB
+#define basename_CAVM_CST_APX_PMU_PMPCSSR(a) "CST_APX_PMU_PMPCSSR"
+#define busnum_CAVM_CST_APX_PMU_PMPCSSR(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMPCSSR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmpidr0
+ *
+ * CST Ap Pmu Pmpidr0 Register
+ * Provides information to identify a Performance Monitor component.
+ *
+ * For more information, see x['About the Peripheral identification
+ * scheme'](BABDFHAH|appx_recommended_external_debug_interface.fm).
+ */
+union cavm_cst_apx_pmu_pmpidr0
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmpidr0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t part_0                : 8;  /**< [  7:  0](RO) Part number, least significant byte. */
+#else /* Word 0 - Little Endian */
+        uint32_t part_0                : 8;  /**< [  7:  0](RO) Part number, least significant byte. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmpidr0_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmpidr0 cavm_cst_apx_pmu_pmpidr0_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMPIDR0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMPIDR0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020fe0ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMPIDR0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMPIDR0(a) cavm_cst_apx_pmu_pmpidr0_t
+#define bustype_CAVM_CST_APX_PMU_PMPIDR0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMPIDR0(a) "CST_APX_PMU_PMPIDR0"
+#define busnum_CAVM_CST_APX_PMU_PMPIDR0(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMPIDR0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmpidr1
+ *
+ * CST Ap Pmu Pmpidr1 Register
+ * Provides information to identify a Performance Monitor component.
+ *
+ * For more information, see x['About the Peripheral identification
+ * scheme'](BABDFHAH|appx_recommended_external_debug_interface.fm).
+ */
+union cavm_cst_apx_pmu_pmpidr1
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmpidr1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t des_0                 : 4;  /**< [  7:  4](RO) Designer, least significant nibble of JEP106 ID code. For Arm Limited, this field is 0b1011. */
+        uint32_t part_1                : 4;  /**< [  3:  0](RO) Part number, most significant nibble. */
+#else /* Word 0 - Little Endian */
+        uint32_t part_1                : 4;  /**< [  3:  0](RO) Part number, most significant nibble. */
+        uint32_t des_0                 : 4;  /**< [  7:  4](RO) Designer, least significant nibble of JEP106 ID code. For Arm Limited, this field is 0b1011. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmpidr1_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmpidr1 cavm_cst_apx_pmu_pmpidr1_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMPIDR1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMPIDR1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020fe4ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMPIDR1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMPIDR1(a) cavm_cst_apx_pmu_pmpidr1_t
+#define bustype_CAVM_CST_APX_PMU_PMPIDR1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMPIDR1(a) "CST_APX_PMU_PMPIDR1"
+#define busnum_CAVM_CST_APX_PMU_PMPIDR1(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMPIDR1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmpidr2
+ *
+ * CST Ap Pmu Pmpidr2 Register
+ * Provides information to identify a Performance Monitor component.
+ *
+ * For more information, see x['About the Peripheral identification
+ * scheme'](BABDFHAH|appx_recommended_external_debug_interface.fm).
+ */
+union cavm_cst_apx_pmu_pmpidr2
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmpidr2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t revision              : 4;  /**< [  7:  4](RO) Part major revision. Parts can also use this field to extend Part number to 16-bits. */
+        uint32_t jedec                 : 1;  /**< [  3:  3](RO) RAO. Indicates a JEP106 identity code is used. */
+        uint32_t des_1                 : 3;  /**< [  2:  0](RO) Designer, most significant bits of JEP106 ID code. For Arm Limited, this field is 0b011. */
+#else /* Word 0 - Little Endian */
+        uint32_t des_1                 : 3;  /**< [  2:  0](RO) Designer, most significant bits of JEP106 ID code. For Arm Limited, this field is 0b011. */
+        uint32_t jedec                 : 1;  /**< [  3:  3](RO) RAO. Indicates a JEP106 identity code is used. */
+        uint32_t revision              : 4;  /**< [  7:  4](RO) Part major revision. Parts can also use this field to extend Part number to 16-bits. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmpidr2_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmpidr2 cavm_cst_apx_pmu_pmpidr2_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMPIDR2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMPIDR2(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020fe8ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMPIDR2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMPIDR2(a) cavm_cst_apx_pmu_pmpidr2_t
+#define bustype_CAVM_CST_APX_PMU_PMPIDR2(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMPIDR2(a) "CST_APX_PMU_PMPIDR2"
+#define busnum_CAVM_CST_APX_PMU_PMPIDR2(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMPIDR2(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmpidr3
+ *
+ * CST Ap Pmu Pmpidr3 Register
+ * Provides information to identify a Performance Monitor component.
+ *
+ * For more information, see x['About the Peripheral identification
+ * scheme'](BABDFHAH|appx_recommended_external_debug_interface.fm).
+ */
+union cavm_cst_apx_pmu_pmpidr3
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmpidr3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t revand                : 4;  /**< [  7:  4](RO) Part minor revision. Parts using ext-PMPIDR2.REVISION as an extension to the
+                                                                 Part number must use this field as a major revision number. */
+        uint32_t cmod                  : 4;  /**< [  3:  0](RO) Customer modified. Indicates someone other than the Designer has modified the component. */
+#else /* Word 0 - Little Endian */
+        uint32_t cmod                  : 4;  /**< [  3:  0](RO) Customer modified. Indicates someone other than the Designer has modified the component. */
+        uint32_t revand                : 4;  /**< [  7:  4](RO) Part minor revision. Parts using ext-PMPIDR2.REVISION as an extension to the
+                                                                 Part number must use this field as a major revision number. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmpidr3_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmpidr3 cavm_cst_apx_pmu_pmpidr3_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMPIDR3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMPIDR3(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020fecll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMPIDR3", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMPIDR3(a) cavm_cst_apx_pmu_pmpidr3_t
+#define bustype_CAVM_CST_APX_PMU_PMPIDR3(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMPIDR3(a) "CST_APX_PMU_PMPIDR3"
+#define busnum_CAVM_CST_APX_PMU_PMPIDR3(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMPIDR3(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmpidr4
+ *
+ * CST Ap Pmu Pmpidr4 Register
+ * Provides information to identify a Performance Monitor component.
+ *
+ * For more information, see x['About the Peripheral identification
+ * scheme'](BABDFHAH|appx_recommended_external_debug_interface.fm).
+ */
+union cavm_cst_apx_pmu_pmpidr4
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmpidr4_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t size                  : 4;  /**< [  7:  4](RO) 4KB count. */
+        uint32_t des_2                 : 4;  /**< [  3:  0](RO) Designer, JEP106 continuation code, least significant nibble. For Arm Limited,
+                                                                 this field is 0b0100. */
+#else /* Word 0 - Little Endian */
+        uint32_t des_2                 : 4;  /**< [  3:  0](RO) Designer, JEP106 continuation code, least significant nibble. For Arm Limited,
+                                                                 this field is 0b0100. */
+        uint32_t size                  : 4;  /**< [  7:  4](RO) 4KB count. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmpidr4_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmpidr4 cavm_cst_apx_pmu_pmpidr4_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMPIDR4(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMPIDR4(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020fd0ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMPIDR4", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMPIDR4(a) cavm_cst_apx_pmu_pmpidr4_t
+#define bustype_CAVM_CST_APX_PMU_PMPIDR4(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMPIDR4(a) "CST_APX_PMU_PMPIDR4"
+#define busnum_CAVM_CST_APX_PMU_PMPIDR4(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMPIDR4(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmsscr
+ *
+ * CST Ap Pmu Pmsscr Register
+ * Provides a mechanism for software to initiate a sample.
+ */
+union cavm_cst_apx_pmu_pmsscr
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmsscr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_1_31         : 31;
+        uint32_t ss                    : 1;  /**< [  0:  0](WO) Capture now. */
+#else /* Word 0 - Little Endian */
+        uint32_t ss                    : 1;  /**< [  0:  0](WO) Capture now. */
+        uint32_t reserved_1_31         : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmsscr_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmsscr cavm_cst_apx_pmu_pmsscr_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMSSCR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMSSCR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a0810206f0ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMSSCR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMSSCR(a) cavm_cst_apx_pmu_pmsscr_t
+#define bustype_CAVM_CST_APX_PMU_PMSSCR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMSSCR(a) "CST_APX_PMU_PMSSCR"
+#define busnum_CAVM_CST_APX_PMU_PMSSCR(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMSSCR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmssrr
+ *
+ * CST Ap Pmu Pmssrr Register
+ * Configure PMU Snapshot to reset counters after each sample is taken.
+ */
+union cavm_cst_apx_pmu_pmssrr
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmssrr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t rc                    : 1;  /**< [ 31: 31](R/W) Reset cycle counter. Indicates whether PMCCNTR_EL0 and PMOVSR_EL0[31] are to be
+                                                                 reset after a capture. */
+        uint32_t rp                    : 31; /**< [ 30:  0](R/W) Reset performance counter. For each bit [x], if x &gt;= PMCR_EL1.N, the number
+                                                                 of implemented counters, then RP[x] is RAZ/WI. Otherwise, indicates whether
+                                                                 PMEVCNTR&lt;x&gt;_EL0 and PMOVSR_EL0[x] are to be reset after a capture. */
+#else /* Word 0 - Little Endian */
+        uint32_t rp                    : 31; /**< [ 30:  0](R/W) Reset performance counter. For each bit [x], if x &gt;= PMCR_EL1.N, the number
+                                                                 of implemented counters, then RP[x] is RAZ/WI. Otherwise, indicates whether
+                                                                 PMEVCNTR&lt;x&gt;_EL0 and PMOVSR_EL0[x] are to be reset after a capture. */
+        uint32_t rc                    : 1;  /**< [ 31: 31](R/W) Reset cycle counter. Indicates whether PMCCNTR_EL0 and PMOVSR_EL0[31] are to be
+                                                                 reset after a capture. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmssrr_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmssrr cavm_cst_apx_pmu_pmssrr_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMSSRR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMSSRR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a0810206f4ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMSSRR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMSSRR(a) cavm_cst_apx_pmu_pmssrr_t
+#define bustype_CAVM_CST_APX_PMU_PMSSRR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMSSRR(a) "CST_APX_PMU_PMSSRR"
+#define busnum_CAVM_CST_APX_PMU_PMSSRR(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMSSRR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmsssr
+ *
+ * CST Ap Pmu Pmsssr Register
+ * Holds status information about the captured counters.
+ */
+union cavm_cst_apx_pmu_pmsssr
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmsssr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_1_31         : 31;
+        uint32_t nc                    : 1;  /**< [  0:  0](RO) No capture. Indicates whether the PMU counters have been captured.
+                                                                 The event counters are only not captured by the PE in the event of a security
+                                                                 violation. The external Monitor is responsible for keeping track of whether it
+                                                                 managed to capture the snapshot registers from the PE.
+                                                                 PMSSR.NC does not reflect the status of the captured Program Counter Sample registers.
+                                                                 PMSSR.NC is reset to 1 by PE Warm reset, but is overwritten at the first
+                                                                 capture. Tools need to be aware that capturing over reset or power-down might
+                                                                 lose data, as they are reliant on software saving and restoring the PMU state
+                                                                 (including PMSSCR). There is no sampled sticky reset bit. */
+#else /* Word 0 - Little Endian */
+        uint32_t nc                    : 1;  /**< [  0:  0](RO) No capture. Indicates whether the PMU counters have been captured.
+                                                                 The event counters are only not captured by the PE in the event of a security
+                                                                 violation. The external Monitor is responsible for keeping track of whether it
+                                                                 managed to capture the snapshot registers from the PE.
+                                                                 PMSSR.NC does not reflect the status of the captured Program Counter Sample registers.
+                                                                 PMSSR.NC is reset to 1 by PE Warm reset, but is overwritten at the first
+                                                                 capture. Tools need to be aware that capturing over reset or power-down might
+                                                                 lose data, as they are reliant on software saving and restoring the PMU state
+                                                                 (including PMSSCR). There is no sampled sticky reset bit. */
+        uint32_t reserved_1_31         : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmsssr_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmsssr cavm_cst_apx_pmu_pmsssr_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMSSSR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMSSSR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020610ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMSSSR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMSSSR(a) cavm_cst_apx_pmu_pmsssr_t
+#define bustype_CAVM_CST_APX_PMU_PMSSSR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMSSSR(a) "CST_APX_PMU_PMSSSR"
+#define busnum_CAVM_CST_APX_PMU_PMSSSR(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMSSSR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmswinc_el0
+ *
+ * CST Ap Pmu Pmswinc El0 Register
+ * Increments a counter that is configured to count the Software increment event, event
+ * 0x00. For more information, see
+ * x['SW_INCR'](CACFCIGG|D_the_performance_monitors_extension.fm).
+ */
+union cavm_cst_apx_pmu_pmswinc_el0
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmswinc_el0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_31           : 1;
+        uint32_t pn                    : 31; /**< [ 30:  0](WO) Event counter software increment bit for ext-PMEVCNTR&lt;n&gt;_EL0.
+                                                                 If ext-PMCFGR.N is less than 31, bits [30:ext-PMCFGR.N] are WI. */
+#else /* Word 0 - Little Endian */
+        uint32_t pn                    : 31; /**< [ 30:  0](WO) Event counter software increment bit for ext-PMEVCNTR&lt;n&gt;_EL0.
+                                                                 If ext-PMCFGR.N is less than 31, bits [30:ext-PMCFGR.N] are WI. */
+        uint32_t reserved_31           : 1;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmswinc_el0_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmswinc_el0 cavm_cst_apx_pmu_pmswinc_el0_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMSWINC_EL0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMSWINC_EL0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a081020ca0ll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMSWINC_EL0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMSWINC_EL0(a) cavm_cst_apx_pmu_pmswinc_el0_t
+#define bustype_CAVM_CST_APX_PMU_PMSWINC_EL0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMSWINC_EL0(a) "CST_APX_PMU_PMSWINC_EL0"
+#define busnum_CAVM_CST_APX_PMU_PMSWINC_EL0(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMSWINC_EL0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) cst_ap#_pmu_pmvidsr
+ *
+ * CST Ap Pmu Pmvidsr Register
+ * Contains the sampled VMID value that is captured on reading ext-PMPCSR[31:0].
+ */
+union cavm_cst_apx_pmu_pmvidsr
+{
+    uint32_t u;
+    struct cavm_cst_apx_pmu_pmvidsr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t vmid_15_8             : 8;  /**< [ 15:  8](RO) Extension to VMID[7:0]. See VMID[7:0] for more details. */
+        uint32_t vmid                  : 8;  /**< [  7:  0](RO) VMID sample. The VMID associated with the most recent ext-PMPCSR sample. When
+                                                                 the most recent ext-PMPCSR sample was generated:
+                                                                   - This field is set to an UNKNOWN value if any of the following apply:
+                                                                       - EL2 is disabled in the current Security state.
+                                                                       - The PE is executing at EL2.
+                                                                       - EL2 is enabled in the current Security state, the PE is executing at
+                                                                 EL0, EL2 is using AArch64, HCR_EL2.E2H == 1, and HCR_EL2.TGE == 1.
+                                                                   - Otherwise:
+                                                                       - If EL2 is using AArch64 and either
+                                                                 x[ARMv8.1-VMID16](v8.1.VMID16|A_armv8_architecture_extensions.fm) is not
+                                                                 implemented or AArch64-VTCR_EL2.VS is 1, this field is set to
+                                                                 AArch64-VTTBR_EL2.VMID.
+                                                                       - If EL2 is using AArch64,
+                                                                 x[ARMv8.1-VMID16](v8.1.VMID16|A_armv8_architecture_extensions.fm) is
+                                                                 implemented, and AArch64-VTCR_EL2.VS is 0, PMVIDSR.VMID[7:0] is set to
+                                                                 AArch64-VTTBR_EL2.VMID[7:0] and PMVIDSR.VMID[15:8] is RES0.
+                                                                       - If EL2 is using AArch32, this field is set to AArch32-VTTBR.VMID.
+                                                                 Because the value written to PMVIDR is an indirect read of the VMID value, it is
+                                                                 CONSTRAINED UNPREDICTABLE whether PMVIDSR is set to the original or new value if
+                                                                 ext-PMPCSR samples:
+                                                                   - An instruction that writes to the VMID value.
+                                                                   - The next Context synchronization event.
+                                                                   - Any instruction executed between these two instructions. */
+#else /* Word 0 - Little Endian */
+        uint32_t vmid                  : 8;  /**< [  7:  0](RO) VMID sample. The VMID associated with the most recent ext-PMPCSR sample. When
+                                                                 the most recent ext-PMPCSR sample was generated:
+                                                                   - This field is set to an UNKNOWN value if any of the following apply:
+                                                                       - EL2 is disabled in the current Security state.
+                                                                       - The PE is executing at EL2.
+                                                                       - EL2 is enabled in the current Security state, the PE is executing at
+                                                                 EL0, EL2 is using AArch64, HCR_EL2.E2H == 1, and HCR_EL2.TGE == 1.
+                                                                   - Otherwise:
+                                                                       - If EL2 is using AArch64 and either
+                                                                 x[ARMv8.1-VMID16](v8.1.VMID16|A_armv8_architecture_extensions.fm) is not
+                                                                 implemented or AArch64-VTCR_EL2.VS is 1, this field is set to
+                                                                 AArch64-VTTBR_EL2.VMID.
+                                                                       - If EL2 is using AArch64,
+                                                                 x[ARMv8.1-VMID16](v8.1.VMID16|A_armv8_architecture_extensions.fm) is
+                                                                 implemented, and AArch64-VTCR_EL2.VS is 0, PMVIDSR.VMID[7:0] is set to
+                                                                 AArch64-VTTBR_EL2.VMID[7:0] and PMVIDSR.VMID[15:8] is RES0.
+                                                                       - If EL2 is using AArch32, this field is set to AArch32-VTTBR.VMID.
+                                                                 Because the value written to PMVIDR is an indirect read of the VMID value, it is
+                                                                 CONSTRAINED UNPREDICTABLE whether PMVIDSR is set to the original or new value if
+                                                                 ext-PMPCSR samples:
+                                                                   - An instruction that writes to the VMID value.
+                                                                   - The next Context synchronization event.
+                                                                   - Any instruction executed between these two instructions. */
+        uint32_t vmid_15_8             : 8;  /**< [ 15:  8](RO) Extension to VMID[7:0]. See VMID[7:0] for more details. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cst_apx_pmu_pmvidsr_s cn; */
+};
+typedef union cavm_cst_apx_pmu_pmvidsr cavm_cst_apx_pmu_pmvidsr_t;
+
+static inline uint64_t CAVM_CST_APX_PMU_PMVIDSR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CST_APX_PMU_PMVIDSR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87a08102020cll + 0x2000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("CST_APX_PMU_PMVIDSR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CST_APX_PMU_PMVIDSR(a) cavm_cst_apx_pmu_pmvidsr_t
+#define bustype_CAVM_CST_APX_PMU_PMVIDSR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_CST_APX_PMU_PMVIDSR(a) "CST_APX_PMU_PMVIDSR"
+#define busnum_CAVM_CST_APX_PMU_PMVIDSR(a) (a)
+#define arguments_CAVM_CST_APX_PMU_PMVIDSR(a) (a),-1,-1,-1
+
+#endif /* __CAVM_CSRS_CST_AP_H__ */

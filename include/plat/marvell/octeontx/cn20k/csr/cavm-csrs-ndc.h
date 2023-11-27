@@ -180,14 +180,14 @@ union cavm_ndcx_af_bank_ctl_done
                                                                  Set by hardware when NDC banks completes the request as was
                                                                  submitted using NDC_AF_BANKS_CTL[SYNC_ALL] or NDC_AF_BANKS_CTL[FLUSH_ALL].
                                                                  NDC_AF_BANKS_CTL[SYNC_ALL] or NDC_AF_BANKS_CTL[FLUSH_ALL] operation are completed
-                                                                 when all 8 bits in [DONE] are set. Use W1C before setting NDC_AF_BANKS_CTL[SYNC_ALL]
+                                                                 when all 16 bits in [DONE] are set. Use W1C before setting NDC_AF_BANKS_CTL[SYNC_ALL]
                                                                  or NDC_AF_BANKS_CTL[FLUSH_ALL] again. */
 #else /* Word 0 - Little Endian */
         uint64_t done                  : 16; /**< [ 15:  0](R/W1C/H) Done indication. Each bit represent one NDC bank.
                                                                  Set by hardware when NDC banks completes the request as was
                                                                  submitted using NDC_AF_BANKS_CTL[SYNC_ALL] or NDC_AF_BANKS_CTL[FLUSH_ALL].
                                                                  NDC_AF_BANKS_CTL[SYNC_ALL] or NDC_AF_BANKS_CTL[FLUSH_ALL] operation are completed
-                                                                 when all 8 bits in [DONE] are set. Use W1C before setting NDC_AF_BANKS_CTL[SYNC_ALL]
+                                                                 when all 16 bits in [DONE] are set. Use W1C before setting NDC_AF_BANKS_CTL[SYNC_ALL]
                                                                  or NDC_AF_BANKS_CTL[FLUSH_ALL] again. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */

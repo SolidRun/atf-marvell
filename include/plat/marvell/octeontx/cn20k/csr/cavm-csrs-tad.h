@@ -65,9 +65,7 @@
 #define CAVM_TAD_PRF_SEL_E_REQ_MSH_OUT_ANY (0xb)
 #define CAVM_TAD_PRF_SEL_E_REQ_MSH_OUT_DSS_RD (0xc)
 #define CAVM_TAD_PRF_SEL_E_REQ_MSH_OUT_DSS_WR (0xd)
-#define CAVM_TAD_PRF_SEL_E_REQ_MSH_OUT_DTG_EVICT (0x25)
 #define CAVM_TAD_PRF_SEL_E_REQ_MSH_OUT_EVICT (0xe)
-#define CAVM_TAD_PRF_SEL_E_REQ_MSH_OUT_LTG_EVICT (0x26)
 #define CAVM_TAD_PRF_SEL_E_REQ_OCC (0x24)
 #define CAVM_TAD_PRF_SEL_E_RSP_MSH_IN_ANY (4)
 #define CAVM_TAD_PRF_SEL_E_RSP_MSH_IN_DSS (7)
@@ -83,7 +81,6 @@
 #define CAVM_TAD_PRF_SEL_E_SNP_MSH_OUT_EXLMN (0x16)
 #define CAVM_TAD_PRF_SEL_E_SNP_MSH_OUT_MN (0x15)
 #define CAVM_TAD_PRF_SEL_E_TAG_RD (0x20)
-#define CAVM_TAD_PRF_SEL_E_TOT_CYCLE (0xff)
 
 /**
  * Register (RSL) tad#_cache_flush_status
@@ -98,10 +95,10 @@ union cavm_tadx_cache_flush_status
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t done                  : 1;  /**< [  0:  0](SR/W/H) When TAD_CMN_CACHE_FLUSH[START] is asserted this bit is cleared
+        uint64_t done                  : 1;  /**< [  0:  0](R/W/H) When TAD_CMN_CACHE_FLUSH[START] is asserted this bit is cleared
                                                                  and will be 0 until the TAD completes the cache flush operation. */
 #else /* Word 0 - Little Endian */
-        uint64_t done                  : 1;  /**< [  0:  0](SR/W/H) When TAD_CMN_CACHE_FLUSH[START] is asserted this bit is cleared
+        uint64_t done                  : 1;  /**< [  0:  0](R/W/H) When TAD_CMN_CACHE_FLUSH[START] is asserted this bit is cleared
                                                                  and will be 0 until the TAD completes the cache flush operation. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
@@ -113,8 +110,8 @@ typedef union cavm_tadx_cache_flush_status cavm_tadx_cache_flush_status_t;
 static inline uint64_t CAVM_TADX_CACHE_FLUSH_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_CACHE_FLUSH_STATUS(uint64_t a)
 {
-    if (a<=47)
-        return 0x87e280000038ll + 0x1000000ll * ((a) & 0x3f);
+    if (a<=127)
+        return 0x87e280000038ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_CACHE_FLUSH_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -147,35 +144,35 @@ union cavm_tadx_derr_addr
     struct cavm_tadx_derr_addr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t datmbe                : 1;  /**< [ 63: 63](SR/W1C/H) Logged information is for a TAD()_INT_W1C[DATMBE] error. */
-        uint64_t fbfmbe                : 1;  /**< [ 62: 62](SR/W1C/H) Logged information is for a TAD()_INT_W1C[FBFMBE] error. */
-        uint64_t sbfmbe                : 1;  /**< [ 61: 61](SR/W1C/H) Logged information is for a TAD()_INT_W1C[SBFMBE] error. */
-        uint64_t mnmbe                 : 1;  /**< [ 60: 60](SR/W1C/H) Logged information is for a TAD()_INT_W1C[MNMBE] error. */
-        uint64_t datsbe                : 1;  /**< [ 59: 59](SR/W1C/H) Logged information is for a TAD()_INT_W1C[DATSBE] error. */
-        uint64_t fbfsbe                : 1;  /**< [ 58: 58](SR/W1C/H) Logged information is for a TAD()_INT_W1C[FBFSBE] error. */
-        uint64_t sbfsbe                : 1;  /**< [ 57: 57](SR/W1C/H) Logged information is for a TAD()_INT_W1C[SBFSBE] error. */
-        uint64_t mnsbe                 : 1;  /**< [ 56: 56](SR/W1C/H) Logged information is for a TAD()_INT_W1C[MNSBE] error. */
+        uint64_t datmbe                : 1;  /**< [ 63: 63](R/W1C/H) Logged information is for a TAD()_INT_W1C[DATMBE] error. */
+        uint64_t fbfmbe                : 1;  /**< [ 62: 62](R/W1C/H) Logged information is for a TAD()_INT_W1C[FBFMBE] error. */
+        uint64_t sbfmbe                : 1;  /**< [ 61: 61](R/W1C/H) Logged information is for a TAD()_INT_W1C[SBFMBE] error. */
+        uint64_t mnmbe                 : 1;  /**< [ 60: 60](R/W1C/H) Logged information is for a TAD()_INT_W1C[MNMBE] error. */
+        uint64_t datsbe                : 1;  /**< [ 59: 59](R/W1C/H) Logged information is for a TAD()_INT_W1C[DATSBE] error. */
+        uint64_t fbfsbe                : 1;  /**< [ 58: 58](R/W1C/H) Logged information is for a TAD()_INT_W1C[FBFSBE] error. */
+        uint64_t sbfsbe                : 1;  /**< [ 57: 57](R/W1C/H) Logged information is for a TAD()_INT_W1C[SBFSBE] error. */
+        uint64_t mnsbe                 : 1;  /**< [ 56: 56](R/W1C/H) Logged information is for a TAD()_INT_W1C[MNSBE] error. */
         uint64_t reserved_53_55        : 3;
-        uint64_t nonsec                : 1;  /**< [ 52: 52](SRO/H) The NS bit of the physical address the error was detected in. */
+        uint64_t nonsec                : 1;  /**< [ 52: 52](RO/H) The NS bit of the physical address the error was detected in. */
         uint64_t reserved_48_51        : 4;
-        uint64_t addr                  : 42; /**< [ 47:  6](SRO/H) The physical address of the 64B sub-block the error was detected in. */
-        uint64_t ow                    : 2;  /**< [  5:  4](SRO/H) The 128-bit word within the 64B sub-block in which the error was detected. */
+        uint64_t addr                  : 42; /**< [ 47:  6](RO/H) The physical address of the 64B sub-block the error was detected in. */
+        uint64_t ow                    : 2;  /**< [  5:  4](RO/H) The 128-bit word within the 64B sub-block in which the error was detected. */
         uint64_t reserved_0_3          : 4;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_3          : 4;
-        uint64_t ow                    : 2;  /**< [  5:  4](SRO/H) The 128-bit word within the 64B sub-block in which the error was detected. */
-        uint64_t addr                  : 42; /**< [ 47:  6](SRO/H) The physical address of the 64B sub-block the error was detected in. */
+        uint64_t ow                    : 2;  /**< [  5:  4](RO/H) The 128-bit word within the 64B sub-block in which the error was detected. */
+        uint64_t addr                  : 42; /**< [ 47:  6](RO/H) The physical address of the 64B sub-block the error was detected in. */
         uint64_t reserved_48_51        : 4;
-        uint64_t nonsec                : 1;  /**< [ 52: 52](SRO/H) The NS bit of the physical address the error was detected in. */
+        uint64_t nonsec                : 1;  /**< [ 52: 52](RO/H) The NS bit of the physical address the error was detected in. */
         uint64_t reserved_53_55        : 3;
-        uint64_t mnsbe                 : 1;  /**< [ 56: 56](SR/W1C/H) Logged information is for a TAD()_INT_W1C[MNSBE] error. */
-        uint64_t sbfsbe                : 1;  /**< [ 57: 57](SR/W1C/H) Logged information is for a TAD()_INT_W1C[SBFSBE] error. */
-        uint64_t fbfsbe                : 1;  /**< [ 58: 58](SR/W1C/H) Logged information is for a TAD()_INT_W1C[FBFSBE] error. */
-        uint64_t datsbe                : 1;  /**< [ 59: 59](SR/W1C/H) Logged information is for a TAD()_INT_W1C[DATSBE] error. */
-        uint64_t mnmbe                 : 1;  /**< [ 60: 60](SR/W1C/H) Logged information is for a TAD()_INT_W1C[MNMBE] error. */
-        uint64_t sbfmbe                : 1;  /**< [ 61: 61](SR/W1C/H) Logged information is for a TAD()_INT_W1C[SBFMBE] error. */
-        uint64_t fbfmbe                : 1;  /**< [ 62: 62](SR/W1C/H) Logged information is for a TAD()_INT_W1C[FBFMBE] error. */
-        uint64_t datmbe                : 1;  /**< [ 63: 63](SR/W1C/H) Logged information is for a TAD()_INT_W1C[DATMBE] error. */
+        uint64_t mnsbe                 : 1;  /**< [ 56: 56](R/W1C/H) Logged information is for a TAD()_INT_W1C[MNSBE] error. */
+        uint64_t sbfsbe                : 1;  /**< [ 57: 57](R/W1C/H) Logged information is for a TAD()_INT_W1C[SBFSBE] error. */
+        uint64_t fbfsbe                : 1;  /**< [ 58: 58](R/W1C/H) Logged information is for a TAD()_INT_W1C[FBFSBE] error. */
+        uint64_t datsbe                : 1;  /**< [ 59: 59](R/W1C/H) Logged information is for a TAD()_INT_W1C[DATSBE] error. */
+        uint64_t mnmbe                 : 1;  /**< [ 60: 60](R/W1C/H) Logged information is for a TAD()_INT_W1C[MNMBE] error. */
+        uint64_t sbfmbe                : 1;  /**< [ 61: 61](R/W1C/H) Logged information is for a TAD()_INT_W1C[SBFMBE] error. */
+        uint64_t fbfmbe                : 1;  /**< [ 62: 62](R/W1C/H) Logged information is for a TAD()_INT_W1C[FBFMBE] error. */
+        uint64_t datmbe                : 1;  /**< [ 63: 63](R/W1C/H) Logged information is for a TAD()_INT_W1C[DATMBE] error. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tadx_derr_addr_s cn; */
@@ -185,8 +182,8 @@ typedef union cavm_tadx_derr_addr cavm_tadx_derr_addr_t;
 static inline uint64_t CAVM_TADX_DERR_ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_DERR_ADDR(uint64_t a)
 {
-    if (a<=47)
-        return 0x87e280000218ll + 0x1000000ll * ((a) & 0x3f);
+    if (a<=127)
+        return 0x87e280000218ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_DERR_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -210,31 +207,31 @@ union cavm_tadx_int_ena_w1c
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_12_63        : 52;
-        uint64_t dat_nderr             : 1;  /**< [ 11: 11](SR/W1C/H) Reads or clears enable for TAD(0..47)_INT_W1C[DAT_NDERR]. */
-        uint64_t fbf_mbe               : 1;  /**< [ 10: 10](SR/W1C/H) Reads or clears enable for TAD(0..47)_INT_W1C[FBF_MBE]. */
-        uint64_t fbf_sbe               : 1;  /**< [  9:  9](SR/W1C/H) Reads or clears enable for TAD(0..47)_INT_W1C[FBF_SBE]. */
-        uint64_t sbf_mbe               : 1;  /**< [  8:  8](SR/W1C/H) Reads or clears enable for TAD(0..47)_INT_W1C[SBF_MBE]. */
-        uint64_t sbf_sbe               : 1;  /**< [  7:  7](SR/W1C/H) Reads or clears enable for TAD(0..47)_INT_W1C[SBF_SBE]. */
-        uint64_t mn_mbe                : 1;  /**< [  6:  6](SR/W1C/H) Reads or clears enable for TAD(0..47)_INT_W1C[MN_MBE]. */
-        uint64_t mn_sbe                : 1;  /**< [  5:  5](SR/W1C/H) Reads or clears enable for TAD(0..47)_INT_W1C[MN_SBE]. */
-        uint64_t dat_perr              : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for TAD(0..47)_INT_W1C[DAT_PERR]. */
-        uint64_t rsp_perr              : 1;  /**< [  3:  3](SR/W1C/H) Reads or clears enable for TAD(0..47)_INT_W1C[RSP_PERR]. */
-        uint64_t req_perr              : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for TAD(0..47)_INT_W1C[REQ_PERR]. */
-        uint64_t wrnxm                 : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for TAD(0..47)_INT_W1C[WRNXM]. */
-        uint64_t rdnxm                 : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for TAD(0..47)_INT_W1C[RDNXM]. */
+        uint64_t dat_nderr             : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[DAT_NDERR]. */
+        uint64_t fbf_mbe               : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[FBF_MBE]. */
+        uint64_t fbf_sbe               : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[FBF_SBE]. */
+        uint64_t sbf_mbe               : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[SBF_MBE]. */
+        uint64_t sbf_sbe               : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[SBF_SBE]. */
+        uint64_t mn_mbe                : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[MN_MBE]. */
+        uint64_t mn_sbe                : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[MN_SBE]. */
+        uint64_t dat_perr              : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[DAT_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[RSP_PERR]. */
+        uint64_t req_perr              : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[REQ_PERR]. */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[WRNXM]. */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[RDNXM]. */
 #else /* Word 0 - Little Endian */
-        uint64_t rdnxm                 : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for TAD(0..47)_INT_W1C[RDNXM]. */
-        uint64_t wrnxm                 : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for TAD(0..47)_INT_W1C[WRNXM]. */
-        uint64_t req_perr              : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for TAD(0..47)_INT_W1C[REQ_PERR]. */
-        uint64_t rsp_perr              : 1;  /**< [  3:  3](SR/W1C/H) Reads or clears enable for TAD(0..47)_INT_W1C[RSP_PERR]. */
-        uint64_t dat_perr              : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for TAD(0..47)_INT_W1C[DAT_PERR]. */
-        uint64_t mn_sbe                : 1;  /**< [  5:  5](SR/W1C/H) Reads or clears enable for TAD(0..47)_INT_W1C[MN_SBE]. */
-        uint64_t mn_mbe                : 1;  /**< [  6:  6](SR/W1C/H) Reads or clears enable for TAD(0..47)_INT_W1C[MN_MBE]. */
-        uint64_t sbf_sbe               : 1;  /**< [  7:  7](SR/W1C/H) Reads or clears enable for TAD(0..47)_INT_W1C[SBF_SBE]. */
-        uint64_t sbf_mbe               : 1;  /**< [  8:  8](SR/W1C/H) Reads or clears enable for TAD(0..47)_INT_W1C[SBF_MBE]. */
-        uint64_t fbf_sbe               : 1;  /**< [  9:  9](SR/W1C/H) Reads or clears enable for TAD(0..47)_INT_W1C[FBF_SBE]. */
-        uint64_t fbf_mbe               : 1;  /**< [ 10: 10](SR/W1C/H) Reads or clears enable for TAD(0..47)_INT_W1C[FBF_MBE]. */
-        uint64_t dat_nderr             : 1;  /**< [ 11: 11](SR/W1C/H) Reads or clears enable for TAD(0..47)_INT_W1C[DAT_NDERR]. */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[RDNXM]. */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[WRNXM]. */
+        uint64_t req_perr              : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[REQ_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[RSP_PERR]. */
+        uint64_t dat_perr              : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[DAT_PERR]. */
+        uint64_t mn_sbe                : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[MN_SBE]. */
+        uint64_t mn_mbe                : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[MN_MBE]. */
+        uint64_t sbf_sbe               : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[SBF_SBE]. */
+        uint64_t sbf_mbe               : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[SBF_MBE]. */
+        uint64_t fbf_sbe               : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[FBF_SBE]. */
+        uint64_t fbf_mbe               : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[FBF_MBE]. */
+        uint64_t dat_nderr             : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[DAT_NDERR]. */
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } s;
@@ -245,8 +242,8 @@ typedef union cavm_tadx_int_ena_w1c cavm_tadx_int_ena_w1c_t;
 static inline uint64_t CAVM_TADX_INT_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_INT_ENA_W1C(uint64_t a)
 {
-    if (a<=47)
-        return 0x87e280008010ll + 0x1000000ll * ((a) & 0x3f);
+    if (a<=127)
+        return 0x87e280008010ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -270,31 +267,31 @@ union cavm_tadx_int_ena_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_12_63        : 52;
-        uint64_t dat_nderr             : 1;  /**< [ 11: 11](SR/W1S/H) Reads or sets enable for TAD(0..47)_INT_W1C[DAT_NDERR]. */
-        uint64_t fbf_mbe               : 1;  /**< [ 10: 10](SR/W1S/H) Reads or sets enable for TAD(0..47)_INT_W1C[FBF_MBE]. */
-        uint64_t fbf_sbe               : 1;  /**< [  9:  9](SR/W1S/H) Reads or sets enable for TAD(0..47)_INT_W1C[FBF_SBE]. */
-        uint64_t sbf_mbe               : 1;  /**< [  8:  8](SR/W1S/H) Reads or sets enable for TAD(0..47)_INT_W1C[SBF_MBE]. */
-        uint64_t sbf_sbe               : 1;  /**< [  7:  7](SR/W1S/H) Reads or sets enable for TAD(0..47)_INT_W1C[SBF_SBE]. */
-        uint64_t mn_mbe                : 1;  /**< [  6:  6](SR/W1S/H) Reads or sets enable for TAD(0..47)_INT_W1C[MN_MBE]. */
-        uint64_t mn_sbe                : 1;  /**< [  5:  5](SR/W1S/H) Reads or sets enable for TAD(0..47)_INT_W1C[MN_SBE]. */
-        uint64_t dat_perr              : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for TAD(0..47)_INT_W1C[DAT_PERR]. */
-        uint64_t rsp_perr              : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets enable for TAD(0..47)_INT_W1C[RSP_PERR]. */
-        uint64_t req_perr              : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for TAD(0..47)_INT_W1C[REQ_PERR]. */
-        uint64_t wrnxm                 : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for TAD(0..47)_INT_W1C[WRNXM]. */
-        uint64_t rdnxm                 : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for TAD(0..47)_INT_W1C[RDNXM]. */
+        uint64_t dat_nderr             : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[DAT_NDERR]. */
+        uint64_t fbf_mbe               : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[FBF_MBE]. */
+        uint64_t fbf_sbe               : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[FBF_SBE]. */
+        uint64_t sbf_mbe               : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[SBF_MBE]. */
+        uint64_t sbf_sbe               : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[SBF_SBE]. */
+        uint64_t mn_mbe                : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[MN_MBE]. */
+        uint64_t mn_sbe                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[MN_SBE]. */
+        uint64_t dat_perr              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[DAT_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[RSP_PERR]. */
+        uint64_t req_perr              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[REQ_PERR]. */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[WRNXM]. */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[RDNXM]. */
 #else /* Word 0 - Little Endian */
-        uint64_t rdnxm                 : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for TAD(0..47)_INT_W1C[RDNXM]. */
-        uint64_t wrnxm                 : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for TAD(0..47)_INT_W1C[WRNXM]. */
-        uint64_t req_perr              : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for TAD(0..47)_INT_W1C[REQ_PERR]. */
-        uint64_t rsp_perr              : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets enable for TAD(0..47)_INT_W1C[RSP_PERR]. */
-        uint64_t dat_perr              : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for TAD(0..47)_INT_W1C[DAT_PERR]. */
-        uint64_t mn_sbe                : 1;  /**< [  5:  5](SR/W1S/H) Reads or sets enable for TAD(0..47)_INT_W1C[MN_SBE]. */
-        uint64_t mn_mbe                : 1;  /**< [  6:  6](SR/W1S/H) Reads or sets enable for TAD(0..47)_INT_W1C[MN_MBE]. */
-        uint64_t sbf_sbe               : 1;  /**< [  7:  7](SR/W1S/H) Reads or sets enable for TAD(0..47)_INT_W1C[SBF_SBE]. */
-        uint64_t sbf_mbe               : 1;  /**< [  8:  8](SR/W1S/H) Reads or sets enable for TAD(0..47)_INT_W1C[SBF_MBE]. */
-        uint64_t fbf_sbe               : 1;  /**< [  9:  9](SR/W1S/H) Reads or sets enable for TAD(0..47)_INT_W1C[FBF_SBE]. */
-        uint64_t fbf_mbe               : 1;  /**< [ 10: 10](SR/W1S/H) Reads or sets enable for TAD(0..47)_INT_W1C[FBF_MBE]. */
-        uint64_t dat_nderr             : 1;  /**< [ 11: 11](SR/W1S/H) Reads or sets enable for TAD(0..47)_INT_W1C[DAT_NDERR]. */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[RDNXM]. */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[WRNXM]. */
+        uint64_t req_perr              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[REQ_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[RSP_PERR]. */
+        uint64_t dat_perr              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[DAT_PERR]. */
+        uint64_t mn_sbe                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[MN_SBE]. */
+        uint64_t mn_mbe                : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[MN_MBE]. */
+        uint64_t sbf_sbe               : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[SBF_SBE]. */
+        uint64_t sbf_mbe               : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[SBF_MBE]. */
+        uint64_t fbf_sbe               : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[FBF_SBE]. */
+        uint64_t fbf_mbe               : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[FBF_MBE]. */
+        uint64_t dat_nderr             : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[DAT_NDERR]. */
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } s;
@@ -305,8 +302,8 @@ typedef union cavm_tadx_int_ena_w1s cavm_tadx_int_ena_w1s_t;
 static inline uint64_t CAVM_TADX_INT_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_INT_ENA_W1S(uint64_t a)
 {
-    if (a<=47)
-        return 0x87e280008018ll + 0x1000000ll * ((a) & 0x3f);
+    if (a<=127)
+        return 0x87e280008018ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -330,21 +327,21 @@ union cavm_tadx_int_w1c
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_12_63        : 52;
-        uint64_t dat_nderr             : 1;  /**< [ 11: 11](SR/W1C/H) NDERR was received on the DAT mesh. */
-        uint64_t fbf_mbe               : 1;  /**< [ 10: 10](SR/W1C/H) Multiple-bit data error in FBF data. */
-        uint64_t fbf_sbe               : 1;  /**< [  9:  9](SR/W1C/H) Multiple-bit data error in FBF data. */
-        uint64_t sbf_mbe               : 1;  /**< [  8:  8](SR/W1C/H) Multiple-bit data error in SBF data. */
-        uint64_t sbf_sbe               : 1;  /**< [  7:  7](SR/W1C/H) Multiple-bit data error in SBF data. */
-        uint64_t mn_mbe                : 1;  /**< [  6:  6](SR/W1C/H) Multiple-bit data error in MN data. */
-        uint64_t mn_sbe                : 1;  /**< [  5:  5](SR/W1C/H) Multiple-bit data error in MN data. */
-        uint64_t dat_perr              : 1;  /**< [  4:  4](SR/W1C/H) Data parity error bit. */
-        uint64_t rsp_perr              : 1;  /**< [  3:  3](SR/W1C/H) Response parity error bit. */
-        uint64_t req_perr              : 1;  /**< [  2:  2](SR/W1C/H) Request parity error bit */
-        uint64_t wrnxm                 : 1;  /**< [  1:  1](SR/W1C/H) Write NxM error. Write reference to outside all the defined and enabled address
+        uint64_t dat_nderr             : 1;  /**< [ 11: 11](R/W1C/H) NDERR was received on the DAT mesh. */
+        uint64_t fbf_mbe               : 1;  /**< [ 10: 10](R/W1C/H) Multiple-bit data error in FBF data. */
+        uint64_t fbf_sbe               : 1;  /**< [  9:  9](R/W1C/H) Multiple-bit data error in FBF data. */
+        uint64_t sbf_mbe               : 1;  /**< [  8:  8](R/W1C/H) Multiple-bit data error in SBF data. */
+        uint64_t sbf_sbe               : 1;  /**< [  7:  7](R/W1C/H) Multiple-bit data error in SBF data. */
+        uint64_t mn_mbe                : 1;  /**< [  6:  6](R/W1C/H) Multiple-bit data error in MN data. */
+        uint64_t mn_sbe                : 1;  /**< [  5:  5](R/W1C/H) Multiple-bit data error in MN data. */
+        uint64_t dat_perr              : 1;  /**< [  4:  4](R/W1C/H) Data parity error bit. */
+        uint64_t rsp_perr              : 1;  /**< [  3:  3](R/W1C/H) Response parity error bit. */
+        uint64_t req_perr              : 1;  /**< [  2:  2](R/W1C/H) Request parity error bit */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1C/H) Write NxM error. Write reference to outside all the defined and enabled address
                                                                  space control (ASC) regions, or secure write reference to an ASC region
                                                                  not enabled for secure access, or nonsecure write reference to an
                                                                  ASC region not enabled for nonsecure access. */
-        uint64_t rdnxm                 : 1;  /**< [  0:  0](SR/W1C/H) Read NxM error. Read reference to outside all the defined and enabled address
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1C/H) Read NxM error. Read reference to outside all the defined and enabled address
                                                                  space control (ASC) regions, or secure read reference to an ASC region not
                                                                  enabled for secure access, or nonsecure read reference to an ASC region not
                                                                  enabled for nonsecure access.
@@ -352,27 +349,27 @@ union cavm_tadx_int_w1c
                                                                  allowed to prefetch to nonexistent memory locations.  Therefore,
                                                                  [RDNXM] is for informational purposes only. */
 #else /* Word 0 - Little Endian */
-        uint64_t rdnxm                 : 1;  /**< [  0:  0](SR/W1C/H) Read NxM error. Read reference to outside all the defined and enabled address
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1C/H) Read NxM error. Read reference to outside all the defined and enabled address
                                                                  space control (ASC) regions, or secure read reference to an ASC region not
                                                                  enabled for secure access, or nonsecure read reference to an ASC region not
                                                                  enabled for nonsecure access.
                                                                  [RDNXM] interrupts can occur during normal operation as the cores are
                                                                  allowed to prefetch to nonexistent memory locations.  Therefore,
                                                                  [RDNXM] is for informational purposes only. */
-        uint64_t wrnxm                 : 1;  /**< [  1:  1](SR/W1C/H) Write NxM error. Write reference to outside all the defined and enabled address
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1C/H) Write NxM error. Write reference to outside all the defined and enabled address
                                                                  space control (ASC) regions, or secure write reference to an ASC region
                                                                  not enabled for secure access, or nonsecure write reference to an
                                                                  ASC region not enabled for nonsecure access. */
-        uint64_t req_perr              : 1;  /**< [  2:  2](SR/W1C/H) Request parity error bit */
-        uint64_t rsp_perr              : 1;  /**< [  3:  3](SR/W1C/H) Response parity error bit. */
-        uint64_t dat_perr              : 1;  /**< [  4:  4](SR/W1C/H) Data parity error bit. */
-        uint64_t mn_sbe                : 1;  /**< [  5:  5](SR/W1C/H) Multiple-bit data error in MN data. */
-        uint64_t mn_mbe                : 1;  /**< [  6:  6](SR/W1C/H) Multiple-bit data error in MN data. */
-        uint64_t sbf_sbe               : 1;  /**< [  7:  7](SR/W1C/H) Multiple-bit data error in SBF data. */
-        uint64_t sbf_mbe               : 1;  /**< [  8:  8](SR/W1C/H) Multiple-bit data error in SBF data. */
-        uint64_t fbf_sbe               : 1;  /**< [  9:  9](SR/W1C/H) Multiple-bit data error in FBF data. */
-        uint64_t fbf_mbe               : 1;  /**< [ 10: 10](SR/W1C/H) Multiple-bit data error in FBF data. */
-        uint64_t dat_nderr             : 1;  /**< [ 11: 11](SR/W1C/H) NDERR was received on the DAT mesh. */
+        uint64_t req_perr              : 1;  /**< [  2:  2](R/W1C/H) Request parity error bit */
+        uint64_t rsp_perr              : 1;  /**< [  3:  3](R/W1C/H) Response parity error bit. */
+        uint64_t dat_perr              : 1;  /**< [  4:  4](R/W1C/H) Data parity error bit. */
+        uint64_t mn_sbe                : 1;  /**< [  5:  5](R/W1C/H) Multiple-bit data error in MN data. */
+        uint64_t mn_mbe                : 1;  /**< [  6:  6](R/W1C/H) Multiple-bit data error in MN data. */
+        uint64_t sbf_sbe               : 1;  /**< [  7:  7](R/W1C/H) Multiple-bit data error in SBF data. */
+        uint64_t sbf_mbe               : 1;  /**< [  8:  8](R/W1C/H) Multiple-bit data error in SBF data. */
+        uint64_t fbf_sbe               : 1;  /**< [  9:  9](R/W1C/H) Multiple-bit data error in FBF data. */
+        uint64_t fbf_mbe               : 1;  /**< [ 10: 10](R/W1C/H) Multiple-bit data error in FBF data. */
+        uint64_t dat_nderr             : 1;  /**< [ 11: 11](R/W1C/H) NDERR was received on the DAT mesh. */
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } s;
@@ -383,8 +380,8 @@ typedef union cavm_tadx_int_w1c cavm_tadx_int_w1c_t;
 static inline uint64_t CAVM_TADX_INT_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_INT_W1C(uint64_t a)
 {
-    if (a<=47)
-        return 0x87e280008000ll + 0x1000000ll * ((a) & 0x3f);
+    if (a<=127)
+        return 0x87e280008000ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_INT_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -408,31 +405,31 @@ union cavm_tadx_int_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_12_63        : 52;
-        uint64_t dat_nderr             : 1;  /**< [ 11: 11](SR/W1S/H) Reads or sets TAD(0..47)_INT_W1C[DAT_NDERR]. */
-        uint64_t fbf_mbe               : 1;  /**< [ 10: 10](SR/W1S/H) Reads or sets TAD(0..47)_INT_W1C[FBF_MBE]. */
-        uint64_t fbf_sbe               : 1;  /**< [  9:  9](SR/W1S/H) Reads or sets TAD(0..47)_INT_W1C[FBF_SBE]. */
-        uint64_t sbf_mbe               : 1;  /**< [  8:  8](SR/W1S/H) Reads or sets TAD(0..47)_INT_W1C[SBF_MBE]. */
-        uint64_t sbf_sbe               : 1;  /**< [  7:  7](SR/W1S/H) Reads or sets TAD(0..47)_INT_W1C[SBF_SBE]. */
-        uint64_t mn_mbe                : 1;  /**< [  6:  6](SR/W1S/H) Reads or sets TAD(0..47)_INT_W1C[MN_MBE]. */
-        uint64_t mn_sbe                : 1;  /**< [  5:  5](SR/W1S/H) Reads or sets TAD(0..47)_INT_W1C[MN_SBE]. */
-        uint64_t dat_perr              : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets TAD(0..47)_INT_W1C[DAT_PERR]. */
-        uint64_t rsp_perr              : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets TAD(0..47)_INT_W1C[RSP_PERR]. */
-        uint64_t req_perr              : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets TAD(0..47)_INT_W1C[REQ_PERR]. */
-        uint64_t wrnxm                 : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets TAD(0..47)_INT_W1C[WRNXM]. */
-        uint64_t rdnxm                 : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets TAD(0..47)_INT_W1C[RDNXM]. */
+        uint64_t dat_nderr             : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[DAT_NDERR]. */
+        uint64_t fbf_mbe               : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[FBF_MBE]. */
+        uint64_t fbf_sbe               : 1;  /**< [  9:  9](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[FBF_SBE]. */
+        uint64_t sbf_mbe               : 1;  /**< [  8:  8](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[SBF_MBE]. */
+        uint64_t sbf_sbe               : 1;  /**< [  7:  7](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[SBF_SBE]. */
+        uint64_t mn_mbe                : 1;  /**< [  6:  6](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[MN_MBE]. */
+        uint64_t mn_sbe                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[MN_SBE]. */
+        uint64_t dat_perr              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[DAT_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[RSP_PERR]. */
+        uint64_t req_perr              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[REQ_PERR]. */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[WRNXM]. */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[RDNXM]. */
 #else /* Word 0 - Little Endian */
-        uint64_t rdnxm                 : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets TAD(0..47)_INT_W1C[RDNXM]. */
-        uint64_t wrnxm                 : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets TAD(0..47)_INT_W1C[WRNXM]. */
-        uint64_t req_perr              : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets TAD(0..47)_INT_W1C[REQ_PERR]. */
-        uint64_t rsp_perr              : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets TAD(0..47)_INT_W1C[RSP_PERR]. */
-        uint64_t dat_perr              : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets TAD(0..47)_INT_W1C[DAT_PERR]. */
-        uint64_t mn_sbe                : 1;  /**< [  5:  5](SR/W1S/H) Reads or sets TAD(0..47)_INT_W1C[MN_SBE]. */
-        uint64_t mn_mbe                : 1;  /**< [  6:  6](SR/W1S/H) Reads or sets TAD(0..47)_INT_W1C[MN_MBE]. */
-        uint64_t sbf_sbe               : 1;  /**< [  7:  7](SR/W1S/H) Reads or sets TAD(0..47)_INT_W1C[SBF_SBE]. */
-        uint64_t sbf_mbe               : 1;  /**< [  8:  8](SR/W1S/H) Reads or sets TAD(0..47)_INT_W1C[SBF_MBE]. */
-        uint64_t fbf_sbe               : 1;  /**< [  9:  9](SR/W1S/H) Reads or sets TAD(0..47)_INT_W1C[FBF_SBE]. */
-        uint64_t fbf_mbe               : 1;  /**< [ 10: 10](SR/W1S/H) Reads or sets TAD(0..47)_INT_W1C[FBF_MBE]. */
-        uint64_t dat_nderr             : 1;  /**< [ 11: 11](SR/W1S/H) Reads or sets TAD(0..47)_INT_W1C[DAT_NDERR]. */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[RDNXM]. */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[WRNXM]. */
+        uint64_t req_perr              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[REQ_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[RSP_PERR]. */
+        uint64_t dat_perr              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[DAT_PERR]. */
+        uint64_t mn_sbe                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[MN_SBE]. */
+        uint64_t mn_mbe                : 1;  /**< [  6:  6](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[MN_MBE]. */
+        uint64_t sbf_sbe               : 1;  /**< [  7:  7](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[SBF_SBE]. */
+        uint64_t sbf_mbe               : 1;  /**< [  8:  8](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[SBF_MBE]. */
+        uint64_t fbf_sbe               : 1;  /**< [  9:  9](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[FBF_SBE]. */
+        uint64_t fbf_mbe               : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[FBF_MBE]. */
+        uint64_t dat_nderr             : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[DAT_NDERR]. */
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } s;
@@ -443,8 +440,8 @@ typedef union cavm_tadx_int_w1s cavm_tadx_int_w1s_t;
 static inline uint64_t CAVM_TADX_INT_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_INT_W1S(uint64_t a)
 {
-    if (a<=47)
-        return 0x87e280008008ll + 0x1000000ll * ((a) & 0x3f);
+    if (a<=127)
+        return 0x87e280008008ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -467,11 +464,11 @@ union cavm_tadx_mpamx_rcnt
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_7_63         : 57;
-        uint64_t cnt                   : 7;  /**< [  6:  0](SRO/H) Counter incremented whenever a request with corresponding MPAMID is stored in
+        uint64_t cnt                   : 7;  /**< [  6:  0](RO/H) Counter incremented whenever a request with corresponding MPAMID is stored in
                                                                  Buffers/IFBs. Decremented when request is deallocated from Buffers/IFBs.
                                                                  This count is used to determine CBUSY[0] in TAD responses. */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 7;  /**< [  6:  0](SRO/H) Counter incremented whenever a request with corresponding MPAMID is stored in
+        uint64_t cnt                   : 7;  /**< [  6:  0](RO/H) Counter incremented whenever a request with corresponding MPAMID is stored in
                                                                  Buffers/IFBs. Decremented when request is deallocated from Buffers/IFBs.
                                                                  This count is used to determine CBUSY[0] in TAD responses. */
         uint64_t reserved_7_63         : 57;
@@ -484,8 +481,8 @@ typedef union cavm_tadx_mpamx_rcnt cavm_tadx_mpamx_rcnt_t;
 static inline uint64_t CAVM_TADX_MPAMX_RCNT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_MPAMX_RCNT(uint64_t a, uint64_t b)
 {
-    if ((a<=47) && (b<=271))
-        return 0x87e280002000ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x1ff);
+    if ((a<=127) && (b<=127))
+        return 0x87e280002000ll + 0x1000000ll * ((a) & 0x7f) + 0x10ll * ((b) & 0x7f);
     __cavm_csr_fatal("TADX_MPAMX_RCNT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -507,10 +504,10 @@ union cavm_tadx_msix_pbax
     struct cavm_tadx_msix_pbax_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](SRO) Pending message for the associated TAD_MSIX_VEC(0)_CTL, enumerated by
+        uint64_t pend                  : 64; /**< [ 63:  0](RO) Pending message for the associated TAD_MSIX_VEC(0)_CTL, enumerated by
                                                                  TAD_PF_INT_VEC_E. */
 #else /* Word 0 - Little Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](SRO) Pending message for the associated TAD_MSIX_VEC(0)_CTL, enumerated by
+        uint64_t pend                  : 64; /**< [ 63:  0](RO) Pending message for the associated TAD_MSIX_VEC(0)_CTL, enumerated by
                                                                  TAD_PF_INT_VEC_E. */
 #endif /* Word 0 - End */
     } s;
@@ -521,8 +518,8 @@ typedef union cavm_tadx_msix_pbax cavm_tadx_msix_pbax_t;
 static inline uint64_t CAVM_TADX_MSIX_PBAX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_MSIX_PBAX(uint64_t a, uint64_t b)
 {
-    if ((a<=47) && (b==0))
-        return 0x87e2808f0000ll + 0x1000000ll * ((a) & 0x3f) + 8ll * ((b) & 0x0);
+    if ((a<=127) && (b==0))
+        return 0x87e2808f0000ll + 0x1000000ll * ((a) & 0x7f) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("TADX_MSIX_PBAX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -563,8 +560,8 @@ typedef union cavm_tadx_msix_vecx_addr cavm_tadx_msix_vecx_addr_t;
 static inline uint64_t CAVM_TADX_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
-    if ((a<=47) && (b==0))
-        return 0x87e280800000ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x0);
+    if ((a<=127) && (b==0))
+        return 0x87e280800000ll + 0x1000000ll * ((a) & 0x7f) + 0x10ll * ((b) & 0x0);
     __cavm_csr_fatal("TADX_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -588,11 +585,11 @@ union cavm_tadx_msix_vecx_ctl
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_33_63        : 31;
-        uint64_t mask                  : 1;  /**< [ 32: 32](SR/W) When set, no MSI-X interrupts are sent to this vector. */
-        uint64_t data                  : 32; /**< [ 31:  0](SR/W) Data to use for MSI-X delivery of this vector. */
+        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts are sent to this vector. */
+        uint64_t data                  : 32; /**< [ 31:  0](R/W) Data to use for MSI-X delivery of this vector. */
 #else /* Word 0 - Little Endian */
-        uint64_t data                  : 32; /**< [ 31:  0](SR/W) Data to use for MSI-X delivery of this vector. */
-        uint64_t mask                  : 1;  /**< [ 32: 32](SR/W) When set, no MSI-X interrupts are sent to this vector. */
+        uint64_t data                  : 32; /**< [ 31:  0](R/W) Data to use for MSI-X delivery of this vector. */
+        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts are sent to this vector. */
         uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
     } s;
@@ -603,8 +600,8 @@ typedef union cavm_tadx_msix_vecx_ctl cavm_tadx_msix_vecx_ctl_t;
 static inline uint64_t CAVM_TADX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
-    if ((a<=47) && (b==0))
-        return 0x87e280800008ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x0);
+    if ((a<=127) && (b==0))
+        return 0x87e280800008ll + 0x1000000ll * ((a) & 0x7f) + 0x10ll * ((b) & 0x0);
     __cavm_csr_fatal("TADX_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -614,174 +611,6 @@ static inline uint64_t CAVM_TADX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 #define device_bar_CAVM_TADX_MSIX_VECX_CTL(a,b) 0x4 /* PF_BAR4 */
 #define busnum_CAVM_TADX_MSIX_VECX_CTL(a,b) (a)
 #define arguments_CAVM_TADX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) tad#_msmon_csu_ns
- *
- * MPAM Cache Storage Usage Monitor Register
- * Accesses the CSU monitor selected by TAD_CMN_MSMON_CFG_MON_SEL_NS.
- * TAD_MSMON_CSU_NS is the Non-secure cache storage usage monitor instance selected by the
- * Non-secure instance of TAD_CMN_MSMON_CFG_MON_SEL_NS.
- */
-union cavm_tadx_msmon_csu_ns
-{
-    uint64_t u;
-    struct cavm_tadx_msmon_csu_ns_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t nrdy                  : 1;  /**< [ 31: 31](RO/H) Not Ready. Indicates whether the monitor has possibly inaccurate data.
-
-                                                                 0 = The monitor is ready and the VALUE fields is accurate.
-                                                                 1 = The monitor is not ready and the contents of the VALUE field might be
-                                                                 inaccurate or otherwise not represent the actual cache storage usage.
-
-                                                                 The value of this field varies with TAD_CMN_MPAMCFG_PART_SEL[RIS]
-                                                                   RIS = MSC:   0
-                                                                   RIS = LTG:   valid (reset 1)
-                                                                   RIS = DTG:   valid (reset 1)
-                                                                   RIS = undef: 0 */
-        uint64_t value                 : 31; /**< [ 30:  0](RO/H) Cache storage usage value if NRDY == 0. Invalid if NRDY == 1.
-
-                                                                 VALUE is the cache storage usage in bytes meeting the criteria set in TAD_CMN_MSMON_CFG_CSU_FLT_NS
-                                                                 and TAD_CMN_MSMON_CFG_CSU_CTL_NS for the monitor instance selected by TAD_CMN_MSMON_CFG_MON_SEL_NS.
-
-                                                                 VALUE must be read for all TADs and summed to get the full cache occupancy.
-
-                                                                 The value of this field varies with TAD_CMN_MPAMCFG_PART_SEL[RIS]
-                                                                   RIS = MSC:   0
-                                                                   RIS = LTG:   valid
-                                                                   RIS = DTG:   valid
-                                                                   RIS = undef: 0 */
-#else /* Word 0 - Little Endian */
-        uint64_t value                 : 31; /**< [ 30:  0](RO/H) Cache storage usage value if NRDY == 0. Invalid if NRDY == 1.
-
-                                                                 VALUE is the cache storage usage in bytes meeting the criteria set in TAD_CMN_MSMON_CFG_CSU_FLT_NS
-                                                                 and TAD_CMN_MSMON_CFG_CSU_CTL_NS for the monitor instance selected by TAD_CMN_MSMON_CFG_MON_SEL_NS.
-
-                                                                 VALUE must be read for all TADs and summed to get the full cache occupancy.
-
-                                                                 The value of this field varies with TAD_CMN_MPAMCFG_PART_SEL[RIS]
-                                                                   RIS = MSC:   0
-                                                                   RIS = LTG:   valid
-                                                                   RIS = DTG:   valid
-                                                                   RIS = undef: 0 */
-        uint64_t nrdy                  : 1;  /**< [ 31: 31](RO/H) Not Ready. Indicates whether the monitor has possibly inaccurate data.
-
-                                                                 0 = The monitor is ready and the VALUE fields is accurate.
-                                                                 1 = The monitor is not ready and the contents of the VALUE field might be
-                                                                 inaccurate or otherwise not represent the actual cache storage usage.
-
-                                                                 The value of this field varies with TAD_CMN_MPAMCFG_PART_SEL[RIS]
-                                                                   RIS = MSC:   0
-                                                                   RIS = LTG:   valid (reset 1)
-                                                                   RIS = DTG:   valid (reset 1)
-                                                                   RIS = undef: 0 */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_tadx_msmon_csu_ns_s cn; */
-};
-typedef union cavm_tadx_msmon_csu_ns cavm_tadx_msmon_csu_ns_t;
-
-static inline uint64_t CAVM_TADX_MSMON_CSU_NS(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_TADX_MSMON_CSU_NS(uint64_t a)
-{
-    if (a<=47)
-        return 0x87e280010840ll + 0x1000000ll * ((a) & 0x3f);
-    __cavm_csr_fatal("TADX_MSMON_CSU_NS", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_TADX_MSMON_CSU_NS(a) cavm_tadx_msmon_csu_ns_t
-#define bustype_CAVM_TADX_MSMON_CSU_NS(a) CSR_TYPE_RSL
-#define basename_CAVM_TADX_MSMON_CSU_NS(a) "TADX_MSMON_CSU_NS"
-#define device_bar_CAVM_TADX_MSMON_CSU_NS(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_TADX_MSMON_CSU_NS(a) (a)
-#define arguments_CAVM_TADX_MSMON_CSU_NS(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) tad#_msmon_csu_s
- *
- * MPAM Cache Storage Usage Monitor Register
- * Accesses the CSU monitor selected by TAD_CMN_MSMON_CFG_MON_SEL_S.
- * TAD_MSMON_CSU_S is the secure cache storage usage monitor instance selected by the
- * Non-secure instance of TAD_CMN_MSMON_CFG_MON_SEL_S.
- */
-union cavm_tadx_msmon_csu_s
-{
-    uint64_t u;
-    struct cavm_tadx_msmon_csu_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t nrdy                  : 1;  /**< [ 31: 31](SRO/H) Not Ready. Indicates whether the monitor has possibly inaccurate data.
-
-                                                                 0 = The monitor is ready and the VALUE fields is accurate.
-                                                                 1 = The monitor is not ready and the contents of the VALUE field might be
-                                                                 inaccurate or otherwise not represent the actual cache storage usage.
-
-                                                                 The value of this field varies with TAD_CMN_MPAMCFG_PART_SEL[RIS]
-                                                                   RIS = MSC:   0
-                                                                   RIS = LTG:   valid (reset 1)
-                                                                   RIS = DTG:   valid (reset 1)
-                                                                   RIS = undef: 0 */
-        uint64_t value                 : 31; /**< [ 30:  0](SRO/H) Cache storage usage value if NRDY == 0. Invalid if NRDY == 1.
-
-                                                                 VALUE is the cache storage usage in bytes meeting the criteria set in TAD_CMN_MSMON_CFG_CSU_FLT_S
-                                                                 and TAD_CMN_MSMON_CFG_CSU_CTL_S for the monitor instance selected by TAD_CMN_MSMON_CFG_MON_SEL_S.
-
-                                                                 VALUE must be read for all TADs and summed to get the full cache occupancy.
-
-                                                                 The value of this field varies with TAD_CMN_MPAMCFG_PART_SEL[RIS]
-                                                                   RIS = MSC:   0
-                                                                   RIS = LTG:   valid
-                                                                   RIS = DTG:   valid
-                                                                   RIS = undef: 0 */
-#else /* Word 0 - Little Endian */
-        uint64_t value                 : 31; /**< [ 30:  0](SRO/H) Cache storage usage value if NRDY == 0. Invalid if NRDY == 1.
-
-                                                                 VALUE is the cache storage usage in bytes meeting the criteria set in TAD_CMN_MSMON_CFG_CSU_FLT_S
-                                                                 and TAD_CMN_MSMON_CFG_CSU_CTL_S for the monitor instance selected by TAD_CMN_MSMON_CFG_MON_SEL_S.
-
-                                                                 VALUE must be read for all TADs and summed to get the full cache occupancy.
-
-                                                                 The value of this field varies with TAD_CMN_MPAMCFG_PART_SEL[RIS]
-                                                                   RIS = MSC:   0
-                                                                   RIS = LTG:   valid
-                                                                   RIS = DTG:   valid
-                                                                   RIS = undef: 0 */
-        uint64_t nrdy                  : 1;  /**< [ 31: 31](SRO/H) Not Ready. Indicates whether the monitor has possibly inaccurate data.
-
-                                                                 0 = The monitor is ready and the VALUE fields is accurate.
-                                                                 1 = The monitor is not ready and the contents of the VALUE field might be
-                                                                 inaccurate or otherwise not represent the actual cache storage usage.
-
-                                                                 The value of this field varies with TAD_CMN_MPAMCFG_PART_SEL[RIS]
-                                                                   RIS = MSC:   0
-                                                                   RIS = LTG:   valid (reset 1)
-                                                                   RIS = DTG:   valid (reset 1)
-                                                                   RIS = undef: 0 */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_tadx_msmon_csu_s_s cn; */
-};
-typedef union cavm_tadx_msmon_csu_s cavm_tadx_msmon_csu_s_t;
-
-static inline uint64_t CAVM_TADX_MSMON_CSU_S(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_TADX_MSMON_CSU_S(uint64_t a)
-{
-    if (a<=47)
-        return 0x87e280020840ll + 0x1000000ll * ((a) & 0x3f);
-    __cavm_csr_fatal("TADX_MSMON_CSU_S", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_TADX_MSMON_CSU_S(a) cavm_tadx_msmon_csu_s_t
-#define bustype_CAVM_TADX_MSMON_CSU_S(a) CSR_TYPE_RSL
-#define basename_CAVM_TADX_MSMON_CSU_S(a) "TADX_MSMON_CSU_S"
-#define device_bar_CAVM_TADX_MSMON_CSU_S(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_TADX_MSMON_CSU_S(a) (a)
-#define arguments_CAVM_TADX_MSMON_CSU_S(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) tad#_nderr_addr
@@ -800,20 +629,14 @@ union cavm_tadx_nderr_addr
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_53_63        : 11;
-        uint64_t nonsec                : 1;  /**< [ 52: 52](SRO/H) For [RDNXM], [WRNXM], and [REQ_PERR], the NS bit from REQ mesh payload causing the
+        uint64_t nonsec                : 1;  /**< [ 52: 52](RO/H) For [RDNXM], [WRNXM], and [REQ_PERR], the NS bit from REQ mesh payload causing the
                                                                  error. Note for [REQ_PERR], the error itself might have corrupted the NS bit. */
-        uint64_t reserved_48_51        : 4;
-        uint64_t addr                  : 48; /**< [ 47:  0](SRO/H) For [RDNXM], [WRNXM], and [REQ_PERR], address from the REQ mesh payload causing the
-                                                                 error. Note for [REQ_PERR], the error itself might have corrupted the address.
-
-                                                                 Bit [47] is an OR of address bits [51..47]. */
+        uint64_t addr                  : 52; /**< [ 51:  0](RO/H) For [RDNXM], [WRNXM], and [REQ_PERR], address from the REQ mesh payload causing the
+                                                                 error. Note for [REQ_PERR], the error itself might have corrupted the address. */
 #else /* Word 0 - Little Endian */
-        uint64_t addr                  : 48; /**< [ 47:  0](SRO/H) For [RDNXM], [WRNXM], and [REQ_PERR], address from the REQ mesh payload causing the
-                                                                 error. Note for [REQ_PERR], the error itself might have corrupted the address.
-
-                                                                 Bit [47] is an OR of address bits [51..47]. */
-        uint64_t reserved_48_51        : 4;
-        uint64_t nonsec                : 1;  /**< [ 52: 52](SRO/H) For [RDNXM], [WRNXM], and [REQ_PERR], the NS bit from REQ mesh payload causing the
+        uint64_t addr                  : 52; /**< [ 51:  0](RO/H) For [RDNXM], [WRNXM], and [REQ_PERR], address from the REQ mesh payload causing the
+                                                                 error. Note for [REQ_PERR], the error itself might have corrupted the address. */
+        uint64_t nonsec                : 1;  /**< [ 52: 52](RO/H) For [RDNXM], [WRNXM], and [REQ_PERR], the NS bit from REQ mesh payload causing the
                                                                  error. Note for [REQ_PERR], the error itself might have corrupted the NS bit. */
         uint64_t reserved_53_63        : 11;
 #endif /* Word 0 - End */
@@ -825,8 +648,8 @@ typedef union cavm_tadx_nderr_addr cavm_tadx_nderr_addr_t;
 static inline uint64_t CAVM_TADX_NDERR_ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_NDERR_ADDR(uint64_t a)
 {
-    if (a<=47)
-        return 0x87e280000208ll + 0x1000000ll * ((a) & 0x3f);
+    if (a<=127)
+        return 0x87e280000208ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_NDERR_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -854,37 +677,33 @@ union cavm_tadx_nderr_info
     struct cavm_tadx_nderr_info_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t rdnxm                 : 1;  /**< [ 63: 63](SR/W1C/H) Logged information is for a TAD()_INT_W1C[RDNXM] error. */
-        uint64_t wrnxm                 : 1;  /**< [ 62: 62](SR/W1C/H) Logged information is for a TAD()_INT_W1C[WRNXM] error. */
-        uint64_t req_perr              : 1;  /**< [ 61: 61](SR/W1C/H) Logged information is for a TAD()_INT_W1C[REQ_PERR] error. */
-        uint64_t rsp_perr              : 1;  /**< [ 60: 60](SR/W1C/H) Logged information is for a TAD()_INT_W1C[RSP_PERR] error. */
-        uint64_t dat_perr              : 1;  /**< [ 59: 59](SR/W1C/H) Logged information is for a TAD()_INT_W1C[DAT_PERR] error. */
-        uint64_t dat_nderr             : 1;  /**< [ 58: 58](SR/W1C/H) Logged information is for a TAD()_INT_W1C[DAT_NDERR] error. */
-        uint64_t reserved_19_57        : 39;
-        uint64_t rspnum                : 1;  /**< [ 18: 18](SRO/H) Valid only for [RSP_PERR], it is the RSP channel which had the PERR, shuld
-                                                                 ignored for all other logged errors. */
-        uint64_t opcode                : 7;  /**< [ 17: 11](SRO/H) The opcode from the REQ/RSP/DAT mesh payload causing the error. Note for
+        uint64_t rdnxm                 : 1;  /**< [ 63: 63](R/W1C/H) Logged information is for a TAD()_INT_W1C[RDNXM] error. */
+        uint64_t wrnxm                 : 1;  /**< [ 62: 62](R/W1C/H) Logged information is for a TAD()_INT_W1C[WRNXM] error. */
+        uint64_t req_perr              : 1;  /**< [ 61: 61](R/W1C/H) Logged information is for a TAD()_INT_W1C[REQ_PERR] error. */
+        uint64_t rsp_perr              : 1;  /**< [ 60: 60](R/W1C/H) Logged information is for a TAD()_INT_W1C[RSP_PERR] error. */
+        uint64_t dat_perr              : 1;  /**< [ 59: 59](R/W1C/H) Logged information is for a TAD()_INT_W1C[DAT_PERR] error. */
+        uint64_t dat_nderr             : 1;  /**< [ 58: 58](R/W1C/H) Logged information is for a TAD()_INT_W1C[DAT_NDERR] error. */
+        uint64_t reserved_18_57        : 40;
+        uint64_t opcode                : 7;  /**< [ 17: 11](RO/H) The opcode from the REQ/RSP/DAT mesh payload causing the error. Note for
                                                                  [REQ_PERR], [RSP_PERR] and [DAT_PERR], the error itself might have corrupted the
                                                                  opcode. OPCODE[6:4] is 0 for DAT_PERR and OPCODE[6:5] is 0 for [RSP_PERR]. */
-        uint64_t srcid                 : 11; /**< [ 10:  0](SRO/H) The SRCID from the REQ/RSP/DAT mesh header causing the error. Note for
+        uint64_t srcid                 : 11; /**< [ 10:  0](RO/H) The SRCID from the REQ/RSP/DAT mesh header causing the error. Note for
                                                                  [REQ_PERR], [RSP_PERR] and [DAT_PERR], the error itself might have corrupted the
                                                                  srcid. */
 #else /* Word 0 - Little Endian */
-        uint64_t srcid                 : 11; /**< [ 10:  0](SRO/H) The SRCID from the REQ/RSP/DAT mesh header causing the error. Note for
+        uint64_t srcid                 : 11; /**< [ 10:  0](RO/H) The SRCID from the REQ/RSP/DAT mesh header causing the error. Note for
                                                                  [REQ_PERR], [RSP_PERR] and [DAT_PERR], the error itself might have corrupted the
                                                                  srcid. */
-        uint64_t opcode                : 7;  /**< [ 17: 11](SRO/H) The opcode from the REQ/RSP/DAT mesh payload causing the error. Note for
+        uint64_t opcode                : 7;  /**< [ 17: 11](RO/H) The opcode from the REQ/RSP/DAT mesh payload causing the error. Note for
                                                                  [REQ_PERR], [RSP_PERR] and [DAT_PERR], the error itself might have corrupted the
                                                                  opcode. OPCODE[6:4] is 0 for DAT_PERR and OPCODE[6:5] is 0 for [RSP_PERR]. */
-        uint64_t rspnum                : 1;  /**< [ 18: 18](SRO/H) Valid only for [RSP_PERR], it is the RSP channel which had the PERR, shuld
-                                                                 ignored for all other logged errors. */
-        uint64_t reserved_19_57        : 39;
-        uint64_t dat_nderr             : 1;  /**< [ 58: 58](SR/W1C/H) Logged information is for a TAD()_INT_W1C[DAT_NDERR] error. */
-        uint64_t dat_perr              : 1;  /**< [ 59: 59](SR/W1C/H) Logged information is for a TAD()_INT_W1C[DAT_PERR] error. */
-        uint64_t rsp_perr              : 1;  /**< [ 60: 60](SR/W1C/H) Logged information is for a TAD()_INT_W1C[RSP_PERR] error. */
-        uint64_t req_perr              : 1;  /**< [ 61: 61](SR/W1C/H) Logged information is for a TAD()_INT_W1C[REQ_PERR] error. */
-        uint64_t wrnxm                 : 1;  /**< [ 62: 62](SR/W1C/H) Logged information is for a TAD()_INT_W1C[WRNXM] error. */
-        uint64_t rdnxm                 : 1;  /**< [ 63: 63](SR/W1C/H) Logged information is for a TAD()_INT_W1C[RDNXM] error. */
+        uint64_t reserved_18_57        : 40;
+        uint64_t dat_nderr             : 1;  /**< [ 58: 58](R/W1C/H) Logged information is for a TAD()_INT_W1C[DAT_NDERR] error. */
+        uint64_t dat_perr              : 1;  /**< [ 59: 59](R/W1C/H) Logged information is for a TAD()_INT_W1C[DAT_PERR] error. */
+        uint64_t rsp_perr              : 1;  /**< [ 60: 60](R/W1C/H) Logged information is for a TAD()_INT_W1C[RSP_PERR] error. */
+        uint64_t req_perr              : 1;  /**< [ 61: 61](R/W1C/H) Logged information is for a TAD()_INT_W1C[REQ_PERR] error. */
+        uint64_t wrnxm                 : 1;  /**< [ 62: 62](R/W1C/H) Logged information is for a TAD()_INT_W1C[WRNXM] error. */
+        uint64_t rdnxm                 : 1;  /**< [ 63: 63](R/W1C/H) Logged information is for a TAD()_INT_W1C[RDNXM] error. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tadx_nderr_info_s cn; */
@@ -894,8 +713,8 @@ typedef union cavm_tadx_nderr_info cavm_tadx_nderr_info_t;
 static inline uint64_t CAVM_TADX_NDERR_INFO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_NDERR_INFO(uint64_t a)
 {
-    if (a<=47)
-        return 0x87e280000200ll + 0x1000000ll * ((a) & 0x3f);
+    if (a<=127)
+        return 0x87e280000200ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_NDERR_INFO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -907,14 +726,14 @@ static inline uint64_t CAVM_TADX_NDERR_INFO(uint64_t a)
 #define arguments_CAVM_TADX_NDERR_INFO(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) tad#_pfc_ns#
+ * Register (RSL) tad#_pfc#
  *
- * TAD Performance Counter Non-Secure Registers
+ * TAD Performance Counter Registers
  */
-union cavm_tadx_pfc_nsx
+union cavm_tadx_pfcx
 {
     uint64_t u;
-    struct cavm_tadx_pfc_nsx_s
+    struct cavm_tadx_pfcx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Current counter value. */
@@ -922,239 +741,102 @@ union cavm_tadx_pfc_nsx
         uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Current counter value. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_tadx_pfc_nsx_s cn; */
+    /* struct cavm_tadx_pfcx_s cn; */
 };
-typedef union cavm_tadx_pfc_nsx cavm_tadx_pfc_nsx_t;
+typedef union cavm_tadx_pfcx cavm_tadx_pfcx_t;
 
-static inline uint64_t CAVM_TADX_PFC_NSX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_TADX_PFC_NSX(uint64_t a, uint64_t b)
+static inline uint64_t CAVM_TADX_PFCX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TADX_PFCX(uint64_t a, uint64_t b)
 {
-    if ((a<=47) && (b<=7))
-        return 0x87e280030800ll + 0x1000000ll * ((a) & 0x3f) + 8ll * ((b) & 0x7);
-    __cavm_csr_fatal("TADX_PFC_NSX", 2, a, b, 0, 0, 0, 0);
+    if ((a<=127) && (b<=7))
+        return 0x87e280000800ll + 0x1000000ll * ((a) & 0x7f) + 8ll * ((b) & 0x7);
+    __cavm_csr_fatal("TADX_PFCX", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_TADX_PFC_NSX(a,b) cavm_tadx_pfc_nsx_t
-#define bustype_CAVM_TADX_PFC_NSX(a,b) CSR_TYPE_RSL
-#define basename_CAVM_TADX_PFC_NSX(a,b) "TADX_PFC_NSX"
-#define device_bar_CAVM_TADX_PFC_NSX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_TADX_PFC_NSX(a,b) (a)
-#define arguments_CAVM_TADX_PFC_NSX(a,b) (a),(b),-1,-1
+#define typedef_CAVM_TADX_PFCX(a,b) cavm_tadx_pfcx_t
+#define bustype_CAVM_TADX_PFCX(a,b) CSR_TYPE_RSL
+#define basename_CAVM_TADX_PFCX(a,b) "TADX_PFCX"
+#define device_bar_CAVM_TADX_PFCX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_TADX_PFCX(a,b) (a)
+#define arguments_CAVM_TADX_PFCX(a,b) (a),(b),-1,-1
 
 /**
- * Register (RSL) tad#_pfc_s#
+ * Register (RSL) tad#_prf#
  *
- * TAD Performance Counter Secure Registers
- */
-union cavm_tadx_pfc_sx
-{
-    uint64_t u;
-    struct cavm_tadx_pfc_sx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](SR/W/H) Current counter value. */
-#else /* Word 0 - Little Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](SR/W/H) Current counter value. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_tadx_pfc_sx_s cn; */
-};
-typedef union cavm_tadx_pfc_sx cavm_tadx_pfc_sx_t;
-
-static inline uint64_t CAVM_TADX_PFC_SX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_TADX_PFC_SX(uint64_t a, uint64_t b)
-{
-    if ((a<=47) && (b<=7))
-        return 0x87e280000800ll + 0x1000000ll * ((a) & 0x3f) + 8ll * ((b) & 0x7);
-    __cavm_csr_fatal("TADX_PFC_SX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_TADX_PFC_SX(a,b) cavm_tadx_pfc_sx_t
-#define bustype_CAVM_TADX_PFC_SX(a,b) CSR_TYPE_RSL
-#define basename_CAVM_TADX_PFC_SX(a,b) "TADX_PFC_SX"
-#define device_bar_CAVM_TADX_PFC_SX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_TADX_PFC_SX(a,b) (a)
-#define arguments_CAVM_TADX_PFC_SX(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) tad#_prf_ns#
- *
- * TAD Performance Counter Control Non-Secure Registers
+ * TAD Performance Counter Control Registers
  * Selects event to count for each TAD_PFC, and specifies optional
  * filters for PMG and PARTID.
  */
-union cavm_tadx_prf_nsx
+union cavm_tadx_prfx
 {
     uint64_t u;
-    struct cavm_tadx_prf_nsx_s
+    struct cavm_tadx_prfx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_50_63        : 14;
-        uint64_t opcode_val            : 7;  /**< [ 49: 43](R/W) opcode value events should be filtered by. Only filtered if
-                                                                 [MATCH_OPCODE] is set. */
-        uint64_t match_opcode          : 1;  /**< [ 42: 42](R/W) Determines if events should be filtered by opcode. */
-        uint64_t subsource_val         : 2;  /**< [ 41: 40](R/W) srcattr.subsource value events should be filtered by. Only filtered if
-                                                                 [MATCH_SUBSOURCE] is set. */
-        uint64_t match_subsource       : 1;  /**< [ 39: 39](R/W) Determines if events should be filtered by srcattr.subsource. */
-        uint64_t prefetch_val          : 1;  /**< [ 38: 38](R/W) srcattr.prefetch value events should be filtered by. Only filtered if
-                                                                 [MATCH_PREFETCH] is set. */
-        uint64_t match_prefetch        : 1;  /**< [ 37: 37](R/W) Determines if events should be filtered by srcattr.stream. */
-        uint64_t stream_val            : 1;  /**< [ 36: 36](R/W) srcattr.stream value events should be filtered by. Only filtered if
-                                                                 [MATCH_STREAM] is set. */
-        uint64_t match_stream          : 1;  /**< [ 35: 35](R/W) Determines if events should be filtered by srcattr.stream. */
-        uint64_t reserved_28_34        : 7;
+        uint64_t reserved_28_63        : 36;
         uint64_t pmg_val               : 1;  /**< [ 27: 27](R/W) PMG value that events should be filtered by. Only filtered if
                                                                  [MATCH_PMG] is set. */
-        uint64_t reserved_19_26        : 8;
-        uint64_t partid_val            : 9;  /**< [ 18: 10](R/W) PARTID value that events should be filtered by.
+        uint64_t reserved_20_26        : 7;
+        uint64_t partid_val            : 10; /**< [ 19: 10](R/W) PARTID value that events should be filtered by. Includes MPAMNS bit.
                                                                  Only filtered if [MATCH_PARTID] is set. */
         uint64_t match_pmg             : 1;  /**< [  9:  9](R/W) Determines if events should be filtered by PMG field. */
         uint64_t match_partid          : 1;  /**< [  8:  8](R/W) Determines if events should be filtered by MPAM field. */
-        uint64_t cntsel                : 8;  /**< [  7:  0](R/W) Selects event to count for TAD_PFC(X). Enumerated by a subset of TAD_PRF_SEL_E.
-
-                                                                 Only these events may be counted:
-                                                                   ALLOC_DTG,
-                                                                   ALLOC_LTG,
-                                                                   ALLOC_ANY,
-                                                                   HIT_DTG,
-                                                                   HIT_LTG,
-                                                                   HIT_ANY,
-                                                                   TAG_RD,
-                                                                   REQ_MSH_IN_EXLMN,
-                                                                   TOT_CYCLE */
+        uint64_t cntsel                : 8;  /**< [  7:  0](R/W) Selects event to count for TAD_PFC(X). Enumerated by TAD_PRF_SEL_E. */
 #else /* Word 0 - Little Endian */
-        uint64_t cntsel                : 8;  /**< [  7:  0](R/W) Selects event to count for TAD_PFC(X). Enumerated by a subset of TAD_PRF_SEL_E.
-
-                                                                 Only these events may be counted:
-                                                                   ALLOC_DTG,
-                                                                   ALLOC_LTG,
-                                                                   ALLOC_ANY,
-                                                                   HIT_DTG,
-                                                                   HIT_LTG,
-                                                                   HIT_ANY,
-                                                                   TAG_RD,
-                                                                   REQ_MSH_IN_EXLMN,
-                                                                   TOT_CYCLE */
+        uint64_t cntsel                : 8;  /**< [  7:  0](R/W) Selects event to count for TAD_PFC(X). Enumerated by TAD_PRF_SEL_E. */
         uint64_t match_partid          : 1;  /**< [  8:  8](R/W) Determines if events should be filtered by MPAM field. */
         uint64_t match_pmg             : 1;  /**< [  9:  9](R/W) Determines if events should be filtered by PMG field. */
-        uint64_t partid_val            : 9;  /**< [ 18: 10](R/W) PARTID value that events should be filtered by.
+        uint64_t partid_val            : 10; /**< [ 19: 10](R/W) PARTID value that events should be filtered by. Includes MPAMNS bit.
                                                                  Only filtered if [MATCH_PARTID] is set. */
-        uint64_t reserved_19_26        : 8;
+        uint64_t reserved_20_26        : 7;
+        uint64_t pmg_val               : 1;  /**< [ 27: 27](R/W) PMG value that events should be filtered by. Only filtered if
+                                                                 [MATCH_PMG] is set. */
+        uint64_t reserved_28_63        : 36;
+#endif /* Word 0 - End */
+    } s;
+    struct cavm_tadx_prfx_cn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_35_63        : 29;
+        uint64_t reserved_28_34        : 7;
+        uint64_t pmg_val               : 1;  /**< [ 27: 27](R/W) PMG value that events should be filtered by. Only filtered if
+                                                                 [MATCH_PMG] is set. */
+        uint64_t reserved_20_26        : 7;
+        uint64_t partid_val            : 10; /**< [ 19: 10](R/W) PARTID value that events should be filtered by. Includes MPAMNS bit.
+                                                                 Only filtered if [MATCH_PARTID] is set. */
+        uint64_t match_pmg             : 1;  /**< [  9:  9](R/W) Determines if events should be filtered by PMG field. */
+        uint64_t match_partid          : 1;  /**< [  8:  8](R/W) Determines if events should be filtered by MPAM field. */
+        uint64_t cntsel                : 8;  /**< [  7:  0](R/W) Selects event to count for TAD_PFC(X). Enumerated by TAD_PRF_SEL_E. */
+#else /* Word 0 - Little Endian */
+        uint64_t cntsel                : 8;  /**< [  7:  0](R/W) Selects event to count for TAD_PFC(X). Enumerated by TAD_PRF_SEL_E. */
+        uint64_t match_partid          : 1;  /**< [  8:  8](R/W) Determines if events should be filtered by MPAM field. */
+        uint64_t match_pmg             : 1;  /**< [  9:  9](R/W) Determines if events should be filtered by PMG field. */
+        uint64_t partid_val            : 10; /**< [ 19: 10](R/W) PARTID value that events should be filtered by. Includes MPAMNS bit.
+                                                                 Only filtered if [MATCH_PARTID] is set. */
+        uint64_t reserved_20_26        : 7;
         uint64_t pmg_val               : 1;  /**< [ 27: 27](R/W) PMG value that events should be filtered by. Only filtered if
                                                                  [MATCH_PMG] is set. */
         uint64_t reserved_28_34        : 7;
-        uint64_t match_stream          : 1;  /**< [ 35: 35](R/W) Determines if events should be filtered by srcattr.stream. */
-        uint64_t stream_val            : 1;  /**< [ 36: 36](R/W) srcattr.stream value events should be filtered by. Only filtered if
-                                                                 [MATCH_STREAM] is set. */
-        uint64_t match_prefetch        : 1;  /**< [ 37: 37](R/W) Determines if events should be filtered by srcattr.stream. */
-        uint64_t prefetch_val          : 1;  /**< [ 38: 38](R/W) srcattr.prefetch value events should be filtered by. Only filtered if
-                                                                 [MATCH_PREFETCH] is set. */
-        uint64_t match_subsource       : 1;  /**< [ 39: 39](R/W) Determines if events should be filtered by srcattr.subsource. */
-        uint64_t subsource_val         : 2;  /**< [ 41: 40](R/W) srcattr.subsource value events should be filtered by. Only filtered if
-                                                                 [MATCH_SUBSOURCE] is set. */
-        uint64_t match_opcode          : 1;  /**< [ 42: 42](R/W) Determines if events should be filtered by opcode. */
-        uint64_t opcode_val            : 7;  /**< [ 49: 43](R/W) opcode value events should be filtered by. Only filtered if
-                                                                 [MATCH_OPCODE] is set. */
-        uint64_t reserved_50_63        : 14;
+        uint64_t reserved_35_63        : 29;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_tadx_prf_nsx_s cn; */
+    } cn;
 };
-typedef union cavm_tadx_prf_nsx cavm_tadx_prf_nsx_t;
+typedef union cavm_tadx_prfx cavm_tadx_prfx_t;
 
-static inline uint64_t CAVM_TADX_PRF_NSX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_TADX_PRF_NSX(uint64_t a, uint64_t b)
+static inline uint64_t CAVM_TADX_PRFX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TADX_PRFX(uint64_t a, uint64_t b)
 {
-    if ((a<=47) && (b<=7))
-        return 0x87e280030900ll + 0x1000000ll * ((a) & 0x3f) + 8ll * ((b) & 0x7);
-    __cavm_csr_fatal("TADX_PRF_NSX", 2, a, b, 0, 0, 0, 0);
+    if ((a<=127) && (b<=7))
+        return 0x87e280000900ll + 0x1000000ll * ((a) & 0x7f) + 8ll * ((b) & 0x7);
+    __cavm_csr_fatal("TADX_PRFX", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_TADX_PRF_NSX(a,b) cavm_tadx_prf_nsx_t
-#define bustype_CAVM_TADX_PRF_NSX(a,b) CSR_TYPE_RSL
-#define basename_CAVM_TADX_PRF_NSX(a,b) "TADX_PRF_NSX"
-#define device_bar_CAVM_TADX_PRF_NSX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_TADX_PRF_NSX(a,b) (a)
-#define arguments_CAVM_TADX_PRF_NSX(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) tad#_prf_s#
- *
- * TAD Performance Counter Control Secure Registers
- * Selects event to count for each TAD_PFC, and specifies optional
- * filters for PMG and PARTID.
- */
-union cavm_tadx_prf_sx
-{
-    uint64_t u;
-    struct cavm_tadx_prf_sx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_50_63        : 14;
-        uint64_t opcode_val            : 7;  /**< [ 49: 43](SR/W) opcode value events should be filtered by. Only filtered if
-                                                                 [MATCH_OPCODE] is set. */
-        uint64_t match_opcode          : 1;  /**< [ 42: 42](SR/W) Determines if events should be filtered by opcode. */
-        uint64_t subsource_val         : 2;  /**< [ 41: 40](SR/W) srcattr.subsource value events should be filtered by. Only filtered if
-                                                                 [MATCH_SUBSOURCE] is set. */
-        uint64_t match_subsource       : 1;  /**< [ 39: 39](SR/W) Determines if events should be filtered by srcattr.subsource. */
-        uint64_t prefetch_val          : 1;  /**< [ 38: 38](SR/W) srcattr.prefetch value events should be filtered by. Only filtered if
-                                                                 [MATCH_PREFETCH] is set. */
-        uint64_t match_prefetch        : 1;  /**< [ 37: 37](SR/W) Determines if events should be filtered by srcattr.stream. */
-        uint64_t stream_val            : 1;  /**< [ 36: 36](SR/W) srcattr.stream value events should be filtered by. Only filtered if
-                                                                 [MATCH_STREAM] is set. */
-        uint64_t match_stream          : 1;  /**< [ 35: 35](SR/W) Determines if events should be filtered by srcattr.stream. */
-        uint64_t reserved_28_34        : 7;
-        uint64_t pmg_val               : 1;  /**< [ 27: 27](SR/W) PMG value that events should be filtered by. Only filtered if
-                                                                 [MATCH_PMG] is set. */
-        uint64_t reserved_19_26        : 8;
-        uint64_t partid_val            : 9;  /**< [ 18: 10](SR/W) PARTID value that events should be filtered by.
-                                                                 Only filtered if [MATCH_PARTID] is set. */
-        uint64_t match_pmg             : 1;  /**< [  9:  9](SR/W) Determines if events should be filtered by PMG field. */
-        uint64_t match_partid          : 1;  /**< [  8:  8](SR/W) Determines if events should be filtered by MPAM field. */
-        uint64_t cntsel                : 8;  /**< [  7:  0](SR/W) Selects event to count for TAD_PFC(X). Enumerated by TAD_PRF_SEL_E. */
-#else /* Word 0 - Little Endian */
-        uint64_t cntsel                : 8;  /**< [  7:  0](SR/W) Selects event to count for TAD_PFC(X). Enumerated by TAD_PRF_SEL_E. */
-        uint64_t match_partid          : 1;  /**< [  8:  8](SR/W) Determines if events should be filtered by MPAM field. */
-        uint64_t match_pmg             : 1;  /**< [  9:  9](SR/W) Determines if events should be filtered by PMG field. */
-        uint64_t partid_val            : 9;  /**< [ 18: 10](SR/W) PARTID value that events should be filtered by.
-                                                                 Only filtered if [MATCH_PARTID] is set. */
-        uint64_t reserved_19_26        : 8;
-        uint64_t pmg_val               : 1;  /**< [ 27: 27](SR/W) PMG value that events should be filtered by. Only filtered if
-                                                                 [MATCH_PMG] is set. */
-        uint64_t reserved_28_34        : 7;
-        uint64_t match_stream          : 1;  /**< [ 35: 35](SR/W) Determines if events should be filtered by srcattr.stream. */
-        uint64_t stream_val            : 1;  /**< [ 36: 36](SR/W) srcattr.stream value events should be filtered by. Only filtered if
-                                                                 [MATCH_STREAM] is set. */
-        uint64_t match_prefetch        : 1;  /**< [ 37: 37](SR/W) Determines if events should be filtered by srcattr.stream. */
-        uint64_t prefetch_val          : 1;  /**< [ 38: 38](SR/W) srcattr.prefetch value events should be filtered by. Only filtered if
-                                                                 [MATCH_PREFETCH] is set. */
-        uint64_t match_subsource       : 1;  /**< [ 39: 39](SR/W) Determines if events should be filtered by srcattr.subsource. */
-        uint64_t subsource_val         : 2;  /**< [ 41: 40](SR/W) srcattr.subsource value events should be filtered by. Only filtered if
-                                                                 [MATCH_SUBSOURCE] is set. */
-        uint64_t match_opcode          : 1;  /**< [ 42: 42](SR/W) Determines if events should be filtered by opcode. */
-        uint64_t opcode_val            : 7;  /**< [ 49: 43](SR/W) opcode value events should be filtered by. Only filtered if
-                                                                 [MATCH_OPCODE] is set. */
-        uint64_t reserved_50_63        : 14;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_tadx_prf_sx_s cn; */
-};
-typedef union cavm_tadx_prf_sx cavm_tadx_prf_sx_t;
-
-static inline uint64_t CAVM_TADX_PRF_SX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_TADX_PRF_SX(uint64_t a, uint64_t b)
-{
-    if ((a<=47) && (b<=7))
-        return 0x87e280000900ll + 0x1000000ll * ((a) & 0x3f) + 8ll * ((b) & 0x7);
-    __cavm_csr_fatal("TADX_PRF_SX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_TADX_PRF_SX(a,b) cavm_tadx_prf_sx_t
-#define bustype_CAVM_TADX_PRF_SX(a,b) CSR_TYPE_RSL
-#define basename_CAVM_TADX_PRF_SX(a,b) "TADX_PRF_SX"
-#define device_bar_CAVM_TADX_PRF_SX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_TADX_PRF_SX(a,b) (a)
-#define arguments_CAVM_TADX_PRF_SX(a,b) (a),(b),-1,-1
+#define typedef_CAVM_TADX_PRFX(a,b) cavm_tadx_prfx_t
+#define bustype_CAVM_TADX_PRFX(a,b) CSR_TYPE_RSL
+#define basename_CAVM_TADX_PRFX(a,b) "TADX_PRFX"
+#define device_bar_CAVM_TADX_PRFX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_TADX_PRFX(a,b) (a)
+#define arguments_CAVM_TADX_PRFX(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) tad#_req_rcnt
@@ -1168,10 +850,10 @@ union cavm_tadx_req_rcnt
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_7_63         : 57;
-        uint64_t cnt                   : 7;  /**< [  6:  0](SRO/H) Number of requests stored in Buffers/IFBs.
+        uint64_t cnt                   : 7;  /**< [  6:  0](RO/H) Number of requests stored in Buffers/IFBs.
                                                                  This count is used to determine CBUSY[1] in TAD responses. */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 7;  /**< [  6:  0](SRO/H) Number of requests stored in Buffers/IFBs.
+        uint64_t cnt                   : 7;  /**< [  6:  0](RO/H) Number of requests stored in Buffers/IFBs.
                                                                  This count is used to determine CBUSY[1] in TAD responses. */
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
@@ -1183,8 +865,8 @@ typedef union cavm_tadx_req_rcnt cavm_tadx_req_rcnt_t;
 static inline uint64_t CAVM_TADX_REQ_RCNT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_REQ_RCNT(uint64_t a)
 {
-    if (a<=47)
-        return 0x87e280002008ll + 0x1000000ll * ((a) & 0x3f);
+    if (a<=127)
+        return 0x87e280002008ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_REQ_RCNT", 1, a, 0, 0, 0, 0, 0);
 }
 

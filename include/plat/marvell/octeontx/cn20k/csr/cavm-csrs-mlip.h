@@ -21,6 +21,10 @@
 
 /**
  * Enumeration mlip_bar_e
+ *
+ * MLIP Base Address Register Enumeration
+ * Enumerates internal sub-bar(s) which specify the address sub-region(s) used by
+ * MLIP within the ML_BAR_E address regions.
  */
 #define CAVM_MLIP_BAR_E_MLIPX_PF_BAR0(a) (0x828010000000ll + 0x1000000000ll * (a))
 #define CAVM_MLIP_BAR_E_MLIPX_PF_BAR0_SIZE 0x10000000ull
@@ -38,9 +42,9 @@ union cavm_ml_a35_0_rst_vector_base_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_38_63        : 26;
-        uint64_t addr                  : 38; /**< [ 37:  0] Base address. */
+        uint64_t addr                  : 38; /**< [ 37:  0] Reserved. */
 #else /* Word 0 - Little Endian */
-        uint64_t addr                  : 38; /**< [ 37:  0] Base address. */
+        uint64_t addr                  : 38; /**< [ 37:  0] Reserved. */
         uint64_t reserved_38_63        : 26;
 #endif /* Word 0 - End */
     } s;
@@ -60,9 +64,9 @@ union cavm_ml_a35_1_rst_vector_base_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_38_63        : 26;
-        uint64_t addr                  : 38; /**< [ 37:  0] Base address. */
+        uint64_t addr                  : 38; /**< [ 37:  0] Reserved. */
 #else /* Word 0 - Little Endian */
-        uint64_t addr                  : 38; /**< [ 37:  0] Base address. */
+        uint64_t addr                  : 38; /**< [ 37:  0] Reserved. */
         uint64_t reserved_38_63        : 26;
 #endif /* Word 0 - End */
     } s;
@@ -537,7 +541,14 @@ union cavm_ml_dod_byte_perf_cnt_s
  * Structure ml_dod_cfg_int_enable_hi_s
  *
  * ML DOD CFG INT ENABLE HI Structure
- * DoD interrupt register.
+ * DoD interrupt register. Refer to this link for Fatal error (FT) and Non fatal error
+ * (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 all the interrupts in DOD cause DOD to freeze if int_enable_hi = 1.
+ * if in_enable_hi =0 DOD will only report the error but will not freeze. disp_freeze
+ * and loop_arg_err are the only exceptions because they cause the dispatcher( module
+ * borrowed from tmr) to freeze irrespective of int_enable_hi.
  */
 union cavm_ml_dod_cfg_int_enable_hi_s
 {
@@ -649,7 +660,14 @@ union cavm_ml_dod_cfg_int_enable_hi_s
  * Structure ml_dod_cfg_int_enable_lo_s
  *
  * ML DOD CFG INT ENABLE LO Structure
- * DoD interrupt register.
+ * DoD interrupt register. Refer to this link for Fatal error (FT) and Non fatal error
+ * (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 all the interrupts in DOD cause DOD to freeze if int_enable_hi = 1.
+ * if in_enable_hi =0 DOD will only report the error but will not freeze. disp_freeze
+ * and loop_arg_err are the only exceptions because they cause the dispatcher( module
+ * borrowed from tmr) to freeze irrespective of int_enable_hi.
  */
 union cavm_ml_dod_cfg_int_enable_lo_s
 {
@@ -761,7 +779,14 @@ union cavm_ml_dod_cfg_int_enable_lo_s
  * Structure ml_dod_cfg_int_force_s
  *
  * ML DOD CFG INT FORCE Structure
- * DoD interrupt register.
+ * DoD interrupt register. Refer to this link for Fatal error (FT) and Non fatal error
+ * (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 all the interrupts in DOD cause DOD to freeze if int_enable_hi = 1.
+ * if in_enable_hi =0 DOD will only report the error but will not freeze. disp_freeze
+ * and loop_arg_err are the only exceptions because they cause the dispatcher( module
+ * borrowed from tmr) to freeze irrespective of int_enable_hi.
  */
 union cavm_ml_dod_cfg_int_force_s
 {
@@ -873,7 +898,14 @@ union cavm_ml_dod_cfg_int_force_s
  * Structure ml_dod_cfg_int_status_s
  *
  * ML DOD CFG INT STATUS Structure
- * DoD interrupt register.
+ * DoD interrupt register. Refer to this link for Fatal error (FT) and Non fatal error
+ * (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 all the interrupts in DOD cause DOD to freeze if int_enable_hi = 1.
+ * if in_enable_hi =0 DOD will only report the error but will not freeze. disp_freeze
+ * and loop_arg_err are the only exceptions because they cause the dispatcher( module
+ * borrowed from tmr) to freeze irrespective of int_enable_hi.
  */
 union cavm_ml_dod_cfg_int_status_s
 {
@@ -1845,422 +1877,6 @@ union cavm_ml_dpe_alu_trace_cfg_stop_comp_s
 };
 
 /**
- * Structure ml_high_pri_core0_mask_s
- *
- * ML HIGH PRI CORE0 MASK Structure
- * Mask high_pri int reporting from a slave to core0.
- */
-union cavm_ml_high_pri_core0_mask_s
-{
-    uint64_t u;
-    struct cavm_ml_high_pri_core0_mask_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_42_63        : 22;
-        uint64_t ml_dpe_cfg_7          : 1;  /**< [ 41: 41] mask interrupts from ML_DPE_CFG_7. */
-        uint64_t ml_dpe_cfg_6          : 1;  /**< [ 40: 40] mask interrupts from ML_DPE_CFG_6. */
-        uint64_t ml_dpe_cfg_5          : 1;  /**< [ 39: 39] mask interrupts from ML_DPE_CFG_5. */
-        uint64_t ml_dpe_cfg_4          : 1;  /**< [ 38: 38] mask interrupts from ML_DPE_CFG_4. */
-        uint64_t ml_dpe_cfg_3          : 1;  /**< [ 37: 37] mask interrupts from ML_DPE_CFG_3. */
-        uint64_t ml_dpe_cfg_2          : 1;  /**< [ 36: 36] mask interrupts from ML_DPE_CFG_2. */
-        uint64_t ml_dpe_cfg_1          : 1;  /**< [ 35: 35] mask interrupts from ML_DPE_CFG_1. */
-        uint64_t ml_dpe_cfg_0          : 1;  /**< [ 34: 34] mask interrupts from ML_DPE_CFG_0. */
-        uint64_t ml_pod_cfg_7          : 1;  /**< [ 33: 33] mask interrupts from ML_POD_CFG_7. */
-        uint64_t ml_pod_cfg_6          : 1;  /**< [ 32: 32] mask interrupts from ML_POD_CFG_6. */
-        uint64_t ml_pod_cfg_5          : 1;  /**< [ 31: 31] mask interrupts from ML_POD_CFG_5. */
-        uint64_t ml_pod_cfg_4          : 1;  /**< [ 30: 30] mask interrupts from ML_POD_CFG_4. */
-        uint64_t ml_pod_cfg_3          : 1;  /**< [ 29: 29] mask interrupts from ML_POD_CFG_3. */
-        uint64_t ml_pod_cfg_2          : 1;  /**< [ 28: 28] mask interrupts from ML_POD_CFG_2. */
-        uint64_t ml_pod_cfg_1          : 1;  /**< [ 27: 27] mask interrupts from ML_POD_CFG_1. */
-        uint64_t ml_pod_cfg_0          : 1;  /**< [ 26: 26] mask interrupts from ML_POD_CFG_0. */
-        uint64_t ml_ocm_cfg_7          : 1;  /**< [ 25: 25] mask interrupts from ML_OCM_CFG_7. */
-        uint64_t ml_ocm_cfg_6          : 1;  /**< [ 24: 24] mask interrupts from ML_OCM_CFG_6. */
-        uint64_t ml_ocm_cfg_5          : 1;  /**< [ 23: 23] mask interrupts from ML_OCM_CFG_5. */
-        uint64_t ml_ocm_cfg_4          : 1;  /**< [ 22: 22] mask interrupts from ML_OCM_CFG_4. */
-        uint64_t ml_ocm_cfg_3          : 1;  /**< [ 21: 21] mask interrupts from ML_OCM_CFG_3. */
-        uint64_t ml_ocm_cfg_2          : 1;  /**< [ 20: 20] mask interrupts from ML_OCM_CFG_2. */
-        uint64_t ml_ocm_cfg_1          : 1;  /**< [ 19: 19] mask interrupts from ML_OCM_CFG_1. */
-        uint64_t ml_ocm_cfg_0          : 1;  /**< [ 18: 18] mask interrupts from ML_OCM_CFG_0. */
-        uint64_t ml_tmr_cfg_7          : 1;  /**< [ 17: 17] mask interrupts from ML_TMR_CFG_7. */
-        uint64_t ml_tmr_cfg_6          : 1;  /**< [ 16: 16] mask interrupts from ML_TMR_CFG_6. */
-        uint64_t ml_tmr_cfg_5          : 1;  /**< [ 15: 15] mask interrupts from ML_TMR_CFG_5. */
-        uint64_t ml_tmr_cfg_4          : 1;  /**< [ 14: 14] mask interrupts from ML_TMR_CFG_4. */
-        uint64_t ml_tmr_cfg_3          : 1;  /**< [ 13: 13] mask interrupts from ML_TMR_CFG_3. */
-        uint64_t ml_tmr_cfg_2          : 1;  /**< [ 12: 12] mask interrupts from ML_TMR_CFG_2. */
-        uint64_t ml_tmr_cfg_1          : 1;  /**< [ 11: 11] mask interrupts from ML_TMR_CFG_1. */
-        uint64_t ml_tmr_cfg_0          : 1;  /**< [ 10: 10] mask interrupts from ML_TMR_CFG_0. */
-        uint64_t ml_rtr_cfg_1          : 1;  /**< [  9:  9] mask interrupts from ML_RTR_CFG_1. */
-        uint64_t ml_rtr_cfg_0          : 1;  /**< [  8:  8] mask interrupts from ML_RTR_CFG_0. */
-        uint64_t ml_irtr_cfg           : 1;  /**< [  7:  7] mask interrupts from ML_IRTR_CFG. */
-        uint64_t ml_dod_cfg            : 1;  /**< [  6:  6] mask interrupts from ML_DOD_CFG. */
-        uint64_t ml_ins_slv            : 1;  /**< [  5:  5] mask interrupts from ML_INS_SLV. */
-        uint64_t ml_cfg2axim_slave     : 1;  /**< [  4:  4] mask interrupts from ML_CFG2AXIM_SLAVE. */
-        uint64_t ml_acc_cfg_slave      : 1;  /**< [  3:  3] mask interrupts from ML_ACC_CFG_SLAVE. */
-        uint64_t ml_glbl_slv           : 1;  /**< [  2:  2] mask interrupts from ML_GLBL_SLV. */
-        uint64_t ml_cfgm_slave         : 1;  /**< [  1:  1] mask interrupts from ML_CFGM_SLAVE. */
-        uint64_t ml_top_slave          : 1;  /**< [  0:  0] mask interrupts from ML_TOP_SLAVE. */
-#else /* Word 0 - Little Endian */
-        uint64_t ml_top_slave          : 1;  /**< [  0:  0] mask interrupts from ML_TOP_SLAVE. */
-        uint64_t ml_cfgm_slave         : 1;  /**< [  1:  1] mask interrupts from ML_CFGM_SLAVE. */
-        uint64_t ml_glbl_slv           : 1;  /**< [  2:  2] mask interrupts from ML_GLBL_SLV. */
-        uint64_t ml_acc_cfg_slave      : 1;  /**< [  3:  3] mask interrupts from ML_ACC_CFG_SLAVE. */
-        uint64_t ml_cfg2axim_slave     : 1;  /**< [  4:  4] mask interrupts from ML_CFG2AXIM_SLAVE. */
-        uint64_t ml_ins_slv            : 1;  /**< [  5:  5] mask interrupts from ML_INS_SLV. */
-        uint64_t ml_dod_cfg            : 1;  /**< [  6:  6] mask interrupts from ML_DOD_CFG. */
-        uint64_t ml_irtr_cfg           : 1;  /**< [  7:  7] mask interrupts from ML_IRTR_CFG. */
-        uint64_t ml_rtr_cfg_0          : 1;  /**< [  8:  8] mask interrupts from ML_RTR_CFG_0. */
-        uint64_t ml_rtr_cfg_1          : 1;  /**< [  9:  9] mask interrupts from ML_RTR_CFG_1. */
-        uint64_t ml_tmr_cfg_0          : 1;  /**< [ 10: 10] mask interrupts from ML_TMR_CFG_0. */
-        uint64_t ml_tmr_cfg_1          : 1;  /**< [ 11: 11] mask interrupts from ML_TMR_CFG_1. */
-        uint64_t ml_tmr_cfg_2          : 1;  /**< [ 12: 12] mask interrupts from ML_TMR_CFG_2. */
-        uint64_t ml_tmr_cfg_3          : 1;  /**< [ 13: 13] mask interrupts from ML_TMR_CFG_3. */
-        uint64_t ml_tmr_cfg_4          : 1;  /**< [ 14: 14] mask interrupts from ML_TMR_CFG_4. */
-        uint64_t ml_tmr_cfg_5          : 1;  /**< [ 15: 15] mask interrupts from ML_TMR_CFG_5. */
-        uint64_t ml_tmr_cfg_6          : 1;  /**< [ 16: 16] mask interrupts from ML_TMR_CFG_6. */
-        uint64_t ml_tmr_cfg_7          : 1;  /**< [ 17: 17] mask interrupts from ML_TMR_CFG_7. */
-        uint64_t ml_ocm_cfg_0          : 1;  /**< [ 18: 18] mask interrupts from ML_OCM_CFG_0. */
-        uint64_t ml_ocm_cfg_1          : 1;  /**< [ 19: 19] mask interrupts from ML_OCM_CFG_1. */
-        uint64_t ml_ocm_cfg_2          : 1;  /**< [ 20: 20] mask interrupts from ML_OCM_CFG_2. */
-        uint64_t ml_ocm_cfg_3          : 1;  /**< [ 21: 21] mask interrupts from ML_OCM_CFG_3. */
-        uint64_t ml_ocm_cfg_4          : 1;  /**< [ 22: 22] mask interrupts from ML_OCM_CFG_4. */
-        uint64_t ml_ocm_cfg_5          : 1;  /**< [ 23: 23] mask interrupts from ML_OCM_CFG_5. */
-        uint64_t ml_ocm_cfg_6          : 1;  /**< [ 24: 24] mask interrupts from ML_OCM_CFG_6. */
-        uint64_t ml_ocm_cfg_7          : 1;  /**< [ 25: 25] mask interrupts from ML_OCM_CFG_7. */
-        uint64_t ml_pod_cfg_0          : 1;  /**< [ 26: 26] mask interrupts from ML_POD_CFG_0. */
-        uint64_t ml_pod_cfg_1          : 1;  /**< [ 27: 27] mask interrupts from ML_POD_CFG_1. */
-        uint64_t ml_pod_cfg_2          : 1;  /**< [ 28: 28] mask interrupts from ML_POD_CFG_2. */
-        uint64_t ml_pod_cfg_3          : 1;  /**< [ 29: 29] mask interrupts from ML_POD_CFG_3. */
-        uint64_t ml_pod_cfg_4          : 1;  /**< [ 30: 30] mask interrupts from ML_POD_CFG_4. */
-        uint64_t ml_pod_cfg_5          : 1;  /**< [ 31: 31] mask interrupts from ML_POD_CFG_5. */
-        uint64_t ml_pod_cfg_6          : 1;  /**< [ 32: 32] mask interrupts from ML_POD_CFG_6. */
-        uint64_t ml_pod_cfg_7          : 1;  /**< [ 33: 33] mask interrupts from ML_POD_CFG_7. */
-        uint64_t ml_dpe_cfg_0          : 1;  /**< [ 34: 34] mask interrupts from ML_DPE_CFG_0. */
-        uint64_t ml_dpe_cfg_1          : 1;  /**< [ 35: 35] mask interrupts from ML_DPE_CFG_1. */
-        uint64_t ml_dpe_cfg_2          : 1;  /**< [ 36: 36] mask interrupts from ML_DPE_CFG_2. */
-        uint64_t ml_dpe_cfg_3          : 1;  /**< [ 37: 37] mask interrupts from ML_DPE_CFG_3. */
-        uint64_t ml_dpe_cfg_4          : 1;  /**< [ 38: 38] mask interrupts from ML_DPE_CFG_4. */
-        uint64_t ml_dpe_cfg_5          : 1;  /**< [ 39: 39] mask interrupts from ML_DPE_CFG_5. */
-        uint64_t ml_dpe_cfg_6          : 1;  /**< [ 40: 40] mask interrupts from ML_DPE_CFG_6. */
-        uint64_t ml_dpe_cfg_7          : 1;  /**< [ 41: 41] mask interrupts from ML_DPE_CFG_7. */
-        uint64_t reserved_42_63        : 22;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_ml_high_pri_core0_mask_s_s cn; */
-};
-
-/**
- * Structure ml_high_pri_core1_mask_s
- *
- * ML HIGH PRI CORE1 MASK Structure
- * Mask high_pri int reporting from a slave to core1.
- */
-union cavm_ml_high_pri_core1_mask_s
-{
-    uint64_t u;
-    struct cavm_ml_high_pri_core1_mask_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_42_63        : 22;
-        uint64_t ml_dpe_cfg_7          : 1;  /**< [ 41: 41] mask interrupts from ML_DPE_CFG_7. */
-        uint64_t ml_dpe_cfg_6          : 1;  /**< [ 40: 40] mask interrupts from ML_DPE_CFG_6. */
-        uint64_t ml_dpe_cfg_5          : 1;  /**< [ 39: 39] mask interrupts from ML_DPE_CFG_5. */
-        uint64_t ml_dpe_cfg_4          : 1;  /**< [ 38: 38] mask interrupts from ML_DPE_CFG_4. */
-        uint64_t ml_dpe_cfg_3          : 1;  /**< [ 37: 37] mask interrupts from ML_DPE_CFG_3. */
-        uint64_t ml_dpe_cfg_2          : 1;  /**< [ 36: 36] mask interrupts from ML_DPE_CFG_2. */
-        uint64_t ml_dpe_cfg_1          : 1;  /**< [ 35: 35] mask interrupts from ML_DPE_CFG_1. */
-        uint64_t ml_dpe_cfg_0          : 1;  /**< [ 34: 34] mask interrupts from ML_DPE_CFG_0. */
-        uint64_t ml_pod_cfg_7          : 1;  /**< [ 33: 33] mask interrupts from ML_POD_CFG_7. */
-        uint64_t ml_pod_cfg_6          : 1;  /**< [ 32: 32] mask interrupts from ML_POD_CFG_6. */
-        uint64_t ml_pod_cfg_5          : 1;  /**< [ 31: 31] mask interrupts from ML_POD_CFG_5. */
-        uint64_t ml_pod_cfg_4          : 1;  /**< [ 30: 30] mask interrupts from ML_POD_CFG_4. */
-        uint64_t ml_pod_cfg_3          : 1;  /**< [ 29: 29] mask interrupts from ML_POD_CFG_3. */
-        uint64_t ml_pod_cfg_2          : 1;  /**< [ 28: 28] mask interrupts from ML_POD_CFG_2. */
-        uint64_t ml_pod_cfg_1          : 1;  /**< [ 27: 27] mask interrupts from ML_POD_CFG_1. */
-        uint64_t ml_pod_cfg_0          : 1;  /**< [ 26: 26] mask interrupts from ML_POD_CFG_0. */
-        uint64_t ml_ocm_cfg_7          : 1;  /**< [ 25: 25] mask interrupts from ML_OCM_CFG_7. */
-        uint64_t ml_ocm_cfg_6          : 1;  /**< [ 24: 24] mask interrupts from ML_OCM_CFG_6. */
-        uint64_t ml_ocm_cfg_5          : 1;  /**< [ 23: 23] mask interrupts from ML_OCM_CFG_5. */
-        uint64_t ml_ocm_cfg_4          : 1;  /**< [ 22: 22] mask interrupts from ML_OCM_CFG_4. */
-        uint64_t ml_ocm_cfg_3          : 1;  /**< [ 21: 21] mask interrupts from ML_OCM_CFG_3. */
-        uint64_t ml_ocm_cfg_2          : 1;  /**< [ 20: 20] mask interrupts from ML_OCM_CFG_2. */
-        uint64_t ml_ocm_cfg_1          : 1;  /**< [ 19: 19] mask interrupts from ML_OCM_CFG_1. */
-        uint64_t ml_ocm_cfg_0          : 1;  /**< [ 18: 18] mask interrupts from ML_OCM_CFG_0. */
-        uint64_t ml_tmr_cfg_7          : 1;  /**< [ 17: 17] mask interrupts from ML_TMR_CFG_7. */
-        uint64_t ml_tmr_cfg_6          : 1;  /**< [ 16: 16] mask interrupts from ML_TMR_CFG_6. */
-        uint64_t ml_tmr_cfg_5          : 1;  /**< [ 15: 15] mask interrupts from ML_TMR_CFG_5. */
-        uint64_t ml_tmr_cfg_4          : 1;  /**< [ 14: 14] mask interrupts from ML_TMR_CFG_4. */
-        uint64_t ml_tmr_cfg_3          : 1;  /**< [ 13: 13] mask interrupts from ML_TMR_CFG_3. */
-        uint64_t ml_tmr_cfg_2          : 1;  /**< [ 12: 12] mask interrupts from ML_TMR_CFG_2. */
-        uint64_t ml_tmr_cfg_1          : 1;  /**< [ 11: 11] mask interrupts from ML_TMR_CFG_1. */
-        uint64_t ml_tmr_cfg_0          : 1;  /**< [ 10: 10] mask interrupts from ML_TMR_CFG_0. */
-        uint64_t ml_rtr_cfg_1          : 1;  /**< [  9:  9] mask interrupts from ML_RTR_CFG_1. */
-        uint64_t ml_rtr_cfg_0          : 1;  /**< [  8:  8] mask interrupts from ML_RTR_CFG_0. */
-        uint64_t ml_irtr_cfg           : 1;  /**< [  7:  7] mask interrupts from ML_IRTR_CFG. */
-        uint64_t ml_dod_cfg            : 1;  /**< [  6:  6] mask interrupts from ML_DOD_CFG. */
-        uint64_t ml_ins_slv            : 1;  /**< [  5:  5] mask interrupts from ML_INS_SLV. */
-        uint64_t ml_cfg2axim_slave     : 1;  /**< [  4:  4] mask interrupts from ML_CFG2AXIM_SLAVE. */
-        uint64_t ml_acc_cfg_slave      : 1;  /**< [  3:  3] mask interrupts from ML_ACC_CFG_SLAVE. */
-        uint64_t ml_glbl_slv           : 1;  /**< [  2:  2] mask interrupts from ML_GLBL_SLV. */
-        uint64_t ml_cfgm_slave         : 1;  /**< [  1:  1] mask interrupts from ML_CFGM_SLAVE. */
-        uint64_t ml_top_slave          : 1;  /**< [  0:  0] mask interrupts from ML_TOP_SLAVE. */
-#else /* Word 0 - Little Endian */
-        uint64_t ml_top_slave          : 1;  /**< [  0:  0] mask interrupts from ML_TOP_SLAVE. */
-        uint64_t ml_cfgm_slave         : 1;  /**< [  1:  1] mask interrupts from ML_CFGM_SLAVE. */
-        uint64_t ml_glbl_slv           : 1;  /**< [  2:  2] mask interrupts from ML_GLBL_SLV. */
-        uint64_t ml_acc_cfg_slave      : 1;  /**< [  3:  3] mask interrupts from ML_ACC_CFG_SLAVE. */
-        uint64_t ml_cfg2axim_slave     : 1;  /**< [  4:  4] mask interrupts from ML_CFG2AXIM_SLAVE. */
-        uint64_t ml_ins_slv            : 1;  /**< [  5:  5] mask interrupts from ML_INS_SLV. */
-        uint64_t ml_dod_cfg            : 1;  /**< [  6:  6] mask interrupts from ML_DOD_CFG. */
-        uint64_t ml_irtr_cfg           : 1;  /**< [  7:  7] mask interrupts from ML_IRTR_CFG. */
-        uint64_t ml_rtr_cfg_0          : 1;  /**< [  8:  8] mask interrupts from ML_RTR_CFG_0. */
-        uint64_t ml_rtr_cfg_1          : 1;  /**< [  9:  9] mask interrupts from ML_RTR_CFG_1. */
-        uint64_t ml_tmr_cfg_0          : 1;  /**< [ 10: 10] mask interrupts from ML_TMR_CFG_0. */
-        uint64_t ml_tmr_cfg_1          : 1;  /**< [ 11: 11] mask interrupts from ML_TMR_CFG_1. */
-        uint64_t ml_tmr_cfg_2          : 1;  /**< [ 12: 12] mask interrupts from ML_TMR_CFG_2. */
-        uint64_t ml_tmr_cfg_3          : 1;  /**< [ 13: 13] mask interrupts from ML_TMR_CFG_3. */
-        uint64_t ml_tmr_cfg_4          : 1;  /**< [ 14: 14] mask interrupts from ML_TMR_CFG_4. */
-        uint64_t ml_tmr_cfg_5          : 1;  /**< [ 15: 15] mask interrupts from ML_TMR_CFG_5. */
-        uint64_t ml_tmr_cfg_6          : 1;  /**< [ 16: 16] mask interrupts from ML_TMR_CFG_6. */
-        uint64_t ml_tmr_cfg_7          : 1;  /**< [ 17: 17] mask interrupts from ML_TMR_CFG_7. */
-        uint64_t ml_ocm_cfg_0          : 1;  /**< [ 18: 18] mask interrupts from ML_OCM_CFG_0. */
-        uint64_t ml_ocm_cfg_1          : 1;  /**< [ 19: 19] mask interrupts from ML_OCM_CFG_1. */
-        uint64_t ml_ocm_cfg_2          : 1;  /**< [ 20: 20] mask interrupts from ML_OCM_CFG_2. */
-        uint64_t ml_ocm_cfg_3          : 1;  /**< [ 21: 21] mask interrupts from ML_OCM_CFG_3. */
-        uint64_t ml_ocm_cfg_4          : 1;  /**< [ 22: 22] mask interrupts from ML_OCM_CFG_4. */
-        uint64_t ml_ocm_cfg_5          : 1;  /**< [ 23: 23] mask interrupts from ML_OCM_CFG_5. */
-        uint64_t ml_ocm_cfg_6          : 1;  /**< [ 24: 24] mask interrupts from ML_OCM_CFG_6. */
-        uint64_t ml_ocm_cfg_7          : 1;  /**< [ 25: 25] mask interrupts from ML_OCM_CFG_7. */
-        uint64_t ml_pod_cfg_0          : 1;  /**< [ 26: 26] mask interrupts from ML_POD_CFG_0. */
-        uint64_t ml_pod_cfg_1          : 1;  /**< [ 27: 27] mask interrupts from ML_POD_CFG_1. */
-        uint64_t ml_pod_cfg_2          : 1;  /**< [ 28: 28] mask interrupts from ML_POD_CFG_2. */
-        uint64_t ml_pod_cfg_3          : 1;  /**< [ 29: 29] mask interrupts from ML_POD_CFG_3. */
-        uint64_t ml_pod_cfg_4          : 1;  /**< [ 30: 30] mask interrupts from ML_POD_CFG_4. */
-        uint64_t ml_pod_cfg_5          : 1;  /**< [ 31: 31] mask interrupts from ML_POD_CFG_5. */
-        uint64_t ml_pod_cfg_6          : 1;  /**< [ 32: 32] mask interrupts from ML_POD_CFG_6. */
-        uint64_t ml_pod_cfg_7          : 1;  /**< [ 33: 33] mask interrupts from ML_POD_CFG_7. */
-        uint64_t ml_dpe_cfg_0          : 1;  /**< [ 34: 34] mask interrupts from ML_DPE_CFG_0. */
-        uint64_t ml_dpe_cfg_1          : 1;  /**< [ 35: 35] mask interrupts from ML_DPE_CFG_1. */
-        uint64_t ml_dpe_cfg_2          : 1;  /**< [ 36: 36] mask interrupts from ML_DPE_CFG_2. */
-        uint64_t ml_dpe_cfg_3          : 1;  /**< [ 37: 37] mask interrupts from ML_DPE_CFG_3. */
-        uint64_t ml_dpe_cfg_4          : 1;  /**< [ 38: 38] mask interrupts from ML_DPE_CFG_4. */
-        uint64_t ml_dpe_cfg_5          : 1;  /**< [ 39: 39] mask interrupts from ML_DPE_CFG_5. */
-        uint64_t ml_dpe_cfg_6          : 1;  /**< [ 40: 40] mask interrupts from ML_DPE_CFG_6. */
-        uint64_t ml_dpe_cfg_7          : 1;  /**< [ 41: 41] mask interrupts from ML_DPE_CFG_7. */
-        uint64_t reserved_42_63        : 22;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_ml_high_pri_core1_mask_s_s cn; */
-};
-
-/**
- * Structure ml_high_pri_host_mask_s
- *
- * ML HIGH PRI HOST MASK Structure
- * Mask high_pri int reporting from a slave to host.
- */
-union cavm_ml_high_pri_host_mask_s
-{
-    uint64_t u;
-    struct cavm_ml_high_pri_host_mask_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_42_63        : 22;
-        uint64_t ml_dpe_cfg_7          : 1;  /**< [ 41: 41] mask interrupts from ML_DPE_CFG_7. */
-        uint64_t ml_dpe_cfg_6          : 1;  /**< [ 40: 40] mask interrupts from ML_DPE_CFG_6. */
-        uint64_t ml_dpe_cfg_5          : 1;  /**< [ 39: 39] mask interrupts from ML_DPE_CFG_5. */
-        uint64_t ml_dpe_cfg_4          : 1;  /**< [ 38: 38] mask interrupts from ML_DPE_CFG_4. */
-        uint64_t ml_dpe_cfg_3          : 1;  /**< [ 37: 37] mask interrupts from ML_DPE_CFG_3. */
-        uint64_t ml_dpe_cfg_2          : 1;  /**< [ 36: 36] mask interrupts from ML_DPE_CFG_2. */
-        uint64_t ml_dpe_cfg_1          : 1;  /**< [ 35: 35] mask interrupts from ML_DPE_CFG_1. */
-        uint64_t ml_dpe_cfg_0          : 1;  /**< [ 34: 34] mask interrupts from ML_DPE_CFG_0. */
-        uint64_t ml_pod_cfg_7          : 1;  /**< [ 33: 33] mask interrupts from ML_POD_CFG_7. */
-        uint64_t ml_pod_cfg_6          : 1;  /**< [ 32: 32] mask interrupts from ML_POD_CFG_6. */
-        uint64_t ml_pod_cfg_5          : 1;  /**< [ 31: 31] mask interrupts from ML_POD_CFG_5. */
-        uint64_t ml_pod_cfg_4          : 1;  /**< [ 30: 30] mask interrupts from ML_POD_CFG_4. */
-        uint64_t ml_pod_cfg_3          : 1;  /**< [ 29: 29] mask interrupts from ML_POD_CFG_3. */
-        uint64_t ml_pod_cfg_2          : 1;  /**< [ 28: 28] mask interrupts from ML_POD_CFG_2. */
-        uint64_t ml_pod_cfg_1          : 1;  /**< [ 27: 27] mask interrupts from ML_POD_CFG_1. */
-        uint64_t ml_pod_cfg_0          : 1;  /**< [ 26: 26] mask interrupts from ML_POD_CFG_0. */
-        uint64_t ml_ocm_cfg_7          : 1;  /**< [ 25: 25] mask interrupts from ML_OCM_CFG_7. */
-        uint64_t ml_ocm_cfg_6          : 1;  /**< [ 24: 24] mask interrupts from ML_OCM_CFG_6. */
-        uint64_t ml_ocm_cfg_5          : 1;  /**< [ 23: 23] mask interrupts from ML_OCM_CFG_5. */
-        uint64_t ml_ocm_cfg_4          : 1;  /**< [ 22: 22] mask interrupts from ML_OCM_CFG_4. */
-        uint64_t ml_ocm_cfg_3          : 1;  /**< [ 21: 21] mask interrupts from ML_OCM_CFG_3. */
-        uint64_t ml_ocm_cfg_2          : 1;  /**< [ 20: 20] mask interrupts from ML_OCM_CFG_2. */
-        uint64_t ml_ocm_cfg_1          : 1;  /**< [ 19: 19] mask interrupts from ML_OCM_CFG_1. */
-        uint64_t ml_ocm_cfg_0          : 1;  /**< [ 18: 18] mask interrupts from ML_OCM_CFG_0. */
-        uint64_t ml_tmr_cfg_7          : 1;  /**< [ 17: 17] mask interrupts from ML_TMR_CFG_7. */
-        uint64_t ml_tmr_cfg_6          : 1;  /**< [ 16: 16] mask interrupts from ML_TMR_CFG_6. */
-        uint64_t ml_tmr_cfg_5          : 1;  /**< [ 15: 15] mask interrupts from ML_TMR_CFG_5. */
-        uint64_t ml_tmr_cfg_4          : 1;  /**< [ 14: 14] mask interrupts from ML_TMR_CFG_4. */
-        uint64_t ml_tmr_cfg_3          : 1;  /**< [ 13: 13] mask interrupts from ML_TMR_CFG_3. */
-        uint64_t ml_tmr_cfg_2          : 1;  /**< [ 12: 12] mask interrupts from ML_TMR_CFG_2. */
-        uint64_t ml_tmr_cfg_1          : 1;  /**< [ 11: 11] mask interrupts from ML_TMR_CFG_1. */
-        uint64_t ml_tmr_cfg_0          : 1;  /**< [ 10: 10] mask interrupts from ML_TMR_CFG_0. */
-        uint64_t ml_rtr_cfg_1          : 1;  /**< [  9:  9] mask interrupts from ML_RTR_CFG_1. */
-        uint64_t ml_rtr_cfg_0          : 1;  /**< [  8:  8] mask interrupts from ML_RTR_CFG_0. */
-        uint64_t ml_irtr_cfg           : 1;  /**< [  7:  7] mask interrupts from ML_IRTR_CFG. */
-        uint64_t ml_dod_cfg            : 1;  /**< [  6:  6] mask interrupts from ML_DOD_CFG. */
-        uint64_t ml_ins_slv            : 1;  /**< [  5:  5] mask interrupts from ML_INS_SLV. */
-        uint64_t ml_cfg2axim_slave     : 1;  /**< [  4:  4] mask interrupts from ML_CFG2AXIM_SLAVE. */
-        uint64_t ml_acc_cfg_slave      : 1;  /**< [  3:  3] mask interrupts from ML_ACC_CFG_SLAVE. */
-        uint64_t ml_glbl_slv           : 1;  /**< [  2:  2] mask interrupts from ML_GLBL_SLV. */
-        uint64_t ml_cfgm_slave         : 1;  /**< [  1:  1] mask interrupts from ML_CFGM_SLAVE. */
-        uint64_t ml_top_slave          : 1;  /**< [  0:  0] mask interrupts from ML_TOP_SLAVE. */
-#else /* Word 0 - Little Endian */
-        uint64_t ml_top_slave          : 1;  /**< [  0:  0] mask interrupts from ML_TOP_SLAVE. */
-        uint64_t ml_cfgm_slave         : 1;  /**< [  1:  1] mask interrupts from ML_CFGM_SLAVE. */
-        uint64_t ml_glbl_slv           : 1;  /**< [  2:  2] mask interrupts from ML_GLBL_SLV. */
-        uint64_t ml_acc_cfg_slave      : 1;  /**< [  3:  3] mask interrupts from ML_ACC_CFG_SLAVE. */
-        uint64_t ml_cfg2axim_slave     : 1;  /**< [  4:  4] mask interrupts from ML_CFG2AXIM_SLAVE. */
-        uint64_t ml_ins_slv            : 1;  /**< [  5:  5] mask interrupts from ML_INS_SLV. */
-        uint64_t ml_dod_cfg            : 1;  /**< [  6:  6] mask interrupts from ML_DOD_CFG. */
-        uint64_t ml_irtr_cfg           : 1;  /**< [  7:  7] mask interrupts from ML_IRTR_CFG. */
-        uint64_t ml_rtr_cfg_0          : 1;  /**< [  8:  8] mask interrupts from ML_RTR_CFG_0. */
-        uint64_t ml_rtr_cfg_1          : 1;  /**< [  9:  9] mask interrupts from ML_RTR_CFG_1. */
-        uint64_t ml_tmr_cfg_0          : 1;  /**< [ 10: 10] mask interrupts from ML_TMR_CFG_0. */
-        uint64_t ml_tmr_cfg_1          : 1;  /**< [ 11: 11] mask interrupts from ML_TMR_CFG_1. */
-        uint64_t ml_tmr_cfg_2          : 1;  /**< [ 12: 12] mask interrupts from ML_TMR_CFG_2. */
-        uint64_t ml_tmr_cfg_3          : 1;  /**< [ 13: 13] mask interrupts from ML_TMR_CFG_3. */
-        uint64_t ml_tmr_cfg_4          : 1;  /**< [ 14: 14] mask interrupts from ML_TMR_CFG_4. */
-        uint64_t ml_tmr_cfg_5          : 1;  /**< [ 15: 15] mask interrupts from ML_TMR_CFG_5. */
-        uint64_t ml_tmr_cfg_6          : 1;  /**< [ 16: 16] mask interrupts from ML_TMR_CFG_6. */
-        uint64_t ml_tmr_cfg_7          : 1;  /**< [ 17: 17] mask interrupts from ML_TMR_CFG_7. */
-        uint64_t ml_ocm_cfg_0          : 1;  /**< [ 18: 18] mask interrupts from ML_OCM_CFG_0. */
-        uint64_t ml_ocm_cfg_1          : 1;  /**< [ 19: 19] mask interrupts from ML_OCM_CFG_1. */
-        uint64_t ml_ocm_cfg_2          : 1;  /**< [ 20: 20] mask interrupts from ML_OCM_CFG_2. */
-        uint64_t ml_ocm_cfg_3          : 1;  /**< [ 21: 21] mask interrupts from ML_OCM_CFG_3. */
-        uint64_t ml_ocm_cfg_4          : 1;  /**< [ 22: 22] mask interrupts from ML_OCM_CFG_4. */
-        uint64_t ml_ocm_cfg_5          : 1;  /**< [ 23: 23] mask interrupts from ML_OCM_CFG_5. */
-        uint64_t ml_ocm_cfg_6          : 1;  /**< [ 24: 24] mask interrupts from ML_OCM_CFG_6. */
-        uint64_t ml_ocm_cfg_7          : 1;  /**< [ 25: 25] mask interrupts from ML_OCM_CFG_7. */
-        uint64_t ml_pod_cfg_0          : 1;  /**< [ 26: 26] mask interrupts from ML_POD_CFG_0. */
-        uint64_t ml_pod_cfg_1          : 1;  /**< [ 27: 27] mask interrupts from ML_POD_CFG_1. */
-        uint64_t ml_pod_cfg_2          : 1;  /**< [ 28: 28] mask interrupts from ML_POD_CFG_2. */
-        uint64_t ml_pod_cfg_3          : 1;  /**< [ 29: 29] mask interrupts from ML_POD_CFG_3. */
-        uint64_t ml_pod_cfg_4          : 1;  /**< [ 30: 30] mask interrupts from ML_POD_CFG_4. */
-        uint64_t ml_pod_cfg_5          : 1;  /**< [ 31: 31] mask interrupts from ML_POD_CFG_5. */
-        uint64_t ml_pod_cfg_6          : 1;  /**< [ 32: 32] mask interrupts from ML_POD_CFG_6. */
-        uint64_t ml_pod_cfg_7          : 1;  /**< [ 33: 33] mask interrupts from ML_POD_CFG_7. */
-        uint64_t ml_dpe_cfg_0          : 1;  /**< [ 34: 34] mask interrupts from ML_DPE_CFG_0. */
-        uint64_t ml_dpe_cfg_1          : 1;  /**< [ 35: 35] mask interrupts from ML_DPE_CFG_1. */
-        uint64_t ml_dpe_cfg_2          : 1;  /**< [ 36: 36] mask interrupts from ML_DPE_CFG_2. */
-        uint64_t ml_dpe_cfg_3          : 1;  /**< [ 37: 37] mask interrupts from ML_DPE_CFG_3. */
-        uint64_t ml_dpe_cfg_4          : 1;  /**< [ 38: 38] mask interrupts from ML_DPE_CFG_4. */
-        uint64_t ml_dpe_cfg_5          : 1;  /**< [ 39: 39] mask interrupts from ML_DPE_CFG_5. */
-        uint64_t ml_dpe_cfg_6          : 1;  /**< [ 40: 40] mask interrupts from ML_DPE_CFG_6. */
-        uint64_t ml_dpe_cfg_7          : 1;  /**< [ 41: 41] mask interrupts from ML_DPE_CFG_7. */
-        uint64_t reserved_42_63        : 22;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_ml_high_pri_host_mask_s_s cn; */
-};
-
-/**
- * Structure ml_high_pri_int_status_s
- *
- * ML HIGH PRI INT STATUS Structure
- * Per-slave high_pri interrupt status register.
- */
-union cavm_ml_high_pri_int_status_s
-{
-    uint64_t u;
-    struct cavm_ml_high_pri_int_status_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_42_63        : 22;
-        uint64_t ml_dpe_cfg_7          : 1;  /**< [ 41: 41] Interrupt from ML_DPE_CFG_7. */
-        uint64_t ml_dpe_cfg_6          : 1;  /**< [ 40: 40] Interrupt from ML_DPE_CFG_6. */
-        uint64_t ml_dpe_cfg_5          : 1;  /**< [ 39: 39] Interrupt from ML_DPE_CFG_5. */
-        uint64_t ml_dpe_cfg_4          : 1;  /**< [ 38: 38] Interrupt from ML_DPE_CFG_4. */
-        uint64_t ml_dpe_cfg_3          : 1;  /**< [ 37: 37] Interrupt from ML_DPE_CFG_3. */
-        uint64_t ml_dpe_cfg_2          : 1;  /**< [ 36: 36] Interrupt from ML_DPE_CFG_2. */
-        uint64_t ml_dpe_cfg_1          : 1;  /**< [ 35: 35] Interrupt from ML_DPE_CFG_1. */
-        uint64_t ml_dpe_cfg_0          : 1;  /**< [ 34: 34] Interrupt from ML_DPE_CFG_0. */
-        uint64_t ml_pod_cfg_7          : 1;  /**< [ 33: 33] Interrupt from ML_POD_CFG_7. */
-        uint64_t ml_pod_cfg_6          : 1;  /**< [ 32: 32] Interrupt from ML_POD_CFG_6. */
-        uint64_t ml_pod_cfg_5          : 1;  /**< [ 31: 31] Interrupt from ML_POD_CFG_5. */
-        uint64_t ml_pod_cfg_4          : 1;  /**< [ 30: 30] Interrupt from ML_POD_CFG_4. */
-        uint64_t ml_pod_cfg_3          : 1;  /**< [ 29: 29] Interrupt from ML_POD_CFG_3. */
-        uint64_t ml_pod_cfg_2          : 1;  /**< [ 28: 28] Interrupt from ML_POD_CFG_2. */
-        uint64_t ml_pod_cfg_1          : 1;  /**< [ 27: 27] Interrupt from ML_POD_CFG_1. */
-        uint64_t ml_pod_cfg_0          : 1;  /**< [ 26: 26] Interrupt from ML_POD_CFG_0. */
-        uint64_t ml_ocm_cfg_7          : 1;  /**< [ 25: 25] Interrupt from ML_OCM_CFG_7. */
-        uint64_t ml_ocm_cfg_6          : 1;  /**< [ 24: 24] Interrupt from ML_OCM_CFG_6. */
-        uint64_t ml_ocm_cfg_5          : 1;  /**< [ 23: 23] Interrupt from ML_OCM_CFG_5. */
-        uint64_t ml_ocm_cfg_4          : 1;  /**< [ 22: 22] Interrupt from ML_OCM_CFG_4. */
-        uint64_t ml_ocm_cfg_3          : 1;  /**< [ 21: 21] Interrupt from ML_OCM_CFG_3. */
-        uint64_t ml_ocm_cfg_2          : 1;  /**< [ 20: 20] Interrupt from ML_OCM_CFG_2. */
-        uint64_t ml_ocm_cfg_1          : 1;  /**< [ 19: 19] Interrupt from ML_OCM_CFG_1. */
-        uint64_t ml_ocm_cfg_0          : 1;  /**< [ 18: 18] Interrupt from ML_OCM_CFG_0. */
-        uint64_t ml_tmr_cfg_7          : 1;  /**< [ 17: 17] Interrupt from ML_TMR_CFG_7. */
-        uint64_t ml_tmr_cfg_6          : 1;  /**< [ 16: 16] Interrupt from ML_TMR_CFG_6. */
-        uint64_t ml_tmr_cfg_5          : 1;  /**< [ 15: 15] Interrupt from ML_TMR_CFG_5. */
-        uint64_t ml_tmr_cfg_4          : 1;  /**< [ 14: 14] Interrupt from ML_TMR_CFG_4. */
-        uint64_t ml_tmr_cfg_3          : 1;  /**< [ 13: 13] Interrupt from ML_TMR_CFG_3. */
-        uint64_t ml_tmr_cfg_2          : 1;  /**< [ 12: 12] Interrupt from ML_TMR_CFG_2. */
-        uint64_t ml_tmr_cfg_1          : 1;  /**< [ 11: 11] Interrupt from ML_TMR_CFG_1. */
-        uint64_t ml_tmr_cfg_0          : 1;  /**< [ 10: 10] Interrupt from ML_TMR_CFG_0. */
-        uint64_t ml_rtr_cfg_1          : 1;  /**< [  9:  9] Interrupt from ML_RTR_CFG_1. */
-        uint64_t ml_rtr_cfg_0          : 1;  /**< [  8:  8] Interrupt from ML_RTR_CFG_0. */
-        uint64_t ml_irtr_cfg           : 1;  /**< [  7:  7] Interrupt from ML_IRTR_CFG. */
-        uint64_t ml_dod_cfg            : 1;  /**< [  6:  6] Interrupt from ML_DOD_CFG. */
-        uint64_t ml_ins_slv            : 1;  /**< [  5:  5] Interrupt from ML_INS_SLV. */
-        uint64_t ml_cfg2axim_slave     : 1;  /**< [  4:  4] Interrupt from ML_CFG2AXIM_SLAVE. */
-        uint64_t ml_acc_cfg_slave      : 1;  /**< [  3:  3] Interrupt from ML_ACC_CFG_SLAVE. */
-        uint64_t ml_glbl_slv           : 1;  /**< [  2:  2] Interrupt from ML_GLBL_SLV. */
-        uint64_t ml_cfgm_slave         : 1;  /**< [  1:  1] Interrupt from ML_CFGM_SLAVE. */
-        uint64_t ml_top_slave          : 1;  /**< [  0:  0] Interrupt from ML_TOP_SLAVE. */
-#else /* Word 0 - Little Endian */
-        uint64_t ml_top_slave          : 1;  /**< [  0:  0] Interrupt from ML_TOP_SLAVE. */
-        uint64_t ml_cfgm_slave         : 1;  /**< [  1:  1] Interrupt from ML_CFGM_SLAVE. */
-        uint64_t ml_glbl_slv           : 1;  /**< [  2:  2] Interrupt from ML_GLBL_SLV. */
-        uint64_t ml_acc_cfg_slave      : 1;  /**< [  3:  3] Interrupt from ML_ACC_CFG_SLAVE. */
-        uint64_t ml_cfg2axim_slave     : 1;  /**< [  4:  4] Interrupt from ML_CFG2AXIM_SLAVE. */
-        uint64_t ml_ins_slv            : 1;  /**< [  5:  5] Interrupt from ML_INS_SLV. */
-        uint64_t ml_dod_cfg            : 1;  /**< [  6:  6] Interrupt from ML_DOD_CFG. */
-        uint64_t ml_irtr_cfg           : 1;  /**< [  7:  7] Interrupt from ML_IRTR_CFG. */
-        uint64_t ml_rtr_cfg_0          : 1;  /**< [  8:  8] Interrupt from ML_RTR_CFG_0. */
-        uint64_t ml_rtr_cfg_1          : 1;  /**< [  9:  9] Interrupt from ML_RTR_CFG_1. */
-        uint64_t ml_tmr_cfg_0          : 1;  /**< [ 10: 10] Interrupt from ML_TMR_CFG_0. */
-        uint64_t ml_tmr_cfg_1          : 1;  /**< [ 11: 11] Interrupt from ML_TMR_CFG_1. */
-        uint64_t ml_tmr_cfg_2          : 1;  /**< [ 12: 12] Interrupt from ML_TMR_CFG_2. */
-        uint64_t ml_tmr_cfg_3          : 1;  /**< [ 13: 13] Interrupt from ML_TMR_CFG_3. */
-        uint64_t ml_tmr_cfg_4          : 1;  /**< [ 14: 14] Interrupt from ML_TMR_CFG_4. */
-        uint64_t ml_tmr_cfg_5          : 1;  /**< [ 15: 15] Interrupt from ML_TMR_CFG_5. */
-        uint64_t ml_tmr_cfg_6          : 1;  /**< [ 16: 16] Interrupt from ML_TMR_CFG_6. */
-        uint64_t ml_tmr_cfg_7          : 1;  /**< [ 17: 17] Interrupt from ML_TMR_CFG_7. */
-        uint64_t ml_ocm_cfg_0          : 1;  /**< [ 18: 18] Interrupt from ML_OCM_CFG_0. */
-        uint64_t ml_ocm_cfg_1          : 1;  /**< [ 19: 19] Interrupt from ML_OCM_CFG_1. */
-        uint64_t ml_ocm_cfg_2          : 1;  /**< [ 20: 20] Interrupt from ML_OCM_CFG_2. */
-        uint64_t ml_ocm_cfg_3          : 1;  /**< [ 21: 21] Interrupt from ML_OCM_CFG_3. */
-        uint64_t ml_ocm_cfg_4          : 1;  /**< [ 22: 22] Interrupt from ML_OCM_CFG_4. */
-        uint64_t ml_ocm_cfg_5          : 1;  /**< [ 23: 23] Interrupt from ML_OCM_CFG_5. */
-        uint64_t ml_ocm_cfg_6          : 1;  /**< [ 24: 24] Interrupt from ML_OCM_CFG_6. */
-        uint64_t ml_ocm_cfg_7          : 1;  /**< [ 25: 25] Interrupt from ML_OCM_CFG_7. */
-        uint64_t ml_pod_cfg_0          : 1;  /**< [ 26: 26] Interrupt from ML_POD_CFG_0. */
-        uint64_t ml_pod_cfg_1          : 1;  /**< [ 27: 27] Interrupt from ML_POD_CFG_1. */
-        uint64_t ml_pod_cfg_2          : 1;  /**< [ 28: 28] Interrupt from ML_POD_CFG_2. */
-        uint64_t ml_pod_cfg_3          : 1;  /**< [ 29: 29] Interrupt from ML_POD_CFG_3. */
-        uint64_t ml_pod_cfg_4          : 1;  /**< [ 30: 30] Interrupt from ML_POD_CFG_4. */
-        uint64_t ml_pod_cfg_5          : 1;  /**< [ 31: 31] Interrupt from ML_POD_CFG_5. */
-        uint64_t ml_pod_cfg_6          : 1;  /**< [ 32: 32] Interrupt from ML_POD_CFG_6. */
-        uint64_t ml_pod_cfg_7          : 1;  /**< [ 33: 33] Interrupt from ML_POD_CFG_7. */
-        uint64_t ml_dpe_cfg_0          : 1;  /**< [ 34: 34] Interrupt from ML_DPE_CFG_0. */
-        uint64_t ml_dpe_cfg_1          : 1;  /**< [ 35: 35] Interrupt from ML_DPE_CFG_1. */
-        uint64_t ml_dpe_cfg_2          : 1;  /**< [ 36: 36] Interrupt from ML_DPE_CFG_2. */
-        uint64_t ml_dpe_cfg_3          : 1;  /**< [ 37: 37] Interrupt from ML_DPE_CFG_3. */
-        uint64_t ml_dpe_cfg_4          : 1;  /**< [ 38: 38] Interrupt from ML_DPE_CFG_4. */
-        uint64_t ml_dpe_cfg_5          : 1;  /**< [ 39: 39] Interrupt from ML_DPE_CFG_5. */
-        uint64_t ml_dpe_cfg_6          : 1;  /**< [ 40: 40] Interrupt from ML_DPE_CFG_6. */
-        uint64_t ml_dpe_cfg_7          : 1;  /**< [ 41: 41] Interrupt from ML_DPE_CFG_7. */
-        uint64_t reserved_42_63        : 22;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_ml_high_pri_int_status_s_s cn; */
-};
-
-/**
  * Structure ml_ins_axi4_rd_status_s
  *
  * ML INS AXI4 RD STATUS Structure
@@ -2514,7 +2130,11 @@ union cavm_ml_ins_scheduler_status_s
  * ML INS SLV INT ENABLE HI Structure
  * Instruction streamer interrupt register. INS has no Non Fatal (NF) interrupts. Here
  * is Non Error (NE) behavior NE Non Error. This is not an error and is just an
- * indication event. interrupt is set if enabled. Block does not freeze.
+ * indication event. interrupt is set if enabled. Block does not freeze Refer to this
+ * link for Fatal error (FT) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_ml_ins_slv_int_enable_hi_s
 {
@@ -2642,7 +2262,11 @@ union cavm_ml_ins_slv_int_enable_hi_s
  * ML INS SLV INT ENABLE LO Structure
  * Instruction streamer interrupt register. INS has no Non Fatal (NF) interrupts. Here
  * is Non Error (NE) behavior NE Non Error. This is not an error and is just an
- * indication event. interrupt is set if enabled. Block does not freeze.
+ * indication event. interrupt is set if enabled. Block does not freeze Refer to this
+ * link for Fatal error (FT) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_ml_ins_slv_int_enable_lo_s
 {
@@ -2770,7 +2394,11 @@ union cavm_ml_ins_slv_int_enable_lo_s
  * ML INS SLV INT FORCE Structure
  * Instruction streamer interrupt register. INS has no Non Fatal (NF) interrupts. Here
  * is Non Error (NE) behavior NE Non Error. This is not an error and is just an
- * indication event. interrupt is set if enabled. Block does not freeze.
+ * indication event. interrupt is set if enabled. Block does not freeze Refer to this
+ * link for Fatal error (FT) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_ml_ins_slv_int_force_s
 {
@@ -2898,7 +2526,11 @@ union cavm_ml_ins_slv_int_force_s
  * ML INS SLV INT STATUS Structure
  * Instruction streamer interrupt register. INS has no Non Fatal (NF) interrupts. Here
  * is Non Error (NE) behavior NE Non Error. This is not an error and is just an
- * indication event. interrupt is set if enabled. Block does not freeze.
+ * indication event. interrupt is set if enabled. Block does not freeze Refer to this
+ * link for Fatal error (FT) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_ml_ins_slv_int_status_s
 {
@@ -3012,7 +2644,7 @@ union cavm_ml_ins_slv_int_status_s
                                                                  ins_scheduler_status.unexp_task_syncbits for the sync received. Refer to
                                                                  ins_scheduler_status.err_task_id for the associated Task ID. This is classified
                                                                  a fatal error. */
-        uint64_t unexp_dod_task_sync   : 1;  /**< [ 17: 17] FT DOD task received with local or global sync. Refer to
+        uint64_t unexp_dod_task_sync   : 1;  /**< [ 17: 17] FT DOD task received with local or global sync Refer to
                                                                  ins_scheduler_status.unexp_task_syncbits for the sync received. Refer to
                                                                  ins_scheduler_status.err_task_id for the associated Task ID. This is classified
                                                                  a fatal error. */
@@ -3125,7 +2757,7 @@ union cavm_ml_ins_slv_int_status_s
                                                                  ins_scheduler_ctrl.dmaid_wait_timeout_limit. Refer to
                                                                  ins_scheduler_status.err_task_id for the associated Task ID. This is classified
                                                                  a fatal error. */
-        uint64_t unexp_dod_task_sync   : 1;  /**< [ 17: 17] FT DOD task received with local or global sync. Refer to
+        uint64_t unexp_dod_task_sync   : 1;  /**< [ 17: 17] FT DOD task received with local or global sync Refer to
                                                                  ins_scheduler_status.unexp_task_syncbits for the sync received. Refer to
                                                                  ins_scheduler_status.err_task_id for the associated Task ID. This is classified
                                                                  a fatal error. */
@@ -3268,422 +2900,6 @@ union cavm_ml_jtagshim_fifo_usage_s
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ml_jtagshim_fifo_usage_s_s cn; */
-};
-
-/**
- * Structure ml_low_pri_core0_mask_s
- *
- * ML LOW PRI CORE0 MASK Structure
- * Mask low_pri int reporting from a slave to core0.
- */
-union cavm_ml_low_pri_core0_mask_s
-{
-    uint64_t u;
-    struct cavm_ml_low_pri_core0_mask_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_42_63        : 22;
-        uint64_t ml_dpe_cfg_7          : 1;  /**< [ 41: 41] mask interrupts from ML_DPE_CFG_7. */
-        uint64_t ml_dpe_cfg_6          : 1;  /**< [ 40: 40] mask interrupts from ML_DPE_CFG_6. */
-        uint64_t ml_dpe_cfg_5          : 1;  /**< [ 39: 39] mask interrupts from ML_DPE_CFG_5. */
-        uint64_t ml_dpe_cfg_4          : 1;  /**< [ 38: 38] mask interrupts from ML_DPE_CFG_4. */
-        uint64_t ml_dpe_cfg_3          : 1;  /**< [ 37: 37] mask interrupts from ML_DPE_CFG_3. */
-        uint64_t ml_dpe_cfg_2          : 1;  /**< [ 36: 36] mask interrupts from ML_DPE_CFG_2. */
-        uint64_t ml_dpe_cfg_1          : 1;  /**< [ 35: 35] mask interrupts from ML_DPE_CFG_1. */
-        uint64_t ml_dpe_cfg_0          : 1;  /**< [ 34: 34] mask interrupts from ML_DPE_CFG_0. */
-        uint64_t ml_pod_cfg_7          : 1;  /**< [ 33: 33] mask interrupts from ML_POD_CFG_7. */
-        uint64_t ml_pod_cfg_6          : 1;  /**< [ 32: 32] mask interrupts from ML_POD_CFG_6. */
-        uint64_t ml_pod_cfg_5          : 1;  /**< [ 31: 31] mask interrupts from ML_POD_CFG_5. */
-        uint64_t ml_pod_cfg_4          : 1;  /**< [ 30: 30] mask interrupts from ML_POD_CFG_4. */
-        uint64_t ml_pod_cfg_3          : 1;  /**< [ 29: 29] mask interrupts from ML_POD_CFG_3. */
-        uint64_t ml_pod_cfg_2          : 1;  /**< [ 28: 28] mask interrupts from ML_POD_CFG_2. */
-        uint64_t ml_pod_cfg_1          : 1;  /**< [ 27: 27] mask interrupts from ML_POD_CFG_1. */
-        uint64_t ml_pod_cfg_0          : 1;  /**< [ 26: 26] mask interrupts from ML_POD_CFG_0. */
-        uint64_t ml_ocm_cfg_7          : 1;  /**< [ 25: 25] mask interrupts from ML_OCM_CFG_7. */
-        uint64_t ml_ocm_cfg_6          : 1;  /**< [ 24: 24] mask interrupts from ML_OCM_CFG_6. */
-        uint64_t ml_ocm_cfg_5          : 1;  /**< [ 23: 23] mask interrupts from ML_OCM_CFG_5. */
-        uint64_t ml_ocm_cfg_4          : 1;  /**< [ 22: 22] mask interrupts from ML_OCM_CFG_4. */
-        uint64_t ml_ocm_cfg_3          : 1;  /**< [ 21: 21] mask interrupts from ML_OCM_CFG_3. */
-        uint64_t ml_ocm_cfg_2          : 1;  /**< [ 20: 20] mask interrupts from ML_OCM_CFG_2. */
-        uint64_t ml_ocm_cfg_1          : 1;  /**< [ 19: 19] mask interrupts from ML_OCM_CFG_1. */
-        uint64_t ml_ocm_cfg_0          : 1;  /**< [ 18: 18] mask interrupts from ML_OCM_CFG_0. */
-        uint64_t ml_tmr_cfg_7          : 1;  /**< [ 17: 17] mask interrupts from ML_TMR_CFG_7. */
-        uint64_t ml_tmr_cfg_6          : 1;  /**< [ 16: 16] mask interrupts from ML_TMR_CFG_6. */
-        uint64_t ml_tmr_cfg_5          : 1;  /**< [ 15: 15] mask interrupts from ML_TMR_CFG_5. */
-        uint64_t ml_tmr_cfg_4          : 1;  /**< [ 14: 14] mask interrupts from ML_TMR_CFG_4. */
-        uint64_t ml_tmr_cfg_3          : 1;  /**< [ 13: 13] mask interrupts from ML_TMR_CFG_3. */
-        uint64_t ml_tmr_cfg_2          : 1;  /**< [ 12: 12] mask interrupts from ML_TMR_CFG_2. */
-        uint64_t ml_tmr_cfg_1          : 1;  /**< [ 11: 11] mask interrupts from ML_TMR_CFG_1. */
-        uint64_t ml_tmr_cfg_0          : 1;  /**< [ 10: 10] mask interrupts from ML_TMR_CFG_0. */
-        uint64_t ml_rtr_cfg_1          : 1;  /**< [  9:  9] mask interrupts from ML_RTR_CFG_1. */
-        uint64_t ml_rtr_cfg_0          : 1;  /**< [  8:  8] mask interrupts from ML_RTR_CFG_0. */
-        uint64_t ml_irtr_cfg           : 1;  /**< [  7:  7] mask interrupts from ML_IRTR_CFG. */
-        uint64_t ml_dod_cfg            : 1;  /**< [  6:  6] mask interrupts from ML_DOD_CFG. */
-        uint64_t ml_ins_slv            : 1;  /**< [  5:  5] mask interrupts from ML_INS_SLV. */
-        uint64_t ml_cfg2axim_slave     : 1;  /**< [  4:  4] mask interrupts from ML_CFG2AXIM_SLAVE. */
-        uint64_t ml_acc_cfg_slave      : 1;  /**< [  3:  3] mask interrupts from ML_ACC_CFG_SLAVE. */
-        uint64_t ml_glbl_slv           : 1;  /**< [  2:  2] mask interrupts from ML_GLBL_SLV. */
-        uint64_t ml_cfgm_slave         : 1;  /**< [  1:  1] mask interrupts from ML_CFGM_SLAVE. */
-        uint64_t ml_top_slave          : 1;  /**< [  0:  0] mask interrupts from ML_TOP_SLAVE. */
-#else /* Word 0 - Little Endian */
-        uint64_t ml_top_slave          : 1;  /**< [  0:  0] mask interrupts from ML_TOP_SLAVE. */
-        uint64_t ml_cfgm_slave         : 1;  /**< [  1:  1] mask interrupts from ML_CFGM_SLAVE. */
-        uint64_t ml_glbl_slv           : 1;  /**< [  2:  2] mask interrupts from ML_GLBL_SLV. */
-        uint64_t ml_acc_cfg_slave      : 1;  /**< [  3:  3] mask interrupts from ML_ACC_CFG_SLAVE. */
-        uint64_t ml_cfg2axim_slave     : 1;  /**< [  4:  4] mask interrupts from ML_CFG2AXIM_SLAVE. */
-        uint64_t ml_ins_slv            : 1;  /**< [  5:  5] mask interrupts from ML_INS_SLV. */
-        uint64_t ml_dod_cfg            : 1;  /**< [  6:  6] mask interrupts from ML_DOD_CFG. */
-        uint64_t ml_irtr_cfg           : 1;  /**< [  7:  7] mask interrupts from ML_IRTR_CFG. */
-        uint64_t ml_rtr_cfg_0          : 1;  /**< [  8:  8] mask interrupts from ML_RTR_CFG_0. */
-        uint64_t ml_rtr_cfg_1          : 1;  /**< [  9:  9] mask interrupts from ML_RTR_CFG_1. */
-        uint64_t ml_tmr_cfg_0          : 1;  /**< [ 10: 10] mask interrupts from ML_TMR_CFG_0. */
-        uint64_t ml_tmr_cfg_1          : 1;  /**< [ 11: 11] mask interrupts from ML_TMR_CFG_1. */
-        uint64_t ml_tmr_cfg_2          : 1;  /**< [ 12: 12] mask interrupts from ML_TMR_CFG_2. */
-        uint64_t ml_tmr_cfg_3          : 1;  /**< [ 13: 13] mask interrupts from ML_TMR_CFG_3. */
-        uint64_t ml_tmr_cfg_4          : 1;  /**< [ 14: 14] mask interrupts from ML_TMR_CFG_4. */
-        uint64_t ml_tmr_cfg_5          : 1;  /**< [ 15: 15] mask interrupts from ML_TMR_CFG_5. */
-        uint64_t ml_tmr_cfg_6          : 1;  /**< [ 16: 16] mask interrupts from ML_TMR_CFG_6. */
-        uint64_t ml_tmr_cfg_7          : 1;  /**< [ 17: 17] mask interrupts from ML_TMR_CFG_7. */
-        uint64_t ml_ocm_cfg_0          : 1;  /**< [ 18: 18] mask interrupts from ML_OCM_CFG_0. */
-        uint64_t ml_ocm_cfg_1          : 1;  /**< [ 19: 19] mask interrupts from ML_OCM_CFG_1. */
-        uint64_t ml_ocm_cfg_2          : 1;  /**< [ 20: 20] mask interrupts from ML_OCM_CFG_2. */
-        uint64_t ml_ocm_cfg_3          : 1;  /**< [ 21: 21] mask interrupts from ML_OCM_CFG_3. */
-        uint64_t ml_ocm_cfg_4          : 1;  /**< [ 22: 22] mask interrupts from ML_OCM_CFG_4. */
-        uint64_t ml_ocm_cfg_5          : 1;  /**< [ 23: 23] mask interrupts from ML_OCM_CFG_5. */
-        uint64_t ml_ocm_cfg_6          : 1;  /**< [ 24: 24] mask interrupts from ML_OCM_CFG_6. */
-        uint64_t ml_ocm_cfg_7          : 1;  /**< [ 25: 25] mask interrupts from ML_OCM_CFG_7. */
-        uint64_t ml_pod_cfg_0          : 1;  /**< [ 26: 26] mask interrupts from ML_POD_CFG_0. */
-        uint64_t ml_pod_cfg_1          : 1;  /**< [ 27: 27] mask interrupts from ML_POD_CFG_1. */
-        uint64_t ml_pod_cfg_2          : 1;  /**< [ 28: 28] mask interrupts from ML_POD_CFG_2. */
-        uint64_t ml_pod_cfg_3          : 1;  /**< [ 29: 29] mask interrupts from ML_POD_CFG_3. */
-        uint64_t ml_pod_cfg_4          : 1;  /**< [ 30: 30] mask interrupts from ML_POD_CFG_4. */
-        uint64_t ml_pod_cfg_5          : 1;  /**< [ 31: 31] mask interrupts from ML_POD_CFG_5. */
-        uint64_t ml_pod_cfg_6          : 1;  /**< [ 32: 32] mask interrupts from ML_POD_CFG_6. */
-        uint64_t ml_pod_cfg_7          : 1;  /**< [ 33: 33] mask interrupts from ML_POD_CFG_7. */
-        uint64_t ml_dpe_cfg_0          : 1;  /**< [ 34: 34] mask interrupts from ML_DPE_CFG_0. */
-        uint64_t ml_dpe_cfg_1          : 1;  /**< [ 35: 35] mask interrupts from ML_DPE_CFG_1. */
-        uint64_t ml_dpe_cfg_2          : 1;  /**< [ 36: 36] mask interrupts from ML_DPE_CFG_2. */
-        uint64_t ml_dpe_cfg_3          : 1;  /**< [ 37: 37] mask interrupts from ML_DPE_CFG_3. */
-        uint64_t ml_dpe_cfg_4          : 1;  /**< [ 38: 38] mask interrupts from ML_DPE_CFG_4. */
-        uint64_t ml_dpe_cfg_5          : 1;  /**< [ 39: 39] mask interrupts from ML_DPE_CFG_5. */
-        uint64_t ml_dpe_cfg_6          : 1;  /**< [ 40: 40] mask interrupts from ML_DPE_CFG_6. */
-        uint64_t ml_dpe_cfg_7          : 1;  /**< [ 41: 41] mask interrupts from ML_DPE_CFG_7. */
-        uint64_t reserved_42_63        : 22;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_ml_low_pri_core0_mask_s_s cn; */
-};
-
-/**
- * Structure ml_low_pri_core1_mask_s
- *
- * ML LOW PRI CORE1 MASK Structure
- * Mask low_pri int reporting from a slave to core1.
- */
-union cavm_ml_low_pri_core1_mask_s
-{
-    uint64_t u;
-    struct cavm_ml_low_pri_core1_mask_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_42_63        : 22;
-        uint64_t ml_dpe_cfg_7          : 1;  /**< [ 41: 41] mask interrupts from ML_DPE_CFG_7. */
-        uint64_t ml_dpe_cfg_6          : 1;  /**< [ 40: 40] mask interrupts from ML_DPE_CFG_6. */
-        uint64_t ml_dpe_cfg_5          : 1;  /**< [ 39: 39] mask interrupts from ML_DPE_CFG_5. */
-        uint64_t ml_dpe_cfg_4          : 1;  /**< [ 38: 38] mask interrupts from ML_DPE_CFG_4. */
-        uint64_t ml_dpe_cfg_3          : 1;  /**< [ 37: 37] mask interrupts from ML_DPE_CFG_3. */
-        uint64_t ml_dpe_cfg_2          : 1;  /**< [ 36: 36] mask interrupts from ML_DPE_CFG_2. */
-        uint64_t ml_dpe_cfg_1          : 1;  /**< [ 35: 35] mask interrupts from ML_DPE_CFG_1. */
-        uint64_t ml_dpe_cfg_0          : 1;  /**< [ 34: 34] mask interrupts from ML_DPE_CFG_0. */
-        uint64_t ml_pod_cfg_7          : 1;  /**< [ 33: 33] mask interrupts from ML_POD_CFG_7. */
-        uint64_t ml_pod_cfg_6          : 1;  /**< [ 32: 32] mask interrupts from ML_POD_CFG_6. */
-        uint64_t ml_pod_cfg_5          : 1;  /**< [ 31: 31] mask interrupts from ML_POD_CFG_5. */
-        uint64_t ml_pod_cfg_4          : 1;  /**< [ 30: 30] mask interrupts from ML_POD_CFG_4. */
-        uint64_t ml_pod_cfg_3          : 1;  /**< [ 29: 29] mask interrupts from ML_POD_CFG_3. */
-        uint64_t ml_pod_cfg_2          : 1;  /**< [ 28: 28] mask interrupts from ML_POD_CFG_2. */
-        uint64_t ml_pod_cfg_1          : 1;  /**< [ 27: 27] mask interrupts from ML_POD_CFG_1. */
-        uint64_t ml_pod_cfg_0          : 1;  /**< [ 26: 26] mask interrupts from ML_POD_CFG_0. */
-        uint64_t ml_ocm_cfg_7          : 1;  /**< [ 25: 25] mask interrupts from ML_OCM_CFG_7. */
-        uint64_t ml_ocm_cfg_6          : 1;  /**< [ 24: 24] mask interrupts from ML_OCM_CFG_6. */
-        uint64_t ml_ocm_cfg_5          : 1;  /**< [ 23: 23] mask interrupts from ML_OCM_CFG_5. */
-        uint64_t ml_ocm_cfg_4          : 1;  /**< [ 22: 22] mask interrupts from ML_OCM_CFG_4. */
-        uint64_t ml_ocm_cfg_3          : 1;  /**< [ 21: 21] mask interrupts from ML_OCM_CFG_3. */
-        uint64_t ml_ocm_cfg_2          : 1;  /**< [ 20: 20] mask interrupts from ML_OCM_CFG_2. */
-        uint64_t ml_ocm_cfg_1          : 1;  /**< [ 19: 19] mask interrupts from ML_OCM_CFG_1. */
-        uint64_t ml_ocm_cfg_0          : 1;  /**< [ 18: 18] mask interrupts from ML_OCM_CFG_0. */
-        uint64_t ml_tmr_cfg_7          : 1;  /**< [ 17: 17] mask interrupts from ML_TMR_CFG_7. */
-        uint64_t ml_tmr_cfg_6          : 1;  /**< [ 16: 16] mask interrupts from ML_TMR_CFG_6. */
-        uint64_t ml_tmr_cfg_5          : 1;  /**< [ 15: 15] mask interrupts from ML_TMR_CFG_5. */
-        uint64_t ml_tmr_cfg_4          : 1;  /**< [ 14: 14] mask interrupts from ML_TMR_CFG_4. */
-        uint64_t ml_tmr_cfg_3          : 1;  /**< [ 13: 13] mask interrupts from ML_TMR_CFG_3. */
-        uint64_t ml_tmr_cfg_2          : 1;  /**< [ 12: 12] mask interrupts from ML_TMR_CFG_2. */
-        uint64_t ml_tmr_cfg_1          : 1;  /**< [ 11: 11] mask interrupts from ML_TMR_CFG_1. */
-        uint64_t ml_tmr_cfg_0          : 1;  /**< [ 10: 10] mask interrupts from ML_TMR_CFG_0. */
-        uint64_t ml_rtr_cfg_1          : 1;  /**< [  9:  9] mask interrupts from ML_RTR_CFG_1. */
-        uint64_t ml_rtr_cfg_0          : 1;  /**< [  8:  8] mask interrupts from ML_RTR_CFG_0. */
-        uint64_t ml_irtr_cfg           : 1;  /**< [  7:  7] mask interrupts from ML_IRTR_CFG. */
-        uint64_t ml_dod_cfg            : 1;  /**< [  6:  6] mask interrupts from ML_DOD_CFG. */
-        uint64_t ml_ins_slv            : 1;  /**< [  5:  5] mask interrupts from ML_INS_SLV. */
-        uint64_t ml_cfg2axim_slave     : 1;  /**< [  4:  4] mask interrupts from ML_CFG2AXIM_SLAVE. */
-        uint64_t ml_acc_cfg_slave      : 1;  /**< [  3:  3] mask interrupts from ML_ACC_CFG_SLAVE. */
-        uint64_t ml_glbl_slv           : 1;  /**< [  2:  2] mask interrupts from ML_GLBL_SLV. */
-        uint64_t ml_cfgm_slave         : 1;  /**< [  1:  1] mask interrupts from ML_CFGM_SLAVE. */
-        uint64_t ml_top_slave          : 1;  /**< [  0:  0] mask interrupts from ML_TOP_SLAVE. */
-#else /* Word 0 - Little Endian */
-        uint64_t ml_top_slave          : 1;  /**< [  0:  0] mask interrupts from ML_TOP_SLAVE. */
-        uint64_t ml_cfgm_slave         : 1;  /**< [  1:  1] mask interrupts from ML_CFGM_SLAVE. */
-        uint64_t ml_glbl_slv           : 1;  /**< [  2:  2] mask interrupts from ML_GLBL_SLV. */
-        uint64_t ml_acc_cfg_slave      : 1;  /**< [  3:  3] mask interrupts from ML_ACC_CFG_SLAVE. */
-        uint64_t ml_cfg2axim_slave     : 1;  /**< [  4:  4] mask interrupts from ML_CFG2AXIM_SLAVE. */
-        uint64_t ml_ins_slv            : 1;  /**< [  5:  5] mask interrupts from ML_INS_SLV. */
-        uint64_t ml_dod_cfg            : 1;  /**< [  6:  6] mask interrupts from ML_DOD_CFG. */
-        uint64_t ml_irtr_cfg           : 1;  /**< [  7:  7] mask interrupts from ML_IRTR_CFG. */
-        uint64_t ml_rtr_cfg_0          : 1;  /**< [  8:  8] mask interrupts from ML_RTR_CFG_0. */
-        uint64_t ml_rtr_cfg_1          : 1;  /**< [  9:  9] mask interrupts from ML_RTR_CFG_1. */
-        uint64_t ml_tmr_cfg_0          : 1;  /**< [ 10: 10] mask interrupts from ML_TMR_CFG_0. */
-        uint64_t ml_tmr_cfg_1          : 1;  /**< [ 11: 11] mask interrupts from ML_TMR_CFG_1. */
-        uint64_t ml_tmr_cfg_2          : 1;  /**< [ 12: 12] mask interrupts from ML_TMR_CFG_2. */
-        uint64_t ml_tmr_cfg_3          : 1;  /**< [ 13: 13] mask interrupts from ML_TMR_CFG_3. */
-        uint64_t ml_tmr_cfg_4          : 1;  /**< [ 14: 14] mask interrupts from ML_TMR_CFG_4. */
-        uint64_t ml_tmr_cfg_5          : 1;  /**< [ 15: 15] mask interrupts from ML_TMR_CFG_5. */
-        uint64_t ml_tmr_cfg_6          : 1;  /**< [ 16: 16] mask interrupts from ML_TMR_CFG_6. */
-        uint64_t ml_tmr_cfg_7          : 1;  /**< [ 17: 17] mask interrupts from ML_TMR_CFG_7. */
-        uint64_t ml_ocm_cfg_0          : 1;  /**< [ 18: 18] mask interrupts from ML_OCM_CFG_0. */
-        uint64_t ml_ocm_cfg_1          : 1;  /**< [ 19: 19] mask interrupts from ML_OCM_CFG_1. */
-        uint64_t ml_ocm_cfg_2          : 1;  /**< [ 20: 20] mask interrupts from ML_OCM_CFG_2. */
-        uint64_t ml_ocm_cfg_3          : 1;  /**< [ 21: 21] mask interrupts from ML_OCM_CFG_3. */
-        uint64_t ml_ocm_cfg_4          : 1;  /**< [ 22: 22] mask interrupts from ML_OCM_CFG_4. */
-        uint64_t ml_ocm_cfg_5          : 1;  /**< [ 23: 23] mask interrupts from ML_OCM_CFG_5. */
-        uint64_t ml_ocm_cfg_6          : 1;  /**< [ 24: 24] mask interrupts from ML_OCM_CFG_6. */
-        uint64_t ml_ocm_cfg_7          : 1;  /**< [ 25: 25] mask interrupts from ML_OCM_CFG_7. */
-        uint64_t ml_pod_cfg_0          : 1;  /**< [ 26: 26] mask interrupts from ML_POD_CFG_0. */
-        uint64_t ml_pod_cfg_1          : 1;  /**< [ 27: 27] mask interrupts from ML_POD_CFG_1. */
-        uint64_t ml_pod_cfg_2          : 1;  /**< [ 28: 28] mask interrupts from ML_POD_CFG_2. */
-        uint64_t ml_pod_cfg_3          : 1;  /**< [ 29: 29] mask interrupts from ML_POD_CFG_3. */
-        uint64_t ml_pod_cfg_4          : 1;  /**< [ 30: 30] mask interrupts from ML_POD_CFG_4. */
-        uint64_t ml_pod_cfg_5          : 1;  /**< [ 31: 31] mask interrupts from ML_POD_CFG_5. */
-        uint64_t ml_pod_cfg_6          : 1;  /**< [ 32: 32] mask interrupts from ML_POD_CFG_6. */
-        uint64_t ml_pod_cfg_7          : 1;  /**< [ 33: 33] mask interrupts from ML_POD_CFG_7. */
-        uint64_t ml_dpe_cfg_0          : 1;  /**< [ 34: 34] mask interrupts from ML_DPE_CFG_0. */
-        uint64_t ml_dpe_cfg_1          : 1;  /**< [ 35: 35] mask interrupts from ML_DPE_CFG_1. */
-        uint64_t ml_dpe_cfg_2          : 1;  /**< [ 36: 36] mask interrupts from ML_DPE_CFG_2. */
-        uint64_t ml_dpe_cfg_3          : 1;  /**< [ 37: 37] mask interrupts from ML_DPE_CFG_3. */
-        uint64_t ml_dpe_cfg_4          : 1;  /**< [ 38: 38] mask interrupts from ML_DPE_CFG_4. */
-        uint64_t ml_dpe_cfg_5          : 1;  /**< [ 39: 39] mask interrupts from ML_DPE_CFG_5. */
-        uint64_t ml_dpe_cfg_6          : 1;  /**< [ 40: 40] mask interrupts from ML_DPE_CFG_6. */
-        uint64_t ml_dpe_cfg_7          : 1;  /**< [ 41: 41] mask interrupts from ML_DPE_CFG_7. */
-        uint64_t reserved_42_63        : 22;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_ml_low_pri_core1_mask_s_s cn; */
-};
-
-/**
- * Structure ml_low_pri_host_mask_s
- *
- * ML LOW PRI HOST MASK Structure
- * Mask low_pri int reporting from a slave to host.
- */
-union cavm_ml_low_pri_host_mask_s
-{
-    uint64_t u;
-    struct cavm_ml_low_pri_host_mask_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_42_63        : 22;
-        uint64_t ml_dpe_cfg_7          : 1;  /**< [ 41: 41] mask interrupts from ML_DPE_CFG_7. */
-        uint64_t ml_dpe_cfg_6          : 1;  /**< [ 40: 40] mask interrupts from ML_DPE_CFG_6. */
-        uint64_t ml_dpe_cfg_5          : 1;  /**< [ 39: 39] mask interrupts from ML_DPE_CFG_5. */
-        uint64_t ml_dpe_cfg_4          : 1;  /**< [ 38: 38] mask interrupts from ML_DPE_CFG_4. */
-        uint64_t ml_dpe_cfg_3          : 1;  /**< [ 37: 37] mask interrupts from ML_DPE_CFG_3. */
-        uint64_t ml_dpe_cfg_2          : 1;  /**< [ 36: 36] mask interrupts from ML_DPE_CFG_2. */
-        uint64_t ml_dpe_cfg_1          : 1;  /**< [ 35: 35] mask interrupts from ML_DPE_CFG_1. */
-        uint64_t ml_dpe_cfg_0          : 1;  /**< [ 34: 34] mask interrupts from ML_DPE_CFG_0. */
-        uint64_t ml_pod_cfg_7          : 1;  /**< [ 33: 33] mask interrupts from ML_POD_CFG_7. */
-        uint64_t ml_pod_cfg_6          : 1;  /**< [ 32: 32] mask interrupts from ML_POD_CFG_6. */
-        uint64_t ml_pod_cfg_5          : 1;  /**< [ 31: 31] mask interrupts from ML_POD_CFG_5. */
-        uint64_t ml_pod_cfg_4          : 1;  /**< [ 30: 30] mask interrupts from ML_POD_CFG_4. */
-        uint64_t ml_pod_cfg_3          : 1;  /**< [ 29: 29] mask interrupts from ML_POD_CFG_3. */
-        uint64_t ml_pod_cfg_2          : 1;  /**< [ 28: 28] mask interrupts from ML_POD_CFG_2. */
-        uint64_t ml_pod_cfg_1          : 1;  /**< [ 27: 27] mask interrupts from ML_POD_CFG_1. */
-        uint64_t ml_pod_cfg_0          : 1;  /**< [ 26: 26] mask interrupts from ML_POD_CFG_0. */
-        uint64_t ml_ocm_cfg_7          : 1;  /**< [ 25: 25] mask interrupts from ML_OCM_CFG_7. */
-        uint64_t ml_ocm_cfg_6          : 1;  /**< [ 24: 24] mask interrupts from ML_OCM_CFG_6. */
-        uint64_t ml_ocm_cfg_5          : 1;  /**< [ 23: 23] mask interrupts from ML_OCM_CFG_5. */
-        uint64_t ml_ocm_cfg_4          : 1;  /**< [ 22: 22] mask interrupts from ML_OCM_CFG_4. */
-        uint64_t ml_ocm_cfg_3          : 1;  /**< [ 21: 21] mask interrupts from ML_OCM_CFG_3. */
-        uint64_t ml_ocm_cfg_2          : 1;  /**< [ 20: 20] mask interrupts from ML_OCM_CFG_2. */
-        uint64_t ml_ocm_cfg_1          : 1;  /**< [ 19: 19] mask interrupts from ML_OCM_CFG_1. */
-        uint64_t ml_ocm_cfg_0          : 1;  /**< [ 18: 18] mask interrupts from ML_OCM_CFG_0. */
-        uint64_t ml_tmr_cfg_7          : 1;  /**< [ 17: 17] mask interrupts from ML_TMR_CFG_7. */
-        uint64_t ml_tmr_cfg_6          : 1;  /**< [ 16: 16] mask interrupts from ML_TMR_CFG_6. */
-        uint64_t ml_tmr_cfg_5          : 1;  /**< [ 15: 15] mask interrupts from ML_TMR_CFG_5. */
-        uint64_t ml_tmr_cfg_4          : 1;  /**< [ 14: 14] mask interrupts from ML_TMR_CFG_4. */
-        uint64_t ml_tmr_cfg_3          : 1;  /**< [ 13: 13] mask interrupts from ML_TMR_CFG_3. */
-        uint64_t ml_tmr_cfg_2          : 1;  /**< [ 12: 12] mask interrupts from ML_TMR_CFG_2. */
-        uint64_t ml_tmr_cfg_1          : 1;  /**< [ 11: 11] mask interrupts from ML_TMR_CFG_1. */
-        uint64_t ml_tmr_cfg_0          : 1;  /**< [ 10: 10] mask interrupts from ML_TMR_CFG_0. */
-        uint64_t ml_rtr_cfg_1          : 1;  /**< [  9:  9] mask interrupts from ML_RTR_CFG_1. */
-        uint64_t ml_rtr_cfg_0          : 1;  /**< [  8:  8] mask interrupts from ML_RTR_CFG_0. */
-        uint64_t ml_irtr_cfg           : 1;  /**< [  7:  7] mask interrupts from ML_IRTR_CFG. */
-        uint64_t ml_dod_cfg            : 1;  /**< [  6:  6] mask interrupts from ML_DOD_CFG. */
-        uint64_t ml_ins_slv            : 1;  /**< [  5:  5] mask interrupts from ML_INS_SLV. */
-        uint64_t ml_cfg2axim_slave     : 1;  /**< [  4:  4] mask interrupts from ML_CFG2AXIM_SLAVE. */
-        uint64_t ml_acc_cfg_slave      : 1;  /**< [  3:  3] mask interrupts from ML_ACC_CFG_SLAVE. */
-        uint64_t ml_glbl_slv           : 1;  /**< [  2:  2] mask interrupts from ML_GLBL_SLV. */
-        uint64_t ml_cfgm_slave         : 1;  /**< [  1:  1] mask interrupts from ML_CFGM_SLAVE. */
-        uint64_t ml_top_slave          : 1;  /**< [  0:  0] mask interrupts from ML_TOP_SLAVE. */
-#else /* Word 0 - Little Endian */
-        uint64_t ml_top_slave          : 1;  /**< [  0:  0] mask interrupts from ML_TOP_SLAVE. */
-        uint64_t ml_cfgm_slave         : 1;  /**< [  1:  1] mask interrupts from ML_CFGM_SLAVE. */
-        uint64_t ml_glbl_slv           : 1;  /**< [  2:  2] mask interrupts from ML_GLBL_SLV. */
-        uint64_t ml_acc_cfg_slave      : 1;  /**< [  3:  3] mask interrupts from ML_ACC_CFG_SLAVE. */
-        uint64_t ml_cfg2axim_slave     : 1;  /**< [  4:  4] mask interrupts from ML_CFG2AXIM_SLAVE. */
-        uint64_t ml_ins_slv            : 1;  /**< [  5:  5] mask interrupts from ML_INS_SLV. */
-        uint64_t ml_dod_cfg            : 1;  /**< [  6:  6] mask interrupts from ML_DOD_CFG. */
-        uint64_t ml_irtr_cfg           : 1;  /**< [  7:  7] mask interrupts from ML_IRTR_CFG. */
-        uint64_t ml_rtr_cfg_0          : 1;  /**< [  8:  8] mask interrupts from ML_RTR_CFG_0. */
-        uint64_t ml_rtr_cfg_1          : 1;  /**< [  9:  9] mask interrupts from ML_RTR_CFG_1. */
-        uint64_t ml_tmr_cfg_0          : 1;  /**< [ 10: 10] mask interrupts from ML_TMR_CFG_0. */
-        uint64_t ml_tmr_cfg_1          : 1;  /**< [ 11: 11] mask interrupts from ML_TMR_CFG_1. */
-        uint64_t ml_tmr_cfg_2          : 1;  /**< [ 12: 12] mask interrupts from ML_TMR_CFG_2. */
-        uint64_t ml_tmr_cfg_3          : 1;  /**< [ 13: 13] mask interrupts from ML_TMR_CFG_3. */
-        uint64_t ml_tmr_cfg_4          : 1;  /**< [ 14: 14] mask interrupts from ML_TMR_CFG_4. */
-        uint64_t ml_tmr_cfg_5          : 1;  /**< [ 15: 15] mask interrupts from ML_TMR_CFG_5. */
-        uint64_t ml_tmr_cfg_6          : 1;  /**< [ 16: 16] mask interrupts from ML_TMR_CFG_6. */
-        uint64_t ml_tmr_cfg_7          : 1;  /**< [ 17: 17] mask interrupts from ML_TMR_CFG_7. */
-        uint64_t ml_ocm_cfg_0          : 1;  /**< [ 18: 18] mask interrupts from ML_OCM_CFG_0. */
-        uint64_t ml_ocm_cfg_1          : 1;  /**< [ 19: 19] mask interrupts from ML_OCM_CFG_1. */
-        uint64_t ml_ocm_cfg_2          : 1;  /**< [ 20: 20] mask interrupts from ML_OCM_CFG_2. */
-        uint64_t ml_ocm_cfg_3          : 1;  /**< [ 21: 21] mask interrupts from ML_OCM_CFG_3. */
-        uint64_t ml_ocm_cfg_4          : 1;  /**< [ 22: 22] mask interrupts from ML_OCM_CFG_4. */
-        uint64_t ml_ocm_cfg_5          : 1;  /**< [ 23: 23] mask interrupts from ML_OCM_CFG_5. */
-        uint64_t ml_ocm_cfg_6          : 1;  /**< [ 24: 24] mask interrupts from ML_OCM_CFG_6. */
-        uint64_t ml_ocm_cfg_7          : 1;  /**< [ 25: 25] mask interrupts from ML_OCM_CFG_7. */
-        uint64_t ml_pod_cfg_0          : 1;  /**< [ 26: 26] mask interrupts from ML_POD_CFG_0. */
-        uint64_t ml_pod_cfg_1          : 1;  /**< [ 27: 27] mask interrupts from ML_POD_CFG_1. */
-        uint64_t ml_pod_cfg_2          : 1;  /**< [ 28: 28] mask interrupts from ML_POD_CFG_2. */
-        uint64_t ml_pod_cfg_3          : 1;  /**< [ 29: 29] mask interrupts from ML_POD_CFG_3. */
-        uint64_t ml_pod_cfg_4          : 1;  /**< [ 30: 30] mask interrupts from ML_POD_CFG_4. */
-        uint64_t ml_pod_cfg_5          : 1;  /**< [ 31: 31] mask interrupts from ML_POD_CFG_5. */
-        uint64_t ml_pod_cfg_6          : 1;  /**< [ 32: 32] mask interrupts from ML_POD_CFG_6. */
-        uint64_t ml_pod_cfg_7          : 1;  /**< [ 33: 33] mask interrupts from ML_POD_CFG_7. */
-        uint64_t ml_dpe_cfg_0          : 1;  /**< [ 34: 34] mask interrupts from ML_DPE_CFG_0. */
-        uint64_t ml_dpe_cfg_1          : 1;  /**< [ 35: 35] mask interrupts from ML_DPE_CFG_1. */
-        uint64_t ml_dpe_cfg_2          : 1;  /**< [ 36: 36] mask interrupts from ML_DPE_CFG_2. */
-        uint64_t ml_dpe_cfg_3          : 1;  /**< [ 37: 37] mask interrupts from ML_DPE_CFG_3. */
-        uint64_t ml_dpe_cfg_4          : 1;  /**< [ 38: 38] mask interrupts from ML_DPE_CFG_4. */
-        uint64_t ml_dpe_cfg_5          : 1;  /**< [ 39: 39] mask interrupts from ML_DPE_CFG_5. */
-        uint64_t ml_dpe_cfg_6          : 1;  /**< [ 40: 40] mask interrupts from ML_DPE_CFG_6. */
-        uint64_t ml_dpe_cfg_7          : 1;  /**< [ 41: 41] mask interrupts from ML_DPE_CFG_7. */
-        uint64_t reserved_42_63        : 22;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_ml_low_pri_host_mask_s_s cn; */
-};
-
-/**
- * Structure ml_low_pri_int_status_s
- *
- * ML LOW PRI INT STATUS Structure
- * Per-slave low_pri interrupt status register.
- */
-union cavm_ml_low_pri_int_status_s
-{
-    uint64_t u;
-    struct cavm_ml_low_pri_int_status_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_42_63        : 22;
-        uint64_t ml_dpe_cfg_7          : 1;  /**< [ 41: 41] Interrupt from ML_DPE_CFG_7. */
-        uint64_t ml_dpe_cfg_6          : 1;  /**< [ 40: 40] Interrupt from ML_DPE_CFG_6. */
-        uint64_t ml_dpe_cfg_5          : 1;  /**< [ 39: 39] Interrupt from ML_DPE_CFG_5. */
-        uint64_t ml_dpe_cfg_4          : 1;  /**< [ 38: 38] Interrupt from ML_DPE_CFG_4. */
-        uint64_t ml_dpe_cfg_3          : 1;  /**< [ 37: 37] Interrupt from ML_DPE_CFG_3. */
-        uint64_t ml_dpe_cfg_2          : 1;  /**< [ 36: 36] Interrupt from ML_DPE_CFG_2. */
-        uint64_t ml_dpe_cfg_1          : 1;  /**< [ 35: 35] Interrupt from ML_DPE_CFG_1. */
-        uint64_t ml_dpe_cfg_0          : 1;  /**< [ 34: 34] Interrupt from ML_DPE_CFG_0. */
-        uint64_t ml_pod_cfg_7          : 1;  /**< [ 33: 33] Interrupt from ML_POD_CFG_7. */
-        uint64_t ml_pod_cfg_6          : 1;  /**< [ 32: 32] Interrupt from ML_POD_CFG_6. */
-        uint64_t ml_pod_cfg_5          : 1;  /**< [ 31: 31] Interrupt from ML_POD_CFG_5. */
-        uint64_t ml_pod_cfg_4          : 1;  /**< [ 30: 30] Interrupt from ML_POD_CFG_4. */
-        uint64_t ml_pod_cfg_3          : 1;  /**< [ 29: 29] Interrupt from ML_POD_CFG_3. */
-        uint64_t ml_pod_cfg_2          : 1;  /**< [ 28: 28] Interrupt from ML_POD_CFG_2. */
-        uint64_t ml_pod_cfg_1          : 1;  /**< [ 27: 27] Interrupt from ML_POD_CFG_1. */
-        uint64_t ml_pod_cfg_0          : 1;  /**< [ 26: 26] Interrupt from ML_POD_CFG_0. */
-        uint64_t ml_ocm_cfg_7          : 1;  /**< [ 25: 25] Interrupt from ML_OCM_CFG_7. */
-        uint64_t ml_ocm_cfg_6          : 1;  /**< [ 24: 24] Interrupt from ML_OCM_CFG_6. */
-        uint64_t ml_ocm_cfg_5          : 1;  /**< [ 23: 23] Interrupt from ML_OCM_CFG_5. */
-        uint64_t ml_ocm_cfg_4          : 1;  /**< [ 22: 22] Interrupt from ML_OCM_CFG_4. */
-        uint64_t ml_ocm_cfg_3          : 1;  /**< [ 21: 21] Interrupt from ML_OCM_CFG_3. */
-        uint64_t ml_ocm_cfg_2          : 1;  /**< [ 20: 20] Interrupt from ML_OCM_CFG_2. */
-        uint64_t ml_ocm_cfg_1          : 1;  /**< [ 19: 19] Interrupt from ML_OCM_CFG_1. */
-        uint64_t ml_ocm_cfg_0          : 1;  /**< [ 18: 18] Interrupt from ML_OCM_CFG_0. */
-        uint64_t ml_tmr_cfg_7          : 1;  /**< [ 17: 17] Interrupt from ML_TMR_CFG_7. */
-        uint64_t ml_tmr_cfg_6          : 1;  /**< [ 16: 16] Interrupt from ML_TMR_CFG_6. */
-        uint64_t ml_tmr_cfg_5          : 1;  /**< [ 15: 15] Interrupt from ML_TMR_CFG_5. */
-        uint64_t ml_tmr_cfg_4          : 1;  /**< [ 14: 14] Interrupt from ML_TMR_CFG_4. */
-        uint64_t ml_tmr_cfg_3          : 1;  /**< [ 13: 13] Interrupt from ML_TMR_CFG_3. */
-        uint64_t ml_tmr_cfg_2          : 1;  /**< [ 12: 12] Interrupt from ML_TMR_CFG_2. */
-        uint64_t ml_tmr_cfg_1          : 1;  /**< [ 11: 11] Interrupt from ML_TMR_CFG_1. */
-        uint64_t ml_tmr_cfg_0          : 1;  /**< [ 10: 10] Interrupt from ML_TMR_CFG_0. */
-        uint64_t ml_rtr_cfg_1          : 1;  /**< [  9:  9] Interrupt from ML_RTR_CFG_1. */
-        uint64_t ml_rtr_cfg_0          : 1;  /**< [  8:  8] Interrupt from ML_RTR_CFG_0. */
-        uint64_t ml_irtr_cfg           : 1;  /**< [  7:  7] Interrupt from ML_IRTR_CFG. */
-        uint64_t ml_dod_cfg            : 1;  /**< [  6:  6] Interrupt from ML_DOD_CFG. */
-        uint64_t ml_ins_slv            : 1;  /**< [  5:  5] Interrupt from ML_INS_SLV. */
-        uint64_t ml_cfg2axim_slave     : 1;  /**< [  4:  4] Interrupt from ML_CFG2AXIM_SLAVE. */
-        uint64_t ml_acc_cfg_slave      : 1;  /**< [  3:  3] Interrupt from ML_ACC_CFG_SLAVE. */
-        uint64_t ml_glbl_slv           : 1;  /**< [  2:  2] Interrupt from ML_GLBL_SLV. */
-        uint64_t ml_cfgm_slave         : 1;  /**< [  1:  1] Interrupt from ML_CFGM_SLAVE. */
-        uint64_t ml_top_slave          : 1;  /**< [  0:  0] Interrupt from ML_TOP_SLAVE. */
-#else /* Word 0 - Little Endian */
-        uint64_t ml_top_slave          : 1;  /**< [  0:  0] Interrupt from ML_TOP_SLAVE. */
-        uint64_t ml_cfgm_slave         : 1;  /**< [  1:  1] Interrupt from ML_CFGM_SLAVE. */
-        uint64_t ml_glbl_slv           : 1;  /**< [  2:  2] Interrupt from ML_GLBL_SLV. */
-        uint64_t ml_acc_cfg_slave      : 1;  /**< [  3:  3] Interrupt from ML_ACC_CFG_SLAVE. */
-        uint64_t ml_cfg2axim_slave     : 1;  /**< [  4:  4] Interrupt from ML_CFG2AXIM_SLAVE. */
-        uint64_t ml_ins_slv            : 1;  /**< [  5:  5] Interrupt from ML_INS_SLV. */
-        uint64_t ml_dod_cfg            : 1;  /**< [  6:  6] Interrupt from ML_DOD_CFG. */
-        uint64_t ml_irtr_cfg           : 1;  /**< [  7:  7] Interrupt from ML_IRTR_CFG. */
-        uint64_t ml_rtr_cfg_0          : 1;  /**< [  8:  8] Interrupt from ML_RTR_CFG_0. */
-        uint64_t ml_rtr_cfg_1          : 1;  /**< [  9:  9] Interrupt from ML_RTR_CFG_1. */
-        uint64_t ml_tmr_cfg_0          : 1;  /**< [ 10: 10] Interrupt from ML_TMR_CFG_0. */
-        uint64_t ml_tmr_cfg_1          : 1;  /**< [ 11: 11] Interrupt from ML_TMR_CFG_1. */
-        uint64_t ml_tmr_cfg_2          : 1;  /**< [ 12: 12] Interrupt from ML_TMR_CFG_2. */
-        uint64_t ml_tmr_cfg_3          : 1;  /**< [ 13: 13] Interrupt from ML_TMR_CFG_3. */
-        uint64_t ml_tmr_cfg_4          : 1;  /**< [ 14: 14] Interrupt from ML_TMR_CFG_4. */
-        uint64_t ml_tmr_cfg_5          : 1;  /**< [ 15: 15] Interrupt from ML_TMR_CFG_5. */
-        uint64_t ml_tmr_cfg_6          : 1;  /**< [ 16: 16] Interrupt from ML_TMR_CFG_6. */
-        uint64_t ml_tmr_cfg_7          : 1;  /**< [ 17: 17] Interrupt from ML_TMR_CFG_7. */
-        uint64_t ml_ocm_cfg_0          : 1;  /**< [ 18: 18] Interrupt from ML_OCM_CFG_0. */
-        uint64_t ml_ocm_cfg_1          : 1;  /**< [ 19: 19] Interrupt from ML_OCM_CFG_1. */
-        uint64_t ml_ocm_cfg_2          : 1;  /**< [ 20: 20] Interrupt from ML_OCM_CFG_2. */
-        uint64_t ml_ocm_cfg_3          : 1;  /**< [ 21: 21] Interrupt from ML_OCM_CFG_3. */
-        uint64_t ml_ocm_cfg_4          : 1;  /**< [ 22: 22] Interrupt from ML_OCM_CFG_4. */
-        uint64_t ml_ocm_cfg_5          : 1;  /**< [ 23: 23] Interrupt from ML_OCM_CFG_5. */
-        uint64_t ml_ocm_cfg_6          : 1;  /**< [ 24: 24] Interrupt from ML_OCM_CFG_6. */
-        uint64_t ml_ocm_cfg_7          : 1;  /**< [ 25: 25] Interrupt from ML_OCM_CFG_7. */
-        uint64_t ml_pod_cfg_0          : 1;  /**< [ 26: 26] Interrupt from ML_POD_CFG_0. */
-        uint64_t ml_pod_cfg_1          : 1;  /**< [ 27: 27] Interrupt from ML_POD_CFG_1. */
-        uint64_t ml_pod_cfg_2          : 1;  /**< [ 28: 28] Interrupt from ML_POD_CFG_2. */
-        uint64_t ml_pod_cfg_3          : 1;  /**< [ 29: 29] Interrupt from ML_POD_CFG_3. */
-        uint64_t ml_pod_cfg_4          : 1;  /**< [ 30: 30] Interrupt from ML_POD_CFG_4. */
-        uint64_t ml_pod_cfg_5          : 1;  /**< [ 31: 31] Interrupt from ML_POD_CFG_5. */
-        uint64_t ml_pod_cfg_6          : 1;  /**< [ 32: 32] Interrupt from ML_POD_CFG_6. */
-        uint64_t ml_pod_cfg_7          : 1;  /**< [ 33: 33] Interrupt from ML_POD_CFG_7. */
-        uint64_t ml_dpe_cfg_0          : 1;  /**< [ 34: 34] Interrupt from ML_DPE_CFG_0. */
-        uint64_t ml_dpe_cfg_1          : 1;  /**< [ 35: 35] Interrupt from ML_DPE_CFG_1. */
-        uint64_t ml_dpe_cfg_2          : 1;  /**< [ 36: 36] Interrupt from ML_DPE_CFG_2. */
-        uint64_t ml_dpe_cfg_3          : 1;  /**< [ 37: 37] Interrupt from ML_DPE_CFG_3. */
-        uint64_t ml_dpe_cfg_4          : 1;  /**< [ 38: 38] Interrupt from ML_DPE_CFG_4. */
-        uint64_t ml_dpe_cfg_5          : 1;  /**< [ 39: 39] Interrupt from ML_DPE_CFG_5. */
-        uint64_t ml_dpe_cfg_6          : 1;  /**< [ 40: 40] Interrupt from ML_DPE_CFG_6. */
-        uint64_t ml_dpe_cfg_7          : 1;  /**< [ 41: 41] Interrupt from ML_DPE_CFG_7. */
-        uint64_t reserved_42_63        : 22;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_ml_low_pri_int_status_s_s cn; */
 };
 
 /**
@@ -6978,9 +6194,9 @@ union cavm_mlx_a35_0_rst_vector_base_wx
     struct cavm_mlx_a35_0_rst_vector_base_wx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_A35_0_RST_VECTOR_BASE_S. */
+        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_A35_0_RST_VECTOR_BASE_S */
 #else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_A35_0_RST_VECTOR_BASE_S. */
+        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_A35_0_RST_VECTOR_BASE_S */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mlx_a35_0_rst_vector_base_wx_s cn; */
@@ -7014,9 +6230,9 @@ union cavm_mlx_a35_1_rst_vector_base_wx
     struct cavm_mlx_a35_1_rst_vector_base_wx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_A35_1_RST_VECTOR_BASE_S. */
+        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_A35_1_RST_VECTOR_BASE_S */
 #else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_A35_1_RST_VECTOR_BASE_S. */
+        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_A35_1_RST_VECTOR_BASE_S */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mlx_a35_1_rst_vector_base_wx_s cn; */
@@ -9203,47 +8419,47 @@ union cavm_mlx_cfgm_slave_int_status
         uint32_t undecoded_wr_addr     : 1;  /**< [ 22: 22](R/W1C/H) Undecoded address - write request. */
         uint32_t slave_timeout         : 1;  /**< [ 21: 21](R/W1C/H) Slave timeout. */
         uint32_t slave_address_err     : 1;  /**< [ 20: 20](R/W1C/H) Slave address error. */
-        uint32_t master_timeout_0      : 1;  /**< [ 19: 19](R/W1C/H) Master timeout, rd request tag 0. */
-        uint32_t master_timeout_1      : 1;  /**< [ 18: 18](R/W1C/H) Master timeout, rd request tag 1. */
-        uint32_t master_timeout_2      : 1;  /**< [ 17: 17](R/W1C/H) Master timeout, rd request tag 2. */
-        uint32_t master_timeout_3      : 1;  /**< [ 16: 16](R/W1C/H) Master timeout, rd request tag 3. */
-        uint32_t master_timeout_4      : 1;  /**< [ 15: 15](R/W1C/H) Master timeout, rd request tag 4. */
-        uint32_t master_timeout_5      : 1;  /**< [ 14: 14](R/W1C/H) Master timeout, rd request tag 5. */
-        uint32_t master_timeout_6      : 1;  /**< [ 13: 13](R/W1C/H) Master timeout, rd request tag 6. */
-        uint32_t master_timeout_7      : 1;  /**< [ 12: 12](R/W1C/H) Master timeout, rd request tag 7. */
-        uint32_t master_timeout_8      : 1;  /**< [ 11: 11](R/W1C/H) Master timeout, rd request tag 8. */
-        uint32_t master_timeout_9      : 1;  /**< [ 10: 10](R/W1C/H) Master timeout, rd request tag 9. */
-        uint32_t master_timeout_10     : 1;  /**< [  9:  9](R/W1C/H) Master timeout, rd request tag A. */
-        uint32_t master_timeout_11     : 1;  /**< [  8:  8](R/W1C/H) Master timeout, rd request tag B. */
-        uint32_t master_timeout_12     : 1;  /**< [  7:  7](R/W1C/H) Master timeout, rd request tag C. */
-        uint32_t master_timeout_13     : 1;  /**< [  6:  6](R/W1C/H) Master timeout, rd request tag D. */
-        uint32_t master_timeout_14     : 1;  /**< [  5:  5](R/W1C/H) Master timeout, rd request tag E. */
-        uint32_t master_timeout_15     : 1;  /**< [  4:  4](R/W1C/H) Master timeout, rd request tag F. */
-        uint32_t master_timeout_16     : 1;  /**< [  3:  3](R/W1C/H) Master timeout, rd request tag 10 - SMB. */
-        uint32_t master_timeout_17     : 1;  /**< [  2:  2](R/W1C/H) Master timeout, rd request tag 11 - JTAG. */
+        uint32_t master_timeout_0      : 1;  /**< [ 19: 19](R/W1C/H) Master timeout, rd reqest tag 0. */
+        uint32_t master_timeout_1      : 1;  /**< [ 18: 18](R/W1C/H) Master timeout, rd reqest tag 1. */
+        uint32_t master_timeout_2      : 1;  /**< [ 17: 17](R/W1C/H) Master timeout, rd reqest tag 2. */
+        uint32_t master_timeout_3      : 1;  /**< [ 16: 16](R/W1C/H) Master timeout, rd reqest tag 3. */
+        uint32_t master_timeout_4      : 1;  /**< [ 15: 15](R/W1C/H) Master timeout, rd reqest tag 4. */
+        uint32_t master_timeout_5      : 1;  /**< [ 14: 14](R/W1C/H) Master timeout, rd reqest tag 5. */
+        uint32_t master_timeout_6      : 1;  /**< [ 13: 13](R/W1C/H) Master timeout, rd reqest tag 6. */
+        uint32_t master_timeout_7      : 1;  /**< [ 12: 12](R/W1C/H) Master timeout, rd reqest tag 7. */
+        uint32_t master_timeout_8      : 1;  /**< [ 11: 11](R/W1C/H) Master timeout, rd reqest tag 8. */
+        uint32_t master_timeout_9      : 1;  /**< [ 10: 10](R/W1C/H) Master timeout, rd reqest tag 9. */
+        uint32_t master_timeout_10     : 1;  /**< [  9:  9](R/W1C/H) Master timeout, rd reqest tag A. */
+        uint32_t master_timeout_11     : 1;  /**< [  8:  8](R/W1C/H) Master timeout, rd reqest tag B. */
+        uint32_t master_timeout_12     : 1;  /**< [  7:  7](R/W1C/H) Master timeout, rd reqest tag C. */
+        uint32_t master_timeout_13     : 1;  /**< [  6:  6](R/W1C/H) Master timeout, rd reqest tag D. */
+        uint32_t master_timeout_14     : 1;  /**< [  5:  5](R/W1C/H) Master timeout, rd reqest tag E. */
+        uint32_t master_timeout_15     : 1;  /**< [  4:  4](R/W1C/H) Master timeout, rd reqest tag F. */
+        uint32_t master_timeout_16     : 1;  /**< [  3:  3](R/W1C/H) Master timeout, rd reqest tag 10 - SMB. */
+        uint32_t master_timeout_17     : 1;  /**< [  2:  2](R/W1C/H) Master timeout, rd reqest tag 11 - JTAG. */
         uint32_t master_to_req         : 1;  /**< [  1:  1](R/W1C/H) Master timeout, request back pressure. */
         uint32_t master_to_rsp         : 1;  /**< [  0:  0](R/W1C/H) Master timeout, response back pressure. */
 #else /* Word 0 - Little Endian */
         uint32_t master_to_rsp         : 1;  /**< [  0:  0](R/W1C/H) Master timeout, response back pressure. */
         uint32_t master_to_req         : 1;  /**< [  1:  1](R/W1C/H) Master timeout, request back pressure. */
-        uint32_t master_timeout_17     : 1;  /**< [  2:  2](R/W1C/H) Master timeout, rd request tag 11 - JTAG. */
-        uint32_t master_timeout_16     : 1;  /**< [  3:  3](R/W1C/H) Master timeout, rd request tag 10 - SMB. */
-        uint32_t master_timeout_15     : 1;  /**< [  4:  4](R/W1C/H) Master timeout, rd request tag F. */
-        uint32_t master_timeout_14     : 1;  /**< [  5:  5](R/W1C/H) Master timeout, rd request tag E. */
-        uint32_t master_timeout_13     : 1;  /**< [  6:  6](R/W1C/H) Master timeout, rd request tag D. */
-        uint32_t master_timeout_12     : 1;  /**< [  7:  7](R/W1C/H) Master timeout, rd request tag C. */
-        uint32_t master_timeout_11     : 1;  /**< [  8:  8](R/W1C/H) Master timeout, rd request tag B. */
-        uint32_t master_timeout_10     : 1;  /**< [  9:  9](R/W1C/H) Master timeout, rd request tag A. */
-        uint32_t master_timeout_9      : 1;  /**< [ 10: 10](R/W1C/H) Master timeout, rd request tag 9. */
-        uint32_t master_timeout_8      : 1;  /**< [ 11: 11](R/W1C/H) Master timeout, rd request tag 8. */
-        uint32_t master_timeout_7      : 1;  /**< [ 12: 12](R/W1C/H) Master timeout, rd request tag 7. */
-        uint32_t master_timeout_6      : 1;  /**< [ 13: 13](R/W1C/H) Master timeout, rd request tag 6. */
-        uint32_t master_timeout_5      : 1;  /**< [ 14: 14](R/W1C/H) Master timeout, rd request tag 5. */
-        uint32_t master_timeout_4      : 1;  /**< [ 15: 15](R/W1C/H) Master timeout, rd request tag 4. */
-        uint32_t master_timeout_3      : 1;  /**< [ 16: 16](R/W1C/H) Master timeout, rd request tag 3. */
-        uint32_t master_timeout_2      : 1;  /**< [ 17: 17](R/W1C/H) Master timeout, rd request tag 2. */
-        uint32_t master_timeout_1      : 1;  /**< [ 18: 18](R/W1C/H) Master timeout, rd request tag 1. */
-        uint32_t master_timeout_0      : 1;  /**< [ 19: 19](R/W1C/H) Master timeout, rd request tag 0. */
+        uint32_t master_timeout_17     : 1;  /**< [  2:  2](R/W1C/H) Master timeout, rd reqest tag 11 - JTAG. */
+        uint32_t master_timeout_16     : 1;  /**< [  3:  3](R/W1C/H) Master timeout, rd reqest tag 10 - SMB. */
+        uint32_t master_timeout_15     : 1;  /**< [  4:  4](R/W1C/H) Master timeout, rd reqest tag F. */
+        uint32_t master_timeout_14     : 1;  /**< [  5:  5](R/W1C/H) Master timeout, rd reqest tag E. */
+        uint32_t master_timeout_13     : 1;  /**< [  6:  6](R/W1C/H) Master timeout, rd reqest tag D. */
+        uint32_t master_timeout_12     : 1;  /**< [  7:  7](R/W1C/H) Master timeout, rd reqest tag C. */
+        uint32_t master_timeout_11     : 1;  /**< [  8:  8](R/W1C/H) Master timeout, rd reqest tag B. */
+        uint32_t master_timeout_10     : 1;  /**< [  9:  9](R/W1C/H) Master timeout, rd reqest tag A. */
+        uint32_t master_timeout_9      : 1;  /**< [ 10: 10](R/W1C/H) Master timeout, rd reqest tag 9. */
+        uint32_t master_timeout_8      : 1;  /**< [ 11: 11](R/W1C/H) Master timeout, rd reqest tag 8. */
+        uint32_t master_timeout_7      : 1;  /**< [ 12: 12](R/W1C/H) Master timeout, rd reqest tag 7. */
+        uint32_t master_timeout_6      : 1;  /**< [ 13: 13](R/W1C/H) Master timeout, rd reqest tag 6. */
+        uint32_t master_timeout_5      : 1;  /**< [ 14: 14](R/W1C/H) Master timeout, rd reqest tag 5. */
+        uint32_t master_timeout_4      : 1;  /**< [ 15: 15](R/W1C/H) Master timeout, rd reqest tag 4. */
+        uint32_t master_timeout_3      : 1;  /**< [ 16: 16](R/W1C/H) Master timeout, rd reqest tag 3. */
+        uint32_t master_timeout_2      : 1;  /**< [ 17: 17](R/W1C/H) Master timeout, rd reqest tag 2. */
+        uint32_t master_timeout_1      : 1;  /**< [ 18: 18](R/W1C/H) Master timeout, rd reqest tag 1. */
+        uint32_t master_timeout_0      : 1;  /**< [ 19: 19](R/W1C/H) Master timeout, rd reqest tag 0. */
         uint32_t slave_address_err     : 1;  /**< [ 20: 20](R/W1C/H) Slave address error. */
         uint32_t slave_timeout         : 1;  /**< [ 21: 21](R/W1C/H) Slave timeout. */
         uint32_t undecoded_wr_addr     : 1;  /**< [ 22: 22](R/W1C/H) Undecoded address - write request. */
@@ -13201,7 +12417,14 @@ static inline uint64_t CAVM_MLX_DOD_BYTE_PERF_CNT_WX(uint64_t a, uint64_t b)
  * Register (NCB32b) ml#_dod_cfg_int_enable_hi_w#
  *
  * ML DOD CFG INT ENABLE HI Word  Register
- * DoD interrupt register.
+ * DoD interrupt register. Refer to this link for Fatal error (FT) and Non fatal error
+ * (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 all the interrupts in DOD cause DOD to freeze if int_enable_hi = 1.
+ * if in_enable_hi =0 DOD will only report the error but will not freeze. disp_freeze
+ * and loop_arg_err are the only exceptions because they cause the dispatcher( module
+ * borrowed from tmr) to freeze irrespective of int_enable_hi.
  */
 union cavm_mlx_dod_cfg_int_enable_hi_wx
 {
@@ -13237,7 +12460,14 @@ static inline uint64_t CAVM_MLX_DOD_CFG_INT_ENABLE_HI_WX(uint64_t a, uint64_t b)
  * Register (NCB32b) ml#_dod_cfg_int_enable_lo_w#
  *
  * ML DOD CFG INT ENABLE LO Word  Register
- * DoD interrupt register.
+ * DoD interrupt register. Refer to this link for Fatal error (FT) and Non fatal error
+ * (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 all the interrupts in DOD cause DOD to freeze if int_enable_hi = 1.
+ * if in_enable_hi =0 DOD will only report the error but will not freeze. disp_freeze
+ * and loop_arg_err are the only exceptions because they cause the dispatcher( module
+ * borrowed from tmr) to freeze irrespective of int_enable_hi.
  */
 union cavm_mlx_dod_cfg_int_enable_lo_wx
 {
@@ -13273,7 +12503,14 @@ static inline uint64_t CAVM_MLX_DOD_CFG_INT_ENABLE_LO_WX(uint64_t a, uint64_t b)
  * Register (NCB32b) ml#_dod_cfg_int_force_w#
  *
  * ML DOD CFG INT FORCE Word  Register
- * DoD interrupt register.
+ * DoD interrupt register. Refer to this link for Fatal error (FT) and Non fatal error
+ * (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 all the interrupts in DOD cause DOD to freeze if int_enable_hi = 1.
+ * if in_enable_hi =0 DOD will only report the error but will not freeze. disp_freeze
+ * and loop_arg_err are the only exceptions because they cause the dispatcher( module
+ * borrowed from tmr) to freeze irrespective of int_enable_hi.
  */
 union cavm_mlx_dod_cfg_int_force_wx
 {
@@ -13309,7 +12546,14 @@ static inline uint64_t CAVM_MLX_DOD_CFG_INT_FORCE_WX(uint64_t a, uint64_t b)
  * Register (NCB32b) ml#_dod_cfg_int_status_w#
  *
  * ML DOD CFG INT STATUS Word  Register
- * DoD interrupt register.
+ * DoD interrupt register. Refer to this link for Fatal error (FT) and Non fatal error
+ * (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 all the interrupts in DOD cause DOD to freeze if int_enable_hi = 1.
+ * if in_enable_hi =0 DOD will only report the error but will not freeze. disp_freeze
+ * and loop_arg_err are the only exceptions because they cause the dispatcher( module
+ * borrowed from tmr) to freeze irrespective of int_enable_hi.
  */
 union cavm_mlx_dod_cfg_int_status_wx
 {
@@ -22006,7 +21250,11 @@ static inline uint64_t CAVM_MLX_DPE_ALU_TRACE_CFG_STOP_COMP_WX(uint64_t a, uint6
  * Ml_dpe_cfg_int_enable_hi is used for masking system high_priority interrupt. FT
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
- * threshold, interrupt will happen. default freeze enable is off.
+ * threshold, interupt will happen. default freeze enable is off Refer to this link for
+ * Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_enable_hi_0
 {
@@ -22087,7 +21335,11 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_ENABLE_HI_0(uint64_t a)
  * Ml_dpe_cfg_int_enable_hi is used for masking system high_priority interrupt. FT
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
- * threshold, interrupt will happen. default freeze enable is off.
+ * threshold, interupt will happen. default freeze enable is off Refer to this link for
+ * Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_enable_hi_1
 {
@@ -22168,7 +21420,11 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_ENABLE_HI_1(uint64_t a)
  * Ml_dpe_cfg_int_enable_hi is used for masking system high_priority interrupt. FT
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
- * threshold, interrupt will happen. default freeze enable is off.
+ * threshold, interupt will happen. default freeze enable is off Refer to this link for
+ * Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_enable_hi_2
 {
@@ -22249,7 +21505,11 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_ENABLE_HI_2(uint64_t a)
  * Ml_dpe_cfg_int_enable_hi is used for masking system high_priority interrupt. FT
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
- * threshold, interrupt will happen. default freeze enable is off.
+ * threshold, interupt will happen. default freeze enable is off Refer to this link for
+ * Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_enable_hi_3
 {
@@ -22330,7 +21590,11 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_ENABLE_HI_3(uint64_t a)
  * Ml_dpe_cfg_int_enable_hi is used for masking system high_priority interrupt. FT
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
- * threshold, interrupt will happen. default freeze enable is off.
+ * threshold, interupt will happen. default freeze enable is off Refer to this link for
+ * Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_enable_hi_4
 {
@@ -22411,7 +21675,11 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_ENABLE_HI_4(uint64_t a)
  * Ml_dpe_cfg_int_enable_hi is used for masking system high_priority interrupt. FT
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
- * threshold, interrupt will happen. default freeze enable is off.
+ * threshold, interupt will happen. default freeze enable is off Refer to this link for
+ * Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_enable_hi_5
 {
@@ -22492,7 +21760,11 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_ENABLE_HI_5(uint64_t a)
  * Ml_dpe_cfg_int_enable_hi is used for masking system high_priority interrupt. FT
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
- * threshold, interrupt will happen. default freeze enable is off.
+ * threshold, interupt will happen. default freeze enable is off Refer to this link for
+ * Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_enable_hi_6
 {
@@ -22573,7 +21845,11 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_ENABLE_HI_6(uint64_t a)
  * Ml_dpe_cfg_int_enable_hi is used for masking system high_priority interrupt. FT
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
- * threshold, interrupt will happen. default freeze enable is off.
+ * threshold, interupt will happen. default freeze enable is off Refer to this link for
+ * Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_enable_hi_7
 {
@@ -22654,7 +21930,11 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_ENABLE_HI_7(uint64_t a)
  * Ml_dpe_cfg_int_enable_hi is used for masking system high_priority interrupt. FT
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
- * threshold, interrupt will happen. default freeze enable is off.
+ * threshold, interupt will happen. default freeze enable is off Refer to this link for
+ * Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_enable_lo_0
 {
@@ -22735,7 +22015,11 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_ENABLE_LO_0(uint64_t a)
  * Ml_dpe_cfg_int_enable_hi is used for masking system high_priority interrupt. FT
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
- * threshold, interrupt will happen. default freeze enable is off.
+ * threshold, interupt will happen. default freeze enable is off Refer to this link for
+ * Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_enable_lo_1
 {
@@ -22816,7 +22100,11 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_ENABLE_LO_1(uint64_t a)
  * Ml_dpe_cfg_int_enable_hi is used for masking system high_priority interrupt. FT
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
- * threshold, interrupt will happen. default freeze enable is off.
+ * threshold, interupt will happen. default freeze enable is off Refer to this link for
+ * Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_enable_lo_2
 {
@@ -22897,7 +22185,11 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_ENABLE_LO_2(uint64_t a)
  * Ml_dpe_cfg_int_enable_hi is used for masking system high_priority interrupt. FT
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
- * threshold, interrupt will happen. default freeze enable is off.
+ * threshold, interupt will happen. default freeze enable is off Refer to this link for
+ * Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_enable_lo_3
 {
@@ -22978,7 +22270,11 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_ENABLE_LO_3(uint64_t a)
  * Ml_dpe_cfg_int_enable_hi is used for masking system high_priority interrupt. FT
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
- * threshold, interrupt will happen. default freeze enable is off.
+ * threshold, interupt will happen. default freeze enable is off Refer to this link for
+ * Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_enable_lo_4
 {
@@ -23059,7 +22355,11 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_ENABLE_LO_4(uint64_t a)
  * Ml_dpe_cfg_int_enable_hi is used for masking system high_priority interrupt. FT
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
- * threshold, interrupt will happen. default freeze enable is off.
+ * threshold, interupt will happen. default freeze enable is off Refer to this link for
+ * Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_enable_lo_5
 {
@@ -23140,7 +22440,11 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_ENABLE_LO_5(uint64_t a)
  * Ml_dpe_cfg_int_enable_hi is used for masking system high_priority interrupt. FT
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
- * threshold, interrupt will happen. default freeze enable is off.
+ * threshold, interupt will happen. default freeze enable is off Refer to this link for
+ * Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_enable_lo_6
 {
@@ -23221,7 +22525,11 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_ENABLE_LO_6(uint64_t a)
  * Ml_dpe_cfg_int_enable_hi is used for masking system high_priority interrupt. FT
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
- * threshold, interrupt will happen. default freeze enable is off.
+ * threshold, interupt will happen. default freeze enable is off Refer to this link for
+ * Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_enable_lo_7
 {
@@ -23302,7 +22610,11 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_ENABLE_LO_7(uint64_t a)
  * Ml_dpe_cfg_int_enable_hi is used for masking system high_priority interrupt. FT
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
- * threshold, interrupt will happen. default freeze enable is off.
+ * threshold, interupt will happen. default freeze enable is off Refer to this link for
+ * Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_force_0
 {
@@ -23383,7 +22695,11 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_FORCE_0(uint64_t a)
  * Ml_dpe_cfg_int_enable_hi is used for masking system high_priority interrupt. FT
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
- * threshold, interrupt will happen. default freeze enable is off.
+ * threshold, interupt will happen. default freeze enable is off Refer to this link for
+ * Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_force_1
 {
@@ -23464,7 +22780,11 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_FORCE_1(uint64_t a)
  * Ml_dpe_cfg_int_enable_hi is used for masking system high_priority interrupt. FT
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
- * threshold, interrupt will happen. default freeze enable is off.
+ * threshold, interupt will happen. default freeze enable is off Refer to this link for
+ * Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_force_2
 {
@@ -23545,7 +22865,11 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_FORCE_2(uint64_t a)
  * Ml_dpe_cfg_int_enable_hi is used for masking system high_priority interrupt. FT
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
- * threshold, interrupt will happen. default freeze enable is off.
+ * threshold, interupt will happen. default freeze enable is off Refer to this link for
+ * Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_force_3
 {
@@ -23626,7 +22950,11 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_FORCE_3(uint64_t a)
  * Ml_dpe_cfg_int_enable_hi is used for masking system high_priority interrupt. FT
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
- * threshold, interrupt will happen. default freeze enable is off.
+ * threshold, interupt will happen. default freeze enable is off Refer to this link for
+ * Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_force_4
 {
@@ -23707,7 +23035,11 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_FORCE_4(uint64_t a)
  * Ml_dpe_cfg_int_enable_hi is used for masking system high_priority interrupt. FT
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
- * threshold, interrupt will happen. default freeze enable is off.
+ * threshold, interupt will happen. default freeze enable is off Refer to this link for
+ * Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_force_5
 {
@@ -23788,7 +23120,11 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_FORCE_5(uint64_t a)
  * Ml_dpe_cfg_int_enable_hi is used for masking system high_priority interrupt. FT
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
- * threshold, interrupt will happen. default freeze enable is off.
+ * threshold, interupt will happen. default freeze enable is off Refer to this link for
+ * Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_force_6
 {
@@ -23869,7 +23205,11 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_FORCE_6(uint64_t a)
  * Ml_dpe_cfg_int_enable_hi is used for masking system high_priority interrupt. FT
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
- * threshold, interrupt will happen. default freeze enable is off.
+ * threshold, interupt will happen. default freeze enable is off Refer to this link for
+ * Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_force_7
 {
@@ -23950,7 +23290,11 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_FORCE_7(uint64_t a)
  * Ml_dpe_cfg_int_enable_hi is used for masking system high_priority interrupt. FT
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
- * threshold, interrupt will happen. default freeze enable is off.
+ * threshold, interupt will happen. default freeze enable is off Refer to this link for
+ * Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_status_0
 {
@@ -24041,7 +23385,11 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_STATUS_0(uint64_t a)
  * Ml_dpe_cfg_int_enable_hi is used for masking system high_priority interrupt. FT
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
- * threshold, interrupt will happen. default freeze enable is off.
+ * threshold, interupt will happen. default freeze enable is off Refer to this link for
+ * Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_status_1
 {
@@ -24132,7 +23480,11 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_STATUS_1(uint64_t a)
  * Ml_dpe_cfg_int_enable_hi is used for masking system high_priority interrupt. FT
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
- * threshold, interrupt will happen. default freeze enable is off.
+ * threshold, interupt will happen. default freeze enable is off Refer to this link for
+ * Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_status_2
 {
@@ -24223,7 +23575,11 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_STATUS_2(uint64_t a)
  * Ml_dpe_cfg_int_enable_hi is used for masking system high_priority interrupt. FT
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
- * threshold, interrupt will happen. default freeze enable is off.
+ * threshold, interupt will happen. default freeze enable is off Refer to this link for
+ * Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_status_3
 {
@@ -24314,7 +23670,11 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_STATUS_3(uint64_t a)
  * Ml_dpe_cfg_int_enable_hi is used for masking system high_priority interrupt. FT
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
- * threshold, interrupt will happen. default freeze enable is off.
+ * threshold, interupt will happen. default freeze enable is off Refer to this link for
+ * Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_status_4
 {
@@ -24405,7 +23765,11 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_STATUS_4(uint64_t a)
  * Ml_dpe_cfg_int_enable_hi is used for masking system high_priority interrupt. FT
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
- * threshold, interrupt will happen. default freeze enable is off.
+ * threshold, interupt will happen. default freeze enable is off Refer to this link for
+ * Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_status_5
 {
@@ -24496,7 +23860,11 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_STATUS_5(uint64_t a)
  * Ml_dpe_cfg_int_enable_hi is used for masking system high_priority interrupt. FT
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
- * threshold, interrupt will happen. default freeze enable is off.
+ * threshold, interupt will happen. default freeze enable is off Refer to this link for
+ * Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_status_6
 {
@@ -24587,7 +23955,11 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_STATUS_6(uint64_t a)
  * Ml_dpe_cfg_int_enable_hi is used for masking system high_priority interrupt. FT
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
- * threshold, interrupt will happen. default freeze enable is off.
+ * threshold, interupt will happen. default freeze enable is off Refer to this link for
+ * Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_status_7
 {
@@ -29488,150 +28860,6 @@ static inline uint64_t CAVM_MLX_GLBL_SLVLOCKREG(uint64_t a)
 #define arguments_CAVM_MLX_GLBL_SLVLOCKREG(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) ml#_high_pri_core0_mask_w#
- *
- * ML HIGH PRI CORE0 MASK Word  Register
- * Mask high_pri int reporting from a slave to core0.
- */
-union cavm_mlx_high_pri_core0_mask_wx
-{
-    uint32_t u;
-    struct cavm_mlx_high_pri_core0_mask_wx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_HIGH_PRI_CORE0_MASK_S */
-#else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_HIGH_PRI_CORE0_MASK_S */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlx_high_pri_core0_mask_wx_s cn; */
-};
-typedef union cavm_mlx_high_pri_core0_mask_wx cavm_mlx_high_pri_core0_mask_wx_t;
-
-static inline uint64_t CAVM_MLX_HIGH_PRI_CORE0_MASK_WX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLX_HIGH_PRI_CORE0_MASK_WX(uint64_t a, uint64_t b)
-{
-    if ((a==0) && (b<=1))
-        return 0x828012088028ll + 0x1000000000ll * ((a) & 0x0) + 4ll * ((b) & 0x1);
-    __cavm_csr_fatal("MLX_HIGH_PRI_CORE0_MASK_WX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLX_HIGH_PRI_CORE0_MASK_WX(a,b) cavm_mlx_high_pri_core0_mask_wx_t
-#define bustype_CAVM_MLX_HIGH_PRI_CORE0_MASK_WX(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_MLX_HIGH_PRI_CORE0_MASK_WX(a,b) "MLX_HIGH_PRI_CORE0_MASK_WX"
-#define device_bar_CAVM_MLX_HIGH_PRI_CORE0_MASK_WX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLX_HIGH_PRI_CORE0_MASK_WX(a,b) (a)
-#define arguments_CAVM_MLX_HIGH_PRI_CORE0_MASK_WX(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) ml#_high_pri_core1_mask_w#
- *
- * ML HIGH PRI CORE1 MASK Word  Register
- * Mask high_pri int reporting from a slave to core1.
- */
-union cavm_mlx_high_pri_core1_mask_wx
-{
-    uint32_t u;
-    struct cavm_mlx_high_pri_core1_mask_wx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_HIGH_PRI_CORE1_MASK_S */
-#else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_HIGH_PRI_CORE1_MASK_S */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlx_high_pri_core1_mask_wx_s cn; */
-};
-typedef union cavm_mlx_high_pri_core1_mask_wx cavm_mlx_high_pri_core1_mask_wx_t;
-
-static inline uint64_t CAVM_MLX_HIGH_PRI_CORE1_MASK_WX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLX_HIGH_PRI_CORE1_MASK_WX(uint64_t a, uint64_t b)
-{
-    if ((a==0) && (b<=1))
-        return 0x828012088030ll + 0x1000000000ll * ((a) & 0x0) + 4ll * ((b) & 0x1);
-    __cavm_csr_fatal("MLX_HIGH_PRI_CORE1_MASK_WX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLX_HIGH_PRI_CORE1_MASK_WX(a,b) cavm_mlx_high_pri_core1_mask_wx_t
-#define bustype_CAVM_MLX_HIGH_PRI_CORE1_MASK_WX(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_MLX_HIGH_PRI_CORE1_MASK_WX(a,b) "MLX_HIGH_PRI_CORE1_MASK_WX"
-#define device_bar_CAVM_MLX_HIGH_PRI_CORE1_MASK_WX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLX_HIGH_PRI_CORE1_MASK_WX(a,b) (a)
-#define arguments_CAVM_MLX_HIGH_PRI_CORE1_MASK_WX(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) ml#_high_pri_host_mask_w#
- *
- * ML HIGH PRI HOST MASK Word  Register
- * Mask high_pri int reporting from a slave to host.
- */
-union cavm_mlx_high_pri_host_mask_wx
-{
-    uint32_t u;
-    struct cavm_mlx_high_pri_host_mask_wx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_HIGH_PRI_HOST_MASK_S */
-#else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_HIGH_PRI_HOST_MASK_S */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlx_high_pri_host_mask_wx_s cn; */
-};
-typedef union cavm_mlx_high_pri_host_mask_wx cavm_mlx_high_pri_host_mask_wx_t;
-
-static inline uint64_t CAVM_MLX_HIGH_PRI_HOST_MASK_WX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLX_HIGH_PRI_HOST_MASK_WX(uint64_t a, uint64_t b)
-{
-    if ((a==0) && (b<=1))
-        return 0x828012088020ll + 0x1000000000ll * ((a) & 0x0) + 4ll * ((b) & 0x1);
-    __cavm_csr_fatal("MLX_HIGH_PRI_HOST_MASK_WX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLX_HIGH_PRI_HOST_MASK_WX(a,b) cavm_mlx_high_pri_host_mask_wx_t
-#define bustype_CAVM_MLX_HIGH_PRI_HOST_MASK_WX(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_MLX_HIGH_PRI_HOST_MASK_WX(a,b) "MLX_HIGH_PRI_HOST_MASK_WX"
-#define device_bar_CAVM_MLX_HIGH_PRI_HOST_MASK_WX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLX_HIGH_PRI_HOST_MASK_WX(a,b) (a)
-#define arguments_CAVM_MLX_HIGH_PRI_HOST_MASK_WX(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) ml#_high_pri_int_status_w#
- *
- * ML HIGH PRI INT STATUS Word  Register
- * Per-slave high_pri interrupt status register.
- */
-union cavm_mlx_high_pri_int_status_wx
-{
-    uint32_t u;
-    struct cavm_mlx_high_pri_int_status_wx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_HIGH_PRI_INT_STATUS_S */
-#else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_HIGH_PRI_INT_STATUS_S */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlx_high_pri_int_status_wx_s cn; */
-};
-typedef union cavm_mlx_high_pri_int_status_wx cavm_mlx_high_pri_int_status_wx_t;
-
-static inline uint64_t CAVM_MLX_HIGH_PRI_INT_STATUS_WX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLX_HIGH_PRI_INT_STATUS_WX(uint64_t a, uint64_t b)
-{
-    if ((a==0) && (b<=1))
-        return 0x828012088018ll + 0x1000000000ll * ((a) & 0x0) + 4ll * ((b) & 0x1);
-    __cavm_csr_fatal("MLX_HIGH_PRI_INT_STATUS_WX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLX_HIGH_PRI_INT_STATUS_WX(a,b) cavm_mlx_high_pri_int_status_wx_t
-#define bustype_CAVM_MLX_HIGH_PRI_INT_STATUS_WX(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_MLX_HIGH_PRI_INT_STATUS_WX(a,b) "MLX_HIGH_PRI_INT_STATUS_WX"
-#define device_bar_CAVM_MLX_HIGH_PRI_INT_STATUS_WX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLX_HIGH_PRI_INT_STATUS_WX(a,b) (a)
-#define arguments_CAVM_MLX_HIGH_PRI_INT_STATUS_WX(a,b) (a),(b),-1,-1
-
-/**
  * Register (NCB32b) ml#_ibuf_cport
  *
  * ML IBUF CPORT Register
@@ -30757,7 +29985,11 @@ static inline uint64_t CAVM_MLX_INS_SCHEDULER_STATUS_WX(uint64_t a, uint64_t b)
  * ML INS SLV INT ENABLE HI Word  Register
  * Instruction streamer interrupt register. INS has no Non Fatal (NF) interrupts. Here
  * is Non Error (NE) behavior NE Non Error. This is not an error and is just an
- * indication event. interrupt is set if enabled. Block does not freeze.
+ * indication event. interrupt is set if enabled. Block does not freeze Refer to this
+ * link for Fatal error (FT) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ins_slv_int_enable_hi_wx
 {
@@ -30795,7 +30027,11 @@ static inline uint64_t CAVM_MLX_INS_SLV_INT_ENABLE_HI_WX(uint64_t a, uint64_t b)
  * ML INS SLV INT ENABLE LO Word  Register
  * Instruction streamer interrupt register. INS has no Non Fatal (NF) interrupts. Here
  * is Non Error (NE) behavior NE Non Error. This is not an error and is just an
- * indication event. interrupt is set if enabled. Block does not freeze.
+ * indication event. interrupt is set if enabled. Block does not freeze Refer to this
+ * link for Fatal error (FT) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ins_slv_int_enable_lo_wx
 {
@@ -30833,7 +30069,11 @@ static inline uint64_t CAVM_MLX_INS_SLV_INT_ENABLE_LO_WX(uint64_t a, uint64_t b)
  * ML INS SLV INT FORCE Word  Register
  * Instruction streamer interrupt register. INS has no Non Fatal (NF) interrupts. Here
  * is Non Error (NE) behavior NE Non Error. This is not an error and is just an
- * indication event. interrupt is set if enabled. Block does not freeze.
+ * indication event. interrupt is set if enabled. Block does not freeze Refer to this
+ * link for Fatal error (FT) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ins_slv_int_force_wx
 {
@@ -30871,7 +30111,11 @@ static inline uint64_t CAVM_MLX_INS_SLV_INT_FORCE_WX(uint64_t a, uint64_t b)
  * ML INS SLV INT STATUS Word  Register
  * Instruction streamer interrupt register. INS has no Non Fatal (NF) interrupts. Here
  * is Non Error (NE) behavior NE Non Error. This is not an error and is just an
- * indication of the event. interrupt is set if enabled. Block does not freeze.
+ * indication event. interrupt is set if enabled. Block does not freeze Refer to this
+ * link for Fatal error (FT) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ins_slv_int_status_wx
 {
@@ -30879,9 +30123,9 @@ union cavm_mlx_ins_slv_int_status_wx
     struct cavm_mlx_ins_slv_int_status_wx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W1C/H) See structure ML_INS_SLV_INT_STATUS_S */
+        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_INS_SLV_INT_STATUS_S */
 #else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W1C/H) See structure ML_INS_SLV_INT_STATUS_S */
+        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_INS_SLV_INT_STATUS_S */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mlx_ins_slv_int_status_wx_s cn; */
@@ -31474,7 +30718,12 @@ static inline uint64_t CAVM_MLX_INSTR_TX_CRD_4_1(uint64_t a)
  * Register (NCB32b) ml#_irtr_cfg_int_enable_hi
  *
  * ML IRTR CFG INT ENABLE HI Register
- * IRTR interrupt register. All errors are Fatal (FT). Block does not freeze.
+ * IRTR interrupt register. All errors are Fatal (FT). Here is FT behavior FT interrupt
+ * is set if enabled. Block does not freeze Refer to this link for detailed Fatal error
+ * (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_irtr_cfg_int_enable_hi
 {
@@ -31522,7 +30771,12 @@ static inline uint64_t CAVM_MLX_IRTR_CFG_INT_ENABLE_HI(uint64_t a)
  * Register (NCB32b) ml#_irtr_cfg_int_enable_lo
  *
  * ML IRTR CFG INT ENABLE LO Register
- * IRTR interrupt register. All errors are Fatal (FT). Block does not freeze.
+ * IRTR interrupt register. All errors are Fatal (FT). Here is FT behavior FT interrupt
+ * is set if enabled. Block does not freeze Refer to this link for detailed Fatal error
+ * (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_irtr_cfg_int_enable_lo
 {
@@ -31570,7 +30824,12 @@ static inline uint64_t CAVM_MLX_IRTR_CFG_INT_ENABLE_LO(uint64_t a)
  * Register (NCB32b) ml#_irtr_cfg_int_force
  *
  * ML IRTR CFG INT FORCE Register
- * IRTR interrupt register. All errors are Fatal (FT). Block does not freeze.
+ * IRTR interrupt register. All errors are Fatal (FT). Here is FT behavior FT interrupt
+ * is set if enabled. Block does not freeze Refer to this link for detailed Fatal error
+ * (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_irtr_cfg_int_force
 {
@@ -31618,7 +30877,12 @@ static inline uint64_t CAVM_MLX_IRTR_CFG_INT_FORCE(uint64_t a)
  * Register (NCB32b) ml#_irtr_cfg_int_status
  *
  * ML IRTR CFG INT STATUS Register
- * IRTR interrupt register. All errors are Fatal (FT). Block does not freeze.
+ * IRTR interrupt register. All errors are Fatal (FT). Here is FT behavior FT interrupt
+ * is set if enabled. Block does not freeze Refer to this link for detailed Fatal error
+ * (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_irtr_cfg_int_status
 {
@@ -31917,150 +31181,6 @@ static inline uint64_t CAVM_MLX_LAST_RST_SOURCE(uint64_t a)
 #define device_bar_CAVM_MLX_LAST_RST_SOURCE(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MLX_LAST_RST_SOURCE(a) (a)
 #define arguments_CAVM_MLX_LAST_RST_SOURCE(a) (a),-1,-1,-1
-
-/**
- * Register (NCB32b) ml#_low_pri_core0_mask_w#
- *
- * ML LOW PRI CORE0 MASK Word  Register
- * Mask low_pri int reporting from a slave to core0.
- */
-union cavm_mlx_low_pri_core0_mask_wx
-{
-    uint32_t u;
-    struct cavm_mlx_low_pri_core0_mask_wx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_LOW_PRI_CORE0_MASK_S */
-#else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_LOW_PRI_CORE0_MASK_S */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlx_low_pri_core0_mask_wx_s cn; */
-};
-typedef union cavm_mlx_low_pri_core0_mask_wx cavm_mlx_low_pri_core0_mask_wx_t;
-
-static inline uint64_t CAVM_MLX_LOW_PRI_CORE0_MASK_WX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLX_LOW_PRI_CORE0_MASK_WX(uint64_t a, uint64_t b)
-{
-    if ((a==0) && (b<=1))
-        return 0x828012088048ll + 0x1000000000ll * ((a) & 0x0) + 4ll * ((b) & 0x1);
-    __cavm_csr_fatal("MLX_LOW_PRI_CORE0_MASK_WX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLX_LOW_PRI_CORE0_MASK_WX(a,b) cavm_mlx_low_pri_core0_mask_wx_t
-#define bustype_CAVM_MLX_LOW_PRI_CORE0_MASK_WX(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_MLX_LOW_PRI_CORE0_MASK_WX(a,b) "MLX_LOW_PRI_CORE0_MASK_WX"
-#define device_bar_CAVM_MLX_LOW_PRI_CORE0_MASK_WX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLX_LOW_PRI_CORE0_MASK_WX(a,b) (a)
-#define arguments_CAVM_MLX_LOW_PRI_CORE0_MASK_WX(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) ml#_low_pri_core1_mask_w#
- *
- * ML LOW PRI CORE1 MASK Word  Register
- * Mask low_pri int reporting from a slave to core1.
- */
-union cavm_mlx_low_pri_core1_mask_wx
-{
-    uint32_t u;
-    struct cavm_mlx_low_pri_core1_mask_wx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_LOW_PRI_CORE1_MASK_S */
-#else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_LOW_PRI_CORE1_MASK_S */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlx_low_pri_core1_mask_wx_s cn; */
-};
-typedef union cavm_mlx_low_pri_core1_mask_wx cavm_mlx_low_pri_core1_mask_wx_t;
-
-static inline uint64_t CAVM_MLX_LOW_PRI_CORE1_MASK_WX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLX_LOW_PRI_CORE1_MASK_WX(uint64_t a, uint64_t b)
-{
-    if ((a==0) && (b<=1))
-        return 0x828012088050ll + 0x1000000000ll * ((a) & 0x0) + 4ll * ((b) & 0x1);
-    __cavm_csr_fatal("MLX_LOW_PRI_CORE1_MASK_WX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLX_LOW_PRI_CORE1_MASK_WX(a,b) cavm_mlx_low_pri_core1_mask_wx_t
-#define bustype_CAVM_MLX_LOW_PRI_CORE1_MASK_WX(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_MLX_LOW_PRI_CORE1_MASK_WX(a,b) "MLX_LOW_PRI_CORE1_MASK_WX"
-#define device_bar_CAVM_MLX_LOW_PRI_CORE1_MASK_WX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLX_LOW_PRI_CORE1_MASK_WX(a,b) (a)
-#define arguments_CAVM_MLX_LOW_PRI_CORE1_MASK_WX(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) ml#_low_pri_host_mask_w#
- *
- * ML LOW PRI HOST MASK Word  Register
- * Mask low_pri int reporting from a slave to host.
- */
-union cavm_mlx_low_pri_host_mask_wx
-{
-    uint32_t u;
-    struct cavm_mlx_low_pri_host_mask_wx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_LOW_PRI_HOST_MASK_S */
-#else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_LOW_PRI_HOST_MASK_S */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlx_low_pri_host_mask_wx_s cn; */
-};
-typedef union cavm_mlx_low_pri_host_mask_wx cavm_mlx_low_pri_host_mask_wx_t;
-
-static inline uint64_t CAVM_MLX_LOW_PRI_HOST_MASK_WX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLX_LOW_PRI_HOST_MASK_WX(uint64_t a, uint64_t b)
-{
-    if ((a==0) && (b<=1))
-        return 0x828012088040ll + 0x1000000000ll * ((a) & 0x0) + 4ll * ((b) & 0x1);
-    __cavm_csr_fatal("MLX_LOW_PRI_HOST_MASK_WX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLX_LOW_PRI_HOST_MASK_WX(a,b) cavm_mlx_low_pri_host_mask_wx_t
-#define bustype_CAVM_MLX_LOW_PRI_HOST_MASK_WX(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_MLX_LOW_PRI_HOST_MASK_WX(a,b) "MLX_LOW_PRI_HOST_MASK_WX"
-#define device_bar_CAVM_MLX_LOW_PRI_HOST_MASK_WX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLX_LOW_PRI_HOST_MASK_WX(a,b) (a)
-#define arguments_CAVM_MLX_LOW_PRI_HOST_MASK_WX(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) ml#_low_pri_int_status_w#
- *
- * ML LOW PRI INT STATUS Word  Register
- * Per-slave low_pri interrupt status register.
- */
-union cavm_mlx_low_pri_int_status_wx
-{
-    uint32_t u;
-    struct cavm_mlx_low_pri_int_status_wx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_LOW_PRI_INT_STATUS_S */
-#else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) See structure ML_LOW_PRI_INT_STATUS_S */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlx_low_pri_int_status_wx_s cn; */
-};
-typedef union cavm_mlx_low_pri_int_status_wx cavm_mlx_low_pri_int_status_wx_t;
-
-static inline uint64_t CAVM_MLX_LOW_PRI_INT_STATUS_WX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLX_LOW_PRI_INT_STATUS_WX(uint64_t a, uint64_t b)
-{
-    if ((a==0) && (b<=1))
-        return 0x828012088038ll + 0x1000000000ll * ((a) & 0x0) + 4ll * ((b) & 0x1);
-    __cavm_csr_fatal("MLX_LOW_PRI_INT_STATUS_WX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLX_LOW_PRI_INT_STATUS_WX(a,b) cavm_mlx_low_pri_int_status_wx_t
-#define bustype_CAVM_MLX_LOW_PRI_INT_STATUS_WX(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_MLX_LOW_PRI_INT_STATUS_WX(a,b) "MLX_LOW_PRI_INT_STATUS_WX"
-#define device_bar_CAVM_MLX_LOW_PRI_INT_STATUS_WX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLX_LOW_PRI_INT_STATUS_WX(a,b) (a)
-#define arguments_CAVM_MLX_LOW_PRI_INT_STATUS_WX(a,b) (a),(b),-1,-1
 
 /**
  * Register (NCB32b) ml#_mem_pe_rd_perr_status_0
@@ -35523,7 +34643,11 @@ static inline uint64_t CAVM_MLX_OCM_BLK_CONFIG_7(uint64_t a)
  * Register (NCB32b) ml#_ocm_cfg_int_enable_hi_0
  *
  * ML OCM CFG INT ENABLE HI 0 Register
- * OCM interrupt register.
+ * OCM interrupt register. Refer to this link for Fatal error (FT) and Non fatal error
+ * (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_enable_hi_0
 {
@@ -35583,7 +34707,11 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_ENABLE_HI_0(uint64_t a)
  * Register (NCB32b) ml#_ocm_cfg_int_enable_hi_1
  *
  * ML OCM CFG INT ENABLE HI 1 Register
- * OCM interrupt register.
+ * OCM interrupt register. Refer to this link for Fatal error (FT) and Non fatal error
+ * (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_enable_hi_1
 {
@@ -35643,7 +34771,11 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_ENABLE_HI_1(uint64_t a)
  * Register (NCB32b) ml#_ocm_cfg_int_enable_hi_2
  *
  * ML OCM CFG INT ENABLE HI 2 Register
- * OCM interrupt register.
+ * OCM interrupt register. Refer to this link for Fatal error (FT) and Non fatal error
+ * (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_enable_hi_2
 {
@@ -35703,7 +34835,11 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_ENABLE_HI_2(uint64_t a)
  * Register (NCB32b) ml#_ocm_cfg_int_enable_hi_3
  *
  * ML OCM CFG INT ENABLE HI 3 Register
- * OCM interrupt register.
+ * OCM interrupt register. Refer to this link for Fatal error (FT) and Non fatal error
+ * (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_enable_hi_3
 {
@@ -35763,7 +34899,11 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_ENABLE_HI_3(uint64_t a)
  * Register (NCB32b) ml#_ocm_cfg_int_enable_hi_4
  *
  * ML OCM CFG INT ENABLE HI 4 Register
- * OCM interrupt register.
+ * OCM interrupt register. Refer to this link for Fatal error (FT) and Non fatal error
+ * (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_enable_hi_4
 {
@@ -35823,7 +34963,11 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_ENABLE_HI_4(uint64_t a)
  * Register (NCB32b) ml#_ocm_cfg_int_enable_hi_5
  *
  * ML OCM CFG INT ENABLE HI 5 Register
- * OCM interrupt register.
+ * OCM interrupt register. Refer to this link for Fatal error (FT) and Non fatal error
+ * (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_enable_hi_5
 {
@@ -35883,7 +35027,11 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_ENABLE_HI_5(uint64_t a)
  * Register (NCB32b) ml#_ocm_cfg_int_enable_hi_6
  *
  * ML OCM CFG INT ENABLE HI 6 Register
- * OCM interrupt register.
+ * OCM interrupt register. Refer to this link for Fatal error (FT) and Non fatal error
+ * (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_enable_hi_6
 {
@@ -35943,7 +35091,11 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_ENABLE_HI_6(uint64_t a)
  * Register (NCB32b) ml#_ocm_cfg_int_enable_hi_7
  *
  * ML OCM CFG INT ENABLE HI 7 Register
- * OCM interrupt register.
+ * OCM interrupt register. Refer to this link for Fatal error (FT) and Non fatal error
+ * (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_enable_hi_7
 {
@@ -36003,7 +35155,11 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_ENABLE_HI_7(uint64_t a)
  * Register (NCB32b) ml#_ocm_cfg_int_enable_lo_0
  *
  * ML OCM CFG INT ENABLE LO 0 Register
- * OCM interrupt register.
+ * OCM interrupt register. Refer to this link for Fatal error (FT) and Non fatal error
+ * (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_enable_lo_0
 {
@@ -36063,7 +35219,11 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_ENABLE_LO_0(uint64_t a)
  * Register (NCB32b) ml#_ocm_cfg_int_enable_lo_1
  *
  * ML OCM CFG INT ENABLE LO 1 Register
- * OCM interrupt register.
+ * OCM interrupt register. Refer to this link for Fatal error (FT) and Non fatal error
+ * (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_enable_lo_1
 {
@@ -36123,7 +35283,11 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_ENABLE_LO_1(uint64_t a)
  * Register (NCB32b) ml#_ocm_cfg_int_enable_lo_2
  *
  * ML OCM CFG INT ENABLE LO 2 Register
- * OCM interrupt register.
+ * OCM interrupt register. Refer to this link for Fatal error (FT) and Non fatal error
+ * (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_enable_lo_2
 {
@@ -36183,7 +35347,11 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_ENABLE_LO_2(uint64_t a)
  * Register (NCB32b) ml#_ocm_cfg_int_enable_lo_3
  *
  * ML OCM CFG INT ENABLE LO 3 Register
- * OCM interrupt register.
+ * OCM interrupt register. Refer to this link for Fatal error (FT) and Non fatal error
+ * (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_enable_lo_3
 {
@@ -36243,7 +35411,11 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_ENABLE_LO_3(uint64_t a)
  * Register (NCB32b) ml#_ocm_cfg_int_enable_lo_4
  *
  * ML OCM CFG INT ENABLE LO 4 Register
- * OCM interrupt register.
+ * OCM interrupt register. Refer to this link for Fatal error (FT) and Non fatal error
+ * (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_enable_lo_4
 {
@@ -36303,7 +35475,11 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_ENABLE_LO_4(uint64_t a)
  * Register (NCB32b) ml#_ocm_cfg_int_enable_lo_5
  *
  * ML OCM CFG INT ENABLE LO 5 Register
- * OCM interrupt register.
+ * OCM interrupt register. Refer to this link for Fatal error (FT) and Non fatal error
+ * (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_enable_lo_5
 {
@@ -36363,7 +35539,11 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_ENABLE_LO_5(uint64_t a)
  * Register (NCB32b) ml#_ocm_cfg_int_enable_lo_6
  *
  * ML OCM CFG INT ENABLE LO 6 Register
- * OCM interrupt register.
+ * OCM interrupt register. Refer to this link for Fatal error (FT) and Non fatal error
+ * (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_enable_lo_6
 {
@@ -36423,7 +35603,11 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_ENABLE_LO_6(uint64_t a)
  * Register (NCB32b) ml#_ocm_cfg_int_enable_lo_7
  *
  * ML OCM CFG INT ENABLE LO 7 Register
- * OCM interrupt register.
+ * OCM interrupt register. Refer to this link for Fatal error (FT) and Non fatal error
+ * (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_enable_lo_7
 {
@@ -36483,7 +35667,11 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_ENABLE_LO_7(uint64_t a)
  * Register (NCB32b) ml#_ocm_cfg_int_force_0
  *
  * ML OCM CFG INT FORCE 0 Register
- * OCM interrupt register.
+ * OCM interrupt register. Refer to this link for Fatal error (FT) and Non fatal error
+ * (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_force_0
 {
@@ -36543,7 +35731,11 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_FORCE_0(uint64_t a)
  * Register (NCB32b) ml#_ocm_cfg_int_force_1
  *
  * ML OCM CFG INT FORCE 1 Register
- * OCM interrupt register.
+ * OCM interrupt register. Refer to this link for Fatal error (FT) and Non fatal error
+ * (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_force_1
 {
@@ -36603,7 +35795,11 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_FORCE_1(uint64_t a)
  * Register (NCB32b) ml#_ocm_cfg_int_force_2
  *
  * ML OCM CFG INT FORCE 2 Register
- * OCM interrupt register.
+ * OCM interrupt register. Refer to this link for Fatal error (FT) and Non fatal error
+ * (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_force_2
 {
@@ -36663,7 +35859,11 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_FORCE_2(uint64_t a)
  * Register (NCB32b) ml#_ocm_cfg_int_force_3
  *
  * ML OCM CFG INT FORCE 3 Register
- * OCM interrupt register.
+ * OCM interrupt register. Refer to this link for Fatal error (FT) and Non fatal error
+ * (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_force_3
 {
@@ -36723,7 +35923,11 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_FORCE_3(uint64_t a)
  * Register (NCB32b) ml#_ocm_cfg_int_force_4
  *
  * ML OCM CFG INT FORCE 4 Register
- * OCM interrupt register.
+ * OCM interrupt register. Refer to this link for Fatal error (FT) and Non fatal error
+ * (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_force_4
 {
@@ -36783,7 +35987,11 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_FORCE_4(uint64_t a)
  * Register (NCB32b) ml#_ocm_cfg_int_force_5
  *
  * ML OCM CFG INT FORCE 5 Register
- * OCM interrupt register.
+ * OCM interrupt register. Refer to this link for Fatal error (FT) and Non fatal error
+ * (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_force_5
 {
@@ -36843,7 +36051,11 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_FORCE_5(uint64_t a)
  * Register (NCB32b) ml#_ocm_cfg_int_force_6
  *
  * ML OCM CFG INT FORCE 6 Register
- * OCM interrupt register.
+ * OCM interrupt register. Refer to this link for Fatal error (FT) and Non fatal error
+ * (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_force_6
 {
@@ -36903,7 +36115,11 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_FORCE_6(uint64_t a)
  * Register (NCB32b) ml#_ocm_cfg_int_force_7
  *
  * ML OCM CFG INT FORCE 7 Register
- * OCM interrupt register.
+ * OCM interrupt register. Refer to this link for Fatal error (FT) and Non fatal error
+ * (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_force_7
 {
@@ -36963,7 +36179,11 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_FORCE_7(uint64_t a)
  * Register (NCB32b) ml#_ocm_cfg_int_status_0
  *
  * ML OCM CFG INT STATUS 0 Register
- * OCM interrupt register.
+ * OCM interrupt register. Refer to this link for Fatal error (FT) and Non fatal error
+ * (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_status_0
 {
@@ -37033,7 +36253,11 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_STATUS_0(uint64_t a)
  * Register (NCB32b) ml#_ocm_cfg_int_status_1
  *
  * ML OCM CFG INT STATUS 1 Register
- * OCM interrupt register.
+ * OCM interrupt register. Refer to this link for Fatal error (FT) and Non fatal error
+ * (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_status_1
 {
@@ -37103,7 +36327,11 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_STATUS_1(uint64_t a)
  * Register (NCB32b) ml#_ocm_cfg_int_status_2
  *
  * ML OCM CFG INT STATUS 2 Register
- * OCM interrupt register.
+ * OCM interrupt register. Refer to this link for Fatal error (FT) and Non fatal error
+ * (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_status_2
 {
@@ -37173,7 +36401,11 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_STATUS_2(uint64_t a)
  * Register (NCB32b) ml#_ocm_cfg_int_status_3
  *
  * ML OCM CFG INT STATUS 3 Register
- * OCM interrupt register.
+ * OCM interrupt register. Refer to this link for Fatal error (FT) and Non fatal error
+ * (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_status_3
 {
@@ -37243,7 +36475,11 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_STATUS_3(uint64_t a)
  * Register (NCB32b) ml#_ocm_cfg_int_status_4
  *
  * ML OCM CFG INT STATUS 4 Register
- * OCM interrupt register.
+ * OCM interrupt register. Refer to this link for Fatal error (FT) and Non fatal error
+ * (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_status_4
 {
@@ -37313,7 +36549,11 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_STATUS_4(uint64_t a)
  * Register (NCB32b) ml#_ocm_cfg_int_status_5
  *
  * ML OCM CFG INT STATUS 5 Register
- * OCM interrupt register.
+ * OCM interrupt register. Refer to this link for Fatal error (FT) and Non fatal error
+ * (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_status_5
 {
@@ -37383,7 +36623,11 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_STATUS_5(uint64_t a)
  * Register (NCB32b) ml#_ocm_cfg_int_status_6
  *
  * ML OCM CFG INT STATUS 6 Register
- * OCM interrupt register.
+ * OCM interrupt register. Refer to this link for Fatal error (FT) and Non fatal error
+ * (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_status_6
 {
@@ -37453,7 +36697,11 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_STATUS_6(uint64_t a)
  * Register (NCB32b) ml#_ocm_cfg_int_status_7
  *
  * ML OCM CFG INT STATUS 7 Register
- * OCM interrupt register.
+ * OCM interrupt register. Refer to this link for Fatal error (FT) and Non fatal error
+ * (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_status_7
 {
@@ -51901,7 +51149,15 @@ static inline uint64_t CAVM_MLX_POD_BREG_CTRL_STATUS_WX(uint64_t a, uint64_t b)
  * Interrupt register. Here is Fatal FT and Non-fatal NF error behavior FT POD freezes
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
- * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
+ * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds Refer to
+ * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
+ * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
+ * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
+ * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
+ * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_enable_hi_0
 {
@@ -51956,7 +51212,15 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_ENABLE_HI_0(uint64_t a)
  * Interrupt register. Here is Fatal FT and Non-fatal NF error behavior FT POD freezes
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
- * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
+ * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds Refer to
+ * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
+ * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
+ * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
+ * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
+ * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_enable_hi_1
 {
@@ -52011,7 +51275,15 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_ENABLE_HI_1(uint64_t a)
  * Interrupt register. Here is Fatal FT and Non-fatal NF error behavior FT POD freezes
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
- * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
+ * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds Refer to
+ * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
+ * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
+ * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
+ * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
+ * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_enable_hi_2
 {
@@ -52066,7 +51338,15 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_ENABLE_HI_2(uint64_t a)
  * Interrupt register. Here is Fatal FT and Non-fatal NF error behavior FT POD freezes
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
- * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
+ * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds Refer to
+ * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
+ * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
+ * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
+ * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
+ * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_enable_hi_3
 {
@@ -52121,7 +51401,15 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_ENABLE_HI_3(uint64_t a)
  * Interrupt register. Here is Fatal FT and Non-fatal NF error behavior FT POD freezes
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
- * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
+ * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds Refer to
+ * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
+ * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
+ * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
+ * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
+ * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_enable_hi_4
 {
@@ -52176,7 +51464,15 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_ENABLE_HI_4(uint64_t a)
  * Interrupt register. Here is Fatal FT and Non-fatal NF error behavior FT POD freezes
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
- * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
+ * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds Refer to
+ * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
+ * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
+ * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
+ * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
+ * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_enable_hi_5
 {
@@ -52231,7 +51527,15 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_ENABLE_HI_5(uint64_t a)
  * Interrupt register. Here is Fatal FT and Non-fatal NF error behavior FT POD freezes
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
- * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
+ * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds Refer to
+ * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
+ * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
+ * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
+ * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
+ * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_enable_hi_6
 {
@@ -52286,7 +51590,15 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_ENABLE_HI_6(uint64_t a)
  * Interrupt register. Here is Fatal FT and Non-fatal NF error behavior FT POD freezes
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
- * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
+ * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds Refer to
+ * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
+ * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
+ * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
+ * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
+ * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_enable_hi_7
 {
@@ -52341,7 +51653,15 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_ENABLE_HI_7(uint64_t a)
  * Interrupt register. Here is Fatal FT and Non-fatal NF error behavior FT POD freezes
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
- * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
+ * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds Refer to
+ * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
+ * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
+ * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
+ * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
+ * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_enable_lo_0
 {
@@ -52396,7 +51716,15 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_ENABLE_LO_0(uint64_t a)
  * Interrupt register. Here is Fatal FT and Non-fatal NF error behavior FT POD freezes
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
- * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
+ * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds Refer to
+ * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
+ * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
+ * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
+ * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
+ * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_enable_lo_1
 {
@@ -52451,7 +51779,15 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_ENABLE_LO_1(uint64_t a)
  * Interrupt register. Here is Fatal FT and Non-fatal NF error behavior FT POD freezes
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
- * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
+ * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds Refer to
+ * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
+ * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
+ * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
+ * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
+ * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_enable_lo_2
 {
@@ -52506,7 +51842,15 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_ENABLE_LO_2(uint64_t a)
  * Interrupt register. Here is Fatal FT and Non-fatal NF error behavior FT POD freezes
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
- * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
+ * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds Refer to
+ * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
+ * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
+ * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
+ * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
+ * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_enable_lo_3
 {
@@ -52561,7 +51905,15 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_ENABLE_LO_3(uint64_t a)
  * Interrupt register. Here is Fatal FT and Non-fatal NF error behavior FT POD freezes
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
- * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
+ * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds Refer to
+ * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
+ * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
+ * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
+ * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
+ * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_enable_lo_4
 {
@@ -52616,7 +51968,15 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_ENABLE_LO_4(uint64_t a)
  * Interrupt register. Here is Fatal FT and Non-fatal NF error behavior FT POD freezes
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
- * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
+ * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds Refer to
+ * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
+ * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
+ * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
+ * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
+ * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_enable_lo_5
 {
@@ -52671,7 +52031,15 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_ENABLE_LO_5(uint64_t a)
  * Interrupt register. Here is Fatal FT and Non-fatal NF error behavior FT POD freezes
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
- * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
+ * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds Refer to
+ * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
+ * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
+ * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
+ * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
+ * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_enable_lo_6
 {
@@ -52726,7 +52094,15 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_ENABLE_LO_6(uint64_t a)
  * Interrupt register. Here is Fatal FT and Non-fatal NF error behavior FT POD freezes
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
- * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
+ * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds Refer to
+ * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
+ * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
+ * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
+ * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
+ * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_enable_lo_7
 {
@@ -52781,7 +52157,15 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_ENABLE_LO_7(uint64_t a)
  * Interrupt register. Here is Fatal FT and Non-fatal NF error behavior FT POD freezes
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
- * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
+ * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds Refer to
+ * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
+ * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
+ * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
+ * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
+ * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_force_0
 {
@@ -52836,7 +52220,15 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_FORCE_0(uint64_t a)
  * Interrupt register. Here is Fatal FT and Non-fatal NF error behavior FT POD freezes
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
- * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
+ * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds Refer to
+ * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
+ * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
+ * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
+ * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
+ * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_force_1
 {
@@ -52891,7 +52283,15 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_FORCE_1(uint64_t a)
  * Interrupt register. Here is Fatal FT and Non-fatal NF error behavior FT POD freezes
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
- * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
+ * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds Refer to
+ * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
+ * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
+ * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
+ * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
+ * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_force_2
 {
@@ -52946,7 +52346,15 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_FORCE_2(uint64_t a)
  * Interrupt register. Here is Fatal FT and Non-fatal NF error behavior FT POD freezes
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
- * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
+ * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds Refer to
+ * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
+ * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
+ * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
+ * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
+ * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_force_3
 {
@@ -53001,7 +52409,15 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_FORCE_3(uint64_t a)
  * Interrupt register. Here is Fatal FT and Non-fatal NF error behavior FT POD freezes
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
- * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
+ * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds Refer to
+ * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
+ * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
+ * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
+ * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
+ * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_force_4
 {
@@ -53056,7 +52472,15 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_FORCE_4(uint64_t a)
  * Interrupt register. Here is Fatal FT and Non-fatal NF error behavior FT POD freezes
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
- * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
+ * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds Refer to
+ * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
+ * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
+ * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
+ * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
+ * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_force_5
 {
@@ -53111,7 +52535,15 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_FORCE_5(uint64_t a)
  * Interrupt register. Here is Fatal FT and Non-fatal NF error behavior FT POD freezes
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
- * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
+ * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds Refer to
+ * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
+ * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
+ * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
+ * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
+ * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_force_6
 {
@@ -53166,7 +52598,15 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_FORCE_6(uint64_t a)
  * Interrupt register. Here is Fatal FT and Non-fatal NF error behavior FT POD freezes
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
- * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
+ * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds Refer to
+ * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
+ * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
+ * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
+ * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
+ * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_force_7
 {
@@ -53221,7 +52661,15 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_FORCE_7(uint64_t a)
  * Interrupt register. Here is Fatal FT and Non-fatal NF error behavior FT POD freezes
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
- * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
+ * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds Refer to
+ * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
+ * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
+ * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
+ * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
+ * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_status_0
 {
@@ -53278,7 +52726,15 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_STATUS_0(uint64_t a)
  * Interrupt register. Here is Fatal FT and Non-fatal NF error behavior FT POD freezes
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
- * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
+ * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds Refer to
+ * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
+ * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
+ * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
+ * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
+ * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_status_1
 {
@@ -53335,7 +52791,15 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_STATUS_1(uint64_t a)
  * Interrupt register. Here is Fatal FT and Non-fatal NF error behavior FT POD freezes
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
- * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
+ * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds Refer to
+ * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
+ * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
+ * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
+ * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
+ * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_status_2
 {
@@ -53392,7 +52856,15 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_STATUS_2(uint64_t a)
  * Interrupt register. Here is Fatal FT and Non-fatal NF error behavior FT POD freezes
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
- * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
+ * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds Refer to
+ * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
+ * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
+ * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
+ * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
+ * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_status_3
 {
@@ -53449,7 +52921,15 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_STATUS_3(uint64_t a)
  * Interrupt register. Here is Fatal FT and Non-fatal NF error behavior FT POD freezes
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
- * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
+ * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds Refer to
+ * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
+ * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
+ * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
+ * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
+ * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_status_4
 {
@@ -53506,7 +52986,15 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_STATUS_4(uint64_t a)
  * Interrupt register. Here is Fatal FT and Non-fatal NF error behavior FT POD freezes
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
- * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
+ * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds Refer to
+ * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
+ * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
+ * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
+ * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
+ * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_status_5
 {
@@ -53563,7 +53051,15 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_STATUS_5(uint64_t a)
  * Interrupt register. Here is Fatal FT and Non-fatal NF error behavior FT POD freezes
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
- * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
+ * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds Refer to
+ * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
+ * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
+ * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
+ * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
+ * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_status_6
 {
@@ -53620,7 +53116,15 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_STATUS_6(uint64_t a)
  * Interrupt register. Here is Fatal FT and Non-fatal NF error behavior FT POD freezes
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
- * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
+ * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds Refer to
+ * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
+ * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
+ * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
+ * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
+ * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_status_7
 {
@@ -61834,7 +61338,12 @@ static inline uint64_t CAVM_MLX_RST_MASK_CTRL(uint64_t a)
  * Register (NCB32b) ml#_rtr_cfg_int_enable_hi_1_w#
  *
  * ML RTR CFG INT ENABLE HI 1 Word  Register
- * IRTR interrupt register. All errors are Fatal (FT). Block does not freeze.
+ * IRTR interrupt register. All errors are Fatal (FT). Here is FT behavior FT interrupt
+ * is set if enabled. Block does not freeze Refer to this link for detailed Fatal error
+ * (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_rtr_cfg_int_enable_hi_1_wx
 {
@@ -61870,7 +61379,12 @@ static inline uint64_t CAVM_MLX_RTR_CFG_INT_ENABLE_HI_1_WX(uint64_t a, uint64_t 
  * Register (NCB32b) ml#_rtr_cfg_int_enable_hi_w#
  *
  * ML RTR CFG INT ENABLE HI 0 Word  Register
- * IRTR interrupt register. All errors are Fatal (FT). Block does not freeze.
+ * IRTR interrupt register. All errors are Fatal (FT). Here is FT behavior FT interrupt
+ * is set if enabled. Block does not freeze Refer to this link for detailed Fatal error
+ * (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_rtr_cfg_int_enable_hi_wx
 {
@@ -61906,7 +61420,12 @@ static inline uint64_t CAVM_MLX_RTR_CFG_INT_ENABLE_HI_WX(uint64_t a, uint64_t b)
  * Register (NCB32b) ml#_rtr_cfg_int_enable_lo_1_w#
  *
  * ML RTR CFG INT ENABLE LO 1 Word  Register
- * IRTR interrupt register. All errors are Fatal (FT). Block does not freeze.
+ * IRTR interrupt register. All errors are Fatal (FT). Here is FT behavior FT interrupt
+ * is set if enabled. Block does not freeze Refer to this link for detailed Fatal error
+ * (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_rtr_cfg_int_enable_lo_1_wx
 {
@@ -61942,7 +61461,12 @@ static inline uint64_t CAVM_MLX_RTR_CFG_INT_ENABLE_LO_1_WX(uint64_t a, uint64_t 
  * Register (NCB32b) ml#_rtr_cfg_int_enable_lo_w#
  *
  * ML RTR CFG INT ENABLE LO 0 Word  Register
- * IRTR interrupt register. All errors are Fatal (FT). Block does not freeze.
+ * IRTR interrupt register. All errors are Fatal (FT). Here is FT behavior FT interrupt
+ * is set if enabled. Block does not freeze Refer to this link for detailed Fatal error
+ * (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_rtr_cfg_int_enable_lo_wx
 {
@@ -61978,7 +61502,12 @@ static inline uint64_t CAVM_MLX_RTR_CFG_INT_ENABLE_LO_WX(uint64_t a, uint64_t b)
  * Register (NCB32b) ml#_rtr_cfg_int_force_1_w#
  *
  * ML RTR CFG INT FORCE 1 Word  Register
- * IRTR interrupt register. All errors are Fatal (FT). Block does not freeze.
+ * IRTR interrupt register. All errors are Fatal (FT). Here is FT behavior FT interrupt
+ * is set if enabled. Block does not freeze Refer to this link for detailed Fatal error
+ * (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_rtr_cfg_int_force_1_wx
 {
@@ -62014,7 +61543,12 @@ static inline uint64_t CAVM_MLX_RTR_CFG_INT_FORCE_1_WX(uint64_t a, uint64_t b)
  * Register (NCB32b) ml#_rtr_cfg_int_force_w#
  *
  * ML RTR CFG INT FORCE 0 Word  Register
- * IRTR interrupt register. All errors are Fatal (FT). Block does not freeze.
+ * IRTR interrupt register. All errors are Fatal (FT). Here is FT behavior FT interrupt
+ * is set if enabled. Block does not freeze Refer to this link for detailed Fatal error
+ * (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_rtr_cfg_int_force_wx
 {
@@ -62050,7 +61584,12 @@ static inline uint64_t CAVM_MLX_RTR_CFG_INT_FORCE_WX(uint64_t a, uint64_t b)
  * Register (NCB32b) ml#_rtr_cfg_int_status_1_w#
  *
  * ML RTR CFG INT STATUS 1 Word  Register
- * IRTR interrupt register. All errors are Fatal (FT). Block does not freeze.
+ * IRTR interrupt register. All errors are Fatal (FT). Here is FT behavior FT interrupt
+ * is set if enabled. Block does not freeze Refer to this link for detailed Fatal error
+ * (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_rtr_cfg_int_status_1_wx
 {
@@ -62086,7 +61625,12 @@ static inline uint64_t CAVM_MLX_RTR_CFG_INT_STATUS_1_WX(uint64_t a, uint64_t b)
  * Register (NCB32b) ml#_rtr_cfg_int_status_w#
  *
  * ML RTR CFG INT STATUS 0 Word  Register
- * IRTR interrupt register. All errors are Fatal (FT). Block does not freeze.
+ * IRTR interrupt register. All errors are Fatal (FT). Here is FT behavior FT interrupt
+ * is set if enabled. Block does not freeze Refer to this link for detailed Fatal error
+ * (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2.
  */
 union cavm_mlx_rtr_cfg_int_status_wx
 {
@@ -63034,10 +62578,22 @@ static inline uint64_t CAVM_MLX_TCT_TMEM(uint64_t a)
  * Register (NCB32b) ml#_tmr_cfg_int_enable_hi_0
  *
  * ML TMR CFG INT ENABLE HI 0 Register
- * Interrupt register. All errors are fatal errors. When a fatal error occurs, TMR
+ * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
- * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
+ * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
+ * detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
+ * for details. Current state of TMR is logged in ml_tmr_timeout_status,
+ * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
+ * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
+ * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
+ * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
+ * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
+ * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
+ * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_enable_hi_0
 {
@@ -63125,10 +62681,22 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_HI_0(uint64_t a)
  * Register (NCB32b) ml#_tmr_cfg_int_enable_hi_1
  *
  * ML TMR CFG INT ENABLE HI 1 Register
- * Interrupt register. All errors are fatal errors. When a fatal error occurs, TMR
+ * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
- * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
+ * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
+ * detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
+ * for details. Current state of TMR is logged in ml_tmr_timeout_status,
+ * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
+ * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
+ * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
+ * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
+ * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
+ * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
+ * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_enable_hi_1
 {
@@ -63216,10 +62784,22 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_HI_1(uint64_t a)
  * Register (NCB32b) ml#_tmr_cfg_int_enable_hi_2
  *
  * ML TMR CFG INT ENABLE HI 2 Register
- * Interrupt register. All errors are fatal errors. When a fatal error occurs, TMR
+ * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
- * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
+ * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
+ * detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
+ * for details. Current state of TMR is logged in ml_tmr_timeout_status,
+ * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
+ * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
+ * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
+ * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
+ * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
+ * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
+ * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_enable_hi_2
 {
@@ -63307,10 +62887,22 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_HI_2(uint64_t a)
  * Register (NCB32b) ml#_tmr_cfg_int_enable_hi_3
  *
  * ML TMR CFG INT ENABLE HI 3 Register
- * Interrupt register. All errors are fatal errors. When a fatal error occurs, TMR
+ * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
- * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
+ * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
+ * detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
+ * for details. Current state of TMR is logged in ml_tmr_timeout_status,
+ * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
+ * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
+ * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
+ * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
+ * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
+ * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
+ * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_enable_hi_3
 {
@@ -63398,10 +62990,22 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_HI_3(uint64_t a)
  * Register (NCB32b) ml#_tmr_cfg_int_enable_hi_4
  *
  * ML TMR CFG INT ENABLE HI 4 Register
- * Interrupt register. All errors are fatal errors. When a fatal error occurs, TMR
+ * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
- * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
+ * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
+ * detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
+ * for details. Current state of TMR is logged in ml_tmr_timeout_status,
+ * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
+ * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
+ * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
+ * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
+ * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
+ * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
+ * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_enable_hi_4
 {
@@ -63489,10 +63093,22 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_HI_4(uint64_t a)
  * Register (NCB32b) ml#_tmr_cfg_int_enable_hi_5
  *
  * ML TMR CFG INT ENABLE HI 5 Register
- * Interrupt register. All errors are fatal errors. When a fatal error occurs, TMR
+ * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
- * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
+ * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
+ * detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
+ * for details. Current state of TMR is logged in ml_tmr_timeout_status,
+ * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
+ * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
+ * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
+ * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
+ * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
+ * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
+ * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_enable_hi_5
 {
@@ -63580,10 +63196,22 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_HI_5(uint64_t a)
  * Register (NCB32b) ml#_tmr_cfg_int_enable_hi_6
  *
  * ML TMR CFG INT ENABLE HI 6 Register
- * Interrupt register. All errors are fatal errors. When a fatal error occurs, TMR
+ * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
- * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
+ * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
+ * detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
+ * for details. Current state of TMR is logged in ml_tmr_timeout_status,
+ * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
+ * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
+ * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
+ * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
+ * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
+ * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
+ * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_enable_hi_6
 {
@@ -63671,10 +63299,22 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_HI_6(uint64_t a)
  * Register (NCB32b) ml#_tmr_cfg_int_enable_hi_7
  *
  * ML TMR CFG INT ENABLE HI 7 Register
- * Interrupt register. All errors are fatal errors. When a fatal error occurs, TMR
+ * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
- * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
+ * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
+ * detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
+ * for details. Current state of TMR is logged in ml_tmr_timeout_status,
+ * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
+ * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
+ * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
+ * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
+ * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
+ * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
+ * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_enable_hi_7
 {
@@ -63762,10 +63402,22 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_HI_7(uint64_t a)
  * Register (NCB32b) ml#_tmr_cfg_int_enable_lo_0
  *
  * ML TMR CFG INT ENABLE LO 0 Register
- * Interrupt register. All errors are fatal errors. When a fatal error occurs, TMR
+ * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
- * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
+ * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
+ * detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
+ * for details. Current state of TMR is logged in ml_tmr_timeout_status,
+ * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
+ * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
+ * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
+ * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
+ * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
+ * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
+ * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_enable_lo_0
 {
@@ -63853,10 +63505,22 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_LO_0(uint64_t a)
  * Register (NCB32b) ml#_tmr_cfg_int_enable_lo_1
  *
  * ML TMR CFG INT ENABLE LO 1 Register
- * Interrupt register. All errors are fatal errors. When a fatal error occurs, TMR
+ * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
- * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
+ * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
+ * detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
+ * for details. Current state of TMR is logged in ml_tmr_timeout_status,
+ * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
+ * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
+ * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
+ * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
+ * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
+ * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
+ * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_enable_lo_1
 {
@@ -63944,10 +63608,22 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_LO_1(uint64_t a)
  * Register (NCB32b) ml#_tmr_cfg_int_enable_lo_2
  *
  * ML TMR CFG INT ENABLE LO 2 Register
- * Interrupt register. All errors are fatal errors. When a fatal error occurs, TMR
+ * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
- * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
+ * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
+ * detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
+ * for details. Current state of TMR is logged in ml_tmr_timeout_status,
+ * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
+ * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
+ * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
+ * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
+ * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
+ * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
+ * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_enable_lo_2
 {
@@ -64035,10 +63711,22 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_LO_2(uint64_t a)
  * Register (NCB32b) ml#_tmr_cfg_int_enable_lo_3
  *
  * ML TMR CFG INT ENABLE LO 3 Register
- * Interrupt register. All errors are fatal errors. When a fatal error occurs, TMR
+ * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
- * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
+ * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
+ * detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
+ * for details. Current state of TMR is logged in ml_tmr_timeout_status,
+ * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
+ * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
+ * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
+ * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
+ * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
+ * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
+ * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_enable_lo_3
 {
@@ -64126,10 +63814,22 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_LO_3(uint64_t a)
  * Register (NCB32b) ml#_tmr_cfg_int_enable_lo_4
  *
  * ML TMR CFG INT ENABLE LO 4 Register
- * Interrupt register. All errors are fatal errors. When a fatal error occurs, TMR
+ * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
- * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
+ * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
+ * detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
+ * for details. Current state of TMR is logged in ml_tmr_timeout_status,
+ * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
+ * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
+ * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
+ * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
+ * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
+ * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
+ * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_enable_lo_4
 {
@@ -64217,10 +63917,22 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_LO_4(uint64_t a)
  * Register (NCB32b) ml#_tmr_cfg_int_enable_lo_5
  *
  * ML TMR CFG INT ENABLE LO 5 Register
- * Interrupt register. All errors are fatal errors. When a fatal error occurs, TMR
+ * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
- * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
+ * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
+ * detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
+ * for details. Current state of TMR is logged in ml_tmr_timeout_status,
+ * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
+ * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
+ * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
+ * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
+ * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
+ * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
+ * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_enable_lo_5
 {
@@ -64308,10 +64020,22 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_LO_5(uint64_t a)
  * Register (NCB32b) ml#_tmr_cfg_int_enable_lo_6
  *
  * ML TMR CFG INT ENABLE LO 6 Register
- * Interrupt register. All errors are fatal errors. When a fatal error occurs, TMR
+ * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
- * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
+ * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
+ * detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
+ * for details. Current state of TMR is logged in ml_tmr_timeout_status,
+ * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
+ * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
+ * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
+ * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
+ * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
+ * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
+ * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_enable_lo_6
 {
@@ -64399,10 +64123,22 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_LO_6(uint64_t a)
  * Register (NCB32b) ml#_tmr_cfg_int_enable_lo_7
  *
  * ML TMR CFG INT ENABLE LO 7 Register
- * Interrupt register. All errors are fatal errors. When a fatal error occurs, TMR
+ * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
- * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
+ * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
+ * detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
+ * for details. Current state of TMR is logged in ml_tmr_timeout_status,
+ * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
+ * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
+ * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
+ * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
+ * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
+ * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
+ * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_enable_lo_7
 {
@@ -64490,10 +64226,22 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_LO_7(uint64_t a)
  * Register (NCB32b) ml#_tmr_cfg_int_force_0
  *
  * ML TMR CFG INT FORCE 0 Register
- * Interrupt register. All errors are fatal errors. When a fatal error occurs, TMR
+ * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
- * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
+ * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
+ * detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
+ * for details. Current state of TMR is logged in ml_tmr_timeout_status,
+ * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
+ * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
+ * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
+ * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
+ * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
+ * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
+ * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_force_0
 {
@@ -64581,10 +64329,22 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_FORCE_0(uint64_t a)
  * Register (NCB32b) ml#_tmr_cfg_int_force_1
  *
  * ML TMR CFG INT FORCE 1 Register
- * Interrupt register. All errors are fatal errors. When a fatal error occurs, TMR
+ * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
- * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
+ * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
+ * detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
+ * for details. Current state of TMR is logged in ml_tmr_timeout_status,
+ * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
+ * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
+ * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
+ * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
+ * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
+ * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
+ * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_force_1
 {
@@ -64672,10 +64432,22 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_FORCE_1(uint64_t a)
  * Register (NCB32b) ml#_tmr_cfg_int_force_2
  *
  * ML TMR CFG INT FORCE 2 Register
- * Interrupt register. All errors are fatal errors. When a fatal error occurs, TMR
+ * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
- * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
+ * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
+ * detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
+ * for details. Current state of TMR is logged in ml_tmr_timeout_status,
+ * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
+ * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
+ * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
+ * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
+ * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
+ * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
+ * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_force_2
 {
@@ -64763,10 +64535,22 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_FORCE_2(uint64_t a)
  * Register (NCB32b) ml#_tmr_cfg_int_force_3
  *
  * ML TMR CFG INT FORCE 3 Register
- * Interrupt register. All errors are fatal errors. When a fatal error occurs, TMR
+ * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
- * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
+ * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
+ * detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
+ * for details. Current state of TMR is logged in ml_tmr_timeout_status,
+ * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
+ * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
+ * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
+ * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
+ * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
+ * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
+ * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_force_3
 {
@@ -64854,10 +64638,22 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_FORCE_3(uint64_t a)
  * Register (NCB32b) ml#_tmr_cfg_int_force_4
  *
  * ML TMR CFG INT FORCE 4 Register
- * Interrupt register. All errors are fatal errors. When a fatal error occurs, TMR
+ * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
- * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
+ * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
+ * detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
+ * for details. Current state of TMR is logged in ml_tmr_timeout_status,
+ * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
+ * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
+ * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
+ * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
+ * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
+ * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
+ * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_force_4
 {
@@ -64945,10 +64741,22 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_FORCE_4(uint64_t a)
  * Register (NCB32b) ml#_tmr_cfg_int_force_5
  *
  * ML TMR CFG INT FORCE 5 Register
- * Interrupt register. All errors are fatal errors. When a fatal error occurs, TMR
+ * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
- * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
+ * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
+ * detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
+ * for details. Current state of TMR is logged in ml_tmr_timeout_status,
+ * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
+ * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
+ * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
+ * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
+ * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
+ * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
+ * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_force_5
 {
@@ -65036,10 +64844,22 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_FORCE_5(uint64_t a)
  * Register (NCB32b) ml#_tmr_cfg_int_force_6
  *
  * ML TMR CFG INT FORCE 6 Register
- * Interrupt register. All errors are fatal errors. When a fatal error occurs, TMR
+ * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
- * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
+ * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
+ * detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
+ * for details. Current state of TMR is logged in ml_tmr_timeout_status,
+ * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
+ * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
+ * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
+ * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
+ * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
+ * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
+ * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_force_6
 {
@@ -65127,10 +64947,22 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_FORCE_6(uint64_t a)
  * Register (NCB32b) ml#_tmr_cfg_int_force_7
  *
  * ML TMR CFG INT FORCE 7 Register
- * Interrupt register. All errors are fatal errors. When a fatal error occurs, TMR
+ * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
- * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
+ * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
+ * detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
+ * for details. Current state of TMR is logged in ml_tmr_timeout_status,
+ * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
+ * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
+ * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
+ * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
+ * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
+ * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
+ * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_force_7
 {
@@ -65218,10 +65050,22 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_FORCE_7(uint64_t a)
  * Register (NCB32b) ml#_tmr_cfg_int_status_0
  *
  * ML TMR CFG INT STATUS 0 Register
- * Interrupt register. All errors are fatal errors. When a fatal error occurs, TMR
+ * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
- * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
+ * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
+ * detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
+ * for details. Current state of TMR is logged in ml_tmr_timeout_status,
+ * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
+ * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
+ * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
+ * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
+ * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
+ * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
+ * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_status_0
 {
@@ -65309,10 +65153,22 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_STATUS_0(uint64_t a)
  * Register (NCB32b) ml#_tmr_cfg_int_status_1
  *
  * ML TMR CFG INT STATUS 1 Register
- * Interrupt register. All errors are fatal errors. When a fatal error occurs, TMR
+ * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
- * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
+ * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
+ * detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
+ * for details. Current state of TMR is logged in ml_tmr_timeout_status,
+ * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
+ * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
+ * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
+ * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
+ * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
+ * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
+ * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_status_1
 {
@@ -65400,10 +65256,22 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_STATUS_1(uint64_t a)
  * Register (NCB32b) ml#_tmr_cfg_int_status_2
  *
  * ML TMR CFG INT STATUS 2 Register
- * Interrupt register. All errors are fatal errors. When a fatal error occurs, TMR
+ * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
- * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
+ * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
+ * detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
+ * for details. Current state of TMR is logged in ml_tmr_timeout_status,
+ * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
+ * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
+ * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
+ * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
+ * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
+ * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
+ * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_status_2
 {
@@ -65491,10 +65359,22 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_STATUS_2(uint64_t a)
  * Register (NCB32b) ml#_tmr_cfg_int_status_3
  *
  * ML TMR CFG INT STATUS 3 Register
- * Interrupt register. All errors are fatal errors. When a fatal error occurs, TMR
+ * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
- * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
+ * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
+ * detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
+ * for details. Current state of TMR is logged in ml_tmr_timeout_status,
+ * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
+ * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
+ * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
+ * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
+ * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
+ * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
+ * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_status_3
 {
@@ -65582,10 +65462,22 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_STATUS_3(uint64_t a)
  * Register (NCB32b) ml#_tmr_cfg_int_status_4
  *
  * ML TMR CFG INT STATUS 4 Register
- * Interrupt register. All errors are fatal errors. When a fatal error occurs, TMR
+ * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
- * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
+ * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
+ * detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
+ * for details. Current state of TMR is logged in ml_tmr_timeout_status,
+ * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
+ * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
+ * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
+ * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
+ * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
+ * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
+ * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_status_4
 {
@@ -65673,10 +65565,22 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_STATUS_4(uint64_t a)
  * Register (NCB32b) ml#_tmr_cfg_int_status_5
  *
  * ML TMR CFG INT STATUS 5 Register
- * Interrupt register. All errors are fatal errors. When a fatal error occurs, TMR
+ * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
- * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
+ * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
+ * detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
+ * for details. Current state of TMR is logged in ml_tmr_timeout_status,
+ * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
+ * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
+ * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
+ * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
+ * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
+ * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
+ * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_status_5
 {
@@ -65764,10 +65668,22 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_STATUS_5(uint64_t a)
  * Register (NCB32b) ml#_tmr_cfg_int_status_6
  *
  * ML TMR CFG INT STATUS 6 Register
- * Interrupt register. All errors are fatal errors. When a fatal error occurs, TMR
+ * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
- * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
+ * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
+ * detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
+ * for details. Current state of TMR is logged in ml_tmr_timeout_status,
+ * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
+ * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
+ * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
+ * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
+ * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
+ * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
+ * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_status_6
 {
@@ -65855,10 +65771,22 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_STATUS_6(uint64_t a)
  * Register (NCB32b) ml#_tmr_cfg_int_status_7
  *
  * ML TMR CFG INT STATUS 7 Register
- * Interrupt register. All errors are fatal errors. When a fatal error occurs, TMR
+ * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
- * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
+ * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
+ * detailed Fatal error (FT) and Non fatal error (NF) behavior
+ * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
+ * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
+ * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
+ * for details. Current state of TMR is logged in ml_tmr_timeout_status,
+ * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
+ * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
+ * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
+ * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
+ * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
+ * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
+ * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_status_7
 {

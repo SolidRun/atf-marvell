@@ -119,15 +119,13 @@ union cavm_fus_const
     struct cavm_fus_const_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_24_63        : 40;
-        uint64_t repair1_banks         : 8;  /**< [ 23: 16](RO) Number of 128-bit memory repair banks present after repar banks. */
+        uint64_t reserved_16_63        : 48;
         uint64_t repair_banks          : 8;  /**< [ 15:  8](RO) Number of 128-bit memory repair banks present. */
         uint64_t fuse_banks            : 8;  /**< [  7:  0](RO) Number of 128-bit general purpose fuse banks present. */
 #else /* Word 0 - Little Endian */
         uint64_t fuse_banks            : 8;  /**< [  7:  0](RO) Number of 128-bit general purpose fuse banks present. */
         uint64_t repair_banks          : 8;  /**< [ 15:  8](RO) Number of 128-bit memory repair banks present. */
-        uint64_t repair1_banks         : 8;  /**< [ 23: 16](RO) Number of 128-bit memory repair banks present after repar banks. */
-        uint64_t reserved_24_63        : 40;
+        uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_fus_const_s cn; */

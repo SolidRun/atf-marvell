@@ -27,6 +27,16 @@
  */
 #define CAVM_EHSM_BAR_E_EHSM_PF_BAR0 (0x80b000000000ll)
 #define CAVM_EHSM_BAR_E_EHSM_PF_BAR0_SIZE 0x100000ull
+#define CAVM_EHSM_BAR_E_EHSM_PF_BAR4 (0x80b000100000ll)
+#define CAVM_EHSM_BAR_E_EHSM_PF_BAR4_SIZE 0x100000ull
+
+/**
+ * Enumeration ehsm_int_vec_e
+ *
+ * EHSM MSI-X Vector Enumeration
+ * Enumerates the MSI-X interrupt vectors.
+ */
+#define CAVM_EHSM_INT_VEC_E_EHSM_HST_INTX(a) (0 + (a))
 
 /**
  * Register (NCB32b) ehsm_biu_boot_strap_pin_status
@@ -193,23 +203,23 @@ union cavm_ehsm_biu_chain_of_trust_status
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t irom_panic_state      : 1;  /**< [  7:  7](RO) Indicate if IROM is in panic state. */
-        uint32_t pie_lock_status       : 1;  /**< [  6:  6](RO) Indicate if the PIE reload has been locked. */
-        uint32_t soc_noise_injection   : 1;  /**< [  5:  5](RO) Indicate if SOC is injecting noise. */
-        uint32_t uds_lock_status       : 1;  /**< [  4:  4](RO) Indicate if the UDS has been locked. */
-        uint32_t key_manifest_lock_status : 1;/**< [  3:  3](RO) Indicate if the Key Manifest reload has been locked. */
-        uint32_t key_manifest_load_status : 1;/**< [  2:  2](RO) Indicate if the key manifest has been loaded. */
+        uint32_t irom_panic_state      : 1;  /**< [  7:  7](RO) Indicate if IROM is in panic state */
+        uint32_t pie_lock_status       : 1;  /**< [  6:  6](RO) Indicate if the PIE reload has been locked */
+        uint32_t soc_noise_injection   : 1;  /**< [  5:  5](RO) Indicate if SOC is injecting noise */
+        uint32_t uds_lock_status       : 1;  /**< [  4:  4](RO) Indicate if the UDS has been locked */
+        uint32_t key_manifest_lock_status : 1;/**< [  3:  3](RO) Indicate if the Key Manifest reload has been locked */
+        uint32_t key_manifest_load_status : 1;/**< [  2:  2](RO) Indicate if the key manifest has been loaded */
         uint32_t reserved_1            : 1;
-        uint32_t pie_load_status       : 1;  /**< [  0:  0](RO) Indicate if PIE code has been loaded. */
+        uint32_t pie_load_status       : 1;  /**< [  0:  0](RO) Indicate if PIE code has been loaded */
 #else /* Word 0 - Little Endian */
-        uint32_t pie_load_status       : 1;  /**< [  0:  0](RO) Indicate if PIE code has been loaded. */
+        uint32_t pie_load_status       : 1;  /**< [  0:  0](RO) Indicate if PIE code has been loaded */
         uint32_t reserved_1            : 1;
-        uint32_t key_manifest_load_status : 1;/**< [  2:  2](RO) Indicate if the key manifest has been loaded. */
-        uint32_t key_manifest_lock_status : 1;/**< [  3:  3](RO) Indicate if the Key Manifest reload has been locked. */
-        uint32_t uds_lock_status       : 1;  /**< [  4:  4](RO) Indicate if the UDS has been locked. */
-        uint32_t soc_noise_injection   : 1;  /**< [  5:  5](RO) Indicate if SOC is injecting noise. */
-        uint32_t pie_lock_status       : 1;  /**< [  6:  6](RO) Indicate if the PIE reload has been locked. */
-        uint32_t irom_panic_state      : 1;  /**< [  7:  7](RO) Indicate if IROM is in panic state. */
+        uint32_t key_manifest_load_status : 1;/**< [  2:  2](RO) Indicate if the key manifest has been loaded */
+        uint32_t key_manifest_lock_status : 1;/**< [  3:  3](RO) Indicate if the Key Manifest reload has been locked */
+        uint32_t uds_lock_status       : 1;  /**< [  4:  4](RO) Indicate if the UDS has been locked */
+        uint32_t soc_noise_injection   : 1;  /**< [  5:  5](RO) Indicate if SOC is injecting noise */
+        uint32_t pie_lock_status       : 1;  /**< [  6:  6](RO) Indicate if the PIE reload has been locked */
+        uint32_t irom_panic_state      : 1;  /**< [  7:  7](RO) Indicate if IROM is in panic state */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -243,14 +253,14 @@ union cavm_ehsm_biu_cmd_fifo_status
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_17_31        : 15;
-        uint32_t cmd_exe_core_id       : 1;  /**< [ 16: 16](RO) This bit indicate whether the command being executed is from host processor core 1 or core 2.
-                                                                 0: The command being executed is from host processor core 1.
-                                                                 1: The command being executed is from host processor core 2. */
-        uint32_t cmd_status            : 8;  /**< [ 15:  8](RO) This register allows the host to poll the status of the EHSM during the boot process.
+        uint32_t cmd_exe_core_id       : 1;  /**< [ 16: 16](RO) This bit indicate whether the command being executed is from host processor core 1 or core 2
+                                                                 0: The command being executed is from host processor core 1
+                                                                 1: The command being executed is from host processor core 2 */
+        uint32_t cmd_status            : 8;  /**< [ 15:  8](RO) This register allows the host to poll the status of the BCM during the boot process.
                                                                  Bit [8]:
                                                                  If '0', indicates that the secure processor is not currently able to accept
                                                                  commands, so no primitive instructions should be sent, even if room is available
-                                                                 in the command fifo. A '1' indicates a successful EHSM boot.
+                                                                 in the command fifo. A '1' indicates a successful BCM boot.
                                                                  At startup, this bit should be polled by the host to determine when to start
                                                                  sending primitive instructions.
                                                                  Bits [15:9]:
@@ -284,18 +294,18 @@ union cavm_ehsm_biu_cmd_fifo_status
         uint32_t core2_cmd_status_read_done : 1;/**< [  7:  7](RO) This bit indicates host processor core 2 has read back all CMD status for the
                                                                  last CMD from host processor core 2. CM3 can safely overwrite the CORE2 CMD
                                                                  status registers for current CMD from host processor core 2. */
-        uint32_t cmd_status            : 8;  /**< [ 15:  8](RO) This register allows the host to poll the status of the EHSM during the boot process.
+        uint32_t cmd_status            : 8;  /**< [ 15:  8](RO) This register allows the host to poll the status of the BCM during the boot process.
                                                                  Bit [8]:
                                                                  If '0', indicates that the secure processor is not currently able to accept
                                                                  commands, so no primitive instructions should be sent, even if room is available
-                                                                 in the command fifo. A '1' indicates a successful EHSM boot.
+                                                                 in the command fifo. A '1' indicates a successful BCM boot.
                                                                  At startup, this bit should be polled by the host to determine when to start
                                                                  sending primitive instructions.
                                                                  Bits [15:9]:
                                                                  These bits are reserved for future use. */
-        uint32_t cmd_exe_core_id       : 1;  /**< [ 16: 16](RO) This bit indicate whether the command being executed is from host processor core 1 or core 2.
-                                                                 0: The command being executed is from host processor core 1.
-                                                                 1: The command being executed is from host processor core 2. */
+        uint32_t cmd_exe_core_id       : 1;  /**< [ 16: 16](RO) This bit indicate whether the command being executed is from host processor core 1 or core 2
+                                                                 0: The command being executed is from host processor core 1
+                                                                 1: The command being executed is from host processor core 2 */
         uint32_t reserved_17_31        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -3311,21 +3321,21 @@ union cavm_ehsm_biu_fw_security_version
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_13_31        : 19;
-        uint32_t kak_id                : 2;  /**< [ 12: 11](RO) This is written by IROM to select loader_fw_security_version0~3 and main_fw_security_version0~3.
+        uint32_t kak_id                : 2;  /**< [ 12: 11](RO) This is written by IROM to select loader_fw_security_version0~3 and main_fw_security_version0~3
                                                                  0: loader_fw_security_version field reflects OTP field
                                                                  loader_fw_security_version0, main_fw_security_version field reflects OTP field
-                                                                 main_fw_security_version0.
+                                                                 main_fw_security_version0
                                                                  1: loader_fw_security_version field reflects OTP field
                                                                  loader_fw_security_version1, main_fw_security_version field reflects OTP field
-                                                                 main_fw_security_version1.
+                                                                 main_fw_security_version1
                                                                  2: loader_fw_security_version field reflects OTP field
                                                                  loader_fw_security_version2, main_fw_security_version field reflects OTP field
-                                                                 main_fw_security_version2.
+                                                                 main_fw_security_version2
                                                                  3: loader_fw_security_version field reflects OTP field
                                                                  loader_fw_security_version3, main_fw_security_version field reflects OTP field
-                                                                 main_fw_security_version3. */
+                                                                 main_fw_security_version3 */
         uint32_t kak_id_valid          : 1;  /**< [ 10: 10](RO) This is written by IROM to indicate kak_id is valid to select
-                                                                 loader_fw_security_version0~3 and main_fw_security_version0~3. */
+                                                                 loader_fw_security_version0~3 and main_fw_security_version0~3 */
         uint32_t main_fw_security_version : 6;/**< [  9:  4](RO) This is the shadow register for main_fw_security_version0,
                                                                  main_fw_security_version1, main_fw_security_version2, or
                                                                  main_fw_security_version3 field from OTP, determined by version_index. The value
@@ -3344,20 +3354,20 @@ union cavm_ehsm_biu_fw_security_version
                                                                  main_fw_security_version3 field from OTP, determined by version_index. The value
                                                                  range is 0~33. */
         uint32_t kak_id_valid          : 1;  /**< [ 10: 10](RO) This is written by IROM to indicate kak_id is valid to select
-                                                                 loader_fw_security_version0~3 and main_fw_security_version0~3. */
-        uint32_t kak_id                : 2;  /**< [ 12: 11](RO) This is written by IROM to select loader_fw_security_version0~3 and main_fw_security_version0~3.
+                                                                 loader_fw_security_version0~3 and main_fw_security_version0~3 */
+        uint32_t kak_id                : 2;  /**< [ 12: 11](RO) This is written by IROM to select loader_fw_security_version0~3 and main_fw_security_version0~3
                                                                  0: loader_fw_security_version field reflects OTP field
                                                                  loader_fw_security_version0, main_fw_security_version field reflects OTP field
-                                                                 main_fw_security_version0.
+                                                                 main_fw_security_version0
                                                                  1: loader_fw_security_version field reflects OTP field
                                                                  loader_fw_security_version1, main_fw_security_version field reflects OTP field
-                                                                 main_fw_security_version1.
+                                                                 main_fw_security_version1
                                                                  2: loader_fw_security_version field reflects OTP field
                                                                  loader_fw_security_version2, main_fw_security_version field reflects OTP field
-                                                                 main_fw_security_version2.
+                                                                 main_fw_security_version2
                                                                  3: loader_fw_security_version field reflects OTP field
                                                                  loader_fw_security_version3, main_fw_security_version field reflects OTP field
-                                                                 main_fw_security_version3. */
+                                                                 main_fw_security_version3 */
         uint32_t reserved_13_31        : 19;
 #endif /* Word 0 - End */
     } s;
@@ -3384,7 +3394,7 @@ static inline uint64_t CAVM_EHSM_BIU_FW_SECURITY_VERSION_FUNC(void)
  *
  * EHSM Biu Hst Except Addr Register
  * This is the address that triggers HST_ADDR_RANGE in CORE1_HST_INTERRUPT_RST and
- * CORE2_HST_INTERRUPT_RST.
+ * CORE2_HST_INTERRUPT_RST
  */
 union cavm_ehsm_biu_hst_except_addr
 {
@@ -3393,10 +3403,10 @@ union cavm_ehsm_biu_hst_except_addr
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t hst_except_addr       : 32; /**< [ 31:  0](RO) This is the address that triggers HST_ADDR_RANGE in CORE1_HST_INTERRUPT_RST and
-                                                                 CORE2_HST_INTERRUPT_RST. */
+                                                                 CORE2_HST_INTERRUPT_RST */
 #else /* Word 0 - Little Endian */
         uint32_t hst_except_addr       : 32; /**< [ 31:  0](RO) This is the address that triggers HST_ADDR_RANGE in CORE1_HST_INTERRUPT_RST and
-                                                                 CORE2_HST_INTERRUPT_RST. */
+                                                                 CORE2_HST_INTERRUPT_RST */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_biu_hst_except_addr_s cn; */
@@ -3647,58 +3657,57 @@ union cavm_ehsm_biu_root_of_trust_status
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_28_31        : 4;
-        uint32_t ebg_continuous_health_test_fail : 1;/**< [ 27: 27](RO) Indicates that EBG continuous health test fails.
-                                                                 0: EBG continuous health test is successful.
-                                                                 1: EBG continuous health test is failed. */
-        uint32_t ebg_start_up_health_test_done : 1;/**< [ 26: 26](RO) Indicates whether rkek is provisioned.
-                                                                 0: rkek is not provisioned, i.e. ecc_rkek are all 0.
-                                                                 1: rkek is provisioned, i.e. not all ecc_rkek are 0. */
-        uint32_t ebg_start_up_health_test_fail : 1;/**< [ 25: 25](RO) Indicates that EBG start up health test fails. It is only valid when
-                                                                 EBG_start_up_health_test_done=1
-                                                                 0: EBG start up health test is successful.
-                                                                 1: EBG start up health test is failed. */
+        uint32_t ebg_continuous_health_test_fail : 1;/**< [ 27: 27](RO) Indicate that EBG continuous health test fails.
+                                                                 0: EBG continuous health test is successful
+                                                                 1: EBG continuous health test is failed */
+        uint32_t ebg_start_up_health_test_done : 1;/**< [ 26: 26](RO) Indicate whether rkek is provisioned
+                                                                 0: rkek is not provisioned, i.e. ecc_rkek are all 0
+                                                                 1: rkek is provisioned, i.e. not all ecc_rkek are 0 */
+        uint32_t ebg_start_up_health_test_fail : 1;/**< [ 25: 25](RO) Indicate that EBG start up health test fails. It is only valid when EBG_start_up_health_test_done=1
+                                                                 0: EBG start up health test is successful
+                                                                 1: EBG start up health test is failed */
         uint32_t ehsm_panic_state      : 1;  /**< [ 24: 24](RO) Indicate EHSM is in panic state. It can be triggered by memory failure and power switch failure
                                                                  For memory failures:
                                                                  1. When EHSM is in FIPS mode, panic state is triggered by uncorrectable error
                                                                  detected during memory self test or run time.
                                                                  2. When EHSM is in non FIPS mode, panic state is triggered by uncorrectable
-                                                                 error detected during memory self test only.
-                                                                 For power switch failures.
+                                                                 error detected during memory self test only
+                                                                 For power switch failures
                                                                  1. If enable_puf field in OTP efuse is 0, only SYSRDYP timeout of OTP power
-                                                                 switch can trigger panic state.
+                                                                 switch can trigger panic state
                                                                  2. If enable_puf field in OTP efuse is 1, SYSRDYP timeout of both OTP and PUF
-                                                                 power switch can trigger panic state. */
+                                                                 power switch can trigger panic state */
         uint32_t reserved_21_23        : 3;
-        uint32_t rkek_provisioned      : 1;  /**< [ 20: 20](RO) Indicates whether rkek is provisioned.
-                                                                 0: rkek is not provisioned, i.e. ecc_rkek are all 0.
-                                                                 1: rkek is provisioned, i.e. not all ecc_rkek are 0. */
-        uint32_t uds_provisioned       : 1;  /**< [ 19: 19](RO) Indicates whether uds is provisioned.
-                                                                 0: uds is not provisioned, i.e. ecc_uds are all 0.
-                                                                 1: uds is provisioned, i.e. not all ecc_uds are 0. */
-        uint32_t l0_fw_aes_key3_provisioned : 1;/**< [ 18: 18](RO) Indicates whether L0_fw_aes_key3 is provisioned.
-                                                                 0: L0_fw_aes_key3 is not provisioned, i.e. ecc_L0_fw_aes_key3 are all 0.
-                                                                 1: L0_fw_aes_key3 is provisioned, i.e. not all ecc_L0_fw_aes_key3 are 0. */
-        uint32_t l0_fw_aes_key2_provisioned : 1;/**< [ 17: 17](RO) Indicates whether L0_fw_aes_key2 is provisioned.
-                                                                 0: L0_fw_aes_key2 is not provisioned, i.e. ecc_L0_fw_aes_key2 are all 0.
-                                                                 1: L0_fw_aes_key2 is provisioned, i.e. not all ecc_L0_fw_aes_key2 are 0. */
-        uint32_t l0_fw_aes_key1_provisioned : 1;/**< [ 16: 16](RO) Indicates whether L0_fw_aes_key1 is provisioned.
-                                                                 0: L0_fw_aes_key1 is not provisioned, i.e. ecc_L0_fw_aes_key1 are all 0.
-                                                                 1: L0_fw_aes_key1 is provisioned, i.e. not all ecc_L0_fw_aes_key1 are 0. */
-        uint32_t l0_fw_aes_key0_provisioned : 1;/**< [ 15: 15](RO) Indicates whether L0_fw_aes_key0 is provisioned.
-                                                                 0: L0_fw_aes_key0 is not provisioned, i.e. ecc_L0_fw_aes_key0 are all 0.
-                                                                 1: L0_fw_aes_key0 is provisioned, i.e. not all ecc_L0_fw_aes_key0 are 0. */
-        uint32_t kak3_binding_digest_provisioned : 1;/**< [ 14: 14](RO) Indicates whether kak3_binding_digest is provisioned.
-                                                                 0: kak3_binding_digest is not provisioned, i.e. ecc_kak3_binding_digest are all 0.
-                                                                 1: kak3_binding_digest is provisioned, i.e. not all ecc_kak3_binding_digest are 0. */
-        uint32_t kak2_binding_digest_provisioned : 1;/**< [ 13: 13](RO) Indicates whether kak2_binding_digest is provisioned
-                                                                 0: kak2_binding_digest is not provisioned, i.e. ecc_kak2_binding_digest are all 0.
-                                                                 1: kak2_binding_digest is provisioned, i.e. not all ecc_kak2_binding_digest are 0. */
-        uint32_t kak1_binding_digest_provisioned : 1;/**< [ 12: 12](RO) Indicates whether kak1_binding_digest is provisioned.
-                                                                 0: kak1_binding_digest is not provisioned, i.e. ecc_kak1_binding_digest are all 0.
-                                                                 1: kak1_binding_digest is provisioned, i.e. not all ecc_kak1_binding_digest are 0. */
-        uint32_t kak0_binding_digest_provisioned : 1;/**< [ 11: 11](RO) Indicates whether kak0_binding_digest is provisioned.
-                                                                 0: kak0_binding_digest is not provisioned, i.e. ecc_kak0_binding_digest are all 0.
-                                                                 1: kak0_binding_digest is provisioned, i.e. not all ecc_kak0_binding_digest are 0. */
+        uint32_t rkek_provisioned      : 1;  /**< [ 20: 20](RO) Indicate whether rkek is provisioned
+                                                                 0: rkek is not provisioned, i.e. ecc_rkek are all 0
+                                                                 1: rkek is provisioned, i.e. not all ecc_rkek are 0 */
+        uint32_t uds_provisioned       : 1;  /**< [ 19: 19](RO) Indicate whether uds is provisioned
+                                                                 0: uds is not provisioned, i.e. ecc_uds are all 0
+                                                                 1: uds is provisioned, i.e. not all ecc_uds are 0 */
+        uint32_t l0_fw_aes_key3_provisioned : 1;/**< [ 18: 18](RO) Indicate whether L0_fw_aes_key3 is provisioned
+                                                                 0: L0_fw_aes_key3 is not provisioned, i.e. ecc_L0_fw_aes_key3 are all 0
+                                                                 1: L0_fw_aes_key3 is provisioned, i.e. not all ecc_L0_fw_aes_key3 are 0 */
+        uint32_t l0_fw_aes_key2_provisioned : 1;/**< [ 17: 17](RO) Indicate whether L0_fw_aes_key2 is provisioned
+                                                                 0: L0_fw_aes_key2 is not provisioned, i.e. ecc_L0_fw_aes_key2 are all 0
+                                                                 1: L0_fw_aes_key2 is provisioned, i.e. not all ecc_L0_fw_aes_key2 are 0 */
+        uint32_t l0_fw_aes_key1_provisioned : 1;/**< [ 16: 16](RO) Indicate whether L0_fw_aes_key1 is provisioned
+                                                                 0: L0_fw_aes_key1 is not provisioned, i.e. ecc_L0_fw_aes_key1 are all 0
+                                                                 1: L0_fw_aes_key1 is provisioned, i.e. not all ecc_L0_fw_aes_key1 are 0 */
+        uint32_t l0_fw_aes_key0_provisioned : 1;/**< [ 15: 15](RO) Indicate whether L0_fw_aes_key0 is provisioned
+                                                                 0: L0_fw_aes_key0 is not provisioned, i.e. ecc_L0_fw_aes_key0 are all 0
+                                                                 1: L0_fw_aes_key0 is provisioned, i.e. not all ecc_L0_fw_aes_key0 are 0 */
+        uint32_t kak3_binding_digest_provisioned : 1;/**< [ 14: 14](RO) Indicate whether kak3_binding_digest is provisioned
+                                                                 0: kak3_binding_digest is not provisioned, i.e. ecc_kak3_binding_digest are all 0
+                                                                 1: kak3_binding_digest is provisioned, i.e. not all ecc_kak3_binding_digest are 0 */
+        uint32_t kak2_binding_digest_provisioned : 1;/**< [ 13: 13](RO) Indicate whether kak2_binding_digest is provisioned
+                                                                 0: kak2_binding_digest is not provisioned, i.e. ecc_kak2_binding_digest are all 0
+                                                                 1: kak2_binding_digest is provisioned, i.e. not all ecc_kak2_binding_digest are 0 */
+        uint32_t kak1_binding_digest_provisioned : 1;/**< [ 12: 12](RO) Indicate whether kak1_binding_digest is provisioned
+                                                                 0: kak1_binding_digest is not provisioned, i.e. ecc_kak1_binding_digest are all 0
+                                                                 1: kak1_binding_digest is provisioned, i.e. not all ecc_kak1_binding_digest are 0 */
+        uint32_t kak0_binding_digest_provisioned : 1;/**< [ 11: 11](RO) Indicate whether kak0_binding_digest is provisioned
+                                                                 0: kak0_binding_digest is not provisioned, i.e. ecc_kak0_binding_digest are all 0
+                                                                 1: kak0_binding_digest is provisioned, i.e. not all ecc_kak0_binding_digest are 0 */
         uint32_t auth_cmd_mode         : 1;  /**< [ 10: 10](RO) This is the shadow register for auth_cmd_mode field from OTP. */
         uint32_t disable_ehsm_crypto   : 1;  /**< [  9:  9](RO) This is the shadow register for disable_bcm_crypto field from OTP. */
         uint32_t disable_ehsm_self_test : 1; /**< [  8:  8](RO) This is the shadow register for disable_bcm_self_test field from OTP. */
@@ -3722,58 +3731,57 @@ union cavm_ehsm_biu_root_of_trust_status
         uint32_t disable_ehsm_self_test : 1; /**< [  8:  8](RO) This is the shadow register for disable_bcm_self_test field from OTP. */
         uint32_t disable_ehsm_crypto   : 1;  /**< [  9:  9](RO) This is the shadow register for disable_bcm_crypto field from OTP. */
         uint32_t auth_cmd_mode         : 1;  /**< [ 10: 10](RO) This is the shadow register for auth_cmd_mode field from OTP. */
-        uint32_t kak0_binding_digest_provisioned : 1;/**< [ 11: 11](RO) Indicates whether kak0_binding_digest is provisioned.
-                                                                 0: kak0_binding_digest is not provisioned, i.e. ecc_kak0_binding_digest are all 0.
-                                                                 1: kak0_binding_digest is provisioned, i.e. not all ecc_kak0_binding_digest are 0. */
-        uint32_t kak1_binding_digest_provisioned : 1;/**< [ 12: 12](RO) Indicates whether kak1_binding_digest is provisioned.
-                                                                 0: kak1_binding_digest is not provisioned, i.e. ecc_kak1_binding_digest are all 0.
-                                                                 1: kak1_binding_digest is provisioned, i.e. not all ecc_kak1_binding_digest are 0. */
-        uint32_t kak2_binding_digest_provisioned : 1;/**< [ 13: 13](RO) Indicates whether kak2_binding_digest is provisioned
-                                                                 0: kak2_binding_digest is not provisioned, i.e. ecc_kak2_binding_digest are all 0.
-                                                                 1: kak2_binding_digest is provisioned, i.e. not all ecc_kak2_binding_digest are 0. */
-        uint32_t kak3_binding_digest_provisioned : 1;/**< [ 14: 14](RO) Indicates whether kak3_binding_digest is provisioned.
-                                                                 0: kak3_binding_digest is not provisioned, i.e. ecc_kak3_binding_digest are all 0.
-                                                                 1: kak3_binding_digest is provisioned, i.e. not all ecc_kak3_binding_digest are 0. */
-        uint32_t l0_fw_aes_key0_provisioned : 1;/**< [ 15: 15](RO) Indicates whether L0_fw_aes_key0 is provisioned.
-                                                                 0: L0_fw_aes_key0 is not provisioned, i.e. ecc_L0_fw_aes_key0 are all 0.
-                                                                 1: L0_fw_aes_key0 is provisioned, i.e. not all ecc_L0_fw_aes_key0 are 0. */
-        uint32_t l0_fw_aes_key1_provisioned : 1;/**< [ 16: 16](RO) Indicates whether L0_fw_aes_key1 is provisioned.
-                                                                 0: L0_fw_aes_key1 is not provisioned, i.e. ecc_L0_fw_aes_key1 are all 0.
-                                                                 1: L0_fw_aes_key1 is provisioned, i.e. not all ecc_L0_fw_aes_key1 are 0. */
-        uint32_t l0_fw_aes_key2_provisioned : 1;/**< [ 17: 17](RO) Indicates whether L0_fw_aes_key2 is provisioned.
-                                                                 0: L0_fw_aes_key2 is not provisioned, i.e. ecc_L0_fw_aes_key2 are all 0.
-                                                                 1: L0_fw_aes_key2 is provisioned, i.e. not all ecc_L0_fw_aes_key2 are 0. */
-        uint32_t l0_fw_aes_key3_provisioned : 1;/**< [ 18: 18](RO) Indicates whether L0_fw_aes_key3 is provisioned.
-                                                                 0: L0_fw_aes_key3 is not provisioned, i.e. ecc_L0_fw_aes_key3 are all 0.
-                                                                 1: L0_fw_aes_key3 is provisioned, i.e. not all ecc_L0_fw_aes_key3 are 0. */
-        uint32_t uds_provisioned       : 1;  /**< [ 19: 19](RO) Indicates whether uds is provisioned.
-                                                                 0: uds is not provisioned, i.e. ecc_uds are all 0.
-                                                                 1: uds is provisioned, i.e. not all ecc_uds are 0. */
-        uint32_t rkek_provisioned      : 1;  /**< [ 20: 20](RO) Indicates whether rkek is provisioned.
-                                                                 0: rkek is not provisioned, i.e. ecc_rkek are all 0.
-                                                                 1: rkek is provisioned, i.e. not all ecc_rkek are 0. */
+        uint32_t kak0_binding_digest_provisioned : 1;/**< [ 11: 11](RO) Indicate whether kak0_binding_digest is provisioned
+                                                                 0: kak0_binding_digest is not provisioned, i.e. ecc_kak0_binding_digest are all 0
+                                                                 1: kak0_binding_digest is provisioned, i.e. not all ecc_kak0_binding_digest are 0 */
+        uint32_t kak1_binding_digest_provisioned : 1;/**< [ 12: 12](RO) Indicate whether kak1_binding_digest is provisioned
+                                                                 0: kak1_binding_digest is not provisioned, i.e. ecc_kak1_binding_digest are all 0
+                                                                 1: kak1_binding_digest is provisioned, i.e. not all ecc_kak1_binding_digest are 0 */
+        uint32_t kak2_binding_digest_provisioned : 1;/**< [ 13: 13](RO) Indicate whether kak2_binding_digest is provisioned
+                                                                 0: kak2_binding_digest is not provisioned, i.e. ecc_kak2_binding_digest are all 0
+                                                                 1: kak2_binding_digest is provisioned, i.e. not all ecc_kak2_binding_digest are 0 */
+        uint32_t kak3_binding_digest_provisioned : 1;/**< [ 14: 14](RO) Indicate whether kak3_binding_digest is provisioned
+                                                                 0: kak3_binding_digest is not provisioned, i.e. ecc_kak3_binding_digest are all 0
+                                                                 1: kak3_binding_digest is provisioned, i.e. not all ecc_kak3_binding_digest are 0 */
+        uint32_t l0_fw_aes_key0_provisioned : 1;/**< [ 15: 15](RO) Indicate whether L0_fw_aes_key0 is provisioned
+                                                                 0: L0_fw_aes_key0 is not provisioned, i.e. ecc_L0_fw_aes_key0 are all 0
+                                                                 1: L0_fw_aes_key0 is provisioned, i.e. not all ecc_L0_fw_aes_key0 are 0 */
+        uint32_t l0_fw_aes_key1_provisioned : 1;/**< [ 16: 16](RO) Indicate whether L0_fw_aes_key1 is provisioned
+                                                                 0: L0_fw_aes_key1 is not provisioned, i.e. ecc_L0_fw_aes_key1 are all 0
+                                                                 1: L0_fw_aes_key1 is provisioned, i.e. not all ecc_L0_fw_aes_key1 are 0 */
+        uint32_t l0_fw_aes_key2_provisioned : 1;/**< [ 17: 17](RO) Indicate whether L0_fw_aes_key2 is provisioned
+                                                                 0: L0_fw_aes_key2 is not provisioned, i.e. ecc_L0_fw_aes_key2 are all 0
+                                                                 1: L0_fw_aes_key2 is provisioned, i.e. not all ecc_L0_fw_aes_key2 are 0 */
+        uint32_t l0_fw_aes_key3_provisioned : 1;/**< [ 18: 18](RO) Indicate whether L0_fw_aes_key3 is provisioned
+                                                                 0: L0_fw_aes_key3 is not provisioned, i.e. ecc_L0_fw_aes_key3 are all 0
+                                                                 1: L0_fw_aes_key3 is provisioned, i.e. not all ecc_L0_fw_aes_key3 are 0 */
+        uint32_t uds_provisioned       : 1;  /**< [ 19: 19](RO) Indicate whether uds is provisioned
+                                                                 0: uds is not provisioned, i.e. ecc_uds are all 0
+                                                                 1: uds is provisioned, i.e. not all ecc_uds are 0 */
+        uint32_t rkek_provisioned      : 1;  /**< [ 20: 20](RO) Indicate whether rkek is provisioned
+                                                                 0: rkek is not provisioned, i.e. ecc_rkek are all 0
+                                                                 1: rkek is provisioned, i.e. not all ecc_rkek are 0 */
         uint32_t reserved_21_23        : 3;
         uint32_t ehsm_panic_state      : 1;  /**< [ 24: 24](RO) Indicate EHSM is in panic state. It can be triggered by memory failure and power switch failure
                                                                  For memory failures:
                                                                  1. When EHSM is in FIPS mode, panic state is triggered by uncorrectable error
                                                                  detected during memory self test or run time.
                                                                  2. When EHSM is in non FIPS mode, panic state is triggered by uncorrectable
-                                                                 error detected during memory self test only.
-                                                                 For power switch failures.
+                                                                 error detected during memory self test only
+                                                                 For power switch failures
                                                                  1. If enable_puf field in OTP efuse is 0, only SYSRDYP timeout of OTP power
-                                                                 switch can trigger panic state.
+                                                                 switch can trigger panic state
                                                                  2. If enable_puf field in OTP efuse is 1, SYSRDYP timeout of both OTP and PUF
-                                                                 power switch can trigger panic state. */
-        uint32_t ebg_start_up_health_test_fail : 1;/**< [ 25: 25](RO) Indicates that EBG start up health test fails. It is only valid when
-                                                                 EBG_start_up_health_test_done=1
-                                                                 0: EBG start up health test is successful.
-                                                                 1: EBG start up health test is failed. */
-        uint32_t ebg_start_up_health_test_done : 1;/**< [ 26: 26](RO) Indicates whether rkek is provisioned.
-                                                                 0: rkek is not provisioned, i.e. ecc_rkek are all 0.
-                                                                 1: rkek is provisioned, i.e. not all ecc_rkek are 0. */
-        uint32_t ebg_continuous_health_test_fail : 1;/**< [ 27: 27](RO) Indicates that EBG continuous health test fails.
-                                                                 0: EBG continuous health test is successful.
-                                                                 1: EBG continuous health test is failed. */
+                                                                 power switch can trigger panic state */
+        uint32_t ebg_start_up_health_test_fail : 1;/**< [ 25: 25](RO) Indicate that EBG start up health test fails. It is only valid when EBG_start_up_health_test_done=1
+                                                                 0: EBG start up health test is successful
+                                                                 1: EBG start up health test is failed */
+        uint32_t ebg_start_up_health_test_done : 1;/**< [ 26: 26](RO) Indicate whether rkek is provisioned
+                                                                 0: rkek is not provisioned, i.e. ecc_rkek are all 0
+                                                                 1: rkek is provisioned, i.e. not all ecc_rkek are 0 */
+        uint32_t ebg_continuous_health_test_fail : 1;/**< [ 27: 27](RO) Indicate that EBG continuous health test fails.
+                                                                 0: EBG continuous health test is successful
+                                                                 1: EBG continuous health test is failed */
         uint32_t reserved_28_31        : 4;
 #endif /* Word 0 - End */
     } s;
@@ -3807,35 +3815,35 @@ union cavm_ehsm_biu_shadow_reg_status
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_20_31        : 12;
-        uint32_t otp_sysrdyp_fall      : 1;  /**< [ 19: 19](RO) Falling edge is detected on SYSRDYP of OTP power switch. */
-        uint32_t otp_sysrdyp_timeout   : 1;  /**< [ 18: 18](RO) Timeout happened to SYSRDYP of OTP power switch. */
-        uint32_t puf_sysrdyp_fall      : 1;  /**< [ 17: 17](RO) Falling edge is detected on SYSRDYP of PUF power switch. */
-        uint32_t puf_sysrdyp_timeout   : 1;  /**< [ 16: 16](RO) Timeout happen to SYSRDYP of PUF power switch. */
-        uint32_t puf_key_aging_test_unavailable : 1;/**< [ 15: 15](RO) Uncorrectable error in puk_key_digest field in OTP, so PUF
-                                                                 key aging test is not available. */
-        uint32_t puf_key_aging_test_error : 1;/**< [ 14: 14](RO) PUF key aging test fails. */
-        uint32_t puf_key_aging_test_done : 1;/**< [ 13: 13](RO) PUF key aging test is done. */
+        uint32_t otp_sysrdyp_fall      : 1;  /**< [ 19: 19](RO) It indicate falling edge is detected on SYSRDYP of OTP power switch */
+        uint32_t otp_sysrdyp_timeout   : 1;  /**< [ 18: 18](RO) It indicate timeout happen to SYSRDYP of OTP power switch */
+        uint32_t puf_sysrdyp_fall      : 1;  /**< [ 17: 17](RO) It indicate falling edge is detected on SYSRDYP of PUF power switch */
+        uint32_t puf_sysrdyp_timeout   : 1;  /**< [ 16: 16](RO) It indicate timeout happen to SYSRDYP of PUF power switch */
+        uint32_t puf_key_aging_test_unavailable : 1;/**< [ 15: 15](RO) It indicate there is uncorrectable error in puk_key_digest field in OTP, so PUF
+                                                                 key aging test is not available */
+        uint32_t puf_key_aging_test_error : 1;/**< [ 14: 14](RO) It indicate PUF key aging test fails */
+        uint32_t puf_key_aging_test_done : 1;/**< [ 13: 13](RO) It indicate PUF key aging test is done */
         uint32_t dormant_activation_status : 1;/**< [ 12: 12](RO) It drives bcm_otp_dormant_activation_status. It is written by CM3
                                                                  This field is reserved for CNXXXX. */
         uint32_t dormant_enable        : 1;  /**< [ 11: 11](RO) It is driven by bcm_otp_dormant_enable input. It indicate if dormant is enabled by host
                                                                  This field is reserved for CNXXXX. */
         uint32_t reserved_10           : 1;
-        uint32_t spad_mem_fail         : 1;  /**< [  9:  9](RO) SPAD memory detects uncorrectable error. */
-        uint32_t cm3_ram_fail          : 1;  /**< [  8:  8](RO) CM3 RAM detects uncorrectable error. */
-        uint32_t cm3_rom_fail          : 1;  /**< [  7:  7](RO) CM3 ROM detects uncorrectable error. */
-        uint32_t clk_gate              : 1;  /**< [  6:  6](RO) 0: EHSM input clock was running.
-                                                                 1: EHSM input clock was gated.
-                                                                 EHSM-61. */
-        uint32_t vdd_gate              : 1;  /**< [  5:  5](RO) 0: VDD was on.
-                                                                 1: VDD was off.
-                                                                 EHSM-61. */
+        uint32_t spad_mem_fail         : 1;  /**< [  9:  9](RO) SPAD memory detects uncorrectable error */
+        uint32_t cm3_ram_fail          : 1;  /**< [  8:  8](RO) CM3 RAM detects uncorrectable error */
+        uint32_t cm3_rom_fail          : 1;  /**< [  7:  7](RO) CM3 ROM detects uncorrectable error */
+        uint32_t clk_gate              : 1;  /**< [  6:  6](RO) 0: EHSM input clock was running
+                                                                 1: EHSM input clock was gated
+                                                                 EHSM-61 */
+        uint32_t vdd_gate              : 1;  /**< [  5:  5](RO) 0: VDD was on
+                                                                 1: VDD was off
+                                                                 EHSM-61 */
         uint32_t cm3_sram_sd           : 1;  /**< [  4:  4](RO) 0: CM3 SRAM was in retention mode.
-                                                                 1: CM3 SRAM was in shutdown mode.
-                                                                 EHSM-61. */
+                                                                 1: CM3 SRAM was in shutdown mode
+                                                                 EHSM-61 */
         uint32_t cm3_sleepdeep         : 1;  /**< [  3:  3](RO) Connected with SLEEPDEEP output of CM3. Indicate whether CM3 is in deep sleep state
-                                                                 EHSM-42. */
+                                                                 EHSM-42 */
         uint32_t cm3_sleeping          : 1;  /**< [  2:  2](RO) Connected with SLEEPING output of CM3. Indicate whether CM3 is in sleep state
-                                                                 EHSM-42. */
+                                                                 EHSM-42 */
         uint32_t lcs_all_valid         : 1;  /**< [  1:  1](RO) Indication of whether all the OTP shadow registers including
                                                                  LCS_DEBUG_PORT_STATUS, BOOTROM_CONFIG_STATUS, ROOT_OF_TRUST_STATUS,
                                                                  KEY_REVOC_STATUS, FW_SECURITY_VERSION, BOOT_STRAP_PIN_STATUS,
@@ -3866,34 +3874,34 @@ union cavm_ehsm_biu_shadow_reg_status
                                                                  BOOT_STRAP_PIN_STATUS, REMAININIG_CONFIG_STATUS. When it is 0, these registers
                                                                  are invalid. */
         uint32_t cm3_sleeping          : 1;  /**< [  2:  2](RO) Connected with SLEEPING output of CM3. Indicate whether CM3 is in sleep state
-                                                                 EHSM-42. */
+                                                                 EHSM-42 */
         uint32_t cm3_sleepdeep         : 1;  /**< [  3:  3](RO) Connected with SLEEPDEEP output of CM3. Indicate whether CM3 is in deep sleep state
-                                                                 EHSM-42. */
+                                                                 EHSM-42 */
         uint32_t cm3_sram_sd           : 1;  /**< [  4:  4](RO) 0: CM3 SRAM was in retention mode.
-                                                                 1: CM3 SRAM was in shutdown mode.
-                                                                 EHSM-61. */
-        uint32_t vdd_gate              : 1;  /**< [  5:  5](RO) 0: VDD was on.
-                                                                 1: VDD was off.
-                                                                 EHSM-61. */
-        uint32_t clk_gate              : 1;  /**< [  6:  6](RO) 0: EHSM input clock was running.
-                                                                 1: EHSM input clock was gated.
-                                                                 EHSM-61. */
-        uint32_t cm3_rom_fail          : 1;  /**< [  7:  7](RO) CM3 ROM detects uncorrectable error. */
-        uint32_t cm3_ram_fail          : 1;  /**< [  8:  8](RO) CM3 RAM detects uncorrectable error. */
-        uint32_t spad_mem_fail         : 1;  /**< [  9:  9](RO) SPAD memory detects uncorrectable error. */
+                                                                 1: CM3 SRAM was in shutdown mode
+                                                                 EHSM-61 */
+        uint32_t vdd_gate              : 1;  /**< [  5:  5](RO) 0: VDD was on
+                                                                 1: VDD was off
+                                                                 EHSM-61 */
+        uint32_t clk_gate              : 1;  /**< [  6:  6](RO) 0: EHSM input clock was running
+                                                                 1: EHSM input clock was gated
+                                                                 EHSM-61 */
+        uint32_t cm3_rom_fail          : 1;  /**< [  7:  7](RO) CM3 ROM detects uncorrectable error */
+        uint32_t cm3_ram_fail          : 1;  /**< [  8:  8](RO) CM3 RAM detects uncorrectable error */
+        uint32_t spad_mem_fail         : 1;  /**< [  9:  9](RO) SPAD memory detects uncorrectable error */
         uint32_t reserved_10           : 1;
         uint32_t dormant_enable        : 1;  /**< [ 11: 11](RO) It is driven by bcm_otp_dormant_enable input. It indicate if dormant is enabled by host
                                                                  This field is reserved for CNXXXX. */
         uint32_t dormant_activation_status : 1;/**< [ 12: 12](RO) It drives bcm_otp_dormant_activation_status. It is written by CM3
                                                                  This field is reserved for CNXXXX. */
-        uint32_t puf_key_aging_test_done : 1;/**< [ 13: 13](RO) PUF key aging test is done. */
-        uint32_t puf_key_aging_test_error : 1;/**< [ 14: 14](RO) PUF key aging test fails. */
-        uint32_t puf_key_aging_test_unavailable : 1;/**< [ 15: 15](RO) Uncorrectable error in puk_key_digest field in OTP, so PUF
-                                                                 key aging test is not available. */
-        uint32_t puf_sysrdyp_timeout   : 1;  /**< [ 16: 16](RO) Timeout happen to SYSRDYP of PUF power switch. */
-        uint32_t puf_sysrdyp_fall      : 1;  /**< [ 17: 17](RO) Falling edge is detected on SYSRDYP of PUF power switch. */
-        uint32_t otp_sysrdyp_timeout   : 1;  /**< [ 18: 18](RO) Timeout happened to SYSRDYP of OTP power switch. */
-        uint32_t otp_sysrdyp_fall      : 1;  /**< [ 19: 19](RO) Falling edge is detected on SYSRDYP of OTP power switch. */
+        uint32_t puf_key_aging_test_done : 1;/**< [ 13: 13](RO) It indicate PUF key aging test is done */
+        uint32_t puf_key_aging_test_error : 1;/**< [ 14: 14](RO) It indicate PUF key aging test fails */
+        uint32_t puf_key_aging_test_unavailable : 1;/**< [ 15: 15](RO) It indicate there is uncorrectable error in puk_key_digest field in OTP, so PUF
+                                                                 key aging test is not available */
+        uint32_t puf_sysrdyp_timeout   : 1;  /**< [ 16: 16](RO) It indicate timeout happen to SYSRDYP of PUF power switch */
+        uint32_t puf_sysrdyp_fall      : 1;  /**< [ 17: 17](RO) It indicate falling edge is detected on SYSRDYP of PUF power switch */
+        uint32_t otp_sysrdyp_timeout   : 1;  /**< [ 18: 18](RO) It indicate timeout happen to SYSRDYP of OTP power switch */
+        uint32_t otp_sysrdyp_fall      : 1;  /**< [ 19: 19](RO) It indicate falling edge is detected on SYSRDYP of OTP power switch */
         uint32_t reserved_20_31        : 12;
 #endif /* Word 0 - End */
     } s;
@@ -3920,7 +3928,7 @@ static inline uint64_t CAVM_EHSM_BIU_SHADOW_REG_STATUS_FUNC(void)
  *
  * EHSM Biu Uuid 0 Register
  * This register saves bit 31~0 of UUID.
- * This is for EHSM-32.
+ * This is for EHSM-32
  */
 union cavm_ehsm_biu_uuid_0
 {
@@ -3929,10 +3937,10 @@ union cavm_ehsm_biu_uuid_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t uuid_0                : 32; /**< [ 31:  0](RO) This register saves bit 31~0 of UUID.
-                                                                 This is for EHSM-32. */
+                                                                 This is for EHSM-32 */
 #else /* Word 0 - Little Endian */
         uint32_t uuid_0                : 32; /**< [ 31:  0](RO) This register saves bit 31~0 of UUID.
-                                                                 This is for EHSM-32. */
+                                                                 This is for EHSM-32 */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_biu_uuid_0_s cn; */
@@ -3958,7 +3966,7 @@ static inline uint64_t CAVM_EHSM_BIU_UUID_0_FUNC(void)
  *
  * EHSM Biu Uuid 1 Register
  * This register saves bit 63~32 of UUID.
- * This is for EHSM-32.
+ * This is for EHSM-32
  */
 union cavm_ehsm_biu_uuid_1
 {
@@ -3967,10 +3975,10 @@ union cavm_ehsm_biu_uuid_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t uuid_1                : 32; /**< [ 31:  0](RO) This register saves bit 63~32 of UUID.
-                                                                 This is for EHSM-32. */
+                                                                 This is for EHSM-32 */
 #else /* Word 0 - Little Endian */
         uint32_t uuid_1                : 32; /**< [ 31:  0](RO) This register saves bit 63~32 of UUID.
-                                                                 This is for EHSM-32. */
+                                                                 This is for EHSM-32 */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_biu_uuid_1_s cn; */
@@ -3996,7 +4004,7 @@ static inline uint64_t CAVM_EHSM_BIU_UUID_1_FUNC(void)
  *
  * EHSM Biu Uuid 2 Register
  * This register saves bit 95~64 of UUID.
- * This is for EHSM-32.
+ * This is for EHSM-32
  */
 union cavm_ehsm_biu_uuid_2
 {
@@ -4005,10 +4013,10 @@ union cavm_ehsm_biu_uuid_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t uuid_2                : 32; /**< [ 31:  0](RO) This register saves bit 95~64 of UUID.
-                                                                 This is for EHSM-32. */
+                                                                 This is for EHSM-32 */
 #else /* Word 0 - Little Endian */
         uint32_t uuid_2                : 32; /**< [ 31:  0](RO) This register saves bit 95~64 of UUID.
-                                                                 This is for EHSM-32. */
+                                                                 This is for EHSM-32 */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_biu_uuid_2_s cn; */
@@ -4044,28 +4052,26 @@ union cavm_ehsm_biu_uuid_status
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_3_31         : 29;
         uint32_t no_correction         : 1;  /**< [  2:  2](RO) When it is 1, external_uuid_ecc_in are all 0s so no error correction is needed.
-                                                                 UUID_0~2 will store the raw value of external_uuid_in. */
+                                                                 UUID_0~2 will store the raw value of external_uuid_in */
         uint32_t uncorrectable_error   : 1;  /**< [  1:  1](RO) It is only valid when CORRECTION_DONE is 1.
-                                                                 1 = There is uncorrectable error in UUID. UUID_0~2 are invalid.
-                                                                 0 = UUID error correction is successful. Error corrected UUID is stored in UUID_0~2. */
+                                                                 When it is 1, there is uncorrectable error in UUID. UUID_0~2 are invalid
+                                                                 When it is 0, UUID error correction is successful. Error corrected UUID is stored in UUID_0~2 */
         uint32_t correction_done       : 1;  /**< [  0:  0](RO) When it is 1, HW finished error correction for UUID. User need to check
                                                                  UNCORRECTABLE_ERROR to see if error correction succeed.
-                                                                 If UNCORRECTABLE_ERROR=0, UUID error correction is successful, error
-                                                                 corrected.It could be either no error or 1 bit error happen.
-                                                                 UUID is stored in UUID_0~2 and ready to be read by host.
-                                                                 If UNCORRECTABLE_ERROR=1, UUID error correction failed, the value in UUID_0~2 are invalid. */
+                                                                 If UNCORRECTABLE_ERROR=0, UUID error correction is successful, error corrected
+                                                                 UUID is stored in UUID_0~2 and ready to be read by host
+                                                                 If UNCORRECTABLE_ERROR=1, UUID error correction failed, the value in UUID_0~2 are invalid */
 #else /* Word 0 - Little Endian */
         uint32_t correction_done       : 1;  /**< [  0:  0](RO) When it is 1, HW finished error correction for UUID. User need to check
                                                                  UNCORRECTABLE_ERROR to see if error correction succeed.
-                                                                 If UNCORRECTABLE_ERROR=0, UUID error correction is successful, error
-                                                                 corrected.It could be either no error or 1 bit error happen.
-                                                                 UUID is stored in UUID_0~2 and ready to be read by host.
-                                                                 If UNCORRECTABLE_ERROR=1, UUID error correction failed, the value in UUID_0~2 are invalid. */
+                                                                 If UNCORRECTABLE_ERROR=0, UUID error correction is successful, error corrected
+                                                                 UUID is stored in UUID_0~2 and ready to be read by host
+                                                                 If UNCORRECTABLE_ERROR=1, UUID error correction failed, the value in UUID_0~2 are invalid */
         uint32_t uncorrectable_error   : 1;  /**< [  1:  1](RO) It is only valid when CORRECTION_DONE is 1.
-                                                                 1 = There is uncorrectable error in UUID. UUID_0~2 are invalid.
-                                                                 0 = UUID error correction is successful. Error corrected UUID is stored in UUID_0~2. */
+                                                                 When it is 1, there is uncorrectable error in UUID. UUID_0~2 are invalid
+                                                                 When it is 0, UUID error correction is successful. Error corrected UUID is stored in UUID_0~2 */
         uint32_t no_correction         : 1;  /**< [  2:  2](RO) When it is 1, external_uuid_ecc_in are all 0s so no error correction is needed.
-                                                                 UUID_0~2 will store the raw value of external_uuid_in. */
+                                                                 UUID_0~2 will store the raw value of external_uuid_in */
         uint32_t reserved_3_31         : 29;
 #endif /* Word 0 - End */
     } s;
@@ -4088,9 +4094,329 @@ static inline uint64_t CAVM_EHSM_BIU_UUID_STATUS_FUNC(void)
 #define arguments_CAVM_EHSM_BIU_UUID_STATUS -1,-1,-1,-1
 
 /**
+ * Register (NCB) ehsm_hst#_int_ena_w1c
+ *
+ * EHSM Host Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+union cavm_ehsm_hstx_int_ena_w1c
+{
+    uint64_t u;
+    struct cavm_ehsm_hstx_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t intr                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for EHSM_HST(0..1)_INT_W1C[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for EHSM_HST(0..1)_INT_W1C[INTR]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_hstx_int_ena_w1c_s cn; */
+};
+typedef union cavm_ehsm_hstx_int_ena_w1c cavm_ehsm_hstx_int_ena_w1c_t;
+
+static inline uint64_t CAVM_EHSM_HSTX_INT_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_HSTX_INT_ENA_W1C(uint64_t a)
+{
+    if (a<=1)
+        return 0x80b000004110ll + 0x20ll * ((a) & 0x1);
+    __cavm_csr_fatal("EHSM_HSTX_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_EHSM_HSTX_INT_ENA_W1C(a) cavm_ehsm_hstx_int_ena_w1c_t
+#define bustype_CAVM_EHSM_HSTX_INT_ENA_W1C(a) CSR_TYPE_NCB
+#define basename_CAVM_EHSM_HSTX_INT_ENA_W1C(a) "EHSM_HSTX_INT_ENA_W1C"
+#define device_bar_CAVM_EHSM_HSTX_INT_ENA_W1C(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_HSTX_INT_ENA_W1C(a) (a)
+#define arguments_CAVM_EHSM_HSTX_INT_ENA_W1C(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) ehsm_hst#_int_ena_w1s
+ *
+ * EHSM Host Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ */
+union cavm_ehsm_hstx_int_ena_w1s
+{
+    uint64_t u;
+    struct cavm_ehsm_hstx_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t intr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for EHSM_HST(0..1)_INT_W1C[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for EHSM_HST(0..1)_INT_W1C[INTR]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_hstx_int_ena_w1s_s cn; */
+};
+typedef union cavm_ehsm_hstx_int_ena_w1s cavm_ehsm_hstx_int_ena_w1s_t;
+
+static inline uint64_t CAVM_EHSM_HSTX_INT_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_HSTX_INT_ENA_W1S(uint64_t a)
+{
+    if (a<=1)
+        return 0x80b000004118ll + 0x20ll * ((a) & 0x1);
+    __cavm_csr_fatal("EHSM_HSTX_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_EHSM_HSTX_INT_ENA_W1S(a) cavm_ehsm_hstx_int_ena_w1s_t
+#define bustype_CAVM_EHSM_HSTX_INT_ENA_W1S(a) CSR_TYPE_NCB
+#define basename_CAVM_EHSM_HSTX_INT_ENA_W1S(a) "EHSM_HSTX_INT_ENA_W1S"
+#define device_bar_CAVM_EHSM_HSTX_INT_ENA_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_HSTX_INT_ENA_W1S(a) (a)
+#define arguments_CAVM_EHSM_HSTX_INT_ENA_W1S(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) ehsm_hst#_int_w1c
+ *
+ * EHSM Host Interrupt Register
+ * This register indicate primitive execution done.
+ */
+union cavm_ehsm_hstx_int_w1c
+{
+    uint64_t u;
+    struct cavm_ehsm_hstx_int_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t intr                  : 1;  /**< [  0:  0](R/W1C/H) Interrupt to host processor, indicating primitive execution done. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 1;  /**< [  0:  0](R/W1C/H) Interrupt to host processor, indicating primitive execution done. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_hstx_int_w1c_s cn; */
+};
+typedef union cavm_ehsm_hstx_int_w1c cavm_ehsm_hstx_int_w1c_t;
+
+static inline uint64_t CAVM_EHSM_HSTX_INT_W1C(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_HSTX_INT_W1C(uint64_t a)
+{
+    if (a<=1)
+        return 0x80b000004100ll + 0x20ll * ((a) & 0x1);
+    __cavm_csr_fatal("EHSM_HSTX_INT_W1C", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_EHSM_HSTX_INT_W1C(a) cavm_ehsm_hstx_int_w1c_t
+#define bustype_CAVM_EHSM_HSTX_INT_W1C(a) CSR_TYPE_NCB
+#define basename_CAVM_EHSM_HSTX_INT_W1C(a) "EHSM_HSTX_INT_W1C"
+#define device_bar_CAVM_EHSM_HSTX_INT_W1C(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_HSTX_INT_W1C(a) (a)
+#define arguments_CAVM_EHSM_HSTX_INT_W1C(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) ehsm_hst#_int_w1s
+ *
+ * EHSM Host Interrupt Set Register
+ * This register sets interrupt bits.
+ */
+union cavm_ehsm_hstx_int_w1s
+{
+    uint64_t u;
+    struct cavm_ehsm_hstx_int_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t intr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets EHSM_HST(0..1)_INT_W1C[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets EHSM_HST(0..1)_INT_W1C[INTR]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_hstx_int_w1s_s cn; */
+};
+typedef union cavm_ehsm_hstx_int_w1s cavm_ehsm_hstx_int_w1s_t;
+
+static inline uint64_t CAVM_EHSM_HSTX_INT_W1S(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_HSTX_INT_W1S(uint64_t a)
+{
+    if (a<=1)
+        return 0x80b000004108ll + 0x20ll * ((a) & 0x1);
+    __cavm_csr_fatal("EHSM_HSTX_INT_W1S", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_EHSM_HSTX_INT_W1S(a) cavm_ehsm_hstx_int_w1s_t
+#define bustype_CAVM_EHSM_HSTX_INT_W1S(a) CSR_TYPE_NCB
+#define basename_CAVM_EHSM_HSTX_INT_W1S(a) "EHSM_HSTX_INT_W1S"
+#define device_bar_CAVM_EHSM_HSTX_INT_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_HSTX_INT_W1S(a) (a)
+#define arguments_CAVM_EHSM_HSTX_INT_W1S(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) ehsm_msix_pba#
+ *
+ * EHSM MSI-X Pending Bit Array Registers
+ * This register is the MSI-X PBA table; the bit number is indexed by the EHSM_INT_VEC_E enumeration.
+ *
+ * This register is reset on EHSM domain reset.
+ */
+union cavm_ehsm_msix_pbax
+{
+    uint64_t u;
+    struct cavm_ehsm_msix_pbax_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated EHSM_MSIX_VEC()_CTL, enumerated by EHSM_INT_VEC_E. Bits
+                                                                 that have no associated EHSM_INT_VEC_E are 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated EHSM_MSIX_VEC()_CTL, enumerated by EHSM_INT_VEC_E. Bits
+                                                                 that have no associated EHSM_INT_VEC_E are 0. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_msix_pbax_s cn; */
+};
+typedef union cavm_ehsm_msix_pbax cavm_ehsm_msix_pbax_t;
+
+static inline uint64_t CAVM_EHSM_MSIX_PBAX(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_MSIX_PBAX(uint64_t a)
+{
+    if (a==0)
+        return 0x80b0001f0000ll + 8ll * ((a) & 0x0);
+    __cavm_csr_fatal("EHSM_MSIX_PBAX", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_EHSM_MSIX_PBAX(a) cavm_ehsm_msix_pbax_t
+#define bustype_CAVM_EHSM_MSIX_PBAX(a) CSR_TYPE_NCB
+#define basename_CAVM_EHSM_MSIX_PBAX(a) "EHSM_MSIX_PBAX"
+#define device_bar_CAVM_EHSM_MSIX_PBAX(a) 0x4 /* PF_BAR4 */
+#define busnum_CAVM_EHSM_MSIX_PBAX(a) (a)
+#define arguments_CAVM_EHSM_MSIX_PBAX(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) ehsm_msix_vec#_addr
+ *
+ * EHSM MSI-X Vector-Table Address Register
+ * This register is the MSI-X vector table, indexed by the EHSM_INT_VEC_E enumeration.
+ *
+ * This register is reset on EHSM domain reset.
+ */
+union cavm_ehsm_msix_vecx_addr
+{
+    uint64_t u;
+    struct cavm_ehsm_msix_vecx_addr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_53_63        : 11;
+        uint64_t addr                  : 51; /**< [ 52:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
+        uint64_t reserved_1            : 1;
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
+                                                                 The vector's IOVA is sent to the SMMU as nonsecure (though this only affects
+                                                                 physical addresses if PCCPF_XXX_VSEC_SCTL[MSIX_PHYS]=1).
+
+                                                                 1 = This vector's EHSM_MSIX_VEC()_ADDR, EHSM_MSIX_VEC()_CTL, and corresponding
+                                                                 bit of EHSM_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 by the nonsecure world.
+                                                                 The vector's IOVA is sent to the SMMU as secure (though this only affects
+                                                                 physical addresses if PCCPF_XXX_VSEC_SCTL[MSIX_PHYS]=1 or
+                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC_PHYS]=1).
+
+                                                                 If PCCPF_EHSM_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
+                                                                 set, all vectors are secure and function as if [SECVEC] was set.
+
+                                                                 Also note the following:
+                                                                 * When PCCPF_XXX_VSEC_SCTL[MSIX_SEC_EN]=1, all secure vectors (including secure
+                                                                 VF vectors) will act as if PCCPF/PCCVF_XXX_MSIX_CAP_HDR[MSIXEN]=1,
+                                                                 PCCPF/PCCVF_XXX_MSIX_CAP_HDR[FUNM]=0 and PCCPF/PCCVF_XXX_CMD[ME]=1.
+                                                                 * When PCCPF_XXX_VSEC_SCTL[MSIX_SEC_PHYS]=1, all secure vectors (including
+                                                                 secure VF vectors) are considered physical, regardless of
+                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_PHYS]. */
+#else /* Word 0 - Little Endian */
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
+                                                                 The vector's IOVA is sent to the SMMU as nonsecure (though this only affects
+                                                                 physical addresses if PCCPF_XXX_VSEC_SCTL[MSIX_PHYS]=1).
+
+                                                                 1 = This vector's EHSM_MSIX_VEC()_ADDR, EHSM_MSIX_VEC()_CTL, and corresponding
+                                                                 bit of EHSM_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 by the nonsecure world.
+                                                                 The vector's IOVA is sent to the SMMU as secure (though this only affects
+                                                                 physical addresses if PCCPF_XXX_VSEC_SCTL[MSIX_PHYS]=1 or
+                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC_PHYS]=1).
+
+                                                                 If PCCPF_EHSM_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
+                                                                 set, all vectors are secure and function as if [SECVEC] was set.
+
+                                                                 Also note the following:
+                                                                 * When PCCPF_XXX_VSEC_SCTL[MSIX_SEC_EN]=1, all secure vectors (including secure
+                                                                 VF vectors) will act as if PCCPF/PCCVF_XXX_MSIX_CAP_HDR[MSIXEN]=1,
+                                                                 PCCPF/PCCVF_XXX_MSIX_CAP_HDR[FUNM]=0 and PCCPF/PCCVF_XXX_CMD[ME]=1.
+                                                                 * When PCCPF_XXX_VSEC_SCTL[MSIX_SEC_PHYS]=1, all secure vectors (including
+                                                                 secure VF vectors) are considered physical, regardless of
+                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_PHYS]. */
+        uint64_t reserved_1            : 1;
+        uint64_t addr                  : 51; /**< [ 52:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
+        uint64_t reserved_53_63        : 11;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_msix_vecx_addr_s cn; */
+};
+typedef union cavm_ehsm_msix_vecx_addr cavm_ehsm_msix_vecx_addr_t;
+
+static inline uint64_t CAVM_EHSM_MSIX_VECX_ADDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_MSIX_VECX_ADDR(uint64_t a)
+{
+    if (a<=1)
+        return 0x80b000100000ll + 0x10ll * ((a) & 0x1);
+    __cavm_csr_fatal("EHSM_MSIX_VECX_ADDR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_EHSM_MSIX_VECX_ADDR(a) cavm_ehsm_msix_vecx_addr_t
+#define bustype_CAVM_EHSM_MSIX_VECX_ADDR(a) CSR_TYPE_NCB
+#define basename_CAVM_EHSM_MSIX_VECX_ADDR(a) "EHSM_MSIX_VECX_ADDR"
+#define device_bar_CAVM_EHSM_MSIX_VECX_ADDR(a) 0x4 /* PF_BAR4 */
+#define busnum_CAVM_EHSM_MSIX_VECX_ADDR(a) (a)
+#define arguments_CAVM_EHSM_MSIX_VECX_ADDR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) ehsm_msix_vec#_ctl
+ *
+ * EHSM MSI-X Vector-Table Control and Data Register
+ * This register is the MSI-X vector table, indexed by the EHSM_INT_VEC_E enumeration.
+ *
+ * This register is reset on EHSM domain reset.
+ */
+union cavm_ehsm_msix_vecx_ctl
+{
+    uint64_t u;
+    struct cavm_ehsm_msix_vecx_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_33_63        : 31;
+        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts are sent to this vector. */
+        uint64_t data                  : 32; /**< [ 31:  0](R/W) Data to use for MSI-X delivery of this vector. */
+#else /* Word 0 - Little Endian */
+        uint64_t data                  : 32; /**< [ 31:  0](R/W) Data to use for MSI-X delivery of this vector. */
+        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts are sent to this vector. */
+        uint64_t reserved_33_63        : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_msix_vecx_ctl_s cn; */
+};
+typedef union cavm_ehsm_msix_vecx_ctl cavm_ehsm_msix_vecx_ctl_t;
+
+static inline uint64_t CAVM_EHSM_MSIX_VECX_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_MSIX_VECX_CTL(uint64_t a)
+{
+    if (a<=1)
+        return 0x80b000100008ll + 0x10ll * ((a) & 0x1);
+    __cavm_csr_fatal("EHSM_MSIX_VECX_CTL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_EHSM_MSIX_VECX_CTL(a) cavm_ehsm_msix_vecx_ctl_t
+#define bustype_CAVM_EHSM_MSIX_VECX_CTL(a) CSR_TYPE_NCB
+#define basename_CAVM_EHSM_MSIX_VECX_CTL(a) "EHSM_MSIX_VECX_CTL"
+#define device_bar_CAVM_EHSM_MSIX_VECX_CTL(a) 0x4 /* PF_BAR4 */
+#define busnum_CAVM_EHSM_MSIX_VECX_CTL(a) (a)
+#define arguments_CAVM_EHSM_MSIX_VECX_CTL(a) (a),-1,-1,-1
+
+/**
  * Register (NCB32b) ehsm_side_sensor_status
  *
- * EHSM CPC Side Sensor Status Register
+ * CPC eHSM Side Sensor Status Register
  */
 union cavm_ehsm_side_sensor_status
 {
@@ -4098,35 +4424,27 @@ union cavm_ehsm_side_sensor_status
     struct cavm_ehsm_side_sensor_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_28_31        : 4;
-        uint32_t sticky_status         : 4;  /**< [ 27: 24](RO/H) This field will show if one of the following attack occured since last reset:
-                                                                 Bit 0 - thermal attack.
-                                                                 Bit 1 - Low Voltage Detect VCORE.
-                                                                 Bit 2 - Low Voltage Detect VSYS - unused in Odyssey.
-                                                                 Bit 3 - Low Voltage Detect VDIS. */
-        uint32_t reserved_23           : 1;
-        uint32_t sensors_enable_fuse   : 7;  /**< [ 22: 16](RO/H) This field will show the status of SENSORS_ENABLE fuse. */
-        uint32_t reserved_14_15        : 2;
+        uint32_t reserved_14_31        : 18;
         uint32_t sensors_pre_qualifier : 6;  /**< [ 13:  8](RO/H) This field will be asserted even if fuses masking the sensor.
                                                                  Bit 0 - clock detect frequency.
                                                                  Bit 1 - clock detect pulse.
                                                                  Bit 2 - thermal attack.
                                                                  Bit 3 - Low Voltage Detect VCORE.
-                                                                 Bit 4 - Low Voltage Detect VSYS - unused in Odyssey.
+                                                                 Bit 4 - Low Voltage Detect VSYS.
                                                                  Bit 5 - Low Voltage Detect VDIS. */
         uint32_t reserved_6_7          : 2;
         uint32_t sensors               : 6;  /**< [  5:  0](RO/H) Bit 0 - clock detect frequency.
                                                                  Bit 1 - clock detect pulse.
                                                                  Bit 2 - thermal attack.
                                                                  Bit 3 - Low Voltage Detect VCORE.
-                                                                 Bit 4 - Low Voltage Detect VSYS - unused in Odyssey.
+                                                                 Bit 4 - Low Voltage Detect VSYS.
                                                                  Bit 5 - Low Voltage Detect VDIS. */
 #else /* Word 0 - Little Endian */
         uint32_t sensors               : 6;  /**< [  5:  0](RO/H) Bit 0 - clock detect frequency.
                                                                  Bit 1 - clock detect pulse.
                                                                  Bit 2 - thermal attack.
                                                                  Bit 3 - Low Voltage Detect VCORE.
-                                                                 Bit 4 - Low Voltage Detect VSYS - unused in Odyssey.
+                                                                 Bit 4 - Low Voltage Detect VSYS.
                                                                  Bit 5 - Low Voltage Detect VDIS. */
         uint32_t reserved_6_7          : 2;
         uint32_t sensors_pre_qualifier : 6;  /**< [ 13:  8](RO/H) This field will be asserted even if fuses masking the sensor.
@@ -4134,17 +4452,9 @@ union cavm_ehsm_side_sensor_status
                                                                  Bit 1 - clock detect pulse.
                                                                  Bit 2 - thermal attack.
                                                                  Bit 3 - Low Voltage Detect VCORE.
-                                                                 Bit 4 - Low Voltage Detect VSYS - unused in Odyssey.
+                                                                 Bit 4 - Low Voltage Detect VSYS.
                                                                  Bit 5 - Low Voltage Detect VDIS. */
-        uint32_t reserved_14_15        : 2;
-        uint32_t sensors_enable_fuse   : 7;  /**< [ 22: 16](RO/H) This field will show the status of SENSORS_ENABLE fuse. */
-        uint32_t reserved_23           : 1;
-        uint32_t sticky_status         : 4;  /**< [ 27: 24](RO/H) This field will show if one of the following attack occured since last reset:
-                                                                 Bit 0 - thermal attack.
-                                                                 Bit 1 - Low Voltage Detect VCORE.
-                                                                 Bit 2 - Low Voltage Detect VSYS - unused in Odyssey.
-                                                                 Bit 3 - Low Voltage Detect VDIS. */
-        uint32_t reserved_28_31        : 4;
+        uint32_t reserved_14_31        : 18;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_side_sensor_status_s cn; */
@@ -4168,7 +4478,7 @@ static inline uint64_t CAVM_EHSM_SIDE_SENSOR_STATUS_FUNC(void)
 /**
  * Register (NCB32b) ehsm_sw_sensor
  *
- * EHSM CPC Software Sensor Register
+ * CPC eHSM Software Sensor Register
  */
 union cavm_ehsm_sw_sensor
 {

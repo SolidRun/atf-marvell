@@ -832,7 +832,7 @@ union cavm_gti_cc_cntcr
         uint32_t reserved_3_7          : 5;
         uint32_t scen                  : 1;  /**< [  2:  2](SR/W) Scale Enable.
                                                                  0 = counter is incremented by one for each counter tick.
-                                                                 1 = counter is incremented by CNTSR for each counter tick. */
+                                                                 1 = counter is incremented by CNTSCR for each counter tick. */
         uint32_t hdbg                  : 1;  /**< [  1:  1](SR/W) System counter halt-on-debug enable.
                                                                  0 = System counter ignores halt-on-debug.
                                                                  1 = Asserted halt-on-debug signal halts system counter update. */
@@ -844,7 +844,7 @@ union cavm_gti_cc_cntcr
                                                                  1 = Asserted halt-on-debug signal halts system counter update. */
         uint32_t scen                  : 1;  /**< [  2:  2](SR/W) Scale Enable.
                                                                  0 = counter is incremented by one for each counter tick.
-                                                                 1 = counter is incremented by CNTSR for each counter tick. */
+                                                                 1 = counter is incremented by CNTSCR for each counter tick. */
         uint32_t reserved_3_7          : 5;
         uint32_t fcreq                 : 1;  /**< [  8:  8](SR/W) Frequency change request. Indicates the number of the entry in the frequency
                                                                  table to select. Selecting an unimplemented entry, or an entry that contains
@@ -3726,7 +3726,7 @@ union cavm_gti_wcx_w_iidr
         uint32_t variant               : 4;  /**< [ 23: 20](RO) Variant field.
                                                                  Note in the SBSA this is defined as part of the product identification.
                                                                  In CNXXXX, the major pass number. */
-        uint32_t arch                  : 4;  /**< [ 19: 16](RO) Architecture revision. 0x1 for Generic Watchdog v1 as per SBSA_6.0. */
+        uint32_t arch                  : 4;  /**< [ 19: 16](RO) Architecture revision. 0x0 = SBSA 1.0 watchdogs. */
         uint32_t revision              : 4;  /**< [ 15: 12](RO) Indicates the minor revision of the product.
                                                                  In CNXXXX, the minor pass number. */
         uint32_t implementer           : 12; /**< [ 11:  0](RO) Indicates the implementer: 0x34C = Marvell. */
@@ -3734,7 +3734,7 @@ union cavm_gti_wcx_w_iidr
         uint32_t implementer           : 12; /**< [ 11:  0](RO) Indicates the implementer: 0x34C = Marvell. */
         uint32_t revision              : 4;  /**< [ 15: 12](RO) Indicates the minor revision of the product.
                                                                  In CNXXXX, the minor pass number. */
-        uint32_t arch                  : 4;  /**< [ 19: 16](RO) Architecture revision. 0x1 for Generic Watchdog v1 as per SBSA_6.0. */
+        uint32_t arch                  : 4;  /**< [ 19: 16](RO) Architecture revision. 0x0 = SBSA 1.0 watchdogs. */
         uint32_t variant               : 4;  /**< [ 23: 20](RO) Variant field.
                                                                  Note in the SBSA this is defined as part of the product identification.
                                                                  In CNXXXX, the major pass number. */
@@ -3842,7 +3842,7 @@ static inline uint64_t CAVM_GTI_WCX_WCV(uint64_t a)
 #define arguments_CAVM_GTI_WCX_WCV(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) gti_wc#_wor
+ * Register (NCB32b) gti_wc#_wor
  *
  * GTI Watchdog Control Offset Register
  * GTI_WC(0) accesses the secure watchdog and is accessible only by the
@@ -3850,15 +3850,13 @@ static inline uint64_t CAVM_GTI_WCX_WCV(uint64_t a)
  */
 union cavm_gti_wcx_wor
 {
-    uint64_t u;
+    uint32_t u;
     struct cavm_gti_wcx_wor_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t offset                : 48; /**< [ 47:  0](R/W/H) Watchdog offset. */
+        uint32_t offset                : 32; /**< [ 31:  0](R/W/H) Watchdog offset. */
 #else /* Word 0 - Little Endian */
-        uint64_t offset                : 48; /**< [ 47:  0](R/W/H) Watchdog offset. */
-        uint64_t reserved_48_63        : 16;
+        uint32_t offset                : 32; /**< [ 31:  0](R/W/H) Watchdog offset. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gti_wcx_wor_s cn; */
@@ -3874,7 +3872,7 @@ static inline uint64_t CAVM_GTI_WCX_WOR(uint64_t a)
 }
 
 #define typedef_CAVM_GTI_WCX_WOR(a) cavm_gti_wcx_wor_t
-#define bustype_CAVM_GTI_WCX_WOR(a) CSR_TYPE_NCB
+#define bustype_CAVM_GTI_WCX_WOR(a) CSR_TYPE_NCB32b
 #define basename_CAVM_GTI_WCX_WOR(a) "GTI_WCX_WOR"
 #define device_bar_CAVM_GTI_WCX_WOR(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_GTI_WCX_WOR(a) (a)
@@ -4350,7 +4348,7 @@ union cavm_gti_wrx_w_iidr
         uint32_t variant               : 4;  /**< [ 23: 20](RO) Variant field.
                                                                  Note in the SBSA this is defined as part of the product identification.
                                                                  In CNXXXX, the major pass number. */
-        uint32_t arch                  : 4;  /**< [ 19: 16](RO) Architecture revision. 0x1 for Generic Watchdog v1 as per SBSA_6.0. */
+        uint32_t arch                  : 4;  /**< [ 19: 16](RO) Architecture revision. 0x0 = SBSA 1.0 watchdogs. */
         uint32_t revision              : 4;  /**< [ 15: 12](RO) Indicates the minor revision of the product.
                                                                  In CNXXXX, the minor pass number. */
         uint32_t implementer           : 12; /**< [ 11:  0](RO) Indicates the implementer: 0x34C = Marvell. */
@@ -4358,7 +4356,7 @@ union cavm_gti_wrx_w_iidr
         uint32_t implementer           : 12; /**< [ 11:  0](RO) Indicates the implementer: 0x34C = Marvell. */
         uint32_t revision              : 4;  /**< [ 15: 12](RO) Indicates the minor revision of the product.
                                                                  In CNXXXX, the minor pass number. */
-        uint32_t arch                  : 4;  /**< [ 19: 16](RO) Architecture revision. 0x1 for Generic Watchdog v1 as per SBSA_6.0. */
+        uint32_t arch                  : 4;  /**< [ 19: 16](RO) Architecture revision. 0x0 = SBSA 1.0 watchdogs. */
         uint32_t variant               : 4;  /**< [ 23: 20](RO) Variant field.
                                                                  Note in the SBSA this is defined as part of the product identification.
                                                                  In CNXXXX, the major pass number. */
