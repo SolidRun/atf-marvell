@@ -65,6 +65,7 @@ static const struct qlm_mode_strmap_s qlmmode_strmap[] = {
 	{CAVM_CGX_LMAC_TYPES_E_USXGMII, 20625, "USXGMII_4X1", "usxgmii", 10},
 	{CAVM_CGX_LMAC_TYPES_E_USXGMII, 20625, "USXGMII_2X1", "usxgmii", 10},
 	{CAVM_CGX_LMAC_TYPES_E_USXGMII, 10312, "USXGMII_1X1", "usxgmii", 10},
+	{CAVM_CGX_LMAC_TYPES_E_SGMII, 3125, "2500_BASEX", "sgmii", 3},
 	{-1, 0, NULL, NULL}
 };
 

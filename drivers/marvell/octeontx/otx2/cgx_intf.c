@@ -120,7 +120,7 @@ static const cgx_speed_mode_map speed_mode_map[] = {
 	{CAVM_CGX_LMAC_TYPES_E_SGMII, 0, QLM_MODE_SGMII, CGX_FEC_NONE, 1250, (1ULL << ETH_MODE_SGMII_100M_BIT), ETH_LINK_100M},
 	{ETH_LINK_MAX, 0, 0, QLM_MODE_DISABLED, 0, CGX_FEC_NONE},
 	{ETH_LINK_MAX, 0, 0, QLM_MODE_DISABLED, 0, CGX_FEC_NONE},  /* Mode group 0 ends */
-	{CAVM_CGX_LMAC_TYPES_E_SGMII, 0, QLM_MODE_SGMII, CGX_FEC_NONE, 3125, (1ULL << ETH_MODE_2500_BASEX_BIT), ETH_LINK_2HG},
+	{CAVM_CGX_LMAC_TYPES_E_SGMII, 0, QLM_MODE_2500_BASEX, CGX_FEC_NONE, 3125, (1ULL << ETH_MODE_2500_BASEX_BIT), ETH_LINK_2HG},
 	/* add new modes here */
 	{ETH_LINK_MAX, 0, 0, QLM_MODE_DISABLED, 0, CGX_FEC_NONE},
 };
@@ -1611,7 +1611,7 @@ int cgx_handle_mode_change(int cgx_id, int lmac_id,
 			lmac->use_training = req_train_en;
 
 			/* Update attributes for 1000 BASE-X */
-			if (lmac->mode_idx == QLM_MODE_1G_X)
+			if ((lmac->mode_idx == QLM_MODE_1G_X) || (lmac->mode_idx == QLM_MODE_2500_BASEX))
 				lmac->sgmii_1000x_mode = 1;
 
 			/* Check FEC capability (If PHY present, check for
@@ -2997,7 +2997,7 @@ static void cgx_check_for_presence_of_phy(int cgx_id, int lmac_id)
 			/* In case of 1000 BASE-X without PHY, AN needs
 			 * to be disabled
 			 */
-			if (lmac->mode_idx == QLM_MODE_1G_X)
+			if ((lmac->mode_idx == QLM_MODE_1G_X) || (lmac->mode_idx == QLM_MODE_2500_BASEX))
 				lmac->autoneg_dis = 1;
 			lmac->phy_present = 0;
 			memset(phy, 0, sizeof(*phy));

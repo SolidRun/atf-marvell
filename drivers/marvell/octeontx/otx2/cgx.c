@@ -2670,6 +2670,7 @@ static void cgx_fill_lmac_attributes(int cgx_idx, int lmac_idx)
 		lmac->autoneg_dis = 1;
 	break;
 	case QLM_MODE_1G_X:
+	case QLM_MODE_2500_BASEX:
 		lmac->sgmii_1000x_mode = 1;
 		lmac->autoneg_dis = 1;
 	break;

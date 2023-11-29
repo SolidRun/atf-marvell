@@ -109,6 +109,8 @@ typedef enum {
 	 * 20G (CN93XX QLMs)
 	 */
 	QLM_MODE_USXGMII_1X1,
+	/* 4 2500BASE-X, 1 lane each */
+	QLM_MODE_2500_BASEX,
 	/* CPRI, not eCPRI (CN9XXX BPHY) */
 	QLM_MODE_CPRI,
 	/* JESD204B (CN9XXX BPHY) */

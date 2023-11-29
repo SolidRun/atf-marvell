@@ -1698,6 +1698,7 @@ int qlm_set_mode_gsern(int qlm, int lane, qlm_modes_t mode, int baud_mhz, qlm_mo
 		case QLM_MODE_JESD204B:
 		case QLM_MODE_JESD204C:
 		case QLM_MODE_LAST:
+		case QLM_MODE_2500_BASEX:
 			return -1;
 	}
 

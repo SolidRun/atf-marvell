@@ -1288,6 +1288,7 @@ static void octeontx2_lmac_num_touse(int mode_idx, int *cnt, int *touse)
 	switch (mode_idx) {
 	case QLM_MODE_1G_X:
 	case QLM_MODE_SGMII:
+	case QLM_MODE_2500_BASEX:
 	case QLM_MODE_XFI:
 	case QLM_MODE_SFI:
 	case QLM_MODE_10G_KR:
@@ -1692,7 +1693,7 @@ static int octeontx2_fill_cgx_struct(int cgx_idx, int qlm, int gserx,
 		cgx->load += qlm_get_mode_strmap(mode_idx).eth_link_speed;
 
 		/* In case of 1000 BASE-X, update the property of LMAC */
-		if (mode_idx == QLM_MODE_1G_X) {
+		if ((mode_idx == QLM_MODE_1G_X) || (mode_idx == QLM_MODE_2500_BASEX)) {
 			lmac->sgmii_1000x_mode = 1;
 			lmac->autoneg_dis = 1;
 		}
@@ -2063,7 +2064,7 @@ static int octeontx2_cgx_get_phy_info(void *fdt, int lmac_offset, int cgx_idx, i
 		/* Vitesse PHY has AN by default. Even for 1000 BASE-X
 		 * mode, enable AN in this case
 		 */
-		if ((lmac->mode_idx == QLM_MODE_1G_X) &&
+		if (((lmac->mode_idx == QLM_MODE_1G_X) || (lmac->mode_idx == QLM_MODE_2500_BASEX)) &&
 				(phy->type == PHY_VITESSE_8574))
 			lmac->autoneg_dis = 0;
 	}

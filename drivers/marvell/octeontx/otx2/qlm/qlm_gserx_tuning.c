@@ -29,6 +29,7 @@ typedef struct
 static const default_tuning_t DEF_TUNING[] = {
 	{QLM_MODE_SGMII,		 1250,  3,  0,  0 },
 	{QLM_MODE_1G_X,		  1250,  7,  0,  0 },
+	{QLM_MODE_2500_BASEX,	  3125,  7,  0,  0 },
 	{QLM_MODE_QSGMII,		5000,  3,  0,  0 },
 	{QLM_MODE_XAUI,		  3125,  7,  0,  0 },
 	{QLM_MODE_XAUI,		  6250,  7,  0,  0 },
