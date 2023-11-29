@@ -799,7 +799,7 @@ static int cn10k_fdt_get_bus(const void *fdt, int offset,
 		i2c = cn10k_fdt_get_int32(fdt, "reg", node);
 
 		/* based on DEVFN, obtain TWSI bus */
-		bus = ((i2c >> 8) & 0x7);
+		bus = ((i2c >> 8) & 0xF);
 
 		if (bus < 0 || bus >= TWSI_NUM) {
 			debug_dts("%s: '%d' "
@@ -1817,6 +1817,7 @@ void fdt_twsi_node_refresh(const void *fdt)
 				debug_dts("TWSI_%d Delete\n", bus);
 				CSR_WRITE(CAVM_MIO_TWSX_ACCESS_WDOG(bus), 0x0);
 				fdt_del_node((void *)fdt, node);
+				node = -1;
 			}
 		}
 		node = fdt_node_offset_by_compatible(fdt, node, "cavium,thunderx-i2c");
