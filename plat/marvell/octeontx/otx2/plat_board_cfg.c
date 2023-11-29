@@ -380,6 +380,7 @@ static long octeontx2_fdtbdk_get_num(const void *fdt_addr, const char *prop,
 	int offset;
 	const char *buf;
 	int len;
+	char *endptr = NULL;
 
 	offset = fdt_path_offset(fdt_addr, "/cavium,bdk");
 	buf = fdt_getprop(fdt_addr, offset, prop, &len);
@@ -387,7 +388,9 @@ static long octeontx2_fdtbdk_get_num(const void *fdt_addr, const char *prop,
 		debug_dts("No %s option is set in BDK.\n", prop);
 		return -1;
 	}
-	ret = strtol(buf, NULL, base);
+	ret = strtol(buf, &endptr, base);
+	if (!endptr || *endptr != '\0')
+		return -1;
 
 	return ret;
 }
@@ -2834,11 +2837,12 @@ void fdt_twsi_node_refresh(const void *fdt)
 		reg = fdt_getprop(fdt, node, "reg", NULL);
 		if (reg) {
 			addr = fdt32_to_cpu(*reg);
-			bus = (addr >> 8) & 0xf;
+			bus = (addr >> 8) & 0x7;
 			if (plat_octeontx_bcfg->bcfg.atf_managed_twsi[bus] == 1) {
 				debug_dts("TWSI_%d Delete\n", bus);
 				CSR_WRITE(CAVM_MIO_TWSX_ACCESS_WDOG(bus), 0x0);
 				fdt_del_node((void *)fdt, node);
+				node = -1;
 			}
 		}
 		node = fdt_node_offset_by_compatible(fdt, node, "cavium,thunderx-i2c");
