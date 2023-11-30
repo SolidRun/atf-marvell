@@ -536,6 +536,7 @@ BL_COMMON_SOURCES	+=	plat/common/ubsan.c
 endif
 
 INCLUDES		+=	-Iinclude				\
+				-Iinclude/lib 				\
 				-Iinclude/arch/${ARCH}			\
 				-Iinclude/lib/cpus/${ARCH}		\
 				-Iinclude/lib/el3_runtime/${ARCH}	\

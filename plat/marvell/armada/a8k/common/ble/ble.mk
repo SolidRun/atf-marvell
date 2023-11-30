@@ -15,6 +15,7 @@ BLE_SOURCES		+= 	$(BLE_PATH)/ble_main.c				\
 				drivers/delay_timer/delay_timer.c		\
 				drivers/marvell/iob.c				\
 				$(PLAT_MARVELL)/common/aarch64/marvell_helpers.S \
+				lib/locks/exclusive/aarch64/spinlock.S \
 				$(PLAT_MARVELL)/common/plat_delay_timer.c	\
 				$(PLAT_MARVELL)/common/marvell_console.c
 
