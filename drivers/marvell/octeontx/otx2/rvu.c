@@ -120,6 +120,21 @@ static inline int octeontx_get_msix_for_cpt(void)
 }
 
 #if defined(PLAT_cn10ka)
+static void octeontx_init_rvu_pan(int *hwvf, int rvu)
+{
+	rvu_dev[rvu].enable = TRUE;
+	rvu_dev[rvu].num_vfs = 0;
+	rvu_dev[rvu].first_hwvf = *hwvf;
+	rvu_dev[rvu].pf_num_msix_vec = 256;
+	rvu_dev[rvu].vf_num_msix_vec = 256;
+	rvu_dev[rvu].pf_res_nix_id = 0;
+
+	rvu_dev[rvu].pci.pf_devid = CAVM_PCC_DEV_IDL_E_RVU_PAN & DEVID_MASK;
+	rvu_dev[rvu].pci.class_code = RVU_CLASS_CODE & CLASS_CODE_MASK;
+	/* Increment already allocated HWVFs */
+	*hwvf += rvu_dev[rvu].num_vfs;
+}
+
 static void octeontx_init_rvu_rep(int *hwvf, int rvu)
 {
 	rvu_dev[rvu].enable = TRUE;
@@ -577,6 +592,7 @@ static int octeontx_init_rvu_from_fdt(void)
 
 #if defined(PLAT_cn10ka)
 	octeontx_init_rvu_rep(&current_hwvf, RVU_REP);
+	octeontx_init_rvu_pan(&current_hwvf, RVU_PAN);
 #endif
 	/*
 	 * The ETH PFs need to be provisioned.
@@ -1154,7 +1170,6 @@ static void otx2_mailbox_enable(void)
 	static uint64_t vf_base = VF_MBOX_BASE;
 	union cavm_rvu_af_pf_bar4_addr pf_bar4_addr;
 
-
 	pf_bar4_addr.u = PF_MBOX_BASE;
 	CSR_WRITE(CAVM_RVU_AF_PF_BAR4_ADDR, pf_bar4_addr.u);
 
@@ -1347,7 +1362,6 @@ static int msix_enable(void)
 		pfx_msix_cfg.s.pf_msixt_sizem1 =
 				rvu_dev[pf].pf_num_msix_vec - 1;
 		msix_offset += (rvu_dev[pf].pf_num_msix_vec);
-
 
 		/* If pf_msix_offset needs alignment */
 		if (msix_offset & RVU_ALIGNMENT_MASK) {
