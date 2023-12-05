@@ -1272,14 +1272,14 @@ static void rpm_update_lmac_mode_config(int rpm_id, int lmac_id)
 static int rpm_ecp_req_mode_change(int portm_idx, int rpm_id, int lmac_id,
 			rpm_lmac_context_t *lmac_ctx, ecp_link_state_t *link_state)
 {
-	uint64_t init_time, link_timeout;
+	uint64_t init_time = 0, cmd_timeout = 0, link_timeout = 0;
 	int ret, status = 0, sig_detect = 0, sig_detect_temp = 0;
 	rpm_lmac_bringup_context_t *bringup_ctx;
 
 	bringup_ctx = &bringup_context[rpm_id][lmac_id];
 	bringup_ctx->link_bringup_status = LINK_BRINGUP_INIT;
-	if (!bringup_ctx->link_timeout)
-		bringup_ctx->link_timeout = RPM_POLL_LINK_BRINGUP_STATUS;
+
+	debug_rpm_intf("%s %d:%d bringup_ctx->link_timeout: %lu\n", __func__, rpm_id, lmac_id, bringup_ctx->link_timeout);
 
 	ret = ecp_send_link_req(portm_idx, rpm_id, lmac_id, ECP_LINK_REQ_MODE_CHANGE, lmac_ctx);
 	if (ret == -1) {
@@ -1293,16 +1293,31 @@ static int rpm_ecp_req_mode_change(int portm_idx, int rpm_id, int lmac_id,
 		__func__, portm_idx, rpm_id, lmac_id);
 
 	init_time = clock_get_count(GSER_CLOCK_TIME);
-	/* Wait for 200 ms, additional time of 100 ms for link configuration as during mode
+
+	/* Timeout from ETH_CMD_LINK_TIMEOUT command or
+	 * Wait for 200 ms, additional time of 100 ms for link configuration as during mode
 	 * change before the new mode is brought up, current mode has to be brought down
 	 */
-	link_timeout = init_time + RPM_MODE_CHANGE_WAIT_STATUS *
-			clock_get_rate(GSER_CLOCK_TIME)/1000000;
+	/* FIXME: Add req_in_progress support.  Once added user provided timeout must be
+	 * compared against minimum required timeout (as required by hardware).  If
+	 * req_in_prog is not sent by ECP within HW min timeout, report command as failure.
+	 */
+	if ((bringup_ctx->link_timeout) && (bringup_ctx->link_timeout != -1)) {
+		if (bringup_ctx->link_timeout <= RPM_MODE_CHANGE_WAIT_STATUS)
+			link_timeout = bringup_ctx->link_timeout;
+		else
+			link_timeout = RPM_MODE_CHANGE_WAIT_STATUS;
+	} else {
+		link_timeout = RPM_MODE_CHANGE_WAIT_STATUS;
+		bringup_ctx->link_timeout = RPM_POLL_LINK_BRINGUP_STATUS;
+	}
+
+	cmd_timeout = init_time + link_timeout * clock_get_rate(GSER_CLOCK_TIME)/1000000;
 	/* Save the mode change time in us */
 	bringup_ctx->link_bringup_init_time = (init_time * 1000000)/(clock_get_rate(GSER_CLOCK_TIME));
 
 	while (clock_get_count(GSER_CLOCK_TIME)
-		< link_timeout) {
+		< cmd_timeout) {
 		status = ecp_get_link_state(portm_idx, lmac_id, link_state, &sig_detect_temp);
 		if ((!sig_detect) && (sig_detect_temp))
 			sig_detect = 1;
@@ -1315,16 +1330,23 @@ static int rpm_ecp_req_mode_change(int portm_idx, int rpm_id, int lmac_id,
 		mdelay(5);
 	}
 
-	/* If the link is not UP, then update the link state as below.
-	 * In case of ASIM, ignore checking for the signal detect
+	/* If the link timeout specified is less than 100ms of initial wait
+	 * time, update the link bringup status as done so poll timer can
+	 * check the link status
 	 */
-	if (!cavm_is_platform(PLATFORM_ASIM) && (!sig_detect)) {
-		debug_rpm_intf("%s: %d:%d FAILED to detect a signal\n", __func__,
-			rpm_id, lmac_id);
-		bringup_ctx->link_bringup_status = LINK_BRINGUP_DONE;
+	if (bringup_ctx->link_timeout >= RPM_LINK_BRINGUP_WAIT_STATUS) {
+		/* If the link is not UP, then update the link state as below.
+		 * In case of ASIM, ignore checking for the signal detect
+		 */
+		if (!cavm_is_platform(PLATFORM_ASIM) && (!sig_detect)) {
+			debug_rpm_intf("%s: %d:%d FAILED to detect a signal\n", __func__,
+				rpm_id, lmac_id);
+			bringup_ctx->link_bringup_status = LINK_BRINGUP_DONE;
+		} else
+			bringup_ctx->link_bringup_status = LINK_BRINGUP_IN_PROGRESS;
 	} else
-		bringup_ctx->link_bringup_status = LINK_BRINGUP_IN_PROGRESS;
-	bringup_ctx->link_bringup_time = RPM_MODE_CHANGE_WAIT_STATUS; /* elapsed time */
+		bringup_ctx->link_bringup_status = LINK_BRINGUP_DONE;
+	bringup_ctx->link_bringup_time = link_timeout; /* elapsed time */
 	debug_rpm_intf("%s: %d:%d bringup_ctx->link_bringup_status %d bringup_ctx->link_bringup_time %" PRId64 "\n", __func__,
 						rpm_id, lmac_id, bringup_ctx->link_bringup_status,
 						bringup_ctx->link_bringup_time);
