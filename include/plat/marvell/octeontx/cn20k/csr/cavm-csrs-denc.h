@@ -560,7 +560,7 @@ union cavm_denc_generic_task_cfg_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t reserved_127          : 1;
         uint64_t c_init                : 31; /**< [126: 96] The initialization value, C_init, for the scrambler. */
-        uint64_t symb_align            : 2;  /**< [ 95: 94] Select the aligment and interleaving for output bits.
+        uint64_t symb_align            : 2;  /**< [ 95: 94] Select the alignment and interleaving for output bits.
                                                                  0x0: Bypass mode. Bits are written consecutively, with no per-symbol
                                                                  alignment.
                                                                  0x1: Byte alignment for [QM] \< 0xA. Every [QM] bits are aligned to a byte
@@ -577,7 +577,7 @@ union cavm_denc_generic_task_cfg_s
         uint64_t crc_msk               : 24; /**< [ 87: 64] CRC mask used to scramble CRC when [CRC_MSK_EN] = 1.  This field
                                                                  must be populated in MSB-first order. */
         uint64_t reserved_88_93        : 6;
-        uint64_t symb_align            : 2;  /**< [ 95: 94] Select the aligment and interleaving for output bits.
+        uint64_t symb_align            : 2;  /**< [ 95: 94] Select the alignment and interleaving for output bits.
                                                                  0x0: Bypass mode. Bits are written consecutively, with no per-symbol
                                                                  alignment.
                                                                  0x1: Byte alignment for [QM] \< 0xA. Every [QM] bits are aligned to a byte
@@ -1109,7 +1109,7 @@ union cavm_denc_pdsch_task_cfg_s
         uint64_t reserved_191          : 1;
         uint64_t c_init                : 31; /**< [190:160] The initialization value C_init for the second m-sequence of the scrambler. */
         uint64_t reserved_157_159      : 3;
-        uint64_t symb_align            : 2;  /**< [156:155] Select the aligment and interleaving for output bits.
+        uint64_t symb_align            : 2;  /**< [156:155] Select the alignment and interleaving for output bits.
                                                                  0x0: Bypass mode. Bits are written consecutively, with no per-symbol
                                                                  alignment.
                                                                  0x1: Byte alignment for [QM] \< 0xA. Every [QM] bits are aligned to a byte
@@ -1169,7 +1169,7 @@ union cavm_denc_pdsch_task_cfg_s
                                                                  for details. */
         uint64_t out_by_o              : 2;  /**< [154:153] Output data byte order.  See Baseband PHY (BPHY): Data Packing section
                                                                  for details. */
-        uint64_t symb_align            : 2;  /**< [156:155] Select the aligment and interleaving for output bits.
+        uint64_t symb_align            : 2;  /**< [156:155] Select the alignment and interleaving for output bits.
                                                                  0x0: Bypass mode. Bits are written consecutively, with no per-symbol
                                                                  alignment.
                                                                  0x1: Byte alignment for [QM] \< 0xA. Every [QM] bits are aligned to a byte
@@ -1395,7 +1395,7 @@ typedef union cavm_dencx_abx_control cavm_dencx_abx_control_t;
 static inline uint64_t CAVM_DENCX_ABX_CONTROL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DENCX_ABX_CONTROL(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=2)))
         return 0x87e042080000ll + 0ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("DENCX_ABX_CONTROL", 2, a, b, 0, 0, 0, 0);
 }
@@ -1437,7 +1437,7 @@ typedef union cavm_dencx_abx_error_enable0 cavm_dencx_abx_error_enable0_t;
 static inline uint64_t CAVM_DENCX_ABX_ERROR_ENABLE0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DENCX_ABX_ERROR_ENABLE0(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=2)))
         return 0x87e042080040ll + 0ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("DENCX_ABX_ERROR_ENABLE0", 2, a, b, 0, 0, 0, 0);
 }
@@ -1493,7 +1493,7 @@ typedef union cavm_dencx_abx_error_source0 cavm_dencx_abx_error_source0_t;
 static inline uint64_t CAVM_DENCX_ABX_ERROR_SOURCE0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DENCX_ABX_ERROR_SOURCE0(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=2)))
         return 0x87e042080030ll + 0ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("DENCX_ABX_ERROR_SOURCE0", 2, a, b, 0, 0, 0, 0);
 }
@@ -1510,6 +1510,8 @@ static inline uint64_t CAVM_DENCX_ABX_ERROR_SOURCE0(uint64_t a, uint64_t b)
  *
  * DENC Job Configuration 0 RAM Register
  * This register range accesses the job configuration RAM for slot 0.
+ * Hardware loads the job configuration in these registers. Software should
+ * never directly write to these registers.
  */
 union cavm_dencx_abx_hab_jcfg0_ramx_data
 {
@@ -1529,7 +1531,7 @@ typedef union cavm_dencx_abx_hab_jcfg0_ramx_data cavm_dencx_abx_hab_jcfg0_ramx_d
 static inline uint64_t CAVM_DENCX_ABX_HAB_JCFG0_RAMX_DATA(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DENCX_ABX_HAB_JCFG0_RAMX_DATA(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a==0) && (b<=2) && (c<=255))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=2) && (c<=255)))
         return 0x87e042082000ll + 0ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x3) + 8ll * ((c) & 0xff);
     __cavm_csr_fatal("DENCX_ABX_HAB_JCFG0_RAMX_DATA", 3, a, b, c, 0, 0, 0);
 }
@@ -1546,6 +1548,8 @@ static inline uint64_t CAVM_DENCX_ABX_HAB_JCFG0_RAMX_DATA(uint64_t a, uint64_t b
  *
  * DENC Job Configuration 1 RAM Register
  * This register range accesses the job configuration RAM for slot 1.
+ * Hardware loads the job configuration in these registers. Software should
+ * never directly write to these registers.
  */
 union cavm_dencx_abx_hab_jcfg1_ramx_data
 {
@@ -1565,7 +1569,7 @@ typedef union cavm_dencx_abx_hab_jcfg1_ramx_data cavm_dencx_abx_hab_jcfg1_ramx_d
 static inline uint64_t CAVM_DENCX_ABX_HAB_JCFG1_RAMX_DATA(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DENCX_ABX_HAB_JCFG1_RAMX_DATA(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a==0) && (b<=2) && (c<=255))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=2) && (c<=255)))
         return 0x87e042084000ll + 0ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x3) + 8ll * ((c) & 0xff);
     __cavm_csr_fatal("DENCX_ABX_HAB_JCFG1_RAMX_DATA", 3, a, b, c, 0, 0, 0);
 }
@@ -1582,6 +1586,8 @@ static inline uint64_t CAVM_DENCX_ABX_HAB_JCFG1_RAMX_DATA(uint64_t a, uint64_t b
  *
  * DENC Job Configuration 2 RAM Register
  * This register range accesses the job configuration RAM for slot 2.
+ * Hardware loads the job configuration in these registers. Software should
+ * never directly write to these registers.
  */
 union cavm_dencx_abx_hab_jcfg2_ramx_data
 {
@@ -1601,7 +1607,7 @@ typedef union cavm_dencx_abx_hab_jcfg2_ramx_data cavm_dencx_abx_hab_jcfg2_ramx_d
 static inline uint64_t CAVM_DENCX_ABX_HAB_JCFG2_RAMX_DATA(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DENCX_ABX_HAB_JCFG2_RAMX_DATA(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a==0) && (b<=2) && (c<=255))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=2) && (c<=255)))
         return 0x87e042086000ll + 0ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x3) + 8ll * ((c) & 0xff);
     __cavm_csr_fatal("DENCX_ABX_HAB_JCFG2_RAMX_DATA", 3, a, b, c, 0, 0, 0);
 }
@@ -1646,7 +1652,7 @@ typedef union cavm_dencx_abx_status cavm_dencx_abx_status_t;
 static inline uint64_t CAVM_DENCX_ABX_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DENCX_ABX_STATUS(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=2)))
         return 0x87e042080018ll + 0ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("DENCX_ABX_STATUS", 2, a, b, 0, 0, 0, 0);
 }
@@ -1797,7 +1803,7 @@ typedef union cavm_dencx_abx_tc_cfg_err_flags_reg cavm_dencx_abx_tc_cfg_err_flag
 static inline uint64_t CAVM_DENCX_ABX_TC_CFG_ERR_FLAGS_REG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DENCX_ABX_TC_CFG_ERR_FLAGS_REG(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=2)))
         return 0x87e042081040ll + 0ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("DENCX_ABX_TC_CFG_ERR_FLAGS_REG", 2, a, b, 0, 0, 0, 0);
 }
@@ -1847,7 +1853,7 @@ typedef union cavm_dencx_abx_tc_control_reg cavm_dencx_abx_tc_control_reg_t;
 static inline uint64_t CAVM_DENCX_ABX_TC_CONTROL_REG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DENCX_ABX_TC_CONTROL_REG(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=2)))
         return 0x87e042081010ll + 0ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("DENCX_ABX_TC_CONTROL_REG", 2, a, b, 0, 0, 0, 0);
 }
@@ -1887,7 +1893,7 @@ typedef union cavm_dencx_abx_tc_error_mask_reg cavm_dencx_abx_tc_error_mask_reg_
 static inline uint64_t CAVM_DENCX_ABX_TC_ERROR_MASK_REG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DENCX_ABX_TC_ERROR_MASK_REG(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=2)))
         return 0x87e042081030ll + 0ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("DENCX_ABX_TC_ERROR_MASK_REG", 2, a, b, 0, 0, 0, 0);
 }
@@ -1951,7 +1957,7 @@ typedef union cavm_dencx_abx_tc_error_reg cavm_dencx_abx_tc_error_reg_t;
 static inline uint64_t CAVM_DENCX_ABX_TC_ERROR_REG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DENCX_ABX_TC_ERROR_REG(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=2)))
         return 0x87e042081038ll + 0ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("DENCX_ABX_TC_ERROR_REG", 2, a, b, 0, 0, 0, 0);
 }
@@ -1989,7 +1995,7 @@ typedef union cavm_dencx_abx_tc_main_reset_reg cavm_dencx_abx_tc_main_reset_reg_
 static inline uint64_t CAVM_DENCX_ABX_TC_MAIN_RESET_REG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DENCX_ABX_TC_MAIN_RESET_REG(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=2)))
         return 0x87e042081000ll + 0ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("DENCX_ABX_TC_MAIN_RESET_REG", 2, a, b, 0, 0, 0, 0);
 }
@@ -2036,7 +2042,7 @@ static inline uint64_t CAVM_DENCX_ABX_TC_MAIN_RESET_REG(uint64_t a, uint64_t b)
  * The DENC_EPDCCH_GEN_CFG_S[PATTERN_{0..15}] fields select one of the 5 CP
  * modes to use for each RB.
  *
- * These registers can only be written when DENC()_TC_STATUS0_REG[IDLE] = 1.
+ * These registers can only be written when DENC()_AB()_TC_STATUS0_REG[IDLE] = 1.
  *
  * Under normal usage, there should be no reason to
  * write these registers, either at start-up or at any other time.
@@ -2059,7 +2065,7 @@ typedef union cavm_dencx_abx_tc_static_epdcch_regx cavm_dencx_abx_tc_static_epdc
 static inline uint64_t CAVM_DENCX_ABX_TC_STATIC_EPDCCH_REGX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DENCX_ABX_TC_STATIC_EPDCCH_REGX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a==0) && (b<=2) && (c<=65))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=2) && (c<=65)))
         return 0x87e042081c00ll + 0ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x3) + 8ll * ((c) & 0x7f);
     __cavm_csr_fatal("DENCX_ABX_TC_STATIC_EPDCCH_REGX", 3, a, b, c, 0, 0, 0);
 }
@@ -2082,7 +2088,7 @@ static inline uint64_t CAVM_DENCX_ABX_TC_STATIC_EPDCCH_REGX(uint64_t a, uint64_t
  * 2-bit values (i.e., bits\<9:8\> stores the control symbol for the first REG,
  * bits\<11:10\> store the control symbol for the second REG, etc.).
  *
- * These registers can only be written when DENC()_TC_STATUS0_REG[IDLE] = 1.
+ * These registers can only be written when DENC()_AB()_TC_STATUS0_REG[IDLE] = 1.
  *
  * At reset, the REG order table is loaded with 9 default sequences which
  * are sufficient for supporting all functionality specified in 3GPP TS
@@ -2107,7 +2113,7 @@ typedef union cavm_dencx_abx_tc_static_pdcch_regx cavm_dencx_abx_tc_static_pdcch
 static inline uint64_t CAVM_DENCX_ABX_TC_STATIC_PDCCH_REGX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DENCX_ABX_TC_STATIC_PDCCH_REGX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a==0) && (b<=2) && (c<=31))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=2) && (c<=31)))
         return 0x87e042081800ll + 0ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x3) + 8ll * ((c) & 0x1f);
     __cavm_csr_fatal("DENCX_ABX_TC_STATIC_PDCCH_REGX", 3, a, b, c, 0, 0, 0);
 }
@@ -2147,7 +2153,7 @@ typedef union cavm_dencx_abx_tc_status0_reg cavm_dencx_abx_tc_status0_reg_t;
 static inline uint64_t CAVM_DENCX_ABX_TC_STATUS0_REG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DENCX_ABX_TC_STATUS0_REG(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=2)))
         return 0x87e042081020ll + 0ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("DENCX_ABX_TC_STATUS0_REG", 2, a, b, 0, 0, 0, 0);
 }

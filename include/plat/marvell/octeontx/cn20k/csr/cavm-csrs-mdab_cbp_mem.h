@@ -30,7 +30,7 @@
  *
  * MDAB DSP Memory Window Array Registers
  * This address range provides OCTEON FUSION cores access to any MDAB DSP memories array. Intended for
- * debug purposes only because RSL accesses are slow. The offset use is an offeset
+ * debug purposes only because RSL accesses are slow. The offset use is an offset
  * related to he base of the sliding
  * window which is describe by MDAB_DSPINTR_BAR. see MDAB Direct-Access by Main core
  * for more details.
@@ -53,8 +53,8 @@ typedef union cavm_mdab_dspx_mem_arrayx cavm_mdab_dspx_mem_arrayx_t;
 static inline uint64_t CAVM_MDAB_DSPX_MEM_ARRAYX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MDAB_DSPX_MEM_ARRAYX(uint64_t a, uint64_t b)
 {
-    if ((a<=95) && (b<=32767))
-        return 0x87e044040000ll + 0x80000ll * ((a) & 0x7f) + 8ll * ((b) & 0x7fff);
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=47) && (b<=32767)))
+        return 0x87e044040000ll + 0x80000ll * ((a) & 0x3f) + 8ll * ((b) & 0x7fff);
     __cavm_csr_fatal("MDAB_DSPX_MEM_ARRAYX", 2, a, b, 0, 0, 0, 0);
 }
 

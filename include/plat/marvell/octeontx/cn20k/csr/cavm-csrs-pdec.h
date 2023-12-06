@@ -67,7 +67,7 @@ union cavm_pdec_report_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
         uint64_t early_stop_flag0      : 1;  /**< [ 39: 39] Early termination indication. Set to 1 if early termination occurred for the first block. */
-        uint64_t pc_error0             : 1;  /**< [ 38: 38] Reserved. */
+        uint64_t rsvd20                : 1;  /**< [ 38: 38] Reserved. */
         uint64_t nfpcm_error0          : 5;  /**< [ 37: 33] Number of errors in FPC metric (for the first CB). */
         uint64_t idx_decoded0          : 6;  /**< [ 32: 27] For the first CB, it reports the index, within [CRC_TRIALS], of the path that is
                                                                  reported in the decoder output. */
@@ -91,7 +91,7 @@ union cavm_pdec_report_s
         uint64_t idx_decoded0          : 6;  /**< [ 32: 27] For the first CB, it reports the index, within [CRC_TRIALS], of the path that is
                                                                  reported in the decoder output. */
         uint64_t nfpcm_error0          : 5;  /**< [ 37: 33] Number of errors in FPC metric (for the first CB). */
-        uint64_t pc_error0             : 1;  /**< [ 38: 38] Reserved. */
+        uint64_t rsvd20                : 1;  /**< [ 38: 38] Reserved. */
         uint64_t early_stop_flag0      : 1;  /**< [ 39: 39] Early termination indication. Set to 1 if early termination occurred for the first block. */
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
@@ -111,16 +111,16 @@ union cavm_pdec_report_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
         uint64_t crc_calculated0       : 24; /**< [191:168] Calculated CRC for the first CB. */
         uint64_t crc_decoded0          : 24; /**< [167:144] Decoded CRC for the first CB. */
-        uint64_t softcorr0             : 16; /**< [143:128] Reserved. */
+        uint64_t rsvd4                 : 16; /**< [143:128] Reserved. */
 #else /* Word 2 - Little Endian */
-        uint64_t softcorr0             : 16; /**< [143:128] Reserved. */
+        uint64_t rsvd4                 : 16; /**< [143:128] Reserved. */
         uint64_t crc_decoded0          : 24; /**< [167:144] Decoded CRC for the first CB. */
         uint64_t crc_calculated0       : 24; /**< [191:168] Calculated CRC for the first CB. */
 #endif /* Word 2 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
         uint64_t reserved_232_255      : 24;
         uint64_t early_stop_flag1      : 1;  /**< [231:231] Early termination indication. Set to 1 if early termination occurred for the second block. */
-        uint64_t pc_error1             : 1;  /**< [230:230] Reserved. */
+        uint64_t rsvd21                : 1;  /**< [230:230] Reserved. */
         uint64_t nfpcm_error1          : 5;  /**< [229:225] Number of errors in FPC metric for second CB. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1,
                                                                  this field is undefined. */
         uint64_t idx_decoded1          : 6;  /**< [224:219] For the second CB, it reports the index, within [CRC_TRIALS], of the path that
@@ -140,7 +140,7 @@ union cavm_pdec_report_s
                                                                  is reported in the decoder output. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is undefined. */
         uint64_t nfpcm_error1          : 5;  /**< [229:225] Number of errors in FPC metric for second CB. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1,
                                                                  this field is undefined. */
-        uint64_t pc_error1             : 1;  /**< [230:230] Reserved. */
+        uint64_t rsvd21                : 1;  /**< [230:230] Reserved. */
         uint64_t early_stop_flag1      : 1;  /**< [231:231] Early termination indication. Set to 1 if early termination occurred for the second block. */
         uint64_t reserved_232_255      : 24;
 #endif /* Word 3 - End */
@@ -168,22 +168,22 @@ union cavm_pdec_report_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 5 - Big Endian */
         uint64_t crc_calculated1       : 24; /**< [383:360] Calculated CRC for second CB. */
         uint64_t crc_decoded1          : 24; /**< [359:336] Decoded CRC for second CB */
-        uint64_t softcorr1             : 16; /**< [335:320] Reserved. */
+        uint64_t rsvd5                 : 16; /**< [335:320] Reserved. */
 #else /* Word 5 - Little Endian */
-        uint64_t softcorr1             : 16; /**< [335:320] Reserved. */
+        uint64_t rsvd5                 : 16; /**< [335:320] Reserved. */
         uint64_t crc_decoded1          : 24; /**< [359:336] Decoded CRC for second CB */
         uint64_t crc_calculated1       : 24; /**< [383:360] Calculated CRC for second CB. */
 #endif /* Word 5 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 6 - Big Endian */
         uint64_t reserved_430_447      : 18;
-        uint64_t pc_error1_0           : 1;  /**< [429:429] Reserved. */
+        uint64_t rsvd21_0              : 1;  /**< [429:429] Reserved. */
         uint64_t nfpcm_error1_0        : 5;  /**< [428:424] For the second CB, it reports the number of errors in FPC metric of the first
                                                                  path. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_0                 : 16; /**< [423:408] For the second CB, it reports the calculated path metric of the first path. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t crc_error1_0          : 1;  /**< [407:407] For the second CB, it reports the result of the CRC check of the first path. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error0_0           : 1;  /**< [406:406] Reserved. */
+        uint64_t rsvd20_0              : 1;  /**< [406:406] Reserved. */
         uint64_t nfpcm_error0_0        : 5;  /**< [405:401] For the first CB, it reports the number of errors in FPC metric of the first path. */
         uint64_t pm0_0                 : 16; /**< [400:385] For the first CB, it reports the calculated path metric of the first path. */
         uint64_t crc_error0_0          : 1;  /**< [384:384] For the first CB, it reports the result of the CRC check of the first path. */
@@ -191,26 +191,26 @@ union cavm_pdec_report_s
         uint64_t crc_error0_0          : 1;  /**< [384:384] For the first CB, it reports the result of the CRC check of the first path. */
         uint64_t pm0_0                 : 16; /**< [400:385] For the first CB, it reports the calculated path metric of the first path. */
         uint64_t nfpcm_error0_0        : 5;  /**< [405:401] For the first CB, it reports the number of errors in FPC metric of the first path. */
-        uint64_t pc_error0_0           : 1;  /**< [406:406] Reserved. */
+        uint64_t rsvd20_0              : 1;  /**< [406:406] Reserved. */
         uint64_t crc_error1_0          : 1;  /**< [407:407] For the second CB, it reports the result of the CRC check of the first path. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_0                 : 16; /**< [423:408] For the second CB, it reports the calculated path metric of the first path. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t nfpcm_error1_0        : 5;  /**< [428:424] For the second CB, it reports the number of errors in FPC metric of the first
                                                                  path. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error1_0           : 1;  /**< [429:429] Reserved. */
+        uint64_t rsvd21_0              : 1;  /**< [429:429] Reserved. */
         uint64_t reserved_430_447      : 18;
 #endif /* Word 6 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 7 - Big Endian */
         uint64_t reserved_494_511      : 18;
-        uint64_t pc_error1_1           : 1;  /**< [493:493] Reserved. */
+        uint64_t rsvd21_1              : 1;  /**< [493:493] Reserved. */
         uint64_t nfpcm_error1_1        : 5;  /**< [492:488] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_1                 : 16; /**< [487:472] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t crc_error1_1          : 1;  /**< [471:471] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error0_1           : 1;  /**< [470:470] Reserved. */
+        uint64_t rsvd20_1              : 1;  /**< [470:470] Reserved. */
         uint64_t nfpcm_error0_1        : 5;  /**< [469:465] For the first CB, it reports the number of errors in FPC metric of the path N. */
         uint64_t pm0_1                 : 16; /**< [464:449] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t crc_error0_1          : 1;  /**< [448:448] For the first CB, it reports the result of the CRC check of path N. */
@@ -218,26 +218,26 @@ union cavm_pdec_report_s
         uint64_t crc_error0_1          : 1;  /**< [448:448] For the first CB, it reports the result of the CRC check of path N. */
         uint64_t pm0_1                 : 16; /**< [464:449] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t nfpcm_error0_1        : 5;  /**< [469:465] For the first CB, it reports the number of errors in FPC metric of the path N. */
-        uint64_t pc_error0_1           : 1;  /**< [470:470] Reserved. */
+        uint64_t rsvd20_1              : 1;  /**< [470:470] Reserved. */
         uint64_t crc_error1_1          : 1;  /**< [471:471] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_1                 : 16; /**< [487:472] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t nfpcm_error1_1        : 5;  /**< [492:488] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error1_1           : 1;  /**< [493:493] Reserved. */
+        uint64_t rsvd21_1              : 1;  /**< [493:493] Reserved. */
         uint64_t reserved_494_511      : 18;
 #endif /* Word 7 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 8 - Big Endian */
         uint64_t reserved_558_575      : 18;
-        uint64_t pc_error1_2           : 1;  /**< [557:557] Reserved. */
+        uint64_t rsvd21_2              : 1;  /**< [557:557] Reserved. */
         uint64_t nfpcm_error1_2        : 5;  /**< [556:552] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_2                 : 16; /**< [551:536] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t crc_error1_2          : 1;  /**< [535:535] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error0_2           : 1;  /**< [534:534] Reserved. */
+        uint64_t rsvd20_2              : 1;  /**< [534:534] Reserved. */
         uint64_t nfpcm_error0_2        : 5;  /**< [533:529] For the first CB, it reports the number of errors in FPC metric of the path N. */
         uint64_t pm0_2                 : 16; /**< [528:513] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t crc_error0_2          : 1;  /**< [512:512] For the first CB, it reports the result of the CRC check of path N. */
@@ -245,26 +245,26 @@ union cavm_pdec_report_s
         uint64_t crc_error0_2          : 1;  /**< [512:512] For the first CB, it reports the result of the CRC check of path N. */
         uint64_t pm0_2                 : 16; /**< [528:513] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t nfpcm_error0_2        : 5;  /**< [533:529] For the first CB, it reports the number of errors in FPC metric of the path N. */
-        uint64_t pc_error0_2           : 1;  /**< [534:534] Reserved. */
+        uint64_t rsvd20_2              : 1;  /**< [534:534] Reserved. */
         uint64_t crc_error1_2          : 1;  /**< [535:535] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_2                 : 16; /**< [551:536] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t nfpcm_error1_2        : 5;  /**< [556:552] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error1_2           : 1;  /**< [557:557] Reserved. */
+        uint64_t rsvd21_2              : 1;  /**< [557:557] Reserved. */
         uint64_t reserved_558_575      : 18;
 #endif /* Word 8 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 9 - Big Endian */
         uint64_t reserved_622_639      : 18;
-        uint64_t pc_error1_3           : 1;  /**< [621:621] Reserved. */
+        uint64_t rsvd21_3              : 1;  /**< [621:621] Reserved. */
         uint64_t nfpcm_error1_3        : 5;  /**< [620:616] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_3                 : 16; /**< [615:600] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t crc_error1_3          : 1;  /**< [599:599] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error0_3           : 1;  /**< [598:598] Reserved. */
+        uint64_t rsvd20_3              : 1;  /**< [598:598] Reserved. */
         uint64_t nfpcm_error0_3        : 5;  /**< [597:593] For the first CB, it reports the number of errors in FPC metric of the path N. */
         uint64_t pm0_3                 : 16; /**< [592:577] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t crc_error0_3          : 1;  /**< [576:576] For the first CB, it reports the result of the CRC check of path N. */
@@ -272,26 +272,26 @@ union cavm_pdec_report_s
         uint64_t crc_error0_3          : 1;  /**< [576:576] For the first CB, it reports the result of the CRC check of path N. */
         uint64_t pm0_3                 : 16; /**< [592:577] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t nfpcm_error0_3        : 5;  /**< [597:593] For the first CB, it reports the number of errors in FPC metric of the path N. */
-        uint64_t pc_error0_3           : 1;  /**< [598:598] Reserved. */
+        uint64_t rsvd20_3              : 1;  /**< [598:598] Reserved. */
         uint64_t crc_error1_3          : 1;  /**< [599:599] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_3                 : 16; /**< [615:600] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t nfpcm_error1_3        : 5;  /**< [620:616] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error1_3           : 1;  /**< [621:621] Reserved. */
+        uint64_t rsvd21_3              : 1;  /**< [621:621] Reserved. */
         uint64_t reserved_622_639      : 18;
 #endif /* Word 9 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 10 - Big Endian */
         uint64_t reserved_686_703      : 18;
-        uint64_t pc_error1_4           : 1;  /**< [685:685] Reserved. */
+        uint64_t rsvd21_4              : 1;  /**< [685:685] Reserved. */
         uint64_t nfpcm_error1_4        : 5;  /**< [684:680] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_4                 : 16; /**< [679:664] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t crc_error1_4          : 1;  /**< [663:663] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error0_4           : 1;  /**< [662:662] Reserved. */
+        uint64_t rsvd20_4              : 1;  /**< [662:662] Reserved. */
         uint64_t nfpcm_error0_4        : 5;  /**< [661:657] For the first CB, it reports the number of errors in FPC metric of the path N. */
         uint64_t pm0_4                 : 16; /**< [656:641] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t crc_error0_4          : 1;  /**< [640:640] For the first CB, it reports the result of the CRC check of path N. */
@@ -299,26 +299,26 @@ union cavm_pdec_report_s
         uint64_t crc_error0_4          : 1;  /**< [640:640] For the first CB, it reports the result of the CRC check of path N. */
         uint64_t pm0_4                 : 16; /**< [656:641] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t nfpcm_error0_4        : 5;  /**< [661:657] For the first CB, it reports the number of errors in FPC metric of the path N. */
-        uint64_t pc_error0_4           : 1;  /**< [662:662] Reserved. */
+        uint64_t rsvd20_4              : 1;  /**< [662:662] Reserved. */
         uint64_t crc_error1_4          : 1;  /**< [663:663] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_4                 : 16; /**< [679:664] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t nfpcm_error1_4        : 5;  /**< [684:680] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error1_4           : 1;  /**< [685:685] Reserved. */
+        uint64_t rsvd21_4              : 1;  /**< [685:685] Reserved. */
         uint64_t reserved_686_703      : 18;
 #endif /* Word 10 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 11 - Big Endian */
         uint64_t reserved_750_767      : 18;
-        uint64_t pc_error1_5           : 1;  /**< [749:749] Reserved. */
+        uint64_t rsvd21_5              : 1;  /**< [749:749] Reserved. */
         uint64_t nfpcm_error1_5        : 5;  /**< [748:744] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_5                 : 16; /**< [743:728] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t crc_error1_5          : 1;  /**< [727:727] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error0_5           : 1;  /**< [726:726] Reserved. */
+        uint64_t rsvd20_5              : 1;  /**< [726:726] Reserved. */
         uint64_t nfpcm_error0_5        : 5;  /**< [725:721] For the first CB, it reports the number of errors in FPC metric of the path N. */
         uint64_t pm0_5                 : 16; /**< [720:705] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t crc_error0_5          : 1;  /**< [704:704] For the first CB, it reports the result of the CRC check of path N. */
@@ -326,26 +326,26 @@ union cavm_pdec_report_s
         uint64_t crc_error0_5          : 1;  /**< [704:704] For the first CB, it reports the result of the CRC check of path N. */
         uint64_t pm0_5                 : 16; /**< [720:705] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t nfpcm_error0_5        : 5;  /**< [725:721] For the first CB, it reports the number of errors in FPC metric of the path N. */
-        uint64_t pc_error0_5           : 1;  /**< [726:726] Reserved. */
+        uint64_t rsvd20_5              : 1;  /**< [726:726] Reserved. */
         uint64_t crc_error1_5          : 1;  /**< [727:727] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_5                 : 16; /**< [743:728] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t nfpcm_error1_5        : 5;  /**< [748:744] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error1_5           : 1;  /**< [749:749] Reserved. */
+        uint64_t rsvd21_5              : 1;  /**< [749:749] Reserved. */
         uint64_t reserved_750_767      : 18;
 #endif /* Word 11 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 12 - Big Endian */
         uint64_t reserved_814_831      : 18;
-        uint64_t pc_error1_6           : 1;  /**< [813:813] Reserved. */
+        uint64_t rsvd21_6              : 1;  /**< [813:813] Reserved. */
         uint64_t nfpcm_error1_6        : 5;  /**< [812:808] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_6                 : 16; /**< [807:792] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t crc_error1_6          : 1;  /**< [791:791] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error0_6           : 1;  /**< [790:790] Reserved. */
+        uint64_t rsvd20_6              : 1;  /**< [790:790] Reserved. */
         uint64_t nfpcm_error0_6        : 5;  /**< [789:785] For the first CB, it reports the number of errors in FPC metric of the path N. */
         uint64_t pm0_6                 : 16; /**< [784:769] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t crc_error0_6          : 1;  /**< [768:768] For the first CB, it reports the result of the CRC check of path N. */
@@ -353,26 +353,26 @@ union cavm_pdec_report_s
         uint64_t crc_error0_6          : 1;  /**< [768:768] For the first CB, it reports the result of the CRC check of path N. */
         uint64_t pm0_6                 : 16; /**< [784:769] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t nfpcm_error0_6        : 5;  /**< [789:785] For the first CB, it reports the number of errors in FPC metric of the path N. */
-        uint64_t pc_error0_6           : 1;  /**< [790:790] Reserved. */
+        uint64_t rsvd20_6              : 1;  /**< [790:790] Reserved. */
         uint64_t crc_error1_6          : 1;  /**< [791:791] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_6                 : 16; /**< [807:792] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t nfpcm_error1_6        : 5;  /**< [812:808] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error1_6           : 1;  /**< [813:813] Reserved. */
+        uint64_t rsvd21_6              : 1;  /**< [813:813] Reserved. */
         uint64_t reserved_814_831      : 18;
 #endif /* Word 12 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 13 - Big Endian */
         uint64_t reserved_878_895      : 18;
-        uint64_t pc_error1_7           : 1;  /**< [877:877] Reserved. */
+        uint64_t rsvd21_7              : 1;  /**< [877:877] Reserved. */
         uint64_t nfpcm_error1_7        : 5;  /**< [876:872] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_7                 : 16; /**< [871:856] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t crc_error1_7          : 1;  /**< [855:855] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error0_7           : 1;  /**< [854:854] Reserved. */
+        uint64_t rsvd20_7              : 1;  /**< [854:854] Reserved. */
         uint64_t nfpcm_error0_7        : 5;  /**< [853:849] For the first CB, it reports the number of errors in FPC metric of the path N. */
         uint64_t pm0_7                 : 16; /**< [848:833] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t crc_error0_7          : 1;  /**< [832:832] For the first CB, it reports the result of the CRC check of path N. */
@@ -380,26 +380,26 @@ union cavm_pdec_report_s
         uint64_t crc_error0_7          : 1;  /**< [832:832] For the first CB, it reports the result of the CRC check of path N. */
         uint64_t pm0_7                 : 16; /**< [848:833] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t nfpcm_error0_7        : 5;  /**< [853:849] For the first CB, it reports the number of errors in FPC metric of the path N. */
-        uint64_t pc_error0_7           : 1;  /**< [854:854] Reserved. */
+        uint64_t rsvd20_7              : 1;  /**< [854:854] Reserved. */
         uint64_t crc_error1_7          : 1;  /**< [855:855] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_7                 : 16; /**< [871:856] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t nfpcm_error1_7        : 5;  /**< [876:872] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error1_7           : 1;  /**< [877:877] Reserved. */
+        uint64_t rsvd21_7              : 1;  /**< [877:877] Reserved. */
         uint64_t reserved_878_895      : 18;
 #endif /* Word 13 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 14 - Big Endian */
         uint64_t reserved_942_959      : 18;
-        uint64_t pc_error1_8           : 1;  /**< [941:941] Reserved. */
+        uint64_t rsvd21_8              : 1;  /**< [941:941] Reserved. */
         uint64_t nfpcm_error1_8        : 5;  /**< [940:936] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_8                 : 16; /**< [935:920] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t crc_error1_8          : 1;  /**< [919:919] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error0_8           : 1;  /**< [918:918] Reserved. */
+        uint64_t rsvd20_8              : 1;  /**< [918:918] Reserved. */
         uint64_t nfpcm_error0_8        : 5;  /**< [917:913] For the first CB, it reports the number of errors in FPC metric of the path N. */
         uint64_t pm0_8                 : 16; /**< [912:897] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t crc_error0_8          : 1;  /**< [896:896] For the first CB, it reports the result of the CRC check of path N. */
@@ -407,26 +407,26 @@ union cavm_pdec_report_s
         uint64_t crc_error0_8          : 1;  /**< [896:896] For the first CB, it reports the result of the CRC check of path N. */
         uint64_t pm0_8                 : 16; /**< [912:897] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t nfpcm_error0_8        : 5;  /**< [917:913] For the first CB, it reports the number of errors in FPC metric of the path N. */
-        uint64_t pc_error0_8           : 1;  /**< [918:918] Reserved. */
+        uint64_t rsvd20_8              : 1;  /**< [918:918] Reserved. */
         uint64_t crc_error1_8          : 1;  /**< [919:919] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_8                 : 16; /**< [935:920] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t nfpcm_error1_8        : 5;  /**< [940:936] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error1_8           : 1;  /**< [941:941] Reserved. */
+        uint64_t rsvd21_8              : 1;  /**< [941:941] Reserved. */
         uint64_t reserved_942_959      : 18;
 #endif /* Word 14 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 15 - Big Endian */
         uint64_t reserved_1006_1023    : 18;
-        uint64_t pc_error1_9           : 1;  /**< [1005:1005] Reserved. */
+        uint64_t rsvd21_9              : 1;  /**< [1005:1005] Reserved. */
         uint64_t nfpcm_error1_9        : 5;  /**< [1004:1000] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_9                 : 16; /**< [999:984] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t crc_error1_9          : 1;  /**< [983:983] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error0_9           : 1;  /**< [982:982] Reserved. */
+        uint64_t rsvd20_9              : 1;  /**< [982:982] Reserved. */
         uint64_t nfpcm_error0_9        : 5;  /**< [981:977] For the first CB, it reports the number of errors in FPC metric of the path N. */
         uint64_t pm0_9                 : 16; /**< [976:961] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t crc_error0_9          : 1;  /**< [960:960] For the first CB, it reports the result of the CRC check of path N. */
@@ -434,26 +434,26 @@ union cavm_pdec_report_s
         uint64_t crc_error0_9          : 1;  /**< [960:960] For the first CB, it reports the result of the CRC check of path N. */
         uint64_t pm0_9                 : 16; /**< [976:961] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t nfpcm_error0_9        : 5;  /**< [981:977] For the first CB, it reports the number of errors in FPC metric of the path N. */
-        uint64_t pc_error0_9           : 1;  /**< [982:982] Reserved. */
+        uint64_t rsvd20_9              : 1;  /**< [982:982] Reserved. */
         uint64_t crc_error1_9          : 1;  /**< [983:983] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_9                 : 16; /**< [999:984] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t nfpcm_error1_9        : 5;  /**< [1004:1000] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error1_9           : 1;  /**< [1005:1005] Reserved. */
+        uint64_t rsvd21_9              : 1;  /**< [1005:1005] Reserved. */
         uint64_t reserved_1006_1023    : 18;
 #endif /* Word 15 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 16 - Big Endian */
         uint64_t reserved_1070_1087    : 18;
-        uint64_t pc_error1_10          : 1;  /**< [1069:1069] Reserved. */
+        uint64_t rsvd21_10             : 1;  /**< [1069:1069] Reserved. */
         uint64_t nfpcm_error1_10       : 5;  /**< [1068:1064] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_10                : 16; /**< [1063:1048] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t crc_error1_10         : 1;  /**< [1047:1047] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error0_10          : 1;  /**< [1046:1046] Reserved. */
+        uint64_t rsvd20_10             : 1;  /**< [1046:1046] Reserved. */
         uint64_t nfpcm_error0_10       : 5;  /**< [1045:1041] For the first CB, it reports the number of errors in FPC metric of the path N. */
         uint64_t pm0_10                : 16; /**< [1040:1025] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t crc_error0_10         : 1;  /**< [1024:1024] For the first CB, it reports the result of the CRC check of path N. */
@@ -461,26 +461,26 @@ union cavm_pdec_report_s
         uint64_t crc_error0_10         : 1;  /**< [1024:1024] For the first CB, it reports the result of the CRC check of path N. */
         uint64_t pm0_10                : 16; /**< [1040:1025] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t nfpcm_error0_10       : 5;  /**< [1045:1041] For the first CB, it reports the number of errors in FPC metric of the path N. */
-        uint64_t pc_error0_10          : 1;  /**< [1046:1046] Reserved. */
+        uint64_t rsvd20_10             : 1;  /**< [1046:1046] Reserved. */
         uint64_t crc_error1_10         : 1;  /**< [1047:1047] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_10                : 16; /**< [1063:1048] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t nfpcm_error1_10       : 5;  /**< [1068:1064] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error1_10          : 1;  /**< [1069:1069] Reserved. */
+        uint64_t rsvd21_10             : 1;  /**< [1069:1069] Reserved. */
         uint64_t reserved_1070_1087    : 18;
 #endif /* Word 16 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 17 - Big Endian */
         uint64_t reserved_1134_1151    : 18;
-        uint64_t pc_error1_11          : 1;  /**< [1133:1133] Reserved. */
+        uint64_t rsvd21_11             : 1;  /**< [1133:1133] Reserved. */
         uint64_t nfpcm_error1_11       : 5;  /**< [1132:1128] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_11                : 16; /**< [1127:1112] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t crc_error1_11         : 1;  /**< [1111:1111] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error0_11          : 1;  /**< [1110:1110] Reserved. */
+        uint64_t rsvd20_11             : 1;  /**< [1110:1110] Reserved. */
         uint64_t nfpcm_error0_11       : 5;  /**< [1109:1105] For the first CB, it reports the number of errors in FPC metric of the path N. */
         uint64_t pm0_11                : 16; /**< [1104:1089] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t crc_error0_11         : 1;  /**< [1088:1088] For the first CB, it reports the result of the CRC check of path N. */
@@ -488,26 +488,26 @@ union cavm_pdec_report_s
         uint64_t crc_error0_11         : 1;  /**< [1088:1088] For the first CB, it reports the result of the CRC check of path N. */
         uint64_t pm0_11                : 16; /**< [1104:1089] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t nfpcm_error0_11       : 5;  /**< [1109:1105] For the first CB, it reports the number of errors in FPC metric of the path N. */
-        uint64_t pc_error0_11          : 1;  /**< [1110:1110] Reserved. */
+        uint64_t rsvd20_11             : 1;  /**< [1110:1110] Reserved. */
         uint64_t crc_error1_11         : 1;  /**< [1111:1111] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_11                : 16; /**< [1127:1112] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t nfpcm_error1_11       : 5;  /**< [1132:1128] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error1_11          : 1;  /**< [1133:1133] Reserved. */
+        uint64_t rsvd21_11             : 1;  /**< [1133:1133] Reserved. */
         uint64_t reserved_1134_1151    : 18;
 #endif /* Word 17 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 18 - Big Endian */
         uint64_t reserved_1198_1215    : 18;
-        uint64_t pc_error1_12          : 1;  /**< [1197:1197] Reserved. */
+        uint64_t rsvd21_12             : 1;  /**< [1197:1197] Reserved. */
         uint64_t nfpcm_error1_12       : 5;  /**< [1196:1192] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_12                : 16; /**< [1191:1176] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t crc_error1_12         : 1;  /**< [1175:1175] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error0_12          : 1;  /**< [1174:1174] Reserved. */
+        uint64_t rsvd20_12             : 1;  /**< [1174:1174] Reserved. */
         uint64_t nfpcm_error0_12       : 5;  /**< [1173:1169] For the first CB, it reports the number of errors in FPC metric of the path N. */
         uint64_t pm0_12                : 16; /**< [1168:1153] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t crc_error0_12         : 1;  /**< [1152:1152] For the first CB, it reports the result of the CRC check of path N. */
@@ -515,26 +515,26 @@ union cavm_pdec_report_s
         uint64_t crc_error0_12         : 1;  /**< [1152:1152] For the first CB, it reports the result of the CRC check of path N. */
         uint64_t pm0_12                : 16; /**< [1168:1153] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t nfpcm_error0_12       : 5;  /**< [1173:1169] For the first CB, it reports the number of errors in FPC metric of the path N. */
-        uint64_t pc_error0_12          : 1;  /**< [1174:1174] Reserved. */
+        uint64_t rsvd20_12             : 1;  /**< [1174:1174] Reserved. */
         uint64_t crc_error1_12         : 1;  /**< [1175:1175] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_12                : 16; /**< [1191:1176] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t nfpcm_error1_12       : 5;  /**< [1196:1192] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error1_12          : 1;  /**< [1197:1197] Reserved. */
+        uint64_t rsvd21_12             : 1;  /**< [1197:1197] Reserved. */
         uint64_t reserved_1198_1215    : 18;
 #endif /* Word 18 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 19 - Big Endian */
         uint64_t reserved_1262_1279    : 18;
-        uint64_t pc_error1_13          : 1;  /**< [1261:1261] Reserved. */
+        uint64_t rsvd21_13             : 1;  /**< [1261:1261] Reserved. */
         uint64_t nfpcm_error1_13       : 5;  /**< [1260:1256] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_13                : 16; /**< [1255:1240] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t crc_error1_13         : 1;  /**< [1239:1239] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error0_13          : 1;  /**< [1238:1238] Reserved. */
+        uint64_t rsvd20_13             : 1;  /**< [1238:1238] Reserved. */
         uint64_t nfpcm_error0_13       : 5;  /**< [1237:1233] For the first CB, it reports the number of errors in FPC metric of the path N. */
         uint64_t pm0_13                : 16; /**< [1232:1217] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t crc_error0_13         : 1;  /**< [1216:1216] For the first CB, it reports the result of the CRC check of path N. */
@@ -542,26 +542,26 @@ union cavm_pdec_report_s
         uint64_t crc_error0_13         : 1;  /**< [1216:1216] For the first CB, it reports the result of the CRC check of path N. */
         uint64_t pm0_13                : 16; /**< [1232:1217] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t nfpcm_error0_13       : 5;  /**< [1237:1233] For the first CB, it reports the number of errors in FPC metric of the path N. */
-        uint64_t pc_error0_13          : 1;  /**< [1238:1238] Reserved. */
+        uint64_t rsvd20_13             : 1;  /**< [1238:1238] Reserved. */
         uint64_t crc_error1_13         : 1;  /**< [1239:1239] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_13                : 16; /**< [1255:1240] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t nfpcm_error1_13       : 5;  /**< [1260:1256] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error1_13          : 1;  /**< [1261:1261] Reserved. */
+        uint64_t rsvd21_13             : 1;  /**< [1261:1261] Reserved. */
         uint64_t reserved_1262_1279    : 18;
 #endif /* Word 19 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 20 - Big Endian */
         uint64_t reserved_1326_1343    : 18;
-        uint64_t pc_error1_14          : 1;  /**< [1325:1325] Reserved. */
+        uint64_t rsvd21_14             : 1;  /**< [1325:1325] Reserved. */
         uint64_t nfpcm_error1_14       : 5;  /**< [1324:1320] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_14                : 16; /**< [1319:1304] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t crc_error1_14         : 1;  /**< [1303:1303] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error0_14          : 1;  /**< [1302:1302] Reserved. */
+        uint64_t rsvd20_14             : 1;  /**< [1302:1302] Reserved. */
         uint64_t nfpcm_error0_14       : 5;  /**< [1301:1297] For the first CB, it reports the number of errors in FPC metric of the path N. */
         uint64_t pm0_14                : 16; /**< [1296:1281] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t crc_error0_14         : 1;  /**< [1280:1280] For the first CB, it reports the result of the CRC check of path N. */
@@ -569,26 +569,26 @@ union cavm_pdec_report_s
         uint64_t crc_error0_14         : 1;  /**< [1280:1280] For the first CB, it reports the result of the CRC check of path N. */
         uint64_t pm0_14                : 16; /**< [1296:1281] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t nfpcm_error0_14       : 5;  /**< [1301:1297] For the first CB, it reports the number of errors in FPC metric of the path N. */
-        uint64_t pc_error0_14          : 1;  /**< [1302:1302] Reserved. */
+        uint64_t rsvd20_14             : 1;  /**< [1302:1302] Reserved. */
         uint64_t crc_error1_14         : 1;  /**< [1303:1303] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_14                : 16; /**< [1319:1304] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t nfpcm_error1_14       : 5;  /**< [1324:1320] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error1_14          : 1;  /**< [1325:1325] Reserved. */
+        uint64_t rsvd21_14             : 1;  /**< [1325:1325] Reserved. */
         uint64_t reserved_1326_1343    : 18;
 #endif /* Word 20 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 21 - Big Endian */
         uint64_t reserved_1390_1407    : 18;
-        uint64_t pc_error1_15          : 1;  /**< [1389:1389] Reserved. */
+        uint64_t rsvd21_15             : 1;  /**< [1389:1389] Reserved. */
         uint64_t nfpcm_error1_15       : 5;  /**< [1388:1384] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_15                : 16; /**< [1383:1368] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t crc_error1_15         : 1;  /**< [1367:1367] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error0_15          : 1;  /**< [1366:1366] Reserved. */
+        uint64_t rsvd20_15             : 1;  /**< [1366:1366] Reserved. */
         uint64_t nfpcm_error0_15       : 5;  /**< [1365:1361] For the first CB, it reports the number of errors in FPC metric of the path N. */
         uint64_t pm0_15                : 16; /**< [1360:1345] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t crc_error0_15         : 1;  /**< [1344:1344] For the first CB, it reports the result of the CRC check of path N. */
@@ -596,26 +596,26 @@ union cavm_pdec_report_s
         uint64_t crc_error0_15         : 1;  /**< [1344:1344] For the first CB, it reports the result of the CRC check of path N. */
         uint64_t pm0_15                : 16; /**< [1360:1345] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t nfpcm_error0_15       : 5;  /**< [1365:1361] For the first CB, it reports the number of errors in FPC metric of the path N. */
-        uint64_t pc_error0_15          : 1;  /**< [1366:1366] Reserved. */
+        uint64_t rsvd20_15             : 1;  /**< [1366:1366] Reserved. */
         uint64_t crc_error1_15         : 1;  /**< [1367:1367] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_15                : 16; /**< [1383:1368] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t nfpcm_error1_15       : 5;  /**< [1388:1384] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error1_15          : 1;  /**< [1389:1389] Reserved. */
+        uint64_t rsvd21_15             : 1;  /**< [1389:1389] Reserved. */
         uint64_t reserved_1390_1407    : 18;
 #endif /* Word 21 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 22 - Big Endian */
         uint64_t reserved_1454_1471    : 18;
-        uint64_t pc_error1_16          : 1;  /**< [1453:1453] Reserved. */
+        uint64_t rsvd21_16             : 1;  /**< [1453:1453] Reserved. */
         uint64_t nfpcm_error1_16       : 5;  /**< [1452:1448] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_16                : 16; /**< [1447:1432] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t crc_error1_16         : 1;  /**< [1431:1431] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error0_16          : 1;  /**< [1430:1430] Reserved. */
+        uint64_t rsvd20_16             : 1;  /**< [1430:1430] Reserved. */
         uint64_t nfpcm_error0_16       : 5;  /**< [1429:1425] For the first CB, it reports the number of errors in FPC metric of the path N. */
         uint64_t pm0_16                : 16; /**< [1424:1409] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t crc_error0_16         : 1;  /**< [1408:1408] For the first CB, it reports the result of the CRC check of path N. */
@@ -623,26 +623,26 @@ union cavm_pdec_report_s
         uint64_t crc_error0_16         : 1;  /**< [1408:1408] For the first CB, it reports the result of the CRC check of path N. */
         uint64_t pm0_16                : 16; /**< [1424:1409] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t nfpcm_error0_16       : 5;  /**< [1429:1425] For the first CB, it reports the number of errors in FPC metric of the path N. */
-        uint64_t pc_error0_16          : 1;  /**< [1430:1430] Reserved. */
+        uint64_t rsvd20_16             : 1;  /**< [1430:1430] Reserved. */
         uint64_t crc_error1_16         : 1;  /**< [1431:1431] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_16                : 16; /**< [1447:1432] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t nfpcm_error1_16       : 5;  /**< [1452:1448] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error1_16          : 1;  /**< [1453:1453] Reserved. */
+        uint64_t rsvd21_16             : 1;  /**< [1453:1453] Reserved. */
         uint64_t reserved_1454_1471    : 18;
 #endif /* Word 22 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 23 - Big Endian */
         uint64_t reserved_1518_1535    : 18;
-        uint64_t pc_error1_17          : 1;  /**< [1517:1517] Reserved. */
+        uint64_t rsvd21_17             : 1;  /**< [1517:1517] Reserved. */
         uint64_t nfpcm_error1_17       : 5;  /**< [1516:1512] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_17                : 16; /**< [1511:1496] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t crc_error1_17         : 1;  /**< [1495:1495] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error0_17          : 1;  /**< [1494:1494] Reserved. */
+        uint64_t rsvd20_17             : 1;  /**< [1494:1494] Reserved. */
         uint64_t nfpcm_error0_17       : 5;  /**< [1493:1489] For the first CB, it reports the number of errors in FPC metric of the path N. */
         uint64_t pm0_17                : 16; /**< [1488:1473] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t crc_error0_17         : 1;  /**< [1472:1472] For the first CB, it reports the result of the CRC check of path N. */
@@ -650,26 +650,26 @@ union cavm_pdec_report_s
         uint64_t crc_error0_17         : 1;  /**< [1472:1472] For the first CB, it reports the result of the CRC check of path N. */
         uint64_t pm0_17                : 16; /**< [1488:1473] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t nfpcm_error0_17       : 5;  /**< [1493:1489] For the first CB, it reports the number of errors in FPC metric of the path N. */
-        uint64_t pc_error0_17          : 1;  /**< [1494:1494] Reserved. */
+        uint64_t rsvd20_17             : 1;  /**< [1494:1494] Reserved. */
         uint64_t crc_error1_17         : 1;  /**< [1495:1495] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_17                : 16; /**< [1511:1496] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t nfpcm_error1_17       : 5;  /**< [1516:1512] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error1_17          : 1;  /**< [1517:1517] Reserved. */
+        uint64_t rsvd21_17             : 1;  /**< [1517:1517] Reserved. */
         uint64_t reserved_1518_1535    : 18;
 #endif /* Word 23 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 24 - Big Endian */
         uint64_t reserved_1582_1599    : 18;
-        uint64_t pc_error1_18          : 1;  /**< [1581:1581] Reserved. */
+        uint64_t rsvd21_18             : 1;  /**< [1581:1581] Reserved. */
         uint64_t nfpcm_error1_18       : 5;  /**< [1580:1576] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_18                : 16; /**< [1575:1560] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t crc_error1_18         : 1;  /**< [1559:1559] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error0_18          : 1;  /**< [1558:1558] Reserved. */
+        uint64_t rsvd20_18             : 1;  /**< [1558:1558] Reserved. */
         uint64_t nfpcm_error0_18       : 5;  /**< [1557:1553] For the first CB, it reports the number of errors in FPC metric of the path N. */
         uint64_t pm0_18                : 16; /**< [1552:1537] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t crc_error0_18         : 1;  /**< [1536:1536] For the first CB, it reports the result of the CRC check of path N. */
@@ -677,26 +677,26 @@ union cavm_pdec_report_s
         uint64_t crc_error0_18         : 1;  /**< [1536:1536] For the first CB, it reports the result of the CRC check of path N. */
         uint64_t pm0_18                : 16; /**< [1552:1537] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t nfpcm_error0_18       : 5;  /**< [1557:1553] For the first CB, it reports the number of errors in FPC metric of the path N. */
-        uint64_t pc_error0_18          : 1;  /**< [1558:1558] Reserved. */
+        uint64_t rsvd20_18             : 1;  /**< [1558:1558] Reserved. */
         uint64_t crc_error1_18         : 1;  /**< [1559:1559] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_18                : 16; /**< [1575:1560] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t nfpcm_error1_18       : 5;  /**< [1580:1576] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error1_18          : 1;  /**< [1581:1581] Reserved. */
+        uint64_t rsvd21_18             : 1;  /**< [1581:1581] Reserved. */
         uint64_t reserved_1582_1599    : 18;
 #endif /* Word 24 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 25 - Big Endian */
         uint64_t reserved_1646_1663    : 18;
-        uint64_t pc_error1_19          : 1;  /**< [1645:1645] Reserved. */
+        uint64_t rsvd21_19             : 1;  /**< [1645:1645] Reserved. */
         uint64_t nfpcm_error1_19       : 5;  /**< [1644:1640] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_19                : 16; /**< [1639:1624] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t crc_error1_19         : 1;  /**< [1623:1623] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error0_19          : 1;  /**< [1622:1622] Reserved. */
+        uint64_t rsvd20_19             : 1;  /**< [1622:1622] Reserved. */
         uint64_t nfpcm_error0_19       : 5;  /**< [1621:1617] For the first CB, it reports the number of errors in FPC metric of the path N. */
         uint64_t pm0_19                : 16; /**< [1616:1601] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t crc_error0_19         : 1;  /**< [1600:1600] For the first CB, it reports the result of the CRC check of path N. */
@@ -704,26 +704,26 @@ union cavm_pdec_report_s
         uint64_t crc_error0_19         : 1;  /**< [1600:1600] For the first CB, it reports the result of the CRC check of path N. */
         uint64_t pm0_19                : 16; /**< [1616:1601] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t nfpcm_error0_19       : 5;  /**< [1621:1617] For the first CB, it reports the number of errors in FPC metric of the path N. */
-        uint64_t pc_error0_19          : 1;  /**< [1622:1622] Reserved. */
+        uint64_t rsvd20_19             : 1;  /**< [1622:1622] Reserved. */
         uint64_t crc_error1_19         : 1;  /**< [1623:1623] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_19                : 16; /**< [1639:1624] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t nfpcm_error1_19       : 5;  /**< [1644:1640] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error1_19          : 1;  /**< [1645:1645] Reserved. */
+        uint64_t rsvd21_19             : 1;  /**< [1645:1645] Reserved. */
         uint64_t reserved_1646_1663    : 18;
 #endif /* Word 25 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 26 - Big Endian */
         uint64_t reserved_1710_1727    : 18;
-        uint64_t pc_error1_20          : 1;  /**< [1709:1709] Reserved. */
+        uint64_t rsvd21_20             : 1;  /**< [1709:1709] Reserved. */
         uint64_t nfpcm_error1_20       : 5;  /**< [1708:1704] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_20                : 16; /**< [1703:1688] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t crc_error1_20         : 1;  /**< [1687:1687] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error0_20          : 1;  /**< [1686:1686] Reserved. */
+        uint64_t rsvd20_20             : 1;  /**< [1686:1686] Reserved. */
         uint64_t nfpcm_error0_20       : 5;  /**< [1685:1681] For the first CB, it reports the number of errors in FPC metric of the path N. */
         uint64_t pm0_20                : 16; /**< [1680:1665] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t crc_error0_20         : 1;  /**< [1664:1664] For the first CB, it reports the result of the CRC check of path N. */
@@ -731,26 +731,26 @@ union cavm_pdec_report_s
         uint64_t crc_error0_20         : 1;  /**< [1664:1664] For the first CB, it reports the result of the CRC check of path N. */
         uint64_t pm0_20                : 16; /**< [1680:1665] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t nfpcm_error0_20       : 5;  /**< [1685:1681] For the first CB, it reports the number of errors in FPC metric of the path N. */
-        uint64_t pc_error0_20          : 1;  /**< [1686:1686] Reserved. */
+        uint64_t rsvd20_20             : 1;  /**< [1686:1686] Reserved. */
         uint64_t crc_error1_20         : 1;  /**< [1687:1687] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_20                : 16; /**< [1703:1688] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t nfpcm_error1_20       : 5;  /**< [1708:1704] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error1_20          : 1;  /**< [1709:1709] Reserved. */
+        uint64_t rsvd21_20             : 1;  /**< [1709:1709] Reserved. */
         uint64_t reserved_1710_1727    : 18;
 #endif /* Word 26 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 27 - Big Endian */
         uint64_t reserved_1774_1791    : 18;
-        uint64_t pc_error1_21          : 1;  /**< [1773:1773] Reserved. */
+        uint64_t rsvd21_21             : 1;  /**< [1773:1773] Reserved. */
         uint64_t nfpcm_error1_21       : 5;  /**< [1772:1768] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_21                : 16; /**< [1767:1752] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t crc_error1_21         : 1;  /**< [1751:1751] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error0_21          : 1;  /**< [1750:1750] Reserved. */
+        uint64_t rsvd20_21             : 1;  /**< [1750:1750] Reserved. */
         uint64_t nfpcm_error0_21       : 5;  /**< [1749:1745] For the first CB, it reports the number of errors in FPC metric of the path N. */
         uint64_t pm0_21                : 16; /**< [1744:1729] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t crc_error0_21         : 1;  /**< [1728:1728] For the first CB, it reports the result of the CRC check of path N. */
@@ -758,26 +758,26 @@ union cavm_pdec_report_s
         uint64_t crc_error0_21         : 1;  /**< [1728:1728] For the first CB, it reports the result of the CRC check of path N. */
         uint64_t pm0_21                : 16; /**< [1744:1729] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t nfpcm_error0_21       : 5;  /**< [1749:1745] For the first CB, it reports the number of errors in FPC metric of the path N. */
-        uint64_t pc_error0_21          : 1;  /**< [1750:1750] Reserved. */
+        uint64_t rsvd20_21             : 1;  /**< [1750:1750] Reserved. */
         uint64_t crc_error1_21         : 1;  /**< [1751:1751] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_21                : 16; /**< [1767:1752] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t nfpcm_error1_21       : 5;  /**< [1772:1768] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error1_21          : 1;  /**< [1773:1773] Reserved. */
+        uint64_t rsvd21_21             : 1;  /**< [1773:1773] Reserved. */
         uint64_t reserved_1774_1791    : 18;
 #endif /* Word 27 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 28 - Big Endian */
         uint64_t reserved_1838_1855    : 18;
-        uint64_t pc_error1_22          : 1;  /**< [1837:1837] Reserved. */
+        uint64_t rsvd21_22             : 1;  /**< [1837:1837] Reserved. */
         uint64_t nfpcm_error1_22       : 5;  /**< [1836:1832] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_22                : 16; /**< [1831:1816] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t crc_error1_22         : 1;  /**< [1815:1815] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error0_22          : 1;  /**< [1814:1814] Reserved. */
+        uint64_t rsvd20_22             : 1;  /**< [1814:1814] Reserved. */
         uint64_t nfpcm_error0_22       : 5;  /**< [1813:1809] For the first CB, it reports the number of errors in FPC metric of the path N. */
         uint64_t pm0_22                : 16; /**< [1808:1793] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t crc_error0_22         : 1;  /**< [1792:1792] For the first CB, it reports the result of the CRC check of path N. */
@@ -785,26 +785,26 @@ union cavm_pdec_report_s
         uint64_t crc_error0_22         : 1;  /**< [1792:1792] For the first CB, it reports the result of the CRC check of path N. */
         uint64_t pm0_22                : 16; /**< [1808:1793] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t nfpcm_error0_22       : 5;  /**< [1813:1809] For the first CB, it reports the number of errors in FPC metric of the path N. */
-        uint64_t pc_error0_22          : 1;  /**< [1814:1814] Reserved. */
+        uint64_t rsvd20_22             : 1;  /**< [1814:1814] Reserved. */
         uint64_t crc_error1_22         : 1;  /**< [1815:1815] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_22                : 16; /**< [1831:1816] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t nfpcm_error1_22       : 5;  /**< [1836:1832] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error1_22          : 1;  /**< [1837:1837] Reserved. */
+        uint64_t rsvd21_22             : 1;  /**< [1837:1837] Reserved. */
         uint64_t reserved_1838_1855    : 18;
 #endif /* Word 28 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 29 - Big Endian */
         uint64_t reserved_1902_1919    : 18;
-        uint64_t pc_error1_23          : 1;  /**< [1901:1901] Reserved. */
+        uint64_t rsvd21_23             : 1;  /**< [1901:1901] Reserved. */
         uint64_t nfpcm_error1_23       : 5;  /**< [1900:1896] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_23                : 16; /**< [1895:1880] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t crc_error1_23         : 1;  /**< [1879:1879] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error0_23          : 1;  /**< [1878:1878] Reserved. */
+        uint64_t rsvd20_23             : 1;  /**< [1878:1878] Reserved. */
         uint64_t nfpcm_error0_23       : 5;  /**< [1877:1873] For the first CB, it reports the number of errors in FPC metric of the path N. */
         uint64_t pm0_23                : 16; /**< [1872:1857] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t crc_error0_23         : 1;  /**< [1856:1856] For the first CB, it reports the result of the CRC check of path N. */
@@ -812,26 +812,26 @@ union cavm_pdec_report_s
         uint64_t crc_error0_23         : 1;  /**< [1856:1856] For the first CB, it reports the result of the CRC check of path N. */
         uint64_t pm0_23                : 16; /**< [1872:1857] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t nfpcm_error0_23       : 5;  /**< [1877:1873] For the first CB, it reports the number of errors in FPC metric of the path N. */
-        uint64_t pc_error0_23          : 1;  /**< [1878:1878] Reserved. */
+        uint64_t rsvd20_23             : 1;  /**< [1878:1878] Reserved. */
         uint64_t crc_error1_23         : 1;  /**< [1879:1879] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_23                : 16; /**< [1895:1880] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t nfpcm_error1_23       : 5;  /**< [1900:1896] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error1_23          : 1;  /**< [1901:1901] Reserved. */
+        uint64_t rsvd21_23             : 1;  /**< [1901:1901] Reserved. */
         uint64_t reserved_1902_1919    : 18;
 #endif /* Word 29 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 30 - Big Endian */
         uint64_t reserved_1966_1983    : 18;
-        uint64_t pc_error1_24          : 1;  /**< [1965:1965] Reserved. */
+        uint64_t rsvd21_24             : 1;  /**< [1965:1965] Reserved. */
         uint64_t nfpcm_error1_24       : 5;  /**< [1964:1960] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_24                : 16; /**< [1959:1944] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t crc_error1_24         : 1;  /**< [1943:1943] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error0_24          : 1;  /**< [1942:1942] Reserved. */
+        uint64_t rsvd20_24             : 1;  /**< [1942:1942] Reserved. */
         uint64_t nfpcm_error0_24       : 5;  /**< [1941:1937] For the first CB, it reports the number of errors in FPC metric of the path N. */
         uint64_t pm0_24                : 16; /**< [1936:1921] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t crc_error0_24         : 1;  /**< [1920:1920] For the first CB, it reports the result of the CRC check of path N. */
@@ -839,26 +839,26 @@ union cavm_pdec_report_s
         uint64_t crc_error0_24         : 1;  /**< [1920:1920] For the first CB, it reports the result of the CRC check of path N. */
         uint64_t pm0_24                : 16; /**< [1936:1921] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t nfpcm_error0_24       : 5;  /**< [1941:1937] For the first CB, it reports the number of errors in FPC metric of the path N. */
-        uint64_t pc_error0_24          : 1;  /**< [1942:1942] Reserved. */
+        uint64_t rsvd20_24             : 1;  /**< [1942:1942] Reserved. */
         uint64_t crc_error1_24         : 1;  /**< [1943:1943] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_24                : 16; /**< [1959:1944] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t nfpcm_error1_24       : 5;  /**< [1964:1960] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error1_24          : 1;  /**< [1965:1965] Reserved. */
+        uint64_t rsvd21_24             : 1;  /**< [1965:1965] Reserved. */
         uint64_t reserved_1966_1983    : 18;
 #endif /* Word 30 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 31 - Big Endian */
         uint64_t reserved_2030_2047    : 18;
-        uint64_t pc_error1_25          : 1;  /**< [2029:2029] Reserved. */
+        uint64_t rsvd21_25             : 1;  /**< [2029:2029] Reserved. */
         uint64_t nfpcm_error1_25       : 5;  /**< [2028:2024] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_25                : 16; /**< [2023:2008] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t crc_error1_25         : 1;  /**< [2007:2007] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error0_25          : 1;  /**< [2006:2006] Reserved. */
+        uint64_t rsvd20_25             : 1;  /**< [2006:2006] Reserved. */
         uint64_t nfpcm_error0_25       : 5;  /**< [2005:2001] For the first CB, it reports the number of errors in FPC metric of the path N. */
         uint64_t pm0_25                : 16; /**< [2000:1985] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t crc_error0_25         : 1;  /**< [1984:1984] For the first CB, it reports the result of the CRC check of path N. */
@@ -866,26 +866,26 @@ union cavm_pdec_report_s
         uint64_t crc_error0_25         : 1;  /**< [1984:1984] For the first CB, it reports the result of the CRC check of path N. */
         uint64_t pm0_25                : 16; /**< [2000:1985] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t nfpcm_error0_25       : 5;  /**< [2005:2001] For the first CB, it reports the number of errors in FPC metric of the path N. */
-        uint64_t pc_error0_25          : 1;  /**< [2006:2006] Reserved. */
+        uint64_t rsvd20_25             : 1;  /**< [2006:2006] Reserved. */
         uint64_t crc_error1_25         : 1;  /**< [2007:2007] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_25                : 16; /**< [2023:2008] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t nfpcm_error1_25       : 5;  /**< [2028:2024] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error1_25          : 1;  /**< [2029:2029] Reserved. */
+        uint64_t rsvd21_25             : 1;  /**< [2029:2029] Reserved. */
         uint64_t reserved_2030_2047    : 18;
 #endif /* Word 31 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 32 - Big Endian */
         uint64_t reserved_2094_2111    : 18;
-        uint64_t pc_error1_26          : 1;  /**< [2093:2093] Reserved. */
+        uint64_t rsvd21_26             : 1;  /**< [2093:2093] Reserved. */
         uint64_t nfpcm_error1_26       : 5;  /**< [2092:2088] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_26                : 16; /**< [2087:2072] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t crc_error1_26         : 1;  /**< [2071:2071] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error0_26          : 1;  /**< [2070:2070] Reserved. */
+        uint64_t rsvd20_26             : 1;  /**< [2070:2070] Reserved. */
         uint64_t nfpcm_error0_26       : 5;  /**< [2069:2065] For the first CB, it reports the number of errors in FPC metric of the path N. */
         uint64_t pm0_26                : 16; /**< [2064:2049] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t crc_error0_26         : 1;  /**< [2048:2048] For the first CB, it reports the result of the CRC check of path N. */
@@ -893,26 +893,26 @@ union cavm_pdec_report_s
         uint64_t crc_error0_26         : 1;  /**< [2048:2048] For the first CB, it reports the result of the CRC check of path N. */
         uint64_t pm0_26                : 16; /**< [2064:2049] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t nfpcm_error0_26       : 5;  /**< [2069:2065] For the first CB, it reports the number of errors in FPC metric of the path N. */
-        uint64_t pc_error0_26          : 1;  /**< [2070:2070] Reserved. */
+        uint64_t rsvd20_26             : 1;  /**< [2070:2070] Reserved. */
         uint64_t crc_error1_26         : 1;  /**< [2071:2071] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_26                : 16; /**< [2087:2072] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t nfpcm_error1_26       : 5;  /**< [2092:2088] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error1_26          : 1;  /**< [2093:2093] Reserved. */
+        uint64_t rsvd21_26             : 1;  /**< [2093:2093] Reserved. */
         uint64_t reserved_2094_2111    : 18;
 #endif /* Word 32 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 33 - Big Endian */
         uint64_t reserved_2158_2175    : 18;
-        uint64_t pc_error1_27          : 1;  /**< [2157:2157] Reserved. */
+        uint64_t rsvd21_27             : 1;  /**< [2157:2157] Reserved. */
         uint64_t nfpcm_error1_27       : 5;  /**< [2156:2152] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_27                : 16; /**< [2151:2136] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t crc_error1_27         : 1;  /**< [2135:2135] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error0_27          : 1;  /**< [2134:2134] Reserved. */
+        uint64_t rsvd20_27             : 1;  /**< [2134:2134] Reserved. */
         uint64_t nfpcm_error0_27       : 5;  /**< [2133:2129] For the first CB, it reports the number of errors in FPC metric of the path N. */
         uint64_t pm0_27                : 16; /**< [2128:2113] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t crc_error0_27         : 1;  /**< [2112:2112] For the first CB, it reports the result of the CRC check of path N. */
@@ -920,26 +920,26 @@ union cavm_pdec_report_s
         uint64_t crc_error0_27         : 1;  /**< [2112:2112] For the first CB, it reports the result of the CRC check of path N. */
         uint64_t pm0_27                : 16; /**< [2128:2113] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t nfpcm_error0_27       : 5;  /**< [2133:2129] For the first CB, it reports the number of errors in FPC metric of the path N. */
-        uint64_t pc_error0_27          : 1;  /**< [2134:2134] Reserved. */
+        uint64_t rsvd20_27             : 1;  /**< [2134:2134] Reserved. */
         uint64_t crc_error1_27         : 1;  /**< [2135:2135] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_27                : 16; /**< [2151:2136] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t nfpcm_error1_27       : 5;  /**< [2156:2152] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error1_27          : 1;  /**< [2157:2157] Reserved. */
+        uint64_t rsvd21_27             : 1;  /**< [2157:2157] Reserved. */
         uint64_t reserved_2158_2175    : 18;
 #endif /* Word 33 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 34 - Big Endian */
         uint64_t reserved_2222_2239    : 18;
-        uint64_t pc_error1_28          : 1;  /**< [2221:2221] Reserved. */
+        uint64_t rsvd21_28             : 1;  /**< [2221:2221] Reserved. */
         uint64_t nfpcm_error1_28       : 5;  /**< [2220:2216] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_28                : 16; /**< [2215:2200] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t crc_error1_28         : 1;  /**< [2199:2199] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error0_28          : 1;  /**< [2198:2198] Reserved. */
+        uint64_t rsvd20_28             : 1;  /**< [2198:2198] Reserved. */
         uint64_t nfpcm_error0_28       : 5;  /**< [2197:2193] For the first CB, it reports the number of errors in FPC metric of the path N. */
         uint64_t pm0_28                : 16; /**< [2192:2177] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t crc_error0_28         : 1;  /**< [2176:2176] For the first CB, it reports the result of the CRC check of path N. */
@@ -947,26 +947,26 @@ union cavm_pdec_report_s
         uint64_t crc_error0_28         : 1;  /**< [2176:2176] For the first CB, it reports the result of the CRC check of path N. */
         uint64_t pm0_28                : 16; /**< [2192:2177] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t nfpcm_error0_28       : 5;  /**< [2197:2193] For the first CB, it reports the number of errors in FPC metric of the path N. */
-        uint64_t pc_error0_28          : 1;  /**< [2198:2198] Reserved. */
+        uint64_t rsvd20_28             : 1;  /**< [2198:2198] Reserved. */
         uint64_t crc_error1_28         : 1;  /**< [2199:2199] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_28                : 16; /**< [2215:2200] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t nfpcm_error1_28       : 5;  /**< [2220:2216] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error1_28          : 1;  /**< [2221:2221] Reserved. */
+        uint64_t rsvd21_28             : 1;  /**< [2221:2221] Reserved. */
         uint64_t reserved_2222_2239    : 18;
 #endif /* Word 34 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 35 - Big Endian */
         uint64_t reserved_2286_2303    : 18;
-        uint64_t pc_error1_29          : 1;  /**< [2285:2285] Reserved. */
+        uint64_t rsvd21_29             : 1;  /**< [2285:2285] Reserved. */
         uint64_t nfpcm_error1_29       : 5;  /**< [2284:2280] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_29                : 16; /**< [2279:2264] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t crc_error1_29         : 1;  /**< [2263:2263] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error0_29          : 1;  /**< [2262:2262] Reserved. */
+        uint64_t rsvd20_29             : 1;  /**< [2262:2262] Reserved. */
         uint64_t nfpcm_error0_29       : 5;  /**< [2261:2257] For the first CB, it reports the number of errors in FPC metric of the path N. */
         uint64_t pm0_29                : 16; /**< [2256:2241] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t crc_error0_29         : 1;  /**< [2240:2240] For the first CB, it reports the result of the CRC check of path N. */
@@ -974,26 +974,26 @@ union cavm_pdec_report_s
         uint64_t crc_error0_29         : 1;  /**< [2240:2240] For the first CB, it reports the result of the CRC check of path N. */
         uint64_t pm0_29                : 16; /**< [2256:2241] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t nfpcm_error0_29       : 5;  /**< [2261:2257] For the first CB, it reports the number of errors in FPC metric of the path N. */
-        uint64_t pc_error0_29          : 1;  /**< [2262:2262] Reserved. */
+        uint64_t rsvd20_29             : 1;  /**< [2262:2262] Reserved. */
         uint64_t crc_error1_29         : 1;  /**< [2263:2263] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_29                : 16; /**< [2279:2264] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t nfpcm_error1_29       : 5;  /**< [2284:2280] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error1_29          : 1;  /**< [2285:2285] Reserved. */
+        uint64_t rsvd21_29             : 1;  /**< [2285:2285] Reserved. */
         uint64_t reserved_2286_2303    : 18;
 #endif /* Word 35 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 36 - Big Endian */
         uint64_t reserved_2350_2367    : 18;
-        uint64_t pc_error1_30          : 1;  /**< [2349:2349] Reserved. */
+        uint64_t rsvd21_30             : 1;  /**< [2349:2349] Reserved. */
         uint64_t nfpcm_error1_30       : 5;  /**< [2348:2344] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_30                : 16; /**< [2343:2328] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t crc_error1_30         : 1;  /**< [2327:2327] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error0_30          : 1;  /**< [2326:2326] Reserved. */
+        uint64_t rsvd20_30             : 1;  /**< [2326:2326] Reserved. */
         uint64_t nfpcm_error0_30       : 5;  /**< [2325:2321] For the first CB, it reports the number of errors in FPC metric of the path N. */
         uint64_t pm0_30                : 16; /**< [2320:2305] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t crc_error0_30         : 1;  /**< [2304:2304] For the first CB, it reports the result of the CRC check of path N. */
@@ -1001,26 +1001,26 @@ union cavm_pdec_report_s
         uint64_t crc_error0_30         : 1;  /**< [2304:2304] For the first CB, it reports the result of the CRC check of path N. */
         uint64_t pm0_30                : 16; /**< [2320:2305] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t nfpcm_error0_30       : 5;  /**< [2325:2321] For the first CB, it reports the number of errors in FPC metric of the path N. */
-        uint64_t pc_error0_30          : 1;  /**< [2326:2326] Reserved. */
+        uint64_t rsvd20_30             : 1;  /**< [2326:2326] Reserved. */
         uint64_t crc_error1_30         : 1;  /**< [2327:2327] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_30                : 16; /**< [2343:2328] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t nfpcm_error1_30       : 5;  /**< [2348:2344] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error1_30          : 1;  /**< [2349:2349] Reserved. */
+        uint64_t rsvd21_30             : 1;  /**< [2349:2349] Reserved. */
         uint64_t reserved_2350_2367    : 18;
 #endif /* Word 36 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 37 - Big Endian */
         uint64_t reserved_2414_2431    : 18;
-        uint64_t pc_error1_31          : 1;  /**< [2413:2413] Reserved. */
+        uint64_t rsvd21_31             : 1;  /**< [2413:2413] Reserved. */
         uint64_t nfpcm_error1_31       : 5;  /**< [2412:2408] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_31                : 16; /**< [2407:2392] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t crc_error1_31         : 1;  /**< [2391:2391] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error0_31          : 1;  /**< [2390:2390] Reserved. */
+        uint64_t rsvd20_31             : 1;  /**< [2390:2390] Reserved. */
         uint64_t nfpcm_error0_31       : 5;  /**< [2389:2385] For the first CB, it reports the number of errors in FPC metric of the path N. */
         uint64_t pm0_31                : 16; /**< [2384:2369] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t crc_error0_31         : 1;  /**< [2368:2368] For the first CB, it reports the result of the CRC check of path N. */
@@ -1028,14 +1028,14 @@ union cavm_pdec_report_s
         uint64_t crc_error0_31         : 1;  /**< [2368:2368] For the first CB, it reports the result of the CRC check of path N. */
         uint64_t pm0_31                : 16; /**< [2384:2369] For the first CB, it reports the calculated path metric of the path N. */
         uint64_t nfpcm_error0_31       : 5;  /**< [2389:2385] For the first CB, it reports the number of errors in FPC metric of the path N. */
-        uint64_t pc_error0_31          : 1;  /**< [2390:2390] Reserved. */
+        uint64_t rsvd20_31             : 1;  /**< [2390:2390] Reserved. */
         uint64_t crc_error1_31         : 1;  /**< [2391:2391] For the second CB, it reports the result of the CRC check of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t pm1_31                : 16; /**< [2407:2392] For the second CB, it reports the calculated path metric of the path N. If
                                                                  PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
         uint64_t nfpcm_error1_31       : 5;  /**< [2412:2408] For the second CB, it reports the number of errors in FPC metric of the
                                                                  path N. If PDEC_TASK_CFG_S[NUM_CBS] = 0x1, this field is set to zero. */
-        uint64_t pc_error1_31          : 1;  /**< [2413:2413] Reserved. */
+        uint64_t rsvd21_31             : 1;  /**< [2413:2413] Reserved. */
         uint64_t reserved_2414_2431    : 18;
 #endif /* Word 37 - End */
     } s;
@@ -1361,7 +1361,7 @@ union cavm_pdec_task_cfg_s
 #endif /* Word 1 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
         uint64_t reserved_169_191      : 23;
-        uint64_t bitmap_en             : 1;  /**< [168:168] Reserved (must be 0). */
+        uint64_t rsvd1                 : 1;  /**< [168:168] Reserved (must be 0). */
         uint64_t early_stop_en         : 1;  /**< [167:167] 1: enable early-stop: decoder stops decoding when all paths are tagged as failed
                                                                    (by distributed CRC bits in DL).
                                                                  0: disable early stop */
@@ -1392,9 +1392,9 @@ union cavm_pdec_task_cfg_s
 
                                                                  DL only */
         uint64_t reserved_131_136      : 6;
-        uint64_t pc_sw                 : 3;  /**< [130:128] Reserved (must be 0). */
+        uint64_t rsvd0                 : 3;  /**< [130:128] Reserved (must be 0). */
 #else /* Word 2 - Little Endian */
-        uint64_t pc_sw                 : 3;  /**< [130:128] Reserved (must be 0). */
+        uint64_t rsvd0                 : 3;  /**< [130:128] Reserved (must be 0). */
         uint64_t reserved_131_136      : 6;
         uint64_t dl_ch_select          : 1;  /**< [137:137] DL channel selection
                                                                  0: PDCCH (allows the support of dci_crc_mask; for this channel, the CRC LFSR is
@@ -1425,7 +1425,7 @@ union cavm_pdec_task_cfg_s
         uint64_t early_stop_en         : 1;  /**< [167:167] 1: enable early-stop: decoder stops decoding when all paths are tagged as failed
                                                                    (by distributed CRC bits in DL).
                                                                  0: disable early stop */
-        uint64_t bitmap_en             : 1;  /**< [168:168] Reserved (must be 0). */
+        uint64_t rsvd1                 : 1;  /**< [168:168] Reserved (must be 0). */
         uint64_t reserved_169_191      : 23;
 #endif /* Word 2 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
@@ -1738,7 +1738,7 @@ typedef union cavm_pdecx_abx_control cavm_pdecx_abx_control_t;
 static inline uint64_t CAVM_PDECX_ABX_CONTROL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PDECX_ABX_CONTROL(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=1) && (b<=2)))
         return 0x87e041900000ll + 0x80000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("PDECX_ABX_CONTROL", 2, a, b, 0, 0, 0, 0);
 }
@@ -1784,7 +1784,7 @@ typedef union cavm_pdecx_abx_error_enable0 cavm_pdecx_abx_error_enable0_t;
 static inline uint64_t CAVM_PDECX_ABX_ERROR_ENABLE0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PDECX_ABX_ERROR_ENABLE0(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=1) && (b<=2)))
         return 0x87e041900040ll + 0x80000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("PDECX_ABX_ERROR_ENABLE0", 2, a, b, 0, 0, 0, 0);
 }
@@ -1828,7 +1828,7 @@ typedef union cavm_pdecx_abx_error_enable1 cavm_pdecx_abx_error_enable1_t;
 static inline uint64_t CAVM_PDECX_ABX_ERROR_ENABLE1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PDECX_ABX_ERROR_ENABLE1(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=1) && (b<=2)))
         return 0x87e041900048ll + 0x80000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("PDECX_ABX_ERROR_ENABLE1", 2, a, b, 0, 0, 0, 0);
 }
@@ -1884,7 +1884,7 @@ typedef union cavm_pdecx_abx_error_source0 cavm_pdecx_abx_error_source0_t;
 static inline uint64_t CAVM_PDECX_ABX_ERROR_SOURCE0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PDECX_ABX_ERROR_SOURCE0(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=1) && (b<=2)))
         return 0x87e041900030ll + 0x80000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("PDECX_ABX_ERROR_SOURCE0", 2, a, b, 0, 0, 0, 0);
 }
@@ -1928,7 +1928,7 @@ typedef union cavm_pdecx_abx_error_source1 cavm_pdecx_abx_error_source1_t;
 static inline uint64_t CAVM_PDECX_ABX_ERROR_SOURCE1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PDECX_ABX_ERROR_SOURCE1(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=1) && (b<=2)))
         return 0x87e041900038ll + 0x80000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("PDECX_ABX_ERROR_SOURCE1", 2, a, b, 0, 0, 0, 0);
 }
@@ -1945,6 +1945,8 @@ static inline uint64_t CAVM_PDECX_ABX_ERROR_SOURCE1(uint64_t a, uint64_t b)
  *
  * PDEC HAB Job Configuration 0 RAM Register
  * This register range stores the job configuration for slot 0.
+ * Hardware loads the job configuration in these registers. Software should
+ * never directly write to these registers.
  */
 union cavm_pdecx_abx_hab_jcfg0_ramx_data
 {
@@ -1964,7 +1966,7 @@ typedef union cavm_pdecx_abx_hab_jcfg0_ramx_data cavm_pdecx_abx_hab_jcfg0_ramx_d
 static inline uint64_t CAVM_PDECX_ABX_HAB_JCFG0_RAMX_DATA(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PDECX_ABX_HAB_JCFG0_RAMX_DATA(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=1) && (b<=2) && (c<=255))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=1) && (b<=2) && (c<=255)))
         return 0x87e041902000ll + 0x80000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3) + 8ll * ((c) & 0xff);
     __cavm_csr_fatal("PDECX_ABX_HAB_JCFG0_RAMX_DATA", 3, a, b, c, 0, 0, 0);
 }
@@ -2000,7 +2002,7 @@ typedef union cavm_pdecx_abx_hab_jcfg1_ramx_data cavm_pdecx_abx_hab_jcfg1_ramx_d
 static inline uint64_t CAVM_PDECX_ABX_HAB_JCFG1_RAMX_DATA(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PDECX_ABX_HAB_JCFG1_RAMX_DATA(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=1) && (b<=2) && (c<=255))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=1) && (b<=2) && (c<=255)))
         return 0x87e041904000ll + 0x80000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3) + 8ll * ((c) & 0xff);
     __cavm_csr_fatal("PDECX_ABX_HAB_JCFG1_RAMX_DATA", 3, a, b, c, 0, 0, 0);
 }
@@ -2036,7 +2038,7 @@ typedef union cavm_pdecx_abx_hab_jcfg2_ramx_data cavm_pdecx_abx_hab_jcfg2_ramx_d
 static inline uint64_t CAVM_PDECX_ABX_HAB_JCFG2_RAMX_DATA(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PDECX_ABX_HAB_JCFG2_RAMX_DATA(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=1) && (b<=2) && (c<=255))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=1) && (b<=2) && (c<=255)))
         return 0x87e041906000ll + 0x80000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3) + 8ll * ((c) & 0xff);
     __cavm_csr_fatal("PDECX_ABX_HAB_JCFG2_RAMX_DATA", 3, a, b, c, 0, 0, 0);
 }
@@ -2081,7 +2083,7 @@ typedef union cavm_pdecx_abx_status cavm_pdecx_abx_status_t;
 static inline uint64_t CAVM_PDECX_ABX_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PDECX_ABX_STATUS(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=1) && (b<=2)))
         return 0x87e041900018ll + 0x80000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("PDECX_ABX_STATUS", 2, a, b, 0, 0, 0, 0);
 }
@@ -2164,7 +2166,7 @@ typedef union cavm_pdecx_abx_tc_cfg_err_flags_reg cavm_pdecx_abx_tc_cfg_err_flag
 static inline uint64_t CAVM_PDECX_ABX_TC_CFG_ERR_FLAGS_REG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PDECX_ABX_TC_CFG_ERR_FLAGS_REG(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=1) && (b<=2)))
         return 0x87e041901040ll + 0x80000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("PDECX_ABX_TC_CFG_ERR_FLAGS_REG", 2, a, b, 0, 0, 0, 0);
 }
@@ -2245,7 +2247,7 @@ typedef union cavm_pdecx_abx_tc_control_reg cavm_pdecx_abx_tc_control_reg_t;
 static inline uint64_t CAVM_PDECX_ABX_TC_CONTROL_REG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PDECX_ABX_TC_CONTROL_REG(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=1) && (b<=2)))
         return 0x87e041901010ll + 0x80000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("PDECX_ABX_TC_CONTROL_REG", 2, a, b, 0, 0, 0, 0);
 }
@@ -2285,7 +2287,7 @@ typedef union cavm_pdecx_abx_tc_error_mask_reg cavm_pdecx_abx_tc_error_mask_reg_
 static inline uint64_t CAVM_PDECX_ABX_TC_ERROR_MASK_REG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PDECX_ABX_TC_ERROR_MASK_REG(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=1) && (b<=2)))
         return 0x87e041901030ll + 0x80000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("PDECX_ABX_TC_ERROR_MASK_REG", 2, a, b, 0, 0, 0, 0);
 }
@@ -2337,7 +2339,7 @@ typedef union cavm_pdecx_abx_tc_error_reg cavm_pdecx_abx_tc_error_reg_t;
 static inline uint64_t CAVM_PDECX_ABX_TC_ERROR_REG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PDECX_ABX_TC_ERROR_REG(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=1) && (b<=2)))
         return 0x87e041901038ll + 0x80000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("PDECX_ABX_TC_ERROR_REG", 2, a, b, 0, 0, 0, 0);
 }
@@ -2375,7 +2377,7 @@ typedef union cavm_pdecx_abx_tc_main_reset_reg cavm_pdecx_abx_tc_main_reset_reg_
 static inline uint64_t CAVM_PDECX_ABX_TC_MAIN_RESET_REG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PDECX_ABX_TC_MAIN_RESET_REG(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=1) && (b<=2)))
         return 0x87e041901000ll + 0x80000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("PDECX_ABX_TC_MAIN_RESET_REG", 2, a, b, 0, 0, 0, 0);
 }
@@ -2415,7 +2417,7 @@ typedef union cavm_pdecx_abx_tc_status_reg cavm_pdecx_abx_tc_status_reg_t;
 static inline uint64_t CAVM_PDECX_ABX_TC_STATUS_REG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PDECX_ABX_TC_STATUS_REG(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=1) && (b<=2)))
         return 0x87e041901020ll + 0x80000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("PDECX_ABX_TC_STATUS_REG", 2, a, b, 0, 0, 0, 0);
 }

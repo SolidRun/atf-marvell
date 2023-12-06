@@ -48,11 +48,17 @@ union cavm_dlfe_jcfg0_s
                                                                  (16b+16b) complex integer. The maximum RB size is 312, which is equal to 3744
                                                                  subcarriers. As such, [NUM_DMA_WORDS] must be in the range [1, 936]. */
         uint64_t fft_size_idx          : 4;  /**< [ 45: 42] Determines the FFT size. Only the specified values are valid.
+                                                                 0x0 = 128
                                                                  0x1 = 256
                                                                  0x2 = 512
                                                                  0x3 = 1024
                                                                  0x4 = 2048
-                                                                 0x5 = 4096 */
+                                                                 0x5 = 4096
+                                                                 0x8 = 192
+                                                                 0x9 = 384
+                                                                 0xA = 768
+                                                                 0xB = 1536
+                                                                 0xC = 3072 */
         uint64_t cp_size               : 11; /**< [ 41: 31] Cyclic Prefix Size for current antenna symbol. Actual number of samples for CP
                                                                  size, 1 sample resolution. */
         uint64_t cdd_offset            : 12; /**< [ 30: 19] CDD Size for current antenna symbol. Actual number of samples for CDD (sample
@@ -89,11 +95,17 @@ union cavm_dlfe_jcfg0_s
         uint64_t cp_size               : 11; /**< [ 41: 31] Cyclic Prefix Size for current antenna symbol. Actual number of samples for CP
                                                                  size, 1 sample resolution. */
         uint64_t fft_size_idx          : 4;  /**< [ 45: 42] Determines the FFT size. Only the specified values are valid.
+                                                                 0x0 = 128
                                                                  0x1 = 256
                                                                  0x2 = 512
                                                                  0x3 = 1024
                                                                  0x4 = 2048
-                                                                 0x5 = 4096 */
+                                                                 0x5 = 4096
+                                                                 0x8 = 192
+                                                                 0x9 = 384
+                                                                 0xA = 768
+                                                                 0xB = 1536
+                                                                 0xC = 3072 */
         uint64_t num_dma_words         : 10; /**< [ 55: 46] DMA block size to read from RD-DMA port, in 128-bit words. Each DMA word
                                                                  contains 4 baseband signal samples, since each baseband signal sample is
                                                                  (16b+16b) complex integer. The maximum RB size is 312, which is equal to 3744
@@ -130,7 +142,7 @@ union cavm_dlfe_jcfg1_s
         uint64_t puncture_length       : 13; /**< [ 26: 14] Length of the punctured samples. The length of the samples to be set to 0 by
                                                                  sample puncturing. */
         uint64_t write_offset          : 2;  /**< [ 13: 12] DLFE output samples are written from this [WRITE_OFFSET] of the first 128-bit
-                                                                 word. Data samples prior to this offset are filled with DLFE outout samples from
+                                                                 word. Data samples prior to this offset are filled with DLFE output samples from
                                                                  the previous job. */
         uint64_t immediate_write       : 1;  /**< [ 11: 11] When [IMMEDIATE_WRITE] = 0, the DLFE does not write out the last DMA word if the
                                                                  data is not 128-bit aligned. When [IMMEDIATE_WRITE] = 1, the last DMA word of
@@ -144,7 +156,7 @@ union cavm_dlfe_jcfg1_s
                                                                  the job is written out unconditionally and will be padded with zeros if
                                                                  necessary to be 128-bit aligned. */
         uint64_t write_offset          : 2;  /**< [ 13: 12] DLFE output samples are written from this [WRITE_OFFSET] of the first 128-bit
-                                                                 word. Data samples prior to this offset are filled with DLFE outout samples from
+                                                                 word. Data samples prior to this offset are filled with DLFE output samples from
                                                                  the previous job. */
         uint64_t puncture_length       : 13; /**< [ 26: 14] Length of the punctured samples. The length of the samples to be set to 0 by
                                                                  sample puncturing. */
@@ -260,8 +272,8 @@ typedef union cavm_dlfex_abx_acal_addr cavm_dlfex_abx_acal_addr_t;
 static inline uint64_t CAVM_DLFEX_ABX_ACAL_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DLFEX_ABX_ACAL_ADDR(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=1))
-        return 0x87e040200208ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=1)))
+        return 0x87e040200208ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("DLFEX_ABX_ACAL_ADDR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -302,8 +314,8 @@ typedef union cavm_dlfex_abx_acal_coef cavm_dlfex_abx_acal_coef_t;
 static inline uint64_t CAVM_DLFEX_ABX_ACAL_COEF(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DLFEX_ABX_ACAL_COEF(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=1))
-        return 0x87e040200200ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=1)))
+        return 0x87e040200200ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("DLFEX_ABX_ACAL_COEF", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -368,8 +380,8 @@ typedef union cavm_dlfex_abx_ant_expx cavm_dlfex_abx_ant_expx_t;
 static inline uint64_t CAVM_DLFEX_ABX_ANT_EXPX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DLFEX_ABX_ANT_EXPX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=3) && (b<=1) && (c<=15))
-        return 0x87e040200300ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1) + 8ll * ((c) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=1) && (c<=15)))
+        return 0x87e040200300ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x1) + 8ll * ((c) & 0xf);
     __cavm_csr_fatal("DLFEX_ABX_ANT_EXPX", 3, a, b, c, 0, 0, 0);
 }
 
@@ -404,8 +416,8 @@ typedef union cavm_dlfex_abx_config0_datax cavm_dlfex_abx_config0_datax_t;
 static inline uint64_t CAVM_DLFEX_ABX_CONFIG0_DATAX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DLFEX_ABX_CONFIG0_DATAX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=3) && (b<=1) && (c<=2))
-        return 0x87e040202000ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1) + 8ll * ((c) & 0x3);
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=1) && (c<=2)))
+        return 0x87e040202000ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x1) + 8ll * ((c) & 0x3);
     __cavm_csr_fatal("DLFEX_ABX_CONFIG0_DATAX", 3, a, b, c, 0, 0, 0);
 }
 
@@ -440,8 +452,8 @@ typedef union cavm_dlfex_abx_config1_datax cavm_dlfex_abx_config1_datax_t;
 static inline uint64_t CAVM_DLFEX_ABX_CONFIG1_DATAX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DLFEX_ABX_CONFIG1_DATAX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=3) && (b<=1) && (c<=2))
-        return 0x87e040204000ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1) + 8ll * ((c) & 0x3);
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=1) && (c<=2)))
+        return 0x87e040204000ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x1) + 8ll * ((c) & 0x3);
     __cavm_csr_fatal("DLFEX_ABX_CONFIG1_DATAX", 3, a, b, c, 0, 0, 0);
 }
 
@@ -476,8 +488,8 @@ typedef union cavm_dlfex_abx_config2_datax cavm_dlfex_abx_config2_datax_t;
 static inline uint64_t CAVM_DLFEX_ABX_CONFIG2_DATAX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DLFEX_ABX_CONFIG2_DATAX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=3) && (b<=1) && (c<=2))
-        return 0x87e040206000ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1) + 8ll * ((c) & 0x3);
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=1) && (c<=2)))
+        return 0x87e040206000ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x1) + 8ll * ((c) & 0x3);
     __cavm_csr_fatal("DLFEX_ABX_CONFIG2_DATAX", 3, a, b, c, 0, 0, 0);
 }
 
@@ -506,23 +518,23 @@ union cavm_dlfex_abx_control
         uint64_t reserved_3_15         : 13;
         uint64_t start2                : 1;  /**< [  2:  2](R/W/H) A write of 1 will start the HAB using the configuration in
                                                                  DLFE_CONFIG2_DATA(). This bit auto-clears, and it is ignored if the
-                                                                 HAB status is busy (DLFE_STATUS[STATUS2] = 1). */
+                                                                 HAB status is busy (DLFE()_AB()_STATUS[STATUS2] = 1). */
         uint64_t start1                : 1;  /**< [  1:  1](R/W/H) A write of 1 will start the HAB using the configuration in
                                                                  DLFE_CONFIG1_DATA(). This bit auto-clears, and it is ignored if the
-                                                                 HAB status is busy (DLFE_STATUS[STATUS1] = 1). */
+                                                                 HAB status is busy (DLFE()_AB()_STATUS[STATUS1] = 1). */
         uint64_t start0                : 1;  /**< [  0:  0](R/W/H) A write of 1 will start the HAB using the configuration in
                                                                  DLFE_CONFIG0_DATA(). This bit auto-clears, and it is ignored if the
-                                                                 HAB status is busy (DLFE_STATUS[STATUS0] = 1). */
+                                                                 HAB status is busy (DLFE()_AB()_STATUS[STATUS0] = 1). */
 #else /* Word 0 - Little Endian */
         uint64_t start0                : 1;  /**< [  0:  0](R/W/H) A write of 1 will start the HAB using the configuration in
                                                                  DLFE_CONFIG0_DATA(). This bit auto-clears, and it is ignored if the
-                                                                 HAB status is busy (DLFE_STATUS[STATUS0] = 1). */
+                                                                 HAB status is busy (DLFE()_AB()_STATUS[STATUS0] = 1). */
         uint64_t start1                : 1;  /**< [  1:  1](R/W/H) A write of 1 will start the HAB using the configuration in
                                                                  DLFE_CONFIG1_DATA(). This bit auto-clears, and it is ignored if the
-                                                                 HAB status is busy (DLFE_STATUS[STATUS1] = 1). */
+                                                                 HAB status is busy (DLFE()_AB()_STATUS[STATUS1] = 1). */
         uint64_t start2                : 1;  /**< [  2:  2](R/W/H) A write of 1 will start the HAB using the configuration in
                                                                  DLFE_CONFIG2_DATA(). This bit auto-clears, and it is ignored if the
-                                                                 HAB status is busy (DLFE_STATUS[STATUS2] = 1). */
+                                                                 HAB status is busy (DLFE()_AB()_STATUS[STATUS2] = 1). */
         uint64_t reserved_3_15         : 13;
         uint64_t jobid0                : 16; /**< [ 31: 16](R/W/H) Job ID0 */
         uint64_t jobid1                : 16; /**< [ 47: 32](R/W/H) Job ID1 */
@@ -536,8 +548,8 @@ typedef union cavm_dlfex_abx_control cavm_dlfex_abx_control_t;
 static inline uint64_t CAVM_DLFEX_ABX_CONTROL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DLFEX_ABX_CONTROL(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=1))
-        return 0x87e040200000ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=1)))
+        return 0x87e040200000ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("DLFEX_ABX_CONTROL", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -576,8 +588,8 @@ typedef union cavm_dlfex_abx_error_enable0 cavm_dlfex_abx_error_enable0_t;
 static inline uint64_t CAVM_DLFEX_ABX_ERROR_ENABLE0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DLFEX_ABX_ERROR_ENABLE0(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=1))
-        return 0x87e040200040ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=1)))
+        return 0x87e040200040ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("DLFEX_ABX_ERROR_ENABLE0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -622,8 +634,8 @@ typedef union cavm_dlfex_abx_error_source0 cavm_dlfex_abx_error_source0_t;
 static inline uint64_t CAVM_DLFEX_ABX_ERROR_SOURCE0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DLFEX_ABX_ERROR_SOURCE0(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=1))
-        return 0x87e040200030ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=1)))
+        return 0x87e040200030ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("DLFEX_ABX_ERROR_SOURCE0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -672,8 +684,8 @@ typedef union cavm_dlfex_abx_res_mapx cavm_dlfex_abx_res_mapx_t;
 static inline uint64_t CAVM_DLFEX_ABX_RES_MAPX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DLFEX_ABX_RES_MAPX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=3) && (b<=1) && (c<=31))
-        return 0x87e040200400ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1) + 8ll * ((c) & 0x1f);
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=1) && (c<=31)))
+        return 0x87e040200400ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x1) + 8ll * ((c) & 0x1f);
     __cavm_csr_fatal("DLFEX_ABX_RES_MAPX", 3, a, b, c, 0, 0, 0);
 }
 
@@ -718,8 +730,8 @@ typedef union cavm_dlfex_abx_status cavm_dlfex_abx_status_t;
 static inline uint64_t CAVM_DLFEX_ABX_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DLFEX_ABX_STATUS(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=1))
-        return 0x87e040200018ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=1)))
+        return 0x87e040200018ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("DLFEX_ABX_STATUS", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -754,8 +766,8 @@ typedef union cavm_dlfex_abx_tssix cavm_dlfex_abx_tssix_t;
 static inline uint64_t CAVM_DLFEX_ABX_TSSIX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DLFEX_ABX_TSSIX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=3) && (b<=1) && (c<=127))
-        return 0x87e040200800ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1) + 8ll * ((c) & 0x7f);
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=1) && (c<=127)))
+        return 0x87e040200800ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x1) + 8ll * ((c) & 0x7f);
     __cavm_csr_fatal("DLFEX_ABX_TSSIX", 3, a, b, c, 0, 0, 0);
 }
 

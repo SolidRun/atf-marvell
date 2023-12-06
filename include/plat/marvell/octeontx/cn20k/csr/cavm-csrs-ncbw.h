@@ -37,7 +37,8 @@ union cavm_ncbw_cfg
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_13_63        : 51;
-        uint64_t rtt_seg4_sel          : 1;  /**< [ 12: 12](R/W/H) Reserved. */
+        uint64_t rtt_seg4_sel          : 1;  /**< [ 12: 12](R/W/H) RTT NCB segment4 select.
+                                                                 Set to 0 to use NCB segment 3; Default is to use segment 4. */
         uint64_t reserved_9_11         : 3;
         uint64_t mio_timestp_bu_sync_sel : 1;/**< [  8:  8](R/W/H) Use backup timestamp async fifo mode */
         uint64_t mio_timestp_tick      : 4;  /**< [  7:  4](R/W/H) MIO timestamp tick clock. This field specifies the number of ticks in
@@ -63,7 +64,8 @@ union cavm_ncbw_cfg
                                                                  Setting this field to 0 will sample the timestamp every 16th system clock. */
         uint64_t mio_timestp_bu_sync_sel : 1;/**< [  8:  8](R/W/H) Use backup timestamp async fifo mode */
         uint64_t reserved_9_11         : 3;
-        uint64_t rtt_seg4_sel          : 1;  /**< [ 12: 12](R/W/H) Reserved. */
+        uint64_t rtt_seg4_sel          : 1;  /**< [ 12: 12](R/W/H) RTT NCB segment4 select.
+                                                                 Set to 0 to use NCB segment 3; Default is to use segment 4. */
         uint64_t reserved_13_63        : 51;
 #endif /* Word 0 - End */
     } s;
@@ -75,7 +77,9 @@ typedef union cavm_ncbw_cfg cavm_ncbw_cfg_t;
 static inline uint64_t CAVM_NCBW_CFG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBW_CFG_FUNC(void)
 {
-    return 0x87e043020000ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e043020000ll;
+    __cavm_csr_fatal("NCBW_CFG", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_NCBW_CFG cavm_ncbw_cfg_t
@@ -125,7 +129,9 @@ typedef union cavm_ncbw_status cavm_ncbw_status_t;
 static inline uint64_t CAVM_NCBW_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBW_STATUS_FUNC(void)
 {
-    return 0x87e043020008ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e043020008ll;
+    __cavm_csr_fatal("NCBW_STATUS", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_NCBW_STATUS cavm_ncbw_status_t

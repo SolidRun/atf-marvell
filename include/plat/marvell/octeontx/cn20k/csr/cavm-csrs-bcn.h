@@ -69,7 +69,9 @@ typedef union cavm_bcn_bclk_capture_cfg cavm_bcn_bclk_capture_cfg_t;
 static inline uint64_t CAVM_BCN_BCLK_CAPTURE_CFG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_BCLK_CAPTURE_CFG_FUNC(void)
 {
-    return 0x87e043040500ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e043040500ll;
+    __cavm_csr_fatal("BCN_BCLK_CAPTURE_CFG", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BCN_BCLK_CAPTURE_CFG cavm_bcn_bclk_capture_cfg_t
@@ -113,7 +115,9 @@ typedef union cavm_bcn_bclk_capture_ieee1914 cavm_bcn_bclk_capture_ieee1914_t;
 static inline uint64_t CAVM_BCN_BCLK_CAPTURE_IEEE1914_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_BCLK_CAPTURE_IEEE1914_FUNC(void)
 {
-    return 0x87e043040530ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e043040530ll;
+    __cavm_csr_fatal("BCN_BCLK_CAPTURE_IEEE1914", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BCN_BCLK_CAPTURE_IEEE1914 cavm_bcn_bclk_capture_ieee1914_t
@@ -151,7 +155,9 @@ typedef union cavm_bcn_bclk_capture_n1_n2 cavm_bcn_bclk_capture_n1_n2_t;
 static inline uint64_t CAVM_BCN_BCLK_CAPTURE_N1_N2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_BCLK_CAPTURE_N1_N2_FUNC(void)
 {
-    return 0x87e043040510ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e043040510ll;
+    __cavm_csr_fatal("BCN_BCLK_CAPTURE_N1_N2", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BCN_BCLK_CAPTURE_N1_N2 cavm_bcn_bclk_capture_n1_n2_t
@@ -191,7 +197,9 @@ typedef union cavm_bcn_bclk_capture_psm cavm_bcn_bclk_capture_psm_t;
 static inline uint64_t CAVM_BCN_BCLK_CAPTURE_PSM_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_BCLK_CAPTURE_PSM_FUNC(void)
 {
-    return 0x87e043040520ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e043040520ll;
+    __cavm_csr_fatal("BCN_BCLK_CAPTURE_PSM", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BCN_BCLK_CAPTURE_PSM cavm_bcn_bclk_capture_psm_t
@@ -227,7 +235,9 @@ typedef union cavm_bcn_bclk_capture_ptp cavm_bcn_bclk_capture_ptp_t;
 static inline uint64_t CAVM_BCN_BCLK_CAPTURE_PTP_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_BCLK_CAPTURE_PTP_FUNC(void)
 {
-    return 0x87e043040540ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e043040540ll;
+    __cavm_csr_fatal("BCN_BCLK_CAPTURE_PTP", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BCN_BCLK_CAPTURE_PTP cavm_bcn_bclk_capture_ptp_t
@@ -280,7 +290,9 @@ typedef union cavm_bcn_capture_cfg cavm_bcn_capture_cfg_t;
 static inline uint64_t CAVM_BCN_CAPTURE_CFG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_CAPTURE_CFG_FUNC(void)
 {
-    return 0x87e043041500ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e043041500ll;
+    __cavm_csr_fatal("BCN_CAPTURE_CFG", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BCN_CAPTURE_CFG cavm_bcn_capture_cfg_t
@@ -324,7 +336,9 @@ typedef union cavm_bcn_capture_ieee1914 cavm_bcn_capture_ieee1914_t;
 static inline uint64_t CAVM_BCN_CAPTURE_IEEE1914_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_CAPTURE_IEEE1914_FUNC(void)
 {
-    return 0x87e043041530ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e043041530ll;
+    __cavm_csr_fatal("BCN_CAPTURE_IEEE1914", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BCN_CAPTURE_IEEE1914 cavm_bcn_capture_ieee1914_t
@@ -362,7 +376,9 @@ typedef union cavm_bcn_capture_n1_n2 cavm_bcn_capture_n1_n2_t;
 static inline uint64_t CAVM_BCN_CAPTURE_N1_N2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_CAPTURE_N1_N2_FUNC(void)
 {
-    return 0x87e043041510ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e043041510ll;
+    __cavm_csr_fatal("BCN_CAPTURE_N1_N2", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BCN_CAPTURE_N1_N2 cavm_bcn_capture_n1_n2_t
@@ -402,7 +418,9 @@ typedef union cavm_bcn_capture_psm cavm_bcn_capture_psm_t;
 static inline uint64_t CAVM_BCN_CAPTURE_PSM_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_CAPTURE_PSM_FUNC(void)
 {
-    return 0x87e043041520ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e043041520ll;
+    __cavm_csr_fatal("BCN_CAPTURE_PSM", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BCN_CAPTURE_PSM cavm_bcn_capture_psm_t
@@ -438,7 +456,9 @@ typedef union cavm_bcn_capture_ptp cavm_bcn_capture_ptp_t;
 static inline uint64_t CAVM_BCN_CAPTURE_PTP_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_CAPTURE_PTP_FUNC(void)
 {
-    return 0x87e043041540ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e043041540ll;
+    __cavm_csr_fatal("BCN_CAPTURE_PTP", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BCN_CAPTURE_PTP cavm_bcn_capture_ptp_t
@@ -542,7 +562,9 @@ typedef union cavm_bcn_cfg cavm_bcn_cfg_t;
 static inline uint64_t CAVM_BCN_CFG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_CFG_FUNC(void)
 {
-    return 0x87e043041000ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e043041000ll;
+    __cavm_csr_fatal("BCN_CFG", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BCN_CFG cavm_bcn_cfg_t
@@ -630,7 +652,9 @@ typedef union cavm_bcn_cfg2 cavm_bcn_cfg2_t;
 static inline uint64_t CAVM_BCN_CFG2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_CFG2_FUNC(void)
 {
-    return 0x87e043043000ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e043043000ll;
+    __cavm_csr_fatal("BCN_CFG2", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BCN_CFG2 cavm_bcn_cfg2_t
@@ -701,7 +725,9 @@ typedef union cavm_bcn_ctrl cavm_bcn_ctrl_t;
 static inline uint64_t CAVM_BCN_CTRL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_CTRL_FUNC(void)
 {
-    return 0x87e043040100ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e043040100ll;
+    __cavm_csr_fatal("BCN_CTRL", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BCN_CTRL cavm_bcn_ctrl_t
@@ -741,7 +767,9 @@ typedef union cavm_bcn_delta_val cavm_bcn_delta_val_t;
 static inline uint64_t CAVM_BCN_DELTA_VAL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_DELTA_VAL_FUNC(void)
 {
-    return 0x87e043041030ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e043041030ll;
+    __cavm_csr_fatal("BCN_DELTA_VAL", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BCN_DELTA_VAL cavm_bcn_delta_val_t
@@ -768,21 +796,21 @@ union cavm_bcn_hdlc_sel
         uint64_t cpri_hdlc_en          : 1;  /**< [  8:  8](R/W) Enables HDLC output from the CPRI block selected by [CPRI_HDLC_ID]. */
         uint64_t reserved_3_7          : 5;
         uint64_t cpri_hdlc_id          : 3;  /**< [  2:  0](R/W) Selects the CPRI MAC to drive HDLC output.  Valid range is [0,5].
-                                                                 0x0 = CPRI0 MAC0
-                                                                 0x1 = CPRI0 MAC1
-                                                                 0x2 = CPRI1 MAC0
-                                                                 0x3 = CPRI1 MAC1
-                                                                 0x4 = CPRI2 MAC0
-                                                                 0x5 = CPRI2 MAC1
+                                                                 0x0 = CPRI0 MAC0.
+                                                                 0x1 = CPRI0 MAC1.
+                                                                 0x2 = CPRI1 MAC0.
+                                                                 0x3 = CPRI1 MAC1.
+                                                                 0x4 = CPRI2 MAC0.
+                                                                 0x5 = CPRI2 MAC1.
                                                                  0x6, 0x7 = Reserved. */
 #else /* Word 0 - Little Endian */
         uint64_t cpri_hdlc_id          : 3;  /**< [  2:  0](R/W) Selects the CPRI MAC to drive HDLC output.  Valid range is [0,5].
-                                                                 0x0 = CPRI0 MAC0
-                                                                 0x1 = CPRI0 MAC1
-                                                                 0x2 = CPRI1 MAC0
-                                                                 0x3 = CPRI1 MAC1
-                                                                 0x4 = CPRI2 MAC0
-                                                                 0x5 = CPRI2 MAC1
+                                                                 0x0 = CPRI0 MAC0.
+                                                                 0x1 = CPRI0 MAC1.
+                                                                 0x2 = CPRI1 MAC0.
+                                                                 0x3 = CPRI1 MAC1.
+                                                                 0x4 = CPRI2 MAC0.
+                                                                 0x5 = CPRI2 MAC1.
                                                                  0x6, 0x7 = Reserved. */
         uint64_t reserved_3_7          : 5;
         uint64_t cpri_hdlc_en          : 1;  /**< [  8:  8](R/W) Enables HDLC output from the CPRI block selected by [CPRI_HDLC_ID]. */
@@ -797,7 +825,9 @@ typedef union cavm_bcn_hdlc_sel cavm_bcn_hdlc_sel_t;
 static inline uint64_t CAVM_BCN_HDLC_SEL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_HDLC_SEL_FUNC(void)
 {
-    return 0x87e043040400ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e043040400ll;
+    __cavm_csr_fatal("BCN_HDLC_SEL", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BCN_HDLC_SEL cavm_bcn_hdlc_sel_t
@@ -851,7 +881,9 @@ typedef union cavm_bcn_ieee1914_cfg cavm_bcn_ieee1914_cfg_t;
 static inline uint64_t CAVM_BCN_IEEE1914_CFG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_IEEE1914_CFG_FUNC(void)
 {
-    return 0x87e043041300ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e043041300ll;
+    __cavm_csr_fatal("BCN_IEEE1914_CFG", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BCN_IEEE1914_CFG cavm_bcn_ieee1914_cfg_t
@@ -895,7 +927,9 @@ typedef union cavm_bcn_ieee1914_val cavm_bcn_ieee1914_val_t;
 static inline uint64_t CAVM_BCN_IEEE1914_VAL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_IEEE1914_VAL_FUNC(void)
 {
-    return 0x87e043041310ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e043041310ll;
+    __cavm_csr_fatal("BCN_IEEE1914_VAL", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BCN_IEEE1914_VAL cavm_bcn_ieee1914_val_t
@@ -904,6 +938,236 @@ static inline uint64_t CAVM_BCN_IEEE1914_VAL_FUNC(void)
 #define device_bar_CAVM_BCN_IEEE1914_VAL 0x2 /* PF_BAR2 */
 #define busnum_CAVM_BCN_IEEE1914_VAL 0
 #define arguments_CAVM_BCN_IEEE1914_VAL -1,-1,-1,-1
+
+/**
+ * Register (RSL) bcn_int_ieee1914_val
+ *
+ * BCN internal IEEE1914 timestamp value Register
+ */
+union cavm_bcn_int_ieee1914_val
+{
+    uint64_t u;
+    struct cavm_bcn_int_ieee1914_val_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_57_63        : 7;
+        uint64_t ts_update             : 1;  /**< [ 56: 56](R/W/H) If written 1, update the [NSEC] and [FNSEC] counts.  If written 0,
+                                                                 the [NSEC] and [FNSEC] counts remain unchanged. */
+        uint64_t reserved_29_55        : 27;
+        uint64_t nsec                  : 24; /**< [ 28:  5](R/W/H) Current value of the internal IEEE 1914 timestamp
+                                                                 integer nanosecond field. */
+        uint64_t fnsec                 : 5;  /**< [  4:  0](R/W/H) Current value of the internal IEEE 1914 timestamp
+                                                                 fractional nanosecond field. */
+#else /* Word 0 - Little Endian */
+        uint64_t fnsec                 : 5;  /**< [  4:  0](R/W/H) Current value of the internal IEEE 1914 timestamp
+                                                                 fractional nanosecond field. */
+        uint64_t nsec                  : 24; /**< [ 28:  5](R/W/H) Current value of the internal IEEE 1914 timestamp
+                                                                 integer nanosecond field. */
+        uint64_t reserved_29_55        : 27;
+        uint64_t ts_update             : 1;  /**< [ 56: 56](R/W/H) If written 1, update the [NSEC] and [FNSEC] counts.  If written 0,
+                                                                 the [NSEC] and [FNSEC] counts remain unchanged. */
+        uint64_t reserved_57_63        : 7;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_bcn_int_ieee1914_val_s cn; */
+};
+typedef union cavm_bcn_int_ieee1914_val cavm_bcn_int_ieee1914_val_t;
+
+#define CAVM_BCN_INT_IEEE1914_VAL CAVM_BCN_INT_IEEE1914_VAL_FUNC()
+static inline uint64_t CAVM_BCN_INT_IEEE1914_VAL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_BCN_INT_IEEE1914_VAL_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e043040220ll;
+    __cavm_csr_fatal("BCN_INT_IEEE1914_VAL", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_BCN_INT_IEEE1914_VAL cavm_bcn_int_ieee1914_val_t
+#define bustype_CAVM_BCN_INT_IEEE1914_VAL CSR_TYPE_RSL
+#define basename_CAVM_BCN_INT_IEEE1914_VAL "BCN_INT_IEEE1914_VAL"
+#define device_bar_CAVM_BCN_INT_IEEE1914_VAL 0x2 /* PF_BAR2 */
+#define busnum_CAVM_BCN_INT_IEEE1914_VAL 0
+#define arguments_CAVM_BCN_INT_IEEE1914_VAL -1,-1,-1,-1
+
+/**
+ * Register (RSL) bcn_int_n1n2_val
+ *
+ * BCN internal N1N2 timestamp value Register
+ */
+union cavm_bcn_int_n1n2_val
+{
+    uint64_t u;
+    struct cavm_bcn_int_n1n2_val_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t n1                    : 40; /**< [ 63: 24](R/W/H) Current value of the internal N1 counter. */
+        uint64_t n2                    : 24; /**< [ 23:  0](R/W/H) Current value of the internal N2 counter. */
+#else /* Word 0 - Little Endian */
+        uint64_t n2                    : 24; /**< [ 23:  0](R/W/H) Current value of the internal N2 counter. */
+        uint64_t n1                    : 40; /**< [ 63: 24](R/W/H) Current value of the internal N1 counter. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_bcn_int_n1n2_val_s cn; */
+};
+typedef union cavm_bcn_int_n1n2_val cavm_bcn_int_n1n2_val_t;
+
+#define CAVM_BCN_INT_N1N2_VAL CAVM_BCN_INT_N1N2_VAL_FUNC()
+static inline uint64_t CAVM_BCN_INT_N1N2_VAL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_BCN_INT_N1N2_VAL_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e043040230ll;
+    __cavm_csr_fatal("BCN_INT_N1N2_VAL", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_BCN_INT_N1N2_VAL cavm_bcn_int_n1n2_val_t
+#define bustype_CAVM_BCN_INT_N1N2_VAL CSR_TYPE_RSL
+#define basename_CAVM_BCN_INT_N1N2_VAL "BCN_INT_N1N2_VAL"
+#define device_bar_CAVM_BCN_INT_N1N2_VAL 0x2 /* PF_BAR2 */
+#define busnum_CAVM_BCN_INT_N1N2_VAL 0
+#define arguments_CAVM_BCN_INT_N1N2_VAL -1,-1,-1,-1
+
+/**
+ * Register (RSL) bcn_int_psm_val
+ *
+ * BCN internal PSM timestamp value Register
+ */
+union cavm_bcn_int_psm_val
+{
+    uint64_t u;
+    struct cavm_bcn_int_psm_val_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_58_63        : 6;
+        uint64_t sf_update             : 1;  /**< [ 57: 57](R/W/H) If written 1, update [SUBFRAME] count.  If written 0, the [SUBFRAME]
+                                                                 count remains unchanged. */
+        uint64_t tick_update           : 1;  /**< [ 56: 56](R/W/H) If written 1, update [TICK] count.  If written 0, the [TICK]
+                                                                 count remains unchanged. */
+        uint64_t reserved_20_55        : 36;
+        uint64_t subframe              : 4;  /**< [ 19: 16](R/W/H) Current value of the internal PSM subframe counter. */
+        uint64_t tick                  : 16; /**< [ 15:  0](R/W/H) Current value of the internal PSM tick counter. */
+#else /* Word 0 - Little Endian */
+        uint64_t tick                  : 16; /**< [ 15:  0](R/W/H) Current value of the internal PSM tick counter. */
+        uint64_t subframe              : 4;  /**< [ 19: 16](R/W/H) Current value of the internal PSM subframe counter. */
+        uint64_t reserved_20_55        : 36;
+        uint64_t tick_update           : 1;  /**< [ 56: 56](R/W/H) If written 1, update [TICK] count.  If written 0, the [TICK]
+                                                                 count remains unchanged. */
+        uint64_t sf_update             : 1;  /**< [ 57: 57](R/W/H) If written 1, update [SUBFRAME] count.  If written 0, the [SUBFRAME]
+                                                                 count remains unchanged. */
+        uint64_t reserved_58_63        : 6;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_bcn_int_psm_val_s cn; */
+};
+typedef union cavm_bcn_int_psm_val cavm_bcn_int_psm_val_t;
+
+#define CAVM_BCN_INT_PSM_VAL CAVM_BCN_INT_PSM_VAL_FUNC()
+static inline uint64_t CAVM_BCN_INT_PSM_VAL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_BCN_INT_PSM_VAL_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e043040210ll;
+    __cavm_csr_fatal("BCN_INT_PSM_VAL", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_BCN_INT_PSM_VAL cavm_bcn_int_psm_val_t
+#define bustype_CAVM_BCN_INT_PSM_VAL CSR_TYPE_RSL
+#define basename_CAVM_BCN_INT_PSM_VAL "BCN_INT_PSM_VAL"
+#define device_bar_CAVM_BCN_INT_PSM_VAL 0x2 /* PF_BAR2 */
+#define busnum_CAVM_BCN_INT_PSM_VAL 0
+#define arguments_CAVM_BCN_INT_PSM_VAL -1,-1,-1,-1
+
+/**
+ * Register (RSL) bcn_internal_timer_cfg
+ *
+ * BCN internal timer configuration Register
+ */
+union cavm_bcn_internal_timer_cfg
+{
+    uint64_t u;
+    struct cavm_bcn_internal_timer_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t en                    : 1;  /**< [ 63: 63](R/W) Enable for BCN internal timer mode. */
+        uint64_t reserved_60_62        : 3;
+        uint64_t test_rp1_err          : 1;  /**< [ 59: 59](R/W/H) This provides a way to set the RP1 error signal for connectivity
+                                                                 testing.  This mechanism is only available in internal-timer
+                                                                 mode.  This bit will automatically self-clear. */
+        uint64_t n2_mode               : 1;  /**< [ 58: 58](R/W) Defines the wrap mode for the N1_N2 counter during BCN internal
+                                                                 timer mode.
+                                                                 0 = The N2 counter resets to 0x0 and the N1 counter increments
+                                                                 after 10 PSM subframes.
+                                                                 1 = The N2 counter resets to 0x0 and the N1 counter increments
+                                                                 after the N2 reaches the normal maximum value of 0xBB7FFF. */
+        uint64_t n2_inc                : 10; /**< [ 57: 48](R/W) Defines the increment value used for the N2 counter for
+                                                                 each BCLK cycle during BCN internal timer mode.  This is
+                                                                 a 2.8 fixed-point value. */
+        uint64_t reserved_42_47        : 6;
+        uint64_t ns_inc                : 10; /**< [ 41: 32](R/W) Defines the increment value used for the IEEE1914 timestamp
+                                                                 each BCLK cycle during BCN internal timer mode.  This is
+                                                                 a 2.8 fixed-point value. */
+        uint64_t subf_ticks            : 16; /**< [ 31: 16](R/W) Sets the maximum tick count value for generating an SOSF during
+                                                                 BCN internal timer mode.  The BCN will generate a SOSF when the
+                                                                 tick counter reaches the value specified by [SUBF_TICKS]. */
+        uint64_t tick_div              : 16; /**< [ 15:  0](R/W) Divider value for generating the tick clock from the BCLK during
+                                                                 BCN internal timer mode.  This is a fixed-point value, consisting
+                                                                 of an 8-bit integer and an 8-bit fraction.  A value of 0x0280
+                                                                 would generate a tick-clock that is 2.5x slower than BCLK.  The
+                                                                 minimum value of 0x0100 represents a 1:1 ratio of BCLK to
+                                                                 tick-clock.  The actual [TICK_DIV] value should be chosen to
+                                                                 prevent the 16-bit TICK counter from rolling over within the
+                                                                 1ms subframe interval. */
+#else /* Word 0 - Little Endian */
+        uint64_t tick_div              : 16; /**< [ 15:  0](R/W) Divider value for generating the tick clock from the BCLK during
+                                                                 BCN internal timer mode.  This is a fixed-point value, consisting
+                                                                 of an 8-bit integer and an 8-bit fraction.  A value of 0x0280
+                                                                 would generate a tick-clock that is 2.5x slower than BCLK.  The
+                                                                 minimum value of 0x0100 represents a 1:1 ratio of BCLK to
+                                                                 tick-clock.  The actual [TICK_DIV] value should be chosen to
+                                                                 prevent the 16-bit TICK counter from rolling over within the
+                                                                 1ms subframe interval. */
+        uint64_t subf_ticks            : 16; /**< [ 31: 16](R/W) Sets the maximum tick count value for generating an SOSF during
+                                                                 BCN internal timer mode.  The BCN will generate a SOSF when the
+                                                                 tick counter reaches the value specified by [SUBF_TICKS]. */
+        uint64_t ns_inc                : 10; /**< [ 41: 32](R/W) Defines the increment value used for the IEEE1914 timestamp
+                                                                 each BCLK cycle during BCN internal timer mode.  This is
+                                                                 a 2.8 fixed-point value. */
+        uint64_t reserved_42_47        : 6;
+        uint64_t n2_inc                : 10; /**< [ 57: 48](R/W) Defines the increment value used for the N2 counter for
+                                                                 each BCLK cycle during BCN internal timer mode.  This is
+                                                                 a 2.8 fixed-point value. */
+        uint64_t n2_mode               : 1;  /**< [ 58: 58](R/W) Defines the wrap mode for the N1_N2 counter during BCN internal
+                                                                 timer mode.
+                                                                 0 = The N2 counter resets to 0x0 and the N1 counter increments
+                                                                 after 10 PSM subframes.
+                                                                 1 = The N2 counter resets to 0x0 and the N1 counter increments
+                                                                 after the N2 reaches the normal maximum value of 0xBB7FFF. */
+        uint64_t test_rp1_err          : 1;  /**< [ 59: 59](R/W/H) This provides a way to set the RP1 error signal for connectivity
+                                                                 testing.  This mechanism is only available in internal-timer
+                                                                 mode.  This bit will automatically self-clear. */
+        uint64_t reserved_60_62        : 3;
+        uint64_t en                    : 1;  /**< [ 63: 63](R/W) Enable for BCN internal timer mode. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_bcn_internal_timer_cfg_s cn; */
+};
+typedef union cavm_bcn_internal_timer_cfg cavm_bcn_internal_timer_cfg_t;
+
+#define CAVM_BCN_INTERNAL_TIMER_CFG CAVM_BCN_INTERNAL_TIMER_CFG_FUNC()
+static inline uint64_t CAVM_BCN_INTERNAL_TIMER_CFG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_BCN_INTERNAL_TIMER_CFG_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e043040200ll;
+    __cavm_csr_fatal("BCN_INTERNAL_TIMER_CFG", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_BCN_INTERNAL_TIMER_CFG cavm_bcn_internal_timer_cfg_t
+#define bustype_CAVM_BCN_INTERNAL_TIMER_CFG CSR_TYPE_RSL
+#define basename_CAVM_BCN_INTERNAL_TIMER_CFG "BCN_INTERNAL_TIMER_CFG"
+#define device_bar_CAVM_BCN_INTERNAL_TIMER_CFG 0x2 /* PF_BAR2 */
+#define busnum_CAVM_BCN_INTERNAL_TIMER_CFG 0
+#define arguments_CAVM_BCN_INTERNAL_TIMER_CFG -1,-1,-1,-1
 
 /**
  * Register (RSL) bcn_n1_n2
@@ -933,7 +1197,9 @@ typedef union cavm_bcn_n1_n2 cavm_bcn_n1_n2_t;
 static inline uint64_t CAVM_BCN_N1_N2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_N1_N2_FUNC(void)
 {
-    return 0x87e043041010ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e043041010ll;
+    __cavm_csr_fatal("BCN_N1_N2", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BCN_N1_N2 cavm_bcn_n1_n2_t
@@ -985,7 +1251,9 @@ typedef union cavm_bcn_psm_cfg cavm_bcn_psm_cfg_t;
 static inline uint64_t CAVM_BCN_PSM_CFG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_PSM_CFG_FUNC(void)
 {
-    return 0x87e043041200ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e043041200ll;
+    __cavm_csr_fatal("BCN_PSM_CFG", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BCN_PSM_CFG cavm_bcn_psm_cfg_t
@@ -1025,7 +1293,9 @@ typedef union cavm_bcn_psm_val cavm_bcn_psm_val_t;
 static inline uint64_t CAVM_BCN_PSM_VAL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_PSM_VAL_FUNC(void)
 {
-    return 0x87e043041210ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e043041210ll;
+    __cavm_csr_fatal("BCN_PSM_VAL", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BCN_PSM_VAL cavm_bcn_psm_val_t
@@ -1060,7 +1330,9 @@ typedef union cavm_bcn_ptp_val cavm_bcn_ptp_val_t;
 static inline uint64_t CAVM_BCN_PTP_VAL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_PTP_VAL_FUNC(void)
 {
-    return 0x87e043041410ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e043041410ll;
+    __cavm_csr_fatal("BCN_PTP_VAL", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BCN_PTP_VAL cavm_bcn_ptp_val_t
@@ -1108,37 +1380,45 @@ union cavm_bcn_rec_clkx_ctrl
                                                                    bcn_pll_ref  122.88000      0x1       122.8800000
                                                                  \</pre\> */
         uint64_t reserved_6_7          : 2;
-        uint64_t clk_sel               : 6;  /**< [  5:  0](R/W) Clock selection.
-                                                                 0x00 - 0x03 = GSERM0 recovered receive clock for lanes 0-3.
-                                                                 0x04 - 0x07 = GSERM1 recovered receive clock for lanes 0-3.
-                                                                 0x08 - 0x0B = GSERM2 recovered receive clock for lanes 0-3.
-                                                                 0x0C - 0x0F = GSERM3 recovered receive clock for lanes 0-3.
-                                                                 0x10 - 0x13 = GSERM4 recovered receive clock for lanes 0-3.
-                                                                 0x14 - 0x17 = GSERM5 recovered receive clock for lanes 0-3.
-                                                                 0x18 - 0x1B = GSERM0 transmit clock for lanes 0-3.
-                                                                 0x1C - 0x1F = GSERM1 transmit clock for lanes 0-3.
-                                                                 0x20 - 0x23 = GSERM2 transmit clock for lanes 0-3.
-                                                                 0x24 - 0x27 = GSERM3 transmit clock for lanes 0-3.
-                                                                 0x28 - 0x2B = GSERM4 transmit clock for lanes 0-3.
-                                                                 0x2C - 0x2F = GSERM5 transmit clock for lanes 0-3.
-                                                                 0x30 = bcn_pll reference clock.
-                                                                 0x31 = bcn4x_clk. */
+        uint64_t clk_sel               : 6;  /**< [  5:  0](R/W) _ Clock selection.
+                                                                 _ 0x00 - 0x03 = GSERM0 recovered receive clock for lanes 0-3.
+                                                                 _ 0x04 - 0x05 = GSERM1 recovered receive clock for lanes 0-1.
+                                                                 _ 0x06 - 0x07 = Reserved.
+                                                                 _ 0x08 - 0x0B = GSERM2 recovered receive clock for lanes 0-3.
+                                                                 _ 0x0C - 0x0F = GSERM3 recovered receive clock for lanes 0-3.
+                                                                 _ 0x10 - 0x13 = GSERM4 recovered receive clock for lanes 0-3.
+                                                                 _ 0x14 - 0x15 = GSERM5 recovered receive clock for lanes 0-1.
+                                                                 _ 0x16 - 0x17 = Reserved.
+                                                                 _ 0x18 - 0x1B = GSERM0 transmit clock for lanes 0-3.
+                                                                 _ 0x1C - 0x1D = GSERM1 transmit clock for lanes 0-1.
+                                                                 _ 0x1E - 0x1F = Reserved.
+                                                                 _ 0x20 - 0x23 = GSERM2 transmit clock for lanes 0-3.
+                                                                 _ 0x24 - 0x27 = GSERM3 transmit clock for lanes 0-3.
+                                                                 _ 0x28 - 0x2B = GSERM4 transmit clock for lanes 0-3.
+                                                                 _ 0x2C - 0x2D = GSERM5 transmit clock for lanes 0-1.
+                                                                 _ 0x2E - 0x2F = Reserved.
+                                                                 _ 0x30 = bcn_pll reference clock.
+                                                                 _ 0x31 = bcn4x_clk. */
 #else /* Word 0 - Little Endian */
-        uint64_t clk_sel               : 6;  /**< [  5:  0](R/W) Clock selection.
-                                                                 0x00 - 0x03 = GSERM0 recovered receive clock for lanes 0-3.
-                                                                 0x04 - 0x07 = GSERM1 recovered receive clock for lanes 0-3.
-                                                                 0x08 - 0x0B = GSERM2 recovered receive clock for lanes 0-3.
-                                                                 0x0C - 0x0F = GSERM3 recovered receive clock for lanes 0-3.
-                                                                 0x10 - 0x13 = GSERM4 recovered receive clock for lanes 0-3.
-                                                                 0x14 - 0x17 = GSERM5 recovered receive clock for lanes 0-3.
-                                                                 0x18 - 0x1B = GSERM0 transmit clock for lanes 0-3.
-                                                                 0x1C - 0x1F = GSERM1 transmit clock for lanes 0-3.
-                                                                 0x20 - 0x23 = GSERM2 transmit clock for lanes 0-3.
-                                                                 0x24 - 0x27 = GSERM3 transmit clock for lanes 0-3.
-                                                                 0x28 - 0x2B = GSERM4 transmit clock for lanes 0-3.
-                                                                 0x2C - 0x2F = GSERM5 transmit clock for lanes 0-3.
-                                                                 0x30 = bcn_pll reference clock.
-                                                                 0x31 = bcn4x_clk. */
+        uint64_t clk_sel               : 6;  /**< [  5:  0](R/W) _ Clock selection.
+                                                                 _ 0x00 - 0x03 = GSERM0 recovered receive clock for lanes 0-3.
+                                                                 _ 0x04 - 0x05 = GSERM1 recovered receive clock for lanes 0-1.
+                                                                 _ 0x06 - 0x07 = Reserved.
+                                                                 _ 0x08 - 0x0B = GSERM2 recovered receive clock for lanes 0-3.
+                                                                 _ 0x0C - 0x0F = GSERM3 recovered receive clock for lanes 0-3.
+                                                                 _ 0x10 - 0x13 = GSERM4 recovered receive clock for lanes 0-3.
+                                                                 _ 0x14 - 0x15 = GSERM5 recovered receive clock for lanes 0-1.
+                                                                 _ 0x16 - 0x17 = Reserved.
+                                                                 _ 0x18 - 0x1B = GSERM0 transmit clock for lanes 0-3.
+                                                                 _ 0x1C - 0x1D = GSERM1 transmit clock for lanes 0-1.
+                                                                 _ 0x1E - 0x1F = Reserved.
+                                                                 _ 0x20 - 0x23 = GSERM2 transmit clock for lanes 0-3.
+                                                                 _ 0x24 - 0x27 = GSERM3 transmit clock for lanes 0-3.
+                                                                 _ 0x28 - 0x2B = GSERM4 transmit clock for lanes 0-3.
+                                                                 _ 0x2C - 0x2D = GSERM5 transmit clock for lanes 0-1.
+                                                                 _ 0x2E - 0x2F = Reserved.
+                                                                 _ 0x30 = bcn_pll reference clock.
+                                                                 _ 0x31 = bcn4x_clk. */
         uint64_t reserved_6_7          : 2;
         uint64_t clk_div               : 4;  /**< [ 11:  8](R/W) Divider value for the selected recovered clock.  Valid divider
                                                                  settings are 1, 2, 4, and 8, and 0 disables the REC_CLK_OUT output.
@@ -1173,7 +1453,7 @@ typedef union cavm_bcn_rec_clkx_ctrl cavm_bcn_rec_clkx_ctrl_t;
 static inline uint64_t CAVM_BCN_REC_CLKX_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_REC_CLKX_CTRL(uint64_t a)
 {
-    if (a<=2)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
         return 0x87e043040300ll + 0x10ll * ((a) & 0x3);
     __cavm_csr_fatal("BCN_REC_CLKX_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1225,7 +1505,9 @@ typedef union cavm_bcn_rec_clk_to_ptp cavm_bcn_rec_clk_to_ptp_t;
 static inline uint64_t CAVM_BCN_REC_CLK_TO_PTP_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_REC_CLK_TO_PTP_FUNC(void)
 {
-    return 0x87e043040380ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e043040380ll;
+    __cavm_csr_fatal("BCN_REC_CLK_TO_PTP", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BCN_REC_CLK_TO_PTP cavm_bcn_rec_clk_to_ptp_t
@@ -1300,7 +1582,9 @@ typedef union cavm_bcn_rp1_ctrl cavm_bcn_rp1_ctrl_t;
 static inline uint64_t CAVM_BCN_RP1_CTRL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_RP1_CTRL_FUNC(void)
 {
-    return 0x87e043041100ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e043041100ll;
+    __cavm_csr_fatal("BCN_RP1_CTRL", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BCN_RP1_CTRL cavm_bcn_rp1_ctrl_t
@@ -1335,7 +1619,9 @@ typedef union cavm_bcn_rp1_raw_0 cavm_bcn_rp1_raw_0_t;
 static inline uint64_t CAVM_BCN_RP1_RAW_0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_RP1_RAW_0_FUNC(void)
 {
-    return 0x87e043041110ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e043041110ll;
+    __cavm_csr_fatal("BCN_RP1_RAW_0", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BCN_RP1_RAW_0 cavm_bcn_rp1_raw_0_t
@@ -1378,7 +1664,9 @@ typedef union cavm_bcn_rp1_raw_1 cavm_bcn_rp1_raw_1_t;
 static inline uint64_t CAVM_BCN_RP1_RAW_1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_RP1_RAW_1_FUNC(void)
 {
-    return 0x87e043041120ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e043041120ll;
+    __cavm_csr_fatal("BCN_RP1_RAW_1", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BCN_RP1_RAW_1 cavm_bcn_rp1_raw_1_t
@@ -1432,7 +1720,9 @@ typedef union cavm_bcn_sync_ieee1914 cavm_bcn_sync_ieee1914_t;
 static inline uint64_t CAVM_BCN_SYNC_IEEE1914_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_SYNC_IEEE1914_FUNC(void)
 {
-    return 0x87e043041320ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e043041320ll;
+    __cavm_csr_fatal("BCN_SYNC_IEEE1914", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BCN_SYNC_IEEE1914 cavm_bcn_sync_ieee1914_t
@@ -1496,7 +1786,9 @@ typedef union cavm_bcn_sync_psm cavm_bcn_sync_psm_t;
 static inline uint64_t CAVM_BCN_SYNC_PSM_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_SYNC_PSM_FUNC(void)
 {
-    return 0x87e043041220ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e043041220ll;
+    __cavm_csr_fatal("BCN_SYNC_PSM", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BCN_SYNC_PSM cavm_bcn_sync_psm_t
@@ -1534,7 +1826,9 @@ typedef union cavm_bcn_sync_val cavm_bcn_sync_val_t;
 static inline uint64_t CAVM_BCN_SYNC_VAL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_SYNC_VAL_FUNC(void)
 {
-    return 0x87e043041020ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e043041020ll;
+    __cavm_csr_fatal("BCN_SYNC_VAL", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BCN_SYNC_VAL cavm_bcn_sync_val_t
@@ -1585,7 +1879,7 @@ typedef union cavm_bcn_timerx_ctrl cavm_bcn_timerx_ctrl_t;
 static inline uint64_t CAVM_BCN_TIMERX_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_TIMERX_CTRL(uint64_t a)
 {
-    if (a<=2)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
         return 0x87e043042000ll + 0x100ll * ((a) & 0x3);
     __cavm_csr_fatal("BCN_TIMERX_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1627,7 +1921,7 @@ typedef union cavm_bcn_timerx_period cavm_bcn_timerx_period_t;
 static inline uint64_t CAVM_BCN_TIMERX_PERIOD(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_TIMERX_PERIOD(uint64_t a)
 {
-    if (a<=2)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
         return 0x87e043042020ll + 0x100ll * ((a) & 0x3);
     __cavm_csr_fatal("BCN_TIMERX_PERIOD", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1666,7 +1960,7 @@ typedef union cavm_bcn_timerx_start cavm_bcn_timerx_start_t;
 static inline uint64_t CAVM_BCN_TIMERX_START(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_TIMERX_START(uint64_t a)
 {
-    if (a<=2)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
         return 0x87e043042010ll + 0x100ll * ((a) & 0x3);
     __cavm_csr_fatal("BCN_TIMERX_START", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1708,7 +2002,7 @@ typedef union cavm_bcn_timerx_width cavm_bcn_timerx_width_t;
 static inline uint64_t CAVM_BCN_TIMERX_WIDTH(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_TIMERX_WIDTH(uint64_t a)
 {
-    if (a<=2)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
         return 0x87e043042030ll + 0x100ll * ((a) & 0x3);
     __cavm_csr_fatal("BCN_TIMERX_WIDTH", 1, a, 0, 0, 0, 0, 0);
 }

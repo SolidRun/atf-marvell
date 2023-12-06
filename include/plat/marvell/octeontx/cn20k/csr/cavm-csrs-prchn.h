@@ -97,7 +97,7 @@ union cavm_prch_job_cfg_s
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t reserved_113_127      : 15;
-        uint64_t fdagc_mode            : 5;  /**< [112:108] See Table 3 of MSD */
+        uint64_t fdagc_mode            : 5;  /**< [112:108] See Table 20-4 PRCHN_JD_PARM_S[FDAGC_MODE] Setting. */
         uint64_t reserved_105_107      : 3;
         uint64_t fdagc_backoff         : 5;  /**< [104:100] Frequency-domain AGC backoff level. */
         uint64_t reserved_97_99        : 3;
@@ -149,7 +149,7 @@ union cavm_prch_job_cfg_s
         uint64_t reserved_97_99        : 3;
         uint64_t fdagc_backoff         : 5;  /**< [104:100] Frequency-domain AGC backoff level. */
         uint64_t reserved_105_107      : 3;
-        uint64_t fdagc_mode            : 5;  /**< [112:108] See Table 3 of MSD */
+        uint64_t fdagc_mode            : 5;  /**< [112:108] See Table 20-4 PRCHN_JD_PARM_S[FDAGC_MODE] Setting. */
         uint64_t reserved_113_127      : 15;
 #endif /* Word 1 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
@@ -2046,7 +2046,7 @@ typedef union cavm_prchx_abx_control0 cavm_prchx_abx_control0_t;
 static inline uint64_t CAVM_PRCHX_ABX_CONTROL0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PRCHX_ABX_CONTROL0(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=2)))
         return 0x87e042180000ll + 0ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("PRCHX_ABX_CONTROL0", 2, a, b, 0, 0, 0, 0);
 }
@@ -2088,7 +2088,7 @@ typedef union cavm_prchx_abx_error_enable0 cavm_prchx_abx_error_enable0_t;
 static inline uint64_t CAVM_PRCHX_ABX_ERROR_ENABLE0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PRCHX_ABX_ERROR_ENABLE0(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=2)))
         return 0x87e042180040ll + 0ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("PRCHX_ABX_ERROR_ENABLE0", 2, a, b, 0, 0, 0, 0);
 }
@@ -2134,7 +2134,7 @@ typedef union cavm_prchx_abx_error_source0 cavm_prchx_abx_error_source0_t;
 static inline uint64_t CAVM_PRCHX_ABX_ERROR_SOURCE0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PRCHX_ABX_ERROR_SOURCE0(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=2)))
         return 0x87e042180030ll + 0ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("PRCHX_ABX_ERROR_SOURCE0", 2, a, b, 0, 0, 0, 0);
 }
@@ -2151,6 +2151,8 @@ static inline uint64_t CAVM_PRCHX_ABX_ERROR_SOURCE0(uint64_t a, uint64_t b)
  *
  * PRCH Job Configuration 0 Registers
  * This register range accesses the job configuration RAM for slot 0.
+ * Hardware loads the job configuration in these registers. Software should
+ * never directly write to these registers.
  */
 union cavm_prchx_abx_hab_jcfg0_datax
 {
@@ -2170,7 +2172,7 @@ typedef union cavm_prchx_abx_hab_jcfg0_datax cavm_prchx_abx_hab_jcfg0_datax_t;
 static inline uint64_t CAVM_PRCHX_ABX_HAB_JCFG0_DATAX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PRCHX_ABX_HAB_JCFG0_DATAX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a==0) && (b<=2) && (c<=75))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=2) && (c<=75)))
         return 0x87e042182000ll + 0ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x3) + 8ll * ((c) & 0x7f);
     __cavm_csr_fatal("PRCHX_ABX_HAB_JCFG0_DATAX", 3, a, b, c, 0, 0, 0);
 }
@@ -2206,7 +2208,7 @@ typedef union cavm_prchx_abx_hab_jcfg1_datax cavm_prchx_abx_hab_jcfg1_datax_t;
 static inline uint64_t CAVM_PRCHX_ABX_HAB_JCFG1_DATAX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PRCHX_ABX_HAB_JCFG1_DATAX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a==0) && (b<=2) && (c<=75))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=2) && (c<=75)))
         return 0x87e042184000ll + 0ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x3) + 8ll * ((c) & 0x7f);
     __cavm_csr_fatal("PRCHX_ABX_HAB_JCFG1_DATAX", 3, a, b, c, 0, 0, 0);
 }
@@ -2242,7 +2244,7 @@ typedef union cavm_prchx_abx_hab_jcfg2_datax cavm_prchx_abx_hab_jcfg2_datax_t;
 static inline uint64_t CAVM_PRCHX_ABX_HAB_JCFG2_DATAX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PRCHX_ABX_HAB_JCFG2_DATAX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a==0) && (b<=2) && (c<=75))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=2) && (c<=75)))
         return 0x87e042186000ll + 0ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x3) + 8ll * ((c) & 0x7f);
     __cavm_csr_fatal("PRCHX_ABX_HAB_JCFG2_DATAX", 3, a, b, c, 0, 0, 0);
 }
@@ -2299,7 +2301,7 @@ typedef union cavm_prchx_abx_status cavm_prchx_abx_status_t;
 static inline uint64_t CAVM_PRCHX_ABX_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PRCHX_ABX_STATUS(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=2)))
         return 0x87e042180018ll + 0ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("PRCHX_ABX_STATUS", 2, a, b, 0, 0, 0, 0);
 }

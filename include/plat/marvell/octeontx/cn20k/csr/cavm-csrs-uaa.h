@@ -64,7 +64,9 @@ typedef union cavm_uaax_cidr0 cavm_uaax_cidr0_t;
 static inline uint64_t CAVM_UAAX_CIDR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_UAAX_CIDR0(uint64_t a)
 {
-    if (a<=7)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e028000ff0ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
         return 0x87e028000ff0ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("UAAX_CIDR0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -101,7 +103,9 @@ typedef union cavm_uaax_cidr1 cavm_uaax_cidr1_t;
 static inline uint64_t CAVM_UAAX_CIDR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_UAAX_CIDR1(uint64_t a)
 {
-    if (a<=7)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e028000ff4ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
         return 0x87e028000ff4ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("UAAX_CIDR1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -138,7 +142,9 @@ typedef union cavm_uaax_cidr2 cavm_uaax_cidr2_t;
 static inline uint64_t CAVM_UAAX_CIDR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_UAAX_CIDR2(uint64_t a)
 {
-    if (a<=7)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e028000ff8ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
         return 0x87e028000ff8ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("UAAX_CIDR2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -175,7 +181,9 @@ typedef union cavm_uaax_cidr3 cavm_uaax_cidr3_t;
 static inline uint64_t CAVM_UAAX_CIDR3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_UAAX_CIDR3(uint64_t a)
 {
-    if (a<=7)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e028000ffcll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
         return 0x87e028000ffcll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("UAAX_CIDR3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -289,7 +297,9 @@ typedef union cavm_uaax_cr cavm_uaax_cr_t;
 static inline uint64_t CAVM_UAAX_CR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_UAAX_CR(uint64_t a)
 {
-    if (a<=7)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e028000030ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
         return 0x87e028000030ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("UAAX_CR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -338,7 +348,9 @@ typedef union cavm_uaax_dr cavm_uaax_dr_t;
 static inline uint64_t CAVM_UAAX_DR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_UAAX_DR(uint64_t a)
 {
-    if (a<=7)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e028000000ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
         return 0x87e028000000ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("UAAX_DR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -391,7 +403,9 @@ typedef union cavm_uaax_fbrd cavm_uaax_fbrd_t;
 static inline uint64_t CAVM_UAAX_FBRD(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_UAAX_FBRD(uint64_t a)
 {
-    if (a<=7)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e028000028ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
         return 0x87e028000028ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("UAAX_FBRD", 1, a, 0, 0, 0, 0, 0);
 }
@@ -444,7 +458,9 @@ typedef union cavm_uaax_fr cavm_uaax_fr_t;
 static inline uint64_t CAVM_UAAX_FR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_UAAX_FR(uint64_t a)
 {
-    if (a<=7)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e028000018ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
         return 0x87e028000018ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("UAAX_FR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -481,7 +497,9 @@ typedef union cavm_uaax_ibrd cavm_uaax_ibrd_t;
 static inline uint64_t CAVM_UAAX_IBRD(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_UAAX_IBRD(uint64_t a)
 {
-    if (a<=7)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e028000024ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
         return 0x87e028000024ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("UAAX_IBRD", 1, a, 0, 0, 0, 0, 0);
 }
@@ -539,7 +557,9 @@ typedef union cavm_uaax_icr cavm_uaax_icr_t;
 static inline uint64_t CAVM_UAAX_ICR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_UAAX_ICR(uint64_t a)
 {
-    if (a<=7)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e028000044ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
         return 0x87e028000044ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("UAAX_ICR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -602,7 +622,9 @@ typedef union cavm_uaax_ifls cavm_uaax_ifls_t;
 static inline uint64_t CAVM_UAAX_IFLS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_UAAX_IFLS(uint64_t a)
 {
-    if (a<=7)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e028000034ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
         return 0x87e028000034ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("UAAX_IFLS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -659,7 +681,9 @@ typedef union cavm_uaax_imsc cavm_uaax_imsc_t;
 static inline uint64_t CAVM_UAAX_IMSC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_UAAX_IMSC(uint64_t a)
 {
-    if (a<=7)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e028000038ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
         return 0x87e028000038ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("UAAX_IMSC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -693,10 +717,12 @@ union cavm_uaax_io_ctl
                                                                  0x3 = 20 ohm. */
         uint64_t slew                  : 2;  /**< [  1:  0](R/W) UART bus pin output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
 #else /* Word 0 - Little Endian */
         uint64_t slew                  : 2;  /**< [  1:  0](R/W) UART bus pin output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
         uint64_t drive                 : 2;  /**< [  3:  2](R/W) UART bus pin output impedance.
                                                                  0x0 = 55 ohm.
@@ -713,7 +739,9 @@ typedef union cavm_uaax_io_ctl cavm_uaax_io_ctl_t;
 static inline uint64_t CAVM_UAAX_IO_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_UAAX_IO_CTL(uint64_t a)
 {
-    if (a<=7)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e028001028ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
         return 0x87e028001028ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("UAAX_IO_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -774,7 +802,9 @@ typedef union cavm_uaax_lcr_h cavm_uaax_lcr_h_t;
 static inline uint64_t CAVM_UAAX_LCR_H(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_UAAX_LCR_H(uint64_t a)
 {
-    if (a<=7)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e02800002cll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
         return 0x87e02800002cll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("UAAX_LCR_H", 1, a, 0, 0, 0, 0, 0);
 }
@@ -832,7 +862,9 @@ typedef union cavm_uaax_mis cavm_uaax_mis_t;
 static inline uint64_t CAVM_UAAX_MIS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_UAAX_MIS(uint64_t a)
 {
-    if (a<=7)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e028000040ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
         return 0x87e028000040ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("UAAX_MIS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -870,7 +902,9 @@ typedef union cavm_uaax_msix_pbax cavm_uaax_msix_pbax_t;
 static inline uint64_t CAVM_UAAX_MSIX_PBAX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_UAAX_MSIX_PBAX(uint64_t a, uint64_t b)
 {
-    if ((a<=7) && (b==0))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=15) && (b==0)))
+        return 0x87e028ff0000ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=7) && (b==0)))
         return 0x87e028ff0000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("UAAX_MSIX_PBAX", 2, a, b, 0, 0, 0, 0);
 }
@@ -956,7 +990,9 @@ typedef union cavm_uaax_msix_vecx_addr cavm_uaax_msix_vecx_addr_t;
 static inline uint64_t CAVM_UAAX_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_UAAX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
-    if ((a<=7) && (b<=1))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=15) && (b<=1)))
+        return 0x87e028f00000ll + 0x1000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=7) && (b<=1)))
         return 0x87e028f00000ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x1);
     __cavm_csr_fatal("UAAX_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
@@ -996,7 +1032,9 @@ typedef union cavm_uaax_msix_vecx_ctl cavm_uaax_msix_vecx_ctl_t;
 static inline uint64_t CAVM_UAAX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_UAAX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
-    if ((a<=7) && (b<=1))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=15) && (b<=1)))
+        return 0x87e028f00008ll + 0x1000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=7) && (b<=1)))
         return 0x87e028f00008ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x1);
     __cavm_csr_fatal("UAAX_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
@@ -1033,7 +1071,9 @@ typedef union cavm_uaax_pidr0 cavm_uaax_pidr0_t;
 static inline uint64_t CAVM_UAAX_PIDR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_UAAX_PIDR0(uint64_t a)
 {
-    if (a<=7)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e028000fe0ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
         return 0x87e028000fe0ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("UAAX_PIDR0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1072,7 +1112,9 @@ typedef union cavm_uaax_pidr1 cavm_uaax_pidr1_t;
 static inline uint64_t CAVM_UAAX_PIDR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_UAAX_PIDR1(uint64_t a)
 {
-    if (a<=7)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e028000fe4ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
         return 0x87e028000fe4ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("UAAX_PIDR1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1115,7 +1157,9 @@ typedef union cavm_uaax_pidr2 cavm_uaax_pidr2_t;
 static inline uint64_t CAVM_UAAX_PIDR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_UAAX_PIDR2(uint64_t a)
 {
-    if (a<=7)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e028000fe8ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
         return 0x87e028000fe8ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("UAAX_PIDR2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1156,7 +1200,9 @@ typedef union cavm_uaax_pidr3 cavm_uaax_pidr3_t;
 static inline uint64_t CAVM_UAAX_PIDR3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_UAAX_PIDR3(uint64_t a)
 {
-    if (a<=7)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e028000fecll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
         return 0x87e028000fecll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("UAAX_PIDR3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1191,7 +1237,9 @@ typedef union cavm_uaax_pidr4 cavm_uaax_pidr4_t;
 static inline uint64_t CAVM_UAAX_PIDR4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_UAAX_PIDR4(uint64_t a)
 {
-    if (a<=7)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e028000fd0ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
         return 0x87e028000fd0ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("UAAX_PIDR4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1226,7 +1274,9 @@ typedef union cavm_uaax_pidr5 cavm_uaax_pidr5_t;
 static inline uint64_t CAVM_UAAX_PIDR5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_UAAX_PIDR5(uint64_t a)
 {
-    if (a<=7)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e028000fd4ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
         return 0x87e028000fd4ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("UAAX_PIDR5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1261,7 +1311,9 @@ typedef union cavm_uaax_pidr6 cavm_uaax_pidr6_t;
 static inline uint64_t CAVM_UAAX_PIDR6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_UAAX_PIDR6(uint64_t a)
 {
-    if (a<=7)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e028000fd8ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
         return 0x87e028000fd8ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("UAAX_PIDR6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1296,7 +1348,9 @@ typedef union cavm_uaax_pidr7 cavm_uaax_pidr7_t;
 static inline uint64_t CAVM_UAAX_PIDR7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_UAAX_PIDR7(uint64_t a)
 {
-    if (a<=7)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e028000fdcll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
         return 0x87e028000fdcll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("UAAX_PIDR7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1317,6 +1371,42 @@ union cavm_uaax_redirect
 {
     uint64_t u;
     struct cavm_uaax_redirect_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t out_dis               : 1;  /**< [  4:  4](SR/W) 0 = Allow using [IN_ENA] in another UAA block to receive traffic from this UAA.
+                                                                 1 = Disable any other UAA from using [IN_ENA] to receive traffic from this UAA.
+                                                                 It may be desirable to set this on secure UAAs so no other UART can receive traffic. */
+        uint64_t in_ena                : 1;  /**< [  3:  3](SR/W) 0 = UAA receive and modem control inputs are from hard-assigned pins or GPIO virtual pins.
+                                                                 1 = UAA receive and modem control come from the UAA specified by [IN_SEL]. */
+        uint64_t in_sel                : 3;  /**< [  2:  0](SR/W) 0x0 = Inputs from UAA0.
+                                                                 0x1 = Inputs from UAA1.
+                                                                 0x2 = Inputs from UAA2.
+                                                                 0x3 = Inputs from UAA3.
+                                                                 0x4 = Inputs from UAA4.
+                                                                 0x5 = Inputs from UAA5.
+                                                                 0x6 = Inputs from UAA6.
+                                                                 0x7 = Inputs from UAA7. */
+#else /* Word 0 - Little Endian */
+        uint64_t in_sel                : 3;  /**< [  2:  0](SR/W) 0x0 = Inputs from UAA0.
+                                                                 0x1 = Inputs from UAA1.
+                                                                 0x2 = Inputs from UAA2.
+                                                                 0x3 = Inputs from UAA3.
+                                                                 0x4 = Inputs from UAA4.
+                                                                 0x5 = Inputs from UAA5.
+                                                                 0x6 = Inputs from UAA6.
+                                                                 0x7 = Inputs from UAA7. */
+        uint64_t in_ena                : 1;  /**< [  3:  3](SR/W) 0 = UAA receive and modem control inputs are from hard-assigned pins or GPIO virtual pins.
+                                                                 1 = UAA receive and modem control come from the UAA specified by [IN_SEL]. */
+        uint64_t out_dis               : 1;  /**< [  4:  4](SR/W) 0 = Allow using [IN_ENA] in another UAA block to receive traffic from this UAA.
+                                                                 1 = Disable any other UAA from using [IN_ENA] to receive traffic from this UAA.
+                                                                 It may be desirable to set this on secure UAAs so no other UART can receive traffic. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_uaax_redirect_s cheetah; */
+    /* struct cavm_uaax_redirect_s cn20; */
+    struct cavm_uaax_redirect_odinmp
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
@@ -1343,15 +1433,16 @@ union cavm_uaax_redirect
                                                                  1 = UAA receive and modem control come from the UAA specified by [IN_SEL]. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_uaax_redirect_s cn; */
+    } odinmp;
 };
 typedef union cavm_uaax_redirect cavm_uaax_redirect_t;
 
 static inline uint64_t CAVM_UAAX_REDIRECT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_UAAX_REDIRECT(uint64_t a)
 {
-    if (a<=7)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e028001020ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
         return 0x87e028001020ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("UAAX_REDIRECT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1409,7 +1500,9 @@ typedef union cavm_uaax_ris cavm_uaax_ris_t;
 static inline uint64_t CAVM_UAAX_RIS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_UAAX_RIS(uint64_t a)
 {
-    if (a<=7)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e02800003cll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
         return 0x87e02800003cll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("UAAX_RIS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1456,7 +1549,9 @@ typedef union cavm_uaax_rsr_ecr cavm_uaax_rsr_ecr_t;
 static inline uint64_t CAVM_UAAX_RSR_ECR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_UAAX_RSR_ECR(uint64_t a)
 {
-    if (a<=7)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e028000004ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
         return 0x87e028000004ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("UAAX_RSR_ECR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1493,7 +1588,9 @@ typedef union cavm_uaax_uctl_csclk_active_pc cavm_uaax_uctl_csclk_active_pc_t;
 static inline uint64_t CAVM_UAAX_UCTL_CSCLK_ACTIVE_PC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_UAAX_UCTL_CSCLK_ACTIVE_PC(uint64_t a)
 {
-    if (a<=7)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e028001018ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
         return 0x87e028001018ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("UAAX_UCTL_CSCLK_ACTIVE_PC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1590,7 +1687,9 @@ typedef union cavm_uaax_uctl_ctl cavm_uaax_uctl_ctl_t;
 static inline uint64_t CAVM_UAAX_UCTL_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_UAAX_UCTL_CTL(uint64_t a)
 {
-    if (a<=7)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e028001000ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
         return 0x87e028001000ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("UAAX_UCTL_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1626,7 +1725,9 @@ typedef union cavm_uaax_uctl_spare0 cavm_uaax_uctl_spare0_t;
 static inline uint64_t CAVM_UAAX_UCTL_SPARE0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_UAAX_UCTL_SPARE0(uint64_t a)
 {
-    if (a<=7)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e028001010ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
         return 0x87e028001010ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("UAAX_UCTL_SPARE0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1662,7 +1763,9 @@ typedef union cavm_uaax_uctl_spare1 cavm_uaax_uctl_spare1_t;
 static inline uint64_t CAVM_UAAX_UCTL_SPARE1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_UAAX_UCTL_SPARE1(uint64_t a)
 {
-    if (a<=7)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e0280010f8ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
         return 0x87e0280010f8ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("UAAX_UCTL_SPARE1", 1, a, 0, 0, 0, 0, 0);
 }

@@ -722,11 +722,11 @@ union cavm_bts_man_pll
         uint64_t reserved_63           : 1;
         uint64_t power_down            : 3;  /**< [ 62: 60](R/W/H) Power Down.
                                                                  When set, The selected PLL/ARO is powered down and is in reset.  When BTS_PLL()[NEXT_PGM]
-                                                                 is set and BTS_PLL()[NEXT_PLL_SEL] indicates eith a PLL or ARO.  The device is powered up and
+                                                                 is set and BTS_PLL()[NEXT_PLL_SEL] indicates either a PLL or ARO.  The device is powered up and
                                                                  released from reset by the hardware.  The hardware automatically clears the bit when the
                                                                  sequence is complete and the device is present.  This sequence adds
                                                                  approximately 15uS to the programming.  During this
-                                                                 time the NEXT_SWITCH timer is frozen.
+                                                                 time the [NEXT_SWITCH] timer is frozen.
 
                                                                  The following are the bit mapping:
                                                                    \<0\> = PLL0.
@@ -763,21 +763,21 @@ union cavm_bts_man_pll
 
                                                                  PLL VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
 
-                                                                 When VCO_MUL is used with the ARO the number specified in bits 7..0 is multiplied
+                                                                 When VCO_MUL is used with the ARO, the number specified in bits 7..0 is multiplied
                                                                  by fifty, VCO_FRACT is added in and that number is used to determine how many
-                                                                 ARO Clocks are required per update.  The UPDATE_RATE specifies how many reference
+                                                                 ARO clocks are required per update.  The [UPDATE_RATE] specifies how many reference
                                                                  clocks occur during this update period.
 
                                                                  VCO range for PLLs is 2 GHz to 5 GHz.
-                                                                 VCO range for ARO is idential is 300 MHz - maximum ARO clock rate. */
+                                                                 VCO range for ARO is 300 MHz - maximum ARO clock rate. */
         uint64_t vco_fract             : 10; /**< [ 33: 24](R/W) VCO multiplier fraction.
 
                                                                  PLL VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
 
-                                                                 When VCO_FRACT is specified with the the ARO, this 10 bit number is added to the
+                                                                 When VCO_FRACT is specified with the ARO, this 10 bit number is added to the
                                                                  ARO clock count specified by VCO_MUL * 50 to determine clocks per update period.
 
-                                                                 See VCO_MUL for min/max VCO frequencies.  Not used by ARO. */
+                                                                 See [VCO_MUL] for min/max VCO frequencies.  Not used by ARO. */
         uint64_t icp                   : 4;  /**< [ 23: 20](R/W) DFICLK PLL ICP setting.
 
                                                                  Typical setting 0x6 (0110) for 30.72, 33.33 and 50.00 MHz reference
@@ -798,13 +798,13 @@ union cavm_bts_man_pll
                                                                  \</pre\>
 
                                                                  Not used by DFICLK PLL and ARO. */
-        uint64_t dlf_ki                : 5;  /**< [ 14: 10](R/W) DLF Intergral Path Gain Setting.
+        uint64_t dlf_ki                : 5;  /**< [ 14: 10](R/W) DLF Integral Path Gain Setting.
                                                                  MSB is 1 bit integer stored in BW[0] and 5 bit fraction stored here.
 
                                                                  Typical values are:
                                                                  Rate   Value BW[0], DLF_KI  PLL reference/ref_div
                                                                  \<pre\>
-                                                                 30 Mhz  0x3d   1     0x1d   30.00 - 48.70 Mhz
+                                                                 30 MHz  0x3d   1     0x1d   30.00 - 48.70 MHz
                                                                  50 MHz  0x3f   1     0x1f   50 MHz
                                                                  \</pre\>
 
@@ -823,7 +823,7 @@ union cavm_bts_man_pll
                                                                    (VCO_MUL*50 + VCO_FRACT) * 2.0 MHz if UPDATE_RATE is 50 or
                                                                    (VCO_MUL*50 + VCO_FRACT) * 1.0 MHz if UPDATE_RATE is 100
 
-                                                                 Note that the estimately lock time is approximately 2x with an update rate of 100.
+                                                                 Note that the estimated lock time is approximately 2x with an update rate of 100.
 
                                                                  MSB unused by LP PLL. */
 #else /* Word 0 - Little Endian */
@@ -841,16 +841,16 @@ union cavm_bts_man_pll
                                                                    (VCO_MUL*50 + VCO_FRACT) * 2.0 MHz if UPDATE_RATE is 50 or
                                                                    (VCO_MUL*50 + VCO_FRACT) * 1.0 MHz if UPDATE_RATE is 100
 
-                                                                 Note that the estimately lock time is approximately 2x with an update rate of 100.
+                                                                 Note that the estimated lock time is approximately 2x with an update rate of 100.
 
                                                                  MSB unused by LP PLL. */
-        uint64_t dlf_ki                : 5;  /**< [ 14: 10](R/W) DLF Intergral Path Gain Setting.
+        uint64_t dlf_ki                : 5;  /**< [ 14: 10](R/W) DLF Integral Path Gain Setting.
                                                                  MSB is 1 bit integer stored in BW[0] and 5 bit fraction stored here.
 
                                                                  Typical values are:
                                                                  Rate   Value BW[0], DLF_KI  PLL reference/ref_div
                                                                  \<pre\>
-                                                                 30 Mhz  0x3d   1     0x1d   30.00 - 48.70 Mhz
+                                                                 30 MHz  0x3d   1     0x1d   30.00 - 48.70 MHz
                                                                  50 MHz  0x3f   1     0x1f   50 MHz
                                                                  \</pre\>
 
@@ -879,21 +879,21 @@ union cavm_bts_man_pll
 
                                                                  PLL VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
 
-                                                                 When VCO_FRACT is specified with the the ARO, this 10 bit number is added to the
+                                                                 When VCO_FRACT is specified with the ARO, this 10 bit number is added to the
                                                                  ARO clock count specified by VCO_MUL * 50 to determine clocks per update period.
 
-                                                                 See VCO_MUL for min/max VCO frequencies.  Not used by ARO. */
+                                                                 See [VCO_MUL] for min/max VCO frequencies.  Not used by ARO. */
         uint64_t vco_mul               : 10; /**< [ 43: 34](R/W) VCO multiplier integer.
 
                                                                  PLL VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
 
-                                                                 When VCO_MUL is used with the ARO the number specified in bits 7..0 is multiplied
+                                                                 When VCO_MUL is used with the ARO, the number specified in bits 7..0 is multiplied
                                                                  by fifty, VCO_FRACT is added in and that number is used to determine how many
-                                                                 ARO Clocks are required per update.  The UPDATE_RATE specifies how many reference
+                                                                 ARO clocks are required per update.  The [UPDATE_RATE] specifies how many reference
                                                                  clocks occur during this update period.
 
                                                                  VCO range for PLLs is 2 GHz to 5 GHz.
-                                                                 VCO range for ARO is idential is 300 MHz - maximum ARO clock rate. */
+                                                                 VCO range for ARO is 300 MHz - maximum ARO clock rate. */
         uint64_t bw                    : 2;  /**< [ 45: 44](R/W) PLL VCO bandwidth.
                                                                  For DFICLK PLL the following setting are supported:
                                                                    0x0 = 20-30 MHz reference clock/ref_div.
@@ -921,11 +921,11 @@ union cavm_bts_man_pll
                                                                  ARO ignores this field and uses reference clock. */
         uint64_t power_down            : 3;  /**< [ 62: 60](R/W/H) Power Down.
                                                                  When set, The selected PLL/ARO is powered down and is in reset.  When BTS_PLL()[NEXT_PGM]
-                                                                 is set and BTS_PLL()[NEXT_PLL_SEL] indicates eith a PLL or ARO.  The device is powered up and
+                                                                 is set and BTS_PLL()[NEXT_PLL_SEL] indicates either a PLL or ARO.  The device is powered up and
                                                                  released from reset by the hardware.  The hardware automatically clears the bit when the
                                                                  sequence is complete and the device is present.  This sequence adds
                                                                  approximately 15uS to the programming.  During this
-                                                                 time the NEXT_SWITCH timer is frozen.
+                                                                 time the [NEXT_SWITCH] timer is frozen.
 
                                                                  The following are the bit mapping:
                                                                    \<0\> = PLL0.
@@ -944,7 +944,9 @@ typedef union cavm_bts_man_pll cavm_bts_man_pll_t;
 static inline uint64_t CAVM_BTS_MAN_PLL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTS_MAN_PLL_FUNC(void)
 {
-    return 0x87e012000030ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e012000030ll;
+    __cavm_csr_fatal("BTS_MAN_PLL", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BTS_MAN_PLL cavm_bts_man_pll_t
@@ -1221,21 +1223,21 @@ union cavm_bts_pd1pps_div_cfg1
         uint64_t divider_tc            : 32; /**< [ 31:  0](R/W) Divider counter terminal count value.
 
                                                                  When BTS_PD1PPS_DIV_CFG0[CLKOUT_5050_DUTY]=0, this field should be
-                                                                 set to the clock frequency minus one, i.e., 0x1D4BFFF (307199999 for the 30.72
+                                                                 set to the clock frequency, i.e., 0x1D4C000 (307200000 for the 30.72
                                                                  MHz clock.
 
                                                                  When BTS_PD1PPS_DIV_CFG0[CLKOUT_5050_DUTY]=1, this field should be
-                                                                 set to half the clock frequency minus one, i.e., 0xEA5FFF (153599999 for the
+                                                                 set to half the clock frequency, i.e., 0xEA6000 (153600000 for the
                                                                  30.72 MHz clock. */
 #else /* Word 0 - Little Endian */
         uint64_t divider_tc            : 32; /**< [ 31:  0](R/W) Divider counter terminal count value.
 
                                                                  When BTS_PD1PPS_DIV_CFG0[CLKOUT_5050_DUTY]=0, this field should be
-                                                                 set to the clock frequency minus one, i.e., 0x1D4BFFF (307199999 for the 30.72
+                                                                 set to the clock frequency, i.e., 0x1D4C000 (307200000 for the 30.72
                                                                  MHz clock.
 
                                                                  When BTS_PD1PPS_DIV_CFG0[CLKOUT_5050_DUTY]=1, this field should be
-                                                                 set to half the clock frequency minus one, i.e., 0xEA5FFF (153599999 for the
+                                                                 set to half the clock frequency, i.e., 0xEA6000 (153600000 for the
                                                                  30.72 MHz clock. */
         uint64_t divider_start_pos     : 32; /**< [ 63: 32](R/W) Divider start position. When a new value is written to
                                                                  [DIVIDER_START_POS], the counter will reset to 0 the next time the
@@ -1389,15 +1391,15 @@ union cavm_bts_pd_slicex_oneshot_res
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_34_63        : 30;
-        uint64_t done                  : 1;  /**< [ 33: 33](RO/H) Phase difference capturing done indication - this bit is set after hardwarestores
+        uint64_t done                  : 1;  /**< [ 33: 33](RO/H) Phase difference capturing done indication - this bit is set after hardware stores
                                                                  captured value at [CAP_VAL].
-                                                                 Hardware zeros this bit upon each capture requst. */
+                                                                 Hardware zeros this bit upon each capture request. */
         uint64_t cap_val               : 33; /**< [ 32:  0](RO/H) Captured value of PD bank(a). */
 #else /* Word 0 - Little Endian */
         uint64_t cap_val               : 33; /**< [ 32:  0](RO/H) Captured value of PD bank(a). */
-        uint64_t done                  : 1;  /**< [ 33: 33](RO/H) Phase difference capturing done indication - this bit is set after hardwarestores
+        uint64_t done                  : 1;  /**< [ 33: 33](RO/H) Phase difference capturing done indication - this bit is set after hardware stores
                                                                  captured value at [CAP_VAL].
-                                                                 Hardware zeros this bit upon each capture requst. */
+                                                                 Hardware zeros this bit upon each capture request. */
         uint64_t reserved_34_63        : 30;
 #endif /* Word 0 - End */
     } s;
@@ -1474,7 +1476,7 @@ static inline uint64_t CAVM_BTS_PD_SLICEX_STATUS(uint64_t a)
  *
  * BTS PD Bank Slice Status One Shot Mode Register
  * This register triggers capturing phase difference for each PD bank at
- * BTS_PD_SLICE(0..5)_ONE_SHOT_MODE_RES upon capture request.
+ * BTS_PD_SLICE(0..5)_ONESHOT_MODE_RES upon capture request.
  */
 union cavm_bts_pd_slice_oneshot_mode
 {
@@ -1483,11 +1485,11 @@ union cavm_bts_pd_slice_oneshot_mode
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_6_63         : 58;
-        uint64_t capture_pd            : 6;  /**< [  5:  0](R/W/H) SW triggers phase difference capturing request of PD_bank({a}) by writing 1 to
+        uint64_t capture_pd            : 6;  /**< [  5:  0](R/W/H) Software triggers phase difference capturing request of PD_bank({a}) by writing 1 to
                                                                  [CAPTURE_PD]\<{a}\>. Captured value is stored at
                                                                  BTS_PD_SLICE(0..5)_ONE_SHOT_MODE_RES[CAP_VAL] accordingly.
-                                                                 Once value was captured and stored, HW zeros appropriate CAPTURE_PD bit and sets
-                                                                 BTS_PD_SLICE(0..5)_ONE_SHOT_MODE[DONE] bit accordingly.
+                                                                 Once value was captured and stored, hardware zeros appropriate CAPTURE_PD bit and sets
+                                                                 BTS_PD_SLICE(0..5)_ONESHOT_MODE[DONE] bit accordingly.
                                                                  \<0\> = Capture PD bank 0.
                                                                  \<1\> = Capture PD bank 1.
                                                                  \<2\> = Capture PD bank 2.
@@ -1495,11 +1497,11 @@ union cavm_bts_pd_slice_oneshot_mode
                                                                  \<4\> = Capture PD bank 4.
                                                                  \<5\> = Capture PD bank 5. */
 #else /* Word 0 - Little Endian */
-        uint64_t capture_pd            : 6;  /**< [  5:  0](R/W/H) SW triggers phase difference capturing request of PD_bank({a}) by writing 1 to
+        uint64_t capture_pd            : 6;  /**< [  5:  0](R/W/H) Software triggers phase difference capturing request of PD_bank({a}) by writing 1 to
                                                                  [CAPTURE_PD]\<{a}\>. Captured value is stored at
                                                                  BTS_PD_SLICE(0..5)_ONE_SHOT_MODE_RES[CAP_VAL] accordingly.
-                                                                 Once value was captured and stored, HW zeros appropriate CAPTURE_PD bit and sets
-                                                                 BTS_PD_SLICE(0..5)_ONE_SHOT_MODE[DONE] bit accordingly.
+                                                                 Once value was captured and stored, hardware zeros appropriate CAPTURE_PD bit and sets
+                                                                 BTS_PD_SLICE(0..5)_ONESHOT_MODE[DONE] bit accordingly.
                                                                  \<0\> = Capture PD bank 0.
                                                                  \<1\> = Capture PD bank 1.
                                                                  \<2\> = Capture PD bank 2.
@@ -1631,21 +1633,21 @@ union cavm_bts_pdbfn_div_cfg1
         uint64_t divider_tc            : 32; /**< [ 31:  0](R/W) Divider counter terminal count value.
 
                                                                  When BTS_PDBFN_DIV_CFG0[CLKOUT_5050_DUTY]=0, this field should be
-                                                                 set to the clock frequency minus one, i.e., 0x1D4BFFF (30719999) for the 30.72
+                                                                 set to the clock frequency, i.e., 0x1D4C000 (30720000) for the 30.72
                                                                  MHz clock.
 
                                                                  When BTS_PDBFN_DIV_CFG0[CLKOUT_5050_DUTY]=1, this field should be
-                                                                 set to half the clock frequency minus one, i.e., 0xEA5FFF (15359999) for the
+                                                                 set to half the clock frequency, i.e., 0xEA6000 (15360000) for the
                                                                  30.72 MHz clock. */
 #else /* Word 0 - Little Endian */
         uint64_t divider_tc            : 32; /**< [ 31:  0](R/W) Divider counter terminal count value.
 
                                                                  When BTS_PDBFN_DIV_CFG0[CLKOUT_5050_DUTY]=0, this field should be
-                                                                 set to the clock frequency minus one, i.e., 0x1D4BFFF (30719999) for the 30.72
+                                                                 set to the clock frequency, i.e., 0x1D4C000 (30720000) for the 30.72
                                                                  MHz clock.
 
                                                                  When BTS_PDBFN_DIV_CFG0[CLKOUT_5050_DUTY]=1, this field should be
-                                                                 set to half the clock frequency minus one, i.e., 0xEA5FFF (15359999) for the
+                                                                 set to half the clock frequency, i.e., 0xEA6000 (15360000) for the
                                                                  30.72 MHz clock. */
         uint64_t divider_start_pos     : 32; /**< [ 63: 32](R/W) Divider start position. When a new value is written to
                                                                  [DIVIDER_START_POS], the counter will reset to 0 the next time the
@@ -1885,7 +1887,9 @@ typedef union cavm_bts_pll cavm_bts_pll_t;
 static inline uint64_t CAVM_BTS_PLL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTS_PLL_FUNC(void)
 {
-    return 0x87e012000028ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e012000028ll;
+    __cavm_csr_fatal("BTS_PLL", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BTS_PLL cavm_bts_pll_t
@@ -2088,7 +2092,7 @@ union cavm_bts_pwm_ctl
         uint64_t reserved_59_63        : 5;
         uint64_t clk_sel               : 2;  /**< [ 58: 57](R/W) Select the clock for the PWM module. Must not be changed while operating.
                                                                  0x0 = Refclk (100 MHz).
-                                                                 0x1 = PLL output (should be but not guarenteed to be 491 MHz clock).
+                                                                 0x1 = PLL output (should be but not guaranteed to be 491 MHz clock).
                                                                  0x2 = Coprocessor-clock (use caution if coprocessor-clock can change frequency).
                                                                  0x3 = Reserved. */
         uint64_t reserved_56           : 1;
@@ -2112,7 +2116,7 @@ union cavm_bts_pwm_ctl
         uint64_t reserved_56           : 1;
         uint64_t clk_sel               : 2;  /**< [ 58: 57](R/W) Select the clock for the PWM module. Must not be changed while operating.
                                                                  0x0 = Refclk (100 MHz).
-                                                                 0x1 = PLL output (should be but not guarenteed to be 491 MHz clock).
+                                                                 0x1 = PLL output (should be but not guaranteed to be 491 MHz clock).
                                                                  0x2 = Coprocessor-clock (use caution if coprocessor-clock can change frequency).
                                                                  0x3 = Reserved. */
         uint64_t reserved_59_63        : 5;
@@ -2135,6 +2139,45 @@ static inline uint64_t CAVM_BTS_PWM_CTL_FUNC(void)
 #define device_bar_CAVM_BTS_PWM_CTL 0x0 /* PF_BAR0 */
 #define busnum_CAVM_BTS_PWM_CTL 0
 #define arguments_CAVM_BTS_PWM_CTL -1,-1,-1,-1
+
+/**
+ * Register (RSL) bts_soft_reset
+ *
+ * BTS SOFT RESET Register
+ * This register is used as soft reset.
+ */
+union cavm_bts_soft_reset
+{
+    uint64_t u;
+    struct cavm_bts_soft_reset_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t soft_reset            : 1;  /**< [  0:  0](R/W) This register field is used as soft reset. */
+#else /* Word 0 - Little Endian */
+        uint64_t soft_reset            : 1;  /**< [  0:  0](R/W) This register field is used as soft reset. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_bts_soft_reset_s cn; */
+};
+typedef union cavm_bts_soft_reset cavm_bts_soft_reset_t;
+
+#define CAVM_BTS_SOFT_RESET CAVM_BTS_SOFT_RESET_FUNC()
+static inline uint64_t CAVM_BTS_SOFT_RESET_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_BTS_SOFT_RESET_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x87e012001160ll;
+    __cavm_csr_fatal("BTS_SOFT_RESET", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_BTS_SOFT_RESET cavm_bts_soft_reset_t
+#define bustype_CAVM_BTS_SOFT_RESET CSR_TYPE_RSL
+#define basename_CAVM_BTS_SOFT_RESET "BTS_SOFT_RESET"
+#define device_bar_CAVM_BTS_SOFT_RESET 0x0 /* PF_BAR0 */
+#define busnum_CAVM_BTS_SOFT_RESET 0
+#define arguments_CAVM_BTS_SOFT_RESET -1,-1,-1,-1
 
 /**
  * Register (RSL) bts_test_pll
@@ -2160,10 +2203,10 @@ union cavm_bts_test_pll
                                                                  [MSC_ENABLE] may be set at a time.
 
                                                                  This field is reinitialized on a cold domain reset. */
-        uint64_t stop_clk              : 1;  /**< [ 32: 32](R/W/H) PLL output stop control.  When this field is set along with a postive
-                                                                 this will start the counter at STOP_CNT and stop the output clock when the
+        uint64_t stop_clk              : 1;  /**< [ 32: 32](R/W/H) PLL output stop control.  When this field is set along with a positive,
+                                                                 this will start the counter at [STOP_CNT] and stop the output clock when the
                                                                  counter reaches zero.  Writing this bit to a 0 will re-start the clock.
-                                                                 Reading this value as a 1 along with STOP_CNT=0 indicates the clock has
+                                                                 Reading this value as a 1 along with [STOP_CNT] = 0 indicates the clock has
                                                                  been stopped. */
         uint64_t stop_cnt              : 32; /**< [ 31:  0](R/W/H) Counter Delay to stop PLL output.
                                                                  The counter decrements every PLL output clock.  Value should be 0 if not used.
@@ -2172,10 +2215,10 @@ union cavm_bts_test_pll
         uint64_t stop_cnt              : 32; /**< [ 31:  0](R/W/H) Counter Delay to stop PLL output.
                                                                  The counter decrements every PLL output clock.  Value should be 0 if not used.
                                                                  When enabled minimum setting should be greater than 2. */
-        uint64_t stop_clk              : 1;  /**< [ 32: 32](R/W/H) PLL output stop control.  When this field is set along with a postive
-                                                                 this will start the counter at STOP_CNT and stop the output clock when the
+        uint64_t stop_clk              : 1;  /**< [ 32: 32](R/W/H) PLL output stop control.  When this field is set along with a positive,
+                                                                 this will start the counter at [STOP_CNT] and stop the output clock when the
                                                                  counter reaches zero.  Writing this bit to a 0 will re-start the clock.
-                                                                 Reading this value as a 1 along with STOP_CNT=0 indicates the clock has
+                                                                 Reading this value as a 1 along with [STOP_CNT] = 0 indicates the clock has
                                                                  been stopped. */
         uint64_t msc_enable            : 1;  /**< [ 33: 33](R/W/H) Enable diagnostic output.  Setting this bit causes the PLL to output
                                                                  to the common MSC_CLKOUT and MSC_LOCK ports.  No more than one
@@ -2200,7 +2243,9 @@ typedef union cavm_bts_test_pll cavm_bts_test_pll_t;
 static inline uint64_t CAVM_BTS_TEST_PLL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTS_TEST_PLL_FUNC(void)
 {
-    return 0x87e012000038ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e012000038ll;
+    __cavm_csr_fatal("BTS_TEST_PLL", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BTS_TEST_PLL cavm_bts_test_pll_t
@@ -2209,6 +2254,45 @@ static inline uint64_t CAVM_BTS_TEST_PLL_FUNC(void)
 #define device_bar_CAVM_BTS_TEST_PLL 0x0 /* PF_BAR0 */
 #define busnum_CAVM_BTS_TEST_PLL 0
 #define arguments_CAVM_BTS_TEST_PLL -1,-1,-1,-1
+
+/**
+ * Register (RSL) bts_tie_off
+ *
+ * BTS TIE OFF Register
+ * This register is used to tie any ports with '0' or '1'.
+ */
+union cavm_bts_tie_off
+{
+    uint64_t u;
+    struct cavm_bts_tie_off_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t tie_off_0             : 32; /**< [ 63: 32](R/W) This register field is used to tie any ports with '0'. */
+        uint64_t tie_off_1             : 32; /**< [ 31:  0](R/W) This register field is used to tie any ports with '1'. */
+#else /* Word 0 - Little Endian */
+        uint64_t tie_off_1             : 32; /**< [ 31:  0](R/W) This register field is used to tie any ports with '1'. */
+        uint64_t tie_off_0             : 32; /**< [ 63: 32](R/W) This register field is used to tie any ports with '0'. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_bts_tie_off_s cn; */
+};
+typedef union cavm_bts_tie_off cavm_bts_tie_off_t;
+
+#define CAVM_BTS_TIE_OFF CAVM_BTS_TIE_OFF_FUNC()
+static inline uint64_t CAVM_BTS_TIE_OFF_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_BTS_TIE_OFF_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x87e012001158ll;
+    __cavm_csr_fatal("BTS_TIE_OFF", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_BTS_TIE_OFF cavm_bts_tie_off_t
+#define bustype_CAVM_BTS_TIE_OFF CSR_TYPE_RSL
+#define basename_CAVM_BTS_TIE_OFF "BTS_TIE_OFF"
+#define device_bar_CAVM_BTS_TIE_OFF 0x0 /* PF_BAR0 */
+#define busnum_CAVM_BTS_TIE_OFF 0
+#define arguments_CAVM_BTS_TIE_OFF -1,-1,-1,-1
 
 /**
  * Register (RSL) bts_tp_mux_sel

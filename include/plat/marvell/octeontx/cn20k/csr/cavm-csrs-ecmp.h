@@ -211,7 +211,7 @@ union cavm_ecpri_section_hdr_sw_s
     struct cavm_ecpri_section_hdr_sw_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ud_exponent           : 4;  /**< [ 63: 60] Reserved. */
+        uint64_t ud_exponent           : 4;  /**< [ 63: 60] User Defined Exponent. Used when ECMP()_AB()_JDX()_CFG[DATA_FORMAT] = ECMP_DATA_FORMAT_E::EFXP. */
         uint64_t ud_iqwidth            : 4;  /**< [ 59: 56] User data I/Q width. Bit width of each compressed I and Q sample in the
                                                                  associated data section in flexible compression mode.
                                                                  Reserved in fixed compression mode.
@@ -240,15 +240,15 @@ union cavm_ecpri_section_hdr_sw_s
                                                                  inclusive. */
         uint64_t reserved_26_31        : 6;
         uint64_t start_prb             : 10; /**< [ 25: 16] Starting PRB in the associated data section. */
-        uint64_t rb                    : 1;  /**< [ 15: 15] Symbol number increment. */
+        uint64_t rb                    : 1;  /**< [ 15: 15] Resource block indicator. */
         uint64_t reserved_13_14        : 2;
-        uint64_t sym_inc               : 1;  /**< [ 12: 12] Resource block indicator. */
+        uint64_t sym_inc               : 1;  /**< [ 12: 12] Symbol number increment. */
         uint64_t section_id            : 12; /**< [ 11:  0] Section identifier. */
 #else /* Word 0 - Little Endian */
         uint64_t section_id            : 12; /**< [ 11:  0] Section identifier. */
-        uint64_t sym_inc               : 1;  /**< [ 12: 12] Resource block indicator. */
+        uint64_t sym_inc               : 1;  /**< [ 12: 12] Symbol number increment. */
         uint64_t reserved_13_14        : 2;
-        uint64_t rb                    : 1;  /**< [ 15: 15] Symbol number increment. */
+        uint64_t rb                    : 1;  /**< [ 15: 15] Resource block indicator. */
         uint64_t start_prb             : 10; /**< [ 25: 16] Starting PRB in the associated data section. */
         uint64_t reserved_26_31        : 6;
         uint64_t num_prb               : 16; /**< [ 47: 32] Number of PRBs within the associated data section.
@@ -277,7 +277,7 @@ union cavm_ecpri_section_hdr_sw_s
                                                                  bits for all other compression methods.
 
                                                                  Not valid when the section's compression method is {mu}-Law. */
-        uint64_t ud_exponent           : 4;  /**< [ 63: 60] Reserved. */
+        uint64_t ud_exponent           : 4;  /**< [ 63: 60] User Defined Exponent. Used when ECMP()_AB()_JDX()_CFG[DATA_FORMAT] = ECMP_DATA_FORMAT_E::EFXP. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ecpri_section_hdr_sw_s_s cn; */
@@ -485,7 +485,7 @@ typedef union cavm_ecmpx_abx_bfp_user_exp_high cavm_ecmpx_abx_bfp_user_exp_high_
 static inline uint64_t CAVM_ECMPX_ABX_BFP_USER_EXP_HIGH(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ECMPX_ABX_BFP_USER_EXP_HIGH(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040600118ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ECMPX_ABX_BFP_USER_EXP_HIGH", 2, a, b, 0, 0, 0, 0);
 }
@@ -550,7 +550,7 @@ typedef union cavm_ecmpx_abx_bfp_user_exp_low cavm_ecmpx_abx_bfp_user_exp_low_t;
 static inline uint64_t CAVM_ECMPX_ABX_BFP_USER_EXP_LOW(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ECMPX_ABX_BFP_USER_EXP_LOW(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040600110ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ECMPX_ABX_BFP_USER_EXP_LOW", 2, a, b, 0, 0, 0, 0);
 }
@@ -585,7 +585,7 @@ typedef union cavm_ecmpx_abx_bytes_pc cavm_ecmpx_abx_bytes_pc_t;
 static inline uint64_t CAVM_ECMPX_ABX_BYTES_PC(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ECMPX_ABX_BYTES_PC(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e0406000f0ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ECMPX_ABX_BYTES_PC", 2, a, b, 0, 0, 0, 0);
 }
@@ -688,7 +688,7 @@ typedef union cavm_ecmpx_abx_config cavm_ecmpx_abx_config_t;
 static inline uint64_t CAVM_ECMPX_ABX_CONFIG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ECMPX_ABX_CONFIG(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040600020ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ECMPX_ABX_CONFIG", 2, a, b, 0, 0, 0, 0);
 }
@@ -737,7 +737,7 @@ typedef union cavm_ecmpx_abx_control0 cavm_ecmpx_abx_control0_t;
 static inline uint64_t CAVM_ECMPX_ABX_CONTROL0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ECMPX_ABX_CONTROL0(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040600000ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ECMPX_ABX_CONTROL0", 2, a, b, 0, 0, 0, 0);
 }
@@ -774,7 +774,7 @@ typedef union cavm_ecmpx_abx_control1 cavm_ecmpx_abx_control1_t;
 static inline uint64_t CAVM_ECMPX_ABX_CONTROL1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ECMPX_ABX_CONTROL1(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040600008ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ECMPX_ABX_CONTROL1", 2, a, b, 0, 0, 0, 0);
 }
@@ -799,8 +799,8 @@ union cavm_ecmpx_abx_error_ena_w1c
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_26_63        : 38;
-        uint64_t efxp_format_but_c_meth_not_bfp : 1;/**< [ 25: 25](R/W1C/H) Reserved. */
-        uint64_t efxp_format_but_srm_sect_prsnt : 1;/**< [ 24: 24](R/W1C/H) Reserved. */
+        uint64_t efxp_format_but_c_meth_not_bfp : 1;/**< [ 25: 25](R/W1C/H) Reads or clears enable for ECMP(0..2)_AB(0..1)_ERROR_STATUS[EFXP_FORMAT_BUT_C_METH_NOT_BFP]. */
+        uint64_t efxp_format_but_srm_sect_prsnt : 1;/**< [ 24: 24](R/W1C/H) Reads or clears enable for ECMP(0..2)_AB(0..1)_ERROR_STATUS[EFXP_FORMAT_BUT_SRM_SECT_PRSNT]. */
         uint64_t reserved_18_23        : 6;
         uint64_t syminc_not_zero       : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for ECMP(0..2)_AB(0..1)_ERROR_STATUS[SYMINC_NOT_ZERO]. */
         uint64_t num_prb_zero_but_rb_not : 1;/**< [ 16: 16](R/W1C/H) Reads or clears enable for ECMP(0..2)_AB(0..1)_ERROR_STATUS[NUM_PRB_ZERO_BUT_RB_NOT]. */
@@ -834,8 +834,8 @@ union cavm_ecmpx_abx_error_ena_w1c
         uint64_t num_prb_zero_but_rb_not : 1;/**< [ 16: 16](R/W1C/H) Reads or clears enable for ECMP(0..2)_AB(0..1)_ERROR_STATUS[NUM_PRB_ZERO_BUT_RB_NOT]. */
         uint64_t syminc_not_zero       : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for ECMP(0..2)_AB(0..1)_ERROR_STATUS[SYMINC_NOT_ZERO]. */
         uint64_t reserved_18_23        : 6;
-        uint64_t efxp_format_but_srm_sect_prsnt : 1;/**< [ 24: 24](R/W1C/H) Reserved. */
-        uint64_t efxp_format_but_c_meth_not_bfp : 1;/**< [ 25: 25](R/W1C/H) Reserved. */
+        uint64_t efxp_format_but_srm_sect_prsnt : 1;/**< [ 24: 24](R/W1C/H) Reads or clears enable for ECMP(0..2)_AB(0..1)_ERROR_STATUS[EFXP_FORMAT_BUT_SRM_SECT_PRSNT]. */
+        uint64_t efxp_format_but_c_meth_not_bfp : 1;/**< [ 25: 25](R/W1C/H) Reads or clears enable for ECMP(0..2)_AB(0..1)_ERROR_STATUS[EFXP_FORMAT_BUT_C_METH_NOT_BFP]. */
         uint64_t reserved_26_63        : 38;
 #endif /* Word 0 - End */
     } s;
@@ -846,7 +846,7 @@ typedef union cavm_ecmpx_abx_error_ena_w1c cavm_ecmpx_abx_error_ena_w1c_t;
 static inline uint64_t CAVM_ECMPX_ABX_ERROR_ENA_W1C(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ECMPX_ABX_ERROR_ENA_W1C(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e0406000c0ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ECMPX_ABX_ERROR_ENA_W1C", 2, a, b, 0, 0, 0, 0);
 }
@@ -871,8 +871,8 @@ union cavm_ecmpx_abx_error_ena_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_26_63        : 38;
-        uint64_t efxp_format_but_c_meth_not_bfp : 1;/**< [ 25: 25](R/W1S/H) Reserved. */
-        uint64_t efxp_format_but_srm_sect_prsnt : 1;/**< [ 24: 24](R/W1S/H) Reserved. */
+        uint64_t efxp_format_but_c_meth_not_bfp : 1;/**< [ 25: 25](R/W1S/H) Reads or sets enable for ECMP(0..2)_AB(0..1)_ERROR_STATUS[EFXP_FORMAT_BUT_C_METH_NOT_BFP]. */
+        uint64_t efxp_format_but_srm_sect_prsnt : 1;/**< [ 24: 24](R/W1S/H) Reads or sets enable for ECMP(0..2)_AB(0..1)_ERROR_STATUS[EFXP_FORMAT_BUT_SRM_SECT_PRSNT]. */
         uint64_t reserved_18_23        : 6;
         uint64_t syminc_not_zero       : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for ECMP(0..2)_AB(0..1)_ERROR_STATUS[SYMINC_NOT_ZERO]. */
         uint64_t num_prb_zero_but_rb_not : 1;/**< [ 16: 16](R/W1S/H) Reads or sets enable for ECMP(0..2)_AB(0..1)_ERROR_STATUS[NUM_PRB_ZERO_BUT_RB_NOT]. */
@@ -906,8 +906,8 @@ union cavm_ecmpx_abx_error_ena_w1s
         uint64_t num_prb_zero_but_rb_not : 1;/**< [ 16: 16](R/W1S/H) Reads or sets enable for ECMP(0..2)_AB(0..1)_ERROR_STATUS[NUM_PRB_ZERO_BUT_RB_NOT]. */
         uint64_t syminc_not_zero       : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for ECMP(0..2)_AB(0..1)_ERROR_STATUS[SYMINC_NOT_ZERO]. */
         uint64_t reserved_18_23        : 6;
-        uint64_t efxp_format_but_srm_sect_prsnt : 1;/**< [ 24: 24](R/W1S/H) Reserved. */
-        uint64_t efxp_format_but_c_meth_not_bfp : 1;/**< [ 25: 25](R/W1S/H) Reserved. */
+        uint64_t efxp_format_but_srm_sect_prsnt : 1;/**< [ 24: 24](R/W1S/H) Reads or sets enable for ECMP(0..2)_AB(0..1)_ERROR_STATUS[EFXP_FORMAT_BUT_SRM_SECT_PRSNT]. */
+        uint64_t efxp_format_but_c_meth_not_bfp : 1;/**< [ 25: 25](R/W1S/H) Reads or sets enable for ECMP(0..2)_AB(0..1)_ERROR_STATUS[EFXP_FORMAT_BUT_C_METH_NOT_BFP]. */
         uint64_t reserved_26_63        : 38;
 #endif /* Word 0 - End */
     } s;
@@ -918,7 +918,7 @@ typedef union cavm_ecmpx_abx_error_ena_w1s cavm_ecmpx_abx_error_ena_w1s_t;
 static inline uint64_t CAVM_ECMPX_ABX_ERROR_ENA_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ECMPX_ABX_ERROR_ENA_W1S(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e0406000b8ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ECMPX_ABX_ERROR_ENA_W1S", 2, a, b, 0, 0, 0, 0);
 }
@@ -964,7 +964,7 @@ typedef union cavm_ecmpx_abx_error_enable0 cavm_ecmpx_abx_error_enable0_t;
 static inline uint64_t CAVM_ECMPX_ABX_ERROR_ENABLE0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ECMPX_ABX_ERROR_ENABLE0(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040600040ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ECMPX_ABX_ERROR_ENABLE0", 2, a, b, 0, 0, 0, 0);
 }
@@ -988,8 +988,12 @@ union cavm_ecmpx_abx_error_fatal
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_26_63        : 38;
-        uint64_t efxp_format_but_c_meth_not_bfp : 1;/**< [ 25: 25](R/W) Reserved. */
-        uint64_t efxp_format_but_srm_sect_prsnt : 1;/**< [ 24: 24](R/W) Reserved. */
+        uint64_t efxp_format_but_c_meth_not_bfp : 1;/**< [ 25: 25](R/W) ECMP()_AB()_JDX()_CFG[DATA_FORMAT] is set to ECMP_DATA_FORMAT_E::EFXP and
+                                                                 ECMP()_AB()_JDX()_CFG[COMP_METH] not set to ECPRI_COMP_METH_E::BFP and
+                                                                 ECMP()_AB()_JDX()_CFG[FIX_MODE_EN] = 1 (Fixed mode). */
+        uint64_t efxp_format_but_srm_sect_prsnt : 1;/**< [ 24: 24](R/W) ECMP()_AB()_JDX()_CFG[DATA_FORMAT] is set to ECMP_DATA_FORMAT_E::EFXP and
+                                                                 ECMP()_AB()_JDX()_CFG[SRM_SECTION_PRESENT] and
+                                                                 ECMP()_AB()_JDX()_CFG[FIX_MODE_EN] = 0 (Flexible mode). */
         uint64_t reserved_18_23        : 6;
         uint64_t syminc_not_zero       : 1;  /**< [ 17: 17](R/W) ECPRI_SECTION_HDR_SW_S[SYM_INC] is not zero. */
         uint64_t num_prb_zero_but_rb_not : 1;/**< [ 16: 16](R/W) ECPRI_SECTION_HDR_SW_S[NUM_PRB]\<15\> is set to indicate NUM_PRB zero feature, but
@@ -1103,8 +1107,12 @@ union cavm_ecmpx_abx_error_fatal
                                                                  ECPRI_SECTION_HDR_SW_S[RB] is non-zero. */
         uint64_t syminc_not_zero       : 1;  /**< [ 17: 17](R/W) ECPRI_SECTION_HDR_SW_S[SYM_INC] is not zero. */
         uint64_t reserved_18_23        : 6;
-        uint64_t efxp_format_but_srm_sect_prsnt : 1;/**< [ 24: 24](R/W) Reserved. */
-        uint64_t efxp_format_but_c_meth_not_bfp : 1;/**< [ 25: 25](R/W) Reserved. */
+        uint64_t efxp_format_but_srm_sect_prsnt : 1;/**< [ 24: 24](R/W) ECMP()_AB()_JDX()_CFG[DATA_FORMAT] is set to ECMP_DATA_FORMAT_E::EFXP and
+                                                                 ECMP()_AB()_JDX()_CFG[SRM_SECTION_PRESENT] and
+                                                                 ECMP()_AB()_JDX()_CFG[FIX_MODE_EN] = 0 (Flexible mode). */
+        uint64_t efxp_format_but_c_meth_not_bfp : 1;/**< [ 25: 25](R/W) ECMP()_AB()_JDX()_CFG[DATA_FORMAT] is set to ECMP_DATA_FORMAT_E::EFXP and
+                                                                 ECMP()_AB()_JDX()_CFG[COMP_METH] not set to ECPRI_COMP_METH_E::BFP and
+                                                                 ECMP()_AB()_JDX()_CFG[FIX_MODE_EN] = 1 (Fixed mode). */
         uint64_t reserved_26_63        : 38;
 #endif /* Word 0 - End */
     } s;
@@ -1115,7 +1123,7 @@ typedef union cavm_ecmpx_abx_error_fatal cavm_ecmpx_abx_error_fatal_t;
 static inline uint64_t CAVM_ECMPX_ABX_ERROR_FATAL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ECMPX_ABX_ERROR_FATAL(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e0406000c8ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ECMPX_ABX_ERROR_FATAL", 2, a, b, 0, 0, 0, 0);
 }
@@ -1167,7 +1175,7 @@ typedef union cavm_ecmpx_abx_error_source0 cavm_ecmpx_abx_error_source0_t;
 static inline uint64_t CAVM_ECMPX_ABX_ERROR_SOURCE0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ECMPX_ABX_ERROR_SOURCE0(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040600030ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ECMPX_ABX_ERROR_SOURCE0", 2, a, b, 0, 0, 0, 0);
 }
@@ -1193,8 +1201,12 @@ union cavm_ecmpx_abx_error_status
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_26_63        : 38;
-        uint64_t efxp_format_but_c_meth_not_bfp : 1;/**< [ 25: 25](R/W1C/H) Reserved. */
-        uint64_t efxp_format_but_srm_sect_prsnt : 1;/**< [ 24: 24](R/W1C/H) Reserved. */
+        uint64_t efxp_format_but_c_meth_not_bfp : 1;/**< [ 25: 25](R/W1C/H) ECMP()_AB()_JDX()_CFG[DATA_FORMAT] is set to ECMP_DATA_FORMAT_E::EFXP and
+                                                                 ECMP()_AB()_JDX()_CFG[COMP_METH] not set to ECPRI_COMP_METH_E::BFP and
+                                                                 ECMP()_AB()_JDX()_CFG[FIX_MODE_EN] = 1 (Fixed mode). */
+        uint64_t efxp_format_but_srm_sect_prsnt : 1;/**< [ 24: 24](R/W1C/H) ECMP()_AB()_JDX()_CFG[DATA_FORMAT] is set to ECMP_DATA_FORMAT_E::EFXP and
+                                                                 ECMP()_AB()_JDX()_CFG[SRM_SECTION_PRESENT] and
+                                                                 ECMP()_AB()_JDX()_CFG[FIX_MODE_EN] = 0 (Flexible mode). */
         uint64_t reserved_18_23        : 6;
         uint64_t syminc_not_zero       : 1;  /**< [ 17: 17](R/W1C/H) ECPRI_SECTION_HDR_SW_S[SYM_INC] is not zero. */
         uint64_t num_prb_zero_but_rb_not : 1;/**< [ 16: 16](R/W1C/H) ECPRI_SECTION_HDR_SW_S[NUM_PRB]\<15\> is set to indicate NUM_PRB zero feature, but
@@ -1264,8 +1276,12 @@ union cavm_ecmpx_abx_error_status
                                                                  ECPRI_SECTION_HDR_SW_S[RB] is non-zero. */
         uint64_t syminc_not_zero       : 1;  /**< [ 17: 17](R/W1C/H) ECPRI_SECTION_HDR_SW_S[SYM_INC] is not zero. */
         uint64_t reserved_18_23        : 6;
-        uint64_t efxp_format_but_srm_sect_prsnt : 1;/**< [ 24: 24](R/W1C/H) Reserved. */
-        uint64_t efxp_format_but_c_meth_not_bfp : 1;/**< [ 25: 25](R/W1C/H) Reserved. */
+        uint64_t efxp_format_but_srm_sect_prsnt : 1;/**< [ 24: 24](R/W1C/H) ECMP()_AB()_JDX()_CFG[DATA_FORMAT] is set to ECMP_DATA_FORMAT_E::EFXP and
+                                                                 ECMP()_AB()_JDX()_CFG[SRM_SECTION_PRESENT] and
+                                                                 ECMP()_AB()_JDX()_CFG[FIX_MODE_EN] = 0 (Flexible mode). */
+        uint64_t efxp_format_but_c_meth_not_bfp : 1;/**< [ 25: 25](R/W1C/H) ECMP()_AB()_JDX()_CFG[DATA_FORMAT] is set to ECMP_DATA_FORMAT_E::EFXP and
+                                                                 ECMP()_AB()_JDX()_CFG[COMP_METH] not set to ECPRI_COMP_METH_E::BFP and
+                                                                 ECMP()_AB()_JDX()_CFG[FIX_MODE_EN] = 1 (Fixed mode). */
         uint64_t reserved_26_63        : 38;
 #endif /* Word 0 - End */
     } s;
@@ -1276,7 +1292,7 @@ typedef union cavm_ecmpx_abx_error_status cavm_ecmpx_abx_error_status_t;
 static inline uint64_t CAVM_ECMPX_ABX_ERROR_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ECMPX_ABX_ERROR_STATUS(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e0406000b0ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ECMPX_ABX_ERROR_STATUS", 2, a, b, 0, 0, 0, 0);
 }
@@ -1303,18 +1319,32 @@ union cavm_ecmpx_abx_jdxx_cfg
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_34_63        : 30;
-        uint64_t data_format           : 2;  /**< [ 33: 32](R/W) Reserved. */
+        uint64_t data_format           : 2;  /**< [ 33: 32](R/W) \<pre\>
+                                                                 Input Data Format. Values are enumerated by ECMP_DATA_FORMAT_E. Invalid values are reserved.
+
+                                                                 typedef enum logic [1:0] { // ECMP_DATA_FORMAT_E
+                                                                    FXP   = 0x0,  // FXP Format.  Applicable for all supported compression methods.
+                                                                    EFXP  = 0x1,  // eFXP Format. Applicable for ECPRI_COMP_METH_E::BFP.
+                                                                    IQFP  = 0x2   // IQFP Format. Applicable for ECPRI_COMP_METH_E::BFP and
+                                                                 ECPRI_COMP_METH_E::BFP_SRM.
+                                                                 } ECMP_DATA_FORMAT_E;
+                                                                 \</pre\> */
         uint64_t num_sections          : 8;  /**< [ 31: 24](R/W) Number of data sections in the packet. Must be non-zero. */
         uint64_t reserved_23           : 1;
-        uint64_t bfp_iqfp_cfg_exp      : 4;  /**< [ 22: 19](R/W) Reserved. */
-        uint64_t bfp_fxp_user_exp_en   : 1;  /**< [ 18: 18](R/W) If set, USER_EXP is enabled for BFP with FXP input format */
-        uint64_t nocomp_fxp_user_exp_en : 1; /**< [ 17: 17](R/W) If set, USER_EXP is enabled for NO_COMP with FXP input format */
+        uint64_t bfp_iqfp_cfg_exp      : 4;  /**< [ 22: 19](R/W) Configured exponent for BFP with IQFP input format */
+        uint64_t bfp_fxp_user_exp_en   : 1;  /**< [ 18: 18](R/W) If set and [DATA_FORMAT] = ECMP_DATA_FORMAT_E::FXP or [DATA_FORMAT] =
+                                                                 ECMP_DATA_FORMAT_E::EFXP, USER_EXP is enabled for
+                                                                 BFP with FXP input format */
+        uint64_t nocomp_fxp_user_exp_en : 1; /**< [ 17: 17](R/W) If set and [DATA_FORMAT] = ECMP_DATA_FORMAT_E::FXP, USER_EXP is enabled for
+                                                                 NO_COMP with FXP input format */
         uint64_t srm_section_present   : 1;  /**< [ 16: 16](R/W) When [FIX_MODE_EN] = 0 (Flexible mode), this shall be set if any section
                                                                  is with [COMP_METH] = ECPRI_COMP_METH_E::BFP_SRM or ECPRI_COMP_METH_E::MODULATION_SRM */
         uint64_t byte_swap_disable     : 1;  /**< [ 15: 15](R/W) Disables the byte swap toward MHBW. */
         uint64_t ecpri_hdr_present     : 1;  /**< [ 14: 14](R/W) eCPRI header present in input header buffer and assembled packet */
         uint64_t timing_hdr_present    : 1;  /**< [ 13: 13](R/W) Timing header present in input header buffer and assembled packet */
-        uint64_t ud_exponent           : 4;  /**< [ 12:  9](R/W) Reserved. */
+        uint64_t ud_exponent           : 4;  /**< [ 12:  9](R/W) When [FIX_MODE_EN]= 1 AND [DATA_FORMAT]= ECMP_DATA_FORMAT_E::EFXP AND
+                                                                 compression method is ECPRI_COMP_METH_E::BFP this field is copied over
+                                                                 to udCompParam[reserved] field. */
         uint64_t fix_mode_en           : 1;  /**< [  8:  8](R/W) When set, the compression mode is fixed. The compression method and width
                                                                  for the entire packet are specified by [COMP_METH] and [IQWIDTH], respectively.
                                                                  When clear, the compression method and width are flexible. For each data
@@ -1348,18 +1378,32 @@ union cavm_ecmpx_abx_jdxx_cfg
                                                                  section in the packet, the compression method and width are specified by
                                                                  ECPRI_SECTION_HDR_SW_S[UD_COMP_METH] and
                                                                  ECPRI_SECTION_HDR_SW_S[UD_IQWIDTH] in the associated section header. */
-        uint64_t ud_exponent           : 4;  /**< [ 12:  9](R/W) Reserved. */
+        uint64_t ud_exponent           : 4;  /**< [ 12:  9](R/W) When [FIX_MODE_EN]= 1 AND [DATA_FORMAT]= ECMP_DATA_FORMAT_E::EFXP AND
+                                                                 compression method is ECPRI_COMP_METH_E::BFP this field is copied over
+                                                                 to udCompParam[reserved] field. */
         uint64_t timing_hdr_present    : 1;  /**< [ 13: 13](R/W) Timing header present in input header buffer and assembled packet */
         uint64_t ecpri_hdr_present     : 1;  /**< [ 14: 14](R/W) eCPRI header present in input header buffer and assembled packet */
         uint64_t byte_swap_disable     : 1;  /**< [ 15: 15](R/W) Disables the byte swap toward MHBW. */
         uint64_t srm_section_present   : 1;  /**< [ 16: 16](R/W) When [FIX_MODE_EN] = 0 (Flexible mode), this shall be set if any section
                                                                  is with [COMP_METH] = ECPRI_COMP_METH_E::BFP_SRM or ECPRI_COMP_METH_E::MODULATION_SRM */
-        uint64_t nocomp_fxp_user_exp_en : 1; /**< [ 17: 17](R/W) If set, USER_EXP is enabled for NO_COMP with FXP input format */
-        uint64_t bfp_fxp_user_exp_en   : 1;  /**< [ 18: 18](R/W) If set, USER_EXP is enabled for BFP with FXP input format */
-        uint64_t bfp_iqfp_cfg_exp      : 4;  /**< [ 22: 19](R/W) Reserved. */
+        uint64_t nocomp_fxp_user_exp_en : 1; /**< [ 17: 17](R/W) If set and [DATA_FORMAT] = ECMP_DATA_FORMAT_E::FXP, USER_EXP is enabled for
+                                                                 NO_COMP with FXP input format */
+        uint64_t bfp_fxp_user_exp_en   : 1;  /**< [ 18: 18](R/W) If set and [DATA_FORMAT] = ECMP_DATA_FORMAT_E::FXP or [DATA_FORMAT] =
+                                                                 ECMP_DATA_FORMAT_E::EFXP, USER_EXP is enabled for
+                                                                 BFP with FXP input format */
+        uint64_t bfp_iqfp_cfg_exp      : 4;  /**< [ 22: 19](R/W) Configured exponent for BFP with IQFP input format */
         uint64_t reserved_23           : 1;
         uint64_t num_sections          : 8;  /**< [ 31: 24](R/W) Number of data sections in the packet. Must be non-zero. */
-        uint64_t data_format           : 2;  /**< [ 33: 32](R/W) Reserved. */
+        uint64_t data_format           : 2;  /**< [ 33: 32](R/W) \<pre\>
+                                                                 Input Data Format. Values are enumerated by ECMP_DATA_FORMAT_E. Invalid values are reserved.
+
+                                                                 typedef enum logic [1:0] { // ECMP_DATA_FORMAT_E
+                                                                    FXP   = 0x0,  // FXP Format.  Applicable for all supported compression methods.
+                                                                    EFXP  = 0x1,  // eFXP Format. Applicable for ECPRI_COMP_METH_E::BFP.
+                                                                    IQFP  = 0x2   // IQFP Format. Applicable for ECPRI_COMP_METH_E::BFP and
+                                                                 ECPRI_COMP_METH_E::BFP_SRM.
+                                                                 } ECMP_DATA_FORMAT_E;
+                                                                 \</pre\> */
         uint64_t reserved_34_63        : 30;
 #endif /* Word 0 - End */
     } s;
@@ -1370,7 +1414,7 @@ typedef union cavm_ecmpx_abx_jdxx_cfg cavm_ecmpx_abx_jdxx_cfg_t;
 static inline uint64_t CAVM_ECMPX_ABX_JDXX_CFG(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ECMPX_ABX_JDXX_CFG(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=2) && (b<=1) && (c<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1) && (c<=3)))
         return 0x87e040602000ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1) + 0x2000ll * ((c) & 0x3);
     __cavm_csr_fatal("ECMPX_ABX_JDXX_CFG", 3, a, b, c, 0, 0, 0);
 }
@@ -1435,7 +1479,7 @@ typedef union cavm_ecmpx_abx_nocomp_user_exp_high cavm_ecmpx_abx_nocomp_user_exp
 static inline uint64_t CAVM_ECMPX_ABX_NOCOMP_USER_EXP_HIGH(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ECMPX_ABX_NOCOMP_USER_EXP_HIGH(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040600108ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ECMPX_ABX_NOCOMP_USER_EXP_HIGH", 2, a, b, 0, 0, 0, 0);
 }
@@ -1500,7 +1544,7 @@ typedef union cavm_ecmpx_abx_nocomp_user_exp_low cavm_ecmpx_abx_nocomp_user_exp_
 static inline uint64_t CAVM_ECMPX_ABX_NOCOMP_USER_EXP_LOW(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ECMPX_ABX_NOCOMP_USER_EXP_LOW(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040600100ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ECMPX_ABX_NOCOMP_USER_EXP_LOW", 2, a, b, 0, 0, 0, 0);
 }
@@ -1535,7 +1579,7 @@ typedef union cavm_ecmpx_abx_packets_pc cavm_ecmpx_abx_packets_pc_t;
 static inline uint64_t CAVM_ECMPX_ABX_PACKETS_PC(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ECMPX_ABX_PACKETS_PC(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e0406000f8ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ECMPX_ABX_PACKETS_PC", 2, a, b, 0, 0, 0, 0);
 }
@@ -1580,7 +1624,7 @@ typedef union cavm_ecmpx_abx_status cavm_ecmpx_abx_status_t;
 static inline uint64_t CAVM_ECMPX_ABX_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ECMPX_ABX_STATUS(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040600018ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ECMPX_ABX_STATUS", 2, a, b, 0, 0, 0, 0);
 }

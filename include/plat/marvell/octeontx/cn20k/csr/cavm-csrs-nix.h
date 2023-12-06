@@ -90,6 +90,7 @@
  * NIX Completion Queue Interrupt Enumeration
  * Enumerates the bit index of NIX_CQ_CTX_S[CQ_ERR_INT,CQ_ERR_INT_ENA].
  */
+#define CAVM_NIX_CQERRINT_E_CPT_DROP (3)
 #define CAVM_NIX_CQERRINT_E_CQE_FAULT (2)
 #define CAVM_NIX_CQERRINT_E_DOOR_ERR (0)
 #define CAVM_NIX_CQERRINT_E_WR_FULL (1)
@@ -125,6 +126,7 @@
  * NIX_AF_RX_LINK()_CFG, NIX_AF_RX_LINK()_WRR_CFG,
  * NIX_AF_RX_LINK()_WRR_OUT_CFG,
  * NIX_AF_TX_LINK()_NORM_CREDIT,
+ * NIX_AF_TX_LINK()_NORM_CDT_ADJ,
  * NIX_AF_TX_LINK()_HW_XOFF,
  * NIX_AF_TL3_TL2()_LINK()_CFG and
  * NIX_AF_LINK()_CFG.
@@ -221,10 +223,13 @@
  */
 #define CAVM_NIX_RE_OPCODE_E_OL2_LENMISM (0x12)
 #define CAVM_NIX_RE_OPCODE_E_OVERSIZE (0x11)
+#define CAVM_NIX_RE_OPCODE_E_RE_CRC8_PCH (5)
+#define CAVM_NIX_RE_OPCODE_E_RE_CRC_INV (6)
 #define CAVM_NIX_RE_OPCODE_E_RE_DMAPKT (0xf)
 #define CAVM_NIX_RE_OPCODE_E_RE_FCS (7)
 #define CAVM_NIX_RE_OPCODE_E_RE_FCS_RCV (8)
 #define CAVM_NIX_RE_OPCODE_E_RE_JABBER (2)
+#define CAVM_NIX_RE_OPCODE_E_RE_MACSEC (0xa)
 #define CAVM_NIX_RE_OPCODE_E_RE_NONE (0)
 #define CAVM_NIX_RE_OPCODE_E_RE_PARTIAL (1)
 #define CAVM_NIX_RE_OPCODE_E_RE_RX_CTL (0xb)
@@ -339,6 +344,7 @@
  * Enumerates Inline IPSEC SA algorithm.
  */
 #define CAVM_NIX_SA_ALG_E_MS_27_25 (2)
+#define CAVM_NIX_SA_ALG_E_MS_28_25 (3)
 #define CAVM_NIX_SA_ALG_E_MS_31_28 (1)
 #define CAVM_NIX_SA_ALG_E_NON_MS (0)
 
@@ -383,6 +389,7 @@
  */
 #define CAVM_NIX_SENDCRCALG_E_CRC32 (0)
 #define CAVM_NIX_SENDCRCALG_E_CRC32C (1)
+#define CAVM_NIX_SENDCRCALG_E_INVCRC (3)
 #define CAVM_NIX_SENDCRCALG_E_ONES16 (2)
 
 /**
@@ -687,15 +694,10 @@ union cavm_nix_age_and_send_stats_s
         uint64_t ooffset               : 12; /**< [ 43: 32] Constant value to add or subtract transmit pkt length to update outerIP counters
                                                                  _mem[oIP_oct_cnt] = _mem[oIP_oct_cnt] + tranmit_pkt_len + [OOFFSET].
                                                                  [OOFFSET] is two's compliment number. */
-        uint64_t wmem                  : 1;  /**< [ 31: 31] Wait for memory.
-                                                                 0 = The memory operation may complete after the CQE is posted and/or add work is
-                                                                 initiated, and potentially after software has begun servicing the
-                                                                 work/completion.
-                                                                 1 = NIX will wait for this requested memory operation to
-                                                                 complete and commit before adding a send completion CQE for the send
-                                                                 descriptor if NIX_SEND_HDR_S[PNC] is set, and before initiating SSO add
-                                                                 work for any NIX_SEND_WORK_S in the descriptor. This may have reduced
-                                                                 performance over not waiting. */
+        uint64_t coas_en               : 1;  /**< [ 31: 31] When set, NIX_AGE_AND_SEND_STATS_S will coalesce with other
+                                                                 NIX_SEND_MEM_S/NIX_AGE_AND_SEND_STATS_S memory updates
+                                                                 to same [ADDR,PF_FUNC] over time specified in
+                                                                 NIX_AF_SEB_CFG[ATOMICS_COALESE_PERIOD] before updating the memory. */
         uint64_t aging                 : 1;  /**< [ 30: 30] Enables Aging (Latency drop) feature.
                                                                  0 = Aging not needed for this packet.
                                                                  1 = Aging needed for this packet. */
@@ -711,15 +713,10 @@ union cavm_nix_age_and_send_stats_s
         uint64_t aging                 : 1;  /**< [ 30: 30] Enables Aging (Latency drop) feature.
                                                                  0 = Aging not needed for this packet.
                                                                  1 = Aging needed for this packet. */
-        uint64_t wmem                  : 1;  /**< [ 31: 31] Wait for memory.
-                                                                 0 = The memory operation may complete after the CQE is posted and/or add work is
-                                                                 initiated, and potentially after software has begun servicing the
-                                                                 work/completion.
-                                                                 1 = NIX will wait for this requested memory operation to
-                                                                 complete and commit before adding a send completion CQE for the send
-                                                                 descriptor if NIX_SEND_HDR_S[PNC] is set, and before initiating SSO add
-                                                                 work for any NIX_SEND_WORK_S in the descriptor. This may have reduced
-                                                                 performance over not waiting. */
+        uint64_t coas_en               : 1;  /**< [ 31: 31] When set, NIX_AGE_AND_SEND_STATS_S will coalesce with other
+                                                                 NIX_SEND_MEM_S/NIX_AGE_AND_SEND_STATS_S memory updates
+                                                                 to same [ADDR,PF_FUNC] over time specified in
+                                                                 NIX_AF_SEB_CFG[ATOMICS_COALESE_PERIOD] before updating the memory. */
         uint64_t ooffset               : 12; /**< [ 43: 32] Constant value to add or subtract transmit pkt length to update outerIP counters
                                                                  _mem[oIP_oct_cnt] = _mem[oIP_oct_cnt] + tranmit_pkt_len + [OOFFSET].
                                                                  [OOFFSET] is two's compliment number. */
@@ -992,8 +989,8 @@ union cavm_nix_band_prof_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t reserved_120_127      : 8;
         uint64_t hl_en                 : 1;  /**< [119:119] Higher layer enable. */
-        uint64_t reserved_111_118      : 8;
-        uint64_t band_prof_id          : 7;  /**< [110:104] Bandwidth profile ID in higher layer.
+        uint64_t reserved_115_118      : 4;
+        uint64_t band_prof_id          : 11; /**< [114:104] Bandwidth profile ID in higher layer.
                                                                  Leaf layer profile: range according  to NIX_AF_PL_CONST[MIDDLE_NUM].
                                                                  Middle layer profile: range according  to NIX_AF_PL_CONST[TOP_NUM], other bits are reserved.
                                                                  Top layer profile: All bits are reserved. */
@@ -1076,11 +1073,11 @@ union cavm_nix_band_prof_s
                                                                  4115).
                                                                  0x3 = MEF 10.2 with coupling flag coupling flag asserted. When configuring EIR as
                                                                  zero we get single rate three color marker (RFC 2697). */
-        uint64_t band_prof_id          : 7;  /**< [110:104] Bandwidth profile ID in higher layer.
+        uint64_t band_prof_id          : 11; /**< [114:104] Bandwidth profile ID in higher layer.
                                                                  Leaf layer profile: range according  to NIX_AF_PL_CONST[MIDDLE_NUM].
                                                                  Middle layer profile: range according  to NIX_AF_PL_CONST[TOP_NUM], other bits are reserved.
                                                                  Top layer profile: All bits are reserved. */
-        uint64_t reserved_111_118      : 8;
+        uint64_t reserved_115_118      : 4;
         uint64_t hl_en                 : 1;  /**< [119:119] Higher layer enable. */
         uint64_t reserved_120_127      : 8;
 #endif /* Word 1 - End */
@@ -1317,29 +1314,41 @@ union cavm_nix_cq_ctx_s
         uint64_t cint_idx              : 7;  /**< [ 98: 92] Completion interrupt index. Select the CINT within LF (index {a} of
                                                                  NIX_LF_CINT()*) which receives completion events for
                                                                  this CQ. */
-        uint64_t cq_err                : 1;  /**< [ 91: 91] CQ error. Set along with the NIX_CQERRINT_E::WR_FULL bit in [CQ_ERR_INT]
-                                                                 when the corresponding error is detected for a send completion CQE. The CQ is
-                                                                 stopped and all new CQEs to be added to it are dropped. */
+        uint64_t cq_err                : 1;  /**< [ 91: 91] CQ error. Set along with the NIX_CQERRINT_E::WR_FULL or NIX_CQERRINT_E::CPT_DROP
+                                                                 bit in [CQ_ERR_INT] when the
+                                                                 corresponding error is detected for a send completion CQE or replayed CPT packet
+                                                                 CQE. The CQ is stopped and all
+                                                                 new CQEs to be added to it are dropped. */
         uint64_t qint_idx              : 7;  /**< [ 90: 84] Error queue interrupt index. Select the QINT within LF (index {a} of
                                                                  NIX_LF_QINT()*) which receives [CQ_ERR_INT] events. */
-        uint64_t reserved_81_83        : 3;
+        uint64_t lbpid_high            : 3;  /**< [ 83: 81] Backpressure ID (index \alpha of NIX_AF_RX_BPID(0..511)_STATUS) to which backpressure is
+                                                                 asserted when [LBP_ENA] bit is set. Bits 8:6 */
         uint64_t bpid                  : 9;  /**< [ 80: 72] Backpressure ID (index {a} of NIX_AF_RX_BPID()_STATUS) to which
                                                                  backpressure is asserted when [BP_ENA] bit is set. */
-        uint64_t reserved_69_71        : 3;
+        uint64_t lbpid_med             : 3;  /**< [ 71: 69] Backpressure ID (index \alpha of NIX_AF_RX_BPID(0..511)_STATUS) to which backpressure is
+                                                                 asserted when [LBP_ENA] bit is set. Bits 5:3 */
         uint64_t bp_ena                : 1;  /**< [ 68: 68] Enable CQ backpressure based on [BP] level. */
-        uint64_t reserved_64_67        : 4;
+        uint64_t lbpid_low             : 3;  /**< [ 67: 65] Backpressure ID (index \alpha of NIX_AF_RX_BPID(0..511)_STATUS) to which backpressure is
+                                                                 asserted when [LBP_ENA] bit is set. Bits 2:0 */
+        uint64_t lbp_ena               : 1;  /**< [ 64: 64] Enable CQ backpressure based on [BP] and [FRAC] level. */
 #else /* Word 1 - Little Endian */
-        uint64_t reserved_64_67        : 4;
+        uint64_t lbp_ena               : 1;  /**< [ 64: 64] Enable CQ backpressure based on [BP] and [FRAC] level. */
+        uint64_t lbpid_low             : 3;  /**< [ 67: 65] Backpressure ID (index \alpha of NIX_AF_RX_BPID(0..511)_STATUS) to which backpressure is
+                                                                 asserted when [LBP_ENA] bit is set. Bits 2:0 */
         uint64_t bp_ena                : 1;  /**< [ 68: 68] Enable CQ backpressure based on [BP] level. */
-        uint64_t reserved_69_71        : 3;
+        uint64_t lbpid_med             : 3;  /**< [ 71: 69] Backpressure ID (index \alpha of NIX_AF_RX_BPID(0..511)_STATUS) to which backpressure is
+                                                                 asserted when [LBP_ENA] bit is set. Bits 5:3 */
         uint64_t bpid                  : 9;  /**< [ 80: 72] Backpressure ID (index {a} of NIX_AF_RX_BPID()_STATUS) to which
                                                                  backpressure is asserted when [BP_ENA] bit is set. */
-        uint64_t reserved_81_83        : 3;
+        uint64_t lbpid_high            : 3;  /**< [ 83: 81] Backpressure ID (index \alpha of NIX_AF_RX_BPID(0..511)_STATUS) to which backpressure is
+                                                                 asserted when [LBP_ENA] bit is set. Bits 8:6 */
         uint64_t qint_idx              : 7;  /**< [ 90: 84] Error queue interrupt index. Select the QINT within LF (index {a} of
                                                                  NIX_LF_QINT()*) which receives [CQ_ERR_INT] events. */
-        uint64_t cq_err                : 1;  /**< [ 91: 91] CQ error. Set along with the NIX_CQERRINT_E::WR_FULL bit in [CQ_ERR_INT]
-                                                                 when the corresponding error is detected for a send completion CQE. The CQ is
-                                                                 stopped and all new CQEs to be added to it are dropped. */
+        uint64_t cq_err                : 1;  /**< [ 91: 91] CQ error. Set along with the NIX_CQERRINT_E::WR_FULL or NIX_CQERRINT_E::CPT_DROP
+                                                                 bit in [CQ_ERR_INT] when the
+                                                                 corresponding error is detected for a send completion CQE or replayed CPT packet
+                                                                 CQE. The CQ is stopped and all
+                                                                 new CQEs to be added to it are dropped. */
         uint64_t cint_idx              : 7;  /**< [ 98: 92] Completion interrupt index. Select the CINT within LF (index {a} of
                                                                  NIX_LF_CINT()*) which receives completion events for
                                                                  this CQ. */
@@ -1448,12 +1457,22 @@ union cavm_nix_cq_ctx_s
 
                                                                  Note that the usable size of the ring is the specified size minus one
                                                                  ([HEAD]==[TAIL] always means empty). */
-        uint64_t reserved_233_235      : 3;
+        uint64_t reserved_234_235      : 2;
+        uint64_t stashing              : 1;  /**< [233:233] Enable stashing of CQEs.
+                                                                 This bit is valid only when CACHING bit is set.
+                                                                 Dynamically updated by HW based on CQ OP_DOOR msh_src. */
         uint64_t caching               : 1;  /**< [232:232] Selects the style of CQE write to the LLC.
                                                                  0 = Writes of CQE data will not allocate into the LLC.
                                                                  1 = Writes of CQE data are allocated into the LLC. */
-        uint64_t substream             : 20; /**< [231:212] Reserved. */
-        uint64_t reserved_210_211      : 2;
+        uint64_t lbp_frac              : 4;  /**< [231:228] Late back pressure FRAC. so the effective_BP=([BP]*[LBP_FRAC])\>\>4. */
+        uint64_t stash_thresh          : 4;  /**< [227:224] Stashing is done as long as the number of valid CQEs is below 2^(STASH_THRESH).
+                                                                 When the number of CQEs is above the threshold only caching
+                                                                 to LLC is done. */
+        uint64_t msh_valid             : 1;  /**< [223:223] msh_dst valid. Set when MSH_DST is updated by OP_DOOR. */
+        uint64_t msh_dst               : 11; /**< [222:212] msh_dst for stashing. Update dynamically by HW on every OP_DOOR. */
+        uint64_t reserved_211          : 1;
+        uint64_t cpt_drop_err_en       : 1;  /**< [210:210] Set CQ_ERR and when replayed CPT packet is dropped due to CQ_FULL.
+                                                                 Set the CPT_DROP bit in CQ_ERR_INT. */
         uint64_t ena                   : 1;  /**< [209:209] CQ enable. */
         uint64_t drop_ena              : 1;  /**< [208:208] Enable RQ packet DROP based on the [DROP] level. */
         uint64_t drop                  : 8;  /**< [207:200] If [DROP_ENA] is set for a received packet, the packet will be
@@ -1483,12 +1502,22 @@ union cavm_nix_cq_ctx_s
                                                                  See shifted_CNT in [AVG_CON]. */
         uint64_t drop_ena              : 1;  /**< [208:208] Enable RQ packet DROP based on the [DROP] level. */
         uint64_t ena                   : 1;  /**< [209:209] CQ enable. */
-        uint64_t reserved_210_211      : 2;
-        uint64_t substream             : 20; /**< [231:212] Reserved. */
+        uint64_t cpt_drop_err_en       : 1;  /**< [210:210] Set CQ_ERR and when replayed CPT packet is dropped due to CQ_FULL.
+                                                                 Set the CPT_DROP bit in CQ_ERR_INT. */
+        uint64_t reserved_211          : 1;
+        uint64_t msh_dst               : 11; /**< [222:212] msh_dst for stashing. Update dynamically by HW on every OP_DOOR. */
+        uint64_t msh_valid             : 1;  /**< [223:223] msh_dst valid. Set when MSH_DST is updated by OP_DOOR. */
+        uint64_t stash_thresh          : 4;  /**< [227:224] Stashing is done as long as the number of valid CQEs is below 2^(STASH_THRESH).
+                                                                 When the number of CQEs is above the threshold only caching
+                                                                 to LLC is done. */
+        uint64_t lbp_frac              : 4;  /**< [231:228] Late back pressure FRAC. so the effective_BP=([BP]*[LBP_FRAC])\>\>4. */
         uint64_t caching               : 1;  /**< [232:232] Selects the style of CQE write to the LLC.
                                                                  0 = Writes of CQE data will not allocate into the LLC.
                                                                  1 = Writes of CQE data are allocated into the LLC. */
-        uint64_t reserved_233_235      : 3;
+        uint64_t stashing              : 1;  /**< [233:233] Enable stashing of CQEs.
+                                                                 This bit is valid only when CACHING bit is set.
+                                                                 Dynamically updated by HW based on CQ OP_DOOR msh_src. */
+        uint64_t reserved_234_235      : 2;
         uint64_t qsize                 : 4;  /**< [239:236] Specifies CQ ring size in number of CQEs:
                                                                  0x0 = 16 CQEs.
                                                                  0x1 = 64 CQEs.
@@ -1780,7 +1809,8 @@ union cavm_nix_rq_ctx_hw_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
         uint64_t xqe_hdr_split         : 1;  /**< [191:191] See NIX_RQ_CTX_S[XQE_HDR_SPLIT]. */
         uint64_t xqe_imm_copy          : 1;  /**< [190:190] See NIX_RQ_CTX_S[XQE_IMM_COPY]. */
-        uint64_t reserved_184_189      : 6;
+        uint64_t reserved_188_189      : 2;
+        uint64_t band_prof_id_h        : 4;  /**< [187:184] See NIX_RQ_CTX_S[BAND_PROF_ID_H] */
         uint64_t xqe_imm_size          : 6;  /**< [183:178] See NIX_RQ_CTX_S[XQE_IMM_SIZE]. */
         uint64_t later_skip            : 6;  /**< [177:172] See NIX_RQ_CTX_S[LATER_SKIP]. */
         uint64_t reserved_171          : 1;
@@ -1792,9 +1822,9 @@ union cavm_nix_rq_ctx_hw_s
         uint64_t spb_sizem1            : 6;  /**< [145:140] See NIX_RQ_CTX_S[SPB_SIZEM1]. */
         uint64_t policer_ena           : 1;  /**< [139:139] See NIX_RQ_CTX_S[POLICER_ENA] */
         uint64_t reserved_138          : 1;
-        uint64_t band_prof_id          : 10; /**< [137:128] See NIX_RQ_CTX_S[BAND_PROF_ID] */
+        uint64_t band_prof_id_l        : 10; /**< [137:128] See NIX_RQ_CTX_S[BAND_PROF_ID_L] */
 #else /* Word 2 - Little Endian */
-        uint64_t band_prof_id          : 10; /**< [137:128] See NIX_RQ_CTX_S[BAND_PROF_ID] */
+        uint64_t band_prof_id_l        : 10; /**< [137:128] See NIX_RQ_CTX_S[BAND_PROF_ID_L] */
         uint64_t reserved_138          : 1;
         uint64_t policer_ena           : 1;  /**< [139:139] See NIX_RQ_CTX_S[POLICER_ENA] */
         uint64_t spb_sizem1            : 6;  /**< [145:140] See NIX_RQ_CTX_S[SPB_SIZEM1]. */
@@ -1806,7 +1836,8 @@ union cavm_nix_rq_ctx_hw_s
         uint64_t reserved_171          : 1;
         uint64_t later_skip            : 6;  /**< [177:172] See NIX_RQ_CTX_S[LATER_SKIP]. */
         uint64_t xqe_imm_size          : 6;  /**< [183:178] See NIX_RQ_CTX_S[XQE_IMM_SIZE]. */
-        uint64_t reserved_184_189      : 6;
+        uint64_t band_prof_id_h        : 4;  /**< [187:184] See NIX_RQ_CTX_S[BAND_PROF_ID_H] */
+        uint64_t reserved_188_189      : 2;
         uint64_t xqe_imm_copy          : 1;  /**< [190:190] See NIX_RQ_CTX_S[XQE_IMM_COPY]. */
         uint64_t xqe_hdr_split         : 1;  /**< [191:191] See NIX_RQ_CTX_S[XQE_HDR_SPLIT]. */
 #endif /* Word 2 - End */
@@ -1954,7 +1985,7 @@ union cavm_nix_rq_ctx_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t wqe_aura              : 20; /**< [ 63: 44] WQE aura. Aura within NIX_AF_LF()_CFG[NPA_PF_FUNC] for allocating SSO
                                                                  work-queue entry or buffers or VWQE buffers.
-                                                                 Valid when [SSO_ENA] is set and ( [ENA_WQWD] is clear or [VWQE_ENA] is set).
+                                                                 Valid when [SSO_ENA] is set and ([ENA_WQWD] is clear or [VWQE_ENA] is set).
                                                                  To avoid drops when [VWQE_ENA] is set the WQE_AURA should have 512 excess buffers. */
         uint64_t len_ol3_dis           : 1;  /**< [ 43: 43] Outer L3 length error check disable. */
         uint64_t len_ol4_dis           : 1;  /**< [ 42: 42] Outer L4 length error check disable. */
@@ -1967,13 +1998,13 @@ union cavm_nix_rq_ctx_s
         uint64_t port_il4_dis          : 1;  /**< [ 35: 35] Inner L4 port check disable. */
         uint64_t reserved_24_34        : 11;
         uint64_t cq                    : 20; /**< [ 23:  4] Completion Queue for this SQ. */
-        uint64_t ena_wqwd              : 1;  /**< [  3:  3] Enable WQE with data. Not used when [SSO_ENA] is clear.
+        uint64_t ena_wqwd              : 1;  /**< [  3:  3] Enable WQE with data. Not used when [SSO_ENA] and [IPSECH_ENA] are cleared.
 
-                                                                 When [SSO_ENA] and [ENA_WQWD] are both set, WQE is
+                                                                 When [SSO_ENA] or [IPSECH_ENA] are set and [ENA_WQWD] is set, WQE is
                                                                  written at the beginning of the packet's first buffer allocated from [SPB_AURA/LPB_AURA], and
                                                                  the packet data starts at word offset [FIRST_SKIP] in the buffer.
 
-                                                                 When [SSO_ENA] is set and [ENA_WQWD] is clear, the WQE is written to a
+                                                                 When [SSO_ENA] or [IPSECH_ENA] are set and [ENA_WQWD] is clear, the WQE is written to a
                                                                  dedicated buffer allocated from [WQE_AURA]. */
         uint64_t ipsech_ena            : 1;  /**< [  2:  2] IPSEC hardware fast-path enable. When set along with [SSO_ENA], packets
                                                                  with NIX_RX_ACTION_S[OP] = NIX_RX_ACTIONOP_E::UCAST_IPSEC may use the IPSEC
@@ -1990,13 +2021,13 @@ union cavm_nix_rq_ctx_s
         uint64_t ipsech_ena            : 1;  /**< [  2:  2] IPSEC hardware fast-path enable. When set along with [SSO_ENA], packets
                                                                  with NIX_RX_ACTION_S[OP] = NIX_RX_ACTIONOP_E::UCAST_IPSEC may use the IPSEC
                                                                  hardware fast-path subject to other packet checks. */
-        uint64_t ena_wqwd              : 1;  /**< [  3:  3] Enable WQE with data. Not used when [SSO_ENA] is clear.
+        uint64_t ena_wqwd              : 1;  /**< [  3:  3] Enable WQE with data. Not used when [SSO_ENA] and [IPSECH_ENA] are cleared.
 
-                                                                 When [SSO_ENA] and [ENA_WQWD] are both set, WQE is
+                                                                 When [SSO_ENA] or [IPSECH_ENA] are set and [ENA_WQWD] is set, WQE is
                                                                  written at the beginning of the packet's first buffer allocated from [SPB_AURA/LPB_AURA], and
                                                                  the packet data starts at word offset [FIRST_SKIP] in the buffer.
 
-                                                                 When [SSO_ENA] is set and [ENA_WQWD] is clear, the WQE is written to a
+                                                                 When [SSO_ENA] or [IPSECH_ENA] are set and [ENA_WQWD] is clear, the WQE is written to a
                                                                  dedicated buffer allocated from [WQE_AURA]. */
         uint64_t cq                    : 20; /**< [ 23:  4] Completion Queue for this SQ. */
         uint64_t reserved_24_34        : 11;
@@ -2011,7 +2042,7 @@ union cavm_nix_rq_ctx_s
         uint64_t len_ol3_dis           : 1;  /**< [ 43: 43] Outer L3 length error check disable. */
         uint64_t wqe_aura              : 20; /**< [ 63: 44] WQE aura. Aura within NIX_AF_LF()_CFG[NPA_PF_FUNC] for allocating SSO
                                                                  work-queue entry or buffers or VWQE buffers.
-                                                                 Valid when [SSO_ENA] is set and ( [ENA_WQWD] is clear or [VWQE_ENA] is set).
+                                                                 Valid when [SSO_ENA] is set and ([ENA_WQWD] is clear or [VWQE_ENA] is set).
                                                                  To avoid drops when [VWQE_ENA] is set the WQE_AURA should have 512 excess buffers. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
@@ -2197,7 +2228,8 @@ union cavm_nix_rq_ctx_s
                                                                  be written to the WQE/CQE. The actual number of header bytes written to WQE/CQE
                                                                  is the smaller of NIX_RX_PARSE_S[EOH_PTR] or 8*[XQE_IMM_SIZE]. */
         uint64_t xqe_imm_copy          : 1;  /**< [190:190] Reserved. */
-        uint64_t reserved_184_189      : 6;
+        uint64_t reserved_188_189      : 2;
+        uint64_t band_prof_id_h        : 4;  /**< [187:184] Bandwidth Profile ID. Select the leaf bandwidth profile ID upper 4 bits. */
         uint64_t xqe_imm_size          : 6;  /**< [183:178] Reserved. */
         uint64_t later_skip            : 6;  /**< [177:172] Later buffer start offset. The number of eight-byte words from the
                                                                  [LPB_AURA] buffer pointer (other than the packet's first buffer)
@@ -2241,9 +2273,9 @@ union cavm_nix_rq_ctx_s
                                                                  may write into that buffer. See [SPB_AURA]. */
         uint64_t policer_ena           : 1;  /**< [139:139] Policer enable */
         uint64_t reserved_138          : 1;
-        uint64_t band_prof_id          : 10; /**< [137:128] Bandwidth Profile ID. Select the leaf bandwidth profile ID. */
+        uint64_t band_prof_id_l        : 10; /**< [137:128] Bandwidth Profile ID. Select the leaf bandwidth profile ID lower 10 bits. */
 #else /* Word 2 - Little Endian */
-        uint64_t band_prof_id          : 10; /**< [137:128] Bandwidth Profile ID. Select the leaf bandwidth profile ID. */
+        uint64_t band_prof_id_l        : 10; /**< [137:128] Bandwidth Profile ID. Select the leaf bandwidth profile ID lower 10 bits. */
         uint64_t reserved_138          : 1;
         uint64_t policer_ena           : 1;  /**< [139:139] Policer enable */
         uint64_t spb_sizem1            : 6;  /**< [145:140] Small packet buffer size minus one (see also [SPB_HIGH_SIZEM1]). The number of eight-byte
@@ -2287,7 +2319,8 @@ union cavm_nix_rq_ctx_s
                                                                  the first byte stored in the buffer. Must not be greater than
                                                                  [LPB_SIZEM1]. */
         uint64_t xqe_imm_size          : 6;  /**< [183:178] Reserved. */
-        uint64_t reserved_184_189      : 6;
+        uint64_t band_prof_id_h        : 4;  /**< [187:184] Bandwidth Profile ID. Select the leaf bandwidth profile ID upper 4 bits. */
+        uint64_t reserved_188_189      : 2;
         uint64_t xqe_imm_copy          : 1;  /**< [190:190] Reserved. */
         uint64_t xqe_hdr_split         : 1;  /**< [191:191] WQE/CQE header split.
 
@@ -3602,8 +3635,8 @@ union cavm_nix_send_ext_s
                                                                  NIX_TX_VTAG_ACTION_S. This must not exceed NIX_AF_SMQ()_CFG[MAXLEN].
 
                                                                  The number of LSO segments is (NIX_SEND_HDR_S[TOTAL]-[LSO_SB])/[LSO_MPS]
-                                                                 rounded up to the nearest integer, and should be less than or equal to 256.
-                                                                 Otherwise, NIX will terminate the LSO send operation after 256 segments. */
+                                                                 rounded up to the nearest integer, and must be less than or equal to 256,
+                                                                 or results are unpredictable. */
 #else /* Word 0 - Little Endian */
         uint64_t lso_mps               : 14; /**< [ 13:  0] When [LSO] set, maximum payload size in bytes per packet (e.g. maximum
                                                                  TCP segment size). Must be not be less than 16.
@@ -3613,8 +3646,8 @@ union cavm_nix_send_ext_s
                                                                  NIX_TX_VTAG_ACTION_S. This must not exceed NIX_AF_SMQ()_CFG[MAXLEN].
 
                                                                  The number of LSO segments is (NIX_SEND_HDR_S[TOTAL]-[LSO_SB])/[LSO_MPS]
-                                                                 rounded up to the nearest integer, and should be less than or equal to 256.
-                                                                 Otherwise, NIX will terminate the LSO send operation after 256 segments. */
+                                                                 rounded up to the nearest integer, and must be less than or equal to 256,
+                                                                 or results are unpredictable. */
         uint64_t lso                   : 1;  /**< [ 14: 14] Large send offload. Ignored and treated as clear when
                                                                  NIX_AF_LSO_CFG[ENABLE] is clear. When set along with
                                                                  NIX_AF_LSO_CFG[ENABLE], the send descriptor is for one or more
@@ -4155,7 +4188,14 @@ union cavm_nix_send_mem_s
                                                                  1'b1: NIX executes the memory update once per each LSO segment.
                                                                  1'b0: NIX executes the memory update only while processing the last LSO segment,
                                                                        after processing prior segments. */
-        uint64_t reserved_49_51        : 3;
+        uint64_t coas_en               : 1;  /**< [ 51: 51] When set, NIX_SEND_MEM_S will coalesce with other
+                                                                 NIX_SEND_MEM_S/NIX_AGE_AND_SEND_STATS_S memory updates
+                                                                 to same [ADDR,PF_FUNC] over time specified in NIX_AF_SEB_CFG[ATOMICS_COALESE_PERIOD].
+                                                                 This bit is ignored when [ALG]=NIX_SENDMEMALG_E::SETTSTMP or NIX_SENDMEMALG_E::SETRSLT
+
+                                                                 [WMEM] is ignored when [COAS_EN] is set and ([ALG]!=NIX_SENDMEMALG_E::SETTSTMP
+                                                                 & [ALG]!=NIX_SENDMEMALG_E::SETRSLT) */
+        uint64_t reserved_49_50        : 2;
         uint64_t step_type             : 1;  /**< [ 48: 48] Step type for PTP packets.
                                                                  Valid only when [ALG] = NIX_SENDMEMALG_E::SETTSTMP, ignored otherwise.
                                                                  0 = 2 step PTP packet.
@@ -4177,7 +4217,14 @@ union cavm_nix_send_mem_s
                                                                  Valid only when [ALG] = NIX_SENDMEMALG_E::SETTSTMP, ignored otherwise.
                                                                  0 = 2 step PTP packet.
                                                                  1 = 1 step PTP packet. */
-        uint64_t reserved_49_51        : 3;
+        uint64_t reserved_49_50        : 2;
+        uint64_t coas_en               : 1;  /**< [ 51: 51] When set, NIX_SEND_MEM_S will coalesce with other
+                                                                 NIX_SEND_MEM_S/NIX_AGE_AND_SEND_STATS_S memory updates
+                                                                 to same [ADDR,PF_FUNC] over time specified in NIX_AF_SEB_CFG[ATOMICS_COALESE_PERIOD].
+                                                                 This bit is ignored when [ALG]=NIX_SENDMEMALG_E::SETTSTMP or NIX_SENDMEMALG_E::SETRSLT
+
+                                                                 [WMEM] is ignored when [COAS_EN] is set and ([ALG]!=NIX_SENDMEMALG_E::SETTSTMP
+                                                                 & [ALG]!=NIX_SENDMEMALG_E::SETRSLT) */
         uint64_t per_lso_seg           : 1;  /**< [ 52: 52] When NIX_SEND_EXT_S[LSO] is set in the descriptor,
                                                                  1'b1: NIX executes the memory update once per each LSO segment.
                                                                  1'b0: NIX executes the memory update only while processing the last LSO segment,
@@ -4536,19 +4583,19 @@ union cavm_nix_sq_ctx_hw_s
         uint64_t next_sqb              : 64; /**< [447:384] See NIX_SQ_CTX_S[NEXT_SQB]. */
 #endif /* Word 6 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 7 - Big Endian */
-        uint64_t scm1_rsvd2            : 31; /**< [511:481] Reserved. */
-        uint64_t mnq_dis               : 1;  /**< [480:480] See NIX_SQ_CTX_S[MNQ_DIS]. */
-        uint64_t smq_next_sq_vld       : 1;  /**< [479:479] See NIX_SQ_CTX_S[SMQ_NEXT_SQ] is valid. */
-        uint64_t smq_next_sq           : 20; /**< [478:459] See NIX_SQ_CTX_S[SMQ_NEXT_SQ]. */
-        uint64_t smq_pend              : 1;  /**< [458:458] See NIX_SQ_CTX_S[SMQ_PEND]. */
-        uint64_t smq                   : 10; /**< [457:448] See NIX_SQ_CTX_S[SMQ]. */
+        uint64_t scm1_rsvd2            : 30; /**< [511:482] Reserved. */
+        uint64_t mnq_dis               : 1;  /**< [481:481] See NIX_SQ_CTX_S[MNQ_DIS]. */
+        uint64_t smq_next_sq_vld       : 1;  /**< [480:480] See NIX_SQ_CTX_S[SMQ_NEXT_SQ] is valid. */
+        uint64_t smq_next_sq           : 20; /**< [479:460] See NIX_SQ_CTX_S[SMQ_NEXT_SQ]. */
+        uint64_t smq_pend              : 1;  /**< [459:459] See NIX_SQ_CTX_S[SMQ_PEND]. */
+        uint64_t smq                   : 11; /**< [458:448] See NIX_SQ_CTX_S[SMQ]. */
 #else /* Word 7 - Little Endian */
-        uint64_t smq                   : 10; /**< [457:448] See NIX_SQ_CTX_S[SMQ]. */
-        uint64_t smq_pend              : 1;  /**< [458:458] See NIX_SQ_CTX_S[SMQ_PEND]. */
-        uint64_t smq_next_sq           : 20; /**< [478:459] See NIX_SQ_CTX_S[SMQ_NEXT_SQ]. */
-        uint64_t smq_next_sq_vld       : 1;  /**< [479:479] See NIX_SQ_CTX_S[SMQ_NEXT_SQ] is valid. */
-        uint64_t mnq_dis               : 1;  /**< [480:480] See NIX_SQ_CTX_S[MNQ_DIS]. */
-        uint64_t scm1_rsvd2            : 31; /**< [511:481] Reserved. */
+        uint64_t smq                   : 11; /**< [458:448] See NIX_SQ_CTX_S[SMQ]. */
+        uint64_t smq_pend              : 1;  /**< [459:459] See NIX_SQ_CTX_S[SMQ_PEND]. */
+        uint64_t smq_next_sq           : 20; /**< [479:460] See NIX_SQ_CTX_S[SMQ_NEXT_SQ]. */
+        uint64_t smq_next_sq_vld       : 1;  /**< [480:480] See NIX_SQ_CTX_S[SMQ_NEXT_SQ] is valid. */
+        uint64_t mnq_dis               : 1;  /**< [481:481] See NIX_SQ_CTX_S[MNQ_DIS]. */
+        uint64_t scm1_rsvd2            : 30; /**< [511:482] Reserved. */
 #endif /* Word 7 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 8 - Big Endian */
         uint64_t smenq_sqb             : 64; /**< [575:512] See NIX_SQ_CTX_S[SMENQ_SQB]. */
@@ -4670,10 +4717,10 @@ union cavm_nix_sq_ctx_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t smq_rr_count_lb       : 7;  /**< [127:121] Round-robin (DWRR) deficit counter for packets pushed from this SQ to the associated SMQ.
                                                                  Value is a 32-bit two's complement signed integer count. This contains the lower 7 bits. */
-        uint64_t reserved_119_120      : 2;
-        uint64_t sqb_count             : 16; /**< [118:103] Number of SQBs currently in use. Includes the SQBs at [HEAD_SQB] and
+        uint64_t reserved_120          : 1;
+        uint64_t sqb_count             : 16; /**< [119:104] Number of SQBs currently in use. Includes the SQBs at [HEAD_SQB] and
                                                                  [TAIL_SQB], and any linked SQBs in between. Excludes the SQB at [NEXT_SQB]. */
-        uint64_t default_chan          : 12; /**< [102: 91] If the SQ transmits to RPM and/or LBK (corresponding
+        uint64_t default_chan          : 12; /**< [103: 92] If the SQ transmits to RPM and/or LBK (corresponding
                                                                  NIX_AF_TL4()_SDP_LINK_CFG[ENA] is clear), this is the channel to which a
                                                                  packet is transmitted when NIX_TX_ACTION_S[OP] =
                                                                  NIX_TX_ACTIONOP_E::UCAST_DEFAULT in the NPC result.
@@ -4681,52 +4728,54 @@ union cavm_nix_sq_ctx_s
                                                                  If the SQ transmits to SDP (corresponding NIX_AF_TL4()_SDP_LINK_CFG[ENA] is
                                                                  set), this is the SDP channel to which packets are transmitted when
                                                                  [SDP_MCAST] is clear, and the SDP multicast index when [SDP_MCAST] is set. */
-        uint64_t smq_rr_weight         : 14; /**< [ 90: 77] DWRR weight relative to other SQs programmed to this SQ's SMQ. This value
+        uint64_t smq_rr_weight         : 14; /**< [ 91: 78] DWRR weight relative to other SQs programmed to this SQ's SMQ. This value
                                                                  determines the number of data bytes to push to SMQ in a round. Number of
                                                                  data bytes is equal to:
-                                                                 NIX_SQ_CTX_S[SMQ_RR_WEIGHT] \<\< NIX_AF_DWRR_RPM_MTU[MTU] or
-                                                                 NIX_SQ_CTX_S[SMQ_RR_WEIGHT] \<\< NIX_AF_DWRR_SDP_MTU[MTU]
+                                                                 NIX_SQ_CTX_S[SMQ_RR_WEIGHT] \<\< NIX_AF_DWRR_MTU[x][MTU]
+                                                                 Note "x" here is the selected MTU for a MD which can be SDP, RPM or LBK related
+                                                                 and is determined by NIX_AF_SMQ()_CFG[PKT_LINK_TYPE].
 
                                                                  The recommended value of [SMQ_RR_WEIGHT] should be such that:
-                                                                 (NIX_SQ_CTX_S[SMQ_RR_WEIGHT] \<\< NIX_AF_DWRR_RPM_MTU[MTU]) should be equal
+                                                                 (NIX_SQ_CTX_S[SMQ_RR_WEIGHT] \<\< NIX_AF_DWRR_MTU[x][MTU]) should be equal
                                                                  or greater than the larger of the MTU size or
                                                                  NIX_AF_SMQ()_CFG[RR_MINLEN] * NIX_AF_SQ_CONST[SMQ_DEPTH]. */
-        uint64_t sso_ena               : 1;  /**< [ 76: 76] SSO add work enable.
+        uint64_t sso_ena               : 1;  /**< [ 77: 77] SSO add work enable.
                                                                  0 = The SQ never adds work to SSO, and NIX_SEND_WORK_S is ignored when present
                                                                  in a send descriptor.
                                                                  1 = A packets with NIX_SEND_WORK_S will add work to SSO. */
-        uint64_t xoff                  : 1;  /**< [ 75: 75] Transmit off. When set, the SQ will not push meta descriptors to the
+        uint64_t xoff                  : 1;  /**< [ 76: 76] Transmit off. When set, the SQ will not push meta descriptors to the
                                                                  associated SMQ. Software can read, set and clear this bit with
                                                                  NIX_LF_SQ_OP_INT[XOFF]. */
-        uint64_t cq_ena                : 1;  /**< [ 74: 74] Completion queue enable.
+        uint64_t cq_ena                : 1;  /**< [ 75: 75] Completion queue enable.
                                                                  0 = NIX_SEND_HDR_S[PNC] is ignored and a packet from this SQ will never generate
                                                                  a CQE.
                                                                  1 = A packet with NIX_SEND_HDR_S[PNC] will add a send completion CQE to [CQ]. */
-        uint64_t smq                   : 10; /**< [ 73: 64] Send meta-descriptor queue for this SQ. Must be less than 832 */
+        uint64_t smq                   : 11; /**< [ 74: 64] Send meta-descriptor queue for this SQ. Must be less than 832 */
 #else /* Word 1 - Little Endian */
-        uint64_t smq                   : 10; /**< [ 73: 64] Send meta-descriptor queue for this SQ. Must be less than 832 */
-        uint64_t cq_ena                : 1;  /**< [ 74: 74] Completion queue enable.
+        uint64_t smq                   : 11; /**< [ 74: 64] Send meta-descriptor queue for this SQ. Must be less than 832 */
+        uint64_t cq_ena                : 1;  /**< [ 75: 75] Completion queue enable.
                                                                  0 = NIX_SEND_HDR_S[PNC] is ignored and a packet from this SQ will never generate
                                                                  a CQE.
                                                                  1 = A packet with NIX_SEND_HDR_S[PNC] will add a send completion CQE to [CQ]. */
-        uint64_t xoff                  : 1;  /**< [ 75: 75] Transmit off. When set, the SQ will not push meta descriptors to the
+        uint64_t xoff                  : 1;  /**< [ 76: 76] Transmit off. When set, the SQ will not push meta descriptors to the
                                                                  associated SMQ. Software can read, set and clear this bit with
                                                                  NIX_LF_SQ_OP_INT[XOFF]. */
-        uint64_t sso_ena               : 1;  /**< [ 76: 76] SSO add work enable.
+        uint64_t sso_ena               : 1;  /**< [ 77: 77] SSO add work enable.
                                                                  0 = The SQ never adds work to SSO, and NIX_SEND_WORK_S is ignored when present
                                                                  in a send descriptor.
                                                                  1 = A packets with NIX_SEND_WORK_S will add work to SSO. */
-        uint64_t smq_rr_weight         : 14; /**< [ 90: 77] DWRR weight relative to other SQs programmed to this SQ's SMQ. This value
+        uint64_t smq_rr_weight         : 14; /**< [ 91: 78] DWRR weight relative to other SQs programmed to this SQ's SMQ. This value
                                                                  determines the number of data bytes to push to SMQ in a round. Number of
                                                                  data bytes is equal to:
-                                                                 NIX_SQ_CTX_S[SMQ_RR_WEIGHT] \<\< NIX_AF_DWRR_RPM_MTU[MTU] or
-                                                                 NIX_SQ_CTX_S[SMQ_RR_WEIGHT] \<\< NIX_AF_DWRR_SDP_MTU[MTU]
+                                                                 NIX_SQ_CTX_S[SMQ_RR_WEIGHT] \<\< NIX_AF_DWRR_MTU[x][MTU]
+                                                                 Note "x" here is the selected MTU for a MD which can be SDP, RPM or LBK related
+                                                                 and is determined by NIX_AF_SMQ()_CFG[PKT_LINK_TYPE].
 
                                                                  The recommended value of [SMQ_RR_WEIGHT] should be such that:
-                                                                 (NIX_SQ_CTX_S[SMQ_RR_WEIGHT] \<\< NIX_AF_DWRR_RPM_MTU[MTU]) should be equal
+                                                                 (NIX_SQ_CTX_S[SMQ_RR_WEIGHT] \<\< NIX_AF_DWRR_MTU[x][MTU]) should be equal
                                                                  or greater than the larger of the MTU size or
                                                                  NIX_AF_SMQ()_CFG[RR_MINLEN] * NIX_AF_SQ_CONST[SMQ_DEPTH]. */
-        uint64_t default_chan          : 12; /**< [102: 91] If the SQ transmits to RPM and/or LBK (corresponding
+        uint64_t default_chan          : 12; /**< [103: 92] If the SQ transmits to RPM and/or LBK (corresponding
                                                                  NIX_AF_TL4()_SDP_LINK_CFG[ENA] is clear), this is the channel to which a
                                                                  packet is transmitted when NIX_TX_ACTION_S[OP] =
                                                                  NIX_TX_ACTIONOP_E::UCAST_DEFAULT in the NPC result.
@@ -4734,9 +4783,9 @@ union cavm_nix_sq_ctx_s
                                                                  If the SQ transmits to SDP (corresponding NIX_AF_TL4()_SDP_LINK_CFG[ENA] is
                                                                  set), this is the SDP channel to which packets are transmitted when
                                                                  [SDP_MCAST] is clear, and the SDP multicast index when [SDP_MCAST] is set. */
-        uint64_t sqb_count             : 16; /**< [118:103] Number of SQBs currently in use. Includes the SQBs at [HEAD_SQB] and
+        uint64_t sqb_count             : 16; /**< [119:104] Number of SQBs currently in use. Includes the SQBs at [HEAD_SQB] and
                                                                  [TAIL_SQB], and any linked SQBs in between. Excludes the SQB at [NEXT_SQB]. */
-        uint64_t reserved_119_120      : 2;
+        uint64_t reserved_120          : 1;
         uint64_t smq_rr_count_lb       : 7;  /**< [127:121] Round-robin (DWRR) deficit counter for packets pushed from this SQ to the associated SMQ.
                                                                  Value is a 32-bit two's complement signed integer count. This contains the lower 7 bits. */
 #endif /* Word 1 - End */
@@ -5157,7 +5206,7 @@ typedef union cavm_nixx_af_aq_base cavm_nixx_af_aq_base_t;
 static inline uint64_t CAVM_NIXX_AF_AQ_BASE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_AQ_BASE(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000410ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_AQ_BASE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5210,7 +5259,7 @@ typedef union cavm_nixx_af_aq_cfg cavm_nixx_af_aq_cfg_t;
 static inline uint64_t CAVM_NIXX_AF_AQ_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_AQ_CFG(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000400ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_AQ_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5309,7 +5358,7 @@ typedef union cavm_nixx_af_aq_done cavm_nixx_af_aq_done_t;
 static inline uint64_t CAVM_NIXX_AF_AQ_DONE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_AQ_DONE(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000450ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_AQ_DONE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5355,7 +5404,7 @@ typedef union cavm_nixx_af_aq_done_ack cavm_nixx_af_aq_done_ack_t;
 static inline uint64_t CAVM_NIXX_AF_AQ_DONE_ACK(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_AQ_DONE_ACK(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000460ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_AQ_DONE_ACK", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5392,7 +5441,7 @@ typedef union cavm_nixx_af_aq_done_ena_w1c cavm_nixx_af_aq_done_ena_w1c_t;
 static inline uint64_t CAVM_NIXX_AF_AQ_DONE_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_AQ_DONE_ENA_W1C(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000498ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_AQ_DONE_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5429,7 +5478,7 @@ typedef union cavm_nixx_af_aq_done_ena_w1s cavm_nixx_af_aq_done_ena_w1s_t;
 static inline uint64_t CAVM_NIXX_AF_AQ_DONE_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_AQ_DONE_ENA_W1S(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000490ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_AQ_DONE_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5472,7 +5521,7 @@ typedef union cavm_nixx_af_aq_done_timer cavm_nixx_af_aq_done_timer_t;
 static inline uint64_t CAVM_NIXX_AF_AQ_DONE_TIMER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_AQ_DONE_TIMER(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000470ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_AQ_DONE_TIMER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5528,7 +5577,7 @@ typedef union cavm_nixx_af_aq_done_wait cavm_nixx_af_aq_done_wait_t;
 static inline uint64_t CAVM_NIXX_AF_AQ_DONE_WAIT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_AQ_DONE_WAIT(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000440ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_AQ_DONE_WAIT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5574,7 +5623,7 @@ typedef union cavm_nixx_af_aq_door cavm_nixx_af_aq_door_t;
 static inline uint64_t CAVM_NIXX_AF_AQ_DOOR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_AQ_DOOR(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000430ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_AQ_DOOR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5718,7 +5767,7 @@ typedef union cavm_nixx_af_aq_status cavm_nixx_af_aq_status_t;
 static inline uint64_t CAVM_NIXX_AF_AQ_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_AQ_STATUS(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000420ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_AQ_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5775,7 +5824,7 @@ typedef union cavm_nixx_af_avg_delay cavm_nixx_af_avg_delay_t;
 static inline uint64_t CAVM_NIXX_AF_AVG_DELAY(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_AVG_DELAY(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x8400400000e0ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_AVG_DELAY", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5812,7 +5861,7 @@ typedef union cavm_nixx_af_bar2_aliasx cavm_nixx_af_bar2_aliasx_t;
 static inline uint64_t CAVM_NIXX_AF_BAR2_ALIASX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_BAR2_ALIASX(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=131071))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=131071)))
         return 0x840049100000ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1ffff);
     __cavm_csr_fatal("NIXX_AF_BAR2_ALIASX", 2, a, b, 0, 0, 0, 0);
 }
@@ -5854,7 +5903,7 @@ typedef union cavm_nixx_af_bar2_sel cavm_nixx_af_bar2_sel_t;
 static inline uint64_t CAVM_NIXX_AF_BAR2_SEL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_BAR2_SEL(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840049000000ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_BAR2_SEL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5899,7 +5948,7 @@ typedef union cavm_nixx_af_blk_rst cavm_nixx_af_blk_rst_t;
 static inline uint64_t CAVM_NIXX_AF_BLK_RST(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_BLK_RST(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x8400400000b0ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_BLK_RST", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5960,7 +6009,7 @@ typedef union cavm_nixx_af_cfg cavm_nixx_af_cfg_t;
 static inline uint64_t CAVM_NIXX_AF_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_CFG(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000000ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6005,7 +6054,7 @@ typedef union cavm_nixx_af_cint_delay cavm_nixx_af_cint_delay_t;
 static inline uint64_t CAVM_NIXX_AF_CINT_DELAY(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_CINT_DELAY(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x8400400000f0ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_CINT_DELAY", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6084,7 +6133,7 @@ typedef union cavm_nixx_af_cint_timerx cavm_nixx_af_cint_timerx_t;
 static inline uint64_t CAVM_NIXX_AF_CINT_TIMERX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_CINT_TIMERX(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=255))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=255)))
         return 0x840040001a40ll + 0x10000000ll * ((a) & 0x1) + 0x40000ll * ((b) & 0xff);
     __cavm_csr_fatal("NIXX_AF_CINT_TIMERX", 2, a, b, 0, 0, 0, 0);
 }
@@ -6108,14 +6157,14 @@ union cavm_nixx_af_const
     struct cavm_nixx_af_const_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_62_63        : 2;
+        uint64_t reserved_63           : 1;
+        uint64_t second_cpt_pass       : 1;  /**< [ 62: 62](RO) RQ MASK/SET and CPT SPB are supported. */
         uint64_t policer               : 1;  /**< [ 61: 61](RO) Policer is supported. */
         uint64_t prog_chan             : 1;  /**< [ 60: 60](RO) Programmable channel numbers are supported. */
         uint64_t intfs                 : 4;  /**< [ 59: 56](RO) Number of interfaces enumerated by NIX_INTF_E. */
         uint64_t links                 : 8;  /**< [ 55: 48](RO) Number of links enumerated by NIX_LINK_E, including the internal
                                                                  RX multicast/mirror replay interface, NIX_LINK_E::MC. */
-        uint64_t num_cpt               : 4;  /**< [ 47: 44](RO) Maximum number of Replay CPTs. The actual number of Replay CPT attached to NIX
-                                                                 may be smaller (e.g., zero). */
+        uint64_t num_cpt               : 4;  /**< [ 47: 44](RO) Maximum number of Replay CPTs. The actual number of Replay CPT attached to NIX may be smaller. */
         uint64_t cpt_channels          : 12; /**< [ 43: 32](RO) Number of channels per Replay CPT. */
         uint64_t num_sdp               : 4;  /**< [ 31: 28](RO) Maximal number of SDPs. The actual number of SDPs attached to NIX may be smaller. */
         uint64_t num_lbk               : 4;  /**< [ 27: 24](RO) Maximal number of LBKs. The actual number of LBKs attached to NIX may be smaller. */
@@ -6133,14 +6182,14 @@ union cavm_nixx_af_const
         uint64_t num_lbk               : 4;  /**< [ 27: 24](RO) Maximal number of LBKs. The actual number of LBKs attached to NIX may be smaller. */
         uint64_t num_sdp               : 4;  /**< [ 31: 28](RO) Maximal number of SDPs. The actual number of SDPs attached to NIX may be smaller. */
         uint64_t cpt_channels          : 12; /**< [ 43: 32](RO) Number of channels per Replay CPT. */
-        uint64_t num_cpt               : 4;  /**< [ 47: 44](RO) Maximum number of Replay CPTs. The actual number of Replay CPT attached to NIX
-                                                                 may be smaller (e.g., zero). */
+        uint64_t num_cpt               : 4;  /**< [ 47: 44](RO) Maximum number of Replay CPTs. The actual number of Replay CPT attached to NIX may be smaller. */
         uint64_t links                 : 8;  /**< [ 55: 48](RO) Number of links enumerated by NIX_LINK_E, including the internal
                                                                  RX multicast/mirror replay interface, NIX_LINK_E::MC. */
         uint64_t intfs                 : 4;  /**< [ 59: 56](RO) Number of interfaces enumerated by NIX_INTF_E. */
         uint64_t prog_chan             : 1;  /**< [ 60: 60](RO) Programmable channel numbers are supported. */
         uint64_t policer               : 1;  /**< [ 61: 61](RO) Policer is supported. */
-        uint64_t reserved_62_63        : 2;
+        uint64_t second_cpt_pass       : 1;  /**< [ 62: 62](RO) RQ MASK/SET and CPT SPB are supported. */
+        uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_const_s cn; */
@@ -6150,7 +6199,7 @@ typedef union cavm_nixx_af_const cavm_nixx_af_const_t;
 static inline uint64_t CAVM_NIXX_AF_CONST(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_CONST(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000020ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_CONST", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6174,7 +6223,8 @@ union cavm_nixx_af_const1
     struct cavm_nixx_af_const1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_61_63        : 3;
+        uint64_t reserved_62_63        : 2;
+        uint64_t dwrr_multiple_mtu_support : 1;/**< [ 61: 61](RO) This bit indicates that we have support for multiple MTUs. */
         uint64_t max_dwrr_mtu          : 5;  /**< [ 60: 56](RO) Maximum MTU supported for DWRR purposes for both SDP and RPM. */
         uint64_t lso_formats           : 8;  /**< [ 55: 48](RO) Number of LSO formats, each selected by FORMAT index of
                                                                  NIX_AF_LSO_FORMAT()_FIELD() registers. */
@@ -6194,7 +6244,8 @@ union cavm_nixx_af_const1
         uint64_t lso_formats           : 8;  /**< [ 55: 48](RO) Number of LSO formats, each selected by FORMAT index of
                                                                  NIX_AF_LSO_FORMAT()_FIELD() registers. */
         uint64_t max_dwrr_mtu          : 5;  /**< [ 60: 56](RO) Maximum MTU supported for DWRR purposes for both SDP and RPM. */
-        uint64_t reserved_61_63        : 3;
+        uint64_t dwrr_multiple_mtu_support : 1;/**< [ 61: 61](RO) This bit indicates that we have support for multiple MTUs. */
+        uint64_t reserved_62_63        : 2;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_const1_s cn; */
@@ -6204,7 +6255,7 @@ typedef union cavm_nixx_af_const1 cavm_nixx_af_const1_t;
 static inline uint64_t CAVM_NIXX_AF_CONST1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_CONST1(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000028ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_CONST1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6228,7 +6279,8 @@ union cavm_nixx_af_const2
     struct cavm_nixx_af_const2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_36_63        : 28;
+        uint64_t spitosas              : 16; /**< [ 63: 48](RO) Number of entries in the SPI to SA table. More details are specified in NIX_AF_SPI_TO_SA_CFG. */
+        uint64_t reserved_36_47        : 12;
         uint64_t cints                 : 12; /**< [ 35: 24](RO) Number of completion interrupts per LF. */
         uint64_t qints                 : 12; /**< [ 23: 12](RO) Number of queue interrupts per LF. */
         uint64_t lfs                   : 12; /**< [ 11:  0](RO) Number of Local Functions. */
@@ -6236,7 +6288,8 @@ union cavm_nixx_af_const2
         uint64_t lfs                   : 12; /**< [ 11:  0](RO) Number of Local Functions. */
         uint64_t qints                 : 12; /**< [ 23: 12](RO) Number of queue interrupts per LF. */
         uint64_t cints                 : 12; /**< [ 35: 24](RO) Number of completion interrupts per LF. */
-        uint64_t reserved_36_63        : 28;
+        uint64_t reserved_36_47        : 12;
+        uint64_t spitosas              : 16; /**< [ 63: 48](RO) Number of entries in the SPI to SA table. More details are specified in NIX_AF_SPI_TO_SA_CFG. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_const2_s cn; */
@@ -6246,7 +6299,7 @@ typedef union cavm_nixx_af_const2 cavm_nixx_af_const2_t;
 static inline uint64_t CAVM_NIXX_AF_CONST2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_CONST2(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000030ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_CONST2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6332,7 +6385,7 @@ typedef union cavm_nixx_af_const3 cavm_nixx_af_const3_t;
 static inline uint64_t CAVM_NIXX_AF_CONST3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_CONST3(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000038ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_CONST3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6370,7 +6423,7 @@ typedef union cavm_nixx_af_cq_const cavm_nixx_af_cq_const_t;
 static inline uint64_t CAVM_NIXX_AF_CQ_CONST(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_CQ_CONST(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000048ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_CQ_CONST", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6383,15 +6436,17 @@ static inline uint64_t CAVM_NIXX_AF_CQ_CONST(uint64_t a)
 #define arguments_CAVM_NIXX_AF_CQ_CONST(a) (a),-1,-1,-1
 
 /**
- * Register (RVU_PF_BAR0) nix#_af_dwrr_rpm_mtu
+ * Register (RVU_PF_BAR0) nix#_af_dwrr_mtu#
  *
- * NIX AF SQM PSE DWRR RPM MTU Register
- * This is the register which would define Max MTU size for RPM packets. Used for DWRR.
+ * NIX AF SQM PSE DWRR MTU Register
+ * These set of 4 DWRR_MTU registers are supposed to be used for DWRR. MTU that would
+ * be used is index'd by Pkt_link_type configured for the SMQ and all SQs going through
+ * this SMQ should use the same Pkt_link_type.
  */
-union cavm_nixx_af_dwrr_rpm_mtu
+union cavm_nixx_af_dwrr_mtux
 {
     uint64_t u;
-    struct cavm_nixx_af_dwrr_rpm_mtu_s
+    struct cavm_nixx_af_dwrr_mtux_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
@@ -6409,70 +6464,24 @@ union cavm_nixx_af_dwrr_rpm_mtu
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_nixx_af_dwrr_rpm_mtu_s cn; */
+    /* struct cavm_nixx_af_dwrr_mtux_s cn; */
 };
-typedef union cavm_nixx_af_dwrr_rpm_mtu cavm_nixx_af_dwrr_rpm_mtu_t;
+typedef union cavm_nixx_af_dwrr_mtux cavm_nixx_af_dwrr_mtux_t;
 
-static inline uint64_t CAVM_NIXX_AF_DWRR_RPM_MTU(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NIXX_AF_DWRR_RPM_MTU(uint64_t a)
+static inline uint64_t CAVM_NIXX_AF_DWRR_MTUX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NIXX_AF_DWRR_MTUX(uint64_t a, uint64_t b)
 {
-    if (a<=1)
-        return 0x8400400007a0ll + 0x10000000ll * ((a) & 0x1);
-    __cavm_csr_fatal("NIXX_AF_DWRR_RPM_MTU", 1, a, 0, 0, 0, 0, 0);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=3)))
+        return 0x840040000790ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3);
+    __cavm_csr_fatal("NIXX_AF_DWRR_MTUX", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_NIXX_AF_DWRR_RPM_MTU(a) cavm_nixx_af_dwrr_rpm_mtu_t
-#define bustype_CAVM_NIXX_AF_DWRR_RPM_MTU(a) CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_NIXX_AF_DWRR_RPM_MTU(a) "NIXX_AF_DWRR_RPM_MTU"
-#define device_bar_CAVM_NIXX_AF_DWRR_RPM_MTU(a) 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_NIXX_AF_DWRR_RPM_MTU(a) (a)
-#define arguments_CAVM_NIXX_AF_DWRR_RPM_MTU(a) (a),-1,-1,-1
-
-/**
- * Register (RVU_PF_BAR0) nix#_af_dwrr_sdp_mtu
- *
- * NIX AF SQM PSE DWRR SDP MTU Register
- * This is the register which would define Max MTU size for SDP packets. Used for DWRR.
- */
-union cavm_nixx_af_dwrr_sdp_mtu
-{
-    uint64_t u;
-    struct cavm_nixx_af_dwrr_sdp_mtu_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
-        uint64_t mtu                   : 5;  /**< [  4:  0](R/W/H) These 5-bits indicate MTU size in power of 2 ranging from
-                                                                 (0,2,4,8.16,32,64....4K,8K,32K,64K) bytes.
-                                                                 i.e. a MTU used for DWRR calculation would be in power of 2 up until 64K bytes.
-                                                                 Value of 4 is reserved for MTU value of 9728 bytes.
-                                                                 Value of 5 is reserved for MTU value of 10240 bytes. */
-#else /* Word 0 - Little Endian */
-        uint64_t mtu                   : 5;  /**< [  4:  0](R/W/H) These 5-bits indicate MTU size in power of 2 ranging from
-                                                                 (0,2,4,8.16,32,64....4K,8K,32K,64K) bytes.
-                                                                 i.e. a MTU used for DWRR calculation would be in power of 2 up until 64K bytes.
-                                                                 Value of 4 is reserved for MTU value of 9728 bytes.
-                                                                 Value of 5 is reserved for MTU value of 10240 bytes. */
-        uint64_t reserved_5_63         : 59;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_nixx_af_dwrr_sdp_mtu_s cn; */
-};
-typedef union cavm_nixx_af_dwrr_sdp_mtu cavm_nixx_af_dwrr_sdp_mtu_t;
-
-static inline uint64_t CAVM_NIXX_AF_DWRR_SDP_MTU(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NIXX_AF_DWRR_SDP_MTU(uint64_t a)
-{
-    if (a<=1)
-        return 0x840040000790ll + 0x10000000ll * ((a) & 0x1);
-    __cavm_csr_fatal("NIXX_AF_DWRR_SDP_MTU", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_NIXX_AF_DWRR_SDP_MTU(a) cavm_nixx_af_dwrr_sdp_mtu_t
-#define bustype_CAVM_NIXX_AF_DWRR_SDP_MTU(a) CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_NIXX_AF_DWRR_SDP_MTU(a) "NIXX_AF_DWRR_SDP_MTU"
-#define device_bar_CAVM_NIXX_AF_DWRR_SDP_MTU(a) 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_NIXX_AF_DWRR_SDP_MTU(a) (a)
-#define arguments_CAVM_NIXX_AF_DWRR_SDP_MTU(a) (a),-1,-1,-1
+#define typedef_CAVM_NIXX_AF_DWRR_MTUX(a,b) cavm_nixx_af_dwrr_mtux_t
+#define bustype_CAVM_NIXX_AF_DWRR_MTUX(a,b) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NIXX_AF_DWRR_MTUX(a,b) "NIXX_AF_DWRR_MTUX"
+#define device_bar_CAVM_NIXX_AF_DWRR_MTUX(a,b) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NIXX_AF_DWRR_MTUX(a,b) (a)
+#define arguments_CAVM_NIXX_AF_DWRR_MTUX(a,b) (a),(b),-1,-1
 
 /**
  * Register (RVU_PF_BAR0) nix#_af_err_int
@@ -6567,7 +6576,7 @@ typedef union cavm_nixx_af_err_int cavm_nixx_af_err_int_t;
 static inline uint64_t CAVM_NIXX_AF_ERR_INT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_ERR_INT(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000180ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_ERR_INT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6627,7 +6636,7 @@ typedef union cavm_nixx_af_err_int_ena_w1c cavm_nixx_af_err_int_ena_w1c_t;
 static inline uint64_t CAVM_NIXX_AF_ERR_INT_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_ERR_INT_ENA_W1C(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000198ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_ERR_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6687,7 +6696,7 @@ typedef union cavm_nixx_af_err_int_ena_w1s cavm_nixx_af_err_int_ena_w1s_t;
 static inline uint64_t CAVM_NIXX_AF_ERR_INT_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_ERR_INT_ENA_W1S(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000190ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_ERR_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6747,7 +6756,7 @@ typedef union cavm_nixx_af_err_int_w1s cavm_nixx_af_err_int_w1s_t;
 static inline uint64_t CAVM_NIXX_AF_ERR_INT_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_ERR_INT_W1S(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000188ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_ERR_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6798,7 +6807,7 @@ typedef union cavm_nixx_af_gen_int cavm_nixx_af_gen_int_t;
 static inline uint64_t CAVM_NIXX_AF_GEN_INT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_GEN_INT(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000160ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_GEN_INT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6842,7 +6851,7 @@ typedef union cavm_nixx_af_gen_int_ena_w1c cavm_nixx_af_gen_int_ena_w1c_t;
 static inline uint64_t CAVM_NIXX_AF_GEN_INT_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_GEN_INT_ENA_W1C(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000178ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_GEN_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6886,7 +6895,7 @@ typedef union cavm_nixx_af_gen_int_ena_w1s cavm_nixx_af_gen_int_ena_w1s_t;
 static inline uint64_t CAVM_NIXX_AF_GEN_INT_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_GEN_INT_ENA_W1S(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000170ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_GEN_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6930,7 +6939,7 @@ typedef union cavm_nixx_af_gen_int_w1s cavm_nixx_af_gen_int_w1s_t;
 static inline uint64_t CAVM_NIXX_AF_GEN_INT_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_GEN_INT_W1S(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000168ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_GEN_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6953,7 +6962,13 @@ union cavm_nixx_af_lfx_cfg
     struct cavm_nixx_af_lfx_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_35_63        : 29;
+        uint64_t reserved_37_63        : 27;
+        uint64_t rq_cpt_mask_select    : 2;  /**< [ 36: 35](R/W) Select pairs of NIX_AF_RQ(0..3)_MASK(0..5) and NIX_AF_RQ(0..3)_SET(0..5) as follows:
+                                                                 NIX_AF_RQ(RQ_CPT_MASK_SELECT)_MASK(0..5) and NIX_AF_RQ(RQ_CPT_MASK_SELECT)_SET(0..5)
+                                                                 NIX_RQ_CTX_S is qualified per LF as follows:
+                                                                 USED_NIX_RQ_CTX_S=( NIX_RQ_CTX_S & NIX_AF_RQ(RQ_CPT_MASK_SELECT)_MASK(0..5) ) |
+                                                                 NIX_AF_RQ(RQ_CPT_MASK_SELECT)_SET(0..5)
+                                                                 where & | is bit wise operation */
         uint64_t xqe_size              : 2;  /**< [ 34: 33](R/W) Selects the WQE/CQE size for the LF. Enumerated by NIX_XQESZ_E. */
         uint64_t be                    : 1;  /**< [ 32: 32](R/W) Reserved. */
         uint64_t sso_pf_func           : 16; /**< [ 31: 16](R/W) SSO PF and function to which SSO add work submissions are sent. Format
@@ -6967,7 +6982,13 @@ union cavm_nixx_af_lfx_cfg
                                                                  specified by RVU_PF_FUNC_S. */
         uint64_t be                    : 1;  /**< [ 32: 32](R/W) Reserved. */
         uint64_t xqe_size              : 2;  /**< [ 34: 33](R/W) Selects the WQE/CQE size for the LF. Enumerated by NIX_XQESZ_E. */
-        uint64_t reserved_35_63        : 29;
+        uint64_t rq_cpt_mask_select    : 2;  /**< [ 36: 35](R/W) Select pairs of NIX_AF_RQ(0..3)_MASK(0..5) and NIX_AF_RQ(0..3)_SET(0..5) as follows:
+                                                                 NIX_AF_RQ(RQ_CPT_MASK_SELECT)_MASK(0..5) and NIX_AF_RQ(RQ_CPT_MASK_SELECT)_SET(0..5)
+                                                                 NIX_RQ_CTX_S is qualified per LF as follows:
+                                                                 USED_NIX_RQ_CTX_S=( NIX_RQ_CTX_S & NIX_AF_RQ(RQ_CPT_MASK_SELECT)_MASK(0..5) ) |
+                                                                 NIX_AF_RQ(RQ_CPT_MASK_SELECT)_SET(0..5)
+                                                                 where & | is bit wise operation */
+        uint64_t reserved_37_63        : 27;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_lfx_cfg_s cn; */
@@ -6977,7 +6998,7 @@ typedef union cavm_nixx_af_lfx_cfg cavm_nixx_af_lfx_cfg_t;
 static inline uint64_t CAVM_NIXX_AF_LFX_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_LFX_CFG(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=127))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=127)))
         return 0x840040004000ll + 0x10000000ll * ((a) & 0x1) + 0x20000ll * ((b) & 0x7f);
     __cavm_csr_fatal("NIXX_AF_LFX_CFG", 2, a, b, 0, 0, 0, 0);
 }
@@ -7021,7 +7042,7 @@ typedef union cavm_nixx_af_lfx_cints_base cavm_nixx_af_lfx_cints_base_t;
 static inline uint64_t CAVM_NIXX_AF_LFX_CINTS_BASE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_LFX_CINTS_BASE(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=127))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=127)))
         return 0x840040004130ll + 0x10000000ll * ((a) & 0x1) + 0x20000ll * ((b) & 0x7f);
     __cavm_csr_fatal("NIXX_AF_LFX_CINTS_BASE", 2, a, b, 0, 0, 0, 0);
 }
@@ -7077,7 +7098,7 @@ typedef union cavm_nixx_af_lfx_cints_cfg cavm_nixx_af_lfx_cints_cfg_t;
 static inline uint64_t CAVM_NIXX_AF_LFX_CINTS_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_LFX_CINTS_CFG(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=127))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=127)))
         return 0x840040004120ll + 0x10000000ll * ((a) & 0x1) + 0x20000ll * ((b) & 0x7f);
     __cavm_csr_fatal("NIXX_AF_LFX_CINTS_CFG", 2, a, b, 0, 0, 0, 0);
 }
@@ -7121,7 +7142,7 @@ typedef union cavm_nixx_af_lfx_cqs_base cavm_nixx_af_lfx_cqs_base_t;
 static inline uint64_t CAVM_NIXX_AF_LFX_CQS_BASE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_LFX_CQS_BASE(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=127))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=127)))
         return 0x840040004070ll + 0x10000000ll * ((a) & 0x1) + 0x20000ll * ((b) & 0x7f);
     __cavm_csr_fatal("NIXX_AF_LFX_CQS_BASE", 2, a, b, 0, 0, 0, 0);
 }
@@ -7145,7 +7166,8 @@ union cavm_nixx_af_lfx_cqs_cfg
     struct cavm_nixx_af_lfx_cqs_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_37_63        : 27;
+        uint64_t reserved_40_63        : 24;
+        uint64_t spare                 : 3;  /**< [ 39: 37](R/W) Spare ECO R/W bits. */
         uint64_t caching               : 1;  /**< [ 36: 36](R/W) Selects the style of write and read for accessing queue context structures
                                                                  in LLC/DRAM:
                                                                  0 = Reads and writes of context data will not allocate into the LLC.
@@ -7161,7 +7183,8 @@ union cavm_nixx_af_lfx_cqs_cfg
                                                                  in LLC/DRAM:
                                                                  0 = Reads and writes of context data will not allocate into the LLC.
                                                                  1 = Reads and full cache line writes of context data are allocated into the LLC. */
-        uint64_t reserved_37_63        : 27;
+        uint64_t spare                 : 3;  /**< [ 39: 37](R/W) Spare ECO R/W bits. */
+        uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_lfx_cqs_cfg_s cn; */
@@ -7171,7 +7194,7 @@ typedef union cavm_nixx_af_lfx_cqs_cfg cavm_nixx_af_lfx_cqs_cfg_t;
 static inline uint64_t CAVM_NIXX_AF_LFX_CQS_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_LFX_CQS_CFG(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=127))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=127)))
         return 0x840040004060ll + 0x10000000ll * ((a) & 0x1) + 0x20000ll * ((b) & 0x7f);
     __cavm_csr_fatal("NIXX_AF_LFX_CQS_CFG", 2, a, b, 0, 0, 0, 0);
 }
@@ -7248,7 +7271,7 @@ typedef union cavm_nixx_af_lfx_lockx cavm_nixx_af_lfx_lockx_t;
 static inline uint64_t CAVM_NIXX_AF_LFX_LOCKX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_LFX_LOCKX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=1) && (b<=127) && (c<=7))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=127) && (c<=7)))
         return 0x840040004300ll + 0x10000000ll * ((a) & 0x1) + 0x20000ll * ((b) & 0x7f) + 8ll * ((c) & 0x7);
     __cavm_csr_fatal("NIXX_AF_LFX_LOCKX", 3, a, b, c, 0, 0, 0);
 }
@@ -7292,7 +7315,7 @@ typedef union cavm_nixx_af_lfx_qints_base cavm_nixx_af_lfx_qints_base_t;
 static inline uint64_t CAVM_NIXX_AF_LFX_QINTS_BASE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_LFX_QINTS_BASE(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=127))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=127)))
         return 0x840040004110ll + 0x10000000ll * ((a) & 0x1) + 0x20000ll * ((b) & 0x7f);
     __cavm_csr_fatal("NIXX_AF_LFX_QINTS_BASE", 2, a, b, 0, 0, 0, 0);
 }
@@ -7348,7 +7371,7 @@ typedef union cavm_nixx_af_lfx_qints_cfg cavm_nixx_af_lfx_qints_cfg_t;
 static inline uint64_t CAVM_NIXX_AF_LFX_QINTS_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_LFX_QINTS_CFG(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=127))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=127)))
         return 0x840040004100ll + 0x10000000ll * ((a) & 0x1) + 0x20000ll * ((b) & 0x7f);
     __cavm_csr_fatal("NIXX_AF_LFX_QINTS_CFG", 2, a, b, 0, 0, 0, 0);
 }
@@ -7392,7 +7415,7 @@ typedef union cavm_nixx_af_lfx_rqs_base cavm_nixx_af_lfx_rqs_base_t;
 static inline uint64_t CAVM_NIXX_AF_LFX_RQS_BASE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_LFX_RQS_BASE(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=127))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=127)))
         return 0x840040004050ll + 0x10000000ll * ((a) & 0x1) + 0x20000ll * ((b) & 0x7f);
     __cavm_csr_fatal("NIXX_AF_LFX_RQS_BASE", 2, a, b, 0, 0, 0, 0);
 }
@@ -7416,7 +7439,8 @@ union cavm_nixx_af_lfx_rqs_cfg
     struct cavm_nixx_af_lfx_rqs_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_37_63        : 27;
+        uint64_t reserved_40_63        : 24;
+        uint64_t spare                 : 3;  /**< [ 39: 37](R/W) Spare ECO R/W bits. */
         uint64_t caching               : 1;  /**< [ 36: 36](R/W) Selects the style of write and read for accessing queue context structures
                                                                  in LLC/DRAM:
                                                                  0 = Reads and writes of context data will not allocate into the LLC.
@@ -7432,7 +7456,8 @@ union cavm_nixx_af_lfx_rqs_cfg
                                                                  in LLC/DRAM:
                                                                  0 = Reads and writes of context data will not allocate into the LLC.
                                                                  1 = Reads and full cache line writes of context data are allocated into the LLC. */
-        uint64_t reserved_37_63        : 27;
+        uint64_t spare                 : 3;  /**< [ 39: 37](R/W) Spare ECO R/W bits. */
+        uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_lfx_rqs_cfg_s cn; */
@@ -7442,7 +7467,7 @@ typedef union cavm_nixx_af_lfx_rqs_cfg cavm_nixx_af_lfx_rqs_cfg_t;
 static inline uint64_t CAVM_NIXX_AF_LFX_RQS_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_LFX_RQS_CFG(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=127))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=127)))
         return 0x840040004040ll + 0x10000000ll * ((a) & 0x1) + 0x20000ll * ((b) & 0x7f);
     __cavm_csr_fatal("NIXX_AF_LFX_RQS_CFG", 2, a, b, 0, 0, 0, 0);
 }
@@ -7488,7 +7513,7 @@ typedef union cavm_nixx_af_lfx_rss_base cavm_nixx_af_lfx_rss_base_t;
 static inline uint64_t CAVM_NIXX_AF_LFX_RSS_BASE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_LFX_RSS_BASE(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=127))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=127)))
         return 0x8400400040d0ll + 0x10000000ll * ((a) & 0x1) + 0x20000ll * ((b) & 0x7f);
     __cavm_csr_fatal("NIXX_AF_LFX_RSS_BASE", 2, a, b, 0, 0, 0, 0);
 }
@@ -7564,7 +7589,7 @@ typedef union cavm_nixx_af_lfx_rss_cfg cavm_nixx_af_lfx_rss_cfg_t;
 static inline uint64_t CAVM_NIXX_AF_LFX_RSS_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_LFX_RSS_CFG(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=127))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=127)))
         return 0x8400400040c0ll + 0x10000000ll * ((a) & 0x1) + 0x20000ll * ((b) & 0x7f);
     __cavm_csr_fatal("NIXX_AF_LFX_RSS_CFG", 2, a, b, 0, 0, 0, 0);
 }
@@ -7658,7 +7683,7 @@ typedef union cavm_nixx_af_lfx_rss_grpx cavm_nixx_af_lfx_rss_grpx_t;
 static inline uint64_t CAVM_NIXX_AF_LFX_RSS_GRPX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_LFX_RSS_GRPX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=1) && (b<=127) && (c<=7))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=127) && (c<=7)))
         return 0x840040004600ll + 0x10000000ll * ((a) & 0x1) + 0x20000ll * ((b) & 0x7f) + 8ll * ((c) & 0x7);
     __cavm_csr_fatal("NIXX_AF_LFX_RSS_GRPX", 3, a, b, c, 0, 0, 0);
 }
@@ -7743,9 +7768,15 @@ union cavm_nixx_af_lfx_rx_cfg
                                                                  1 = Treat IPv6 as IPv4; the all-0s pattern will cause a UDP checksum pass. */
         uint64_t lenerr_en             : 1;  /**< [ 33: 33](R/W) Outer L2 length error check enable. See NIX_RE_OPCODE_E::OL2_LENMISM. */
         uint64_t drop_re               : 1;  /**< [ 32: 32](R/W) Drop packets with receive/L2 errors. */
-        uint64_t reserved_0_31         : 32;
+        uint64_t reserved_19_31        : 13;
+        uint64_t rx_error_mask         : 19; /**< [ 18:  0](R/W) Drop mask when DROP_RE is enabled.
+                                                                 Each bit corresponds to different type of RX_ERROR. Bit i affects error i
+                                                                 when the bit is enabled, it disables the appropriate error */
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_31         : 32;
+        uint64_t rx_error_mask         : 19; /**< [ 18:  0](R/W) Drop mask when DROP_RE is enabled.
+                                                                 Each bit corresponds to different type of RX_ERROR. Bit i affects error i
+                                                                 when the bit is enabled, it disables the appropriate error */
+        uint64_t reserved_19_31        : 13;
         uint64_t drop_re               : 1;  /**< [ 32: 32](R/W) Drop packets with receive/L2 errors. */
         uint64_t lenerr_en             : 1;  /**< [ 33: 33](R/W) Outer L2 length error check enable. See NIX_RE_OPCODE_E::OL2_LENMISM. */
         uint64_t ip6_udp_opt           : 1;  /**< [ 34: 34](R/W) IPv6/UDP checksum is optional. IPv4 allows an optional UDP checksum by
@@ -7817,7 +7848,7 @@ typedef union cavm_nixx_af_lfx_rx_cfg cavm_nixx_af_lfx_rx_cfg_t;
 static inline uint64_t CAVM_NIXX_AF_LFX_RX_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_LFX_RX_CFG(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=127))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=127)))
         return 0x8400400040a0ll + 0x10000000ll * ((a) & 0x1) + 0x20000ll * ((b) & 0x7f);
     __cavm_csr_fatal("NIXX_AF_LFX_RX_CFG", 2, a, b, 0, 0, 0, 0);
 }
@@ -7840,7 +7871,10 @@ union cavm_nixx_af_lfx_rx_ipsec_cfg0
     struct cavm_nixx_af_lfx_rx_ipsec_cfg0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
+        uint64_t reserved_57_63        : 7;
+        uint64_t res_addr_offset_valid : 1;  /**< [ 56: 56](R/W) If 0, [RES_ADDR] is at the end of the WQE. If 1, [RES_ADDR] is WQE_ptr+ RES_ADDR_OFFSET*16 */
+        uint64_t res_addr_offset       : 8;  /**< [ 55: 48](R/W) RES_ADDR offset from WQE ptr in multiple of 16 bytes. RES_ADDR_OFFSET is a
+                                                                 signed number where the MSB is the sign bit. */
         uint64_t hshcpt                : 1;  /**< [ 47: 47](R/W) Hash CPT index. This bit along with [DEFCPT] selects the CPT instance to
                                                                  which this LF sends instructions (CPT_INST_S).
 
@@ -7870,13 +7904,11 @@ union cavm_nixx_af_lfx_rx_ipsec_cfg0
                                                                  0xA = 1024 bytes.
                                                                  0xB - 2048 bytes.
                                                                  0xC-0xF = Reserved. */
-        uint64_t reserved_14_15        : 2;
-        uint64_t lenm1_max             : 14; /**< [ 13:  0](R/W) Maximum length in bytes (minus 1) of a packet that may use the IPSEC
+        uint64_t lenm1_max             : 16; /**< [ 15:  0](R/W) Maximum length in bytes (minus 1) of a packet that may use the IPSEC
                                                                  hardware fast-path. */
 #else /* Word 0 - Little Endian */
-        uint64_t lenm1_max             : 14; /**< [ 13:  0](R/W) Maximum length in bytes (minus 1) of a packet that may use the IPSEC
+        uint64_t lenm1_max             : 16; /**< [ 15:  0](R/W) Maximum length in bytes (minus 1) of a packet that may use the IPSEC
                                                                  hardware fast-path. */
-        uint64_t reserved_14_15        : 2;
         uint64_t sa_pow2_size          : 4;  /**< [ 19: 16](R/W) Power of 2 size of IPSEC SA structure used by CPT:
                                                                  0x0-0x4 = Reserved.
                                                                  0x5 = 32 bytes.
@@ -7906,7 +7938,10 @@ union cavm_nixx_af_lfx_rx_ipsec_cfg0
                                                                     1        1       Inverse of Bit \<0\> of SA_index selects
                                                                  NIX_AF_RX_CPR(0..1)_QSEL to submit to CPT.
                                                                  \</pre\> */
-        uint64_t reserved_48_63        : 16;
+        uint64_t res_addr_offset       : 8;  /**< [ 55: 48](R/W) RES_ADDR offset from WQE ptr in multiple of 16 bytes. RES_ADDR_OFFSET is a
+                                                                 signed number where the MSB is the sign bit. */
+        uint64_t res_addr_offset_valid : 1;  /**< [ 56: 56](R/W) If 0, [RES_ADDR] is at the end of the WQE. If 1, [RES_ADDR] is WQE_ptr+ RES_ADDR_OFFSET*16 */
+        uint64_t reserved_57_63        : 7;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_lfx_rx_ipsec_cfg0_s cn; */
@@ -7916,7 +7951,7 @@ typedef union cavm_nixx_af_lfx_rx_ipsec_cfg0 cavm_nixx_af_lfx_rx_ipsec_cfg0_t;
 static inline uint64_t CAVM_NIXX_AF_LFX_RX_IPSEC_CFG0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_LFX_RX_IPSEC_CFG0(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=127))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=127)))
         return 0x840040004140ll + 0x10000000ll * ((a) & 0x1) + 0x20000ll * ((b) & 0x7f);
     __cavm_csr_fatal("NIXX_AF_LFX_RX_IPSEC_CFG0", 2, a, b, 0, 0, 0, 0);
 }
@@ -7939,7 +7974,18 @@ union cavm_nixx_af_lfx_rx_ipsec_cfg1
     struct cavm_nixx_af_lfx_rx_ipsec_cfg1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_37_63        : 27;
+        uint64_t spb_cpt_aura          : 20; /**< [ 63: 44](R/W) Shorts Buffers CPT AURA.
+                                                                 Implementation note: this value overrides RQ[SPB_AURA] */
+        uint64_t rq_mask_enable        : 1;  /**< [ 43: 43](R/W) This field enables the masking and setting of bits of the RQ context where the
+                                                                 mask and set is selected by NIX_AF_LF(0..127)_CFG[RQ_CPT_MASK_SELECT]. */
+        uint64_t spb_cpt_sizem1        : 5;  /**< [ 42: 38](R/W) buffer size minus 1 in multiple of 128 bytes
+                                                                 Implementation note: This value overrides the RQ SPB_HIGH_SIZEM1, SPB_SIZEM1
+                                                                 with {SPB_CPT_SIZEM1, 4'hF} */
+        uint64_t spb_cpt_enable        : 1;  /**< [ 37: 37](R/W) Valid for SPB_CPT.
+                                                                 When valid packet packets from CPT uses the specified AURA & size below.
+                                                                 Note: NIX_AF_RQ(0..3)_MASK(0..5) & NIX_AF_RQ(0..3)_SET(0..5) must be used to set
+                                                                 SPB_EN and set [SPB_AURA_DROP], [SPB_AURA_PASS], [SPB_POOL_DROP],
+                                                                 [SPB_POOL_PASS] to 0. */
         uint64_t sa_idx_w              : 5;  /**< [ 36: 32](R/W) Security association index width. Number of lower bits from the SPI field
                                                                  of an IPSEC packet that provide the packet's SA index. The SA index is
                                                                  computed as follows:
@@ -7969,7 +8015,18 @@ union cavm_nixx_af_lfx_rx_ipsec_cfg1
                                                                  If the packet's SA index is greater than [SA_IDX_MAX], the packet uses the
                                                                  IPSEC software fast-path (NIX_WQE_HDR_S[WQE_TYPE]/NIX_CQE_HDR_S[CQE_TYPE] =
                                                                  NIX_XQE_TYPE_E::RX_IPSECS). */
-        uint64_t reserved_37_63        : 27;
+        uint64_t spb_cpt_enable        : 1;  /**< [ 37: 37](R/W) Valid for SPB_CPT.
+                                                                 When valid packet packets from CPT uses the specified AURA & size below.
+                                                                 Note: NIX_AF_RQ(0..3)_MASK(0..5) & NIX_AF_RQ(0..3)_SET(0..5) must be used to set
+                                                                 SPB_EN and set [SPB_AURA_DROP], [SPB_AURA_PASS], [SPB_POOL_DROP],
+                                                                 [SPB_POOL_PASS] to 0. */
+        uint64_t spb_cpt_sizem1        : 5;  /**< [ 42: 38](R/W) buffer size minus 1 in multiple of 128 bytes
+                                                                 Implementation note: This value overrides the RQ SPB_HIGH_SIZEM1, SPB_SIZEM1
+                                                                 with {SPB_CPT_SIZEM1, 4'hF} */
+        uint64_t rq_mask_enable        : 1;  /**< [ 43: 43](R/W) This field enables the masking and setting of bits of the RQ context where the
+                                                                 mask and set is selected by NIX_AF_LF(0..127)_CFG[RQ_CPT_MASK_SELECT]. */
+        uint64_t spb_cpt_aura          : 20; /**< [ 63: 44](R/W) Shorts Buffers CPT AURA.
+                                                                 Implementation note: this value overrides RQ[SPB_AURA] */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_lfx_rx_ipsec_cfg1_s cn; */
@@ -7979,7 +8036,7 @@ typedef union cavm_nixx_af_lfx_rx_ipsec_cfg1 cavm_nixx_af_lfx_rx_ipsec_cfg1_t;
 static inline uint64_t CAVM_NIXX_AF_LFX_RX_IPSEC_CFG1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_LFX_RX_IPSEC_CFG1(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=127))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=127)))
         return 0x840040004148ll + 0x10000000ll * ((a) & 0x1) + 0x20000ll * ((b) & 0x7f);
     __cavm_csr_fatal("NIXX_AF_LFX_RX_IPSEC_CFG1", 2, a, b, 0, 0, 0, 0);
 }
@@ -8024,7 +8081,7 @@ typedef union cavm_nixx_af_lfx_rx_ipsec_dyno_base cavm_nixx_af_lfx_rx_ipsec_dyno
 static inline uint64_t CAVM_NIXX_AF_LFX_RX_IPSEC_DYNO_BASE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_LFX_RX_IPSEC_DYNO_BASE(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=127))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=127)))
         return 0x840040004158ll + 0x10000000ll * ((a) & 0x1) + 0x20000ll * ((b) & 0x7f);
     __cavm_csr_fatal("NIXX_AF_LFX_RX_IPSEC_DYNO_BASE", 2, a, b, 0, 0, 0, 0);
 }
@@ -8119,7 +8176,7 @@ typedef union cavm_nixx_af_lfx_rx_ipsec_dyno_cfg cavm_nixx_af_lfx_rx_ipsec_dyno_
 static inline uint64_t CAVM_NIXX_AF_LFX_RX_IPSEC_DYNO_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_LFX_RX_IPSEC_DYNO_CFG(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=127))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=127)))
         return 0x840040004150ll + 0x10000000ll * ((a) & 0x1) + 0x20000ll * ((b) & 0x7f);
     __cavm_csr_fatal("NIXX_AF_LFX_RX_IPSEC_DYNO_CFG", 2, a, b, 0, 0, 0, 0);
 }
@@ -8161,7 +8218,7 @@ typedef union cavm_nixx_af_lfx_rx_ipsec_sa_base cavm_nixx_af_lfx_rx_ipsec_sa_bas
 static inline uint64_t CAVM_NIXX_AF_LFX_RX_IPSEC_SA_BASE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_LFX_RX_IPSEC_SA_BASE(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=127))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=127)))
         return 0x840040004170ll + 0x10000000ll * ((a) & 0x1) + 0x20000ll * ((b) & 0x7f);
     __cavm_csr_fatal("NIXX_AF_LFX_RX_IPSEC_SA_BASE", 2, a, b, 0, 0, 0, 0);
 }
@@ -8201,7 +8258,7 @@ typedef union cavm_nixx_af_lfx_rx_statx cavm_nixx_af_lfx_rx_statx_t;
 static inline uint64_t CAVM_NIXX_AF_LFX_RX_STATX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_LFX_RX_STATX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=1) && (b<=127) && (c<=25))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=127) && (c<=25)))
         return 0x840040004500ll + 0x10000000ll * ((a) & 0x1) + 0x20000ll * ((b) & 0x7f) + 8ll * ((c) & 0x1f);
     __cavm_csr_fatal("NIXX_AF_LFX_RX_STATX", 3, a, b, c, 0, 0, 0);
 }
@@ -8252,7 +8309,7 @@ typedef union cavm_nixx_af_lfx_rx_vtag_typex cavm_nixx_af_lfx_rx_vtag_typex_t;
 static inline uint64_t CAVM_NIXX_AF_LFX_RX_VTAG_TYPEX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_LFX_RX_VTAG_TYPEX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=1) && (b<=127) && (c<=7))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=127) && (c<=7)))
         return 0x840040004200ll + 0x10000000ll * ((a) & 0x1) + 0x20000ll * ((b) & 0x7f) + 8ll * ((c) & 0x7);
     __cavm_csr_fatal("NIXX_AF_LFX_RX_VTAG_TYPEX", 3, a, b, c, 0, 0, 0);
 }
@@ -8296,7 +8353,7 @@ typedef union cavm_nixx_af_lfx_sqs_base cavm_nixx_af_lfx_sqs_base_t;
 static inline uint64_t CAVM_NIXX_AF_LFX_SQS_BASE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_LFX_SQS_BASE(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=127))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=127)))
         return 0x840040004030ll + 0x10000000ll * ((a) & 0x1) + 0x20000ll * ((b) & 0x7f);
     __cavm_csr_fatal("NIXX_AF_LFX_SQS_BASE", 2, a, b, 0, 0, 0, 0);
 }
@@ -8320,7 +8377,8 @@ union cavm_nixx_af_lfx_sqs_cfg
     struct cavm_nixx_af_lfx_sqs_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_37_63        : 27;
+        uint64_t reserved_40_63        : 24;
+        uint64_t spare                 : 3;  /**< [ 39: 37](R/W) Spare ECO R/W bits. */
         uint64_t caching               : 1;  /**< [ 36: 36](R/W) Selects the style of write and read for accessing queue context structures
                                                                  in LLC/DRAM:
                                                                  0 = Reads and writes of context data will not allocate into the LLC.
@@ -8336,7 +8394,8 @@ union cavm_nixx_af_lfx_sqs_cfg
                                                                  in LLC/DRAM:
                                                                  0 = Reads and writes of context data will not allocate into the LLC.
                                                                  1 = Reads and full cache line writes of context data are allocated into the LLC. */
-        uint64_t reserved_37_63        : 27;
+        uint64_t spare                 : 3;  /**< [ 39: 37](R/W) Spare ECO R/W bits. */
+        uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_lfx_sqs_cfg_s cn; */
@@ -8346,7 +8405,7 @@ typedef union cavm_nixx_af_lfx_sqs_cfg cavm_nixx_af_lfx_sqs_cfg_t;
 static inline uint64_t CAVM_NIXX_AF_LFX_SQS_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_LFX_SQS_CFG(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=127))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=127)))
         return 0x840040004020ll + 0x10000000ll * ((a) & 0x1) + 0x20000ll * ((b) & 0x7f);
     __cavm_csr_fatal("NIXX_AF_LFX_SQS_CFG", 2, a, b, 0, 0, 0, 0);
 }
@@ -8409,7 +8468,7 @@ typedef union cavm_nixx_af_lfx_tx_cfg cavm_nixx_af_lfx_tx_cfg_t;
 static inline uint64_t CAVM_NIXX_AF_LFX_TX_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_LFX_TX_CFG(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=127))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=127)))
         return 0x840040004080ll + 0x10000000ll * ((a) & 0x1) + 0x20000ll * ((b) & 0x7f);
     __cavm_csr_fatal("NIXX_AF_LFX_TX_CFG", 2, a, b, 0, 0, 0, 0);
 }
@@ -8450,7 +8509,7 @@ typedef union cavm_nixx_af_lfx_tx_cfg2 cavm_nixx_af_lfx_tx_cfg2_t;
 static inline uint64_t CAVM_NIXX_AF_LFX_TX_CFG2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_LFX_TX_CFG2(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=127))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=127)))
         return 0x840040004028ll + 0x10000000ll * ((a) & 0x1) + 0x20000ll * ((b) & 0x7f);
     __cavm_csr_fatal("NIXX_AF_LFX_TX_CFG2", 2, a, b, 0, 0, 0, 0);
 }
@@ -8487,7 +8546,7 @@ typedef union cavm_nixx_af_lfx_tx_parse_cfg cavm_nixx_af_lfx_tx_parse_cfg_t;
 static inline uint64_t CAVM_NIXX_AF_LFX_TX_PARSE_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_LFX_TX_PARSE_CFG(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=127))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=127)))
         return 0x840040004090ll + 0x10000000ll * ((a) & 0x1) + 0x20000ll * ((b) & 0x7f);
     __cavm_csr_fatal("NIXX_AF_LFX_TX_PARSE_CFG", 2, a, b, 0, 0, 0, 0);
 }
@@ -8527,7 +8586,7 @@ typedef union cavm_nixx_af_lfx_tx_statx cavm_nixx_af_lfx_tx_statx_t;
 static inline uint64_t CAVM_NIXX_AF_LFX_TX_STATX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_LFX_TX_STATX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=1) && (b<=127) && (c<=4))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=127) && (c<=4)))
         return 0x840040004400ll + 0x10000000ll * ((a) & 0x1) + 0x20000ll * ((b) & 0x7f) + 8ll * ((c) & 0x7);
     __cavm_csr_fatal("NIXX_AF_LFX_TX_STATX", 3, a, b, c, 0, 0, 0);
 }
@@ -8574,7 +8633,7 @@ typedef union cavm_nixx_af_lfx_tx_status cavm_nixx_af_lfx_tx_status_t;
 static inline uint64_t CAVM_NIXX_AF_LFX_TX_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_LFX_TX_STATUS(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=127))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=127)))
         return 0x840040004180ll + 0x10000000ll * ((a) & 0x1) + 0x20000ll * ((b) & 0x7f);
     __cavm_csr_fatal("NIXX_AF_LFX_TX_STATUS", 2, a, b, 0, 0, 0, 0);
 }
@@ -8613,7 +8672,7 @@ typedef union cavm_nixx_af_lfx_vwqe_flushed cavm_nixx_af_lfx_vwqe_flushed_t;
 static inline uint64_t CAVM_NIXX_AF_LFX_VWQE_FLUSHED(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_LFX_VWQE_FLUSHED(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=127))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=127)))
         return 0x840040004770ll + 0x10000000ll * ((a) & 0x1) + 0x20000ll * ((b) & 0x7f);
     __cavm_csr_fatal("NIXX_AF_LFX_VWQE_FLUSHED", 2, a, b, 0, 0, 0, 0);
 }
@@ -8650,7 +8709,7 @@ typedef union cavm_nixx_af_lfx_vwqe_norm_compl cavm_nixx_af_lfx_vwqe_norm_compl_
 static inline uint64_t CAVM_NIXX_AF_LFX_VWQE_NORM_COMPL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_LFX_VWQE_NORM_COMPL(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=127))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=127)))
         return 0x840040004740ll + 0x10000000ll * ((a) & 0x1) + 0x20000ll * ((b) & 0x7f);
     __cavm_csr_fatal("NIXX_AF_LFX_VWQE_NORM_COMPL", 2, a, b, 0, 0, 0, 0);
 }
@@ -8687,7 +8746,7 @@ typedef union cavm_nixx_af_lfx_vwqe_rls_timeout cavm_nixx_af_lfx_vwqe_rls_timeou
 static inline uint64_t CAVM_NIXX_AF_LFX_VWQE_RLS_TIMEOUT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_LFX_VWQE_RLS_TIMEOUT(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=127))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=127)))
         return 0x840040004750ll + 0x10000000ll * ((a) & 0x1) + 0x20000ll * ((b) & 0x7f);
     __cavm_csr_fatal("NIXX_AF_LFX_VWQE_RLS_TIMEOUT", 2, a, b, 0, 0, 0, 0);
 }
@@ -8725,7 +8784,7 @@ typedef union cavm_nixx_af_lfx_vwqe_sa_hash_full cavm_nixx_af_lfx_vwqe_sa_hash_f
 static inline uint64_t CAVM_NIXX_AF_LFX_VWQE_SA_HASH_FULL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_LFX_VWQE_SA_HASH_FULL(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=127))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=127)))
         return 0x840040004760ll + 0x10000000ll * ((a) & 0x1) + 0x20000ll * ((b) & 0x7f);
     __cavm_csr_fatal("NIXX_AF_LFX_VWQE_SA_HASH_FULL", 2, a, b, 0, 0, 0, 0);
 }
@@ -8770,7 +8829,7 @@ typedef union cavm_nixx_af_lf_rst cavm_nixx_af_lf_rst_t;
 static inline uint64_t CAVM_NIXX_AF_LF_RST(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_LF_RST(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000150ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_LF_RST", 1, a, 0, 0, 0, 0, 0);
 }
@@ -8828,8 +8887,8 @@ typedef union cavm_nixx_af_linkx_cfg cavm_nixx_af_linkx_cfg_t;
 static inline uint64_t CAVM_NIXX_AF_LINKX_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_LINKX_CFG(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=14))
-        return 0x840040004010ll + 0x10000000ll * ((a) & 0x1) + 0x20000ll * ((b) & 0xf);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=26)))
+        return 0x840040004010ll + 0x10000000ll * ((a) & 0x1) + 0x20000ll * ((b) & 0x1f);
     __cavm_csr_fatal("NIXX_AF_LINKX_CFG", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -8888,7 +8947,7 @@ typedef union cavm_nixx_af_link_cdt_adj_err cavm_nixx_af_link_cdt_adj_err_t;
 static inline uint64_t CAVM_NIXX_AF_LINK_CDT_ADJ_ERR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_LINK_CDT_ADJ_ERR(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000aa0ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_LINK_CDT_ADJ_ERR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -8963,7 +9022,7 @@ typedef union cavm_nixx_af_lso_cfg cavm_nixx_af_lso_cfg_t;
 static inline uint64_t CAVM_NIXX_AF_LSO_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_LSO_CFG(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x8400400000a8ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_LSO_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -9026,7 +9085,7 @@ typedef union cavm_nixx_af_lso_formatx_fieldx cavm_nixx_af_lso_formatx_fieldx_t;
 static inline uint64_t CAVM_NIXX_AF_LSO_FORMATX_FIELDX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_LSO_FORMATX_FIELDX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=1) && (b<=31) && (c<=7))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=31) && (c<=7)))
         return 0x840040001b00ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1f) + 8ll * ((c) & 0x7);
     __cavm_csr_fatal("NIXX_AF_LSO_FORMATX_FIELDX", 3, a, b, c, 0, 0, 0);
 }
@@ -9102,7 +9161,7 @@ typedef union cavm_nixx_af_mark_formatx_ctl cavm_nixx_af_mark_formatx_ctl_t;
 static inline uint64_t CAVM_NIXX_AF_MARK_FORMATX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_MARK_FORMATX_CTL(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=127))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=127)))
         return 0x840040000900ll + 0x10000000ll * ((a) & 0x1) + 0x40000ll * ((b) & 0x7f);
     __cavm_csr_fatal("NIXX_AF_MARK_FORMATX_CTL", 2, a, b, 0, 0, 0, 0);
 }
@@ -9140,7 +9199,7 @@ typedef union cavm_nixx_af_mc_mirror_const cavm_nixx_af_mc_mirror_const_t;
 static inline uint64_t CAVM_NIXX_AF_MC_MIRROR_CONST(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_MC_MIRROR_CONST(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000098ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_MC_MIRROR_CONST", 1, a, 0, 0, 0, 0, 0);
 }
@@ -9220,8 +9279,8 @@ typedef union cavm_nixx_af_mdqx_cir cavm_nixx_af_mdqx_cir_t;
 static inline uint64_t CAVM_NIXX_AF_MDQX_CIR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_MDQX_CIR(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=831))
-        return 0x840040001420ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3ff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=2047)))
+        return 0x840040001420ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7ff);
     __cavm_csr_fatal("NIXX_AF_MDQX_CIR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -9257,8 +9316,8 @@ typedef union cavm_nixx_af_mdqx_in_md_count cavm_nixx_af_mdqx_in_md_count_t;
 static inline uint64_t CAVM_NIXX_AF_MDQX_IN_MD_COUNT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_MDQX_IN_MD_COUNT(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=831))
-        return 0x8400400014e0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3ff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=2047)))
+        return 0x8400400014e0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7ff);
     __cavm_csr_fatal("NIXX_AF_MDQX_IN_MD_COUNT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -9284,9 +9343,10 @@ union cavm_nixx_af_mdqx_md_debug
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_63           : 1;
         uint64_t md_type               : 2;  /**< [ 62: 61](R/W/H) Meta descriptor type, enumerated by NIX_MDTYPE_E. */
-        uint64_t reserved_45_60        : 16;
+        uint64_t reserved_47_60        : 14;
+        uint64_t pkt_link_type         : 2;  /**< [ 46: 45](R/W/H) Whether the MD is RPM, SDP or LBK. */
         uint64_t sqm_pkt_id            : 13; /**< [ 44: 32](R/W/H) SQM Packet Index. */
-        uint64_t sdp                   : 1;  /**< [ 31: 31](R/W/H) Whether the MD is SDP or RPM. */
+        uint64_t reserved_31           : 1;
         uint64_t color                 : 2;  /**< [ 30: 29](R/W/H) Incoming Pkt color. */
         uint64_t shp_chg               : 9;  /**< [ 28: 20](R/W/H) When [ADJUST] is not 0x100, it is the NIX_SEND_EXT_S[SHP_CHG] for the
                                                                  packet. */
@@ -9318,9 +9378,10 @@ union cavm_nixx_af_mdqx_md_debug
         uint64_t shp_chg               : 9;  /**< [ 28: 20](R/W/H) When [ADJUST] is not 0x100, it is the NIX_SEND_EXT_S[SHP_CHG] for the
                                                                  packet. */
         uint64_t color                 : 2;  /**< [ 30: 29](R/W/H) Incoming Pkt color. */
-        uint64_t sdp                   : 1;  /**< [ 31: 31](R/W/H) Whether the MD is SDP or RPM. */
+        uint64_t reserved_31           : 1;
         uint64_t sqm_pkt_id            : 13; /**< [ 44: 32](R/W/H) SQM Packet Index. */
-        uint64_t reserved_45_60        : 16;
+        uint64_t pkt_link_type         : 2;  /**< [ 46: 45](R/W/H) Whether the MD is RPM, SDP or LBK. */
+        uint64_t reserved_47_60        : 14;
         uint64_t md_type               : 2;  /**< [ 62: 61](R/W/H) Meta descriptor type, enumerated by NIX_MDTYPE_E. */
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
@@ -9332,8 +9393,8 @@ typedef union cavm_nixx_af_mdqx_md_debug cavm_nixx_af_mdqx_md_debug_t;
 static inline uint64_t CAVM_NIXX_AF_MDQX_MD_DEBUG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_MDQX_MD_DEBUG(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=831))
-        return 0x8400400014c0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3ff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=2047)))
+        return 0x8400400014c0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7ff);
     __cavm_csr_fatal("NIXX_AF_MDQX_MD_DEBUG", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -9369,8 +9430,8 @@ typedef union cavm_nixx_af_mdqx_out_md_count cavm_nixx_af_mdqx_out_md_count_t;
 static inline uint64_t CAVM_NIXX_AF_MDQX_OUT_MD_COUNT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_MDQX_OUT_MD_COUNT(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=831))
-        return 0x840040000db0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3ff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=2047)))
+        return 0x840040000db0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7ff);
     __cavm_csr_fatal("NIXX_AF_MDQX_OUT_MD_COUNT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -9392,13 +9453,13 @@ union cavm_nixx_af_mdqx_parent
     struct cavm_nixx_af_mdqx_parent_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_25_63        : 39;
-        uint64_t parent                : 9;  /**< [ 24: 16](R/W) See NIX_AF_TL2()_PARENT[PARENT]. */
-        uint64_t reserved_0_15         : 16;
+        uint64_t reserved_26_63        : 38;
+        uint64_t parent                : 11; /**< [ 25: 15](R/W) See NIX_AF_TL2()_PARENT[PARENT]. */
+        uint64_t reserved_0_14         : 15;
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_15         : 16;
-        uint64_t parent                : 9;  /**< [ 24: 16](R/W) See NIX_AF_TL2()_PARENT[PARENT]. */
-        uint64_t reserved_25_63        : 39;
+        uint64_t reserved_0_14         : 15;
+        uint64_t parent                : 11; /**< [ 25: 15](R/W) See NIX_AF_TL2()_PARENT[PARENT]. */
+        uint64_t reserved_26_63        : 38;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_mdqx_parent_s cn; */
@@ -9408,8 +9469,8 @@ typedef union cavm_nixx_af_mdqx_parent cavm_nixx_af_mdqx_parent_t;
 static inline uint64_t CAVM_NIXX_AF_MDQX_PARENT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_MDQX_PARENT(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=831))
-        return 0x840040001480ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3ff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=2047)))
+        return 0x840040001480ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7ff);
     __cavm_csr_fatal("NIXX_AF_MDQX_PARENT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -9488,8 +9549,8 @@ typedef union cavm_nixx_af_mdqx_pir cavm_nixx_af_mdqx_pir_t;
 static inline uint64_t CAVM_NIXX_AF_MDQX_PIR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_MDQX_PIR(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=831))
-        return 0x840040001430ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3ff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=2047)))
+        return 0x840040001430ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7ff);
     __cavm_csr_fatal("NIXX_AF_MDQX_PIR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -9528,8 +9589,8 @@ typedef union cavm_nixx_af_mdqx_sched_state cavm_nixx_af_mdqx_sched_state_t;
 static inline uint64_t CAVM_NIXX_AF_MDQX_SCHED_STATE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_MDQX_SCHED_STATE(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=831))
-        return 0x840040001440ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3ff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=2047)))
+        return 0x840040001440ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7ff);
     __cavm_csr_fatal("NIXX_AF_MDQX_SCHED_STATE", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -9568,9 +9629,10 @@ union cavm_nixx_af_mdqx_schedule
                                                                     + NIX_nm_SHAPE[ADJUST]
 
                                                                  where nm corresponds to this NIX_nm_SCHEDULE CSR. Quantum value to ADD back would be
-                                                                 [(2^NIX_AF_DWRR_SDP_MTU) OR (2^NIX_AF_DWRR_RPM_MTU) x RR_WEIGHT].
+                                                                 [(2^NIX_AF_DWRR_MTU[x][MTU]) * RR_WEIGHT].
 
-                                                                 Note Selected MTU depends on MD whether its SDP or RPM. */
+                                                                 Note "x" here is the selected MTU for a MD which can be SDP, RPM or LBK related
+                                                                 and is determined by NIX_AF_SMQ()_CFG[PKT_LINK_TYPE]. */
 #else /* Word 0 - Little Endian */
         uint64_t rr_weight             : 14; /**< [ 13:  0](R/W) Round-robin (DWRR) Weight. The deficit-weighted round-robin weight (14-bit unsigned
                                                                  integer). The packet size used in all DWRR (RR_COUNT) calculations is:
@@ -9579,9 +9641,10 @@ union cavm_nixx_af_mdqx_schedule
                                                                     + NIX_nm_SHAPE[ADJUST]
 
                                                                  where nm corresponds to this NIX_nm_SCHEDULE CSR. Quantum value to ADD back would be
-                                                                 [(2^NIX_AF_DWRR_SDP_MTU) OR (2^NIX_AF_DWRR_RPM_MTU) x RR_WEIGHT].
+                                                                 [(2^NIX_AF_DWRR_MTU[x][MTU]) * RR_WEIGHT].
 
-                                                                 Note Selected MTU depends on MD whether its SDP or RPM. */
+                                                                 Note "x" here is the selected MTU for a MD which can be SDP, RPM or LBK related
+                                                                 and is determined by NIX_AF_SMQ()_CFG[PKT_LINK_TYPE]. */
         uint64_t reserved_14_23        : 10;
         uint64_t prio                  : 4;  /**< [ 27: 24](R/W) Priority. The priority used for this shaping queue in the (lower-level)
                                                                  parent's scheduling algorithm. When this shaping queue is not used, we
@@ -9600,8 +9663,8 @@ typedef union cavm_nixx_af_mdqx_schedule cavm_nixx_af_mdqx_schedule_t;
 static inline uint64_t CAVM_NIXX_AF_MDQX_SCHEDULE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_MDQX_SCHEDULE(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=831))
-        return 0x840040001400ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3ff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=2047)))
+        return 0x840040001400ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7ff);
     __cavm_csr_fatal("NIXX_AF_MDQX_SCHEDULE", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -9650,8 +9713,8 @@ typedef union cavm_nixx_af_mdqx_shape cavm_nixx_af_mdqx_shape_t;
 static inline uint64_t CAVM_NIXX_AF_MDQX_SHAPE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_MDQX_SHAPE(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=831))
-        return 0x840040001410ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3ff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=2047)))
+        return 0x840040001410ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7ff);
     __cavm_csr_fatal("NIXX_AF_MDQX_SHAPE", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -9699,8 +9762,8 @@ typedef union cavm_nixx_af_mdqx_shape_state_cir cavm_nixx_af_mdqx_shape_state_ci
 static inline uint64_t CAVM_NIXX_AF_MDQX_SHAPE_STATE_CIR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_MDQX_SHAPE_STATE_CIR(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=831))
-        return 0x8400400012d0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3ff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=2047)))
+        return 0x8400400012d0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7ff);
     __cavm_csr_fatal("NIXX_AF_MDQX_SHAPE_STATE_CIR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -9748,8 +9811,8 @@ typedef union cavm_nixx_af_mdqx_shape_state_pir cavm_nixx_af_mdqx_shape_state_pi
 static inline uint64_t CAVM_NIXX_AF_MDQX_SHAPE_STATE_PIR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_MDQX_SHAPE_STATE_PIR(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=831))
-        return 0x840040001450ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3ff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=2047)))
+        return 0x840040001450ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7ff);
     __cavm_csr_fatal("NIXX_AF_MDQX_SHAPE_STATE_PIR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -9790,8 +9853,8 @@ typedef union cavm_nixx_af_mdqx_sw_xoff cavm_nixx_af_mdqx_sw_xoff_t;
 static inline uint64_t CAVM_NIXX_AF_MDQX_SW_XOFF(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_MDQX_SW_XOFF(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=831))
-        return 0x840040001470ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3ff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=2047)))
+        return 0x840040001470ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7ff);
     __cavm_csr_fatal("NIXX_AF_MDQX_SW_XOFF", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -9828,7 +9891,7 @@ typedef union cavm_nixx_af_mdq_const cavm_nixx_af_mdq_const_t;
 static inline uint64_t CAVM_NIXX_AF_MDQ_CONST(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_MDQ_CONST(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000090ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_MDQ_CONST", 1, a, 0, 0, 0, 0, 0);
 }
@@ -9863,7 +9926,7 @@ typedef union cavm_nixx_af_mdq_md_count cavm_nixx_af_mdq_md_count_t;
 static inline uint64_t CAVM_NIXX_AF_MDQ_MD_COUNT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_MDQ_MD_COUNT(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000da0ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_MDQ_MD_COUNT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -9899,8 +9962,8 @@ typedef union cavm_nixx_af_mdq_twx_arb_req_debug0 cavm_nixx_af_mdq_twx_arb_req_d
 static inline uint64_t CAVM_NIXX_AF_MDQ_TWX_ARB_REQ_DEBUG0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_MDQ_TWX_ARB_REQ_DEBUG0(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=6))
-        return 0x8400400013c8ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=15)))
+        return 0x8400400013c8ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xf);
     __cavm_csr_fatal("NIXX_AF_MDQ_TWX_ARB_REQ_DEBUG0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -9935,8 +9998,8 @@ typedef union cavm_nixx_af_mdq_twx_arb_req_debug1 cavm_nixx_af_mdq_twx_arb_req_d
 static inline uint64_t CAVM_NIXX_AF_MDQ_TWX_ARB_REQ_DEBUG1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_MDQ_TWX_ARB_REQ_DEBUG1(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=6))
-        return 0x8400400013d0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=15)))
+        return 0x8400400013d0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xf);
     __cavm_csr_fatal("NIXX_AF_MDQ_TWX_ARB_REQ_DEBUG1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -9961,11 +10024,11 @@ union cavm_nixx_af_mdq_tw_arb_ctl_debug
         uint64_t reserved_17_63        : 47;
         uint64_t quiet                 : 1;  /**< [ 16: 16](WO) Clear or set the requestor specified in REQ_INDEX. When this bit is set, the requestor is cleared.
                                                                  When this bit is clear, the requestor is set. */
-        uint64_t reserved_10_15        : 6;
-        uint64_t req_index             : 10; /**< [  9:  0](WO) Index of timewheel arbiter request vector to affect. Requestor is set or cleared, based on QUIET. */
+        uint64_t reserved_11_15        : 5;
+        uint64_t req_index             : 11; /**< [ 10:  0](WO) Index of timewheel arbiter request vector to affect. Requestor is set or cleared, based on QUIET. */
 #else /* Word 0 - Little Endian */
-        uint64_t req_index             : 10; /**< [  9:  0](WO) Index of timewheel arbiter request vector to affect. Requestor is set or cleared, based on QUIET. */
-        uint64_t reserved_10_15        : 6;
+        uint64_t req_index             : 11; /**< [ 10:  0](WO) Index of timewheel arbiter request vector to affect. Requestor is set or cleared, based on QUIET. */
+        uint64_t reserved_11_15        : 5;
         uint64_t quiet                 : 1;  /**< [ 16: 16](WO) Clear or set the requestor specified in REQ_INDEX. When this bit is set, the requestor is cleared.
                                                                  When this bit is clear, the requestor is set. */
         uint64_t reserved_17_63        : 47;
@@ -9978,7 +10041,7 @@ typedef union cavm_nixx_af_mdq_tw_arb_ctl_debug cavm_nixx_af_mdq_tw_arb_ctl_debu
 static inline uint64_t CAVM_NIXX_AF_MDQ_TW_ARB_CTL_DEBUG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_MDQ_TW_ARB_CTL_DEBUG(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x8400400013c0ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_MDQ_TW_ARB_CTL_DEBUG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -10041,7 +10104,7 @@ typedef union cavm_nixx_af_ndc_cfg cavm_nixx_af_ndc_cfg_t;
 static inline uint64_t CAVM_NIXX_AF_NDC_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_NDC_CFG(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000018ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_NDC_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -10087,7 +10150,7 @@ typedef union cavm_nixx_af_ndc_rx_sync cavm_nixx_af_ndc_rx_sync_t;
 static inline uint64_t CAVM_NIXX_AF_NDC_RX_SYNC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_NDC_RX_SYNC(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x8400400003e0ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_NDC_RX_SYNC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -10133,7 +10196,7 @@ typedef union cavm_nixx_af_ndc_tx_sync cavm_nixx_af_ndc_tx_sync_t;
 static inline uint64_t CAVM_NIXX_AF_NDC_TX_SYNC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_NDC_TX_SYNC(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x8400400003f0ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_NDC_TX_SYNC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -10171,7 +10234,7 @@ typedef union cavm_nixx_af_norm_tx_fifo_status cavm_nixx_af_norm_tx_fifo_status_
 static inline uint64_t CAVM_NIXX_AF_NORM_TX_FIFO_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_NORM_TX_FIFO_STATUS(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000648ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_NORM_TX_FIFO_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -10213,7 +10276,7 @@ typedef union cavm_nixx_af_pl_const cavm_nixx_af_pl_const_t;
 static inline uint64_t CAVM_NIXX_AF_PL_CONST(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_PL_CONST(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000058ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_PL_CONST", 1, a, 0, 0, 0, 0, 0);
 }
@@ -10254,7 +10317,7 @@ typedef union cavm_nixx_af_pl_ts cavm_nixx_af_pl_ts_t;
 static inline uint64_t CAVM_NIXX_AF_PL_TS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_PL_TS(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x8400400000c8ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_PL_TS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -10290,7 +10353,7 @@ typedef union cavm_nixx_af_pse_active_cycles_pc cavm_nixx_af_pse_active_cycles_p
 static inline uint64_t CAVM_NIXX_AF_PSE_ACTIVE_CYCLES_PC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_PSE_ACTIVE_CYCLES_PC(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x8400400008c0ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_PSE_ACTIVE_CYCLES_PC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -10341,7 +10404,7 @@ typedef union cavm_nixx_af_pse_channel_level cavm_nixx_af_pse_channel_level_t;
 static inline uint64_t CAVM_NIXX_AF_PSE_CHANNEL_LEVEL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_PSE_CHANNEL_LEVEL(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000800ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_PSE_CHANNEL_LEVEL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -10383,7 +10446,7 @@ typedef union cavm_nixx_af_pse_const cavm_nixx_af_pse_const_t;
 static inline uint64_t CAVM_NIXX_AF_PSE_CONST(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_PSE_CONST(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000060ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_PSE_CONST", 1, a, 0, 0, 0, 0, 0);
 }
@@ -10458,7 +10521,7 @@ typedef union cavm_nixx_af_pse_shaper_cfg cavm_nixx_af_pse_shaper_cfg_t;
 static inline uint64_t CAVM_NIXX_AF_PSE_SHAPER_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_PSE_SHAPER_CFG(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000810ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_PSE_SHAPER_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -10525,7 +10588,7 @@ typedef union cavm_nixx_af_ras cavm_nixx_af_ras_t;
 static inline uint64_t CAVM_NIXX_AF_RAS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RAS(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x8400400001a0ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RAS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -10579,7 +10642,7 @@ typedef union cavm_nixx_af_ras_ena_w1c cavm_nixx_af_ras_ena_w1c_t;
 static inline uint64_t CAVM_NIXX_AF_RAS_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RAS_ENA_W1C(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x8400400001b8ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RAS_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
@@ -10633,7 +10696,7 @@ typedef union cavm_nixx_af_ras_ena_w1s cavm_nixx_af_ras_ena_w1s_t;
 static inline uint64_t CAVM_NIXX_AF_RAS_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RAS_ENA_W1S(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x8400400001b0ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RAS_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -10687,7 +10750,7 @@ typedef union cavm_nixx_af_ras_w1s cavm_nixx_af_ras_w1s_t;
 static inline uint64_t CAVM_NIXX_AF_RAS_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RAS_W1S(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x8400400001a8ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RAS_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -10725,7 +10788,7 @@ typedef union cavm_nixx_af_rq_const cavm_nixx_af_rq_const_t;
 static inline uint64_t CAVM_NIXX_AF_RQ_CONST(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RQ_CONST(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000050ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RQ_CONST", 1, a, 0, 0, 0, 0, 0);
 }
@@ -10736,6 +10799,45 @@ static inline uint64_t CAVM_NIXX_AF_RQ_CONST(uint64_t a)
 #define device_bar_CAVM_NIXX_AF_RQ_CONST(a) 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_NIXX_AF_RQ_CONST(a) (a)
 #define arguments_CAVM_NIXX_AF_RQ_CONST(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) nix#_af_rqm_eco
+ *
+ * AF RQM Enhanced Control Options Register
+ */
+union cavm_nixx_af_rqm_eco
+{
+    uint64_t u;
+    struct cavm_nixx_af_rqm_eco_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t eco_rw                : 64; /**< [ 63:  0](R/W) [62:0] - Reserved. Do not modify. [63] - Set
+                                                                 NIX_RQ_CTX_S[LPB_AURA]=0 and NIX_RQ_CTX_S[SPB_AURA]=0,
+                                                                 for IPsec replayed packets. */
+#else /* Word 0 - Little Endian */
+        uint64_t eco_rw                : 64; /**< [ 63:  0](R/W) [62:0] - Reserved. Do not modify. [63] - Set
+                                                                 NIX_RQ_CTX_S[LPB_AURA]=0 and NIX_RQ_CTX_S[SPB_AURA]=0,
+                                                                 for IPsec replayed packets. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_nixx_af_rqm_eco_s cn; */
+};
+typedef union cavm_nixx_af_rqm_eco cavm_nixx_af_rqm_eco_t;
+
+static inline uint64_t CAVM_NIXX_AF_RQM_ECO(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NIXX_AF_RQM_ECO(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+        return 0x8400400005a0ll + 0x10000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("NIXX_AF_RQM_ECO", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NIXX_AF_RQM_ECO(a) cavm_nixx_af_rqm_eco_t
+#define bustype_CAVM_NIXX_AF_RQM_ECO(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NIXX_AF_RQM_ECO(a) "NIXX_AF_RQM_ECO"
+#define device_bar_CAVM_NIXX_AF_RQM_ECO(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NIXX_AF_RQM_ECO(a) (a)
+#define arguments_CAVM_NIXX_AF_RQM_ECO(a) (a),-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) nix#_af_rvu_int
@@ -10765,7 +10867,7 @@ typedef union cavm_nixx_af_rvu_int cavm_nixx_af_rvu_int_t;
 static inline uint64_t CAVM_NIXX_AF_RVU_INT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RVU_INT(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x8400400001c0ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RVU_INT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -10803,7 +10905,7 @@ typedef union cavm_nixx_af_rvu_int_ena_w1c cavm_nixx_af_rvu_int_ena_w1c_t;
 static inline uint64_t CAVM_NIXX_AF_RVU_INT_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RVU_INT_ENA_W1C(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x8400400001d8ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RVU_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
@@ -10841,7 +10943,7 @@ typedef union cavm_nixx_af_rvu_int_ena_w1s cavm_nixx_af_rvu_int_ena_w1s_t;
 static inline uint64_t CAVM_NIXX_AF_RVU_INT_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RVU_INT_ENA_W1S(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x8400400001d0ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RVU_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -10879,7 +10981,7 @@ typedef union cavm_nixx_af_rvu_int_w1s cavm_nixx_af_rvu_int_w1s_t;
 static inline uint64_t CAVM_NIXX_AF_RVU_INT_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RVU_INT_W1S(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x8400400001c8ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RVU_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -10938,7 +11040,7 @@ typedef union cavm_nixx_af_rvu_lf_cfg_debug cavm_nixx_af_rvu_lf_cfg_debug_t;
 static inline uint64_t CAVM_NIXX_AF_RVU_LF_CFG_DEBUG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RVU_LF_CFG_DEBUG(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840048000030ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RVU_LF_CFG_DEBUG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -10974,7 +11076,7 @@ typedef union cavm_nixx_af_rx_active_cycles_pcx cavm_nixx_af_rx_active_cycles_pc
 static inline uint64_t CAVM_NIXX_AF_RX_ACTIVE_CYCLES_PCX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_ACTIVE_CYCLES_PCX(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=18))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=18)))
         return 0x840040004800ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1f);
     __cavm_csr_fatal("NIXX_AF_RX_ACTIVE_CYCLES_PCX", 2, a, b, 0, 0, 0, 0);
 }
@@ -11035,7 +11137,7 @@ typedef union cavm_nixx_af_rx_bpidx_status cavm_nixx_af_rx_bpidx_status_t;
 static inline uint64_t CAVM_NIXX_AF_RX_BPIDX_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_BPIDX_STATUS(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=511))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=511)))
         return 0x840040001a20ll + 0x10000000ll * ((a) & 0x1) + 0x20000ll * ((b) & 0x1ff);
     __cavm_csr_fatal("NIXX_AF_RX_BPIDX_STATUS", 2, a, b, 0, 0, 0, 0);
 }
@@ -11076,7 +11178,7 @@ typedef union cavm_nixx_af_rx_cfg cavm_nixx_af_rx_cfg_t;
 static inline uint64_t CAVM_NIXX_AF_RX_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_CFG(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x8400400000d0ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RX_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -11099,21 +11201,39 @@ union cavm_nixx_af_rx_chanx_cfg
     struct cavm_nixx_af_rx_chanx_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_19_63        : 45;
+        uint64_t reserved_53_63        : 11;
+        uint64_t bpid3                 : 9;  /**< [ 52: 44](R/W/H) BPID used to receive backpressure when [BP3_ENA] is set. */
+        uint64_t reserved_41_43        : 3;
+        uint64_t bpid2                 : 9;  /**< [ 40: 32](R/W/H) BPID used to receive backpressure when [BP2_ENA] is set. */
+        uint64_t reserved_29_31        : 3;
+        uint64_t bpid1                 : 9;  /**< [ 28: 20](R/W/H) BPID used to receive backpressure when [BP1_ENA] is set. */
+        uint64_t reserved_19           : 1;
         uint64_t imp                   : 1;  /**< [ 18: 18](RO/H) Al registers are implemented.
-                                                                 However only valid channels according to [NIX_AF_LINK(0..14)_CFG] configuration should be used. */
+                                                                 However only valid channels according to [NIX_AF_LINK(0..15)_CFG] configuration should be used. */
         uint64_t sw_xoff               : 1;  /**< [ 17: 17](R/W/H) Software XOFF. When set, backpressure is forced on the RX channel. */
         uint64_t bp_ena                : 1;  /**< [ 16: 16](R/W/H) Backpressure enable. When set, the channel receives backpressure from [BPID]. */
-        uint64_t reserved_9_15         : 7;
+        uint64_t bp1_ena               : 1;  /**< [ 15: 15](R/W/H) Backpressure enable. When set, the channel receives backpressure from [BPID1]. */
+        uint64_t bp2_ena               : 1;  /**< [ 14: 14](R/W/H) Backpressure enable. When set, the channel receives backpressure from [BPID2]. */
+        uint64_t bp3_ena               : 1;  /**< [ 13: 13](R/W/H) Backpressure enable. When set, the channel receives backpressure from [BPID3]. */
+        uint64_t reserved_9_12         : 4;
         uint64_t bpid                  : 9;  /**< [  8:  0](R/W/H) BPID used to receive backpressure when [BP_ENA] is set. */
 #else /* Word 0 - Little Endian */
         uint64_t bpid                  : 9;  /**< [  8:  0](R/W/H) BPID used to receive backpressure when [BP_ENA] is set. */
-        uint64_t reserved_9_15         : 7;
+        uint64_t reserved_9_12         : 4;
+        uint64_t bp3_ena               : 1;  /**< [ 13: 13](R/W/H) Backpressure enable. When set, the channel receives backpressure from [BPID3]. */
+        uint64_t bp2_ena               : 1;  /**< [ 14: 14](R/W/H) Backpressure enable. When set, the channel receives backpressure from [BPID2]. */
+        uint64_t bp1_ena               : 1;  /**< [ 15: 15](R/W/H) Backpressure enable. When set, the channel receives backpressure from [BPID1]. */
         uint64_t bp_ena                : 1;  /**< [ 16: 16](R/W/H) Backpressure enable. When set, the channel receives backpressure from [BPID]. */
         uint64_t sw_xoff               : 1;  /**< [ 17: 17](R/W/H) Software XOFF. When set, backpressure is forced on the RX channel. */
         uint64_t imp                   : 1;  /**< [ 18: 18](RO/H) Al registers are implemented.
-                                                                 However only valid channels according to [NIX_AF_LINK(0..14)_CFG] configuration should be used. */
-        uint64_t reserved_19_63        : 45;
+                                                                 However only valid channels according to [NIX_AF_LINK(0..15)_CFG] configuration should be used. */
+        uint64_t reserved_19           : 1;
+        uint64_t bpid1                 : 9;  /**< [ 28: 20](R/W/H) BPID used to receive backpressure when [BP1_ENA] is set. */
+        uint64_t reserved_29_31        : 3;
+        uint64_t bpid2                 : 9;  /**< [ 40: 32](R/W/H) BPID used to receive backpressure when [BP2_ENA] is set. */
+        uint64_t reserved_41_43        : 3;
+        uint64_t bpid3                 : 9;  /**< [ 52: 44](R/W/H) BPID used to receive backpressure when [BP3_ENA] is set. */
+        uint64_t reserved_53_63        : 11;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_rx_chanx_cfg_s cn; */
@@ -11123,7 +11243,7 @@ typedef union cavm_nixx_af_rx_chanx_cfg cavm_nixx_af_rx_chanx_cfg_t;
 static inline uint64_t CAVM_NIXX_AF_RX_CHANX_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_CHANX_CFG(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=4095))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=4095)))
         return 0x840040001a30ll + 0x10000000ll * ((a) & 0x1) + 0x8000ll * ((b) & 0xfff);
     __cavm_csr_fatal("NIXX_AF_RX_CHANX_CFG", 2, a, b, 0, 0, 0, 0);
 }
@@ -11147,7 +11267,7 @@ union cavm_nixx_af_rx_cptx_credit
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_62_63        : 2;
-        uint64_t hysteresis            : 6;  /**< [ 61: 56](R/W) See NIX_AF_RX_CPT()_CREDIT[INST_CREDIT_THINST_CREDIT_TH]. */
+        uint64_t hysteresis            : 6;  /**< [ 61: 56](R/W) See NIX_AF_RX_CPT()_CREDIT[INST_CREDIT_TH]. */
         uint64_t reserved_54_55        : 2;
         uint64_t inst_credit_th        : 22; /**< [ 53: 32](R/W) When INST_CRED_CNT goes below the (INST_CRED_TH-2^HYSTERESIS) the back-pressure
                                                                  is asserted. When INST_CRED_CNT goes above the (INST_CRED_TH+2^HYSTERESIS) the
@@ -11197,7 +11317,7 @@ union cavm_nixx_af_rx_cptx_credit
                                                                  (INST_CRED_TH+2^HYSTERESIS) must be lower than the configured INST_CRED_CNT
                                                                  value. */
         uint64_t reserved_54_55        : 2;
-        uint64_t hysteresis            : 6;  /**< [ 61: 56](R/W) See NIX_AF_RX_CPT()_CREDIT[INST_CREDIT_THINST_CREDIT_TH]. */
+        uint64_t hysteresis            : 6;  /**< [ 61: 56](R/W) See NIX_AF_RX_CPT()_CREDIT[INST_CREDIT_TH]. */
         uint64_t reserved_62_63        : 2;
 #endif /* Word 0 - End */
     } s;
@@ -11208,7 +11328,7 @@ typedef union cavm_nixx_af_rx_cptx_credit cavm_nixx_af_rx_cptx_credit_t;
 static inline uint64_t CAVM_NIXX_AF_RX_CPTX_CREDIT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_CPTX_CREDIT(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=1))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=1)))
         return 0x840040000360ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RX_CPTX_CREDIT", 2, a, b, 0, 0, 0, 0);
 }
@@ -11256,7 +11376,7 @@ typedef union cavm_nixx_af_rx_cptx_inst_qsel cavm_nixx_af_rx_cptx_inst_qsel_t;
 static inline uint64_t CAVM_NIXX_AF_RX_CPTX_INST_QSEL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_CPTX_INST_QSEL(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=1))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=1)))
         return 0x840040000320ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RX_CPTX_INST_QSEL", 2, a, b, 0, 0, 0, 0);
 }
@@ -11300,7 +11420,7 @@ typedef union cavm_nixx_af_rx_def_cst_apad_0 cavm_nixx_af_rx_def_cst_apad_0_t;
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_CST_APAD_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_CST_APAD_0(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000298ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RX_DEF_CST_APAD_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -11345,7 +11465,7 @@ typedef union cavm_nixx_af_rx_def_cst_apad_1 cavm_nixx_af_rx_def_cst_apad_1_t;
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_CST_APAD_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_CST_APAD_1(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x8400400002a8ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RX_DEF_CST_APAD_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -11414,7 +11534,7 @@ typedef union cavm_nixx_af_rx_def_etx cavm_nixx_af_rx_def_etx_t;
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_ETX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_ETX(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=1))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=1)))
         return 0x8400400001f0ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RX_DEF_ETX", 2, a, b, 0, 0, 0, 0);
 }
@@ -11465,7 +11585,7 @@ typedef union cavm_nixx_af_rx_def_gen0_color cavm_nixx_af_rx_def_gen0_color_t;
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_GEN0_COLOR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_GEN0_COLOR(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000208ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RX_DEF_GEN0_COLOR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -11516,7 +11636,7 @@ typedef union cavm_nixx_af_rx_def_gen1_color cavm_nixx_af_rx_def_gen1_color_t;
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_GEN1_COLOR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_GEN1_COLOR(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000218ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RX_DEF_GEN1_COLOR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -11569,7 +11689,7 @@ typedef union cavm_nixx_af_rx_def_iip4 cavm_nixx_af_rx_def_iip4_t;
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_IIP4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_IIP4(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000220ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RX_DEF_IIP4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -11620,7 +11740,7 @@ typedef union cavm_nixx_af_rx_def_iip4_dscp cavm_nixx_af_rx_def_iip4_dscp_t;
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_IIP4_DSCP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_IIP4_DSCP(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x8400400002e0ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RX_DEF_IIP4_DSCP", 1, a, 0, 0, 0, 0, 0);
 }
@@ -11672,7 +11792,7 @@ typedef union cavm_nixx_af_rx_def_iip6 cavm_nixx_af_rx_def_iip6_t;
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_IIP6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_IIP6(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000240ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RX_DEF_IIP6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -11723,7 +11843,7 @@ typedef union cavm_nixx_af_rx_def_iip6_dscp cavm_nixx_af_rx_def_iip6_dscp_t;
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_IIP6_DSCP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_IIP6_DSCP(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x8400400002f0ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RX_DEF_IIP6_DSCP", 1, a, 0, 0, 0, 0, 0);
 }
@@ -11787,7 +11907,7 @@ typedef union cavm_nixx_af_rx_def_ipsecx cavm_nixx_af_rx_def_ipsecx_t;
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_IPSECX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_IPSECX(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=1))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=1)))
         return 0x8400400002b0ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RX_DEF_IPSECX", 2, a, b, 0, 0, 0, 0);
 }
@@ -11839,7 +11959,7 @@ typedef union cavm_nixx_af_rx_def_isctp cavm_nixx_af_rx_def_isctp_t;
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_ISCTP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_ISCTP(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x8400400002a0ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RX_DEF_ISCTP", 1, a, 0, 0, 0, 0, 0);
 }
@@ -11891,7 +12011,7 @@ typedef union cavm_nixx_af_rx_def_itcp cavm_nixx_af_rx_def_itcp_t;
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_ITCP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_ITCP(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000260ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RX_DEF_ITCP", 1, a, 0, 0, 0, 0, 0);
 }
@@ -11943,7 +12063,7 @@ typedef union cavm_nixx_af_rx_def_iudp cavm_nixx_af_rx_def_iudp_t;
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_IUDP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_IUDP(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000280ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RX_DEF_IUDP", 1, a, 0, 0, 0, 0, 0);
 }
@@ -11996,7 +12116,7 @@ typedef union cavm_nixx_af_rx_def_oip4 cavm_nixx_af_rx_def_oip4_t;
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_OIP4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_OIP4(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000210ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RX_DEF_OIP4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -12047,7 +12167,7 @@ typedef union cavm_nixx_af_rx_def_oip4_dscp cavm_nixx_af_rx_def_oip4_dscp_t;
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_OIP4_DSCP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_OIP4_DSCP(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x8400400002e8ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RX_DEF_OIP4_DSCP", 1, a, 0, 0, 0, 0, 0);
 }
@@ -12100,7 +12220,7 @@ typedef union cavm_nixx_af_rx_def_oip6 cavm_nixx_af_rx_def_oip6_t;
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_OIP6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_OIP6(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000230ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RX_DEF_OIP6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -12151,7 +12271,7 @@ typedef union cavm_nixx_af_rx_def_oip6_dscp cavm_nixx_af_rx_def_oip6_dscp_t;
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_OIP6_DSCP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_OIP6_DSCP(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x8400400002f8ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RX_DEF_OIP6_DSCP", 1, a, 0, 0, 0, 0, 0);
 }
@@ -12204,7 +12324,7 @@ typedef union cavm_nixx_af_rx_def_ol2 cavm_nixx_af_rx_def_ol2_t;
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_OL2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_OL2(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000200ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RX_DEF_OL2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -12256,7 +12376,7 @@ typedef union cavm_nixx_af_rx_def_osctp cavm_nixx_af_rx_def_osctp_t;
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_OSCTP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_OSCTP(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000290ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RX_DEF_OSCTP", 1, a, 0, 0, 0, 0, 0);
 }
@@ -12308,7 +12428,7 @@ typedef union cavm_nixx_af_rx_def_otcp cavm_nixx_af_rx_def_otcp_t;
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_OTCP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_OTCP(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000250ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RX_DEF_OTCP", 1, a, 0, 0, 0, 0, 0);
 }
@@ -12360,7 +12480,7 @@ typedef union cavm_nixx_af_rx_def_oudp cavm_nixx_af_rx_def_oudp_t;
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_OUDP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_OUDP(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000270ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RX_DEF_OUDP", 1, a, 0, 0, 0, 0, 0);
 }
@@ -12411,7 +12531,7 @@ typedef union cavm_nixx_af_rx_def_vlan0_pcp_dei cavm_nixx_af_rx_def_vlan0_pcp_de
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_VLAN0_PCP_DEI(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_VLAN0_PCP_DEI(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000228ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RX_DEF_VLAN0_PCP_DEI", 1, a, 0, 0, 0, 0, 0);
 }
@@ -12462,7 +12582,7 @@ typedef union cavm_nixx_af_rx_def_vlan1_pcp_dei cavm_nixx_af_rx_def_vlan1_pcp_de
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_VLAN1_PCP_DEI(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_DEF_VLAN1_PCP_DEI(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000238ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RX_DEF_VLAN1_PCP_DEI", 1, a, 0, 0, 0, 0, 0);
 }
@@ -12524,7 +12644,7 @@ union cavm_nixx_af_rx_flow_key_algx_fieldx
                                                                  FLOW_KEY are enumerated in network byte order as follows:
                                                                  Byte 0: FLOW_KEY\<319:312\>.
                                                                  Byte 1: FLOW_KEY\<311:304\>.
-                                                                 ...
+                                                                 _ ...
                                                                  Byte 39: FLOW_KEY\<7:0\>.
 
                                                                  For example, if [KEY_OFFSET] = 5, [BYTESM1] = 3:
@@ -12536,7 +12656,7 @@ union cavm_nixx_af_rx_flow_key_algx_fieldx
                                                                  FLOW_KEY are enumerated in network byte order as follows:
                                                                  Byte 0: FLOW_KEY\<319:312\>.
                                                                  Byte 1: FLOW_KEY\<311:304\>.
-                                                                 ...
+                                                                 _ ...
                                                                  Byte 39: FLOW_KEY\<7:0\>.
 
                                                                  For example, if [KEY_OFFSET] = 5, [BYTESM1] = 3:
@@ -12581,7 +12701,7 @@ typedef union cavm_nixx_af_rx_flow_key_algx_fieldx cavm_nixx_af_rx_flow_key_algx
 static inline uint64_t CAVM_NIXX_AF_RX_FLOW_KEY_ALGX_FIELDX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_FLOW_KEY_ALGX_FIELDX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=1) && (b<=31) && (c<=4))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=31) && (c<=4)))
         return 0x840040001800ll + 0x10000000ll * ((a) & 0x1) + 0x40000ll * ((b) & 0x1f) + 8ll * ((c) & 0x7);
     __cavm_csr_fatal("NIXX_AF_RX_FLOW_KEY_ALGX_FIELDX", 3, a, b, c, 0, 0, 0);
 }
@@ -12628,7 +12748,7 @@ typedef union cavm_nixx_af_rx_ipsec_gen_cfg cavm_nixx_af_rx_ipsec_gen_cfg_t;
 static inline uint64_t CAVM_NIXX_AF_RX_IPSEC_GEN_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_IPSEC_GEN_CFG(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000300ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RX_IPSEC_GEN_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -12673,7 +12793,7 @@ typedef union cavm_nixx_af_rx_ipsec_vwqe_gen_cfg cavm_nixx_af_rx_ipsec_vwqe_gen_
 static inline uint64_t CAVM_NIXX_AF_RX_IPSEC_VWQE_GEN_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_IPSEC_VWQE_GEN_CFG(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000310ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RX_IPSEC_VWQE_GEN_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -12727,7 +12847,7 @@ typedef union cavm_nixx_af_rx_linkx_cfg cavm_nixx_af_rx_linkx_cfg_t;
 static inline uint64_t CAVM_NIXX_AF_RX_LINKX_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_LINKX_CFG(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=14))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=14)))
         return 0x840040000540ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xf);
     __cavm_csr_fatal("NIXX_AF_RX_LINKX_CFG", 2, a, b, 0, 0, 0, 0);
 }
@@ -12738,6 +12858,45 @@ static inline uint64_t CAVM_NIXX_AF_RX_LINKX_CFG(uint64_t a, uint64_t b)
 #define device_bar_CAVM_NIXX_AF_RX_LINKX_CFG(a,b) 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_NIXX_AF_RX_LINKX_CFG(a,b) (a)
 #define arguments_CAVM_NIXX_AF_RX_LINKX_CFG(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) nix#_af_rx_link#_rcv
+ *
+ * NIX AF Link Statistics Register
+ * The counter increments for every packet that is received on RX link. Index
+ * enumerated by NIX_LINK_E.
+ */
+union cavm_nixx_af_rx_linkx_rcv
+{
+    uint64_t u;
+    struct cavm_nixx_af_rx_linkx_rcv_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t stat                  : 48; /**< [ 47:  0](R/W/H) Statistic value. */
+#else /* Word 0 - Little Endian */
+        uint64_t stat                  : 48; /**< [ 47:  0](R/W/H) Statistic value. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_nixx_af_rx_linkx_rcv_s cn; */
+};
+typedef union cavm_nixx_af_rx_linkx_rcv cavm_nixx_af_rx_linkx_rcv_t;
+
+static inline uint64_t CAVM_NIXX_AF_RX_LINKX_RCV(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NIXX_AF_RX_LINKX_RCV(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=15)))
+        return 0x8400400046d0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xf);
+    __cavm_csr_fatal("NIXX_AF_RX_LINKX_RCV", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NIXX_AF_RX_LINKX_RCV(a,b) cavm_nixx_af_rx_linkx_rcv_t
+#define bustype_CAVM_NIXX_AF_RX_LINKX_RCV(a,b) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NIXX_AF_RX_LINKX_RCV(a,b) "NIXX_AF_RX_LINKX_RCV"
+#define device_bar_CAVM_NIXX_AF_RX_LINKX_RCV(a,b) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NIXX_AF_RX_LINKX_RCV(a,b) (a)
+#define arguments_CAVM_NIXX_AF_RX_LINKX_RCV(a,b) (a),(b),-1,-1
 
 /**
  * Register (RVU_PF_BAR0) nix#_af_rx_link#_wrr_cfg
@@ -12773,7 +12932,7 @@ typedef union cavm_nixx_af_rx_linkx_wrr_cfg cavm_nixx_af_rx_linkx_wrr_cfg_t;
 static inline uint64_t CAVM_NIXX_AF_RX_LINKX_WRR_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_LINKX_WRR_CFG(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=15))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=15)))
         return 0x840040000560ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xf);
     __cavm_csr_fatal("NIXX_AF_RX_LINKX_WRR_CFG", 2, a, b, 0, 0, 0, 0);
 }
@@ -12817,7 +12976,7 @@ typedef union cavm_nixx_af_rx_linkx_wrr_out_cfg cavm_nixx_af_rx_linkx_wrr_out_cf
 static inline uint64_t CAVM_NIXX_AF_RX_LINKX_WRR_OUT_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_LINKX_WRR_OUT_CFG(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=15))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=15)))
         return 0x840040004a00ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xf);
     __cavm_csr_fatal("NIXX_AF_RX_LINKX_WRR_OUT_CFG", 2, a, b, 0, 0, 0, 0);
 }
@@ -12879,7 +13038,7 @@ typedef union cavm_nixx_af_rx_mcast_base cavm_nixx_af_rx_mcast_base_t;
 static inline uint64_t CAVM_NIXX_AF_RX_MCAST_BASE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_MCAST_BASE(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000100ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RX_MCAST_BASE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -12931,7 +13090,7 @@ typedef union cavm_nixx_af_rx_mcast_buf_base cavm_nixx_af_rx_mcast_buf_base_t;
 static inline uint64_t CAVM_NIXX_AF_RX_MCAST_BUF_BASE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_MCAST_BUF_BASE(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000120ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RX_MCAST_BUF_BASE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13053,7 +13212,7 @@ typedef union cavm_nixx_af_rx_mcast_buf_cfg cavm_nixx_af_rx_mcast_buf_cfg_t;
 static inline uint64_t CAVM_NIXX_AF_RX_MCAST_BUF_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_MCAST_BUF_CFG(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000130ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RX_MCAST_BUF_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13137,7 +13296,7 @@ typedef union cavm_nixx_af_rx_mcast_cfg cavm_nixx_af_rx_mcast_cfg_t;
 static inline uint64_t CAVM_NIXX_AF_RX_MCAST_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_MCAST_CFG(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000110ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RX_MCAST_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13188,7 +13347,7 @@ typedef union cavm_nixx_af_rx_mirror_buf_base cavm_nixx_af_rx_mirror_buf_base_t;
 static inline uint64_t CAVM_NIXX_AF_RX_MIRROR_BUF_BASE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_MIRROR_BUF_BASE(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000140ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RX_MIRROR_BUF_BASE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13310,7 +13469,7 @@ typedef union cavm_nixx_af_rx_mirror_buf_cfg cavm_nixx_af_rx_mirror_buf_cfg_t;
 static inline uint64_t CAVM_NIXX_AF_RX_MIRROR_BUF_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_MIRROR_BUF_CFG(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000148ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RX_MIRROR_BUF_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13321,6 +13480,82 @@ static inline uint64_t CAVM_NIXX_AF_RX_MIRROR_BUF_CFG(uint64_t a)
 #define device_bar_CAVM_NIXX_AF_RX_MIRROR_BUF_CFG(a) 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_NIXX_AF_RX_MIRROR_BUF_CFG(a) (a)
 #define arguments_CAVM_NIXX_AF_RX_MIRROR_BUF_CFG(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) nix#_af_rx_no_valid_lf_drop
+ *
+ * NIX AF No Valid LF Drop Statistics Register
+ * The counter increments for every packet which does not have a valid LF.
+ */
+union cavm_nixx_af_rx_no_valid_lf_drop
+{
+    uint64_t u;
+    struct cavm_nixx_af_rx_no_valid_lf_drop_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t stat                  : 48; /**< [ 47:  0](R/W/H) Statistic value. */
+#else /* Word 0 - Little Endian */
+        uint64_t stat                  : 48; /**< [ 47:  0](R/W/H) Statistic value. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_nixx_af_rx_no_valid_lf_drop_s cn; */
+};
+typedef union cavm_nixx_af_rx_no_valid_lf_drop cavm_nixx_af_rx_no_valid_lf_drop_t;
+
+static inline uint64_t CAVM_NIXX_AF_RX_NO_VALID_LF_DROP(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NIXX_AF_RX_NO_VALID_LF_DROP(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+        return 0x8400400046f0ll + 0x10000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("NIXX_AF_RX_NO_VALID_LF_DROP", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NIXX_AF_RX_NO_VALID_LF_DROP(a) cavm_nixx_af_rx_no_valid_lf_drop_t
+#define bustype_CAVM_NIXX_AF_RX_NO_VALID_LF_DROP(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NIXX_AF_RX_NO_VALID_LF_DROP(a) "NIXX_AF_RX_NO_VALID_LF_DROP"
+#define device_bar_CAVM_NIXX_AF_RX_NO_VALID_LF_DROP(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NIXX_AF_RX_NO_VALID_LF_DROP(a) (a)
+#define arguments_CAVM_NIXX_AF_RX_NO_VALID_LF_DROP(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) nix#_af_rx_npc_drop
+ *
+ * NIX AF NPC Drop Statistics Register
+ * The counter increments for every packet marked by the NPC as NPC_DROP.
+ */
+union cavm_nixx_af_rx_npc_drop
+{
+    uint64_t u;
+    struct cavm_nixx_af_rx_npc_drop_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t stat                  : 48; /**< [ 47:  0](R/W/H) Statistic value. */
+#else /* Word 0 - Little Endian */
+        uint64_t stat                  : 48; /**< [ 47:  0](R/W/H) Statistic value. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_nixx_af_rx_npc_drop_s cn; */
+};
+typedef union cavm_nixx_af_rx_npc_drop cavm_nixx_af_rx_npc_drop_t;
+
+static inline uint64_t CAVM_NIXX_AF_RX_NPC_DROP(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NIXX_AF_RX_NPC_DROP(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+        return 0x8400400046e0ll + 0x10000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("NIXX_AF_RX_NPC_DROP", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NIXX_AF_RX_NPC_DROP(a) cavm_nixx_af_rx_npc_drop_t
+#define bustype_CAVM_NIXX_AF_RX_NPC_DROP(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NIXX_AF_RX_NPC_DROP(a) "NIXX_AF_RX_NPC_DROP"
+#define device_bar_CAVM_NIXX_AF_RX_NPC_DROP(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NIXX_AF_RX_NPC_DROP(a) (a)
+#define arguments_CAVM_NIXX_AF_RX_NPC_DROP(a) (a),-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) nix#_af_rx_npc_mc_drop
@@ -13348,7 +13583,7 @@ typedef union cavm_nixx_af_rx_npc_mc_drop cavm_nixx_af_rx_npc_mc_drop_t;
 static inline uint64_t CAVM_NIXX_AF_RX_NPC_MC_DROP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_NPC_MC_DROP(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040004710ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RX_NPC_MC_DROP", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13386,7 +13621,7 @@ typedef union cavm_nixx_af_rx_npc_mc_rcv cavm_nixx_af_rx_npc_mc_rcv_t;
 static inline uint64_t CAVM_NIXX_AF_RX_NPC_MC_RCV(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_NPC_MC_RCV(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040004700ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RX_NPC_MC_RCV", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13424,7 +13659,7 @@ typedef union cavm_nixx_af_rx_npc_mirror_drop cavm_nixx_af_rx_npc_mirror_drop_t;
 static inline uint64_t CAVM_NIXX_AF_RX_NPC_MIRROR_DROP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_NPC_MIRROR_DROP(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040004730ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RX_NPC_MIRROR_DROP", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13462,7 +13697,7 @@ typedef union cavm_nixx_af_rx_npc_mirror_rcv cavm_nixx_af_rx_npc_mirror_rcv_t;
 static inline uint64_t CAVM_NIXX_AF_RX_NPC_MIRROR_RCV(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_NPC_MIRROR_RCV(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040004720ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RX_NPC_MIRROR_RCV", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13473,6 +13708,78 @@ static inline uint64_t CAVM_NIXX_AF_RX_NPC_MIRROR_RCV(uint64_t a)
 #define device_bar_CAVM_NIXX_AF_RX_NPC_MIRROR_RCV(a) 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_NIXX_AF_RX_NPC_MIRROR_RCV(a) (a)
 #define arguments_CAVM_NIXX_AF_RX_NPC_MIRROR_RCV(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) nix#_af_rx_rq#_mask#
+ *
+ * NIX AF RX RQ Mask Registers
+ * Bit mask on RQ for CPT packets.
+ */
+union cavm_nixx_af_rx_rqx_maskx
+{
+    uint64_t u;
+    struct cavm_nixx_af_rx_rqx_maskx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t mask                  : 64; /**< [ 63:  0](R/W) RQ_CTX Bit mask. See also NIX_AF_LF()_CFG[RQ_CPT_MASK_SELECT]. */
+#else /* Word 0 - Little Endian */
+        uint64_t mask                  : 64; /**< [ 63:  0](R/W) RQ_CTX Bit mask. See also NIX_AF_LF()_CFG[RQ_CPT_MASK_SELECT]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_nixx_af_rx_rqx_maskx_s cn; */
+};
+typedef union cavm_nixx_af_rx_rqx_maskx cavm_nixx_af_rx_rqx_maskx_t;
+
+static inline uint64_t CAVM_NIXX_AF_RX_RQX_MASKX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NIXX_AF_RX_RQX_MASKX(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=3) && (c<=5)))
+        return 0x840040004a40ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3) + 8ll * ((c) & 0x7);
+    __cavm_csr_fatal("NIXX_AF_RX_RQX_MASKX", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_NIXX_AF_RX_RQX_MASKX(a,b,c) cavm_nixx_af_rx_rqx_maskx_t
+#define bustype_CAVM_NIXX_AF_RX_RQX_MASKX(a,b,c) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NIXX_AF_RX_RQX_MASKX(a,b,c) "NIXX_AF_RX_RQX_MASKX"
+#define device_bar_CAVM_NIXX_AF_RX_RQX_MASKX(a,b,c) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NIXX_AF_RX_RQX_MASKX(a,b,c) (a)
+#define arguments_CAVM_NIXX_AF_RX_RQX_MASKX(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (RVU_PF_BAR0) nix#_af_rx_rq#_set#
+ *
+ * NIX AF RX RQ Set Registers
+ * Bit set on RQ for CPT packets.
+ */
+union cavm_nixx_af_rx_rqx_setx
+{
+    uint64_t u;
+    struct cavm_nixx_af_rx_rqx_setx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t set                   : 64; /**< [ 63:  0](R/W) RQ_CTX Bit set. See also NIX_AF_LF()_CFG[RQ_CPT_MASK_SELECT]. */
+#else /* Word 0 - Little Endian */
+        uint64_t set                   : 64; /**< [ 63:  0](R/W) RQ_CTX Bit set. See also NIX_AF_LF()_CFG[RQ_CPT_MASK_SELECT]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_nixx_af_rx_rqx_setx_s cn; */
+};
+typedef union cavm_nixx_af_rx_rqx_setx cavm_nixx_af_rx_rqx_setx_t;
+
+static inline uint64_t CAVM_NIXX_AF_RX_RQX_SETX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NIXX_AF_RX_RQX_SETX(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=3) && (c<=5)))
+        return 0x840040004a80ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3) + 8ll * ((c) & 0x7);
+    __cavm_csr_fatal("NIXX_AF_RX_RQX_SETX", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_NIXX_AF_RX_RQX_SETX(a,b,c) cavm_nixx_af_rx_rqx_setx_t
+#define bustype_CAVM_NIXX_AF_RX_RQX_SETX(a,b,c) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NIXX_AF_RX_RQX_SETX(a,b,c) "NIXX_AF_RX_RQX_SETX"
+#define device_bar_CAVM_NIXX_AF_RX_RQX_SETX(a,b,c) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NIXX_AF_RX_RQX_SETX(a,b,c) (a)
+#define arguments_CAVM_NIXX_AF_RX_RQX_SETX(a,b,c) (a),(b),(c),-1
 
 /**
  * Register (RVU_PF_BAR0) nix#_af_rx_sw_sync
@@ -13505,7 +13812,7 @@ typedef union cavm_nixx_af_rx_sw_sync cavm_nixx_af_rx_sw_sync_t;
 static inline uint64_t CAVM_NIXX_AF_RX_SW_SYNC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_SW_SYNC(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000550ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RX_SW_SYNC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13549,7 +13856,7 @@ typedef union cavm_nixx_af_sdp_hw_xoffx cavm_nixx_af_sdp_hw_xoffx_t;
 static inline uint64_t CAVM_NIXX_AF_SDP_HW_XOFFX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_SDP_HW_XOFFX(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=3))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=3)))
         return 0x840040000ac0ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("NIXX_AF_SDP_HW_XOFFX", 2, a, b, 0, 0, 0, 0);
 }
@@ -13615,7 +13922,7 @@ typedef union cavm_nixx_af_sdp_link_cdt_adj cavm_nixx_af_sdp_link_cdt_adj_t;
 static inline uint64_t CAVM_NIXX_AF_SDP_LINK_CDT_ADJ(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_SDP_LINK_CDT_ADJ(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000a50ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_SDP_LINK_CDT_ADJ", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13692,7 +13999,7 @@ typedef union cavm_nixx_af_sdp_link_credit cavm_nixx_af_sdp_link_credit_t;
 static inline uint64_t CAVM_NIXX_AF_SDP_LINK_CREDIT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_SDP_LINK_CREDIT(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000a40ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_SDP_LINK_CREDIT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13730,7 +14037,7 @@ typedef union cavm_nixx_af_sdp_tx_fifo_status cavm_nixx_af_sdp_tx_fifo_status_t;
 static inline uint64_t CAVM_NIXX_AF_SDP_TX_FIFO_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_SDP_TX_FIFO_STATUS(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000650ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_SDP_TX_FIFO_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13766,7 +14073,7 @@ typedef union cavm_nixx_af_seb_active_cycles_pcx cavm_nixx_af_seb_active_cycles_
 static inline uint64_t CAVM_NIXX_AF_SEB_ACTIVE_CYCLES_PCX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_SEB_ACTIVE_CYCLES_PCX(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=1))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=1)))
         return 0x8400400006c0ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("NIXX_AF_SEB_ACTIVE_CYCLES_PCX", 2, a, b, 0, 0, 0, 0);
 }
@@ -13789,39 +14096,27 @@ union cavm_nixx_af_seb_cfg
     struct cavm_nixx_af_seb_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_3_63         : 61;
+        uint64_t reserved_17_63        : 47;
+        uint64_t flush_coalesce_fifo   : 1;  /**< [ 16: 16](R/W1S/H) When set, all the entries in atomic coalesce FIFO are sent out to the memory.
+                                                                 Once done, hardware clears this bit to indicate flush is done. */
+        uint64_t atomics_coalesce_period : 8;/**< [ 15:  8](R/W) Time period for coalescing NIX_AGE_AND_SEND_STATS_S/NIX_SEND_MEM_S if [COAS_EN]
+                                                                 is set in those sub-descriptors.
+                                                                 It is mentioned as number of 100 MHz ref clock ticks.
+
+                                                                 This should give us maximum coalescing over ~2.5us. */
+        uint64_t reserved_3_7          : 5;
         uint64_t ptp_1step_en          : 1;  /**< [  2:  2](R/W) Enables 1-step PTP in addition to 2-step PTP implementation.
                                                                  0 = Only 2-step PTP.
                                                                  1 = 2-step PTP or 1-Step PTP. */
-        uint64_t np_ndc_arb_sel        : 1;  /**< [  1:  1](R/W) Chooses non posted aribtration mode in NIX seb ndx interface.
+        uint64_t np_ndc_arb_sel        : 1;  /**< [  1:  1](R/W) Chooses non posted arbitration mode in NIX seb ndx interface.
                                                                  0 = Fixed priority.
                                                                  1 = Round-robin.
 
                                                                  Should be set for most use cases. */
-        uint64_t sg_ndc_sel            : 1;  /**< [  0:  0](R/W) NDC select for reading TX packet data specified by NIX_SEND_SG_S:
-                                                                 0 = TX packet data is read using the NIX RX NDC.
-                                                                 1 = TX packet data is read using the NIX TX NDC.
-
-                                                                 Should be clear for most use cases, especially when SQEs can overflow NDC's
-                                                                 cache (or are not allocated to NDC).
-
-                                                                 For use cases where SQEs are allocated and do not overflow NDC's cache,
-                                                                 setting this bit may increase the maximum bidirectional NIX data rate,
-                                                                 especially at coprocessor clock frequencies below 1 GHz with an average
-                                                                 packet size above 300 bytes. */
+        uint64_t sg_ndc_sel            : 1;  /**< [  0:  0](R/W) Reserved. */
 #else /* Word 0 - Little Endian */
-        uint64_t sg_ndc_sel            : 1;  /**< [  0:  0](R/W) NDC select for reading TX packet data specified by NIX_SEND_SG_S:
-                                                                 0 = TX packet data is read using the NIX RX NDC.
-                                                                 1 = TX packet data is read using the NIX TX NDC.
-
-                                                                 Should be clear for most use cases, especially when SQEs can overflow NDC's
-                                                                 cache (or are not allocated to NDC).
-
-                                                                 For use cases where SQEs are allocated and do not overflow NDC's cache,
-                                                                 setting this bit may increase the maximum bidirectional NIX data rate,
-                                                                 especially at coprocessor clock frequencies below 1 GHz with an average
-                                                                 packet size above 300 bytes. */
-        uint64_t np_ndc_arb_sel        : 1;  /**< [  1:  1](R/W) Chooses non posted aribtration mode in NIX seb ndx interface.
+        uint64_t sg_ndc_sel            : 1;  /**< [  0:  0](R/W) Reserved. */
+        uint64_t np_ndc_arb_sel        : 1;  /**< [  1:  1](R/W) Chooses non posted arbitration mode in NIX seb ndx interface.
                                                                  0 = Fixed priority.
                                                                  1 = Round-robin.
 
@@ -13829,7 +14124,15 @@ union cavm_nixx_af_seb_cfg
         uint64_t ptp_1step_en          : 1;  /**< [  2:  2](R/W) Enables 1-step PTP in addition to 2-step PTP implementation.
                                                                  0 = Only 2-step PTP.
                                                                  1 = 2-step PTP or 1-Step PTP. */
-        uint64_t reserved_3_63         : 61;
+        uint64_t reserved_3_7          : 5;
+        uint64_t atomics_coalesce_period : 8;/**< [ 15:  8](R/W) Time period for coalescing NIX_AGE_AND_SEND_STATS_S/NIX_SEND_MEM_S if [COAS_EN]
+                                                                 is set in those sub-descriptors.
+                                                                 It is mentioned as number of 100 MHz ref clock ticks.
+
+                                                                 This should give us maximum coalescing over ~2.5us. */
+        uint64_t flush_coalesce_fifo   : 1;  /**< [ 16: 16](R/W1S/H) When set, all the entries in atomic coalesce FIFO are sent out to the memory.
+                                                                 Once done, hardware clears this bit to indicate flush is done. */
+        uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_seb_cfg_s cn; */
@@ -13839,7 +14142,7 @@ typedef union cavm_nixx_af_seb_cfg cavm_nixx_af_seb_cfg_t;
 static inline uint64_t CAVM_NIXX_AF_SEB_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_SEB_CFG(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x8400400005f0ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_SEB_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13852,6 +14155,49 @@ static inline uint64_t CAVM_NIXX_AF_SEB_CFG(uint64_t a)
 #define arguments_CAVM_NIXX_AF_SEB_CFG(a) (a),-1,-1,-1
 
 /**
+ * Register (RVU_PF_BAR0) nix#_af_seb_coalesce_dbg#
+ *
+ * NIX SEB Debug Register
+ */
+union cavm_nixx_af_seb_coalesce_dbgx
+{
+    uint64_t u;
+    struct cavm_nixx_af_seb_coalesce_dbgx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t clk_100mhz_counter    : 8;  /**< [ 15:  8](R/W) Counter value that is the counting number of 100 MHz clock ticks */
+        uint64_t reserved_7            : 1;
+        uint64_t coalesce_fifo_level   : 7;  /**< [  6:  0](RO/H) Number of entries in coalesce FIFO.
+                                                                 Read only for software RO/H */
+#else /* Word 0 - Little Endian */
+        uint64_t coalesce_fifo_level   : 7;  /**< [  6:  0](RO/H) Number of entries in coalesce FIFO.
+                                                                 Read only for software RO/H */
+        uint64_t reserved_7            : 1;
+        uint64_t clk_100mhz_counter    : 8;  /**< [ 15:  8](R/W) Counter value that is the counting number of 100 MHz clock ticks */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_nixx_af_seb_coalesce_dbgx_s cn; */
+};
+typedef union cavm_nixx_af_seb_coalesce_dbgx cavm_nixx_af_seb_coalesce_dbgx_t;
+
+static inline uint64_t CAVM_NIXX_AF_SEB_COALESCE_DBGX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NIXX_AF_SEB_COALESCE_DBGX(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=1)))
+        return 0x840040000670ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    __cavm_csr_fatal("NIXX_AF_SEB_COALESCE_DBGX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NIXX_AF_SEB_COALESCE_DBGX(a,b) cavm_nixx_af_seb_coalesce_dbgx_t
+#define bustype_CAVM_NIXX_AF_SEB_COALESCE_DBGX(a,b) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NIXX_AF_SEB_COALESCE_DBGX(a,b) "NIXX_AF_SEB_COALESCE_DBGX"
+#define device_bar_CAVM_NIXX_AF_SEB_COALESCE_DBGX(a,b) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NIXX_AF_SEB_COALESCE_DBGX(a,b) (a)
+#define arguments_CAVM_NIXX_AF_SEB_COALESCE_DBGX(a,b) (a),(b),-1,-1
+
+/**
  * Register (RVU_PF_BAR0) nix#_af_smq#_cfg
  *
  * NIX AF SQM PSE Queue Configuration Registers
@@ -13862,12 +14208,9 @@ union cavm_nixx_af_smqx_cfg
     struct cavm_nixx_af_smqx_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_58_63        : 6;
-        uint64_t sdp                   : 1;  /**< [ 57: 57](R/W) Software would program this bit to 1 if the SMQ belongs to a flow connected to SDP.
-                                                                 Otherwise this bit is kept to default value indicating this SMQ belongs to flow connected to RPM.
-                                                                 This register bit is used to indicate to PSE that this MD belongs to SDP flow vs
-                                                                 RPM flow and would be used also to determine which MTU to use for DWRR Quantum
-                                                                 add. */
+        uint64_t reserved_59_63        : 5;
+        uint64_t pkt_link_type         : 2;  /**< [ 58: 57](R/W) Software would program these bits to one of the 4 values to indicate which MTU
+                                                                 is to be used out of NIX_AF_DWRR_MTU(0..3) for a packet going through this SMQ. */
         uint64_t pri_thr               : 6;  /**< [ 56: 51](R/W) SMQ enqueue priority threshold. When NIX_AF_SMQ()_STATUS[LEVEL] is less
                                                                  than or equal to this value, high priority is given for enqueuing of MDs to
                                                                  this SMQ. */
@@ -13903,8 +14246,8 @@ union cavm_nixx_af_smqx_cfg
         uint64_t lf                    : 7;  /**< [ 30: 24](R/W) Local function with SQs that may feed this SMQ. Software must ensure NIX_SQ_CTX_S[SMQ]
                                                                  does not point to this SMQ for any SQ outside of this LF. */
         uint64_t maxlen                : 16; /**< [ 23:  8](R/W) Maximum packet length in bytes, including optional VLAN bytes inserted by
-                                                                 NIX_SEND_EXT_S[VLAN*] and Vtag bytes inserted by NIX_TX_VTAG_ACTION_S,
-                                                                 but excluding FCS potentially appended outside NIX by RPM.
+                                                                 NIX_SEND_EXT_S[VLAN*] and Vtag bytes inserted by NIX_TX_VTAG_ACTION_S, optional 8B PTP header
+                                                                 (when 1-step PTP is enabled) but excluding FCS potentially appended outside NIX by RPM.
 
                                                                  Must not be less than [MINLEN].
                                                                  Must not exceed 16380 (16384 minus four byte FCS) if the SMQ transmits to
@@ -13943,8 +14286,8 @@ union cavm_nixx_af_smqx_cfg
                                                                  1 = NIX_SEND_EXT_S[SHP_RA,SHP_DIS,SHP_CHG] values in the send descriptor,
                                                                  are ignored and treated as 0. */
         uint64_t maxlen                : 16; /**< [ 23:  8](R/W) Maximum packet length in bytes, including optional VLAN bytes inserted by
-                                                                 NIX_SEND_EXT_S[VLAN*] and Vtag bytes inserted by NIX_TX_VTAG_ACTION_S,
-                                                                 but excluding FCS potentially appended outside NIX by RPM.
+                                                                 NIX_SEND_EXT_S[VLAN*] and Vtag bytes inserted by NIX_TX_VTAG_ACTION_S, optional 8B PTP header
+                                                                 (when 1-step PTP is enabled) but excluding FCS potentially appended outside NIX by RPM.
 
                                                                  Must not be less than [MINLEN].
                                                                  Must not exceed 16380 (16384 minus four byte FCS) if the SMQ transmits to
@@ -13987,12 +14330,9 @@ union cavm_nixx_af_smqx_cfg
         uint64_t pri_thr               : 6;  /**< [ 56: 51](R/W) SMQ enqueue priority threshold. When NIX_AF_SMQ()_STATUS[LEVEL] is less
                                                                  than or equal to this value, high priority is given for enqueuing of MDs to
                                                                  this SMQ. */
-        uint64_t sdp                   : 1;  /**< [ 57: 57](R/W) Software would program this bit to 1 if the SMQ belongs to a flow connected to SDP.
-                                                                 Otherwise this bit is kept to default value indicating this SMQ belongs to flow connected to RPM.
-                                                                 This register bit is used to indicate to PSE that this MD belongs to SDP flow vs
-                                                                 RPM flow and would be used also to determine which MTU to use for DWRR Quantum
-                                                                 add. */
-        uint64_t reserved_58_63        : 6;
+        uint64_t pkt_link_type         : 2;  /**< [ 58: 57](R/W) Software would program these bits to one of the 4 values to indicate which MTU
+                                                                 is to be used out of NIX_AF_DWRR_MTU(0..3) for a packet going through this SMQ. */
+        uint64_t reserved_59_63        : 5;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_smqx_cfg_s cn; */
@@ -14002,8 +14342,8 @@ typedef union cavm_nixx_af_smqx_cfg cavm_nixx_af_smqx_cfg_t;
 static inline uint64_t CAVM_NIXX_AF_SMQX_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_SMQX_CFG(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=831))
-        return 0x840040000700ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3ff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=2047)))
+        return 0x840040000700ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7ff);
     __cavm_csr_fatal("NIXX_AF_SMQX_CFG", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -14042,8 +14382,8 @@ typedef union cavm_nixx_af_smqx_head cavm_nixx_af_smqx_head_t;
 static inline uint64_t CAVM_NIXX_AF_SMQX_HEAD(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_SMQX_HEAD(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=831))
-        return 0x840040000710ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3ff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=2047)))
+        return 0x840040000710ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7ff);
     __cavm_csr_fatal("NIXX_AF_SMQX_HEAD", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -14082,8 +14422,8 @@ typedef union cavm_nixx_af_smqx_nxt_head cavm_nixx_af_smqx_nxt_head_t;
 static inline uint64_t CAVM_NIXX_AF_SMQX_NXT_HEAD(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_SMQX_NXT_HEAD(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=831))
-        return 0x840040000740ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3ff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=2047)))
+        return 0x840040000740ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7ff);
     __cavm_csr_fatal("NIXX_AF_SMQX_NXT_HEAD", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -14120,8 +14460,8 @@ typedef union cavm_nixx_af_smqx_status cavm_nixx_af_smqx_status_t;
 static inline uint64_t CAVM_NIXX_AF_SMQX_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_SMQX_STATUS(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=831))
-        return 0x840040000730ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3ff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=2047)))
+        return 0x840040000730ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7ff);
     __cavm_csr_fatal("NIXX_AF_SMQX_STATUS", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -14160,8 +14500,8 @@ typedef union cavm_nixx_af_smqx_tail cavm_nixx_af_smqx_tail_t;
 static inline uint64_t CAVM_NIXX_AF_SMQX_TAIL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_SMQX_TAIL(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=831))
-        return 0x840040000720ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3ff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=2047)))
+        return 0x840040000720ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7ff);
     __cavm_csr_fatal("NIXX_AF_SMQX_TAIL", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -14171,6 +14511,228 @@ static inline uint64_t CAVM_NIXX_AF_SMQX_TAIL(uint64_t a, uint64_t b)
 #define device_bar_CAVM_NIXX_AF_SMQX_TAIL(a,b) 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_NIXX_AF_SMQX_TAIL(a,b) (a)
 #define arguments_CAVM_NIXX_AF_SMQX_TAIL(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) nix#_af_spi_to_sa_cfg
+ *
+ * NIX AF SPI To SA Configuration Register
+ * Specified the structure of the array and hash function MASK. Used for diagnostic only.
+ */
+union cavm_nixx_af_spi_to_sa_cfg
+{
+    uint64_t u;
+    struct cavm_nixx_af_spi_to_sa_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t way_mask              : 4;  /**< [ 63: 60](R/W) Specified with ways are active */
+        uint64_t array_log_size        : 4;  /**< [ 59: 56](R/W) 2^ARRAY_LOG_SIZE is the maximal index on an array */
+        uint64_t reserved_55           : 1;
+        uint64_t lfid_mask             : 7;  /**< [ 54: 48](R/W) mask for LFID */
+        uint64_t match_id_mask         : 16; /**< [ 47: 32](R/W) mask for Match id */
+        uint64_t spi_index_mask        : 32; /**< [ 31:  0](R/W) MASK for SPI index */
+#else /* Word 0 - Little Endian */
+        uint64_t spi_index_mask        : 32; /**< [ 31:  0](R/W) MASK for SPI index */
+        uint64_t match_id_mask         : 16; /**< [ 47: 32](R/W) mask for Match id */
+        uint64_t lfid_mask             : 7;  /**< [ 54: 48](R/W) mask for LFID */
+        uint64_t reserved_55           : 1;
+        uint64_t array_log_size        : 4;  /**< [ 59: 56](R/W) 2^ARRAY_LOG_SIZE is the maximal index on an array */
+        uint64_t way_mask              : 4;  /**< [ 63: 60](R/W) Specified with ways are active */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_nixx_af_spi_to_sa_cfg_s cn; */
+};
+typedef union cavm_nixx_af_spi_to_sa_cfg cavm_nixx_af_spi_to_sa_cfg_t;
+
+static inline uint64_t CAVM_NIXX_AF_SPI_TO_SA_CFG(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NIXX_AF_SPI_TO_SA_CFG(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+        return 0x840040001c80ll + 0x10000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("NIXX_AF_SPI_TO_SA_CFG", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NIXX_AF_SPI_TO_SA_CFG(a) cavm_nixx_af_spi_to_sa_cfg_t
+#define bustype_CAVM_NIXX_AF_SPI_TO_SA_CFG(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NIXX_AF_SPI_TO_SA_CFG(a) "NIXX_AF_SPI_TO_SA_CFG"
+#define device_bar_CAVM_NIXX_AF_SPI_TO_SA_CFG(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NIXX_AF_SPI_TO_SA_CFG(a) (a)
+#define arguments_CAVM_NIXX_AF_SPI_TO_SA_CFG(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) nix#_af_spi_to_sa_hash_key
+ *
+ * NIX AF SPI To SA Hash Key Register
+ * This register provides input for the hash function.
+ */
+union cavm_nixx_af_spi_to_sa_hash_key
+{
+    uint64_t u;
+    struct cavm_nixx_af_spi_to_sa_hash_key_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_55_63        : 9;
+        uint64_t lfid                  : 7;  /**< [ 54: 48](R/W) LFID associated with the packet */
+        uint64_t match_id              : 16; /**< [ 47: 32](R/W) Match id associated with the rule */
+        uint64_t spi_index             : 32; /**< [ 31:  0](R/W) SPI index to be converted */
+#else /* Word 0 - Little Endian */
+        uint64_t spi_index             : 32; /**< [ 31:  0](R/W) SPI index to be converted */
+        uint64_t match_id              : 16; /**< [ 47: 32](R/W) Match id associated with the rule */
+        uint64_t lfid                  : 7;  /**< [ 54: 48](R/W) LFID associated with the packet */
+        uint64_t reserved_55_63        : 9;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_nixx_af_spi_to_sa_hash_key_s cn; */
+};
+typedef union cavm_nixx_af_spi_to_sa_hash_key cavm_nixx_af_spi_to_sa_hash_key_t;
+
+static inline uint64_t CAVM_NIXX_AF_SPI_TO_SA_HASH_KEY(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NIXX_AF_SPI_TO_SA_HASH_KEY(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+        return 0x840040001c90ll + 0x10000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("NIXX_AF_SPI_TO_SA_HASH_KEY", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NIXX_AF_SPI_TO_SA_HASH_KEY(a) cavm_nixx_af_spi_to_sa_hash_key_t
+#define bustype_CAVM_NIXX_AF_SPI_TO_SA_HASH_KEY(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NIXX_AF_SPI_TO_SA_HASH_KEY(a) "NIXX_AF_SPI_TO_SA_HASH_KEY"
+#define device_bar_CAVM_NIXX_AF_SPI_TO_SA_HASH_KEY(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NIXX_AF_SPI_TO_SA_HASH_KEY(a) (a)
+#define arguments_CAVM_NIXX_AF_SPI_TO_SA_HASH_KEY(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) nix#_af_spi_to_sa_hash_value
+ *
+ * NIX AF SPI To SA Hash Value Register
+ * This register read the output of the hash function. Software should write the key to
+ * NIX_AF_SPI_TO_SA_IN_KEY and then read NIX_AF_SPI_TO_SA_HASH_VALUE in order to get
+ * the hash value.
+ */
+union cavm_nixx_af_spi_to_sa_hash_value
+{
+    uint64_t u;
+    struct cavm_nixx_af_spi_to_sa_hash_value_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_59_63        : 5;
+        uint64_t way3_index            : 11; /**< [ 58: 48](RO) Way 3 index */
+        uint64_t reserved_43_47        : 5;
+        uint64_t way2_index            : 11; /**< [ 42: 32](RO) Way 2 index */
+        uint64_t reserved_27_31        : 5;
+        uint64_t way1_index            : 11; /**< [ 26: 16](RO) Way 1 index */
+        uint64_t reserved_11_15        : 5;
+        uint64_t way0_index            : 11; /**< [ 10:  0](RO) Way 0 index */
+#else /* Word 0 - Little Endian */
+        uint64_t way0_index            : 11; /**< [ 10:  0](RO) Way 0 index */
+        uint64_t reserved_11_15        : 5;
+        uint64_t way1_index            : 11; /**< [ 26: 16](RO) Way 1 index */
+        uint64_t reserved_27_31        : 5;
+        uint64_t way2_index            : 11; /**< [ 42: 32](RO) Way 2 index */
+        uint64_t reserved_43_47        : 5;
+        uint64_t way3_index            : 11; /**< [ 58: 48](RO) Way 3 index */
+        uint64_t reserved_59_63        : 5;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_nixx_af_spi_to_sa_hash_value_s cn; */
+};
+typedef union cavm_nixx_af_spi_to_sa_hash_value cavm_nixx_af_spi_to_sa_hash_value_t;
+
+static inline uint64_t CAVM_NIXX_AF_SPI_TO_SA_HASH_VALUE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NIXX_AF_SPI_TO_SA_HASH_VALUE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+        return 0x840040001ca0ll + 0x10000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("NIXX_AF_SPI_TO_SA_HASH_VALUE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NIXX_AF_SPI_TO_SA_HASH_VALUE(a) cavm_nixx_af_spi_to_sa_hash_value_t
+#define bustype_CAVM_NIXX_AF_SPI_TO_SA_HASH_VALUE(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NIXX_AF_SPI_TO_SA_HASH_VALUE(a) "NIXX_AF_SPI_TO_SA_HASH_VALUE"
+#define device_bar_CAVM_NIXX_AF_SPI_TO_SA_HASH_VALUE(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NIXX_AF_SPI_TO_SA_HASH_VALUE(a) (a)
+#define arguments_CAVM_NIXX_AF_SPI_TO_SA_HASH_VALUE(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) nix#_af_spi_to_sa_key#_way#
+ *
+ * NIX AF SPI To SA Mapping Key Registers
+ * The Key of SPI to SA index rule mapping table
+ */
+union cavm_nixx_af_spi_to_sa_keyx_wayx
+{
+    uint64_t u;
+    struct cavm_nixx_af_spi_to_sa_keyx_wayx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_56_63        : 8;
+        uint64_t valid                 : 1;  /**< [ 55: 55](R/W) When 1 the rule is valid */
+        uint64_t lfid                  : 7;  /**< [ 54: 48](R/W) LFID associated with the packet */
+        uint64_t match_id              : 16; /**< [ 47: 32](R/W) Match id associated with the rule */
+        uint64_t spi_index             : 32; /**< [ 31:  0](R/W) SPI index to be converted */
+#else /* Word 0 - Little Endian */
+        uint64_t spi_index             : 32; /**< [ 31:  0](R/W) SPI index to be converted */
+        uint64_t match_id              : 16; /**< [ 47: 32](R/W) Match id associated with the rule */
+        uint64_t lfid                  : 7;  /**< [ 54: 48](R/W) LFID associated with the packet */
+        uint64_t valid                 : 1;  /**< [ 55: 55](R/W) When 1 the rule is valid */
+        uint64_t reserved_56_63        : 8;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_nixx_af_spi_to_sa_keyx_wayx_s cn; */
+};
+typedef union cavm_nixx_af_spi_to_sa_keyx_wayx cavm_nixx_af_spi_to_sa_keyx_wayx_t;
+
+static inline uint64_t CAVM_NIXX_AF_SPI_TO_SA_KEYX_WAYX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NIXX_AF_SPI_TO_SA_KEYX_WAYX(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=2047) && (c<=3)))
+        return 0x840040001c00ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7ff) + 8ll * ((c) & 0x3);
+    __cavm_csr_fatal("NIXX_AF_SPI_TO_SA_KEYX_WAYX", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_NIXX_AF_SPI_TO_SA_KEYX_WAYX(a,b,c) cavm_nixx_af_spi_to_sa_keyx_wayx_t
+#define bustype_CAVM_NIXX_AF_SPI_TO_SA_KEYX_WAYX(a,b,c) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NIXX_AF_SPI_TO_SA_KEYX_WAYX(a,b,c) "NIXX_AF_SPI_TO_SA_KEYX_WAYX"
+#define device_bar_CAVM_NIXX_AF_SPI_TO_SA_KEYX_WAYX(a,b,c) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NIXX_AF_SPI_TO_SA_KEYX_WAYX(a,b,c) (a)
+#define arguments_CAVM_NIXX_AF_SPI_TO_SA_KEYX_WAYX(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (RVU_PF_BAR0) nix#_af_spi_to_sa_value#_way#
+ *
+ * NIX AF SPI To SA Mapping Value Registers
+ * The Value of SPI to SA index rule mapping table
+ */
+union cavm_nixx_af_spi_to_sa_valuex_wayx
+{
+    uint64_t u;
+    struct cavm_nixx_af_spi_to_sa_valuex_wayx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t sa_index              : 32; /**< [ 31:  0](R/W) SPI index to be converted */
+#else /* Word 0 - Little Endian */
+        uint64_t sa_index              : 32; /**< [ 31:  0](R/W) SPI index to be converted */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_nixx_af_spi_to_sa_valuex_wayx_s cn; */
+};
+typedef union cavm_nixx_af_spi_to_sa_valuex_wayx cavm_nixx_af_spi_to_sa_valuex_wayx_t;
+
+static inline uint64_t CAVM_NIXX_AF_SPI_TO_SA_VALUEX_WAYX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NIXX_AF_SPI_TO_SA_VALUEX_WAYX(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=2047) && (c<=3)))
+        return 0x840040001c40ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7ff) + 8ll * ((c) & 0x3);
+    __cavm_csr_fatal("NIXX_AF_SPI_TO_SA_VALUEX_WAYX", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_NIXX_AF_SPI_TO_SA_VALUEX_WAYX(a,b,c) cavm_nixx_af_spi_to_sa_valuex_wayx_t
+#define bustype_CAVM_NIXX_AF_SPI_TO_SA_VALUEX_WAYX(a,b,c) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NIXX_AF_SPI_TO_SA_VALUEX_WAYX(a,b,c) "NIXX_AF_SPI_TO_SA_VALUEX_WAYX"
+#define device_bar_CAVM_NIXX_AF_SPI_TO_SA_VALUEX_WAYX(a,b,c) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NIXX_AF_SPI_TO_SA_VALUEX_WAYX(a,b,c) (a)
+#define arguments_CAVM_NIXX_AF_SPI_TO_SA_VALUEX_WAYX(a,b,c) (a),(b),(c),-1
 
 /**
  * Register (RVU_PF_BAR0) nix#_af_sq_const
@@ -14202,7 +14764,7 @@ typedef union cavm_nixx_af_sq_const cavm_nixx_af_sq_const_t;
 static inline uint64_t CAVM_NIXX_AF_SQ_CONST(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_SQ_CONST(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000040ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_SQ_CONST", 1, a, 0, 0, 0, 0, 0);
 }
@@ -14238,7 +14800,7 @@ typedef union cavm_nixx_af_sqm_active_cycles_pc cavm_nixx_af_sqm_active_cycles_p
 static inline uint64_t CAVM_NIXX_AF_SQM_ACTIVE_CYCLES_PC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_SQM_ACTIVE_CYCLES_PC(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000770ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_SQM_ACTIVE_CYCLES_PC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -14288,7 +14850,7 @@ typedef union cavm_nixx_af_sqm_sclk_cnt cavm_nixx_af_sqm_sclk_cnt_t;
 static inline uint64_t CAVM_NIXX_AF_SQM_SCLK_CNT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_SQM_SCLK_CNT(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000780ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_SQM_SCLK_CNT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -14339,7 +14901,7 @@ typedef union cavm_nixx_af_status cavm_nixx_af_status_t;
 static inline uint64_t CAVM_NIXX_AF_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_STATUS(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000010ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -14392,7 +14954,7 @@ typedef union cavm_nixx_af_tcp_timer cavm_nixx_af_tcp_timer_t;
 static inline uint64_t CAVM_NIXX_AF_TCP_TIMER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TCP_TIMER(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x8400400001e0ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_TCP_TIMER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -14471,7 +15033,7 @@ typedef union cavm_nixx_af_tl1x_cir cavm_nixx_af_tl1x_cir_t;
 static inline uint64_t CAVM_NIXX_AF_TL1X_CIR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL1X_CIR(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=27))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=27)))
         return 0x840040000c20ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1f);
     __cavm_csr_fatal("NIXX_AF_TL1X_CIR", 2, a, b, 0, 0, 0, 0);
 }
@@ -14509,7 +15071,7 @@ typedef union cavm_nixx_af_tl1x_dropped_bytes cavm_nixx_af_tl1x_dropped_bytes_t;
 static inline uint64_t CAVM_NIXX_AF_TL1X_DROPPED_BYTES(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL1X_DROPPED_BYTES(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=27))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=27)))
         return 0x840040000d30ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1f);
     __cavm_csr_fatal("NIXX_AF_TL1X_DROPPED_BYTES", 2, a, b, 0, 0, 0, 0);
 }
@@ -14547,7 +15109,7 @@ typedef union cavm_nixx_af_tl1x_dropped_packets cavm_nixx_af_tl1x_dropped_packet
 static inline uint64_t CAVM_NIXX_AF_TL1X_DROPPED_PACKETS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL1X_DROPPED_PACKETS(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=27))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=27)))
         return 0x840040000d20ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1f);
     __cavm_csr_fatal("NIXX_AF_TL1X_DROPPED_PACKETS", 2, a, b, 0, 0, 0, 0);
 }
@@ -14584,7 +15146,7 @@ typedef union cavm_nixx_af_tl1x_green_bytes cavm_nixx_af_tl1x_green_bytes_t;
 static inline uint64_t CAVM_NIXX_AF_TL1X_GREEN_BYTES(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL1X_GREEN_BYTES(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=27))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=27)))
         return 0x840040000d90ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1f);
     __cavm_csr_fatal("NIXX_AF_TL1X_GREEN_BYTES", 2, a, b, 0, 0, 0, 0);
 }
@@ -14621,7 +15183,7 @@ typedef union cavm_nixx_af_tl1x_green_packets cavm_nixx_af_tl1x_green_packets_t;
 static inline uint64_t CAVM_NIXX_AF_TL1X_GREEN_PACKETS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL1X_GREEN_PACKETS(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=27))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=27)))
         return 0x840040000d80ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1f);
     __cavm_csr_fatal("NIXX_AF_TL1X_GREEN_PACKETS", 2, a, b, 0, 0, 0, 0);
 }
@@ -14649,8 +15211,8 @@ union cavm_nixx_af_tl1x_md_debug0
     struct cavm_nixx_af_tl1x_md_debug0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_62_63        : 2;
-        uint64_t child                 : 10; /**< [ 61: 52](R/W/H) Child index, highest priority child. When [C_CON] of this result is set,
+        uint64_t reserved_63           : 1;
+        uint64_t child                 : 11; /**< [ 62: 52](R/W/H) Child index, highest priority child. When [C_CON] of this result is set,
                                                                  indicating that this result is
                                                                  connected in a flow that extends through the child result, this is the index of that child
                                                                  result. */
@@ -14669,19 +15231,18 @@ union cavm_nixx_af_tl1x_md_debug0
         uint64_t c_con                 : 1;  /**< [ 48: 48](R/W/H) Child connected flag. This pick has more picks behind it. */
         uint64_t p_con                 : 1;  /**< [ 49: 49](R/W/H) Parent connected flag. This pick has more picks in front of it. */
         uint64_t reserved_50_51        : 2;
-        uint64_t child                 : 10; /**< [ 61: 52](R/W/H) Child index, highest priority child. When [C_CON] of this result is set,
+        uint64_t child                 : 11; /**< [ 62: 52](R/W/H) Child index, highest priority child. When [C_CON] of this result is set,
                                                                  indicating that this result is
                                                                  connected in a flow that extends through the child result, this is the index of that child
                                                                  result. */
-        uint64_t reserved_62_63        : 2;
+        uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } s;
     struct cavm_nixx_af_tl1x_md_debug0_cn
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_63           : 1;
-        uint64_t reserved_62           : 1;
-        uint64_t child                 : 10; /**< [ 61: 52](R/W/H) Child index, highest priority child. When [C_CON] of this result is set,
+        uint64_t child                 : 11; /**< [ 62: 52](R/W/H) Child index, highest priority child. When [C_CON] of this result is set,
                                                                  indicating that this result is
                                                                  connected in a flow that extends through the child result, this is the index of that child
                                                                  result. */
@@ -14706,11 +15267,10 @@ union cavm_nixx_af_tl1x_md_debug0
         uint64_t c_con                 : 1;  /**< [ 48: 48](R/W/H) Child connected flag. This pick has more picks behind it. */
         uint64_t p_con                 : 1;  /**< [ 49: 49](R/W/H) Parent connected flag. This pick has more picks in front of it. */
         uint64_t reserved_50_51        : 2;
-        uint64_t child                 : 10; /**< [ 61: 52](R/W/H) Child index, highest priority child. When [C_CON] of this result is set,
+        uint64_t child                 : 11; /**< [ 62: 52](R/W/H) Child index, highest priority child. When [C_CON] of this result is set,
                                                                  indicating that this result is
                                                                  connected in a flow that extends through the child result, this is the index of that child
                                                                  result. */
-        uint64_t reserved_62           : 1;
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } cn;
@@ -14720,7 +15280,7 @@ typedef union cavm_nixx_af_tl1x_md_debug0 cavm_nixx_af_tl1x_md_debug0_t;
 static inline uint64_t CAVM_NIXX_AF_TL1X_MD_DEBUG0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL1X_MD_DEBUG0(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=27))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=27)))
         return 0x840040000cc0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1f);
     __cavm_csr_fatal("NIXX_AF_TL1X_MD_DEBUG0", 2, a, b, 0, 0, 0, 0);
 }
@@ -14745,20 +15305,20 @@ union cavm_nixx_af_tl1x_md_debug1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t vld                   : 1;  /**< [ 63: 63](R/W/H) Packet meta descriptor valid. */
-        uint64_t reserved_62           : 1;
-        uint64_t mdq_idx               : 10; /**< [ 61: 52](R/W/H) Meta-descriptor queue index, MDQ source of PMD if VLD field is set. */
+        uint64_t mdq_idx               : 11; /**< [ 62: 52](R/W/H) Meta-descriptor queue index, MDQ source of PMD if VLD field is set. */
         uint64_t sqm_pkt_id            : 13; /**< [ 51: 39](R/W/H) Packet ID from SQM. */
         uint64_t tx_pkt_p2x            : 2;  /**< [ 38: 37](R/W/H) Packet type.
                                                                  0x0 = Reserved, PMD has not cleared link credit request.
                                                                  0x1 = Normal packet type.
                                                                  0x2 = Reserved.
                                                                  0x3 = SDP packet type. */
-        uint64_t sdp                   : 1;  /**< [ 36: 36](R/W/H) Reserved. */
+        uint64_t reserved_36           : 1;
         uint64_t pse_pkt_id            : 9;  /**< [ 35: 27](R/W/H) PSE packet ID credits vector, pointer to reserved packet link credits. */
         uint64_t color                 : 2;  /**< [ 26: 25](R/W/H) See NIX_COLORRESULT_E. */
         uint64_t bubble                : 1;  /**< [ 24: 24](R/W/H) This MD is a fake passed forward after a prune. */
         uint64_t flush                 : 1;  /**< [ 23: 23](R/W/H) This MD is a flush MD. */
-        uint64_t reserved_19_22        : 4;
+        uint64_t reserved_21_22        : 2;
+        uint64_t pkt_link_type         : 2;  /**< [ 20: 19](R/W/H) MD is for SDP,RPM or LBK. */
         uint64_t adjust                : 9;  /**< [ 18: 10](R/W/H) Packet meta descriptor adjust. The NIX_SEND_EXT_S[SHP_CHG] for the packet. */
         uint64_t pir_dis               : 1;  /**< [  9:  9](R/W/H) PIR disable. Peak shaper disabled. Set when NIX_SEND_EXT_S[SHP_DIS] is set
                                                                  (i.e. [PIR_DIS]=NIX_SEND_EXT_S[SHP_DIS]). [PIR_DIS] is used by
@@ -14784,20 +15344,20 @@ union cavm_nixx_af_tl1x_md_debug1
                                                                  the TL4 through TL2 shapers, but not used by the TL1 rate limiters.
                                                                  [PIR_DIS] and [CIR_DIS] will always have the same value. */
         uint64_t adjust                : 9;  /**< [ 18: 10](R/W/H) Packet meta descriptor adjust. The NIX_SEND_EXT_S[SHP_CHG] for the packet. */
-        uint64_t reserved_19_22        : 4;
+        uint64_t pkt_link_type         : 2;  /**< [ 20: 19](R/W/H) MD is for SDP,RPM or LBK. */
+        uint64_t reserved_21_22        : 2;
         uint64_t flush                 : 1;  /**< [ 23: 23](R/W/H) This MD is a flush MD. */
         uint64_t bubble                : 1;  /**< [ 24: 24](R/W/H) This MD is a fake passed forward after a prune. */
         uint64_t color                 : 2;  /**< [ 26: 25](R/W/H) See NIX_COLORRESULT_E. */
         uint64_t pse_pkt_id            : 9;  /**< [ 35: 27](R/W/H) PSE packet ID credits vector, pointer to reserved packet link credits. */
-        uint64_t sdp                   : 1;  /**< [ 36: 36](R/W/H) Reserved. */
+        uint64_t reserved_36           : 1;
         uint64_t tx_pkt_p2x            : 2;  /**< [ 38: 37](R/W/H) Packet type.
                                                                  0x0 = Reserved, PMD has not cleared link credit request.
                                                                  0x1 = Normal packet type.
                                                                  0x2 = Reserved.
                                                                  0x3 = SDP packet type. */
         uint64_t sqm_pkt_id            : 13; /**< [ 51: 39](R/W/H) Packet ID from SQM. */
-        uint64_t mdq_idx               : 10; /**< [ 61: 52](R/W/H) Meta-descriptor queue index, MDQ source of PMD if VLD field is set. */
-        uint64_t reserved_62           : 1;
+        uint64_t mdq_idx               : 11; /**< [ 62: 52](R/W/H) Meta-descriptor queue index, MDQ source of PMD if VLD field is set. */
         uint64_t vld                   : 1;  /**< [ 63: 63](R/W/H) Packet meta descriptor valid. */
 #endif /* Word 0 - End */
     } s;
@@ -14808,7 +15368,7 @@ typedef union cavm_nixx_af_tl1x_md_debug1 cavm_nixx_af_tl1x_md_debug1_t;
 static inline uint64_t CAVM_NIXX_AF_TL1X_MD_DEBUG1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL1X_MD_DEBUG1(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=27))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=27)))
         return 0x840040000cc8ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1f);
     __cavm_csr_fatal("NIXX_AF_TL1X_MD_DEBUG1", 2, a, b, 0, 0, 0, 0);
 }
@@ -14846,7 +15406,7 @@ typedef union cavm_nixx_af_tl1x_red_bytes cavm_nixx_af_tl1x_red_bytes_t;
 static inline uint64_t CAVM_NIXX_AF_TL1X_RED_BYTES(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL1X_RED_BYTES(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=27))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=27)))
         return 0x840040000d50ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1f);
     __cavm_csr_fatal("NIXX_AF_TL1X_RED_BYTES", 2, a, b, 0, 0, 0, 0);
 }
@@ -14884,7 +15444,7 @@ typedef union cavm_nixx_af_tl1x_red_packets cavm_nixx_af_tl1x_red_packets_t;
 static inline uint64_t CAVM_NIXX_AF_TL1X_RED_PACKETS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL1X_RED_PACKETS(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=27))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=27)))
         return 0x840040000d40ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1f);
     __cavm_csr_fatal("NIXX_AF_TL1X_RED_PACKETS", 2, a, b, 0, 0, 0, 0);
 }
@@ -14911,7 +15471,7 @@ union cavm_nixx_af_tl1x_schedule
         uint64_t rr_weight             : 14; /**< [ 13:  0](R/W) Round-robin (DWRR) weight. The deficit-weighted round-robin weight (14-bit unsigned
                                                                  integer).
 
-                                                                 This is the actual weight and in combination with NIX_AF_DWRR_SDP/RPM_MTU makes
+                                                                 This is the actual weight and in combination with NIX_AF_DWRR_MTU[x][MTU] makes
                                                                  up QUANTUM value for this queue.
 
                                                                  Transmit limiter 1 packet meta descriptor are active in the scheduler when the rate limiter
@@ -14923,15 +15483,16 @@ union cavm_nixx_af_tl1x_schedule
                                                                  round robin arbitration.
 
                                                                  Quantum value to ADD back when the current deficit goes negative would be
-                                                                 [(2^NIX_AF_DWRR_SDP_MTU) OR (2^NIX_AF_DWRR_RPM_MTU) x RR_WEIGHT].
+                                                                 [(2^NIX_AF_DWRR_MTU[x][MTU]) * RR_WEIGHT].
 
-                                                                 Note selected MTU depends on MD whether it is SDP or RPM related.
+                                                                 Note "x" here is the selected MTU for a MD which can be SDP, RPM or LBK related
+                                                                 and is determined by NIX_AF_SMQ()_CFG[PKT_LINK_TYPE].
                                                                  If the value programmed is greater than 16384 then hardware will clip it to 16384. */
 #else /* Word 0 - Little Endian */
         uint64_t rr_weight             : 14; /**< [ 13:  0](R/W) Round-robin (DWRR) weight. The deficit-weighted round-robin weight (14-bit unsigned
                                                                  integer).
 
-                                                                 This is the actual weight and in combination with NIX_AF_DWRR_SDP/RPM_MTU makes
+                                                                 This is the actual weight and in combination with NIX_AF_DWRR_MTU[x][MTU] makes
                                                                  up QUANTUM value for this queue.
 
                                                                  Transmit limiter 1 packet meta descriptor are active in the scheduler when the rate limiter
@@ -14943,9 +15504,10 @@ union cavm_nixx_af_tl1x_schedule
                                                                  round robin arbitration.
 
                                                                  Quantum value to ADD back when the current deficit goes negative would be
-                                                                 [(2^NIX_AF_DWRR_SDP_MTU) OR (2^NIX_AF_DWRR_RPM_MTU) x RR_WEIGHT].
+                                                                 [(2^NIX_AF_DWRR_MTU[x][MTU]) * RR_WEIGHT].
 
-                                                                 Note selected MTU depends on MD whether it is SDP or RPM related.
+                                                                 Note "x" here is the selected MTU for a MD which can be SDP, RPM or LBK related
+                                                                 and is determined by NIX_AF_SMQ()_CFG[PKT_LINK_TYPE].
                                                                  If the value programmed is greater than 16384 then hardware will clip it to 16384. */
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
@@ -14957,7 +15519,7 @@ typedef union cavm_nixx_af_tl1x_schedule cavm_nixx_af_tl1x_schedule_t;
 static inline uint64_t CAVM_NIXX_AF_TL1X_SCHEDULE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL1X_SCHEDULE(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=27))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=27)))
         return 0x840040000c00ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1f);
     __cavm_csr_fatal("NIXX_AF_TL1X_SCHEDULE", 2, a, b, 0, 0, 0, 0);
 }
@@ -15013,7 +15575,7 @@ typedef union cavm_nixx_af_tl1x_shape cavm_nixx_af_tl1x_shape_t;
 static inline uint64_t CAVM_NIXX_AF_TL1X_SHAPE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL1X_SHAPE(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=27))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=27)))
         return 0x840040000c10ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1f);
     __cavm_csr_fatal("NIXX_AF_TL1X_SHAPE", 2, a, b, 0, 0, 0, 0);
 }
@@ -15057,7 +15619,7 @@ typedef union cavm_nixx_af_tl1x_shape_state_cir cavm_nixx_af_tl1x_shape_state_ci
 static inline uint64_t CAVM_NIXX_AF_TL1X_SHAPE_STATE_CIR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL1X_SHAPE_STATE_CIR(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=27))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=27)))
         return 0x840040000c50ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1f);
     __cavm_csr_fatal("NIXX_AF_TL1X_SHAPE_STATE_CIR", 2, a, b, 0, 0, 0, 0);
 }
@@ -15098,7 +15660,7 @@ typedef union cavm_nixx_af_tl1x_sw_xoff cavm_nixx_af_tl1x_sw_xoff_t;
 static inline uint64_t CAVM_NIXX_AF_TL1X_SW_XOFF(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL1X_SW_XOFF(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=27))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=27)))
         return 0x840040000c70ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1f);
     __cavm_csr_fatal("NIXX_AF_TL1X_SW_XOFF", 2, a, b, 0, 0, 0, 0);
 }
@@ -15213,7 +15775,7 @@ typedef union cavm_nixx_af_tl1x_topology cavm_nixx_af_tl1x_topology_t;
 static inline uint64_t CAVM_NIXX_AF_TL1X_TOPOLOGY(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL1X_TOPOLOGY(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=27))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=27)))
         return 0x840040000c80ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1f);
     __cavm_csr_fatal("NIXX_AF_TL1X_TOPOLOGY", 2, a, b, 0, 0, 0, 0);
 }
@@ -15251,7 +15813,7 @@ typedef union cavm_nixx_af_tl1x_yellow_bytes cavm_nixx_af_tl1x_yellow_bytes_t;
 static inline uint64_t CAVM_NIXX_AF_TL1X_YELLOW_BYTES(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL1X_YELLOW_BYTES(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=27))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=27)))
         return 0x840040000d70ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1f);
     __cavm_csr_fatal("NIXX_AF_TL1X_YELLOW_BYTES", 2, a, b, 0, 0, 0, 0);
 }
@@ -15289,7 +15851,7 @@ typedef union cavm_nixx_af_tl1x_yellow_packets cavm_nixx_af_tl1x_yellow_packets_
 static inline uint64_t CAVM_NIXX_AF_TL1X_YELLOW_PACKETS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL1X_YELLOW_PACKETS(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=27))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=27)))
         return 0x840040000d60ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1f);
     __cavm_csr_fatal("NIXX_AF_TL1X_YELLOW_PACKETS", 2, a, b, 0, 0, 0, 0);
 }
@@ -15327,7 +15889,7 @@ typedef union cavm_nixx_af_tl1_const cavm_nixx_af_tl1_const_t;
 static inline uint64_t CAVM_NIXX_AF_TL1_CONST(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL1_CONST(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000070ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_TL1_CONST", 1, a, 0, 0, 0, 0, 0);
 }
@@ -15371,7 +15933,7 @@ typedef union cavm_nixx_af_tl1_tw_arb_ctl_debug cavm_nixx_af_tl1_tw_arb_ctl_debu
 static inline uint64_t CAVM_NIXX_AF_TL1_TW_ARB_CTL_DEBUG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL1_TW_ARB_CTL_DEBUG(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000bc0ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_TL1_TW_ARB_CTL_DEBUG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -15409,7 +15971,7 @@ typedef union cavm_nixx_af_tl1_tw_arb_req_debug cavm_nixx_af_tl1_tw_arb_req_debu
 static inline uint64_t CAVM_NIXX_AF_TL1_TW_ARB_REQ_DEBUG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL1_TW_ARB_REQ_DEBUG(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000bc8ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_TL1_TW_ARB_REQ_DEBUG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -15489,7 +16051,7 @@ typedef union cavm_nixx_af_tl2x_cir cavm_nixx_af_tl2x_cir_t;
 static inline uint64_t CAVM_NIXX_AF_TL2X_CIR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL2X_CIR(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=255))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=255)))
         return 0x840040000e20ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xff);
     __cavm_csr_fatal("NIXX_AF_TL2X_CIR", 2, a, b, 0, 0, 0, 0);
 }
@@ -15513,8 +16075,8 @@ union cavm_nixx_af_tl2x_md_debug0
     struct cavm_nixx_af_tl2x_md_debug0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_62_63        : 2;
-        uint64_t child                 : 10; /**< [ 61: 52](R/W/H) Child index, highest priority child. When [C_CON] of this result is set,
+        uint64_t reserved_63           : 1;
+        uint64_t child                 : 11; /**< [ 62: 52](R/W/H) Child index, highest priority child. When [C_CON] of this result is set,
                                                                  indicating that this result is
                                                                  connected in a flow that extends through the child result, this is the index of that child
                                                                  result. */
@@ -15533,19 +16095,18 @@ union cavm_nixx_af_tl2x_md_debug0
         uint64_t c_con                 : 1;  /**< [ 48: 48](R/W/H) Child connected flag. This pick has more picks behind it. */
         uint64_t p_con                 : 1;  /**< [ 49: 49](R/W/H) Parent connected flag. This pick has more picks in front of it. */
         uint64_t reserved_50_51        : 2;
-        uint64_t child                 : 10; /**< [ 61: 52](R/W/H) Child index, highest priority child. When [C_CON] of this result is set,
+        uint64_t child                 : 11; /**< [ 62: 52](R/W/H) Child index, highest priority child. When [C_CON] of this result is set,
                                                                  indicating that this result is
                                                                  connected in a flow that extends through the child result, this is the index of that child
                                                                  result. */
-        uint64_t reserved_62_63        : 2;
+        uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } s;
     struct cavm_nixx_af_tl2x_md_debug0_cn
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_63           : 1;
-        uint64_t reserved_62           : 1;
-        uint64_t child                 : 10; /**< [ 61: 52](R/W/H) Child index, highest priority child. When [C_CON] of this result is set,
+        uint64_t child                 : 11; /**< [ 62: 52](R/W/H) Child index, highest priority child. When [C_CON] of this result is set,
                                                                  indicating that this result is
                                                                  connected in a flow that extends through the child result, this is the index of that child
                                                                  result. */
@@ -15570,11 +16131,10 @@ union cavm_nixx_af_tl2x_md_debug0
         uint64_t c_con                 : 1;  /**< [ 48: 48](R/W/H) Child connected flag. This pick has more picks behind it. */
         uint64_t p_con                 : 1;  /**< [ 49: 49](R/W/H) Parent connected flag. This pick has more picks in front of it. */
         uint64_t reserved_50_51        : 2;
-        uint64_t child                 : 10; /**< [ 61: 52](R/W/H) Child index, highest priority child. When [C_CON] of this result is set,
+        uint64_t child                 : 11; /**< [ 62: 52](R/W/H) Child index, highest priority child. When [C_CON] of this result is set,
                                                                  indicating that this result is
                                                                  connected in a flow that extends through the child result, this is the index of that child
                                                                  result. */
-        uint64_t reserved_62           : 1;
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } cn;
@@ -15584,7 +16144,7 @@ typedef union cavm_nixx_af_tl2x_md_debug0 cavm_nixx_af_tl2x_md_debug0_t;
 static inline uint64_t CAVM_NIXX_AF_TL2X_MD_DEBUG0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL2X_MD_DEBUG0(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=255))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=255)))
         return 0x840040000ec0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xff);
     __cavm_csr_fatal("NIXX_AF_TL2X_MD_DEBUG0", 2, a, b, 0, 0, 0, 0);
 }
@@ -15609,20 +16169,20 @@ union cavm_nixx_af_tl2x_md_debug1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t vld                   : 1;  /**< [ 63: 63](R/W/H) Packet meta descriptor valid. */
-        uint64_t reserved_62           : 1;
-        uint64_t mdq_idx               : 10; /**< [ 61: 52](R/W/H) Meta-descriptor queue index, MDQ source of PMD if VLD field is set. */
+        uint64_t mdq_idx               : 11; /**< [ 62: 52](R/W/H) Meta-descriptor queue index, MDQ source of PMD if VLD field is set. */
         uint64_t sqm_pkt_id            : 13; /**< [ 51: 39](R/W/H) Packet ID from SQM. */
         uint64_t tx_pkt_p2x            : 2;  /**< [ 38: 37](R/W/H) Packet type.
                                                                  0x0 = Reserved, PMD has not cleared link credit request.
                                                                  0x1 = Normal packet type.
                                                                  0x2 = Reserved.
                                                                  0x3 = SDP packet type. */
-        uint64_t sdp                   : 1;  /**< [ 36: 36](R/W/H) Reserved. */
+        uint64_t reserved_36           : 1;
         uint64_t pse_pkt_id            : 9;  /**< [ 35: 27](R/W/H) PSE packet ID credits vector, pointer to reserved packet link credits. */
         uint64_t color                 : 2;  /**< [ 26: 25](R/W/H) See NIX_COLORRESULT_E. */
         uint64_t bubble                : 1;  /**< [ 24: 24](R/W/H) This MD is a fake passed forward after a prune. */
         uint64_t flush                 : 1;  /**< [ 23: 23](R/W/H) This MD is a flush MD. */
-        uint64_t reserved_19_22        : 4;
+        uint64_t reserved_21_22        : 2;
+        uint64_t pkt_link_type         : 2;  /**< [ 20: 19](R/W/H) MD is for SDP,RPM or LBK. */
         uint64_t adjust                : 9;  /**< [ 18: 10](R/W/H) Packet meta descriptor adjust. The NIX_SEND_EXT_S[SHP_CHG] for the packet. */
         uint64_t pir_dis               : 1;  /**< [  9:  9](R/W/H) PIR disable. Peak shaper disabled. Set when NIX_SEND_EXT_S[SHP_DIS] is set
                                                                  (i.e. [PIR_DIS]=NIX_SEND_EXT_S[SHP_DIS]). [PIR_DIS] is used by
@@ -15648,20 +16208,20 @@ union cavm_nixx_af_tl2x_md_debug1
                                                                  the TL4 through TL2 shapers, but not used by the TL1 rate limiters.
                                                                  [PIR_DIS] and [CIR_DIS] will always have the same value. */
         uint64_t adjust                : 9;  /**< [ 18: 10](R/W/H) Packet meta descriptor adjust. The NIX_SEND_EXT_S[SHP_CHG] for the packet. */
-        uint64_t reserved_19_22        : 4;
+        uint64_t pkt_link_type         : 2;  /**< [ 20: 19](R/W/H) MD is for SDP,RPM or LBK. */
+        uint64_t reserved_21_22        : 2;
         uint64_t flush                 : 1;  /**< [ 23: 23](R/W/H) This MD is a flush MD. */
         uint64_t bubble                : 1;  /**< [ 24: 24](R/W/H) This MD is a fake passed forward after a prune. */
         uint64_t color                 : 2;  /**< [ 26: 25](R/W/H) See NIX_COLORRESULT_E. */
         uint64_t pse_pkt_id            : 9;  /**< [ 35: 27](R/W/H) PSE packet ID credits vector, pointer to reserved packet link credits. */
-        uint64_t sdp                   : 1;  /**< [ 36: 36](R/W/H) Reserved. */
+        uint64_t reserved_36           : 1;
         uint64_t tx_pkt_p2x            : 2;  /**< [ 38: 37](R/W/H) Packet type.
                                                                  0x0 = Reserved, PMD has not cleared link credit request.
                                                                  0x1 = Normal packet type.
                                                                  0x2 = Reserved.
                                                                  0x3 = SDP packet type. */
         uint64_t sqm_pkt_id            : 13; /**< [ 51: 39](R/W/H) Packet ID from SQM. */
-        uint64_t mdq_idx               : 10; /**< [ 61: 52](R/W/H) Meta-descriptor queue index, MDQ source of PMD if VLD field is set. */
-        uint64_t reserved_62           : 1;
+        uint64_t mdq_idx               : 11; /**< [ 62: 52](R/W/H) Meta-descriptor queue index, MDQ source of PMD if VLD field is set. */
         uint64_t vld                   : 1;  /**< [ 63: 63](R/W/H) Packet meta descriptor valid. */
 #endif /* Word 0 - End */
     } s;
@@ -15672,7 +16232,7 @@ typedef union cavm_nixx_af_tl2x_md_debug1 cavm_nixx_af_tl2x_md_debug1_t;
 static inline uint64_t CAVM_NIXX_AF_TL2X_MD_DEBUG1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL2X_MD_DEBUG1(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=255))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=255)))
         return 0x840040000ec8ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xff);
     __cavm_csr_fatal("NIXX_AF_TL2X_MD_DEBUG1", 2, a, b, 0, 0, 0, 0);
 }
@@ -15723,7 +16283,7 @@ typedef union cavm_nixx_af_tl2x_parent cavm_nixx_af_tl2x_parent_t;
 static inline uint64_t CAVM_NIXX_AF_TL2X_PARENT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL2X_PARENT(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=255))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=255)))
         return 0x840040000e88ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xff);
     __cavm_csr_fatal("NIXX_AF_TL2X_PARENT", 2, a, b, 0, 0, 0, 0);
 }
@@ -15803,7 +16363,7 @@ typedef union cavm_nixx_af_tl2x_pir cavm_nixx_af_tl2x_pir_t;
 static inline uint64_t CAVM_NIXX_AF_TL2X_PIR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL2X_PIR(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=255))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=255)))
         return 0x840040000e30ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xff);
     __cavm_csr_fatal("NIXX_AF_TL2X_PIR", 2, a, b, 0, 0, 0, 0);
 }
@@ -15842,7 +16402,7 @@ typedef union cavm_nixx_af_tl2x_sched_state cavm_nixx_af_tl2x_sched_state_t;
 static inline uint64_t CAVM_NIXX_AF_TL2X_SCHED_STATE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL2X_SCHED_STATE(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=255))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=255)))
         return 0x840040000e40ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xff);
     __cavm_csr_fatal("NIXX_AF_TL2X_SCHED_STATE", 2, a, b, 0, 0, 0, 0);
 }
@@ -15881,9 +16441,10 @@ union cavm_nixx_af_tl2x_schedule
                                                                     + NIX_nm_SHAPE[ADJUST]
 
                                                                  where nm corresponds to this NIX_nm_SCHEDULE CSR. Quantum value to ADD back would be
-                                                                 [(2^NIX_AF_DWRR_SDP_MTU) OR (2^NIX_AF_DWRR_RPM_MTU) x RR_WEIGHT].
+                                                                 [(2^NIX_AF_DWRR_MTU[x][MTU]) * RR_WEIGHT].
 
-                                                                 Note Selected MTU depends on MD whether its SDP or RPM. */
+                                                                 Note "x" here is the selected MTU for a MD which can be SDP, RPM or LBK related
+                                                                 and is determined by NIX_AF_SMQ()_CFG[PKT_LINK_TYPE]. */
 #else /* Word 0 - Little Endian */
         uint64_t rr_weight             : 14; /**< [ 13:  0](R/W) Round-robin (DWRR) Weight. The deficit-weighted round-robin weight (14-bit unsigned
                                                                  integer). The packet size used in all DWRR (RR_COUNT) calculations is:
@@ -15892,9 +16453,10 @@ union cavm_nixx_af_tl2x_schedule
                                                                     + NIX_nm_SHAPE[ADJUST]
 
                                                                  where nm corresponds to this NIX_nm_SCHEDULE CSR. Quantum value to ADD back would be
-                                                                 [(2^NIX_AF_DWRR_SDP_MTU) OR (2^NIX_AF_DWRR_RPM_MTU) x RR_WEIGHT].
+                                                                 [(2^NIX_AF_DWRR_MTU[x][MTU]) * RR_WEIGHT].
 
-                                                                 Note Selected MTU depends on MD whether its SDP or RPM. */
+                                                                 Note "x" here is the selected MTU for a MD which can be SDP, RPM or LBK related
+                                                                 and is determined by NIX_AF_SMQ()_CFG[PKT_LINK_TYPE]. */
         uint64_t reserved_14_23        : 10;
         uint64_t prio                  : 4;  /**< [ 27: 24](R/W) Priority. The priority used for this shaping queue in the (lower-level)
                                                                  parent's scheduling algorithm. When this shaping queue is not used, we
@@ -15913,7 +16475,7 @@ typedef union cavm_nixx_af_tl2x_schedule cavm_nixx_af_tl2x_schedule_t;
 static inline uint64_t CAVM_NIXX_AF_TL2X_SCHEDULE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL2X_SCHEDULE(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=255))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=255)))
         return 0x840040000e00ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xff);
     __cavm_csr_fatal("NIXX_AF_TL2X_SCHEDULE", 2, a, b, 0, 0, 0, 0);
 }
@@ -15980,7 +16542,10 @@ union cavm_nixx_af_tl2x_shape
                                                                  * May be negative when [LENGTH_DISABLE] is clear and (NIX_AF_SMQ()_CFG[MINLEN] + ADJUST) \> 0
                                                                  In case of scheduling(DWRR) adjustment value programmed should be such that
                                                                  (NIX_nm_MD*[LENGTH] + NIX_nm_MD*[ADJUST] + NIX_nm_SHAPE[ADJUST]) \<
-                                                                 NIX_AF_DWRR_SDP_MTU/NIX_AF_DWRR_RPM_MTU */
+                                                                 NIX_AF_DWRR_SDP_MTU[x].MTU
+
+                                                                 Note "x" here is the selected MTU for a MD which can be SDP, RPM or LBK related
+                                                                 and is determined by NIX_AF_SMQ()_CFG.PKT_LINK_TYPE */
 #else /* Word 0 - Little Endian */
         uint64_t adjust                : 9;  /**< [  8:  0](R/W) Shaping and scheduling calculation adjustment. This nine-bit two's
                                                                  complement signed value allows -255 .. 255 bytes to be added to the packet
@@ -15989,7 +16554,10 @@ union cavm_nixx_af_tl2x_shape
                                                                  * May be negative when [LENGTH_DISABLE] is clear and (NIX_AF_SMQ()_CFG[MINLEN] + ADJUST) \> 0
                                                                  In case of scheduling(DWRR) adjustment value programmed should be such that
                                                                  (NIX_nm_MD*[LENGTH] + NIX_nm_MD*[ADJUST] + NIX_nm_SHAPE[ADJUST]) \<
-                                                                 NIX_AF_DWRR_SDP_MTU/NIX_AF_DWRR_RPM_MTU */
+                                                                 NIX_AF_DWRR_SDP_MTU[x].MTU
+
+                                                                 Note "x" here is the selected MTU for a MD which can be SDP, RPM or LBK related
+                                                                 and is determined by NIX_AF_SMQ()_CFG.PKT_LINK_TYPE */
         uint64_t red_algo              : 2;  /**< [ 10:  9](R/W) Shaper red state algorithm when not specified by the NIX SEND. Used by hardware
                                                                  only when the shaper is in RED state. (A shaper is in RED state when
                                                                  NIX_AF_TL*()_SHAPE_STATE_PIR[PIR_ACCUM] is negative.) When NIX_SEND_EXT_S[SHP_RA]!=STD (!=0) for a
@@ -16036,7 +16604,7 @@ typedef union cavm_nixx_af_tl2x_shape cavm_nixx_af_tl2x_shape_t;
 static inline uint64_t CAVM_NIXX_AF_TL2X_SHAPE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL2X_SHAPE(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=255))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=255)))
         return 0x840040000e10ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xff);
     __cavm_csr_fatal("NIXX_AF_TL2X_SHAPE", 2, a, b, 0, 0, 0, 0);
 }
@@ -16084,7 +16652,7 @@ typedef union cavm_nixx_af_tl2x_shape_state_cir cavm_nixx_af_tl2x_shape_state_ci
 static inline uint64_t CAVM_NIXX_AF_TL2X_SHAPE_STATE_CIR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL2X_SHAPE_STATE_CIR(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=255))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=255)))
         return 0x840040000cd0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xff);
     __cavm_csr_fatal("NIXX_AF_TL2X_SHAPE_STATE_CIR", 2, a, b, 0, 0, 0, 0);
 }
@@ -16132,7 +16700,7 @@ typedef union cavm_nixx_af_tl2x_shape_state_pir cavm_nixx_af_tl2x_shape_state_pi
 static inline uint64_t CAVM_NIXX_AF_TL2X_SHAPE_STATE_PIR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL2X_SHAPE_STATE_PIR(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=255))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=255)))
         return 0x840040000e50ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xff);
     __cavm_csr_fatal("NIXX_AF_TL2X_SHAPE_STATE_PIR", 2, a, b, 0, 0, 0, 0);
 }
@@ -16174,7 +16742,7 @@ typedef union cavm_nixx_af_tl2x_sw_xoff cavm_nixx_af_tl2x_sw_xoff_t;
 static inline uint64_t CAVM_NIXX_AF_TL2X_SW_XOFF(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL2X_SW_XOFF(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=255))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=255)))
         return 0x840040000e70ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xff);
     __cavm_csr_fatal("NIXX_AF_TL2X_SW_XOFF", 2, a, b, 0, 0, 0, 0);
 }
@@ -16197,17 +16765,17 @@ union cavm_nixx_af_tl2x_topology
     struct cavm_nixx_af_tl2x_topology_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_40_63        : 24;
-        uint64_t prio_anchor           : 8;  /**< [ 39: 32](R/W) See NIX_AF_TL1()_TOPOLOGY[PRIO_ANCHOR]. */
-        uint64_t reserved_5_31         : 27;
+        uint64_t reserved_39_63        : 25;
+        uint64_t prio_anchor           : 9;  /**< [ 38: 30](R/W) See NIX_AF_TL1()_TOPOLOGY[PRIO_ANCHOR]. */
+        uint64_t reserved_5_29         : 25;
         uint64_t rr_prio               : 4;  /**< [  4:  1](R/W) See NIX_AF_TL1()_TOPOLOGY[RR_PRIO]. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
         uint64_t rr_prio               : 4;  /**< [  4:  1](R/W) See NIX_AF_TL1()_TOPOLOGY[RR_PRIO]. */
-        uint64_t reserved_5_31         : 27;
-        uint64_t prio_anchor           : 8;  /**< [ 39: 32](R/W) See NIX_AF_TL1()_TOPOLOGY[PRIO_ANCHOR]. */
-        uint64_t reserved_40_63        : 24;
+        uint64_t reserved_5_29         : 25;
+        uint64_t prio_anchor           : 9;  /**< [ 38: 30](R/W) See NIX_AF_TL1()_TOPOLOGY[PRIO_ANCHOR]. */
+        uint64_t reserved_39_63        : 25;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_tl2x_topology_s cn; */
@@ -16217,7 +16785,7 @@ typedef union cavm_nixx_af_tl2x_topology cavm_nixx_af_tl2x_topology_t;
 static inline uint64_t CAVM_NIXX_AF_TL2X_TOPOLOGY(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL2X_TOPOLOGY(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=255))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=255)))
         return 0x840040000e80ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xff);
     __cavm_csr_fatal("NIXX_AF_TL2X_TOPOLOGY", 2, a, b, 0, 0, 0, 0);
 }
@@ -16255,7 +16823,7 @@ typedef union cavm_nixx_af_tl2_const cavm_nixx_af_tl2_const_t;
 static inline uint64_t CAVM_NIXX_AF_TL2_CONST(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL2_CONST(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000078ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_TL2_CONST", 1, a, 0, 0, 0, 0, 0);
 }
@@ -16292,7 +16860,7 @@ typedef union cavm_nixx_af_tl2_twx_arb_req_debug0 cavm_nixx_af_tl2_twx_arb_req_d
 static inline uint64_t CAVM_NIXX_AF_TL2_TWX_ARB_REQ_DEBUG0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL2_TWX_ARB_REQ_DEBUG0(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=1))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=1)))
         return 0x840040000dc8ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("NIXX_AF_TL2_TWX_ARB_REQ_DEBUG0", 2, a, b, 0, 0, 0, 0);
 }
@@ -16329,7 +16897,7 @@ typedef union cavm_nixx_af_tl2_twx_arb_req_debug1 cavm_nixx_af_tl2_twx_arb_req_d
 static inline uint64_t CAVM_NIXX_AF_TL2_TWX_ARB_REQ_DEBUG1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL2_TWX_ARB_REQ_DEBUG1(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=1))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=1)))
         return 0x840040000dd0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("NIXX_AF_TL2_TWX_ARB_REQ_DEBUG1", 2, a, b, 0, 0, 0, 0);
 }
@@ -16373,7 +16941,7 @@ typedef union cavm_nixx_af_tl2_tw_arb_ctl_debug cavm_nixx_af_tl2_tw_arb_ctl_debu
 static inline uint64_t CAVM_NIXX_AF_TL2_TW_ARB_CTL_DEBUG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL2_TW_ARB_CTL_DEBUG(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000dc0ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_TL2_TW_ARB_CTL_DEBUG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -16453,8 +17021,8 @@ typedef union cavm_nixx_af_tl3x_cir cavm_nixx_af_tl3x_cir_t;
 static inline uint64_t CAVM_NIXX_AF_TL3X_CIR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL3X_CIR(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=255))
-        return 0x840040001020ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=511)))
+        return 0x840040001020ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
     __cavm_csr_fatal("NIXX_AF_TL3X_CIR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -16477,8 +17045,8 @@ union cavm_nixx_af_tl3x_md_debug0
     struct cavm_nixx_af_tl3x_md_debug0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_62_63        : 2;
-        uint64_t child                 : 10; /**< [ 61: 52](R/W/H) Child index, highest priority child. When [C_CON] of this result is set,
+        uint64_t reserved_63           : 1;
+        uint64_t child                 : 11; /**< [ 62: 52](R/W/H) Child index, highest priority child. When [C_CON] of this result is set,
                                                                  indicating that this result is
                                                                  connected in a flow that extends through the child result, this is the index of that child
                                                                  result. */
@@ -16497,19 +17065,18 @@ union cavm_nixx_af_tl3x_md_debug0
         uint64_t c_con                 : 1;  /**< [ 48: 48](R/W/H) Child connected flag. This pick has more picks behind it. */
         uint64_t p_con                 : 1;  /**< [ 49: 49](R/W/H) Parent connected flag. This pick has more picks in front of it. */
         uint64_t reserved_50_51        : 2;
-        uint64_t child                 : 10; /**< [ 61: 52](R/W/H) Child index, highest priority child. When [C_CON] of this result is set,
+        uint64_t child                 : 11; /**< [ 62: 52](R/W/H) Child index, highest priority child. When [C_CON] of this result is set,
                                                                  indicating that this result is
                                                                  connected in a flow that extends through the child result, this is the index of that child
                                                                  result. */
-        uint64_t reserved_62_63        : 2;
+        uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } s;
     struct cavm_nixx_af_tl3x_md_debug0_cn
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_63           : 1;
-        uint64_t reserved_62           : 1;
-        uint64_t child                 : 10; /**< [ 61: 52](R/W/H) Child index, highest priority child. When [C_CON] of this result is set,
+        uint64_t child                 : 11; /**< [ 62: 52](R/W/H) Child index, highest priority child. When [C_CON] of this result is set,
                                                                  indicating that this result is
                                                                  connected in a flow that extends through the child result, this is the index of that child
                                                                  result. */
@@ -16534,11 +17101,10 @@ union cavm_nixx_af_tl3x_md_debug0
         uint64_t c_con                 : 1;  /**< [ 48: 48](R/W/H) Child connected flag. This pick has more picks behind it. */
         uint64_t p_con                 : 1;  /**< [ 49: 49](R/W/H) Parent connected flag. This pick has more picks in front of it. */
         uint64_t reserved_50_51        : 2;
-        uint64_t child                 : 10; /**< [ 61: 52](R/W/H) Child index, highest priority child. When [C_CON] of this result is set,
+        uint64_t child                 : 11; /**< [ 62: 52](R/W/H) Child index, highest priority child. When [C_CON] of this result is set,
                                                                  indicating that this result is
                                                                  connected in a flow that extends through the child result, this is the index of that child
                                                                  result. */
-        uint64_t reserved_62           : 1;
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } cn;
@@ -16548,8 +17114,8 @@ typedef union cavm_nixx_af_tl3x_md_debug0 cavm_nixx_af_tl3x_md_debug0_t;
 static inline uint64_t CAVM_NIXX_AF_TL3X_MD_DEBUG0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL3X_MD_DEBUG0(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=255))
-        return 0x8400400010c0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=511)))
+        return 0x8400400010c0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
     __cavm_csr_fatal("NIXX_AF_TL3X_MD_DEBUG0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -16573,20 +17139,20 @@ union cavm_nixx_af_tl3x_md_debug1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t vld                   : 1;  /**< [ 63: 63](R/W/H) Packet meta descriptor valid. */
-        uint64_t reserved_62           : 1;
-        uint64_t mdq_idx               : 10; /**< [ 61: 52](R/W/H) Meta-descriptor queue index, MDQ source of PMD if VLD field is set. */
+        uint64_t mdq_idx               : 11; /**< [ 62: 52](R/W/H) Meta-descriptor queue index, MDQ source of PMD if VLD field is set. */
         uint64_t sqm_pkt_id            : 13; /**< [ 51: 39](R/W/H) Packet ID from SQM. */
         uint64_t tx_pkt_p2x            : 2;  /**< [ 38: 37](R/W/H) Packet type.
                                                                  0x0 = Reserved, PMD has not cleared link credit request.
                                                                  0x1 = Normal packet type.
                                                                  0x2 = Reserved.
                                                                  0x3 = SDP packet type. */
-        uint64_t sdp                   : 1;  /**< [ 36: 36](R/W/H) Reserved. */
+        uint64_t reserved_36           : 1;
         uint64_t pse_pkt_id            : 9;  /**< [ 35: 27](R/W/H) PSE packet ID credits vector, pointer to reserved packet link credits. */
         uint64_t color                 : 2;  /**< [ 26: 25](R/W/H) See NIX_COLORRESULT_E. */
         uint64_t bubble                : 1;  /**< [ 24: 24](R/W/H) This MD is a fake passed forward after a prune. */
         uint64_t flush                 : 1;  /**< [ 23: 23](R/W/H) This MD is a flush MD. */
-        uint64_t reserved_19_22        : 4;
+        uint64_t reserved_21_22        : 2;
+        uint64_t pkt_link_type         : 2;  /**< [ 20: 19](R/W/H) MD is for SDP,RPM or LBK. */
         uint64_t adjust                : 9;  /**< [ 18: 10](R/W/H) Packet meta descriptor adjust. The NIX_SEND_EXT_S[SHP_CHG] for the packet. */
         uint64_t pir_dis               : 1;  /**< [  9:  9](R/W/H) PIR disable. Peak shaper disabled. Set when NIX_SEND_EXT_S[SHP_DIS] is set
                                                                  (i.e. [PIR_DIS]=NIX_SEND_EXT_S[SHP_DIS]). [PIR_DIS] is used by
@@ -16612,20 +17178,20 @@ union cavm_nixx_af_tl3x_md_debug1
                                                                  the TL4 through TL2 shapers, but not used by the TL1 rate limiters.
                                                                  [PIR_DIS] and [CIR_DIS] will always have the same value. */
         uint64_t adjust                : 9;  /**< [ 18: 10](R/W/H) Packet meta descriptor adjust. The NIX_SEND_EXT_S[SHP_CHG] for the packet. */
-        uint64_t reserved_19_22        : 4;
+        uint64_t pkt_link_type         : 2;  /**< [ 20: 19](R/W/H) MD is for SDP,RPM or LBK. */
+        uint64_t reserved_21_22        : 2;
         uint64_t flush                 : 1;  /**< [ 23: 23](R/W/H) This MD is a flush MD. */
         uint64_t bubble                : 1;  /**< [ 24: 24](R/W/H) This MD is a fake passed forward after a prune. */
         uint64_t color                 : 2;  /**< [ 26: 25](R/W/H) See NIX_COLORRESULT_E. */
         uint64_t pse_pkt_id            : 9;  /**< [ 35: 27](R/W/H) PSE packet ID credits vector, pointer to reserved packet link credits. */
-        uint64_t sdp                   : 1;  /**< [ 36: 36](R/W/H) Reserved. */
+        uint64_t reserved_36           : 1;
         uint64_t tx_pkt_p2x            : 2;  /**< [ 38: 37](R/W/H) Packet type.
                                                                  0x0 = Reserved, PMD has not cleared link credit request.
                                                                  0x1 = Normal packet type.
                                                                  0x2 = Reserved.
                                                                  0x3 = SDP packet type. */
         uint64_t sqm_pkt_id            : 13; /**< [ 51: 39](R/W/H) Packet ID from SQM. */
-        uint64_t mdq_idx               : 10; /**< [ 61: 52](R/W/H) Meta-descriptor queue index, MDQ source of PMD if VLD field is set. */
-        uint64_t reserved_62           : 1;
+        uint64_t mdq_idx               : 11; /**< [ 62: 52](R/W/H) Meta-descriptor queue index, MDQ source of PMD if VLD field is set. */
         uint64_t vld                   : 1;  /**< [ 63: 63](R/W/H) Packet meta descriptor valid. */
 #endif /* Word 0 - End */
     } s;
@@ -16636,8 +17202,8 @@ typedef union cavm_nixx_af_tl3x_md_debug1 cavm_nixx_af_tl3x_md_debug1_t;
 static inline uint64_t CAVM_NIXX_AF_TL3X_MD_DEBUG1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL3X_MD_DEBUG1(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=255))
-        return 0x8400400010c8ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=511)))
+        return 0x8400400010c8ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
     __cavm_csr_fatal("NIXX_AF_TL3X_MD_DEBUG1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -16675,8 +17241,8 @@ typedef union cavm_nixx_af_tl3x_parent cavm_nixx_af_tl3x_parent_t;
 static inline uint64_t CAVM_NIXX_AF_TL3X_PARENT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL3X_PARENT(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=255))
-        return 0x840040001088ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=511)))
+        return 0x840040001088ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
     __cavm_csr_fatal("NIXX_AF_TL3X_PARENT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -16755,8 +17321,8 @@ typedef union cavm_nixx_af_tl3x_pir cavm_nixx_af_tl3x_pir_t;
 static inline uint64_t CAVM_NIXX_AF_TL3X_PIR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL3X_PIR(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=255))
-        return 0x840040001030ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=511)))
+        return 0x840040001030ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
     __cavm_csr_fatal("NIXX_AF_TL3X_PIR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -16795,8 +17361,8 @@ typedef union cavm_nixx_af_tl3x_sched_state cavm_nixx_af_tl3x_sched_state_t;
 static inline uint64_t CAVM_NIXX_AF_TL3X_SCHED_STATE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL3X_SCHED_STATE(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=255))
-        return 0x840040001040ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=511)))
+        return 0x840040001040ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
     __cavm_csr_fatal("NIXX_AF_TL3X_SCHED_STATE", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -16835,9 +17401,10 @@ union cavm_nixx_af_tl3x_schedule
                                                                     + NIX_nm_SHAPE[ADJUST]
 
                                                                  where nm corresponds to this NIX_nm_SCHEDULE CSR. Quantum value to ADD back would be
-                                                                 [(2^NIX_AF_DWRR_SDP_MTU) OR (2^NIX_AF_DWRR_RPM_MTU) x RR_WEIGHT].
+                                                                 [(2^NIX_AF_DWRR_MTU[x][MTU]) * RR_WEIGHT].
 
-                                                                 Note Selected MTU depends on MD whether its SDP or RPM. */
+                                                                 Note "x" here is the selected MTU for a MD which can be SDP, RPM or LBK related
+                                                                 and is determined by NIX_AF_SMQ()_CFG[PKT_LINK_TYPE]. */
 #else /* Word 0 - Little Endian */
         uint64_t rr_weight             : 14; /**< [ 13:  0](R/W) Round-robin (DWRR) Weight. The deficit-weighted round-robin weight (14-bit unsigned
                                                                  integer). The packet size used in all DWRR (RR_COUNT) calculations is:
@@ -16846,9 +17413,10 @@ union cavm_nixx_af_tl3x_schedule
                                                                     + NIX_nm_SHAPE[ADJUST]
 
                                                                  where nm corresponds to this NIX_nm_SCHEDULE CSR. Quantum value to ADD back would be
-                                                                 [(2^NIX_AF_DWRR_SDP_MTU) OR (2^NIX_AF_DWRR_RPM_MTU) x RR_WEIGHT].
+                                                                 [(2^NIX_AF_DWRR_MTU[x][MTU]) * RR_WEIGHT].
 
-                                                                 Note Selected MTU depends on MD whether its SDP or RPM. */
+                                                                 Note "x" here is the selected MTU for a MD which can be SDP, RPM or LBK related
+                                                                 and is determined by NIX_AF_SMQ()_CFG[PKT_LINK_TYPE]. */
         uint64_t reserved_14_23        : 10;
         uint64_t prio                  : 4;  /**< [ 27: 24](R/W) Priority. The priority used for this shaping queue in the (lower-level)
                                                                  parent's scheduling algorithm. When this shaping queue is not used, we
@@ -16867,8 +17435,8 @@ typedef union cavm_nixx_af_tl3x_schedule cavm_nixx_af_tl3x_schedule_t;
 static inline uint64_t CAVM_NIXX_AF_TL3X_SCHEDULE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL3X_SCHEDULE(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=255))
-        return 0x840040001000ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=511)))
+        return 0x840040001000ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
     __cavm_csr_fatal("NIXX_AF_TL3X_SCHEDULE", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -16916,8 +17484,8 @@ typedef union cavm_nixx_af_tl3x_shape cavm_nixx_af_tl3x_shape_t;
 static inline uint64_t CAVM_NIXX_AF_TL3X_SHAPE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL3X_SHAPE(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=255))
-        return 0x840040001010ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=511)))
+        return 0x840040001010ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
     __cavm_csr_fatal("NIXX_AF_TL3X_SHAPE", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -16965,8 +17533,8 @@ typedef union cavm_nixx_af_tl3x_shape_state_cir cavm_nixx_af_tl3x_shape_state_ci
 static inline uint64_t CAVM_NIXX_AF_TL3X_SHAPE_STATE_CIR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL3X_SHAPE_STATE_CIR(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=255))
-        return 0x840040000ed0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=511)))
+        return 0x840040000ed0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
     __cavm_csr_fatal("NIXX_AF_TL3X_SHAPE_STATE_CIR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -17014,8 +17582,8 @@ typedef union cavm_nixx_af_tl3x_shape_state_pir cavm_nixx_af_tl3x_shape_state_pi
 static inline uint64_t CAVM_NIXX_AF_TL3X_SHAPE_STATE_PIR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL3X_SHAPE_STATE_PIR(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=255))
-        return 0x840040001050ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=511)))
+        return 0x840040001050ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
     __cavm_csr_fatal("NIXX_AF_TL3X_SHAPE_STATE_PIR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -17056,8 +17624,8 @@ typedef union cavm_nixx_af_tl3x_sw_xoff cavm_nixx_af_tl3x_sw_xoff_t;
 static inline uint64_t CAVM_NIXX_AF_TL3X_SW_XOFF(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL3X_SW_XOFF(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=255))
-        return 0x840040001070ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=511)))
+        return 0x840040001070ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
     __cavm_csr_fatal("NIXX_AF_TL3X_SW_XOFF", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -17080,15 +17648,15 @@ union cavm_nixx_af_tl3x_topology
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_41_63        : 23;
-        uint64_t prio_anchor           : 9;  /**< [ 40: 32](R/W) See NIX_AF_TL1()_TOPOLOGY[PRIO_ANCHOR]. */
-        uint64_t reserved_5_31         : 27;
+        uint64_t prio_anchor           : 11; /**< [ 40: 30](R/W) See NIX_AF_TL1()_TOPOLOGY[PRIO_ANCHOR]. */
+        uint64_t reserved_5_29         : 25;
         uint64_t rr_prio               : 4;  /**< [  4:  1](R/W) See NIX_AF_TL1()_TOPOLOGY[RR_PRIO]. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
         uint64_t rr_prio               : 4;  /**< [  4:  1](R/W) See NIX_AF_TL1()_TOPOLOGY[RR_PRIO]. */
-        uint64_t reserved_5_31         : 27;
-        uint64_t prio_anchor           : 9;  /**< [ 40: 32](R/W) See NIX_AF_TL1()_TOPOLOGY[PRIO_ANCHOR]. */
+        uint64_t reserved_5_29         : 25;
+        uint64_t prio_anchor           : 11; /**< [ 40: 30](R/W) See NIX_AF_TL1()_TOPOLOGY[PRIO_ANCHOR]. */
         uint64_t reserved_41_63        : 23;
 #endif /* Word 0 - End */
     } s;
@@ -17099,8 +17667,8 @@ typedef union cavm_nixx_af_tl3x_topology cavm_nixx_af_tl3x_topology_t;
 static inline uint64_t CAVM_NIXX_AF_TL3X_TOPOLOGY(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL3X_TOPOLOGY(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=255))
-        return 0x840040001080ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=511)))
+        return 0x840040001080ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
     __cavm_csr_fatal("NIXX_AF_TL3X_TOPOLOGY", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -17137,7 +17705,7 @@ typedef union cavm_nixx_af_tl3_const cavm_nixx_af_tl3_const_t;
 static inline uint64_t CAVM_NIXX_AF_TL3_CONST(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL3_CONST(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000080ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_TL3_CONST", 1, a, 0, 0, 0, 0, 0);
 }
@@ -17178,8 +17746,8 @@ typedef union cavm_nixx_af_tl3_tl2x_bp_status cavm_nixx_af_tl3_tl2x_bp_status_t;
 static inline uint64_t CAVM_NIXX_AF_TL3_TL2X_BP_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL3_TL2X_BP_STATUS(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=255))
-        return 0x840040001610ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=511)))
+        return 0x840040001610ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
     __cavm_csr_fatal("NIXX_AF_TL3_TL2X_BP_STATUS", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -17252,8 +17820,8 @@ typedef union cavm_nixx_af_tl3_tl2x_linkx_cfg cavm_nixx_af_tl3_tl2x_linkx_cfg_t;
 static inline uint64_t CAVM_NIXX_AF_TL3_TL2X_LINKX_CFG(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL3_TL2X_LINKX_CFG(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=1) && (b<=255) && (c<=12))
-        return 0x840040001700ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xff) + 8ll * ((c) & 0xf);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=511) && (c<=12)))
+        return 0x840040001700ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff) + 8ll * ((c) & 0xf);
     __cavm_csr_fatal("NIXX_AF_TL3_TL2X_LINKX_CFG", 3, a, b, c, 0, 0, 0);
 }
 
@@ -17288,8 +17856,8 @@ typedef union cavm_nixx_af_tl3_twx_arb_req_debug0 cavm_nixx_af_tl3_twx_arb_req_d
 static inline uint64_t CAVM_NIXX_AF_TL3_TWX_ARB_REQ_DEBUG0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL3_TWX_ARB_REQ_DEBUG0(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=1))
-        return 0x840040000fc8ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=3)))
+        return 0x840040000fc8ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("NIXX_AF_TL3_TWX_ARB_REQ_DEBUG0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -17324,8 +17892,8 @@ typedef union cavm_nixx_af_tl3_twx_arb_req_debug1 cavm_nixx_af_tl3_twx_arb_req_d
 static inline uint64_t CAVM_NIXX_AF_TL3_TWX_ARB_REQ_DEBUG1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL3_TWX_ARB_REQ_DEBUG1(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=1))
-        return 0x840040000fd0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=3)))
+        return 0x840040000fd0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("NIXX_AF_TL3_TWX_ARB_REQ_DEBUG1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -17351,11 +17919,11 @@ union cavm_nixx_af_tl3_tw_arb_ctl_debug
         uint64_t reserved_17_63        : 47;
         uint64_t quiet                 : 1;  /**< [ 16: 16](WO) Clear or set the requestor specified in REQ_INDEX. When this bit is set, the requestor is cleared.
                                                                  When this bit is clear, the requestor is set. */
-        uint64_t reserved_8_15         : 8;
-        uint64_t req_index             : 8;  /**< [  7:  0](WO) Index of timewheel arbiter request vector to affect. Requestor is set or cleared, based on QUIET. */
+        uint64_t reserved_9_15         : 7;
+        uint64_t req_index             : 9;  /**< [  8:  0](WO) Index of timewheel arbiter request vector to affect. Requestor is set or cleared, based on QUIET. */
 #else /* Word 0 - Little Endian */
-        uint64_t req_index             : 8;  /**< [  7:  0](WO) Index of timewheel arbiter request vector to affect. Requestor is set or cleared, based on QUIET. */
-        uint64_t reserved_8_15         : 8;
+        uint64_t req_index             : 9;  /**< [  8:  0](WO) Index of timewheel arbiter request vector to affect. Requestor is set or cleared, based on QUIET. */
+        uint64_t reserved_9_15         : 7;
         uint64_t quiet                 : 1;  /**< [ 16: 16](WO) Clear or set the requestor specified in REQ_INDEX. When this bit is set, the requestor is cleared.
                                                                  When this bit is clear, the requestor is set. */
         uint64_t reserved_17_63        : 47;
@@ -17368,7 +17936,7 @@ typedef union cavm_nixx_af_tl3_tw_arb_ctl_debug cavm_nixx_af_tl3_tw_arb_ctl_debu
 static inline uint64_t CAVM_NIXX_AF_TL3_TW_ARB_CTL_DEBUG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL3_TW_ARB_CTL_DEBUG(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000fc0ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_TL3_TW_ARB_CTL_DEBUG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -17409,8 +17977,8 @@ typedef union cavm_nixx_af_tl4x_bp_status cavm_nixx_af_tl4x_bp_status_t;
 static inline uint64_t CAVM_NIXX_AF_TL4X_BP_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL4X_BP_STATUS(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=511))
-        return 0x840040000b00ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=1279)))
+        return 0x840040000b00ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7ff);
     __cavm_csr_fatal("NIXX_AF_TL4X_BP_STATUS", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -17489,8 +18057,8 @@ typedef union cavm_nixx_af_tl4x_cir cavm_nixx_af_tl4x_cir_t;
 static inline uint64_t CAVM_NIXX_AF_TL4X_CIR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL4X_CIR(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=511))
-        return 0x840040001220ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=1279)))
+        return 0x840040001220ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7ff);
     __cavm_csr_fatal("NIXX_AF_TL4X_CIR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -17513,8 +18081,8 @@ union cavm_nixx_af_tl4x_md_debug0
     struct cavm_nixx_af_tl4x_md_debug0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_62_63        : 2;
-        uint64_t child                 : 10; /**< [ 61: 52](R/W/H) Child index, highest priority child. When [C_CON] of this result is set,
+        uint64_t reserved_63           : 1;
+        uint64_t child                 : 11; /**< [ 62: 52](R/W/H) Child index, highest priority child. When [C_CON] of this result is set,
                                                                  indicating that this result is
                                                                  connected in a flow that extends through the child result, this is the index of that child
                                                                  result. */
@@ -17533,19 +18101,18 @@ union cavm_nixx_af_tl4x_md_debug0
         uint64_t c_con                 : 1;  /**< [ 48: 48](R/W/H) Child connected flag. This pick has more picks behind it. */
         uint64_t p_con                 : 1;  /**< [ 49: 49](R/W/H) Parent connected flag. This pick has more picks in front of it. */
         uint64_t reserved_50_51        : 2;
-        uint64_t child                 : 10; /**< [ 61: 52](R/W/H) Child index, highest priority child. When [C_CON] of this result is set,
+        uint64_t child                 : 11; /**< [ 62: 52](R/W/H) Child index, highest priority child. When [C_CON] of this result is set,
                                                                  indicating that this result is
                                                                  connected in a flow that extends through the child result, this is the index of that child
                                                                  result. */
-        uint64_t reserved_62_63        : 2;
+        uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } s;
     struct cavm_nixx_af_tl4x_md_debug0_cn
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_63           : 1;
-        uint64_t reserved_62           : 1;
-        uint64_t child                 : 10; /**< [ 61: 52](R/W/H) Child index, highest priority child. When [C_CON] of this result is set,
+        uint64_t child                 : 11; /**< [ 62: 52](R/W/H) Child index, highest priority child. When [C_CON] of this result is set,
                                                                  indicating that this result is
                                                                  connected in a flow that extends through the child result, this is the index of that child
                                                                  result. */
@@ -17570,11 +18137,10 @@ union cavm_nixx_af_tl4x_md_debug0
         uint64_t c_con                 : 1;  /**< [ 48: 48](R/W/H) Child connected flag. This pick has more picks behind it. */
         uint64_t p_con                 : 1;  /**< [ 49: 49](R/W/H) Parent connected flag. This pick has more picks in front of it. */
         uint64_t reserved_50_51        : 2;
-        uint64_t child                 : 10; /**< [ 61: 52](R/W/H) Child index, highest priority child. When [C_CON] of this result is set,
+        uint64_t child                 : 11; /**< [ 62: 52](R/W/H) Child index, highest priority child. When [C_CON] of this result is set,
                                                                  indicating that this result is
                                                                  connected in a flow that extends through the child result, this is the index of that child
                                                                  result. */
-        uint64_t reserved_62           : 1;
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } cn;
@@ -17584,8 +18150,8 @@ typedef union cavm_nixx_af_tl4x_md_debug0 cavm_nixx_af_tl4x_md_debug0_t;
 static inline uint64_t CAVM_NIXX_AF_TL4X_MD_DEBUG0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL4X_MD_DEBUG0(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=511))
-        return 0x8400400012c0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=1279)))
+        return 0x8400400012c0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7ff);
     __cavm_csr_fatal("NIXX_AF_TL4X_MD_DEBUG0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -17609,20 +18175,20 @@ union cavm_nixx_af_tl4x_md_debug1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t vld                   : 1;  /**< [ 63: 63](R/W/H) Packet meta descriptor valid. */
-        uint64_t reserved_62           : 1;
-        uint64_t mdq_idx               : 10; /**< [ 61: 52](R/W/H) Meta-descriptor queue index, MDQ source of PMD if VLD field is set. */
+        uint64_t mdq_idx               : 11; /**< [ 62: 52](R/W/H) Meta-descriptor queue index, MDQ source of PMD if VLD field is set. */
         uint64_t sqm_pkt_id            : 13; /**< [ 51: 39](R/W/H) Packet ID from SQM. */
         uint64_t tx_pkt_p2x            : 2;  /**< [ 38: 37](R/W/H) Packet type.
                                                                  0x0 = Reserved, PMD has not cleared link credit request.
                                                                  0x1 = Normal packet type.
                                                                  0x2 = Reserved.
                                                                  0x3 = SDP packet type. */
-        uint64_t sdp                   : 1;  /**< [ 36: 36](R/W/H) Reserved. */
+        uint64_t reserved_36           : 1;
         uint64_t pse_pkt_id            : 9;  /**< [ 35: 27](R/W/H) PSE packet ID credits vector, pointer to reserved packet link credits. */
         uint64_t color                 : 2;  /**< [ 26: 25](R/W/H) See NIX_COLORRESULT_E. */
         uint64_t bubble                : 1;  /**< [ 24: 24](R/W/H) This MD is a fake passed forward after a prune. */
         uint64_t flush                 : 1;  /**< [ 23: 23](R/W/H) This MD is a flush MD. */
-        uint64_t reserved_19_22        : 4;
+        uint64_t reserved_21_22        : 2;
+        uint64_t pkt_link_type         : 2;  /**< [ 20: 19](R/W/H) MD is for SDP,RPM or LBK. */
         uint64_t adjust                : 9;  /**< [ 18: 10](R/W/H) Packet meta descriptor adjust. The NIX_SEND_EXT_S[SHP_CHG] for the packet. */
         uint64_t pir_dis               : 1;  /**< [  9:  9](R/W/H) PIR disable. Peak shaper disabled. Set when NIX_SEND_EXT_S[SHP_DIS] is set
                                                                  (i.e. [PIR_DIS]=NIX_SEND_EXT_S[SHP_DIS]). [PIR_DIS] is used by
@@ -17648,20 +18214,20 @@ union cavm_nixx_af_tl4x_md_debug1
                                                                  the TL4 through TL2 shapers, but not used by the TL1 rate limiters.
                                                                  [PIR_DIS] and [CIR_DIS] will always have the same value. */
         uint64_t adjust                : 9;  /**< [ 18: 10](R/W/H) Packet meta descriptor adjust. The NIX_SEND_EXT_S[SHP_CHG] for the packet. */
-        uint64_t reserved_19_22        : 4;
+        uint64_t pkt_link_type         : 2;  /**< [ 20: 19](R/W/H) MD is for SDP,RPM or LBK. */
+        uint64_t reserved_21_22        : 2;
         uint64_t flush                 : 1;  /**< [ 23: 23](R/W/H) This MD is a flush MD. */
         uint64_t bubble                : 1;  /**< [ 24: 24](R/W/H) This MD is a fake passed forward after a prune. */
         uint64_t color                 : 2;  /**< [ 26: 25](R/W/H) See NIX_COLORRESULT_E. */
         uint64_t pse_pkt_id            : 9;  /**< [ 35: 27](R/W/H) PSE packet ID credits vector, pointer to reserved packet link credits. */
-        uint64_t sdp                   : 1;  /**< [ 36: 36](R/W/H) Reserved. */
+        uint64_t reserved_36           : 1;
         uint64_t tx_pkt_p2x            : 2;  /**< [ 38: 37](R/W/H) Packet type.
                                                                  0x0 = Reserved, PMD has not cleared link credit request.
                                                                  0x1 = Normal packet type.
                                                                  0x2 = Reserved.
                                                                  0x3 = SDP packet type. */
         uint64_t sqm_pkt_id            : 13; /**< [ 51: 39](R/W/H) Packet ID from SQM. */
-        uint64_t mdq_idx               : 10; /**< [ 61: 52](R/W/H) Meta-descriptor queue index, MDQ source of PMD if VLD field is set. */
-        uint64_t reserved_62           : 1;
+        uint64_t mdq_idx               : 11; /**< [ 62: 52](R/W/H) Meta-descriptor queue index, MDQ source of PMD if VLD field is set. */
         uint64_t vld                   : 1;  /**< [ 63: 63](R/W/H) Packet meta descriptor valid. */
 #endif /* Word 0 - End */
     } s;
@@ -17672,8 +18238,8 @@ typedef union cavm_nixx_af_tl4x_md_debug1 cavm_nixx_af_tl4x_md_debug1_t;
 static inline uint64_t CAVM_NIXX_AF_TL4X_MD_DEBUG1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL4X_MD_DEBUG1(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=511))
-        return 0x8400400012c8ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=1279)))
+        return 0x8400400012c8ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7ff);
     __cavm_csr_fatal("NIXX_AF_TL4X_MD_DEBUG1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -17696,11 +18262,11 @@ union cavm_nixx_af_tl4x_parent
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_24_63        : 40;
-        uint64_t parent                : 8;  /**< [ 23: 16](R/W) See NIX_AF_TL2()_PARENT[PARENT]. */
-        uint64_t reserved_0_15         : 16;
+        uint64_t parent                : 9;  /**< [ 23: 15](R/W) See NIX_AF_TL2()_PARENT[PARENT]. */
+        uint64_t reserved_0_14         : 15;
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_15         : 16;
-        uint64_t parent                : 8;  /**< [ 23: 16](R/W) See NIX_AF_TL2()_PARENT[PARENT]. */
+        uint64_t reserved_0_14         : 15;
+        uint64_t parent                : 9;  /**< [ 23: 15](R/W) See NIX_AF_TL2()_PARENT[PARENT]. */
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } s;
@@ -17711,8 +18277,8 @@ typedef union cavm_nixx_af_tl4x_parent cavm_nixx_af_tl4x_parent_t;
 static inline uint64_t CAVM_NIXX_AF_TL4X_PARENT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL4X_PARENT(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=511))
-        return 0x840040001288ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=1279)))
+        return 0x840040001288ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7ff);
     __cavm_csr_fatal("NIXX_AF_TL4X_PARENT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -17791,8 +18357,8 @@ typedef union cavm_nixx_af_tl4x_pir cavm_nixx_af_tl4x_pir_t;
 static inline uint64_t CAVM_NIXX_AF_TL4X_PIR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL4X_PIR(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=511))
-        return 0x840040001230ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=1279)))
+        return 0x840040001230ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7ff);
     __cavm_csr_fatal("NIXX_AF_TL4X_PIR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -17831,8 +18397,8 @@ typedef union cavm_nixx_af_tl4x_sched_state cavm_nixx_af_tl4x_sched_state_t;
 static inline uint64_t CAVM_NIXX_AF_TL4X_SCHED_STATE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL4X_SCHED_STATE(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=511))
-        return 0x840040001240ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=1279)))
+        return 0x840040001240ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7ff);
     __cavm_csr_fatal("NIXX_AF_TL4X_SCHED_STATE", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -17871,9 +18437,10 @@ union cavm_nixx_af_tl4x_schedule
                                                                     + NIX_nm_SHAPE[ADJUST]
 
                                                                  where nm corresponds to this NIX_nm_SCHEDULE CSR. Quantum value to ADD back would be
-                                                                 [(2^NIX_AF_DWRR_SDP_MTU) OR (2^NIX_AF_DWRR_RPM_MTU) x RR_WEIGHT].
+                                                                 [(2^NIX_AF_DWRR_MTU[x][MTU]) * RR_WEIGHT].
 
-                                                                 Note Selected MTU depends on MD whether its SDP or RPM. */
+                                                                 Note "x" here is the selected MTU for a MD which can be SDP, RPM or LBK related
+                                                                 and is determined by NIX_AF_SMQ()_CFG[PKT_LINK_TYPE]. */
 #else /* Word 0 - Little Endian */
         uint64_t rr_weight             : 14; /**< [ 13:  0](R/W) Round-robin (DWRR) Weight. The deficit-weighted round-robin weight (14-bit unsigned
                                                                  integer). The packet size used in all DWRR (RR_COUNT) calculations is:
@@ -17882,9 +18449,10 @@ union cavm_nixx_af_tl4x_schedule
                                                                     + NIX_nm_SHAPE[ADJUST]
 
                                                                  where nm corresponds to this NIX_nm_SCHEDULE CSR. Quantum value to ADD back would be
-                                                                 [(2^NIX_AF_DWRR_SDP_MTU) OR (2^NIX_AF_DWRR_RPM_MTU) x RR_WEIGHT].
+                                                                 [(2^NIX_AF_DWRR_MTU[x][MTU]) * RR_WEIGHT].
 
-                                                                 Note Selected MTU depends on MD whether its SDP or RPM. */
+                                                                 Note "x" here is the selected MTU for a MD which can be SDP, RPM or LBK related
+                                                                 and is determined by NIX_AF_SMQ()_CFG[PKT_LINK_TYPE]. */
         uint64_t reserved_14_23        : 10;
         uint64_t prio                  : 4;  /**< [ 27: 24](R/W) Priority. The priority used for this shaping queue in the (lower-level)
                                                                  parent's scheduling algorithm. When this shaping queue is not used, we
@@ -17903,8 +18471,8 @@ typedef union cavm_nixx_af_tl4x_schedule cavm_nixx_af_tl4x_schedule_t;
 static inline uint64_t CAVM_NIXX_AF_TL4X_SCHEDULE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL4X_SCHEDULE(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=511))
-        return 0x840040001200ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=1279)))
+        return 0x840040001200ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7ff);
     __cavm_csr_fatal("NIXX_AF_TL4X_SCHEDULE", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -17970,8 +18538,8 @@ typedef union cavm_nixx_af_tl4x_sdp_link_cfg cavm_nixx_af_tl4x_sdp_link_cfg_t;
 static inline uint64_t CAVM_NIXX_AF_TL4X_SDP_LINK_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL4X_SDP_LINK_CFG(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=511))
-        return 0x840040000b10ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=1279)))
+        return 0x840040000b10ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7ff);
     __cavm_csr_fatal("NIXX_AF_TL4X_SDP_LINK_CFG", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -18020,8 +18588,8 @@ typedef union cavm_nixx_af_tl4x_shape cavm_nixx_af_tl4x_shape_t;
 static inline uint64_t CAVM_NIXX_AF_TL4X_SHAPE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL4X_SHAPE(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=511))
-        return 0x840040001210ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=1279)))
+        return 0x840040001210ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7ff);
     __cavm_csr_fatal("NIXX_AF_TL4X_SHAPE", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -18069,8 +18637,8 @@ typedef union cavm_nixx_af_tl4x_shape_state_cir cavm_nixx_af_tl4x_shape_state_ci
 static inline uint64_t CAVM_NIXX_AF_TL4X_SHAPE_STATE_CIR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL4X_SHAPE_STATE_CIR(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=511))
-        return 0x8400400010d0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=1279)))
+        return 0x8400400010d0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7ff);
     __cavm_csr_fatal("NIXX_AF_TL4X_SHAPE_STATE_CIR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -18118,8 +18686,8 @@ typedef union cavm_nixx_af_tl4x_shape_state_pir cavm_nixx_af_tl4x_shape_state_pi
 static inline uint64_t CAVM_NIXX_AF_TL4X_SHAPE_STATE_PIR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL4X_SHAPE_STATE_PIR(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=511))
-        return 0x840040001250ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=1279)))
+        return 0x840040001250ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7ff);
     __cavm_csr_fatal("NIXX_AF_TL4X_SHAPE_STATE_PIR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -18160,8 +18728,8 @@ typedef union cavm_nixx_af_tl4x_sw_xoff cavm_nixx_af_tl4x_sw_xoff_t;
 static inline uint64_t CAVM_NIXX_AF_TL4X_SW_XOFF(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL4X_SW_XOFF(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=511))
-        return 0x840040001270ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=1279)))
+        return 0x840040001270ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7ff);
     __cavm_csr_fatal("NIXX_AF_TL4X_SW_XOFF", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -18184,15 +18752,15 @@ union cavm_nixx_af_tl4x_topology
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_42_63        : 22;
-        uint64_t prio_anchor           : 10; /**< [ 41: 32](R/W) See NIX_AF_TL1()_TOPOLOGY[PRIO_ANCHOR]. */
-        uint64_t reserved_5_31         : 27;
+        uint64_t prio_anchor           : 11; /**< [ 41: 31](R/W) See NIX_AF_TL1()_TOPOLOGY[PRIO_ANCHOR]. */
+        uint64_t reserved_5_30         : 26;
         uint64_t rr_prio               : 4;  /**< [  4:  1](R/W) See NIX_AF_TL1()_TOPOLOGY[RR_PRIO]. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
         uint64_t rr_prio               : 4;  /**< [  4:  1](R/W) See NIX_AF_TL1()_TOPOLOGY[RR_PRIO]. */
-        uint64_t reserved_5_31         : 27;
-        uint64_t prio_anchor           : 10; /**< [ 41: 32](R/W) See NIX_AF_TL1()_TOPOLOGY[PRIO_ANCHOR]. */
+        uint64_t reserved_5_30         : 26;
+        uint64_t prio_anchor           : 11; /**< [ 41: 31](R/W) See NIX_AF_TL1()_TOPOLOGY[PRIO_ANCHOR]. */
         uint64_t reserved_42_63        : 22;
 #endif /* Word 0 - End */
     } s;
@@ -18203,8 +18771,8 @@ typedef union cavm_nixx_af_tl4x_topology cavm_nixx_af_tl4x_topology_t;
 static inline uint64_t CAVM_NIXX_AF_TL4X_TOPOLOGY(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL4X_TOPOLOGY(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=511))
-        return 0x840040001280ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1ff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=1279)))
+        return 0x840040001280ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7ff);
     __cavm_csr_fatal("NIXX_AF_TL4X_TOPOLOGY", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -18241,7 +18809,7 @@ typedef union cavm_nixx_af_tl4_const cavm_nixx_af_tl4_const_t;
 static inline uint64_t CAVM_NIXX_AF_TL4_CONST(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL4_CONST(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000088ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_TL4_CONST", 1, a, 0, 0, 0, 0, 0);
 }
@@ -18277,8 +18845,8 @@ typedef union cavm_nixx_af_tl4_twx_arb_req_debug0 cavm_nixx_af_tl4_twx_arb_req_d
 static inline uint64_t CAVM_NIXX_AF_TL4_TWX_ARB_REQ_DEBUG0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL4_TWX_ARB_REQ_DEBUG0(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=3))
-        return 0x8400400011c8ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=9)))
+        return 0x8400400011c8ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xf);
     __cavm_csr_fatal("NIXX_AF_TL4_TWX_ARB_REQ_DEBUG0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -18313,8 +18881,8 @@ typedef union cavm_nixx_af_tl4_twx_arb_req_debug1 cavm_nixx_af_tl4_twx_arb_req_d
 static inline uint64_t CAVM_NIXX_AF_TL4_TWX_ARB_REQ_DEBUG1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL4_TWX_ARB_REQ_DEBUG1(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=3))
-        return 0x8400400011d0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=9)))
+        return 0x8400400011d0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xf);
     __cavm_csr_fatal("NIXX_AF_TL4_TWX_ARB_REQ_DEBUG1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -18340,11 +18908,11 @@ union cavm_nixx_af_tl4_tw_arb_ctl_debug
         uint64_t reserved_17_63        : 47;
         uint64_t quiet                 : 1;  /**< [ 16: 16](WO) Clear or set the requestor specified in REQ_INDEX. When this bit is set, the requestor is cleared.
                                                                  When this bit is clear, the requestor is set. */
-        uint64_t reserved_9_15         : 7;
-        uint64_t req_index             : 9;  /**< [  8:  0](WO) Index of timewheel arbiter request vector to affect. Requestor is set or cleared, based on QUIET. */
+        uint64_t reserved_11_15        : 5;
+        uint64_t req_index             : 11; /**< [ 10:  0](WO) Index of timewheel arbiter request vector to affect. Requestor is set or cleared, based on QUIET. */
 #else /* Word 0 - Little Endian */
-        uint64_t req_index             : 9;  /**< [  8:  0](WO) Index of timewheel arbiter request vector to affect. Requestor is set or cleared, based on QUIET. */
-        uint64_t reserved_9_15         : 7;
+        uint64_t req_index             : 11; /**< [ 10:  0](WO) Index of timewheel arbiter request vector to affect. Requestor is set or cleared, based on QUIET. */
+        uint64_t reserved_11_15        : 5;
         uint64_t quiet                 : 1;  /**< [ 16: 16](WO) Clear or set the requestor specified in REQ_INDEX. When this bit is set, the requestor is cleared.
                                                                  When this bit is clear, the requestor is set. */
         uint64_t reserved_17_63        : 47;
@@ -18357,7 +18925,7 @@ typedef union cavm_nixx_af_tl4_tw_arb_ctl_debug cavm_nixx_af_tl4_tw_arb_ctl_debu
 static inline uint64_t CAVM_NIXX_AF_TL4_TW_ARB_CTL_DEBUG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TL4_TW_ARB_CTL_DEBUG(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x8400400011c0ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_TL4_TW_ARB_CTL_DEBUG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -18395,7 +18963,7 @@ typedef union cavm_nixx_af_tx_linkx_hw_xoff cavm_nixx_af_tx_linkx_hw_xoff_t;
 static inline uint64_t CAVM_NIXX_AF_TX_LINKX_HW_XOFF(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TX_LINKX_HW_XOFF(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=12))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=12)))
         return 0x840040000a30ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xf);
     __cavm_csr_fatal("NIXX_AF_TX_LINKX_HW_XOFF", 2, a, b, 0, 0, 0, 0);
 }
@@ -18462,7 +19030,7 @@ typedef union cavm_nixx_af_tx_linkx_norm_cdt_adj cavm_nixx_af_tx_linkx_norm_cdt_
 static inline uint64_t CAVM_NIXX_AF_TX_LINKX_NORM_CDT_ADJ(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TX_LINKX_NORM_CDT_ADJ(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=12))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=12)))
         return 0x840040000a20ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xf);
     __cavm_csr_fatal("NIXX_AF_TX_LINKX_NORM_CDT_ADJ", 2, a, b, 0, 0, 0, 0);
 }
@@ -18507,9 +19075,9 @@ union cavm_nixx_af_tx_linkx_norm_credit
                                                                  _     ((LMAC TX buffer size in RPM) - (MTU excluding FCS))/16
 
                                                                  The LMAC TX buffer size is defined by RPM()_CMR_TX_LMACS[LMACS]. For example, if
-                                                                 RPM()_CMR_TX_LMACS[LMACS]=0x4 (16 KB per LMAC) and the LMAC's MTU excluding FCS
-                                                                 is 9212 bytes (9216 minus 4 byte FCS), then [CC_UNIT_CNT] should be \< (16384 - 9212)/16 =
-                                                                 448.
+                                                                 RPM()_CMR_TX_LMACS[LMACS]=0x4 (32 KB per LMAC) and the LMAC's MTU excluding FCS
+                                                                 is 9212 bytes (9216 minus 4 byte FCS), then [CC_UNIT_CNT] should be \< (32768 - 9212)/16 =
+                                                                 2624.
 
                                                                  The recommended configuration for LBK is [CC_ENABLE] = 1 and
                                                                  [CC_UNIT_CNT] = (16 * Max_LBK_Data_Rate),
@@ -18552,9 +19120,9 @@ union cavm_nixx_af_tx_linkx_norm_credit
                                                                  _     ((LMAC TX buffer size in RPM) - (MTU excluding FCS))/16
 
                                                                  The LMAC TX buffer size is defined by RPM()_CMR_TX_LMACS[LMACS]. For example, if
-                                                                 RPM()_CMR_TX_LMACS[LMACS]=0x4 (16 KB per LMAC) and the LMAC's MTU excluding FCS
-                                                                 is 9212 bytes (9216 minus 4 byte FCS), then [CC_UNIT_CNT] should be \< (16384 - 9212)/16 =
-                                                                 448.
+                                                                 RPM()_CMR_TX_LMACS[LMACS]=0x4 (32 KB per LMAC) and the LMAC's MTU excluding FCS
+                                                                 is 9212 bytes (9216 minus 4 byte FCS), then [CC_UNIT_CNT] should be \< (32768 - 9212)/16 =
+                                                                 2624.
 
                                                                  The recommended configuration for LBK is [CC_ENABLE] = 1 and
                                                                  [CC_UNIT_CNT] = (16 * Max_LBK_Data_Rate),
@@ -18577,7 +19145,7 @@ typedef union cavm_nixx_af_tx_linkx_norm_credit cavm_nixx_af_tx_linkx_norm_credi
 static inline uint64_t CAVM_NIXX_AF_TX_LINKX_NORM_CREDIT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TX_LINKX_NORM_CREDIT(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=12))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=12)))
         return 0x840040000a00ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xf);
     __cavm_csr_fatal("NIXX_AF_TX_LINKX_NORM_CREDIT", 2, a, b, 0, 0, 0, 0);
 }
@@ -18628,7 +19196,7 @@ typedef union cavm_nixx_af_tx_mcastx cavm_nixx_af_tx_mcastx_t;
 static inline uint64_t CAVM_NIXX_AF_TX_MCASTX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TX_MCASTX(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=2047))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=2047)))
         return 0x840040001900ll + 0x10000000ll * ((a) & 0x1) + 0x8000ll * ((b) & 0x7ff);
     __cavm_csr_fatal("NIXX_AF_TX_MCASTX", 2, a, b, 0, 0, 0, 0);
 }
@@ -18704,7 +19272,7 @@ typedef union cavm_nixx_af_tx_npc_capture_config cavm_nixx_af_tx_npc_capture_con
 static inline uint64_t CAVM_NIXX_AF_TX_NPC_CAPTURE_CONFIG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TX_NPC_CAPTURE_CONFIG(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000660ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_TX_NPC_CAPTURE_CONFIG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -18753,7 +19321,7 @@ typedef union cavm_nixx_af_tx_npc_capture_info cavm_nixx_af_tx_npc_capture_info_
 static inline uint64_t CAVM_NIXX_AF_TX_NPC_CAPTURE_INFO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TX_NPC_CAPTURE_INFO(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840040000668ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_TX_NPC_CAPTURE_INFO", 1, a, 0, 0, 0, 0, 0);
 }
@@ -18792,7 +19360,7 @@ typedef union cavm_nixx_af_tx_npc_capture_respx cavm_nixx_af_tx_npc_capture_resp
 static inline uint64_t CAVM_NIXX_AF_TX_NPC_CAPTURE_RESPX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TX_NPC_CAPTURE_RESPX(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=7))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=7)))
         return 0x840040000680ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("NIXX_AF_TX_NPC_CAPTURE_RESPX", 2, a, b, 0, 0, 0, 0);
 }
@@ -18860,7 +19428,7 @@ typedef union cavm_nixx_af_tx_tstmp_cfg cavm_nixx_af_tx_tstmp_cfg_t;
 static inline uint64_t CAVM_NIXX_AF_TX_TSTMP_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TX_TSTMP_CFG(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x8400400000c0ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_TX_TSTMP_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -18900,7 +19468,7 @@ typedef union cavm_nixx_af_tx_vtag_defx_ctl cavm_nixx_af_tx_vtag_defx_ctl_t;
 static inline uint64_t CAVM_NIXX_AF_TX_VTAG_DEFX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TX_VTAG_DEFX_CTL(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=1023))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=1023)))
         return 0x840040001a00ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3ff);
     __cavm_csr_fatal("NIXX_AF_TX_VTAG_DEFX_CTL", 2, a, b, 0, 0, 0, 0);
 }
@@ -18944,7 +19512,7 @@ typedef union cavm_nixx_af_tx_vtag_defx_data cavm_nixx_af_tx_vtag_defx_data_t;
 static inline uint64_t CAVM_NIXX_AF_TX_VTAG_DEFX_DATA(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_TX_VTAG_DEFX_DATA(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=1023))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=1023)))
         return 0x840040001a10ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3ff);
     __cavm_csr_fatal("NIXX_AF_TX_VTAG_DEFX_DATA", 2, a, b, 0, 0, 0, 0);
 }
@@ -18983,7 +19551,7 @@ typedef union cavm_nixx_af_vwqe_hash_func_mask cavm_nixx_af_vwqe_hash_func_mask_
 static inline uint64_t CAVM_NIXX_AF_VWQE_HASH_FUNC_MASK(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_VWQE_HASH_FUNC_MASK(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x8400400047a0ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_VWQE_HASH_FUNC_MASK", 1, a, 0, 0, 0, 0, 0);
 }
@@ -19030,7 +19598,7 @@ typedef union cavm_nixx_af_vwqe_timer cavm_nixx_af_vwqe_timer_t;
 static inline uint64_t CAVM_NIXX_AF_VWQE_TIMER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_VWQE_TIMER(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x8400400000f8ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_VWQE_TIMER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -19071,7 +19639,7 @@ typedef union cavm_nixx_lf_cfg cavm_nixx_lf_cfg_t;
 static inline uint64_t CAVM_NIXX_LF_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_CFG(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840200400100ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_LF_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -19130,7 +19698,7 @@ typedef union cavm_nixx_lf_cintx_cnt cavm_nixx_lf_cintx_cnt_t;
 static inline uint64_t CAVM_NIXX_LF_CINTX_CNT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_CINTX_CNT(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=63))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=63)))
         return 0x840200400d00ll + 0x100000ll * ((a) & 0x1) + 0x1000ll * ((b) & 0x3f);
     __cavm_csr_fatal("NIXX_LF_CINTX_CNT", 2, a, b, 0, 0, 0, 0);
 }
@@ -19168,7 +19736,7 @@ typedef union cavm_nixx_lf_cintx_ena_w1c cavm_nixx_lf_cintx_ena_w1c_t;
 static inline uint64_t CAVM_NIXX_LF_CINTX_ENA_W1C(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_CINTX_ENA_W1C(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=63))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=63)))
         return 0x840200400d50ll + 0x100000ll * ((a) & 0x1) + 0x1000ll * ((b) & 0x3f);
     __cavm_csr_fatal("NIXX_LF_CINTX_ENA_W1C", 2, a, b, 0, 0, 0, 0);
 }
@@ -19206,7 +19774,7 @@ typedef union cavm_nixx_lf_cintx_ena_w1s cavm_nixx_lf_cintx_ena_w1s_t;
 static inline uint64_t CAVM_NIXX_LF_CINTX_ENA_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_CINTX_ENA_W1S(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=63))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=63)))
         return 0x840200400d40ll + 0x100000ll * ((a) & 0x1) + 0x1000ll * ((b) & 0x3f);
     __cavm_csr_fatal("NIXX_LF_CINTX_ENA_W1S", 2, a, b, 0, 0, 0, 0);
 }
@@ -19267,7 +19835,7 @@ typedef union cavm_nixx_lf_cintx_int cavm_nixx_lf_cintx_int_t;
 static inline uint64_t CAVM_NIXX_LF_CINTX_INT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_CINTX_INT(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=63))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=63)))
         return 0x840200400d20ll + 0x100000ll * ((a) & 0x1) + 0x1000ll * ((b) & 0x3f);
     __cavm_csr_fatal("NIXX_LF_CINTX_INT", 2, a, b, 0, 0, 0, 0);
 }
@@ -19305,7 +19873,7 @@ typedef union cavm_nixx_lf_cintx_int_w1s cavm_nixx_lf_cintx_int_w1s_t;
 static inline uint64_t CAVM_NIXX_LF_CINTX_INT_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_CINTX_INT_W1S(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=63))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=63)))
         return 0x840200400d30ll + 0x100000ll * ((a) & 0x1) + 0x1000ll * ((b) & 0x3f);
     __cavm_csr_fatal("NIXX_LF_CINTX_INT_W1S", 2, a, b, 0, 0, 0, 0);
 }
@@ -19352,7 +19920,7 @@ typedef union cavm_nixx_lf_cintx_wait cavm_nixx_lf_cintx_wait_t;
 static inline uint64_t CAVM_NIXX_LF_CINTX_WAIT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_CINTX_WAIT(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=63))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=63)))
         return 0x840200400d10ll + 0x100000ll * ((a) & 0x1) + 0x1000ll * ((b) & 0x3f);
     __cavm_csr_fatal("NIXX_LF_CINTX_WAIT", 2, a, b, 0, 0, 0, 0);
 }
@@ -19407,7 +19975,7 @@ typedef union cavm_nixx_lf_cq_op_door cavm_nixx_lf_cq_op_door_t;
 static inline uint64_t CAVM_NIXX_LF_CQ_OP_DOOR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_CQ_OP_DOOR(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840200400b30ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_LF_CQ_OP_DOOR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -19486,7 +20054,7 @@ typedef union cavm_nixx_lf_cq_op_int cavm_nixx_lf_cq_op_int_t;
 static inline uint64_t CAVM_NIXX_LF_CQ_OP_INT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_CQ_OP_INT(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840200400b00ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_LF_CQ_OP_INT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -19539,7 +20107,7 @@ typedef union cavm_nixx_lf_cq_op_status cavm_nixx_lf_cq_op_status_t;
 static inline uint64_t CAVM_NIXX_LF_CQ_OP_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_CQ_OP_STATUS(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840200400b40ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_LF_CQ_OP_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -19574,7 +20142,8 @@ union cavm_nixx_lf_err_int
                                                                  write or NIX_LF_CQ_OP_* access. */
         uint64_t reserved_21_23        : 3;
         uint64_t dyno_err              : 1;  /**< [ 20: 20](R/W1C/H) NIX_LF_OP_IPSEC_DYNO_CNT[COUNT] underflow or overflow. */
-        uint64_t reserved_15_19        : 5;
+        uint64_t reserved_16_19        : 4;
+        uint64_t send_coalesce_fault   : 1;  /**< [ 15: 15](R/W1C/H) Memory fault on send mem writes/atomics while flushing coalesce FIFOs in SEB. */
         uint64_t rss_err               : 1;  /**< [ 14: 14](R/W1C/H) RSSE Table entry was disabled or the rsse_offset was larger than the programmed size. */
         uint64_t rx_wqe_fault          : 1;  /**< [ 13: 13](R/W1C/H) Memory fault on receive packet WQE write to LLC/DRAM. */
         uint64_t rq_oor                : 1;  /**< [ 12: 12](R/W1C/H) Packet receive or NIX_LF_RQ_OP_* access to out-of-range RQ. The
@@ -19630,7 +20199,8 @@ union cavm_nixx_lf_err_int
                                                                  RQ = NIX_RX_MCE_S[INDEX]. */
         uint64_t rx_wqe_fault          : 1;  /**< [ 13: 13](R/W1C/H) Memory fault on receive packet WQE write to LLC/DRAM. */
         uint64_t rss_err               : 1;  /**< [ 14: 14](R/W1C/H) RSSE Table entry was disabled or the rsse_offset was larger than the programmed size. */
-        uint64_t reserved_15_19        : 5;
+        uint64_t send_coalesce_fault   : 1;  /**< [ 15: 15](R/W1C/H) Memory fault on send mem writes/atomics while flushing coalesce FIFOs in SEB. */
+        uint64_t reserved_16_19        : 4;
         uint64_t dyno_err              : 1;  /**< [ 20: 20](R/W1C/H) NIX_LF_OP_IPSEC_DYNO_CNT[COUNT] underflow or overflow. */
         uint64_t reserved_21_23        : 3;
         uint64_t cq_disabled           : 1;  /**< [ 24: 24](R/W1C/H) CQ disabled. NIX_CQ_CTX_S[ENA] was clear for the CQ of a send/receive CQE
@@ -19652,7 +20222,7 @@ typedef union cavm_nixx_lf_err_int cavm_nixx_lf_err_int_t;
 static inline uint64_t CAVM_NIXX_LF_ERR_INT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_ERR_INT(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840200400220ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_LF_ERR_INT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -19685,7 +20255,8 @@ union cavm_nixx_lf_err_int_ena_w1c
         uint64_t cq_disabled           : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for NIX_LF_ERR_INT[CQ_DISABLED]. */
         uint64_t reserved_21_23        : 3;
         uint64_t dyno_err              : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for NIX_LF_ERR_INT[DYNO_ERR]. */
-        uint64_t reserved_15_19        : 5;
+        uint64_t reserved_16_19        : 4;
+        uint64_t send_coalesce_fault   : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for NIX_LF_ERR_INT[SEND_COALESCE_FAULT]. */
         uint64_t rss_err               : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for NIX_LF_ERR_INT[RSS_ERR]. */
         uint64_t rx_wqe_fault          : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for NIX_LF_ERR_INT[RX_WQE_FAULT]. */
         uint64_t rq_oor                : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for NIX_LF_ERR_INT[RQ_OOR]. */
@@ -19717,7 +20288,8 @@ union cavm_nixx_lf_err_int_ena_w1c
         uint64_t rq_oor                : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for NIX_LF_ERR_INT[RQ_OOR]. */
         uint64_t rx_wqe_fault          : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for NIX_LF_ERR_INT[RX_WQE_FAULT]. */
         uint64_t rss_err               : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for NIX_LF_ERR_INT[RSS_ERR]. */
-        uint64_t reserved_15_19        : 5;
+        uint64_t send_coalesce_fault   : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for NIX_LF_ERR_INT[SEND_COALESCE_FAULT]. */
+        uint64_t reserved_16_19        : 4;
         uint64_t dyno_err              : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for NIX_LF_ERR_INT[DYNO_ERR]. */
         uint64_t reserved_21_23        : 3;
         uint64_t cq_disabled           : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for NIX_LF_ERR_INT[CQ_DISABLED]. */
@@ -19736,7 +20308,7 @@ typedef union cavm_nixx_lf_err_int_ena_w1c cavm_nixx_lf_err_int_ena_w1c_t;
 static inline uint64_t CAVM_NIXX_LF_ERR_INT_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_ERR_INT_ENA_W1C(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840200400230ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_LF_ERR_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
@@ -19769,7 +20341,8 @@ union cavm_nixx_lf_err_int_ena_w1s
         uint64_t cq_disabled           : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for NIX_LF_ERR_INT[CQ_DISABLED]. */
         uint64_t reserved_21_23        : 3;
         uint64_t dyno_err              : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for NIX_LF_ERR_INT[DYNO_ERR]. */
-        uint64_t reserved_15_19        : 5;
+        uint64_t reserved_16_19        : 4;
+        uint64_t send_coalesce_fault   : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for NIX_LF_ERR_INT[SEND_COALESCE_FAULT]. */
         uint64_t rss_err               : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for NIX_LF_ERR_INT[RSS_ERR]. */
         uint64_t rx_wqe_fault          : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for NIX_LF_ERR_INT[RX_WQE_FAULT]. */
         uint64_t rq_oor                : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for NIX_LF_ERR_INT[RQ_OOR]. */
@@ -19801,7 +20374,8 @@ union cavm_nixx_lf_err_int_ena_w1s
         uint64_t rq_oor                : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for NIX_LF_ERR_INT[RQ_OOR]. */
         uint64_t rx_wqe_fault          : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for NIX_LF_ERR_INT[RX_WQE_FAULT]. */
         uint64_t rss_err               : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for NIX_LF_ERR_INT[RSS_ERR]. */
-        uint64_t reserved_15_19        : 5;
+        uint64_t send_coalesce_fault   : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for NIX_LF_ERR_INT[SEND_COALESCE_FAULT]. */
+        uint64_t reserved_16_19        : 4;
         uint64_t dyno_err              : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for NIX_LF_ERR_INT[DYNO_ERR]. */
         uint64_t reserved_21_23        : 3;
         uint64_t cq_disabled           : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for NIX_LF_ERR_INT[CQ_DISABLED]. */
@@ -19820,7 +20394,7 @@ typedef union cavm_nixx_lf_err_int_ena_w1s cavm_nixx_lf_err_int_ena_w1s_t;
 static inline uint64_t CAVM_NIXX_LF_ERR_INT_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_ERR_INT_ENA_W1S(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840200400238ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_LF_ERR_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -19853,7 +20427,8 @@ union cavm_nixx_lf_err_int_w1s
         uint64_t cq_disabled           : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets NIX_LF_ERR_INT[CQ_DISABLED]. */
         uint64_t reserved_21_23        : 3;
         uint64_t dyno_err              : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets NIX_LF_ERR_INT[DYNO_ERR]. */
-        uint64_t reserved_15_19        : 5;
+        uint64_t reserved_16_19        : 4;
+        uint64_t send_coalesce_fault   : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets NIX_LF_ERR_INT[SEND_COALESCE_FAULT]. */
         uint64_t rss_err               : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets NIX_LF_ERR_INT[RSS_ERR]. */
         uint64_t rx_wqe_fault          : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets NIX_LF_ERR_INT[RX_WQE_FAULT]. */
         uint64_t rq_oor                : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets NIX_LF_ERR_INT[RQ_OOR]. */
@@ -19885,7 +20460,8 @@ union cavm_nixx_lf_err_int_w1s
         uint64_t rq_oor                : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets NIX_LF_ERR_INT[RQ_OOR]. */
         uint64_t rx_wqe_fault          : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets NIX_LF_ERR_INT[RX_WQE_FAULT]. */
         uint64_t rss_err               : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets NIX_LF_ERR_INT[RSS_ERR]. */
-        uint64_t reserved_15_19        : 5;
+        uint64_t send_coalesce_fault   : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets NIX_LF_ERR_INT[SEND_COALESCE_FAULT]. */
+        uint64_t reserved_16_19        : 4;
         uint64_t dyno_err              : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets NIX_LF_ERR_INT[DYNO_ERR]. */
         uint64_t reserved_21_23        : 3;
         uint64_t cq_disabled           : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets NIX_LF_ERR_INT[CQ_DISABLED]. */
@@ -19904,7 +20480,7 @@ typedef union cavm_nixx_lf_err_int_w1s cavm_nixx_lf_err_int_w1s_t;
 static inline uint64_t CAVM_NIXX_LF_ERR_INT_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_ERR_INT_W1S(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840200400228ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_LF_ERR_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -19951,7 +20527,7 @@ typedef union cavm_nixx_lf_gint cavm_nixx_lf_gint_t;
 static inline uint64_t CAVM_NIXX_LF_GINT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_GINT(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840200400200ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_LF_GINT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -19991,7 +20567,7 @@ typedef union cavm_nixx_lf_gint_ena_w1c cavm_nixx_lf_gint_ena_w1c_t;
 static inline uint64_t CAVM_NIXX_LF_GINT_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_GINT_ENA_W1C(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840200400210ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_LF_GINT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
@@ -20031,7 +20607,7 @@ typedef union cavm_nixx_lf_gint_ena_w1s cavm_nixx_lf_gint_ena_w1s_t;
 static inline uint64_t CAVM_NIXX_LF_GINT_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_GINT_ENA_W1S(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840200400218ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_LF_GINT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -20071,7 +20647,7 @@ typedef union cavm_nixx_lf_gint_w1s cavm_nixx_lf_gint_w1s_t;
 static inline uint64_t CAVM_NIXX_LF_GINT_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_GINT_W1S(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840200400208ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_LF_GINT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -20118,7 +20694,7 @@ typedef union cavm_nixx_lf_mnq_err_dbg cavm_nixx_lf_mnq_err_dbg_t;
 static inline uint64_t CAVM_NIXX_LF_MNQ_ERR_DBG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_MNQ_ERR_DBG(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840200400270ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_LF_MNQ_ERR_DBG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -20224,7 +20800,7 @@ typedef union cavm_nixx_lf_op_ipsec_dyno_cnt cavm_nixx_lf_op_ipsec_dyno_cnt_t;
 static inline uint64_t CAVM_NIXX_LF_OP_IPSEC_DYNO_CNT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_OP_IPSEC_DYNO_CNT(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840200400980ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_LF_OP_IPSEC_DYNO_CNT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -20280,7 +20856,7 @@ typedef union cavm_nixx_lf_op_sendx cavm_nixx_lf_op_sendx_t;
 static inline uint64_t CAVM_NIXX_LF_OP_SENDX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_OP_SENDX(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=15))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=15)))
         return 0x840200400800ll + 0x100000ll * ((a) & 0x1) + 8ll * ((b) & 0xf);
     __cavm_csr_fatal("NIXX_LF_OP_SENDX", 2, a, b, 0, 0, 0, 0);
 }
@@ -20325,7 +20901,7 @@ typedef union cavm_nixx_lf_op_vwqe_flush cavm_nixx_lf_op_vwqe_flush_t;
 static inline uint64_t CAVM_NIXX_LF_OP_VWQE_FLUSH(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_OP_VWQE_FLUSH(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x8402004009a0ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_LF_OP_VWQE_FLUSH", 1, a, 0, 0, 0, 0, 0);
 }
@@ -20372,7 +20948,7 @@ typedef union cavm_nixx_lf_pl_op_band_prof cavm_nixx_lf_pl_op_band_prof_t;
 static inline uint64_t CAVM_NIXX_LF_PL_OP_BAND_PROF(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_PL_OP_BAND_PROF(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x8402004009c0ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_LF_PL_OP_BAND_PROF", 1, a, 0, 0, 0, 0, 0);
 }
@@ -20421,7 +20997,7 @@ typedef union cavm_nixx_lf_qintx_cnt cavm_nixx_lf_qintx_cnt_t;
 static inline uint64_t CAVM_NIXX_LF_QINTX_CNT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_QINTX_CNT(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=63))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=63)))
         return 0x840200400c00ll + 0x100000ll * ((a) & 0x1) + 0x1000ll * ((b) & 0x3f);
     __cavm_csr_fatal("NIXX_LF_QINTX_CNT", 2, a, b, 0, 0, 0, 0);
 }
@@ -20459,7 +21035,7 @@ typedef union cavm_nixx_lf_qintx_ena_w1c cavm_nixx_lf_qintx_ena_w1c_t;
 static inline uint64_t CAVM_NIXX_LF_QINTX_ENA_W1C(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_QINTX_ENA_W1C(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=63))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=63)))
         return 0x840200400c30ll + 0x100000ll * ((a) & 0x1) + 0x1000ll * ((b) & 0x3f);
     __cavm_csr_fatal("NIXX_LF_QINTX_ENA_W1C", 2, a, b, 0, 0, 0, 0);
 }
@@ -20497,7 +21073,7 @@ typedef union cavm_nixx_lf_qintx_ena_w1s cavm_nixx_lf_qintx_ena_w1s_t;
 static inline uint64_t CAVM_NIXX_LF_QINTX_ENA_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_QINTX_ENA_W1S(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=63))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=63)))
         return 0x840200400c20ll + 0x100000ll * ((a) & 0x1) + 0x1000ll * ((b) & 0x3f);
     __cavm_csr_fatal("NIXX_LF_QINTX_ENA_W1S", 2, a, b, 0, 0, 0, 0);
 }
@@ -20534,7 +21110,7 @@ typedef union cavm_nixx_lf_qintx_int cavm_nixx_lf_qintx_int_t;
 static inline uint64_t CAVM_NIXX_LF_QINTX_INT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_QINTX_INT(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=63))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=63)))
         return 0x840200400c10ll + 0x100000ll * ((a) & 0x1) + 0x1000ll * ((b) & 0x3f);
     __cavm_csr_fatal("NIXX_LF_QINTX_INT", 2, a, b, 0, 0, 0, 0);
 }
@@ -20595,7 +21171,7 @@ typedef union cavm_nixx_lf_ras cavm_nixx_lf_ras_t;
 static inline uint64_t CAVM_NIXX_LF_RAS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_RAS(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840200400240ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_LF_RAS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -20653,7 +21229,7 @@ typedef union cavm_nixx_lf_ras_ena_w1c cavm_nixx_lf_ras_ena_w1c_t;
 static inline uint64_t CAVM_NIXX_LF_RAS_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_RAS_ENA_W1C(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840200400250ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_LF_RAS_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
@@ -20711,7 +21287,7 @@ typedef union cavm_nixx_lf_ras_ena_w1s cavm_nixx_lf_ras_ena_w1s_t;
 static inline uint64_t CAVM_NIXX_LF_RAS_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_RAS_ENA_W1S(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840200400258ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_LF_RAS_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -20769,7 +21345,7 @@ typedef union cavm_nixx_lf_ras_w1s cavm_nixx_lf_ras_w1s_t;
 static inline uint64_t CAVM_NIXX_LF_RAS_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_RAS_W1S(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840200400248ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_LF_RAS_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -20814,7 +21390,7 @@ typedef union cavm_nixx_lf_rq_op_drop_octs cavm_nixx_lf_rq_op_drop_octs_t;
 static inline uint64_t CAVM_NIXX_LF_RQ_OP_DROP_OCTS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_RQ_OP_DROP_OCTS(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840200400930ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_LF_RQ_OP_DROP_OCTS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -20859,7 +21435,7 @@ typedef union cavm_nixx_lf_rq_op_drop_pkts cavm_nixx_lf_rq_op_drop_pkts_t;
 static inline uint64_t CAVM_NIXX_LF_RQ_OP_DROP_PKTS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_RQ_OP_DROP_PKTS(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840200400940ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_LF_RQ_OP_DROP_PKTS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -20939,7 +21515,7 @@ typedef union cavm_nixx_lf_rq_op_int cavm_nixx_lf_rq_op_int_t;
 static inline uint64_t CAVM_NIXX_LF_RQ_OP_INT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_RQ_OP_INT(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840200400900ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_LF_RQ_OP_INT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -20984,7 +21560,7 @@ typedef union cavm_nixx_lf_rq_op_octs cavm_nixx_lf_rq_op_octs_t;
 static inline uint64_t CAVM_NIXX_LF_RQ_OP_OCTS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_RQ_OP_OCTS(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840200400910ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_LF_RQ_OP_OCTS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -21029,7 +21605,7 @@ typedef union cavm_nixx_lf_rq_op_pkts cavm_nixx_lf_rq_op_pkts_t;
 static inline uint64_t CAVM_NIXX_LF_RQ_OP_PKTS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_RQ_OP_PKTS(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840200400920ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_LF_RQ_OP_PKTS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -21074,7 +21650,7 @@ typedef union cavm_nixx_lf_rq_op_re_pkts cavm_nixx_lf_rq_op_re_pkts_t;
 static inline uint64_t CAVM_NIXX_LF_RQ_OP_RE_PKTS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_RQ_OP_RE_PKTS(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840200400950ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_LF_RQ_OP_RE_PKTS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -21112,7 +21688,7 @@ typedef union cavm_nixx_lf_rx_gen_color_convx cavm_nixx_lf_rx_gen_color_convx_t;
 static inline uint64_t CAVM_NIXX_LF_RX_GEN_COLOR_CONVX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_RX_GEN_COLOR_CONVX(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=1))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=1)))
         return 0x840200404740ll + 0x100000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("NIXX_LF_RX_GEN_COLOR_CONVX", 2, a, b, 0, 0, 0, 0);
 }
@@ -21150,7 +21726,7 @@ typedef union cavm_nixx_lf_rx_iip_color_conv_hi cavm_nixx_lf_rx_iip_color_conv_h
 static inline uint64_t CAVM_NIXX_LF_RX_IIP_COLOR_CONV_HI(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_RX_IIP_COLOR_CONV_HI(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840200404778ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_LF_RX_IIP_COLOR_CONV_HI", 1, a, 0, 0, 0, 0, 0);
 }
@@ -21188,7 +21764,7 @@ typedef union cavm_nixx_lf_rx_iip_color_conv_lo cavm_nixx_lf_rx_iip_color_conv_l
 static inline uint64_t CAVM_NIXX_LF_RX_IIP_COLOR_CONV_LO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_RX_IIP_COLOR_CONV_LO(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840200404770ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_LF_RX_IIP_COLOR_CONV_LO", 1, a, 0, 0, 0, 0, 0);
 }
@@ -21226,7 +21802,7 @@ typedef union cavm_nixx_lf_rx_oip_color_conv_hi cavm_nixx_lf_rx_oip_color_conv_h
 static inline uint64_t CAVM_NIXX_LF_RX_OIP_COLOR_CONV_HI(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_RX_OIP_COLOR_CONV_HI(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840200404788ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_LF_RX_OIP_COLOR_CONV_HI", 1, a, 0, 0, 0, 0, 0);
 }
@@ -21264,7 +21840,7 @@ typedef union cavm_nixx_lf_rx_oip_color_conv_lo cavm_nixx_lf_rx_oip_color_conv_l
 static inline uint64_t CAVM_NIXX_LF_RX_OIP_COLOR_CONV_LO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_RX_OIP_COLOR_CONV_LO(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840200404780ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_LF_RX_OIP_COLOR_CONV_LO", 1, a, 0, 0, 0, 0, 0);
 }
@@ -21379,7 +21955,7 @@ typedef union cavm_nixx_lf_rx_secretx cavm_nixx_lf_rx_secretx_t;
 static inline uint64_t CAVM_NIXX_LF_RX_SECRETX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_RX_SECRETX(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=5))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=5)))
         return 0x840200400000ll + 0x100000ll * ((a) & 0x1) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("NIXX_LF_RX_SECRETX", 2, a, b, 0, 0, 0, 0);
 }
@@ -21417,7 +21993,7 @@ typedef union cavm_nixx_lf_rx_statx cavm_nixx_lf_rx_statx_t;
 static inline uint64_t CAVM_NIXX_LF_RX_STATX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_RX_STATX(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=25))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=25)))
         return 0x840200400400ll + 0x100000ll * ((a) & 0x1) + 8ll * ((b) & 0x1f);
     __cavm_csr_fatal("NIXX_LF_RX_STATX", 2, a, b, 0, 0, 0, 0);
 }
@@ -21457,7 +22033,7 @@ typedef union cavm_nixx_lf_rx_vlan0_color_conv cavm_nixx_lf_rx_vlan0_color_conv_
 static inline uint64_t CAVM_NIXX_LF_RX_VLAN0_COLOR_CONV(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_RX_VLAN0_COLOR_CONV(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840200404760ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_LF_RX_VLAN0_COLOR_CONV", 1, a, 0, 0, 0, 0, 0);
 }
@@ -21497,7 +22073,7 @@ typedef union cavm_nixx_lf_rx_vlan1_color_conv cavm_nixx_lf_rx_vlan1_color_conv_
 static inline uint64_t CAVM_NIXX_LF_RX_VLAN1_COLOR_CONV(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_RX_VLAN1_COLOR_CONV(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840200404768ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_LF_RX_VLAN1_COLOR_CONV", 1, a, 0, 0, 0, 0, 0);
 }
@@ -21544,7 +22120,7 @@ typedef union cavm_nixx_lf_send_err_dbg cavm_nixx_lf_send_err_dbg_t;
 static inline uint64_t CAVM_NIXX_LF_SEND_ERR_DBG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_SEND_ERR_DBG(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840200400280ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_LF_SEND_ERR_DBG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -21555,6 +22131,106 @@ static inline uint64_t CAVM_NIXX_LF_SEND_ERR_DBG(uint64_t a)
 #define device_bar_CAVM_NIXX_LF_SEND_ERR_DBG(a) 0x2 /* RVU_BAR2 */
 #define busnum_CAVM_NIXX_LF_SEND_ERR_DBG(a) (a)
 #define arguments_CAVM_NIXX_LF_SEND_ERR_DBG(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PFVF_BAR2) nix#_lf_sq_op_age_drop_octs
+ *
+ * NIX LF Send Queue Aged Drop Octets Operation Register
+ * A 64-bit atomic load-and-add to this register reads NIX_SQ_CTX_S[AGED_DROP_OCTS]
+ * which contains age dropped octets. The atomic
+ * write data has format NIX_OP_Q_WDATA_S and selects the SQ within LF.
+ *
+ * All other accesses to this register (e.g. reads and writes) are RAZ/WI.
+ *
+ * RSL accesses to this register are RAZ/WI.
+ */
+union cavm_nixx_lf_sq_op_age_drop_octs
+{
+    uint64_t u;
+    struct cavm_nixx_lf_sq_op_age_drop_octs_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t op_err                : 1;  /**< [ 63: 63](RO/H) Operation error. See NIX_LF_SQ_OP_INT[OP_ERR]. */
+        uint64_t reserved_32_62        : 31;
+        uint64_t cnt                   : 32; /**< [ 31:  0](RO) If NIX_AGE_AND_SEND_STATS_S[AGING] = 1 and if a packet resides in the system for
+                                                                 longer than the programmed threshold
+                                                                 (NIX_AGE_AND_SEND_STATS_S[THRESHOLD]), then the packet is marked for dropping. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt                   : 32; /**< [ 31:  0](RO) If NIX_AGE_AND_SEND_STATS_S[AGING] = 1 and if a packet resides in the system for
+                                                                 longer than the programmed threshold
+                                                                 (NIX_AGE_AND_SEND_STATS_S[THRESHOLD]), then the packet is marked for dropping. */
+        uint64_t reserved_32_62        : 31;
+        uint64_t op_err                : 1;  /**< [ 63: 63](RO/H) Operation error. See NIX_LF_SQ_OP_INT[OP_ERR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_nixx_lf_sq_op_age_drop_octs_s cn; */
+};
+typedef union cavm_nixx_lf_sq_op_age_drop_octs cavm_nixx_lf_sq_op_age_drop_octs_t;
+
+static inline uint64_t CAVM_NIXX_LF_SQ_OP_AGE_DROP_OCTS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NIXX_LF_SQ_OP_AGE_DROP_OCTS(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+        return 0x840200400a60ll + 0x100000ll * ((a) & 0x1);
+    __cavm_csr_fatal("NIXX_LF_SQ_OP_AGE_DROP_OCTS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NIXX_LF_SQ_OP_AGE_DROP_OCTS(a) cavm_nixx_lf_sq_op_age_drop_octs_t
+#define bustype_CAVM_NIXX_LF_SQ_OP_AGE_DROP_OCTS(a) CSR_TYPE_RVU_PFVF_BAR2
+#define basename_CAVM_NIXX_LF_SQ_OP_AGE_DROP_OCTS(a) "NIXX_LF_SQ_OP_AGE_DROP_OCTS"
+#define device_bar_CAVM_NIXX_LF_SQ_OP_AGE_DROP_OCTS(a) 0x2 /* RVU_BAR2 */
+#define busnum_CAVM_NIXX_LF_SQ_OP_AGE_DROP_OCTS(a) (a)
+#define arguments_CAVM_NIXX_LF_SQ_OP_AGE_DROP_OCTS(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PFVF_BAR2) nix#_lf_sq_op_age_drop_pkts
+ *
+ * NIX LF Send Queue Age Dropped Packets Operation Register
+ * A 64-bit atomic load-and-add to this register reads NIX_SQ_CTX_S[AGED_DROP_PKTS]
+ * which contains count for age dropped packets.
+ * The atomic write data has format NIX_OP_Q_WDATA_S and selects the SQ within LF.
+ *
+ * All other accesses to this register (e.g. reads and writes) are RAZ/WI.
+ *
+ * RSL accesses to this register are RAZ/WI.
+ */
+union cavm_nixx_lf_sq_op_age_drop_pkts
+{
+    uint64_t u;
+    struct cavm_nixx_lf_sq_op_age_drop_pkts_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t op_err                : 1;  /**< [ 63: 63](RO/H) Operation error. See NIX_LF_SQ_OP_INT[OP_ERR]. */
+        uint64_t reserved_32_62        : 31;
+        uint64_t cnt                   : 32; /**< [ 31:  0](RO) If NIX_AGE_AND_SEND_STATS_S[AGING] = 1 and if a packet resides in the system for
+                                                                 longer than the programmed threshold
+                                                                 (NIX_AGE_AND_SEND_STATS_S[THRESHOLD]), then the packet is marked for dropping. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt                   : 32; /**< [ 31:  0](RO) If NIX_AGE_AND_SEND_STATS_S[AGING] = 1 and if a packet resides in the system for
+                                                                 longer than the programmed threshold
+                                                                 (NIX_AGE_AND_SEND_STATS_S[THRESHOLD]), then the packet is marked for dropping. */
+        uint64_t reserved_32_62        : 31;
+        uint64_t op_err                : 1;  /**< [ 63: 63](RO/H) Operation error. See NIX_LF_SQ_OP_INT[OP_ERR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_nixx_lf_sq_op_age_drop_pkts_s cn; */
+};
+typedef union cavm_nixx_lf_sq_op_age_drop_pkts cavm_nixx_lf_sq_op_age_drop_pkts_t;
+
+static inline uint64_t CAVM_NIXX_LF_SQ_OP_AGE_DROP_PKTS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NIXX_LF_SQ_OP_AGE_DROP_PKTS(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+        return 0x840200400a70ll + 0x100000ll * ((a) & 0x1);
+    __cavm_csr_fatal("NIXX_LF_SQ_OP_AGE_DROP_PKTS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NIXX_LF_SQ_OP_AGE_DROP_PKTS(a) cavm_nixx_lf_sq_op_age_drop_pkts_t
+#define bustype_CAVM_NIXX_LF_SQ_OP_AGE_DROP_PKTS(a) CSR_TYPE_RVU_PFVF_BAR2
+#define basename_CAVM_NIXX_LF_SQ_OP_AGE_DROP_PKTS(a) "NIXX_LF_SQ_OP_AGE_DROP_PKTS"
+#define device_bar_CAVM_NIXX_LF_SQ_OP_AGE_DROP_PKTS(a) 0x2 /* RVU_BAR2 */
+#define busnum_CAVM_NIXX_LF_SQ_OP_AGE_DROP_PKTS(a) (a)
+#define arguments_CAVM_NIXX_LF_SQ_OP_AGE_DROP_PKTS(a) (a),-1,-1,-1
 
 /**
  * Register (RVU_PFVF_BAR2) nix#_lf_sq_op_drop_octs
@@ -21589,7 +22265,7 @@ typedef union cavm_nixx_lf_sq_op_drop_octs cavm_nixx_lf_sq_op_drop_octs_t;
 static inline uint64_t CAVM_NIXX_LF_SQ_OP_DROP_OCTS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_SQ_OP_DROP_OCTS(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840200400a40ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_LF_SQ_OP_DROP_OCTS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -21634,7 +22310,7 @@ typedef union cavm_nixx_lf_sq_op_drop_pkts cavm_nixx_lf_sq_op_drop_pkts_t;
 static inline uint64_t CAVM_NIXX_LF_SQ_OP_DROP_PKTS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_SQ_OP_DROP_PKTS(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840200400a50ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_LF_SQ_OP_DROP_PKTS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -21681,7 +22357,7 @@ typedef union cavm_nixx_lf_sq_op_err_dbg cavm_nixx_lf_sq_op_err_dbg_t;
 static inline uint64_t CAVM_NIXX_LF_SQ_OP_ERR_DBG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_SQ_OP_ERR_DBG(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840200400260ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_LF_SQ_OP_ERR_DBG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -21766,7 +22442,7 @@ typedef union cavm_nixx_lf_sq_op_int cavm_nixx_lf_sq_op_int_t;
 static inline uint64_t CAVM_NIXX_LF_SQ_OP_INT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_SQ_OP_INT(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840200400a00ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_LF_SQ_OP_INT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -21811,7 +22487,7 @@ typedef union cavm_nixx_lf_sq_op_octs cavm_nixx_lf_sq_op_octs_t;
 static inline uint64_t CAVM_NIXX_LF_SQ_OP_OCTS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_SQ_OP_OCTS(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840200400a10ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_LF_SQ_OP_OCTS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -21856,7 +22532,7 @@ typedef union cavm_nixx_lf_sq_op_pkts cavm_nixx_lf_sq_op_pkts_t;
 static inline uint64_t CAVM_NIXX_LF_SQ_OP_PKTS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_SQ_OP_PKTS(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840200400a20ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_LF_SQ_OP_PKTS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -21949,7 +22625,7 @@ typedef union cavm_nixx_lf_sq_op_status cavm_nixx_lf_sq_op_status_t;
 static inline uint64_t CAVM_NIXX_LF_SQ_OP_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_SQ_OP_STATUS(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840200400a30ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_LF_SQ_OP_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -21987,7 +22663,7 @@ typedef union cavm_nixx_lf_tx_statx cavm_nixx_lf_tx_statx_t;
 static inline uint64_t CAVM_NIXX_LF_TX_STATX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_TX_STATX(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=4))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=4)))
         return 0x840200400300ll + 0x100000ll * ((a) & 0x1) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("NIXX_LF_TX_STATX", 2, a, b, 0, 0, 0, 0);
 }
@@ -22036,7 +22712,7 @@ typedef union cavm_nixx_priv_af_int_cfg cavm_nixx_priv_af_int_cfg_t;
 static inline uint64_t CAVM_NIXX_PRIV_AF_INT_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_PRIV_AF_INT_CFG(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
         return 0x840048000000ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_PRIV_AF_INT_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -22096,7 +22772,7 @@ typedef union cavm_nixx_priv_lfx_cfg cavm_nixx_priv_lfx_cfg_t;
 static inline uint64_t CAVM_NIXX_PRIV_LFX_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_PRIV_LFX_CFG(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=127))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=127)))
         return 0x840048000010ll + 0x10000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x7f);
     __cavm_csr_fatal("NIXX_PRIV_LFX_CFG", 2, a, b, 0, 0, 0, 0);
 }
@@ -22147,7 +22823,7 @@ typedef union cavm_nixx_priv_lfx_int_cfg cavm_nixx_priv_lfx_int_cfg_t;
 static inline uint64_t CAVM_NIXX_PRIV_LFX_INT_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_PRIV_LFX_INT_CFG(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=127))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=127)))
         return 0x840048000020ll + 0x10000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x7f);
     __cavm_csr_fatal("NIXX_PRIV_LFX_INT_CFG", 2, a, b, 0, 0, 0, 0);
 }

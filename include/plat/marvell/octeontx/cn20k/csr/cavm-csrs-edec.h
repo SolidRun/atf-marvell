@@ -97,7 +97,16 @@ union cavm_edec_lut_csr0_s
                                                                  section in the packet, the compression method and width are specified by
                                                                  ECPRI_UD_COMP_HDR_S[UD_COMP_METH] and
                                                                  ECPRI_UD_COMP_HDR_S[UD_IQWIDTH] in the associated compression header. */
-        uint64_t data_format           : 2;  /**< [ 23: 22] Reserved. */
+        uint64_t data_format           : 2;  /**< [ 23: 22] \<pre\>
+                                                                 Output Data Format. Values are enumerated by EDEC_DATA_FORMAT_E. Invalid values are reserved.
+
+                                                                 typedef enum logic [1:0] { // EDEC_DATA_FORMAT_E
+                                                                    FXP   = 0x0,  // FXP Format.  Applicable for all supported compression methods.
+                                                                    EFXP  = 0x1,  // eFXP Format. Applicable for ECPRI_COMP_METH_E::BFP.
+                                                                    IQFP  = 0x2   // IQFP Format. Applicable for ECPRI_COMP_METH_E::BFP and
+                                                                 ECPRI_COMP_METH_E::BFP_SRM.
+                                                                 } EDEC_DATA_FORMAT_E;
+                                                                 \</pre\> */
         uint64_t num_sym_per_slot      : 6;  /**< [ 21: 16] Number of symbols per slot minus 1. */
         uint64_t num_buffers           : 8;  /**< [ 15:  8] Number of buffers minus 1. Applies to both data buffers specified by
                                                                  EDEC_LUT_CSR1_S and header buffers specified by EDEC_LUT_CSR2_S. */
@@ -141,7 +150,16 @@ union cavm_edec_lut_csr0_s
         uint64_t num_buffers           : 8;  /**< [ 15:  8] Number of buffers minus 1. Applies to both data buffers specified by
                                                                  EDEC_LUT_CSR1_S and header buffers specified by EDEC_LUT_CSR2_S. */
         uint64_t num_sym_per_slot      : 6;  /**< [ 21: 16] Number of symbols per slot minus 1. */
-        uint64_t data_format           : 2;  /**< [ 23: 22] Reserved. */
+        uint64_t data_format           : 2;  /**< [ 23: 22] \<pre\>
+                                                                 Output Data Format. Values are enumerated by EDEC_DATA_FORMAT_E. Invalid values are reserved.
+
+                                                                 typedef enum logic [1:0] { // EDEC_DATA_FORMAT_E
+                                                                    FXP   = 0x0,  // FXP Format.  Applicable for all supported compression methods.
+                                                                    EFXP  = 0x1,  // eFXP Format. Applicable for ECPRI_COMP_METH_E::BFP.
+                                                                    IQFP  = 0x2   // IQFP Format. Applicable for ECPRI_COMP_METH_E::BFP and
+                                                                 ECPRI_COMP_METH_E::BFP_SRM.
+                                                                 } EDEC_DATA_FORMAT_E;
+                                                                 \</pre\> */
         uint64_t fix_mode_en           : 1;  /**< [ 24: 24] When set, the compression mode is fixed. The compression method and width
                                                                  for the entire packet are specified by [FIX_UDCOMP_HDR].
 
@@ -272,63 +290,71 @@ union cavm_edec_lut_csr4_s
     struct cavm_edec_lut_csr4_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_17_63        : 47;
+        uint64_t reserved_18_63        : 46;
+        uint64_t seq_id_hw_check_en    : 1;  /**< [ 17: 17] Enables the ECPRI Sequence ID check. This should be set to zero to skip sequence
+                                                                 ID checking for the
+                                                                 next packet (typically the first packet after reset, after soft reset, or after enabling flow_en).
+                                                                 Hardware will set this bit 1 at the end of each packet to enable checking of subsequent packets. */
         uint64_t seq_id_check_en       : 1;  /**< [ 16: 16] Enables the ECPRI Sequence ID check. When enabled, the sequence ID of the incoming packet
-                                                                 (ECPRI_HDR_SW_S[SEQ_ID][SEQ_ID]) is compared to the expected value in the
+                                                                 (ECPRI_HDR_SW_S[SEQ_ID][7:0]) is compared to the expected value in the
                                                                  table (EDEC_LUT_CSR4_S[ECPRI_SEQUENCE_ID]).
 
                                                                  Error (SEQID_ERR) is generated when EDEC_LUT_CSR0_S[FLOW_EN]=1 and
-                                                                 EDEC_LUT_CSR4_S[SEQ_ID_CHECK_EN]=1 and
-                                                                 ECPRI_HDR_SW_S[MSG_TYPE]=0 and the received packed sequence ID does not match the expected value
-                                                                 (EDEC_LUT_CSR4_S[ECPRI_SEQUENCE_ID] != ECPRI_HDR_SW_S[SEQ_ID][SEQ_ID]). */
+                                                                 EDEC_LUT_CSR4_S[SEQ_ID_CHECK_EN]=1 and EDEC_LUT_CSR4_S[SEQ_ID_HW_CHECK_EN]=1 and
+                                                                 the received packed sequence ID does not match the expected value
+                                                                 (EDEC_LUT_CSR4_S[ECPRI_SEQUENCE_ID] != ECPRI_HDR_SW_S[SEQ_ID][7:0]). */
         uint64_t ecpri_sequence_id     : 8;  /**< [ 15:  8] Expected Sequence ID sub-field of eCPRI SEQ_ID. Initialized by software to the
                                                                  first expected sequence ID.
 
-                                                                 The table entry is updated by hardware at the end of job to the next expected
-                                                                 sequence ID based on the
-                                                                 received packet (ECPRI_HDR_SW_S[SEQ_ID][SEQ_ID]+1) when
-                                                                 EDEC_LUT_CSR0_S[FLOW_EN]=1 and ECPRI_HDR_SW_S[MSG_TYPE]=0 and
-                                                                 ECPRI_HDR_SW_S[SEQ_ID][E_BIT]=1. This table
-                                                                 update occurs even if the check is disabled (EDEC_LUT_CSR4_S[SEQ_ID_CHECK_EN]=0).
+                                                                 The table entry is updated by hardware at the end of job to the next expected sequence ID based on
+                                                                 the received packet (ECPRI_HDR_SW_S[SEQ_ID][7:0]+1) when EDEC_LUT_CSR0_S[FLOW_EN]=1.
+                                                                 This table update occurs even if the check is disabled (EDEC_LUT_CSR4_S[SEQ_ID_CHECK_EN]=0).
 
                                                                  Error (SEQID_ERR) is generated when EDEC_LUT_CSR0_S[FLOW_EN]=1 and
-                                                                 EDEC_LUT_CSR4_S[SEQ_ID_CHECK_EN]=1 and
-                                                                 ECPRI_HDR_SW_S[MSG_TYPE]=0 and the received packed sequence ID does not match the expected value
-                                                                 (EDEC_LUT_CSR4_S[ECPRI_SEQUENCE_ID] != ECPRI_HDR_SW_S[SEQ_ID][SEQ_ID]). */
+                                                                 EDEC_LUT_CSR4_S[SEQ_ID_CHECK_EN]=1 and EDEC_LUT_CSR4_S[SEQ_ID_HW_CHECK_EN]=1 and
+                                                                 the received packed sequence ID does not match the expected value
+                                                                 (EDEC_LUT_CSR4_S[ECPRI_SEQUENCE_ID] != ECPRI_HDR_SW_S[SEQ_ID][7:0]). */
         uint64_t gmid                  : 3;  /**< [  7:  5] Guest Machine ID. */
         uint64_t psm_cmd_no_action     : 1;  /**< [  4:  4] 0x0 : Send PSM command as per OPCODE in LUT
                                                                  0x1 : Ignore OPCODE in LUT and don't send PSM command */
-        uint64_t bfp_iqfp_dl_zero_pad  : 1;  /**< [  3:  3] Reserved. */
+        uint64_t bfp_iqfp_dl_zero_pad  : 1;  /**< [  3:  3] Used when EDEC_LUT_CSR0_S[DATA_FORMAT] = EDEC_DATA_FORMAT_E::IQFP and
+                                                                 compression method is BFP or BFP_SRM.
+                                                                 _ 0: IQ samples are normalized.
+                                                                 _ 1: IQ samples are zero padded to 14 bits while exponent is kept. */
         uint64_t num_slot_exp_1ms_max_mu : 3;/**< [  2:  0] Log base two of the number of slots per 1 ms for max mu. */
 #else /* Word 0 - Little Endian */
         uint64_t num_slot_exp_1ms_max_mu : 3;/**< [  2:  0] Log base two of the number of slots per 1 ms for max mu. */
-        uint64_t bfp_iqfp_dl_zero_pad  : 1;  /**< [  3:  3] Reserved. */
+        uint64_t bfp_iqfp_dl_zero_pad  : 1;  /**< [  3:  3] Used when EDEC_LUT_CSR0_S[DATA_FORMAT] = EDEC_DATA_FORMAT_E::IQFP and
+                                                                 compression method is BFP or BFP_SRM.
+                                                                 _ 0: IQ samples are normalized.
+                                                                 _ 1: IQ samples are zero padded to 14 bits while exponent is kept. */
         uint64_t psm_cmd_no_action     : 1;  /**< [  4:  4] 0x0 : Send PSM command as per OPCODE in LUT
                                                                  0x1 : Ignore OPCODE in LUT and don't send PSM command */
         uint64_t gmid                  : 3;  /**< [  7:  5] Guest Machine ID. */
         uint64_t ecpri_sequence_id     : 8;  /**< [ 15:  8] Expected Sequence ID sub-field of eCPRI SEQ_ID. Initialized by software to the
                                                                  first expected sequence ID.
 
-                                                                 The table entry is updated by hardware at the end of job to the next expected
-                                                                 sequence ID based on the
-                                                                 received packet (ECPRI_HDR_SW_S[SEQ_ID][SEQ_ID]+1) when
-                                                                 EDEC_LUT_CSR0_S[FLOW_EN]=1 and ECPRI_HDR_SW_S[MSG_TYPE]=0 and
-                                                                 ECPRI_HDR_SW_S[SEQ_ID][E_BIT]=1. This table
-                                                                 update occurs even if the check is disabled (EDEC_LUT_CSR4_S[SEQ_ID_CHECK_EN]=0).
+                                                                 The table entry is updated by hardware at the end of job to the next expected sequence ID based on
+                                                                 the received packet (ECPRI_HDR_SW_S[SEQ_ID][7:0]+1) when EDEC_LUT_CSR0_S[FLOW_EN]=1.
+                                                                 This table update occurs even if the check is disabled (EDEC_LUT_CSR4_S[SEQ_ID_CHECK_EN]=0).
 
                                                                  Error (SEQID_ERR) is generated when EDEC_LUT_CSR0_S[FLOW_EN]=1 and
-                                                                 EDEC_LUT_CSR4_S[SEQ_ID_CHECK_EN]=1 and
-                                                                 ECPRI_HDR_SW_S[MSG_TYPE]=0 and the received packed sequence ID does not match the expected value
-                                                                 (EDEC_LUT_CSR4_S[ECPRI_SEQUENCE_ID] != ECPRI_HDR_SW_S[SEQ_ID][SEQ_ID]). */
+                                                                 EDEC_LUT_CSR4_S[SEQ_ID_CHECK_EN]=1 and EDEC_LUT_CSR4_S[SEQ_ID_HW_CHECK_EN]=1 and
+                                                                 the received packed sequence ID does not match the expected value
+                                                                 (EDEC_LUT_CSR4_S[ECPRI_SEQUENCE_ID] != ECPRI_HDR_SW_S[SEQ_ID][7:0]). */
         uint64_t seq_id_check_en       : 1;  /**< [ 16: 16] Enables the ECPRI Sequence ID check. When enabled, the sequence ID of the incoming packet
-                                                                 (ECPRI_HDR_SW_S[SEQ_ID][SEQ_ID]) is compared to the expected value in the
+                                                                 (ECPRI_HDR_SW_S[SEQ_ID][7:0]) is compared to the expected value in the
                                                                  table (EDEC_LUT_CSR4_S[ECPRI_SEQUENCE_ID]).
 
                                                                  Error (SEQID_ERR) is generated when EDEC_LUT_CSR0_S[FLOW_EN]=1 and
-                                                                 EDEC_LUT_CSR4_S[SEQ_ID_CHECK_EN]=1 and
-                                                                 ECPRI_HDR_SW_S[MSG_TYPE]=0 and the received packed sequence ID does not match the expected value
-                                                                 (EDEC_LUT_CSR4_S[ECPRI_SEQUENCE_ID] != ECPRI_HDR_SW_S[SEQ_ID][SEQ_ID]). */
-        uint64_t reserved_17_63        : 47;
+                                                                 EDEC_LUT_CSR4_S[SEQ_ID_CHECK_EN]=1 and EDEC_LUT_CSR4_S[SEQ_ID_HW_CHECK_EN]=1 and
+                                                                 the received packed sequence ID does not match the expected value
+                                                                 (EDEC_LUT_CSR4_S[ECPRI_SEQUENCE_ID] != ECPRI_HDR_SW_S[SEQ_ID][7:0]). */
+        uint64_t seq_id_hw_check_en    : 1;  /**< [ 17: 17] Enables the ECPRI Sequence ID check. This should be set to zero to skip sequence
+                                                                 ID checking for the
+                                                                 next packet (typically the first packet after reset, after soft reset, or after enabling flow_en).
+                                                                 Hardware will set this bit 1 at the end of each packet to enable checking of subsequent packets. */
+        uint64_t reserved_18_63        : 46;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_edec_lut_csr4_s_s cn; */
@@ -387,7 +413,7 @@ typedef union cavm_edecx_abx_bfp_user_exp_high cavm_edecx_abx_bfp_user_exp_high_
 static inline uint64_t CAVM_EDECX_ABX_BFP_USER_EXP_HIGH(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_BFP_USER_EXP_HIGH(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040400238ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_BFP_USER_EXP_HIGH", 2, a, b, 0, 0, 0, 0);
 }
@@ -452,7 +478,7 @@ typedef union cavm_edecx_abx_bfp_user_exp_low cavm_edecx_abx_bfp_user_exp_low_t;
 static inline uint64_t CAVM_EDECX_ABX_BFP_USER_EXP_LOW(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_BFP_USER_EXP_LOW(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040400230ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_BFP_USER_EXP_LOW", 2, a, b, 0, 0, 0, 0);
 }
@@ -494,8 +520,11 @@ union cavm_edecx_abx_config
                                                                  _ 0x4: Use flowID= RFOE_PSW_W2_ECPRI_[FLOW_ID].
                                                                  _ 0x5-0x7: reserved */
         uint64_t n2_step               : 8;  /**< [ 39: 32](R/W) Value at which N2 counter increments for each 307.2MHz clock.
-                                                                 Default value is 4 which means N2 is running at 1.2288MHz clock. */
-        uint64_t tstamp_format         : 1;  /**< [ 31: 31](R/W) Reserved. */
+                                                                 Default value is 4 which means N2 is running at 1.2288MHz clock.
+                                                                 If TSTAMP_FORMAT = 0, this value shall be set to 4 (default value). */
+        uint64_t tstamp_format         : 1;  /**< [ 31: 31](R/W) Define Timestamp format in RFOE_PSW_S:
+                                                                 0: Timestamp is BFN format defined as  RFOE_PSW_W3_BFN_S.
+                                                                 1: Timestamp is BCN format defined as  RFOE_PSW_W3_BCN_S. */
         uint64_t rb_ind_clr_en         : 1;  /**< [ 30: 30](R/W) When set and ECPRI_SECTION_HDR_S[RB] != 0, clears ECPRI_SECTION_HDR_S[RB]. */
         uint64_t start_prb_clr_en      : 1;  /**< [ 29: 29](R/W) When set and ECPRI_SECTION_HDR_S[NUM_PRB] == 0 and ECPRI_SECTION_HDR_S[START_PRB] != 0,
                                                                  clears ECPRI_SECTION_HDR_S[START_PRB]. */
@@ -522,8 +551,10 @@ union cavm_edecx_abx_config
                                                                  EDEC_LUT_CSR3_S[PSM_JOB_CMD_WORD0] is PSM_CMD_ADDJOB_S or PSM_CMD_WRSTS_S. If the command is
                                                                  PSM_CMD_ADDWORK_S, the incrementation only takes place if
                                                                  EDEC()_AB()_CONFIG[ADDWORK_JOBTAG_INCR] is set. */
-        uint64_t ul_sign_ext           : 1;  /**< [  7:  7](R/W) Reserved. */
-        uint64_t dl_sign_ext           : 1;  /**< [  6:  6](R/W) Reserved. */
+        uint64_t ul_sign_ext           : 1;  /**< [  7:  7](R/W) 0x0 - Sign Extension.
+                                                                 0x1 - Zero pad. */
+        uint64_t dl_sign_ext           : 1;  /**< [  6:  6](R/W) 0x0 - Sign Extension.
+                                                                 0x1 - Zero pad. */
         uint64_t rx_window_check_en    : 1;  /**< [  5:  5](R/W) If set, enables the rx window check mechanism. */
         uint64_t force_cond_clk_en     : 1;  /**< [  4:  4](R/W) Force the conditional clocks active within the block. For diagnostic use only. */
         uint64_t symmetric_rounding_ulaw : 1;/**< [  3:  3](R/W) Defines Rounding method for compressions: ECPRI_COMP_METH_E::MU_LAW:
@@ -565,8 +596,10 @@ union cavm_edecx_abx_config
                                                                  _ 1: Symmetric Rounding. */
         uint64_t force_cond_clk_en     : 1;  /**< [  4:  4](R/W) Force the conditional clocks active within the block. For diagnostic use only. */
         uint64_t rx_window_check_en    : 1;  /**< [  5:  5](R/W) If set, enables the rx window check mechanism. */
-        uint64_t dl_sign_ext           : 1;  /**< [  6:  6](R/W) Reserved. */
-        uint64_t ul_sign_ext           : 1;  /**< [  7:  7](R/W) Reserved. */
+        uint64_t dl_sign_ext           : 1;  /**< [  6:  6](R/W) 0x0 - Sign Extension.
+                                                                 0x1 - Zero pad. */
+        uint64_t ul_sign_ext           : 1;  /**< [  7:  7](R/W) 0x0 - Sign Extension.
+                                                                 0x1 - Zero pad. */
         uint64_t jobtag_count          : 16; /**< [ 23:  8](R/W) On LUT initialization or modification, for each initialized or modified
                                                                  flow ID, the flow ID's internal JOBTAG[FLOW_ID] counter (maintained by
                                                                  EDEC) is set to JOBTAG_INIT[FLOW_ID] = PSM_CMD_ADDJOB_S[JOBTAG] (where
@@ -593,9 +626,12 @@ union cavm_edecx_abx_config
         uint64_t start_prb_clr_en      : 1;  /**< [ 29: 29](R/W) When set and ECPRI_SECTION_HDR_S[NUM_PRB] == 0 and ECPRI_SECTION_HDR_S[START_PRB] != 0,
                                                                  clears ECPRI_SECTION_HDR_S[START_PRB]. */
         uint64_t rb_ind_clr_en         : 1;  /**< [ 30: 30](R/W) When set and ECPRI_SECTION_HDR_S[RB] != 0, clears ECPRI_SECTION_HDR_S[RB]. */
-        uint64_t tstamp_format         : 1;  /**< [ 31: 31](R/W) Reserved. */
+        uint64_t tstamp_format         : 1;  /**< [ 31: 31](R/W) Define Timestamp format in RFOE_PSW_S:
+                                                                 0: Timestamp is BFN format defined as  RFOE_PSW_W3_BFN_S.
+                                                                 1: Timestamp is BCN format defined as  RFOE_PSW_W3_BCN_S. */
         uint64_t n2_step               : 8;  /**< [ 39: 32](R/W) Value at which N2 counter increments for each 307.2MHz clock.
-                                                                 Default value is 4 which means N2 is running at 1.2288MHz clock. */
+                                                                 Default value is 4 which means N2 is running at 1.2288MHz clock.
+                                                                 If TSTAMP_FORMAT = 0, this value shall be set to 4 (default value). */
         uint64_t pcid_flowid_mode      : 3;  /**< [ 42: 40](R/W) Update description based on supported modes.
                                                                  _ 0x0: Hash -
                                                                       Use defined hash function to calculate flow ID
@@ -623,7 +659,7 @@ typedef union cavm_edecx_abx_config cavm_edecx_abx_config_t;
 static inline uint64_t CAVM_EDECX_ABX_CONFIG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_CONFIG(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040400020ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_CONFIG", 2, a, b, 0, 0, 0, 0);
 }
@@ -666,7 +702,7 @@ typedef union cavm_edecx_abx_config1 cavm_edecx_abx_config1_t;
 static inline uint64_t CAVM_EDECX_ABX_CONFIG1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_CONFIG1(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040400028ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_CONFIG1", 2, a, b, 0, 0, 0, 0);
 }
@@ -715,7 +751,7 @@ typedef union cavm_edecx_abx_control0 cavm_edecx_abx_control0_t;
 static inline uint64_t CAVM_EDECX_ABX_CONTROL0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_CONTROL0(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040400000ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_CONTROL0", 2, a, b, 0, 0, 0, 0);
 }
@@ -752,7 +788,7 @@ typedef union cavm_edecx_abx_control1 cavm_edecx_abx_control1_t;
 static inline uint64_t CAVM_EDECX_ABX_CONTROL1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_CONTROL1(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040400008ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_CONTROL1", 2, a, b, 0, 0, 0, 0);
 }
@@ -767,7 +803,7 @@ static inline uint64_t CAVM_EDECX_ABX_CONTROL1(uint64_t a, uint64_t b)
 /**
  * Register (RSL) edec#_ab#_drop_cnt
  *
- * EDEC Error Count Registers
+ * EDEC Drop Error Count Register
  */
 union cavm_edecx_abx_drop_cnt
 {
@@ -775,9 +811,9 @@ union cavm_edecx_abx_drop_cnt
     struct cavm_edecx_abx_drop_cnt_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Number of packets dropped due to errors. Write 1 to clear. */
+        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Number of packets dropped due to errors. Write to clear. */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Number of packets dropped due to errors. Write 1 to clear. */
+        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Number of packets dropped due to errors. Write to clear. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_edecx_abx_drop_cnt_s cn; */
@@ -787,7 +823,7 @@ typedef union cavm_edecx_abx_drop_cnt cavm_edecx_abx_drop_cnt_t;
 static inline uint64_t CAVM_EDECX_ABX_DROP_CNT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_DROP_CNT(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e0404000f8ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_DROP_CNT", 2, a, b, 0, 0, 0, 0);
 }
@@ -828,7 +864,7 @@ typedef union cavm_edecx_abx_ecpri_error_cond cavm_edecx_abx_ecpri_error_cond_t;
 static inline uint64_t CAVM_EDECX_ABX_ECPRI_ERROR_COND(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_ECPRI_ERROR_COND(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040400080ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_ECPRI_ERROR_COND", 2, a, b, 0, 0, 0, 0);
 }
@@ -843,7 +879,7 @@ static inline uint64_t CAVM_EDECX_ABX_ECPRI_ERROR_COND(uint64_t a, uint64_t b)
 /**
  * Register (RSL) edec#_ab#_error_cnt
  *
- * EDEC Error Count Registers
+ * EDEC Error Count Register
  */
 union cavm_edecx_abx_error_cnt
 {
@@ -851,9 +887,9 @@ union cavm_edecx_abx_error_cnt
     struct cavm_edecx_abx_error_cnt_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Number of errors encountered. Write 1 to clear. */
+        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Number of errors encountered. Write to clear. */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Number of errors encountered. Write 1 to clear. */
+        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Number of errors encountered. Write to clear. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_edecx_abx_error_cnt_s cn; */
@@ -863,7 +899,7 @@ typedef union cavm_edecx_abx_error_cnt cavm_edecx_abx_error_cnt_t;
 static inline uint64_t CAVM_EDECX_ABX_ERROR_CNT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_ERROR_CNT(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e0404000f0ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_ERROR_CNT", 2, a, b, 0, 0, 0, 0);
 }
@@ -977,7 +1013,7 @@ typedef union cavm_edecx_abx_error_drop_en cavm_edecx_abx_error_drop_en_t;
 static inline uint64_t CAVM_EDECX_ABX_ERROR_DROP_EN(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_ERROR_DROP_EN(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040400050ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_ERROR_DROP_EN", 2, a, b, 0, 0, 0, 0);
 }
@@ -1003,7 +1039,7 @@ union cavm_edecx_abx_error_ena_w1c
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_42_63        : 22;
         uint64_t seqid_err             : 1;  /**< [ 41: 41](R/W1C/H) Reads or clears enable for EDEC(0..2)_AB(0..1)_ERROR_STATUS[SEQID_ERR]. */
-        uint64_t efxp_format_but_c_meth_not_bfp : 1;/**< [ 40: 40](R/W1C/H) Reserved. */
+        uint64_t efxp_format_but_c_meth_not_bfp : 1;/**< [ 40: 40](R/W1C/H) Reads or clears enable for EDEC(0..2)_AB(0..1)_ERROR_STATUS[EFXP_FORMAT_BUT_C_METH_NOT_BFP]. */
         uint64_t sym_inc_not_zero      : 1;  /**< [ 39: 39](R/W1C/H) Reads or clears enable for EDEC(0..2)_AB(0..1)_ERROR_STATUS[SYM_INC_NOT_ZERO]. */
         uint64_t num_prb_zero_but_rb_not : 1;/**< [ 38: 38](R/W1C/H) Reads or clears enable for EDEC(0..2)_AB(0..1)_ERROR_STATUS[NUM_PRB_ZERO_BUT_RB_NOT]. */
         uint64_t wrmsgsts_add_err      : 1;  /**< [ 37: 37](R/W1C/H) Reads or clears enable for EDEC(0..2)_AB(0..1)_ERROR_STATUS[WRMSGSTS_ADD_ERR]. */
@@ -1085,7 +1121,7 @@ union cavm_edecx_abx_error_ena_w1c
         uint64_t wrmsgsts_add_err      : 1;  /**< [ 37: 37](R/W1C/H) Reads or clears enable for EDEC(0..2)_AB(0..1)_ERROR_STATUS[WRMSGSTS_ADD_ERR]. */
         uint64_t num_prb_zero_but_rb_not : 1;/**< [ 38: 38](R/W1C/H) Reads or clears enable for EDEC(0..2)_AB(0..1)_ERROR_STATUS[NUM_PRB_ZERO_BUT_RB_NOT]. */
         uint64_t sym_inc_not_zero      : 1;  /**< [ 39: 39](R/W1C/H) Reads or clears enable for EDEC(0..2)_AB(0..1)_ERROR_STATUS[SYM_INC_NOT_ZERO]. */
-        uint64_t efxp_format_but_c_meth_not_bfp : 1;/**< [ 40: 40](R/W1C/H) Reserved. */
+        uint64_t efxp_format_but_c_meth_not_bfp : 1;/**< [ 40: 40](R/W1C/H) Reads or clears enable for EDEC(0..2)_AB(0..1)_ERROR_STATUS[EFXP_FORMAT_BUT_C_METH_NOT_BFP]. */
         uint64_t seqid_err             : 1;  /**< [ 41: 41](R/W1C/H) Reads or clears enable for EDEC(0..2)_AB(0..1)_ERROR_STATUS[SEQID_ERR]. */
         uint64_t reserved_42_63        : 22;
 #endif /* Word 0 - End */
@@ -1097,7 +1133,7 @@ typedef union cavm_edecx_abx_error_ena_w1c cavm_edecx_abx_error_ena_w1c_t;
 static inline uint64_t CAVM_EDECX_ABX_ERROR_ENA_W1C(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_ERROR_ENA_W1C(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040400048ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_ERROR_ENA_W1C", 2, a, b, 0, 0, 0, 0);
 }
@@ -1123,7 +1159,7 @@ union cavm_edecx_abx_error_ena_w1s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_42_63        : 22;
         uint64_t seqid_err             : 1;  /**< [ 41: 41](R/W1S/H) Reads or sets enable for EDEC(0..2)_AB(0..1)_ERROR_STATUS[SEQID_ERR]. */
-        uint64_t efxp_format_but_c_meth_not_bfp : 1;/**< [ 40: 40](R/W1S/H) Reserved. */
+        uint64_t efxp_format_but_c_meth_not_bfp : 1;/**< [ 40: 40](R/W1S/H) Reads or sets enable for EDEC(0..2)_AB(0..1)_ERROR_STATUS[EFXP_FORMAT_BUT_C_METH_NOT_BFP]. */
         uint64_t sym_inc_not_zero      : 1;  /**< [ 39: 39](R/W1S/H) Reads or sets enable for EDEC(0..2)_AB(0..1)_ERROR_STATUS[SYM_INC_NOT_ZERO]. */
         uint64_t num_prb_zero_but_rb_not : 1;/**< [ 38: 38](R/W1S/H) Reads or sets enable for EDEC(0..2)_AB(0..1)_ERROR_STATUS[NUM_PRB_ZERO_BUT_RB_NOT]. */
         uint64_t wrmsgsts_add_err      : 1;  /**< [ 37: 37](R/W1S/H) Reads or sets enable for EDEC(0..2)_AB(0..1)_ERROR_STATUS[WRMSGSTS_ADD_ERR]. */
@@ -1205,7 +1241,7 @@ union cavm_edecx_abx_error_ena_w1s
         uint64_t wrmsgsts_add_err      : 1;  /**< [ 37: 37](R/W1S/H) Reads or sets enable for EDEC(0..2)_AB(0..1)_ERROR_STATUS[WRMSGSTS_ADD_ERR]. */
         uint64_t num_prb_zero_but_rb_not : 1;/**< [ 38: 38](R/W1S/H) Reads or sets enable for EDEC(0..2)_AB(0..1)_ERROR_STATUS[NUM_PRB_ZERO_BUT_RB_NOT]. */
         uint64_t sym_inc_not_zero      : 1;  /**< [ 39: 39](R/W1S/H) Reads or sets enable for EDEC(0..2)_AB(0..1)_ERROR_STATUS[SYM_INC_NOT_ZERO]. */
-        uint64_t efxp_format_but_c_meth_not_bfp : 1;/**< [ 40: 40](R/W1S/H) Reserved. */
+        uint64_t efxp_format_but_c_meth_not_bfp : 1;/**< [ 40: 40](R/W1S/H) Reads or sets enable for EDEC(0..2)_AB(0..1)_ERROR_STATUS[EFXP_FORMAT_BUT_C_METH_NOT_BFP]. */
         uint64_t seqid_err             : 1;  /**< [ 41: 41](R/W1S/H) Reads or sets enable for EDEC(0..2)_AB(0..1)_ERROR_STATUS[SEQID_ERR]. */
         uint64_t reserved_42_63        : 22;
 #endif /* Word 0 - End */
@@ -1217,7 +1253,7 @@ typedef union cavm_edecx_abx_error_ena_w1s cavm_edecx_abx_error_ena_w1s_t;
 static inline uint64_t CAVM_EDECX_ABX_ERROR_ENA_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_ERROR_ENA_W1S(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040400040ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_ERROR_ENA_W1S", 2, a, b, 0, 0, 0, 0);
 }
@@ -1269,7 +1305,7 @@ typedef union cavm_edecx_abx_error_source0 cavm_edecx_abx_error_source0_t;
 static inline uint64_t CAVM_EDECX_ABX_ERROR_SOURCE0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_ERROR_SOURCE0(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040400030ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_ERROR_SOURCE0", 2, a, b, 0, 0, 0, 0);
 }
@@ -1296,10 +1332,13 @@ union cavm_edecx_abx_error_status
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_42_63        : 22;
         uint64_t seqid_err             : 1;  /**< [ 41: 41](R/W1C/H) Received packet sequence ID does not match expected value in table
-                                                                 (EDEC_LUT_CSR4_S[ECPRI_SEQUENCE_ID] != ECPRI_HDR_SW_S[SEQ_ID][SEQ_ID]) and
-                                                                 EDEC_LUT_CSR0_S[FLOW_EN]=1 and ECPRI_HDR_SW_S[MSG_TYPE]=0 and EDEC_LUT_CSR4_S[SEQ_ID_CHECK_EN]=1.
+                                                                 (EDEC_LUT_CSR4_S[ECPRI_SEQUENCE_ID] != ECPRI_HDR_SW_S[SEQ_ID][7:0]) and
+                                                                 EDEC_LUT_CSR0_S[FLOW_EN]=1 and EDEC_LUT_CSR4_S[SEQ_ID_CHECK_EN]=1 and
+                                                                 and EDEC_LUT_CSR4_S[SEQ_ID_HW_CHECK_EN]=1.
                                                                  Non Fatal signaled. */
-        uint64_t efxp_format_but_c_meth_not_bfp : 1;/**< [ 40: 40](R/W1C/H) Reserved. */
+        uint64_t efxp_format_but_c_meth_not_bfp : 1;/**< [ 40: 40](R/W1C/H) EDEC_LUT_CSR0_S[DATA_FORMAT] is set to EDEC_DATA_FORMAT_E::eFXP and method is
+                                                                 not ECPRI_COMP_METH_E::BFP
+                                                                 Non Fatal signaled. */
         uint64_t sym_inc_not_zero      : 1;  /**< [ 39: 39](R/W1C/H) ECPRI_SECTION_HDR_S[SYM_INC] is set.
                                                                  Non Fatal signaled. */
         uint64_t num_prb_zero_but_rb_not : 1;/**< [ 38: 38](R/W1C/H) ECPRI_SECTION_HDR_S[NUM_PRB] == 0 but ECPRI_SECTION_HDR_S[RB] != 0.
@@ -1322,13 +1361,13 @@ union cavm_edecx_abx_error_status
                                                                   * WRMSG  (0x16).
 
                                                                  Fatal signaled. */
-        uint64_t ghb_prb_fatal_err     : 1;  /**< [ 35: 35](R/W1C/H) EDEC received a GHB PRB write fatal error repsonse.
+        uint64_t ghb_prb_fatal_err     : 1;  /**< [ 35: 35](R/W1C/H) EDEC received a GHB PRB write fatal error response.
                                                                  Fatal signaled. */
-        uint64_t ghb_prb_non_fatal_err : 1;  /**< [ 34: 34](R/W1C/H) EDEC received a GHB PRB write non-fatal error repsonse.
+        uint64_t ghb_prb_non_fatal_err : 1;  /**< [ 34: 34](R/W1C/H) EDEC received a GHB PRB write non-fatal error response.
                                                                  Non Fatal signaled. */
-        uint64_t ghb_hdr_fatal_err     : 1;  /**< [ 33: 33](R/W1C/H) EDEC received a GHB header write fatal error repsonse.
+        uint64_t ghb_hdr_fatal_err     : 1;  /**< [ 33: 33](R/W1C/H) EDEC received a GHB header write fatal error response.
                                                                  Fatal signaled. */
-        uint64_t ghb_hdr_non_fatal_err : 1;  /**< [ 32: 32](R/W1C/H) EDEC received a GHB header write non-fatal error repsonse.
+        uint64_t ghb_hdr_non_fatal_err : 1;  /**< [ 32: 32](R/W1C/H) EDEC received a GHB header write non-fatal error response.
                                                                  Non Fatal signaled. */
         uint64_t lut_prb_buf_ovrn_add_calc_err : 1;/**< [ 31: 31](R/W1C/H) EDEC_LUT_CSR0_S[EN_ADDR_CALC] is set and write address exceeds
                                                                  EDEC_LUT_CSR1_S[BASE_ADDR_DATA] + EDEC_LUT_CSR1_S[NUM_TOT_PRB].
@@ -1340,24 +1379,24 @@ union cavm_edecx_abx_error_status
         uint64_t ulaw_iqw_err          : 1;  /**< [ 29: 29](R/W1C/H) Set if uLAW compbitwidth equal 1. Supported values [0], [2..15]
                                                                  Fatal signaled.
                                                                  Packet dropped. */
-        uint64_t rfoe_mcs_err_2        : 1;  /**< [ 28: 28](R/W1C/H) RFOE_PSW_S[MCS_ERR_STS]\<7\> is set.
+        uint64_t rfoe_mcs_err_2        : 1;  /**< [ 28: 28](R/W1C/H) RFOE_PSW_S[MCS_ERR_STS]\<7\> is set (RFOE MCS_ERR_PUNTED_DROP).
                                                                  Fatal signaled.
                                                                  Packet dropped if EDEC()_AB()_ERROR_DROP_EN[RFOE_MCS_ERR_2] is set. */
-        uint64_t rfoe_mcs_err_1        : 1;  /**< [ 27: 27](R/W1C/H) Any bits of RFOE_PSW_S[MCS_ERR_STS]\<6:2\> are set.
+        uint64_t rfoe_mcs_err_1        : 1;  /**< [ 27: 27](R/W1C/H) Any bits of RFOE_PSW_S[MCS_ERR_STS]\<6:2\> are set (RFOE MCS_ERR_EXCEPTION_CODE).
                                                                  Packet dropped if the corresponding bit at EDEC()_AB()_ERROR_DROP_EN is set and the specific
                                                                  decoded error value bit at EDEC()_AB()_RFOE_ERR_DROP_EN[MCS_EXCEPTION_CODE_ERR] is set.
                                                                  Fatal signaled.
                                                                  Packet dropped if EDEC()_AB()_ERROR_DROP_EN[RFOE_MCS_ERR_1] is set. */
-        uint64_t rfoe_mcs_err_0        : 1;  /**< [ 26: 26](R/W1C/H) Any bits of RFOE_PSW_S[MCS_ERR_STS]\<1:0\> are set.
+        uint64_t rfoe_mcs_err_0        : 1;  /**< [ 26: 26](R/W1C/H) Any bits of RFOE_PSW_S[MCS_ERR_STS]\<1:0\> are set (RFOE MCS_ERR_PKT_KIND).
                                                                  Fatal signaled.
                                                                  Packet dropped if EDEC()_AB()_ERROR_DROP_EN[RFOE_MCS_ERR_0] is set. */
-        uint64_t rfoe_mac_err_2        : 1;  /**< [ 25: 25](R/W1C/H) RFOE_PSW_S[MAC_ERR_STS]\<5\> is set.
+        uint64_t rfoe_mac_err_2        : 1;  /**< [ 25: 25](R/W1C/H) RFOE_PSW_S[MAC_ERR_STS]\<5\> is set (RFOE MAC_ERR_SEQ_ID_ERR).
                                                                  Fatal signaled.
                                                                  Packet dropped if EDEC()_AB()_ERROR_DROP_EN[RFOE_MAC_ERR_2] is set. */
-        uint64_t rfoe_mac_err_1        : 1;  /**< [ 24: 24](R/W1C/H) RFOE_PSW_S[MAC_ERR_STS]\<4\> is set.
+        uint64_t rfoe_mac_err_1        : 1;  /**< [ 24: 24](R/W1C/H) RFOE_PSW_S[MAC_ERR_STS]\<4\> is set (RFOE MAC_ERR_DMA_ERROR).
                                                                  Fatal signaled.
                                                                  Packet dropped if EDEC()_AB()_ERROR_DROP_EN[RFOE_MAC_ERR_1] is set. */
-        uint64_t rfoe_mac_err_0        : 1;  /**< [ 23: 23](R/W1C/H) Any of RFOE_PSW_S[MAC_ERR_STS]\<3:0\> bits are set.
+        uint64_t rfoe_mac_err_0        : 1;  /**< [ 23: 23](R/W1C/H) Any of RFOE_PSW_S[MAC_ERR_STS]\<3:0\> bits are set (RFOE MAC_ERR_PKT_ERROR).
                                                                  Packet dropped if the corresponding bit at EDEC()_AB()_ERROR_DROP_EN is set and the specific
                                                                  decoded error value bit at EDEC()_AB()_RFOE_ERR_DROP_EN[MAC_ERR_PKT_ERR] is set.
                                                                  Fatal signaled.
@@ -1403,9 +1442,20 @@ union cavm_edecx_abx_error_status
         uint64_t reserved_12           : 1;
         uint64_t rsvd_err              : 1;  /**< [ 11: 11](R/W1C/H) ECPRI_HDR_SW_S[RESERVED] is not zero.
                                                                  Non Fatal signaled. */
-        uint64_t slot_id_err           : 1;  /**< [ 10: 10](R/W1C/H) ECPRI_TIMING_HDR_S[SLOT_ID] greater than 2^EDEC_LUT_CSR0_S[NUM_SLOT_EXP_1MS].
-                                                                 Fatal signaled.
-                                                                 Packet dropped if EDEC()_AB()_ERROR_DROP_EN[SLOT_ID_ERR] is set. */
+        uint64_t slot_id_err           : 1;  /**< [ 10: 10](R/W1C/H) ECPRI_TIMING_HDR_S[SLOT_ID] greater than MAX_SLOT_ID expected in 1ms. Fatal
+                                                                 signaled. Packet dropped if EDEC()_AB()_ERROR_DROP_EN[SLOT_ID_ERR] is set.
+                                                                 \<pre\>
+                                                                 The MAX_SLOT_ID is calculated as below:
+
+                                                                       slot_id_ratio_exp = EDEC_LUT_CSR4_S[NUM_SLOT_EXP_1MS_MAX_MU] -
+                                                                 EDEC_LUT_CSR0_S[NUM_SLOT_EXP_1MS]
+                                                                       max_slot_id_1ms   = (1 \<\< EDEC_LUT_CSR0_S[NUM_SLOT_EXP_1MS]) - 1
+
+                                                                       if ((ECPRI_TIMING_HDR_S[SLOT_ID] \> (max_slot_id_1ms \<\< slot_id_ratio_exp)) ||
+                                                                           (ECPRI_TIMING_HDR_S[SLOT_ID] & ((1 \<\< slot_id_ratio_exp]) - 1)))) {
+                                                                             signal SLOT_ID_ERR
+                                                                       }
+                                                                 \</pre\> */
         uint64_t pyld_ver_err          : 1;  /**< [  9:  9](R/W1C/H) ECPRI_TIMING_HDR_SW_S[PAYLOAD_VERSION] mismatched EDEC()_AB()_TIMING_ERROR_COND[VER].
                                                                  Non Fatal signaled. */
         uint64_t data_dir_err          : 1;  /**< [  8:  8](R/W1C/H) EDEC()_AB()_TIMING_ERROR_COND[DATA_DIRECTION]\<1\> = 0 (check is enabled) and
@@ -1465,9 +1515,20 @@ union cavm_edecx_abx_error_status
                                                                  Packet dropped if EDEC()_AB()_ERROR_DROP_EN[DATA_DIR_ERR] is set. */
         uint64_t pyld_ver_err          : 1;  /**< [  9:  9](R/W1C/H) ECPRI_TIMING_HDR_SW_S[PAYLOAD_VERSION] mismatched EDEC()_AB()_TIMING_ERROR_COND[VER].
                                                                  Non Fatal signaled. */
-        uint64_t slot_id_err           : 1;  /**< [ 10: 10](R/W1C/H) ECPRI_TIMING_HDR_S[SLOT_ID] greater than 2^EDEC_LUT_CSR0_S[NUM_SLOT_EXP_1MS].
-                                                                 Fatal signaled.
-                                                                 Packet dropped if EDEC()_AB()_ERROR_DROP_EN[SLOT_ID_ERR] is set. */
+        uint64_t slot_id_err           : 1;  /**< [ 10: 10](R/W1C/H) ECPRI_TIMING_HDR_S[SLOT_ID] greater than MAX_SLOT_ID expected in 1ms. Fatal
+                                                                 signaled. Packet dropped if EDEC()_AB()_ERROR_DROP_EN[SLOT_ID_ERR] is set.
+                                                                 \<pre\>
+                                                                 The MAX_SLOT_ID is calculated as below:
+
+                                                                       slot_id_ratio_exp = EDEC_LUT_CSR4_S[NUM_SLOT_EXP_1MS_MAX_MU] -
+                                                                 EDEC_LUT_CSR0_S[NUM_SLOT_EXP_1MS]
+                                                                       max_slot_id_1ms   = (1 \<\< EDEC_LUT_CSR0_S[NUM_SLOT_EXP_1MS]) - 1
+
+                                                                       if ((ECPRI_TIMING_HDR_S[SLOT_ID] \> (max_slot_id_1ms \<\< slot_id_ratio_exp)) ||
+                                                                           (ECPRI_TIMING_HDR_S[SLOT_ID] & ((1 \<\< slot_id_ratio_exp]) - 1)))) {
+                                                                             signal SLOT_ID_ERR
+                                                                       }
+                                                                 \</pre\> */
         uint64_t rsvd_err              : 1;  /**< [ 11: 11](R/W1C/H) ECPRI_HDR_SW_S[RESERVED] is not zero.
                                                                  Non Fatal signaled. */
         uint64_t reserved_12           : 1;
@@ -1509,26 +1570,26 @@ union cavm_edecx_abx_error_status
         uint64_t lut_prb_buf_ovrn_err  : 1;  /**< [ 22: 22](R/W1C/H) EN_ADDR_CALC=0 and PRB header buffer overrun error.
                                                                  Fatal signaled.
                                                                  Packet dropped. */
-        uint64_t rfoe_mac_err_0        : 1;  /**< [ 23: 23](R/W1C/H) Any of RFOE_PSW_S[MAC_ERR_STS]\<3:0\> bits are set.
+        uint64_t rfoe_mac_err_0        : 1;  /**< [ 23: 23](R/W1C/H) Any of RFOE_PSW_S[MAC_ERR_STS]\<3:0\> bits are set (RFOE MAC_ERR_PKT_ERROR).
                                                                  Packet dropped if the corresponding bit at EDEC()_AB()_ERROR_DROP_EN is set and the specific
                                                                  decoded error value bit at EDEC()_AB()_RFOE_ERR_DROP_EN[MAC_ERR_PKT_ERR] is set.
                                                                  Fatal signaled.
                                                                  Packet dropped if EDEC()_AB()_ERROR_DROP_EN[RFOE_MAC_ERR_0] is set. */
-        uint64_t rfoe_mac_err_1        : 1;  /**< [ 24: 24](R/W1C/H) RFOE_PSW_S[MAC_ERR_STS]\<4\> is set.
+        uint64_t rfoe_mac_err_1        : 1;  /**< [ 24: 24](R/W1C/H) RFOE_PSW_S[MAC_ERR_STS]\<4\> is set (RFOE MAC_ERR_DMA_ERROR).
                                                                  Fatal signaled.
                                                                  Packet dropped if EDEC()_AB()_ERROR_DROP_EN[RFOE_MAC_ERR_1] is set. */
-        uint64_t rfoe_mac_err_2        : 1;  /**< [ 25: 25](R/W1C/H) RFOE_PSW_S[MAC_ERR_STS]\<5\> is set.
+        uint64_t rfoe_mac_err_2        : 1;  /**< [ 25: 25](R/W1C/H) RFOE_PSW_S[MAC_ERR_STS]\<5\> is set (RFOE MAC_ERR_SEQ_ID_ERR).
                                                                  Fatal signaled.
                                                                  Packet dropped if EDEC()_AB()_ERROR_DROP_EN[RFOE_MAC_ERR_2] is set. */
-        uint64_t rfoe_mcs_err_0        : 1;  /**< [ 26: 26](R/W1C/H) Any bits of RFOE_PSW_S[MCS_ERR_STS]\<1:0\> are set.
+        uint64_t rfoe_mcs_err_0        : 1;  /**< [ 26: 26](R/W1C/H) Any bits of RFOE_PSW_S[MCS_ERR_STS]\<1:0\> are set (RFOE MCS_ERR_PKT_KIND).
                                                                  Fatal signaled.
                                                                  Packet dropped if EDEC()_AB()_ERROR_DROP_EN[RFOE_MCS_ERR_0] is set. */
-        uint64_t rfoe_mcs_err_1        : 1;  /**< [ 27: 27](R/W1C/H) Any bits of RFOE_PSW_S[MCS_ERR_STS]\<6:2\> are set.
+        uint64_t rfoe_mcs_err_1        : 1;  /**< [ 27: 27](R/W1C/H) Any bits of RFOE_PSW_S[MCS_ERR_STS]\<6:2\> are set (RFOE MCS_ERR_EXCEPTION_CODE).
                                                                  Packet dropped if the corresponding bit at EDEC()_AB()_ERROR_DROP_EN is set and the specific
                                                                  decoded error value bit at EDEC()_AB()_RFOE_ERR_DROP_EN[MCS_EXCEPTION_CODE_ERR] is set.
                                                                  Fatal signaled.
                                                                  Packet dropped if EDEC()_AB()_ERROR_DROP_EN[RFOE_MCS_ERR_1] is set. */
-        uint64_t rfoe_mcs_err_2        : 1;  /**< [ 28: 28](R/W1C/H) RFOE_PSW_S[MCS_ERR_STS]\<7\> is set.
+        uint64_t rfoe_mcs_err_2        : 1;  /**< [ 28: 28](R/W1C/H) RFOE_PSW_S[MCS_ERR_STS]\<7\> is set (RFOE MCS_ERR_PUNTED_DROP).
                                                                  Fatal signaled.
                                                                  Packet dropped if EDEC()_AB()_ERROR_DROP_EN[RFOE_MCS_ERR_2] is set. */
         uint64_t ulaw_iqw_err          : 1;  /**< [ 29: 29](R/W1C/H) Set if uLAW compbitwidth equal 1. Supported values [0], [2..15]
@@ -1541,13 +1602,13 @@ union cavm_edecx_abx_error_status
                                                                  EDEC_LUT_CSR1_S[BASE_ADDR_DATA] + EDEC_LUT_CSR1_S[NUM_TOT_PRB].
                                                                  Fatal signaled.
                                                                  Packet dropped. */
-        uint64_t ghb_hdr_non_fatal_err : 1;  /**< [ 32: 32](R/W1C/H) EDEC received a GHB header write non-fatal error repsonse.
+        uint64_t ghb_hdr_non_fatal_err : 1;  /**< [ 32: 32](R/W1C/H) EDEC received a GHB header write non-fatal error response.
                                                                  Non Fatal signaled. */
-        uint64_t ghb_hdr_fatal_err     : 1;  /**< [ 33: 33](R/W1C/H) EDEC received a GHB header write fatal error repsonse.
+        uint64_t ghb_hdr_fatal_err     : 1;  /**< [ 33: 33](R/W1C/H) EDEC received a GHB header write fatal error response.
                                                                  Fatal signaled. */
-        uint64_t ghb_prb_non_fatal_err : 1;  /**< [ 34: 34](R/W1C/H) EDEC received a GHB PRB write non-fatal error repsonse.
+        uint64_t ghb_prb_non_fatal_err : 1;  /**< [ 34: 34](R/W1C/H) EDEC received a GHB PRB write non-fatal error response.
                                                                  Non Fatal signaled. */
-        uint64_t ghb_prb_fatal_err     : 1;  /**< [ 35: 35](R/W1C/H) EDEC received a GHB PRB write fatal error repsonse.
+        uint64_t ghb_prb_fatal_err     : 1;  /**< [ 35: 35](R/W1C/H) EDEC received a GHB PRB write fatal error response.
                                                                  Fatal signaled. */
         uint64_t psm_cmd_opcode_err    : 1;  /**< [ 36: 36](R/W1C/H) When EDEC_LUT_CSR4_S[PSM_CMD_NO_ACT]=0 and EDEC_LUT_CSR3_S[PSM_JOB_CMD_WORD0]\<5:0\>
                                                                  (PSM command OPCODE) is not one of the following values:
@@ -1571,10 +1632,13 @@ union cavm_edecx_abx_error_status
                                                                  Non Fatal signaled. */
         uint64_t sym_inc_not_zero      : 1;  /**< [ 39: 39](R/W1C/H) ECPRI_SECTION_HDR_S[SYM_INC] is set.
                                                                  Non Fatal signaled. */
-        uint64_t efxp_format_but_c_meth_not_bfp : 1;/**< [ 40: 40](R/W1C/H) Reserved. */
+        uint64_t efxp_format_but_c_meth_not_bfp : 1;/**< [ 40: 40](R/W1C/H) EDEC_LUT_CSR0_S[DATA_FORMAT] is set to EDEC_DATA_FORMAT_E::eFXP and method is
+                                                                 not ECPRI_COMP_METH_E::BFP
+                                                                 Non Fatal signaled. */
         uint64_t seqid_err             : 1;  /**< [ 41: 41](R/W1C/H) Received packet sequence ID does not match expected value in table
-                                                                 (EDEC_LUT_CSR4_S[ECPRI_SEQUENCE_ID] != ECPRI_HDR_SW_S[SEQ_ID][SEQ_ID]) and
-                                                                 EDEC_LUT_CSR0_S[FLOW_EN]=1 and ECPRI_HDR_SW_S[MSG_TYPE]=0 and EDEC_LUT_CSR4_S[SEQ_ID_CHECK_EN]=1.
+                                                                 (EDEC_LUT_CSR4_S[ECPRI_SEQUENCE_ID] != ECPRI_HDR_SW_S[SEQ_ID][7:0]) and
+                                                                 EDEC_LUT_CSR0_S[FLOW_EN]=1 and EDEC_LUT_CSR4_S[SEQ_ID_CHECK_EN]=1 and
+                                                                 and EDEC_LUT_CSR4_S[SEQ_ID_HW_CHECK_EN]=1.
                                                                  Non Fatal signaled. */
         uint64_t reserved_42_63        : 22;
 #endif /* Word 0 - End */
@@ -1586,7 +1650,7 @@ typedef union cavm_edecx_abx_error_status cavm_edecx_abx_error_status_t;
 static inline uint64_t CAVM_EDECX_ABX_ERROR_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_ERROR_STATUS(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040400038ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_ERROR_STATUS", 2, a, b, 0, 0, 0, 0);
 }
@@ -1635,7 +1699,7 @@ typedef union cavm_edecx_abx_hash_cfg0 cavm_edecx_abx_hash_cfg0_t;
 static inline uint64_t CAVM_EDECX_ABX_HASH_CFG0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_HASH_CFG0(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040400260ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_HASH_CFG0", 2, a, b, 0, 0, 0, 0);
 }
@@ -1684,7 +1748,7 @@ typedef union cavm_edecx_abx_hash_cfg1 cavm_edecx_abx_hash_cfg1_t;
 static inline uint64_t CAVM_EDECX_ABX_HASH_CFG1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_HASH_CFG1(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040400268ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_HASH_CFG1", 2, a, b, 0, 0, 0, 0);
 }
@@ -1733,7 +1797,7 @@ typedef union cavm_edecx_abx_hash_cfg2 cavm_edecx_abx_hash_cfg2_t;
 static inline uint64_t CAVM_EDECX_ABX_HASH_CFG2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_HASH_CFG2(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040400270ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_HASH_CFG2", 2, a, b, 0, 0, 0, 0);
 }
@@ -1782,7 +1846,7 @@ typedef union cavm_edecx_abx_hash_cfg3 cavm_edecx_abx_hash_cfg3_t;
 static inline uint64_t CAVM_EDECX_ABX_HASH_CFG3(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_HASH_CFG3(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040400278ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_HASH_CFG3", 2, a, b, 0, 0, 0, 0);
 }
@@ -1831,7 +1895,7 @@ typedef union cavm_edecx_abx_hash_cfg4 cavm_edecx_abx_hash_cfg4_t;
 static inline uint64_t CAVM_EDECX_ABX_HASH_CFG4(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_HASH_CFG4(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040400280ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_HASH_CFG4", 2, a, b, 0, 0, 0, 0);
 }
@@ -1872,7 +1936,7 @@ typedef union cavm_edecx_abx_hash_cfg5 cavm_edecx_abx_hash_cfg5_t;
 static inline uint64_t CAVM_EDECX_ABX_HASH_CFG5(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_HASH_CFG5(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040400288ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_HASH_CFG5", 2, a, b, 0, 0, 0, 0);
 }
@@ -1888,7 +1952,7 @@ static inline uint64_t CAVM_EDECX_ABX_HASH_CFG5(uint64_t a, uint64_t b)
  * Register (RSL) edec#_ab#_hdr_buf_attr
  *
  * EDEC Global Headr Buffer Attributes Register
- * Register used to adjust the values written to HDR memory section
+ * Register used to adjust the values written to HDR memory section.
  */
 union cavm_edecx_abx_hdr_buf_attr
 {
@@ -1898,10 +1962,10 @@ union cavm_edecx_abx_hdr_buf_attr
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
         uint64_t offset                : 16; /**< [ 15:  0](R/W) RD_DMA_CFG_WORD1.START_ADDR computed as header buffer address + OFFSET.
-                                                                 The OFFSET is experessed as 16-byte word count. */
+                                                                 The OFFSET is expressed as 16-byte word count. */
 #else /* Word 0 - Little Endian */
         uint64_t offset                : 16; /**< [ 15:  0](R/W) RD_DMA_CFG_WORD1.START_ADDR computed as header buffer address + OFFSET.
-                                                                 The OFFSET is experessed as 16-byte word count. */
+                                                                 The OFFSET is expressed as 16-byte word count. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -1912,7 +1976,7 @@ typedef union cavm_edecx_abx_hdr_buf_attr cavm_edecx_abx_hdr_buf_attr_t;
 static inline uint64_t CAVM_EDECX_ABX_HDR_BUF_ATTR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_HDR_BUF_ATTR(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040400200ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_HDR_BUF_ATTR", 2, a, b, 0, 0, 0, 0);
 }
@@ -1955,7 +2019,7 @@ typedef union cavm_edecx_abx_hdr_ddr_max_addr cavm_edecx_abx_hdr_ddr_max_addr_t;
 static inline uint64_t CAVM_EDECX_ABX_HDR_DDR_MAX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_HDR_DDR_MAX_ADDR(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e0404000d0ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_HDR_DDR_MAX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
@@ -1998,7 +2062,7 @@ typedef union cavm_edecx_abx_hdr_ddr_min_addr cavm_edecx_abx_hdr_ddr_min_addr_t;
 static inline uint64_t CAVM_EDECX_ABX_HDR_DDR_MIN_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_HDR_DDR_MIN_ADDR(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e0404000c8ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_HDR_DDR_MIN_ADDR", 2, a, b, 0, 0, 0, 0);
 }
@@ -2043,7 +2107,7 @@ typedef union cavm_edecx_abx_hdr_smem_max_addr cavm_edecx_abx_hdr_smem_max_addr_
 static inline uint64_t CAVM_EDECX_ABX_HDR_SMEM_MAX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_HDR_SMEM_MAX_ADDR(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e0404000b0ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_HDR_SMEM_MAX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
@@ -2088,7 +2152,7 @@ typedef union cavm_edecx_abx_hdr_smem_min_addr cavm_edecx_abx_hdr_smem_min_addr_
 static inline uint64_t CAVM_EDECX_ABX_HDR_SMEM_MIN_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_HDR_SMEM_MIN_ADDR(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e0404000a8ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_HDR_SMEM_MIN_ADDR", 2, a, b, 0, 0, 0, 0);
 }
@@ -2107,6 +2171,10 @@ static inline uint64_t CAVM_EDECX_ABX_HDR_SMEM_MIN_ADDR(uint64_t a, uint64_t b)
  * This register allows software to toggle between incremental LUT programming mode
  * where all LUT entries are written consecutively without specifying addresses,
  * and random R/W mode where data can be read/written from/to arbitrary FLOW_ID entries.
+ * LUT entries for FLOW_ID values corresponding to active jobs should
+ * not be modified.
+ * Modifying the LUT entry of an active job will cause unpredictable
+ * behavior.
  */
 union cavm_edecx_abx_lut_access
 {
@@ -2200,7 +2268,7 @@ typedef union cavm_edecx_abx_lut_access cavm_edecx_abx_lut_access_t;
 static inline uint64_t CAVM_EDECX_ABX_LUT_ACCESS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_LUT_ACCESS(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040400100ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_LUT_ACCESS", 2, a, b, 0, 0, 0, 0);
 }
@@ -2248,7 +2316,7 @@ typedef union cavm_edecx_abx_lut_incr_write cavm_edecx_abx_lut_incr_write_t;
 static inline uint64_t CAVM_EDECX_ABX_LUT_INCR_WRITE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_LUT_INCR_WRITE(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040400108ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_LUT_INCR_WRITE", 2, a, b, 0, 0, 0, 0);
 }
@@ -2292,7 +2360,7 @@ typedef union cavm_edecx_abx_lut_rnd_read_cmd cavm_edecx_abx_lut_rnd_read_cmd_t;
 static inline uint64_t CAVM_EDECX_ABX_LUT_RND_READ_CMD(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_LUT_RND_READ_CMD(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040400110ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_LUT_RND_READ_CMD", 2, a, b, 0, 0, 0, 0);
 }
@@ -2330,7 +2398,7 @@ typedef union cavm_edecx_abx_lut_rnd_read_data0 cavm_edecx_abx_lut_rnd_read_data
 static inline uint64_t CAVM_EDECX_ABX_LUT_RND_READ_DATA0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_LUT_RND_READ_DATA0(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040400118ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_LUT_RND_READ_DATA0", 2, a, b, 0, 0, 0, 0);
 }
@@ -2368,7 +2436,7 @@ typedef union cavm_edecx_abx_lut_rnd_read_data1 cavm_edecx_abx_lut_rnd_read_data
 static inline uint64_t CAVM_EDECX_ABX_LUT_RND_READ_DATA1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_LUT_RND_READ_DATA1(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040400120ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_LUT_RND_READ_DATA1", 2, a, b, 0, 0, 0, 0);
 }
@@ -2406,7 +2474,7 @@ typedef union cavm_edecx_abx_lut_rnd_read_data2 cavm_edecx_abx_lut_rnd_read_data
 static inline uint64_t CAVM_EDECX_ABX_LUT_RND_READ_DATA2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_LUT_RND_READ_DATA2(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040400128ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_LUT_RND_READ_DATA2", 2, a, b, 0, 0, 0, 0);
 }
@@ -2444,7 +2512,7 @@ typedef union cavm_edecx_abx_lut_rnd_read_data3 cavm_edecx_abx_lut_rnd_read_data
 static inline uint64_t CAVM_EDECX_ABX_LUT_RND_READ_DATA3(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_LUT_RND_READ_DATA3(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040400130ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_LUT_RND_READ_DATA3", 2, a, b, 0, 0, 0, 0);
 }
@@ -2482,7 +2550,7 @@ typedef union cavm_edecx_abx_lut_rnd_read_data4 cavm_edecx_abx_lut_rnd_read_data
 static inline uint64_t CAVM_EDECX_ABX_LUT_RND_READ_DATA4(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_LUT_RND_READ_DATA4(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040400138ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_LUT_RND_READ_DATA4", 2, a, b, 0, 0, 0, 0);
 }
@@ -2499,6 +2567,10 @@ static inline uint64_t CAVM_EDECX_ABX_LUT_RND_READ_DATA4(uint64_t a, uint64_t b)
  *
  * EDEC LUT Random Write Command Register
  * Register used for randomly writing LUT data.
+ * LUT entries for FLOW_ID values corresponding to active jobs should
+ * not be modified.
+ * Modifying the LUT entry of an active job will cause unpredictable
+ * behavior.
  */
 union cavm_edecx_abx_lut_rnd_write_cmd
 {
@@ -2526,7 +2598,7 @@ typedef union cavm_edecx_abx_lut_rnd_write_cmd cavm_edecx_abx_lut_rnd_write_cmd_
 static inline uint64_t CAVM_EDECX_ABX_LUT_RND_WRITE_CMD(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_LUT_RND_WRITE_CMD(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040400140ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_LUT_RND_WRITE_CMD", 2, a, b, 0, 0, 0, 0);
 }
@@ -2564,7 +2636,7 @@ typedef union cavm_edecx_abx_lut_rnd_write_data0 cavm_edecx_abx_lut_rnd_write_da
 static inline uint64_t CAVM_EDECX_ABX_LUT_RND_WRITE_DATA0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_LUT_RND_WRITE_DATA0(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040400148ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_LUT_RND_WRITE_DATA0", 2, a, b, 0, 0, 0, 0);
 }
@@ -2602,7 +2674,7 @@ typedef union cavm_edecx_abx_lut_rnd_write_data1 cavm_edecx_abx_lut_rnd_write_da
 static inline uint64_t CAVM_EDECX_ABX_LUT_RND_WRITE_DATA1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_LUT_RND_WRITE_DATA1(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040400150ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_LUT_RND_WRITE_DATA1", 2, a, b, 0, 0, 0, 0);
 }
@@ -2640,7 +2712,7 @@ typedef union cavm_edecx_abx_lut_rnd_write_data2 cavm_edecx_abx_lut_rnd_write_da
 static inline uint64_t CAVM_EDECX_ABX_LUT_RND_WRITE_DATA2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_LUT_RND_WRITE_DATA2(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040400158ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_LUT_RND_WRITE_DATA2", 2, a, b, 0, 0, 0, 0);
 }
@@ -2678,7 +2750,7 @@ typedef union cavm_edecx_abx_lut_rnd_write_data3 cavm_edecx_abx_lut_rnd_write_da
 static inline uint64_t CAVM_EDECX_ABX_LUT_RND_WRITE_DATA3(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_LUT_RND_WRITE_DATA3(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040400160ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_LUT_RND_WRITE_DATA3", 2, a, b, 0, 0, 0, 0);
 }
@@ -2716,7 +2788,7 @@ typedef union cavm_edecx_abx_lut_rnd_write_data4 cavm_edecx_abx_lut_rnd_write_da
 static inline uint64_t CAVM_EDECX_ABX_LUT_RND_WRITE_DATA4(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_LUT_RND_WRITE_DATA4(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040400168ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_LUT_RND_WRITE_DATA4", 2, a, b, 0, 0, 0, 0);
 }
@@ -2781,7 +2853,7 @@ typedef union cavm_edecx_abx_nocomp_user_exp_high cavm_edecx_abx_nocomp_user_exp
 static inline uint64_t CAVM_EDECX_ABX_NOCOMP_USER_EXP_HIGH(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_NOCOMP_USER_EXP_HIGH(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040400228ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_NOCOMP_USER_EXP_HIGH", 2, a, b, 0, 0, 0, 0);
 }
@@ -2846,7 +2918,7 @@ typedef union cavm_edecx_abx_nocomp_user_exp_low cavm_edecx_abx_nocomp_user_exp_
 static inline uint64_t CAVM_EDECX_ABX_NOCOMP_USER_EXP_LOW(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_NOCOMP_USER_EXP_LOW(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040400220ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_NOCOMP_USER_EXP_LOW", 2, a, b, 0, 0, 0, 0);
 }
@@ -2889,7 +2961,7 @@ typedef union cavm_edecx_abx_prb_ddr_max_addr cavm_edecx_abx_prb_ddr_max_addr_t;
 static inline uint64_t CAVM_EDECX_ABX_PRB_DDR_MAX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_PRB_DDR_MAX_ADDR(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e0404000c0ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_PRB_DDR_MAX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
@@ -2932,7 +3004,7 @@ typedef union cavm_edecx_abx_prb_ddr_min_addr cavm_edecx_abx_prb_ddr_min_addr_t;
 static inline uint64_t CAVM_EDECX_ABX_PRB_DDR_MIN_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_PRB_DDR_MIN_ADDR(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e0404000b8ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_PRB_DDR_MIN_ADDR", 2, a, b, 0, 0, 0, 0);
 }
@@ -2975,7 +3047,7 @@ typedef union cavm_edecx_abx_prb_smem_max_addr cavm_edecx_abx_prb_smem_max_addr_
 static inline uint64_t CAVM_EDECX_ABX_PRB_SMEM_MAX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_PRB_SMEM_MAX_ADDR(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e0404000a0ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_PRB_SMEM_MAX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
@@ -3018,7 +3090,7 @@ typedef union cavm_edecx_abx_prb_smem_min_addr cavm_edecx_abx_prb_smem_min_addr_
 static inline uint64_t CAVM_EDECX_ABX_PRB_SMEM_MIN_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_PRB_SMEM_MIN_ADDR(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040400098ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_PRB_SMEM_MIN_ADDR", 2, a, b, 0, 0, 0, 0);
 }
@@ -3061,7 +3133,7 @@ typedef union cavm_edecx_abx_rfoe_err_drop_en cavm_edecx_abx_rfoe_err_drop_en_t;
 static inline uint64_t CAVM_EDECX_ABX_RFOE_ERR_DROP_EN(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_RFOE_ERR_DROP_EN(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040400070ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_RFOE_ERR_DROP_EN", 2, a, b, 0, 0, 0, 0);
 }
@@ -3102,7 +3174,7 @@ typedef union cavm_edecx_abx_rxx_early cavm_edecx_abx_rxx_early_t;
 static inline uint64_t CAVM_EDECX_ABX_RXX_EARLY(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_RXX_EARLY(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=2) && (b<=1) && (c<=15))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1) && (c<=15)))
         return 0x87e040400500ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1) + 8ll * ((c) & 0xf);
     __cavm_csr_fatal("EDECX_ABX_RXX_EARLY", 3, a, b, c, 0, 0, 0);
 }
@@ -3143,7 +3215,7 @@ typedef union cavm_edecx_abx_rxx_late cavm_edecx_abx_rxx_late_t;
 static inline uint64_t CAVM_EDECX_ABX_RXX_LATE(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_RXX_LATE(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=2) && (b<=1) && (c<=15))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1) && (c<=15)))
         return 0x87e040400600ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1) + 8ll * ((c) & 0xf);
     __cavm_csr_fatal("EDECX_ABX_RXX_LATE", 3, a, b, c, 0, 0, 0);
 }
@@ -3184,7 +3256,7 @@ typedef union cavm_edecx_abx_rxx_on_time cavm_edecx_abx_rxx_on_time_t;
 static inline uint64_t CAVM_EDECX_ABX_RXX_ON_TIME(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_RXX_ON_TIME(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=2) && (b<=1) && (c<=15))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1) && (c<=15)))
         return 0x87e040400400ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1) + 8ll * ((c) & 0xf);
     __cavm_csr_fatal("EDECX_ABX_RXX_ON_TIME", 3, a, b, c, 0, 0, 0);
 }
@@ -3235,7 +3307,7 @@ typedef union cavm_edecx_abx_rx_corrupt_cnt cavm_edecx_abx_rx_corrupt_cnt_t;
 static inline uint64_t CAVM_EDECX_ABX_RX_CORRUPT_CNT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_RX_CORRUPT_CNT(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040400170ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_RX_CORRUPT_CNT", 2, a, b, 0, 0, 0, 0);
 }
@@ -3290,7 +3362,7 @@ typedef union cavm_edecx_abx_rx_corrupt_cnt_en cavm_edecx_abx_rx_corrupt_cnt_en_
 static inline uint64_t CAVM_EDECX_ABX_RX_CORRUPT_CNT_EN(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_RX_CORRUPT_CNT_EN(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040400058ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_RX_CORRUPT_CNT_EN", 2, a, b, 0, 0, 0, 0);
 }
@@ -3313,9 +3385,9 @@ union cavm_edecx_abx_rx_total
     struct cavm_edecx_abx_rx_total_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Total number of packets recieved. */
+        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Total number of packets received. */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Total number of packets recieved. */
+        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Total number of packets received. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_edecx_abx_rx_total_s cn; */
@@ -3325,7 +3397,7 @@ typedef union cavm_edecx_abx_rx_total cavm_edecx_abx_rx_total_t;
 static inline uint64_t CAVM_EDECX_ABX_RX_TOTAL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_RX_TOTAL(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040400180ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_RX_TOTAL", 2, a, b, 0, 0, 0, 0);
 }
@@ -3349,7 +3421,7 @@ union cavm_edecx_abx_rx_wndx_config
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t fh_delay              : 16; /**< [ 47: 32](R/W) Fraunthaul delay used to define RX window at (307.2/256) MHz = 1.2MHz */
+        uint64_t fh_delay              : 16; /**< [ 47: 32](R/W) Fronthaul delay used to define RX window at (307.2/256) MHz = 1.2MHz */
         uint64_t rx_wnd_start          : 16; /**< [ 31: 16](R/W) Rx Window Start used to define RX window at (307.2/16) MHz = 19.2MHz ~= 52.083 ns.
                                                                  Up to 3.4ms */
         uint64_t rx_wnd_end            : 16; /**< [ 15:  0](R/W) Rx Window End used to define RX window at (307.2/16) MHz = 19.2MHz ~= 52.083 ns.
@@ -3359,7 +3431,7 @@ union cavm_edecx_abx_rx_wndx_config
                                                                  Up to 3.4ms */
         uint64_t rx_wnd_start          : 16; /**< [ 31: 16](R/W) Rx Window Start used to define RX window at (307.2/16) MHz = 19.2MHz ~= 52.083 ns.
                                                                  Up to 3.4ms */
-        uint64_t fh_delay              : 16; /**< [ 47: 32](R/W) Fraunthaul delay used to define RX window at (307.2/256) MHz = 1.2MHz */
+        uint64_t fh_delay              : 16; /**< [ 47: 32](R/W) Fronthaul delay used to define RX window at (307.2/256) MHz = 1.2MHz */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
@@ -3370,7 +3442,7 @@ typedef union cavm_edecx_abx_rx_wndx_config cavm_edecx_abx_rx_wndx_config_t;
 static inline uint64_t CAVM_EDECX_ABX_RX_WNDX_CONFIG(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_RX_WNDX_CONFIG(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=2) && (b<=1) && (c<=15))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1) && (c<=15)))
         return 0x87e040400300ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1) + 8ll * ((c) & 0xf);
     __cavm_csr_fatal("EDECX_ABX_RX_WNDX_CONFIG", 3, a, b, c, 0, 0, 0);
 }
@@ -3381,6 +3453,90 @@ static inline uint64_t CAVM_EDECX_ABX_RX_WNDX_CONFIG(uint64_t a, uint64_t b, uin
 #define device_bar_CAVM_EDECX_ABX_RX_WNDX_CONFIG(a,b,c) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_EDECX_ABX_RX_WNDX_CONFIG(a,b,c) (a)
 #define arguments_CAVM_EDECX_ABX_RX_WNDX_CONFIG(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (RSL) edec#_ab#_seqid_error_cnt
+ *
+ * EDEC Sequence ID Error Count Register
+ */
+union cavm_edecx_abx_seqid_error_cnt
+{
+    uint64_t u;
+    struct cavm_edecx_abx_seqid_error_cnt_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Number of sequence ID check errors encountered. Write to clear. The count is
+                                                                 incremented even if the SEQID_ERR error reporting is disabled in
+                                                                 EDEC()_AB()_ERROR_ENA_W1S. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Number of sequence ID check errors encountered. Write to clear. The count is
+                                                                 incremented even if the SEQID_ERR error reporting is disabled in
+                                                                 EDEC()_AB()_ERROR_ENA_W1S. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_edecx_abx_seqid_error_cnt_s cn; */
+};
+typedef union cavm_edecx_abx_seqid_error_cnt cavm_edecx_abx_seqid_error_cnt_t;
+
+static inline uint64_t CAVM_EDECX_ABX_SEQID_ERROR_CNT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EDECX_ABX_SEQID_ERROR_CNT(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
+        return 0x87e0404000e8ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
+    __cavm_csr_fatal("EDECX_ABX_SEQID_ERROR_CNT", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_EDECX_ABX_SEQID_ERROR_CNT(a,b) cavm_edecx_abx_seqid_error_cnt_t
+#define bustype_CAVM_EDECX_ABX_SEQID_ERROR_CNT(a,b) CSR_TYPE_RSL
+#define basename_CAVM_EDECX_ABX_SEQID_ERROR_CNT(a,b) "EDECX_ABX_SEQID_ERROR_CNT"
+#define device_bar_CAVM_EDECX_ABX_SEQID_ERROR_CNT(a,b) 0x2 /* PF_BAR2 */
+#define busnum_CAVM_EDECX_ABX_SEQID_ERROR_CNT(a,b) (a)
+#define arguments_CAVM_EDECX_ABX_SEQID_ERROR_CNT(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) edec#_ab#_seqid_error_status
+ *
+ * EDEC Sequence ID Error Status Register
+ * This register reports the PSW values for the sequence ID check error. The values are updated only
+ * if the SEQID_ERR error is enabled in EDEC()_AB()_ERROR_ENA_W1S.
+ *
+ * The register captures the first seqid error occurence. To re-arm capture,
+ * EDEC()_AB()_ERROR_STATUS[SEQID_ERR]
+ * must be cleared.
+ */
+union cavm_edecx_abx_seqid_error_status
+{
+    uint64_t u;
+    struct cavm_edecx_abx_seqid_error_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_26_63        : 38;
+        uint64_t psw_flow_id           : 10; /**< [ 25: 16](RO/H) PSW FLOW_ID value for sequence ID check error */
+        uint64_t psw_pc_id             : 16; /**< [ 15:  0](RO/H) PSW PC_ID value for sequence ID check error */
+#else /* Word 0 - Little Endian */
+        uint64_t psw_pc_id             : 16; /**< [ 15:  0](RO/H) PSW PC_ID value for sequence ID check error */
+        uint64_t psw_flow_id           : 10; /**< [ 25: 16](RO/H) PSW FLOW_ID value for sequence ID check error */
+        uint64_t reserved_26_63        : 38;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_edecx_abx_seqid_error_status_s cn; */
+};
+typedef union cavm_edecx_abx_seqid_error_status cavm_edecx_abx_seqid_error_status_t;
+
+static inline uint64_t CAVM_EDECX_ABX_SEQID_ERROR_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EDECX_ABX_SEQID_ERROR_STATUS(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
+        return 0x87e0404000e0ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
+    __cavm_csr_fatal("EDECX_ABX_SEQID_ERROR_STATUS", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_EDECX_ABX_SEQID_ERROR_STATUS(a,b) cavm_edecx_abx_seqid_error_status_t
+#define bustype_CAVM_EDECX_ABX_SEQID_ERROR_STATUS(a,b) CSR_TYPE_RSL
+#define basename_CAVM_EDECX_ABX_SEQID_ERROR_STATUS(a,b) "EDECX_ABX_SEQID_ERROR_STATUS"
+#define device_bar_CAVM_EDECX_ABX_SEQID_ERROR_STATUS(a,b) 0x2 /* PF_BAR2 */
+#define busnum_CAVM_EDECX_ABX_SEQID_ERROR_STATUS(a,b) (a)
+#define arguments_CAVM_EDECX_ABX_SEQID_ERROR_STATUS(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) edec#_ab#_slot#_cfg
@@ -3412,7 +3568,7 @@ typedef union cavm_edecx_abx_slotx_cfg cavm_edecx_abx_slotx_cfg_t;
 static inline uint64_t CAVM_EDECX_ABX_SLOTX_CFG(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_SLOTX_CFG(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=2) && (b<=1) && (c<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1) && (c<=3)))
         return 0x87e040402000ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1) + 0x2000ll * ((c) & 0x3);
     __cavm_csr_fatal("EDECX_ABX_SLOTX_CFG", 3, a, b, c, 0, 0, 0);
 }
@@ -3454,7 +3610,7 @@ typedef union cavm_edecx_abx_slotx_hdr_out_dsp_jd cavm_edecx_abx_slotx_hdr_out_d
 static inline uint64_t CAVM_EDECX_ABX_SLOTX_HDR_OUT_DSP_JD(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_SLOTX_HDR_OUT_DSP_JD(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=2) && (b<=1) && (c<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1) && (c<=3)))
         return 0x87e040402008ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1) + 0x2000ll * ((c) & 0x3);
     __cavm_csr_fatal("EDECX_ABX_SLOTX_HDR_OUT_DSP_JD", 3, a, b, c, 0, 0, 0);
 }
@@ -3492,7 +3648,7 @@ typedef union cavm_edecx_abx_slotx_hdr_out_word0 cavm_edecx_abx_slotx_hdr_out_wo
 static inline uint64_t CAVM_EDECX_ABX_SLOTX_HDR_OUT_WORD0(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_SLOTX_HDR_OUT_WORD0(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=2) && (b<=1) && (c<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1) && (c<=3)))
         return 0x87e040402010ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1) + 0x2000ll * ((c) & 0x3);
     __cavm_csr_fatal("EDECX_ABX_SLOTX_HDR_OUT_WORD0", 3, a, b, c, 0, 0, 0);
 }
@@ -3532,7 +3688,7 @@ typedef union cavm_edecx_abx_slotx_hdr_out_word1 cavm_edecx_abx_slotx_hdr_out_wo
 static inline uint64_t CAVM_EDECX_ABX_SLOTX_HDR_OUT_WORD1(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_SLOTX_HDR_OUT_WORD1(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=2) && (b<=1) && (c<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1) && (c<=3)))
         return 0x87e040402018ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1) + 0x2000ll * ((c) & 0x3);
     __cavm_csr_fatal("EDECX_ABX_SLOTX_HDR_OUT_WORD1", 3, a, b, c, 0, 0, 0);
 }
@@ -3577,7 +3733,7 @@ typedef union cavm_edecx_abx_status cavm_edecx_abx_status_t;
 static inline uint64_t CAVM_EDECX_ABX_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_STATUS(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040400018ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_STATUS", 2, a, b, 0, 0, 0, 0);
 }
@@ -3628,7 +3784,7 @@ typedef union cavm_edecx_abx_timing_error_cond cavm_edecx_abx_timing_error_cond_
 static inline uint64_t CAVM_EDECX_ABX_TIMING_ERROR_COND(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_TIMING_ERROR_COND(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040400088ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_TIMING_ERROR_COND", 2, a, b, 0, 0, 0, 0);
 }
@@ -3665,7 +3821,7 @@ typedef union cavm_edecx_abx_wrmsgsts cavm_edecx_abx_wrmsgsts_t;
 static inline uint64_t CAVM_EDECX_ABX_WRMSGSTS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EDECX_ABX_WRMSGSTS(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
         return 0x87e040400240ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("EDECX_ABX_WRMSGSTS", 2, a, b, 0, 0, 0, 0);
 }

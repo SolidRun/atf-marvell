@@ -119,6 +119,22 @@ union cavm_fus_const
     struct cavm_fus_const_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_24_63        : 40;
+        uint64_t repair1_banks         : 8;  /**< [ 23: 16](RO) Number of 128-bit memory repair banks present after repar banks. */
+        uint64_t repair_banks          : 8;  /**< [ 15:  8](RO) Number of 128-bit memory repair banks present. */
+        uint64_t fuse_banks            : 8;  /**< [  7:  0](RO) Number of 128-bit general purpose fuse banks present. */
+#else /* Word 0 - Little Endian */
+        uint64_t fuse_banks            : 8;  /**< [  7:  0](RO) Number of 128-bit general purpose fuse banks present. */
+        uint64_t repair_banks          : 8;  /**< [ 15:  8](RO) Number of 128-bit memory repair banks present. */
+        uint64_t repair1_banks         : 8;  /**< [ 23: 16](RO) Number of 128-bit memory repair banks present after repar banks. */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_fus_const_s cheetah; */
+    /* struct cavm_fus_const_s cn20; */
+    struct cavm_fus_const_odinmp
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
         uint64_t repair_banks          : 8;  /**< [ 15:  8](RO) Number of 128-bit memory repair banks present. */
         uint64_t fuse_banks            : 8;  /**< [  7:  0](RO) Number of 128-bit general purpose fuse banks present. */
@@ -127,8 +143,7 @@ union cavm_fus_const
         uint64_t repair_banks          : 8;  /**< [ 15:  8](RO) Number of 128-bit memory repair banks present. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_fus_const_s cn; */
+    } odinmp;
 };
 typedef union cavm_fus_const cavm_fus_const_t;
 
@@ -145,6 +160,92 @@ static inline uint64_t CAVM_FUS_CONST_FUNC(void)
 #define device_bar_CAVM_FUS_CONST 0x0 /* PF_BAR0 */
 #define busnum_CAVM_FUS_CONST 0
 #define arguments_CAVM_FUS_CONST -1,-1,-1,-1
+
+/**
+ * Register (RSL) fus_prog
+ *
+ * Fuse Programming Register
+ */
+union cavm_fus_prog
+{
+    uint64_t u;
+    struct cavm_fus_prog_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_17_63        : 47;
+        uint64_t unlock                : 1;  /**< [ 16: 16](R/W) Programming Voltage Lock Control.
+                                                                 The field controls a lock on fuse programming.  To make the voltage available
+                                                                 for programming, this bit must be set and then cleared 4 times while PROG_EN=0.
+                                                                 If the voltage control is unlocked and PROG_EN=1 then the programming voltage
+                                                                 is driven to the EFUSE macros and then the VOLTAGE field will be set.
+
+                                                                 This field and the voltage control are reinitialized on cold reset. */
+        uint64_t efuse                 : 1;  /**< [ 15: 15](R/W) Efuse storage. When set, the data is written directly to the efuse
+                                                                 bank.  When cleared, data is soft blown to local storage.
+                                                                 A soft blown fuse is subject to lockdown fuses.
+                                                                 Soft blown fuses will become active after a chip domain reset
+                                                                 but will not persist through a cold domain reset. */
+        uint64_t voltage               : 1;  /**< [ 14: 14](RO) Programming Voltage Detect.  Voltage is available at the fuse macro.
+                                                                 Typically set only during fuse programming of EFUSE macros. */
+        uint64_t prog_en               : 1;  /**< [ 13: 13](R/W) Enable programming voltage for EFUSE macros.
+                                                                 This bit must be set at least 2uS prior to setting [PROG] to
+                                                                 guarantee the programming voltage is available. */
+        uint64_t prog                  : 1;  /**< [ 12: 12](R/W/H)  */
+        uint64_t reserved_11           : 1;
+        uint64_t addr                  : 7;  /**< [ 10:  4](R/W) Indicates which of the banks of 128 fuses to blow. Software
+                                                                 should not change this field while the FUS_PROG[PROG] bit is set.
+
+                                                                 Address bits greater than the number of bits needed to the number of banks
+                                                                 present (FUS_CONST[FUSE_BANKS]) must be zero. */
+        uint64_t reserved_0_3          : 4;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_3          : 4;
+        uint64_t addr                  : 7;  /**< [ 10:  4](R/W) Indicates which of the banks of 128 fuses to blow. Software
+                                                                 should not change this field while the FUS_PROG[PROG] bit is set.
+
+                                                                 Address bits greater than the number of bits needed to the number of banks
+                                                                 present (FUS_CONST[FUSE_BANKS]) must be zero. */
+        uint64_t reserved_11           : 1;
+        uint64_t prog                  : 1;  /**< [ 12: 12](R/W/H)  */
+        uint64_t prog_en               : 1;  /**< [ 13: 13](R/W) Enable programming voltage for EFUSE macros.
+                                                                 This bit must be set at least 2uS prior to setting [PROG] to
+                                                                 guarantee the programming voltage is available. */
+        uint64_t voltage               : 1;  /**< [ 14: 14](RO) Programming Voltage Detect.  Voltage is available at the fuse macro.
+                                                                 Typically set only during fuse programming of EFUSE macros. */
+        uint64_t efuse                 : 1;  /**< [ 15: 15](R/W) Efuse storage. When set, the data is written directly to the efuse
+                                                                 bank.  When cleared, data is soft blown to local storage.
+                                                                 A soft blown fuse is subject to lockdown fuses.
+                                                                 Soft blown fuses will become active after a chip domain reset
+                                                                 but will not persist through a cold domain reset. */
+        uint64_t unlock                : 1;  /**< [ 16: 16](R/W) Programming Voltage Lock Control.
+                                                                 The field controls a lock on fuse programming.  To make the voltage available
+                                                                 for programming, this bit must be set and then cleared 4 times while PROG_EN=0.
+                                                                 If the voltage control is unlocked and PROG_EN=1 then the programming voltage
+                                                                 is driven to the EFUSE macros and then the VOLTAGE field will be set.
+
+                                                                 This field and the voltage control are reinitialized on cold reset. */
+        uint64_t reserved_17_63        : 47;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_fus_prog_s cn; */
+};
+typedef union cavm_fus_prog cavm_fus_prog_t;
+
+#define CAVM_FUS_PROG CAVM_FUS_PROG_FUNC()
+static inline uint64_t CAVM_FUS_PROG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_FUS_PROG_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x87e003001510ll;
+    __cavm_csr_fatal("FUS_PROG", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_FUS_PROG cavm_fus_prog_t
+#define bustype_CAVM_FUS_PROG CSR_TYPE_RSL
+#define basename_CAVM_FUS_PROG "FUS_PROG"
+#define device_bar_CAVM_FUS_PROG 0x0 /* PF_BAR0 */
+#define busnum_CAVM_FUS_PROG 0
+#define arguments_CAVM_FUS_PROG -1,-1,-1,-1
 
 /**
  * Register (RSL) fus_rcmd

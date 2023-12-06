@@ -74,7 +74,9 @@ typedef union cavm_mio_twsx_access_wdog cavm_mio_twsx_access_wdog_t;
 static inline uint64_t CAVM_MIO_TWSX_ACCESS_WDOG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_TWSX_ACCESS_WDOG(uint64_t a)
 {
-    if (a<=11)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e100001040ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=11))
         return 0x87e100001040ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("MIO_TWSX_ACCESS_WDOG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -112,7 +114,9 @@ typedef union cavm_mio_twsx_clken cavm_mio_twsx_clken_t;
 static inline uint64_t CAVM_MIO_TWSX_CLKEN(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_TWSX_CLKEN(uint64_t a)
 {
-    if (a<=11)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e100001078ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=11))
         return 0x87e100001078ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("MIO_TWSX_CLKEN", 1, a, 0, 0, 0, 0, 0);
 }
@@ -150,7 +154,9 @@ typedef union cavm_mio_twsx_const cavm_mio_twsx_const_t;
 static inline uint64_t CAVM_MIO_TWSX_CONST(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_TWSX_CONST(uint64_t a)
 {
-    if (a<=11)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e100000000ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=11))
         return 0x87e100000000ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("MIO_TWSX_CONST", 1, a, 0, 0, 0, 0, 0);
 }
@@ -222,7 +228,9 @@ typedef union cavm_mio_twsx_int cavm_mio_twsx_int_t;
 static inline uint64_t CAVM_MIO_TWSX_INT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_TWSX_INT(uint64_t a)
 {
-    if (a<=11)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e100001010ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=11))
         return 0x87e100001010ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("MIO_TWSX_INT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -265,7 +273,9 @@ typedef union cavm_mio_twsx_int_ena_w1c cavm_mio_twsx_int_ena_w1c_t;
 static inline uint64_t CAVM_MIO_TWSX_INT_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_TWSX_INT_ENA_W1C(uint64_t a)
 {
-    if (a<=11)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e100001028ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=11))
         return 0x87e100001028ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("MIO_TWSX_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
@@ -308,7 +318,9 @@ typedef union cavm_mio_twsx_int_ena_w1s cavm_mio_twsx_int_ena_w1s_t;
 static inline uint64_t CAVM_MIO_TWSX_INT_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_TWSX_INT_ENA_W1S(uint64_t a)
 {
-    if (a<=11)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e100001030ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=11))
         return 0x87e100001030ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("MIO_TWSX_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -351,7 +363,9 @@ typedef union cavm_mio_twsx_int_w1s cavm_mio_twsx_int_w1s_t;
 static inline uint64_t CAVM_MIO_TWSX_INT_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_TWSX_INT_W1S(uint64_t a)
 {
-    if (a<=11)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e100001020ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=11))
         return 0x87e100001020ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("MIO_TWSX_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -368,8 +382,9 @@ static inline uint64_t CAVM_MIO_TWSX_INT_W1S(uint64_t a)
  *
  * MIO TWSI IO Control Register
  * This register control the TWSI IO drive strength and slew rates. Index {a} of zero
- * (MIO_TWS(0)_IO_CTL) is used to control all TWSI outputs on CNXXXX; other index
- * values have no effect.
+ * (MIO_TWS(0)_IO_CTL) is used to control the dedicated TWSI(0..1) outputs on CNXXXX; other index
+ * values have no effect. The other programmable GPIO TWSI(2..11) ports, the pads are
+ * controlled by the corresponding GPIO_IO_CTL[n] registers.
  */
 union cavm_mio_twsx_io_ctl
 {
@@ -385,10 +400,12 @@ union cavm_mio_twsx_io_ctl
                                                                  0x3 = 20 ohm. */
         uint64_t slew                  : 2;  /**< [  1:  0](R/W) TWSI bus pins output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
 #else /* Word 0 - Little Endian */
         uint64_t slew                  : 2;  /**< [  1:  0](R/W) TWSI bus pins output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
         uint64_t drive                 : 2;  /**< [  3:  2](R/W) TWSI bus pin output impedance.
                                                                  0x0 = 55 ohm.
@@ -405,7 +422,9 @@ typedef union cavm_mio_twsx_io_ctl cavm_mio_twsx_io_ctl_t;
 static inline uint64_t CAVM_MIO_TWSX_IO_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_TWSX_IO_CTL(uint64_t a)
 {
-    if (a<=11)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e100001070ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=11))
         return 0x87e100001070ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("MIO_TWSX_IO_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -428,6 +447,78 @@ union cavm_mio_twsx_mode
     struct cavm_mio_twsx_mode_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_6_63         : 58;
+        uint64_t blk_arf_no_rsp        : 1;  /**< [  5:  5](R/W) No_response is generally used for broadcast writes where only one of the
+                                                                 recipients of the write request issues a
+                                                                 response, and all other recipients do not (ARF requires exactly one response be
+                                                                 issued per request).
+                                                                 Blocks that do not utilize broadcasts may tie this input low. */
+        uint64_t refclk_src            : 1;  /**< [  4:  4](R/W) Reference clock source used to generate TWSI clock. See TWSI_CLK and TWSI_CLKCTL for
+                                                                 details.
+                                                                   0 = 100 MHz input reference generates TWSI clock.
+                                                                   1 = Coprocessor clock generates TWSI clock. */
+        uint64_t bus_mon_rst           : 1;  /**< [  3:  3](WO/H) Reset the TWSI bus monitor for both HLC and non-HLC mode.
+                                                                 When TWSI bus in hang state with a timeout interrupt, it is possible that the TWSI bus
+                                                                 monitor still waiting for STP on the bus before accepting any new commands.
+                                                                 Write 1 to send a pulse to reset interface monitor back to the initial condition. */
+        uint64_t block_mode            : 1;  /**< [  2:  2](R/W) Block transfer mode in HLC, only valid in HLC mode.
+                                                                 When device is enabled to block transfer mode, software can access TWSI data through a
+                                                                 FIFO interface.  Software needs to write to MIO_TWS()_TWSI_BLOCK_CTL[BLOCK_SIZE] with
+                                                                 the number of bytes to be transfered/received. */
+        uint64_t stretch               : 1;  /**< [  1:  1](R/W) Clock stretching enable.
+                                                                 When enabled and device in non-HLC master mode, it allows slave device
+                                                                 to extend low period of the clock. During the clock extension period, the SCL output from
+                                                                 master device is disabled. */
+        uint64_t hs_mode               : 1;  /**< [  0:  0](R/W) I2C bus high-speed mode.
+
+                                                                 0 = Open drain drive on TWS_SCL. TWS_SCL clock signal high-to-low ratio is 1 to 1.
+                                                                 OSCL output frequency divisor is 10.
+
+                                                                 1 = Current sourced circuit is used to drive TWS_SCL pin when device is in master mode,
+                                                                 but disabled after each repeated start condition
+                                                                 and after each ACK or NACK to give a slave a chance to stretch the clock.
+                                                                 TWS_SCL clock signal high-to-low ratio is 1 to 2.
+                                                                 OSCL output frequency divisor is 15. */
+#else /* Word 0 - Little Endian */
+        uint64_t hs_mode               : 1;  /**< [  0:  0](R/W) I2C bus high-speed mode.
+
+                                                                 0 = Open drain drive on TWS_SCL. TWS_SCL clock signal high-to-low ratio is 1 to 1.
+                                                                 OSCL output frequency divisor is 10.
+
+                                                                 1 = Current sourced circuit is used to drive TWS_SCL pin when device is in master mode,
+                                                                 but disabled after each repeated start condition
+                                                                 and after each ACK or NACK to give a slave a chance to stretch the clock.
+                                                                 TWS_SCL clock signal high-to-low ratio is 1 to 2.
+                                                                 OSCL output frequency divisor is 15. */
+        uint64_t stretch               : 1;  /**< [  1:  1](R/W) Clock stretching enable.
+                                                                 When enabled and device in non-HLC master mode, it allows slave device
+                                                                 to extend low period of the clock. During the clock extension period, the SCL output from
+                                                                 master device is disabled. */
+        uint64_t block_mode            : 1;  /**< [  2:  2](R/W) Block transfer mode in HLC, only valid in HLC mode.
+                                                                 When device is enabled to block transfer mode, software can access TWSI data through a
+                                                                 FIFO interface.  Software needs to write to MIO_TWS()_TWSI_BLOCK_CTL[BLOCK_SIZE] with
+                                                                 the number of bytes to be transfered/received. */
+        uint64_t bus_mon_rst           : 1;  /**< [  3:  3](WO/H) Reset the TWSI bus monitor for both HLC and non-HLC mode.
+                                                                 When TWSI bus in hang state with a timeout interrupt, it is possible that the TWSI bus
+                                                                 monitor still waiting for STP on the bus before accepting any new commands.
+                                                                 Write 1 to send a pulse to reset interface monitor back to the initial condition. */
+        uint64_t refclk_src            : 1;  /**< [  4:  4](R/W) Reference clock source used to generate TWSI clock. See TWSI_CLK and TWSI_CLKCTL for
+                                                                 details.
+                                                                   0 = 100 MHz input reference generates TWSI clock.
+                                                                   1 = Coprocessor clock generates TWSI clock. */
+        uint64_t blk_arf_no_rsp        : 1;  /**< [  5:  5](R/W) No_response is generally used for broadcast writes where only one of the
+                                                                 recipients of the write request issues a
+                                                                 response, and all other recipients do not (ARF requires exactly one response be
+                                                                 issued per request).
+                                                                 Blocks that do not utilize broadcasts may tie this input low. */
+        uint64_t reserved_6_63         : 58;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mio_twsx_mode_s cheetah; */
+    /* struct cavm_mio_twsx_mode_s cn20; */
+    struct cavm_mio_twsx_mode_odinmp
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
         uint64_t refclk_src            : 1;  /**< [  4:  4](R/W) Reference clock source used to generate TWSI clock. See TWSI_CLK and TWSI_CLKCTL for
                                                                  details.
@@ -484,15 +575,16 @@ union cavm_mio_twsx_mode
                                                                    1 = Coprocessor clock generates TWSI clock. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mio_twsx_mode_s cn; */
+    } odinmp;
 };
 typedef union cavm_mio_twsx_mode cavm_mio_twsx_mode_t;
 
 static inline uint64_t CAVM_MIO_TWSX_MODE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_TWSX_MODE(uint64_t a)
 {
-    if (a<=11)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e100001038ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=11))
         return 0x87e100001038ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("MIO_TWSX_MODE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -531,7 +623,9 @@ typedef union cavm_mio_twsx_msix_pbax cavm_mio_twsx_msix_pbax_t;
 static inline uint64_t CAVM_MIO_TWSX_MSIX_PBAX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_TWSX_MSIX_PBAX(uint64_t a, uint64_t b)
 {
-    if ((a<=11) && (b==0))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=15) && (b==0)))
+        return 0x87e100ff0000ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=11) && (b==0)))
         return 0x87e100ff0000ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("MIO_TWSX_MSIX_PBAX", 2, a, b, 0, 0, 0, 0);
 }
@@ -617,7 +711,9 @@ typedef union cavm_mio_twsx_msix_vecx_addr cavm_mio_twsx_msix_vecx_addr_t;
 static inline uint64_t CAVM_MIO_TWSX_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_TWSX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
-    if ((a<=11) && (b==0))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=15) && (b==0)))
+        return 0x87e100f00000ll + 0x1000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=11) && (b==0)))
         return 0x87e100f00000ll + 0x1000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x0);
     __cavm_csr_fatal("MIO_TWSX_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
@@ -657,7 +753,9 @@ typedef union cavm_mio_twsx_msix_vecx_ctl cavm_mio_twsx_msix_vecx_ctl_t;
 static inline uint64_t CAVM_MIO_TWSX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_TWSX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
-    if ((a<=11) && (b==0))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=15) && (b==0)))
+        return 0x87e100f00008ll + 0x1000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=11) && (b==0)))
         return 0x87e100f00008ll + 0x1000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x0);
     __cavm_csr_fatal("MIO_TWSX_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
@@ -668,6 +766,44 @@ static inline uint64_t CAVM_MIO_TWSX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 #define device_bar_CAVM_MIO_TWSX_MSIX_VECX_CTL(a,b) 0x4 /* PF_BAR4 */
 #define busnum_CAVM_MIO_TWSX_MSIX_VECX_CTL(a,b) (a)
 #define arguments_CAVM_MIO_TWSX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) mio_tws#_soft_reset
+ *
+ * SOFT RESET Register
+ * This register is used as soft reset.
+ */
+union cavm_mio_twsx_soft_reset
+{
+    uint64_t u;
+    struct cavm_mio_twsx_soft_reset_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t soft_reset            : 1;  /**< [  0:  0](R/W) This register field is used as soft reset. */
+#else /* Word 0 - Little Endian */
+        uint64_t soft_reset            : 1;  /**< [  0:  0](R/W) This register field is used as soft reset. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mio_twsx_soft_reset_s cn; */
+};
+typedef union cavm_mio_twsx_soft_reset cavm_mio_twsx_soft_reset_t;
+
+static inline uint64_t CAVM_MIO_TWSX_SOFT_RESET(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MIO_TWSX_SOFT_RESET(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e100001088ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("MIO_TWSX_SOFT_RESET", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_MIO_TWSX_SOFT_RESET(a) cavm_mio_twsx_soft_reset_t
+#define bustype_CAVM_MIO_TWSX_SOFT_RESET(a) CSR_TYPE_RSL
+#define basename_CAVM_MIO_TWSX_SOFT_RESET(a) "MIO_TWSX_SOFT_RESET"
+#define device_bar_CAVM_MIO_TWSX_SOFT_RESET(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MIO_TWSX_SOFT_RESET(a) (a)
+#define arguments_CAVM_MIO_TWSX_SOFT_RESET(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) mio_tws#_sw_twsi
@@ -837,7 +973,9 @@ typedef union cavm_mio_twsx_sw_twsi cavm_mio_twsx_sw_twsi_t;
 static inline uint64_t CAVM_MIO_TWSX_SW_TWSI(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_TWSX_SW_TWSI(uint64_t a)
 {
-    if (a<=11)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e100001000ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=11))
         return 0x87e100001000ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("MIO_TWSX_SW_TWSI", 1, a, 0, 0, 0, 0, 0);
 }
@@ -889,7 +1027,9 @@ typedef union cavm_mio_twsx_sw_twsi_ext cavm_mio_twsx_sw_twsi_ext_t;
 static inline uint64_t CAVM_MIO_TWSX_SW_TWSI_EXT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_TWSX_SW_TWSI_EXT(uint64_t a)
 {
-    if (a<=11)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e100001018ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=11))
         return 0x87e100001018ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("MIO_TWSX_SW_TWSI_EXT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -900,6 +1040,44 @@ static inline uint64_t CAVM_MIO_TWSX_SW_TWSI_EXT(uint64_t a)
 #define device_bar_CAVM_MIO_TWSX_SW_TWSI_EXT(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MIO_TWSX_SW_TWSI_EXT(a) (a)
 #define arguments_CAVM_MIO_TWSX_SW_TWSI_EXT(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) mio_tws#_tie_off
+ *
+ * TIE OFF Register
+ * This register is used to tie any ports with '0' or '1'.
+ */
+union cavm_mio_twsx_tie_off
+{
+    uint64_t u;
+    struct cavm_mio_twsx_tie_off_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t tie_off_0             : 32; /**< [ 63: 32](R/W) This register field is used to tie any ports with '0'. */
+        uint64_t tie_off_1             : 32; /**< [ 31:  0](R/W) This register field is used to tie any ports with '1'. */
+#else /* Word 0 - Little Endian */
+        uint64_t tie_off_1             : 32; /**< [ 31:  0](R/W) This register field is used to tie any ports with '1'. */
+        uint64_t tie_off_0             : 32; /**< [ 63: 32](R/W) This register field is used to tie any ports with '0'. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mio_twsx_tie_off_s cn; */
+};
+typedef union cavm_mio_twsx_tie_off cavm_mio_twsx_tie_off_t;
+
+static inline uint64_t CAVM_MIO_TWSX_TIE_OFF(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MIO_TWSX_TIE_OFF(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e100001080ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("MIO_TWSX_TIE_OFF", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_MIO_TWSX_TIE_OFF(a) cavm_mio_twsx_tie_off_t
+#define bustype_CAVM_MIO_TWSX_TIE_OFF(a) CSR_TYPE_RSL
+#define basename_CAVM_MIO_TWSX_TIE_OFF(a) "MIO_TWSX_TIE_OFF"
+#define device_bar_CAVM_MIO_TWSX_TIE_OFF(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MIO_TWSX_TIE_OFF(a) (a)
+#define arguments_CAVM_MIO_TWSX_TIE_OFF(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) mio_tws#_tstamp_rx
@@ -926,7 +1104,9 @@ typedef union cavm_mio_twsx_tstamp_rx cavm_mio_twsx_tstamp_rx_t;
 static inline uint64_t CAVM_MIO_TWSX_TSTAMP_RX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_TWSX_TSTAMP_RX(uint64_t a)
 {
-    if (a<=11)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e100001068ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=11))
         return 0x87e100001068ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("MIO_TWSX_TSTAMP_RX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -963,7 +1143,9 @@ typedef union cavm_mio_twsx_tstamp_tx cavm_mio_twsx_tstamp_tx_t;
 static inline uint64_t CAVM_MIO_TWSX_TSTAMP_TX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_TWSX_TSTAMP_TX(uint64_t a)
 {
-    if (a<=11)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e100001060ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=11))
         return 0x87e100001060ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("MIO_TWSX_TSTAMP_TX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1020,7 +1202,9 @@ typedef union cavm_mio_twsx_twsi_block_ctl cavm_mio_twsx_twsi_block_ctl_t;
 static inline uint64_t CAVM_MIO_TWSX_TWSI_BLOCK_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_TWSX_TWSI_BLOCK_CTL(uint64_t a)
 {
-    if (a<=11)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e100001048ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=11))
         return 0x87e100001048ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("MIO_TWSX_TWSI_BLOCK_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1078,7 +1262,9 @@ typedef union cavm_mio_twsx_twsi_block_fifo cavm_mio_twsx_twsi_block_fifo_t;
 static inline uint64_t CAVM_MIO_TWSX_TWSI_BLOCK_FIFO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_TWSX_TWSI_BLOCK_FIFO(uint64_t a)
 {
-    if (a<=11)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e100001058ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=11))
         return 0x87e100001058ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("MIO_TWSX_TWSI_BLOCK_FIFO", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1136,7 +1322,9 @@ typedef union cavm_mio_twsx_twsi_block_sts cavm_mio_twsx_twsi_block_sts_t;
 static inline uint64_t CAVM_MIO_TWSX_TWSI_BLOCK_STS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_TWSX_TWSI_BLOCK_STS(uint64_t a)
 {
-    if (a<=11)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e100001050ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=11))
         return 0x87e100001050ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("MIO_TWSX_TWSI_BLOCK_STS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1182,7 +1370,9 @@ typedef union cavm_mio_twsx_twsi_sw cavm_mio_twsx_twsi_sw_t;
 static inline uint64_t CAVM_MIO_TWSX_TWSI_SW(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_TWSX_TWSI_SW(uint64_t a)
 {
-    if (a<=11)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
+        return 0x87e100001008ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=11))
         return 0x87e100001008ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("MIO_TWSX_TWSI_SW", 1, a, 0, 0, 0, 0, 0);
 }

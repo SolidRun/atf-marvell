@@ -48,32 +48,30 @@
  * PSM Set 0 MAB Device ID Enumeration
  * Enumerates the PSM device IDs for Set 0 (MegaHABs).
  */
-#define CAVM_PSM_SET0_MABDID_E_BBX2_PSM_DID (0x27)
-#define CAVM_PSM_SET0_MABDID_E_BBX4_PSM_DID (0x28)
-#define CAVM_PSM_SET0_MABDID_E_BBX5_PSM_DID (0x29)
-#define CAVM_PSM_SET0_MABDID_E_BBX6_PSM_DID (0x2a)
-#define CAVM_PSM_SET0_MABDID_E_DENC0_PSM_DID (0x24)
-#define CAVM_PSM_SET0_MABDID_E_DLBFX_PSM_DID(a) (0x1f + (a))
-#define CAVM_PSM_SET0_MABDID_E_DLFEX_PSM_DID(a) (4 + (a))
-#define CAVM_PSM_SET0_MABDID_E_DLWG0_PSM_DID (0x2c)
-#define CAVM_PSM_SET0_MABDID_E_DMAPX_PSM_DID(a) (0x12 + (a))
-#define CAVM_PSM_SET0_MABDID_E_ECMP0_PSM_DID (9)
-#define CAVM_PSM_SET0_MABDID_E_EDEC0_PSM_DID (8)
-#define CAVM_PSM_SET0_MABDID_E_EDFTX_PSM_DID(a) (0x21 + (a))
-#define CAVM_PSM_SET0_MABDID_E_FDEQX_PSM_DID(a) (0x14 + (a))
-#define CAVM_PSM_SET0_MABDID_E_LDECX_PSM_DID(a) (0xe + (a))
-#define CAVM_PSM_SET0_MABDID_E_LENCX_PSM_DID(a) (0xc + (a))
-#define CAVM_PSM_SET0_MABDID_E_PDECX_PSM_DID(a) (0x1c + (a))
-#define CAVM_PSM_SET0_MABDID_E_PENCX_PSM_DID(a) (0xa + (a))
-#define CAVM_PSM_SET0_MABDID_E_PNBX_PSM_DID(a) (0x1a + (a))
-#define CAVM_PSM_SET0_MABDID_E_PRCH0_PSM_DID (0x26)
-#define CAVM_PSM_SET0_MABDID_E_RDECX_PSM_DID(a) (0x10 + (a))
-#define CAVM_PSM_SET0_MABDID_E_RMAP0_PSM_DID (0x1e)
-#define CAVM_PSM_SET0_MABDID_E_TDEC0_PSM_DID (0x25)
-#define CAVM_PSM_SET0_MABDID_E_TOCG0_PSM_DID (0x2b)
-#define CAVM_PSM_SET0_MABDID_E_ULBFX_PSM_DID(a) (0x16 + (a))
-#define CAVM_PSM_SET0_MABDID_E_ULFEX_PSM_DID(a) (0 + (a))
-#define CAVM_PSM_SET0_MABDID_E_VDEC0_PSM_DID (0x23)
+#define CAVM_PSM_SET0_MABDID_E_ARXEX_PSM_DID(a) (0x1a + (a))
+#define CAVM_PSM_SET0_MABDID_E_ARXLX_PSM_DID(a) (0x1e + (a))
+#define CAVM_PSM_SET0_MABDID_E_ARXMX_PSM_DID(a) (0x20 + (a))
+#define CAVM_PSM_SET0_MABDID_E_BMULX_PSM_DID(a) (0x22 + (a))
+#define CAVM_PSM_SET0_MABDID_E_CESTX_PSM_DID(a) (0x2c + (a))
+#define CAVM_PSM_SET0_MABDID_E_DENC0_PSM_DID (0x35)
+#define CAVM_PSM_SET0_MABDID_E_DLFE0_PSM_DID (1)
+#define CAVM_PSM_SET0_MABDID_E_DMAPX_PSM_DID(a) (0x17 + (a))
+#define CAVM_PSM_SET0_MABDID_E_DSYMX_PSM_DID(a) (0x30 + (a))
+#define CAVM_PSM_SET0_MABDID_E_ECMPX_PSM_DID(a) (5 + (a))
+#define CAVM_PSM_SET0_MABDID_E_EDECX_PSM_DID(a) (2 + (a))
+#define CAVM_PSM_SET0_MABDID_E_LDECX_PSM_DID(a) (0xd + (a))
+#define CAVM_PSM_SET0_MABDID_E_LENCX_PSM_DID(a) (0xa + (a))
+#define CAVM_PSM_SET0_MABDID_E_MLAB0_PSM_DID (0x38)
+#define CAVM_PSM_SET0_MABDID_E_PDECX_PSM_DID(a) (0x28 + (a))
+#define CAVM_PSM_SET0_MABDID_E_PENCX_PSM_DID(a) (8 + (a))
+#define CAVM_PSM_SET0_MABDID_E_PNBX_PSM_DID(a) (0x26 + (a))
+#define CAVM_PSM_SET0_MABDID_E_PRCH0_PSM_DID (0x37)
+#define CAVM_PSM_SET0_MABDID_E_RDECX_PSM_DID(a) (0x11 + (a))
+#define CAVM_PSM_SET0_MABDID_E_RMAPX_PSM_DID(a) (0x2a + (a))
+#define CAVM_PSM_SET0_MABDID_E_SDECX_PSM_DID(a) (0x14 + (a))
+#define CAVM_PSM_SET0_MABDID_E_TDEC0_PSM_DID (0x36)
+#define CAVM_PSM_SET0_MABDID_E_ULFE0_PSM_DID (0)
+#define CAVM_PSM_SET0_MABDID_E_VDEC0_PSM_DID (0x34)
 
 /**
  * Enumeration psm_set1_mabdid_e
@@ -81,9 +79,8 @@
  * PSM Set 1 MAB Device ID Enumeration
  * Enumerates the PSM device IDs for Set 1 (DSPs).
  */
-#define CAVM_PSM_SET1_MABDID_E_LBPX_PSM_DID(a) (0x37 + (a))
-#define CAVM_PSM_SET1_MABDID_E_MBPX_PSM_DID(a) (0 + (a))
-#define CAVM_PSM_SET1_MABDID_E_SBPX_PSM_DID(a) (0x42 + (a))
+#define CAVM_PSM_SET1_MABDID_E_CBPX_PSM_DID(a) (0 + (a))
+#define CAVM_PSM_SET1_MABDID_E_MASIX_PSM_DID(a) (0x20 + (a))
 
 /**
  * Enumeration psm_set2_mabdid_e
@@ -91,9 +88,9 @@
  * PSM Set 2 MAB Device ID Enumeration
  * Enumerates the PSM device IDs for Set 2 (RF Engines).
  */
-#define CAVM_PSM_SET2_MABDID_E_RFOERXX_PSM_DID(a) (6 + (a))
+#define CAVM_PSM_SET2_MABDID_E_CPRIX_PSM_DID(a) (0x12 + (a))
+#define CAVM_PSM_SET2_MABDID_E_RFOERXX_PSM_DID(a) (9 + (a))
 #define CAVM_PSM_SET2_MABDID_E_RFOETXX_PSM_DID(a) (0 + (a))
-#define CAVM_PSM_SET2_MABDID_E_TOFCX_PSM_DID(a) (2 + (a))
 
 /**
  * Structure psm_cmd_addjob_s
@@ -938,12 +935,12 @@ union cavm_psm_cmd_rsp_s
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t reserved_110_127      : 18;
-        uint64_t elapsed_ticks         : 42; /**< [109: 68] The elapsed value of the MHAB/MDAB's 4-bit tick counter
+        uint64_t elapsed_ticks         : 42; /**< [109: 68] The elapsed value of the MHAB/MDAB's tick counter
                                                                  for the job runtime. */
         uint64_t reserved_64_67        : 4;
 #else /* Word 1 - Little Endian */
         uint64_t reserved_64_67        : 4;
-        uint64_t elapsed_ticks         : 42; /**< [109: 68] The elapsed value of the MHAB/MDAB's 4-bit tick counter
+        uint64_t elapsed_ticks         : 42; /**< [109: 68] The elapsed value of the MHAB/MDAB's tick counter
                                                                  for the job runtime. */
         uint64_t reserved_110_127      : 18;
 #endif /* Word 1 - End */
@@ -1443,7 +1440,7 @@ typedef union cavm_psm_cmd_dmax_addr cavm_psm_cmd_dmax_addr_t;
 static inline uint64_t CAVM_PSM_CMD_DMAX_ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_CMD_DMAX_ADDR(uint64_t a)
 {
-    if (a<=7)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
         return 0x8600010d0000ll + 0x100ll * ((a) & 0x7);
     __cavm_csr_fatal("PSM_CMD_DMAX_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1490,7 +1487,7 @@ typedef union cavm_psm_cmd_dmax_ctrl cavm_psm_cmd_dmax_ctrl_t;
 static inline uint64_t CAVM_PSM_CMD_DMAX_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_CMD_DMAX_CTRL(uint64_t a)
 {
-    if (a<=7)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
         return 0x8600010d0010ll + 0x100ll * ((a) & 0x7);
     __cavm_csr_fatal("PSM_CMD_DMAX_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1533,7 +1530,7 @@ typedef union cavm_psm_cmd_dmax_start cavm_psm_cmd_dmax_start_t;
 static inline uint64_t CAVM_PSM_CMD_DMAX_START(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_CMD_DMAX_START(uint64_t a)
 {
-    if (a<=7)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
         return 0x8600010d0020ll + 0x100ll * ((a) & 0x7);
     __cavm_csr_fatal("PSM_CMD_DMAX_START", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1591,7 +1588,9 @@ typedef union cavm_psm_cmd_dma_error cavm_psm_cmd_dma_error_t;
 static inline uint64_t CAVM_PSM_CMD_DMA_ERROR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_CMD_DMA_ERROR_FUNC(void)
 {
-    return 0x8600010d1100ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x8600010d1100ll;
+    __cavm_csr_fatal("PSM_CMD_DMA_ERROR", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PSM_CMD_DMA_ERROR cavm_psm_cmd_dma_error_t
@@ -1643,7 +1642,9 @@ typedef union cavm_psm_cmd_dma_status cavm_psm_cmd_dma_status_t;
 static inline uint64_t CAVM_PSM_CMD_DMA_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_CMD_DMA_STATUS_FUNC(void)
 {
-    return 0x8600010d1000ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x8600010d1000ll;
+    __cavm_csr_fatal("PSM_CMD_DMA_STATUS", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PSM_CMD_DMA_STATUS cavm_psm_cmd_dma_status_t
@@ -1683,7 +1684,9 @@ typedef union cavm_psm_const1 cavm_psm_const1_t;
 static inline uint64_t CAVM_PSM_CONST1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_CONST1_FUNC(void)
 {
-    return 0x8600010f9000ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x8600010f9000ll;
+    __cavm_csr_fatal("PSM_CONST1", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PSM_CONST1 cavm_psm_const1_t
@@ -1727,7 +1730,9 @@ typedef union cavm_psm_const2 cavm_psm_const2_t;
 static inline uint64_t CAVM_PSM_CONST2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_CONST2_FUNC(void)
 {
-    return 0x8600010f9010ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x8600010f9010ll;
+    __cavm_csr_fatal("PSM_CONST2", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PSM_CONST2 cavm_psm_const2_t
@@ -1744,7 +1749,7 @@ static inline uint64_t CAVM_PSM_CONST2_FUNC(void)
  * is triggered, the PSM sets PSM_INT_ERRINT_SUM_W1C[BKTPT] and triggers a
  * PSM_INT_VEC_E::ERRINT interrupt, and can optionally halt.  While halted,
  * the PSM will not schedule any new jobs or execute any commands from the
- * 128 queues, but jobs can still complete, job completion commands can still
+ * 255 queues, but jobs can still complete, job completion commands can still
  * be processed, and new commands may still be added to the queues. The
  * queues can be unhalted by re-enabling the queues (i.e., a write to
  * PSM_QUEUE_ENA_W1S(), or a QRUN command received from a MHAB/MDAB).
@@ -1796,7 +1801,9 @@ typedef union cavm_psm_dbg_break_cfg cavm_psm_dbg_break_cfg_t;
 static inline uint64_t CAVM_PSM_DBG_BREAK_CFG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_DBG_BREAK_CFG_FUNC(void)
 {
-    return 0x8600010f4f00ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x8600010f4f00ll;
+    __cavm_csr_fatal("PSM_DBG_BREAK_CFG", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PSM_DBG_BREAK_CFG cavm_psm_dbg_break_cfg_t
@@ -1881,7 +1888,7 @@ typedef union cavm_psm_djcntx_cfg cavm_psm_djcntx_cfg_t;
 static inline uint64_t CAVM_PSM_DJCNTX_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_DJCNTX_CFG(uint64_t a)
 {
-    if (a<=127)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=127))
         return 0x8600010f2000ll + 0x10ll * ((a) & 0x7f);
     __cavm_csr_fatal("PSM_DJCNTX_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1914,21 +1921,53 @@ union cavm_psm_djcnt_extdecr
         uint64_t reserved_39           : 1;
         uint64_t djcnt_decr_id_4       : 7;  /**< [ 38: 32](R/W) Reserved. */
         uint64_t reserved_31           : 1;
-        uint64_t djcnt_decr_id_3       : 7;  /**< [ 30: 24](R/W) Reserved. */
+        uint64_t cest3_decr_id         : 7;  /**< [ 30: 24](R/W) Selects the DJCNT counter that will be decremented by the PSM when it
+                                                                 receives a write completion signal from CEST3.  Values 1-127 will
+                                                                 select a DJCNT, while 0 will cause the event signal to have no effect
+                                                                 on any counter.  This field may not select the same counter
+                                                                 as [CEST2_DECR_ID], [CEST1_DECR_ID], or [CEST0_DECR_ID]. */
         uint64_t reserved_23           : 1;
-        uint64_t djcnt_decr_id_2       : 7;  /**< [ 22: 16](R/W) Reserved. */
+        uint64_t cest2_decr_id         : 7;  /**< [ 22: 16](R/W) Selects the DJCNT counter that will be decremented by the PSM when it
+                                                                 receives a write completion signal from CEST2.  Values 1-127 will
+                                                                 select a DJCNT, while 0 will cause the event signal to have no effect
+                                                                 on any counter.  This field may not select the same counter
+                                                                 as [CEST3_DECR_ID], [CEST1_DECR_ID], or [CEST0_DECR_ID]. */
         uint64_t reserved_15           : 1;
-        uint64_t djcnt_decr_id_1       : 7;  /**< [ 14:  8](R/W) Reserved. */
+        uint64_t cest1_decr_id         : 7;  /**< [ 14:  8](R/W) Selects the DJCNT counter that will be decremented by the PSM when it
+                                                                 receives a write completion signal from CEST1.  Values 1-127 will
+                                                                 select a DJCNT, while 0 will cause the event signal to have no effect
+                                                                 on any counter.  This field may not select the same counter
+                                                                 as [CEST3_DECR_ID], [CEST2_DECR_ID], or [CEST0_DECR_ID]. */
         uint64_t reserved_7            : 1;
-        uint64_t djcnt_decr_id_0       : 7;  /**< [  6:  0](R/W) Reserved. */
+        uint64_t cest0_decr_id         : 7;  /**< [  6:  0](R/W) Selects the DJCNT counter that will be decremented by the PSM when it
+                                                                 receives a write completion signal from CEST0.  Values 1-127 will
+                                                                 select a DJCNT, while 0 will cause the event signal to have no effect
+                                                                 on any counter.  This field may not select the same counter
+                                                                 as [CEST3_DECR_ID], [CEST2_DECR_ID], or [CEST1_DECR_ID]. */
 #else /* Word 0 - Little Endian */
-        uint64_t djcnt_decr_id_0       : 7;  /**< [  6:  0](R/W) Reserved. */
+        uint64_t cest0_decr_id         : 7;  /**< [  6:  0](R/W) Selects the DJCNT counter that will be decremented by the PSM when it
+                                                                 receives a write completion signal from CEST0.  Values 1-127 will
+                                                                 select a DJCNT, while 0 will cause the event signal to have no effect
+                                                                 on any counter.  This field may not select the same counter
+                                                                 as [CEST3_DECR_ID], [CEST2_DECR_ID], or [CEST1_DECR_ID]. */
         uint64_t reserved_7            : 1;
-        uint64_t djcnt_decr_id_1       : 7;  /**< [ 14:  8](R/W) Reserved. */
+        uint64_t cest1_decr_id         : 7;  /**< [ 14:  8](R/W) Selects the DJCNT counter that will be decremented by the PSM when it
+                                                                 receives a write completion signal from CEST1.  Values 1-127 will
+                                                                 select a DJCNT, while 0 will cause the event signal to have no effect
+                                                                 on any counter.  This field may not select the same counter
+                                                                 as [CEST3_DECR_ID], [CEST2_DECR_ID], or [CEST0_DECR_ID]. */
         uint64_t reserved_15           : 1;
-        uint64_t djcnt_decr_id_2       : 7;  /**< [ 22: 16](R/W) Reserved. */
+        uint64_t cest2_decr_id         : 7;  /**< [ 22: 16](R/W) Selects the DJCNT counter that will be decremented by the PSM when it
+                                                                 receives a write completion signal from CEST2.  Values 1-127 will
+                                                                 select a DJCNT, while 0 will cause the event signal to have no effect
+                                                                 on any counter.  This field may not select the same counter
+                                                                 as [CEST3_DECR_ID], [CEST1_DECR_ID], or [CEST0_DECR_ID]. */
         uint64_t reserved_23           : 1;
-        uint64_t djcnt_decr_id_3       : 7;  /**< [ 30: 24](R/W) Reserved. */
+        uint64_t cest3_decr_id         : 7;  /**< [ 30: 24](R/W) Selects the DJCNT counter that will be decremented by the PSM when it
+                                                                 receives a write completion signal from CEST3.  Values 1-127 will
+                                                                 select a DJCNT, while 0 will cause the event signal to have no effect
+                                                                 on any counter.  This field may not select the same counter
+                                                                 as [CEST2_DECR_ID], [CEST1_DECR_ID], or [CEST0_DECR_ID]. */
         uint64_t reserved_31           : 1;
         uint64_t djcnt_decr_id_4       : 7;  /**< [ 38: 32](R/W) Reserved. */
         uint64_t reserved_39           : 1;
@@ -1948,7 +1987,9 @@ typedef union cavm_psm_djcnt_extdecr cavm_psm_djcnt_extdecr_t;
 static inline uint64_t CAVM_PSM_DJCNT_EXTDECR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_DJCNT_EXTDECR_FUNC(void)
 {
-    return 0x8600010f3000ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x8600010f3000ll;
+    __cavm_csr_fatal("PSM_DJCNT_EXTDECR", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PSM_DJCNT_EXTDECR cavm_psm_djcnt_extdecr_t
@@ -1983,7 +2024,7 @@ typedef union cavm_psm_errcap_queue_badcmdx cavm_psm_errcap_queue_badcmdx_t;
 static inline uint64_t CAVM_PSM_ERRCAP_QUEUE_BADCMDX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_ERRCAP_QUEUE_BADCMDX(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x8600010fb000ll + 8ll * ((a) & 0x3);
     __cavm_csr_fatal("PSM_ERRCAP_QUEUE_BADCMDX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2028,7 +2069,9 @@ typedef union cavm_psm_gmctrl cavm_psm_gmctrl_t;
 static inline uint64_t CAVM_PSM_GMCTRL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_GMCTRL_FUNC(void)
 {
-    return 0x8600010f8000ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x8600010f8000ll;
+    __cavm_csr_fatal("PSM_GMCTRL", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PSM_GMCTRL cavm_psm_gmctrl_t
@@ -2070,7 +2113,7 @@ typedef union cavm_psm_gmctrlx cavm_psm_gmctrlx_t;
 static inline uint64_t CAVM_PSM_GMCTRLX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_GMCTRLX(uint64_t a)
 {
-    if ((a>=1)&&(a<=7))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a>=1)&&(a<=7)))
         return 0x8600010f8000ll + 0x10ll * ((a) & 0x7);
     __cavm_csr_fatal("PSM_GMCTRLX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2112,7 +2155,9 @@ typedef union cavm_psm_log_base cavm_psm_log_base_t;
 static inline uint64_t CAVM_PSM_LOG_BASE_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_LOG_BASE_FUNC(void)
 {
-    return 0x8600010f4010ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x8600010f4010ll;
+    __cavm_csr_fatal("PSM_LOG_BASE", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PSM_LOG_BASE cavm_psm_log_base_t
@@ -2197,7 +2242,9 @@ typedef union cavm_psm_log_cfg cavm_psm_log_cfg_t;
 static inline uint64_t CAVM_PSM_LOG_CFG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_LOG_CFG_FUNC(void)
 {
-    return 0x8600010f4000ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x8600010f4000ll;
+    __cavm_csr_fatal("PSM_LOG_CFG", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PSM_LOG_CFG cavm_psm_log_cfg_t
@@ -2205,6 +2252,162 @@ static inline uint64_t CAVM_PSM_LOG_CFG_FUNC(void)
 #define basename_CAVM_PSM_LOG_CFG "PSM_LOG_CFG"
 #define busnum_CAVM_PSM_LOG_CFG 0
 #define arguments_CAVM_PSM_LOG_CFG -1,-1,-1,-1
+
+/**
+ * Register (NCB) psm_log_filter#_cfg
+ *
+ * PHY Scheduler Log Filter Configuration Registers
+ * These registers, along with PSM_LOG_FILTER()_OPCODE, will
+ * configure a set of log filters that block commands from being
+ * written into the PSM command log.  If a command matches any of
+ * the log filters, it will not be logged.
+ * Each filter has an opcode bitmap, programmed by software in
+ * PSM_LOG_FILTER()_OPCODE, which selects command opcodes for which
+ * the filter will be active.  The filter also has a [MASK], [VALUE],
+ * and [OFFSET], which specify a portion of the command to be
+ * compared.  The comparison match can also be inverted by the
+ * [INVERT] bit.
+ * Any command which is selected by the opcode bitmap and results
+ * in a successful match will not be logged.
+ */
+union cavm_psm_log_filterx_cfg
+{
+    uint64_t u;
+    struct cavm_psm_log_filterx_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t invert                : 1;  /**< [ 63: 63](R/W) When 1, inverts the comparison match. */
+        uint64_t reserved_60_62        : 3;
+        uint64_t offset                : 4;  /**< [ 59: 56](R/W) Byte offset into the command for the [MASK] and [VALUE]
+                                                                 comparison. */
+        uint64_t reserved_48_55        : 8;
+        uint64_t mask                  : 24; /**< [ 47: 24](R/W) Mask bits for the comparison.  A mask bit value of 1 will allow
+                                                                 the command bit to be compared, and a mask bit value of 0 will
+                                                                 ignore the command bit. */
+        uint64_t value                 : 24; /**< [ 23:  0](R/W) Bits to be compared against the command. */
+#else /* Word 0 - Little Endian */
+        uint64_t value                 : 24; /**< [ 23:  0](R/W) Bits to be compared against the command. */
+        uint64_t mask                  : 24; /**< [ 47: 24](R/W) Mask bits for the comparison.  A mask bit value of 1 will allow
+                                                                 the command bit to be compared, and a mask bit value of 0 will
+                                                                 ignore the command bit. */
+        uint64_t reserved_48_55        : 8;
+        uint64_t offset                : 4;  /**< [ 59: 56](R/W) Byte offset into the command for the [MASK] and [VALUE]
+                                                                 comparison. */
+        uint64_t reserved_60_62        : 3;
+        uint64_t invert                : 1;  /**< [ 63: 63](R/W) When 1, inverts the comparison match. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_psm_log_filterx_cfg_s cn; */
+};
+typedef union cavm_psm_log_filterx_cfg cavm_psm_log_filterx_cfg_t;
+
+static inline uint64_t CAVM_PSM_LOG_FILTERX_CFG(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PSM_LOG_FILTERX_CFG(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
+        return 0x8600010f4200ll + 0x10ll * ((a) & 0x7);
+    __cavm_csr_fatal("PSM_LOG_FILTERX_CFG", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PSM_LOG_FILTERX_CFG(a) cavm_psm_log_filterx_cfg_t
+#define bustype_CAVM_PSM_LOG_FILTERX_CFG(a) CSR_TYPE_NCB
+#define basename_CAVM_PSM_LOG_FILTERX_CFG(a) "PSM_LOG_FILTERX_CFG"
+#define busnum_CAVM_PSM_LOG_FILTERX_CFG(a) (a)
+#define arguments_CAVM_PSM_LOG_FILTERX_CFG(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) psm_log_filter#_opcode
+ *
+ * PHY Scheduler Log Filter Opcode Registers
+ * Log filter opcode bitmap.  See PSM_LOG_FILTER()_CFG for
+ * more details.
+ */
+union cavm_psm_log_filterx_opcode
+{
+    uint64_t u;
+    struct cavm_psm_log_filterx_opcode_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_40_63        : 24;
+        uint64_t opc_bitmap            : 40; /**< [ 39:  0](R/W) Selects the command opcodes to which the log filter will
+                                                                 apply.  The default value of 0x0 will not match any command
+                                                                 opcodes, and so the filter will not be active by default.
+
+                                                                 The bit assignments are as follows:
+                                                                  0 = PSM_OP_ADDJOB (set0)   opc=0x01.
+                                                                  1 = PSM_OP_CONTJOB (set0)   opc=0x02.
+                                                                  2 = PSM_OP_ADDJOB (set1)   opc=0x41.
+                                                                  3 = PSM_OP_CONTJOB (set1)   opc=0x42.
+                                                                  4 = PSM_OP_ADDJOB (set2)   opc=0x81.
+                                                                  5 = PSM_OP_CONTJOB (set2)   opc=0x82.
+                                                                  6,7 = Reserved.
+                                                                  8 = PSM_OP_RSP (set0)   opc=0x3F.
+                                                                  9 = PSM_OP_RSP (set1)   opc=0x3F.
+                                                                  10 = PSM_OP_RSP (set2)   opc=0x3F.
+                                                                  11-15 = Reserved.
+                                                                  16 = PSM_OP_DJCNT   opc=0x10.
+                                                                  17 = PSM_OP_GPINT   opc=0x11.
+                                                                  18 = Reserved.
+                                                                  19 = PSM_OP_ADDWORK   opc=0x13.
+                                                                  20 = PSM_OP_FREE   opc=0x14.
+                                                                  21 = PSM_OP_WRSTS   opc=0x15.
+                                                                  22 = PSM_OP_WRMSG   opc=0x16.
+                                                                  23 = PSM_OP_ADDNOTIF   opc=0x17.
+                                                                  24-31 = Reserved.
+                                                                  32 = PSM_OP_QRST   opc=0x20.
+                                                                  33 = PSM_OP_QBLK   opc=0x21.
+                                                                  34 = PSM_OP_QRUN   opc=0x22.
+                                                                  35-39 = Reserved. */
+#else /* Word 0 - Little Endian */
+        uint64_t opc_bitmap            : 40; /**< [ 39:  0](R/W) Selects the command opcodes to which the log filter will
+                                                                 apply.  The default value of 0x0 will not match any command
+                                                                 opcodes, and so the filter will not be active by default.
+
+                                                                 The bit assignments are as follows:
+                                                                  0 = PSM_OP_ADDJOB (set0)   opc=0x01.
+                                                                  1 = PSM_OP_CONTJOB (set0)   opc=0x02.
+                                                                  2 = PSM_OP_ADDJOB (set1)   opc=0x41.
+                                                                  3 = PSM_OP_CONTJOB (set1)   opc=0x42.
+                                                                  4 = PSM_OP_ADDJOB (set2)   opc=0x81.
+                                                                  5 = PSM_OP_CONTJOB (set2)   opc=0x82.
+                                                                  6,7 = Reserved.
+                                                                  8 = PSM_OP_RSP (set0)   opc=0x3F.
+                                                                  9 = PSM_OP_RSP (set1)   opc=0x3F.
+                                                                  10 = PSM_OP_RSP (set2)   opc=0x3F.
+                                                                  11-15 = Reserved.
+                                                                  16 = PSM_OP_DJCNT   opc=0x10.
+                                                                  17 = PSM_OP_GPINT   opc=0x11.
+                                                                  18 = Reserved.
+                                                                  19 = PSM_OP_ADDWORK   opc=0x13.
+                                                                  20 = PSM_OP_FREE   opc=0x14.
+                                                                  21 = PSM_OP_WRSTS   opc=0x15.
+                                                                  22 = PSM_OP_WRMSG   opc=0x16.
+                                                                  23 = PSM_OP_ADDNOTIF   opc=0x17.
+                                                                  24-31 = Reserved.
+                                                                  32 = PSM_OP_QRST   opc=0x20.
+                                                                  33 = PSM_OP_QBLK   opc=0x21.
+                                                                  34 = PSM_OP_QRUN   opc=0x22.
+                                                                  35-39 = Reserved. */
+        uint64_t reserved_40_63        : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_psm_log_filterx_opcode_s cn; */
+};
+typedef union cavm_psm_log_filterx_opcode cavm_psm_log_filterx_opcode_t;
+
+static inline uint64_t CAVM_PSM_LOG_FILTERX_OPCODE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PSM_LOG_FILTERX_OPCODE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
+        return 0x8600010f4300ll + 0x10ll * ((a) & 0x7);
+    __cavm_csr_fatal("PSM_LOG_FILTERX_OPCODE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PSM_LOG_FILTERX_OPCODE(a) cavm_psm_log_filterx_opcode_t
+#define bustype_CAVM_PSM_LOG_FILTERX_OPCODE(a) CSR_TYPE_NCB
+#define basename_CAVM_PSM_LOG_FILTERX_OPCODE(a) "PSM_LOG_FILTERX_OPCODE"
+#define busnum_CAVM_PSM_LOG_FILTERX_OPCODE(a) (a)
+#define arguments_CAVM_PSM_LOG_FILTERX_OPCODE(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) psm_log_ptr
@@ -2240,7 +2443,9 @@ typedef union cavm_psm_log_ptr cavm_psm_log_ptr_t;
 static inline uint64_t CAVM_PSM_LOG_PTR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_LOG_PTR_FUNC(void)
 {
-    return 0x8600010f4020ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x8600010f4020ll;
+    __cavm_csr_fatal("PSM_LOG_PTR", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PSM_LOG_PTR cavm_psm_log_ptr_t
@@ -2286,7 +2491,7 @@ typedef union cavm_psm_nringx_addr cavm_psm_nringx_addr_t;
 static inline uint64_t CAVM_PSM_NRINGX_ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_NRINGX_ADDR(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x8600010c0010ll + 0x100ll * ((a) & 0xf);
     __cavm_csr_fatal("PSM_NRINGX_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2366,7 +2571,7 @@ typedef union cavm_psm_nringx_cfg cavm_psm_nringx_cfg_t;
 static inline uint64_t CAVM_PSM_NRINGX_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_NRINGX_CFG(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x8600010c0000ll + 0x100ll * ((a) & 0xf);
     __cavm_csr_fatal("PSM_NRINGX_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2402,7 +2607,9 @@ typedef union cavm_psm_nring_cmd cavm_psm_nring_cmd_t;
 static inline uint64_t CAVM_PSM_NRING_CMD_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_NRING_CMD_FUNC(void)
 {
-    return 0x8600010c2000ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x8600010c2000ll;
+    __cavm_csr_fatal("PSM_NRING_CMD", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PSM_NRING_CMD cavm_psm_nring_cmd_t
@@ -2441,7 +2648,9 @@ typedef union cavm_psm_nring_ctrl cavm_psm_nring_ctrl_t;
 static inline uint64_t CAVM_PSM_NRING_CTRL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_NRING_CTRL_FUNC(void)
 {
-    return 0x8600010c1000ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x8600010c1000ll;
+    __cavm_csr_fatal("PSM_NRING_CTRL", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PSM_NRING_CTRL cavm_psm_nring_ctrl_t
@@ -2457,8 +2666,8 @@ static inline uint64_t CAVM_PSM_NRING_CTRL_FUNC(void)
  * These registers configure the start and end of each circular command
  * queue within the queue RAM. The queue RAM contains PSM_CONST1[QRAM_SIZE] entries, and
  * software must allocate the queues so that they do not overlap. These
- * registers should only be written during initial PSM setup when the PSM is
- * idle.
+ * registers should be written to reconfigure a PSM queue only when
+ * the queue is idle.
  *
  * Note that writing to a PSM_QUEUE()_CFG register will automatically reset
  * the head and tail pointers of the corresponding queue. Any commands in the
@@ -2502,7 +2711,7 @@ typedef union cavm_psm_queuex_cfg cavm_psm_queuex_cfg_t;
 static inline uint64_t CAVM_PSM_QUEUEX_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_QUEUEX_CFG(uint64_t a)
 {
-    if (a<=254)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=254))
         return 0x860001001000ll + 0x10ll * ((a) & 0xff);
     __cavm_csr_fatal("PSM_QUEUEX_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2537,7 +2746,7 @@ typedef union cavm_psm_queuex_cmd_hi cavm_psm_queuex_cmd_hi_t;
 static inline uint64_t CAVM_PSM_QUEUEX_CMD_HI(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_QUEUEX_CMD_HI(uint64_t a)
 {
-    if (a<=254)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=254))
         return 0x860001000008ll + 0x10ll * ((a) & 0xff);
     __cavm_csr_fatal("PSM_QUEUEX_CMD_HI", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2579,7 +2788,7 @@ typedef union cavm_psm_queuex_cmd_lo cavm_psm_queuex_cmd_lo_t;
 static inline uint64_t CAVM_PSM_QUEUEX_CMD_LO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_QUEUEX_CMD_LO(uint64_t a)
 {
-    if (a<=254)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=254))
         return 0x860001000000ll + 0x10ll * ((a) & 0xff);
     __cavm_csr_fatal("PSM_QUEUEX_CMD_LO", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2674,7 +2883,7 @@ typedef union cavm_psm_queuex_info cavm_psm_queuex_info_t;
 static inline uint64_t CAVM_PSM_QUEUEX_INFO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_QUEUEX_INFO(uint64_t a)
 {
-    if (a<=254)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=254))
         return 0x860001005000ll + 0x10ll * ((a) & 0xff);
     __cavm_csr_fatal("PSM_QUEUEX_INFO", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2725,7 +2934,7 @@ typedef union cavm_psm_queuex_ptr cavm_psm_queuex_ptr_t;
 static inline uint64_t CAVM_PSM_QUEUEX_PTR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_QUEUEX_PTR(uint64_t a)
 {
-    if (a<=254)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=254))
         return 0x860001002000ll + 0x10ll * ((a) & 0xff);
     __cavm_csr_fatal("PSM_QUEUEX_PTR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2762,7 +2971,7 @@ typedef union cavm_psm_queuex_space cavm_psm_queuex_space_t;
 static inline uint64_t CAVM_PSM_QUEUEX_SPACE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_QUEUEX_SPACE(uint64_t a)
 {
-    if (a<=254)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=254))
         return 0x860001003000ll + 0x10ll * ((a) & 0xff);
     __cavm_csr_fatal("PSM_QUEUEX_SPACE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2810,7 +3019,7 @@ typedef union cavm_psm_queuex_timeout_cfg cavm_psm_queuex_timeout_cfg_t;
 static inline uint64_t CAVM_PSM_QUEUEX_TIMEOUT_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_QUEUEX_TIMEOUT_CFG(uint64_t a)
 {
-    if (a<=254)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=254))
         return 0x860001004000ll + 0x10ll * ((a) & 0xff);
     __cavm_csr_fatal("PSM_QUEUEX_TIMEOUT_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2851,7 +3060,7 @@ typedef union cavm_psm_queue_busy_stsx cavm_psm_queue_busy_stsx_t;
 static inline uint64_t CAVM_PSM_QUEUE_BUSY_STSX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_QUEUE_BUSY_STSX(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x860001010300ll + 8ll * ((a) & 0x3);
     __cavm_csr_fatal("PSM_QUEUE_BUSY_STSX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2892,7 +3101,7 @@ typedef union cavm_psm_queue_ena_w1cx cavm_psm_queue_ena_w1cx_t;
 static inline uint64_t CAVM_PSM_QUEUE_ENA_W1CX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_QUEUE_ENA_W1CX(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x860001010100ll + 8ll * ((a) & 0x3);
     __cavm_csr_fatal("PSM_QUEUE_ENA_W1CX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2935,7 +3144,7 @@ typedef union cavm_psm_queue_ena_w1sx cavm_psm_queue_ena_w1sx_t;
 static inline uint64_t CAVM_PSM_QUEUE_ENA_W1SX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_QUEUE_ENA_W1SX(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x860001010000ll + 8ll * ((a) & 0x3);
     __cavm_csr_fatal("PSM_QUEUE_ENA_W1SX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2972,7 +3181,7 @@ typedef union cavm_psm_queue_full_stsx cavm_psm_queue_full_stsx_t;
 static inline uint64_t CAVM_PSM_QUEUE_FULL_STSX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_QUEUE_FULL_STSX(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x860001010200ll + 8ll * ((a) & 0x3);
     __cavm_csr_fatal("PSM_QUEUE_FULL_STSX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3012,7 +3221,7 @@ typedef union cavm_psm_queue_ramx cavm_psm_queue_ramx_t;
 static inline uint64_t CAVM_PSM_QUEUE_RAMX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_QUEUE_RAMX(uint64_t a)
 {
-    if (a<=65535)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=65535))
         return 0x860001100000ll + 8ll * ((a) & 0xffff);
     __cavm_csr_fatal("PSM_QUEUE_RAMX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3065,7 +3274,9 @@ typedef union cavm_psm_rst cavm_psm_rst_t;
 static inline uint64_t CAVM_PSM_RST_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_RST_FUNC(void)
 {
-    return 0x8600010fa000ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x8600010fa000ll;
+    __cavm_csr_fatal("PSM_RST", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PSM_RST cavm_psm_rst_t
@@ -3098,7 +3309,7 @@ typedef union cavm_psm_setx_errcap_mab_badcmd cavm_psm_setx_errcap_mab_badcmd_t;
 static inline uint64_t CAVM_PSM_SETX_ERRCAP_MAB_BADCMD(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_SETX_ERRCAP_MAB_BADCMD(uint64_t a)
 {
-    if (a<=2)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
         return 0x8600010fc000ll + 0x10ll * ((a) & 0x3);
     __cavm_csr_fatal("PSM_SETX_ERRCAP_MAB_BADCMD", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3108,43 +3319,6 @@ static inline uint64_t CAVM_PSM_SETX_ERRCAP_MAB_BADCMD(uint64_t a)
 #define basename_CAVM_PSM_SETX_ERRCAP_MAB_BADCMD(a) "PSM_SETX_ERRCAP_MAB_BADCMD"
 #define busnum_CAVM_PSM_SETX_ERRCAP_MAB_BADCMD(a) (a)
 #define arguments_CAVM_PSM_SETX_ERRCAP_MAB_BADCMD(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) psm_set#_errcap_mab_badcmd_hi
- *
- * PHY Scheduler MHAB/MDAB FIFO Bad Command Capture Register
- * This register reports the status of bad command errors reported by MHAB/MDAB FIFOs.
- */
-union cavm_psm_setx_errcap_mab_badcmd_hi
-{
-    uint64_t u;
-    struct cavm_psm_setx_errcap_mab_badcmd_hi_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t mabfifo_bad_cmd       : 4;  /**< [  3:  0](R/W1C/H) When a bit is set, the corresponding MHAB/MDAB FIFO has reported a bad command.  Write 1 to clear. */
-#else /* Word 0 - Little Endian */
-        uint64_t mabfifo_bad_cmd       : 4;  /**< [  3:  0](R/W1C/H) When a bit is set, the corresponding MHAB/MDAB FIFO has reported a bad command.  Write 1 to clear. */
-        uint64_t reserved_4_63         : 60;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_psm_setx_errcap_mab_badcmd_hi_s cn; */
-};
-typedef union cavm_psm_setx_errcap_mab_badcmd_hi cavm_psm_setx_errcap_mab_badcmd_hi_t;
-
-static inline uint64_t CAVM_PSM_SETX_ERRCAP_MAB_BADCMD_HI(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PSM_SETX_ERRCAP_MAB_BADCMD_HI(uint64_t a)
-{
-    if (a==1)
-        return 0x8600010fc008ll + 0x10ll * ((a) & 0x1);
-    __cavm_csr_fatal("PSM_SETX_ERRCAP_MAB_BADCMD_HI", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PSM_SETX_ERRCAP_MAB_BADCMD_HI(a) cavm_psm_setx_errcap_mab_badcmd_hi_t
-#define bustype_CAVM_PSM_SETX_ERRCAP_MAB_BADCMD_HI(a) CSR_TYPE_NCB
-#define basename_CAVM_PSM_SETX_ERRCAP_MAB_BADCMD_HI(a) "PSM_SETX_ERRCAP_MAB_BADCMD_HI"
-#define busnum_CAVM_PSM_SETX_ERRCAP_MAB_BADCMD_HI(a) (a)
-#define arguments_CAVM_PSM_SETX_ERRCAP_MAB_BADCMD_HI(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) psm_set0_grp#_cdt
@@ -3177,7 +3351,7 @@ typedef union cavm_psm_set0_grpx_cdt cavm_psm_set0_grpx_cdt_t;
 static inline uint64_t CAVM_PSM_SET0_GRPX_CDT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_SET0_GRPX_CDT(uint64_t a)
 {
-    if (a<=7)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
         return 0x860001047400ll + 0x10ll * ((a) & 0x7);
     __cavm_csr_fatal("PSM_SET0_GRPX_CDT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3204,19 +3378,19 @@ union cavm_psm_set0_grpx_mask
     struct cavm_psm_set0_grpx_mask_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_45_63        : 19;
-        uint64_t mab_map               : 45; /**< [ 44:  0](R/W) Bit mask indicating which MHABs belong to the MHAB group.
+        uint64_t reserved_57_63        : 7;
+        uint64_t mab_map               : 57; /**< [ 56:  0](R/W) Bit mask indicating which MHABs belong to the MHAB group.
                                                                  The bit number is indexed by the PSM_SET0_MABDID_E enumeration.
                                                                  If this register is programmed, the corresponding group
                                                                  credit register (PSM_SET0_GRP()_CDT) must be programmed with
                                                                  the correct value. */
 #else /* Word 0 - Little Endian */
-        uint64_t mab_map               : 45; /**< [ 44:  0](R/W) Bit mask indicating which MHABs belong to the MHAB group.
+        uint64_t mab_map               : 57; /**< [ 56:  0](R/W) Bit mask indicating which MHABs belong to the MHAB group.
                                                                  The bit number is indexed by the PSM_SET0_MABDID_E enumeration.
                                                                  If this register is programmed, the corresponding group
                                                                  credit register (PSM_SET0_GRP()_CDT) must be programmed with
                                                                  the correct value. */
-        uint64_t reserved_45_63        : 19;
+        uint64_t reserved_57_63        : 7;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_psm_set0_grpx_mask_s cn; */
@@ -3226,7 +3400,7 @@ typedef union cavm_psm_set0_grpx_mask cavm_psm_set0_grpx_mask_t;
 static inline uint64_t CAVM_PSM_SET0_GRPX_MASK(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_SET0_GRPX_MASK(uint64_t a)
 {
-    if (a<=7)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
         return 0x860001047000ll + 0x10ll * ((a) & 0x7);
     __cavm_csr_fatal("PSM_SET0_GRPX_MASK", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3250,15 +3424,15 @@ union cavm_psm_set0_mab_res
     struct cavm_psm_set0_mab_res_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_45_63        : 19;
-        uint64_t mabres                : 45; /**< [ 44:  0](R/W/H) This field reports the current value of the per-MHAB
+        uint64_t reserved_57_63        : 7;
+        uint64_t mabres                : 57; /**< [ 56:  0](R/W/H) This field reports the current value of the per-MHAB
                                                                  reservation vector, for CONT_JOB commands.  The bit number
                                                                  is indexed by the PSM_SET0_MABDID_E enumeration. */
 #else /* Word 0 - Little Endian */
-        uint64_t mabres                : 45; /**< [ 44:  0](R/W/H) This field reports the current value of the per-MHAB
+        uint64_t mabres                : 57; /**< [ 56:  0](R/W/H) This field reports the current value of the per-MHAB
                                                                  reservation vector, for CONT_JOB commands.  The bit number
                                                                  is indexed by the PSM_SET0_MABDID_E enumeration. */
-        uint64_t reserved_45_63        : 19;
+        uint64_t reserved_57_63        : 7;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_psm_set0_mab_res_s cn; */
@@ -3269,7 +3443,9 @@ typedef union cavm_psm_set0_mab_res cavm_psm_set0_mab_res_t;
 static inline uint64_t CAVM_PSM_SET0_MAB_RES_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_SET0_MAB_RES_FUNC(void)
 {
-    return 0x860001047800ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x860001047800ll;
+    __cavm_csr_fatal("PSM_SET0_MAB_RES", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PSM_SET0_MAB_RES cavm_psm_set0_mab_res_t
@@ -3300,7 +3476,8 @@ union cavm_psm_set0_mabfifox_ctrl
         uint64_t reserved_36_47        : 12;
         uint64_t mabfifo_wdog          : 4;  /**< [ 35: 32](R/W) Configures the timeout value of the MABFIFO watchdog timer.  The timeout value
                                                                  is 2^[MABFIFO_WDOG] * 16.  The MABFIFO watchdog timer runs when the FIFO
-                                                                 contains a valid entry, and is reset to 0 whenever an entry is popped. If the
+                                                                 contains a valid entry and increments by one on every tick of the
+                                                                 PSM timer.  It is reset to 0 whenever an entry is popped. If the
                                                                  timeout value is exceeded, an interrupt will be asserted.  A [MABFIFO_WDOG]
                                                                  value of 0 will disable the timeout check. */
         uint64_t reserved_28_31        : 4;
@@ -3324,7 +3501,8 @@ union cavm_psm_set0_mabfifox_ctrl
         uint64_t reserved_28_31        : 4;
         uint64_t mabfifo_wdog          : 4;  /**< [ 35: 32](R/W) Configures the timeout value of the MABFIFO watchdog timer.  The timeout value
                                                                  is 2^[MABFIFO_WDOG] * 16.  The MABFIFO watchdog timer runs when the FIFO
-                                                                 contains a valid entry, and is reset to 0 whenever an entry is popped. If the
+                                                                 contains a valid entry and increments by one on every tick of the
+                                                                 PSM timer.  It is reset to 0 whenever an entry is popped. If the
                                                                  timeout value is exceeded, an interrupt will be asserted.  A [MABFIFO_WDOG]
                                                                  value of 0 will disable the timeout check. */
         uint64_t reserved_36_47        : 12;
@@ -3342,7 +3520,7 @@ typedef union cavm_psm_set0_mabfifox_ctrl cavm_psm_set0_mabfifox_ctrl_t;
 static inline uint64_t CAVM_PSM_SET0_MABFIFOX_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_SET0_MABFIFOX_CTRL(uint64_t a)
 {
-    if (a<=44)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=56))
         return 0x860001080000ll + 0x10ll * ((a) & 0x3f);
     __cavm_csr_fatal("PSM_SET0_MABFIFOX_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3364,17 +3542,17 @@ union cavm_psm_set0_mabfifo_busy
     struct cavm_psm_set0_mabfifo_busy_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_45_63        : 19;
-        uint64_t mabf_busy             : 45; /**< [ 44:  0](RO/H) Current status of the Set 0 MAB FIFOs.  A bit value of 1
+        uint64_t reserved_57_63        : 7;
+        uint64_t mabf_busy             : 57; /**< [ 56:  0](RO/H) Current status of the Set 0 MAB FIFOs.  A bit value of 1
                                                                  indicates that the MAB FIFO contains at least one entry.
                                                                  A bit value of 0 indicates that it is empty.  The bit number
                                                                  is indexed by PSM_SET0_MABDID_E. */
 #else /* Word 0 - Little Endian */
-        uint64_t mabf_busy             : 45; /**< [ 44:  0](RO/H) Current status of the Set 0 MAB FIFOs.  A bit value of 1
+        uint64_t mabf_busy             : 57; /**< [ 56:  0](RO/H) Current status of the Set 0 MAB FIFOs.  A bit value of 1
                                                                  indicates that the MAB FIFO contains at least one entry.
                                                                  A bit value of 0 indicates that it is empty.  The bit number
                                                                  is indexed by PSM_SET0_MABDID_E. */
-        uint64_t reserved_45_63        : 19;
+        uint64_t reserved_57_63        : 7;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_psm_set0_mabfifo_busy_s cn; */
@@ -3385,7 +3563,9 @@ typedef union cavm_psm_set0_mabfifo_busy cavm_psm_set0_mabfifo_busy_t;
 static inline uint64_t CAVM_PSM_SET0_MABFIFO_BUSY_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_SET0_MABFIFO_BUSY_FUNC(void)
 {
-    return 0x860001083000ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x860001083000ll;
+    __cavm_csr_fatal("PSM_SET0_MABFIFO_BUSY", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PSM_SET0_MABFIFO_BUSY cavm_psm_set0_mabfifo_busy_t
@@ -3406,19 +3586,19 @@ union cavm_psm_set0_mabqx_cdt_usage
     struct cavm_psm_set0_mabqx_cdt_usage_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_45_63        : 19;
-        uint64_t cdt_usage             : 45; /**< [ 44:  0](RO/H) This field reports the current usage of the MHAB job credits.
+        uint64_t reserved_57_63        : 7;
+        uint64_t cdt_usage             : 57; /**< [ 56:  0](RO/H) This field reports the current usage of the MHAB job credits.
                                                                  A bit value of 1 indicates that the MHAB is using at least one
                                                                  job credit.  A bit value of 0 indicates that no job credits are
                                                                  in use.  The bit number is indexed by the PSM_SET0_MABDID_E
                                                                  enumeration. */
 #else /* Word 0 - Little Endian */
-        uint64_t cdt_usage             : 45; /**< [ 44:  0](RO/H) This field reports the current usage of the MHAB job credits.
+        uint64_t cdt_usage             : 57; /**< [ 56:  0](RO/H) This field reports the current usage of the MHAB job credits.
                                                                  A bit value of 1 indicates that the MHAB is using at least one
                                                                  job credit.  A bit value of 0 indicates that no job credits are
                                                                  in use.  The bit number is indexed by the PSM_SET0_MABDID_E
                                                                  enumeration. */
-        uint64_t reserved_45_63        : 19;
+        uint64_t reserved_57_63        : 7;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_psm_set0_mabqx_cdt_usage_s cn; */
@@ -3428,7 +3608,7 @@ typedef union cavm_psm_set0_mabqx_cdt_usage cavm_psm_set0_mabqx_cdt_usage_t;
 static inline uint64_t CAVM_PSM_SET0_MABQX_CDT_USAGE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_SET0_MABQX_CDT_USAGE(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=1))
         return 0x860001047c00ll + 0x10ll * ((a) & 0x1);
     __cavm_csr_fatal("PSM_SET0_MABQX_CDT_USAGE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3443,8 +3623,8 @@ static inline uint64_t CAVM_PSM_SET0_MABQX_CDT_USAGE(uint64_t a)
  * Register (NCB) psm_set0_mabq#_job_cdt#
  *
  * PHY Scheduler Set 0 MHAB Job Credit Registers
- * These registers report the current number of jobs in progress
- * at the MHABs.
+ * These registers report the current number of job credits available
+ * for the MHABs.
  */
 union cavm_psm_set0_mabqx_job_cdtx
 {
@@ -3453,11 +3633,11 @@ union cavm_psm_set0_mabqx_job_cdtx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
-        uint64_t cdt                   : 5;  /**< [  4:  0](RO/H) Current number of jobs in progress that have been submitted
-                                                                 to MABQ {a} of MHAB {b}. Valid range is [0,16]. */
+        uint64_t cdt                   : 5;  /**< [  4:  0](RO/H) Current number of job credits available for MABQ {a} of MHAB {b}.
+                                                                 Valid range is [0,16]. */
 #else /* Word 0 - Little Endian */
-        uint64_t cdt                   : 5;  /**< [  4:  0](RO/H) Current number of jobs in progress that have been submitted
-                                                                 to MABQ {a} of MHAB {b}. Valid range is [0,16]. */
+        uint64_t cdt                   : 5;  /**< [  4:  0](RO/H) Current number of job credits available for MABQ {a} of MHAB {b}.
+                                                                 Valid range is [0,16]. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
@@ -3468,7 +3648,7 @@ typedef union cavm_psm_set0_mabqx_job_cdtx cavm_psm_set0_mabqx_job_cdtx_t;
 static inline uint64_t CAVM_PSM_SET0_MABQX_JOB_CDTX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_SET0_MABQX_JOB_CDTX(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=44))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=1) && (b<=56)))
         return 0x860001044000ll + 0x1000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3f);
     __cavm_csr_fatal("PSM_SET0_MABQX_JOB_CDTX", 2, a, b, 0, 0, 0, 0);
 }
@@ -3508,7 +3688,7 @@ typedef union cavm_psm_set0_max_mabqx_job_cdtx cavm_psm_set0_max_mabqx_job_cdtx_
 static inline uint64_t CAVM_PSM_SET0_MAX_MABQX_JOB_CDTX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_SET0_MAX_MABQX_JOB_CDTX(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=44))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=1) && (b<=56)))
         return 0x860001042000ll + 0x1000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3f);
     __cavm_csr_fatal("PSM_SET0_MAX_MABQX_JOB_CDTX", 2, a, b, 0, 0, 0, 0);
 }
@@ -3533,13 +3713,13 @@ union cavm_psm_set0_rsrc_tblx
     struct cavm_psm_set0_rsrc_tblx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_45_63        : 19;
-        uint64_t mab_map               : 45; /**< [ 44:  0](R/W) Bit mask indicating which MHABs can accept jobs of type {a}.  The
+        uint64_t reserved_57_63        : 7;
+        uint64_t mab_map               : 57; /**< [ 56:  0](R/W) Bit mask indicating which MHABs can accept jobs of type {a}.  The
                                                                  bit number is indexed by the PSM_SET0_MABDID_E enumeration. */
 #else /* Word 0 - Little Endian */
-        uint64_t mab_map               : 45; /**< [ 44:  0](R/W) Bit mask indicating which MHABs can accept jobs of type {a}.  The
+        uint64_t mab_map               : 57; /**< [ 56:  0](R/W) Bit mask indicating which MHABs can accept jobs of type {a}.  The
                                                                  bit number is indexed by the PSM_SET0_MABDID_E enumeration. */
-        uint64_t reserved_45_63        : 19;
+        uint64_t reserved_57_63        : 7;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_psm_set0_rsrc_tblx_s cn; */
@@ -3549,7 +3729,7 @@ typedef union cavm_psm_set0_rsrc_tblx cavm_psm_set0_rsrc_tblx_t;
 static inline uint64_t CAVM_PSM_SET0_RSRC_TBLX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_SET0_RSRC_TBLX(uint64_t a)
 {
-    if (a<=255)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=255))
         return 0x860001040000ll + 0x10ll * ((a) & 0xff);
     __cavm_csr_fatal("PSM_SET0_RSRC_TBLX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3591,7 +3771,7 @@ typedef union cavm_psm_set1_grpx_cdt cavm_psm_set1_grpx_cdt_t;
 static inline uint64_t CAVM_PSM_SET1_GRPX_CDT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_SET1_GRPX_CDT(uint64_t a)
 {
-    if (a<=7)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
         return 0x860001057400ll + 0x10ll * ((a) & 0x7);
     __cavm_csr_fatal("PSM_SET1_GRPX_CDT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3618,17 +3798,19 @@ union cavm_psm_set1_grpx_mask
     struct cavm_psm_set1_grpx_mask_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t mab_map               : 64; /**< [ 63:  0](R/W) Bit mask indicating which MDABs belong to the MDAB group.
+        uint64_t reserved_48_63        : 16;
+        uint64_t mab_map               : 48; /**< [ 47:  0](R/W) Bit mask indicating which MDABs belong to the MDAB group.
                                                                  The bit number is indexed by the PSM_SET1_MABDID_E enumeration.
                                                                  If this register is programmed, the corresponding group
                                                                  credit register (PSM_SET1_GRP()_CDT) must be programmed with
                                                                  the correct value. */
 #else /* Word 0 - Little Endian */
-        uint64_t mab_map               : 64; /**< [ 63:  0](R/W) Bit mask indicating which MDABs belong to the MDAB group.
+        uint64_t mab_map               : 48; /**< [ 47:  0](R/W) Bit mask indicating which MDABs belong to the MDAB group.
                                                                  The bit number is indexed by the PSM_SET1_MABDID_E enumeration.
                                                                  If this register is programmed, the corresponding group
                                                                  credit register (PSM_SET1_GRP()_CDT) must be programmed with
                                                                  the correct value. */
+        uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_psm_set1_grpx_mask_s cn; */
@@ -3638,7 +3820,7 @@ typedef union cavm_psm_set1_grpx_mask cavm_psm_set1_grpx_mask_t;
 static inline uint64_t CAVM_PSM_SET1_GRPX_MASK(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_SET1_GRPX_MASK(uint64_t a)
 {
-    if (a<=7)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
         return 0x860001057000ll + 0x10ll * ((a) & 0x7);
     __cavm_csr_fatal("PSM_SET1_GRPX_MASK", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3648,55 +3830,6 @@ static inline uint64_t CAVM_PSM_SET1_GRPX_MASK(uint64_t a)
 #define basename_CAVM_PSM_SET1_GRPX_MASK(a) "PSM_SET1_GRPX_MASK"
 #define busnum_CAVM_PSM_SET1_GRPX_MASK(a) (a)
 #define arguments_CAVM_PSM_SET1_GRPX_MASK(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) psm_set1_grp#_mask_hi
- *
- * PHY Scheduler Set 1 MDAB Group Mask Registers
- * These registers define membership of MDABs within each of eight groups.  Along
- * with the PSM_SET1_GRP()_CDT registers, these registers can be used to load balance
- * jobs across many homogeneous MDABs.  Under normal circumstances, the eight
- * groups should be programmed to match the eight GDABs containing the 16 MDABs and
- * ensure MDAB jobs are balanced across GDABs.
- */
-union cavm_psm_set1_grpx_mask_hi
-{
-    uint64_t u;
-    struct cavm_psm_set1_grpx_mask_hi_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t mab_map               : 4;  /**< [  3:  0](R/W) Bit mask indicating which MDABs belong to the MDAB group.
-                                                                 The bits in this register map to MDABs 64-67.
-                                                                 If this register is programmed, the corresponding group
-                                                                 credit register (PSM_SET1_GRP()_CDT) must be programmed with
-                                                                 the correct value. */
-#else /* Word 0 - Little Endian */
-        uint64_t mab_map               : 4;  /**< [  3:  0](R/W) Bit mask indicating which MDABs belong to the MDAB group.
-                                                                 The bits in this register map to MDABs 64-67.
-                                                                 If this register is programmed, the corresponding group
-                                                                 credit register (PSM_SET1_GRP()_CDT) must be programmed with
-                                                                 the correct value. */
-        uint64_t reserved_4_63         : 60;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_psm_set1_grpx_mask_hi_s cn; */
-};
-typedef union cavm_psm_set1_grpx_mask_hi cavm_psm_set1_grpx_mask_hi_t;
-
-static inline uint64_t CAVM_PSM_SET1_GRPX_MASK_HI(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PSM_SET1_GRPX_MASK_HI(uint64_t a)
-{
-    if (a<=7)
-        return 0x860001057008ll + 0x10ll * ((a) & 0x7);
-    __cavm_csr_fatal("PSM_SET1_GRPX_MASK_HI", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PSM_SET1_GRPX_MASK_HI(a) cavm_psm_set1_grpx_mask_hi_t
-#define bustype_CAVM_PSM_SET1_GRPX_MASK_HI(a) CSR_TYPE_NCB
-#define basename_CAVM_PSM_SET1_GRPX_MASK_HI(a) "PSM_SET1_GRPX_MASK_HI"
-#define busnum_CAVM_PSM_SET1_GRPX_MASK_HI(a) (a)
-#define arguments_CAVM_PSM_SET1_GRPX_MASK_HI(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) psm_set1_mab_res
@@ -3711,13 +3844,15 @@ union cavm_psm_set1_mab_res
     struct cavm_psm_set1_mab_res_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t mabres                : 64; /**< [ 63:  0](R/W/H) This field reports the current value of the per-MDAB
+        uint64_t reserved_48_63        : 16;
+        uint64_t mabres                : 48; /**< [ 47:  0](R/W/H) This field reports the current value of the per-MDAB
                                                                  reservation vector, for CONT_JOB commands.  The bit number
                                                                  is indexed by the PSM_SET1_MABDID_E enumeration. */
 #else /* Word 0 - Little Endian */
-        uint64_t mabres                : 64; /**< [ 63:  0](R/W/H) This field reports the current value of the per-MDAB
+        uint64_t mabres                : 48; /**< [ 47:  0](R/W/H) This field reports the current value of the per-MDAB
                                                                  reservation vector, for CONT_JOB commands.  The bit number
                                                                  is indexed by the PSM_SET1_MABDID_E enumeration. */
+        uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_psm_set1_mab_res_s cn; */
@@ -3728,7 +3863,9 @@ typedef union cavm_psm_set1_mab_res cavm_psm_set1_mab_res_t;
 static inline uint64_t CAVM_PSM_SET1_MAB_RES_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_SET1_MAB_RES_FUNC(void)
 {
-    return 0x860001057800ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x860001057800ll;
+    __cavm_csr_fatal("PSM_SET1_MAB_RES", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PSM_SET1_MAB_RES cavm_psm_set1_mab_res_t
@@ -3736,47 +3873,6 @@ static inline uint64_t CAVM_PSM_SET1_MAB_RES_FUNC(void)
 #define basename_CAVM_PSM_SET1_MAB_RES "PSM_SET1_MAB_RES"
 #define busnum_CAVM_PSM_SET1_MAB_RES 0
 #define arguments_CAVM_PSM_SET1_MAB_RES -1,-1,-1,-1
-
-/**
- * Register (NCB) psm_set1_mab_res_hi
- *
- * PHY Scheduler Set 1 MAB Reservation Register
- * This register reports the current value of the per-MDAB reservation vector, for CONT_JOB
- * commands.
- */
-union cavm_psm_set1_mab_res_hi
-{
-    uint64_t u;
-    struct cavm_psm_set1_mab_res_hi_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t mabres                : 4;  /**< [  3:  0](R/W/H) This field reports the current value of the per-MDAB
-                                                                 reservation vector, for CONT_JOB commands.  The bits in
-                                                                 this register map to MDABs 64-67. */
-#else /* Word 0 - Little Endian */
-        uint64_t mabres                : 4;  /**< [  3:  0](R/W/H) This field reports the current value of the per-MDAB
-                                                                 reservation vector, for CONT_JOB commands.  The bits in
-                                                                 this register map to MDABs 64-67. */
-        uint64_t reserved_4_63         : 60;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_psm_set1_mab_res_hi_s cn; */
-};
-typedef union cavm_psm_set1_mab_res_hi cavm_psm_set1_mab_res_hi_t;
-
-#define CAVM_PSM_SET1_MAB_RES_HI CAVM_PSM_SET1_MAB_RES_HI_FUNC()
-static inline uint64_t CAVM_PSM_SET1_MAB_RES_HI_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PSM_SET1_MAB_RES_HI_FUNC(void)
-{
-    return 0x860001057808ll;
-}
-
-#define typedef_CAVM_PSM_SET1_MAB_RES_HI cavm_psm_set1_mab_res_hi_t
-#define bustype_CAVM_PSM_SET1_MAB_RES_HI CSR_TYPE_NCB
-#define basename_CAVM_PSM_SET1_MAB_RES_HI "PSM_SET1_MAB_RES_HI"
-#define busnum_CAVM_PSM_SET1_MAB_RES_HI 0
-#define arguments_CAVM_PSM_SET1_MAB_RES_HI -1,-1,-1,-1
 
 /**
  * Register (NCB) psm_set1_mabfifo#_ctrl
@@ -3800,7 +3896,8 @@ union cavm_psm_set1_mabfifox_ctrl
         uint64_t reserved_36_47        : 12;
         uint64_t mabfifo_wdog          : 4;  /**< [ 35: 32](R/W) Configures the timeout value of the MABFIFO watchdog timer.  The timeout value
                                                                  is 2^[MABFIFO_WDOG] * 16.  The MABFIFO watchdog timer runs when the FIFO
-                                                                 contains a valid entry, and is reset to 0 whenever an entry is popped. If the
+                                                                 contains a valid entry and increments by one on every tick of the
+                                                                 PSM timer.  It is reset to 0 whenever an entry is popped. If the
                                                                  timeout value is exceeded, an interrupt will be asserted.  A [MABFIFO_WDOG]
                                                                  value of 0 will disable the timeout check. */
         uint64_t reserved_28_31        : 4;
@@ -3824,7 +3921,8 @@ union cavm_psm_set1_mabfifox_ctrl
         uint64_t reserved_28_31        : 4;
         uint64_t mabfifo_wdog          : 4;  /**< [ 35: 32](R/W) Configures the timeout value of the MABFIFO watchdog timer.  The timeout value
                                                                  is 2^[MABFIFO_WDOG] * 16.  The MABFIFO watchdog timer runs when the FIFO
-                                                                 contains a valid entry, and is reset to 0 whenever an entry is popped. If the
+                                                                 contains a valid entry and increments by one on every tick of the
+                                                                 PSM timer.  It is reset to 0 whenever an entry is popped. If the
                                                                  timeout value is exceeded, an interrupt will be asserted.  A [MABFIFO_WDOG]
                                                                  value of 0 will disable the timeout check. */
         uint64_t reserved_36_47        : 12;
@@ -3842,8 +3940,8 @@ typedef union cavm_psm_set1_mabfifox_ctrl cavm_psm_set1_mabfifox_ctrl_t;
 static inline uint64_t CAVM_PSM_SET1_MABFIFOX_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_SET1_MABFIFOX_CTRL(uint64_t a)
 {
-    if (a<=67)
-        return 0x860001090000ll + 0x10ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=47))
+        return 0x860001090000ll + 0x10ll * ((a) & 0x3f);
     __cavm_csr_fatal("PSM_SET1_MABFIFOX_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3864,15 +3962,17 @@ union cavm_psm_set1_mabfifo_busy
     struct cavm_psm_set1_mabfifo_busy_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t mabf_busy             : 64; /**< [ 63:  0](RO/H) Current status of the Set 1 MAB FIFOs.  A bit value of 1
+        uint64_t reserved_48_63        : 16;
+        uint64_t mabf_busy             : 48; /**< [ 47:  0](RO/H) Current status of the Set 1 MAB FIFOs.  A bit value of 1
                                                                  indicates that the MAB FIFO contains at least one entry.
                                                                  A bit value of 0 indicates that it is empty.  The bit number
                                                                  is indexed by PSM_SET1_MABDID_E. */
 #else /* Word 0 - Little Endian */
-        uint64_t mabf_busy             : 64; /**< [ 63:  0](RO/H) Current status of the Set 1 MAB FIFOs.  A bit value of 1
+        uint64_t mabf_busy             : 48; /**< [ 47:  0](RO/H) Current status of the Set 1 MAB FIFOs.  A bit value of 1
                                                                  indicates that the MAB FIFO contains at least one entry.
                                                                  A bit value of 0 indicates that it is empty.  The bit number
                                                                  is indexed by PSM_SET1_MABDID_E. */
+        uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_psm_set1_mabfifo_busy_s cn; */
@@ -3883,7 +3983,9 @@ typedef union cavm_psm_set1_mabfifo_busy cavm_psm_set1_mabfifo_busy_t;
 static inline uint64_t CAVM_PSM_SET1_MABFIFO_BUSY_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_SET1_MABFIFO_BUSY_FUNC(void)
 {
-    return 0x860001093000ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x860001093000ll;
+    __cavm_csr_fatal("PSM_SET1_MABFIFO_BUSY", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PSM_SET1_MABFIFO_BUSY cavm_psm_set1_mabfifo_busy_t
@@ -3891,47 +3993,6 @@ static inline uint64_t CAVM_PSM_SET1_MABFIFO_BUSY_FUNC(void)
 #define basename_CAVM_PSM_SET1_MABFIFO_BUSY "PSM_SET1_MABFIFO_BUSY"
 #define busnum_CAVM_PSM_SET1_MABFIFO_BUSY 0
 #define arguments_CAVM_PSM_SET1_MABFIFO_BUSY -1,-1,-1,-1
-
-/**
- * Register (NCB) psm_set1_mabfifo_busy_hi
- *
- * PHY Scheduler Set 1 MAB FIFO Busy Register
- */
-union cavm_psm_set1_mabfifo_busy_hi
-{
-    uint64_t u;
-    struct cavm_psm_set1_mabfifo_busy_hi_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t mabf_busy             : 4;  /**< [  3:  0](RO/H) Current status of the Set 1 MAB FIFOs.  A bit value of 1
-                                                                 indicates that the MAB FIFO contains at least one entry.
-                                                                 A bit value of 0 indicates that it is empty.  The bits in
-                                                                 this register map to MDABs 64-67. */
-#else /* Word 0 - Little Endian */
-        uint64_t mabf_busy             : 4;  /**< [  3:  0](RO/H) Current status of the Set 1 MAB FIFOs.  A bit value of 1
-                                                                 indicates that the MAB FIFO contains at least one entry.
-                                                                 A bit value of 0 indicates that it is empty.  The bits in
-                                                                 this register map to MDABs 64-67. */
-        uint64_t reserved_4_63         : 60;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_psm_set1_mabfifo_busy_hi_s cn; */
-};
-typedef union cavm_psm_set1_mabfifo_busy_hi cavm_psm_set1_mabfifo_busy_hi_t;
-
-#define CAVM_PSM_SET1_MABFIFO_BUSY_HI CAVM_PSM_SET1_MABFIFO_BUSY_HI_FUNC()
-static inline uint64_t CAVM_PSM_SET1_MABFIFO_BUSY_HI_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PSM_SET1_MABFIFO_BUSY_HI_FUNC(void)
-{
-    return 0x860001093008ll;
-}
-
-#define typedef_CAVM_PSM_SET1_MABFIFO_BUSY_HI cavm_psm_set1_mabfifo_busy_hi_t
-#define bustype_CAVM_PSM_SET1_MABFIFO_BUSY_HI CSR_TYPE_NCB
-#define basename_CAVM_PSM_SET1_MABFIFO_BUSY_HI "PSM_SET1_MABFIFO_BUSY_HI"
-#define busnum_CAVM_PSM_SET1_MABFIFO_BUSY_HI 0
-#define arguments_CAVM_PSM_SET1_MABFIFO_BUSY_HI -1,-1,-1,-1
 
 /**
  * Register (NCB) psm_set1_mabq#_cdt_usage
@@ -3945,17 +4006,19 @@ union cavm_psm_set1_mabqx_cdt_usage
     struct cavm_psm_set1_mabqx_cdt_usage_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t cdt_usage             : 64; /**< [ 63:  0](RO/H) This field reports the current usage of the MDAB job credits.
+        uint64_t reserved_48_63        : 16;
+        uint64_t cdt_usage             : 48; /**< [ 47:  0](RO/H) This field reports the current usage of the MDAB job credits.
                                                                  A bit value of 1 indicates that the MDAB is using at least one
                                                                  job credit.  A bit value of 0 indicates that no job credits are
                                                                  in use.  The bit number is indexed by the PSM_SET1_MABDID_E
                                                                  enumeration. */
 #else /* Word 0 - Little Endian */
-        uint64_t cdt_usage             : 64; /**< [ 63:  0](RO/H) This field reports the current usage of the MDAB job credits.
+        uint64_t cdt_usage             : 48; /**< [ 47:  0](RO/H) This field reports the current usage of the MDAB job credits.
                                                                  A bit value of 1 indicates that the MDAB is using at least one
                                                                  job credit.  A bit value of 0 indicates that no job credits are
                                                                  in use.  The bit number is indexed by the PSM_SET1_MABDID_E
                                                                  enumeration. */
+        uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_psm_set1_mabqx_cdt_usage_s cn; */
@@ -3965,7 +4028,7 @@ typedef union cavm_psm_set1_mabqx_cdt_usage cavm_psm_set1_mabqx_cdt_usage_t;
 static inline uint64_t CAVM_PSM_SET1_MABQX_CDT_USAGE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_SET1_MABQX_CDT_USAGE(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=1))
         return 0x860001057c00ll + 0x10ll * ((a) & 0x1);
     __cavm_csr_fatal("PSM_SET1_MABQX_CDT_USAGE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3977,54 +4040,11 @@ static inline uint64_t CAVM_PSM_SET1_MABQX_CDT_USAGE(uint64_t a)
 #define arguments_CAVM_PSM_SET1_MABQX_CDT_USAGE(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) psm_set1_mabq#_cdt_usage_hi
- *
- * PHY Scheduler Set 1 MDAB Credit Usage Registers
- * This register reports the current usage of the MDAB job credits.
- */
-union cavm_psm_set1_mabqx_cdt_usage_hi
-{
-    uint64_t u;
-    struct cavm_psm_set1_mabqx_cdt_usage_hi_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t cdt_usage             : 4;  /**< [  3:  0](RO/H) This field reports the current usage of the MDAB job credits.
-                                                                 A bit value of 1 indicates that the MDAB is using at least one
-                                                                 job credit.  A bit value of 0 indicates that no job credits are
-                                                                 in use.  The bits in this register map to MDABs 64-67. */
-#else /* Word 0 - Little Endian */
-        uint64_t cdt_usage             : 4;  /**< [  3:  0](RO/H) This field reports the current usage of the MDAB job credits.
-                                                                 A bit value of 1 indicates that the MDAB is using at least one
-                                                                 job credit.  A bit value of 0 indicates that no job credits are
-                                                                 in use.  The bits in this register map to MDABs 64-67. */
-        uint64_t reserved_4_63         : 60;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_psm_set1_mabqx_cdt_usage_hi_s cn; */
-};
-typedef union cavm_psm_set1_mabqx_cdt_usage_hi cavm_psm_set1_mabqx_cdt_usage_hi_t;
-
-static inline uint64_t CAVM_PSM_SET1_MABQX_CDT_USAGE_HI(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PSM_SET1_MABQX_CDT_USAGE_HI(uint64_t a)
-{
-    if (a<=1)
-        return 0x860001057c08ll + 0x10ll * ((a) & 0x1);
-    __cavm_csr_fatal("PSM_SET1_MABQX_CDT_USAGE_HI", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PSM_SET1_MABQX_CDT_USAGE_HI(a) cavm_psm_set1_mabqx_cdt_usage_hi_t
-#define bustype_CAVM_PSM_SET1_MABQX_CDT_USAGE_HI(a) CSR_TYPE_NCB
-#define basename_CAVM_PSM_SET1_MABQX_CDT_USAGE_HI(a) "PSM_SET1_MABQX_CDT_USAGE_HI"
-#define busnum_CAVM_PSM_SET1_MABQX_CDT_USAGE_HI(a) (a)
-#define arguments_CAVM_PSM_SET1_MABQX_CDT_USAGE_HI(a) (a),-1,-1,-1
-
-/**
  * Register (NCB) psm_set1_mabq#_job_cdt#
  *
  * PHY Scheduler Set 1 MDAB Job Credit Registers
- * These registers report the current number of jobs in progress
- * at the MDABs.
+ * These registers report the current number of job credits available
+ * for the MDABs.
  */
 union cavm_psm_set1_mabqx_job_cdtx
 {
@@ -4033,11 +4053,11 @@ union cavm_psm_set1_mabqx_job_cdtx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
-        uint64_t cdt                   : 5;  /**< [  4:  0](RO/H) Current number of jobs in progress that have been submitted
-                                                                 to MABQ {a} of MDAB {b}. Valid range is [0,16]. */
+        uint64_t cdt                   : 5;  /**< [  4:  0](RO/H) Current number of job credits available for MABQ {a} of MDAB {b}.
+                                                                 Valid range is [0,16]. */
 #else /* Word 0 - Little Endian */
-        uint64_t cdt                   : 5;  /**< [  4:  0](RO/H) Current number of jobs in progress that have been submitted
-                                                                 to MABQ {a} of MDAB {b}. Valid range is [0,16]. */
+        uint64_t cdt                   : 5;  /**< [  4:  0](RO/H) Current number of job credits available for MABQ {a} of MDAB {b}.
+                                                                 Valid range is [0,16]. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
@@ -4048,8 +4068,8 @@ typedef union cavm_psm_set1_mabqx_job_cdtx cavm_psm_set1_mabqx_job_cdtx_t;
 static inline uint64_t CAVM_PSM_SET1_MABQX_JOB_CDTX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_SET1_MABQX_JOB_CDTX(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=67))
-        return 0x860001054000ll + 0x1000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x7f);
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=1) && (b<=47)))
+        return 0x860001054000ll + 0x1000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3f);
     __cavm_csr_fatal("PSM_SET1_MABQX_JOB_CDTX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -4088,8 +4108,8 @@ typedef union cavm_psm_set1_max_mabqx_job_cdtx cavm_psm_set1_max_mabqx_job_cdtx_
 static inline uint64_t CAVM_PSM_SET1_MAX_MABQX_JOB_CDTX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_SET1_MAX_MABQX_JOB_CDTX(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=67))
-        return 0x860001052000ll + 0x1000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x7f);
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=1) && (b<=47)))
+        return 0x860001052000ll + 0x1000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3f);
     __cavm_csr_fatal("PSM_SET1_MAX_MABQX_JOB_CDTX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -4113,11 +4133,13 @@ union cavm_psm_set1_rsrc_tblx
     struct cavm_psm_set1_rsrc_tblx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t mab_map               : 64; /**< [ 63:  0](R/W) Bit mask indicating which MDABs can accept jobs of type {a}.  The
+        uint64_t reserved_48_63        : 16;
+        uint64_t mab_map               : 48; /**< [ 47:  0](R/W) Bit mask indicating which MDABs can accept jobs of type {a}.  The
                                                                  bit number is indexed by the PSM_SET1_MABDID_E enumeration. */
 #else /* Word 0 - Little Endian */
-        uint64_t mab_map               : 64; /**< [ 63:  0](R/W) Bit mask indicating which MDABs can accept jobs of type {a}.  The
+        uint64_t mab_map               : 48; /**< [ 47:  0](R/W) Bit mask indicating which MDABs can accept jobs of type {a}.  The
                                                                  bit number is indexed by the PSM_SET1_MABDID_E enumeration. */
+        uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_psm_set1_rsrc_tblx_s cn; */
@@ -4127,7 +4149,7 @@ typedef union cavm_psm_set1_rsrc_tblx cavm_psm_set1_rsrc_tblx_t;
 static inline uint64_t CAVM_PSM_SET1_RSRC_TBLX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_SET1_RSRC_TBLX(uint64_t a)
 {
-    if (a<=255)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=255))
         return 0x860001050000ll + 0x10ll * ((a) & 0xff);
     __cavm_csr_fatal("PSM_SET1_RSRC_TBLX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4137,47 +4159,6 @@ static inline uint64_t CAVM_PSM_SET1_RSRC_TBLX(uint64_t a)
 #define basename_CAVM_PSM_SET1_RSRC_TBLX(a) "PSM_SET1_RSRC_TBLX"
 #define busnum_CAVM_PSM_SET1_RSRC_TBLX(a) (a)
 #define arguments_CAVM_PSM_SET1_RSRC_TBLX(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) psm_set1_rsrc_tbl#_hi
- *
- * PHY Scheduler Set 1 Resource Table Registers
- * These registers define a mapping table of job types to MDAB(s).
- * Multiple MDABs may be assigned to service jobs of each type, and a
- * given MDAB can be assigned to any number of job types.
- */
-union cavm_psm_set1_rsrc_tblx_hi
-{
-    uint64_t u;
-    struct cavm_psm_set1_rsrc_tblx_hi_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t mab_map               : 4;  /**< [  3:  0](R/W) Bit mask indicating which MDABs can accept jobs of type {a}.  The
-                                                                 bits in this register map to MDABs 64-67. */
-#else /* Word 0 - Little Endian */
-        uint64_t mab_map               : 4;  /**< [  3:  0](R/W) Bit mask indicating which MDABs can accept jobs of type {a}.  The
-                                                                 bits in this register map to MDABs 64-67. */
-        uint64_t reserved_4_63         : 60;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_psm_set1_rsrc_tblx_hi_s cn; */
-};
-typedef union cavm_psm_set1_rsrc_tblx_hi cavm_psm_set1_rsrc_tblx_hi_t;
-
-static inline uint64_t CAVM_PSM_SET1_RSRC_TBLX_HI(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PSM_SET1_RSRC_TBLX_HI(uint64_t a)
-{
-    if (a<=255)
-        return 0x860001050008ll + 0x10ll * ((a) & 0xff);
-    __cavm_csr_fatal("PSM_SET1_RSRC_TBLX_HI", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PSM_SET1_RSRC_TBLX_HI(a) cavm_psm_set1_rsrc_tblx_hi_t
-#define bustype_CAVM_PSM_SET1_RSRC_TBLX_HI(a) CSR_TYPE_NCB
-#define basename_CAVM_PSM_SET1_RSRC_TBLX_HI(a) "PSM_SET1_RSRC_TBLX_HI"
-#define busnum_CAVM_PSM_SET1_RSRC_TBLX_HI(a) (a)
-#define arguments_CAVM_PSM_SET1_RSRC_TBLX_HI(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) psm_set2_grp#_cdt
@@ -4210,7 +4191,7 @@ typedef union cavm_psm_set2_grpx_cdt cavm_psm_set2_grpx_cdt_t;
 static inline uint64_t CAVM_PSM_SET2_GRPX_CDT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_SET2_GRPX_CDT(uint64_t a)
 {
-    if (a<=7)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
         return 0x860001067400ll + 0x10ll * ((a) & 0x7);
     __cavm_csr_fatal("PSM_SET2_GRPX_CDT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4235,19 +4216,19 @@ union cavm_psm_set2_grpx_mask
     struct cavm_psm_set2_grpx_mask_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
-        uint64_t mab_map               : 8;  /**< [  7:  0](R/W) Bit mask indicating which RF Engines belong to the RF Engine
+        uint64_t reserved_21_63        : 43;
+        uint64_t mab_map               : 21; /**< [ 20:  0](R/W) Bit mask indicating which RF Engines belong to the RF Engine
                                                                  group.  The bit number is indexed by the PSM_SET2_MABDID_E
                                                                  enumeration.  If this register is programmed, the corresponding
                                                                  group credit register (PSM_SET2_GRP()_CDT) must be programmed
                                                                  with the correct value. */
 #else /* Word 0 - Little Endian */
-        uint64_t mab_map               : 8;  /**< [  7:  0](R/W) Bit mask indicating which RF Engines belong to the RF Engine
+        uint64_t mab_map               : 21; /**< [ 20:  0](R/W) Bit mask indicating which RF Engines belong to the RF Engine
                                                                  group.  The bit number is indexed by the PSM_SET2_MABDID_E
                                                                  enumeration.  If this register is programmed, the corresponding
                                                                  group credit register (PSM_SET2_GRP()_CDT) must be programmed
                                                                  with the correct value. */
-        uint64_t reserved_8_63         : 56;
+        uint64_t reserved_21_63        : 43;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_psm_set2_grpx_mask_s cn; */
@@ -4257,7 +4238,7 @@ typedef union cavm_psm_set2_grpx_mask cavm_psm_set2_grpx_mask_t;
 static inline uint64_t CAVM_PSM_SET2_GRPX_MASK(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_SET2_GRPX_MASK(uint64_t a)
 {
-    if (a<=7)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
         return 0x860001067000ll + 0x10ll * ((a) & 0x7);
     __cavm_csr_fatal("PSM_SET2_GRPX_MASK", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4281,15 +4262,15 @@ union cavm_psm_set2_mab_res
     struct cavm_psm_set2_mab_res_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
-        uint64_t mabres                : 8;  /**< [  7:  0](R/W/H) This field reports the current value of the per-RF-Engine
+        uint64_t reserved_21_63        : 43;
+        uint64_t mabres                : 21; /**< [ 20:  0](R/W/H) This field reports the current value of the per-RF-Engine
                                                                  reservation vector, for CONT_JOB commands.  The bit number
                                                                  is indexed by the PSM_SET2_MABDID_E enumeration. */
 #else /* Word 0 - Little Endian */
-        uint64_t mabres                : 8;  /**< [  7:  0](R/W/H) This field reports the current value of the per-RF-Engine
+        uint64_t mabres                : 21; /**< [ 20:  0](R/W/H) This field reports the current value of the per-RF-Engine
                                                                  reservation vector, for CONT_JOB commands.  The bit number
                                                                  is indexed by the PSM_SET2_MABDID_E enumeration. */
-        uint64_t reserved_8_63         : 56;
+        uint64_t reserved_21_63        : 43;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_psm_set2_mab_res_s cn; */
@@ -4300,7 +4281,9 @@ typedef union cavm_psm_set2_mab_res cavm_psm_set2_mab_res_t;
 static inline uint64_t CAVM_PSM_SET2_MAB_RES_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_SET2_MAB_RES_FUNC(void)
 {
-    return 0x860001067800ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x860001067800ll;
+    __cavm_csr_fatal("PSM_SET2_MAB_RES", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PSM_SET2_MAB_RES cavm_psm_set2_mab_res_t
@@ -4331,7 +4314,8 @@ union cavm_psm_set2_mabfifox_ctrl
         uint64_t reserved_36_47        : 12;
         uint64_t mabfifo_wdog          : 4;  /**< [ 35: 32](R/W) Configures the timeout value of the MABFIFO watchdog timer.  The timeout value
                                                                  is 2^[MABFIFO_WDOG] * 16.  The MABFIFO watchdog timer runs when the FIFO
-                                                                 contains a valid entry, and is reset to 0 whenever an entry is popped. If the
+                                                                 contains a valid entry and increments by one on every tick of the
+                                                                 PSM timer.  It is reset to 0 whenever an entry is popped. If the
                                                                  timeout value is exceeded, an interrupt will be asserted.  A [MABFIFO_WDOG]
                                                                  value of 0 will disable the timeout check. */
         uint64_t reserved_28_31        : 4;
@@ -4355,7 +4339,8 @@ union cavm_psm_set2_mabfifox_ctrl
         uint64_t reserved_28_31        : 4;
         uint64_t mabfifo_wdog          : 4;  /**< [ 35: 32](R/W) Configures the timeout value of the MABFIFO watchdog timer.  The timeout value
                                                                  is 2^[MABFIFO_WDOG] * 16.  The MABFIFO watchdog timer runs when the FIFO
-                                                                 contains a valid entry, and is reset to 0 whenever an entry is popped. If the
+                                                                 contains a valid entry and increments by one on every tick of the
+                                                                 PSM timer.  It is reset to 0 whenever an entry is popped. If the
                                                                  timeout value is exceeded, an interrupt will be asserted.  A [MABFIFO_WDOG]
                                                                  value of 0 will disable the timeout check. */
         uint64_t reserved_36_47        : 12;
@@ -4373,8 +4358,8 @@ typedef union cavm_psm_set2_mabfifox_ctrl cavm_psm_set2_mabfifox_ctrl_t;
 static inline uint64_t CAVM_PSM_SET2_MABFIFOX_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_SET2_MABFIFOX_CTRL(uint64_t a)
 {
-    if (a<=7)
-        return 0x8600010a0000ll + 0x10ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=20))
+        return 0x8600010a0000ll + 0x10ll * ((a) & 0x1f);
     __cavm_csr_fatal("PSM_SET2_MABFIFOX_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4395,17 +4380,17 @@ union cavm_psm_set2_mabfifo_busy
     struct cavm_psm_set2_mabfifo_busy_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
-        uint64_t mabf_busy             : 8;  /**< [  7:  0](RO/H) Current status of the Set 2 MAB FIFOs.  A bit value of 1
+        uint64_t reserved_21_63        : 43;
+        uint64_t mabf_busy             : 21; /**< [ 20:  0](RO/H) Current status of the Set 2 MAB FIFOs.  A bit value of 1
                                                                  indicates that the MAB FIFO contains at least one entry.
                                                                  A bit value of 0 indicates that it is empty.  The bit number
                                                                  is indexed by PSM_SET2_MABDID_E. */
 #else /* Word 0 - Little Endian */
-        uint64_t mabf_busy             : 8;  /**< [  7:  0](RO/H) Current status of the Set 2 MAB FIFOs.  A bit value of 1
+        uint64_t mabf_busy             : 21; /**< [ 20:  0](RO/H) Current status of the Set 2 MAB FIFOs.  A bit value of 1
                                                                  indicates that the MAB FIFO contains at least one entry.
                                                                  A bit value of 0 indicates that it is empty.  The bit number
                                                                  is indexed by PSM_SET2_MABDID_E. */
-        uint64_t reserved_8_63         : 56;
+        uint64_t reserved_21_63        : 43;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_psm_set2_mabfifo_busy_s cn; */
@@ -4416,7 +4401,9 @@ typedef union cavm_psm_set2_mabfifo_busy cavm_psm_set2_mabfifo_busy_t;
 static inline uint64_t CAVM_PSM_SET2_MABFIFO_BUSY_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_SET2_MABFIFO_BUSY_FUNC(void)
 {
-    return 0x8600010a3000ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x8600010a3000ll;
+    __cavm_csr_fatal("PSM_SET2_MABFIFO_BUSY", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PSM_SET2_MABFIFO_BUSY cavm_psm_set2_mabfifo_busy_t
@@ -4437,19 +4424,19 @@ union cavm_psm_set2_mabqx_cdt_usage
     struct cavm_psm_set2_mabqx_cdt_usage_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
-        uint64_t cdt_usage             : 8;  /**< [  7:  0](RO/H) This field reports the current usage of the RF Engine job credits.
+        uint64_t reserved_21_63        : 43;
+        uint64_t cdt_usage             : 21; /**< [ 20:  0](RO/H) This field reports the current usage of the RF Engine job credits.
                                                                  A bit value of 1 indicates that the RF Engine is using at least one
                                                                  job credit.  A bit value of 0 indicates that no job credits are
                                                                  in use.  The bit number is indexed by the PSM_SET2_MABDID_E
                                                                  enumeration. */
 #else /* Word 0 - Little Endian */
-        uint64_t cdt_usage             : 8;  /**< [  7:  0](RO/H) This field reports the current usage of the RF Engine job credits.
+        uint64_t cdt_usage             : 21; /**< [ 20:  0](RO/H) This field reports the current usage of the RF Engine job credits.
                                                                  A bit value of 1 indicates that the RF Engine is using at least one
                                                                  job credit.  A bit value of 0 indicates that no job credits are
                                                                  in use.  The bit number is indexed by the PSM_SET2_MABDID_E
                                                                  enumeration. */
-        uint64_t reserved_8_63         : 56;
+        uint64_t reserved_21_63        : 43;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_psm_set2_mabqx_cdt_usage_s cn; */
@@ -4459,7 +4446,7 @@ typedef union cavm_psm_set2_mabqx_cdt_usage cavm_psm_set2_mabqx_cdt_usage_t;
 static inline uint64_t CAVM_PSM_SET2_MABQX_CDT_USAGE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_SET2_MABQX_CDT_USAGE(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=1))
         return 0x860001067c00ll + 0x10ll * ((a) & 0x1);
     __cavm_csr_fatal("PSM_SET2_MABQX_CDT_USAGE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4474,8 +4461,8 @@ static inline uint64_t CAVM_PSM_SET2_MABQX_CDT_USAGE(uint64_t a)
  * Register (NCB) psm_set2_mabq#_job_cdt#
  *
  * PHY Scheduler Set 2 RF Engine Job Credit Registers
- * These registers report the current number of jobs in progress
- * at the RF Engines.
+ * These registers report the current number of job credits available
+ * for the RF Engines.
  */
 union cavm_psm_set2_mabqx_job_cdtx
 {
@@ -4484,11 +4471,11 @@ union cavm_psm_set2_mabqx_job_cdtx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
-        uint64_t cdt                   : 5;  /**< [  4:  0](RO/H) Current number of jobs in progress that have been submitted
-                                                                 to MABQ {a} of RF Engine {b}. Valid range is [0,16]. */
+        uint64_t cdt                   : 5;  /**< [  4:  0](RO/H) Current number of job credits available for MABQ {a} of
+                                                                 RF Engine {b}. Valid range is [0,16]. */
 #else /* Word 0 - Little Endian */
-        uint64_t cdt                   : 5;  /**< [  4:  0](RO/H) Current number of jobs in progress that have been submitted
-                                                                 to MABQ {a} of RF Engine {b}. Valid range is [0,16]. */
+        uint64_t cdt                   : 5;  /**< [  4:  0](RO/H) Current number of job credits available for MABQ {a} of
+                                                                 RF Engine {b}. Valid range is [0,16]. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
@@ -4499,8 +4486,8 @@ typedef union cavm_psm_set2_mabqx_job_cdtx cavm_psm_set2_mabqx_job_cdtx_t;
 static inline uint64_t CAVM_PSM_SET2_MABQX_JOB_CDTX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_SET2_MABQX_JOB_CDTX(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=7))
-        return 0x860001064000ll + 0x1000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x7);
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=1) && (b<=20)))
+        return 0x860001064000ll + 0x1000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1f);
     __cavm_csr_fatal("PSM_SET2_MABQX_JOB_CDTX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -4539,8 +4526,8 @@ typedef union cavm_psm_set2_max_mabqx_job_cdtx cavm_psm_set2_max_mabqx_job_cdtx_
 static inline uint64_t CAVM_PSM_SET2_MAX_MABQX_JOB_CDTX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_SET2_MAX_MABQX_JOB_CDTX(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=7))
-        return 0x860001062000ll + 0x1000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x7);
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=1) && (b<=20)))
+        return 0x860001062000ll + 0x1000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1f);
     __cavm_csr_fatal("PSM_SET2_MAX_MABQX_JOB_CDTX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -4564,13 +4551,13 @@ union cavm_psm_set2_rsrc_tblx
     struct cavm_psm_set2_rsrc_tblx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
-        uint64_t mab_map               : 8;  /**< [  7:  0](R/W) Bit mask indicating which RF engines can accept jobs of type {a}.
+        uint64_t reserved_21_63        : 43;
+        uint64_t mab_map               : 21; /**< [ 20:  0](R/W) Bit mask indicating which RF engines can accept jobs of type {a}.
                                                                  The bit number is indexed by the PSM_SET2_MABDID_E enumeration. */
 #else /* Word 0 - Little Endian */
-        uint64_t mab_map               : 8;  /**< [  7:  0](R/W) Bit mask indicating which RF engines can accept jobs of type {a}.
+        uint64_t mab_map               : 21; /**< [ 20:  0](R/W) Bit mask indicating which RF engines can accept jobs of type {a}.
                                                                  The bit number is indexed by the PSM_SET2_MABDID_E enumeration. */
-        uint64_t reserved_8_63         : 56;
+        uint64_t reserved_21_63        : 43;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_psm_set2_rsrc_tblx_s cn; */
@@ -4580,7 +4567,7 @@ typedef union cavm_psm_set2_rsrc_tblx cavm_psm_set2_rsrc_tblx_t;
 static inline uint64_t CAVM_PSM_SET2_RSRC_TBLX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_SET2_RSRC_TBLX(uint64_t a)
 {
-    if (a<=255)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=255))
         return 0x860001060000ll + 0x10ll * ((a) & 0xff);
     __cavm_csr_fatal("PSM_SET2_RSRC_TBLX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4615,7 +4602,7 @@ typedef union cavm_psm_swx_enqueue_hi cavm_psm_swx_enqueue_hi_t;
 static inline uint64_t CAVM_PSM_SWX_ENQUEUE_HI(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_SWX_ENQUEUE_HI(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x860001020008ll + 0x10ll * ((a) & 0xf);
     __cavm_csr_fatal("PSM_SWX_ENQUEUE_HI", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4658,7 +4645,7 @@ typedef union cavm_psm_swx_enqueue_lo cavm_psm_swx_enqueue_lo_t;
 static inline uint64_t CAVM_PSM_SWX_ENQUEUE_LO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_SWX_ENQUEUE_LO(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x860001020000ll + 0x10ll * ((a) & 0xf);
     __cavm_csr_fatal("PSM_SWX_ENQUEUE_LO", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4712,7 +4699,9 @@ typedef union cavm_psm_sw_enq_ctrl cavm_psm_sw_enq_ctrl_t;
 static inline uint64_t CAVM_PSM_SW_ENQ_CTRL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_SW_ENQ_CTRL_FUNC(void)
 {
-    return 0x860001021000ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x860001021000ll;
+    __cavm_csr_fatal("PSM_SW_ENQ_CTRL", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PSM_SW_ENQ_CTRL cavm_psm_sw_enq_ctrl_t
@@ -4758,7 +4747,9 @@ typedef union cavm_psm_sw_enq_err cavm_psm_sw_enq_err_t;
 static inline uint64_t CAVM_PSM_SW_ENQ_ERR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_SW_ENQ_ERR_FUNC(void)
 {
-    return 0x860001021100ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x860001021100ll;
+    __cavm_csr_fatal("PSM_SW_ENQ_ERR", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PSM_SW_ENQ_ERR cavm_psm_sw_enq_err_t
@@ -4774,7 +4765,7 @@ static inline uint64_t CAVM_PSM_SW_ENQ_ERR_FUNC(void)
  * This register holds the BPHY timestamp value, which consists of
  * a frame count, subframe count, and tick count.  In internal-timer mode,
  * these values can be written, and they are read-only when in
- * BTN mode.  The BPHY time value is used for timestamps in the
+ * BCN mode.  The BPHY time value is used for timestamps in the
  * PSM log entries, WRMSG and WRSTS commands, and for WAIT commands.
  */
 union cavm_psm_timer_bphy_val
@@ -4816,7 +4807,9 @@ typedef union cavm_psm_timer_bphy_val cavm_psm_timer_bphy_val_t;
 static inline uint64_t CAVM_PSM_TIMER_BPHY_VAL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_TIMER_BPHY_VAL_FUNC(void)
 {
-    return 0x8600010f1010ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x8600010f1010ll;
+    __cavm_csr_fatal("PSM_TIMER_BPHY_VAL", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PSM_TIMER_BPHY_VAL cavm_psm_timer_bphy_val_t
@@ -4838,7 +4831,11 @@ union cavm_psm_timer_cfg
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t ena                   : 1;  /**< [ 63: 63](R/W/H) Timer enable. */
-        uint64_t reserved_49_62        : 14;
+        uint64_t reserved_58_62        : 5;
+        uint64_t utu_mode              : 1;  /**< [ 57: 57](R/W) Enables the timer's UTU mode, which drives the subframe
+                                                                 with N2[23:20], and the tick with N2[19:4].  In this mode,
+                                                                 each timer tick is 16 UTU units. */
+        uint64_t reserved_49_56        : 8;
         uint64_t bcast_mode            : 1;  /**< [ 48: 48](R/W/H) Enables the timer broadcast mode. When set, the PSM will send a
                                                                  message to the MDABs each time a new frame begins. */
         uint64_t reserved_0_47         : 48;
@@ -4846,7 +4843,11 @@ union cavm_psm_timer_cfg
         uint64_t reserved_0_47         : 48;
         uint64_t bcast_mode            : 1;  /**< [ 48: 48](R/W/H) Enables the timer broadcast mode. When set, the PSM will send a
                                                                  message to the MDABs each time a new frame begins. */
-        uint64_t reserved_49_62        : 14;
+        uint64_t reserved_49_56        : 8;
+        uint64_t utu_mode              : 1;  /**< [ 57: 57](R/W) Enables the timer's UTU mode, which drives the subframe
+                                                                 with N2[23:20], and the tick with N2[19:4].  In this mode,
+                                                                 each timer tick is 16 UTU units. */
+        uint64_t reserved_58_62        : 5;
         uint64_t ena                   : 1;  /**< [ 63: 63](R/W/H) Timer enable. */
 #endif /* Word 0 - End */
     } s;
@@ -4855,7 +4856,9 @@ union cavm_psm_timer_cfg
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t ena                   : 1;  /**< [ 63: 63](R/W/H) Timer enable. */
         uint64_t reserved_58_62        : 5;
-        uint64_t reserved_57           : 1;
+        uint64_t utu_mode              : 1;  /**< [ 57: 57](R/W) Enables the timer's UTU mode, which drives the subframe
+                                                                 with N2[23:20], and the tick with N2[19:4].  In this mode,
+                                                                 each timer tick is 16 UTU units. */
         uint64_t reserved_56           : 1;
         uint64_t reserved_49_55        : 7;
         uint64_t bcast_mode            : 1;  /**< [ 48: 48](R/W/H) Enables the timer broadcast mode. When set, the PSM will send a
@@ -4867,7 +4870,9 @@ union cavm_psm_timer_cfg
                                                                  message to the MDABs each time a new frame begins. */
         uint64_t reserved_49_55        : 7;
         uint64_t reserved_56           : 1;
-        uint64_t reserved_57           : 1;
+        uint64_t utu_mode              : 1;  /**< [ 57: 57](R/W) Enables the timer's UTU mode, which drives the subframe
+                                                                 with N2[23:20], and the tick with N2[19:4].  In this mode,
+                                                                 each timer tick is 16 UTU units. */
         uint64_t reserved_58_62        : 5;
         uint64_t ena                   : 1;  /**< [ 63: 63](R/W/H) Timer enable. */
 #endif /* Word 0 - End */
@@ -4879,7 +4884,9 @@ typedef union cavm_psm_timer_cfg cavm_psm_timer_cfg_t;
 static inline uint64_t CAVM_PSM_TIMER_CFG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_TIMER_CFG_FUNC(void)
 {
-    return 0x8600010f1000ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x8600010f1000ll;
+    __cavm_csr_fatal("PSM_TIMER_CFG", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PSM_TIMER_CFG cavm_psm_timer_cfg_t
@@ -4887,6 +4894,55 @@ static inline uint64_t CAVM_PSM_TIMER_CFG_FUNC(void)
 #define basename_CAVM_PSM_TIMER_CFG "PSM_TIMER_CFG"
 #define busnum_CAVM_PSM_TIMER_CFG 0
 #define arguments_CAVM_PSM_TIMER_CFG -1,-1,-1,-1
+
+/**
+ * Register (NCB) psm_timer_internal_bcast_cfg
+ *
+ * PHY Scheduler Timer Internal Mode Broadcast Configuration Register
+ * This register configures the timer broadcast functionality during the
+ * internal timer mode.
+ */
+union cavm_psm_timer_internal_bcast_cfg
+{
+    uint64_t u;
+    struct cavm_psm_timer_internal_bcast_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t bcast_upper           : 28; /**< [ 63: 36](R/W) For internal-timer mode, this field defines the upper 28 bits
+                                                                 of the timestamp that will be broadcast to DSPs. */
+        uint64_t reserved_1_35         : 35;
+        uint64_t bcast_per_frame       : 1;  /**< [  0:  0](R/W) For internal-timer mode, when this bit is 1, the timer broadcast
+                                                                 will be done only for frames, as in the BCN-timer mode.  When
+                                                                 this bit is 0, the broadcasts will be done for every subframe,
+                                                                 as in the legacy PSM timer. */
+#else /* Word 0 - Little Endian */
+        uint64_t bcast_per_frame       : 1;  /**< [  0:  0](R/W) For internal-timer mode, when this bit is 1, the timer broadcast
+                                                                 will be done only for frames, as in the BCN-timer mode.  When
+                                                                 this bit is 0, the broadcasts will be done for every subframe,
+                                                                 as in the legacy PSM timer. */
+        uint64_t reserved_1_35         : 35;
+        uint64_t bcast_upper           : 28; /**< [ 63: 36](R/W) For internal-timer mode, this field defines the upper 28 bits
+                                                                 of the timestamp that will be broadcast to DSPs. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_psm_timer_internal_bcast_cfg_s cn; */
+};
+typedef union cavm_psm_timer_internal_bcast_cfg cavm_psm_timer_internal_bcast_cfg_t;
+
+#define CAVM_PSM_TIMER_INTERNAL_BCAST_CFG CAVM_PSM_TIMER_INTERNAL_BCAST_CFG_FUNC()
+static inline uint64_t CAVM_PSM_TIMER_INTERNAL_BCAST_CFG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PSM_TIMER_INTERNAL_BCAST_CFG_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x8600010f1f10ll;
+    __cavm_csr_fatal("PSM_TIMER_INTERNAL_BCAST_CFG", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PSM_TIMER_INTERNAL_BCAST_CFG cavm_psm_timer_internal_bcast_cfg_t
+#define bustype_CAVM_PSM_TIMER_INTERNAL_BCAST_CFG CSR_TYPE_NCB
+#define basename_CAVM_PSM_TIMER_INTERNAL_BCAST_CFG "PSM_TIMER_INTERNAL_BCAST_CFG"
+#define busnum_CAVM_PSM_TIMER_INTERNAL_BCAST_CFG 0
+#define arguments_CAVM_PSM_TIMER_INTERNAL_BCAST_CFG -1,-1,-1,-1
 
 /**
  * Register (NCB) psm_timer_internal_cfg
@@ -4933,7 +4989,9 @@ typedef union cavm_psm_timer_internal_cfg cavm_psm_timer_internal_cfg_t;
 static inline uint64_t CAVM_PSM_TIMER_INTERNAL_CFG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_TIMER_INTERNAL_CFG_FUNC(void)
 {
-    return 0x8600010f1f00ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x8600010f1f00ll;
+    __cavm_csr_fatal("PSM_TIMER_INTERNAL_CFG", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PSM_TIMER_INTERNAL_CFG cavm_psm_timer_internal_cfg_t
@@ -4941,5 +4999,47 @@ static inline uint64_t CAVM_PSM_TIMER_INTERNAL_CFG_FUNC(void)
 #define basename_CAVM_PSM_TIMER_INTERNAL_CFG "PSM_TIMER_INTERNAL_CFG"
 #define busnum_CAVM_PSM_TIMER_INTERNAL_CFG 0
 #define arguments_CAVM_PSM_TIMER_INTERNAL_CFG -1,-1,-1,-1
+
+/**
+ * Register (NCB) psm_timer_n1_n2_val
+ *
+ * PHY Scheduler Timer N1_N2 Value Register
+ * This register holds the current BCN N1_N2 timestamp value, which
+ * is maintained by the BCN block.  The N1 field is a count of
+ * 10 msec frames, and the N2 field is a count of UTU (1.2288 GHz
+ * cycles) within the frame.  This register does not contain valid
+ * values during internal timer mode.
+ */
+union cavm_psm_timer_n1_n2_val
+{
+    uint64_t u;
+    struct cavm_psm_timer_n1_n2_val_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t n1                    : 40; /**< [ 63: 24](RO/H) N1 (frame number) received from BCN. */
+        uint64_t n2                    : 24; /**< [ 23:  0](RO/H) N2 (UTU number) received from BCN. */
+#else /* Word 0 - Little Endian */
+        uint64_t n2                    : 24; /**< [ 23:  0](RO/H) N2 (UTU number) received from BCN. */
+        uint64_t n1                    : 40; /**< [ 63: 24](RO/H) N1 (frame number) received from BCN. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_psm_timer_n1_n2_val_s cn; */
+};
+typedef union cavm_psm_timer_n1_n2_val cavm_psm_timer_n1_n2_val_t;
+
+#define CAVM_PSM_TIMER_N1_N2_VAL CAVM_PSM_TIMER_N1_N2_VAL_FUNC()
+static inline uint64_t CAVM_PSM_TIMER_N1_N2_VAL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PSM_TIMER_N1_N2_VAL_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x8600010f1030ll;
+    __cavm_csr_fatal("PSM_TIMER_N1_N2_VAL", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PSM_TIMER_N1_N2_VAL cavm_psm_timer_n1_n2_val_t
+#define bustype_CAVM_PSM_TIMER_N1_N2_VAL CSR_TYPE_NCB
+#define basename_CAVM_PSM_TIMER_N1_N2_VAL "PSM_TIMER_N1_N2_VAL"
+#define busnum_CAVM_PSM_TIMER_N1_N2_VAL 0
+#define arguments_CAVM_PSM_TIMER_N1_N2_VAL -1,-1,-1,-1
 
 #endif /* __CAVM_CSRS_PSM_H__ */

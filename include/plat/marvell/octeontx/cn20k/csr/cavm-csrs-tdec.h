@@ -39,7 +39,9 @@ union cavm_tdec_common_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t cfg_wrds_per_task     : 8;  /**< [ 31: 24] The number of job configuration words for each task. Must be set to 0x8. */
+        uint64_t cfg_wrds_per_task     : 8;  /**< [ 31: 24] The number of job configuration words for each task. For [TASK_TYPE] = 0x0:
+                                                                 * Must be set to 0x8 when TDEC_LTE_TASK_CFG_S[SO_OUT_TYPE] == 0.
+                                                                 * Must be set to 0x9 when TDEC_LTE_TASK_CFG_S[SO_OUT_TYPE] == 1. */
         uint64_t reserved_21_23        : 3;
         uint64_t task_type             : 3;  /**< [ 20: 18] Task type:
                                                                  0x0 = LTE.
@@ -59,7 +61,9 @@ union cavm_tdec_common_cfg_s
                                                                  0x0 = LTE.
                                                                  0x1 - 0x3 = Reserved. */
         uint64_t reserved_21_23        : 3;
-        uint64_t cfg_wrds_per_task     : 8;  /**< [ 31: 24] The number of job configuration words for each task. Must be set to 0x8. */
+        uint64_t cfg_wrds_per_task     : 8;  /**< [ 31: 24] The number of job configuration words for each task. For [TASK_TYPE] = 0x0:
+                                                                 * Must be set to 0x8 when TDEC_LTE_TASK_CFG_S[SO_OUT_TYPE] == 0.
+                                                                 * Must be set to 0x9 when TDEC_LTE_TASK_CFG_S[SO_OUT_TYPE] == 1. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -486,8 +490,15 @@ union cavm_tdec_lte_task_cfg_s
                                                                  0x0 = Disabled - always run [HALF_IT] half iterations.
                                                                  0x1 = Early stopping enabled.
                                                                  0x2 - 0x7 = Reserved. */
-        uint64_t so_bit_sign_format    : 1;  /**< [239:239] Reserved. */
-        uint64_t so_out_type           : 1;  /**< [238:238] Reserved. */
+        uint64_t so_bit_sign_format    : 1;  /**< [239:239] Type of soft output:
+                                                                 0: 0p format. 0 bit corresponding to +ve soft LLR value.
+                                                                 1: 1p format. 1 bit corresponding to +ve soft LLR value.
+                                                                 Valid range [0:1]. */
+        uint64_t so_out_type           : 1;  /**< [238:238] Type of soft output:
+                                                                 0: 8-bit soft LLR values.
+                                                                 1: 1-bit hard decision of soft LLR values.
+                                                                 When 1-bit output is used, output of each task will be 128-bit aligned and a
+                                                                 separate 128-bit header added before output of each task. */
         uint64_t half_it_so            : 6;  /**< [237:232] The number of half iterations performed prior to producing the
                                                                  soft-bit output. When [SO_SEL] = 1, this value must be an even number,
                                                                  less than or equal to [HALF_IT]. */
@@ -605,8 +616,15 @@ union cavm_tdec_lte_task_cfg_s
         uint64_t half_it_so            : 6;  /**< [237:232] The number of half iterations performed prior to producing the
                                                                  soft-bit output. When [SO_SEL] = 1, this value must be an even number,
                                                                  less than or equal to [HALF_IT]. */
-        uint64_t so_out_type           : 1;  /**< [238:238] Reserved. */
-        uint64_t so_bit_sign_format    : 1;  /**< [239:239] Reserved. */
+        uint64_t so_out_type           : 1;  /**< [238:238] Type of soft output:
+                                                                 0: 8-bit soft LLR values.
+                                                                 1: 1-bit hard decision of soft LLR values.
+                                                                 When 1-bit output is used, output of each task will be 128-bit aligned and a
+                                                                 separate 128-bit header added before output of each task. */
+        uint64_t so_bit_sign_format    : 1;  /**< [239:239] Type of soft output:
+                                                                 0: 0p format. 0 bit corresponding to +ve soft LLR value.
+                                                                 1: 1p format. 1 bit corresponding to +ve soft LLR value.
+                                                                 Valid range [0:1]. */
         uint64_t dyn_stop              : 3;  /**< [242:240] Dynamic early stopping configuration:
                                                                  0x0 = Disabled - always run [HALF_IT] half iterations.
                                                                  0x1 = Early stopping enabled.
@@ -751,19 +769,19 @@ union cavm_tdec_lte_task_cfg_s
 #endif /* Word 7 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 8 - Big Endian */
         uint64_t reserved_556_575      : 20;
-        uint64_t turbo_pic_q_rnd       : 4;  /**< [555:552] Reserved. */
-        uint64_t turbo_pic_q_thrh      : 8;  /**< [551:544] Reserved. */
-        uint64_t turbo_pic_q_thrl      : 8;  /**< [543:536] Reserved. */
-        uint64_t turbo_pic_a_value     : 8;  /**< [535:528] Reserved. */
-        uint64_t turbo_pic_llr_scale_rnd : 8;/**< [527:520] Reserved. */
-        uint64_t turbo_pic_llr_scale   : 8;  /**< [519:512] Reserved. */
+        uint64_t turbo_pic_q_rnd       : 4;  /**< [555:552] Unsigned value. Number of bits to be rounded after application of scaling "A". */
+        uint64_t turbo_pic_q_thrh      : 8;  /**< [551:544] Upper saturation limit for final q value. Recommended to be "+127". */
+        uint64_t turbo_pic_q_thrl      : 8;  /**< [543:536] Lower saturation limit for final q value. Recommended to be 1, but zero is also supported. */
+        uint64_t turbo_pic_a_value     : 8;  /**< [535:528] Scaling factor "A" applied over LUT value. */
+        uint64_t turbo_pic_llr_scale_rnd : 8;/**< [527:520] Number of bits to be rounded after application of LLR normalization scaling. */
+        uint64_t turbo_pic_llr_scale   : 8;  /**< [519:512] 8-bit unsigned mean normalization scaling factor . */
 #else /* Word 8 - Little Endian */
-        uint64_t turbo_pic_llr_scale   : 8;  /**< [519:512] Reserved. */
-        uint64_t turbo_pic_llr_scale_rnd : 8;/**< [527:520] Reserved. */
-        uint64_t turbo_pic_a_value     : 8;  /**< [535:528] Reserved. */
-        uint64_t turbo_pic_q_thrl      : 8;  /**< [543:536] Reserved. */
-        uint64_t turbo_pic_q_thrh      : 8;  /**< [551:544] Reserved. */
-        uint64_t turbo_pic_q_rnd       : 4;  /**< [555:552] Reserved. */
+        uint64_t turbo_pic_llr_scale   : 8;  /**< [519:512] 8-bit unsigned mean normalization scaling factor . */
+        uint64_t turbo_pic_llr_scale_rnd : 8;/**< [527:520] Number of bits to be rounded after application of LLR normalization scaling. */
+        uint64_t turbo_pic_a_value     : 8;  /**< [535:528] Scaling factor "A" applied over LUT value. */
+        uint64_t turbo_pic_q_thrl      : 8;  /**< [543:536] Lower saturation limit for final q value. Recommended to be 1, but zero is also supported. */
+        uint64_t turbo_pic_q_thrh      : 8;  /**< [551:544] Upper saturation limit for final q value. Recommended to be "+127". */
+        uint64_t turbo_pic_q_rnd       : 4;  /**< [555:552] Unsigned value. Number of bits to be rounded after application of scaling "A". */
         uint64_t reserved_556_575      : 20;
 #endif /* Word 8 - End */
     } s;
@@ -805,7 +823,7 @@ typedef union cavm_tdecx_abx_control cavm_tdecx_abx_control_t;
 static inline uint64_t CAVM_TDECX_ABX_CONTROL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TDECX_ABX_CONTROL(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=2)))
         return 0x87e042100000ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("TDECX_ABX_CONTROL", 2, a, b, 0, 0, 0, 0);
 }
@@ -851,7 +869,7 @@ typedef union cavm_tdecx_abx_error_enable0 cavm_tdecx_abx_error_enable0_t;
 static inline uint64_t CAVM_TDECX_ABX_ERROR_ENABLE0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TDECX_ABX_ERROR_ENABLE0(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=2)))
         return 0x87e042100040ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("TDECX_ABX_ERROR_ENABLE0", 2, a, b, 0, 0, 0, 0);
 }
@@ -907,7 +925,7 @@ typedef union cavm_tdecx_abx_error_source0 cavm_tdecx_abx_error_source0_t;
 static inline uint64_t CAVM_TDECX_ABX_ERROR_SOURCE0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TDECX_ABX_ERROR_SOURCE0(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=2)))
         return 0x87e042100030ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("TDECX_ABX_ERROR_SOURCE0", 2, a, b, 0, 0, 0, 0);
 }
@@ -924,6 +942,8 @@ static inline uint64_t CAVM_TDECX_ABX_ERROR_SOURCE0(uint64_t a, uint64_t b)
  *
  * TDEC HAB Job Configuration 0 RAM Register
  * This register range accesses the job configuration RAM for slot 0.
+ * Hardware loads the job configuration in these registers. Software should
+ * never directly write to these registers.
  */
 union cavm_tdecx_abx_hab_jcfg0_ramx_data
 {
@@ -943,7 +963,7 @@ typedef union cavm_tdecx_abx_hab_jcfg0_ramx_data cavm_tdecx_abx_hab_jcfg0_ramx_d
 static inline uint64_t CAVM_TDECX_ABX_HAB_JCFG0_RAMX_DATA(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TDECX_ABX_HAB_JCFG0_RAMX_DATA(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a==0) && (b<=2) && (c<=255))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=2) && (c<=255)))
         return 0x87e042102000ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x3) + 8ll * ((c) & 0xff);
     __cavm_csr_fatal("TDECX_ABX_HAB_JCFG0_RAMX_DATA", 3, a, b, c, 0, 0, 0);
 }
@@ -979,7 +999,7 @@ typedef union cavm_tdecx_abx_hab_jcfg1_ramx_data cavm_tdecx_abx_hab_jcfg1_ramx_d
 static inline uint64_t CAVM_TDECX_ABX_HAB_JCFG1_RAMX_DATA(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TDECX_ABX_HAB_JCFG1_RAMX_DATA(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a==0) && (b<=2) && (c<=255))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=2) && (c<=255)))
         return 0x87e042104000ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x3) + 8ll * ((c) & 0xff);
     __cavm_csr_fatal("TDECX_ABX_HAB_JCFG1_RAMX_DATA", 3, a, b, c, 0, 0, 0);
 }
@@ -1015,7 +1035,7 @@ typedef union cavm_tdecx_abx_hab_jcfg2_ramx_data cavm_tdecx_abx_hab_jcfg2_ramx_d
 static inline uint64_t CAVM_TDECX_ABX_HAB_JCFG2_RAMX_DATA(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TDECX_ABX_HAB_JCFG2_RAMX_DATA(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a==0) && (b<=2) && (c<=255))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=2) && (c<=255)))
         return 0x87e042106000ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x3) + 8ll * ((c) & 0xff);
     __cavm_csr_fatal("TDECX_ABX_HAB_JCFG2_RAMX_DATA", 3, a, b, c, 0, 0, 0);
 }
@@ -1060,7 +1080,7 @@ typedef union cavm_tdecx_abx_status cavm_tdecx_abx_status_t;
 static inline uint64_t CAVM_TDECX_ABX_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TDECX_ABX_STATUS(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=2)))
         return 0x87e042100018ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("TDECX_ABX_STATUS", 2, a, b, 0, 0, 0, 0);
 }
@@ -1215,7 +1235,7 @@ typedef union cavm_tdecx_abx_tc_cfg_err_flags_reg cavm_tdecx_abx_tc_cfg_err_flag
 static inline uint64_t CAVM_TDECX_ABX_TC_CFG_ERR_FLAGS_REG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TDECX_ABX_TC_CFG_ERR_FLAGS_REG(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=2)))
         return 0x87e042101040ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("TDECX_ABX_TC_CFG_ERR_FLAGS_REG", 2, a, b, 0, 0, 0, 0);
 }
@@ -1265,7 +1285,7 @@ typedef union cavm_tdecx_abx_tc_control_reg cavm_tdecx_abx_tc_control_reg_t;
 static inline uint64_t CAVM_TDECX_ABX_TC_CONTROL_REG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TDECX_ABX_TC_CONTROL_REG(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=2)))
         return 0x87e042101010ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("TDECX_ABX_TC_CONTROL_REG", 2, a, b, 0, 0, 0, 0);
 }
@@ -1305,7 +1325,7 @@ typedef union cavm_tdecx_abx_tc_error_mask_reg cavm_tdecx_abx_tc_error_mask_reg_
 static inline uint64_t CAVM_TDECX_ABX_TC_ERROR_MASK_REG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TDECX_ABX_TC_ERROR_MASK_REG(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=2)))
         return 0x87e042101030ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("TDECX_ABX_TC_ERROR_MASK_REG", 2, a, b, 0, 0, 0, 0);
 }
@@ -1367,7 +1387,7 @@ typedef union cavm_tdecx_abx_tc_error_reg cavm_tdecx_abx_tc_error_reg_t;
 static inline uint64_t CAVM_TDECX_ABX_TC_ERROR_REG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TDECX_ABX_TC_ERROR_REG(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=2)))
         return 0x87e042101038ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("TDECX_ABX_TC_ERROR_REG", 2, a, b, 0, 0, 0, 0);
 }
@@ -1405,7 +1425,7 @@ typedef union cavm_tdecx_abx_tc_main_reset_reg cavm_tdecx_abx_tc_main_reset_reg_
 static inline uint64_t CAVM_TDECX_ABX_TC_MAIN_RESET_REG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TDECX_ABX_TC_MAIN_RESET_REG(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=2)))
         return 0x87e042101000ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("TDECX_ABX_TC_MAIN_RESET_REG", 2, a, b, 0, 0, 0, 0);
 }
@@ -1445,7 +1465,7 @@ typedef union cavm_tdecx_abx_tc_status0_reg cavm_tdecx_abx_tc_status0_reg_t;
 static inline uint64_t CAVM_TDECX_ABX_TC_STATUS0_REG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TDECX_ABX_TC_STATUS0_REG(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=2)))
         return 0x87e042101020ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("TDECX_ABX_TC_STATUS0_REG", 2, a, b, 0, 0, 0, 0);
 }

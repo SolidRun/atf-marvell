@@ -112,7 +112,7 @@
  * Register (NCB) avs_avs_n5p_ctl0
  *
  * AVS_N5P Control Register
- * Configuration register 1 for the configuration for AVS_N5P.
+ * Configuration register 0 for the configuration for AVS_N5P.
  */
 union cavm_avs_avs_n5p_ctl0
 {
@@ -120,9 +120,99 @@ union cavm_avs_avs_n5p_ctl0
     struct cavm_avs_avs_n5p_ctl0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t adc_cfg               : 64; /**< [ 63:  0](R/W) Configuration register 1 for AVS_N5P. */
+        uint64_t enable                : 1;  /**< [ 63: 63](R/W) AVS_N5 enable control. 0 = AVS_N5 is off; power consumption is minimized; vddfb
+                                                                 floats in master mode. 1 = AVS_N5 is on; vddfb is driven After enable goes high,
+                                                                 internal calibration process precedes normal operation. */
+        uint64_t avs_pause             : 1;  /**< [ 62: 62](R/W) Set AVS_N5 in pause mode. 0 = Normal operation mode. 1 = Stops updating voltage
+                                                                 level. Analog control loop through vddfb still functions normally. */
+        uint64_t manual                : 1;  /**< [ 61: 61](R/W) Manual setting of delta voltage (open loop control). This is used for debug
+                                                                 purposes only. 0 = Auto operation. 1 = Manual operation. */
+        uint64_t min_max_val_rst       : 1;  /**< [ 60: 60](R/W) Reset signal for the following outputs. max_dro_count, min_dro_count,
+                                                                 max_avs_delta, max_avs_delta. 0 = specified outputs are not affected. 1 =
+                                                                 specified outputs are in reset. */
+        uint64_t fvct                  : 1;  /**< [ 59: 59](R/W) Fast_voltage_change_trigger Edge triggered (for both edges) signal, initiating a
+                                                                 fast delta voltage change to the value specified in target_delta[7:0]. This
+                                                                 signal is in effect only after AVS_N5calibration sequence has completed (A low
+                                                                 to high transition on the dro_en signal can serve as a logic indication that
+                                                                 normal operation has started */
+        uint64_t int1                  : 4;  /**< [ 58: 55](R/W) Reserved. */
+        uint64_t rst_b                 : 1;  /**< [ 54: 54](R/W) Active low reset signal. */
+        uint64_t vcr                   : 10; /**< [ 53: 44](R/W) voltage_change_rate. Voltage change rate (in number of clk cycles between AVS_N5
+                                                                 steps) when 1. A fast voltage change is triggered. 2. AVS_N5 is being disabled
+                                                                 (enable input changes 1'b1 to 1'b0) and offset delta voltage is being cleared. */
+        uint64_t select_vsense0        : 1;  /**< [ 43: 43](R/W) select_vsense0 Voltage sense input control. 0 = avs_vdd_sense1 is selected. 1 =
+                                                                 avs_vdd_sense0 is selected. */
+        uint64_t inc_offset_range      : 1;  /**< [ 42: 42](R/W) Inc Offset Range AVS_N5 voltage step and offset range control. 0 = Step is
+                                                                 ~1.56mV. Offset range is +/-200mv. 1 = Step is ~1.95mV. Offset range is
+                                                                 +/-250mv. */
+        uint64_t div_cal               : 3;  /**< [ 41: 39](R/W) Adjusting internal offset gen reference voltage. */
+        uint64_t cfg_vdd_setpoint      : 3;  /**< [ 38: 36](R/W) Select the range for VDD setpoint voltage when AVS_N5 is not activated 0x1 =
+                                                                 0.91V - 0.96V, 0x2 = 0.87V - 0.9V, 0x3 = 0.82V - 0.86V, 0x4 = 0.75V - 0.81V, 0x5
+                                                                 = 0.7V - 0.74V, 0x6 = 0.65V - 0.69V, This configuration must be set according to
+                                                                 the regulator setpoint on board before AVS_N5 is enabled. Optimal setting is
+                                                                 advised, but there are some margins in this configuration. */
+        uint64_t sel_bg_chop_clk       : 1;  /**< [ 35: 35](R/W) Bandgap clock chopping rate 0 = high rate (16/32). 1 = low rate (32/64). */
+        uint64_t bg_cfg                : 3;  /**< [ 34: 32](R/W) Band-Gap circuit temperature curvature configuration. */
+        uint64_t avg                   : 3;  /**< [ 31: 29](R/W) Average DRO readout by 2AVG. */
+        uint64_t high_vdd_limit        : 10; /**< [ 28: 19](R/W) Defines the high voltage limit. Set high_vdd_limit using the following formula
+                                                                 high_vdd_limit=VVref x 1024 Where V is the actual required voltage in volts.
+                                                                 Vref = 1.222V high_vdd_limit is the decimal value which is the outcome of this
+                                                                 equation. */
+        uint64_t low_vdd_limit         : 10; /**< [ 18:  9](R/W) Defines the low voltage limit. Set low_vdd_limit using the following formula
+                                                                 low_vdd_limit=VVref x 1024 Where V is the actual required voltage in volts. Vref
+                                                                 = 1.222V (post layout simulations value; final value still pending silicon
+                                                                 testing) low_vdd_limit is the decimal value which is the outcome of this
+                                                                 equation. */
+        uint64_t manual_delta          : 8;  /**< [  8:  1](R/W) Manual setting for delta voltage. This value is effective while manual=1'b1 . */
+        uint64_t skip_cal              : 1;  /**< [  0:  0](R/W) Skip initial vddfb offset calibration 0 = perform initial calibration. 1 = skip
+                                                                 initial calibration. */
 #else /* Word 0 - Little Endian */
-        uint64_t adc_cfg               : 64; /**< [ 63:  0](R/W) Configuration register 1 for AVS_N5P. */
+        uint64_t skip_cal              : 1;  /**< [  0:  0](R/W) Skip initial vddfb offset calibration 0 = perform initial calibration. 1 = skip
+                                                                 initial calibration. */
+        uint64_t manual_delta          : 8;  /**< [  8:  1](R/W) Manual setting for delta voltage. This value is effective while manual=1'b1 . */
+        uint64_t low_vdd_limit         : 10; /**< [ 18:  9](R/W) Defines the low voltage limit. Set low_vdd_limit using the following formula
+                                                                 low_vdd_limit=VVref x 1024 Where V is the actual required voltage in volts. Vref
+                                                                 = 1.222V (post layout simulations value; final value still pending silicon
+                                                                 testing) low_vdd_limit is the decimal value which is the outcome of this
+                                                                 equation. */
+        uint64_t high_vdd_limit        : 10; /**< [ 28: 19](R/W) Defines the high voltage limit. Set high_vdd_limit using the following formula
+                                                                 high_vdd_limit=VVref x 1024 Where V is the actual required voltage in volts.
+                                                                 Vref = 1.222V high_vdd_limit is the decimal value which is the outcome of this
+                                                                 equation. */
+        uint64_t avg                   : 3;  /**< [ 31: 29](R/W) Average DRO readout by 2AVG. */
+        uint64_t bg_cfg                : 3;  /**< [ 34: 32](R/W) Band-Gap circuit temperature curvature configuration. */
+        uint64_t sel_bg_chop_clk       : 1;  /**< [ 35: 35](R/W) Bandgap clock chopping rate 0 = high rate (16/32). 1 = low rate (32/64). */
+        uint64_t cfg_vdd_setpoint      : 3;  /**< [ 38: 36](R/W) Select the range for VDD setpoint voltage when AVS_N5 is not activated 0x1 =
+                                                                 0.91V - 0.96V, 0x2 = 0.87V - 0.9V, 0x3 = 0.82V - 0.86V, 0x4 = 0.75V - 0.81V, 0x5
+                                                                 = 0.7V - 0.74V, 0x6 = 0.65V - 0.69V, This configuration must be set according to
+                                                                 the regulator setpoint on board before AVS_N5 is enabled. Optimal setting is
+                                                                 advised, but there are some margins in this configuration. */
+        uint64_t div_cal               : 3;  /**< [ 41: 39](R/W) Adjusting internal offset gen reference voltage. */
+        uint64_t inc_offset_range      : 1;  /**< [ 42: 42](R/W) Inc Offset Range AVS_N5 voltage step and offset range control. 0 = Step is
+                                                                 ~1.56mV. Offset range is +/-200mv. 1 = Step is ~1.95mV. Offset range is
+                                                                 +/-250mv. */
+        uint64_t select_vsense0        : 1;  /**< [ 43: 43](R/W) select_vsense0 Voltage sense input control. 0 = avs_vdd_sense1 is selected. 1 =
+                                                                 avs_vdd_sense0 is selected. */
+        uint64_t vcr                   : 10; /**< [ 53: 44](R/W) voltage_change_rate. Voltage change rate (in number of clk cycles between AVS_N5
+                                                                 steps) when 1. A fast voltage change is triggered. 2. AVS_N5 is being disabled
+                                                                 (enable input changes 1'b1 to 1'b0) and offset delta voltage is being cleared. */
+        uint64_t rst_b                 : 1;  /**< [ 54: 54](R/W) Active low reset signal. */
+        uint64_t int1                  : 4;  /**< [ 58: 55](R/W) Reserved. */
+        uint64_t fvct                  : 1;  /**< [ 59: 59](R/W) Fast_voltage_change_trigger Edge triggered (for both edges) signal, initiating a
+                                                                 fast delta voltage change to the value specified in target_delta[7:0]. This
+                                                                 signal is in effect only after AVS_N5calibration sequence has completed (A low
+                                                                 to high transition on the dro_en signal can serve as a logic indication that
+                                                                 normal operation has started */
+        uint64_t min_max_val_rst       : 1;  /**< [ 60: 60](R/W) Reset signal for the following outputs. max_dro_count, min_dro_count,
+                                                                 max_avs_delta, max_avs_delta. 0 = specified outputs are not affected. 1 =
+                                                                 specified outputs are in reset. */
+        uint64_t manual                : 1;  /**< [ 61: 61](R/W) Manual setting of delta voltage (open loop control). This is used for debug
+                                                                 purposes only. 0 = Auto operation. 1 = Manual operation. */
+        uint64_t avs_pause             : 1;  /**< [ 62: 62](R/W) Set AVS_N5 in pause mode. 0 = Normal operation mode. 1 = Stops updating voltage
+                                                                 level. Analog control loop through vddfb still functions normally. */
+        uint64_t enable                : 1;  /**< [ 63: 63](R/W) AVS_N5 enable control. 0 = AVS_N5 is off; power consumption is minimized; vddfb
+                                                                 floats in master mode. 1 = AVS_N5 is on; vddfb is driven After enable goes high,
+                                                                 internal calibration process precedes normal operation. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_avs_avs_n5p_ctl0_s cn; */
@@ -133,7 +223,9 @@ typedef union cavm_avs_avs_n5p_ctl0 cavm_avs_avs_n5p_ctl0_t;
 static inline uint64_t CAVM_AVS_AVS_N5P_CTL0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_AVS_AVS_N5P_CTL0_FUNC(void)
 {
-    return 0x80a000001070ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x80a000001070ll;
+    __cavm_csr_fatal("AVS_AVS_N5P_CTL0", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_AVS_AVS_N5P_CTL0 cavm_avs_avs_n5p_ctl0_t
@@ -155,9 +247,59 @@ union cavm_avs_avs_n5p_ctl1
     struct cavm_avs_avs_n5p_ctl1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t adc_cfg               : 64; /**< [ 63:  0](R/W) Received status frame's SlaveACK field. */
+        uint64_t tp_cfg                : 5;  /**< [ 63: 59](R/W) Analog test point selection control. */
+        uint64_t int2                  : 5;  /**< [ 58: 54](R/W) Reserved. */
+        uint64_t cfg_vddx2_slice       : 5;  /**< [ 53: 49](R/W) CFG_VDDX2_SLICE[4]=0 Auto setting. CFG_VDDX2_SLICE[3:0] sets the initial value
+                                                                 CFG_VDDX2_SLICE[4]=1 Manual setting according to CFG_VDDX2_SLICE[3:0] Moving
+                                                                 from manual to auto setting during operation may cause functional issues under
+                                                                 specific operating conditions. CFG_VDDX2_SLICE[3:0] also serve as the initial
+                                                                 setting value for the output driver voltage doubler loop. The default value of
+                                                                 4'd8 is selected as a compromise between startup power consumption and current
+                                                                 drive capability. The safest value to use operational wise (at the expense of a
+                                                                 higher startup power consumption) if 4'd15. */
+        uint64_t cfg_vddx2_loop_re     : 1;  /**< [ 48: 48](R/W) Set output buffer doubler reference voltage. */
+        uint64_t cfg_osc_cal           : 5;  /**< [ 47: 43](R/W) External setting for the FLL frequency multiplication CFG_OSC_CAL[4]=0 Auto
+                                                                 settings. CFG_OSC_CAL[4]=1 Manual setting. */
+        uint64_t aaf_cfg               : 2;  /**< [ 42: 41](R/W) Anti aliasing filter configuration 0x0 = set K=128. 0x1 = set K=64. 0x2 = set
+                                                                 K=128, bypass AAF. 0x3 = set K=64, bypass AAF. */
+        uint64_t relative_delta_en     : 1;  /**< [ 40: 40](R/W) Defines whether target_delta is absolute or relative 0 = target_delta is
+                                                                 absolute. 1 = target_delta is relative. */
+        uint64_t target_delta          : 8;  /**< [ 39: 32](R/W) Specifies the new offset/delta to travel to when fast_voltage_change_trigger
+                                                                 input changes. this value can be relative or absolute according to
+                                                                 relative_delta_en setting. When relative target_delta[7] defines the relative
+                                                                 delta sign as follows 0 = positive. 1 = negative. */
+        uint64_t speed_target          : 16; /**< [ 31: 16](R/W) Target DRO Readout. As long as voltage is within the range set by the low and
+                                                                 high voltage limits, the AVS_N5IP will control the voltage to achieve this DRO
+                                                                 readout */
+        uint64_t dro_count_interval    : 16; /**< [ 15:  0](R/W) Number of clk cycles for which the DRO count is enabled (dro_count_interval +
+                                                                 'd20) * clk_period =~ 20uS */
 #else /* Word 0 - Little Endian */
-        uint64_t adc_cfg               : 64; /**< [ 63:  0](R/W) Received status frame's SlaveACK field. */
+        uint64_t dro_count_interval    : 16; /**< [ 15:  0](R/W) Number of clk cycles for which the DRO count is enabled (dro_count_interval +
+                                                                 'd20) * clk_period =~ 20uS */
+        uint64_t speed_target          : 16; /**< [ 31: 16](R/W) Target DRO Readout. As long as voltage is within the range set by the low and
+                                                                 high voltage limits, the AVS_N5IP will control the voltage to achieve this DRO
+                                                                 readout */
+        uint64_t target_delta          : 8;  /**< [ 39: 32](R/W) Specifies the new offset/delta to travel to when fast_voltage_change_trigger
+                                                                 input changes. this value can be relative or absolute according to
+                                                                 relative_delta_en setting. When relative target_delta[7] defines the relative
+                                                                 delta sign as follows 0 = positive. 1 = negative. */
+        uint64_t relative_delta_en     : 1;  /**< [ 40: 40](R/W) Defines whether target_delta is absolute or relative 0 = target_delta is
+                                                                 absolute. 1 = target_delta is relative. */
+        uint64_t aaf_cfg               : 2;  /**< [ 42: 41](R/W) Anti aliasing filter configuration 0x0 = set K=128. 0x1 = set K=64. 0x2 = set
+                                                                 K=128, bypass AAF. 0x3 = set K=64, bypass AAF. */
+        uint64_t cfg_osc_cal           : 5;  /**< [ 47: 43](R/W) External setting for the FLL frequency multiplication CFG_OSC_CAL[4]=0 Auto
+                                                                 settings. CFG_OSC_CAL[4]=1 Manual setting. */
+        uint64_t cfg_vddx2_loop_re     : 1;  /**< [ 48: 48](R/W) Set output buffer doubler reference voltage. */
+        uint64_t cfg_vddx2_slice       : 5;  /**< [ 53: 49](R/W) CFG_VDDX2_SLICE[4]=0 Auto setting. CFG_VDDX2_SLICE[3:0] sets the initial value
+                                                                 CFG_VDDX2_SLICE[4]=1 Manual setting according to CFG_VDDX2_SLICE[3:0] Moving
+                                                                 from manual to auto setting during operation may cause functional issues under
+                                                                 specific operating conditions. CFG_VDDX2_SLICE[3:0] also serve as the initial
+                                                                 setting value for the output driver voltage doubler loop. The default value of
+                                                                 4'd8 is selected as a compromise between startup power consumption and current
+                                                                 drive capability. The safest value to use operational wise (at the expense of a
+                                                                 higher startup power consumption) if 4'd15. */
+        uint64_t int2                  : 5;  /**< [ 58: 54](R/W) Reserved. */
+        uint64_t tp_cfg                : 5;  /**< [ 63: 59](R/W) Analog test point selection control. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_avs_avs_n5p_ctl1_s cn; */
@@ -168,7 +310,9 @@ typedef union cavm_avs_avs_n5p_ctl1 cavm_avs_avs_n5p_ctl1_t;
 static inline uint64_t CAVM_AVS_AVS_N5P_CTL1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_AVS_AVS_N5P_CTL1_FUNC(void)
 {
-    return 0x80a000001080ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x80a000001080ll;
+    __cavm_csr_fatal("AVS_AVS_N5P_CTL1", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_AVS_AVS_N5P_CTL1 cavm_avs_avs_n5p_ctl1_t
@@ -198,11 +342,11 @@ union cavm_avs_cfg
                                                                  [CLKDIV]  = 100 MHz reference clock / (2 * AVS_CLK). */
         uint64_t reserved_1_15         : 15;
         uint64_t enable                : 1;  /**< [  0:  0](R/W) AVS enable.
-                                                                 0 = Pins are tristated.
+                                                                 0 = Pins are low.
                                                                  1 = Pins are driven. */
 #else /* Word 0 - Little Endian */
         uint64_t enable                : 1;  /**< [  0:  0](R/W) AVS enable.
-                                                                 0 = Pins are tristated.
+                                                                 0 = Pins are low.
                                                                  1 = Pins are driven. */
         uint64_t reserved_1_15         : 15;
         uint64_t clkdiv                : 13; /**< [ 28: 16](R/W) Clock divisor. Value 0x0 disables the AVS_CLK pin.
@@ -401,12 +545,14 @@ union cavm_avs_io_ctl
                                                                  0x2 = 33 ohm.
                                                                  0x3 = 20 ohm. */
         uint64_t slew                  : 2;  /**< [  1:  0](R/W) AVS bus pins output slew rate control.
-                                                                 0x0 = Weakest
-                                                                 0x3 = Strongest */
+                                                                 0x0 = Weakest.
+                                                                 _ ...
+                                                                 0x3 = Strongest. */
 #else /* Word 0 - Little Endian */
         uint64_t slew                  : 2;  /**< [  1:  0](R/W) AVS bus pins output slew rate control.
-                                                                 0x0 = Weakest
-                                                                 0x3 = Strongest */
+                                                                 0x0 = Weakest.
+                                                                 _ ...
+                                                                 0x3 = Strongest. */
         uint64_t drive                 : 2;  /**< [  3:  2](R/W) AVS bus pin output impedance.
                                                                  0x0 = 55 ohm.
                                                                  0x1 = 45 ohm.
@@ -445,7 +591,8 @@ union cavm_avs_lvd_adc0_ctl
     struct cavm_avs_lvd_adc0_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_51_63        : 13;
+        uint64_t reserved_55_63        : 9;
+        uint64_t lvd_test              : 4;  /**< [ 54: 51](R/W) Testmon TP selection. */
         uint64_t inp_lat_dis           : 1;  /**< [ 50: 50](R/W) Input reg latch disable. */
         uint64_t charge_pump_cfg       : 15; /**< [ 49: 35](R/W) LVD_ADC0 Charge Pump configuration bits. */
         uint64_t bandgap_cfg           : 10; /**< [ 34: 25](R/W) LVD_ADC0 Bandgap configuration bits. */
@@ -459,7 +606,8 @@ union cavm_avs_lvd_adc0_ctl
         uint64_t bandgap_cfg           : 10; /**< [ 34: 25](R/W) LVD_ADC0 Bandgap configuration bits. */
         uint64_t charge_pump_cfg       : 15; /**< [ 49: 35](R/W) LVD_ADC0 Charge Pump configuration bits. */
         uint64_t inp_lat_dis           : 1;  /**< [ 50: 50](R/W) Input reg latch disable. */
-        uint64_t reserved_51_63        : 13;
+        uint64_t lvd_test              : 4;  /**< [ 54: 51](R/W) Testmon TP selection. */
+        uint64_t reserved_55_63        : 9;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_avs_lvd_adc0_ctl_s cn; */
@@ -470,7 +618,9 @@ typedef union cavm_avs_lvd_adc0_ctl cavm_avs_lvd_adc0_ctl_t;
 static inline uint64_t CAVM_AVS_LVD_ADC0_CTL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_AVS_LVD_ADC0_CTL_FUNC(void)
 {
-    return 0x80a000001040ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x80a000001040ll;
+    __cavm_csr_fatal("AVS_LVD_ADC0_CTL", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_AVS_LVD_ADC0_CTL cavm_avs_lvd_adc0_ctl_t
@@ -492,21 +642,23 @@ union cavm_avs_lvd_adc1_ctl
     struct cavm_avs_lvd_adc1_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_51_63        : 13;
+        uint64_t reserved_55_63        : 9;
+        uint64_t lvd_test              : 4;  /**< [ 54: 51](R/W) Testmon TP selection. */
         uint64_t inp_lat_dis           : 1;  /**< [ 50: 50](R/W) Input reg latch disable. */
         uint64_t charge_pump_cfg       : 15; /**< [ 49: 35](R/W) LVD_ADC1 Charge Pump configuration bits. */
         uint64_t bandgap_cfg           : 10; /**< [ 34: 25](R/W) LVD_ADC1 Bandgap configuration bits. */
         uint64_t supply_mon            : 4;  /**< [ 24: 21](R/W) LVD_ADC1 Supply Monitor configuration bits. */
         uint64_t adc_cfg               : 9;  /**< [ 20: 12](R/W) LVD_ADC1 ADC configuration bits. */
-        uint64_t vdc_cfg               : 12; /**< [ 11:  0](R/W) LVD_ADC1 Voltage detection channel configuration bits. */
+        uint64_t vdc_cfg               : 12; /**< [ 11:  0](R/W) LVD_ADC0 Voltage detection channel configuration bits. */
 #else /* Word 0 - Little Endian */
-        uint64_t vdc_cfg               : 12; /**< [ 11:  0](R/W) LVD_ADC1 Voltage detection channel configuration bits. */
+        uint64_t vdc_cfg               : 12; /**< [ 11:  0](R/W) LVD_ADC0 Voltage detection channel configuration bits. */
         uint64_t adc_cfg               : 9;  /**< [ 20: 12](R/W) LVD_ADC1 ADC configuration bits. */
         uint64_t supply_mon            : 4;  /**< [ 24: 21](R/W) LVD_ADC1 Supply Monitor configuration bits. */
         uint64_t bandgap_cfg           : 10; /**< [ 34: 25](R/W) LVD_ADC1 Bandgap configuration bits. */
         uint64_t charge_pump_cfg       : 15; /**< [ 49: 35](R/W) LVD_ADC1 Charge Pump configuration bits. */
         uint64_t inp_lat_dis           : 1;  /**< [ 50: 50](R/W) Input reg latch disable. */
-        uint64_t reserved_51_63        : 13;
+        uint64_t lvd_test              : 4;  /**< [ 54: 51](R/W) Testmon TP selection. */
+        uint64_t reserved_55_63        : 9;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_avs_lvd_adc1_ctl_s cn; */
@@ -517,7 +669,9 @@ typedef union cavm_avs_lvd_adc1_ctl cavm_avs_lvd_adc1_ctl_t;
 static inline uint64_t CAVM_AVS_LVD_ADC1_CTL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_AVS_LVD_ADC1_CTL_FUNC(void)
 {
-    return 0x80a000001050ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x80a000001050ll;
+    __cavm_csr_fatal("AVS_LVD_ADC1_CTL", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_AVS_LVD_ADC1_CTL cavm_avs_lvd_adc1_ctl_t
@@ -539,21 +693,23 @@ union cavm_avs_lvd_adc2_ctl
     struct cavm_avs_lvd_adc2_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_51_63        : 13;
+        uint64_t reserved_55_63        : 9;
+        uint64_t lvd_test              : 4;  /**< [ 54: 51](R/W) Testmon TP selection. */
         uint64_t inp_lat_dis           : 1;  /**< [ 50: 50](R/W) Input reg latch disable. */
         uint64_t charge_pump_cfg       : 15; /**< [ 49: 35](R/W) LVD_ADC2 Charge Pump configuration bits. */
         uint64_t bandgap_cfg           : 10; /**< [ 34: 25](R/W) LVD_ADC2 Bandgap configuration bits. */
         uint64_t supply_mon            : 4;  /**< [ 24: 21](R/W) LVD_ADC2 Supply Monitor configuration bits. */
         uint64_t adc_cfg               : 9;  /**< [ 20: 12](R/W) LVD_ADC2 ADC configuration bits. */
-        uint64_t vdc_cfg               : 12; /**< [ 11:  0](R/W) LVD_ADC2 Voltage detection channel configuration bits. */
+        uint64_t vdc_cfg               : 12; /**< [ 11:  0](R/W) LVD_ADC0 Voltage detection channel configuration bits. */
 #else /* Word 0 - Little Endian */
-        uint64_t vdc_cfg               : 12; /**< [ 11:  0](R/W) LVD_ADC2 Voltage detection channel configuration bits. */
+        uint64_t vdc_cfg               : 12; /**< [ 11:  0](R/W) LVD_ADC0 Voltage detection channel configuration bits. */
         uint64_t adc_cfg               : 9;  /**< [ 20: 12](R/W) LVD_ADC2 ADC configuration bits. */
         uint64_t supply_mon            : 4;  /**< [ 24: 21](R/W) LVD_ADC2 Supply Monitor configuration bits. */
         uint64_t bandgap_cfg           : 10; /**< [ 34: 25](R/W) LVD_ADC2 Bandgap configuration bits. */
         uint64_t charge_pump_cfg       : 15; /**< [ 49: 35](R/W) LVD_ADC2 Charge Pump configuration bits. */
         uint64_t inp_lat_dis           : 1;  /**< [ 50: 50](R/W) Input reg latch disable. */
-        uint64_t reserved_51_63        : 13;
+        uint64_t lvd_test              : 4;  /**< [ 54: 51](R/W) Testmon TP selection. */
+        uint64_t reserved_55_63        : 9;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_avs_lvd_adc2_ctl_s cn; */
@@ -564,7 +720,9 @@ typedef union cavm_avs_lvd_adc2_ctl cavm_avs_lvd_adc2_ctl_t;
 static inline uint64_t CAVM_AVS_LVD_ADC2_CTL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_AVS_LVD_ADC2_CTL_FUNC(void)
 {
-    return 0x80a000001060ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x80a000001060ll;
+    __cavm_csr_fatal("AVS_LVD_ADC2_CTL", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_AVS_LVD_ADC2_CTL cavm_avs_lvd_adc2_ctl_t
@@ -846,6 +1004,45 @@ static inline uint64_t CAVM_AVS_SDATA_FUNC(void)
 #define arguments_CAVM_AVS_SDATA -1,-1,-1,-1
 
 /**
+ * Register (NCB) avs_soft_reset
+ *
+ * AVS SOFT RESET Register
+ * This register is used as soft reset
+ */
+union cavm_avs_soft_reset
+{
+    uint64_t u;
+    struct cavm_avs_soft_reset_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t soft_reset            : 1;  /**< [  0:  0](R/W) This register field is used as soft reset. */
+#else /* Word 0 - Little Endian */
+        uint64_t soft_reset            : 1;  /**< [  0:  0](R/W) This register field is used as soft reset. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_avs_soft_reset_s cn; */
+};
+typedef union cavm_avs_soft_reset cavm_avs_soft_reset_t;
+
+#define CAVM_AVS_SOFT_RESET CAVM_AVS_SOFT_RESET_FUNC()
+static inline uint64_t CAVM_AVS_SOFT_RESET_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_AVS_SOFT_RESET_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x80a000002090ll;
+    __cavm_csr_fatal("AVS_SOFT_RESET", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_AVS_SOFT_RESET cavm_avs_soft_reset_t
+#define bustype_CAVM_AVS_SOFT_RESET CSR_TYPE_NCB
+#define basename_CAVM_AVS_SOFT_RESET "AVS_SOFT_RESET"
+#define device_bar_CAVM_AVS_SOFT_RESET 0x0 /* PF_BAR0 */
+#define busnum_CAVM_AVS_SOFT_RESET 0
+#define arguments_CAVM_AVS_SOFT_RESET -1,-1,-1,-1
+
+/**
  * Register (NCB) avs_sstatus
  *
  * AVS Slave Data Received Status Register
@@ -905,6 +1102,40 @@ union cavm_avs_sts
     struct cavm_avs_sts_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_10_63        : 54;
+        uint64_t resync_en             : 1;  /**< [  9:  9](R/W1/H) Write 1 to start transaction RESYNC transaction. */
+        uint64_t busy                  : 1;  /**< [  8:  8](RO/H) Busy.
+                                                                 0 = No AVS transaction in progress.
+                                                                 1 = AVS engine is processing a transaction. */
+        uint64_t reserved_5_7          : 3;
+        uint64_t start                 : 1;  /**< [  4:  4](R/W1/H) Write 1 to start transaction defined by AVS_MDATA[CMD].
+                                                                 Read back value always zero. */
+        uint64_t reserved_2_3          : 2;
+        uint64_t crc_err               : 1;  /**< [  1:  1](R/W1C/H) AVS interrupt on CRC error in receiving data.
+                                                                 If there is CRC error in the read frame, [CRC_ERR] interrupt is generated
+                                                                 at the same time with [DONE] interrupt. */
+        uint64_t done                  : 1;  /**< [  0:  0](R/W1C/H) AVS interrupt on transaction done. */
+#else /* Word 0 - Little Endian */
+        uint64_t done                  : 1;  /**< [  0:  0](R/W1C/H) AVS interrupt on transaction done. */
+        uint64_t crc_err               : 1;  /**< [  1:  1](R/W1C/H) AVS interrupt on CRC error in receiving data.
+                                                                 If there is CRC error in the read frame, [CRC_ERR] interrupt is generated
+                                                                 at the same time with [DONE] interrupt. */
+        uint64_t reserved_2_3          : 2;
+        uint64_t start                 : 1;  /**< [  4:  4](R/W1/H) Write 1 to start transaction defined by AVS_MDATA[CMD].
+                                                                 Read back value always zero. */
+        uint64_t reserved_5_7          : 3;
+        uint64_t busy                  : 1;  /**< [  8:  8](RO/H) Busy.
+                                                                 0 = No AVS transaction in progress.
+                                                                 1 = AVS engine is processing a transaction. */
+        uint64_t resync_en             : 1;  /**< [  9:  9](R/W1/H) Write 1 to start transaction RESYNC transaction. */
+        uint64_t reserved_10_63        : 54;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_avs_sts_s cheetah; */
+    /* struct cavm_avs_sts_s cn20; */
+    struct cavm_avs_sts_odinmp
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
         uint64_t busy                  : 1;  /**< [  8:  8](RO/H) Busy.
                                                                  0 = No AVS transaction in progress.
@@ -931,8 +1162,7 @@ union cavm_avs_sts
                                                                  1 = AVS engine is processing a transaction. */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_avs_sts_s cn; */
+    } odinmp;
 };
 typedef union cavm_avs_sts cavm_avs_sts_t;
 
@@ -988,5 +1218,44 @@ static inline uint64_t CAVM_AVS_STS_W1S_FUNC(void)
 #define device_bar_CAVM_AVS_STS_W1S 0x0 /* PF_BAR0 */
 #define busnum_CAVM_AVS_STS_W1S 0
 #define arguments_CAVM_AVS_STS_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) avs_tie_off
+ *
+ * AVS TIE OFF Register
+ * This register is used to tie any ports with 0 or 1.
+ */
+union cavm_avs_tie_off
+{
+    uint64_t u;
+    struct cavm_avs_tie_off_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t tie_off_0             : 32; /**< [ 63: 32](R/W) This register field is used to tie any ports with 0. */
+        uint64_t tie_off_1             : 32; /**< [ 31:  0](R/W) This register field is used to tie any ports with 1. */
+#else /* Word 0 - Little Endian */
+        uint64_t tie_off_1             : 32; /**< [ 31:  0](R/W) This register field is used to tie any ports with 1. */
+        uint64_t tie_off_0             : 32; /**< [ 63: 32](R/W) This register field is used to tie any ports with 0. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_avs_tie_off_s cn; */
+};
+typedef union cavm_avs_tie_off cavm_avs_tie_off_t;
+
+#define CAVM_AVS_TIE_OFF CAVM_AVS_TIE_OFF_FUNC()
+static inline uint64_t CAVM_AVS_TIE_OFF_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_AVS_TIE_OFF_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x80a000002088ll;
+    __cavm_csr_fatal("AVS_TIE_OFF", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_AVS_TIE_OFF cavm_avs_tie_off_t
+#define bustype_CAVM_AVS_TIE_OFF CSR_TYPE_NCB
+#define basename_CAVM_AVS_TIE_OFF "AVS_TIE_OFF"
+#define device_bar_CAVM_AVS_TIE_OFF 0x0 /* PF_BAR0 */
+#define busnum_CAVM_AVS_TIE_OFF 0
+#define arguments_CAVM_AVS_TIE_OFF -1,-1,-1,-1
 
 #endif /* __CAVM_CSRS_AVS_H__ */

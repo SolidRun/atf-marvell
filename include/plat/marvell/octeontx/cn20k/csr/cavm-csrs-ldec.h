@@ -38,7 +38,8 @@ union cavm_ldec_cb_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t rm_e                  : 21; /**< [ 63: 43] Rate matching size, Er, as defined in section 5.4.2.1 of 38.212.
-                                                                 Valid range is [ [CB_SIZE] / 0.95 , [CB_SIZE] * 12 ]. */
+
+                                                                 Valid range [Qm: 0x168F00]. */
         uint64_t nfiller               : 14; /**< [ 42: 29] Number of filler bits, as defined in section 5.2.2 of 38.212. nfiller = K-K'. */
         uint64_t reserved_26_28        : 3;
         uint64_t cb_size               : 14; /**< [ 25: 12] Code block size including CB CRC, including filler bits.
@@ -59,7 +60,8 @@ union cavm_ldec_cb_cfg_s
         uint64_t reserved_26_28        : 3;
         uint64_t nfiller               : 14; /**< [ 42: 29] Number of filler bits, as defined in section 5.2.2 of 38.212. nfiller = K-K'. */
         uint64_t rm_e                  : 21; /**< [ 63: 43] Rate matching size, Er, as defined in section 5.4.2.1 of 38.212.
-                                                                 Valid range is [ [CB_SIZE] / 0.95 , [CB_SIZE] * 12 ]. */
+
+                                                                 Valid range [Qm: 0x168F00]. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t reserved_112_127      : 16;
@@ -145,7 +147,7 @@ union cavm_ldec_common_cfg_s
         uint64_t num_words_per_cb_cfg  : 8;  /**< [ 23: 16] Number of words for each CB configuration appended at the end of the task configuration.
                                                                  Must be 0x3. */
         uint64_t num_words_task_com_cfg : 8; /**< [ 15:  8] Number of mandatory task configuration words per task.
-                                                                 Must be 0x0B or 0x11. */
+                                                                 Must be 0x0B, 0x0C, 0x10 or 0x11. */
         uint64_t reserved_6_7          : 2;
         uint64_t phy_mode              : 1;  /**< [  5:  5] The task type.
                                                                  0 = 3GPP 5G NR.
@@ -158,7 +160,7 @@ union cavm_ldec_common_cfg_s
                                                                  1 = Reserved. */
         uint64_t reserved_6_7          : 2;
         uint64_t num_words_task_com_cfg : 8; /**< [ 15:  8] Number of mandatory task configuration words per task.
-                                                                 Must be 0x0B or 0x11. */
+                                                                 Must be 0x0B, 0x0C, 0x10 or 0x11. */
         uint64_t num_words_per_cb_cfg  : 8;  /**< [ 23: 16] Number of words for each CB configuration appended at the end of the task configuration.
                                                                  Must be 0x3. */
         uint64_t num_words_partial_tb_proc : 4;/**< [ 27: 24] Number of words for specification of parameters for partial TB processing, as
@@ -437,9 +439,11 @@ union cavm_ldec_task_cfg_s
         uint64_t bypass_monitor_words  : 1;  /**< [124:124] 0: All 13 monitoring words are appended to HD output.
                                                                  1: Only first 2 monitoring words are appended to HD output.
                                                                  Following TB CRC contribution words are sent or not depending on the flag [BYPASS_TB_CRC_CONTRIB]. */
-        uint64_t tb_tx_bit_size        : 24; /**< [123:100] Total number of input LLR values across all CBs to be used by the task.
-                                                                 These are LLRs excluding the ones dropped at the beginning/end and the tagged values.
-                                                                 Valid range [0x1, 0x14CB80]. */
+        uint64_t tb_tx_bit_size        : 24; /**< [123:100] Total number of input LLR values across all CBS to be used by the task.
+                                                                 These are LLRs excluding the ones dropped by the pre-processor.
+
+                                                                 Valid range [0x1:0x168F00] is fully verified. Larger values have no known
+                                                                 limitations but are not fully verified. */
         uint64_t hcout_llr_comp_mode   : 3;  /**< [ 99: 97] HARQ LLR output compression scheme.
                                                                  0x0: Bypass (do nothing).
                                                                  0x1: Saturate to 6 bits (8 to 6 bits).
@@ -623,9 +627,11 @@ union cavm_ldec_task_cfg_s
                                                                  0x3: Right shift 2 bits with rounding (8 to 6 bits).
                                                                  0x4: Round(log2)quantization (8 to 4 bits).
                                                                  Valid range [0x0, 0x4]. */
-        uint64_t tb_tx_bit_size        : 24; /**< [123:100] Total number of input LLR values across all CBs to be used by the task.
-                                                                 These are LLRs excluding the ones dropped at the beginning/end and the tagged values.
-                                                                 Valid range [0x1, 0x14CB80]. */
+        uint64_t tb_tx_bit_size        : 24; /**< [123:100] Total number of input LLR values across all CBS to be used by the task.
+                                                                 These are LLRs excluding the ones dropped by the pre-processor.
+
+                                                                 Valid range [0x1:0x168F00] is fully verified. Larger values have no known
+                                                                 limitations but are not fully verified. */
         uint64_t bypass_monitor_words  : 1;  /**< [124:124] 0: All 13 monitoring words are appended to HD output.
                                                                  1: Only first 2 monitoring words are appended to HD output.
                                                                  Following TB CRC contribution words are sent or not depending on the flag [BYPASS_TB_CRC_CONTRIB]. */
@@ -659,7 +665,26 @@ union cavm_ldec_task_cfg_s
                                                                  regular decoding is reported in monitoring information. */
 #endif /* Word 1 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
-        uint64_t reserved_186_191      : 6;
+        uint64_t reserved_189_191      : 3;
+        uint64_t so_bit_sign_format    : 1;  /**< [188:188] 0 = "0p" format. 0 bit corresponds to positive LLR
+                                                                 1 = "1p" format. 1 bit corresponds to positive LLR */
+        uint64_t reenc_128b_align_en   : 1;  /**< [187:187] Flag to enable reencoded output of each code block aligned
+                                                                 to 128-bit boundary.
+                                                                 This mode can be used with either [REENC_OUT_TYPE]. */
+        uint64_t reenc_out_type        : 1;  /**< [186:186] 0 = reencoded output of decoded data.
+                                                                 No Extra header word added for each CB.
+                                                                 1 = reenc stream source depends on CB CRC :
+                                                                   -If CB CRC pass, from actual reencoding.
+                                                                   -If CB CRC fails, from hard decision of rate matched
+                                                                   soft output available at the end of [SO_IT] iterations.
+                                                                 Extra header word added for each CB.
+                                                                 When [REENC_OUT_TYPE]=1, rate matching of soft bits sent on
+                                                                 the reenc port is based on [BYPASS_REENC_RM] field. When both
+                                                                 soft and reenc ports are enabled, it is required to have
+                                                                 [BYPASS_REENC_RM] == [BYPASS_SO_RM].
+                                                                 When [REENC_OUT_TYPE]=1, a LDEC_TURBO_PIC_CFG_S configuration
+                                                                 structure follows the LDEC_TASK_CFG_S and
+                                                                 LDEC_LAYER_ORDER_CFG_S structures. */
         uint64_t cnu_algo_select       : 1;  /**< [185:185] Decoder algorithm used by the core.
                                                                  0 = FSPA.
                                                                  1 = Offset min-sum. */
@@ -697,7 +722,26 @@ union cavm_ldec_task_cfg_s
         uint64_t cnu_algo_select       : 1;  /**< [185:185] Decoder algorithm used by the core.
                                                                  0 = FSPA.
                                                                  1 = Offset min-sum. */
-        uint64_t reserved_186_191      : 6;
+        uint64_t reenc_out_type        : 1;  /**< [186:186] 0 = reencoded output of decoded data.
+                                                                 No Extra header word added for each CB.
+                                                                 1 = reenc stream source depends on CB CRC :
+                                                                   -If CB CRC pass, from actual reencoding.
+                                                                   -If CB CRC fails, from hard decision of rate matched
+                                                                   soft output available at the end of [SO_IT] iterations.
+                                                                 Extra header word added for each CB.
+                                                                 When [REENC_OUT_TYPE]=1, rate matching of soft bits sent on
+                                                                 the reenc port is based on [BYPASS_REENC_RM] field. When both
+                                                                 soft and reenc ports are enabled, it is required to have
+                                                                 [BYPASS_REENC_RM] == [BYPASS_SO_RM].
+                                                                 When [REENC_OUT_TYPE]=1, a LDEC_TURBO_PIC_CFG_S configuration
+                                                                 structure follows the LDEC_TASK_CFG_S and
+                                                                 LDEC_LAYER_ORDER_CFG_S structures. */
+        uint64_t reenc_128b_align_en   : 1;  /**< [187:187] Flag to enable reencoded output of each code block aligned
+                                                                 to 128-bit boundary.
+                                                                 This mode can be used with either [REENC_OUT_TYPE]. */
+        uint64_t so_bit_sign_format    : 1;  /**< [188:188] 0 = "0p" format. 0 bit corresponds to positive LLR
+                                                                 1 = "1p" format. 1 bit corresponds to positive LLR */
+        uint64_t reserved_189_191      : 3;
 #endif /* Word 2 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
         uint64_t reserved_254_255      : 2;
@@ -768,37 +812,63 @@ union cavm_ldec_task_cfg_s
         uint64_t reserved_444_447      : 4;
 #endif /* Word 6 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 7 - Big Endian */
-        uint64_t preproc_num_rd_dma_words_p1 : 32;/**< [511:480] Number of read DMA words for part 1. Valid range is [0x0, 0x2998].
-                                                                 The read DMA parameters must satisfy the constraint
-                                                                 [PREPROC_NUM_RD_DMA_WORDS_P0] + [PREPROC_NUM_RD_DMA_WORDS_P1] =
-                                                                 [NUM_RD0_DMA_WORDS] . */
-        uint64_t preproc_num_rd_dma_words_p0 : 32;/**< [479:448] Number of read DMA words for part 0. Valid range is [0x0, 0x2998].
-                                                                 The read DMA parameters must satisfy the constraint
-                                                                 [PREPROC_NUM_RD_DMA_WORDS_P0] + [PREPROC_NUM_RD_DMA_WORDS_P1] =
-                                                                 [NUM_RD0_DMA_WORDS] . */
+        uint64_t preproc_num_rd_dma_words_p1 : 32;/**< [511:480] Number of read DMA words for part 1.
+                                                                 Must satisfy the following constraint:
+                                                                 The read DMA parameters must satisfy the following constraint:
+                                                                 _ [PREPROC_NUM_RD_DMA_WORDS_P0] + [PREPROC_NUM_RD_DMA_WORDS_P1] = [NUM_RD0_DMA_WORDS]
+
+                                                                 Valid range [0x0:0x168F0] is fully verified. Values outside this range may
+                                                                 be supported but are not verified. */
+        uint64_t preproc_num_rd_dma_words_p0 : 32;/**< [479:448] Number of read DMA words for part 0.
+                                                                 Must satisfy the following constraint:
+                                                                 The read DMA parameters must satisfy the following constraint:
+                                                                 _ [PREPROC_NUM_RD_DMA_WORDS_P0] + [PREPROC_NUM_RD_DMA_WORDS_P1] = [NUM_RD0_DMA_WORDS]
+
+                                                                 Valid range [0x0:0x168F0] is fully verified. Values outside this range may
+                                                                 be supported but are not verified. */
 #else /* Word 7 - Little Endian */
-        uint64_t preproc_num_rd_dma_words_p0 : 32;/**< [479:448] Number of read DMA words for part 0. Valid range is [0x0, 0x2998].
-                                                                 The read DMA parameters must satisfy the constraint
-                                                                 [PREPROC_NUM_RD_DMA_WORDS_P0] + [PREPROC_NUM_RD_DMA_WORDS_P1] =
-                                                                 [NUM_RD0_DMA_WORDS] . */
-        uint64_t preproc_num_rd_dma_words_p1 : 32;/**< [511:480] Number of read DMA words for part 1. Valid range is [0x0, 0x2998].
-                                                                 The read DMA parameters must satisfy the constraint
-                                                                 [PREPROC_NUM_RD_DMA_WORDS_P0] + [PREPROC_NUM_RD_DMA_WORDS_P1] =
-                                                                 [NUM_RD0_DMA_WORDS] . */
+        uint64_t preproc_num_rd_dma_words_p0 : 32;/**< [479:448] Number of read DMA words for part 0.
+                                                                 Must satisfy the following constraint:
+                                                                 The read DMA parameters must satisfy the following constraint:
+                                                                 _ [PREPROC_NUM_RD_DMA_WORDS_P0] + [PREPROC_NUM_RD_DMA_WORDS_P1] = [NUM_RD0_DMA_WORDS]
+
+                                                                 Valid range [0x0:0x168F0] is fully verified. Values outside this range may
+                                                                 be supported but are not verified. */
+        uint64_t preproc_num_rd_dma_words_p1 : 32;/**< [511:480] Number of read DMA words for part 1.
+                                                                 Must satisfy the following constraint:
+                                                                 The read DMA parameters must satisfy the following constraint:
+                                                                 _ [PREPROC_NUM_RD_DMA_WORDS_P0] + [PREPROC_NUM_RD_DMA_WORDS_P1] = [NUM_RD0_DMA_WORDS]
+
+                                                                 Valid range [0x0:0x168F0] is fully verified. Values outside this range may
+                                                                 be supported but are not verified. */
 #endif /* Word 7 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 8 - Big Endian */
         uint64_t num_rd1_dma_words     : 32; /**< [575:544] Number of 128-bit words read from Port1 input DMA. Valid range is [0x0, 0x3AC80]. */
-        uint64_t num_rd0_dma_words     : 32; /**< [543:512] Number of 128-bit words read from Port0 input DMA. Valid range is [0x0, 0x2998]. */
+        uint64_t num_rd0_dma_words     : 32; /**< [543:512] Number of 128-bit words read from Port0 input DMA. Please see Section 4.2.4
+                                                                 for an example on how to set this field.
+
+                                                                 Valid range [0x0:0x168F0] is fully verified. Values outside this range may
+                                                                 be supported but are not verified. */
 #else /* Word 8 - Little Endian */
-        uint64_t num_rd0_dma_words     : 32; /**< [543:512] Number of 128-bit words read from Port0 input DMA. Valid range is [0x0, 0x2998]. */
+        uint64_t num_rd0_dma_words     : 32; /**< [543:512] Number of 128-bit words read from Port0 input DMA. Please see Section 4.2.4
+                                                                 for an example on how to set this field.
+
+                                                                 Valid range [0x0:0x168F0] is fully verified. Values outside this range may
+                                                                 be supported but are not verified. */
         uint64_t num_rd1_dma_words     : 32; /**< [575:544] Number of 128-bit words read from Port1 input DMA. Valid range is [0x0, 0x3AC80]. */
 #endif /* Word 8 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 9 - Big Endian */
-        uint64_t num_wr1_dma_words     : 32; /**< [639:608] Number of 128-bit words written to Port1 output DMA. Valid range is [0x0, 0x3AC80]. */
+        uint64_t num_wr1_dma_words     : 32; /**< [639:608] Number of 128-bit words written to Port1 output DMA.
+
+                                                                 Valid range [0:0x168F0] is fully verified. Values outside this range may be
+                                                                 supported but are not verified. */
         uint64_t num_wr0_dma_words     : 32; /**< [607:576] Number of 128-bit words written to Port0 output DMA. Valid range is [0x0, 0x3AC80]. */
 #else /* Word 9 - Little Endian */
         uint64_t num_wr0_dma_words     : 32; /**< [607:576] Number of 128-bit words written to Port0 output DMA. Valid range is [0x0, 0x3AC80]. */
-        uint64_t num_wr1_dma_words     : 32; /**< [639:608] Number of 128-bit words written to Port1 output DMA. Valid range is [0x0, 0x3AC80]. */
+        uint64_t num_wr1_dma_words     : 32; /**< [639:608] Number of 128-bit words written to Port1 output DMA.
+
+                                                                 Valid range [0:0x168F0] is fully verified. Values outside this range may be
+                                                                 supported but are not verified. */
 #endif /* Word 9 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 10 - Big Endian */
         uint64_t num_wr3_dma_words     : 32; /**< [703:672] Number of 64-bit words written to Port3 output DMA. Valid range is [0x0, 0xEB20]. */
@@ -809,6 +879,48 @@ union cavm_ldec_task_cfg_s
 #endif /* Word 10 - End */
     } s;
     /* struct cavm_ldec_task_cfg_s_s cn; */
+};
+
+/**
+ * Structure ldec_turbo_pic_cfg_s
+ *
+ * LDEC Turbo PIC Configuration Structure
+ * This structure specifies the turbo PIC configuration for a task.  It
+ * follows the LDEC_TASK_CFG_S and LDEC_LAYER_ORDER_CFG_S, when
+ * [REENC_OUT_TYPE]=1.
+ */
+union cavm_ldec_turbo_pic_cfg_s
+{
+    uint64_t u;
+    struct cavm_ldec_turbo_pic_cfg_s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_44_63        : 20;
+        uint64_t turbo_pic_q_rnd       : 4;  /**< [ 43: 40] Unsigned value. Number of bits to be rounded after application
+                                                                 of scaling "A". */
+        uint64_t turbo_pic_q_thrh      : 8;  /**< [ 39: 32] Signed upper saturation limit for final q value. Recommended
+                                                                 to be 0x7F. */
+        uint64_t turbo_pic_q_thrl      : 8;  /**< [ 31: 24] Signed lower saturation limit for final q value. Recommended
+                                                                 to be 0x1, but 0x0 is also supported. */
+        uint64_t turbo_pic_a_value     : 8;  /**< [ 23: 16] Scaling factor "A" applied over LUT value . */
+        uint64_t turbo_pic_llr_scale_rnd : 8;/**< [ 15:  8] Number of bits to be rounded after application of LLR
+                                                                 normalization scaling . */
+        uint64_t turbo_pic_llr_scale   : 8;  /**< [  7:  0] 8-bit unsigned mean normalization scaling. */
+#else /* Word 0 - Little Endian */
+        uint64_t turbo_pic_llr_scale   : 8;  /**< [  7:  0] 8-bit unsigned mean normalization scaling. */
+        uint64_t turbo_pic_llr_scale_rnd : 8;/**< [ 15:  8] Number of bits to be rounded after application of LLR
+                                                                 normalization scaling . */
+        uint64_t turbo_pic_a_value     : 8;  /**< [ 23: 16] Scaling factor "A" applied over LUT value . */
+        uint64_t turbo_pic_q_thrl      : 8;  /**< [ 31: 24] Signed lower saturation limit for final q value. Recommended
+                                                                 to be 0x1, but 0x0 is also supported. */
+        uint64_t turbo_pic_q_thrh      : 8;  /**< [ 39: 32] Signed upper saturation limit for final q value. Recommended
+                                                                 to be 0x7F. */
+        uint64_t turbo_pic_q_rnd       : 4;  /**< [ 43: 40] Unsigned value. Number of bits to be rounded after application
+                                                                 of scaling "A". */
+        uint64_t reserved_44_63        : 20;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ldec_turbo_pic_cfg_s_s cn; */
 };
 
 /**
@@ -846,7 +958,7 @@ typedef union cavm_ldecx_abx_control cavm_ldecx_abx_control_t;
 static inline uint64_t CAVM_LDECX_ABX_CONTROL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_LDECX_ABX_CONTROL(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=2)))
         return 0x87e040c00000ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("LDECX_ABX_CONTROL", 2, a, b, 0, 0, 0, 0);
 }
@@ -892,7 +1004,7 @@ typedef union cavm_ldecx_abx_error_enable0 cavm_ldecx_abx_error_enable0_t;
 static inline uint64_t CAVM_LDECX_ABX_ERROR_ENABLE0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_LDECX_ABX_ERROR_ENABLE0(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=2)))
         return 0x87e040c00040ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("LDECX_ABX_ERROR_ENABLE0", 2, a, b, 0, 0, 0, 0);
 }
@@ -936,7 +1048,7 @@ typedef union cavm_ldecx_abx_error_enable1 cavm_ldecx_abx_error_enable1_t;
 static inline uint64_t CAVM_LDECX_ABX_ERROR_ENABLE1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_LDECX_ABX_ERROR_ENABLE1(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=2)))
         return 0x87e040c00048ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("LDECX_ABX_ERROR_ENABLE1", 2, a, b, 0, 0, 0, 0);
 }
@@ -992,7 +1104,7 @@ typedef union cavm_ldecx_abx_error_source0 cavm_ldecx_abx_error_source0_t;
 static inline uint64_t CAVM_LDECX_ABX_ERROR_SOURCE0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_LDECX_ABX_ERROR_SOURCE0(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=2)))
         return 0x87e040c00030ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("LDECX_ABX_ERROR_SOURCE0", 2, a, b, 0, 0, 0, 0);
 }
@@ -1036,7 +1148,7 @@ typedef union cavm_ldecx_abx_error_source1 cavm_ldecx_abx_error_source1_t;
 static inline uint64_t CAVM_LDECX_ABX_ERROR_SOURCE1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_LDECX_ABX_ERROR_SOURCE1(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=2)))
         return 0x87e040c00038ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("LDECX_ABX_ERROR_SOURCE1", 2, a, b, 0, 0, 0, 0);
 }
@@ -1053,6 +1165,8 @@ static inline uint64_t CAVM_LDECX_ABX_ERROR_SOURCE1(uint64_t a, uint64_t b)
  *
  * LDEC HAB Job Configuration 0 RAM Register
  * This register range stores the job configuration for slot 0.
+ * Hardware loads the job configuration in these registers. Software should
+ * never directly write to these registers.
  */
 union cavm_ldecx_abx_hab_jcfg0_ramx_data
 {
@@ -1072,7 +1186,7 @@ typedef union cavm_ldecx_abx_hab_jcfg0_ramx_data cavm_ldecx_abx_hab_jcfg0_ramx_d
 static inline uint64_t CAVM_LDECX_ABX_HAB_JCFG0_RAMX_DATA(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_LDECX_ABX_HAB_JCFG0_RAMX_DATA(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=3) && (b<=2) && (c<=511))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=2) && (c<=511)))
         return 0x87e040c02000ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x3) + 8ll * ((c) & 0x1ff);
     __cavm_csr_fatal("LDECX_ABX_HAB_JCFG0_RAMX_DATA", 3, a, b, c, 0, 0, 0);
 }
@@ -1108,7 +1222,7 @@ typedef union cavm_ldecx_abx_hab_jcfg1_ramx_data cavm_ldecx_abx_hab_jcfg1_ramx_d
 static inline uint64_t CAVM_LDECX_ABX_HAB_JCFG1_RAMX_DATA(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_LDECX_ABX_HAB_JCFG1_RAMX_DATA(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=3) && (b<=2) && (c<=511))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=2) && (c<=511)))
         return 0x87e040c04000ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x3) + 8ll * ((c) & 0x1ff);
     __cavm_csr_fatal("LDECX_ABX_HAB_JCFG1_RAMX_DATA", 3, a, b, c, 0, 0, 0);
 }
@@ -1144,7 +1258,7 @@ typedef union cavm_ldecx_abx_hab_jcfg2_ramx_data cavm_ldecx_abx_hab_jcfg2_ramx_d
 static inline uint64_t CAVM_LDECX_ABX_HAB_JCFG2_RAMX_DATA(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_LDECX_ABX_HAB_JCFG2_RAMX_DATA(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=3) && (b<=2) && (c<=511))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=2) && (c<=511)))
         return 0x87e040c06000ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x3) + 8ll * ((c) & 0x1ff);
     __cavm_csr_fatal("LDECX_ABX_HAB_JCFG2_RAMX_DATA", 3, a, b, c, 0, 0, 0);
 }
@@ -1189,7 +1303,7 @@ typedef union cavm_ldecx_abx_status cavm_ldecx_abx_status_t;
 static inline uint64_t CAVM_LDECX_ABX_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_LDECX_ABX_STATUS(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=2)))
         return 0x87e040c00018ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("LDECX_ABX_STATUS", 2, a, b, 0, 0, 0, 0);
 }
@@ -1243,7 +1357,7 @@ typedef union cavm_ldecx_abx_tc_control cavm_ldecx_abx_tc_control_t;
 static inline uint64_t CAVM_LDECX_ABX_TC_CONTROL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_LDECX_ABX_TC_CONTROL(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=2)))
         return 0x87e040c01010ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("LDECX_ABX_TC_CONTROL", 2, a, b, 0, 0, 0, 0);
 }
@@ -1295,7 +1409,7 @@ typedef union cavm_ldecx_abx_tc_error cavm_ldecx_abx_tc_error_t;
 static inline uint64_t CAVM_LDECX_ABX_TC_ERROR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_LDECX_ABX_TC_ERROR(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=2)))
         return 0x87e040c01038ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("LDECX_ABX_TC_ERROR", 2, a, b, 0, 0, 0, 0);
 }
@@ -1335,7 +1449,7 @@ typedef union cavm_ldecx_abx_tc_error_mask cavm_ldecx_abx_tc_error_mask_t;
 static inline uint64_t CAVM_LDECX_ABX_TC_ERROR_MASK(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_LDECX_ABX_TC_ERROR_MASK(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=2)))
         return 0x87e040c01030ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("LDECX_ABX_TC_ERROR_MASK", 2, a, b, 0, 0, 0, 0);
 }
@@ -1373,7 +1487,7 @@ typedef union cavm_ldecx_abx_tc_main_reset cavm_ldecx_abx_tc_main_reset_t;
 static inline uint64_t CAVM_LDECX_ABX_TC_MAIN_RESET(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_LDECX_ABX_TC_MAIN_RESET(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=2)))
         return 0x87e040c01000ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("LDECX_ABX_TC_MAIN_RESET", 2, a, b, 0, 0, 0, 0);
 }
@@ -1413,7 +1527,7 @@ typedef union cavm_ldecx_abx_tc_status cavm_ldecx_abx_tc_status_t;
 static inline uint64_t CAVM_LDECX_ABX_TC_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_LDECX_ABX_TC_STATUS(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=2))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=2)))
         return 0x87e040c01020ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("LDECX_ABX_TC_STATUS", 2, a, b, 0, 0, 0, 0);
 }

@@ -29,7 +29,7 @@
  * Register (RSL) pnb#_dma#_control
  *
  * PNB DMA AB Control Register
- * AB control register for PNB DMA operation
+ * AB control register for PNB DMA operation.
  */
 union cavm_pnbx_dmax_control
 {
@@ -57,7 +57,7 @@ typedef union cavm_pnbx_dmax_control cavm_pnbx_dmax_control_t;
 static inline uint64_t CAVM_PNBX_DMAX_CONTROL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PNBX_DMAX_CONTROL(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=1) && (b<=1)))
         return 0x87e041800000ll + 0x80000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("PNBX_DMAX_CONTROL", 2, a, b, 0, 0, 0, 0);
 }
@@ -73,7 +73,7 @@ static inline uint64_t CAVM_PNBX_DMAX_CONTROL(uint64_t a, uint64_t b)
  * Register (RSL) pnb#_dma#_err_enable0
  *
  * PNB DMA AB Error Enable Register 0
- * This register enables error reporting for ERROR_SOURCE0 register
+ * This register enables error reporting for ERROR_SOURCE0 register.
  */
 union cavm_pnbx_dmax_err_enable0
 {
@@ -95,7 +95,7 @@ typedef union cavm_pnbx_dmax_err_enable0 cavm_pnbx_dmax_err_enable0_t;
 static inline uint64_t CAVM_PNBX_DMAX_ERR_ENABLE0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PNBX_DMAX_ERR_ENABLE0(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=1) && (b<=1)))
         return 0x87e041800040ll + 0x80000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("PNBX_DMAX_ERR_ENABLE0", 2, a, b, 0, 0, 0, 0);
 }
@@ -120,17 +120,17 @@ union cavm_pnbx_dmax_err_source0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t rp0_jobid_ufof        : 16; /**< [ 31: 16](RO/H) Job ID for Read Port 0 Overflow/Underflow */
+        uint64_t rp0_jobid_ufof        : 16; /**< [ 31: 16](RO/H) Job ID for Read Port 0 Overflow/Underflow. */
         uint64_t reserved_5_15         : 11;
-        uint64_t rp0_of                : 1;  /**< [  4:  4](R/W1C) Read Port0 overflow */
+        uint64_t rp0_of                : 1;  /**< [  4:  4](R/W1C) Read Port0 overflow. */
         uint64_t reserved_1_3          : 3;
-        uint64_t rp0_uf                : 1;  /**< [  0:  0](R/W1C) Read Port0 underflow */
+        uint64_t rp0_uf                : 1;  /**< [  0:  0](R/W1C) Read Port0 underflow. */
 #else /* Word 0 - Little Endian */
-        uint64_t rp0_uf                : 1;  /**< [  0:  0](R/W1C) Read Port0 underflow */
+        uint64_t rp0_uf                : 1;  /**< [  0:  0](R/W1C) Read Port0 underflow. */
         uint64_t reserved_1_3          : 3;
-        uint64_t rp0_of                : 1;  /**< [  4:  4](R/W1C) Read Port0 overflow */
+        uint64_t rp0_of                : 1;  /**< [  4:  4](R/W1C) Read Port0 overflow. */
         uint64_t reserved_5_15         : 11;
-        uint64_t rp0_jobid_ufof        : 16; /**< [ 31: 16](RO/H) Job ID for Read Port 0 Overflow/Underflow */
+        uint64_t rp0_jobid_ufof        : 16; /**< [ 31: 16](RO/H) Job ID for Read Port 0 Overflow/Underflow. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -141,7 +141,7 @@ typedef union cavm_pnbx_dmax_err_source0 cavm_pnbx_dmax_err_source0_t;
 static inline uint64_t CAVM_PNBX_DMAX_ERR_SOURCE0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PNBX_DMAX_ERR_SOURCE0(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=1) && (b<=1)))
         return 0x87e041800030ll + 0x80000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("PNBX_DMAX_ERR_SOURCE0", 2, a, b, 0, 0, 0, 0);
 }
@@ -157,7 +157,9 @@ static inline uint64_t CAVM_PNBX_DMAX_ERR_SOURCE0(uint64_t a, uint64_t b)
  * Register (RSL) pnb#_dma#_jd_cfg0
  *
  * PNB DMA Job Configuration Register 0
- * DMA Job Configuration Register 0
+ * DMA Job Configuration Register 0.
+ * Software should not write this register directly, but instead use this
+ * format when writing the job configuration section of the job descriptor.
  */
 union cavm_pnbx_dmax_jd_cfg0
 {
@@ -181,7 +183,7 @@ typedef union cavm_pnbx_dmax_jd_cfg0 cavm_pnbx_dmax_jd_cfg0_t;
 static inline uint64_t CAVM_PNBX_DMAX_JD_CFG0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PNBX_DMAX_JD_CFG0(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=1) && (b<=1)))
         return 0x87e041802000ll + 0x80000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("PNBX_DMAX_JD_CFG0", 2, a, b, 0, 0, 0, 0);
 }
@@ -197,7 +199,7 @@ static inline uint64_t CAVM_PNBX_DMAX_JD_CFG0(uint64_t a, uint64_t b)
  * Register (RSL) pnb#_dma#_status
  *
  * PNB DMA AB Status Register
- * AB status register for PNB DMA operation
+ * AB status register for PNB DMA operation.
  */
 union cavm_pnbx_dmax_status
 {
@@ -206,13 +208,13 @@ union cavm_pnbx_dmax_status
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
-        uint64_t ready                 : 1;  /**< [  4:  4](RO/H) Ready to receive the next job when set */
+        uint64_t ready                 : 1;  /**< [  4:  4](RO/H) Ready to receive the next job when set. */
         uint64_t reserved_1_3          : 3;
-        uint64_t busy                  : 1;  /**< [  0:  0](RO/H) Busy on processing a job when set */
+        uint64_t busy                  : 1;  /**< [  0:  0](RO/H) Busy on processing a job when set. */
 #else /* Word 0 - Little Endian */
-        uint64_t busy                  : 1;  /**< [  0:  0](RO/H) Busy on processing a job when set */
+        uint64_t busy                  : 1;  /**< [  0:  0](RO/H) Busy on processing a job when set. */
         uint64_t reserved_1_3          : 3;
-        uint64_t ready                 : 1;  /**< [  4:  4](RO/H) Ready to receive the next job when set */
+        uint64_t ready                 : 1;  /**< [  4:  4](RO/H) Ready to receive the next job when set. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
@@ -223,7 +225,7 @@ typedef union cavm_pnbx_dmax_status cavm_pnbx_dmax_status_t;
 static inline uint64_t CAVM_PNBX_DMAX_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PNBX_DMAX_STATUS(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=1) && (b<=1)))
         return 0x87e041800018ll + 0x80000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("PNBX_DMAX_STATUS", 2, a, b, 0, 0, 0, 0);
 }

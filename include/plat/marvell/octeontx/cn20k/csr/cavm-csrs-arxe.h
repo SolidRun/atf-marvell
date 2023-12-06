@@ -430,6 +430,51 @@ union cavm_arxe_cfg2_w0_s
 };
 
 /**
+ * Structure arxe_cfg3_s
+ *
+ * ARXE CFG3 Structure
+ * This structure specifies words for ARXE_COMMON_CFG_S[PROCESSING_MODE] = 0x4.
+ */
+union cavm_arxe_cfg3_s
+{
+    uint64_t u[2];
+    struct cavm_arxe_cfg3_s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t wbf_addr_beam_3       : 16; /**< [ 63: 48] Refer to [WBF_ADDR_BEAM_0]. */
+        uint64_t wbf_addr_beam_2       : 16; /**< [ 47: 32] Refer to [WBF_ADDR_BEAM_0]. */
+        uint64_t wbf_addr_beam_1       : 16; /**< [ 31: 16] Refer to [WBF_ADDR_BEAM_0]. */
+        uint64_t wbf_addr_beam_0       : 16; /**< [ 15:  0] WBF_ADDR_BEAM_X, where x is the beam index (X in[0,7]).
+                                                                 PMEM address in 512b of the W_BF used for beam X.
+                                                                 Address must be limited to the first 4MB in byte address of the PMEM.
+
+                                                                 If address is A in this configuration, the corresponding byte address would be ( A \<\< 6 ). */
+#else /* Word 0 - Little Endian */
+        uint64_t wbf_addr_beam_0       : 16; /**< [ 15:  0] WBF_ADDR_BEAM_X, where x is the beam index (X in[0,7]).
+                                                                 PMEM address in 512b of the W_BF used for beam X.
+                                                                 Address must be limited to the first 4MB in byte address of the PMEM.
+
+                                                                 If address is A in this configuration, the corresponding byte address would be ( A \<\< 6 ). */
+        uint64_t wbf_addr_beam_1       : 16; /**< [ 31: 16] Refer to [WBF_ADDR_BEAM_0]. */
+        uint64_t wbf_addr_beam_2       : 16; /**< [ 47: 32] Refer to [WBF_ADDR_BEAM_0]. */
+        uint64_t wbf_addr_beam_3       : 16; /**< [ 63: 48] Refer to [WBF_ADDR_BEAM_0]. */
+#endif /* Word 0 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
+        uint64_t wbf_addr_beam_7       : 16; /**< [127:112] Refer to [WBF_ADDR_BEAM_0]. */
+        uint64_t wbf_addr_beam_6       : 16; /**< [111: 96] Refer to [WBF_ADDR_BEAM_0]. */
+        uint64_t wbf_addr_beam_5       : 16; /**< [ 95: 80] Refer to [WBF_ADDR_BEAM_0]. */
+        uint64_t wbf_addr_beam_4       : 16; /**< [ 79: 64] Refer to [WBF_ADDR_BEAM_0]. */
+#else /* Word 1 - Little Endian */
+        uint64_t wbf_addr_beam_4       : 16; /**< [ 79: 64] Refer to [WBF_ADDR_BEAM_0]. */
+        uint64_t wbf_addr_beam_5       : 16; /**< [ 95: 80] Refer to [WBF_ADDR_BEAM_0]. */
+        uint64_t wbf_addr_beam_6       : 16; /**< [111: 96] Refer to [WBF_ADDR_BEAM_0]. */
+        uint64_t wbf_addr_beam_7       : 16; /**< [127:112] Refer to [WBF_ADDR_BEAM_0]. */
+#endif /* Word 1 - End */
+    } s;
+    /* struct cavm_arxe_cfg3_s_s cn; */
+};
+
+/**
  * Structure arxe_common_cfg_s
  *
  * ARXE COMMON Structure
@@ -453,12 +498,15 @@ union cavm_arxe_common_cfg_s
                                                                  This includes Reference Symbols (RS) in cases where data is mapped on RS in NR CP-OFDM.
                                                                    [NUM_BEAM] = 0x8,0x4,0x2: supports up to 14 symbols.
                                                                    [NUM_BEAM] = 0x10,0xC: supports up to 7 symbols.
+
                                                                  For mode 3:
                                                                    Number of data symbols to be processed by ARXE for ARXE_CFG1_S[WHITENING_MODE] = 1.
                                                                    This includes Reference Symbols (RS) in cases where data is mapped on RS in NR
                                                                  CP-OFDM for ARXE_CFG1_S[WHITENING_MODE] = 1.
+
                                                                  For mode 4:
-                                                                   Must be set to 1. */
+                                                                   This field is ignored and assumed to be 1.
+                                                                   Setting NUM_DS=1 is recommended but not required for proper mode 4 functionality. */
         uint64_t reserved_29_35        : 7;
         uint64_t rx_mode               : 1;  /**< [ 28: 28] Number of RX antennas for [PROCESSING_MODE] = 0x2 and 0x4.
                                                                  0x0 = 32.
@@ -508,12 +556,15 @@ union cavm_arxe_common_cfg_s
                                                                  This includes Reference Symbols (RS) in cases where data is mapped on RS in NR CP-OFDM.
                                                                    [NUM_BEAM] = 0x8,0x4,0x2: supports up to 14 symbols.
                                                                    [NUM_BEAM] = 0x10,0xC: supports up to 7 symbols.
+
                                                                  For mode 3:
                                                                    Number of data symbols to be processed by ARXE for ARXE_CFG1_S[WHITENING_MODE] = 1.
                                                                    This includes Reference Symbols (RS) in cases where data is mapped on RS in NR
                                                                  CP-OFDM for ARXE_CFG1_S[WHITENING_MODE] = 1.
+
                                                                  For mode 4:
-                                                                   Must be set to 1. */
+                                                                   This field is ignored and assumed to be 1.
+                                                                   Setting NUM_DS=1 is recommended but not required for proper mode 4 functionality. */
         uint64_t reserved_40_59        : 20;
         uint64_t processing_mode       : 3;  /**< [ 62: 60] 0x0 = Mode 11.
                                                                  0x1 = Mode 12.
@@ -559,7 +610,7 @@ typedef union cavm_arxex_abx_control cavm_arxex_abx_control_t;
 static inline uint64_t CAVM_ARXEX_ABX_CONTROL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ARXEX_ABX_CONTROL(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=1)))
         return 0x87e041400000ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ARXEX_ABX_CONTROL", 2, a, b, 0, 0, 0, 0);
 }
@@ -583,7 +634,37 @@ union cavm_arxex_abx_error_enable0
     struct cavm_arxex_abx_error_enable0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
+        uint64_t reserved_52_63        : 12;
+        uint64_t overflow_process_en   : 1;  /**< [ 51: 51](R/W) This enables the check for the maximum internal range of +-1.99996948x2^127 is exceeded
+                                                                 when performing a calculation. */
+        uint64_t overflow_out_en       : 1;  /**< [ 50: 50](R/W) This enables the check for the results for output conversion to IQFP/EXFP if
+                                                                 its out range. The particular output data will be set to the maximum(saturated)
+                                                                 value. */
+        uint64_t neg_sqrt_en           : 1;  /**< [ 49: 49](R/W) This enables the check for negative square root when performing a calculation. */
+        uint64_t overflow_happened_in_en : 1;/**< [ 48: 48](R/W) This enables the check for the maximum range of +-1.99996948x2^127 is exceeded when
+                                                                 converting input data. */
+        uint64_t wbf_e_en              : 1;  /**< [ 47: 47](R/W) wbf_e error check enable. */
+        uint64_t hrs_e_en              : 1;  /**< [ 46: 46](R/W) hrs_e error check enable. */
+        uint64_t hrs1_base_addr_en     : 1;  /**< [ 45: 45](R/W) hrs1_base_addr error check enable. */
+        uint64_t hrs0_base_addr_en     : 1;  /**< [ 44: 44](R/W) hrs0_base_addr error check enable. */
+        uint64_t rinv_prb_offset_en    : 1;  /**< [ 43: 43](R/W) rinv_prb_offset error check enable. */
+        uint64_t rinv_base_addr_en     : 1;  /**< [ 42: 42](R/W) rinv_base_addr error check enable. */
+        uint64_t q_threshold_en        : 1;  /**< [ 41: 41](R/W) q_threshold error check enable. */
+        uint64_t num_prb_en            : 1;  /**< [ 40: 40](R/W) num_prb error check enable. */
+        uint64_t rhh_mode_en           : 1;  /**< [ 39: 39](R/W) rhh_mode error check enable. */
+        uint64_t wtdi_start_sym_idx_en : 1;  /**< [ 38: 38](R/W) wtdi_start_sym_idx error check enable. */
+        uint64_t input_e_en            : 1;  /**< [ 37: 37](R/W) input_e error check enable. */
+        uint64_t processing_mode_en    : 1;  /**< [ 36: 36](R/W) processing_mode error check enable. */
+        uint64_t num_ds_en             : 1;  /**< [ 35: 35](R/W) num_ds error check enable. */
+        uint64_t num_beam_en           : 1;  /**< [ 34: 34](R/W) num_beam error check enable. */
+        uint64_t num_layer_en          : 1;  /**< [ 33: 33](R/W) num_layer error check enable. */
+        uint64_t num_tasks_en          : 1;  /**< [ 32: 32](R/W) num_tasks error check enable. */
+        uint64_t reserved_8_31         : 24;
+        uint64_t pmem_intf_en          : 1;  /**< [  7:  7](R/W) PMEM Interface error check enable. */
+        uint64_t bad_cholesky_err_en   : 1;  /**< [  6:  6](R/W) 0 : sqrt(abs(x)) is used. No error reported for a bad Cholesky Decomposition.
+                                                                 1 : x\<=0 ? NaN : sqrt(x) A non-positive square root result in an error. Output
+                                                                 will be forced to zero. */
+        uint64_t reserved_5            : 1;
         uint64_t rp0_of_en             : 1;  /**< [  4:  4](R/W) Read port 0 overflow enable. */
         uint64_t reserved_1_3          : 3;
         uint64_t rp0_uf_en             : 1;  /**< [  0:  0](R/W) Read port 0 underflow enable. */
@@ -591,7 +672,37 @@ union cavm_arxex_abx_error_enable0
         uint64_t rp0_uf_en             : 1;  /**< [  0:  0](R/W) Read port 0 underflow enable. */
         uint64_t reserved_1_3          : 3;
         uint64_t rp0_of_en             : 1;  /**< [  4:  4](R/W) Read port 0 overflow enable. */
-        uint64_t reserved_5_63         : 59;
+        uint64_t reserved_5            : 1;
+        uint64_t bad_cholesky_err_en   : 1;  /**< [  6:  6](R/W) 0 : sqrt(abs(x)) is used. No error reported for a bad Cholesky Decomposition.
+                                                                 1 : x\<=0 ? NaN : sqrt(x) A non-positive square root result in an error. Output
+                                                                 will be forced to zero. */
+        uint64_t pmem_intf_en          : 1;  /**< [  7:  7](R/W) PMEM Interface error check enable. */
+        uint64_t reserved_8_31         : 24;
+        uint64_t num_tasks_en          : 1;  /**< [ 32: 32](R/W) num_tasks error check enable. */
+        uint64_t num_layer_en          : 1;  /**< [ 33: 33](R/W) num_layer error check enable. */
+        uint64_t num_beam_en           : 1;  /**< [ 34: 34](R/W) num_beam error check enable. */
+        uint64_t num_ds_en             : 1;  /**< [ 35: 35](R/W) num_ds error check enable. */
+        uint64_t processing_mode_en    : 1;  /**< [ 36: 36](R/W) processing_mode error check enable. */
+        uint64_t input_e_en            : 1;  /**< [ 37: 37](R/W) input_e error check enable. */
+        uint64_t wtdi_start_sym_idx_en : 1;  /**< [ 38: 38](R/W) wtdi_start_sym_idx error check enable. */
+        uint64_t rhh_mode_en           : 1;  /**< [ 39: 39](R/W) rhh_mode error check enable. */
+        uint64_t num_prb_en            : 1;  /**< [ 40: 40](R/W) num_prb error check enable. */
+        uint64_t q_threshold_en        : 1;  /**< [ 41: 41](R/W) q_threshold error check enable. */
+        uint64_t rinv_base_addr_en     : 1;  /**< [ 42: 42](R/W) rinv_base_addr error check enable. */
+        uint64_t rinv_prb_offset_en    : 1;  /**< [ 43: 43](R/W) rinv_prb_offset error check enable. */
+        uint64_t hrs0_base_addr_en     : 1;  /**< [ 44: 44](R/W) hrs0_base_addr error check enable. */
+        uint64_t hrs1_base_addr_en     : 1;  /**< [ 45: 45](R/W) hrs1_base_addr error check enable. */
+        uint64_t hrs_e_en              : 1;  /**< [ 46: 46](R/W) hrs_e error check enable. */
+        uint64_t wbf_e_en              : 1;  /**< [ 47: 47](R/W) wbf_e error check enable. */
+        uint64_t overflow_happened_in_en : 1;/**< [ 48: 48](R/W) This enables the check for the maximum range of +-1.99996948x2^127 is exceeded when
+                                                                 converting input data. */
+        uint64_t neg_sqrt_en           : 1;  /**< [ 49: 49](R/W) This enables the check for negative square root when performing a calculation. */
+        uint64_t overflow_out_en       : 1;  /**< [ 50: 50](R/W) This enables the check for the results for output conversion to IQFP/EXFP if
+                                                                 its out range. The particular output data will be set to the maximum(saturated)
+                                                                 value. */
+        uint64_t overflow_process_en   : 1;  /**< [ 51: 51](R/W) This enables the check for the maximum internal range of +-1.99996948x2^127 is exceeded
+                                                                 when performing a calculation. */
+        uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_arxex_abx_error_enable0_s cn; */
@@ -601,7 +712,7 @@ typedef union cavm_arxex_abx_error_enable0 cavm_arxex_abx_error_enable0_t;
 static inline uint64_t CAVM_ARXEX_ABX_ERROR_ENABLE0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ARXEX_ABX_ERROR_ENABLE0(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=1)))
         return 0x87e041400040ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ARXEX_ABX_ERROR_ENABLE0", 2, a, b, 0, 0, 0, 0);
 }
@@ -625,8 +736,32 @@ union cavm_arxex_abx_error_source0
     struct cavm_arxex_abx_error_source0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t rp0_jobid             : 16; /**< [ 31: 16](RO/H) Job ID for read port 0 overflow/underflow. */
+        uint64_t reserved_52_63        : 12;
+        uint64_t overflow_process      : 1;  /**< [ 51: 51](R/W1C/H) This is set whenever the maximum internal range of +-1.99996948x2^127 when
+                                                                 performing a calculation. */
+        uint64_t overflow_out          : 1;  /**< [ 50: 50](R/W1C/H) This is set whenever the output conversion to IQFP/EXFP results in an out of
+                                                                 range value. The particular output data will be set to the maximum(saturated)
+                                                                 value. This error may indicate a bad exponent configuration. */
+        uint64_t neg_sqrt              : 1;  /**< [ 49: 49](R/W1C/H) This is set whenever a negative square root is encountered AND bad_cholesky_error_enable=1 */
+        uint64_t overflow_happened_in  : 1;  /**< [ 48: 48](R/W1C/H) This is set whenever the maximum range of +-1.99996948x2^127 is exceed when
+                                                                 converting input data. This indicates a bad exponent configuration. */
+        uint64_t wbf_e                 : 1;  /**< [ 47: 47](R/W1C/H) wbf_e error status. */
+        uint64_t hrs_e                 : 1;  /**< [ 46: 46](R/W1C/H) hrs_e error status. */
+        uint64_t hrs1_base_addr        : 1;  /**< [ 45: 45](R/W1C/H) hrs1_base_addr error status. */
+        uint64_t hrs0_base_addr        : 1;  /**< [ 44: 44](R/W1C/H) hrs0_base_addr error status. */
+        uint64_t rinv_prb_offset       : 1;  /**< [ 43: 43](R/W1C/H) rinv_prb_offset error status. */
+        uint64_t rinv_base_addr        : 1;  /**< [ 42: 42](R/W1C/H) rinv_base_addr error status. */
+        uint64_t q_threshold           : 1;  /**< [ 41: 41](R/W1C/H) q_threshold error status. */
+        uint64_t num_prb               : 1;  /**< [ 40: 40](R/W1C/H) num_prb error status. */
+        uint64_t rhh_mode              : 1;  /**< [ 39: 39](R/W1C/H) rhh_mode error status. */
+        uint64_t wtdi_start_sym_idx    : 1;  /**< [ 38: 38](R/W1C/H) wtdi_start_sym_idx error status. */
+        uint64_t input_e               : 1;  /**< [ 37: 37](R/W1C/H) input_e error status. */
+        uint64_t processing_mode       : 1;  /**< [ 36: 36](R/W1C/H) processing_mode error status. */
+        uint64_t num_ds                : 1;  /**< [ 35: 35](R/W1C/H) num_ds error status. */
+        uint64_t num_beam              : 1;  /**< [ 34: 34](R/W1C/H) num_beam error status. */
+        uint64_t num_layer             : 1;  /**< [ 33: 33](R/W1C/H) num_layer error status. */
+        uint64_t num_tasks             : 1;  /**< [ 32: 32](R/W1C/H) num_tasks error status. */
+        uint64_t rp0_jobid             : 16; /**< [ 31: 16](RO/H) Job ID for read port 0. */
         uint64_t reserved_5_15         : 11;
         uint64_t rp0_of                : 1;  /**< [  4:  4](R/W1C/H) Read port 0 overflow. */
         uint64_t reserved_1_3          : 3;
@@ -636,8 +771,32 @@ union cavm_arxex_abx_error_source0
         uint64_t reserved_1_3          : 3;
         uint64_t rp0_of                : 1;  /**< [  4:  4](R/W1C/H) Read port 0 overflow. */
         uint64_t reserved_5_15         : 11;
-        uint64_t rp0_jobid             : 16; /**< [ 31: 16](RO/H) Job ID for read port 0 overflow/underflow. */
-        uint64_t reserved_32_63        : 32;
+        uint64_t rp0_jobid             : 16; /**< [ 31: 16](RO/H) Job ID for read port 0. */
+        uint64_t num_tasks             : 1;  /**< [ 32: 32](R/W1C/H) num_tasks error status. */
+        uint64_t num_layer             : 1;  /**< [ 33: 33](R/W1C/H) num_layer error status. */
+        uint64_t num_beam              : 1;  /**< [ 34: 34](R/W1C/H) num_beam error status. */
+        uint64_t num_ds                : 1;  /**< [ 35: 35](R/W1C/H) num_ds error status. */
+        uint64_t processing_mode       : 1;  /**< [ 36: 36](R/W1C/H) processing_mode error status. */
+        uint64_t input_e               : 1;  /**< [ 37: 37](R/W1C/H) input_e error status. */
+        uint64_t wtdi_start_sym_idx    : 1;  /**< [ 38: 38](R/W1C/H) wtdi_start_sym_idx error status. */
+        uint64_t rhh_mode              : 1;  /**< [ 39: 39](R/W1C/H) rhh_mode error status. */
+        uint64_t num_prb               : 1;  /**< [ 40: 40](R/W1C/H) num_prb error status. */
+        uint64_t q_threshold           : 1;  /**< [ 41: 41](R/W1C/H) q_threshold error status. */
+        uint64_t rinv_base_addr        : 1;  /**< [ 42: 42](R/W1C/H) rinv_base_addr error status. */
+        uint64_t rinv_prb_offset       : 1;  /**< [ 43: 43](R/W1C/H) rinv_prb_offset error status. */
+        uint64_t hrs0_base_addr        : 1;  /**< [ 44: 44](R/W1C/H) hrs0_base_addr error status. */
+        uint64_t hrs1_base_addr        : 1;  /**< [ 45: 45](R/W1C/H) hrs1_base_addr error status. */
+        uint64_t hrs_e                 : 1;  /**< [ 46: 46](R/W1C/H) hrs_e error status. */
+        uint64_t wbf_e                 : 1;  /**< [ 47: 47](R/W1C/H) wbf_e error status. */
+        uint64_t overflow_happened_in  : 1;  /**< [ 48: 48](R/W1C/H) This is set whenever the maximum range of +-1.99996948x2^127 is exceed when
+                                                                 converting input data. This indicates a bad exponent configuration. */
+        uint64_t neg_sqrt              : 1;  /**< [ 49: 49](R/W1C/H) This is set whenever a negative square root is encountered AND bad_cholesky_error_enable=1 */
+        uint64_t overflow_out          : 1;  /**< [ 50: 50](R/W1C/H) This is set whenever the output conversion to IQFP/EXFP results in an out of
+                                                                 range value. The particular output data will be set to the maximum(saturated)
+                                                                 value. This error may indicate a bad exponent configuration. */
+        uint64_t overflow_process      : 1;  /**< [ 51: 51](R/W1C/H) This is set whenever the maximum internal range of +-1.99996948x2^127 when
+                                                                 performing a calculation. */
+        uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_arxex_abx_error_source0_s cn; */
@@ -647,7 +806,7 @@ typedef union cavm_arxex_abx_error_source0 cavm_arxex_abx_error_source0_t;
 static inline uint64_t CAVM_ARXEX_ABX_ERROR_SOURCE0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ARXEX_ABX_ERROR_SOURCE0(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=1)))
         return 0x87e041400030ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ARXEX_ABX_ERROR_SOURCE0", 2, a, b, 0, 0, 0, 0);
 }
@@ -683,7 +842,7 @@ typedef union cavm_arxex_abx_slotx_jcfgx cavm_arxex_abx_slotx_jcfgx_t;
 static inline uint64_t CAVM_ARXEX_ABX_SLOTX_JCFGX(uint64_t a, uint64_t b, uint64_t c, uint64_t d) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ARXEX_ABX_SLOTX_JCFGX(uint64_t a, uint64_t b, uint64_t c, uint64_t d)
 {
-    if ((a<=3) && (b<=1) && (c<=1) && (d<=161))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=1) && (c<=1) && (d<=161)))
         return 0x87e041402000ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1) + 0x2000ll * ((c) & 0x1) + 8ll * ((d) & 0xff);
     __cavm_csr_fatal("ARXEX_ABX_SLOTX_JCFGX", 4, a, b, c, d, 0, 0);
 }
@@ -727,7 +886,7 @@ typedef union cavm_arxex_abx_status cavm_arxex_abx_status_t;
 static inline uint64_t CAVM_ARXEX_ABX_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ARXEX_ABX_STATUS(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=1)))
         return 0x87e041400018ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ARXEX_ABX_STATUS", 2, a, b, 0, 0, 0, 0);
 }

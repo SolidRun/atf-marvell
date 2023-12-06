@@ -148,7 +148,7 @@ union cavm_pccbr_xxx_bus
 
                                                                  If PCCBR_XXX_VSEC_CTL[STATIC_SUBBNUM] = 0, which is true only for PCCBR_PCIEP, this field
                                                                  operates as specified by PCIe to direct which configuration transactions are presented to
-                                                                 downstream busses. */
+                                                                 downstream buses. */
         uint32_t sbnum                 : 8;  /**< [ 15:  8](R/W) Secondary bus number. Resets to PCCBR_XXX_VSEC_CTL[STATIC_SUBBNUM].
                                                                  If 0x0 no configuration accesses are forwarded to the secondary bus.
 
@@ -158,7 +158,7 @@ union cavm_pccbr_xxx_bus
 
                                                                  If PCCBR_XXX_VSEC_CTL[STATIC_SUBBNUM] = 0, which is true only for PCCBR_PCIEP, this field
                                                                  operates as specified by PCIe to direct which configuration transactions are presented to
-                                                                 downstream busses. */
+                                                                 downstream buses. */
         uint32_t pbnum                 : 8;  /**< [  7:  0](R/W) Primary bus number.
                                                                  This field is read-write only for software;
                                                                  hardware has a fixed topology where all PCCBR's are always off primary bus number
@@ -177,7 +177,7 @@ union cavm_pccbr_xxx_bus
 
                                                                  If PCCBR_XXX_VSEC_CTL[STATIC_SUBBNUM] = 0, which is true only for PCCBR_PCIEP, this field
                                                                  operates as specified by PCIe to direct which configuration transactions are presented to
-                                                                 downstream busses. */
+                                                                 downstream buses. */
         uint32_t subbnum               : 8;  /**< [ 23: 16](R/W) Subordinate bus number. Resets to PCCBR_XXX_VSEC_CTL[STATIC_SUBBNUM].
                                                                  If 0x0 no configuration accesses are forwarded to the secondary bus.
 
@@ -187,7 +187,7 @@ union cavm_pccbr_xxx_bus
 
                                                                  If PCCBR_XXX_VSEC_CTL[STATIC_SUBBNUM] = 0, which is true only for PCCBR_PCIEP, this field
                                                                  operates as specified by PCIe to direct which configuration transactions are presented to
-                                                                 downstream busses. */
+                                                                 downstream buses. */
         uint32_t slt                   : 8;  /**< [ 31: 24](RO) Secondary latency timer. Not applicable to PCI Express, hardwired to 0x0. */
 #endif /* Word 0 - End */
     } s;

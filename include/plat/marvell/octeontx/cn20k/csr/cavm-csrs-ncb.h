@@ -111,17 +111,17 @@ union cavm_ncbx_arbx_crds
     struct cavm_ncbx_arbx_crds_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_17_63        : 47;
-        uint64_t rsv_rdstid            : 1;  /**< [ 16: 16](R/W) Reserve a write FLID and write STID for each read FLID reserved for this requestor.
+        uint64_t reserved_21_63        : 43;
+        uint64_t rsv_rdstid            : 1;  /**< [ 20: 20](R/W) Reserve a write FLID and write STID for each read FLID reserved for this requestor.
                                                                  This is only required for devices that support atomic transactions.
                                                                  These write FLID/STIDs can only be used for atomics.
 
                                                                  Resets to 1 for those devices which require this resource in order to avoid
                                                                  deadlocks. (i.e. Class B devices, as defined by wiki). */
-        uint64_t max                   : 8;  /**< [ 15:  8](R/W) Maximum number of POOL FLIDs/STIDs available to the requestor.
+        uint64_t max                   : 10; /**< [ 19: 10](R/W) Maximum number of POOL FLIDs/STIDs available to the requestor.
                                                                  Decreasing this number will limit the maximum burst performance of this device.
                                                                  The actual MAX would be this value MAX(POOL) plus MIN. */
-        uint64_t min                   : 8;  /**< [  7:  0](R/W) Minimum number of FLIDs available to the requestor. From the total available
+        uint64_t min                   : 10; /**< [  9:  0](R/W) Minimum number of FLIDs available to the requestor. From the total available
                                                                  credits this many write and read FLIDs will be set aside for this NREQID to use.
                                                                  A write STID is also reserved for each write FLID.
                                                                  Increasing this number will ensure this device has dedicated bandwidth over
@@ -129,23 +129,23 @@ union cavm_ncbx_arbx_crds
                                                                  all devices that are used.) These reserved write FLIDs/STIDs cannot be used for atomic
                                                                  transactions. */
 #else /* Word 0 - Little Endian */
-        uint64_t min                   : 8;  /**< [  7:  0](R/W) Minimum number of FLIDs available to the requestor. From the total available
+        uint64_t min                   : 10; /**< [  9:  0](R/W) Minimum number of FLIDs available to the requestor. From the total available
                                                                  credits this many write and read FLIDs will be set aside for this NREQID to use.
                                                                  A write STID is also reserved for each write FLID.
                                                                  Increasing this number will ensure this device has dedicated bandwidth over
                                                                  other devices. (Must be 0x1 or larger for GIC. Recommend 0x1 or larger for
                                                                  all devices that are used.) These reserved write FLIDs/STIDs cannot be used for atomic
                                                                  transactions. */
-        uint64_t max                   : 8;  /**< [ 15:  8](R/W) Maximum number of POOL FLIDs/STIDs available to the requestor.
+        uint64_t max                   : 10; /**< [ 19: 10](R/W) Maximum number of POOL FLIDs/STIDs available to the requestor.
                                                                  Decreasing this number will limit the maximum burst performance of this device.
                                                                  The actual MAX would be this value MAX(POOL) plus MIN. */
-        uint64_t rsv_rdstid            : 1;  /**< [ 16: 16](R/W) Reserve a write FLID and write STID for each read FLID reserved for this requestor.
+        uint64_t rsv_rdstid            : 1;  /**< [ 20: 20](R/W) Reserve a write FLID and write STID for each read FLID reserved for this requestor.
                                                                  This is only required for devices that support atomic transactions.
                                                                  These write FLID/STIDs can only be used for atomics.
 
                                                                  Resets to 1 for those devices which require this resource in order to avoid
                                                                  deadlocks. (i.e. Class B devices, as defined by wiki). */
-        uint64_t reserved_17_63        : 47;
+        uint64_t reserved_21_63        : 43;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ncbx_arbx_crds_s cn; */
@@ -155,7 +155,7 @@ typedef union cavm_ncbx_arbx_crds cavm_ncbx_arbx_crds_t;
 static inline uint64_t CAVM_NCBX_ARBX_CRDS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBX_ARBX_CRDS(uint64_t a, uint64_t b)
 {
-    if ((a<=15) && (b<=15))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=15) && (b<=15)))
         return 0x87e1400f0000ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0xf);
     __cavm_csr_fatal("NCBX_ARBX_CRDS", 2, a, b, 0, 0, 0, 0);
 }
@@ -166,104 +166,6 @@ static inline uint64_t CAVM_NCBX_ARBX_CRDS(uint64_t a, uint64_t b)
 #define device_bar_CAVM_NCBX_ARBX_CRDS(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_NCBX_ARBX_CRDS(a,b) (a)
 #define arguments_CAVM_NCBX_ARBX_CRDS(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) ncb#_arb#_rw#_lat_pc
- *
- * NCB Latency Performance Counter Registers
- */
-union cavm_ncbx_arbx_rwx_lat_pc
-{
-    uint64_t u;
-    struct cavm_ncbx_arbx_rwx_lat_pc_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Latency performance counter. Operates on coprocessor clock.
-
-                                                                 _ RW(0) increments every cycle by the number of read transactions that have been
-                                                                 granted from the given NCB, but have not had their credit returned to the NGNT.
-
-                                                                 _ RW(1) increments every cycle by the number of write transactions that have been
-                                                                 granted from the given NCB, but have not had their credit returned to the NGNT.
-
-                                                                 This counter should be divided by NCB_ARB()_RW()_REQ_PC to determine each NCB
-                                                                 bus's average read and write latency. */
-#else /* Word 0 - Little Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Latency performance counter. Operates on coprocessor clock.
-
-                                                                 _ RW(0) increments every cycle by the number of read transactions that have been
-                                                                 granted from the given NCB, but have not had their credit returned to the NGNT.
-
-                                                                 _ RW(1) increments every cycle by the number of write transactions that have been
-                                                                 granted from the given NCB, but have not had their credit returned to the NGNT.
-
-                                                                 This counter should be divided by NCB_ARB()_RW()_REQ_PC to determine each NCB
-                                                                 bus's average read and write latency. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_ncbx_arbx_rwx_lat_pc_s cn; */
-};
-typedef union cavm_ncbx_arbx_rwx_lat_pc cavm_ncbx_arbx_rwx_lat_pc_t;
-
-static inline uint64_t CAVM_NCBX_ARBX_RWX_LAT_PC(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NCBX_ARBX_RWX_LAT_PC(uint64_t a, uint64_t b, uint64_t c)
-{
-    if ((a<=15) && (b<=15) && (c<=1))
-        return 0x87e1400f4000ll + 0x1000000ll * ((a) & 0xf) + 0x20ll * ((b) & 0xf) + 8ll * ((c) & 0x1);
-    __cavm_csr_fatal("NCBX_ARBX_RWX_LAT_PC", 3, a, b, c, 0, 0, 0);
-}
-
-#define typedef_CAVM_NCBX_ARBX_RWX_LAT_PC(a,b,c) cavm_ncbx_arbx_rwx_lat_pc_t
-#define bustype_CAVM_NCBX_ARBX_RWX_LAT_PC(a,b,c) CSR_TYPE_RSL
-#define basename_CAVM_NCBX_ARBX_RWX_LAT_PC(a,b,c) "NCBX_ARBX_RWX_LAT_PC"
-#define device_bar_CAVM_NCBX_ARBX_RWX_LAT_PC(a,b,c) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_NCBX_ARBX_RWX_LAT_PC(a,b,c) (a)
-#define arguments_CAVM_NCBX_ARBX_RWX_LAT_PC(a,b,c) (a),(b),(c),-1
-
-/**
- * Register (RSL) ncb#_arb#_rw#_req_pc
- *
- * NCB Request Performance Counter Registers
- * This register must only be set when NCB-DEVICEs attached to the NGNT have
- * no outstanding transactions.
- */
-union cavm_ncbx_arbx_rwx_req_pc
-{
-    uint64_t u;
-    struct cavm_ncbx_arbx_rwx_req_pc_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Request performance counter.
-
-                                                                 _ RW(0) increments on read  transaction being granted by NGNT.
-
-                                                                 _ RW(1) increments on write transaction being granted by NGNT. */
-#else /* Word 0 - Little Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Request performance counter.
-
-                                                                 _ RW(0) increments on read  transaction being granted by NGNT.
-
-                                                                 _ RW(1) increments on write transaction being granted by NGNT. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_ncbx_arbx_rwx_req_pc_s cn; */
-};
-typedef union cavm_ncbx_arbx_rwx_req_pc cavm_ncbx_arbx_rwx_req_pc_t;
-
-static inline uint64_t CAVM_NCBX_ARBX_RWX_REQ_PC(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NCBX_ARBX_RWX_REQ_PC(uint64_t a, uint64_t b, uint64_t c)
-{
-    if ((a<=15) && (b<=15) && (c<=1))
-        return 0x87e1400f2000ll + 0x1000000ll * ((a) & 0xf) + 0x20ll * ((b) & 0xf) + 8ll * ((c) & 0x1);
-    __cavm_csr_fatal("NCBX_ARBX_RWX_REQ_PC", 3, a, b, c, 0, 0, 0);
-}
-
-#define typedef_CAVM_NCBX_ARBX_RWX_REQ_PC(a,b,c) cavm_ncbx_arbx_rwx_req_pc_t
-#define bustype_CAVM_NCBX_ARBX_RWX_REQ_PC(a,b,c) CSR_TYPE_RSL
-#define basename_CAVM_NCBX_ARBX_RWX_REQ_PC(a,b,c) "NCBX_ARBX_RWX_REQ_PC"
-#define device_bar_CAVM_NCBX_ARBX_RWX_REQ_PC(a,b,c) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_NCBX_ARBX_RWX_REQ_PC(a,b,c) (a)
-#define arguments_CAVM_NCBX_ARBX_RWX_REQ_PC(a,b,c) (a),(b),(c),-1
 
 /**
  * Register (RSL) ncb#_arb_iut_dis
@@ -293,7 +195,7 @@ typedef union cavm_ncbx_arb_iut_dis cavm_ncbx_arb_iut_dis_t;
 static inline uint64_t CAVM_NCBX_ARB_IUT_DIS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBX_ARB_IUT_DIS(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
         return 0x87e140008080ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("NCBX_ARB_IUT_DIS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -427,7 +329,7 @@ typedef union cavm_ncbx_arbidx_ctl cavm_ncbx_arbidx_ctl_t;
 static inline uint64_t CAVM_NCBX_ARBIDX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBX_ARBIDX_CTL(uint64_t a, uint64_t b)
 {
-    if ((a<=15) && (b<=15))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=15) && (b<=15)))
         return 0x87e140006100ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0xf);
     __cavm_csr_fatal("NCBX_ARBIDX_CTL", 2, a, b, 0, 0, 0, 0);
 }
@@ -470,7 +372,7 @@ typedef union cavm_ncbx_arbidx_rr_ctl cavm_ncbx_arbidx_rr_ctl_t;
 static inline uint64_t CAVM_NCBX_ARBIDX_RR_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBX_ARBIDX_RR_CTL(uint64_t a, uint64_t b)
 {
-    if ((a<=15) && (b<=15))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=15) && (b<=15)))
         return 0x87e1400f7000ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0xf);
     __cavm_csr_fatal("NCBX_ARBIDX_RR_CTL", 2, a, b, 0, 0, 0, 0);
 }
@@ -511,7 +413,7 @@ typedef union cavm_ncbx_ctl cavm_ncbx_ctl_t;
 static inline uint64_t CAVM_NCBX_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBX_CTL(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
         return 0x87e1400f6000ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("NCBX_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -548,7 +450,7 @@ typedef union cavm_ncbx_ready cavm_ncbx_ready_t;
 static inline uint64_t CAVM_NCBX_READY(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBX_READY(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=15))
         return 0x87e140008100ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("NCBX_READY", 1, a, 0, 0, 0, 0, 0);
 }
@@ -559,158 +461,5 @@ static inline uint64_t CAVM_NCBX_READY(uint64_t a)
 #define device_bar_CAVM_NCBX_READY(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_NCBX_READY(a) (a)
 #define arguments_CAVM_NCBX_READY(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) ncb#_rw#_lat_pc
- *
- * NCB Latency Performance Counter Registers
- */
-union cavm_ncbx_rwx_lat_pc
-{
-    uint64_t u;
-    struct cavm_ncbx_rwx_lat_pc_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Latency performance counter. Operates on mesh clock.
-
-                                                                 _ RW(0) increments every cycle by the number of read transactions that have
-                                                                 entered IOB from the given NCB, but have not returned read data to the device.
-
-                                                                 _ RW(1) increments every cycle by the number of write transactions that have
-                                                                 entered IOB from the given NCB, but have not returned write commits to the
-                                                                 device.
-
-                                                                 This counter should be divided by NCB_RW()_REQ_PC to determine each NCB
-                                                                 bus's average read and write latency. */
-#else /* Word 0 - Little Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Latency performance counter. Operates on mesh clock.
-
-                                                                 _ RW(0) increments every cycle by the number of read transactions that have
-                                                                 entered IOB from the given NCB, but have not returned read data to the device.
-
-                                                                 _ RW(1) increments every cycle by the number of write transactions that have
-                                                                 entered IOB from the given NCB, but have not returned write commits to the
-                                                                 device.
-
-                                                                 This counter should be divided by NCB_RW()_REQ_PC to determine each NCB
-                                                                 bus's average read and write latency. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_ncbx_rwx_lat_pc_s cn; */
-};
-typedef union cavm_ncbx_rwx_lat_pc cavm_ncbx_rwx_lat_pc_t;
-
-static inline uint64_t CAVM_NCBX_RWX_LAT_PC(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NCBX_RWX_LAT_PC(uint64_t a, uint64_t b)
-{
-    if ((a<=15) && (b<=1))
-        return 0x87e140005000ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x1);
-    __cavm_csr_fatal("NCBX_RWX_LAT_PC", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_NCBX_RWX_LAT_PC(a,b) cavm_ncbx_rwx_lat_pc_t
-#define bustype_CAVM_NCBX_RWX_LAT_PC(a,b) CSR_TYPE_RSL
-#define basename_CAVM_NCBX_RWX_LAT_PC(a,b) "NCBX_RWX_LAT_PC"
-#define device_bar_CAVM_NCBX_RWX_LAT_PC(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_NCBX_RWX_LAT_PC(a,b) (a)
-#define arguments_CAVM_NCBX_RWX_LAT_PC(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) ncb#_rw#_req_pc
- *
- * NCB Request Performance Counter Registers
- */
-union cavm_ncbx_rwx_req_pc
-{
-    uint64_t u;
-    struct cavm_ncbx_rwx_req_pc_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Request performance counter. Operates on mesh clock.
-
-                                                                 _ RW(0) increments on read  transaction entering IOB on given NCB bus.
-
-                                                                 _ RW(1) increments on write transaction entering IOB on given NCB bus. */
-#else /* Word 0 - Little Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Request performance counter. Operates on mesh clock.
-
-                                                                 _ RW(0) increments on read  transaction entering IOB on given NCB bus.
-
-                                                                 _ RW(1) increments on write transaction entering IOB on given NCB bus. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_ncbx_rwx_req_pc_s cn; */
-};
-typedef union cavm_ncbx_rwx_req_pc cavm_ncbx_rwx_req_pc_t;
-
-static inline uint64_t CAVM_NCBX_RWX_REQ_PC(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NCBX_RWX_REQ_PC(uint64_t a, uint64_t b)
-{
-    if ((a<=15) && (b<=1))
-        return 0x87e140004000ll + 0x1000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x1);
-    __cavm_csr_fatal("NCBX_RWX_REQ_PC", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_NCBX_RWX_REQ_PC(a,b) cavm_ncbx_rwx_req_pc_t
-#define bustype_CAVM_NCBX_RWX_REQ_PC(a,b) CSR_TYPE_RSL
-#define basename_CAVM_NCBX_RWX_REQ_PC(a,b) "NCBX_RWX_REQ_PC"
-#define device_bar_CAVM_NCBX_RWX_REQ_PC(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_NCBX_RWX_REQ_PC(a,b) (a)
-#define arguments_CAVM_NCBX_RWX_REQ_PC(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) ncb#_rw#_smmu_lat_pc
- *
- * NCB SMMU Latency Performance Counter Registers
- */
-union cavm_ncbx_rwx_smmu_lat_pc
-{
-    uint64_t u;
-    struct cavm_ncbx_rwx_smmu_lat_pc_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) SMMU latency performance counter. Operates on mesh clock.
-
-                                                                 _ RW(0) increments every cycle by the number of read transactions that have
-                                                                 entered IOB from the given NCB, but have not been address translated by the
-                                                                 SMMU.
-
-                                                                 _ RW(1) increments by the number of write transactions that have entered IOB
-                                                                 from the given NCB, but have not been address translated by the SMMU.
-
-                                                                 This counter should be divided by NCB_RW()_REQ_PC to determine each NCB
-                                                                 bus's average read and write SMMU plus IOB front-end latency. */
-#else /* Word 0 - Little Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) SMMU latency performance counter. Operates on mesh clock.
-
-                                                                 _ RW(0) increments every cycle by the number of read transactions that have
-                                                                 entered IOB from the given NCB, but have not been address translated by the
-                                                                 SMMU.
-
-                                                                 _ RW(1) increments by the number of write transactions that have entered IOB
-                                                                 from the given NCB, but have not been address translated by the SMMU.
-
-                                                                 This counter should be divided by NCB_RW()_REQ_PC to determine each NCB
-                                                                 bus's average read and write SMMU plus IOB front-end latency. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_ncbx_rwx_smmu_lat_pc_s cn; */
-};
-typedef union cavm_ncbx_rwx_smmu_lat_pc cavm_ncbx_rwx_smmu_lat_pc_t;
-
-static inline uint64_t CAVM_NCBX_RWX_SMMU_LAT_PC(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NCBX_RWX_SMMU_LAT_PC(uint64_t a, uint64_t b)
-{
-    if ((a<=15) && (b<=1))
-        return 0x87e140006000ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x1);
-    __cavm_csr_fatal("NCBX_RWX_SMMU_LAT_PC", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_NCBX_RWX_SMMU_LAT_PC(a,b) cavm_ncbx_rwx_smmu_lat_pc_t
-#define bustype_CAVM_NCBX_RWX_SMMU_LAT_PC(a,b) CSR_TYPE_RSL
-#define basename_CAVM_NCBX_RWX_SMMU_LAT_PC(a,b) "NCBX_RWX_SMMU_LAT_PC"
-#define device_bar_CAVM_NCBX_RWX_SMMU_LAT_PC(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_NCBX_RWX_SMMU_LAT_PC(a,b) (a)
-#define arguments_CAVM_NCBX_RWX_SMMU_LAT_PC(a,b) (a),(b),-1,-1
 
 #endif /* __CAVM_CSRS_NCB_H__ */

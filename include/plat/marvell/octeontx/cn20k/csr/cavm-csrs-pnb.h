@@ -58,7 +58,7 @@ typedef union cavm_pnbx_ap_push_arb_wt cavm_pnbx_ap_push_arb_wt_t;
 static inline uint64_t CAVM_PNBX_AP_PUSH_ARB_WT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PNBX_AP_PUSH_ARB_WT(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=1))
         return 0x87e043000250ll + 0x10000ll * ((a) & 0x1);
     __cavm_csr_fatal("PNBX_AP_PUSH_ARB_WT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -103,7 +103,7 @@ typedef union cavm_pnbx_config cavm_pnbx_config_t;
 static inline uint64_t CAVM_PNBX_CONFIG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PNBX_CONFIG(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=1))
         return 0x87e043000000ll + 0x10000ll * ((a) & 0x1);
     __cavm_csr_fatal("PNBX_CONFIG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -146,7 +146,7 @@ typedef union cavm_pnbx_dma_gmidx_strid cavm_pnbx_dma_gmidx_strid_t;
 static inline uint64_t CAVM_PNBX_DMA_GMIDX_STRID(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PNBX_DMA_GMIDX_STRID(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && ((b>=1)&&(b<=7)))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=1) && ((b>=1)&&(b<=7))))
         return 0x87e043000480ll + 0x10000ll * ((a) & 0x1) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("PNBX_DMA_GMIDX_STRID", 2, a, b, 0, 0, 0, 0);
 }
@@ -185,7 +185,7 @@ typedef union cavm_pnbx_dma_strid cavm_pnbx_dma_strid_t;
 static inline uint64_t CAVM_PNBX_DMA_STRID(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PNBX_DMA_STRID(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=1))
         return 0x87e043000428ll + 0x10000ll * ((a) & 0x1);
     __cavm_csr_fatal("PNBX_DMA_STRID", 1, a, 0, 0, 0, 0, 0);
 }
@@ -230,7 +230,7 @@ typedef union cavm_pnbx_ghabx_pull_arb_wt cavm_pnbx_ghabx_pull_arb_wt_t;
 static inline uint64_t CAVM_PNBX_GHABX_PULL_ARB_WT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PNBX_GHABX_PULL_ARB_WT(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=15))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=1) && (b<=15)))
         return 0x87e043000100ll + 0x10000ll * ((a) & 0x1) + 8ll * ((b) & 0xf);
     __cavm_csr_fatal("PNBX_GHABX_PULL_ARB_WT", 2, a, b, 0, 0, 0, 0);
 }
@@ -274,7 +274,7 @@ typedef union cavm_pnbx_ghabx_rrsp_arb_wt cavm_pnbx_ghabx_rrsp_arb_wt_t;
 static inline uint64_t CAVM_PNBX_GHABX_RRSP_ARB_WT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PNBX_GHABX_RRSP_ARB_WT(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=15))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=1) && (b<=15)))
         return 0x87e043000300ll + 0x10000ll * ((a) & 0x1) + 8ll * ((b) & 0xf);
     __cavm_csr_fatal("PNBX_GHABX_RRSP_ARB_WT", 2, a, b, 0, 0, 0, 0);
 }
@@ -325,7 +325,7 @@ typedef union cavm_pnbx_ghab_inb_arb_wt cavm_pnbx_ghab_inb_arb_wt_t;
 static inline uint64_t CAVM_PNBX_GHAB_INB_ARB_WT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PNBX_GHAB_INB_ARB_WT(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=1))
         return 0x87e043000200ll + 0x10000ll * ((a) & 0x1);
     __cavm_csr_fatal("PNBX_GHAB_INB_ARB_WT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -368,7 +368,7 @@ typedef union cavm_pnbx_ghab_pull_bushog_max cavm_pnbx_ghab_pull_bushog_max_t;
 static inline uint64_t CAVM_PNBX_GHAB_PULL_BUSHOG_MAX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PNBX_GHAB_PULL_BUSHOG_MAX(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=1))
         return 0x87e043000010ll + 0x10000ll * ((a) & 0x1);
     __cavm_csr_fatal("PNBX_GHAB_PULL_BUSHOG_MAX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -411,7 +411,7 @@ typedef union cavm_pnbx_ghab_rrsp_bushog_max cavm_pnbx_ghab_rrsp_bushog_max_t;
 static inline uint64_t CAVM_PNBX_GHAB_RRSP_BUSHOG_MAX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PNBX_GHAB_RRSP_BUSHOG_MAX(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=1))
         return 0x87e043000028ll + 0x10000ll * ((a) & 0x1);
     __cavm_csr_fatal("PNBX_GHAB_RRSP_BUSHOG_MAX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -454,7 +454,7 @@ typedef union cavm_pnbx_ghb_gmidx_strid cavm_pnbx_ghb_gmidx_strid_t;
 static inline uint64_t CAVM_PNBX_GHB_GMIDX_STRID(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PNBX_GHB_GMIDX_STRID(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && ((b>=1)&&(b<=7)))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=1) && ((b>=1)&&(b<=7))))
         return 0x87e0430004c0ll + 0x10000ll * ((a) & 0x1) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("PNBX_GHB_GMIDX_STRID", 2, a, b, 0, 0, 0, 0);
 }
@@ -493,7 +493,7 @@ typedef union cavm_pnbx_inb_arb_bushog_max cavm_pnbx_inb_arb_bushog_max_t;
 static inline uint64_t CAVM_PNBX_INB_ARB_BUSHOG_MAX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PNBX_INB_ARB_BUSHOG_MAX(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=1))
         return 0x87e043000020ll + 0x10000ll * ((a) & 0x1);
     __cavm_csr_fatal("PNBX_INB_ARB_BUSHOG_MAX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -536,7 +536,7 @@ typedef union cavm_pnbx_mabx_rrsp_hp cavm_pnbx_mabx_rrsp_hp_t;
 static inline uint64_t CAVM_PNBX_MABX_RRSP_HP(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PNBX_MABX_RRSP_HP(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=127))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=1) && (b<=127)))
         return 0x87e043001000ll + 0x10000ll * ((a) & 0x1) + 8ll * ((b) & 0x7f);
     __cavm_csr_fatal("PNBX_MABX_RRSP_HP", 2, a, b, 0, 0, 0, 0);
 }
@@ -577,7 +577,7 @@ typedef union cavm_pnbx_mabx_strid cavm_pnbx_mabx_strid_t;
 static inline uint64_t CAVM_PNBX_MABX_STRID(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PNBX_MABX_STRID(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=127))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=1) && (b<=127)))
         return 0x87e043000800ll + 0x10000ll * ((a) & 0x1) + 8ll * ((b) & 0x7f);
     __cavm_csr_fatal("PNBX_MABX_STRID", 2, a, b, 0, 0, 0, 0);
 }
@@ -620,7 +620,7 @@ typedef union cavm_pnbx_psm_gmidx_strid cavm_pnbx_psm_gmidx_strid_t;
 static inline uint64_t CAVM_PNBX_PSM_GMIDX_STRID(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PNBX_PSM_GMIDX_STRID(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && ((b>=1)&&(b<=7)))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=1) && ((b>=1)&&(b<=7))))
         return 0x87e043000440ll + 0x10000ll * ((a) & 0x1) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("PNBX_PSM_GMIDX_STRID", 2, a, b, 0, 0, 0, 0);
 }
@@ -671,7 +671,7 @@ typedef union cavm_pnbx_psm_inb_arb_wt cavm_pnbx_psm_inb_arb_wt_t;
 static inline uint64_t CAVM_PNBX_PSM_INB_ARB_WT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PNBX_PSM_INB_ARB_WT(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=1))
         return 0x87e043000248ll + 0x10000ll * ((a) & 0x1);
     __cavm_csr_fatal("PNBX_PSM_INB_ARB_WT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -699,13 +699,13 @@ union cavm_pnbx_psm_push_arb_wt
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_22_63        : 42;
-        uint64_t hp_wgt                : 6;  /**< [ 21: 16](R/W) Reseved. Set to 0 always. */
+        uint64_t hp_wgt                : 6;  /**< [ 21: 16](R/W) Reserved. Set to 0 always. */
         uint64_t reserved_6_15         : 10;
         uint64_t lp_wgt                : 6;  /**< [  5:  0](R/W) Arbitration weight for PSM writes to SMEM. */
 #else /* Word 0 - Little Endian */
         uint64_t lp_wgt                : 6;  /**< [  5:  0](R/W) Arbitration weight for PSM writes to SMEM. */
         uint64_t reserved_6_15         : 10;
-        uint64_t hp_wgt                : 6;  /**< [ 21: 16](R/W) Reseved. Set to 0 always. */
+        uint64_t hp_wgt                : 6;  /**< [ 21: 16](R/W) Reserved. Set to 0 always. */
         uint64_t reserved_22_63        : 42;
 #endif /* Word 0 - End */
     } s;
@@ -716,7 +716,7 @@ typedef union cavm_pnbx_psm_push_arb_wt cavm_pnbx_psm_push_arb_wt_t;
 static inline uint64_t CAVM_PNBX_PSM_PUSH_ARB_WT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PNBX_PSM_PUSH_ARB_WT(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=1))
         return 0x87e043000260ll + 0x10000ll * ((a) & 0x1);
     __cavm_csr_fatal("PNBX_PSM_PUSH_ARB_WT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -753,7 +753,7 @@ typedef union cavm_pnbx_psm_strid cavm_pnbx_psm_strid_t;
 static inline uint64_t CAVM_PNBX_PSM_STRID(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PNBX_PSM_STRID(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=1))
         return 0x87e043000420ll + 0x10000ll * ((a) & 0x1);
     __cavm_csr_fatal("PNBX_PSM_STRID", 1, a, 0, 0, 0, 0, 0);
 }
@@ -792,7 +792,7 @@ typedef union cavm_pnbx_smem_push_bushog_max cavm_pnbx_smem_push_bushog_max_t;
 static inline uint64_t CAVM_PNBX_SMEM_PUSH_BUSHOG_MAX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PNBX_SMEM_PUSH_BUSHOG_MAX(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=1))
         return 0x87e043000018ll + 0x10000ll * ((a) & 0x1);
     __cavm_csr_fatal("PNBX_SMEM_PUSH_BUSHOG_MAX", 1, a, 0, 0, 0, 0, 0);
 }

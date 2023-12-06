@@ -43,7 +43,7 @@ typedef union cavm_masix_axi_error_addr cavm_masix_axi_error_addr_t;
 static inline uint64_t CAVM_MASIX_AXI_ERROR_ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MASIX_AXI_ERROR_ADDR(uint64_t a)
 {
-    if ((a>=32)&&(a<=47))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a>=32)&&(a<=47)))
         return 0x87e04400c040ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MASIX_AXI_ERROR_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -78,7 +78,7 @@ typedef union cavm_masix_axi_error_data cavm_masix_axi_error_data_t;
 static inline uint64_t CAVM_MASIX_AXI_ERROR_DATA(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MASIX_AXI_ERROR_DATA(uint64_t a)
 {
-    if ((a>=32)&&(a<=47))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a>=32)&&(a<=47)))
         return 0x87e04400c050ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MASIX_AXI_ERROR_DATA", 1, a, 0, 0, 0, 0, 0);
 }
@@ -125,7 +125,7 @@ typedef union cavm_masix_axi_error_resp cavm_masix_axi_error_resp_t;
 static inline uint64_t CAVM_MASIX_AXI_ERROR_RESP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MASIX_AXI_ERROR_RESP(uint64_t a)
 {
-    if ((a>=32)&&(a<=47))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a>=32)&&(a<=47)))
         return 0x87e04400c030ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MASIX_AXI_ERROR_RESP", 1, a, 0, 0, 0, 0, 0);
 }
@@ -160,7 +160,7 @@ typedef union cavm_masix_id cavm_masix_id_t;
 static inline uint64_t CAVM_MASIX_ID(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MASIX_ID(uint64_t a)
 {
-    if ((a>=32)&&(a<=47))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a>=32)&&(a<=47)))
         return 0x87e04400c000ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MASIX_ID", 1, a, 0, 0, 0, 0, 0);
 }
@@ -259,7 +259,7 @@ typedef union cavm_masix_imem_ecc cavm_masix_imem_ecc_t;
 static inline uint64_t CAVM_MASIX_IMEM_ECC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MASIX_IMEM_ECC(uint64_t a)
 {
-    if ((a>=32)&&(a<=47))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a>=32)&&(a<=47)))
         return 0x87e04400c060ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MASIX_IMEM_ECC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -310,7 +310,7 @@ typedef union cavm_masix_interrupt_int6 cavm_masix_interrupt_int6_t;
 static inline uint64_t CAVM_MASIX_INTERRUPT_INT6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MASIX_INTERRUPT_INT6(uint64_t a)
 {
-    if ((a>=32)&&(a<=47))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a>=32)&&(a<=47)))
         return 0x87e04400c020ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MASIX_INTERRUPT_INT6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -345,7 +345,7 @@ typedef union cavm_masix_scratch cavm_masix_scratch_t;
 static inline uint64_t CAVM_MASIX_SCRATCH(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MASIX_SCRATCH(uint64_t a)
 {
-    if ((a>=32)&&(a<=47))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a>=32)&&(a<=47)))
         return 0x87e04400c010ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MASIX_SCRATCH", 1, a, 0, 0, 0, 0, 0);
 }
@@ -380,7 +380,7 @@ typedef union cavm_masix_scratch1 cavm_masix_scratch1_t;
 static inline uint64_t CAVM_MASIX_SCRATCH1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MASIX_SCRATCH1(uint64_t a)
 {
-    if ((a>=32)&&(a<=47))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a>=32)&&(a<=47)))
         return 0x87e04400c410ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MASIX_SCRATCH1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -415,7 +415,7 @@ typedef union cavm_masix_shuffler_id cavm_masix_shuffler_id_t;
 static inline uint64_t CAVM_MASIX_SHUFFLER_ID(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MASIX_SHUFFLER_ID(uint64_t a)
 {
-    if ((a>=32)&&(a<=47))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a>=32)&&(a<=47)))
         return 0x87e04400c400ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MASIX_SHUFFLER_ID", 1, a, 0, 0, 0, 0, 0);
 }
@@ -466,7 +466,7 @@ typedef union cavm_masix_shuffler_int4_source cavm_masix_shuffler_int4_source_t;
 static inline uint64_t CAVM_MASIX_SHUFFLER_INT4_SOURCE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MASIX_SHUFFLER_INT4_SOURCE(uint64_t a)
 {
-    if ((a>=32)&&(a<=47))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a>=32)&&(a<=47)))
         return 0x87e04400c450ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MASIX_SHUFFLER_INT4_SOURCE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -501,7 +501,7 @@ typedef union cavm_masix_shuffler_int5_bresp cavm_masix_shuffler_int5_bresp_t;
 static inline uint64_t CAVM_MASIX_SHUFFLER_INT5_BRESP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MASIX_SHUFFLER_INT5_BRESP(uint64_t a)
 {
-    if ((a>=32)&&(a<=47))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a>=32)&&(a<=47)))
         return 0x87e04400c480ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MASIX_SHUFFLER_INT5_BRESP", 1, a, 0, 0, 0, 0, 0);
 }
@@ -540,7 +540,7 @@ typedef union cavm_masix_shuffler_int5_response cavm_masix_shuffler_int5_respons
 static inline uint64_t CAVM_MASIX_SHUFFLER_INT5_RESPONSE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MASIX_SHUFFLER_INT5_RESPONSE(uint64_t a)
 {
-    if ((a>=32)&&(a<=47))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a>=32)&&(a<=47)))
         return 0x87e04400c470ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MASIX_SHUFFLER_INT5_RESPONSE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -575,7 +575,7 @@ typedef union cavm_masix_shuffler_int5_rresp cavm_masix_shuffler_int5_rresp_t;
 static inline uint64_t CAVM_MASIX_SHUFFLER_INT5_RRESP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MASIX_SHUFFLER_INT5_RRESP(uint64_t a)
 {
-    if ((a>=32)&&(a<=47))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a>=32)&&(a<=47)))
         return 0x87e04400c490ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MASIX_SHUFFLER_INT5_RRESP", 1, a, 0, 0, 0, 0, 0);
 }
@@ -630,7 +630,7 @@ typedef union cavm_masix_shuffler_int5_source cavm_masix_shuffler_int5_source_t;
 static inline uint64_t CAVM_MASIX_SHUFFLER_INT5_SOURCE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MASIX_SHUFFLER_INT5_SOURCE(uint64_t a)
 {
-    if ((a>=32)&&(a<=47))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a>=32)&&(a<=47)))
         return 0x87e04400c460ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MASIX_SHUFFLER_INT5_SOURCE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -673,7 +673,7 @@ typedef union cavm_masix_shuffler_rob cavm_masix_shuffler_rob_t;
 static inline uint64_t CAVM_MASIX_SHUFFLER_ROB(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MASIX_SHUFFLER_ROB(uint64_t a)
 {
-    if ((a>=32)&&(a<=47))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a>=32)&&(a<=47)))
         return 0x87e04400c420ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MASIX_SHUFFLER_ROB", 1, a, 0, 0, 0, 0, 0);
 }
@@ -714,7 +714,7 @@ typedef union cavm_masix_shuffler_slice_x cavm_masix_shuffler_slice_x_t;
 static inline uint64_t CAVM_MASIX_SHUFFLER_SLICE_X(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MASIX_SHUFFLER_SLICE_X(uint64_t a)
 {
-    if ((a>=32)&&(a<=47))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a>=32)&&(a<=47)))
         return 0x87e04400c430ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MASIX_SHUFFLER_SLICE_X", 1, a, 0, 0, 0, 0, 0);
 }
@@ -755,7 +755,7 @@ typedef union cavm_masix_shuffler_slice_y cavm_masix_shuffler_slice_y_t;
 static inline uint64_t CAVM_MASIX_SHUFFLER_SLICE_Y(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MASIX_SHUFFLER_SLICE_Y(uint64_t a)
 {
-    if ((a>=32)&&(a<=47))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a>=32)&&(a<=47)))
         return 0x87e04400c440ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MASIX_SHUFFLER_SLICE_Y", 1, a, 0, 0, 0, 0, 0);
 }
@@ -790,7 +790,7 @@ typedef union cavm_masix_sw_control cavm_masix_sw_control_t;
 static inline uint64_t CAVM_MASIX_SW_CONTROL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MASIX_SW_CONTROL(uint64_t a)
 {
-    if ((a>=32)&&(a<=47))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a>=32)&&(a<=47)))
         return 0x87e04400c4a0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MASIX_SW_CONTROL", 1, a, 0, 0, 0, 0, 0);
 }

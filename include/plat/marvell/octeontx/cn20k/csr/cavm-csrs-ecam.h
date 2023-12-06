@@ -132,32 +132,67 @@ union cavm_ecamx_domx_busx_permit
     struct cavm_ecamx_domx_busx_permit_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_9_63         : 55;
+        uint64_t lock                  : 1;  /**< [  8:  8](SR/W1S) Lock Bit Lock the register from any further updates Once this bit is set all the
+                                                                 sbsequent writes are ignored. The whole register acts as read only. */
+        uint64_t kill                  : 1;  /**< [  7:  7](SR/W1S) Kill the device. Once written with one, stays
+                                                                 set until warm chip reset.  If set, no access
+                                                                 allowed by any initiator. */
+        uint64_t reserved_6            : 1;
+        uint64_t xcp3_dis              : 1;  /**< [  5:  5](SR/W) XCP3 disable. Disable any accesses initiated by XCP3 (PCP). */
+        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable. Disable any accesses initiated by XCP2 (ECP/CCP). */
+        uint64_t xcp1_dis              : 1;  /**< [  3:  3](SR/W) XCP1 disable. Disable any accesses initiated by XCP1 (MCP). */
+        uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. Disable any accesses initiated by XCP0 (SCP). */
+        uint64_t nsec_dis              : 1;  /**< [  1:  1](SR/W) Nonsecure disable. Disable any non secure acceses by devices except for the ones
+                                                                 from XCP0/XCP1/XCP2/XCP3 */
+        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. Disable secure acceses from devices except for teh ones from XCP0/XCP1/XCP2. */
+#else /* Word 0 - Little Endian */
+        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. Disable secure acceses from devices except for teh ones from XCP0/XCP1/XCP2. */
+        uint64_t nsec_dis              : 1;  /**< [  1:  1](SR/W) Nonsecure disable. Disable any non secure acceses by devices except for the ones
+                                                                 from XCP0/XCP1/XCP2/XCP3 */
+        uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. Disable any accesses initiated by XCP0 (SCP). */
+        uint64_t xcp1_dis              : 1;  /**< [  3:  3](SR/W) XCP1 disable. Disable any accesses initiated by XCP1 (MCP). */
+        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable. Disable any accesses initiated by XCP2 (ECP/CCP). */
+        uint64_t xcp3_dis              : 1;  /**< [  5:  5](SR/W) XCP3 disable. Disable any accesses initiated by XCP3 (PCP). */
+        uint64_t reserved_6            : 1;
+        uint64_t kill                  : 1;  /**< [  7:  7](SR/W1S) Kill the device. Once written with one, stays
+                                                                 set until warm chip reset.  If set, no access
+                                                                 allowed by any initiator. */
+        uint64_t lock                  : 1;  /**< [  8:  8](SR/W1S) Lock Bit Lock the register from any further updates Once this bit is set all the
+                                                                 sbsequent writes are ignored. The whole register acts as read only. */
+        uint64_t reserved_9_63         : 55;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ecamx_domx_busx_permit_s cheetah; */
+    /* struct cavm_ecamx_domx_busx_permit_s cn20; */
+    struct cavm_ecamx_domx_busx_permit_odinmp
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
         uint64_t kill                  : 1;  /**< [  7:  7](SR/W1S) Kill the device. Once written with one, stays
                                                                  set until warm chip reset.  If set, no access
                                                                  allowed by any initiator. */
         uint64_t reserved_5_6          : 2;
-        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable. As with [SEC_DIS], but for accesses initiated by XCP2 (ECP). */
-        uint64_t xcp1_dis              : 1;  /**< [  3:  3](SR/W) XCP1 disable. As with [SEC_DIS], but for accesses initiated by XCP1 (MCP). */
-        uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. As with [SEC_DIS], but for accesses initiated by XCP0 (SCP). */
-        uint64_t nsec_dis              : 1;  /**< [  1:  1](SR/W) Nonsecure disable. As with [SEC_DIS], but for accesses initiated by non-secure devices
-                                                                 excluding XCP0/XCP1/XCP2. */
-        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. */
+        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable. Disable any accesses initiated by XCP2. */
+        uint64_t xcp1_dis              : 1;  /**< [  3:  3](SR/W) XCP1 disable. Disable any accesses initiated by XCP1 (MCP). */
+        uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. Disable any accesses initiated by XCP0 (SCP). */
+        uint64_t nsec_dis              : 1;  /**< [  1:  1](SR/W) Nonsecure disable. Disable any non secure acceses by devices except for the ones
+                                                                 from XCP0/XCP1/XCP2 */
+        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. Disable secure acceses from devices except for teh ones from XCP0/XCP1/XCP2. */
 #else /* Word 0 - Little Endian */
-        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. */
-        uint64_t nsec_dis              : 1;  /**< [  1:  1](SR/W) Nonsecure disable. As with [SEC_DIS], but for accesses initiated by non-secure devices
-                                                                 excluding XCP0/XCP1/XCP2. */
-        uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. As with [SEC_DIS], but for accesses initiated by XCP0 (SCP). */
-        uint64_t xcp1_dis              : 1;  /**< [  3:  3](SR/W) XCP1 disable. As with [SEC_DIS], but for accesses initiated by XCP1 (MCP). */
-        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable. As with [SEC_DIS], but for accesses initiated by XCP2 (ECP). */
+        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. Disable secure acceses from devices except for teh ones from XCP0/XCP1/XCP2. */
+        uint64_t nsec_dis              : 1;  /**< [  1:  1](SR/W) Nonsecure disable. Disable any non secure acceses by devices except for the ones
+                                                                 from XCP0/XCP1/XCP2 */
+        uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. Disable any accesses initiated by XCP0 (SCP). */
+        uint64_t xcp1_dis              : 1;  /**< [  3:  3](SR/W) XCP1 disable. Disable any accesses initiated by XCP1 (MCP). */
+        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable. Disable any accesses initiated by XCP2. */
         uint64_t reserved_5_6          : 2;
         uint64_t kill                  : 1;  /**< [  7:  7](SR/W1S) Kill the device. Once written with one, stays
                                                                  set until warm chip reset.  If set, no access
                                                                  allowed by any initiator. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_ecamx_domx_busx_permit_s cn; */
+    } odinmp;
 };
 typedef union cavm_ecamx_domx_busx_permit cavm_ecamx_domx_busx_permit_t;
 
@@ -242,32 +277,67 @@ union cavm_ecamx_domx_devx_permit
     struct cavm_ecamx_domx_devx_permit_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_9_63         : 55;
+        uint64_t lock                  : 1;  /**< [  8:  8](SR/W1S) Lock Bit Lock the register from any further updates Once this bit is set all the
+                                                                 sbsequent writes are ignored. The whole register acts as read only. */
+        uint64_t kill                  : 1;  /**< [  7:  7](SR/W1S) Kill the device. Once written with one, stays
+                                                                 set until warm chip reset.  If set, no access
+                                                                 allowed by any initiator. */
+        uint64_t reserved_6            : 1;
+        uint64_t xcp3_dis              : 1;  /**< [  5:  5](SR/W) XCP3 disable. Disable any accesses initiated by XCP3 (PCP). */
+        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable. Disable any accesses initiated by XCP2 (ECP/CCP). */
+        uint64_t xcp1_dis              : 1;  /**< [  3:  3](SR/W) XCP1 disable. Disable any accesses initiated by XCP1 (MCP). */
+        uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. Disable any accesses initiated by XCP0 (SCP). */
+        uint64_t nsec_dis              : 1;  /**< [  1:  1](SR/W) Nonsecure disable. Disable any non secure acceses by devices except for the ones
+                                                                 from XCP0/XCP1/XCP2/XCP3 */
+        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. Disable secure acceses from devices except for teh ones from XCP0/XCP1/XCP2. */
+#else /* Word 0 - Little Endian */
+        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. Disable secure acceses from devices except for teh ones from XCP0/XCP1/XCP2. */
+        uint64_t nsec_dis              : 1;  /**< [  1:  1](SR/W) Nonsecure disable. Disable any non secure acceses by devices except for the ones
+                                                                 from XCP0/XCP1/XCP2/XCP3 */
+        uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. Disable any accesses initiated by XCP0 (SCP). */
+        uint64_t xcp1_dis              : 1;  /**< [  3:  3](SR/W) XCP1 disable. Disable any accesses initiated by XCP1 (MCP). */
+        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable. Disable any accesses initiated by XCP2 (ECP/CCP). */
+        uint64_t xcp3_dis              : 1;  /**< [  5:  5](SR/W) XCP3 disable. Disable any accesses initiated by XCP3 (PCP). */
+        uint64_t reserved_6            : 1;
+        uint64_t kill                  : 1;  /**< [  7:  7](SR/W1S) Kill the device. Once written with one, stays
+                                                                 set until warm chip reset.  If set, no access
+                                                                 allowed by any initiator. */
+        uint64_t lock                  : 1;  /**< [  8:  8](SR/W1S) Lock Bit Lock the register from any further updates Once this bit is set all the
+                                                                 sbsequent writes are ignored. The whole register acts as read only. */
+        uint64_t reserved_9_63         : 55;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ecamx_domx_devx_permit_s cheetah; */
+    /* struct cavm_ecamx_domx_devx_permit_s cn20; */
+    struct cavm_ecamx_domx_devx_permit_odinmp
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
         uint64_t kill                  : 1;  /**< [  7:  7](SR/W1S) Kill the device. Once written with one, stays
                                                                  set until warm chip reset.  If set, no access
                                                                  allowed by any initiator. */
         uint64_t reserved_5_6          : 2;
-        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable. As with [SEC_DIS], but for accesses initiated by XCP2 (ECP). */
-        uint64_t xcp1_dis              : 1;  /**< [  3:  3](SR/W) XCP1 disable. As with [SEC_DIS], but for accesses initiated by XCP1 (MCP). */
-        uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. As with [SEC_DIS], but for accesses initiated by XCP0 (SCP). */
-        uint64_t nsec_dis              : 1;  /**< [  1:  1](SR/W) Nonsecure disable. As with [SEC_DIS], but for accesses initiated by non-secure devices
-                                                                 excluding XCP0/XCP1/XCP2. */
-        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. */
+        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable. Disable any accesses initiated by XCP2. */
+        uint64_t xcp1_dis              : 1;  /**< [  3:  3](SR/W) XCP1 disable. Disable any accesses initiated by XCP1 (MCP). */
+        uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. Disable any accesses initiated by XCP0 (SCP). */
+        uint64_t nsec_dis              : 1;  /**< [  1:  1](SR/W) Nonsecure disable. Disable any non secure acceses by devices except for the ones
+                                                                 from XCP0/XCP1/XCP2 */
+        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. Disable secure acceses from devices except for teh ones from XCP0/XCP1/XCP2. */
 #else /* Word 0 - Little Endian */
-        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. */
-        uint64_t nsec_dis              : 1;  /**< [  1:  1](SR/W) Nonsecure disable. As with [SEC_DIS], but for accesses initiated by non-secure devices
-                                                                 excluding XCP0/XCP1/XCP2. */
-        uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. As with [SEC_DIS], but for accesses initiated by XCP0 (SCP). */
-        uint64_t xcp1_dis              : 1;  /**< [  3:  3](SR/W) XCP1 disable. As with [SEC_DIS], but for accesses initiated by XCP1 (MCP). */
-        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable. As with [SEC_DIS], but for accesses initiated by XCP2 (ECP). */
+        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. Disable secure acceses from devices except for teh ones from XCP0/XCP1/XCP2. */
+        uint64_t nsec_dis              : 1;  /**< [  1:  1](SR/W) Nonsecure disable. Disable any non secure acceses by devices except for the ones
+                                                                 from XCP0/XCP1/XCP2 */
+        uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. Disable any accesses initiated by XCP0 (SCP). */
+        uint64_t xcp1_dis              : 1;  /**< [  3:  3](SR/W) XCP1 disable. Disable any accesses initiated by XCP1 (MCP). */
+        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable. Disable any accesses initiated by XCP2. */
         uint64_t reserved_5_6          : 2;
         uint64_t kill                  : 1;  /**< [  7:  7](SR/W1S) Kill the device. Once written with one, stays
                                                                  set until warm chip reset.  If set, no access
                                                                  allowed by any initiator. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_ecamx_domx_devx_permit_s cn; */
+    } odinmp;
 };
 typedef union cavm_ecamx_domx_devx_permit cavm_ecamx_domx_devx_permit_t;
 
@@ -289,7 +359,7 @@ static inline uint64_t CAVM_ECAMX_DOMX_DEVX_PERMIT(uint64_t a, uint64_t b, uint6
 /**
  * Register (RSL) ecam#_dom#_rsl#_permit
  *
- * ECAM Domain RSL Permit Registers
+ * ECAM Domain Device Permit Registers
  * This register sets the permissions for an ECAM access to an RSL device.
  * This register is used when the domain and bus point to RSL; i.e.
  * address's ECAM_CFG_ADDR_S[DOMAIN]=PCC_DEV_CON_E::MRML\<21:16\>,
@@ -324,19 +394,19 @@ union cavm_ecamx_domx_rslx_permit
                                                                  set until warm chip reset.  If set, no access
                                                                  allowed by any initiator. */
         uint64_t reserved_5_6          : 2;
-        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable. As with [SEC_DIS], but for accesses initiated by XCP2 (ECP). */
-        uint64_t xcp1_dis              : 1;  /**< [  3:  3](SR/W) XCP1 disable. As with [SEC_DIS], but for accesses initiated by XCP1 (MCP). */
-        uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. As with [SEC_DIS], but for accesses initiated by XCP0 (SCP). */
-        uint64_t nsec_dis              : 1;  /**< [  1:  1](SR/W) Nonsecure disable. As with [SEC_DIS], but for accesses initiated by non-secure devices
-                                                                 excluding XCP0/XCP1/XCP2. */
-        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. */
+        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable. Disable any accesses initiated by XCP2. */
+        uint64_t xcp1_dis              : 1;  /**< [  3:  3](SR/W) XCP1 disable. Disable any accesses initiated by XCP1 (MCP). */
+        uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. Disable any accesses initiated by XCP0 (SCP). */
+        uint64_t nsec_dis              : 1;  /**< [  1:  1](SR/W) Nonsecure disable. Disable any non secure acceses by devices except for the ones
+                                                                 from XCP0/XCP1/XCP2 */
+        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. Disable secure acceses from devices except for teh ones from XCP0/XCP1/XCP2. */
 #else /* Word 0 - Little Endian */
-        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. */
-        uint64_t nsec_dis              : 1;  /**< [  1:  1](SR/W) Nonsecure disable. As with [SEC_DIS], but for accesses initiated by non-secure devices
-                                                                 excluding XCP0/XCP1/XCP2. */
-        uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. As with [SEC_DIS], but for accesses initiated by XCP0 (SCP). */
-        uint64_t xcp1_dis              : 1;  /**< [  3:  3](SR/W) XCP1 disable. As with [SEC_DIS], but for accesses initiated by XCP1 (MCP). */
-        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable. As with [SEC_DIS], but for accesses initiated by XCP2 (ECP). */
+        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. Disable secure acceses from devices except for teh ones from XCP0/XCP1/XCP2. */
+        uint64_t nsec_dis              : 1;  /**< [  1:  1](SR/W) Nonsecure disable. Disable any non secure acceses by devices except for the ones
+                                                                 from XCP0/XCP1/XCP2 */
+        uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. Disable any accesses initiated by XCP0 (SCP). */
+        uint64_t xcp1_dis              : 1;  /**< [  3:  3](SR/W) XCP1 disable. Disable any accesses initiated by XCP1 (MCP). */
+        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable. Disable any accesses initiated by XCP2. */
         uint64_t reserved_5_6          : 2;
         uint64_t kill                  : 1;  /**< [  7:  7](SR/W1S) Kill the device. Once written with one, stays
                                                                  set until warm chip reset.  If set, no access
@@ -351,7 +421,7 @@ typedef union cavm_ecamx_domx_rslx_permit cavm_ecamx_domx_rslx_permit_t;
 static inline uint64_t CAVM_ECAMX_DOMX_RSLX_PERMIT(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ECAMX_DOMX_RSLX_PERMIT(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a==0) && ((b==0) || (b==1) || (b==2)) && (c<=1023))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && ((b==0) || (b==1) || (b==2)) && (c<=1023)))
         return 0x87e078060000ll + 0x1000000ll * ((a) & 0x0) + 0x2000ll * ((b) & 0x3) + 8ll * ((c) & 0x3ff);
     __cavm_csr_fatal("ECAMX_DOMX_RSLX_PERMIT", 3, a, b, c, 0, 0, 0);
 }

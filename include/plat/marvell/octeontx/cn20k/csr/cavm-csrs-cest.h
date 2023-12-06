@@ -46,7 +46,7 @@ typedef union cavm_cestx_chest_debug cavm_cestx_chest_debug_t;
 static inline uint64_t CAVM_CESTX_CHEST_DEBUG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CESTX_CHEST_DEBUG(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041c007b0ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("CESTX_CHEST_DEBUG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -84,7 +84,7 @@ typedef union cavm_cestx_coma_input_exp_0 cavm_cestx_coma_input_exp_0_t;
 static inline uint64_t CAVM_CESTX_COMA_INPUT_EXP_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CESTX_COMA_INPUT_EXP_0(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041c02018ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("CESTX_COMA_INPUT_EXP_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -124,7 +124,7 @@ typedef union cavm_cestx_coma_input_exp_1 cavm_cestx_coma_input_exp_1_t;
 static inline uint64_t CAVM_CESTX_COMA_INPUT_EXP_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CESTX_COMA_INPUT_EXP_1(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041c02020ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("CESTX_COMA_INPUT_EXP_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -166,7 +166,7 @@ typedef union cavm_cestx_common_debug cavm_cestx_common_debug_t;
 static inline uint64_t CAVM_CESTX_COMMON_DEBUG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CESTX_COMMON_DEBUG(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041c00798ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("CESTX_COMMON_DEBUG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -208,7 +208,7 @@ typedef union cavm_cestx_control_0 cavm_cestx_control_0_t;
 static inline uint64_t CAVM_CESTX_CONTROL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CESTX_CONTROL_0(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041c00000ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("CESTX_CONTROL_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -270,7 +270,7 @@ typedef union cavm_cestx_dynamic_user_grp_0_1_cfgx cavm_cestx_dynamic_user_grp_0
 static inline uint64_t CAVM_CESTX_DYNAMIC_USER_GRP_0_1_CFGX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CESTX_DYNAMIC_USER_GRP_0_1_CFGX(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=67))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=67)))
         return 0x87e041c02028ll + 0x80000ll * ((a) & 0x3) + 8ll * ((b) & 0x7f);
     __cavm_csr_fatal("CESTX_DYNAMIC_USER_GRP_0_1_CFGX", 2, a, b, 0, 0, 0, 0);
 }
@@ -332,7 +332,7 @@ typedef union cavm_cestx_dynamic_user_grp_2_3_cfgx cavm_cestx_dynamic_user_grp_2
 static inline uint64_t CAVM_CESTX_DYNAMIC_USER_GRP_2_3_CFGX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CESTX_DYNAMIC_USER_GRP_2_3_CFGX(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=67))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=67)))
         return 0x87e041c02248ll + 0x80000ll * ((a) & 0x3) + 8ll * ((b) & 0x7f);
     __cavm_csr_fatal("CESTX_DYNAMIC_USER_GRP_2_3_CFGX", 2, a, b, 0, 0, 0, 0);
 }
@@ -420,7 +420,7 @@ typedef union cavm_cestx_errcodes_fat cavm_cestx_errcodes_fat_t;
 static inline uint64_t CAVM_CESTX_ERRCODES_FAT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CESTX_ERRCODES_FAT(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041c000b0ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("CESTX_ERRCODES_FAT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -470,7 +470,7 @@ typedef union cavm_cestx_errcodes_nfat cavm_cestx_errcodes_nfat_t;
 static inline uint64_t CAVM_CESTX_ERRCODES_NFAT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CESTX_ERRCODES_NFAT(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041c000a8ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("CESTX_ERRCODES_NFAT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -510,7 +510,7 @@ typedef union cavm_cestx_error_enable cavm_cestx_error_enable_t;
 static inline uint64_t CAVM_CESTX_ERROR_ENABLE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CESTX_ERROR_ENABLE(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041c000b8ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("CESTX_ERROR_ENABLE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -550,7 +550,7 @@ typedef union cavm_cestx_error_enable_src cavm_cestx_error_enable_src_t;
 static inline uint64_t CAVM_CESTX_ERROR_ENABLE_SRC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CESTX_ERROR_ENABLE_SRC(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041c00040ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("CESTX_ERROR_ENABLE_SRC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -598,7 +598,7 @@ typedef union cavm_cestx_error_set cavm_cestx_error_set_t;
 static inline uint64_t CAVM_CESTX_ERROR_SET(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CESTX_ERROR_SET(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041c000c0ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("CESTX_ERROR_SET", 1, a, 0, 0, 0, 0, 0);
 }
@@ -667,7 +667,7 @@ typedef union cavm_cestx_error_src cavm_cestx_error_src_t;
 static inline uint64_t CAVM_CESTX_ERROR_SRC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CESTX_ERROR_SRC(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041c00030ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("CESTX_ERROR_SRC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -715,7 +715,7 @@ typedef union cavm_cestx_fc_buffer_debug cavm_cestx_fc_buffer_debug_t;
 static inline uint64_t CAVM_CESTX_FC_BUFFER_DEBUG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CESTX_FC_BUFFER_DEBUG(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041c007a8ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("CESTX_FC_BUFFER_DEBUG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -739,17 +739,17 @@ union cavm_cestx_foc_0x
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_60_63        : 4;
-        uint64_t usercoeffs_4_l0       : 12; /**< [ 59: 48](R/W) Reserved. */
-        uint64_t usercoeffs_3_l0       : 12; /**< [ 47: 36](R/W) Reserved. */
-        uint64_t usercoeffs_2_l0       : 12; /**< [ 35: 24](R/W) Reserved. */
-        uint64_t usercoeffs_1_l0       : 12; /**< [ 23: 12](R/W) Reserved. */
-        uint64_t usercoeffs_0_l0       : 12; /**< [ 11:  0](R/W) Reserved. */
+        uint64_t usercoeffs_4_l0       : 12; /**< [ 59: 48](R/W) FOC coefficients. */
+        uint64_t usercoeffs_3_l0       : 12; /**< [ 47: 36](R/W) FOC coefficients. */
+        uint64_t usercoeffs_2_l0       : 12; /**< [ 35: 24](R/W) FOC coefficients. */
+        uint64_t usercoeffs_1_l0       : 12; /**< [ 23: 12](R/W) FOC coefficients. */
+        uint64_t usercoeffs_0_l0       : 12; /**< [ 11:  0](R/W) FOC coefficients. */
 #else /* Word 0 - Little Endian */
-        uint64_t usercoeffs_0_l0       : 12; /**< [ 11:  0](R/W) Reserved. */
-        uint64_t usercoeffs_1_l0       : 12; /**< [ 23: 12](R/W) Reserved. */
-        uint64_t usercoeffs_2_l0       : 12; /**< [ 35: 24](R/W) Reserved. */
-        uint64_t usercoeffs_3_l0       : 12; /**< [ 47: 36](R/W) Reserved. */
-        uint64_t usercoeffs_4_l0       : 12; /**< [ 59: 48](R/W) Reserved. */
+        uint64_t usercoeffs_0_l0       : 12; /**< [ 11:  0](R/W) FOC coefficients. */
+        uint64_t usercoeffs_1_l0       : 12; /**< [ 23: 12](R/W) FOC coefficients. */
+        uint64_t usercoeffs_2_l0       : 12; /**< [ 35: 24](R/W) FOC coefficients. */
+        uint64_t usercoeffs_3_l0       : 12; /**< [ 47: 36](R/W) FOC coefficients. */
+        uint64_t usercoeffs_4_l0       : 12; /**< [ 59: 48](R/W) FOC coefficients. */
         uint64_t reserved_60_63        : 4;
 #endif /* Word 0 - End */
     } s;
@@ -760,7 +760,7 @@ typedef union cavm_cestx_foc_0x cavm_cestx_foc_0x_t;
 static inline uint64_t CAVM_CESTX_FOC_0X(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CESTX_FOC_0X(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=67))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=67)))
         return 0x87e041c02468ll + 0x80000ll * ((a) & 0x3) + 8ll * ((b) & 0x7f);
     __cavm_csr_fatal("CESTX_FOC_0X", 2, a, b, 0, 0, 0, 0);
 }
@@ -784,17 +784,17 @@ union cavm_cestx_foc_1x
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_60_63        : 4;
-        uint64_t usercoeffs_9_l0       : 12; /**< [ 59: 48](R/W) Reserved. */
-        uint64_t usercoeffs_8_l0       : 12; /**< [ 47: 36](R/W) Reserved. */
-        uint64_t usercoeffs_7_l0       : 12; /**< [ 35: 24](R/W) Reserved. */
-        uint64_t usercoeffs_6_l0       : 12; /**< [ 23: 12](R/W) Reserved. */
-        uint64_t usercoeffs_5_l0       : 12; /**< [ 11:  0](R/W) Reserved. */
+        uint64_t usercoeffs_9_l0       : 12; /**< [ 59: 48](R/W) FOC coefficients. */
+        uint64_t usercoeffs_8_l0       : 12; /**< [ 47: 36](R/W) FOC coefficients. */
+        uint64_t usercoeffs_7_l0       : 12; /**< [ 35: 24](R/W) FOC coefficients. */
+        uint64_t usercoeffs_6_l0       : 12; /**< [ 23: 12](R/W) FOC coefficients. */
+        uint64_t usercoeffs_5_l0       : 12; /**< [ 11:  0](R/W) FOC coefficients. */
 #else /* Word 0 - Little Endian */
-        uint64_t usercoeffs_5_l0       : 12; /**< [ 11:  0](R/W) Reserved. */
-        uint64_t usercoeffs_6_l0       : 12; /**< [ 23: 12](R/W) Reserved. */
-        uint64_t usercoeffs_7_l0       : 12; /**< [ 35: 24](R/W) Reserved. */
-        uint64_t usercoeffs_8_l0       : 12; /**< [ 47: 36](R/W) Reserved. */
-        uint64_t usercoeffs_9_l0       : 12; /**< [ 59: 48](R/W) Reserved. */
+        uint64_t usercoeffs_5_l0       : 12; /**< [ 11:  0](R/W) FOC coefficients. */
+        uint64_t usercoeffs_6_l0       : 12; /**< [ 23: 12](R/W) FOC coefficients. */
+        uint64_t usercoeffs_7_l0       : 12; /**< [ 35: 24](R/W) FOC coefficients. */
+        uint64_t usercoeffs_8_l0       : 12; /**< [ 47: 36](R/W) FOC coefficients. */
+        uint64_t usercoeffs_9_l0       : 12; /**< [ 59: 48](R/W) FOC coefficients. */
         uint64_t reserved_60_63        : 4;
 #endif /* Word 0 - End */
     } s;
@@ -805,7 +805,7 @@ typedef union cavm_cestx_foc_1x cavm_cestx_foc_1x_t;
 static inline uint64_t CAVM_CESTX_FOC_1X(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CESTX_FOC_1X(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=67))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=67)))
         return 0x87e041c02688ll + 0x80000ll * ((a) & 0x3) + 8ll * ((b) & 0x7f);
     __cavm_csr_fatal("CESTX_FOC_1X", 2, a, b, 0, 0, 0, 0);
 }
@@ -829,17 +829,17 @@ union cavm_cestx_foc_2x
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_60_63        : 4;
-        uint64_t usercoeffs_4_l1       : 12; /**< [ 59: 48](R/W) Reserved. */
-        uint64_t usercoeffs_3_l1       : 12; /**< [ 47: 36](R/W) Reserved. */
-        uint64_t usercoeffs_2_l1       : 12; /**< [ 35: 24](R/W) Reserved. */
-        uint64_t usercoeffs_1_l1       : 12; /**< [ 23: 12](R/W) Reserved. */
-        uint64_t usercoeffs_0_l1       : 12; /**< [ 11:  0](R/W) Reserved. */
+        uint64_t usercoeffs_4_l1       : 12; /**< [ 59: 48](R/W) FOC coefficients. */
+        uint64_t usercoeffs_3_l1       : 12; /**< [ 47: 36](R/W) FOC coefficients. */
+        uint64_t usercoeffs_2_l1       : 12; /**< [ 35: 24](R/W) FOC coefficients. */
+        uint64_t usercoeffs_1_l1       : 12; /**< [ 23: 12](R/W) FOC coefficients. */
+        uint64_t usercoeffs_0_l1       : 12; /**< [ 11:  0](R/W) FOC coefficients. */
 #else /* Word 0 - Little Endian */
-        uint64_t usercoeffs_0_l1       : 12; /**< [ 11:  0](R/W) Reserved. */
-        uint64_t usercoeffs_1_l1       : 12; /**< [ 23: 12](R/W) Reserved. */
-        uint64_t usercoeffs_2_l1       : 12; /**< [ 35: 24](R/W) Reserved. */
-        uint64_t usercoeffs_3_l1       : 12; /**< [ 47: 36](R/W) Reserved. */
-        uint64_t usercoeffs_4_l1       : 12; /**< [ 59: 48](R/W) Reserved. */
+        uint64_t usercoeffs_0_l1       : 12; /**< [ 11:  0](R/W) FOC coefficients. */
+        uint64_t usercoeffs_1_l1       : 12; /**< [ 23: 12](R/W) FOC coefficients. */
+        uint64_t usercoeffs_2_l1       : 12; /**< [ 35: 24](R/W) FOC coefficients. */
+        uint64_t usercoeffs_3_l1       : 12; /**< [ 47: 36](R/W) FOC coefficients. */
+        uint64_t usercoeffs_4_l1       : 12; /**< [ 59: 48](R/W) FOC coefficients. */
         uint64_t reserved_60_63        : 4;
 #endif /* Word 0 - End */
     } s;
@@ -850,7 +850,7 @@ typedef union cavm_cestx_foc_2x cavm_cestx_foc_2x_t;
 static inline uint64_t CAVM_CESTX_FOC_2X(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CESTX_FOC_2X(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=67))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=67)))
         return 0x87e041c028a8ll + 0x80000ll * ((a) & 0x3) + 8ll * ((b) & 0x7f);
     __cavm_csr_fatal("CESTX_FOC_2X", 2, a, b, 0, 0, 0, 0);
 }
@@ -874,17 +874,17 @@ union cavm_cestx_foc_3x
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_60_63        : 4;
-        uint64_t usercoeffs_9_l1       : 12; /**< [ 59: 48](R/W) Reserved. */
-        uint64_t usercoeffs_8_l1       : 12; /**< [ 47: 36](R/W) Reserved. */
-        uint64_t usercoeffs_7_l1       : 12; /**< [ 35: 24](R/W) Reserved. */
-        uint64_t usercoeffs_6_l1       : 12; /**< [ 23: 12](R/W) Reserved. */
-        uint64_t usercoeffs_5_l1       : 12; /**< [ 11:  0](R/W) Reserved. */
+        uint64_t usercoeffs_9_l1       : 12; /**< [ 59: 48](R/W) FOC coefficients. */
+        uint64_t usercoeffs_8_l1       : 12; /**< [ 47: 36](R/W) FOC coefficients. */
+        uint64_t usercoeffs_7_l1       : 12; /**< [ 35: 24](R/W) FOC coefficients. */
+        uint64_t usercoeffs_6_l1       : 12; /**< [ 23: 12](R/W) FOC coefficients. */
+        uint64_t usercoeffs_5_l1       : 12; /**< [ 11:  0](R/W) FOC coefficients. */
 #else /* Word 0 - Little Endian */
-        uint64_t usercoeffs_5_l1       : 12; /**< [ 11:  0](R/W) Reserved. */
-        uint64_t usercoeffs_6_l1       : 12; /**< [ 23: 12](R/W) Reserved. */
-        uint64_t usercoeffs_7_l1       : 12; /**< [ 35: 24](R/W) Reserved. */
-        uint64_t usercoeffs_8_l1       : 12; /**< [ 47: 36](R/W) Reserved. */
-        uint64_t usercoeffs_9_l1       : 12; /**< [ 59: 48](R/W) Reserved. */
+        uint64_t usercoeffs_5_l1       : 12; /**< [ 11:  0](R/W) FOC coefficients. */
+        uint64_t usercoeffs_6_l1       : 12; /**< [ 23: 12](R/W) FOC coefficients. */
+        uint64_t usercoeffs_7_l1       : 12; /**< [ 35: 24](R/W) FOC coefficients. */
+        uint64_t usercoeffs_8_l1       : 12; /**< [ 47: 36](R/W) FOC coefficients. */
+        uint64_t usercoeffs_9_l1       : 12; /**< [ 59: 48](R/W) FOC coefficients. */
         uint64_t reserved_60_63        : 4;
 #endif /* Word 0 - End */
     } s;
@@ -895,7 +895,7 @@ typedef union cavm_cestx_foc_3x cavm_cestx_foc_3x_t;
 static inline uint64_t CAVM_CESTX_FOC_3X(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CESTX_FOC_3X(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=67))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=67)))
         return 0x87e041c02ac8ll + 0x80000ll * ((a) & 0x3) + 8ll * ((b) & 0x7f);
     __cavm_csr_fatal("CESTX_FOC_3X", 2, a, b, 0, 0, 0, 0);
 }
@@ -919,17 +919,17 @@ union cavm_cestx_foc_4x
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_60_63        : 4;
-        uint64_t usercoeffs_4_l2       : 12; /**< [ 59: 48](R/W) Reserved. */
-        uint64_t usercoeffs_3_l2       : 12; /**< [ 47: 36](R/W) Reserved. */
-        uint64_t usercoeffs_2_l2       : 12; /**< [ 35: 24](R/W) Reserved. */
-        uint64_t usercoeffs_1_l2       : 12; /**< [ 23: 12](R/W) Reserved. */
-        uint64_t usercoeffs_0_l2       : 12; /**< [ 11:  0](R/W) Reserved. */
+        uint64_t usercoeffs_4_l2       : 12; /**< [ 59: 48](R/W) FOC coefficients. */
+        uint64_t usercoeffs_3_l2       : 12; /**< [ 47: 36](R/W) FOC coefficients. */
+        uint64_t usercoeffs_2_l2       : 12; /**< [ 35: 24](R/W) FOC coefficients. */
+        uint64_t usercoeffs_1_l2       : 12; /**< [ 23: 12](R/W) FOC coefficients. */
+        uint64_t usercoeffs_0_l2       : 12; /**< [ 11:  0](R/W) FOC coefficients. */
 #else /* Word 0 - Little Endian */
-        uint64_t usercoeffs_0_l2       : 12; /**< [ 11:  0](R/W) Reserved. */
-        uint64_t usercoeffs_1_l2       : 12; /**< [ 23: 12](R/W) Reserved. */
-        uint64_t usercoeffs_2_l2       : 12; /**< [ 35: 24](R/W) Reserved. */
-        uint64_t usercoeffs_3_l2       : 12; /**< [ 47: 36](R/W) Reserved. */
-        uint64_t usercoeffs_4_l2       : 12; /**< [ 59: 48](R/W) Reserved. */
+        uint64_t usercoeffs_0_l2       : 12; /**< [ 11:  0](R/W) FOC coefficients. */
+        uint64_t usercoeffs_1_l2       : 12; /**< [ 23: 12](R/W) FOC coefficients. */
+        uint64_t usercoeffs_2_l2       : 12; /**< [ 35: 24](R/W) FOC coefficients. */
+        uint64_t usercoeffs_3_l2       : 12; /**< [ 47: 36](R/W) FOC coefficients. */
+        uint64_t usercoeffs_4_l2       : 12; /**< [ 59: 48](R/W) FOC coefficients. */
         uint64_t reserved_60_63        : 4;
 #endif /* Word 0 - End */
     } s;
@@ -940,7 +940,7 @@ typedef union cavm_cestx_foc_4x cavm_cestx_foc_4x_t;
 static inline uint64_t CAVM_CESTX_FOC_4X(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CESTX_FOC_4X(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=67))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=67)))
         return 0x87e041c02ce8ll + 0x80000ll * ((a) & 0x3) + 8ll * ((b) & 0x7f);
     __cavm_csr_fatal("CESTX_FOC_4X", 2, a, b, 0, 0, 0, 0);
 }
@@ -964,17 +964,17 @@ union cavm_cestx_foc_5x
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_60_63        : 4;
-        uint64_t usercoeffs_9_l2       : 12; /**< [ 59: 48](R/W) Reserved. */
-        uint64_t usercoeffs_8_l2       : 12; /**< [ 47: 36](R/W) Reserved. */
-        uint64_t usercoeffs_7_l2       : 12; /**< [ 35: 24](R/W) Reserved. */
-        uint64_t usercoeffs_6_l2       : 12; /**< [ 23: 12](R/W) Reserved. */
-        uint64_t usercoeffs_5_l2       : 12; /**< [ 11:  0](R/W) Reserved. */
+        uint64_t usercoeffs_9_l2       : 12; /**< [ 59: 48](R/W) FOC coefficients. */
+        uint64_t usercoeffs_8_l2       : 12; /**< [ 47: 36](R/W) FOC coefficients. */
+        uint64_t usercoeffs_7_l2       : 12; /**< [ 35: 24](R/W) FOC coefficients. */
+        uint64_t usercoeffs_6_l2       : 12; /**< [ 23: 12](R/W) FOC coefficients. */
+        uint64_t usercoeffs_5_l2       : 12; /**< [ 11:  0](R/W) FOC coefficients. */
 #else /* Word 0 - Little Endian */
-        uint64_t usercoeffs_5_l2       : 12; /**< [ 11:  0](R/W) Reserved. */
-        uint64_t usercoeffs_6_l2       : 12; /**< [ 23: 12](R/W) Reserved. */
-        uint64_t usercoeffs_7_l2       : 12; /**< [ 35: 24](R/W) Reserved. */
-        uint64_t usercoeffs_8_l2       : 12; /**< [ 47: 36](R/W) Reserved. */
-        uint64_t usercoeffs_9_l2       : 12; /**< [ 59: 48](R/W) Reserved. */
+        uint64_t usercoeffs_5_l2       : 12; /**< [ 11:  0](R/W) FOC coefficients. */
+        uint64_t usercoeffs_6_l2       : 12; /**< [ 23: 12](R/W) FOC coefficients. */
+        uint64_t usercoeffs_7_l2       : 12; /**< [ 35: 24](R/W) FOC coefficients. */
+        uint64_t usercoeffs_8_l2       : 12; /**< [ 47: 36](R/W) FOC coefficients. */
+        uint64_t usercoeffs_9_l2       : 12; /**< [ 59: 48](R/W) FOC coefficients. */
         uint64_t reserved_60_63        : 4;
 #endif /* Word 0 - End */
     } s;
@@ -985,7 +985,7 @@ typedef union cavm_cestx_foc_5x cavm_cestx_foc_5x_t;
 static inline uint64_t CAVM_CESTX_FOC_5X(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CESTX_FOC_5X(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=67))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=67)))
         return 0x87e041c02f08ll + 0x80000ll * ((a) & 0x3) + 8ll * ((b) & 0x7f);
     __cavm_csr_fatal("CESTX_FOC_5X", 2, a, b, 0, 0, 0, 0);
 }
@@ -1009,17 +1009,17 @@ union cavm_cestx_foc_6x
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_60_63        : 4;
-        uint64_t usercoeffs_4_l3       : 12; /**< [ 59: 48](R/W) Reserved. */
-        uint64_t usercoeffs_3_l3       : 12; /**< [ 47: 36](R/W) Reserved. */
-        uint64_t usercoeffs_2_l3       : 12; /**< [ 35: 24](R/W) Reserved. */
-        uint64_t usercoeffs_1_l3       : 12; /**< [ 23: 12](R/W) Reserved. */
-        uint64_t usercoeffs_0_l3       : 12; /**< [ 11:  0](R/W) Reserved. */
+        uint64_t usercoeffs_4_l3       : 12; /**< [ 59: 48](R/W) FOC coefficients. */
+        uint64_t usercoeffs_3_l3       : 12; /**< [ 47: 36](R/W) FOC coefficients. */
+        uint64_t usercoeffs_2_l3       : 12; /**< [ 35: 24](R/W) FOC coefficients. */
+        uint64_t usercoeffs_1_l3       : 12; /**< [ 23: 12](R/W) FOC coefficients. */
+        uint64_t usercoeffs_0_l3       : 12; /**< [ 11:  0](R/W) FOC coefficients. */
 #else /* Word 0 - Little Endian */
-        uint64_t usercoeffs_0_l3       : 12; /**< [ 11:  0](R/W) Reserved. */
-        uint64_t usercoeffs_1_l3       : 12; /**< [ 23: 12](R/W) Reserved. */
-        uint64_t usercoeffs_2_l3       : 12; /**< [ 35: 24](R/W) Reserved. */
-        uint64_t usercoeffs_3_l3       : 12; /**< [ 47: 36](R/W) Reserved. */
-        uint64_t usercoeffs_4_l3       : 12; /**< [ 59: 48](R/W) Reserved. */
+        uint64_t usercoeffs_0_l3       : 12; /**< [ 11:  0](R/W) FOC coefficients. */
+        uint64_t usercoeffs_1_l3       : 12; /**< [ 23: 12](R/W) FOC coefficients. */
+        uint64_t usercoeffs_2_l3       : 12; /**< [ 35: 24](R/W) FOC coefficients. */
+        uint64_t usercoeffs_3_l3       : 12; /**< [ 47: 36](R/W) FOC coefficients. */
+        uint64_t usercoeffs_4_l3       : 12; /**< [ 59: 48](R/W) FOC coefficients. */
         uint64_t reserved_60_63        : 4;
 #endif /* Word 0 - End */
     } s;
@@ -1030,7 +1030,7 @@ typedef union cavm_cestx_foc_6x cavm_cestx_foc_6x_t;
 static inline uint64_t CAVM_CESTX_FOC_6X(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CESTX_FOC_6X(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=67))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=67)))
         return 0x87e041c03128ll + 0x80000ll * ((a) & 0x3) + 8ll * ((b) & 0x7f);
     __cavm_csr_fatal("CESTX_FOC_6X", 2, a, b, 0, 0, 0, 0);
 }
@@ -1054,17 +1054,17 @@ union cavm_cestx_foc_7x
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_60_63        : 4;
-        uint64_t usercoeffs_9_l3       : 12; /**< [ 59: 48](R/W) Reserved. */
-        uint64_t usercoeffs_8_l3       : 12; /**< [ 47: 36](R/W) Reserved. */
-        uint64_t usercoeffs_7_l3       : 12; /**< [ 35: 24](R/W) Reserved. */
-        uint64_t usercoeffs_6_l3       : 12; /**< [ 23: 12](R/W) Reserved. */
-        uint64_t usercoeffs_5_l3       : 12; /**< [ 11:  0](R/W) Reserved. */
+        uint64_t usercoeffs_9_l3       : 12; /**< [ 59: 48](R/W) FOC coefficients. */
+        uint64_t usercoeffs_8_l3       : 12; /**< [ 47: 36](R/W) FOC coefficients. */
+        uint64_t usercoeffs_7_l3       : 12; /**< [ 35: 24](R/W) FOC coefficients. */
+        uint64_t usercoeffs_6_l3       : 12; /**< [ 23: 12](R/W) FOC coefficients. */
+        uint64_t usercoeffs_5_l3       : 12; /**< [ 11:  0](R/W) FOC coefficients. */
 #else /* Word 0 - Little Endian */
-        uint64_t usercoeffs_5_l3       : 12; /**< [ 11:  0](R/W) Reserved. */
-        uint64_t usercoeffs_6_l3       : 12; /**< [ 23: 12](R/W) Reserved. */
-        uint64_t usercoeffs_7_l3       : 12; /**< [ 35: 24](R/W) Reserved. */
-        uint64_t usercoeffs_8_l3       : 12; /**< [ 47: 36](R/W) Reserved. */
-        uint64_t usercoeffs_9_l3       : 12; /**< [ 59: 48](R/W) Reserved. */
+        uint64_t usercoeffs_5_l3       : 12; /**< [ 11:  0](R/W) FOC coefficients. */
+        uint64_t usercoeffs_6_l3       : 12; /**< [ 23: 12](R/W) FOC coefficients. */
+        uint64_t usercoeffs_7_l3       : 12; /**< [ 35: 24](R/W) FOC coefficients. */
+        uint64_t usercoeffs_8_l3       : 12; /**< [ 47: 36](R/W) FOC coefficients. */
+        uint64_t usercoeffs_9_l3       : 12; /**< [ 59: 48](R/W) FOC coefficients. */
         uint64_t reserved_60_63        : 4;
 #endif /* Word 0 - End */
     } s;
@@ -1075,7 +1075,7 @@ typedef union cavm_cestx_foc_7x cavm_cestx_foc_7x_t;
 static inline uint64_t CAVM_CESTX_FOC_7X(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CESTX_FOC_7X(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=67))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=67)))
         return 0x87e041c03348ll + 0x80000ll * ((a) & 0x3) + 8ll * ((b) & 0x7f);
     __cavm_csr_fatal("CESTX_FOC_7X", 2, a, b, 0, 0, 0, 0);
 }
@@ -1099,15 +1099,15 @@ union cavm_cestx_foc_8x
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t usercoeffs_10_l3      : 12; /**< [ 47: 36](R/W) Reserved. */
-        uint64_t usercoeffs_10_l2      : 12; /**< [ 35: 24](R/W) Reserved. */
-        uint64_t usercoeffs_10_l1      : 12; /**< [ 23: 12](R/W) Reserved. */
-        uint64_t usercoeffs_10_l0      : 12; /**< [ 11:  0](R/W) Reserved. */
+        uint64_t usercoeffs_10_l3      : 12; /**< [ 47: 36](R/W) FOC coefficients. */
+        uint64_t usercoeffs_10_l2      : 12; /**< [ 35: 24](R/W) FOC coefficients. */
+        uint64_t usercoeffs_10_l1      : 12; /**< [ 23: 12](R/W) FOC coefficients. */
+        uint64_t usercoeffs_10_l0      : 12; /**< [ 11:  0](R/W) FOC coefficients. */
 #else /* Word 0 - Little Endian */
-        uint64_t usercoeffs_10_l0      : 12; /**< [ 11:  0](R/W) Reserved. */
-        uint64_t usercoeffs_10_l1      : 12; /**< [ 23: 12](R/W) Reserved. */
-        uint64_t usercoeffs_10_l2      : 12; /**< [ 35: 24](R/W) Reserved. */
-        uint64_t usercoeffs_10_l3      : 12; /**< [ 47: 36](R/W) Reserved. */
+        uint64_t usercoeffs_10_l0      : 12; /**< [ 11:  0](R/W) FOC coefficients. */
+        uint64_t usercoeffs_10_l1      : 12; /**< [ 23: 12](R/W) FOC coefficients. */
+        uint64_t usercoeffs_10_l2      : 12; /**< [ 35: 24](R/W) FOC coefficients. */
+        uint64_t usercoeffs_10_l3      : 12; /**< [ 47: 36](R/W) FOC coefficients. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
@@ -1118,7 +1118,7 @@ typedef union cavm_cestx_foc_8x cavm_cestx_foc_8x_t;
 static inline uint64_t CAVM_CESTX_FOC_8X(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CESTX_FOC_8X(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=67))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=67)))
         return 0x87e041c03568ll + 0x80000ll * ((a) & 0x3) + 8ll * ((b) & 0x7f);
     __cavm_csr_fatal("CESTX_FOC_8X", 2, a, b, 0, 0, 0, 0);
 }
@@ -1163,7 +1163,7 @@ typedef union cavm_cestx_hab_status cavm_cestx_hab_status_t;
 static inline uint64_t CAVM_CESTX_HAB_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CESTX_HAB_STATUS(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041c00018ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("CESTX_HAB_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1185,7 +1185,13 @@ union cavm_cestx_header_0
     struct cavm_cestx_header_0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_31_63        : 33;
+        uint64_t reserved_32_63        : 32;
+        uint64_t reordering_mode       : 1;  /**< [ 31: 31](R/W) Value:
+                                                                 0=normal mode enabled(default after reset), race output data will be arranged
+                                                                 into SMEM in format: [PRB][tap][layer][ant], all 5 STRLS tap values are
+                                                                 outputted.
+                                                                 1=reordering mode enabled, race output data will be arranged into SMEM in
+                                                                 format: [PRB][ant][layer][tap], only 4 STRLS tap values outputted. */
         uint64_t per_prb_pulsing_frequency : 8;/**< [ 30: 23](R/W) If value = 1, pulse after each 1 prb, if value=2, pulse after every 2 prb and so
                                                                  on. Always at the last prb, there will be a pulse irrespective of the value. If
                                                                  value =0 (reset),  pulse is disabled. This pulse signal is connected to
@@ -1211,7 +1217,13 @@ union cavm_cestx_header_0
                                                                  on. Always at the last prb, there will be a pulse irrespective of the value. If
                                                                  value =0 (reset),  pulse is disabled. This pulse signal is connected to
                                                                  ab_amm_hw1_wrcmt_req in MHAB. (Not used for coma output port) */
-        uint64_t reserved_31_63        : 33;
+        uint64_t reordering_mode       : 1;  /**< [ 31: 31](R/W) Value:
+                                                                 0=normal mode enabled(default after reset), race output data will be arranged
+                                                                 into SMEM in format: [PRB][tap][layer][ant], all 5 STRLS tap values are
+                                                                 outputted.
+                                                                 1=reordering mode enabled, race output data will be arranged into SMEM in
+                                                                 format: [PRB][ant][layer][tap], only 4 STRLS tap values outputted. */
+        uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_cestx_header_0_s cn; */
@@ -1221,7 +1233,7 @@ typedef union cavm_cestx_header_0 cavm_cestx_header_0_t;
 static inline uint64_t CAVM_CESTX_HEADER_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CESTX_HEADER_0(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041c02008ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("CESTX_HEADER_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1357,7 +1369,7 @@ typedef union cavm_cestx_header_1 cavm_cestx_header_1_t;
 static inline uint64_t CAVM_CESTX_HEADER_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CESTX_HEADER_1(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041c02010ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("CESTX_HEADER_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1416,7 +1428,7 @@ typedef union cavm_cestx_id cavm_cestx_id_t;
 static inline uint64_t CAVM_CESTX_ID(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CESTX_ID(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041c000a0ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("CESTX_ID", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1450,7 +1462,7 @@ typedef union cavm_cestx_input cavm_cestx_input_t;
 static inline uint64_t CAVM_CESTX_INPUT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CESTX_INPUT(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041c000d0ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("CESTX_INPUT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1486,7 +1498,7 @@ typedef union cavm_cestx_job cavm_cestx_job_t;
 static inline uint64_t CAVM_CESTX_JOB(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CESTX_JOB(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041c000c8ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("CESTX_JOB", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1526,7 +1538,7 @@ typedef union cavm_cestx_job_debug cavm_cestx_job_debug_t;
 static inline uint64_t CAVM_CESTX_JOB_DEBUG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CESTX_JOB_DEBUG(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041c007a0ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("CESTX_JOB_DEBUG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1541,6 +1553,9 @@ static inline uint64_t CAVM_CESTX_JOB_DEBUG(uint64_t a)
  * Register (RSL) cest#_job_type
  *
  * CEST Job Type Register
+ * Defines CEST job configuration format.
+ * Hardware loads the job configuration in this register. Software should
+ * never directly write to this register.
  */
 union cavm_cestx_job_type
 {
@@ -1572,7 +1587,7 @@ typedef union cavm_cestx_job_type cavm_cestx_job_type_t;
 static inline uint64_t CAVM_CESTX_JOB_TYPE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CESTX_JOB_TYPE(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041c02000ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("CESTX_JOB_TYPE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1622,7 +1637,7 @@ typedef union cavm_cestx_mode_static cavm_cestx_mode_static_t;
 static inline uint64_t CAVM_CESTX_MODE_STATIC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CESTX_MODE_STATIC(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041c00788ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("CESTX_MODE_STATIC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1656,7 +1671,7 @@ typedef union cavm_cestx_output cavm_cestx_output_t;
 static inline uint64_t CAVM_CESTX_OUTPUT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CESTX_OUTPUT(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041c000d8ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("CESTX_OUTPUT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1698,7 +1713,7 @@ typedef union cavm_cestx_pg_0 cavm_cestx_pg_0_t;
 static inline uint64_t CAVM_CESTX_PG_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CESTX_PG_0(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041c03788ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("CESTX_PG_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1736,7 +1751,7 @@ typedef union cavm_cestx_pg_1 cavm_cestx_pg_1_t;
 static inline uint64_t CAVM_CESTX_PG_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CESTX_PG_1(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041c03790ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("CESTX_PG_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1770,7 +1785,7 @@ typedef union cavm_cestx_reserved_error cavm_cestx_reserved_error_t;
 static inline uint64_t CAVM_CESTX_RESERVED_ERROR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CESTX_RESERVED_ERROR(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041c00038ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("CESTX_RESERVED_ERROR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1804,7 +1819,7 @@ typedef union cavm_cestx_reserved_static cavm_cestx_reserved_static_t;
 static inline uint64_t CAVM_CESTX_RESERVED_STATIC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CESTX_RESERVED_STATIC(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041c00790ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("CESTX_RESERVED_STATIC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1845,7 +1860,7 @@ typedef union cavm_cestx_strls_coefficientx cavm_cestx_strls_coefficientx_t;
 static inline uint64_t CAVM_CESTX_STRLS_COEFFICIENTX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CESTX_STRLS_COEFFICIENTX(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=179))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=179)))
         return 0x87e041c001e0ll + 0x80000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
     __cavm_csr_fatal("CESTX_STRLS_COEFFICIENTX", 2, a, b, 0, 0, 0, 0);
 }
@@ -1879,7 +1894,7 @@ typedef union cavm_cestx_testreg cavm_cestx_testreg_t;
 static inline uint64_t CAVM_CESTX_TESTREG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CESTX_TESTREG(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041c00780ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("CESTX_TESTREG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1916,7 +1931,7 @@ typedef union cavm_cestx_toc_coefficientx cavm_cestx_toc_coefficientx_t;
 static inline uint64_t CAVM_CESTX_TOC_COEFFICIENTX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CESTX_TOC_COEFFICIENTX(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=31))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=31)))
         return 0x87e041c000e0ll + 0x80000ll * ((a) & 0x3) + 8ll * ((b) & 0x1f);
     __cavm_csr_fatal("CESTX_TOC_COEFFICIENTX", 2, a, b, 0, 0, 0, 0);
 }

@@ -30,7 +30,8 @@ union cavm_pciercx_ack_freq
     struct cavm_pciercx_ack_freq_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_31           : 1;
+        uint32_t aspm_timer_en         : 1;  /**< [ 31: 31](R/W) ASPM L1 Timer Enable. This register controls the behavior of
+                                                                 the controller ASPM L1 Entry Timer. */
         uint32_t easpml1               : 1;  /**< [ 30: 30](R/W) Enter ASPM L1 without receive in L0s. Allow core to enter ASPM L1 even when link partner
                                                                  did not go to L0s (receive is not in L0s). When not set, core goes to ASPM L1 only after
                                                                  idle period, during which both receive and transmit are in L0s. */
@@ -50,7 +51,7 @@ union cavm_pciercx_ack_freq
                                                                  0x4 = 5 ms.
                                                                  0x5 = 6 ms.
                                                                  0x6 or 0x7 = 7 ms. */
-        uint32_t n_fts_cc              : 8;  /**< [ 23: 16](RO) The number of fast training sequence (FTS) ordered sets to be transmitted when
+        uint32_t n_fts_cc              : 8;  /**< [ 23: 16](R/W) The number of fast training sequence (FTS) ordered sets to be transmitted when
                                                                  transitioning from L0s to L0. The maximum number of FTS ordered sets that a component can
                                                                  request is 255.
                                                                  A value of zero is not supported; a value of zero can cause the LTSSM to go into the
@@ -68,7 +69,7 @@ union cavm_pciercx_ack_freq
                                                                  request is 255.
                                                                  A value of zero is not supported; a value of zero can cause the LTSSM to go into the
                                                                  recovery state when exiting from L0s. */
-        uint32_t n_fts_cc              : 8;  /**< [ 23: 16](RO) The number of fast training sequence (FTS) ordered sets to be transmitted when
+        uint32_t n_fts_cc              : 8;  /**< [ 23: 16](R/W) The number of fast training sequence (FTS) ordered sets to be transmitted when
                                                                  transitioning from L0s to L0. The maximum number of FTS ordered sets that a component can
                                                                  request is 255.
                                                                  A value of zero is not supported; a value of zero can cause the LTSSM to go into the
@@ -92,7 +93,8 @@ union cavm_pciercx_ack_freq
         uint32_t easpml1               : 1;  /**< [ 30: 30](R/W) Enter ASPM L1 without receive in L0s. Allow core to enter ASPM L1 even when link partner
                                                                  did not go to L0s (receive is not in L0s). When not set, core goes to ASPM L1 only after
                                                                  idle period, during which both receive and transmit are in L0s. */
-        uint32_t reserved_31           : 1;
+        uint32_t aspm_timer_en         : 1;  /**< [ 31: 31](R/W) ASPM L1 Timer Enable. This register controls the behavior of
+                                                                 the controller ASPM L1 Entry Timer. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pciercx_ack_freq_s cn; */
@@ -102,7 +104,7 @@ typedef union cavm_pciercx_ack_freq cavm_pciercx_ack_freq_t;
 static inline uint64_t CAVM_PCIERCX_ACK_FREQ(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_ACK_FREQ(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x70c + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_ACK_FREQ", 1, a, 0, 0, 0, 0, 0);
 }
@@ -188,7 +190,7 @@ typedef union cavm_pciercx_ack_timer cavm_pciercx_ack_timer_t;
 static inline uint64_t CAVM_PCIERCX_ACK_TIMER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_ACK_TIMER(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x700 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_ACK_TIMER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -270,8 +272,8 @@ typedef union cavm_pciercx_acs_cap_ctl cavm_pciercx_acs_cap_ctl_t;
 static inline uint64_t CAVM_PCIERCX_ACS_CAP_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_ACS_CAP_CTL(uint64_t a)
 {
-    if (a<=5)
-        return 0x22c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x254 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_ACS_CAP_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -314,8 +316,8 @@ typedef union cavm_pciercx_acs_cap_hdr cavm_pciercx_acs_cap_hdr_t;
 static inline uint64_t CAVM_PCIERCX_ACS_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_ACS_CAP_HDR(uint64_t a)
 {
-    if (a<=5)
-        return 0x228 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x250 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_ACS_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -350,8 +352,8 @@ typedef union cavm_pciercx_acs_egr_ctl_vec cavm_pciercx_acs_egr_ctl_vec_t;
 static inline uint64_t CAVM_PCIERCX_ACS_EGR_CTL_VEC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_ACS_EGR_CTL_VEC(uint64_t a)
 {
-    if (a<=5)
-        return 0x230 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x258 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_ACS_EGR_CTL_VEC", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -400,7 +402,7 @@ typedef union cavm_pciercx_adv_err_cap_cntrl cavm_pciercx_adv_err_cap_cntrl_t;
 static inline uint64_t CAVM_PCIERCX_ADV_ERR_CAP_CNTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_ADV_ERR_CAP_CNTRL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x118 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_ADV_ERR_CAP_CNTRL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -412,9 +414,135 @@ static inline uint64_t CAVM_PCIERCX_ADV_ERR_CAP_CNTRL(uint64_t a)
 #define arguments_CAVM_PCIERCX_ADV_ERR_CAP_CNTRL(a) (a),-1,-1,-1
 
 /**
+ * Register (PCICONFIGRC) pcierc#_ats_cap_ctl
+ *
+ * PCIe RC PCI Express ATS Extended Capability And Control Register
+ */
+union cavm_pciercx_ats_cap_ctl
+{
+    uint32_t u;
+    struct cavm_pciercx_ats_cap_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t en                    : 1;  /**< [ 31: 31](R/W) ATS Control Register Enable.
+                                                                 When set, the Function is enabled to cache translations.
+                                                                 Behavior is undefined if this bit is Set, and the value
+                                                                 of the PASID Enable, Execute Requested Permission Enable,
+                                                                 or Privileged Mode Requested Enable bits are changed. */
+        uint32_t reserved_21_30        : 10;
+        uint32_t stu                   : 5;  /**< [ 20: 16](R/W) Smallest Translation Unit.
+                                                                 This value indicates to the Function the minimum number
+                                                                 of 4096-byte blocks that is indicated in a Translation
+                                                                 Completions or Invalidate Requests.
+                                                                 This is a power of 2 multiplier and the number of blocks is 2
+                                                                 STU. A value of 0 0000b indicates one block and a value of 1
+                                                                 1111b indicates 2^31 blocks (or 8 TB total). */
+        uint32_t reserved_8_15         : 8;
+        uint32_t ros                   : 1;  /**< [  7:  7](RO) Relaxed Ordering Supported (not supported). */
+        uint32_t gis                   : 1;  /**< [  6:  6](RO) Global Invalidate Supported (Not Supported). */
+        uint32_t par                   : 1;  /**< [  5:  5](RO/WRSL) Page Aligned Request.
+                                                                 Writable through PEM()_CFG_TBL().
+                                                                 If Set, indicates the Untranslated Address is always aligned to a 4096
+                                                                 byte boundary. Setting this field is recommended. */
+        uint32_t iqd                   : 5;  /**< [  4:  0](RO/WRSL) Invalidate Queue Depth.
+                                                                 Writable through PEM()_CFG_TBL().
+                                                                 The number of Invalidate Requests that the Function can accept before putting
+                                                                 backpressure on the Upstream connection. If set to 0, the Function can accept
+                                                                 32 Invalidate Requests. */
+#else /* Word 0 - Little Endian */
+        uint32_t iqd                   : 5;  /**< [  4:  0](RO/WRSL) Invalidate Queue Depth.
+                                                                 Writable through PEM()_CFG_TBL().
+                                                                 The number of Invalidate Requests that the Function can accept before putting
+                                                                 backpressure on the Upstream connection. If set to 0, the Function can accept
+                                                                 32 Invalidate Requests. */
+        uint32_t par                   : 1;  /**< [  5:  5](RO/WRSL) Page Aligned Request.
+                                                                 Writable through PEM()_CFG_TBL().
+                                                                 If Set, indicates the Untranslated Address is always aligned to a 4096
+                                                                 byte boundary. Setting this field is recommended. */
+        uint32_t gis                   : 1;  /**< [  6:  6](RO) Global Invalidate Supported (Not Supported). */
+        uint32_t ros                   : 1;  /**< [  7:  7](RO) Relaxed Ordering Supported (not supported). */
+        uint32_t reserved_8_15         : 8;
+        uint32_t stu                   : 5;  /**< [ 20: 16](R/W) Smallest Translation Unit.
+                                                                 This value indicates to the Function the minimum number
+                                                                 of 4096-byte blocks that is indicated in a Translation
+                                                                 Completions or Invalidate Requests.
+                                                                 This is a power of 2 multiplier and the number of blocks is 2
+                                                                 STU. A value of 0 0000b indicates one block and a value of 1
+                                                                 1111b indicates 2^31 blocks (or 8 TB total). */
+        uint32_t reserved_21_30        : 10;
+        uint32_t en                    : 1;  /**< [ 31: 31](R/W) ATS Control Register Enable.
+                                                                 When set, the Function is enabled to cache translations.
+                                                                 Behavior is undefined if this bit is Set, and the value
+                                                                 of the PASID Enable, Execute Requested Permission Enable,
+                                                                 or Privileged Mode Requested Enable bits are changed. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ats_cap_ctl_s cn; */
+};
+typedef union cavm_pciercx_ats_cap_ctl cavm_pciercx_ats_cap_ctl_t;
+
+static inline uint64_t CAVM_PCIERCX_ATS_CAP_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_ATS_CAP_CTL(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x244 + 0 * ((a) & 0x7);
+    __cavm_csr_fatal("PCIERCX_ATS_CAP_CTL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_ATS_CAP_CTL(a) cavm_pciercx_ats_cap_ctl_t
+#define bustype_CAVM_PCIERCX_ATS_CAP_CTL(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_ATS_CAP_CTL(a) "PCIERCX_ATS_CAP_CTL"
+#define busnum_CAVM_PCIERCX_ATS_CAP_CTL(a) (a)
+#define arguments_CAVM_PCIERCX_ATS_CAP_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ats_cap_hdr
+ *
+ * PCIe RC PCI Express ATS Extended Capability Header Register
+ */
+union cavm_pciercx_ats_cap_hdr
+{
+    uint32_t u;
+    struct cavm_pciercx_ats_cap_hdr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ats_cap_hdr_s cn; */
+};
+typedef union cavm_pciercx_ats_cap_hdr cavm_pciercx_ats_cap_hdr_t;
+
+static inline uint64_t CAVM_PCIERCX_ATS_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_ATS_CAP_HDR(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x240 + 0 * ((a) & 0x7);
+    __cavm_csr_fatal("PCIERCX_ATS_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_ATS_CAP_HDR(a) cavm_pciercx_ats_cap_hdr_t
+#define bustype_CAVM_PCIERCX_ATS_CAP_HDR(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_ATS_CAP_HDR(a) "PCIERCX_ATS_CAP_HDR"
+#define busnum_CAVM_PCIERCX_ATS_CAP_HDR(a) (a)
+#define arguments_CAVM_PCIERCX_ATS_CAP_HDR(a) (a),-1,-1,-1
+
+/**
  * Register (PCICONFIGRC) pcierc#_aux_clk_freq
  *
- * PCIe RC Auxillary Clock Frequency Control Register
+ * PCIe RC Auxiliary Clock Frequency Control Register
  */
 union cavm_pciercx_aux_clk_freq
 {
@@ -440,7 +568,7 @@ typedef union cavm_pciercx_aux_clk_freq cavm_pciercx_aux_clk_freq_t;
 static inline uint64_t CAVM_PCIERCX_AUX_CLK_FREQ(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_AUX_CLK_FREQ(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0xb40 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_AUX_CLK_FREQ", 1, a, 0, 0, 0, 0, 0);
 }
@@ -474,7 +602,7 @@ typedef union cavm_pciercx_bar0l cavm_pciercx_bar0l_t;
 static inline uint64_t CAVM_PCIERCX_BAR0L(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_BAR0L(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x10 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_BAR0L", 1, a, 0, 0, 0, 0, 0);
 }
@@ -508,7 +636,7 @@ typedef union cavm_pciercx_bar0u cavm_pciercx_bar0u_t;
 static inline uint64_t CAVM_PCIERCX_BAR0U(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_BAR0U(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x14 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_BAR0U", 1, a, 0, 0, 0, 0, 0);
 }
@@ -552,7 +680,7 @@ typedef union cavm_pciercx_bnum cavm_pciercx_bnum_t;
 static inline uint64_t CAVM_PCIERCX_BNUM(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_BNUM(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x18 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_BNUM", 1, a, 0, 0, 0, 0, 0);
 }
@@ -575,12 +703,18 @@ union cavm_pciercx_c_rcv_credit
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_28_31        : 4;
-        uint32_t data_sc               : 2;  /**< [ 27: 26](RO/WRSL) VC0 scale completion data credits. */
+        uint32_t data_sc               : 2;  /**< [ 27: 26](RO/WRSL) VC0 scale completion data credits.
+
+                                                                 Reset values:
+                                                                 _ FPEM:       0x2.
+                                                                 _ HPEM:       0x2.
+                                                                 _ QPEM:       0x1. */
         uint32_t hdr_sc                : 2;  /**< [ 25: 24](RO/WRSL) VC0 scale completion header credits.
 
                                                                  Reset values:
-                                                                 _ UPEM:      0x2.
-                                                                 _ BPEM:      0x1. */
+                                                                 _ FPEM:       0x3.
+                                                                 _ HPEM:       0x3.
+                                                                 _ QPEM:       0x2. */
         uint32_t queue_mode            : 3;  /**< [ 23: 21](RO/WRSL) VC0 completion TLP queue mode. The operating mode of the completion receive queue for VC0,
                                                                  used only in the segmented-buffer configuration, writable through
                                                                  PEM()_CFG_TBL().
@@ -595,34 +729,38 @@ union cavm_pciercx_c_rcv_credit
                                                                  The application must not change this field. */
         uint32_t reserved_20           : 1;
         uint32_t header_credits        : 8;  /**< [ 19: 12](RO/WRSL/H) VC0 completion header credits. The number of initial completion header credits for VC0,
-                                                                 used for all receive queue buffer configurations. This field is writable through
-                                                                 PEM()_CFG_TBL().
+                                                                 used for all receive queue buffer configurations.
+                                                                 This field is writable through PEM()_CFG_TBL().
 
                                                                  Reset values:
-                                                                 _ UPEM:      0x50.
-                                                                 _ BPEM:      0x28. */
+                                                                 _ FPEM:       0x50.
+                                                                 _ HPEM:       0x28.
+                                                                 _ QPEM:       0x50. */
         uint32_t data_credits          : 12; /**< [ 11:  0](RO/WRSL/H) VC0 completion data credits. The number of initial completion data credits for VC0, used
-                                                                 for all receive queue buffer configurations. This field is writable through
-                                                                 PEM()_CFG_TBL().
+                                                                 for all receive queue buffer configurations.
+                                                                 This field is writable through PEM()_CFG_TBL().
 
                                                                  Reset values:
-                                                                 _ UPEM:      0x600.
-                                                                 _ BPEM:      0x300. */
+                                                                 _ FPEM:       0x600.
+                                                                 _ HPEM:       0x300.
+                                                                 _ QPEM:       0x600. */
 #else /* Word 0 - Little Endian */
         uint32_t data_credits          : 12; /**< [ 11:  0](RO/WRSL/H) VC0 completion data credits. The number of initial completion data credits for VC0, used
-                                                                 for all receive queue buffer configurations. This field is writable through
-                                                                 PEM()_CFG_TBL().
+                                                                 for all receive queue buffer configurations.
+                                                                 This field is writable through PEM()_CFG_TBL().
 
                                                                  Reset values:
-                                                                 _ UPEM:      0x600.
-                                                                 _ BPEM:      0x300. */
+                                                                 _ FPEM:       0x600.
+                                                                 _ HPEM:       0x300.
+                                                                 _ QPEM:       0x600. */
         uint32_t header_credits        : 8;  /**< [ 19: 12](RO/WRSL/H) VC0 completion header credits. The number of initial completion header credits for VC0,
-                                                                 used for all receive queue buffer configurations. This field is writable through
-                                                                 PEM()_CFG_TBL().
+                                                                 used for all receive queue buffer configurations.
+                                                                 This field is writable through PEM()_CFG_TBL().
 
                                                                  Reset values:
-                                                                 _ UPEM:      0x50.
-                                                                 _ BPEM:      0x28. */
+                                                                 _ FPEM:       0x50.
+                                                                 _ HPEM:       0x28.
+                                                                 _ QPEM:       0x50. */
         uint32_t reserved_20           : 1;
         uint32_t queue_mode            : 3;  /**< [ 23: 21](RO/WRSL) VC0 completion TLP queue mode. The operating mode of the completion receive queue for VC0,
                                                                  used only in the segmented-buffer configuration, writable through
@@ -639,9 +777,15 @@ union cavm_pciercx_c_rcv_credit
         uint32_t hdr_sc                : 2;  /**< [ 25: 24](RO/WRSL) VC0 scale completion header credits.
 
                                                                  Reset values:
-                                                                 _ UPEM:      0x2.
-                                                                 _ BPEM:      0x1. */
-        uint32_t data_sc               : 2;  /**< [ 27: 26](RO/WRSL) VC0 scale completion data credits. */
+                                                                 _ FPEM:       0x3.
+                                                                 _ HPEM:       0x3.
+                                                                 _ QPEM:       0x2. */
+        uint32_t data_sc               : 2;  /**< [ 27: 26](RO/WRSL) VC0 scale completion data credits.
+
+                                                                 Reset values:
+                                                                 _ FPEM:       0x2.
+                                                                 _ HPEM:       0x2.
+                                                                 _ QPEM:       0x1. */
         uint32_t reserved_28_31        : 4;
 #endif /* Word 0 - End */
     } s;
@@ -652,7 +796,7 @@ typedef union cavm_pciercx_c_rcv_credit cavm_pciercx_c_rcv_credit_t;
 static inline uint64_t CAVM_PCIERCX_C_RCV_CREDIT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_C_RCV_CREDIT(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x750 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_C_RCV_CREDIT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -694,7 +838,7 @@ typedef union cavm_pciercx_c_xmit_credit cavm_pciercx_c_xmit_credit_t;
 static inline uint64_t CAVM_PCIERCX_C_XMIT_CREDIT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_C_XMIT_CREDIT(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x738 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_C_XMIT_CREDIT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -732,7 +876,7 @@ typedef union cavm_pciercx_cap_ptr cavm_pciercx_cap_ptr_t;
 static inline uint64_t CAVM_PCIERCX_CAP_PTR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_CAP_PTR(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x34 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_CAP_PTR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -778,7 +922,7 @@ typedef union cavm_pciercx_clk_gating_ctl cavm_pciercx_clk_gating_ctl_t;
 static inline uint64_t CAVM_PCIERCX_CLK_GATING_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_CLK_GATING_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x88c + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_CLK_GATING_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -826,7 +970,7 @@ typedef union cavm_pciercx_clsize cavm_pciercx_clsize_t;
 static inline uint64_t CAVM_PCIERCX_CLSIZE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_CLSIZE(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0xc + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_CLSIZE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -908,7 +1052,7 @@ typedef union cavm_pciercx_cmd cavm_pciercx_cmd_t;
 static inline uint64_t CAVM_PCIERCX_CMD(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_CMD(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 4 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_CMD", 1, a, 0, 0, 0, 0, 0);
 }
@@ -962,7 +1106,7 @@ typedef union cavm_pciercx_cor_err_msk cavm_pciercx_cor_err_msk_t;
 static inline uint64_t CAVM_PCIERCX_COR_ERR_MSK(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_COR_ERR_MSK(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x114 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_COR_ERR_MSK", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1016,7 +1160,7 @@ typedef union cavm_pciercx_cor_err_stat cavm_pciercx_cor_err_stat_t;
 static inline uint64_t CAVM_PCIERCX_COR_ERR_STAT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_COR_ERR_STAT(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x110 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_COR_ERR_STAT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1066,7 +1210,7 @@ typedef union cavm_pciercx_dbg0 cavm_pciercx_dbg0_t;
 static inline uint64_t CAVM_PCIERCX_DBG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_DBG0(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x728 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_DBG0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1138,7 +1282,7 @@ typedef union cavm_pciercx_dbg1 cavm_pciercx_dbg1_t;
 static inline uint64_t CAVM_PCIERCX_DBG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_DBG1(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x72c + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_DBG1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1247,7 +1391,7 @@ typedef union cavm_pciercx_dev_cap cavm_pciercx_dev_cap_t;
 static inline uint64_t CAVM_PCIERCX_DEV_CAP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_DEV_CAP(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x74 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_DEV_CAP", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1269,29 +1413,44 @@ union cavm_pciercx_dev_cap2
     struct cavm_pciercx_dev_cap2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_24_31        : 8;
-        uint32_t meetp                 : 2;  /**< [ 23: 22](RO) Max end-end TLP prefixes (Not Supported).
+        uint32_t frs_sup               : 1;  /**< [ 31: 31](RO) FRS supported(Not supported) */
+        uint32_t dwrr_len_sup          : 2;  /**< [ 30: 29](RO) Deferrable Memory Write (DMWr) Lengths Supported (Not Supported). */
+        uint32_t dwrr_cpl_sup          : 1;  /**< [ 28: 28](RO) Deferrable Memory Write (DMWr) Completer Supported (Not Supported). */
+        uint32_t reserved_27           : 1;
+        uint32_t eprir                 : 1;  /**< [ 26: 26](RO) Emergency Power Reduction Initialization Required (Not Supported). */
+        uint32_t eprs                  : 2;  /**< [ 25: 24](RO) Emergency Power Reduction Supported (Not Supported). */
+        uint32_t meetp                 : 2;  /**< [ 23: 22](RO/WRSL) Max end-end TLP prefixes.
                                                                  0x1 = 1.
                                                                  0x2 = 2.
                                                                  0x3 = 3.
-                                                                 0x0 = 4. */
-        uint32_t eetps                 : 1;  /**< [ 21: 21](RO) End-end TLP prefix (Not Supported). */
-        uint32_t effs                  : 1;  /**< [ 20: 20](RO) Extended fmt field (Not Supported). */
+                                                                 0x0 = 4.
+
+                                                                 Reset values:
+                                                                 _ FPEM:      0x2.
+                                                                 _ HPEM:      0x1.
+                                                                 _ QPEM:      0x1. */
+        uint32_t eetps                 : 1;  /**< [ 21: 21](RO/WRSL) End-end TLP prefix supported. */
+        uint32_t effs                  : 1;  /**< [ 20: 20](RO/WRSL) Extended fmt field supported. */
         uint32_t obffs                 : 2;  /**< [ 19: 18](RO) Optimized buffer flush fill (OBFF Not Supported). */
-        uint32_t tag10b_req_supp       : 1;  /**< [ 17: 17](RO) 10-bit tag requestor supported (not supported). */
+        uint32_t tag10b_req_supp       : 1;  /**< [ 17: 17](RO) 10-bit tag requestor supported.
+
+                                                                 Reset values:
+                                                                 _ FPEM:      0x1.
+                                                                 _ HPEM:      0x0.
+                                                                 _ QPEM:      0x0. */
         uint32_t tag10b_cpl_supp       : 1;  /**< [ 16: 16](RO) 10-bit tag completer supported. */
         uint32_t ln_sys_cls            : 2;  /**< [ 15: 14](RO) LN System CLS (Not Supported). */
         uint32_t tph                   : 2;  /**< [ 13: 12](RO) TPH completer (Not Supported). */
-        uint32_t ltrs                  : 1;  /**< [ 11: 11](RO/WRSL) Latency tolerance reporting (LTR) mechanism supported. */
+        uint32_t ltrs                  : 1;  /**< [ 11: 11](RO) Latency tolerance reporting (LTR) mechanism (not supported). */
         uint32_t noroprpr              : 1;  /**< [ 10: 10](RO/H) No RO-enabled PR-PR passing. When set, the routing element never carries out the passing
                                                                  permitted in the relaxed ordering model. */
-        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported.
+        uint32_t atom128s              : 1;  /**< [  9:  9](RO/WRSL) 128-bit AtomicOp supported.
                                                                  Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
                                                                  unsupported request. */
-        uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported.
+        uint32_t atom64s               : 1;  /**< [  8:  8](RO/WRSL) 64-bit AtomicOp supported.
                                                                  Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
                                                                  unsupported request. */
-        uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported.
+        uint32_t atom32s               : 1;  /**< [  7:  7](RO/WRSL) 32-bit AtomicOp supported.
                                                                  Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
                                                                  unsupported request. */
         uint32_t atom_ops              : 1;  /**< [  6:  6](RO) AtomicOp routing supported. */
@@ -1303,31 +1462,46 @@ union cavm_pciercx_dev_cap2
         uint32_t ctds                  : 1;  /**< [  4:  4](RO) Completion timeout disable supported. */
         uint32_t ari_fw                : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported. */
         uint32_t atom_ops              : 1;  /**< [  6:  6](RO) AtomicOp routing supported. */
-        uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported.
+        uint32_t atom32s               : 1;  /**< [  7:  7](RO/WRSL) 32-bit AtomicOp supported.
                                                                  Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
                                                                  unsupported request. */
-        uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported.
+        uint32_t atom64s               : 1;  /**< [  8:  8](RO/WRSL) 64-bit AtomicOp supported.
                                                                  Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
                                                                  unsupported request. */
-        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported.
+        uint32_t atom128s              : 1;  /**< [  9:  9](RO/WRSL) 128-bit AtomicOp supported.
                                                                  Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
                                                                  unsupported request. */
         uint32_t noroprpr              : 1;  /**< [ 10: 10](RO/H) No RO-enabled PR-PR passing. When set, the routing element never carries out the passing
                                                                  permitted in the relaxed ordering model. */
-        uint32_t ltrs                  : 1;  /**< [ 11: 11](RO/WRSL) Latency tolerance reporting (LTR) mechanism supported. */
+        uint32_t ltrs                  : 1;  /**< [ 11: 11](RO) Latency tolerance reporting (LTR) mechanism (not supported). */
         uint32_t tph                   : 2;  /**< [ 13: 12](RO) TPH completer (Not Supported). */
         uint32_t ln_sys_cls            : 2;  /**< [ 15: 14](RO) LN System CLS (Not Supported). */
         uint32_t tag10b_cpl_supp       : 1;  /**< [ 16: 16](RO) 10-bit tag completer supported. */
-        uint32_t tag10b_req_supp       : 1;  /**< [ 17: 17](RO) 10-bit tag requestor supported (not supported). */
+        uint32_t tag10b_req_supp       : 1;  /**< [ 17: 17](RO) 10-bit tag requestor supported.
+
+                                                                 Reset values:
+                                                                 _ FPEM:      0x1.
+                                                                 _ HPEM:      0x0.
+                                                                 _ QPEM:      0x0. */
         uint32_t obffs                 : 2;  /**< [ 19: 18](RO) Optimized buffer flush fill (OBFF Not Supported). */
-        uint32_t effs                  : 1;  /**< [ 20: 20](RO) Extended fmt field (Not Supported). */
-        uint32_t eetps                 : 1;  /**< [ 21: 21](RO) End-end TLP prefix (Not Supported). */
-        uint32_t meetp                 : 2;  /**< [ 23: 22](RO) Max end-end TLP prefixes (Not Supported).
+        uint32_t effs                  : 1;  /**< [ 20: 20](RO/WRSL) Extended fmt field supported. */
+        uint32_t eetps                 : 1;  /**< [ 21: 21](RO/WRSL) End-end TLP prefix supported. */
+        uint32_t meetp                 : 2;  /**< [ 23: 22](RO/WRSL) Max end-end TLP prefixes.
                                                                  0x1 = 1.
                                                                  0x2 = 2.
                                                                  0x3 = 3.
-                                                                 0x0 = 4. */
-        uint32_t reserved_24_31        : 8;
+                                                                 0x0 = 4.
+
+                                                                 Reset values:
+                                                                 _ FPEM:      0x2.
+                                                                 _ HPEM:      0x1.
+                                                                 _ QPEM:      0x1. */
+        uint32_t eprs                  : 2;  /**< [ 25: 24](RO) Emergency Power Reduction Supported (Not Supported). */
+        uint32_t eprir                 : 1;  /**< [ 26: 26](RO) Emergency Power Reduction Initialization Required (Not Supported). */
+        uint32_t reserved_27           : 1;
+        uint32_t dwrr_cpl_sup          : 1;  /**< [ 28: 28](RO) Deferrable Memory Write (DMWr) Completer Supported (Not Supported). */
+        uint32_t dwrr_len_sup          : 2;  /**< [ 30: 29](RO) Deferrable Memory Write (DMWr) Lengths Supported (Not Supported). */
+        uint32_t frs_sup               : 1;  /**< [ 31: 31](RO) FRS supported(Not supported) */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pciercx_dev_cap2_s cn; */
@@ -1337,7 +1511,7 @@ typedef union cavm_pciercx_dev_cap2 cavm_pciercx_dev_cap2_t;
 static inline uint64_t CAVM_PCIERCX_DEV_CAP2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_DEV_CAP2(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x94 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_DEV_CAP2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1399,10 +1573,7 @@ union cavm_pciercx_dev_ctl
                                                                  0x1 = 256 bytes.
                                                                  0x2 = 512 bytes.
                                                                  0x3 = 1024 bytes.
-                                                                 Larger sizes are not supported by CNXXXX.
-
-                                                                 DPI_SLI_PRT()_CFG[MPS] must be set to the same value as this field for proper
-                                                                 functionality. */
+                                                                 Larger sizes are not supported by Odyssey. */
         uint32_t ro_en                 : 1;  /**< [  4:  4](R/W) Enable relaxed ordering. */
         uint32_t ur_en                 : 1;  /**< [  3:  3](R/W) Unsupported request reporting enable. */
         uint32_t fe_en                 : 1;  /**< [  2:  2](R/W) Fatal error reporting enable. */
@@ -1419,10 +1590,7 @@ union cavm_pciercx_dev_ctl
                                                                  0x1 = 256 bytes.
                                                                  0x2 = 512 bytes.
                                                                  0x3 = 1024 bytes.
-                                                                 Larger sizes are not supported by CNXXXX.
-
-                                                                 DPI_SLI_PRT()_CFG[MPS] must be set to the same value as this field for proper
-                                                                 functionality. */
+                                                                 Larger sizes are not supported by Odyssey. */
         uint32_t etf_en                : 1;  /**< [  8:  8](R/W) Extended tag field enable. Set this bit to enable extended tags. */
         uint32_t pf_en                 : 1;  /**< [  9:  9](R/W/H) Phantom function enable.
 
@@ -1467,7 +1635,7 @@ typedef union cavm_pciercx_dev_ctl cavm_pciercx_dev_ctl_t;
 static inline uint64_t CAVM_PCIERCX_DEV_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_DEV_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x78 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_DEV_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1490,12 +1658,12 @@ union cavm_pciercx_dev_ctl2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_16_31        : 16;
-        uint32_t eetpb                 : 1;  /**< [ 15: 15](RO) End-end TLP prefix blocking (not supported). */
-        uint32_t obffe                 : 2;  /**< [ 14: 13](RO) Optimized buffer flush fill (OBFF) enabled (not suppoted). */
-        uint32_t tag10b_req_en         : 1;  /**< [ 12: 12](RO) 10-bit tag requester enabled (not supported). */
+        uint32_t eetpb                 : 1;  /**< [ 15: 15](RO/WRSL) End-end TLP prefix blocking. */
+        uint32_t obffe                 : 2;  /**< [ 14: 13](RO) Optimized buffer flush fill (OBFF) enabled (not supported). */
+        uint32_t tag10b_req_en         : 1;  /**< [ 12: 12](R/W) 10-bit tag requester enabled (not supported in HPEM and QPEM). */
         uint32_t reserved_11           : 1;
         uint32_t ltre                  : 1;  /**< [ 10: 10](RO) Latency tolerance reporting (LTR) mechanism enable. (not supported). */
-        uint32_t id0_cp                : 1;  /**< [  9:  9](R/W) ID based ordering completion enable (not supported). */
+        uint32_t id0_cp                : 1;  /**< [  9:  9](R/W) ID based ordering completion enable. */
         uint32_t id0_rq                : 1;  /**< [  8:  8](R/W) ID based ordering request enable. */
         uint32_t atom_op_eb            : 1;  /**< [  7:  7](R/W) AtomicOp egress blocking. */
         uint32_t atom_op               : 1;  /**< [  6:  6](R/W) AtomicOp requester enable. */
@@ -1531,12 +1699,12 @@ union cavm_pciercx_dev_ctl2
         uint32_t atom_op               : 1;  /**< [  6:  6](R/W) AtomicOp requester enable. */
         uint32_t atom_op_eb            : 1;  /**< [  7:  7](R/W) AtomicOp egress blocking. */
         uint32_t id0_rq                : 1;  /**< [  8:  8](R/W) ID based ordering request enable. */
-        uint32_t id0_cp                : 1;  /**< [  9:  9](R/W) ID based ordering completion enable (not supported). */
+        uint32_t id0_cp                : 1;  /**< [  9:  9](R/W) ID based ordering completion enable. */
         uint32_t ltre                  : 1;  /**< [ 10: 10](RO) Latency tolerance reporting (LTR) mechanism enable. (not supported). */
         uint32_t reserved_11           : 1;
-        uint32_t tag10b_req_en         : 1;  /**< [ 12: 12](RO) 10-bit tag requester enabled (not supported). */
-        uint32_t obffe                 : 2;  /**< [ 14: 13](RO) Optimized buffer flush fill (OBFF) enabled (not suppoted). */
-        uint32_t eetpb                 : 1;  /**< [ 15: 15](RO) End-end TLP prefix blocking (not supported). */
+        uint32_t tag10b_req_en         : 1;  /**< [ 12: 12](R/W) 10-bit tag requester enabled (not supported in HPEM and QPEM). */
+        uint32_t obffe                 : 2;  /**< [ 14: 13](RO) Optimized buffer flush fill (OBFF) enabled (not supported). */
+        uint32_t eetpb                 : 1;  /**< [ 15: 15](RO/WRSL) End-end TLP prefix blocking. */
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } s;
@@ -1547,7 +1715,7 @@ typedef union cavm_pciercx_dev_ctl2 cavm_pciercx_dev_ctl2_t;
 static inline uint64_t CAVM_PCIERCX_DEV_CTL2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_DEV_CTL2(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x98 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_DEV_CTL2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1587,8 +1755,8 @@ typedef union cavm_pciercx_dl_feature_cap cavm_pciercx_dl_feature_cap_t;
 static inline uint64_t CAVM_PCIERCX_DL_FEATURE_CAP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_DL_FEATURE_CAP(uint64_t a)
 {
-    if (a<=5)
-        return 0x388 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x3a8 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_DL_FEATURE_CAP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1631,8 +1799,8 @@ typedef union cavm_pciercx_dl_feature_ext_hdr cavm_pciercx_dl_feature_ext_hdr_t;
 static inline uint64_t CAVM_PCIERCX_DL_FEATURE_EXT_HDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_DL_FEATURE_EXT_HDR(uint64_t a)
 {
-    if (a<=5)
-        return 0x384 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x3a4 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_DL_FEATURE_EXT_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1669,8 +1837,8 @@ typedef union cavm_pciercx_dl_feature_status cavm_pciercx_dl_feature_status_t;
 static inline uint64_t CAVM_PCIERCX_DL_FEATURE_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_DL_FEATURE_STATUS(uint64_t a)
 {
-    if (a<=5)
-        return 0x38c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x3ac + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_DL_FEATURE_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1717,7 +1885,7 @@ typedef union cavm_pciercx_e_cap_list cavm_pciercx_e_cap_list_t;
 static inline uint64_t CAVM_PCIERCX_E_CAP_LIST(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_E_CAP_LIST(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x70 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_E_CAP_LIST", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1763,7 +1931,7 @@ typedef union cavm_pciercx_ea_cap_hdr cavm_pciercx_ea_cap_hdr_t;
 static inline uint64_t CAVM_PCIERCX_EA_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_EA_CAP_HDR(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x50 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_EA_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1805,7 +1973,7 @@ typedef union cavm_pciercx_ea_entry0 cavm_pciercx_ea_entry0_t;
 static inline uint64_t CAVM_PCIERCX_EA_ENTRY0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_EA_ENTRY0(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x54 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_EA_ENTRY0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1861,7 +2029,7 @@ typedef union cavm_pciercx_ea_entry1 cavm_pciercx_ea_entry1_t;
 static inline uint64_t CAVM_PCIERCX_EA_ENTRY1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_EA_ENTRY1(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x58 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_EA_ENTRY1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1899,7 +2067,7 @@ typedef union cavm_pciercx_ea_entry2 cavm_pciercx_ea_entry2_t;
 static inline uint64_t CAVM_PCIERCX_EA_ENTRY2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_EA_ENTRY2(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x5c + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_EA_ENTRY2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1937,7 +2105,7 @@ typedef union cavm_pciercx_ea_entry3 cavm_pciercx_ea_entry3_t;
 static inline uint64_t CAVM_PCIERCX_EA_ENTRY3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_EA_ENTRY3(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x60 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_EA_ENTRY3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1971,7 +2139,7 @@ typedef union cavm_pciercx_ea_entry4 cavm_pciercx_ea_entry4_t;
 static inline uint64_t CAVM_PCIERCX_EA_ENTRY4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_EA_ENTRY4(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x64 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_EA_ENTRY4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2005,7 +2173,7 @@ typedef union cavm_pciercx_ebar cavm_pciercx_ebar_t;
 static inline uint64_t CAVM_PCIERCX_EBAR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_EBAR(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x38 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_EBAR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2040,25 +2208,6 @@ static inline uint64_t CAVM_PCIERCX_EBAR(uint64_t a)
  *     Again, the settings are communicated via TS1s but the feedback is provided by
  *     the RC phy's FOM or direction change indications.
  *     \</pre\>
- *
- * Equalization as an EP:
- *   \<pre\>
- *   - The EP latches the transmitter preset hint received during the speed change from
- *     GEN1-\>GEN3 (L*UTP).
- *   - Upon exiting speed, the EP transitions to EQ PHASE 0 (Note the RC does not use
- *     EQ PHASE 0) and sets its transmitter setting to use (L*UTP) which it received
- *     during the speed change.  If any lane received a reserved or unsupported preset,
- *     the EP will use an implementation specific value determined by the EP.
- *   - EP will transition to EQ PHASE 1 after seeing two consecutive TS1s with phase 1 bits set.
- *   - During EQ PHASE 1, the EP communicates it's FS & LF to the upstream port. Again, NO
- *     presets are exchanged.
- *   - EP transitions to EQ PHASE 2 and begins making requests of the RC to adjust it's transmitter.
- *     These requests are communicated via TS1s and the EP's PHY determines which
- *     settings are best for its receiver.
- *     This is an implementation specific algorithm and not covered by the PCIe spec
- *     other than the mechanism which is used to make a request.
- *   - During EQ PHASE 3, the EPs transmitter settings are adjusted by the RC.
- *   \</pre\>
  */
 union cavm_pciercx_eq_ctl01
 {
@@ -2100,7 +2249,7 @@ typedef union cavm_pciercx_eq_ctl01 cavm_pciercx_eq_ctl01_t;
 static inline uint64_t CAVM_PCIERCX_EQ_CTL01(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_EQ_CTL01(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x174 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_EQ_CTL01", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2110,6 +2259,240 @@ static inline uint64_t CAVM_PCIERCX_EQ_CTL01(uint64_t a)
 #define basename_CAVM_PCIERCX_EQ_CTL01(a) "PCIERCX_EQ_CTL01"
 #define busnum_CAVM_PCIERCX_EQ_CTL01(a) (a)
 #define arguments_CAVM_PCIERCX_EQ_CTL01(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_eq_ctl1011
+ *
+ * PCIe RC Equalization Control Lane 10/11 Register
+ * Not supported in QPEM/HPEM.
+ *
+ * The Equalization Control register consists of control fields required for per-Lane
+ * 16.0 GT/s equalization.
+ *
+ * Equalization as an RC:
+ *   \<pre\>
+ *   - On speed change from GEN1-\>GEN3, advertise the transmitter preset hint per lane
+ *     to the EP device in the TS2s exchanged. This value comes from the per lane
+ *     upstream port transmitter preset (L*UTP).
+ *   - Upon exit from Recovery Speed, the RC will enter EQ PHASE1 and the RC's
+ *     transmitter will use the per lane downstream port transmitter preset field (L*DTP).
+ *   - While in EQ PHASE 1, the EP & RC device exchange NO presets. They do advertise
+ *     their LF & FS which are needed for the fine tuning stages to follow.
+ *   - For the RC, while in EQ PHASE 2, the EP device makes tuning requests of the RC.
+ *     The RC adjusts its transmitter settings as directed by the EP. The requests are
+ *     communicated via TS1s.
+ *   - Once the EP is satisfied with the tuning, equalization moves to PHASE 3 where
+ *     the RC tunes the EP's remote transmitter.
+ *     Again, the settings are communicated via TS1s but the feedback is provided by
+ *     the RC phy's FOM or direction change indications.
+ *     \</pre\>
+ */
+union cavm_pciercx_eq_ctl1011
+{
+    uint32_t u;
+    struct cavm_pciercx_eq_ctl1011_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_31           : 1;
+        uint32_t l11urph               : 3;  /**< [ 30: 28](RO/WRSL) Lane 11 upstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t l11utp                : 4;  /**< [ 27: 24](RO/WRSL) Lane 11 upstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_23           : 1;
+        uint32_t l11drph               : 3;  /**< [ 22: 20](RO/WRSL) Lane 11 downstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t l11dtp                : 4;  /**< [ 19: 16](RO/WRSL) Lane 11 downstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_15           : 1;
+        uint32_t l10urph               : 3;  /**< [ 14: 12](RO/WRSL) Lane 10 upstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t l10utp                : 4;  /**< [ 11:  8](RO/WRSL) Lane 10 upstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_7            : 1;
+        uint32_t l10drph               : 3;  /**< [  6:  4](RO/WRSL) Lane 10 downstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t l10dtp                : 4;  /**< [  3:  0](RO/WRSL) Lane 10 downstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t l10dtp                : 4;  /**< [  3:  0](RO/WRSL) Lane 10 downstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t l10drph               : 3;  /**< [  6:  4](RO/WRSL) Lane 10 downstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_7            : 1;
+        uint32_t l10utp                : 4;  /**< [ 11:  8](RO/WRSL) Lane 10 upstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t l10urph               : 3;  /**< [ 14: 12](RO/WRSL) Lane 10 upstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_15           : 1;
+        uint32_t l11dtp                : 4;  /**< [ 19: 16](RO/WRSL) Lane 11 downstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t l11drph               : 3;  /**< [ 22: 20](RO/WRSL) Lane 11 downstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_23           : 1;
+        uint32_t l11utp                : 4;  /**< [ 27: 24](RO/WRSL) Lane 11 upstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t l11urph               : 3;  /**< [ 30: 28](RO/WRSL) Lane 11 upstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_31           : 1;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_eq_ctl1011_s cn; */
+};
+typedef union cavm_pciercx_eq_ctl1011 cavm_pciercx_eq_ctl1011_t;
+
+static inline uint64_t CAVM_PCIERCX_EQ_CTL1011(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_EQ_CTL1011(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x188 + 0 * ((a) & 0x7);
+    __cavm_csr_fatal("PCIERCX_EQ_CTL1011", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_EQ_CTL1011(a) cavm_pciercx_eq_ctl1011_t
+#define bustype_CAVM_PCIERCX_EQ_CTL1011(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_EQ_CTL1011(a) "PCIERCX_EQ_CTL1011"
+#define busnum_CAVM_PCIERCX_EQ_CTL1011(a) (a)
+#define arguments_CAVM_PCIERCX_EQ_CTL1011(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_eq_ctl1213
+ *
+ * PCIe RC Equalization Control Lane 12/13 Register
+ * Not supported in QPEM/HPEM.
+ *
+ * The Equalization Control register consists of control fields required for per-Lane
+ * 16.0 GT/s equalization.
+ *
+ * Equalization as an RC:
+ *   \<pre\>
+ *   - On speed change from GEN1-\>GEN3, advertise the transmitter preset hint per lane
+ *     to the EP device in the TS2s exchanged. This value comes from the per lane
+ *     upstream port transmitter preset (L*UTP).
+ *   - Upon exit from Recovery Speed, the RC will enter EQ PHASE1 and the RC's
+ *     transmitter will use the per lane downstream port transmitter preset field (L*DTP).
+ *   - While in EQ PHASE 1, the EP & RC device exchange NO presets. They do advertise
+ *     their LF & FS which are needed for the fine tuning stages to follow.
+ *   - For the RC, while in EQ PHASE 2, the EP device makes tuning requests of the RC.
+ *     The RC adjusts its transmitter settings as directed by the EP. The requests are
+ *     communicated via TS1s.
+ *   - Once the EP is satisfied with the tuning, equalization moves to PHASE 3 where
+ *     the RC tunes the EP's remote transmitter.
+ *     Again, the settings are communicated via TS1s but the feedback is provided by
+ *     the RC phy's FOM or direction change indications.
+ *     \</pre\>
+ */
+union cavm_pciercx_eq_ctl1213
+{
+    uint32_t u;
+    struct cavm_pciercx_eq_ctl1213_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_31           : 1;
+        uint32_t l13urph               : 3;  /**< [ 30: 28](RO/WRSL) Lane 13 upstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t l13utp                : 4;  /**< [ 27: 24](RO/WRSL) Lane 13 upstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_23           : 1;
+        uint32_t l13drph               : 3;  /**< [ 22: 20](RO/WRSL) Lane 13 downstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t l13dtp                : 4;  /**< [ 19: 16](RO/WRSL) Lane 13 downstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_15           : 1;
+        uint32_t l12urph               : 3;  /**< [ 14: 12](RO/WRSL) Lane 12 upstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t l12utp                : 4;  /**< [ 11:  8](RO/WRSL) Lane 12 upstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_7            : 1;
+        uint32_t l12drph               : 3;  /**< [  6:  4](RO/WRSL) Lane 12 downstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t l12dtp                : 4;  /**< [  3:  0](RO/WRSL) Lane 12 downstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t l12dtp                : 4;  /**< [  3:  0](RO/WRSL) Lane 12 downstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t l12drph               : 3;  /**< [  6:  4](RO/WRSL) Lane 12 downstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_7            : 1;
+        uint32_t l12utp                : 4;  /**< [ 11:  8](RO/WRSL) Lane 12 upstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t l12urph               : 3;  /**< [ 14: 12](RO/WRSL) Lane 12 upstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_15           : 1;
+        uint32_t l13dtp                : 4;  /**< [ 19: 16](RO/WRSL) Lane 13 downstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t l13drph               : 3;  /**< [ 22: 20](RO/WRSL) Lane 13 downstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_23           : 1;
+        uint32_t l13utp                : 4;  /**< [ 27: 24](RO/WRSL) Lane 13 upstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t l13urph               : 3;  /**< [ 30: 28](RO/WRSL) Lane 13 upstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_31           : 1;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_eq_ctl1213_s cn; */
+};
+typedef union cavm_pciercx_eq_ctl1213 cavm_pciercx_eq_ctl1213_t;
+
+static inline uint64_t CAVM_PCIERCX_EQ_CTL1213(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_EQ_CTL1213(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x18c + 0 * ((a) & 0x7);
+    __cavm_csr_fatal("PCIERCX_EQ_CTL1213", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_EQ_CTL1213(a) cavm_pciercx_eq_ctl1213_t
+#define bustype_CAVM_PCIERCX_EQ_CTL1213(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_EQ_CTL1213(a) "PCIERCX_EQ_CTL1213"
+#define busnum_CAVM_PCIERCX_EQ_CTL1213(a) (a)
+#define arguments_CAVM_PCIERCX_EQ_CTL1213(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_eq_ctl1415
+ *
+ * PCIe RC Equalization Control Lane 14/15 Register
+ * Not supported in QPEM/HPEM.
+ *
+ * The Equalization Control register consists of control fields required for per-Lane
+ * 16.0 GT/s equalization.
+ *
+ * Equalization as an RC:
+ *   \<pre\>
+ *   - On speed change from GEN1-\>GEN3, advertise the transmitter preset hint per lane
+ *     to the EP device in the TS2s exchanged. This value comes from the per lane
+ *     upstream port transmitter preset (L*UTP).
+ *   - Upon exit from Recovery Speed, the RC will enter EQ PHASE1 and the RC's
+ *     transmitter will use the per lane downstream port transmitter preset field (L*DTP).
+ *   - While in EQ PHASE 1, the EP & RC device exchange NO presets. They do advertise
+ *     their LF & FS which are needed for the fine tuning stages to follow.
+ *   - For the RC, while in EQ PHASE 2, the EP device makes tuning requests of the RC.
+ *     The RC adjusts its transmitter settings as directed by the EP. The requests are
+ *     communicated via TS1s.
+ *   - Once the EP is satisfied with the tuning, equalization moves to PHASE 3 where
+ *     the RC tunes the EP's remote transmitter.
+ *     Again, the settings are communicated via TS1s but the feedback is provided by
+ *     the RC phy's FOM or direction change indications.
+ *     \</pre\>
+ */
+union cavm_pciercx_eq_ctl1415
+{
+    uint32_t u;
+    struct cavm_pciercx_eq_ctl1415_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_31           : 1;
+        uint32_t l15urph               : 3;  /**< [ 30: 28](RO/WRSL) Lane 15 upstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t l15utp                : 4;  /**< [ 27: 24](RO/WRSL) Lane 15 upstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_23           : 1;
+        uint32_t l15drph               : 3;  /**< [ 22: 20](RO/WRSL) Lane 15 downstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t l15dtp                : 4;  /**< [ 19: 16](RO/WRSL) Lane 15 downstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_15           : 1;
+        uint32_t l14urph               : 3;  /**< [ 14: 12](RO/WRSL) Lane 14 upstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t l14utp                : 4;  /**< [ 11:  8](RO/WRSL) Lane 14 upstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_7            : 1;
+        uint32_t l14drph               : 3;  /**< [  6:  4](RO/WRSL) Lane 14 downstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t l14dtp                : 4;  /**< [  3:  0](RO/WRSL) Lane 14 downstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t l14dtp                : 4;  /**< [  3:  0](RO/WRSL) Lane 14 downstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t l14drph               : 3;  /**< [  6:  4](RO/WRSL) Lane 14 downstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_7            : 1;
+        uint32_t l14utp                : 4;  /**< [ 11:  8](RO/WRSL) Lane 14 upstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t l14urph               : 3;  /**< [ 14: 12](RO/WRSL) Lane 14 upstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_15           : 1;
+        uint32_t l15dtp                : 4;  /**< [ 19: 16](RO/WRSL) Lane 15 downstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t l15drph               : 3;  /**< [ 22: 20](RO/WRSL) Lane 15 downstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_23           : 1;
+        uint32_t l15utp                : 4;  /**< [ 27: 24](RO/WRSL) Lane 15 upstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t l15urph               : 3;  /**< [ 30: 28](RO/WRSL) Lane 15 upstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_31           : 1;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_eq_ctl1415_s cn; */
+};
+typedef union cavm_pciercx_eq_ctl1415 cavm_pciercx_eq_ctl1415_t;
+
+static inline uint64_t CAVM_PCIERCX_EQ_CTL1415(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_EQ_CTL1415(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x190 + 0 * ((a) & 0x7);
+    __cavm_csr_fatal("PCIERCX_EQ_CTL1415", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_EQ_CTL1415(a) cavm_pciercx_eq_ctl1415_t
+#define bustype_CAVM_PCIERCX_EQ_CTL1415(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_EQ_CTL1415(a) "PCIERCX_EQ_CTL1415"
+#define busnum_CAVM_PCIERCX_EQ_CTL1415(a) (a)
+#define arguments_CAVM_PCIERCX_EQ_CTL1415(a) (a),-1,-1,-1
 
 /**
  * Register (PCICONFIGRC) pcierc#_eq_ctl23
@@ -2135,25 +2518,6 @@ static inline uint64_t CAVM_PCIERCX_EQ_CTL01(uint64_t a)
  *     Again, the settings are communicated via TS1s but the feedback is provided by
  *     the RC phy's FOM or direction change indications.
  *     \</pre\>
- *
- * Equalization as an EP:
- *   \<pre\>
- *   - The EP latches the transmitter preset hint received during the speed change from
- *     GEN1-\>GEN3 (L*UTP).
- *   - Upon exiting speed, the EP transitions to EQ PHASE 0 (Note the RC does not use
- *     EQ PHASE 0) and sets its transmitter setting to use (L*UTP) which it received
- *     during the speed change.  If any lane received a reserved or unsupported preset,
- *     the EP will use an implementation specific value determined by the EP.
- *   - EP will transition to EQ PHASE 1 after seeing two consecutive TS1s with phase 1 bits set.
- *   - During EQ PHASE 1, the EP communicates it's FS & LF to the upstream port. Again, NO
- *     presets are exchanged.
- *   - EP transitions to EQ PHASE 2 and begins making requests of the RC to adjust it's transmitter.
- *     These requests are communicated via TS1s and the EP's PHY determines which
- *     settings are best for its receiver.
- *     This is an implementation specific algorithm and not covered by the PCIe spec
- *     other than the mechanism which is used to make a request.
- *   - During EQ PHASE 3, the EPs transmitter settings are adjusted by the RC.
- *   \</pre\>
  */
 union cavm_pciercx_eq_ctl23
 {
@@ -2195,7 +2559,7 @@ typedef union cavm_pciercx_eq_ctl23 cavm_pciercx_eq_ctl23_t;
 static inline uint64_t CAVM_PCIERCX_EQ_CTL23(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_EQ_CTL23(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x178 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_EQ_CTL23", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2205,6 +2569,240 @@ static inline uint64_t CAVM_PCIERCX_EQ_CTL23(uint64_t a)
 #define basename_CAVM_PCIERCX_EQ_CTL23(a) "PCIERCX_EQ_CTL23"
 #define busnum_CAVM_PCIERCX_EQ_CTL23(a) (a)
 #define arguments_CAVM_PCIERCX_EQ_CTL23(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_eq_ctl45
+ *
+ * PCIe RC Equalization Control Lane 2/3 Register
+ * Not supported in QPEM.
+ *
+ * The Equalization Control register consists of control fields required for per-Lane
+ * 16.0 GT/s equalization.
+ *
+ * Equalization as an RC:
+ *   \<pre\>
+ *   - On speed change from GEN1-\>GEN3, advertise the transmitter preset hint per lane
+ *     to the EP device in the TS2s exchanged. This value comes from the per lane
+ *     upstream port transmitter preset (L*UTP).
+ *   - Upon exit from Recovery Speed, the RC will enter EQ PHASE1 and the RC's
+ *     transmitter will use the per lane downstream port transmitter preset field (L*DTP).
+ *   - While in EQ PHASE 1, the EP & RC device exchange NO presets. They do advertise
+ *     their LF & FS which are needed for the fine tuning stages to follow.
+ *   - For the RC, while in EQ PHASE 2, the EP device makes tuning requests of the RC.
+ *     The RC adjusts its transmitter settings as directed by the EP. The requests are
+ *     communicated via TS1s.
+ *   - Once the EP is satisfied with the tuning, equalization moves to PHASE 3 where
+ *     the RC tunes the EP's remote transmitter.
+ *     Again, the settings are communicated via TS1s but the feedback is provided by
+ *     the RC phy's FOM or direction change indications.
+ *     \</pre\>
+ */
+union cavm_pciercx_eq_ctl45
+{
+    uint32_t u;
+    struct cavm_pciercx_eq_ctl45_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_31           : 1;
+        uint32_t l5urph                : 3;  /**< [ 30: 28](RO/WRSL) Lane 5 upstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t l5utp                 : 4;  /**< [ 27: 24](RO/WRSL) Lane 5 upstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_23           : 1;
+        uint32_t l5drph                : 3;  /**< [ 22: 20](RO/WRSL) Lane 5 downstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t l5dtp                 : 4;  /**< [ 19: 16](RO/WRSL) Lane 5 downstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_15           : 1;
+        uint32_t l4urph                : 3;  /**< [ 14: 12](RO/WRSL) Lane 4 upstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t l4utp                 : 4;  /**< [ 11:  8](RO/WRSL) Lane 4 upstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_7            : 1;
+        uint32_t l4drph                : 3;  /**< [  6:  4](RO/WRSL) Lane 4 downstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t l4dtp                 : 4;  /**< [  3:  0](RO/WRSL) Lane 4 downstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t l4dtp                 : 4;  /**< [  3:  0](RO/WRSL) Lane 4 downstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t l4drph                : 3;  /**< [  6:  4](RO/WRSL) Lane 4 downstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_7            : 1;
+        uint32_t l4utp                 : 4;  /**< [ 11:  8](RO/WRSL) Lane 4 upstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t l4urph                : 3;  /**< [ 14: 12](RO/WRSL) Lane 4 upstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_15           : 1;
+        uint32_t l5dtp                 : 4;  /**< [ 19: 16](RO/WRSL) Lane 5 downstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t l5drph                : 3;  /**< [ 22: 20](RO/WRSL) Lane 5 downstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_23           : 1;
+        uint32_t l5utp                 : 4;  /**< [ 27: 24](RO/WRSL) Lane 5 upstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t l5urph                : 3;  /**< [ 30: 28](RO/WRSL) Lane 5 upstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_31           : 1;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_eq_ctl45_s cn; */
+};
+typedef union cavm_pciercx_eq_ctl45 cavm_pciercx_eq_ctl45_t;
+
+static inline uint64_t CAVM_PCIERCX_EQ_CTL45(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_EQ_CTL45(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x17c + 0 * ((a) & 0x7);
+    __cavm_csr_fatal("PCIERCX_EQ_CTL45", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_EQ_CTL45(a) cavm_pciercx_eq_ctl45_t
+#define bustype_CAVM_PCIERCX_EQ_CTL45(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_EQ_CTL45(a) "PCIERCX_EQ_CTL45"
+#define busnum_CAVM_PCIERCX_EQ_CTL45(a) (a)
+#define arguments_CAVM_PCIERCX_EQ_CTL45(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_eq_ctl67
+ *
+ * PCIe RC Equalization Control Lane 6/7 Register
+ * Not supported in QPEM.
+ *
+ * The Equalization Control register consists of control fields required for per-Lane
+ * 16.0 GT/s equalization.
+ *
+ * Equalization as an RC:
+ *   \<pre\>
+ *   - On speed change from GEN1-\>GEN3, advertise the transmitter preset hint per lane
+ *     to the EP device in the TS2s exchanged. This value comes from the per lane
+ *     upstream port transmitter preset (L*UTP).
+ *   - Upon exit from Recovery Speed, the RC will enter EQ PHASE1 and the RC's
+ *     transmitter will use the per lane downstream port transmitter preset field (L*DTP).
+ *   - While in EQ PHASE 1, the EP & RC device exchange NO presets. They do advertise
+ *     their LF & FS which are needed for the fine tuning stages to follow.
+ *   - For the RC, while in EQ PHASE 2, the EP device makes tuning requests of the RC.
+ *     The RC adjusts its transmitter settings as directed by the EP. The requests are
+ *     communicated via TS1s.
+ *   - Once the EP is satisfied with the tuning, equalization moves to PHASE 3 where
+ *     the RC tunes the EP's remote transmitter.
+ *     Again, the settings are communicated via TS1s but the feedback is provided by
+ *     the RC phy's FOM or direction change indications.
+ *     \</pre\>
+ */
+union cavm_pciercx_eq_ctl67
+{
+    uint32_t u;
+    struct cavm_pciercx_eq_ctl67_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_31           : 1;
+        uint32_t l7urph                : 3;  /**< [ 30: 28](RO/WRSL) Lane 7 upstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t l7utp                 : 4;  /**< [ 27: 24](RO/WRSL) Lane 7 upstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_23           : 1;
+        uint32_t l7drph                : 3;  /**< [ 22: 20](RO/WRSL) Lane 7 downstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t l7dtp                 : 4;  /**< [ 19: 16](RO/WRSL) Lane 7 downstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_15           : 1;
+        uint32_t l6urph                : 3;  /**< [ 14: 12](RO/WRSL) Lane 6 upstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t l6utp                 : 4;  /**< [ 11:  8](RO/WRSL) Lane 6 upstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_7            : 1;
+        uint32_t l6drph                : 3;  /**< [  6:  4](RO/WRSL) Lane 6 downstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t l6dtp                 : 4;  /**< [  3:  0](RO/WRSL) Lane 6 downstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t l6dtp                 : 4;  /**< [  3:  0](RO/WRSL) Lane 6 downstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t l6drph                : 3;  /**< [  6:  4](RO/WRSL) Lane 6 downstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_7            : 1;
+        uint32_t l6utp                 : 4;  /**< [ 11:  8](RO/WRSL) Lane 6 upstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t l6urph                : 3;  /**< [ 14: 12](RO/WRSL) Lane 6 upstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_15           : 1;
+        uint32_t l7dtp                 : 4;  /**< [ 19: 16](RO/WRSL) Lane 7 downstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t l7drph                : 3;  /**< [ 22: 20](RO/WRSL) Lane 7 downstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_23           : 1;
+        uint32_t l7utp                 : 4;  /**< [ 27: 24](RO/WRSL) Lane 7 upstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t l7urph                : 3;  /**< [ 30: 28](RO/WRSL) Lane 7 upstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_31           : 1;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_eq_ctl67_s cn; */
+};
+typedef union cavm_pciercx_eq_ctl67 cavm_pciercx_eq_ctl67_t;
+
+static inline uint64_t CAVM_PCIERCX_EQ_CTL67(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_EQ_CTL67(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x180 + 0 * ((a) & 0x7);
+    __cavm_csr_fatal("PCIERCX_EQ_CTL67", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_EQ_CTL67(a) cavm_pciercx_eq_ctl67_t
+#define bustype_CAVM_PCIERCX_EQ_CTL67(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_EQ_CTL67(a) "PCIERCX_EQ_CTL67"
+#define busnum_CAVM_PCIERCX_EQ_CTL67(a) (a)
+#define arguments_CAVM_PCIERCX_EQ_CTL67(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_eq_ctl89
+ *
+ * PCIe RC Equalization Control Lane 8/9 Register
+ * Not supported in QPEM/HPEM.
+ *
+ * The Equalization Control register consists of control fields required for per-Lane
+ * 16.0 GT/s equalization.
+ *
+ * Equalization as an RC:
+ *   \<pre\>
+ *   - On speed change from GEN1-\>GEN3, advertise the transmitter preset hint per lane
+ *     to the EP device in the TS2s exchanged. This value comes from the per lane
+ *     upstream port transmitter preset (L*UTP).
+ *   - Upon exit from Recovery Speed, the RC will enter EQ PHASE1 and the RC's
+ *     transmitter will use the per lane downstream port transmitter preset field (L*DTP).
+ *   - While in EQ PHASE 1, the EP & RC device exchange NO presets. They do advertise
+ *     their LF & FS which are needed for the fine tuning stages to follow.
+ *   - For the RC, while in EQ PHASE 2, the EP device makes tuning requests of the RC.
+ *     The RC adjusts its transmitter settings as directed by the EP. The requests are
+ *     communicated via TS1s.
+ *   - Once the EP is satisfied with the tuning, equalization moves to PHASE 3 where
+ *     the RC tunes the EP's remote transmitter.
+ *     Again, the settings are communicated via TS1s but the feedback is provided by
+ *     the RC phy's FOM or direction change indications.
+ *     \</pre\>
+ */
+union cavm_pciercx_eq_ctl89
+{
+    uint32_t u;
+    struct cavm_pciercx_eq_ctl89_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_31           : 1;
+        uint32_t l9urph                : 3;  /**< [ 30: 28](RO/WRSL) Lane 9 upstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t l9utp                 : 4;  /**< [ 27: 24](RO/WRSL) Lane 9 upstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_23           : 1;
+        uint32_t l9drph                : 3;  /**< [ 22: 20](RO/WRSL) Lane 9 downstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t l9dtp                 : 4;  /**< [ 19: 16](RO/WRSL) Lane 9 downstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_15           : 1;
+        uint32_t l8urph                : 3;  /**< [ 14: 12](RO/WRSL) Lane 8 upstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t l8utp                 : 4;  /**< [ 11:  8](RO/WRSL) Lane 8 upstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_7            : 1;
+        uint32_t l8drph                : 3;  /**< [  6:  4](RO/WRSL) Lane 8 downstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t l8dtp                 : 4;  /**< [  3:  0](RO/WRSL) Lane 8 downstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t l8dtp                 : 4;  /**< [  3:  0](RO/WRSL) Lane 8 downstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t l8drph                : 3;  /**< [  6:  4](RO/WRSL) Lane 8 downstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_7            : 1;
+        uint32_t l8utp                 : 4;  /**< [ 11:  8](RO/WRSL) Lane 8 upstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t l8urph                : 3;  /**< [ 14: 12](RO/WRSL) Lane 8 upstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_15           : 1;
+        uint32_t l9dtp                 : 4;  /**< [ 19: 16](RO/WRSL) Lane 9 downstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t l9drph                : 3;  /**< [ 22: 20](RO/WRSL) Lane 9 downstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_23           : 1;
+        uint32_t l9utp                 : 4;  /**< [ 27: 24](RO/WRSL) Lane 9 upstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
+        uint32_t l9urph                : 3;  /**< [ 30: 28](RO/WRSL) Lane 9 upstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_31           : 1;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_eq_ctl89_s cn; */
+};
+typedef union cavm_pciercx_eq_ctl89 cavm_pciercx_eq_ctl89_t;
+
+static inline uint64_t CAVM_PCIERCX_EQ_CTL89(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_EQ_CTL89(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x184 + 0 * ((a) & 0x7);
+    __cavm_csr_fatal("PCIERCX_EQ_CTL89", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_EQ_CTL89(a) cavm_pciercx_eq_ctl89_t
+#define bustype_CAVM_PCIERCX_EQ_CTL89(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_EQ_CTL89(a) "PCIERCX_EQ_CTL89"
+#define busnum_CAVM_PCIERCX_EQ_CTL89(a) (a)
+#define arguments_CAVM_PCIERCX_EQ_CTL89(a) (a),-1,-1,-1
 
 /**
  * Register (PCICONFIGRC) pcierc#_err_source
@@ -2231,7 +2829,7 @@ typedef union cavm_pciercx_err_source cavm_pciercx_err_source_t;
 static inline uint64_t CAVM_PCIERCX_ERR_SOURCE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_ERR_SOURCE(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x134 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_ERR_SOURCE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2275,7 +2873,7 @@ typedef union cavm_pciercx_ext_cap cavm_pciercx_ext_cap_t;
 static inline uint64_t CAVM_PCIERCX_EXT_CAP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_EXT_CAP(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x100 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_EXT_CAP", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2297,25 +2895,61 @@ union cavm_pciercx_filt_msk2
     struct cavm_pciercx_filt_msk2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
-        uint32_t m_prs                 : 1;  /**< [  7:  7](R/W) Mask PRS messages dropped silently. */
-        uint32_t m_unmask_td           : 1;  /**< [  6:  6](R/W) Disable unmask TD bit. */
-        uint32_t m_unmask_ur_pois      : 1;  /**< [  5:  5](R/W) Disable unmask UR Poison with TRGT0 destination. */
-        uint32_t m_ln_vend1_drop       : 1;  /**< [  4:  4](R/W) Mask LN messages dropped silently. */
-        uint32_t m_handle_flush        : 1;  /**< [  3:  3](R/W) Mask core filter to handle flush request. */
-        uint32_t m_dabort_4ucpl        : 1;  /**< [  2:  2](R/W) Mask DLLP abort for unexpected CPL. */
-        uint32_t m_vend1_drp           : 1;  /**< [  1:  1](R/W) Mask vendor MSG type 1 dropped silently. */
-        uint32_t m_vend0_drp           : 1;  /**< [  0:  0](R/W) Mask vendor MSG type 0 dropped with UR error reporting. */
+        uint32_t reserved_12_31        : 20;
+        uint32_t m_umsk_atomic_rules   : 1;  /**< [ 11: 11](R/W) 0x0: Lower Address is checked for Cpls related to AtomicOps Requests.
+                                                                 0x1: Lower Address is not checked for Cpls related to AtomicOps Requests. */
+        uint32_t m_umsk_ats_rules      : 1;  /**< [ 10: 10](R/W) 0x0: Cpls for ATS Requests are processed as MemRd-related Cpl.
+                                                                 0x1: Lower Address is not checked for Cpls related to ATS Requests.
+                                                                 An ATS-related Cpl completes the request if it has a Byte Count that is equal to
+                                                                 four times the Length field. */
+        uint32_t m_cpl_lut_chk         : 1;  /**< [  9:  9](R/W) 0x0: Disable masking of checking if the tag of CplD is registered in LUT.
+                                                                 0x1: Enable masking of checking if the tag of CplD is registered in LUT. */
+        uint32_t m_pois_rpt            : 1;  /**< [  8:  8](R/W) 0x0: Disable masking of error reporting for Poisoned TLPs.
+                                                                 0x1: Enable masking of error reporting for Poisoned TLPs. */
+        uint32_t m_prs                 : 1;  /**< [  7:  7](R/W) 0x0: Allow PRS messages to pass through.
+                                                                 0x1: Drop PRS messages silently. */
+        uint32_t m_unmask_td           : 1;  /**< [  6:  6](R/W) 0x0: Disable unmask TD bit.
+                                                                 0x1: Enable unmask TD bit. */
+        uint32_t m_unmask_ur_pois      : 1;  /**< [  5:  5](R/W) 0x0: Disable unmask UR Poison with TRGT0 destination.
+                                                                 0x1: Enable unmask UR Poison with TRGT0 destination. */
+        uint32_t m_ln_vend1_drop       : 1;  /**< [  4:  4](R/W) 0x0: Allow LN message to pass through.
+                                                                 0x1: Drop LN message silently. */
+        uint32_t m_handle_flush        : 1;  /**< [  3:  3](R/W) 0x0: Disable controller Filter to handle flush request.
+                                                                 0x1: Enable controller Filter to handle flush request. */
+        uint32_t m_dabort_4ucpl        : 1;  /**< [  2:  2](R/W) 0x0: Enable DLLP abort for unexpected completion.
+                                                                 0x1: Do not enable DLLP abort for unexpected completion. */
+        uint32_t m_vend1_drp           : 1;  /**< [  1:  1](R/W) 0x0: Vendor MSG type 1 dropped silently.
+                                                                 0x1: Vendor MSG type 1 not dropped. */
+        uint32_t m_vend0_drp           : 1;  /**< [  0:  0](R/W) 0x0: Vendor Msg Type 0 dropped with UR.
+                                                                 0x1: Vendor Msg Type 0 not dropped. */
 #else /* Word 0 - Little Endian */
-        uint32_t m_vend0_drp           : 1;  /**< [  0:  0](R/W) Mask vendor MSG type 0 dropped with UR error reporting. */
-        uint32_t m_vend1_drp           : 1;  /**< [  1:  1](R/W) Mask vendor MSG type 1 dropped silently. */
-        uint32_t m_dabort_4ucpl        : 1;  /**< [  2:  2](R/W) Mask DLLP abort for unexpected CPL. */
-        uint32_t m_handle_flush        : 1;  /**< [  3:  3](R/W) Mask core filter to handle flush request. */
-        uint32_t m_ln_vend1_drop       : 1;  /**< [  4:  4](R/W) Mask LN messages dropped silently. */
-        uint32_t m_unmask_ur_pois      : 1;  /**< [  5:  5](R/W) Disable unmask UR Poison with TRGT0 destination. */
-        uint32_t m_unmask_td           : 1;  /**< [  6:  6](R/W) Disable unmask TD bit. */
-        uint32_t m_prs                 : 1;  /**< [  7:  7](R/W) Mask PRS messages dropped silently. */
-        uint32_t reserved_8_31         : 24;
+        uint32_t m_vend0_drp           : 1;  /**< [  0:  0](R/W) 0x0: Vendor Msg Type 0 dropped with UR.
+                                                                 0x1: Vendor Msg Type 0 not dropped. */
+        uint32_t m_vend1_drp           : 1;  /**< [  1:  1](R/W) 0x0: Vendor MSG type 1 dropped silently.
+                                                                 0x1: Vendor MSG type 1 not dropped. */
+        uint32_t m_dabort_4ucpl        : 1;  /**< [  2:  2](R/W) 0x0: Enable DLLP abort for unexpected completion.
+                                                                 0x1: Do not enable DLLP abort for unexpected completion. */
+        uint32_t m_handle_flush        : 1;  /**< [  3:  3](R/W) 0x0: Disable controller Filter to handle flush request.
+                                                                 0x1: Enable controller Filter to handle flush request. */
+        uint32_t m_ln_vend1_drop       : 1;  /**< [  4:  4](R/W) 0x0: Allow LN message to pass through.
+                                                                 0x1: Drop LN message silently. */
+        uint32_t m_unmask_ur_pois      : 1;  /**< [  5:  5](R/W) 0x0: Disable unmask UR Poison with TRGT0 destination.
+                                                                 0x1: Enable unmask UR Poison with TRGT0 destination. */
+        uint32_t m_unmask_td           : 1;  /**< [  6:  6](R/W) 0x0: Disable unmask TD bit.
+                                                                 0x1: Enable unmask TD bit. */
+        uint32_t m_prs                 : 1;  /**< [  7:  7](R/W) 0x0: Allow PRS messages to pass through.
+                                                                 0x1: Drop PRS messages silently. */
+        uint32_t m_pois_rpt            : 1;  /**< [  8:  8](R/W) 0x0: Disable masking of error reporting for Poisoned TLPs.
+                                                                 0x1: Enable masking of error reporting for Poisoned TLPs. */
+        uint32_t m_cpl_lut_chk         : 1;  /**< [  9:  9](R/W) 0x0: Disable masking of checking if the tag of CplD is registered in LUT.
+                                                                 0x1: Enable masking of checking if the tag of CplD is registered in LUT. */
+        uint32_t m_umsk_ats_rules      : 1;  /**< [ 10: 10](R/W) 0x0: Cpls for ATS Requests are processed as MemRd-related Cpl.
+                                                                 0x1: Lower Address is not checked for Cpls related to ATS Requests.
+                                                                 An ATS-related Cpl completes the request if it has a Byte Count that is equal to
+                                                                 four times the Length field. */
+        uint32_t m_umsk_atomic_rules   : 1;  /**< [ 11: 11](R/W) 0x0: Lower Address is checked for Cpls related to AtomicOps Requests.
+                                                                 0x1: Lower Address is not checked for Cpls related to AtomicOps Requests. */
+        uint32_t reserved_12_31        : 20;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pciercx_filt_msk2_s cn; */
@@ -2325,7 +2959,7 @@ typedef union cavm_pciercx_filt_msk2 cavm_pciercx_filt_msk2_t;
 static inline uint64_t CAVM_PCIERCX_FILT_MSK2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_FILT_MSK2(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x720 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_FILT_MSK2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2362,7 +2996,18 @@ union cavm_pciercx_gen2_port
                                                                  0x1 = Lane1.
                                                                  0x2 = Lane2.
                                                                  0x3 = Lane3.
-                                                                 0x4-0xF = Reserved. */
+                                                                 0x4 = Lane4 (not supported in QPEM).
+                                                                 0x5 = Lane5 (not supported in QPEM).
+                                                                 0x6 = Lane6 (not supported in QPEM).
+                                                                 0x7 = Lane7 (not supported in QPEM).
+                                                                 0x8 = Lane8 (not supported in QPEM and HPEM).
+                                                                 0x9 = Lane9 (not supported in QPEM and HPEM).
+                                                                 0xa = Lane10 (not supported in QPEM and HPEM).
+                                                                 0xb = Lane11 (not supported in QPEM and HPEM).
+                                                                 0xc = Lane12 (not supported in QPEM and HPEM).
+                                                                 0xd = Lane13 (not supported in QPEM and HPEM).
+                                                                 0xe = Lane14 (not supported in QPEM and HPEM).
+                                                                 0xf = Lane15 (not supported in QPEM and HPEM). */
         uint32_t sel_deemph_bit        : 1;  /**< [ 23: 23](R/W) The select deemphasis bit (Symbol 4 bit 6) of the
                                                                  transmitted TS2 Ordered Sets for DSP in Recovery.RcvrCfg
                                                                  state.
@@ -2420,7 +3065,17 @@ union cavm_pciercx_gen2_port
                                                                  0x2 = 2 lanes.
                                                                  0x3 = 3 lanes.
                                                                  0x4 = 4 lanes.
-                                                                 0x5-0x1F = Reserved.
+                                                                 0x5 = 5 lanes (not supported in QPEM).
+                                                                 0x6 = 6 lanes (not supported in QPEM).
+                                                                 0x7 = 7 lanes (not supported in QPEM).
+                                                                 0x8 = 8 lanes (not supported in QPEM and HPEM).
+                                                                 0x9 = 9 lanes (not supported in QPEM and HPEM).
+                                                                 0xa = 10 lanes (not supported in QPEM and HPEM).
+                                                                 0xb = 11 lanes (not supported in QPEM and HPEM).
+                                                                 0xc = 12 lanes (not supported in QPEM and HPEM).
+                                                                 0xd = 13 lanes (not supported in QPEM and HPEM).
+                                                                 0xe = 14 lanes (not supported in QPEM and HPEM).
+                                                                 0xf = 15 lanes (not supported in QPEM and HPEM).
 
                                                                  When you have unused lanes in your system, then you must
                                                                  change the value in this register to reflect the number of
@@ -2448,7 +3103,17 @@ union cavm_pciercx_gen2_port
                                                                  0x2 = 2 lanes.
                                                                  0x3 = 3 lanes.
                                                                  0x4 = 4 lanes.
-                                                                 0x5-0x1F = Reserved.
+                                                                 0x5 = 5 lanes (not supported in QPEM).
+                                                                 0x6 = 6 lanes (not supported in QPEM).
+                                                                 0x7 = 7 lanes (not supported in QPEM).
+                                                                 0x8 = 8 lanes (not supported in QPEM and HPEM).
+                                                                 0x9 = 9 lanes (not supported in QPEM and HPEM).
+                                                                 0xa = 10 lanes (not supported in QPEM and HPEM).
+                                                                 0xb = 11 lanes (not supported in QPEM and HPEM).
+                                                                 0xc = 12 lanes (not supported in QPEM and HPEM).
+                                                                 0xd = 13 lanes (not supported in QPEM and HPEM).
+                                                                 0xe = 14 lanes (not supported in QPEM and HPEM).
+                                                                 0xf = 15 lanes (not supported in QPEM and HPEM).
 
                                                                  When you have unused lanes in your system, then you must
                                                                  change the value in this register to reflect the number of
@@ -2505,7 +3170,18 @@ union cavm_pciercx_gen2_port
                                                                  0x1 = Lane1.
                                                                  0x2 = Lane2.
                                                                  0x3 = Lane3.
-                                                                 0x4-0xF = Reserved. */
+                                                                 0x4 = Lane4 (not supported in QPEM).
+                                                                 0x5 = Lane5 (not supported in QPEM).
+                                                                 0x6 = Lane6 (not supported in QPEM).
+                                                                 0x7 = Lane7 (not supported in QPEM).
+                                                                 0x8 = Lane8 (not supported in QPEM and HPEM).
+                                                                 0x9 = Lane9 (not supported in QPEM and HPEM).
+                                                                 0xa = Lane10 (not supported in QPEM and HPEM).
+                                                                 0xb = Lane11 (not supported in QPEM and HPEM).
+                                                                 0xc = Lane12 (not supported in QPEM and HPEM).
+                                                                 0xd = Lane13 (not supported in QPEM and HPEM).
+                                                                 0xe = Lane14 (not supported in QPEM and HPEM).
+                                                                 0xf = Lane15 (not supported in QPEM and HPEM). */
         uint32_t eq_for_lpbk           : 1;  /**< [ 28: 28](R/W) Perform EQ in Loopback in Gen5 rate.
                                                                  Loopback master enters Loopback.Active only because
                                                                  of receiving 2 TS1s with Loopback but asserted. */
@@ -2525,7 +3201,7 @@ typedef union cavm_pciercx_gen2_port cavm_pciercx_gen2_port_t;
 static inline uint64_t CAVM_PCIERCX_GEN2_PORT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_GEN2_PORT(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x80c + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_GEN2_PORT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2547,7 +3223,10 @@ union cavm_pciercx_gen3_eq_ctl
     struct cavm_pciercx_gen3_eq_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_27_31        : 5;
+        uint32_t reserved_31           : 1;
+        uint32_t fin_eq_req            : 1;  /**< [ 30: 30](R/W) Support finite EQ requests for USP */
+        uint32_t eq_req_num            : 3;  /**< [ 29: 27](R/W) The number of back-to-back equalization redo requests at a given Gen3, Gen4 and
+                                                                 Gen5 data rate for USP. */
         uint32_t scefpm                : 1;  /**< [ 26: 26](R/W) Request core to send back-to-back EIEOS in Recovery.RcvrLock state until
                                                                  presets to coefficient mapping is complete. */
         uint32_t eq_pset_req           : 1;  /**< [ 25: 25](R/W) Reserved. */
@@ -2673,7 +3352,10 @@ union cavm_pciercx_gen3_eq_ctl
         uint32_t eq_pset_req           : 1;  /**< [ 25: 25](R/W) Reserved. */
         uint32_t scefpm                : 1;  /**< [ 26: 26](R/W) Request core to send back-to-back EIEOS in Recovery.RcvrLock state until
                                                                  presets to coefficient mapping is complete. */
-        uint32_t reserved_27_31        : 5;
+        uint32_t eq_req_num            : 3;  /**< [ 29: 27](R/W) The number of back-to-back equalization redo requests at a given Gen3, Gen4 and
+                                                                 Gen5 data rate for USP. */
+        uint32_t fin_eq_req            : 1;  /**< [ 30: 30](R/W) Support finite EQ requests for USP */
+        uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pciercx_gen3_eq_ctl_s cn; */
@@ -2683,7 +3365,7 @@ typedef union cavm_pciercx_gen3_eq_ctl cavm_pciercx_gen3_eq_ctl_t;
 static inline uint64_t CAVM_PCIERCX_GEN3_EQ_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_GEN3_EQ_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x8a8 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_GEN3_EQ_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2713,14 +3395,16 @@ union cavm_pciercx_gen3_pipe_lb
         uint32_t lpbk_rxvalid          : 16; /**< [ 15:  0](R/W) Loopback rxvalid (lane enable - 1 bit per lane).
 
                                                                  Reset values:
-                                                                 _ UPEM:      0xf.
-                                                                 _ BPEM:      0x3. */
+                                                                 _ FPEM:      0xffff.
+                                                                 _ HPEM:      0x00ff.
+                                                                 _ QPEM:      0x000f. */
 #else /* Word 0 - Little Endian */
         uint32_t lpbk_rxvalid          : 16; /**< [ 15:  0](R/W) Loopback rxvalid (lane enable - 1 bit per lane).
 
                                                                  Reset values:
-                                                                 _ UPEM:      0xf.
-                                                                 _ BPEM:      0x3. */
+                                                                 _ FPEM:      0xffff.
+                                                                 _ HPEM:      0x00ff.
+                                                                 _ QPEM:      0x000f. */
         uint32_t rxstat_ln             : 6;  /**< [ 21: 16](R/W) Reserved. */
         uint32_t reserved_22_23        : 2;
         uint32_t rx_stat               : 3;  /**< [ 26: 24](RO) Reserved. */
@@ -2735,7 +3419,7 @@ typedef union cavm_pciercx_gen3_pipe_lb cavm_pciercx_gen3_pipe_lb_t;
 static inline uint64_t CAVM_PCIERCX_GEN3_PIPE_LB(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_GEN3_PIPE_LB(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x8b8 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_GEN3_PIPE_LB", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2749,7 +3433,7 @@ static inline uint64_t CAVM_PCIERCX_GEN3_PIPE_LB(uint64_t a)
 /**
  * Register (PCICONFIGRC) pcierc#_gen4_lane_margining_1
  *
- * PCIe RC Gen4 Lane Marginging Register 1
+ * PCIe RC Gen4 Lane Margining Register 1
  */
 union cavm_pciercx_gen4_lane_margining_1
 {
@@ -2758,21 +3442,21 @@ union cavm_pciercx_gen4_lane_margining_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_30_31        : 2;
-        uint32_t mvo                   : 6;  /**< [ 29: 24](R/W) Max voltage offset for lane margining at the receiver (Not supported). */
+        uint32_t mvo                   : 6;  /**< [ 29: 24](R/W) Max voltage offset for lane margining at the receiver. */
         uint32_t reserved_23           : 1;
         uint32_t nvs                   : 7;  /**< [ 22: 16](R/W) Num voltage steps for lane margining at the receiver. */
         uint32_t reserved_14_15        : 2;
         uint32_t mto                   : 6;  /**< [ 13:  8](R/W) Max timing offset for lane margining at the receiver. */
         uint32_t reserved_6_7          : 2;
-        uint32_t nts                   : 6;  /**< [  5:  0](R/W) Num timing steps for lane margining at the receiver (Not supported). */
+        uint32_t nts                   : 6;  /**< [  5:  0](R/W) Num timing steps for lane margining at the receiver. */
 #else /* Word 0 - Little Endian */
-        uint32_t nts                   : 6;  /**< [  5:  0](R/W) Num timing steps for lane margining at the receiver (Not supported). */
+        uint32_t nts                   : 6;  /**< [  5:  0](R/W) Num timing steps for lane margining at the receiver. */
         uint32_t reserved_6_7          : 2;
         uint32_t mto                   : 6;  /**< [ 13:  8](R/W) Max timing offset for lane margining at the receiver. */
         uint32_t reserved_14_15        : 2;
         uint32_t nvs                   : 7;  /**< [ 22: 16](R/W) Num voltage steps for lane margining at the receiver. */
         uint32_t reserved_23           : 1;
-        uint32_t mvo                   : 6;  /**< [ 29: 24](R/W) Max voltage offset for lane margining at the receiver (Not supported). */
+        uint32_t mvo                   : 6;  /**< [ 29: 24](R/W) Max voltage offset for lane margining at the receiver. */
         uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
     } s;
@@ -2783,7 +3467,7 @@ typedef union cavm_pciercx_gen4_lane_margining_1 cavm_pciercx_gen4_lane_marginin
 static inline uint64_t CAVM_PCIERCX_GEN4_LANE_MARGINING_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_GEN4_LANE_MARGINING_1(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0xb80 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_GEN4_LANE_MARGINING_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2806,13 +3490,18 @@ union cavm_pciercx_gen4_lane_margining_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_29_31        : 3;
-        uint32_t ies                   : 1;  /**< [ 28: 28](R/W) Ind error sampler for lane margining at the receiver (Not supported). */
-        uint32_t srm                   : 1;  /**< [ 27: 27](R/W) Sample reporting method for lane margining at the receiver (Not supported). */
-        uint32_t ilrt                  : 1;  /**< [ 26: 26](R/W) Ind left right timing for lane margining at the receiver (not supported). */
-        uint32_t iudv                  : 1;  /**< [ 25: 25](R/W) Ind up down voltage for lane margining at the receiver (Not supported). */
-        uint32_t volt_sup              : 1;  /**< [ 24: 24](R/W) Voltage supported for lane margining at the receiver (Not supported). */
+        uint32_t ies                   : 1;  /**< [ 28: 28](R/W) Ind error sampler for lane margining at the receiver. */
+        uint32_t srm                   : 1;  /**< [ 27: 27](R/W) Sample reporting method for lane margining at the receiver. */
+        uint32_t ilrt                  : 1;  /**< [ 26: 26](R/W) Ind left right timing for lane margining at the receiver. */
+        uint32_t iudv                  : 1;  /**< [ 25: 25](R/W) Ind up down voltage for lane margining at the receiver. */
+        uint32_t volt_sup              : 1;  /**< [ 24: 24](R/W) Voltage supported for lane margining at the receiver. */
         uint32_t reserved_21_23        : 3;
-        uint32_t max_lanes             : 5;  /**< [ 20: 16](R/W) Max lanes for lane margining at the receiver. */
+        uint32_t max_lanes             : 5;  /**< [ 20: 16](R/W) Max lanes (minus 1) for lane margining at the receiver.
+
+                                                                 Reset values:
+                                                                 _ FPEM:      0xf.
+                                                                 _ HPEM:      0x7.
+                                                                 _ QPEM:      0x3. */
         uint32_t reserved_14_15        : 2;
         uint32_t srt                   : 6;  /**< [ 13:  8](R/W) Sample rate timing for lane margining at the receiver. */
         uint32_t reserved_6_7          : 2;
@@ -2822,13 +3511,18 @@ union cavm_pciercx_gen4_lane_margining_2
         uint32_t reserved_6_7          : 2;
         uint32_t srt                   : 6;  /**< [ 13:  8](R/W) Sample rate timing for lane margining at the receiver. */
         uint32_t reserved_14_15        : 2;
-        uint32_t max_lanes             : 5;  /**< [ 20: 16](R/W) Max lanes for lane margining at the receiver. */
+        uint32_t max_lanes             : 5;  /**< [ 20: 16](R/W) Max lanes (minus 1) for lane margining at the receiver.
+
+                                                                 Reset values:
+                                                                 _ FPEM:      0xf.
+                                                                 _ HPEM:      0x7.
+                                                                 _ QPEM:      0x3. */
         uint32_t reserved_21_23        : 3;
-        uint32_t volt_sup              : 1;  /**< [ 24: 24](R/W) Voltage supported for lane margining at the receiver (Not supported). */
-        uint32_t iudv                  : 1;  /**< [ 25: 25](R/W) Ind up down voltage for lane margining at the receiver (Not supported). */
-        uint32_t ilrt                  : 1;  /**< [ 26: 26](R/W) Ind left right timing for lane margining at the receiver (not supported). */
-        uint32_t srm                   : 1;  /**< [ 27: 27](R/W) Sample reporting method for lane margining at the receiver (Not supported). */
-        uint32_t ies                   : 1;  /**< [ 28: 28](R/W) Ind error sampler for lane margining at the receiver (Not supported). */
+        uint32_t volt_sup              : 1;  /**< [ 24: 24](R/W) Voltage supported for lane margining at the receiver. */
+        uint32_t iudv                  : 1;  /**< [ 25: 25](R/W) Ind up down voltage for lane margining at the receiver. */
+        uint32_t ilrt                  : 1;  /**< [ 26: 26](R/W) Ind left right timing for lane margining at the receiver. */
+        uint32_t srm                   : 1;  /**< [ 27: 27](R/W) Sample reporting method for lane margining at the receiver. */
+        uint32_t ies                   : 1;  /**< [ 28: 28](R/W) Ind error sampler for lane margining at the receiver. */
         uint32_t reserved_29_31        : 3;
 #endif /* Word 0 - End */
     } s;
@@ -2839,7 +3533,7 @@ typedef union cavm_pciercx_gen4_lane_margining_2 cavm_pciercx_gen4_lane_marginin
 static inline uint64_t CAVM_PCIERCX_GEN4_LANE_MARGINING_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_GEN4_LANE_MARGINING_2(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0xb84 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_GEN4_LANE_MARGINING_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2849,6 +3543,120 @@ static inline uint64_t CAVM_PCIERCX_GEN4_LANE_MARGINING_2(uint64_t a)
 #define basename_CAVM_PCIERCX_GEN4_LANE_MARGINING_2(a) "PCIERCX_GEN4_LANE_MARGINING_2"
 #define busnum_CAVM_PCIERCX_GEN4_LANE_MARGINING_2(a) (a)
 #define arguments_CAVM_PCIERCX_GEN4_LANE_MARGINING_2(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_gen5_lane_margining_1
+ *
+ * PCIe RC Gen5 Lane Margining Register 1
+ */
+union cavm_pciercx_gen5_lane_margining_1
+{
+    uint32_t u;
+    struct cavm_pciercx_gen5_lane_margining_1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_30_31        : 2;
+        uint32_t mvo                   : 6;  /**< [ 29: 24](R/W) Max voltage offset for lane margining at the receiver. */
+        uint32_t reserved_23           : 1;
+        uint32_t nvs                   : 7;  /**< [ 22: 16](R/W) Num voltage steps for lane margining at the receiver. */
+        uint32_t reserved_14_15        : 2;
+        uint32_t mto                   : 6;  /**< [ 13:  8](R/W) Max timing offset for lane margining at the receiver. */
+        uint32_t reserved_6_7          : 2;
+        uint32_t nts                   : 6;  /**< [  5:  0](R/W) Num timing steps for lane margining at the receiver. */
+#else /* Word 0 - Little Endian */
+        uint32_t nts                   : 6;  /**< [  5:  0](R/W) Num timing steps for lane margining at the receiver. */
+        uint32_t reserved_6_7          : 2;
+        uint32_t mto                   : 6;  /**< [ 13:  8](R/W) Max timing offset for lane margining at the receiver. */
+        uint32_t reserved_14_15        : 2;
+        uint32_t nvs                   : 7;  /**< [ 22: 16](R/W) Num voltage steps for lane margining at the receiver. */
+        uint32_t reserved_23           : 1;
+        uint32_t mvo                   : 6;  /**< [ 29: 24](R/W) Max voltage offset for lane margining at the receiver. */
+        uint32_t reserved_30_31        : 2;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_gen5_lane_margining_1_s cn; */
+};
+typedef union cavm_pciercx_gen5_lane_margining_1 cavm_pciercx_gen5_lane_margining_1_t;
+
+static inline uint64_t CAVM_PCIERCX_GEN5_LANE_MARGINING_1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_GEN5_LANE_MARGINING_1(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0xb88 + 0 * ((a) & 0x7);
+    __cavm_csr_fatal("PCIERCX_GEN5_LANE_MARGINING_1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_GEN5_LANE_MARGINING_1(a) cavm_pciercx_gen5_lane_margining_1_t
+#define bustype_CAVM_PCIERCX_GEN5_LANE_MARGINING_1(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_GEN5_LANE_MARGINING_1(a) "PCIERCX_GEN5_LANE_MARGINING_1"
+#define busnum_CAVM_PCIERCX_GEN5_LANE_MARGINING_1(a) (a)
+#define arguments_CAVM_PCIERCX_GEN5_LANE_MARGINING_1(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_gen5_lane_margining_2
+ *
+ * PCIe RC Gen5 Lane Margining Register 2
+ */
+union cavm_pciercx_gen5_lane_margining_2
+{
+    uint32_t u;
+    struct cavm_pciercx_gen5_lane_margining_2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_29_31        : 3;
+        uint32_t ies                   : 1;  /**< [ 28: 28](R/W) Ind error sampler for lane margining at the receiver. */
+        uint32_t srm                   : 1;  /**< [ 27: 27](R/W) Sample reporting method for lane margining at the receiver. */
+        uint32_t ilrt                  : 1;  /**< [ 26: 26](R/W) Ind left right timing for lane margining at the receiver. */
+        uint32_t iudv                  : 1;  /**< [ 25: 25](R/W) Ind up down voltage for lane margining at the receiver. */
+        uint32_t volt_sup              : 1;  /**< [ 24: 24](R/W) Voltage supported for lane margining at the receiver. */
+        uint32_t reserved_21_23        : 3;
+        uint32_t max_lanes             : 5;  /**< [ 20: 16](R/W) Max lanes for lane margining at the receiver.
+
+                                                                 Reset values:
+                                                                 _ FPEM:      0xf.
+                                                                 _ HPEM:      0x7.
+                                                                 _ QPEM:      0x3. */
+        uint32_t reserved_14_15        : 2;
+        uint32_t srt                   : 6;  /**< [ 13:  8](R/W) Sample rate timing for lane margining at the receiver. */
+        uint32_t reserved_6_7          : 2;
+        uint32_t srv                   : 6;  /**< [  5:  0](R/W) Sample rate voltage for lane margining at the receiver. */
+#else /* Word 0 - Little Endian */
+        uint32_t srv                   : 6;  /**< [  5:  0](R/W) Sample rate voltage for lane margining at the receiver. */
+        uint32_t reserved_6_7          : 2;
+        uint32_t srt                   : 6;  /**< [ 13:  8](R/W) Sample rate timing for lane margining at the receiver. */
+        uint32_t reserved_14_15        : 2;
+        uint32_t max_lanes             : 5;  /**< [ 20: 16](R/W) Max lanes for lane margining at the receiver.
+
+                                                                 Reset values:
+                                                                 _ FPEM:      0xf.
+                                                                 _ HPEM:      0x7.
+                                                                 _ QPEM:      0x3. */
+        uint32_t reserved_21_23        : 3;
+        uint32_t volt_sup              : 1;  /**< [ 24: 24](R/W) Voltage supported for lane margining at the receiver. */
+        uint32_t iudv                  : 1;  /**< [ 25: 25](R/W) Ind up down voltage for lane margining at the receiver. */
+        uint32_t ilrt                  : 1;  /**< [ 26: 26](R/W) Ind left right timing for lane margining at the receiver. */
+        uint32_t srm                   : 1;  /**< [ 27: 27](R/W) Sample reporting method for lane margining at the receiver. */
+        uint32_t ies                   : 1;  /**< [ 28: 28](R/W) Ind error sampler for lane margining at the receiver. */
+        uint32_t reserved_29_31        : 3;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_gen5_lane_margining_2_s cn; */
+};
+typedef union cavm_pciercx_gen5_lane_margining_2 cavm_pciercx_gen5_lane_margining_2_t;
+
+static inline uint64_t CAVM_PCIERCX_GEN5_LANE_MARGINING_2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_GEN5_LANE_MARGINING_2(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0xb8c + 0 * ((a) & 0x7);
+    __cavm_csr_fatal("PCIERCX_GEN5_LANE_MARGINING_2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_GEN5_LANE_MARGINING_2(a) cavm_pciercx_gen5_lane_margining_2_t
+#define bustype_CAVM_PCIERCX_GEN5_LANE_MARGINING_2(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_GEN5_LANE_MARGINING_2(a) "PCIERCX_GEN5_LANE_MARGINING_2"
+#define busnum_CAVM_PCIERCX_GEN5_LANE_MARGINING_2(a) (a)
+#define arguments_CAVM_PCIERCX_GEN5_LANE_MARGINING_2(a) (a),-1,-1,-1
 
 /**
  * Register (PCICONFIGRC) pcierc#_hdr_log1
@@ -2874,7 +3682,7 @@ typedef union cavm_pciercx_hdr_log1 cavm_pciercx_hdr_log1_t;
 static inline uint64_t CAVM_PCIERCX_HDR_LOG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_HDR_LOG1(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x11c + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_HDR_LOG1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2909,7 +3717,7 @@ typedef union cavm_pciercx_hdr_log2 cavm_pciercx_hdr_log2_t;
 static inline uint64_t CAVM_PCIERCX_HDR_LOG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_HDR_LOG2(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x120 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_HDR_LOG2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2944,7 +3752,7 @@ typedef union cavm_pciercx_hdr_log3 cavm_pciercx_hdr_log3_t;
 static inline uint64_t CAVM_PCIERCX_HDR_LOG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_HDR_LOG3(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x124 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_HDR_LOG3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2979,7 +3787,7 @@ typedef union cavm_pciercx_hdr_log4 cavm_pciercx_hdr_log4_t;
 static inline uint64_t CAVM_PCIERCX_HDR_LOG4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_HDR_LOG4(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x128 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_HDR_LOG4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3023,7 +3831,7 @@ typedef union cavm_pciercx_id cavm_pciercx_id_t;
 static inline uint64_t CAVM_PCIERCX_ID(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_ID(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_ID", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3033,6 +3841,337 @@ static inline uint64_t CAVM_PCIERCX_ID(uint64_t a)
 #define basename_CAVM_PCIERCX_ID(a) "PCIERCX_ID"
 #define busnum_CAVM_PCIERCX_ID(a) (a)
 #define arguments_CAVM_PCIERCX_ID(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ide_cap
+ *
+ * PCIe IDE Capability Register
+ * This register provides access to the PCIe extended capability
+ * register in the IDE encryption block.  This register
+ * is used in PEM configurations which support PCIe IDE encryption.
+ */
+union cavm_pciercx_ide_cap
+{
+    uint32_t u;
+    struct cavm_pciercx_ide_cap_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t nts                   : 3;  /**< [ 15: 13](RO) Number of TCs Supported for Link IDE (i), if Link IDE Stream Supported is Set,
+                                                                 indicates the number of TCs supported for Link IDE Streams encoded as
+                                                                 000b - One TC supported
+                                                                 001b - 2 TCs supported
+                                                                 010b - 3 TCs supported
+                                                                 011b - 4 TCs supported
+                                                                 100b - 5 TCs supported
+                                                                 101b - 6 TCs supported
+                                                                 110b - 7 TCs supported
+                                                                 111b - 8 TCs supported
+                                                                 If Link IDE Stream Supported is Clear, this field is undefined. */
+        uint32_t sup_alg               : 5;  /**< [ 12:  8](RO) Indicates the supported algorithms for securing IDE TLPs, encoded as
+                                                                 00000b - AES-GCM 256 key size, 96b MAC
+                                                                 Others - Reserved */
+        uint32_t sicrs                 : 1;  /**< [  7:  7](RO) Selective IDE for Configuration Requests Supported - If Selective IDE Streams
+                                                                 Supported is Set, then this bit, if Set, indicates that the Port supports the
+                                                                 association of Configuration Requests with Selective IDE Streams.
+                                                                 If Selective IDE Streams Supported is Clear, this bit is Reserved. */
+        uint32_t ikps                  : 1;  /**< [  6:  6](RO) IDE KM PROTOCOL SUPPORTED
+                                                                 For an Upstream Port, when Set, indicates that the Port supports the IDE_KM protocol
+                                                                 defined in Section 6.99.1. Reserved for Downstream Ports. */
+        uint32_t pcrc_sup              : 1;  /**< [  5:  5](RO) When set, indicates that the Port supports the generation and checking of PCRC. */
+        uint32_t agg_sup               : 1;  /**< [  4:  4](RO) Aggregation Supported - If Link IDE Stream Supported or Selective IDE Streams
+                                                                 Supported are Set, then this bit, when Set, indicates the Port supports aggregation.
+                                                                 Undefined if Link IDE Stream Supported and Selective IDE Streams Supported are both Clear. */
+        uint32_t reserved_3            : 1;
+        uint32_t fiss                  : 1;  /**< [  2:  2](RO) Flow-Through IDE Stream Supported - For a Switch or Root Port, when Set indicates support
+                                                                 for passing Selective IDE Streams to all other Switch or Root Ports.
+                                                                 If this bit is Set and both Link IDE Stream Supported and Selective IDE Streams Supported are
+                                                                 Clear, then no Link IDE register blocks or Selective IDE register blocks are required.
+                                                                 Reserved for Endpoints. */
+        uint32_t siss                  : 1;  /**< [  1:  1](RO) SLCT IDE STREAM SUPPORTED.
+                                                                 When set, indicates that the Port support Selective IDE Streams, and that one or more Selective
+                                                                 IDE Stream Registers blocks are implemented, per the value in the Number of Selective IDE
+                                                                 Streams Supported field. */
+        uint32_t liss                  : 1;  /**< [  0:  0](RO) LINK IDE STREAM SUPPORTED.
+                                                                 When set, indicates that the Port support Link IDE Streams, and that one or more Link IDE Stream
+                                                                 Registers blocks immediately follow the IDE Status Register, per the value in the Number of
+                                                                 TCs Supported for Link IDE field. */
+#else /* Word 0 - Little Endian */
+        uint32_t liss                  : 1;  /**< [  0:  0](RO) LINK IDE STREAM SUPPORTED.
+                                                                 When set, indicates that the Port support Link IDE Streams, and that one or more Link IDE Stream
+                                                                 Registers blocks immediately follow the IDE Status Register, per the value in the Number of
+                                                                 TCs Supported for Link IDE field. */
+        uint32_t siss                  : 1;  /**< [  1:  1](RO) SLCT IDE STREAM SUPPORTED.
+                                                                 When set, indicates that the Port support Selective IDE Streams, and that one or more Selective
+                                                                 IDE Stream Registers blocks are implemented, per the value in the Number of Selective IDE
+                                                                 Streams Supported field. */
+        uint32_t fiss                  : 1;  /**< [  2:  2](RO) Flow-Through IDE Stream Supported - For a Switch or Root Port, when Set indicates support
+                                                                 for passing Selective IDE Streams to all other Switch or Root Ports.
+                                                                 If this bit is Set and both Link IDE Stream Supported and Selective IDE Streams Supported are
+                                                                 Clear, then no Link IDE register blocks or Selective IDE register blocks are required.
+                                                                 Reserved for Endpoints. */
+        uint32_t reserved_3            : 1;
+        uint32_t agg_sup               : 1;  /**< [  4:  4](RO) Aggregation Supported - If Link IDE Stream Supported or Selective IDE Streams
+                                                                 Supported are Set, then this bit, when Set, indicates the Port supports aggregation.
+                                                                 Undefined if Link IDE Stream Supported and Selective IDE Streams Supported are both Clear. */
+        uint32_t pcrc_sup              : 1;  /**< [  5:  5](RO) When set, indicates that the Port supports the generation and checking of PCRC. */
+        uint32_t ikps                  : 1;  /**< [  6:  6](RO) IDE KM PROTOCOL SUPPORTED
+                                                                 For an Upstream Port, when Set, indicates that the Port supports the IDE_KM protocol
+                                                                 defined in Section 6.99.1. Reserved for Downstream Ports. */
+        uint32_t sicrs                 : 1;  /**< [  7:  7](RO) Selective IDE for Configuration Requests Supported - If Selective IDE Streams
+                                                                 Supported is Set, then this bit, if Set, indicates that the Port supports the
+                                                                 association of Configuration Requests with Selective IDE Streams.
+                                                                 If Selective IDE Streams Supported is Clear, this bit is Reserved. */
+        uint32_t sup_alg               : 5;  /**< [ 12:  8](RO) Indicates the supported algorithms for securing IDE TLPs, encoded as
+                                                                 00000b - AES-GCM 256 key size, 96b MAC
+                                                                 Others - Reserved */
+        uint32_t nts                   : 3;  /**< [ 15: 13](RO) Number of TCs Supported for Link IDE (i), if Link IDE Stream Supported is Set,
+                                                                 indicates the number of TCs supported for Link IDE Streams encoded as
+                                                                 000b - One TC supported
+                                                                 001b - 2 TCs supported
+                                                                 010b - 3 TCs supported
+                                                                 011b - 4 TCs supported
+                                                                 100b - 5 TCs supported
+                                                                 101b - 6 TCs supported
+                                                                 110b - 7 TCs supported
+                                                                 111b - 8 TCs supported
+                                                                 If Link IDE Stream Supported is Clear, this field is undefined. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ide_cap_s cn; */
+};
+typedef union cavm_pciercx_ide_cap cavm_pciercx_ide_cap_t;
+
+static inline uint64_t CAVM_PCIERCX_IDE_CAP(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_IDE_CAP(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x428 + 0 * ((a) & 0x7);
+    __cavm_csr_fatal("PCIERCX_IDE_CAP", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_IDE_CAP(a) cavm_pciercx_ide_cap_t
+#define bustype_CAVM_PCIERCX_IDE_CAP(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_IDE_CAP(a) "PCIERCX_IDE_CAP"
+#define busnum_CAVM_PCIERCX_IDE_CAP(a) (a)
+#define arguments_CAVM_PCIERCX_IDE_CAP(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ide_ctrl
+ *
+ * PCIe IDE Control Register
+ * This register provides access to the PCIe IDE control register
+ * in the IDE encryption block.  This register is used in
+ * PEM configurations which support PCIe IDE encryption.
+ */
+union cavm_pciercx_ide_ctrl
+{
+    uint32_t u;
+    struct cavm_pciercx_ide_ctrl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_3_31         : 29;
+        uint32_t fis_en                : 1;  /**< [  2:  2](R/W) FLOWTHROUGH_IDE_STREAM_ENABLED
+                                                                 For Switch Ports and Root Ports, Enables the Port for flow-through operation of IDE Stream */
+        uint32_t reserved_0_1          : 2;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_1          : 2;
+        uint32_t fis_en                : 1;  /**< [  2:  2](R/W) FLOWTHROUGH_IDE_STREAM_ENABLED
+                                                                 For Switch Ports and Root Ports, Enables the Port for flow-through operation of IDE Stream */
+        uint32_t reserved_3_31         : 29;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ide_ctrl_s cn; */
+};
+typedef union cavm_pciercx_ide_ctrl cavm_pciercx_ide_ctrl_t;
+
+static inline uint64_t CAVM_PCIERCX_IDE_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_IDE_CTRL(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x42c + 0 * ((a) & 0x7);
+    __cavm_csr_fatal("PCIERCX_IDE_CTRL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_IDE_CTRL(a) cavm_pciercx_ide_ctrl_t
+#define bustype_CAVM_PCIERCX_IDE_CTRL(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_IDE_CTRL(a) "PCIERCX_IDE_CTRL"
+#define busnum_CAVM_PCIERCX_IDE_CTRL(a) (a)
+#define arguments_CAVM_PCIERCX_IDE_CTRL(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ide_ext_cap_hdr
+ *
+ * PCIe IDE Extended Capability Header Register
+ * This register provides access to the PCIe extended capability
+ * header register in the IDE encryption block.  This register
+ * is used in PEM configurations which support PCIe IDE encryption.
+ */
+union cavm_pciercx_ide_ext_cap_hdr
+{
+    uint32_t u;
+    struct cavm_pciercx_ide_ext_cap_hdr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ide_ext_cap_hdr_s cn; */
+};
+typedef union cavm_pciercx_ide_ext_cap_hdr cavm_pciercx_ide_ext_cap_hdr_t;
+
+static inline uint64_t CAVM_PCIERCX_IDE_EXT_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_IDE_EXT_CAP_HDR(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x424 + 0 * ((a) & 0x7);
+    __cavm_csr_fatal("PCIERCX_IDE_EXT_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_IDE_EXT_CAP_HDR(a) cavm_pciercx_ide_ext_cap_hdr_t
+#define bustype_CAVM_PCIERCX_IDE_EXT_CAP_HDR(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_IDE_EXT_CAP_HDR(a) "PCIERCX_IDE_EXT_CAP_HDR"
+#define busnum_CAVM_PCIERCX_IDE_EXT_CAP_HDR(a) (a)
+#define arguments_CAVM_PCIERCX_IDE_EXT_CAP_HDR(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ide_link_ctrl_0
+ *
+ * PCIe IDE Link Stream 0 Control Register
+ * This register provides access to the PCIe IDE link stream 0 control
+ * register in the IDE encryption block.  This register is used
+ * in PEM configurations which support PCIe IDE encryption.
+ */
+union cavm_pciercx_ide_link_ctrl_0
+{
+    uint32_t u;
+    struct cavm_pciercx_ide_link_ctrl_0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t strm_id               : 8;  /**< [ 31: 24](R/W) Indicates the Stream ID associated with this Link IDE Stream. Software must program the
+                                                                 same Stream ID into both Ports associated with a given Link IDE Stream. */
+        uint32_t reserved_22_23        : 2;
+        uint32_t tc                    : 3;  /**< [ 21: 19](R/W) System firmware/software must program this field to indicate the TC associated with
+                                                                 this Link IDE Register block. */
+        uint32_t sel_alg               : 5;  /**< [ 18: 14](R/W) Selects the algorithm to be used for securing IDE TLPs for this IDE Stream. Must be programmed
+                                                                 to the same value in both the Upstream and Downstream Ports. Must be configured while Link IDE
+                                                                 Stream Enable is Clear. When Link IDE Stream Enable is Set, the setting is sampled, and this field
+                                                                 becomes RO with reads returning the sampled value.
+                                                                 0x0 = AES-GCM 256 key size, 96b MAC.
+                                                                 Others = Reserved. */
+        uint32_t reserved_9_13         : 5;
+        uint32_t pcrc_en               : 1;  /**< [  8:  8](R/W) When set, Transmitted IDE TLPs associated with this Stream must include PCRC, and
+                                                                 Received TLPs must be checked for PCRC failure. Reserved if PCRC Supported is Clear. */
+        uint32_t reserved_1_7          : 7;
+        uint32_t lis_en                : 1;  /**< [  0:  0](R/W) When set, enables Link IDE Stream such that IDE operation will start when triggered by means of
+                                                                 the IDE_KM protocol (see Section 6.99.3). When cleared, must immediately
+                                                                 transition the Stream to Insecure. */
+#else /* Word 0 - Little Endian */
+        uint32_t lis_en                : 1;  /**< [  0:  0](R/W) When set, enables Link IDE Stream such that IDE operation will start when triggered by means of
+                                                                 the IDE_KM protocol (see Section 6.99.3). When cleared, must immediately
+                                                                 transition the Stream to Insecure. */
+        uint32_t reserved_1_7          : 7;
+        uint32_t pcrc_en               : 1;  /**< [  8:  8](R/W) When set, Transmitted IDE TLPs associated with this Stream must include PCRC, and
+                                                                 Received TLPs must be checked for PCRC failure. Reserved if PCRC Supported is Clear. */
+        uint32_t reserved_9_13         : 5;
+        uint32_t sel_alg               : 5;  /**< [ 18: 14](R/W) Selects the algorithm to be used for securing IDE TLPs for this IDE Stream. Must be programmed
+                                                                 to the same value in both the Upstream and Downstream Ports. Must be configured while Link IDE
+                                                                 Stream Enable is Clear. When Link IDE Stream Enable is Set, the setting is sampled, and this field
+                                                                 becomes RO with reads returning the sampled value.
+                                                                 0x0 = AES-GCM 256 key size, 96b MAC.
+                                                                 Others = Reserved. */
+        uint32_t tc                    : 3;  /**< [ 21: 19](R/W) System firmware/software must program this field to indicate the TC associated with
+                                                                 this Link IDE Register block. */
+        uint32_t reserved_22_23        : 2;
+        uint32_t strm_id               : 8;  /**< [ 31: 24](R/W) Indicates the Stream ID associated with this Link IDE Stream. Software must program the
+                                                                 same Stream ID into both Ports associated with a given Link IDE Stream. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ide_link_ctrl_0_s cn; */
+};
+typedef union cavm_pciercx_ide_link_ctrl_0 cavm_pciercx_ide_link_ctrl_0_t;
+
+static inline uint64_t CAVM_PCIERCX_IDE_LINK_CTRL_0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_IDE_LINK_CTRL_0(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x430 + 0 * ((a) & 0x7);
+    __cavm_csr_fatal("PCIERCX_IDE_LINK_CTRL_0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_IDE_LINK_CTRL_0(a) cavm_pciercx_ide_link_ctrl_0_t
+#define bustype_CAVM_PCIERCX_IDE_LINK_CTRL_0(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_IDE_LINK_CTRL_0(a) "PCIERCX_IDE_LINK_CTRL_0"
+#define busnum_CAVM_PCIERCX_IDE_LINK_CTRL_0(a) (a)
+#define arguments_CAVM_PCIERCX_IDE_LINK_CTRL_0(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ide_link_status_0
+ *
+ * PCIe IDE Link Stream 0 Status Register
+ * This register provides access to the PCIe IDE link stream 0
+ * status register in the IDE encryption block.  This register is
+ * used in PEM configurations which support PCIe IDE encryption.
+ */
+union cavm_pciercx_ide_link_status_0
+{
+    uint32_t u;
+    struct cavm_pciercx_ide_link_status_0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ricfm                 : 1;  /**< [ 31: 31](R/W1C) RECEIVED_INTEGRITY_CHECK_FAIL_MSG
+                                                                 When set, indicates that one or more Integrity Check Fail Message(s) have been
+                                                                 Received for this Stream. */
+        uint32_t reserved_4_30         : 27;
+        uint32_t liss                  : 4;  /**< [  3:  0](RO/H) LINK_IDE_STREAM_STATE.
+                                                                 When Link IDE Stream Enable is set, this field indicates the state of the port. Encodings are:
+                                                                 0x0 = Start / UnknownInsecure.
+                                                                 0x1 = Secure.
+                                                                 Others = Reserved. Software must handle reserved values as indicating unknown state.
+                                                                 When Link IDE Stream Enable is clear, the value of this field must be 0x0. */
+#else /* Word 0 - Little Endian */
+        uint32_t liss                  : 4;  /**< [  3:  0](RO/H) LINK_IDE_STREAM_STATE.
+                                                                 When Link IDE Stream Enable is set, this field indicates the state of the port. Encodings are:
+                                                                 0x0 = Start / UnknownInsecure.
+                                                                 0x1 = Secure.
+                                                                 Others = Reserved. Software must handle reserved values as indicating unknown state.
+                                                                 When Link IDE Stream Enable is clear, the value of this field must be 0x0. */
+        uint32_t reserved_4_30         : 27;
+        uint32_t ricfm                 : 1;  /**< [ 31: 31](R/W1C) RECEIVED_INTEGRITY_CHECK_FAIL_MSG
+                                                                 When set, indicates that one or more Integrity Check Fail Message(s) have been
+                                                                 Received for this Stream. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ide_link_status_0_s cn; */
+};
+typedef union cavm_pciercx_ide_link_status_0 cavm_pciercx_ide_link_status_0_t;
+
+static inline uint64_t CAVM_PCIERCX_IDE_LINK_STATUS_0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_IDE_LINK_STATUS_0(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x434 + 0 * ((a) & 0x7);
+    __cavm_csr_fatal("PCIERCX_IDE_LINK_STATUS_0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_IDE_LINK_STATUS_0(a) cavm_pciercx_ide_link_status_0_t
+#define bustype_CAVM_PCIERCX_IDE_LINK_STATUS_0(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_IDE_LINK_STATUS_0(a) "PCIERCX_IDE_LINK_STATUS_0"
+#define busnum_CAVM_PCIERCX_IDE_LINK_STATUS_0(a) (a)
+#define arguments_CAVM_PCIERCX_IDE_LINK_STATUS_0(a) (a),-1,-1,-1
 
 /**
  * Register (PCICONFIGRC) pcierc#_int
@@ -3093,7 +4232,7 @@ typedef union cavm_pciercx_int cavm_pciercx_int_t;
 static inline uint64_t CAVM_PCIERCX_INT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_INT(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x3c + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_INT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3169,7 +4308,7 @@ typedef union cavm_pciercx_iobasel cavm_pciercx_iobasel_t;
 static inline uint64_t CAVM_PCIERCX_IOBASEL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_IOBASEL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x1c + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_IOBASEL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3191,11 +4330,11 @@ union cavm_pciercx_iobaseu
     struct cavm_pciercx_iobaseu_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t uio_limit             : 16; /**< [ 31: 16](R/W) Upper 16 bits of I/O limit (if 32-bit I/O decoding is supported for devices on the secondary side). */
-        uint32_t uio_base              : 16; /**< [ 15:  0](R/W) Upper 16 bits of I/O base (if 32-bit I/O decoding is supported for devices on the secondary side). */
+        uint32_t uio_limit             : 16; /**< [ 31: 16](RO) Upper 16 bits of I/O limit (if 32-bit I/O decoding is supported for devices on the secondary side). */
+        uint32_t uio_base              : 16; /**< [ 15:  0](RO) Upper 16 bits of I/O base (if 32-bit I/O decoding is supported for devices on the secondary side). */
 #else /* Word 0 - Little Endian */
-        uint32_t uio_base              : 16; /**< [ 15:  0](R/W) Upper 16 bits of I/O base (if 32-bit I/O decoding is supported for devices on the secondary side). */
-        uint32_t uio_limit             : 16; /**< [ 31: 16](R/W) Upper 16 bits of I/O limit (if 32-bit I/O decoding is supported for devices on the secondary side). */
+        uint32_t uio_base              : 16; /**< [ 15:  0](RO) Upper 16 bits of I/O base (if 32-bit I/O decoding is supported for devices on the secondary side). */
+        uint32_t uio_limit             : 16; /**< [ 31: 16](RO) Upper 16 bits of I/O limit (if 32-bit I/O decoding is supported for devices on the secondary side). */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pciercx_iobaseu_s cn; */
@@ -3205,7 +4344,7 @@ typedef union cavm_pciercx_iobaseu cavm_pciercx_iobaseu_t;
 static inline uint64_t CAVM_PCIERCX_IOBASEU(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_IOBASEU(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x30 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_IOBASEU", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3215,310 +4354,6 @@ static inline uint64_t CAVM_PCIERCX_IOBASEU(uint64_t a)
 #define basename_CAVM_PCIERCX_IOBASEU(a) "PCIERCX_IOBASEU"
 #define busnum_CAVM_PCIERCX_IOBASEU(a) (a)
 #define arguments_CAVM_PCIERCX_IOBASEU(a) (a),-1,-1,-1
-
-/**
- * Register (PCICONFIGRC) pcierc#_l1_substates
- *
- * PCIe RC L1 Substates Timing Register
- */
-union cavm_pciercx_l1_substates
-{
-    uint32_t u;
-    struct cavm_pciercx_l1_substates_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_9_31         : 23;
-        uint32_t l1sub_lpwr_clksm      : 1;  /**< [  8:  8](R/W) "Low Power Clock Switch Mode.
-                                                                 If this bit is set to 1'b1 the reference clock will be running
-                                                                 regardless of the CLKREQ# setting. If this bit is set to 1'b0
-                                                                 the reference clock may be gated off when CLKREQ# is deasserted.
-                                                                 If the bit is set to 1'b1 the controller will delay the
-                                                                 switching of aux_clk to the slow platform clock until it detects
-                                                                 that the link partner has de-asserted CLKREQ#." */
-        uint32_t l1sub_t_pclkack       : 2;  /**< [  7:  6](R/W) Max delay (in 1 us units) between a MAC request to remove
-                                                                 the clock on mac_phy_pclkreq_n and a PHY response on
-                                                                 phy_mac_pclkack_n. If the PHY does not respond within this
-                                                                 time the request is aborted. */
-        uint32_t l1sub_t_l1_2          : 4;  /**< [  5:  2](R/W) Duration (in us) of L1.2. */
-        uint32_t l1sub_t_power_off     : 2;  /**< [  1:  0](R/W) Duration (in us) of L1.2 entry. */
-#else /* Word 0 - Little Endian */
-        uint32_t l1sub_t_power_off     : 2;  /**< [  1:  0](R/W) Duration (in us) of L1.2 entry. */
-        uint32_t l1sub_t_l1_2          : 4;  /**< [  5:  2](R/W) Duration (in us) of L1.2. */
-        uint32_t l1sub_t_pclkack       : 2;  /**< [  7:  6](R/W) Max delay (in 1 us units) between a MAC request to remove
-                                                                 the clock on mac_phy_pclkreq_n and a PHY response on
-                                                                 phy_mac_pclkack_n. If the PHY does not respond within this
-                                                                 time the request is aborted. */
-        uint32_t l1sub_lpwr_clksm      : 1;  /**< [  8:  8](R/W) "Low Power Clock Switch Mode.
-                                                                 If this bit is set to 1'b1 the reference clock will be running
-                                                                 regardless of the CLKREQ# setting. If this bit is set to 1'b0
-                                                                 the reference clock may be gated off when CLKREQ# is deasserted.
-                                                                 If the bit is set to 1'b1 the controller will delay the
-                                                                 switching of aux_clk to the slow platform clock until it detects
-                                                                 that the link partner has de-asserted CLKREQ#." */
-        uint32_t reserved_9_31         : 23;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pciercx_l1_substates_s cn; */
-};
-typedef union cavm_pciercx_l1_substates cavm_pciercx_l1_substates_t;
-
-static inline uint64_t CAVM_PCIERCX_L1_SUBSTATES(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIERCX_L1_SUBSTATES(uint64_t a)
-{
-    if (a<=5)
-        return 0xb44 + 0 * ((a) & 0x7);
-    __cavm_csr_fatal("PCIERCX_L1_SUBSTATES", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PCIERCX_L1_SUBSTATES(a) cavm_pciercx_l1_substates_t
-#define bustype_CAVM_PCIERCX_L1_SUBSTATES(a) CSR_TYPE_PCICONFIGRC
-#define basename_CAVM_PCIERCX_L1_SUBSTATES(a) "PCIERCX_L1_SUBSTATES"
-#define busnum_CAVM_PCIERCX_L1_SUBSTATES(a) (a)
-#define arguments_CAVM_PCIERCX_L1_SUBSTATES(a) (a),-1,-1,-1
-
-/**
- * Register (PCICONFIGRC) pcierc#_l1sub_cap
- *
- * PCIe RC L1 PM Substates Capability Register
- */
-union cavm_pciercx_l1sub_cap
-{
-    uint32_t u;
-    struct cavm_pciercx_l1sub_cap_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_24_31        : 8;
-        uint32_t pwron_val             : 5;  /**< [ 23: 19](RO/WRSL) Port T power on value.
-                                                                 Along with [PWRON_SCALE] sets the time (in us) that this
-                                                                 Port requires the port on the opposite side of the Link to
-                                                                 wait in L.1.2.Exit after sampling PCI_CLKREQ_L asserted before
-                                                                 actively driving the interface. */
-        uint32_t reserved_18           : 1;
-        uint32_t pwron_scale           : 2;  /**< [ 17: 16](RO/WRSL) Port T power on scale.
-                                                                 0x0 = 2 us.
-                                                                 0x1 = 10 us.
-                                                                 0x2 = 100 us.
-                                                                 0x3 = Reserved. */
-        uint32_t com_md_supp           : 8;  /**< [ 15:  8](RO/WRSL) Port common mode restore time.
-                                                                 Time (in us) required for this Port to reestablish
-                                                                 common mode. */
-        uint32_t reserved_5_7          : 3;
-        uint32_t l1_pmsub_sup          : 1;  /**< [  4:  4](RO/WRSL) L1 PM substates ECN supported. */
-        uint32_t l1_1_aspm_sup         : 1;  /**< [  3:  3](RO/WRSL) ASPM L11 supported. */
-        uint32_t l1_2_aspm_sup         : 1;  /**< [  2:  2](RO/WRSL) ASPM L12 supported. */
-        uint32_t l1_1_pcipm_sup        : 1;  /**< [  1:  1](RO/WRSL) PCI-PM L11 supported. */
-        uint32_t l1_2_pcipm_sup        : 1;  /**< [  0:  0](RO/WRSL) PCI-PM L12 supported. */
-#else /* Word 0 - Little Endian */
-        uint32_t l1_2_pcipm_sup        : 1;  /**< [  0:  0](RO/WRSL) PCI-PM L12 supported. */
-        uint32_t l1_1_pcipm_sup        : 1;  /**< [  1:  1](RO/WRSL) PCI-PM L11 supported. */
-        uint32_t l1_2_aspm_sup         : 1;  /**< [  2:  2](RO/WRSL) ASPM L12 supported. */
-        uint32_t l1_1_aspm_sup         : 1;  /**< [  3:  3](RO/WRSL) ASPM L11 supported. */
-        uint32_t l1_pmsub_sup          : 1;  /**< [  4:  4](RO/WRSL) L1 PM substates ECN supported. */
-        uint32_t reserved_5_7          : 3;
-        uint32_t com_md_supp           : 8;  /**< [ 15:  8](RO/WRSL) Port common mode restore time.
-                                                                 Time (in us) required for this Port to reestablish
-                                                                 common mode. */
-        uint32_t pwron_scale           : 2;  /**< [ 17: 16](RO/WRSL) Port T power on scale.
-                                                                 0x0 = 2 us.
-                                                                 0x1 = 10 us.
-                                                                 0x2 = 100 us.
-                                                                 0x3 = Reserved. */
-        uint32_t reserved_18           : 1;
-        uint32_t pwron_val             : 5;  /**< [ 23: 19](RO/WRSL) Port T power on value.
-                                                                 Along with [PWRON_SCALE] sets the time (in us) that this
-                                                                 Port requires the port on the opposite side of the Link to
-                                                                 wait in L.1.2.Exit after sampling PCI_CLKREQ_L asserted before
-                                                                 actively driving the interface. */
-        uint32_t reserved_24_31        : 8;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pciercx_l1sub_cap_s cn; */
-};
-typedef union cavm_pciercx_l1sub_cap cavm_pciercx_l1sub_cap_t;
-
-static inline uint64_t CAVM_PCIERCX_L1SUB_CAP(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIERCX_L1SUB_CAP(uint64_t a)
-{
-    if (a<=5)
-        return 0x240 + 0 * ((a) & 0x7);
-    __cavm_csr_fatal("PCIERCX_L1SUB_CAP", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PCIERCX_L1SUB_CAP(a) cavm_pciercx_l1sub_cap_t
-#define bustype_CAVM_PCIERCX_L1SUB_CAP(a) CSR_TYPE_PCICONFIGRC
-#define basename_CAVM_PCIERCX_L1SUB_CAP(a) "PCIERCX_L1SUB_CAP"
-#define busnum_CAVM_PCIERCX_L1SUB_CAP(a) (a)
-#define arguments_CAVM_PCIERCX_L1SUB_CAP(a) (a),-1,-1,-1
-
-/**
- * Register (PCICONFIGRC) pcierc#_l1sub_cap_hdr
- *
- * PCIe RC L1 Substates Capability Header Register
- */
-union cavm_pciercx_l1sub_cap_hdr
-{
-    uint32_t u;
-    struct cavm_pciercx_l1sub_cap_hdr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
-                                                                 Writable through PEM()_CFG_TBL(). */
-        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
-                                                                 Writable through PEM()_CFG_TBL(). */
-        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
-                                                                 Writable through PEM()_CFG_TBL(). */
-#else /* Word 0 - Little Endian */
-        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
-                                                                 Writable through PEM()_CFG_TBL(). */
-        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
-                                                                 Writable through PEM()_CFG_TBL(). */
-        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
-                                                                 Writable through PEM()_CFG_TBL(). */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pciercx_l1sub_cap_hdr_s cn; */
-};
-typedef union cavm_pciercx_l1sub_cap_hdr cavm_pciercx_l1sub_cap_hdr_t;
-
-static inline uint64_t CAVM_PCIERCX_L1SUB_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIERCX_L1SUB_CAP_HDR(uint64_t a)
-{
-    if (a<=5)
-        return 0x23c + 0 * ((a) & 0x7);
-    __cavm_csr_fatal("PCIERCX_L1SUB_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PCIERCX_L1SUB_CAP_HDR(a) cavm_pciercx_l1sub_cap_hdr_t
-#define bustype_CAVM_PCIERCX_L1SUB_CAP_HDR(a) CSR_TYPE_PCICONFIGRC
-#define basename_CAVM_PCIERCX_L1SUB_CAP_HDR(a) "PCIERCX_L1SUB_CAP_HDR"
-#define busnum_CAVM_PCIERCX_L1SUB_CAP_HDR(a) (a)
-#define arguments_CAVM_PCIERCX_L1SUB_CAP_HDR(a) (a),-1,-1,-1
-
-/**
- * Register (PCICONFIGRC) pcierc#_l1sub_ctl1
- *
- * PCIe RC L1 Substates Control 1 Register
- */
-union cavm_pciercx_l1sub_ctl1
-{
-    uint32_t u;
-    struct cavm_pciercx_l1sub_ctl1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t l1_2_th_sca           : 3;  /**< [ 31: 29](R/W) LTR L12 threshold scale. */
-        uint32_t reserved_26_28        : 3;
-        uint32_t l1_2_th_val           : 10; /**< [ 25: 16](R/W) LTR L12 threshold value. */
-        uint32_t t_com_mode            : 8;  /**< [ 15:  8](RO/WRSL) Common mode restore time.
-                                                                 The value (in us), which must be used by the downstream port
-                                                                 for timing the reestablishment of common mode.
-
-                                                                 If PCIERC_L1SUB_CTL1[L1_2_PCIPM_SUP] is turned off, this field is zeroed
-                                                                 and cannot be written. */
-        uint32_t reserved_4_7          : 4;
-        uint32_t l1_1_aspm_en          : 1;  /**< [  3:  3](R/W) ASPM L11 enable. */
-        uint32_t l1_2_aspm_en          : 1;  /**< [  2:  2](R/W) ASPM L12 enable. */
-        uint32_t l1_1_pcipm_en         : 1;  /**< [  1:  1](R/W) PCI-PM L11 enable. */
-        uint32_t l1_2_pcipm_en         : 1;  /**< [  0:  0](R/W) PCI-PM L12 enable. */
-#else /* Word 0 - Little Endian */
-        uint32_t l1_2_pcipm_en         : 1;  /**< [  0:  0](R/W) PCI-PM L12 enable. */
-        uint32_t l1_1_pcipm_en         : 1;  /**< [  1:  1](R/W) PCI-PM L11 enable. */
-        uint32_t l1_2_aspm_en          : 1;  /**< [  2:  2](R/W) ASPM L12 enable. */
-        uint32_t l1_1_aspm_en          : 1;  /**< [  3:  3](R/W) ASPM L11 enable. */
-        uint32_t reserved_4_7          : 4;
-        uint32_t t_com_mode            : 8;  /**< [ 15:  8](RO/WRSL) Common mode restore time.
-                                                                 The value (in us), which must be used by the downstream port
-                                                                 for timing the reestablishment of common mode.
-
-                                                                 If PCIERC_L1SUB_CTL1[L1_2_PCIPM_SUP] is turned off, this field is zeroed
-                                                                 and cannot be written. */
-        uint32_t l1_2_th_val           : 10; /**< [ 25: 16](R/W) LTR L12 threshold value. */
-        uint32_t reserved_26_28        : 3;
-        uint32_t l1_2_th_sca           : 3;  /**< [ 31: 29](R/W) LTR L12 threshold scale. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pciercx_l1sub_ctl1_s cn; */
-};
-typedef union cavm_pciercx_l1sub_ctl1 cavm_pciercx_l1sub_ctl1_t;
-
-static inline uint64_t CAVM_PCIERCX_L1SUB_CTL1(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIERCX_L1SUB_CTL1(uint64_t a)
-{
-    if (a<=5)
-        return 0x244 + 0 * ((a) & 0x7);
-    __cavm_csr_fatal("PCIERCX_L1SUB_CTL1", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PCIERCX_L1SUB_CTL1(a) cavm_pciercx_l1sub_ctl1_t
-#define bustype_CAVM_PCIERCX_L1SUB_CTL1(a) CSR_TYPE_PCICONFIGRC
-#define basename_CAVM_PCIERCX_L1SUB_CTL1(a) "PCIERCX_L1SUB_CTL1"
-#define busnum_CAVM_PCIERCX_L1SUB_CTL1(a) (a)
-#define arguments_CAVM_PCIERCX_L1SUB_CTL1(a) (a),-1,-1,-1
-
-/**
- * Register (PCICONFIGRC) pcierc#_l1sub_ctl2
- *
- * PCIe RC L1 Substates Control 2 Register
- */
-union cavm_pciercx_l1sub_ctl2
-{
-    uint32_t u;
-    struct cavm_pciercx_l1sub_ctl2_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
-        uint32_t t_pwr_on_val          : 5;  /**< [  7:  3](R/W) T power on value.
-                                                                 Along with the [T_PWR_ON_SCA], sets the minimum amount of time (in us)
-                                                                 that the Port must wait in L.1.2.Exit after sampling PCI_CLKREQ_L asserted
-                                                                 before actively driving the interface.
-
-                                                                 If PCIERC_L1SUB_CTL1[L1_2_PCIPM_SUP] is turned off, this field is zeroed
-                                                                 and cannot be written. */
-        uint32_t reserved_2            : 1;
-        uint32_t t_pwr_on_sca          : 2;  /**< [  1:  0](R/W) T power on scale.
-                                                                 0x0 = 2 us.
-                                                                 0x1 = 10 us.
-                                                                 0x2 = 100 us.
-                                                                 0x3 = Reserved.
-
-                                                                 If PCIERC_L1SUB_CTL1[L1_2_PCIPM_SUP] is turned off, this field is zeroed
-                                                                 and cannot be written. */
-#else /* Word 0 - Little Endian */
-        uint32_t t_pwr_on_sca          : 2;  /**< [  1:  0](R/W) T power on scale.
-                                                                 0x0 = 2 us.
-                                                                 0x1 = 10 us.
-                                                                 0x2 = 100 us.
-                                                                 0x3 = Reserved.
-
-                                                                 If PCIERC_L1SUB_CTL1[L1_2_PCIPM_SUP] is turned off, this field is zeroed
-                                                                 and cannot be written. */
-        uint32_t reserved_2            : 1;
-        uint32_t t_pwr_on_val          : 5;  /**< [  7:  3](R/W) T power on value.
-                                                                 Along with the [T_PWR_ON_SCA], sets the minimum amount of time (in us)
-                                                                 that the Port must wait in L.1.2.Exit after sampling PCI_CLKREQ_L asserted
-                                                                 before actively driving the interface.
-
-                                                                 If PCIERC_L1SUB_CTL1[L1_2_PCIPM_SUP] is turned off, this field is zeroed
-                                                                 and cannot be written. */
-        uint32_t reserved_8_31         : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pciercx_l1sub_ctl2_s cn; */
-};
-typedef union cavm_pciercx_l1sub_ctl2 cavm_pciercx_l1sub_ctl2_t;
-
-static inline uint64_t CAVM_PCIERCX_L1SUB_CTL2(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIERCX_L1SUB_CTL2(uint64_t a)
-{
-    if (a<=5)
-        return 0x248 + 0 * ((a) & 0x7);
-    __cavm_csr_fatal("PCIERCX_L1SUB_CTL2", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PCIERCX_L1SUB_CTL2(a) cavm_pciercx_l1sub_ctl2_t
-#define bustype_CAVM_PCIERCX_L1SUB_CTL2(a) CSR_TYPE_PCICONFIGRC
-#define basename_CAVM_PCIERCX_L1SUB_CTL2(a) "PCIERCX_L1SUB_CTL2"
-#define busnum_CAVM_PCIERCX_L1SUB_CTL2(a) (a)
-#define arguments_CAVM_PCIERCX_L1SUB_CTL2(a) (a),-1,-1,-1
 
 /**
  * Register (PCICONFIGRC) pcierc#_lane_err
@@ -3549,7 +4384,7 @@ typedef union cavm_pciercx_lane_err cavm_pciercx_lane_err_t;
 static inline uint64_t CAVM_PCIERCX_LANE_ERR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_LANE_ERR(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x170 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_LANE_ERR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3575,8 +4410,9 @@ union cavm_pciercx_lane_skew
         uint32_t inuml                 : 4;  /**< [ 30: 27](R/W) Implemented number of lanes (minus one).
 
                                                                  Reset values:
-                                                                 _ UPEM:      0x3.
-                                                                 _ BPEM:      0x1. */
+                                                                 _ FPEM:      0xf.
+                                                                 _ HPEM:      0x7.
+                                                                 _ QPEM:      0x3. */
         uint32_t ebm                   : 1;  /**< [ 26: 26](R/W) Selects Gen3/Gen4 elasticity buffer operating mode.
                                                                  0 = Nominal half full buffer mode.
                                                                  1 = Nominal empty buffer mode */
@@ -3599,8 +4435,9 @@ union cavm_pciercx_lane_skew
         uint32_t inuml                 : 4;  /**< [ 30: 27](R/W) Implemented number of lanes (minus one).
 
                                                                  Reset values:
-                                                                 _ UPEM:      0x3.
-                                                                 _ BPEM:      0x1. */
+                                                                 _ FPEM:      0xf.
+                                                                 _ HPEM:      0x7.
+                                                                 _ QPEM:      0x3. */
         uint32_t dlld                  : 1;  /**< [ 31: 31](R/W) Disable lane-to-lane deskew. Disables the internal lane-to-lane deskew logic. */
 #endif /* Word 0 - End */
     } s;
@@ -3611,7 +4448,7 @@ typedef union cavm_pciercx_lane_skew cavm_pciercx_lane_skew_t;
 static inline uint64_t CAVM_PCIERCX_LANE_SKEW(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_LANE_SKEW(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x714 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_LANE_SKEW", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3697,7 +4534,7 @@ typedef union cavm_pciercx_link_cap cavm_pciercx_link_cap_t;
 static inline uint64_t CAVM_PCIERCX_LINK_CAP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_LINK_CAP(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x7c + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_LINK_CAP", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3727,7 +4564,10 @@ union cavm_pciercx_link_cap2
 
                                                                  It is permitted to be set to 1b regardless of the SLSV if the RTDS bit
                                                                  is also set to 1b. */
-        uint32_t rtds                  : 1;  /**< [ 23: 23](RO/WRSL) Retimer presence detect supported. */
+        uint32_t rtds                  : 1;  /**< [ 23: 23](RO/WRSL) Retimer presence detect supported.
+
+                                                                 This bit must be set to in a Port when the SLSV indicates support
+                                                                 for a Link speed of 16.0 GT/s or higher. */
         uint32_t reserved_9_22         : 14;
         uint32_t cls                   : 1;  /**< [  8:  8](RO) Crosslink supported. */
         uint32_t slsv                  : 7;  /**< [  7:  1](RO/WRSL) Supported link speeds vector. Indicates the supported link speeds of the associated port.
@@ -3757,7 +4597,10 @@ union cavm_pciercx_link_cap2
                                                                  _ Bits \<7:6\> are reserved. */
         uint32_t cls                   : 1;  /**< [  8:  8](RO) Crosslink supported. */
         uint32_t reserved_9_22         : 14;
-        uint32_t rtds                  : 1;  /**< [ 23: 23](RO/WRSL) Retimer presence detect supported. */
+        uint32_t rtds                  : 1;  /**< [ 23: 23](RO/WRSL) Retimer presence detect supported.
+
+                                                                 This bit must be set to in a Port when the SLSV indicates support
+                                                                 for a Link speed of 16.0 GT/s or higher. */
         uint32_t trtds                 : 1;  /**< [ 24: 24](RO/WRSL) Two retimers presence detect supported.
 
                                                                  This bit must be set to in a Port when the SLSV indicates support
@@ -3775,7 +4618,7 @@ typedef union cavm_pciercx_link_cap2 cavm_pciercx_link_cap2_t;
 static inline uint64_t CAVM_PCIERCX_LINK_CAP2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_LINK_CAP2(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x9c + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_LINK_CAP2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3897,7 +4740,7 @@ typedef union cavm_pciercx_link_ctl cavm_pciercx_link_ctl_t;
 static inline uint64_t CAVM_PCIERCX_LINK_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_LINK_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x80 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_LINK_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3922,7 +4765,12 @@ union cavm_pciercx_link_ctl2
         uint32_t drs_mr                : 1;  /**< [ 31: 31](R/W1C) DRS message received. */
         uint32_t dcp                   : 3;  /**< [ 30: 28](RO) Downstream component presence. */
         uint32_t reserved_26_27        : 2;
-        uint32_t crossl                : 2;  /**< [ 25: 24](RO) Crosslink resolution (not supported). */
+        uint32_t crossl                : 2;  /**< [ 25: 24](RO) Crosslink resolution (Not Supported).
+
+                                                                 0x0 = Crosslink Resolution is not supported.
+                                                                 0x1 = Crosslink negotiation resolved as a Upstream Port.
+                                                                 0x2 = Crosslink negotiation resolved as a Downstream Port.
+                                                                 0x1 = Crosslink negotiation is not completed. */
         uint32_t trtd                  : 1;  /**< [ 23: 23](RO) Two retimers presence detected. */
         uint32_t rtd                   : 1;  /**< [ 22: 22](RO) Retimer presence detected. */
         uint32_t ler                   : 1;  /**< [ 21: 21](R/W1C/H) Link equalization request 8.0 GT/s. */
@@ -3992,10 +4840,6 @@ union cavm_pciercx_link_ctl2
                                                                  supported link speeds field, the result is undefined. For both upstream and downstream
                                                                  ports, this field is used to set the target compliance mode speed when software is using
                                                                  the enter compliance bit to force a link into compliance mode.
-
-                                                                 Reset values:
-                                                                 _ PF0:          0x5.
-                                                                 _ PF1:          0x0.
 
                                                                  This field is R/W only for PF0.  All other functions this field is Reserved and
                                                                  will always read zeros. */
@@ -4017,10 +4861,6 @@ union cavm_pciercx_link_ctl2
                                                                  ports, this field is used to set the target compliance mode speed when software is using
                                                                  the enter compliance bit to force a link into compliance mode.
 
-                                                                 Reset values:
-                                                                 _ PF0:          0x5.
-                                                                 _ PF1:          0x0.
-
                                                                  This field is R/W only for PF0.  All other functions this field is Reserved and
                                                                  will always read zeros. */
         uint32_t ec                    : 1;  /**< [  4:  4](R/W) Enter compliance. Software is permitted to force a link to enter compliance mode at the
@@ -4076,7 +4916,12 @@ union cavm_pciercx_link_ctl2
         uint32_t ler                   : 1;  /**< [ 21: 21](R/W1C/H) Link equalization request 8.0 GT/s. */
         uint32_t rtd                   : 1;  /**< [ 22: 22](RO) Retimer presence detected. */
         uint32_t trtd                  : 1;  /**< [ 23: 23](RO) Two retimers presence detected. */
-        uint32_t crossl                : 2;  /**< [ 25: 24](RO) Crosslink resolution (not supported). */
+        uint32_t crossl                : 2;  /**< [ 25: 24](RO) Crosslink resolution (Not Supported).
+
+                                                                 0x0 = Crosslink Resolution is not supported.
+                                                                 0x1 = Crosslink negotiation resolved as a Upstream Port.
+                                                                 0x2 = Crosslink negotiation resolved as a Downstream Port.
+                                                                 0x1 = Crosslink negotiation is not completed. */
         uint32_t reserved_26_27        : 2;
         uint32_t dcp                   : 3;  /**< [ 30: 28](RO) Downstream component presence. */
         uint32_t drs_mr                : 1;  /**< [ 31: 31](R/W1C) DRS message received. */
@@ -4089,7 +4934,7 @@ typedef union cavm_pciercx_link_ctl2 cavm_pciercx_link_ctl2_t;
 static inline uint64_t CAVM_PCIERCX_LINK_CTL2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_LINK_CTL2(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0xa0 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_LINK_CTL2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4127,7 +4972,7 @@ typedef union cavm_pciercx_link_ctl3 cavm_pciercx_link_ctl3_t;
 static inline uint64_t CAVM_PCIERCX_LINK_CTL3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_LINK_CTL3(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x16c + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_LINK_CTL3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4171,8 +5016,8 @@ typedef union cavm_pciercx_margin_ext_cap_hdr cavm_pciercx_margin_ext_cap_hdr_t;
 static inline uint64_t CAVM_PCIERCX_MARGIN_EXT_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_MARGIN_EXT_CAP_HDR(uint64_t a)
 {
-    if (a<=5)
-        return 0x1ac + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x1c8 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_MARGIN_EXT_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4211,7 +5056,7 @@ typedef union cavm_pciercx_mem cavm_pciercx_mem_t;
 static inline uint64_t CAVM_PCIERCX_MEM(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_MEM(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x20 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_MEM", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4233,7 +5078,12 @@ union cavm_pciercx_misc_ctl1
     struct cavm_pciercx_misc_ctl1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_23_31        : 9;
+        uint32_t reserved_26_31        : 6;
+        uint32_t err_inj_wr_dis        : 1;  /**< [ 25: 25](R/W) Disable Error Injection enable bits write from wire side. */
+        uint32_t rasdes_reg_pf0_only   : 1;  /**< [ 24: 24](R/W) Allows only Physical Function 0 (PF0) to access the RAS DES
+                                                                 Extended Capability registers. */
+        uint32_t ras_reg_pf0_only      : 1;  /**< [ 23: 23](R/W) Allows only Physical Function 0 (PF0) to access the RAS
+                                                                 Extended Capability registers. */
         uint32_t port_logic_wr_dis     : 1;  /**< [ 22: 22](R/W) Determines port logic register write from wire side. */
         uint32_t p2p_err_rpt           : 1;  /**< [ 21: 21](R/W) Determines whether to enable P2P error reporting.
                                                                  0 = Disable P2P error reporting.
@@ -4258,9 +5108,7 @@ union cavm_pciercx_misc_ctl1
         uint32_t cplq_mng_en           : 1;  /**< [  6:  6](R/W) This field configures the internal Completion Queue Management
                                                                  which is not supported. */
         uint32_t ari_devn              : 1;  /**< [  5:  5](R/W) When ARI is enabled, enables use of the device ID. */
-        uint32_t dis_auto_ltr_clr      : 1;  /**< [  4:  4](R/W) Disable the autonomous generation of LTR clear message in upstream port.
-                                                                 0 = Allow the autonomous generation of LTR clear message.
-                                                                 1 = Disable the autonomous generation of LTR clear message. */
+        uint32_t dis_auto_ltr_clr      : 1;  /**< [  4:  4](RO) Disable the autonomous generation of LTR clear message in upstream port (Not Supported). */
         uint32_t simp_replay_timer     : 1;  /**< [  3:  3](R/W) Enables Simplified Replay Timer (Gen4).  Simplified replay timer values are:
 
                                                                    A value from 24,000 to 31,000 symbol times when extended synch is 0.
@@ -4271,7 +5119,7 @@ union cavm_pciercx_misc_ctl1
                                                                  When set, the core suppresses error logging, error message generation, and CPL
                                                                  generation (for non-posted requests). */
         uint32_t def_target            : 1;  /**< [  1:  1](R/W) Default target a received IO or MEM request with UR/CA/CRS
-                                                                 is sent to be the controller.
+                                                                 is sent to be the controller.  Does not apply to DSP.
                                                                  0x0 = The controller drops all incoming I/O or Mem (after
                                                                       corresponding error reporting). A completion with
                                                                       UR status will be generated for non-posted requests.
@@ -4283,7 +5131,7 @@ union cavm_pciercx_misc_ctl1
         uint32_t dbi_ro_wr_en          : 1;  /**< [  0:  0](R/W) Write to RO registers using DBI.  When you set this bit, then some
                                                                  RO bits are writable from the DBI. */
         uint32_t def_target            : 1;  /**< [  1:  1](R/W) Default target a received IO or MEM request with UR/CA/CRS
-                                                                 is sent to be the controller.
+                                                                 is sent to be the controller.  Does not apply to DSP.
                                                                  0x0 = The controller drops all incoming I/O or Mem (after
                                                                       corresponding error reporting). A completion with
                                                                       UR status will be generated for non-posted requests.
@@ -4298,9 +5146,7 @@ union cavm_pciercx_misc_ctl1
 
                                                                    A value from 24,000 to 31,000 symbol times when extended synch is 0.
                                                                    A value from 80,000 to 100,000 symbol times when extended synch is 1. */
-        uint32_t dis_auto_ltr_clr      : 1;  /**< [  4:  4](R/W) Disable the autonomous generation of LTR clear message in upstream port.
-                                                                 0 = Allow the autonomous generation of LTR clear message.
-                                                                 1 = Disable the autonomous generation of LTR clear message. */
+        uint32_t dis_auto_ltr_clr      : 1;  /**< [  4:  4](RO) Disable the autonomous generation of LTR clear message in upstream port (Not Supported). */
         uint32_t ari_devn              : 1;  /**< [  5:  5](R/W) When ARI is enabled, enables use of the device ID. */
         uint32_t cplq_mng_en           : 1;  /**< [  6:  6](R/W) This field configures the internal Completion Queue Management
                                                                  which is not supported. */
@@ -4325,7 +5171,12 @@ union cavm_pciercx_misc_ctl1
                                                                  0 = Disable P2P error reporting.
                                                                  1 = Enable P2P error reporting. */
         uint32_t port_logic_wr_dis     : 1;  /**< [ 22: 22](R/W) Determines port logic register write from wire side. */
-        uint32_t reserved_23_31        : 9;
+        uint32_t ras_reg_pf0_only      : 1;  /**< [ 23: 23](R/W) Allows only Physical Function 0 (PF0) to access the RAS
+                                                                 Extended Capability registers. */
+        uint32_t rasdes_reg_pf0_only   : 1;  /**< [ 24: 24](R/W) Allows only Physical Function 0 (PF0) to access the RAS DES
+                                                                 Extended Capability registers. */
+        uint32_t err_inj_wr_dis        : 1;  /**< [ 25: 25](R/W) Disable Error Injection enable bits write from wire side. */
+        uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pciercx_misc_ctl1_s cn; */
@@ -4335,7 +5186,7 @@ typedef union cavm_pciercx_misc_ctl1 cavm_pciercx_misc_ctl1_t;
 static inline uint64_t CAVM_PCIERCX_MISC_CTL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_MISC_CTL1(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x8bc + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_MISC_CTL1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4387,8 +5238,8 @@ typedef union cavm_pciercx_mrg_lane_ctl_stat0 cavm_pciercx_mrg_lane_ctl_stat0_t;
 static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT0(uint64_t a)
 {
-    if (a<=5)
-        return 0x1b4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x1d0 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_MRG_LANE_CTL_STAT0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4439,8 +5290,8 @@ typedef union cavm_pciercx_mrg_lane_ctl_stat1 cavm_pciercx_mrg_lane_ctl_stat1_t;
 static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT1(uint64_t a)
 {
-    if (a<=5)
-        return 0x1b8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x1d4 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_MRG_LANE_CTL_STAT1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4449,6 +5300,318 @@ static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT1(uint64_t a)
 #define basename_CAVM_PCIERCX_MRG_LANE_CTL_STAT1(a) "PCIERCX_MRG_LANE_CTL_STAT1"
 #define busnum_CAVM_PCIERCX_MRG_LANE_CTL_STAT1(a) (a)
 #define arguments_CAVM_PCIERCX_MRG_LANE_CTL_STAT1(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_mrg_lane_ctl_stat10
+ *
+ * PCIe RC Margining Lane Control and Status Register 10
+ */
+union cavm_pciercx_mrg_lane_ctl_stat10
+{
+    uint32_t u;
+    struct cavm_pciercx_mrg_lane_ctl_stat10_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pl_stat               : 8;  /**< [ 31: 24](RO/H) Margin payload (status) for this lane. */
+        uint32_t reserved_23           : 1;
+        uint32_t um_stat               : 1;  /**< [ 22: 22](RO/H) Usage model (status) for this lane. */
+        uint32_t mt_stat               : 3;  /**< [ 21: 19](RO/H) Margin type (status) for this lane. */
+        uint32_t rnum_stat             : 3;  /**< [ 18: 16](RO/H) Receiver number (status) for this lane. */
+        uint32_t mpl                   : 8;  /**< [ 15:  8](R/W) Margin payload for this lane. */
+        uint32_t reserved_7            : 1;
+        uint32_t um                    : 1;  /**< [  6:  6](R/W) Usage model for this lane. */
+        uint32_t mt                    : 3;  /**< [  5:  3](R/W) Margin type for this lane. */
+        uint32_t rnum                  : 3;  /**< [  2:  0](R/W) Receiver number for this lane. */
+#else /* Word 0 - Little Endian */
+        uint32_t rnum                  : 3;  /**< [  2:  0](R/W) Receiver number for this lane. */
+        uint32_t mt                    : 3;  /**< [  5:  3](R/W) Margin type for this lane. */
+        uint32_t um                    : 1;  /**< [  6:  6](R/W) Usage model for this lane. */
+        uint32_t reserved_7            : 1;
+        uint32_t mpl                   : 8;  /**< [ 15:  8](R/W) Margin payload for this lane. */
+        uint32_t rnum_stat             : 3;  /**< [ 18: 16](RO/H) Receiver number (status) for this lane. */
+        uint32_t mt_stat               : 3;  /**< [ 21: 19](RO/H) Margin type (status) for this lane. */
+        uint32_t um_stat               : 1;  /**< [ 22: 22](RO/H) Usage model (status) for this lane. */
+        uint32_t reserved_23           : 1;
+        uint32_t pl_stat               : 8;  /**< [ 31: 24](RO/H) Margin payload (status) for this lane. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_mrg_lane_ctl_stat10_s cn; */
+};
+typedef union cavm_pciercx_mrg_lane_ctl_stat10 cavm_pciercx_mrg_lane_ctl_stat10_t;
+
+static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT10(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT10(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x1f8 + 0 * ((a) & 0x7);
+    __cavm_csr_fatal("PCIERCX_MRG_LANE_CTL_STAT10", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_MRG_LANE_CTL_STAT10(a) cavm_pciercx_mrg_lane_ctl_stat10_t
+#define bustype_CAVM_PCIERCX_MRG_LANE_CTL_STAT10(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_MRG_LANE_CTL_STAT10(a) "PCIERCX_MRG_LANE_CTL_STAT10"
+#define busnum_CAVM_PCIERCX_MRG_LANE_CTL_STAT10(a) (a)
+#define arguments_CAVM_PCIERCX_MRG_LANE_CTL_STAT10(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_mrg_lane_ctl_stat11
+ *
+ * PCIe RC Margining Lane Control and Status Register 11
+ */
+union cavm_pciercx_mrg_lane_ctl_stat11
+{
+    uint32_t u;
+    struct cavm_pciercx_mrg_lane_ctl_stat11_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pl_stat               : 8;  /**< [ 31: 24](RO/H) Margin payload (status) for this lane. */
+        uint32_t reserved_23           : 1;
+        uint32_t um_stat               : 1;  /**< [ 22: 22](RO/H) Usage model (status) for this lane. */
+        uint32_t mt_stat               : 3;  /**< [ 21: 19](RO/H) Margin type (status) for this lane. */
+        uint32_t rnum_stat             : 3;  /**< [ 18: 16](RO/H) Receiver number (status) for this lane. */
+        uint32_t mpl                   : 8;  /**< [ 15:  8](R/W) Margin payload for this lane. */
+        uint32_t reserved_7            : 1;
+        uint32_t um                    : 1;  /**< [  6:  6](R/W) Usage model for this lane. */
+        uint32_t mt                    : 3;  /**< [  5:  3](R/W) Margin type for this lane. */
+        uint32_t rnum                  : 3;  /**< [  2:  0](R/W) Receiver number for this lane. */
+#else /* Word 0 - Little Endian */
+        uint32_t rnum                  : 3;  /**< [  2:  0](R/W) Receiver number for this lane. */
+        uint32_t mt                    : 3;  /**< [  5:  3](R/W) Margin type for this lane. */
+        uint32_t um                    : 1;  /**< [  6:  6](R/W) Usage model for this lane. */
+        uint32_t reserved_7            : 1;
+        uint32_t mpl                   : 8;  /**< [ 15:  8](R/W) Margin payload for this lane. */
+        uint32_t rnum_stat             : 3;  /**< [ 18: 16](RO/H) Receiver number (status) for this lane. */
+        uint32_t mt_stat               : 3;  /**< [ 21: 19](RO/H) Margin type (status) for this lane. */
+        uint32_t um_stat               : 1;  /**< [ 22: 22](RO/H) Usage model (status) for this lane. */
+        uint32_t reserved_23           : 1;
+        uint32_t pl_stat               : 8;  /**< [ 31: 24](RO/H) Margin payload (status) for this lane. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_mrg_lane_ctl_stat11_s cn; */
+};
+typedef union cavm_pciercx_mrg_lane_ctl_stat11 cavm_pciercx_mrg_lane_ctl_stat11_t;
+
+static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT11(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT11(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x1fc + 0 * ((a) & 0x7);
+    __cavm_csr_fatal("PCIERCX_MRG_LANE_CTL_STAT11", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_MRG_LANE_CTL_STAT11(a) cavm_pciercx_mrg_lane_ctl_stat11_t
+#define bustype_CAVM_PCIERCX_MRG_LANE_CTL_STAT11(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_MRG_LANE_CTL_STAT11(a) "PCIERCX_MRG_LANE_CTL_STAT11"
+#define busnum_CAVM_PCIERCX_MRG_LANE_CTL_STAT11(a) (a)
+#define arguments_CAVM_PCIERCX_MRG_LANE_CTL_STAT11(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_mrg_lane_ctl_stat12
+ *
+ * PCIe RC Margining Lane Control and Status Register 12
+ */
+union cavm_pciercx_mrg_lane_ctl_stat12
+{
+    uint32_t u;
+    struct cavm_pciercx_mrg_lane_ctl_stat12_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pl_stat               : 8;  /**< [ 31: 24](RO/H) Margin payload (status) for this lane. */
+        uint32_t reserved_23           : 1;
+        uint32_t um_stat               : 1;  /**< [ 22: 22](RO/H) Usage model (status) for this lane. */
+        uint32_t mt_stat               : 3;  /**< [ 21: 19](RO/H) Margin type (status) for this lane. */
+        uint32_t rnum_stat             : 3;  /**< [ 18: 16](RO/H) Receiver number (status) for this lane. */
+        uint32_t mpl                   : 8;  /**< [ 15:  8](R/W) Margin payload for this lane. */
+        uint32_t reserved_7            : 1;
+        uint32_t um                    : 1;  /**< [  6:  6](R/W) Usage model for this lane. */
+        uint32_t mt                    : 3;  /**< [  5:  3](R/W) Margin type for this lane. */
+        uint32_t rnum                  : 3;  /**< [  2:  0](R/W) Receiver number for this lane. */
+#else /* Word 0 - Little Endian */
+        uint32_t rnum                  : 3;  /**< [  2:  0](R/W) Receiver number for this lane. */
+        uint32_t mt                    : 3;  /**< [  5:  3](R/W) Margin type for this lane. */
+        uint32_t um                    : 1;  /**< [  6:  6](R/W) Usage model for this lane. */
+        uint32_t reserved_7            : 1;
+        uint32_t mpl                   : 8;  /**< [ 15:  8](R/W) Margin payload for this lane. */
+        uint32_t rnum_stat             : 3;  /**< [ 18: 16](RO/H) Receiver number (status) for this lane. */
+        uint32_t mt_stat               : 3;  /**< [ 21: 19](RO/H) Margin type (status) for this lane. */
+        uint32_t um_stat               : 1;  /**< [ 22: 22](RO/H) Usage model (status) for this lane. */
+        uint32_t reserved_23           : 1;
+        uint32_t pl_stat               : 8;  /**< [ 31: 24](RO/H) Margin payload (status) for this lane. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_mrg_lane_ctl_stat12_s cn; */
+};
+typedef union cavm_pciercx_mrg_lane_ctl_stat12 cavm_pciercx_mrg_lane_ctl_stat12_t;
+
+static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT12(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT12(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x200 + 0 * ((a) & 0x7);
+    __cavm_csr_fatal("PCIERCX_MRG_LANE_CTL_STAT12", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_MRG_LANE_CTL_STAT12(a) cavm_pciercx_mrg_lane_ctl_stat12_t
+#define bustype_CAVM_PCIERCX_MRG_LANE_CTL_STAT12(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_MRG_LANE_CTL_STAT12(a) "PCIERCX_MRG_LANE_CTL_STAT12"
+#define busnum_CAVM_PCIERCX_MRG_LANE_CTL_STAT12(a) (a)
+#define arguments_CAVM_PCIERCX_MRG_LANE_CTL_STAT12(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_mrg_lane_ctl_stat13
+ *
+ * PCIe RC Margining Lane Control and Status Register 13
+ */
+union cavm_pciercx_mrg_lane_ctl_stat13
+{
+    uint32_t u;
+    struct cavm_pciercx_mrg_lane_ctl_stat13_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pl_stat               : 8;  /**< [ 31: 24](RO/H) Margin payload (status) for this lane. */
+        uint32_t reserved_23           : 1;
+        uint32_t um_stat               : 1;  /**< [ 22: 22](RO/H) Usage model (status) for this lane. */
+        uint32_t mt_stat               : 3;  /**< [ 21: 19](RO/H) Margin type (status) for this lane. */
+        uint32_t rnum_stat             : 3;  /**< [ 18: 16](RO/H) Receiver number (status) for this lane. */
+        uint32_t mpl                   : 8;  /**< [ 15:  8](R/W) Margin payload for this lane. */
+        uint32_t reserved_7            : 1;
+        uint32_t um                    : 1;  /**< [  6:  6](R/W) Usage model for this lane. */
+        uint32_t mt                    : 3;  /**< [  5:  3](R/W) Margin type for this lane. */
+        uint32_t rnum                  : 3;  /**< [  2:  0](R/W) Receiver number for this lane. */
+#else /* Word 0 - Little Endian */
+        uint32_t rnum                  : 3;  /**< [  2:  0](R/W) Receiver number for this lane. */
+        uint32_t mt                    : 3;  /**< [  5:  3](R/W) Margin type for this lane. */
+        uint32_t um                    : 1;  /**< [  6:  6](R/W) Usage model for this lane. */
+        uint32_t reserved_7            : 1;
+        uint32_t mpl                   : 8;  /**< [ 15:  8](R/W) Margin payload for this lane. */
+        uint32_t rnum_stat             : 3;  /**< [ 18: 16](RO/H) Receiver number (status) for this lane. */
+        uint32_t mt_stat               : 3;  /**< [ 21: 19](RO/H) Margin type (status) for this lane. */
+        uint32_t um_stat               : 1;  /**< [ 22: 22](RO/H) Usage model (status) for this lane. */
+        uint32_t reserved_23           : 1;
+        uint32_t pl_stat               : 8;  /**< [ 31: 24](RO/H) Margin payload (status) for this lane. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_mrg_lane_ctl_stat13_s cn; */
+};
+typedef union cavm_pciercx_mrg_lane_ctl_stat13 cavm_pciercx_mrg_lane_ctl_stat13_t;
+
+static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT13(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT13(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x204 + 0 * ((a) & 0x7);
+    __cavm_csr_fatal("PCIERCX_MRG_LANE_CTL_STAT13", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_MRG_LANE_CTL_STAT13(a) cavm_pciercx_mrg_lane_ctl_stat13_t
+#define bustype_CAVM_PCIERCX_MRG_LANE_CTL_STAT13(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_MRG_LANE_CTL_STAT13(a) "PCIERCX_MRG_LANE_CTL_STAT13"
+#define busnum_CAVM_PCIERCX_MRG_LANE_CTL_STAT13(a) (a)
+#define arguments_CAVM_PCIERCX_MRG_LANE_CTL_STAT13(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_mrg_lane_ctl_stat14
+ *
+ * PCIe RC Margining Lane Control and Status Register 14
+ */
+union cavm_pciercx_mrg_lane_ctl_stat14
+{
+    uint32_t u;
+    struct cavm_pciercx_mrg_lane_ctl_stat14_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pl_stat               : 8;  /**< [ 31: 24](RO/H) Margin payload (status) for this lane. */
+        uint32_t reserved_23           : 1;
+        uint32_t um_stat               : 1;  /**< [ 22: 22](RO/H) Usage model (status) for this lane. */
+        uint32_t mt_stat               : 3;  /**< [ 21: 19](RO/H) Margin type (status) for this lane. */
+        uint32_t rnum_stat             : 3;  /**< [ 18: 16](RO/H) Receiver number (status) for this lane. */
+        uint32_t mpl                   : 8;  /**< [ 15:  8](R/W) Margin payload for this lane. */
+        uint32_t reserved_7            : 1;
+        uint32_t um                    : 1;  /**< [  6:  6](R/W) Usage model for this lane. */
+        uint32_t mt                    : 3;  /**< [  5:  3](R/W) Margin type for this lane. */
+        uint32_t rnum                  : 3;  /**< [  2:  0](R/W) Receiver number for this lane. */
+#else /* Word 0 - Little Endian */
+        uint32_t rnum                  : 3;  /**< [  2:  0](R/W) Receiver number for this lane. */
+        uint32_t mt                    : 3;  /**< [  5:  3](R/W) Margin type for this lane. */
+        uint32_t um                    : 1;  /**< [  6:  6](R/W) Usage model for this lane. */
+        uint32_t reserved_7            : 1;
+        uint32_t mpl                   : 8;  /**< [ 15:  8](R/W) Margin payload for this lane. */
+        uint32_t rnum_stat             : 3;  /**< [ 18: 16](RO/H) Receiver number (status) for this lane. */
+        uint32_t mt_stat               : 3;  /**< [ 21: 19](RO/H) Margin type (status) for this lane. */
+        uint32_t um_stat               : 1;  /**< [ 22: 22](RO/H) Usage model (status) for this lane. */
+        uint32_t reserved_23           : 1;
+        uint32_t pl_stat               : 8;  /**< [ 31: 24](RO/H) Margin payload (status) for this lane. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_mrg_lane_ctl_stat14_s cn; */
+};
+typedef union cavm_pciercx_mrg_lane_ctl_stat14 cavm_pciercx_mrg_lane_ctl_stat14_t;
+
+static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT14(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT14(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x208 + 0 * ((a) & 0x7);
+    __cavm_csr_fatal("PCIERCX_MRG_LANE_CTL_STAT14", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_MRG_LANE_CTL_STAT14(a) cavm_pciercx_mrg_lane_ctl_stat14_t
+#define bustype_CAVM_PCIERCX_MRG_LANE_CTL_STAT14(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_MRG_LANE_CTL_STAT14(a) "PCIERCX_MRG_LANE_CTL_STAT14"
+#define busnum_CAVM_PCIERCX_MRG_LANE_CTL_STAT14(a) (a)
+#define arguments_CAVM_PCIERCX_MRG_LANE_CTL_STAT14(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_mrg_lane_ctl_stat15
+ *
+ * PCIe RC Margining Lane Control and Status Register 15
+ */
+union cavm_pciercx_mrg_lane_ctl_stat15
+{
+    uint32_t u;
+    struct cavm_pciercx_mrg_lane_ctl_stat15_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pl_stat               : 8;  /**< [ 31: 24](RO/H) Margin payload (status) for this lane. */
+        uint32_t reserved_23           : 1;
+        uint32_t um_stat               : 1;  /**< [ 22: 22](RO/H) Usage model (status) for this lane. */
+        uint32_t mt_stat               : 3;  /**< [ 21: 19](RO/H) Margin type (status) for this lane. */
+        uint32_t rnum_stat             : 3;  /**< [ 18: 16](RO/H) Receiver number (status) for this lane. */
+        uint32_t mpl                   : 8;  /**< [ 15:  8](R/W) Margin payload for this lane. */
+        uint32_t reserved_7            : 1;
+        uint32_t um                    : 1;  /**< [  6:  6](R/W) Usage model for this lane. */
+        uint32_t mt                    : 3;  /**< [  5:  3](R/W) Margin type for this lane. */
+        uint32_t rnum                  : 3;  /**< [  2:  0](R/W) Receiver number for this lane. */
+#else /* Word 0 - Little Endian */
+        uint32_t rnum                  : 3;  /**< [  2:  0](R/W) Receiver number for this lane. */
+        uint32_t mt                    : 3;  /**< [  5:  3](R/W) Margin type for this lane. */
+        uint32_t um                    : 1;  /**< [  6:  6](R/W) Usage model for this lane. */
+        uint32_t reserved_7            : 1;
+        uint32_t mpl                   : 8;  /**< [ 15:  8](R/W) Margin payload for this lane. */
+        uint32_t rnum_stat             : 3;  /**< [ 18: 16](RO/H) Receiver number (status) for this lane. */
+        uint32_t mt_stat               : 3;  /**< [ 21: 19](RO/H) Margin type (status) for this lane. */
+        uint32_t um_stat               : 1;  /**< [ 22: 22](RO/H) Usage model (status) for this lane. */
+        uint32_t reserved_23           : 1;
+        uint32_t pl_stat               : 8;  /**< [ 31: 24](RO/H) Margin payload (status) for this lane. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_mrg_lane_ctl_stat15_s cn; */
+};
+typedef union cavm_pciercx_mrg_lane_ctl_stat15 cavm_pciercx_mrg_lane_ctl_stat15_t;
+
+static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT15(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT15(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x20c + 0 * ((a) & 0x7);
+    __cavm_csr_fatal("PCIERCX_MRG_LANE_CTL_STAT15", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_MRG_LANE_CTL_STAT15(a) cavm_pciercx_mrg_lane_ctl_stat15_t
+#define bustype_CAVM_PCIERCX_MRG_LANE_CTL_STAT15(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_MRG_LANE_CTL_STAT15(a) "PCIERCX_MRG_LANE_CTL_STAT15"
+#define busnum_CAVM_PCIERCX_MRG_LANE_CTL_STAT15(a) (a)
+#define arguments_CAVM_PCIERCX_MRG_LANE_CTL_STAT15(a) (a),-1,-1,-1
 
 /**
  * Register (PCICONFIGRC) pcierc#_mrg_lane_ctl_stat2
@@ -4491,8 +5654,8 @@ typedef union cavm_pciercx_mrg_lane_ctl_stat2 cavm_pciercx_mrg_lane_ctl_stat2_t;
 static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT2(uint64_t a)
 {
-    if (a<=5)
-        return 0x1bc + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x1d8 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_MRG_LANE_CTL_STAT2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4543,8 +5706,8 @@ typedef union cavm_pciercx_mrg_lane_ctl_stat3 cavm_pciercx_mrg_lane_ctl_stat3_t;
 static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT3(uint64_t a)
 {
-    if (a<=5)
-        return 0x1c0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x1dc + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_MRG_LANE_CTL_STAT3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4553,6 +5716,318 @@ static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT3(uint64_t a)
 #define basename_CAVM_PCIERCX_MRG_LANE_CTL_STAT3(a) "PCIERCX_MRG_LANE_CTL_STAT3"
 #define busnum_CAVM_PCIERCX_MRG_LANE_CTL_STAT3(a) (a)
 #define arguments_CAVM_PCIERCX_MRG_LANE_CTL_STAT3(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_mrg_lane_ctl_stat4
+ *
+ * PCIe RC Margining Lane Control and Status Register 4
+ */
+union cavm_pciercx_mrg_lane_ctl_stat4
+{
+    uint32_t u;
+    struct cavm_pciercx_mrg_lane_ctl_stat4_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pl_stat               : 8;  /**< [ 31: 24](RO/H) Margin payload (status) for this lane. */
+        uint32_t reserved_23           : 1;
+        uint32_t um_stat               : 1;  /**< [ 22: 22](RO/H) Usage model (status) for this lane. */
+        uint32_t mt_stat               : 3;  /**< [ 21: 19](RO/H) Margin type (status) for this lane. */
+        uint32_t rnum_stat             : 3;  /**< [ 18: 16](RO/H) Receiver number (status) for this lane. */
+        uint32_t mpl                   : 8;  /**< [ 15:  8](R/W) Margin payload for this lane. */
+        uint32_t reserved_7            : 1;
+        uint32_t um                    : 1;  /**< [  6:  6](R/W) Usage model for this lane. */
+        uint32_t mt                    : 3;  /**< [  5:  3](R/W) Margin type for this lane. */
+        uint32_t rnum                  : 3;  /**< [  2:  0](R/W) Receiver number for this lane. */
+#else /* Word 0 - Little Endian */
+        uint32_t rnum                  : 3;  /**< [  2:  0](R/W) Receiver number for this lane. */
+        uint32_t mt                    : 3;  /**< [  5:  3](R/W) Margin type for this lane. */
+        uint32_t um                    : 1;  /**< [  6:  6](R/W) Usage model for this lane. */
+        uint32_t reserved_7            : 1;
+        uint32_t mpl                   : 8;  /**< [ 15:  8](R/W) Margin payload for this lane. */
+        uint32_t rnum_stat             : 3;  /**< [ 18: 16](RO/H) Receiver number (status) for this lane. */
+        uint32_t mt_stat               : 3;  /**< [ 21: 19](RO/H) Margin type (status) for this lane. */
+        uint32_t um_stat               : 1;  /**< [ 22: 22](RO/H) Usage model (status) for this lane. */
+        uint32_t reserved_23           : 1;
+        uint32_t pl_stat               : 8;  /**< [ 31: 24](RO/H) Margin payload (status) for this lane. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_mrg_lane_ctl_stat4_s cn; */
+};
+typedef union cavm_pciercx_mrg_lane_ctl_stat4 cavm_pciercx_mrg_lane_ctl_stat4_t;
+
+static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT4(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT4(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x1e0 + 0 * ((a) & 0x7);
+    __cavm_csr_fatal("PCIERCX_MRG_LANE_CTL_STAT4", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_MRG_LANE_CTL_STAT4(a) cavm_pciercx_mrg_lane_ctl_stat4_t
+#define bustype_CAVM_PCIERCX_MRG_LANE_CTL_STAT4(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_MRG_LANE_CTL_STAT4(a) "PCIERCX_MRG_LANE_CTL_STAT4"
+#define busnum_CAVM_PCIERCX_MRG_LANE_CTL_STAT4(a) (a)
+#define arguments_CAVM_PCIERCX_MRG_LANE_CTL_STAT4(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_mrg_lane_ctl_stat5
+ *
+ * PCIe RC Margining Lane Control and Status Register 5
+ */
+union cavm_pciercx_mrg_lane_ctl_stat5
+{
+    uint32_t u;
+    struct cavm_pciercx_mrg_lane_ctl_stat5_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pl_stat               : 8;  /**< [ 31: 24](RO/H) Margin payload (status) for this lane. */
+        uint32_t reserved_23           : 1;
+        uint32_t um_stat               : 1;  /**< [ 22: 22](RO/H) Usage model (status) for this lane. */
+        uint32_t mt_stat               : 3;  /**< [ 21: 19](RO/H) Margin type (status) for this lane. */
+        uint32_t rnum_stat             : 3;  /**< [ 18: 16](RO/H) Receiver number (status) for this lane. */
+        uint32_t mpl                   : 8;  /**< [ 15:  8](R/W) Margin payload for this lane. */
+        uint32_t reserved_7            : 1;
+        uint32_t um                    : 1;  /**< [  6:  6](R/W) Usage model for this lane. */
+        uint32_t mt                    : 3;  /**< [  5:  3](R/W) Margin type for this lane. */
+        uint32_t rnum                  : 3;  /**< [  2:  0](R/W) Receiver number for this lane. */
+#else /* Word 0 - Little Endian */
+        uint32_t rnum                  : 3;  /**< [  2:  0](R/W) Receiver number for this lane. */
+        uint32_t mt                    : 3;  /**< [  5:  3](R/W) Margin type for this lane. */
+        uint32_t um                    : 1;  /**< [  6:  6](R/W) Usage model for this lane. */
+        uint32_t reserved_7            : 1;
+        uint32_t mpl                   : 8;  /**< [ 15:  8](R/W) Margin payload for this lane. */
+        uint32_t rnum_stat             : 3;  /**< [ 18: 16](RO/H) Receiver number (status) for this lane. */
+        uint32_t mt_stat               : 3;  /**< [ 21: 19](RO/H) Margin type (status) for this lane. */
+        uint32_t um_stat               : 1;  /**< [ 22: 22](RO/H) Usage model (status) for this lane. */
+        uint32_t reserved_23           : 1;
+        uint32_t pl_stat               : 8;  /**< [ 31: 24](RO/H) Margin payload (status) for this lane. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_mrg_lane_ctl_stat5_s cn; */
+};
+typedef union cavm_pciercx_mrg_lane_ctl_stat5 cavm_pciercx_mrg_lane_ctl_stat5_t;
+
+static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT5(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT5(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x1e4 + 0 * ((a) & 0x7);
+    __cavm_csr_fatal("PCIERCX_MRG_LANE_CTL_STAT5", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_MRG_LANE_CTL_STAT5(a) cavm_pciercx_mrg_lane_ctl_stat5_t
+#define bustype_CAVM_PCIERCX_MRG_LANE_CTL_STAT5(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_MRG_LANE_CTL_STAT5(a) "PCIERCX_MRG_LANE_CTL_STAT5"
+#define busnum_CAVM_PCIERCX_MRG_LANE_CTL_STAT5(a) (a)
+#define arguments_CAVM_PCIERCX_MRG_LANE_CTL_STAT5(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_mrg_lane_ctl_stat6
+ *
+ * PCIe RC Margining Lane Control and Status Register 6
+ */
+union cavm_pciercx_mrg_lane_ctl_stat6
+{
+    uint32_t u;
+    struct cavm_pciercx_mrg_lane_ctl_stat6_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pl_stat               : 8;  /**< [ 31: 24](RO/H) Margin payload (status) for this lane. */
+        uint32_t reserved_23           : 1;
+        uint32_t um_stat               : 1;  /**< [ 22: 22](RO/H) Usage model (status) for this lane. */
+        uint32_t mt_stat               : 3;  /**< [ 21: 19](RO/H) Margin type (status) for this lane. */
+        uint32_t rnum_stat             : 3;  /**< [ 18: 16](RO/H) Receiver number (status) for this lane. */
+        uint32_t mpl                   : 8;  /**< [ 15:  8](R/W) Margin payload for this lane. */
+        uint32_t reserved_7            : 1;
+        uint32_t um                    : 1;  /**< [  6:  6](R/W) Usage model for this lane. */
+        uint32_t mt                    : 3;  /**< [  5:  3](R/W) Margin type for this lane. */
+        uint32_t rnum                  : 3;  /**< [  2:  0](R/W) Receiver number for this lane. */
+#else /* Word 0 - Little Endian */
+        uint32_t rnum                  : 3;  /**< [  2:  0](R/W) Receiver number for this lane. */
+        uint32_t mt                    : 3;  /**< [  5:  3](R/W) Margin type for this lane. */
+        uint32_t um                    : 1;  /**< [  6:  6](R/W) Usage model for this lane. */
+        uint32_t reserved_7            : 1;
+        uint32_t mpl                   : 8;  /**< [ 15:  8](R/W) Margin payload for this lane. */
+        uint32_t rnum_stat             : 3;  /**< [ 18: 16](RO/H) Receiver number (status) for this lane. */
+        uint32_t mt_stat               : 3;  /**< [ 21: 19](RO/H) Margin type (status) for this lane. */
+        uint32_t um_stat               : 1;  /**< [ 22: 22](RO/H) Usage model (status) for this lane. */
+        uint32_t reserved_23           : 1;
+        uint32_t pl_stat               : 8;  /**< [ 31: 24](RO/H) Margin payload (status) for this lane. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_mrg_lane_ctl_stat6_s cn; */
+};
+typedef union cavm_pciercx_mrg_lane_ctl_stat6 cavm_pciercx_mrg_lane_ctl_stat6_t;
+
+static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT6(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT6(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x1e8 + 0 * ((a) & 0x7);
+    __cavm_csr_fatal("PCIERCX_MRG_LANE_CTL_STAT6", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_MRG_LANE_CTL_STAT6(a) cavm_pciercx_mrg_lane_ctl_stat6_t
+#define bustype_CAVM_PCIERCX_MRG_LANE_CTL_STAT6(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_MRG_LANE_CTL_STAT6(a) "PCIERCX_MRG_LANE_CTL_STAT6"
+#define busnum_CAVM_PCIERCX_MRG_LANE_CTL_STAT6(a) (a)
+#define arguments_CAVM_PCIERCX_MRG_LANE_CTL_STAT6(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_mrg_lane_ctl_stat7
+ *
+ * PCIe RC Margining Lane Control and Status Register 7
+ */
+union cavm_pciercx_mrg_lane_ctl_stat7
+{
+    uint32_t u;
+    struct cavm_pciercx_mrg_lane_ctl_stat7_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pl_stat               : 8;  /**< [ 31: 24](RO/H) Margin payload (status) for this lane. */
+        uint32_t reserved_23           : 1;
+        uint32_t um_stat               : 1;  /**< [ 22: 22](RO/H) Usage model (status) for this lane. */
+        uint32_t mt_stat               : 3;  /**< [ 21: 19](RO/H) Margin type (status) for this lane. */
+        uint32_t rnum_stat             : 3;  /**< [ 18: 16](RO/H) Receiver number (status) for this lane. */
+        uint32_t mpl                   : 8;  /**< [ 15:  8](R/W) Margin payload for this lane. */
+        uint32_t reserved_7            : 1;
+        uint32_t um                    : 1;  /**< [  6:  6](R/W) Usage model for this lane. */
+        uint32_t mt                    : 3;  /**< [  5:  3](R/W) Margin type for this lane. */
+        uint32_t rnum                  : 3;  /**< [  2:  0](R/W) Receiver number for this lane. */
+#else /* Word 0 - Little Endian */
+        uint32_t rnum                  : 3;  /**< [  2:  0](R/W) Receiver number for this lane. */
+        uint32_t mt                    : 3;  /**< [  5:  3](R/W) Margin type for this lane. */
+        uint32_t um                    : 1;  /**< [  6:  6](R/W) Usage model for this lane. */
+        uint32_t reserved_7            : 1;
+        uint32_t mpl                   : 8;  /**< [ 15:  8](R/W) Margin payload for this lane. */
+        uint32_t rnum_stat             : 3;  /**< [ 18: 16](RO/H) Receiver number (status) for this lane. */
+        uint32_t mt_stat               : 3;  /**< [ 21: 19](RO/H) Margin type (status) for this lane. */
+        uint32_t um_stat               : 1;  /**< [ 22: 22](RO/H) Usage model (status) for this lane. */
+        uint32_t reserved_23           : 1;
+        uint32_t pl_stat               : 8;  /**< [ 31: 24](RO/H) Margin payload (status) for this lane. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_mrg_lane_ctl_stat7_s cn; */
+};
+typedef union cavm_pciercx_mrg_lane_ctl_stat7 cavm_pciercx_mrg_lane_ctl_stat7_t;
+
+static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT7(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT7(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x1ec + 0 * ((a) & 0x7);
+    __cavm_csr_fatal("PCIERCX_MRG_LANE_CTL_STAT7", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_MRG_LANE_CTL_STAT7(a) cavm_pciercx_mrg_lane_ctl_stat7_t
+#define bustype_CAVM_PCIERCX_MRG_LANE_CTL_STAT7(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_MRG_LANE_CTL_STAT7(a) "PCIERCX_MRG_LANE_CTL_STAT7"
+#define busnum_CAVM_PCIERCX_MRG_LANE_CTL_STAT7(a) (a)
+#define arguments_CAVM_PCIERCX_MRG_LANE_CTL_STAT7(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_mrg_lane_ctl_stat8
+ *
+ * PCIe RC Margining Lane Control and Status Register 8
+ */
+union cavm_pciercx_mrg_lane_ctl_stat8
+{
+    uint32_t u;
+    struct cavm_pciercx_mrg_lane_ctl_stat8_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pl_stat               : 8;  /**< [ 31: 24](RO/H) Margin payload (status) for this lane. */
+        uint32_t reserved_23           : 1;
+        uint32_t um_stat               : 1;  /**< [ 22: 22](RO/H) Usage model (status) for this lane. */
+        uint32_t mt_stat               : 3;  /**< [ 21: 19](RO/H) Margin type (status) for this lane. */
+        uint32_t rnum_stat             : 3;  /**< [ 18: 16](RO/H) Receiver number (status) for this lane. */
+        uint32_t mpl                   : 8;  /**< [ 15:  8](R/W) Margin payload for this lane. */
+        uint32_t reserved_7            : 1;
+        uint32_t um                    : 1;  /**< [  6:  6](R/W) Usage model for this lane. */
+        uint32_t mt                    : 3;  /**< [  5:  3](R/W) Margin type for this lane. */
+        uint32_t rnum                  : 3;  /**< [  2:  0](R/W) Receiver number for this lane. */
+#else /* Word 0 - Little Endian */
+        uint32_t rnum                  : 3;  /**< [  2:  0](R/W) Receiver number for this lane. */
+        uint32_t mt                    : 3;  /**< [  5:  3](R/W) Margin type for this lane. */
+        uint32_t um                    : 1;  /**< [  6:  6](R/W) Usage model for this lane. */
+        uint32_t reserved_7            : 1;
+        uint32_t mpl                   : 8;  /**< [ 15:  8](R/W) Margin payload for this lane. */
+        uint32_t rnum_stat             : 3;  /**< [ 18: 16](RO/H) Receiver number (status) for this lane. */
+        uint32_t mt_stat               : 3;  /**< [ 21: 19](RO/H) Margin type (status) for this lane. */
+        uint32_t um_stat               : 1;  /**< [ 22: 22](RO/H) Usage model (status) for this lane. */
+        uint32_t reserved_23           : 1;
+        uint32_t pl_stat               : 8;  /**< [ 31: 24](RO/H) Margin payload (status) for this lane. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_mrg_lane_ctl_stat8_s cn; */
+};
+typedef union cavm_pciercx_mrg_lane_ctl_stat8 cavm_pciercx_mrg_lane_ctl_stat8_t;
+
+static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT8(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT8(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x1f0 + 0 * ((a) & 0x7);
+    __cavm_csr_fatal("PCIERCX_MRG_LANE_CTL_STAT8", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_MRG_LANE_CTL_STAT8(a) cavm_pciercx_mrg_lane_ctl_stat8_t
+#define bustype_CAVM_PCIERCX_MRG_LANE_CTL_STAT8(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_MRG_LANE_CTL_STAT8(a) "PCIERCX_MRG_LANE_CTL_STAT8"
+#define busnum_CAVM_PCIERCX_MRG_LANE_CTL_STAT8(a) (a)
+#define arguments_CAVM_PCIERCX_MRG_LANE_CTL_STAT8(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_mrg_lane_ctl_stat9
+ *
+ * PCIe RC Margining Lane Control and Status Register 9
+ */
+union cavm_pciercx_mrg_lane_ctl_stat9
+{
+    uint32_t u;
+    struct cavm_pciercx_mrg_lane_ctl_stat9_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pl_stat               : 8;  /**< [ 31: 24](RO/H) Margin payload (status) for this lane. */
+        uint32_t reserved_23           : 1;
+        uint32_t um_stat               : 1;  /**< [ 22: 22](RO/H) Usage model (status) for this lane. */
+        uint32_t mt_stat               : 3;  /**< [ 21: 19](RO/H) Margin type (status) for this lane. */
+        uint32_t rnum_stat             : 3;  /**< [ 18: 16](RO/H) Receiver number (status) for this lane. */
+        uint32_t mpl                   : 8;  /**< [ 15:  8](R/W) Margin payload for this lane. */
+        uint32_t reserved_7            : 1;
+        uint32_t um                    : 1;  /**< [  6:  6](R/W) Usage model for this lane. */
+        uint32_t mt                    : 3;  /**< [  5:  3](R/W) Margin type for this lane. */
+        uint32_t rnum                  : 3;  /**< [  2:  0](R/W) Receiver number for this lane. */
+#else /* Word 0 - Little Endian */
+        uint32_t rnum                  : 3;  /**< [  2:  0](R/W) Receiver number for this lane. */
+        uint32_t mt                    : 3;  /**< [  5:  3](R/W) Margin type for this lane. */
+        uint32_t um                    : 1;  /**< [  6:  6](R/W) Usage model for this lane. */
+        uint32_t reserved_7            : 1;
+        uint32_t mpl                   : 8;  /**< [ 15:  8](R/W) Margin payload for this lane. */
+        uint32_t rnum_stat             : 3;  /**< [ 18: 16](RO/H) Receiver number (status) for this lane. */
+        uint32_t mt_stat               : 3;  /**< [ 21: 19](RO/H) Margin type (status) for this lane. */
+        uint32_t um_stat               : 1;  /**< [ 22: 22](RO/H) Usage model (status) for this lane. */
+        uint32_t reserved_23           : 1;
+        uint32_t pl_stat               : 8;  /**< [ 31: 24](RO/H) Margin payload (status) for this lane. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_mrg_lane_ctl_stat9_s cn; */
+};
+typedef union cavm_pciercx_mrg_lane_ctl_stat9 cavm_pciercx_mrg_lane_ctl_stat9_t;
+
+static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT9(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT9(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x1f4 + 0 * ((a) & 0x7);
+    __cavm_csr_fatal("PCIERCX_MRG_LANE_CTL_STAT9", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_MRG_LANE_CTL_STAT9(a) cavm_pciercx_mrg_lane_ctl_stat9_t
+#define bustype_CAVM_PCIERCX_MRG_LANE_CTL_STAT9(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_MRG_LANE_CTL_STAT9(a) "PCIERCX_MRG_LANE_CTL_STAT9"
+#define busnum_CAVM_PCIERCX_MRG_LANE_CTL_STAT9(a) (a)
+#define arguments_CAVM_PCIERCX_MRG_LANE_CTL_STAT9(a) (a),-1,-1,-1
 
 /**
  * Register (PCICONFIGRC) pcierc#_mrg_port_cap_stat
@@ -4585,8 +6060,8 @@ typedef union cavm_pciercx_mrg_port_cap_stat cavm_pciercx_mrg_port_cap_stat_t;
 static inline uint64_t CAVM_PCIERCX_MRG_PORT_CAP_STAT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_MRG_PORT_CAP_STAT(uint64_t a)
 {
-    if (a<=5)
-        return 0x1b0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x1cc + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_MRG_PORT_CAP_STAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4637,7 +6112,7 @@ typedef union cavm_pciercx_msix_cap_cntrl cavm_pciercx_msix_cap_cntrl_t;
 static inline uint64_t CAVM_PCIERCX_MSIX_CAP_CNTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_MSIX_CAP_CNTRL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0xb0 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_MSIX_CAP_CNTRL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4679,7 +6154,7 @@ typedef union cavm_pciercx_msix_pba cavm_pciercx_msix_pba_t;
 static inline uint64_t CAVM_PCIERCX_MSIX_PBA(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_MSIX_PBA(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0xb8 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_MSIX_PBA", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4719,7 +6194,7 @@ typedef union cavm_pciercx_msix_table cavm_pciercx_msix_table_t;
 static inline uint64_t CAVM_PCIERCX_MSIX_TABLE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_MSIX_TABLE(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0xb4 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_MSIX_TABLE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4743,7 +6218,12 @@ union cavm_pciercx_np_rcv_credit
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_28_31        : 4;
         uint32_t data_sc               : 2;  /**< [ 27: 26](R/W) VC0 scale non-posted data credits. */
-        uint32_t hdr_sc                : 2;  /**< [ 25: 24](R/W) VC0 scale non-posted header credits. */
+        uint32_t hdr_sc                : 2;  /**< [ 25: 24](R/W) VC0 scale non-posted header credits.
+
+                                                                 Reset values:
+                                                                 _ FPEM:      0x2.
+                                                                 _ HPEM:      0x1.
+                                                                 _ QPEM:      0x1. */
         uint32_t queue_mode            : 3;  /**< [ 23: 21](RO/WRSL) VC0 nonposted TLP queue mode. The operating mode of the nonposted receive queue for VC0,
                                                                  used only in the segmented-buffer configuration, writable through PEM()_CFG_TBL().
                                                                  Only one bit can be set at a time:
@@ -4757,32 +6237,38 @@ union cavm_pciercx_np_rcv_credit
                                                                  The application must not change this field. */
         uint32_t reserved_20           : 1;
         uint32_t header_credits        : 8;  /**< [ 19: 12](RO/WRSL) VC0 nonposted header credits. The number of initial nonposted header credits for VC0, used
-                                                                 for all receive queue buffer configurations. This field is writable through
-                                                                 PEM()_CFG_TBL().
+                                                                 for all receive queue buffer configurations.
+                                                                 This field is writable through PEM()_CFG_TBL().
 
                                                                  Reset values:
-                                                                 _ UPEM:      0x3f.
-                                                                 _ BPEM:      0x1f. */
+                                                                 _ FPEM:       0x40.
+                                                                 _ HPEM:       0x7f.
+                                                                 _ QPEM:       0x3f. */
         uint32_t data_credits          : 12; /**< [ 11:  0](RO/WRSL) VC0 nonposted data credits. The number of initial nonposted data credits for VC0, used for
-                                                                 all receive queue buffer configurations. This field is writable through PEM()_CFG_TBL().
+                                                                 all receive queue buffer configurations.
+                                                                 This field is writable through PEM()_CFG_TBL().
 
                                                                  Reset values:
-                                                                 _ UPEM:      0x3f.
-                                                                 _ BPEM:      0x1f. */
+                                                                 _ FPEM:       0x100.
+                                                                 _ HPEM:       0x7f.
+                                                                 _ QPEM:       0x3f. */
 #else /* Word 0 - Little Endian */
         uint32_t data_credits          : 12; /**< [ 11:  0](RO/WRSL) VC0 nonposted data credits. The number of initial nonposted data credits for VC0, used for
-                                                                 all receive queue buffer configurations. This field is writable through PEM()_CFG_TBL().
+                                                                 all receive queue buffer configurations.
+                                                                 This field is writable through PEM()_CFG_TBL().
 
                                                                  Reset values:
-                                                                 _ UPEM:      0x3f.
-                                                                 _ BPEM:      0x1f. */
+                                                                 _ FPEM:       0x100.
+                                                                 _ HPEM:       0x7f.
+                                                                 _ QPEM:       0x3f. */
         uint32_t header_credits        : 8;  /**< [ 19: 12](RO/WRSL) VC0 nonposted header credits. The number of initial nonposted header credits for VC0, used
-                                                                 for all receive queue buffer configurations. This field is writable through
-                                                                 PEM()_CFG_TBL().
+                                                                 for all receive queue buffer configurations.
+                                                                 This field is writable through PEM()_CFG_TBL().
 
                                                                  Reset values:
-                                                                 _ UPEM:      0x3f.
-                                                                 _ BPEM:      0x1f. */
+                                                                 _ FPEM:       0x40.
+                                                                 _ HPEM:       0x7f.
+                                                                 _ QPEM:       0x3f. */
         uint32_t reserved_20           : 1;
         uint32_t queue_mode            : 3;  /**< [ 23: 21](RO/WRSL) VC0 nonposted TLP queue mode. The operating mode of the nonposted receive queue for VC0,
                                                                  used only in the segmented-buffer configuration, writable through PEM()_CFG_TBL().
@@ -4795,7 +6281,12 @@ union cavm_pciercx_np_rcv_credit
                                                                  _ Bit 21 = Store-and-forward.
 
                                                                  The application must not change this field. */
-        uint32_t hdr_sc                : 2;  /**< [ 25: 24](R/W) VC0 scale non-posted header credits. */
+        uint32_t hdr_sc                : 2;  /**< [ 25: 24](R/W) VC0 scale non-posted header credits.
+
+                                                                 Reset values:
+                                                                 _ FPEM:      0x2.
+                                                                 _ HPEM:      0x1.
+                                                                 _ QPEM:      0x1. */
         uint32_t data_sc               : 2;  /**< [ 27: 26](R/W) VC0 scale non-posted data credits. */
         uint32_t reserved_28_31        : 4;
 #endif /* Word 0 - End */
@@ -4807,7 +6298,7 @@ typedef union cavm_pciercx_np_rcv_credit cavm_pciercx_np_rcv_credit_t;
 static inline uint64_t CAVM_PCIERCX_NP_RCV_CREDIT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_NP_RCV_CREDIT(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x74c + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_NP_RCV_CREDIT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4849,7 +6340,7 @@ typedef union cavm_pciercx_np_xmit_credit cavm_pciercx_np_xmit_credit_t;
 static inline uint64_t CAVM_PCIERCX_NP_XMIT_CREDIT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_NP_XMIT_CREDIT(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x734 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_NP_XMIT_CREDIT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4901,7 +6392,7 @@ typedef union cavm_pciercx_omsg_ptr cavm_pciercx_omsg_ptr_t;
 static inline uint64_t CAVM_PCIERCX_OMSG_PTR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_OMSG_PTR(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x704 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_OMSG_PTR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4955,7 +6446,7 @@ typedef union cavm_pciercx_ord_rule_ctrl cavm_pciercx_ord_rule_ctrl_t;
 static inline uint64_t CAVM_PCIERCX_ORD_RULE_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_ORD_RULE_CTRL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x8b4 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_ORD_RULE_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4989,12 +6480,18 @@ union cavm_pciercx_p_rcv_credit
 
                                                                  The application must not change this field. */
         uint32_t reserved_28_29        : 2;
-        uint32_t data_sc               : 2;  /**< [ 27: 26](R/W) VC0 scale posted data credits. */
+        uint32_t data_sc               : 2;  /**< [ 27: 26](R/W) VC0 scale posted data credits.
+
+                                                                 Reset values:
+                                                                 _ FPEM:      0x2.
+                                                                 _ HPEM:      0x1.
+                                                                 _ QPEM:      0x1. */
         uint32_t hdr_sc                : 2;  /**< [ 25: 24](R/W) VC0 scale posted header credits.
 
                                                                  Reset values:
-                                                                 _ UPEM:      0x2.
-                                                                 _ BPEM:      0x1. */
+                                                                 _ FPEM:      0x3.
+                                                                 _ HPEM:      0x2.
+                                                                 _ QPEM:      0x2. */
         uint32_t queue_mode            : 3;  /**< [ 23: 21](RO/WRSL) VC0 posted TLP queue mode. The operating mode of the posted receive queue for VC0, used
                                                                  only in the segmented-buffer configuration, writable through PEM()_CFG_TBL().
                                                                  Only one bit can be set at a time:
@@ -5006,30 +6503,38 @@ union cavm_pciercx_p_rcv_credit
                                                                  _ Bit 21 = Store-and-forward. */
         uint32_t reserved_20           : 1;
         uint32_t header_credits        : 8;  /**< [ 19: 12](RO/WRSL/H) VC0 posted header credits. The number of initial posted header credits for VC0, used for
-                                                                 all receive queue buffer configurations. This field is writable through PEM()_CFG_TBL().
+                                                                 all receive queue buffer configurations.
+                                                                 This field is writable through PEM()_CFG_TBL().
 
                                                                  Reset values:
-                                                                 _ UPEM:      0x20.
-                                                                 _ BPEM:      0x10. */
+                                                                 _ FPEM:      0x20.
+                                                                 _ HPEM:      0x40.
+                                                                 _ QPEM:      0x20. */
         uint32_t data_credits          : 12; /**< [ 11:  0](RO/WRSL/H) VC0 posted data credits. The number of initial posted data credits for VC0, used for all
-                                                                 receive queue buffer configurations. This field is writable through PEM()_CFG_TBL().
+                                                                 receive queue buffer configurations.
+                                                                 This field is writable through PEM()_CFG_TBL().
 
                                                                  Reset values:
-                                                                 _ UPEM:      0x200.
-                                                                 _ BPEM:      0x100. */
+                                                                 _ FPEM:       0x200.
+                                                                 _ HPEM:       0x400.
+                                                                 _ QPEM:       0x240. */
 #else /* Word 0 - Little Endian */
         uint32_t data_credits          : 12; /**< [ 11:  0](RO/WRSL/H) VC0 posted data credits. The number of initial posted data credits for VC0, used for all
-                                                                 receive queue buffer configurations. This field is writable through PEM()_CFG_TBL().
+                                                                 receive queue buffer configurations.
+                                                                 This field is writable through PEM()_CFG_TBL().
 
                                                                  Reset values:
-                                                                 _ UPEM:      0x200.
-                                                                 _ BPEM:      0x100. */
+                                                                 _ FPEM:       0x200.
+                                                                 _ HPEM:       0x400.
+                                                                 _ QPEM:       0x240. */
         uint32_t header_credits        : 8;  /**< [ 19: 12](RO/WRSL/H) VC0 posted header credits. The number of initial posted header credits for VC0, used for
-                                                                 all receive queue buffer configurations. This field is writable through PEM()_CFG_TBL().
+                                                                 all receive queue buffer configurations.
+                                                                 This field is writable through PEM()_CFG_TBL().
 
                                                                  Reset values:
-                                                                 _ UPEM:      0x20.
-                                                                 _ BPEM:      0x10. */
+                                                                 _ FPEM:      0x20.
+                                                                 _ HPEM:      0x40.
+                                                                 _ QPEM:      0x20. */
         uint32_t reserved_20           : 1;
         uint32_t queue_mode            : 3;  /**< [ 23: 21](RO/WRSL) VC0 posted TLP queue mode. The operating mode of the posted receive queue for VC0, used
                                                                  only in the segmented-buffer configuration, writable through PEM()_CFG_TBL().
@@ -5043,9 +6548,15 @@ union cavm_pciercx_p_rcv_credit
         uint32_t hdr_sc                : 2;  /**< [ 25: 24](R/W) VC0 scale posted header credits.
 
                                                                  Reset values:
-                                                                 _ UPEM:      0x2.
-                                                                 _ BPEM:      0x1. */
-        uint32_t data_sc               : 2;  /**< [ 27: 26](R/W) VC0 scale posted data credits. */
+                                                                 _ FPEM:      0x3.
+                                                                 _ HPEM:      0x2.
+                                                                 _ QPEM:      0x2. */
+        uint32_t data_sc               : 2;  /**< [ 27: 26](R/W) VC0 scale posted data credits.
+
+                                                                 Reset values:
+                                                                 _ FPEM:      0x2.
+                                                                 _ HPEM:      0x1.
+                                                                 _ QPEM:      0x1. */
         uint32_t reserved_28_29        : 2;
         uint32_t type_ordering         : 1;  /**< [ 30: 30](RO/WRSL) TLP type ordering for VC0. Determines the TLP type ordering rule for VC0 receive queues,
                                                                  used only in the segmented-buffer configuration, writable through
@@ -5067,7 +6578,7 @@ typedef union cavm_pciercx_p_rcv_credit cavm_pciercx_p_rcv_credit_t;
 static inline uint64_t CAVM_PCIERCX_P_RCV_CREDIT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_P_RCV_CREDIT(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x748 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_P_RCV_CREDIT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5109,7 +6620,7 @@ typedef union cavm_pciercx_p_xmit_credit cavm_pciercx_p_xmit_credit_t;
 static inline uint64_t CAVM_PCIERCX_P_XMIT_CREDIT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_P_XMIT_CREDIT(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x730 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_P_XMIT_CREDIT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5119,6 +6630,50 @@ static inline uint64_t CAVM_PCIERCX_P_XMIT_CREDIT(uint64_t a)
 #define basename_CAVM_PCIERCX_P_XMIT_CREDIT(a) "PCIERCX_P_XMIT_CREDIT"
 #define busnum_CAVM_PCIERCX_P_XMIT_CREDIT(a) (a)
 #define arguments_CAVM_PCIERCX_P_XMIT_CREDIT(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_pb_base
+ *
+ * PCIe RC Power Budgeting Extended Capability Header Register
+ */
+union cavm_pciercx_pb_base
+{
+    uint32_t u;
+    struct cavm_pciercx_pb_base_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_pb_base_s cn; */
+};
+typedef union cavm_pciercx_pb_base cavm_pciercx_pb_base_t;
+
+static inline uint64_t CAVM_PCIERCX_PB_BASE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PB_BASE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x158 + 0 * ((a) & 0x7);
+    __cavm_csr_fatal("PCIERCX_PB_BASE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PB_BASE(a) cavm_pciercx_pb_base_t
+#define bustype_CAVM_PCIERCX_PB_BASE(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PB_BASE(a) "PCIERCX_PB_BASE"
+#define busnum_CAVM_PCIERCX_PB_BASE(a) (a)
+#define arguments_CAVM_PCIERCX_PB_BASE(a) (a),-1,-1,-1
 
 /**
  * Register (PCICONFIGRC) pcierc#_phy_ctl
@@ -5143,7 +6698,7 @@ typedef union cavm_pciercx_phy_ctl cavm_pciercx_phy_ctl_t;
 static inline uint64_t CAVM_PCIERCX_PHY_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PHY_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x814 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PHY_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5182,11 +6737,7 @@ union cavm_pciercx_phy_gen3_ctl
                                                                  _ PCIERC_GEN3_EQ_CTL[P23TD].
                                                                  _ PCIERC_GEN3_EQ_CTL[PRV].
                                                                  _ PCIERC_GEN3_EQ_CTL[IIF].
-                                                                 _ PCIERC_GEN3_EQ_CTL[EQ_PSET_REQ].
-                                                                 _ PCIERC_GEN3_FB_MODE_DIR_CHG[MIN_PHASE23].
-                                                                 _ PCIERC_GEN3_FB_MODE_DIR_CHG[N_EVALS].
-                                                                 _ PCIERC_GEN3_FB_MODE_DIR_CHG[MAX_PRE_CUR_DELTA].
-                                                                 _ PCIERC_GEN3_FB_MODE_DIR_CHG[MAX_POST_CUR_DELTA]. */
+                                                                 _ PCIERC_GEN3_EQ_CTL[EQ_PSET_REQ]. */
         uint32_t eiedd                 : 1;  /**< [ 23: 23](R/W) Eq InvalidRequest and RxEqEval different time assertion disable.  Disable the assertion of
                                                                  Eq InvalidRequest and RxEqEval at different time. */
         uint32_t us8etd                : 1;  /**< [ 22: 22](R/W/H) Upstream port send 8GT/s EQ TS2 disable. The base spec defines that USP can
@@ -5286,11 +6837,7 @@ union cavm_pciercx_phy_gen3_ctl
                                                                  _ PCIERC_GEN3_EQ_CTL[P23TD].
                                                                  _ PCIERC_GEN3_EQ_CTL[PRV].
                                                                  _ PCIERC_GEN3_EQ_CTL[IIF].
-                                                                 _ PCIERC_GEN3_EQ_CTL[EQ_PSET_REQ].
-                                                                 _ PCIERC_GEN3_FB_MODE_DIR_CHG[MIN_PHASE23].
-                                                                 _ PCIERC_GEN3_FB_MODE_DIR_CHG[N_EVALS].
-                                                                 _ PCIERC_GEN3_FB_MODE_DIR_CHG[MAX_PRE_CUR_DELTA].
-                                                                 _ PCIERC_GEN3_FB_MODE_DIR_CHG[MAX_POST_CUR_DELTA]. */
+                                                                 _ PCIERC_GEN3_EQ_CTL[EQ_PSET_REQ]. */
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
     } s;
@@ -5301,7 +6848,7 @@ typedef union cavm_pciercx_phy_gen3_ctl cavm_pciercx_phy_gen3_ctl_t;
 static inline uint64_t CAVM_PCIERCX_PHY_GEN3_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PHY_GEN3_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x890 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PHY_GEN3_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5323,8 +6870,11 @@ union cavm_pciercx_phy_intop_ctl
     struct cavm_pciercx_phy_intop_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_18_31        : 14;
-        uint32_t phy_rst_timer         : 6;  /**< [ 17: 12](R/W) The number of aux clock cycles the PHY reset is asserted.
+        uint32_t pipe_opt_pclkchg_hs   : 1;  /**< [ 31: 31](R/W) Enable the optional PIPE5 behavior for the PclkChangeOk/PclkChangeAck handshake. When enabled,
+                                                                 the controller performs a PclkChangeOk/PclkChangeAck handshake with the PHY whenever a rate
+                                                                 change occurs, even if the new and old rate use the same Pclk frequency */
+        uint32_t phy_perst_on_warm_r   : 1;  /**< [ 30: 30](R/W) Control whether the Power Management Controller will drive pm_req_phy_perst during a Warm Reset */
+        uint32_t phy_rst_timer         : 18; /**< [ 29: 12](R/W) The number of aux clock cycles the PHY reset is asserted.
                                                                  0x0 = Zero cycles.
                                                                  0x1 = 1 cycle.
 
@@ -5333,11 +6883,8 @@ union cavm_pciercx_phy_intop_ctl
         uint32_t l1_clk_sel            : 1;  /**< [ 10: 10](R/W) L1 clock control bit.
                                                                    0 = Controller requests aux_clk switch and core_clk gating in L1.
                                                                    1 = Controller does not request aux_clk switch and core_clk gating in L1. */
-        uint32_t l1_nowait_p1          : 1;  /**< [  9:  9](R/W) L1 entry control bit.  This field is reserved for internal use. */
-        uint32_t l1sub_exit_mode       : 1;  /**< [  8:  8](R/W) L1 exit control using phy_mac_pclkack_n.
-                                                                   0 = Core waits for the PHY to assert phy_mac_pclkack_n before exiting L1.
-                                                                   1 = Core exits L1 without waiting for the PHY to assert phy_mac_pclkack_n. */
-        uint32_t reserved_7            : 1;
+        uint32_t l1_nowait_p1          : 1;  /**< [  9:  9](RO) L1 entry control bit.  This field is reserved for internal use. */
+        uint32_t reserved_7_8          : 2;
         uint32_t rxstby_ctl            : 7;  /**< [  6:  0](R/W) Rxstandby control. Bits 0..5 determine if the controller asserts the RxStandby signal
                                                                  (mac_phy_rxstandby) in the indicated condition. Bit 6 enables the controller
                                                                  to perform the RxStandby/RxStandbyStatus handshake.
@@ -5359,21 +6906,21 @@ union cavm_pciercx_phy_intop_ctl
                                                                    0x4 = RxL0s.Idle.
                                                                    0x5 = EI Infer in L0.
                                                                    0x6 = Execute RxStandby/RxStandbyStatus Handshake. */
-        uint32_t reserved_7            : 1;
-        uint32_t l1sub_exit_mode       : 1;  /**< [  8:  8](R/W) L1 exit control using phy_mac_pclkack_n.
-                                                                   0 = Core waits for the PHY to assert phy_mac_pclkack_n before exiting L1.
-                                                                   1 = Core exits L1 without waiting for the PHY to assert phy_mac_pclkack_n. */
-        uint32_t l1_nowait_p1          : 1;  /**< [  9:  9](R/W) L1 entry control bit.  This field is reserved for internal use. */
+        uint32_t reserved_7_8          : 2;
+        uint32_t l1_nowait_p1          : 1;  /**< [  9:  9](RO) L1 entry control bit.  This field is reserved for internal use. */
         uint32_t l1_clk_sel            : 1;  /**< [ 10: 10](R/W) L1 clock control bit.
                                                                    0 = Controller requests aux_clk switch and core_clk gating in L1.
                                                                    1 = Controller does not request aux_clk switch and core_clk gating in L1. */
         uint32_t p2nobeacon_en         : 1;  /**< [ 11: 11](RO) P2 NoBeacon Enable (Not Supported). */
-        uint32_t phy_rst_timer         : 6;  /**< [ 17: 12](R/W) The number of aux clock cycles the PHY reset is asserted.
+        uint32_t phy_rst_timer         : 18; /**< [ 29: 12](R/W) The number of aux clock cycles the PHY reset is asserted.
                                                                  0x0 = Zero cycles.
                                                                  0x1 = 1 cycle.
 
                                                                  0x3f = 63 cycles. */
-        uint32_t reserved_18_31        : 14;
+        uint32_t phy_perst_on_warm_r   : 1;  /**< [ 30: 30](R/W) Control whether the Power Management Controller will drive pm_req_phy_perst during a Warm Reset */
+        uint32_t pipe_opt_pclkchg_hs   : 1;  /**< [ 31: 31](R/W) Enable the optional PIPE5 behavior for the PclkChangeOk/PclkChangeAck handshake. When enabled,
+                                                                 the controller performs a PclkChangeOk/PclkChangeAck handshake with the PHY whenever a rate
+                                                                 change occurs, even if the new and old rate use the same Pclk frequency */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pciercx_phy_intop_ctl_s cn; */
@@ -5383,7 +6930,7 @@ typedef union cavm_pciercx_phy_intop_ctl cavm_pciercx_phy_intop_ctl_t;
 static inline uint64_t CAVM_PCIERCX_PHY_INTOP_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PHY_INTOP_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x8c4 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PHY_INTOP_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5417,7 +6964,7 @@ typedef union cavm_pciercx_phy_status cavm_pciercx_phy_status_t;
 static inline uint64_t CAVM_PCIERCX_PHY_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PHY_STATUS(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x810 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PHY_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5450,11 +6997,11 @@ union cavm_pciercx_pipe_rel
                                                                    * RxValid is deasserted.
                                                                    * a valid RxStartBlock is received at 128b/130b encoding.
                                                                    * a valid COM symbol is received at 8b/10b encoding. */
-        uint32_t tx_msg_wbuf_depth     : 4;  /**< [  7:  4](RO/H) Tx message bus write buffer depth. */
-        uint32_t rx_msg_wbuf_depth     : 4;  /**< [  3:  0](RO/H) Rx message bus write buffer depth. */
+        uint32_t tx_msg_wbuf_depth     : 4;  /**< [  7:  4](RO) Tx message bus write buffer depth. */
+        uint32_t rx_msg_wbuf_depth     : 4;  /**< [  3:  0](R/W) Rx message bus write buffer depth. */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_msg_wbuf_depth     : 4;  /**< [  3:  0](RO/H) Rx message bus write buffer depth. */
-        uint32_t tx_msg_wbuf_depth     : 4;  /**< [  7:  4](RO/H) Tx message bus write buffer depth. */
+        uint32_t rx_msg_wbuf_depth     : 4;  /**< [  3:  0](R/W) Rx message bus write buffer depth. */
+        uint32_t tx_msg_wbuf_depth     : 4;  /**< [  7:  4](RO) Tx message bus write buffer depth. */
         uint32_t pipe_garbage_dm       : 1;  /**< [  8:  8](R/W) PIPE garbage date mode.
                                                                  0 = PIPE spec compliant mode. The MAC discards any symbols received
                                                                  after the electrical idle ordered-set until RxValid is deasserted.
@@ -5475,7 +7022,7 @@ typedef union cavm_pciercx_pipe_rel cavm_pciercx_pipe_rel_t;
 static inline uint64_t CAVM_PCIERCX_PIPE_REL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PIPE_REL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0xb90 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PIPE_REL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5509,8 +7056,8 @@ typedef union cavm_pciercx_pl16g_cap cavm_pciercx_pl16g_cap_t;
 static inline uint64_t CAVM_PCIERCX_PL16G_CAP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PL16G_CAP(uint64_t a)
 {
-    if (a<=5)
-        return 0x18c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x19c + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PL16G_CAP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5543,8 +7090,8 @@ typedef union cavm_pciercx_pl16g_ctl cavm_pciercx_pl16g_ctl_t;
 static inline uint64_t CAVM_PCIERCX_PL16G_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PL16G_CTL(uint64_t a)
 {
-    if (a<=5)
-        return 0x190 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x1a0 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PL16G_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5578,25 +7125,6 @@ static inline uint64_t CAVM_PCIERCX_PL16G_CTL(uint64_t a)
  *     Again, the settings are communicated via TS1s but the feedback is provided by
  *     the RC phy's FOM or direction change indications.
  *     \</pre\>
- *
- * Equalization as an EP:
- *   \<pre\>
- *   - The EP latches the transmitter preset hint received during the speed change from
- *     GEN1-\>GEN3 (L*UTP).
- *   - Upon exiting speed, the EP transitions to EQ PHASE 0 (Note the RC does not use
- *     EQ PHASE 0) and sets its transmitter setting to use (L*UTP) which it received
- *     during the speed change.  If any lane received a reserved or unsupported preset,
- *     the EP will use an implementation specific value determined by the EP.
- *   - EP will transition to EQ PHASE 1 after seeing two consecutive TS1s with phase 1 bits set.
- *   - During EQ PHASE 1, the EP communicates it's FS & LF to the upstream port. Again, NO
- *     presets are exchanged.
- *   - EP transitions to EQ PHASE 2 and begins making requests of the RC to adjust it's transmitter.
- *     These requests are communicated via TS1s and the EP's PHY determines which
- *     settings are best for its receiver.
- *     This is an implementation specific algorithm and not covered by the PCIe spec
- *     other than the mechanism which is used to make a request.
- *   - During EQ PHASE 3, the EPs transmitter settings are adjusted by the RC.
- *   \</pre\>
  */
 union cavm_pciercx_pl16g_eq_ctl0123
 {
@@ -5638,8 +7166,8 @@ typedef union cavm_pciercx_pl16g_eq_ctl0123 cavm_pciercx_pl16g_eq_ctl0123_t;
 static inline uint64_t CAVM_PCIERCX_PL16G_EQ_CTL0123(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PL16G_EQ_CTL0123(uint64_t a)
 {
-    if (a<=5)
-        return 0x1a8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x1b8 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PL16G_EQ_CTL0123", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5648,6 +7176,240 @@ static inline uint64_t CAVM_PCIERCX_PL16G_EQ_CTL0123(uint64_t a)
 #define basename_CAVM_PCIERCX_PL16G_EQ_CTL0123(a) "PCIERCX_PL16G_EQ_CTL0123"
 #define busnum_CAVM_PCIERCX_PL16G_EQ_CTL0123(a) (a)
 #define arguments_CAVM_PCIERCX_PL16G_EQ_CTL0123(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_pl16g_eq_ctl12131415
+ *
+ * PCIe RC 16.0 GT/s Lane Equalization Control for Lane 12-15 Register
+ * Not supported in QPEM/HPEM.
+ *
+ * The Equalization Control register consists of control fields required for per-Lane
+ * 16.0 GT/s equalization.
+ *
+ * Equalization as an RC:
+ *   \<pre\>
+ *   - On speed change from GEN1-\>GEN3, advertise the transmitter preset hint per lane
+ *     to the EP device in the TS2s exchanged. This value comes from the per lane
+ *     upstream port transmitter preset (L*UTP).
+ *   - Upon exit from Recovery Speed, the RC will enter EQ PHASE1 and the RC's
+ *     transmitter will use the per lane downstream port transmitter preset field (L*DTP).
+ *   - While in EQ PHASE 1, the EP & RC device exchange NO presets. They do advertise
+ *     their LF & FS which are needed for the fine tuning stages to follow.
+ *   - For the RC, while in EQ PHASE 2, the EP device makes tuning requests of the RC.
+ *     The RC adjusts its transmitter settings as directed by the EP. The requests are
+ *     communicated via TS1s.
+ *   - Once the EP is satisfied with the tuning, equalization moves to PHASE 3 where
+ *     the RC tunes the EP's remote transmitter.
+ *     Again, the settings are communicated via TS1s but the feedback is provided by
+ *     the RC phy's FOM or direction change indications.
+ *     \</pre\>
+ */
+union cavm_pciercx_pl16g_eq_ctl12131415
+{
+    uint32_t u;
+    struct cavm_pciercx_pl16g_eq_ctl12131415_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t l15utp                : 4;  /**< [ 31: 28](RO/WRSL) Transmit Preset hint on speed change to 16.0 GT/s to be used by EP when transmitting
+                                                                 during EQ PHASE 0/1. */
+        uint32_t l15dtp                : 4;  /**< [ 27: 24](RO/WRSL) Transmitter Preset used for 16.0 GT/s equalization by this port. */
+        uint32_t l14utp                : 4;  /**< [ 23: 20](RO/WRSL) Transmit Preset hint on speed change to 16.0 GT/s to be used by EP when transmitting
+                                                                 during EQ PHASE 0/1. */
+        uint32_t l14dtp                : 4;  /**< [ 19: 16](RO/WRSL) Transmitter Preset used for 16.0 GT/s equalization by this port. */
+        uint32_t l13utp                : 4;  /**< [ 15: 12](RO/WRSL) Transmit Preset hint on speed change to 16.0 GT/s to be used by EP when transmitting
+                                                                 during EQ PHASE 0/1. */
+        uint32_t l13dtp                : 4;  /**< [ 11:  8](RO/WRSL) Transmitter Preset used for 16.0 GT/s equalization by this port. */
+        uint32_t l12utp                : 4;  /**< [  7:  4](RO/WRSL) Transmit Preset hint on speed change to 16.0 GT/s to be used by EP when transmitting
+                                                                 during EQ PHASE 0/1. */
+        uint32_t l12dtp                : 4;  /**< [  3:  0](RO/WRSL) Transmitter Preset used for 16.0 GT/s equalization by this port. */
+#else /* Word 0 - Little Endian */
+        uint32_t l12dtp                : 4;  /**< [  3:  0](RO/WRSL) Transmitter Preset used for 16.0 GT/s equalization by this port. */
+        uint32_t l12utp                : 4;  /**< [  7:  4](RO/WRSL) Transmit Preset hint on speed change to 16.0 GT/s to be used by EP when transmitting
+                                                                 during EQ PHASE 0/1. */
+        uint32_t l13dtp                : 4;  /**< [ 11:  8](RO/WRSL) Transmitter Preset used for 16.0 GT/s equalization by this port. */
+        uint32_t l13utp                : 4;  /**< [ 15: 12](RO/WRSL) Transmit Preset hint on speed change to 16.0 GT/s to be used by EP when transmitting
+                                                                 during EQ PHASE 0/1. */
+        uint32_t l14dtp                : 4;  /**< [ 19: 16](RO/WRSL) Transmitter Preset used for 16.0 GT/s equalization by this port. */
+        uint32_t l14utp                : 4;  /**< [ 23: 20](RO/WRSL) Transmit Preset hint on speed change to 16.0 GT/s to be used by EP when transmitting
+                                                                 during EQ PHASE 0/1. */
+        uint32_t l15dtp                : 4;  /**< [ 27: 24](RO/WRSL) Transmitter Preset used for 16.0 GT/s equalization by this port. */
+        uint32_t l15utp                : 4;  /**< [ 31: 28](RO/WRSL) Transmit Preset hint on speed change to 16.0 GT/s to be used by EP when transmitting
+                                                                 during EQ PHASE 0/1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_pl16g_eq_ctl12131415_s cn; */
+};
+typedef union cavm_pciercx_pl16g_eq_ctl12131415 cavm_pciercx_pl16g_eq_ctl12131415_t;
+
+static inline uint64_t CAVM_PCIERCX_PL16G_EQ_CTL12131415(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PL16G_EQ_CTL12131415(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x1c4 + 0 * ((a) & 0x7);
+    __cavm_csr_fatal("PCIERCX_PL16G_EQ_CTL12131415", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PL16G_EQ_CTL12131415(a) cavm_pciercx_pl16g_eq_ctl12131415_t
+#define bustype_CAVM_PCIERCX_PL16G_EQ_CTL12131415(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PL16G_EQ_CTL12131415(a) "PCIERCX_PL16G_EQ_CTL12131415"
+#define busnum_CAVM_PCIERCX_PL16G_EQ_CTL12131415(a) (a)
+#define arguments_CAVM_PCIERCX_PL16G_EQ_CTL12131415(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_pl16g_eq_ctl4567
+ *
+ * PCIe RC 16.0 GT/s Lane Equalization Control for Lane 4-7 Register
+ * Not supported in QPEM.
+ *
+ * The Equalization Control register consists of control fields required for per-Lane
+ * 16.0 GT/s equalization.
+ *
+ * Equalization as an RC:
+ *   \<pre\>
+ *   - On speed change from GEN1-\>GEN3, advertise the transmitter preset hint per lane
+ *     to the EP device in the TS2s exchanged. This value comes from the per lane
+ *     upstream port transmitter preset (L*UTP).
+ *   - Upon exit from Recovery Speed, the RC will enter EQ PHASE1 and the RC's
+ *     transmitter will use the per lane downstream port transmitter preset field (L*DTP).
+ *   - While in EQ PHASE 1, the EP & RC device exchange NO presets. They do advertise
+ *     their LF & FS which are needed for the fine tuning stages to follow.
+ *   - For the RC, while in EQ PHASE 2, the EP device makes tuning requests of the RC.
+ *     The RC adjusts its transmitter settings as directed by the EP. The requests are
+ *     communicated via TS1s.
+ *   - Once the EP is satisfied with the tuning, equalization moves to PHASE 3 where
+ *     the RC tunes the EP's remote transmitter.
+ *     Again, the settings are communicated via TS1s but the feedback is provided by
+ *     the RC phy's FOM or direction change indications.
+ *     \</pre\>
+ */
+union cavm_pciercx_pl16g_eq_ctl4567
+{
+    uint32_t u;
+    struct cavm_pciercx_pl16g_eq_ctl4567_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t l7utp                 : 4;  /**< [ 31: 28](RO/WRSL) Transmit Preset hint on speed change to 16.0 GT/s to be used by EP when transmitting
+                                                                 during EQ PHASE 0/1. */
+        uint32_t l7dtp                 : 4;  /**< [ 27: 24](RO/WRSL) Transmitter Preset used for 16.0 GT/s equalization by this port. */
+        uint32_t l6utp                 : 4;  /**< [ 23: 20](RO/WRSL) Transmit Preset hint on speed change to 16.0 GT/s to be used by EP when transmitting
+                                                                 during EQ PHASE 0/1. */
+        uint32_t l6dtp                 : 4;  /**< [ 19: 16](RO/WRSL) Transmitter Preset used for 16.0 GT/s equalization by this port. */
+        uint32_t l5utp                 : 4;  /**< [ 15: 12](RO/WRSL) Transmit Preset hint on speed change to 16.0 GT/s to be used by EP when transmitting
+                                                                 during EQ PHASE 0/1. */
+        uint32_t l5dtp                 : 4;  /**< [ 11:  8](RO/WRSL) Transmitter Preset used for 16.0 GT/s equalization by this port. */
+        uint32_t l4utp                 : 4;  /**< [  7:  4](RO/WRSL) Transmit Preset hint on speed change to 16.0 GT/s to be used by EP when transmitting
+                                                                 during EQ PHASE 0/1. */
+        uint32_t l4dtp                 : 4;  /**< [  3:  0](RO/WRSL) Transmitter Preset used for 16.0 GT/s equalization by this port. */
+#else /* Word 0 - Little Endian */
+        uint32_t l4dtp                 : 4;  /**< [  3:  0](RO/WRSL) Transmitter Preset used for 16.0 GT/s equalization by this port. */
+        uint32_t l4utp                 : 4;  /**< [  7:  4](RO/WRSL) Transmit Preset hint on speed change to 16.0 GT/s to be used by EP when transmitting
+                                                                 during EQ PHASE 0/1. */
+        uint32_t l5dtp                 : 4;  /**< [ 11:  8](RO/WRSL) Transmitter Preset used for 16.0 GT/s equalization by this port. */
+        uint32_t l5utp                 : 4;  /**< [ 15: 12](RO/WRSL) Transmit Preset hint on speed change to 16.0 GT/s to be used by EP when transmitting
+                                                                 during EQ PHASE 0/1. */
+        uint32_t l6dtp                 : 4;  /**< [ 19: 16](RO/WRSL) Transmitter Preset used for 16.0 GT/s equalization by this port. */
+        uint32_t l6utp                 : 4;  /**< [ 23: 20](RO/WRSL) Transmit Preset hint on speed change to 16.0 GT/s to be used by EP when transmitting
+                                                                 during EQ PHASE 0/1. */
+        uint32_t l7dtp                 : 4;  /**< [ 27: 24](RO/WRSL) Transmitter Preset used for 16.0 GT/s equalization by this port. */
+        uint32_t l7utp                 : 4;  /**< [ 31: 28](RO/WRSL) Transmit Preset hint on speed change to 16.0 GT/s to be used by EP when transmitting
+                                                                 during EQ PHASE 0/1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_pl16g_eq_ctl4567_s cn; */
+};
+typedef union cavm_pciercx_pl16g_eq_ctl4567 cavm_pciercx_pl16g_eq_ctl4567_t;
+
+static inline uint64_t CAVM_PCIERCX_PL16G_EQ_CTL4567(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PL16G_EQ_CTL4567(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x1bc + 0 * ((a) & 0x7);
+    __cavm_csr_fatal("PCIERCX_PL16G_EQ_CTL4567", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PL16G_EQ_CTL4567(a) cavm_pciercx_pl16g_eq_ctl4567_t
+#define bustype_CAVM_PCIERCX_PL16G_EQ_CTL4567(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PL16G_EQ_CTL4567(a) "PCIERCX_PL16G_EQ_CTL4567"
+#define busnum_CAVM_PCIERCX_PL16G_EQ_CTL4567(a) (a)
+#define arguments_CAVM_PCIERCX_PL16G_EQ_CTL4567(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_pl16g_eq_ctl891011
+ *
+ * PCIe RC 16.0 GT/s Lane Equalization Control for Lane 8-11 Register
+ * Not supported in QPEM/HPEM.
+ *
+ * The Equalization Control register consists of control fields required for per-Lane
+ * 16.0 GT/s equalization.
+ *
+ * Equalization as an RC:
+ *   \<pre\>
+ *   - On speed change from GEN1-\>GEN3, advertise the transmitter preset hint per lane
+ *     to the EP device in the TS2s exchanged. This value comes from the per lane
+ *     upstream port transmitter preset (L*UTP).
+ *   - Upon exit from Recovery Speed, the RC will enter EQ PHASE1 and the RC's
+ *     transmitter will use the per lane downstream port transmitter preset field (L*DTP).
+ *   - While in EQ PHASE 1, the EP & RC device exchange NO presets. They do advertise
+ *     their LF & FS which are needed for the fine tuning stages to follow.
+ *   - For the RC, while in EQ PHASE 2, the EP device makes tuning requests of the RC.
+ *     The RC adjusts its transmitter settings as directed by the EP. The requests are
+ *     communicated via TS1s.
+ *   - Once the EP is satisfied with the tuning, equalization moves to PHASE 3 where
+ *     the RC tunes the EP's remote transmitter.
+ *     Again, the settings are communicated via TS1s but the feedback is provided by
+ *     the RC phy's FOM or direction change indications.
+ *     \</pre\>
+ */
+union cavm_pciercx_pl16g_eq_ctl891011
+{
+    uint32_t u;
+    struct cavm_pciercx_pl16g_eq_ctl891011_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t l11utp                : 4;  /**< [ 31: 28](RO/WRSL) Transmit Preset hint on speed change to 16.0 GT/s to be used by EP when transmitting
+                                                                 during EQ PHASE 0/1. */
+        uint32_t l11dtp                : 4;  /**< [ 27: 24](RO/WRSL) Transmitter Preset used for 16.0 GT/s equalization by this port. */
+        uint32_t l10utp                : 4;  /**< [ 23: 20](RO/WRSL) Transmit Preset hint on speed change to 16.0 GT/s to be used by EP when transmitting
+                                                                 during EQ PHASE 0/1. */
+        uint32_t l10dtp                : 4;  /**< [ 19: 16](RO/WRSL) Transmitter Preset used for 16.0 GT/s equalization by this port. */
+        uint32_t l9utp                 : 4;  /**< [ 15: 12](RO/WRSL) Transmit Preset hint on speed change to 16.0 GT/s to be used by EP when transmitting
+                                                                 during EQ PHASE 0/1. */
+        uint32_t l9dtp                 : 4;  /**< [ 11:  8](RO/WRSL) Transmitter Preset used for 16.0 GT/s equalization by this port. */
+        uint32_t l8utp                 : 4;  /**< [  7:  4](RO/WRSL) Transmit Preset hint on speed change to 16.0 GT/s to be used by EP when transmitting
+                                                                 during EQ PHASE 0/1. */
+        uint32_t l8dtp                 : 4;  /**< [  3:  0](RO/WRSL) Transmitter Preset used for 16.0 GT/s equalization by this port. */
+#else /* Word 0 - Little Endian */
+        uint32_t l8dtp                 : 4;  /**< [  3:  0](RO/WRSL) Transmitter Preset used for 16.0 GT/s equalization by this port. */
+        uint32_t l8utp                 : 4;  /**< [  7:  4](RO/WRSL) Transmit Preset hint on speed change to 16.0 GT/s to be used by EP when transmitting
+                                                                 during EQ PHASE 0/1. */
+        uint32_t l9dtp                 : 4;  /**< [ 11:  8](RO/WRSL) Transmitter Preset used for 16.0 GT/s equalization by this port. */
+        uint32_t l9utp                 : 4;  /**< [ 15: 12](RO/WRSL) Transmit Preset hint on speed change to 16.0 GT/s to be used by EP when transmitting
+                                                                 during EQ PHASE 0/1. */
+        uint32_t l10dtp                : 4;  /**< [ 19: 16](RO/WRSL) Transmitter Preset used for 16.0 GT/s equalization by this port. */
+        uint32_t l10utp                : 4;  /**< [ 23: 20](RO/WRSL) Transmit Preset hint on speed change to 16.0 GT/s to be used by EP when transmitting
+                                                                 during EQ PHASE 0/1. */
+        uint32_t l11dtp                : 4;  /**< [ 27: 24](RO/WRSL) Transmitter Preset used for 16.0 GT/s equalization by this port. */
+        uint32_t l11utp                : 4;  /**< [ 31: 28](RO/WRSL) Transmit Preset hint on speed change to 16.0 GT/s to be used by EP when transmitting
+                                                                 during EQ PHASE 0/1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_pl16g_eq_ctl891011_s cn; */
+};
+typedef union cavm_pciercx_pl16g_eq_ctl891011 cavm_pciercx_pl16g_eq_ctl891011_t;
+
+static inline uint64_t CAVM_PCIERCX_PL16G_EQ_CTL891011(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PL16G_EQ_CTL891011(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x1c0 + 0 * ((a) & 0x7);
+    __cavm_csr_fatal("PCIERCX_PL16G_EQ_CTL891011", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PL16G_EQ_CTL891011(a) cavm_pciercx_pl16g_eq_ctl891011_t
+#define bustype_CAVM_PCIERCX_PL16G_EQ_CTL891011(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PL16G_EQ_CTL891011(a) "PCIERCX_PL16G_EQ_CTL891011"
+#define busnum_CAVM_PCIERCX_PL16G_EQ_CTL891011(a) (a)
+#define arguments_CAVM_PCIERCX_PL16G_EQ_CTL891011(a) (a),-1,-1,-1
 
 /**
  * Register (PCICONFIGRC) pcierc#_pl16g_ext_cap_hdr
@@ -5682,8 +7444,8 @@ typedef union cavm_pciercx_pl16g_ext_cap_hdr cavm_pciercx_pl16g_ext_cap_hdr_t;
 static inline uint64_t CAVM_PCIERCX_PL16G_EXT_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PL16G_EXT_CAP_HDR(uint64_t a)
 {
-    if (a<=5)
-        return 0x188 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x198 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PL16G_EXT_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5718,8 +7480,8 @@ typedef union cavm_pciercx_pl16g_fret_dpar_stat cavm_pciercx_pl16g_fret_dpar_sta
 static inline uint64_t CAVM_PCIERCX_PL16G_FRET_DPAR_STAT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PL16G_FRET_DPAR_STAT(uint64_t a)
 {
-    if (a<=5)
-        return 0x19c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x1ac + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PL16G_FRET_DPAR_STAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5754,8 +7516,8 @@ typedef union cavm_pciercx_pl16g_lc_dpar_stat cavm_pciercx_pl16g_lc_dpar_stat_t;
 static inline uint64_t CAVM_PCIERCX_PL16G_LC_DPAR_STAT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PL16G_LC_DPAR_STAT(uint64_t a)
 {
-    if (a<=5)
-        return 0x198 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x1a8 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PL16G_LC_DPAR_STAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5790,8 +7552,8 @@ typedef union cavm_pciercx_pl16g_sret_dpar_stat cavm_pciercx_pl16g_sret_dpar_sta
 static inline uint64_t CAVM_PCIERCX_PL16G_SRET_DPAR_STAT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PL16G_SRET_DPAR_STAT(uint64_t a)
 {
-    if (a<=5)
-        return 0x1a0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x1b0 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PL16G_SRET_DPAR_STAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5834,8 +7596,8 @@ typedef union cavm_pciercx_pl16g_status cavm_pciercx_pl16g_status_t;
 static inline uint64_t CAVM_PCIERCX_PL16G_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PL16G_STATUS(uint64_t a)
 {
-    if (a<=5)
-        return 0x194 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x1a4 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PL16G_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5884,8 +7646,8 @@ typedef union cavm_pciercx_pl32g_cap cavm_pciercx_pl32g_cap_t;
 static inline uint64_t CAVM_PCIERCX_PL32G_CAP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PL32G_CAP(uint64_t a)
 {
-    if (a<=5)
-        return 0x1c8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x214 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PL32G_CAP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5926,8 +7688,8 @@ typedef union cavm_pciercx_pl32g_ctl cavm_pciercx_pl32g_ctl_t;
 static inline uint64_t CAVM_PCIERCX_PL32G_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PL32G_CTL(uint64_t a)
 {
-    if (a<=5)
-        return 0x1cc + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x218 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PL32G_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5940,9 +7702,9 @@ static inline uint64_t CAVM_PCIERCX_PL32G_CTL(uint64_t a)
 /**
  * Register (PCICONFIGRC) pcierc#_pl32g_eq_ctl0123
  *
- * PCIe RC 32.0 GT/s Equalization Control Lane 0/12/3 Register
+ * PCIe RC 32.0 GT/s Equalization Control Lane 0/1/2/3 Register
  * The Equalization Control register consists of control fields required for per-Lane
- * 16.0 GT/s equalization.
+ * 32.0 GT/s equalization.
  *
  * Equalization as an RC:
  *   \<pre\>
@@ -5961,25 +7723,6 @@ static inline uint64_t CAVM_PCIERCX_PL32G_CTL(uint64_t a)
  *     Again, the settings are communicated via TS1s but the feedback is provided by
  *     the RC phy's FOM or direction change indications.
  *     \</pre\>
- *
- * Equalization as an EP:
- *   \<pre\>
- *   - The EP latches the transmitter preset hint received during the speed change from
- *     GEN1-\>GEN3 (L*UTP).
- *   - Upon exiting speed, the EP transitions to EQ PHASE 0 (Note the RC does not use
- *     EQ PHASE 0) and sets its transmitter setting to use (L*UTP) which it received
- *     during the speed change.  If any lane received a reserved or unsupported preset,
- *     the EP will use an implementation specific value determined by the EP.
- *   - EP will transition to EQ PHASE 1 after seeing two consecutive TS1s with phase 1 bits set.
- *   - During EQ PHASE 1, the EP communicates it's FS & LF to the upstream port. Again, NO
- *     presets are exchanged.
- *   - EP transitions to EQ PHASE 2 and begins making requests of the RC to adjust it's transmitter.
- *     These requests are communicated via TS1s and the EP's PHY determines which
- *     settings are best for its receiver.
- *     This is an implementation specific algorithm and not covered by the PCIe spec
- *     other than the mechanism which is used to make a request.
- *   - During EQ PHASE 3, the EPs transmitter settings are adjusted by the RC.
- *   \</pre\>
  */
 union cavm_pciercx_pl32g_eq_ctl0123
 {
@@ -6013,8 +7756,8 @@ typedef union cavm_pciercx_pl32g_eq_ctl0123 cavm_pciercx_pl32g_eq_ctl0123_t;
 static inline uint64_t CAVM_PCIERCX_PL32G_EQ_CTL0123(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PL32G_EQ_CTL0123(uint64_t a)
 {
-    if (a<=5)
-        return 0x1e4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x230 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PL32G_EQ_CTL0123", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6023,6 +7766,216 @@ static inline uint64_t CAVM_PCIERCX_PL32G_EQ_CTL0123(uint64_t a)
 #define basename_CAVM_PCIERCX_PL32G_EQ_CTL0123(a) "PCIERCX_PL32G_EQ_CTL0123"
 #define busnum_CAVM_PCIERCX_PL32G_EQ_CTL0123(a) (a)
 #define arguments_CAVM_PCIERCX_PL32G_EQ_CTL0123(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_pl32g_eq_ctl12131415
+ *
+ * PCIe RC 32.0 GT/s Equalization Control Lane 12/13/14/15 Register
+ * Not supported in QPEM/HPEM.
+ *
+ * The Equalization Control register consists of control fields required for per-Lane
+ * 32.0 GT/s equalization.
+ *
+ * Equalization as an RC:
+ *   \<pre\>
+ *   - On speed change from GEN1-\>GEN3, advertise the transmitter preset hint per lane
+ *     to the EP device in the TS2s exchanged. This value comes from the per lane
+ *     upstream port transmitter preset (L*UTP).
+ *   - Upon exit from Recovery Speed, the RC will enter EQ PHASE1 and the RC's
+ *     transmitter will use the per lane downstream port transmitter preset field (L*DTP).
+ *   - While in EQ PHASE 1, the EP & RC device exchange NO presets. They do advertise
+ *     their LF & FS which are needed for the fine tuning stages to follow.
+ *   - For the RC, while in EQ PHASE 2, the EP device makes tuning requests of the RC.
+ *     The RC adjusts its transmitter settings as directed by the EP. The requests are
+ *     communicated via TS1s.
+ *   - Once the EP is satisfied with the tuning, equalization moves to PHASE 3 where
+ *     the RC tunes the EP's remote transmitter.
+ *     Again, the settings are communicated via TS1s but the feedback is provided by
+ *     the RC phy's FOM or direction change indications.
+ *     \</pre\>
+ */
+union cavm_pciercx_pl32g_eq_ctl12131415
+{
+    uint32_t u;
+    struct cavm_pciercx_pl32g_eq_ctl12131415_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t l15utp                : 4;  /**< [ 31: 28](RO/WRSL) Upstream port 32.0 GT/s transmitter preset 3. */
+        uint32_t l15dtp                : 4;  /**< [ 27: 24](RO/WRSL) Downstream port 32.0 GT/s transmitter preset 3. */
+        uint32_t l14utp                : 4;  /**< [ 23: 20](RO/WRSL) Upstream port 32.0 GT/s transmitter preset 2. */
+        uint32_t l14dtp                : 4;  /**< [ 19: 16](RO/WRSL) Downstream port 32.0 GT/s transmitter preset 2. */
+        uint32_t l13utp                : 4;  /**< [ 15: 12](RO/WRSL) Upstream port 32.0 GT/s transmitter preset 1. */
+        uint32_t l13dtp                : 4;  /**< [ 11:  8](RO/WRSL) Downstream port 32.0 GT/s transmitter preset 1. */
+        uint32_t l12utp                : 4;  /**< [  7:  4](RO/WRSL) Upstream port 32.0 GT/s transmitter preset 0. */
+        uint32_t l12dtp                : 4;  /**< [  3:  0](RO/WRSL) Downstream port 32.0 GT/s transmitter preset 0. */
+#else /* Word 0 - Little Endian */
+        uint32_t l12dtp                : 4;  /**< [  3:  0](RO/WRSL) Downstream port 32.0 GT/s transmitter preset 0. */
+        uint32_t l12utp                : 4;  /**< [  7:  4](RO/WRSL) Upstream port 32.0 GT/s transmitter preset 0. */
+        uint32_t l13dtp                : 4;  /**< [ 11:  8](RO/WRSL) Downstream port 32.0 GT/s transmitter preset 1. */
+        uint32_t l13utp                : 4;  /**< [ 15: 12](RO/WRSL) Upstream port 32.0 GT/s transmitter preset 1. */
+        uint32_t l14dtp                : 4;  /**< [ 19: 16](RO/WRSL) Downstream port 32.0 GT/s transmitter preset 2. */
+        uint32_t l14utp                : 4;  /**< [ 23: 20](RO/WRSL) Upstream port 32.0 GT/s transmitter preset 2. */
+        uint32_t l15dtp                : 4;  /**< [ 27: 24](RO/WRSL) Downstream port 32.0 GT/s transmitter preset 3. */
+        uint32_t l15utp                : 4;  /**< [ 31: 28](RO/WRSL) Upstream port 32.0 GT/s transmitter preset 3. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_pl32g_eq_ctl12131415_s cn; */
+};
+typedef union cavm_pciercx_pl32g_eq_ctl12131415 cavm_pciercx_pl32g_eq_ctl12131415_t;
+
+static inline uint64_t CAVM_PCIERCX_PL32G_EQ_CTL12131415(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PL32G_EQ_CTL12131415(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x23c + 0 * ((a) & 0x7);
+    __cavm_csr_fatal("PCIERCX_PL32G_EQ_CTL12131415", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PL32G_EQ_CTL12131415(a) cavm_pciercx_pl32g_eq_ctl12131415_t
+#define bustype_CAVM_PCIERCX_PL32G_EQ_CTL12131415(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PL32G_EQ_CTL12131415(a) "PCIERCX_PL32G_EQ_CTL12131415"
+#define busnum_CAVM_PCIERCX_PL32G_EQ_CTL12131415(a) (a)
+#define arguments_CAVM_PCIERCX_PL32G_EQ_CTL12131415(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_pl32g_eq_ctl4567
+ *
+ * PCIe RC 32.0 GT/s Equalization Control Lane 4/5/6/7 Register
+ * Not supported in QPEM.
+ *
+ * The Equalization Control register consists of control fields required for per-Lane
+ * 32.0 GT/s equalization.
+ *
+ * Equalization as an RC:
+ *   \<pre\>
+ *   - On speed change from GEN1-\>GEN3, advertise the transmitter preset hint per lane
+ *     to the EP device in the TS2s exchanged. This value comes from the per lane
+ *     upstream port transmitter preset (L*UTP).
+ *   - Upon exit from Recovery Speed, the RC will enter EQ PHASE1 and the RC's
+ *     transmitter will use the per lane downstream port transmitter preset field (L*DTP).
+ *   - While in EQ PHASE 1, the EP & RC device exchange NO presets. They do advertise
+ *     their LF & FS which are needed for the fine tuning stages to follow.
+ *   - For the RC, while in EQ PHASE 2, the EP device makes tuning requests of the RC.
+ *     The RC adjusts its transmitter settings as directed by the EP. The requests are
+ *     communicated via TS1s.
+ *   - Once the EP is satisfied with the tuning, equalization moves to PHASE 3 where
+ *     the RC tunes the EP's remote transmitter.
+ *     Again, the settings are communicated via TS1s but the feedback is provided by
+ *     the RC phy's FOM or direction change indications.
+ *     \</pre\>
+ */
+union cavm_pciercx_pl32g_eq_ctl4567
+{
+    uint32_t u;
+    struct cavm_pciercx_pl32g_eq_ctl4567_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t l7utp                 : 4;  /**< [ 31: 28](RO/WRSL) Upstream port 32.0 GT/s transmitter preset 3. */
+        uint32_t l7dtp                 : 4;  /**< [ 27: 24](RO/WRSL) Downstream port 32.0 GT/s transmitter preset 3. */
+        uint32_t l6utp                 : 4;  /**< [ 23: 20](RO/WRSL) Upstream port 32.0 GT/s transmitter preset 2. */
+        uint32_t l6dtp                 : 4;  /**< [ 19: 16](RO/WRSL) Downstream port 32.0 GT/s transmitter preset 2. */
+        uint32_t l5utp                 : 4;  /**< [ 15: 12](RO/WRSL) Upstream port 32.0 GT/s transmitter preset 1. */
+        uint32_t l5dtp                 : 4;  /**< [ 11:  8](RO/WRSL) Downstream port 32.0 GT/s transmitter preset 1. */
+        uint32_t l4utp                 : 4;  /**< [  7:  4](RO/WRSL) Upstream port 32.0 GT/s transmitter preset 0. */
+        uint32_t l4dtp                 : 4;  /**< [  3:  0](RO/WRSL) Downstream port 32.0 GT/s transmitter preset 0. */
+#else /* Word 0 - Little Endian */
+        uint32_t l4dtp                 : 4;  /**< [  3:  0](RO/WRSL) Downstream port 32.0 GT/s transmitter preset 0. */
+        uint32_t l4utp                 : 4;  /**< [  7:  4](RO/WRSL) Upstream port 32.0 GT/s transmitter preset 0. */
+        uint32_t l5dtp                 : 4;  /**< [ 11:  8](RO/WRSL) Downstream port 32.0 GT/s transmitter preset 1. */
+        uint32_t l5utp                 : 4;  /**< [ 15: 12](RO/WRSL) Upstream port 32.0 GT/s transmitter preset 1. */
+        uint32_t l6dtp                 : 4;  /**< [ 19: 16](RO/WRSL) Downstream port 32.0 GT/s transmitter preset 2. */
+        uint32_t l6utp                 : 4;  /**< [ 23: 20](RO/WRSL) Upstream port 32.0 GT/s transmitter preset 2. */
+        uint32_t l7dtp                 : 4;  /**< [ 27: 24](RO/WRSL) Downstream port 32.0 GT/s transmitter preset 3. */
+        uint32_t l7utp                 : 4;  /**< [ 31: 28](RO/WRSL) Upstream port 32.0 GT/s transmitter preset 3. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_pl32g_eq_ctl4567_s cn; */
+};
+typedef union cavm_pciercx_pl32g_eq_ctl4567 cavm_pciercx_pl32g_eq_ctl4567_t;
+
+static inline uint64_t CAVM_PCIERCX_PL32G_EQ_CTL4567(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PL32G_EQ_CTL4567(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x234 + 0 * ((a) & 0x7);
+    __cavm_csr_fatal("PCIERCX_PL32G_EQ_CTL4567", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PL32G_EQ_CTL4567(a) cavm_pciercx_pl32g_eq_ctl4567_t
+#define bustype_CAVM_PCIERCX_PL32G_EQ_CTL4567(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PL32G_EQ_CTL4567(a) "PCIERCX_PL32G_EQ_CTL4567"
+#define busnum_CAVM_PCIERCX_PL32G_EQ_CTL4567(a) (a)
+#define arguments_CAVM_PCIERCX_PL32G_EQ_CTL4567(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_pl32g_eq_ctl891011
+ *
+ * PCIe RC 32.0 GT/s Equalization Control Lane 8/9/1011 Register
+ * Not supported in QPEM/HPEM.
+ *
+ * The Equalization Control register consists of control fields required for per-Lane
+ * 32.0 GT/s equalization.
+ *
+ * Equalization as an RC:
+ *   \<pre\>
+ *   - On speed change from GEN1-\>GEN3, advertise the transmitter preset hint per lane
+ *     to the EP device in the TS2s exchanged. This value comes from the per lane
+ *     upstream port transmitter preset (L*UTP).
+ *   - Upon exit from Recovery Speed, the RC will enter EQ PHASE1 and the RC's
+ *     transmitter will use the per lane downstream port transmitter preset field (L*DTP).
+ *   - While in EQ PHASE 1, the EP & RC device exchange NO presets. They do advertise
+ *     their LF & FS which are needed for the fine tuning stages to follow.
+ *   - For the RC, while in EQ PHASE 2, the EP device makes tuning requests of the RC.
+ *     The RC adjusts its transmitter settings as directed by the EP. The requests are
+ *     communicated via TS1s.
+ *   - Once the EP is satisfied with the tuning, equalization moves to PHASE 3 where
+ *     the RC tunes the EP's remote transmitter.
+ *     Again, the settings are communicated via TS1s but the feedback is provided by
+ *     the RC phy's FOM or direction change indications.
+ *     \</pre\>
+ */
+union cavm_pciercx_pl32g_eq_ctl891011
+{
+    uint32_t u;
+    struct cavm_pciercx_pl32g_eq_ctl891011_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t l11utp                : 4;  /**< [ 31: 28](RO/WRSL) Upstream port 32.0 GT/s transmitter preset 3. */
+        uint32_t l11dtp                : 4;  /**< [ 27: 24](RO/WRSL) Downstream port 32.0 GT/s transmitter preset 3. */
+        uint32_t l10utp                : 4;  /**< [ 23: 20](RO/WRSL) Upstream port 32.0 GT/s transmitter preset 2. */
+        uint32_t l10dtp                : 4;  /**< [ 19: 16](RO/WRSL) Downstream port 32.0 GT/s transmitter preset 2. */
+        uint32_t l9utp                 : 4;  /**< [ 15: 12](RO/WRSL) Upstream port 32.0 GT/s transmitter preset 1. */
+        uint32_t l9dtp                 : 4;  /**< [ 11:  8](RO/WRSL) Downstream port 32.0 GT/s transmitter preset 1. */
+        uint32_t l8utp                 : 4;  /**< [  7:  4](RO/WRSL) Upstream port 32.0 GT/s transmitter preset 0. */
+        uint32_t l8dtp                 : 4;  /**< [  3:  0](RO/WRSL) Downstream port 32.0 GT/s transmitter preset 0. */
+#else /* Word 0 - Little Endian */
+        uint32_t l8dtp                 : 4;  /**< [  3:  0](RO/WRSL) Downstream port 32.0 GT/s transmitter preset 0. */
+        uint32_t l8utp                 : 4;  /**< [  7:  4](RO/WRSL) Upstream port 32.0 GT/s transmitter preset 0. */
+        uint32_t l9dtp                 : 4;  /**< [ 11:  8](RO/WRSL) Downstream port 32.0 GT/s transmitter preset 1. */
+        uint32_t l9utp                 : 4;  /**< [ 15: 12](RO/WRSL) Upstream port 32.0 GT/s transmitter preset 1. */
+        uint32_t l10dtp                : 4;  /**< [ 19: 16](RO/WRSL) Downstream port 32.0 GT/s transmitter preset 2. */
+        uint32_t l10utp                : 4;  /**< [ 23: 20](RO/WRSL) Upstream port 32.0 GT/s transmitter preset 2. */
+        uint32_t l11dtp                : 4;  /**< [ 27: 24](RO/WRSL) Downstream port 32.0 GT/s transmitter preset 3. */
+        uint32_t l11utp                : 4;  /**< [ 31: 28](RO/WRSL) Upstream port 32.0 GT/s transmitter preset 3. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_pl32g_eq_ctl891011_s cn; */
+};
+typedef union cavm_pciercx_pl32g_eq_ctl891011 cavm_pciercx_pl32g_eq_ctl891011_t;
+
+static inline uint64_t CAVM_PCIERCX_PL32G_EQ_CTL891011(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PL32G_EQ_CTL891011(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x238 + 0 * ((a) & 0x7);
+    __cavm_csr_fatal("PCIERCX_PL32G_EQ_CTL891011", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PL32G_EQ_CTL891011(a) cavm_pciercx_pl32g_eq_ctl891011_t
+#define bustype_CAVM_PCIERCX_PL32G_EQ_CTL891011(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PL32G_EQ_CTL891011(a) "PCIERCX_PL32G_EQ_CTL891011"
+#define busnum_CAVM_PCIERCX_PL32G_EQ_CTL891011(a) (a)
+#define arguments_CAVM_PCIERCX_PL32G_EQ_CTL891011(a) (a),-1,-1,-1
 
 /**
  * Register (PCICONFIGRC) pcierc#_pl32g_ext_cap_hdr
@@ -6057,8 +8010,8 @@ typedef union cavm_pciercx_pl32g_ext_cap_hdr cavm_pciercx_pl32g_ext_cap_hdr_t;
 static inline uint64_t CAVM_PCIERCX_PL32G_EXT_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PL32G_EXT_CAP_HDR(uint64_t a)
 {
-    if (a<=5)
-        return 0x1c4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x210 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PL32G_EXT_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6083,16 +8036,14 @@ union cavm_pciercx_pl32g_rmod_ts_data1
                                                                  If PCIERC_PL32G_CTL[MOD_TS_USE_MODE_SEL] is set, this field contains the
                                                                  Modified TS Vendor ID field from the Modified TS1/TS2 Ordered Set received.
 
-                                                                 _ Bits \<15:8\> = contain the value of Synbol 10.
-                                                                 _ Bits \<7:0\> = contain the value of Synbol 11. */
+                                                                 _ Bits \<15:8\> = contain the value of Symbol 11.
+                                                                 _ Bits \<7:0\> = contain the value of Symbol 10. */
         uint32_t rcvd_mod_ts_info1     : 13; /**< [ 15:  3](RO/H) Received Modified TS information 1.
                                                                  If PCIERC_PL32G_CTL[MOD_TS_USE_MODE_SEL] is set, this field contains the
                                                                  Modified TS Information 1 field from the Modified TS1/TS2 ordered set.
 
-                                                                 synopsys documentation looks wrong.
-                                                                 _ Bits \<15:8\> = contain the value of Synbol 12.
-                                                                 _ Bits \<16:8\> = contain the value of Synbol 13.
-                                                                 _ Bits \<7:0\> = contain the value of Synbol 14. */
+                                                                 _ Bits \<15:8\> = contain the value of Symbol 9.
+                                                                 _ Bits \<7:3\> = contain the value of Symbol 8. */
         uint32_t rcvd_mod_ts_use_mode  : 3;  /**< [  2:  0](RO/H) Received Modified TS Usage Mode.
                                                                  If PCIERC_PL32G_CTL[MOD_TS_USE_MODE_SEL] is set, this field contains the
                                                                  Modified TS Usage field from the Modified TS/1TS2 Ordered Set. */
@@ -6104,16 +8055,14 @@ union cavm_pciercx_pl32g_rmod_ts_data1
                                                                  If PCIERC_PL32G_CTL[MOD_TS_USE_MODE_SEL] is set, this field contains the
                                                                  Modified TS Information 1 field from the Modified TS1/TS2 ordered set.
 
-                                                                 synopsys documentation looks wrong.
-                                                                 _ Bits \<15:8\> = contain the value of Synbol 12.
-                                                                 _ Bits \<16:8\> = contain the value of Synbol 13.
-                                                                 _ Bits \<7:0\> = contain the value of Synbol 14. */
+                                                                 _ Bits \<15:8\> = contain the value of Symbol 9.
+                                                                 _ Bits \<7:3\> = contain the value of Symbol 8. */
         uint32_t rcvd_mod_ts_vend_id   : 16; /**< [ 31: 16](RO/H) Received Modified TS Vendor ID.
                                                                  If PCIERC_PL32G_CTL[MOD_TS_USE_MODE_SEL] is set, this field contains the
                                                                  Modified TS Vendor ID field from the Modified TS1/TS2 Ordered Set received.
 
-                                                                 _ Bits \<15:8\> = contain the value of Synbol 10.
-                                                                 _ Bits \<7:0\> = contain the value of Synbol 11. */
+                                                                 _ Bits \<15:8\> = contain the value of Symbol 11.
+                                                                 _ Bits \<7:0\> = contain the value of Symbol 10. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pciercx_pl32g_rmod_ts_data1_s cn; */
@@ -6123,8 +8072,8 @@ typedef union cavm_pciercx_pl32g_rmod_ts_data1 cavm_pciercx_pl32g_rmod_ts_data1_
 static inline uint64_t CAVM_PCIERCX_PL32G_RMOD_TS_DATA1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PL32G_RMOD_TS_DATA1(uint64_t a)
 {
-    if (a<=5)
-        return 0x1d4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x220 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PL32G_RMOD_TS_DATA1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6157,19 +8106,17 @@ union cavm_pciercx_pl32g_rmod_ts_data2
                                                                  If PCIERC_PL32G_CTL[MOD_TS_USE_MODE_SEL] is set, this field contains the
                                                                  Modified TS Information 2 field from the Modified TS1/TS2 ordered set.
 
-                                                                 synopsys documentation looks wrong.
-                                                                 _ Bits \<23:16\> = contain the value of Synbol 12.
-                                                                 _ Bits \<16:8\> = contain the value of Synbol 13.
-                                                                 _ Bits \<7:0\> = contain the value of Synbol 14. */
+                                                                 _ Bits \<23:16\> = contain the value of Symbol 14.
+                                                                 _ Bits \<16:8\> = contain the value of Symbol 13.
+                                                                 _ Bits \<7:0\> = contain the value of Symbol 12. */
 #else /* Word 0 - Little Endian */
         uint32_t rcvd_mod_ts_info2     : 24; /**< [ 23:  0](RO/H) Received Modified TS information 2.
                                                                  If PCIERC_PL32G_CTL[MOD_TS_USE_MODE_SEL] is set, this field contains the
                                                                  Modified TS Information 2 field from the Modified TS1/TS2 ordered set.
 
-                                                                 synopsys documentation looks wrong.
-                                                                 _ Bits \<23:16\> = contain the value of Synbol 12.
-                                                                 _ Bits \<16:8\> = contain the value of Synbol 13.
-                                                                 _ Bits \<7:0\> = contain the value of Synbol 14. */
+                                                                 _ Bits \<23:16\> = contain the value of Symbol 14.
+                                                                 _ Bits \<16:8\> = contain the value of Symbol 13.
+                                                                 _ Bits \<7:0\> = contain the value of Symbol 12. */
         uint32_t rcvd_alt_prot_neg_stat : 2; /**< [ 25: 24](RO/H) Alternate Protocol Negotiation Status.  Indicates the status of the Alternate
                                                                  Protocol Negotiation.
 
@@ -6187,8 +8134,8 @@ typedef union cavm_pciercx_pl32g_rmod_ts_data2 cavm_pciercx_pl32g_rmod_ts_data2_
 static inline uint64_t CAVM_PCIERCX_PL32G_RMOD_TS_DATA2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PL32G_RMOD_TS_DATA2(uint64_t a)
 {
-    if (a<=5)
-        return 0x1d8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x224 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PL32G_RMOD_TS_DATA2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6221,7 +8168,7 @@ union cavm_pciercx_pl32g_status
                                                                  Recovery Speed. */
         uint32_t tx_precode_on         : 1;  /**< [  8:  8](RO/H) Transmitter Precoding on.
                                                                  This field indicates whether the receiver asked this transmitter to
-                                                                 enable precoding.  This bit is cleard on DL_Down. */
+                                                                 enable precoding.  This bit is cleared on DL_Down. */
         uint32_t rcvd_elbc             : 2;  /**< [  7:  6](RO/H) Received Enhanced Link behavior control.
                                                                  This field contains the Enhanced Link Behavior Control bits
                                                                  from the most recent TS1 or TS2 received in the Polling or Config states. */
@@ -6247,7 +8194,7 @@ union cavm_pciercx_pl32g_status
                                                                  from the most recent TS1 or TS2 received in the Polling or Config states. */
         uint32_t tx_precode_on         : 1;  /**< [  8:  8](RO/H) Transmitter Precoding on.
                                                                  This field indicates whether the receiver asked this transmitter to
-                                                                 enable precoding.  This bit is cleard on DL_Down. */
+                                                                 enable precoding.  This bit is cleared on DL_Down. */
         uint32_t tx_precode_req        : 1;  /**< [  9:  9](R/W) Transmitter Precode Request.
                                                                  When set, this port will request the transmitter to use precoding by setting
                                                                  the Precoding Request bit in the TS1s/TS2s it transmits prior to entry to
@@ -6267,8 +8214,8 @@ typedef union cavm_pciercx_pl32g_status cavm_pciercx_pl32g_status_t;
 static inline uint64_t CAVM_PCIERCX_PL32G_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PL32G_STATUS(uint64_t a)
 {
-    if (a<=5)
-        return 0x1d0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x21c + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PL32G_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6294,17 +8241,15 @@ union cavm_pciercx_pl32g_tmod_ts_data1
                                                                  Modified TS Vendor ID field from the Modified TS1/TS2 Ordered Set transmitted
                                                                  during the most recent LTSSM state.
 
-                                                                 _ Bits \<15:8\> = contain the value of Synbol 10.
-                                                                 _ Bits \<7:0\> = contain the value of Synbol 11. */
+                                                                 _ Bits \<15:8\> = contain the value of Symbol 11.
+                                                                 _ Bits \<7:0\> = contain the value of Symbol 10. */
         uint32_t tx_mod_ts_info1       : 13; /**< [ 15:  3](RO/H) Transmitted Modified TS information 1.
                                                                  If PCIERC_PL32G_CTL[MOD_TS_USE_MODE_SEL] is set, this field contains the
                                                                  Modified TS Information 1 field from the Modified TS1/TS2 ordered set transmitted
                                                                  during the most recent LTSSM state.
 
-                                                                 synopsys documentation looks wrong.
-                                                                 _ Bits \<15:8\> = contain the value of Synbol 12.
-                                                                 _ Bits \<16:8\> = contain the value of Synbol 13.
-                                                                 _ Bits \<7:0\> = contain the value of Synbol 14. */
+                                                                 _ Bits \<15:8\> = contain the value of Symbol 9.
+                                                                 _ Bits \<7:3\> = contain the value of Symbol 8. */
         uint32_t tx_mod_ts_use_mode    : 3;  /**< [  2:  0](RO/H) Transmitted Modified TS Usage Mode.
                                                                  If PCIERC_PL32G_CTL[MOD_TS_USE_MODE_SEL] is set, this field contains the
                                                                  Modified TS Usage field from the Modified TS/1TS2 Ordered Set transmitted
@@ -6319,17 +8264,15 @@ union cavm_pciercx_pl32g_tmod_ts_data1
                                                                  Modified TS Information 1 field from the Modified TS1/TS2 ordered set transmitted
                                                                  during the most recent LTSSM state.
 
-                                                                 synopsys documentation looks wrong.
-                                                                 _ Bits \<15:8\> = contain the value of Synbol 12.
-                                                                 _ Bits \<16:8\> = contain the value of Synbol 13.
-                                                                 _ Bits \<7:0\> = contain the value of Synbol 14. */
+                                                                 _ Bits \<15:8\> = contain the value of Symbol 9.
+                                                                 _ Bits \<7:3\> = contain the value of Symbol 8. */
         uint32_t tx_mod_ts_vend_id     : 16; /**< [ 31: 16](RO/H) Transmitted Modified TS Vendor ID.
                                                                  If PCIERC_PL32G_CTL[MOD_TS_USE_MODE_SEL] is set, this field contains the
                                                                  Modified TS Vendor ID field from the Modified TS1/TS2 Ordered Set transmitted
                                                                  during the most recent LTSSM state.
 
-                                                                 _ Bits \<15:8\> = contain the value of Synbol 10.
-                                                                 _ Bits \<7:0\> = contain the value of Synbol 11. */
+                                                                 _ Bits \<15:8\> = contain the value of Symbol 11.
+                                                                 _ Bits \<7:0\> = contain the value of Symbol 10. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pciercx_pl32g_tmod_ts_data1_s cn; */
@@ -6339,8 +8282,8 @@ typedef union cavm_pciercx_pl32g_tmod_ts_data1 cavm_pciercx_pl32g_tmod_ts_data1_
 static inline uint64_t CAVM_PCIERCX_PL32G_TMOD_TS_DATA1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PL32G_TMOD_TS_DATA1(uint64_t a)
 {
-    if (a<=5)
-        return 0x1dc + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x228 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PL32G_TMOD_TS_DATA1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6374,20 +8317,18 @@ union cavm_pciercx_pl32g_tmod_ts_data2
                                                                  Modified TS Information 2 field from the Modified TS1/TS2 ordered set
                                                                  transmitted during the most recent LTSSM state.
 
-                                                                 synopsys documentation looks wrong.
-                                                                 _ Bits \<23:16\> = contain the value of Synbol 12.
-                                                                 _ Bits \<16:8\> = contain the value of Synbol 13.
-                                                                 _ Bits \<7:0\> = contain the value of Synbol 14. */
+                                                                 _ Bits \<23:16\> = contain the value of Symbol 14.
+                                                                 _ Bits \<15:8\> = contain the value of Symbol 13.
+                                                                 _ Bits \<7:0\> = contain the value of Symbol 12. */
 #else /* Word 0 - Little Endian */
         uint32_t tx_mod_ts_info2       : 24; /**< [ 23:  0](RO/H) Received Modified TS information 2.
                                                                  If PCIERC_PL32G_CTL[MOD_TS_USE_MODE_SEL] is set, this field contains the
                                                                  Modified TS Information 2 field from the Modified TS1/TS2 ordered set
                                                                  transmitted during the most recent LTSSM state.
 
-                                                                 synopsys documentation looks wrong.
-                                                                 _ Bits \<23:16\> = contain the value of Synbol 12.
-                                                                 _ Bits \<16:8\> = contain the value of Synbol 13.
-                                                                 _ Bits \<7:0\> = contain the value of Synbol 14. */
+                                                                 _ Bits \<23:16\> = contain the value of Symbol 14.
+                                                                 _ Bits \<15:8\> = contain the value of Symbol 13.
+                                                                 _ Bits \<7:0\> = contain the value of Symbol 12. */
         uint32_t tx_alt_prot_neg_stat  : 2;  /**< [ 25: 24](RO/H) Alternate Protocol Negotiation Status.  Indicates the status of the Alternate
                                                                  Protocol Negotiation.
 
@@ -6405,8 +8346,8 @@ typedef union cavm_pciercx_pl32g_tmod_ts_data2 cavm_pciercx_pl32g_tmod_ts_data2_
 static inline uint64_t CAVM_PCIERCX_PL32G_TMOD_TS_DATA2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PL32G_TMOD_TS_DATA2(uint64_t a)
 {
-    if (a<=5)
-        return 0x1e0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x22c + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PL32G_TMOD_TS_DATA2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6415,54 +8356,6 @@ static inline uint64_t CAVM_PCIERCX_PL32G_TMOD_TS_DATA2(uint64_t a)
 #define basename_CAVM_PCIERCX_PL32G_TMOD_TS_DATA2(a) "PCIERCX_PL32G_TMOD_TS_DATA2"
 #define busnum_CAVM_PCIERCX_PL32G_TMOD_TS_DATA2(a) (a)
 #define arguments_CAVM_PCIERCX_PL32G_TMOD_TS_DATA2(a) (a),-1,-1,-1
-
-/**
- * Register (PCICONFIGRC) pcierc#_pl_ltr_latency
- *
- * PCIe RC LTR Latency Register
- */
-union cavm_pciercx_pl_ltr_latency
-{
-    uint32_t u;
-    struct cavm_pciercx_pl_ltr_latency_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t nslreq                : 1;  /**< [ 31: 31](R/W) No snoop latency requirement. */
-        uint32_t reserved_29_30        : 2;
-        uint32_t nsls                  : 3;  /**< [ 28: 26](R/W) No snoop latency scale. */
-        uint32_t nslv                  : 10; /**< [ 25: 16](R/W) No snoop latency value. */
-        uint32_t slr                   : 1;  /**< [ 15: 15](R/W) Snoop latency requirement. */
-        uint32_t reserved_13_14        : 2;
-        uint32_t sls                   : 3;  /**< [ 12: 10](R/W) Snoop latency scale. */
-        uint32_t slv                   : 10; /**< [  9:  0](R/W) Snoop latency value. */
-#else /* Word 0 - Little Endian */
-        uint32_t slv                   : 10; /**< [  9:  0](R/W) Snoop latency value. */
-        uint32_t sls                   : 3;  /**< [ 12: 10](R/W) Snoop latency scale. */
-        uint32_t reserved_13_14        : 2;
-        uint32_t slr                   : 1;  /**< [ 15: 15](R/W) Snoop latency requirement. */
-        uint32_t nslv                  : 10; /**< [ 25: 16](R/W) No snoop latency value. */
-        uint32_t nsls                  : 3;  /**< [ 28: 26](R/W) No snoop latency scale. */
-        uint32_t reserved_29_30        : 2;
-        uint32_t nslreq                : 1;  /**< [ 31: 31](R/W) No snoop latency requirement. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pciercx_pl_ltr_latency_s cn; */
-};
-typedef union cavm_pciercx_pl_ltr_latency cavm_pciercx_pl_ltr_latency_t;
-
-static inline uint64_t CAVM_PCIERCX_PL_LTR_LATENCY(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PCIERCX_PL_LTR_LATENCY(uint64_t a)
-{
-    if (a<=5)
-        return 0xb30 + 0 * ((a) & 0x7);
-    __cavm_csr_fatal("PCIERCX_PL_LTR_LATENCY", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PCIERCX_PL_LTR_LATENCY(a) cavm_pciercx_pl_ltr_latency_t
-#define bustype_CAVM_PCIERCX_PL_LTR_LATENCY(a) CSR_TYPE_PCICONFIGRC
-#define basename_CAVM_PCIERCX_PL_LTR_LATENCY(a) "PCIERCX_PL_LTR_LATENCY"
-#define busnum_CAVM_PCIERCX_PL_LTR_LATENCY(a) (a)
-#define arguments_CAVM_PCIERCX_PL_LTR_LATENCY(a) (a),-1,-1,-1
 
 /**
  * Register (PCICONFIGRC) pcierc#_pm_cap_id
@@ -6537,7 +8430,7 @@ typedef union cavm_pciercx_pm_cap_id cavm_pciercx_pm_cap_id_t;
 static inline uint64_t CAVM_PCIERCX_PM_CAP_ID(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PM_CAP_ID(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x40 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PM_CAP_ID", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6605,7 +8498,7 @@ typedef union cavm_pciercx_pm_ctl cavm_pciercx_pm_ctl_t;
 static inline uint64_t CAVM_PCIERCX_PM_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PM_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x44 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PM_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6663,7 +8556,7 @@ typedef union cavm_pciercx_pmem cavm_pciercx_pmem_t;
 static inline uint64_t CAVM_PCIERCX_PMEM(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PMEM(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x24 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PMEM", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6693,10 +8586,10 @@ union cavm_pciercx_port_ctl
         uint32_t cle                   : 2;  /**< [ 23: 22](RAZ) Reserved. */
         uint32_t lme                   : 6;  /**< [ 21: 16](R/W) Link mode enable set as follows:
                                                                  0x1 = x1.
-                                                                 0x3 = x2 (BPEM).
-                                                                 0x7 = x4 (UPEM).
-                                                                 0xF = x8 (not supported).
-                                                                 0x1F = x16 (not supported).
+                                                                 0x3 = x2.
+                                                                 0x7 = x4 (QPEM).
+                                                                 0xF = x8 (HPEM).
+                                                                 0x1F = x16 (FPEM).
                                                                  0x3F = x32 (not supported).
 
                                                                  This field indicates the maximum number of lanes supported by the PCIe port. The value can
@@ -6749,10 +8642,10 @@ union cavm_pciercx_port_ctl
         uint32_t reserved_12_15        : 4;
         uint32_t lme                   : 6;  /**< [ 21: 16](R/W) Link mode enable set as follows:
                                                                  0x1 = x1.
-                                                                 0x3 = x2 (BPEM).
-                                                                 0x7 = x4 (UPEM).
-                                                                 0xF = x8 (not supported).
-                                                                 0x1F = x16 (not supported).
+                                                                 0x3 = x2.
+                                                                 0x7 = x4 (QPEM).
+                                                                 0xF = x8 (HPEM).
+                                                                 0x1F = x16 (FPEM).
                                                                  0x3F = x32 (not supported).
 
                                                                  This field indicates the maximum number of lanes supported by the PCIe port. The value can
@@ -6783,7 +8676,7 @@ typedef union cavm_pciercx_port_ctl cavm_pciercx_port_ctl_t;
 static inline uint64_t CAVM_PCIERCX_PORT_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PORT_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x710 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PORT_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6915,7 +8808,7 @@ typedef union cavm_pciercx_port_flink cavm_pciercx_port_flink_t;
 static inline uint64_t CAVM_PCIERCX_PORT_FLINK(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PORT_FLINK(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x708 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PORT_FLINK", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6951,7 +8844,7 @@ typedef union cavm_pciercx_pre_base cavm_pciercx_pre_base_t;
 static inline uint64_t CAVM_PCIERCX_PRE_BASE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PRE_BASE(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x28 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PRE_BASE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6987,7 +8880,7 @@ typedef union cavm_pciercx_pre_limit cavm_pciercx_pre_limit_t;
 static inline uint64_t CAVM_PCIERCX_PRE_LIMIT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PRE_LIMIT(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x2c + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PRE_LIMIT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -7033,8 +8926,8 @@ typedef union cavm_pciercx_ptm_cap cavm_pciercx_ptm_cap_t;
 static inline uint64_t CAVM_PCIERCX_PTM_CAP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PTM_CAP(uint64_t a)
 {
-    if (a<=5)
-        return 0x394 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x3b4 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PTM_CAP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7056,7 +8949,8 @@ union cavm_pciercx_ptm_ctl
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_16_31        : 16;
-        uint32_t eff_gran              : 8;  /**< [ 15:  8](R/W) PTM effective granularity. */
+        uint32_t eff_gran              : 8;  /**< [ 15:  8](RO) PTM effective granularity.
+                                                                 This field can only be written when PCIERC_PTM_CAP[RQC] is set. */
         uint32_t reserved_2_7          : 6;
         uint32_t rt_sel                : 1;  /**< [  1:  1](R/W) PTM root select. When set this time source is the PTM root.
                                                                  Writable only when PCIERC_PTM_CAP[RTC] is set. */
@@ -7066,7 +8960,8 @@ union cavm_pciercx_ptm_ctl
         uint32_t rt_sel                : 1;  /**< [  1:  1](R/W) PTM root select. When set this time source is the PTM root.
                                                                  Writable only when PCIERC_PTM_CAP[RTC] is set. */
         uint32_t reserved_2_7          : 6;
-        uint32_t eff_gran              : 8;  /**< [ 15:  8](R/W) PTM effective granularity. */
+        uint32_t eff_gran              : 8;  /**< [ 15:  8](RO) PTM effective granularity.
+                                                                 This field can only be written when PCIERC_PTM_CAP[RQC] is set. */
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } s;
@@ -7077,8 +8972,8 @@ typedef union cavm_pciercx_ptm_ctl cavm_pciercx_ptm_ctl_t;
 static inline uint64_t CAVM_PCIERCX_PTM_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PTM_CTL(uint64_t a)
 {
-    if (a<=5)
-        return 0x398 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x3b8 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PTM_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7121,8 +9016,8 @@ typedef union cavm_pciercx_ptm_ext_cap_hdr cavm_pciercx_ptm_ext_cap_hdr_t;
 static inline uint64_t CAVM_PCIERCX_PTM_EXT_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PTM_EXT_CAP_HDR(uint64_t a)
 {
-    if (a<=5)
-        return 0x390 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x3b0 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PTM_EXT_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7144,7 +9039,12 @@ union cavm_pciercx_ptm_res_cap_hdr
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
-                                                                 Writable through PEM()_CFG_TBL(). */
+                                                                 Writable through PEM()_CFG_TBL().
+
+                                                                 Reset values:
+                                                                 _ FPEM:      0x424
+                                                                 _ HPEM:      0x0.
+                                                                 _ QPEM:      0x0. */
         uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
                                                                  Writable through PEM()_CFG_TBL(). */
         uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
@@ -7155,7 +9055,12 @@ union cavm_pciercx_ptm_res_cap_hdr
         uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
                                                                  Writable through PEM()_CFG_TBL(). */
         uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
-                                                                 Writable through PEM()_CFG_TBL(). */
+                                                                 Writable through PEM()_CFG_TBL().
+
+                                                                 Reset values:
+                                                                 _ FPEM:      0x424
+                                                                 _ HPEM:      0x0.
+                                                                 _ QPEM:      0x0. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pciercx_ptm_res_cap_hdr_s cn; */
@@ -7165,8 +9070,8 @@ typedef union cavm_pciercx_ptm_res_cap_hdr cavm_pciercx_ptm_res_cap_hdr_t;
 static inline uint64_t CAVM_PCIERCX_PTM_RES_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PTM_RES_CAP_HDR(uint64_t a)
 {
-    if (a<=5)
-        return 0x39c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x3bc + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PTM_RES_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7219,8 +9124,8 @@ typedef union cavm_pciercx_ptm_res_ctl cavm_pciercx_ptm_res_ctl_t;
 static inline uint64_t CAVM_PCIERCX_PTM_RES_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PTM_RES_CTL(uint64_t a)
 {
-    if (a<=5)
-        return 0x3a4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x3c4 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PTM_RES_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7257,8 +9162,8 @@ typedef union cavm_pciercx_ptm_res_hdr cavm_pciercx_ptm_res_hdr_t;
 static inline uint64_t CAVM_PCIERCX_PTM_RES_HDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PTM_RES_HDR(uint64_t a)
 {
-    if (a<=5)
-        return 0x3a0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x3c0 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PTM_RES_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7267,6 +9172,44 @@ static inline uint64_t CAVM_PCIERCX_PTM_RES_HDR(uint64_t a)
 #define basename_CAVM_PCIERCX_PTM_RES_HDR(a) "PCIERCX_PTM_RES_HDR"
 #define busnum_CAVM_PCIERCX_PTM_RES_HDR(a) (a)
 #define arguments_CAVM_PCIERCX_PTM_RES_HDR(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ptm_res_latency_sel
+ *
+ * PCIe RC PTM Responder Latency Register Select Register
+ */
+union cavm_pciercx_ptm_res_latency_sel
+{
+    uint32_t u;
+    struct cavm_pciercx_ptm_res_latency_sel_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_4_31         : 28;
+        uint32_t lat_reg_sel           : 4;  /**< [  3:  0](R/W) Selects the PTM Responder Tx/Rx Latency Register to be
+                                                                 read/written. */
+#else /* Word 0 - Little Endian */
+        uint32_t lat_reg_sel           : 4;  /**< [  3:  0](R/W) Selects the PTM Responder Tx/Rx Latency Register to be
+                                                                 read/written. */
+        uint32_t reserved_4_31         : 28;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ptm_res_latency_sel_s cn; */
+};
+typedef union cavm_pciercx_ptm_res_latency_sel cavm_pciercx_ptm_res_latency_sel_t;
+
+static inline uint64_t CAVM_PCIERCX_PTM_RES_LATENCY_SEL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PTM_RES_LATENCY_SEL(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x404 + 0 * ((a) & 0x7);
+    __cavm_csr_fatal("PCIERCX_PTM_RES_LATENCY_SEL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PTM_RES_LATENCY_SEL(a) cavm_pciercx_ptm_res_latency_sel_t
+#define bustype_CAVM_PCIERCX_PTM_RES_LATENCY_SEL(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PTM_RES_LATENCY_SEL(a) "PCIERCX_PTM_RES_LATENCY_SEL"
+#define busnum_CAVM_PCIERCX_PTM_RES_LATENCY_SEL(a) (a)
+#define arguments_CAVM_PCIERCX_PTM_RES_LATENCY_SEL(a) (a),-1,-1,-1
 
 /**
  * Register (PCICONFIGRC) pcierc#_ptm_res_local_lsb
@@ -7291,8 +9234,8 @@ typedef union cavm_pciercx_ptm_res_local_lsb cavm_pciercx_ptm_res_local_lsb_t;
 static inline uint64_t CAVM_PCIERCX_PTM_RES_LOCAL_LSB(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PTM_RES_LOCAL_LSB(uint64_t a)
 {
-    if (a<=5)
-        return 0x3ac + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x3cc + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PTM_RES_LOCAL_LSB", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7325,8 +9268,8 @@ typedef union cavm_pciercx_ptm_res_local_msb cavm_pciercx_ptm_res_local_msb_t;
 static inline uint64_t CAVM_PCIERCX_PTM_RES_LOCAL_MSB(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PTM_RES_LOCAL_MSB(uint64_t a)
 {
-    if (a<=5)
-        return 0x3b0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x3d0 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PTM_RES_LOCAL_MSB", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7335,6 +9278,46 @@ static inline uint64_t CAVM_PCIERCX_PTM_RES_LOCAL_MSB(uint64_t a)
 #define basename_CAVM_PCIERCX_PTM_RES_LOCAL_MSB(a) "PCIERCX_PTM_RES_LOCAL_MSB"
 #define busnum_CAVM_PCIERCX_PTM_RES_LOCAL_MSB(a) (a)
 #define arguments_CAVM_PCIERCX_PTM_RES_LOCAL_MSB(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ptm_res_nom_clk_t
+ *
+ * PCIe RC PTM Responder Nominal Clock Period Register
+ */
+union cavm_pciercx_ptm_res_nom_clk_t
+{
+    uint32_t u;
+    struct cavm_pciercx_ptm_res_nom_clk_t_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t clk_t_int             : 8;  /**< [ 23: 16](RO/H) PTM responder Nominal Clock Period Integral (in ns). */
+        uint32_t clk_t_frac            : 16; /**< [ 15:  0](RO/H) PTM responder Nominal Clock Period Fractional.
+                                                                 LSB is 1/(2^16) ns. */
+#else /* Word 0 - Little Endian */
+        uint32_t clk_t_frac            : 16; /**< [ 15:  0](RO/H) PTM responder Nominal Clock Period Fractional.
+                                                                 LSB is 1/(2^16) ns. */
+        uint32_t clk_t_int             : 8;  /**< [ 23: 16](RO/H) PTM responder Nominal Clock Period Integral (in ns). */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ptm_res_nom_clk_t_s cn; */
+};
+typedef union cavm_pciercx_ptm_res_nom_clk_t cavm_pciercx_ptm_res_nom_clk_t_t;
+
+static inline uint64_t CAVM_PCIERCX_PTM_RES_NOM_CLK_T(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PTM_RES_NOM_CLK_T(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x3fc + 0 * ((a) & 0x7);
+    __cavm_csr_fatal("PCIERCX_PTM_RES_NOM_CLK_T", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PTM_RES_NOM_CLK_T(a) cavm_pciercx_ptm_res_nom_clk_t_t
+#define bustype_CAVM_PCIERCX_PTM_RES_NOM_CLK_T(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PTM_RES_NOM_CLK_T(a) "PCIERCX_PTM_RES_NOM_CLK_T"
+#define busnum_CAVM_PCIERCX_PTM_RES_NOM_CLK_T(a) (a)
+#define arguments_CAVM_PCIERCX_PTM_RES_NOM_CLK_T(a) (a),-1,-1,-1
 
 /**
  * Register (PCICONFIGRC) pcierc#_ptm_res_rx_latency
@@ -7348,9 +9331,15 @@ union cavm_pciercx_ptm_res_rx_latency
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_12_31        : 20;
-        uint32_t rx_lat                : 12; /**< [ 11:  0](R/W) PTM responder RX latency. */
+        uint32_t rx_lat                : 12; /**< [ 11:  0](R/W) PTM responder RX latency.
+                                                                 There is a register provided for each link speed, and the value used for timestamp adjustment
+                                                                 is automatically selected based on the current link speed.
+                                                                 The PCIERC_PTM_RES_LATENCY_SEL[LAT_REG_SEL] specifies the register to be read/written. */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_lat                : 12; /**< [ 11:  0](R/W) PTM responder RX latency. */
+        uint32_t rx_lat                : 12; /**< [ 11:  0](R/W) PTM responder RX latency.
+                                                                 There is a register provided for each link speed, and the value used for timestamp adjustment
+                                                                 is automatically selected based on the current link speed.
+                                                                 The PCIERC_PTM_RES_LATENCY_SEL[LAT_REG_SEL] specifies the register to be read/written. */
         uint32_t reserved_12_31        : 20;
 #endif /* Word 0 - End */
     } s;
@@ -7361,8 +9350,8 @@ typedef union cavm_pciercx_ptm_res_rx_latency cavm_pciercx_ptm_res_rx_latency_t;
 static inline uint64_t CAVM_PCIERCX_PTM_RES_RX_LATENCY(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PTM_RES_RX_LATENCY(uint64_t a)
 {
-    if (a<=5)
-        return 0x3d8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x3f8 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PTM_RES_RX_LATENCY", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7371,6 +9360,50 @@ static inline uint64_t CAVM_PCIERCX_PTM_RES_RX_LATENCY(uint64_t a)
 #define basename_CAVM_PCIERCX_PTM_RES_RX_LATENCY(a) "PCIERCX_PTM_RES_RX_LATENCY"
 #define busnum_CAVM_PCIERCX_PTM_RES_RX_LATENCY(a) (a)
 #define arguments_CAVM_PCIERCX_PTM_RES_RX_LATENCY(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ptm_res_scaled_clk_t
+ *
+ * PCIe RC PTM Responder Scaled Clock Period Register
+ */
+union cavm_pciercx_ptm_res_scaled_clk_t
+{
+    uint32_t u;
+    struct cavm_pciercx_ptm_res_scaled_clk_t_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sclk_t_en             : 1;  /**< [ 31: 31](R/W) PTM Responder Scaled Clock Period Enable.
+                                                                 Use the programmed scaled PTM clock period rather then the nominal value. */
+        uint32_t reserved_24_30        : 7;
+        uint32_t sclk_t_int            : 8;  /**< [ 23: 16](R/W) PTM Responder Scaled Clock Period Integral (in ns). */
+        uint32_t sclk_t_frac           : 16; /**< [ 15:  0](R/W) PTM Responder Scaled Clock Period Fractional.
+                                                                 LSB is 1/(2^16) ns. */
+#else /* Word 0 - Little Endian */
+        uint32_t sclk_t_frac           : 16; /**< [ 15:  0](R/W) PTM Responder Scaled Clock Period Fractional.
+                                                                 LSB is 1/(2^16) ns. */
+        uint32_t sclk_t_int            : 8;  /**< [ 23: 16](R/W) PTM Responder Scaled Clock Period Integral (in ns). */
+        uint32_t reserved_24_30        : 7;
+        uint32_t sclk_t_en             : 1;  /**< [ 31: 31](R/W) PTM Responder Scaled Clock Period Enable.
+                                                                 Use the programmed scaled PTM clock period rather then the nominal value. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ptm_res_scaled_clk_t_s cn; */
+};
+typedef union cavm_pciercx_ptm_res_scaled_clk_t cavm_pciercx_ptm_res_scaled_clk_t_t;
+
+static inline uint64_t CAVM_PCIERCX_PTM_RES_SCALED_CLK_T(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PTM_RES_SCALED_CLK_T(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x400 + 0 * ((a) & 0x7);
+    __cavm_csr_fatal("PCIERCX_PTM_RES_SCALED_CLK_T", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PTM_RES_SCALED_CLK_T(a) cavm_pciercx_ptm_res_scaled_clk_t_t
+#define bustype_CAVM_PCIERCX_PTM_RES_SCALED_CLK_T(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PTM_RES_SCALED_CLK_T(a) "PCIERCX_PTM_RES_SCALED_CLK_T"
+#define busnum_CAVM_PCIERCX_PTM_RES_SCALED_CLK_T(a) (a)
+#define arguments_CAVM_PCIERCX_PTM_RES_SCALED_CLK_T(a) (a),-1,-1,-1
 
 /**
  * Register (PCICONFIGRC) pcierc#_ptm_res_status
@@ -7399,8 +9432,8 @@ typedef union cavm_pciercx_ptm_res_status cavm_pciercx_ptm_res_status_t;
 static inline uint64_t CAVM_PCIERCX_PTM_RES_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PTM_RES_STATUS(uint64_t a)
 {
-    if (a<=5)
-        return 0x3a8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x3c8 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PTM_RES_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7433,8 +9466,8 @@ typedef union cavm_pciercx_ptm_res_t2_lsb cavm_pciercx_ptm_res_t2_lsb_t;
 static inline uint64_t CAVM_PCIERCX_PTM_RES_T2_LSB(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PTM_RES_T2_LSB(uint64_t a)
 {
-    if (a<=5)
-        return 0x3b4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x3d4 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PTM_RES_T2_LSB", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7467,8 +9500,8 @@ typedef union cavm_pciercx_ptm_res_t2_msb cavm_pciercx_ptm_res_t2_msb_t;
 static inline uint64_t CAVM_PCIERCX_PTM_RES_T2_MSB(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PTM_RES_T2_MSB(uint64_t a)
 {
-    if (a<=5)
-        return 0x3b8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x3d8 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PTM_RES_T2_MSB", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7501,8 +9534,8 @@ typedef union cavm_pciercx_ptm_res_t2p_lsb cavm_pciercx_ptm_res_t2p_lsb_t;
 static inline uint64_t CAVM_PCIERCX_PTM_RES_T2P_LSB(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PTM_RES_T2P_LSB(uint64_t a)
 {
-    if (a<=5)
-        return 0x3bc + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x3dc + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PTM_RES_T2P_LSB", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7535,8 +9568,8 @@ typedef union cavm_pciercx_ptm_res_t2p_msb cavm_pciercx_ptm_res_t2p_msb_t;
 static inline uint64_t CAVM_PCIERCX_PTM_RES_T2P_MSB(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PTM_RES_T2P_MSB(uint64_t a)
 {
-    if (a<=5)
-        return 0x3c0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x3e0 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PTM_RES_T2P_MSB", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7569,8 +9602,8 @@ typedef union cavm_pciercx_ptm_res_t3_lsb cavm_pciercx_ptm_res_t3_lsb_t;
 static inline uint64_t CAVM_PCIERCX_PTM_RES_T3_LSB(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PTM_RES_T3_LSB(uint64_t a)
 {
-    if (a<=5)
-        return 0x3c4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x3e4 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PTM_RES_T3_LSB", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7603,8 +9636,8 @@ typedef union cavm_pciercx_ptm_res_t3_msb cavm_pciercx_ptm_res_t3_msb_t;
 static inline uint64_t CAVM_PCIERCX_PTM_RES_T3_MSB(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PTM_RES_T3_MSB(uint64_t a)
 {
-    if (a<=5)
-        return 0x3c8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x3e8 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PTM_RES_T3_MSB", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7637,8 +9670,8 @@ typedef union cavm_pciercx_ptm_res_t3p_lsb cavm_pciercx_ptm_res_t3p_lsb_t;
 static inline uint64_t CAVM_PCIERCX_PTM_RES_T3P_LSB(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PTM_RES_T3P_LSB(uint64_t a)
 {
-    if (a<=5)
-        return 0x3cc + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x3ec + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PTM_RES_T3P_LSB", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7671,8 +9704,8 @@ typedef union cavm_pciercx_ptm_res_t3p_msb cavm_pciercx_ptm_res_t3p_msb_t;
 static inline uint64_t CAVM_PCIERCX_PTM_RES_T3P_MSB(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PTM_RES_T3P_MSB(uint64_t a)
 {
-    if (a<=5)
-        return 0x3d0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x3f0 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PTM_RES_T3P_MSB", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7694,9 +9727,15 @@ union cavm_pciercx_ptm_res_tx_latency
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_12_31        : 20;
-        uint32_t tx_lat                : 12; /**< [ 11:  0](R/W) PTM responder TX latency. */
+        uint32_t tx_lat                : 12; /**< [ 11:  0](R/W) PTM Responder TX latency.
+                                                                 There is a register provided for each link speed, and the value used for timestamp adjustment
+                                                                 is automatically selected based on the current link speed.
+                                                                 The PCIERC_PTM_RES_LATENCY_SEL.LAT_REG_SEL specifies the register to be read/written. */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_lat                : 12; /**< [ 11:  0](R/W) PTM responder TX latency. */
+        uint32_t tx_lat                : 12; /**< [ 11:  0](R/W) PTM Responder TX latency.
+                                                                 There is a register provided for each link speed, and the value used for timestamp adjustment
+                                                                 is automatically selected based on the current link speed.
+                                                                 The PCIERC_PTM_RES_LATENCY_SEL.LAT_REG_SEL specifies the register to be read/written. */
         uint32_t reserved_12_31        : 20;
 #endif /* Word 0 - End */
     } s;
@@ -7707,8 +9746,8 @@ typedef union cavm_pciercx_ptm_res_tx_latency cavm_pciercx_ptm_res_tx_latency_t;
 static inline uint64_t CAVM_PCIERCX_PTM_RES_TX_LATENCY(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_PTM_RES_TX_LATENCY(uint64_t a)
 {
-    if (a<=5)
-        return 0x3d4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x3f4 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_PTM_RES_TX_LATENCY", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7779,7 +9818,7 @@ typedef union cavm_pciercx_queue_status cavm_pciercx_queue_status_t;
 static inline uint64_t CAVM_PCIERCX_QUEUE_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_QUEUE_STATUS(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x73c + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_QUEUE_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -7823,8 +9862,8 @@ typedef union cavm_pciercx_ras_des_cap_hdr cavm_pciercx_ras_des_cap_hdr_t;
 static inline uint64_t CAVM_PCIERCX_RAS_DES_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_DES_CAP_HDR(uint64_t a)
 {
-    if (a<=5)
-        return 0x24c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x26c + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_DES_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7927,8 +9966,8 @@ typedef union cavm_pciercx_ras_ec_ctl cavm_pciercx_ras_ec_ctl_t;
 static inline uint64_t CAVM_PCIERCX_RAS_EC_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_EC_CTL(uint64_t a)
 {
-    if (a<=5)
-        return 0x254 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x274 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_EC_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7965,8 +10004,8 @@ typedef union cavm_pciercx_ras_ec_data cavm_pciercx_ras_ec_data_t;
 static inline uint64_t CAVM_PCIERCX_RAS_EC_DATA(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_EC_DATA(uint64_t a)
 {
-    if (a<=5)
-        return 0x258 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x278 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_EC_DATA", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8047,8 +10086,8 @@ typedef union cavm_pciercx_ras_einj_ctl0 cavm_pciercx_ras_einj_ctl0_t;
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL0(uint64_t a)
 {
-    if (a<=5)
-        return 0x280 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x2a0 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8133,8 +10172,8 @@ typedef union cavm_pciercx_ras_einj_ctl1 cavm_pciercx_ras_einj_ctl1_t;
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL1(uint64_t a)
 {
-    if (a<=5)
-        return 0x284 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x2a4 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8195,8 +10234,8 @@ typedef union cavm_pciercx_ras_einj_ctl2 cavm_pciercx_ras_einj_ctl2_t;
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL2(uint64_t a)
 {
-    if (a<=5)
-        return 0x288 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x2a8 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8220,7 +10259,7 @@ union cavm_pciercx_ras_einj_ctl3
         uint32_t reserved_11_31        : 21;
         uint32_t einj3_symbol_type     : 3;  /**< [ 10:  8](R/W) Error type, 8 b/10 b encoding - Mask K symbol.
 
-                                                                 0x0 = Reserved.
+                                                                 0x0 = Invert sync header for 128b/130b, reserved for 8b/10b encoding.
                                                                  0x1 = COM/PAD(TS1 Order Set).
                                                                  0x2 = COM/PAD(TS2 Order Set).
                                                                  0x3 = COM/FTS(FTS Order Set).
@@ -8247,7 +10286,7 @@ union cavm_pciercx_ras_einj_ctl3
                                                                  errors are inserted until PCIERC_RAS_EINJ_EN[EINJ3_EN] is cleared. */
         uint32_t einj3_symbol_type     : 3;  /**< [ 10:  8](R/W) Error type, 8 b/10 b encoding - Mask K symbol.
 
-                                                                 0x0 = Reserved.
+                                                                 0x0 = Invert sync header for 128b/130b, reserved for 8b/10b encoding.
                                                                  0x1 = COM/PAD(TS1 Order Set).
                                                                  0x2 = COM/PAD(TS2 Order Set).
                                                                  0x3 = COM/FTS(FTS Order Set).
@@ -8265,8 +10304,8 @@ typedef union cavm_pciercx_ras_einj_ctl3 cavm_pciercx_ras_einj_ctl3_t;
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL3(uint64_t a)
 {
-    if (a<=5)
-        return 0x28c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x2ac + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8367,8 +10406,8 @@ typedef union cavm_pciercx_ras_einj_ctl4 cavm_pciercx_ras_einj_ctl4_t;
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL4(uint64_t a)
 {
-    if (a<=5)
-        return 0x290 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x2b0 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8425,8 +10464,8 @@ typedef union cavm_pciercx_ras_einj_ctl5 cavm_pciercx_ras_einj_ctl5_t;
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL5(uint64_t a)
 {
-    if (a<=5)
-        return 0x294 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x2b4 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8463,8 +10502,8 @@ typedef union cavm_pciercx_ras_einj_ctl6chgp0 cavm_pciercx_ras_einj_ctl6chgp0_t;
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGP0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGP0(uint64_t a)
 {
-    if (a<=5)
-        return 0x2b8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x2d8 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL6CHGP0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8501,8 +10540,8 @@ typedef union cavm_pciercx_ras_einj_ctl6chgp1 cavm_pciercx_ras_einj_ctl6chgp1_t;
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGP1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGP1(uint64_t a)
 {
-    if (a<=5)
-        return 0x2bc + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x2dc + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL6CHGP1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8539,8 +10578,8 @@ typedef union cavm_pciercx_ras_einj_ctl6chgp2 cavm_pciercx_ras_einj_ctl6chgp2_t;
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGP2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGP2(uint64_t a)
 {
-    if (a<=5)
-        return 0x2c0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x2e0 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL6CHGP2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8577,8 +10616,8 @@ typedef union cavm_pciercx_ras_einj_ctl6chgp3 cavm_pciercx_ras_einj_ctl6chgp3_t;
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGP3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGP3(uint64_t a)
 {
-    if (a<=5)
-        return 0x2c4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x2e4 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL6CHGP3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8617,8 +10656,8 @@ typedef union cavm_pciercx_ras_einj_ctl6chgv0 cavm_pciercx_ras_einj_ctl6chgv0_t;
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGV0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGV0(uint64_t a)
 {
-    if (a<=5)
-        return 0x2c8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x2e8 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL6CHGV0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8657,8 +10696,8 @@ typedef union cavm_pciercx_ras_einj_ctl6chgv1 cavm_pciercx_ras_einj_ctl6chgv1_t;
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGV1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGV1(uint64_t a)
 {
-    if (a<=5)
-        return 0x2cc + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x2ec + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL6CHGV1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8697,8 +10736,8 @@ typedef union cavm_pciercx_ras_einj_ctl6chgv2 cavm_pciercx_ras_einj_ctl6chgv2_t;
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGV2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGV2(uint64_t a)
 {
-    if (a<=5)
-        return 0x2d0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x2f0 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL6CHGV2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8737,8 +10776,8 @@ typedef union cavm_pciercx_ras_einj_ctl6chgv3 cavm_pciercx_ras_einj_ctl6chgv3_t;
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGV3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGV3(uint64_t a)
 {
-    if (a<=5)
-        return 0x2d4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x2f4 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL6CHGV3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8779,8 +10818,8 @@ typedef union cavm_pciercx_ras_einj_ctl6cmpp0 cavm_pciercx_ras_einj_ctl6cmpp0_t;
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CMPP0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CMPP0(uint64_t a)
 {
-    if (a<=5)
-        return 0x298 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x2b8 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL6CMPP0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8821,8 +10860,8 @@ typedef union cavm_pciercx_ras_einj_ctl6cmpp1 cavm_pciercx_ras_einj_ctl6cmpp1_t;
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CMPP1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CMPP1(uint64_t a)
 {
-    if (a<=5)
-        return 0x29c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x2bc + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL6CMPP1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8863,8 +10902,8 @@ typedef union cavm_pciercx_ras_einj_ctl6cmpp2 cavm_pciercx_ras_einj_ctl6cmpp2_t;
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CMPP2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CMPP2(uint64_t a)
 {
-    if (a<=5)
-        return 0x2a0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x2c0 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL6CMPP2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8905,8 +10944,8 @@ typedef union cavm_pciercx_ras_einj_ctl6cmpp3 cavm_pciercx_ras_einj_ctl6cmpp3_t;
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CMPP3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CMPP3(uint64_t a)
 {
-    if (a<=5)
-        return 0x2a4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x2c4 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL6CMPP3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8943,8 +10982,8 @@ typedef union cavm_pciercx_ras_einj_ctl6cmpv0 cavm_pciercx_ras_einj_ctl6cmpv0_t;
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CMPV0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CMPV0(uint64_t a)
 {
-    if (a<=5)
-        return 0x2a8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x2c8 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL6CMPV0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8981,8 +11020,8 @@ typedef union cavm_pciercx_ras_einj_ctl6cmpv1 cavm_pciercx_ras_einj_ctl6cmpv1_t;
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CMPV1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CMPV1(uint64_t a)
 {
-    if (a<=5)
-        return 0x2ac + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x2cc + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL6CMPV1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9019,8 +11058,8 @@ typedef union cavm_pciercx_ras_einj_ctl6cmpv2 cavm_pciercx_ras_einj_ctl6cmpv2_t;
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CMPV2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CMPV2(uint64_t a)
 {
-    if (a<=5)
-        return 0x2b0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x2d0 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL6CMPV2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9057,8 +11096,8 @@ typedef union cavm_pciercx_ras_einj_ctl6cmpv3 cavm_pciercx_ras_einj_ctl6cmpv3_t;
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CMPV3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CMPV3(uint64_t a)
 {
-    if (a<=5)
-        return 0x2b4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x2d4 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL6CMPV3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9131,8 +11170,8 @@ typedef union cavm_pciercx_ras_einj_ctl6pe cavm_pciercx_ras_einj_ctl6pe_t;
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6PE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6PE(uint64_t a)
 {
-    if (a<=5)
-        return 0x2d8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x2f8 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_EINJ_CTL6PE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9195,8 +11234,8 @@ typedef union cavm_pciercx_ras_einj_en cavm_pciercx_ras_einj_en_t;
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_EN(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_EN(uint64_t a)
 {
-    if (a<=5)
-        return 0x27c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x29c + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_EINJ_EN", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9233,8 +11272,8 @@ typedef union cavm_pciercx_ras_hdr cavm_pciercx_ras_hdr_t;
 static inline uint64_t CAVM_PCIERCX_RAS_HDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_HDR(uint64_t a)
 {
-    if (a<=5)
-        return 0x250 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x270 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9295,8 +11334,18 @@ union cavm_pciercx_ras_sd_ctl1
                                                                  _ Bit \<1\> = Lane 1.
                                                                  _ Bit \<2\> = Lane 2.
                                                                  _ Bit \<3\> = Lane 3.
-
-                                                                 _ Bit \<15:4\> = Lanes 4 through 15 (not supported). */
+                                                                 _ Bit \<4\> = Lane 4 (not supported in QPEM).
+                                                                 _ Bit \<5\> = Lane 5 (not supported in QPEM).
+                                                                 _ Bit \<6\> = Lane 6 (not supported in QPEM).
+                                                                 _ Bit \<7\> = Lane 7 (not supported in QPEM).
+                                                                 _ Bit \<8\> = Lane 8 (not supported in QPEM and HPEM).
+                                                                 _ Bit \<9\> = Lane 9 (not supported in QPEM and HPEM).
+                                                                 _ Bit \<10\> = Lane 10 (not supported in QPEM and HPEM).
+                                                                 _ Bit \<11\> = Lane 11 (not supported in QPEM and HPEM).
+                                                                 _ Bit \<12\> = Lane 12 (not supported in QPEM and HPEM).
+                                                                 _ Bit \<13\> = Lane 13 (not supported in QPEM and HPEM).
+                                                                 _ Bit \<14\> = Lane 14 (not supported in QPEM and HPEM).
+                                                                 _ Bit \<15\> = Lane 15 (not supported in QPEM and HPEM). */
 #else /* Word 0 - Little Endian */
         uint32_t force_detect_lane     : 16; /**< [ 15:  0](R/W) Force detect lane.
                                                                  When set, the core ignores receiver detection from PHY
@@ -9305,8 +11354,18 @@ union cavm_pciercx_ras_sd_ctl1
                                                                  _ Bit \<1\> = Lane 1.
                                                                  _ Bit \<2\> = Lane 2.
                                                                  _ Bit \<3\> = Lane 3.
-
-                                                                 _ Bit \<15:4\> = Lanes 4 through 15 (not supported). */
+                                                                 _ Bit \<4\> = Lane 4 (not supported in QPEM).
+                                                                 _ Bit \<5\> = Lane 5 (not supported in QPEM).
+                                                                 _ Bit \<6\> = Lane 6 (not supported in QPEM).
+                                                                 _ Bit \<7\> = Lane 7 (not supported in QPEM).
+                                                                 _ Bit \<8\> = Lane 8 (not supported in QPEM and HPEM).
+                                                                 _ Bit \<9\> = Lane 9 (not supported in QPEM and HPEM).
+                                                                 _ Bit \<10\> = Lane 10 (not supported in QPEM and HPEM).
+                                                                 _ Bit \<11\> = Lane 11 (not supported in QPEM and HPEM).
+                                                                 _ Bit \<12\> = Lane 12 (not supported in QPEM and HPEM).
+                                                                 _ Bit \<13\> = Lane 13 (not supported in QPEM and HPEM).
+                                                                 _ Bit \<14\> = Lane 14 (not supported in QPEM and HPEM).
+                                                                 _ Bit \<15\> = Lane 15 (not supported in QPEM and HPEM). */
         uint32_t force_detect_lane_en  : 1;  /**< [ 16: 16](R/W) Force detect lane enable.
                                                                  When this bit is set, the core ignores receiver detection from
                                                                  PHY during LTSSM detect state and uses
@@ -9349,8 +11408,8 @@ typedef union cavm_pciercx_ras_sd_ctl1 cavm_pciercx_ras_sd_ctl1_t;
 static inline uint64_t CAVM_PCIERCX_RAS_SD_CTL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_SD_CTL1(uint64_t a)
 {
-    if (a<=5)
-        return 0x2ec + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x30c + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_SD_CTL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9433,8 +11492,8 @@ typedef union cavm_pciercx_ras_sd_ctl2 cavm_pciercx_ras_sd_ctl2_t;
 static inline uint64_t CAVM_PCIERCX_RAS_SD_CTL2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_SD_CTL2(uint64_t a)
 {
-    if (a<=5)
-        return 0x2f0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x310 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_SD_CTL2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9507,9 +11566,9 @@ union cavm_pciercx_ras_sd_eq_ctl1
                                                                  0x0 = Lane0.
                                                                  0x1 = Lane1.
                                                                  0x2 = Lane2.
-                                                                 _ ...
-                                                                 0x7 = Lane7.
-                                                                 0x8-0xF = Reserved. */
+                                                                 0x3 = Lane3.
+                                                                 0x4-0x7 = Lane4-Lane7 (Not supported in QPEM).
+                                                                 0x8-0xF = Lane8-Lane15 (Not supported in QPEM and HPEM). */
 #else /* Word 0 - Little Endian */
         uint32_t eq_lane_sel           : 4;  /**< [  3:  0](R/W) EQ status lane select.
                                                                  Setting this field in conjunction with [EQ_RATE_SEL]
@@ -9519,9 +11578,9 @@ union cavm_pciercx_ras_sd_eq_ctl1
                                                                  0x0 = Lane0.
                                                                  0x1 = Lane1.
                                                                  0x2 = Lane2.
-                                                                 _ ...
-                                                                 0x7 = Lane7.
-                                                                 0x8-0xF = Reserved. */
+                                                                 0x3 = Lane3.
+                                                                 0x4-0x7 = Lane4-Lane7 (Not supported in QPEM).
+                                                                 0x8-0xF = Lane8-Lane15 (Not supported in QPEM and HPEM). */
         uint32_t eq_rate_sel           : 2;  /**< [  5:  4](R/W) EQ status rate select.
                                                                  Setting this field in conjunction with [EQ_LANE_SEL]
                                                                  determines the per-lane silicon debug EQ status data
@@ -9575,8 +11634,8 @@ typedef union cavm_pciercx_ras_sd_eq_ctl1 cavm_pciercx_ras_sd_eq_ctl1_t;
 static inline uint64_t CAVM_PCIERCX_RAS_SD_EQ_CTL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_SD_EQ_CTL1(uint64_t a)
 {
-    if (a<=5)
-        return 0x31c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x33c + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_SD_EQ_CTL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9661,8 +11720,8 @@ typedef union cavm_pciercx_ras_sd_eq_ctl2 cavm_pciercx_ras_sd_eq_ctl2_t;
 static inline uint64_t CAVM_PCIERCX_RAS_SD_EQ_CTL2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_SD_EQ_CTL2(uint64_t a)
 {
-    if (a<=5)
-        return 0x320 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x340 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_SD_EQ_CTL2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9739,8 +11798,8 @@ typedef union cavm_pciercx_ras_sd_eq_ctl3 cavm_pciercx_ras_sd_eq_ctl3_t;
 static inline uint64_t CAVM_PCIERCX_RAS_SD_EQ_CTL3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_SD_EQ_CTL3(uint64_t a)
 {
-    if (a<=5)
-        return 0x324 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x344 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_SD_EQ_CTL3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9859,8 +11918,8 @@ typedef union cavm_pciercx_ras_sd_eq_stat1 cavm_pciercx_ras_sd_eq_stat1_t;
 static inline uint64_t CAVM_PCIERCX_RAS_SD_EQ_STAT1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_SD_EQ_STAT1(uint64_t a)
 {
-    if (a<=5)
-        return 0x32c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x34c + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_SD_EQ_STAT1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9913,8 +11972,8 @@ typedef union cavm_pciercx_ras_sd_eq_stat2 cavm_pciercx_ras_sd_eq_stat2_t;
 static inline uint64_t CAVM_PCIERCX_RAS_SD_EQ_STAT2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_SD_EQ_STAT2(uint64_t a)
 {
-    if (a<=5)
-        return 0x330 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x350 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_SD_EQ_STAT2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9967,8 +12026,8 @@ typedef union cavm_pciercx_ras_sd_eq_stat3 cavm_pciercx_ras_sd_eq_stat3_t;
 static inline uint64_t CAVM_PCIERCX_RAS_SD_EQ_STAT3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_SD_EQ_STAT3(uint64_t a)
 {
-    if (a<=5)
-        return 0x334 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x354 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_SD_EQ_STAT3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10016,7 +12075,8 @@ union cavm_pciercx_ras_sd_l1lane
                                                                  0x1 = Lane1.
                                                                  0x2 = Lane2.
                                                                  0x3 = Lane3.
-                                                                 0x4-0xF = Reserved. */
+                                                                 0x4-0x7 = Lane4-Lane7 (Not supported in QPEM).
+                                                                 0x8-0xF = Lane8-Lane15 (Not supported in QPEM and HPEM). */
 #else /* Word 0 - Little Endian */
         uint32_t lane_select           : 4;  /**< [  3:  0](R/W) Lane select.
                                                                  Lane select register for silicon debug status register of
@@ -10025,7 +12085,8 @@ union cavm_pciercx_ras_sd_l1lane
                                                                  0x1 = Lane1.
                                                                  0x2 = Lane2.
                                                                  0x3 = Lane3.
-                                                                 0x4-0xF = Reserved. */
+                                                                 0x4-0x7 = Lane4-Lane7 (Not supported in QPEM).
+                                                                 0x8-0xF = Lane8-Lane15 (Not supported in QPEM and HPEM). */
         uint32_t reserved_4_15         : 12;
         uint32_t pipe_rxpol            : 1;  /**< [ 16: 16](RO/H) PIPE:RxPolarity.
                                                                  Indicates PIPE RXPOLARITY signal of selected lane
@@ -10055,8 +12116,8 @@ typedef union cavm_pciercx_ras_sd_l1lane cavm_pciercx_ras_sd_l1lane_t;
 static inline uint64_t CAVM_PCIERCX_RAS_SD_L1LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_SD_L1LANE(uint64_t a)
 {
-    if (a<=5)
-        return 0x2fc + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x31c + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_SD_L1LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10219,8 +12280,8 @@ typedef union cavm_pciercx_ras_sd_l1ltssm cavm_pciercx_ras_sd_l1ltssm_t;
 static inline uint64_t CAVM_PCIERCX_RAS_SD_L1LTSSM(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_SD_L1LTSSM(uint64_t a)
 {
-    if (a<=5)
-        return 0x300 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x320 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_SD_L1LTSSM", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10277,8 +12338,8 @@ typedef union cavm_pciercx_ras_sd_statusl2 cavm_pciercx_ras_sd_statusl2_t;
 static inline uint64_t CAVM_PCIERCX_RAS_SD_STATUSL2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_SD_STATUSL2(uint64_t a)
 {
-    if (a<=5)
-        return 0x308 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x328 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_SD_STATUSL2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10355,8 +12416,8 @@ typedef union cavm_pciercx_ras_sd_statusl3 cavm_pciercx_ras_sd_statusl3_t;
 static inline uint64_t CAVM_PCIERCX_RAS_SD_STATUSL3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_SD_STATUSL3(uint64_t a)
 {
-    if (a<=5)
-        return 0x310 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x330 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_SD_STATUSL3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10483,8 +12544,8 @@ typedef union cavm_pciercx_ras_sd_statusl3fc cavm_pciercx_ras_sd_statusl3fc_t;
 static inline uint64_t CAVM_PCIERCX_RAS_SD_STATUSL3FC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_SD_STATUSL3FC(uint64_t a)
 {
-    if (a<=5)
-        return 0x30c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x32c + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_SD_STATUSL3FC", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10625,8 +12686,8 @@ typedef union cavm_pciercx_ras_sd_statuspm cavm_pciercx_ras_sd_statuspm_t;
 static inline uint64_t CAVM_PCIERCX_RAS_SD_STATUSPM(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_SD_STATUSPM(uint64_t a)
 {
-    if (a<=5)
-        return 0x304 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x324 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_SD_STATUSPM", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10735,8 +12796,8 @@ typedef union cavm_pciercx_ras_tba_ctl cavm_pciercx_ras_tba_ctl_t;
 static inline uint64_t CAVM_PCIERCX_RAS_TBA_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_TBA_CTL(uint64_t a)
 {
-    if (a<=5)
-        return 0x25c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x27c + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_TBA_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10773,8 +12834,8 @@ typedef union cavm_pciercx_ras_tba_data cavm_pciercx_ras_tba_data_t;
 static inline uint64_t CAVM_PCIERCX_RAS_TBA_DATA(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RAS_TBA_DATA(uint64_t a)
 {
-    if (a<=5)
-        return 0x260 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x280 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RAS_TBA_DATA", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10796,9 +12857,8 @@ union cavm_pciercx_rasdp_cap_hdr
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
-                                                                 Writable through PEM()_CFG_TBL().
-
-                                                                 Points to the Data Link Feature Extended Capabilities. */
+                                                                 This points to the Data Link Feature Extended Capabilities.
+                                                                 Writable through PEM()_CFG_TBL(). */
         uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
                                                                  Writable through PEM()_CFG_TBL(). */
         uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
@@ -10809,9 +12869,8 @@ union cavm_pciercx_rasdp_cap_hdr
         uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
                                                                  Writable through PEM()_CFG_TBL(). */
         uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
-                                                                 Writable through PEM()_CFG_TBL().
-
-                                                                 Points to the Data Link Feature Extended Capabilities. */
+                                                                 This points to the Data Link Feature Extended Capabilities.
+                                                                 Writable through PEM()_CFG_TBL(). */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pciercx_rasdp_cap_hdr_s cn; */
@@ -10821,8 +12880,8 @@ typedef union cavm_pciercx_rasdp_cap_hdr cavm_pciercx_rasdp_cap_hdr_t;
 static inline uint64_t CAVM_PCIERCX_RASDP_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RASDP_CAP_HDR(uint64_t a)
 {
-    if (a<=5)
-        return 0x34c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x36c + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RASDP_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10897,8 +12956,8 @@ typedef union cavm_pciercx_rasdp_ce_ctl cavm_pciercx_rasdp_ce_ctl_t;
 static inline uint64_t CAVM_PCIERCX_RASDP_CE_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RASDP_CE_CTL(uint64_t a)
 {
-    if (a<=5)
-        return 0x358 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x378 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RASDP_CE_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10959,8 +13018,8 @@ typedef union cavm_pciercx_rasdp_ce_ictl cavm_pciercx_rasdp_ce_ictl_t;
 static inline uint64_t CAVM_PCIERCX_RASDP_CE_ICTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RASDP_CE_ICTL(uint64_t a)
 {
-    if (a<=5)
-        return 0x368 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x388 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RASDP_CE_ICTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11067,8 +13126,8 @@ typedef union cavm_pciercx_rasdp_ce_loc cavm_pciercx_rasdp_ce_loc_t;
 static inline uint64_t CAVM_PCIERCX_RASDP_CE_LOC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RASDP_CE_LOC(uint64_t a)
 {
-    if (a<=5)
-        return 0x36c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x38c + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RASDP_CE_LOC", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11133,8 +13192,8 @@ typedef union cavm_pciercx_rasdp_ce_rp cavm_pciercx_rasdp_ce_rp_t;
 static inline uint64_t CAVM_PCIERCX_RASDP_CE_RP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RASDP_CE_RP(uint64_t a)
 {
-    if (a<=5)
-        return 0x35c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x37c + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RASDP_CE_RP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11173,8 +13232,8 @@ typedef union cavm_pciercx_rasdp_de_mc cavm_pciercx_rasdp_de_mc_t;
 static inline uint64_t CAVM_PCIERCX_RASDP_DE_MC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RASDP_DE_MC(uint64_t a)
 {
-    if (a<=5)
-        return 0x378 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x398 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RASDP_DE_MC", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11211,8 +13270,8 @@ typedef union cavm_pciercx_rasdp_de_me cavm_pciercx_rasdp_de_me_t;
 static inline uint64_t CAVM_PCIERCX_RASDP_DE_ME(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RASDP_DE_ME(uint64_t a)
 {
-    if (a<=5)
-        return 0x374 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x394 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RASDP_DE_ME", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11233,7 +13292,8 @@ union cavm_pciercx_rasdp_ep_ctl
     struct cavm_pciercx_rasdp_ep_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_24_31        : 8;
+        uint32_t reserved_25_31        : 7;
+        uint32_t ep_dis_ltim           : 1;  /**< [ 24: 24](R/W) Error correction disable for LTIM, Order Buffer and MSI-GIC. */
         uint32_t ep_dis_cxs_rx         : 1;  /**< [ 23: 23](R/W) Error correction disable for CXS (PCIe) TX path. */
         uint32_t ep_dis_adm_rx         : 1;  /**< [ 22: 22](R/W) Error correction disable for ADM RX path. */
         uint32_t ep_dis_l3_rx          : 1;  /**< [ 21: 21](R/W) Error correction disable for layer 3 RX path. */
@@ -11242,7 +13302,8 @@ union cavm_pciercx_rasdp_ep_ctl
         uint32_t ep_dis_axib_inbr      : 1;  /**< [ 18: 18](R/W) Error correction disable for AXI bridge inbound request path (not supported). */
         uint32_t ep_dis_axib_inbc      : 1;  /**< [ 17: 17](R/W) Error correction disable for AXI bridge inbound completion composer (not supported). */
         uint32_t ep_dis_rx             : 1;  /**< [ 16: 16](R/W) Global error correction disable for all RX layers. */
-        uint32_t reserved_9_15         : 7;
+        uint32_t reserved_10_15        : 6;
+        uint32_t ep_dis_cxl_tx         : 1;  /**< [  9:  9](R/W) Error correction disable for CXL TX path. */
         uint32_t ep_dis_dtim_tx        : 1;  /**< [  8:  8](R/W) Error correction disable for DTIM TX path. */
         uint32_t ep_dis_cxs_tx         : 1;  /**< [  7:  7](R/W) Error correction disable for CXS (PCIe) TX path. */
         uint32_t ep_dis_adm_tx         : 1;  /**< [  6:  6](R/W) Error correction disable for ADM TX path. */
@@ -11262,7 +13323,8 @@ union cavm_pciercx_rasdp_ep_ctl
         uint32_t ep_dis_adm_tx         : 1;  /**< [  6:  6](R/W) Error correction disable for ADM TX path. */
         uint32_t ep_dis_cxs_tx         : 1;  /**< [  7:  7](R/W) Error correction disable for CXS (PCIe) TX path. */
         uint32_t ep_dis_dtim_tx        : 1;  /**< [  8:  8](R/W) Error correction disable for DTIM TX path. */
-        uint32_t reserved_9_15         : 7;
+        uint32_t ep_dis_cxl_tx         : 1;  /**< [  9:  9](R/W) Error correction disable for CXL TX path. */
+        uint32_t reserved_10_15        : 6;
         uint32_t ep_dis_rx             : 1;  /**< [ 16: 16](R/W) Global error correction disable for all RX layers. */
         uint32_t ep_dis_axib_inbc      : 1;  /**< [ 17: 17](R/W) Error correction disable for AXI bridge inbound completion composer (not supported). */
         uint32_t ep_dis_axib_inbr      : 1;  /**< [ 18: 18](R/W) Error correction disable for AXI bridge inbound request path (not supported). */
@@ -11271,7 +13333,8 @@ union cavm_pciercx_rasdp_ep_ctl
         uint32_t ep_dis_l3_rx          : 1;  /**< [ 21: 21](R/W) Error correction disable for layer 3 RX path. */
         uint32_t ep_dis_adm_rx         : 1;  /**< [ 22: 22](R/W) Error correction disable for ADM RX path. */
         uint32_t ep_dis_cxs_rx         : 1;  /**< [ 23: 23](R/W) Error correction disable for CXS (PCIe) TX path. */
-        uint32_t reserved_24_31        : 8;
+        uint32_t ep_dis_ltim           : 1;  /**< [ 24: 24](R/W) Error correction disable for LTIM, Order Buffer and MSI-GIC. */
+        uint32_t reserved_25_31        : 7;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pciercx_rasdp_ep_ctl_s cn; */
@@ -11281,8 +13344,8 @@ typedef union cavm_pciercx_rasdp_ep_ctl cavm_pciercx_rasdp_ep_ctl_t;
 static inline uint64_t CAVM_PCIERCX_RASDP_EP_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RASDP_EP_CTL(uint64_t a)
 {
-    if (a<=5)
-        return 0x354 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x374 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RASDP_EP_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11319,8 +13382,8 @@ typedef union cavm_pciercx_rasdp_hdr cavm_pciercx_rasdp_hdr_t;
 static inline uint64_t CAVM_PCIERCX_RASDP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RASDP_HDR(uint64_t a)
 {
-    if (a<=5)
-        return 0x350 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x370 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RASDP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11357,8 +13420,8 @@ typedef union cavm_pciercx_rasdp_radr_ce cavm_pciercx_rasdp_radr_ce_t;
 static inline uint64_t CAVM_PCIERCX_RASDP_RADR_CE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RASDP_RADR_CE(uint64_t a)
 {
-    if (a<=5)
-        return 0x37c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x39c + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RASDP_RADR_CE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11395,8 +13458,8 @@ typedef union cavm_pciercx_rasdp_radr_uce cavm_pciercx_rasdp_radr_uce_t;
 static inline uint64_t CAVM_PCIERCX_RASDP_RADR_UCE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RASDP_RADR_UCE(uint64_t a)
 {
-    if (a<=5)
-        return 0x380 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x3a0 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RASDP_RADR_UCE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11471,8 +13534,8 @@ typedef union cavm_pciercx_rasdp_uce_ctl cavm_pciercx_rasdp_uce_ctl_t;
 static inline uint64_t CAVM_PCIERCX_RASDP_UCE_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RASDP_UCE_CTL(uint64_t a)
 {
-    if (a<=5)
-        return 0x360 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x380 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RASDP_UCE_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11579,8 +13642,8 @@ typedef union cavm_pciercx_rasdp_uce_loc cavm_pciercx_rasdp_uce_loc_t;
 static inline uint64_t CAVM_PCIERCX_RASDP_UCE_LOC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RASDP_UCE_LOC(uint64_t a)
 {
-    if (a<=5)
-        return 0x370 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x390 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RASDP_UCE_LOC", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11645,8 +13708,8 @@ typedef union cavm_pciercx_rasdp_uce_rp cavm_pciercx_rasdp_uce_rp_t;
 static inline uint64_t CAVM_PCIERCX_RASDP_UCE_RP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_RASDP_UCE_RP(uint64_t a)
 {
-    if (a<=5)
-        return 0x364 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x384 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_RASDP_UCE_RP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11703,7 +13766,7 @@ typedef union cavm_pciercx_rev cavm_pciercx_rev_t;
 static inline uint64_t CAVM_PCIERCX_REV(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_REV(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 8 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_REV", 1, a, 0, 0, 0, 0, 0);
 }
@@ -11751,7 +13814,7 @@ typedef union cavm_pciercx_root_ctl_cap cavm_pciercx_root_ctl_cap_t;
 static inline uint64_t CAVM_PCIERCX_ROOT_CTL_CAP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_ROOT_CTL_CAP(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x8c + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_ROOT_CTL_CAP", 1, a, 0, 0, 0, 0, 0);
 }
@@ -11791,7 +13854,7 @@ typedef union cavm_pciercx_root_err_cmd cavm_pciercx_root_err_cmd_t;
 static inline uint64_t CAVM_PCIERCX_ROOT_ERR_CMD(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_ROOT_ERR_CMD(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x12c + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_ROOT_ERR_CMD", 1, a, 0, 0, 0, 0, 0);
 }
@@ -11843,7 +13906,7 @@ typedef union cavm_pciercx_root_err_stat cavm_pciercx_root_err_stat_t;
 static inline uint64_t CAVM_PCIERCX_ROOT_ERR_STAT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_ROOT_ERR_STAT(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x130 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_ROOT_ERR_STAT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -11883,7 +13946,7 @@ typedef union cavm_pciercx_root_stat cavm_pciercx_root_stat_t;
 static inline uint64_t CAVM_PCIERCX_ROOT_STAT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_ROOT_STAT(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x90 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_ROOT_STAT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -11906,6 +13969,7 @@ union cavm_pciercx_scap_hdr
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
+                                                                 This points to the 16.0 GT/s Capabilities.
                                                                  Writable through PEM()_CFG_TBL(). */
         uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
                                                                  Writable through PEM()_CFG_TBL(). */
@@ -11917,6 +13981,7 @@ union cavm_pciercx_scap_hdr
         uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
                                                                  Writable through PEM()_CFG_TBL(). */
         uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
+                                                                 This points to the 16.0 GT/s Capabilities.
                                                                  Writable through PEM()_CFG_TBL(). */
 #endif /* Word 0 - End */
     } s;
@@ -11927,7 +13992,7 @@ typedef union cavm_pciercx_scap_hdr cavm_pciercx_scap_hdr_t;
 static inline uint64_t CAVM_PCIERCX_SCAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_SCAP_HDR(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x168 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_SCAP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -11961,7 +14026,7 @@ typedef union cavm_pciercx_ser_num_1 cavm_pciercx_ser_num_1_t;
 static inline uint64_t CAVM_PCIERCX_SER_NUM_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_SER_NUM_1(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x14c + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_SER_NUM_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -11995,7 +14060,7 @@ typedef union cavm_pciercx_ser_num_2 cavm_pciercx_ser_num_2_t;
 static inline uint64_t CAVM_PCIERCX_SER_NUM_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_SER_NUM_2(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x150 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_SER_NUM_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -12051,7 +14116,7 @@ typedef union cavm_pciercx_slot_cap cavm_pciercx_slot_cap_t;
 static inline uint64_t CAVM_PCIERCX_SLOT_CAP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_SLOT_CAP(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x84 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_SLOT_CAP", 1, a, 0, 0, 0, 0, 0);
 }
@@ -12085,7 +14150,7 @@ typedef union cavm_pciercx_slot_cap2 cavm_pciercx_slot_cap2_t;
 static inline uint64_t CAVM_PCIERCX_SLOT_CAP2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_SLOT_CAP2(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0xa4 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_SLOT_CAP2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -12161,7 +14226,7 @@ typedef union cavm_pciercx_slot_ctl cavm_pciercx_slot_ctl_t;
 static inline uint64_t CAVM_PCIERCX_SLOT_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_SLOT_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x88 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_SLOT_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -12195,7 +14260,7 @@ typedef union cavm_pciercx_slot_ctl_stat2 cavm_pciercx_slot_ctl_stat2_t;
 static inline uint64_t CAVM_PCIERCX_SLOT_CTL_STAT2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_SLOT_CTL_STAT2(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0xa8 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_SLOT_CTL_STAT2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -12239,7 +14304,7 @@ typedef union cavm_pciercx_sn_base cavm_pciercx_sn_base_t;
 static inline uint64_t CAVM_PCIERCX_SN_BASE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_SN_BASE(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x148 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_SN_BASE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -12261,22 +14326,40 @@ union cavm_pciercx_symb_timer
     struct cavm_pciercx_symb_timer_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t m_cfg0_filt           : 1;  /**< [ 31: 31](R/W) Mask filtering of received configuration requests (RC mode only). */
-        uint32_t m_io_filt             : 1;  /**< [ 30: 30](R/W) Mask filtering of received I/O requests (RC mode only). */
+        uint32_t m_cfg0_filt           : 1;  /**< [ 31: 31](R/W) Mask filtering of received configuration requests (RC mode only).
+                                                                 0x0: Do not allow received CFG transactions.
+                                                                 0x1: Allow received CFG transactions. */
+        uint32_t m_io_filt             : 1;  /**< [ 30: 30](R/W) Mask filtering of received I/O requests (RC mode only).
+                                                                 0x0: Do not allow received IO transactions.
+                                                                 0x1: Allow received IO transactions. */
         uint32_t msg_ctrl              : 1;  /**< [ 29: 29](R/W) Message control. The application must not change this field. */
-        uint32_t m_cpl_ecrc_filt       : 1;  /**< [ 28: 28](R/W) Mask ECRC error filtering for completions. */
-        uint32_t m_ecrc_filt           : 1;  /**< [ 27: 27](R/W) Mask ECRC error filtering. */
-        uint32_t m_cpl_len_err         : 1;  /**< [ 26: 26](R/W) Mask length mismatch error for received completions. */
-        uint32_t m_cpl_attr_err        : 1;  /**< [ 25: 25](R/W) Mask attributes mismatch error for received completions. */
-        uint32_t m_cpl_tc_err          : 1;  /**< [ 24: 24](R/W) Mask traffic class mismatch error for received completions. */
-        uint32_t m_cpl_fun_err         : 1;  /**< [ 23: 23](R/W) Mask function mismatch error for received completions. */
-        uint32_t m_cpl_rid_err         : 1;  /**< [ 22: 22](R/W) Mask requester ID mismatch error for received completions. */
-        uint32_t m_cpl_tag_err         : 1;  /**< [ 21: 21](R/W) Mask tag error rules for received completions. */
-        uint32_t m_lk_filt             : 1;  /**< [ 20: 20](R/W) Mask locked request filtering. */
-        uint32_t m_cfg1_filt           : 1;  /**< [ 19: 19](R/W) Mask type 1 configuration request filtering. */
-        uint32_t m_bar_match           : 1;  /**< [ 18: 18](R/W) Mask BAR match filtering. */
-        uint32_t m_pois_filt           : 1;  /**< [ 17: 17](R/W) Mask poisoned TLP filtering. */
-        uint32_t m_fun                 : 1;  /**< [ 16: 16](R/W) Mask function. */
+        uint32_t m_cpl_ecrc_filt       : 1;  /**< [ 28: 28](R/W) Only used when completion queue is advertised with infinite credits.
+                                                                 0x0: Discard completions with ECRC errors.
+                                                                 0x1: Allow completions with ECRC errors. */
+        uint32_t m_ecrc_filt           : 1;  /**< [ 27: 27](R/W) 0x0: Discard TLPs with ECRC error errors.
+                                                                 0x1: Allow TLPs with ECRC error errors. */
+        uint32_t m_cpl_len_err         : 1;  /**< [ 26: 26](R/W) 0x0: Enforce length match for completions.
+                                                                 0x1: Mask length match for completions. */
+        uint32_t m_cpl_attr_err        : 1;  /**< [ 25: 25](R/W) 0x0: Enforce attribute match for completions.
+                                                                 0x1: Mask attribute match for completions. */
+        uint32_t m_cpl_tc_err          : 1;  /**< [ 24: 24](R/W) 0x0: Enforce Traffic Class match for completions.
+                                                                 0x1: Mask Traffic Class match for completions. */
+        uint32_t m_cpl_fun_err         : 1;  /**< [ 23: 23](R/W) 0x0: Enforce function match for completions.
+                                                                 0x1: Mask function match for completions. */
+        uint32_t m_cpl_rid_err         : 1;  /**< [ 22: 22](R/W) 0x0: Enforce requester ID match error for completions.
+                                                                 0x1: Mask requester ID match error for completions. */
+        uint32_t m_cpl_tag_err         : 1;  /**< [ 21: 21](R/W) 0x0: Enforce Tag Error Rules for completions.
+                                                                 0x1: Mask Tag Error Rules for completions. */
+        uint32_t m_lk_filt             : 1;  /**< [ 20: 20](R/W) 0x0: Locked Read TLPs supported.
+                                                                 0x1: UR Locked Read TLPs. */
+        uint32_t m_cfg1_filt           : 1;  /**< [ 19: 19](R/W) 0x0: Support CFG1 type 1 TLPs.
+                                                                 0x1: UR CFG1 type 1 TLPs. */
+        uint32_t m_bar_match           : 1;  /**< [ 18: 18](R/W) 0x0: Treat BAR miss TLPs as UR.
+                                                                 0x1: Do not BAR miss TLPs as UR. */
+        uint32_t m_pois_filt           : 1;  /**< [ 17: 17](R/W) 0x0: Treat poisoned request TLPs as UR.
+                                                                 0x1: Do not treat poisoned request TLPs as UR. */
+        uint32_t m_fun                 : 1;  /**< [ 16: 16](R/W) 0x0: Treat Function MisMatched TLPs as UR.
+                                                                 0x1: Do not treat Function MisMatched TLPs as UR. */
         uint32_t dfcwt                 : 1;  /**< [ 15: 15](R/W) Disable FC watchdog timer. */
         uint32_t reserved_11_14        : 4;
         uint32_t skpiv                 : 11; /**< [ 10:  0](R/W) SKP interval value.  The number of symbol times to wait
@@ -12296,22 +14379,40 @@ union cavm_pciercx_symb_timer
                                                                  is hardcoded to 370 blocks. */
         uint32_t reserved_11_14        : 4;
         uint32_t dfcwt                 : 1;  /**< [ 15: 15](R/W) Disable FC watchdog timer. */
-        uint32_t m_fun                 : 1;  /**< [ 16: 16](R/W) Mask function. */
-        uint32_t m_pois_filt           : 1;  /**< [ 17: 17](R/W) Mask poisoned TLP filtering. */
-        uint32_t m_bar_match           : 1;  /**< [ 18: 18](R/W) Mask BAR match filtering. */
-        uint32_t m_cfg1_filt           : 1;  /**< [ 19: 19](R/W) Mask type 1 configuration request filtering. */
-        uint32_t m_lk_filt             : 1;  /**< [ 20: 20](R/W) Mask locked request filtering. */
-        uint32_t m_cpl_tag_err         : 1;  /**< [ 21: 21](R/W) Mask tag error rules for received completions. */
-        uint32_t m_cpl_rid_err         : 1;  /**< [ 22: 22](R/W) Mask requester ID mismatch error for received completions. */
-        uint32_t m_cpl_fun_err         : 1;  /**< [ 23: 23](R/W) Mask function mismatch error for received completions. */
-        uint32_t m_cpl_tc_err          : 1;  /**< [ 24: 24](R/W) Mask traffic class mismatch error for received completions. */
-        uint32_t m_cpl_attr_err        : 1;  /**< [ 25: 25](R/W) Mask attributes mismatch error for received completions. */
-        uint32_t m_cpl_len_err         : 1;  /**< [ 26: 26](R/W) Mask length mismatch error for received completions. */
-        uint32_t m_ecrc_filt           : 1;  /**< [ 27: 27](R/W) Mask ECRC error filtering. */
-        uint32_t m_cpl_ecrc_filt       : 1;  /**< [ 28: 28](R/W) Mask ECRC error filtering for completions. */
+        uint32_t m_fun                 : 1;  /**< [ 16: 16](R/W) 0x0: Treat Function MisMatched TLPs as UR.
+                                                                 0x1: Do not treat Function MisMatched TLPs as UR. */
+        uint32_t m_pois_filt           : 1;  /**< [ 17: 17](R/W) 0x0: Treat poisoned request TLPs as UR.
+                                                                 0x1: Do not treat poisoned request TLPs as UR. */
+        uint32_t m_bar_match           : 1;  /**< [ 18: 18](R/W) 0x0: Treat BAR miss TLPs as UR.
+                                                                 0x1: Do not BAR miss TLPs as UR. */
+        uint32_t m_cfg1_filt           : 1;  /**< [ 19: 19](R/W) 0x0: Support CFG1 type 1 TLPs.
+                                                                 0x1: UR CFG1 type 1 TLPs. */
+        uint32_t m_lk_filt             : 1;  /**< [ 20: 20](R/W) 0x0: Locked Read TLPs supported.
+                                                                 0x1: UR Locked Read TLPs. */
+        uint32_t m_cpl_tag_err         : 1;  /**< [ 21: 21](R/W) 0x0: Enforce Tag Error Rules for completions.
+                                                                 0x1: Mask Tag Error Rules for completions. */
+        uint32_t m_cpl_rid_err         : 1;  /**< [ 22: 22](R/W) 0x0: Enforce requester ID match error for completions.
+                                                                 0x1: Mask requester ID match error for completions. */
+        uint32_t m_cpl_fun_err         : 1;  /**< [ 23: 23](R/W) 0x0: Enforce function match for completions.
+                                                                 0x1: Mask function match for completions. */
+        uint32_t m_cpl_tc_err          : 1;  /**< [ 24: 24](R/W) 0x0: Enforce Traffic Class match for completions.
+                                                                 0x1: Mask Traffic Class match for completions. */
+        uint32_t m_cpl_attr_err        : 1;  /**< [ 25: 25](R/W) 0x0: Enforce attribute match for completions.
+                                                                 0x1: Mask attribute match for completions. */
+        uint32_t m_cpl_len_err         : 1;  /**< [ 26: 26](R/W) 0x0: Enforce length match for completions.
+                                                                 0x1: Mask length match for completions. */
+        uint32_t m_ecrc_filt           : 1;  /**< [ 27: 27](R/W) 0x0: Discard TLPs with ECRC error errors.
+                                                                 0x1: Allow TLPs with ECRC error errors. */
+        uint32_t m_cpl_ecrc_filt       : 1;  /**< [ 28: 28](R/W) Only used when completion queue is advertised with infinite credits.
+                                                                 0x0: Discard completions with ECRC errors.
+                                                                 0x1: Allow completions with ECRC errors. */
         uint32_t msg_ctrl              : 1;  /**< [ 29: 29](R/W) Message control. The application must not change this field. */
-        uint32_t m_io_filt             : 1;  /**< [ 30: 30](R/W) Mask filtering of received I/O requests (RC mode only). */
-        uint32_t m_cfg0_filt           : 1;  /**< [ 31: 31](R/W) Mask filtering of received configuration requests (RC mode only). */
+        uint32_t m_io_filt             : 1;  /**< [ 30: 30](R/W) Mask filtering of received I/O requests (RC mode only).
+                                                                 0x0: Do not allow received IO transactions.
+                                                                 0x1: Allow received IO transactions. */
+        uint32_t m_cfg0_filt           : 1;  /**< [ 31: 31](R/W) Mask filtering of received configuration requests (RC mode only).
+                                                                 0x0: Do not allow received CFG transactions.
+                                                                 0x1: Allow received CFG transactions. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pciercx_symb_timer_s cn; */
@@ -12321,7 +14422,7 @@ typedef union cavm_pciercx_symb_timer cavm_pciercx_symb_timer_t;
 static inline uint64_t CAVM_PCIERCX_SYMB_TIMER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_SYMB_TIMER(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x71c + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_SYMB_TIMER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -12356,17 +14457,9 @@ union cavm_pciercx_timer_ctl
         uint32_t tmrt                  : 5;  /**< [ 18: 14](R/W/H) Timer modifier for replay timer. Increases the timer value for the replay timer, in
                                                                  increments of 64 clock cycles. */
         uint32_t reserved_8_13         : 6;
-        uint32_t mfuncn                : 8;  /**< [  7:  0](R/W) Max number of functions supported.
-
-                                                                 Reset values:
-                                                                 _ UPEM:      0x1.
-                                                                 _ BPEM:      0x0. */
+        uint32_t mfuncn                : 8;  /**< [  7:  0](R/W) Max number of functions supported. */
 #else /* Word 0 - Little Endian */
-        uint32_t mfuncn                : 8;  /**< [  7:  0](R/W) Max number of functions supported.
-
-                                                                 Reset values:
-                                                                 _ UPEM:      0x1.
-                                                                 _ BPEM:      0x0. */
+        uint32_t mfuncn                : 8;  /**< [  7:  0](R/W) Max number of functions supported. */
         uint32_t reserved_8_13         : 6;
         uint32_t tmrt                  : 5;  /**< [ 18: 14](R/W/H) Timer modifier for replay timer. Increases the timer value for the replay timer, in
                                                                  increments of 64 clock cycles. */
@@ -12389,7 +14482,7 @@ typedef union cavm_pciercx_timer_ctl cavm_pciercx_timer_ctl_t;
 static inline uint64_t CAVM_PCIERCX_TIMER_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_TIMER_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x718 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_TIMER_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -12423,7 +14516,7 @@ typedef union cavm_pciercx_tlp_plog1 cavm_pciercx_tlp_plog1_t;
 static inline uint64_t CAVM_PCIERCX_TLP_PLOG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_TLP_PLOG1(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x138 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_TLP_PLOG1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -12457,7 +14550,7 @@ typedef union cavm_pciercx_tlp_plog2 cavm_pciercx_tlp_plog2_t;
 static inline uint64_t CAVM_PCIERCX_TLP_PLOG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_TLP_PLOG2(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x13c + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_TLP_PLOG2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -12491,7 +14584,7 @@ typedef union cavm_pciercx_tlp_plog3 cavm_pciercx_tlp_plog3_t;
 static inline uint64_t CAVM_PCIERCX_TLP_PLOG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_TLP_PLOG3(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x140 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_TLP_PLOG3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -12525,7 +14618,7 @@ typedef union cavm_pciercx_tlp_plog4 cavm_pciercx_tlp_plog4_t;
 static inline uint64_t CAVM_PCIERCX_TLP_PLOG4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_TLP_PLOG4(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x144 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_TLP_PLOG4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -12565,7 +14658,7 @@ typedef union cavm_pciercx_trgt_cpl_lut_del_ent cavm_pciercx_trgt_cpl_lut_del_en
 static inline uint64_t CAVM_PCIERCX_TRGT_CPL_LUT_DEL_ENT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_TRGT_CPL_LUT_DEL_ENT(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x8c8 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_TRGT_CPL_LUT_DEL_ENT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -12591,8 +14684,7 @@ union cavm_pciercx_trgt_map_ctl
         uint32_t map_idx               : 5;  /**< [ 20: 16](R/W/H) The number of the PF function on which target values are set. This register does
                                                                  not respect the Byte Enable setting. any write will affect all register bits. */
         uint32_t reserved_13_15        : 3;
-        uint32_t map_vf                : 6;  /**< [ 12:  7](R/W) Target values for each BAR on the VF Function selected by the index number. This register
-                                                                 does not respect the Byte Enable setting. any write will affect all register bits. */
+        uint32_t map_vf                : 6;  /**< [ 12:  7](RO) Target values for each BAR on the VF Function selected by the index number(Not Supported). */
         uint32_t map_rom               : 1;  /**< [  6:  6](R/W) Target values for the ROM page of the PF Function selected by the index number. This
                                                                  register
                                                                  does not respect the Byte Enable setting. any write will affect all register bits. */
@@ -12604,8 +14696,7 @@ union cavm_pciercx_trgt_map_ctl
         uint32_t map_rom               : 1;  /**< [  6:  6](R/W) Target values for the ROM page of the PF Function selected by the index number. This
                                                                  register
                                                                  does not respect the Byte Enable setting. any write will affect all register bits. */
-        uint32_t map_vf                : 6;  /**< [ 12:  7](R/W) Target values for each BAR on the VF Function selected by the index number. This register
-                                                                 does not respect the Byte Enable setting. any write will affect all register bits. */
+        uint32_t map_vf                : 6;  /**< [ 12:  7](RO) Target values for each BAR on the VF Function selected by the index number(Not Supported). */
         uint32_t reserved_13_15        : 3;
         uint32_t map_idx               : 5;  /**< [ 20: 16](R/W/H) The number of the PF function on which target values are set. This register does
                                                                  not respect the Byte Enable setting. any write will affect all register bits. */
@@ -12619,7 +14710,7 @@ typedef union cavm_pciercx_trgt_map_ctl cavm_pciercx_trgt_map_ctl_t;
 static inline uint64_t CAVM_PCIERCX_TRGT_MAP_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_TRGT_MAP_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x81c + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_TRGT_MAP_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -12641,8 +14732,13 @@ union cavm_pciercx_ucor_err_msk
     struct cavm_pciercx_ucor_err_msk_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_26_31        : 6;
-        uint32_t tpbem                 : 1;  /**< [ 25: 25](RO) TLP prefix blocked error mask (not supported). */
+        uint32_t reserved_31           : 1;
+        uint32_t pcfm                  : 1;  /**< [ 30: 30](R/W) PCRC Check Failed Mask (Not Supported in QPEM and HPEM). */
+        uint32_t mitm                  : 1;  /**< [ 29: 29](R/W) Misrouted IDE TLP Mask (Not Supported in QPEM and HPEM). */
+        uint32_t icfm                  : 1;  /**< [ 28: 28](R/W) IDE Check Failed Mask (Not Supported in QPEM and HPEM). */
+        uint32_t debem                 : 1;  /**< [ 27: 27](RO) Deferrable Memory Write Egress Block Mask (Not Supported). */
+        uint32_t tebem                 : 1;  /**< [ 26: 26](RO) Poisoned TLP Egress Blocked Mask (Not Supported). */
+        uint32_t tpbem                 : 1;  /**< [ 25: 25](RO/WRSL) TLP prefix blocked error mask. */
         uint32_t uatombm               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked mask. */
         uint32_t reserved_23           : 1;
         uint32_t uciem                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error mask. */
@@ -12680,15 +14776,25 @@ union cavm_pciercx_ucor_err_msk
         uint32_t uciem                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error mask. */
         uint32_t reserved_23           : 1;
         uint32_t uatombm               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked mask. */
-        uint32_t tpbem                 : 1;  /**< [ 25: 25](RO) TLP prefix blocked error mask (not supported). */
-        uint32_t reserved_26_31        : 6;
+        uint32_t tpbem                 : 1;  /**< [ 25: 25](RO/WRSL) TLP prefix blocked error mask. */
+        uint32_t tebem                 : 1;  /**< [ 26: 26](RO) Poisoned TLP Egress Blocked Mask (Not Supported). */
+        uint32_t debem                 : 1;  /**< [ 27: 27](RO) Deferrable Memory Write Egress Block Mask (Not Supported). */
+        uint32_t icfm                  : 1;  /**< [ 28: 28](R/W) IDE Check Failed Mask (Not Supported in QPEM and HPEM). */
+        uint32_t mitm                  : 1;  /**< [ 29: 29](R/W) Misrouted IDE TLP Mask (Not Supported in QPEM and HPEM). */
+        uint32_t pcfm                  : 1;  /**< [ 30: 30](R/W) PCRC Check Failed Mask (Not Supported in QPEM and HPEM). */
+        uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } s;
     struct cavm_pciercx_ucor_err_msk_cn
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_26_31        : 6;
-        uint32_t tpbem                 : 1;  /**< [ 25: 25](RO) TLP prefix blocked error mask (not supported). */
+        uint32_t reserved_31           : 1;
+        uint32_t pcfm                  : 1;  /**< [ 30: 30](R/W) PCRC Check Failed Mask (Not Supported in QPEM and HPEM). */
+        uint32_t mitm                  : 1;  /**< [ 29: 29](R/W) Misrouted IDE TLP Mask (Not Supported in QPEM and HPEM). */
+        uint32_t icfm                  : 1;  /**< [ 28: 28](R/W) IDE Check Failed Mask (Not Supported in QPEM and HPEM). */
+        uint32_t debem                 : 1;  /**< [ 27: 27](RO) Deferrable Memory Write Egress Block Mask (Not Supported). */
+        uint32_t tebem                 : 1;  /**< [ 26: 26](RO) Poisoned TLP Egress Blocked Mask (Not Supported). */
+        uint32_t tpbem                 : 1;  /**< [ 25: 25](RO/WRSL) TLP prefix blocked error mask. */
         uint32_t uatombm               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked mask. */
         uint32_t reserved_23           : 1;
         uint32_t uciem                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error mask. */
@@ -12728,8 +14834,13 @@ union cavm_pciercx_ucor_err_msk
         uint32_t uciem                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error mask. */
         uint32_t reserved_23           : 1;
         uint32_t uatombm               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked mask. */
-        uint32_t tpbem                 : 1;  /**< [ 25: 25](RO) TLP prefix blocked error mask (not supported). */
-        uint32_t reserved_26_31        : 6;
+        uint32_t tpbem                 : 1;  /**< [ 25: 25](RO/WRSL) TLP prefix blocked error mask. */
+        uint32_t tebem                 : 1;  /**< [ 26: 26](RO) Poisoned TLP Egress Blocked Mask (Not Supported). */
+        uint32_t debem                 : 1;  /**< [ 27: 27](RO) Deferrable Memory Write Egress Block Mask (Not Supported). */
+        uint32_t icfm                  : 1;  /**< [ 28: 28](R/W) IDE Check Failed Mask (Not Supported in QPEM and HPEM). */
+        uint32_t mitm                  : 1;  /**< [ 29: 29](R/W) Misrouted IDE TLP Mask (Not Supported in QPEM and HPEM). */
+        uint32_t pcfm                  : 1;  /**< [ 30: 30](R/W) PCRC Check Failed Mask (Not Supported in QPEM and HPEM). */
+        uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } cn;
 };
@@ -12738,7 +14849,7 @@ typedef union cavm_pciercx_ucor_err_msk cavm_pciercx_ucor_err_msk_t;
 static inline uint64_t CAVM_PCIERCX_UCOR_ERR_MSK(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_UCOR_ERR_MSK(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x108 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_UCOR_ERR_MSK", 1, a, 0, 0, 0, 0, 0);
 }
@@ -12760,8 +14871,18 @@ union cavm_pciercx_ucor_err_sev
     struct cavm_pciercx_ucor_err_sev_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_26_31        : 6;
-        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) TLP prefix blocked error severity (not supported). */
+        uint32_t reserved_31           : 1;
+        uint32_t pcfs                  : 1;  /**< [ 30: 30](R/W) PCRC Check Failed Severity (Not Supported in QPEM and HPEM). */
+        uint32_t mits                  : 1;  /**< [ 29: 29](R/W) Misrouted IDE TLP Severity (Not Supported in QPEM and HPEM). */
+        uint32_t icfs                  : 1;  /**< [ 28: 28](R/W) IDE Check Failed Severity.
+
+                                                                 Reset values:
+                                                                   _ FPEM:      0x1
+                                                                   _ HPEM:      0x0 (Not Supported).
+                                                                   _ QPEM:      0x0 (Not Supported). */
+        uint32_t debes                 : 1;  /**< [ 27: 27](RO) Deferrable Memory Write Egress Blocked Severity (Not Supported). */
+        uint32_t ptebes                : 1;  /**< [ 26: 26](RO) Poisoned TLP Egress Blocked Severity (Not Supported). */
+        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO/WRSL) TLP prefix blocked error severity. */
         uint32_t uatombs               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked severity. */
         uint32_t reserved_23           : 1;
         uint32_t ies                   : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error severity. */
@@ -12799,15 +14920,35 @@ union cavm_pciercx_ucor_err_sev
         uint32_t ies                   : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error severity. */
         uint32_t reserved_23           : 1;
         uint32_t uatombs               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked severity. */
-        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) TLP prefix blocked error severity (not supported). */
-        uint32_t reserved_26_31        : 6;
+        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO/WRSL) TLP prefix blocked error severity. */
+        uint32_t ptebes                : 1;  /**< [ 26: 26](RO) Poisoned TLP Egress Blocked Severity (Not Supported). */
+        uint32_t debes                 : 1;  /**< [ 27: 27](RO) Deferrable Memory Write Egress Blocked Severity (Not Supported). */
+        uint32_t icfs                  : 1;  /**< [ 28: 28](R/W) IDE Check Failed Severity.
+
+                                                                 Reset values:
+                                                                   _ FPEM:      0x1
+                                                                   _ HPEM:      0x0 (Not Supported).
+                                                                   _ QPEM:      0x0 (Not Supported). */
+        uint32_t mits                  : 1;  /**< [ 29: 29](R/W) Misrouted IDE TLP Severity (Not Supported in QPEM and HPEM). */
+        uint32_t pcfs                  : 1;  /**< [ 30: 30](R/W) PCRC Check Failed Severity (Not Supported in QPEM and HPEM). */
+        uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } s;
     struct cavm_pciercx_ucor_err_sev_cn
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_26_31        : 6;
-        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) TLP prefix blocked error severity (not supported). */
+        uint32_t reserved_31           : 1;
+        uint32_t pcfs                  : 1;  /**< [ 30: 30](R/W) PCRC Check Failed Severity (Not Supported in QPEM and HPEM). */
+        uint32_t mits                  : 1;  /**< [ 29: 29](R/W) Misrouted IDE TLP Severity (Not Supported in QPEM and HPEM). */
+        uint32_t icfs                  : 1;  /**< [ 28: 28](R/W) IDE Check Failed Severity.
+
+                                                                 Reset values:
+                                                                   _ FPEM:      0x1
+                                                                   _ HPEM:      0x0 (Not Supported).
+                                                                   _ QPEM:      0x0 (Not Supported). */
+        uint32_t debes                 : 1;  /**< [ 27: 27](RO) Deferrable Memory Write Egress Blocked Severity (Not Supported). */
+        uint32_t ptebes                : 1;  /**< [ 26: 26](RO) Poisoned TLP Egress Blocked Severity (Not Supported). */
+        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO/WRSL) TLP prefix blocked error severity. */
         uint32_t uatombs               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked severity. */
         uint32_t reserved_23           : 1;
         uint32_t ies                   : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error severity. */
@@ -12847,8 +14988,18 @@ union cavm_pciercx_ucor_err_sev
         uint32_t ies                   : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error severity. */
         uint32_t reserved_23           : 1;
         uint32_t uatombs               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked severity. */
-        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) TLP prefix blocked error severity (not supported). */
-        uint32_t reserved_26_31        : 6;
+        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO/WRSL) TLP prefix blocked error severity. */
+        uint32_t ptebes                : 1;  /**< [ 26: 26](RO) Poisoned TLP Egress Blocked Severity (Not Supported). */
+        uint32_t debes                 : 1;  /**< [ 27: 27](RO) Deferrable Memory Write Egress Blocked Severity (Not Supported). */
+        uint32_t icfs                  : 1;  /**< [ 28: 28](R/W) IDE Check Failed Severity.
+
+                                                                 Reset values:
+                                                                   _ FPEM:      0x1
+                                                                   _ HPEM:      0x0 (Not Supported).
+                                                                   _ QPEM:      0x0 (Not Supported). */
+        uint32_t mits                  : 1;  /**< [ 29: 29](R/W) Misrouted IDE TLP Severity (Not Supported in QPEM and HPEM). */
+        uint32_t pcfs                  : 1;  /**< [ 30: 30](R/W) PCRC Check Failed Severity (Not Supported in QPEM and HPEM). */
+        uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } cn;
 };
@@ -12857,7 +15008,7 @@ typedef union cavm_pciercx_ucor_err_sev cavm_pciercx_ucor_err_sev_t;
 static inline uint64_t CAVM_PCIERCX_UCOR_ERR_SEV(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_UCOR_ERR_SEV(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x10c + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_UCOR_ERR_SEV", 1, a, 0, 0, 0, 0, 0);
 }
@@ -12879,9 +15030,14 @@ union cavm_pciercx_ucor_err_stat
     struct cavm_pciercx_ucor_err_stat_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_26_31        : 6;
-        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error status. */
-        uint32_t uatombs               : 1;  /**< [ 24: 24](RO) Unsupported AtomicOp egress blocked status. */
+        uint32_t reserved_31           : 1;
+        uint32_t pcfst                 : 1;  /**< [ 30: 30](R/W1C/H) PCRC Check Failed Status (Not Supported in QPEM and HPEM). */
+        uint32_t mitst                 : 1;  /**< [ 29: 29](R/W1C/H) Misrouted IDE TLP Status (Not Supported in QPEM and HPEM). */
+        uint32_t icfst                 : 1;  /**< [ 28: 28](R/W1C/H) iDE Check Failed Status (Not Supported in QPEM and HPEM). */
+        uint32_t debes                 : 1;  /**< [ 27: 27](R/W1C/H) Deferrable Memory Write Egress Blocked Status (Not Supported). */
+        uint32_t ptebes                : 1;  /**< [ 26: 26](R/W1C/H) Poisoned TLP Egress Blocked Status (Not Supported). */
+        uint32_t tpbes                 : 1;  /**< [ 25: 25](R/W1C/H) Unsupported TLP prefix blocked error status. */
+        uint32_t uatombs               : 1;  /**< [ 24: 24](R/W1C/H) Unsupported AtomicOp egress blocked status. */
         uint32_t reserved_23           : 1;
         uint32_t ucies                 : 1;  /**< [ 22: 22](R/W1C/H) Uncorrectable internal error status. */
         uint32_t avs                   : 1;  /**< [ 21: 21](R/W1C) ACS violation status. */
@@ -12915,17 +15071,27 @@ union cavm_pciercx_ucor_err_stat
         uint32_t avs                   : 1;  /**< [ 21: 21](R/W1C) ACS violation status. */
         uint32_t ucies                 : 1;  /**< [ 22: 22](R/W1C/H) Uncorrectable internal error status. */
         uint32_t reserved_23           : 1;
-        uint32_t uatombs               : 1;  /**< [ 24: 24](RO) Unsupported AtomicOp egress blocked status. */
-        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error status. */
-        uint32_t reserved_26_31        : 6;
+        uint32_t uatombs               : 1;  /**< [ 24: 24](R/W1C/H) Unsupported AtomicOp egress blocked status. */
+        uint32_t tpbes                 : 1;  /**< [ 25: 25](R/W1C/H) Unsupported TLP prefix blocked error status. */
+        uint32_t ptebes                : 1;  /**< [ 26: 26](R/W1C/H) Poisoned TLP Egress Blocked Status (Not Supported). */
+        uint32_t debes                 : 1;  /**< [ 27: 27](R/W1C/H) Deferrable Memory Write Egress Blocked Status (Not Supported). */
+        uint32_t icfst                 : 1;  /**< [ 28: 28](R/W1C/H) iDE Check Failed Status (Not Supported in QPEM and HPEM). */
+        uint32_t mitst                 : 1;  /**< [ 29: 29](R/W1C/H) Misrouted IDE TLP Status (Not Supported in QPEM and HPEM). */
+        uint32_t pcfst                 : 1;  /**< [ 30: 30](R/W1C/H) PCRC Check Failed Status (Not Supported in QPEM and HPEM). */
+        uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } s;
     struct cavm_pciercx_ucor_err_stat_cn
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_26_31        : 6;
-        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error status. */
-        uint32_t uatombs               : 1;  /**< [ 24: 24](RO) Unsupported AtomicOp egress blocked status. */
+        uint32_t reserved_31           : 1;
+        uint32_t pcfst                 : 1;  /**< [ 30: 30](R/W1C/H) PCRC Check Failed Status (Not Supported in QPEM and HPEM). */
+        uint32_t mitst                 : 1;  /**< [ 29: 29](R/W1C/H) Misrouted IDE TLP Status (Not Supported in QPEM and HPEM). */
+        uint32_t icfst                 : 1;  /**< [ 28: 28](R/W1C/H) iDE Check Failed Status (Not Supported in QPEM and HPEM). */
+        uint32_t debes                 : 1;  /**< [ 27: 27](R/W1C/H) Deferrable Memory Write Egress Blocked Status (Not Supported). */
+        uint32_t ptebes                : 1;  /**< [ 26: 26](R/W1C/H) Poisoned TLP Egress Blocked Status (Not Supported). */
+        uint32_t tpbes                 : 1;  /**< [ 25: 25](R/W1C/H) Unsupported TLP prefix blocked error status. */
+        uint32_t uatombs               : 1;  /**< [ 24: 24](R/W1C/H) Unsupported AtomicOp egress blocked status. */
         uint32_t reserved_23           : 1;
         uint32_t ucies                 : 1;  /**< [ 22: 22](R/W1C/H) Uncorrectable internal error status. */
         uint32_t avs                   : 1;  /**< [ 21: 21](R/W1C) ACS violation status. */
@@ -12961,9 +15127,14 @@ union cavm_pciercx_ucor_err_stat
         uint32_t avs                   : 1;  /**< [ 21: 21](R/W1C) ACS violation status. */
         uint32_t ucies                 : 1;  /**< [ 22: 22](R/W1C/H) Uncorrectable internal error status. */
         uint32_t reserved_23           : 1;
-        uint32_t uatombs               : 1;  /**< [ 24: 24](RO) Unsupported AtomicOp egress blocked status. */
-        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error status. */
-        uint32_t reserved_26_31        : 6;
+        uint32_t uatombs               : 1;  /**< [ 24: 24](R/W1C/H) Unsupported AtomicOp egress blocked status. */
+        uint32_t tpbes                 : 1;  /**< [ 25: 25](R/W1C/H) Unsupported TLP prefix blocked error status. */
+        uint32_t ptebes                : 1;  /**< [ 26: 26](R/W1C/H) Poisoned TLP Egress Blocked Status (Not Supported). */
+        uint32_t debes                 : 1;  /**< [ 27: 27](R/W1C/H) Deferrable Memory Write Egress Blocked Status (Not Supported). */
+        uint32_t icfst                 : 1;  /**< [ 28: 28](R/W1C/H) iDE Check Failed Status (Not Supported in QPEM and HPEM). */
+        uint32_t mitst                 : 1;  /**< [ 29: 29](R/W1C/H) Misrouted IDE TLP Status (Not Supported in QPEM and HPEM). */
+        uint32_t pcfst                 : 1;  /**< [ 30: 30](R/W1C/H) PCRC Check Failed Status (Not Supported in QPEM and HPEM). */
+        uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } cn;
 };
@@ -12972,7 +15143,7 @@ typedef union cavm_pciercx_ucor_err_stat cavm_pciercx_ucor_err_stat_t;
 static inline uint64_t CAVM_PCIERCX_UCOR_ERR_STAT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_UCOR_ERR_STAT(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x104 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_UCOR_ERR_STAT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13010,7 +15181,7 @@ typedef union cavm_pciercx_unused_cap0 cavm_pciercx_unused_cap0_t;
 static inline uint64_t CAVM_PCIERCX_UNUSED_CAP0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_UNUSED_CAP0(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0xbc + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_UNUSED_CAP0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13048,7 +15219,7 @@ typedef union cavm_pciercx_unused_cap1 cavm_pciercx_unused_cap1_t;
 static inline uint64_t CAVM_PCIERCX_UNUSED_CAP1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_UNUSED_CAP1(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0xc0 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_UNUSED_CAP1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13086,7 +15257,7 @@ typedef union cavm_pciercx_unused_cap10 cavm_pciercx_unused_cap10_t;
 static inline uint64_t CAVM_PCIERCX_UNUSED_CAP10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_UNUSED_CAP10(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0xe4 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_UNUSED_CAP10", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13124,7 +15295,7 @@ typedef union cavm_pciercx_unused_cap11 cavm_pciercx_unused_cap11_t;
 static inline uint64_t CAVM_PCIERCX_UNUSED_CAP11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_UNUSED_CAP11(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0xe8 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_UNUSED_CAP11", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13162,7 +15333,7 @@ typedef union cavm_pciercx_unused_cap12 cavm_pciercx_unused_cap12_t;
 static inline uint64_t CAVM_PCIERCX_UNUSED_CAP12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_UNUSED_CAP12(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0xec + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_UNUSED_CAP12", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13200,7 +15371,7 @@ typedef union cavm_pciercx_unused_cap13 cavm_pciercx_unused_cap13_t;
 static inline uint64_t CAVM_PCIERCX_UNUSED_CAP13(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_UNUSED_CAP13(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0xf0 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_UNUSED_CAP13", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13238,7 +15409,7 @@ typedef union cavm_pciercx_unused_cap14 cavm_pciercx_unused_cap14_t;
 static inline uint64_t CAVM_PCIERCX_UNUSED_CAP14(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_UNUSED_CAP14(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0xf4 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_UNUSED_CAP14", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13276,7 +15447,7 @@ typedef union cavm_pciercx_unused_cap15 cavm_pciercx_unused_cap15_t;
 static inline uint64_t CAVM_PCIERCX_UNUSED_CAP15(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_UNUSED_CAP15(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0xf8 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_UNUSED_CAP15", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13314,7 +15485,7 @@ typedef union cavm_pciercx_unused_cap16 cavm_pciercx_unused_cap16_t;
 static inline uint64_t CAVM_PCIERCX_UNUSED_CAP16(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_UNUSED_CAP16(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0xfc + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_UNUSED_CAP16", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13352,7 +15523,7 @@ typedef union cavm_pciercx_unused_cap2 cavm_pciercx_unused_cap2_t;
 static inline uint64_t CAVM_PCIERCX_UNUSED_CAP2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_UNUSED_CAP2(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0xc4 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_UNUSED_CAP2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13390,7 +15561,7 @@ typedef union cavm_pciercx_unused_cap3 cavm_pciercx_unused_cap3_t;
 static inline uint64_t CAVM_PCIERCX_UNUSED_CAP3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_UNUSED_CAP3(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0xc8 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_UNUSED_CAP3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13428,7 +15599,7 @@ typedef union cavm_pciercx_unused_cap4 cavm_pciercx_unused_cap4_t;
 static inline uint64_t CAVM_PCIERCX_UNUSED_CAP4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_UNUSED_CAP4(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0xcc + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_UNUSED_CAP4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13466,7 +15637,7 @@ typedef union cavm_pciercx_unused_cap5 cavm_pciercx_unused_cap5_t;
 static inline uint64_t CAVM_PCIERCX_UNUSED_CAP5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_UNUSED_CAP5(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0xd0 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_UNUSED_CAP5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13504,7 +15675,7 @@ typedef union cavm_pciercx_unused_cap6 cavm_pciercx_unused_cap6_t;
 static inline uint64_t CAVM_PCIERCX_UNUSED_CAP6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_UNUSED_CAP6(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0xd4 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_UNUSED_CAP6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13542,7 +15713,7 @@ typedef union cavm_pciercx_unused_cap7 cavm_pciercx_unused_cap7_t;
 static inline uint64_t CAVM_PCIERCX_UNUSED_CAP7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_UNUSED_CAP7(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0xd8 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_UNUSED_CAP7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13580,7 +15751,7 @@ typedef union cavm_pciercx_unused_cap8 cavm_pciercx_unused_cap8_t;
 static inline uint64_t CAVM_PCIERCX_UNUSED_CAP8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_UNUSED_CAP8(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0xdc + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_UNUSED_CAP8", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13618,7 +15789,7 @@ typedef union cavm_pciercx_unused_cap9 cavm_pciercx_unused_cap9_t;
 static inline uint64_t CAVM_PCIERCX_UNUSED_CAP9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_UNUSED_CAP9(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0xe0 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_UNUSED_CAP9", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13640,7 +15811,8 @@ union cavm_pciercx_upconfig
     struct cavm_pciercx_upconfig_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
+        uint32_t reserved_9_31         : 23;
+        uint32_t rel_lnk_wdth_chg      : 1;  /**< [  8:  8](R/W) Reliability link width change enable */
         uint32_t upc_supp              : 1;  /**< [  7:  7](R/W) Upconfigure support.
                                                                  The core sends this value to the link upconfigure capability in TS2 ordered
                                                                  sets in Configuration.Complete state. */
@@ -13664,8 +15836,8 @@ union cavm_pciercx_upconfig
                                                                  0x1  = x1.
                                                                  0x2  = x2.
                                                                  0x4  = x4.
-                                                                 0x8  = x8 (Not supported).
-                                                                 0x10 = x16 (Not supported).
+                                                                 0x8  = x8 (Not supported in QPEM).
+                                                                 0x10 = x16 (Not supported in QPEM and HPEM).
                                                                  0x20 = x32 (Not supported). */
 #else /* Word 0 - Little Endian */
         uint32_t trgt_lnk_wdth         : 6;  /**< [  5:  0](R/W/H) Target link width.
@@ -13674,8 +15846,8 @@ union cavm_pciercx_upconfig
                                                                  0x1  = x1.
                                                                  0x2  = x2.
                                                                  0x4  = x4.
-                                                                 0x8  = x8 (Not supported).
-                                                                 0x10 = x16 (Not supported).
+                                                                 0x8  = x8 (Not supported in QPEM).
+                                                                 0x10 = x16 (Not supported in QPEM and HPEM).
                                                                  0x20 = x32 (Not supported). */
         uint32_t dir_lnk_wdth_chg      : 1;  /**< [  6:  6](R/W/H) Directed link width change.
                                                                  The core always moves to configuration state through recovery state
@@ -13694,7 +15866,8 @@ union cavm_pciercx_upconfig
         uint32_t upc_supp              : 1;  /**< [  7:  7](R/W) Upconfigure support.
                                                                  The core sends this value to the link upconfigure capability in TS2 ordered
                                                                  sets in Configuration.Complete state. */
-        uint32_t reserved_8_31         : 24;
+        uint32_t rel_lnk_wdth_chg      : 1;  /**< [  8:  8](R/W) Reliability link width change enable */
+        uint32_t reserved_9_31         : 23;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pciercx_upconfig_s cn; */
@@ -13704,7 +15877,7 @@ typedef union cavm_pciercx_upconfig cavm_pciercx_upconfig_t;
 static inline uint64_t CAVM_PCIERCX_UPCONFIG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_UPCONFIG(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x8c0 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_UPCONFIG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13738,7 +15911,7 @@ typedef union cavm_pciercx_ver_num cavm_pciercx_ver_num_t;
 static inline uint64_t CAVM_PCIERCX_VER_NUM(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_VER_NUM(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x8f8 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_VER_NUM", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13752,7 +15925,7 @@ static inline uint64_t CAVM_PCIERCX_VER_NUM(uint64_t a)
 /**
  * Register (PCICONFIGRC) pcierc#_ver_type
  *
- * PCIe RC Contorller IIP Release Version Type Register
+ * PCIe RC Controller IIP Release Version Type Register
  */
 union cavm_pciercx_ver_type
 {
@@ -13772,7 +15945,7 @@ typedef union cavm_pciercx_ver_type cavm_pciercx_ver_type_t;
 static inline uint64_t CAVM_PCIERCX_VER_TYPE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_VER_TYPE(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x8fc + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_VER_TYPE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13812,7 +15985,7 @@ typedef union cavm_pciercx_xmit_arb1 cavm_pciercx_xmit_arb1_t;
 static inline uint64_t CAVM_PCIERCX_XMIT_ARB1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_XMIT_ARB1(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x740 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_XMIT_ARB1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13852,7 +16025,7 @@ typedef union cavm_pciercx_xmit_arb2 cavm_pciercx_xmit_arb2_t;
 static inline uint64_t CAVM_PCIERCX_XMIT_ARB2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIERCX_XMIT_ARB2(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
         return 0x744 + 0 * ((a) & 0x7);
     __cavm_csr_fatal("PCIERCX_XMIT_ARB2", 1, a, 0, 0, 0, 0, 0);
 }

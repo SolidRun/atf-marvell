@@ -55,7 +55,7 @@ typedef union cavm_rtt_m_gdab_romx_authstatus cavm_rtt_m_gdab_romx_authstatus_t;
 static inline uint64_t CAVM_RTT_M_GDAB_ROMX_AUTHSTATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_M_GDAB_ROMX_AUTHSTATUS(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=1))
         return 0x80e080800fb8ll + 0x800000ll * ((a) & 0x1);
     __cavm_csr_fatal("RTT_M_GDAB_ROMX_AUTHSTATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -92,7 +92,7 @@ typedef union cavm_rtt_m_gdab_romx_cidr0 cavm_rtt_m_gdab_romx_cidr0_t;
 static inline uint64_t CAVM_RTT_M_GDAB_ROMX_CIDR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_M_GDAB_ROMX_CIDR0(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=1))
         return 0x80e080800ff0ll + 0x800000ll * ((a) & 0x1);
     __cavm_csr_fatal("RTT_M_GDAB_ROMX_CIDR0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -131,7 +131,7 @@ typedef union cavm_rtt_m_gdab_romx_cidr1 cavm_rtt_m_gdab_romx_cidr1_t;
 static inline uint64_t CAVM_RTT_M_GDAB_ROMX_CIDR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_M_GDAB_ROMX_CIDR1(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=1))
         return 0x80e080800ff4ll + 0x800000ll * ((a) & 0x1);
     __cavm_csr_fatal("RTT_M_GDAB_ROMX_CIDR1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -168,7 +168,7 @@ typedef union cavm_rtt_m_gdab_romx_cidr2 cavm_rtt_m_gdab_romx_cidr2_t;
 static inline uint64_t CAVM_RTT_M_GDAB_ROMX_CIDR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_M_GDAB_ROMX_CIDR2(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=1))
         return 0x80e080800ff8ll + 0x800000ll * ((a) & 0x1);
     __cavm_csr_fatal("RTT_M_GDAB_ROMX_CIDR2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -205,7 +205,7 @@ typedef union cavm_rtt_m_gdab_romx_cidr3 cavm_rtt_m_gdab_romx_cidr3_t;
 static inline uint64_t CAVM_RTT_M_GDAB_ROMX_CIDR3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_M_GDAB_ROMX_CIDR3(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=1))
         return 0x80e080800ffcll + 0x800000ll * ((a) & 0x1);
     __cavm_csr_fatal("RTT_M_GDAB_ROMX_CIDR3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -248,7 +248,7 @@ typedef union cavm_rtt_m_gdab_romx_devarch cavm_rtt_m_gdab_romx_devarch_t;
 static inline uint64_t CAVM_RTT_M_GDAB_ROMX_DEVARCH(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_M_GDAB_ROMX_DEVARCH(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=1))
         return 0x80e080800fbcll + 0x800000ll * ((a) & 0x1);
     __cavm_csr_fatal("RTT_M_GDAB_ROMX_DEVARCH", 1, a, 0, 0, 0, 0, 0);
 }
@@ -292,7 +292,7 @@ typedef union cavm_rtt_m_gdab_romx_devid cavm_rtt_m_gdab_romx_devid_t;
 static inline uint64_t CAVM_RTT_M_GDAB_ROMX_DEVID(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_M_GDAB_ROMX_DEVID(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=1))
         return 0x80e080800fc8ll + 0x800000ll * ((a) & 0x1);
     __cavm_csr_fatal("RTT_M_GDAB_ROMX_DEVID", 1, a, 0, 0, 0, 0, 0);
 }
@@ -329,7 +329,7 @@ typedef union cavm_rtt_m_gdab_romx_pidr0 cavm_rtt_m_gdab_romx_pidr0_t;
 static inline uint64_t CAVM_RTT_M_GDAB_ROMX_PIDR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_M_GDAB_ROMX_PIDR0(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=1))
         return 0x80e080800fe0ll + 0x800000ll * ((a) & 0x1);
     __cavm_csr_fatal("RTT_M_GDAB_ROMX_PIDR0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -374,7 +374,7 @@ typedef union cavm_rtt_m_gdab_romx_pidr1 cavm_rtt_m_gdab_romx_pidr1_t;
 static inline uint64_t CAVM_RTT_M_GDAB_ROMX_PIDR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_M_GDAB_ROMX_PIDR1(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=1))
         return 0x80e080800fe4ll + 0x800000ll * ((a) & 0x1);
     __cavm_csr_fatal("RTT_M_GDAB_ROMX_PIDR1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -421,7 +421,7 @@ typedef union cavm_rtt_m_gdab_romx_pidr2 cavm_rtt_m_gdab_romx_pidr2_t;
 static inline uint64_t CAVM_RTT_M_GDAB_ROMX_PIDR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_M_GDAB_ROMX_PIDR2(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=1))
         return 0x80e080800fe8ll + 0x800000ll * ((a) & 0x1);
     __cavm_csr_fatal("RTT_M_GDAB_ROMX_PIDR2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -466,7 +466,7 @@ typedef union cavm_rtt_m_gdab_romx_pidr3 cavm_rtt_m_gdab_romx_pidr3_t;
 static inline uint64_t CAVM_RTT_M_GDAB_ROMX_PIDR3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_M_GDAB_ROMX_PIDR3(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=1))
         return 0x80e080800fecll + 0x800000ll * ((a) & 0x1);
     __cavm_csr_fatal("RTT_M_GDAB_ROMX_PIDR3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -513,7 +513,7 @@ typedef union cavm_rtt_m_gdab_romx_pidr4 cavm_rtt_m_gdab_romx_pidr4_t;
 static inline uint64_t CAVM_RTT_M_GDAB_ROMX_PIDR4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_M_GDAB_ROMX_PIDR4(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=1))
         return 0x80e080800fd0ll + 0x800000ll * ((a) & 0x1);
     __cavm_csr_fatal("RTT_M_GDAB_ROMX_PIDR4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -550,7 +550,7 @@ typedef union cavm_rtt_m_gdab_romx_pidr5 cavm_rtt_m_gdab_romx_pidr5_t;
 static inline uint64_t CAVM_RTT_M_GDAB_ROMX_PIDR5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_M_GDAB_ROMX_PIDR5(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=1))
         return 0x80e080800fd4ll + 0x800000ll * ((a) & 0x1);
     __cavm_csr_fatal("RTT_M_GDAB_ROMX_PIDR5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -587,7 +587,7 @@ typedef union cavm_rtt_m_gdab_romx_pidr6 cavm_rtt_m_gdab_romx_pidr6_t;
 static inline uint64_t CAVM_RTT_M_GDAB_ROMX_PIDR6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_M_GDAB_ROMX_PIDR6(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=1))
         return 0x80e080800fd8ll + 0x800000ll * ((a) & 0x1);
     __cavm_csr_fatal("RTT_M_GDAB_ROMX_PIDR6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -624,7 +624,7 @@ typedef union cavm_rtt_m_gdab_romx_pidr7 cavm_rtt_m_gdab_romx_pidr7_t;
 static inline uint64_t CAVM_RTT_M_GDAB_ROMX_PIDR7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_M_GDAB_ROMX_PIDR7(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=1))
         return 0x80e080800fdcll + 0x800000ll * ((a) & 0x1);
     __cavm_csr_fatal("RTT_M_GDAB_ROMX_PIDR7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -674,7 +674,7 @@ typedef union cavm_rtt_m_gdab_romx_romentryx cavm_rtt_m_gdab_romx_romentryx_t;
 static inline uint64_t CAVM_RTT_M_GDAB_ROMX_ROMENTRYX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_M_GDAB_ROMX_ROMENTRYX(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=511))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=1) && (b<=511)))
         return 0x80e080800000ll + 0x800000ll * ((a) & 0x1) + 4ll * ((b) & 0x1ff);
     __cavm_csr_fatal("RTT_M_GDAB_ROMX_ROMENTRYX", 2, a, b, 0, 0, 0, 0);
 }
@@ -722,7 +722,9 @@ typedef union cavm_rtt_mdmx_funnel_authstatus cavm_rtt_mdmx_funnel_authstatus_t;
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_AUTHSTATUS_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_AUTHSTATUS_FUNC(void)
 {
-    return 0x80e080010fb8ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x80e080010fb8ll;
+    __cavm_csr_fatal("RTT_MDMX_FUNNEL_AUTHSTATUS", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_RTT_MDMX_FUNNEL_AUTHSTATUS cavm_rtt_mdmx_funnel_authstatus_t
@@ -758,7 +760,9 @@ typedef union cavm_rtt_mdmx_funnel_cidr0 cavm_rtt_mdmx_funnel_cidr0_t;
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_CIDR0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_CIDR0_FUNC(void)
 {
-    return 0x80e080010ff0ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x80e080010ff0ll;
+    __cavm_csr_fatal("RTT_MDMX_FUNNEL_CIDR0", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_RTT_MDMX_FUNNEL_CIDR0 cavm_rtt_mdmx_funnel_cidr0_t
@@ -796,7 +800,9 @@ typedef union cavm_rtt_mdmx_funnel_cidr1 cavm_rtt_mdmx_funnel_cidr1_t;
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_CIDR1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_CIDR1_FUNC(void)
 {
-    return 0x80e080010ff4ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x80e080010ff4ll;
+    __cavm_csr_fatal("RTT_MDMX_FUNNEL_CIDR1", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_RTT_MDMX_FUNNEL_CIDR1 cavm_rtt_mdmx_funnel_cidr1_t
@@ -832,7 +838,9 @@ typedef union cavm_rtt_mdmx_funnel_cidr2 cavm_rtt_mdmx_funnel_cidr2_t;
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_CIDR2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_CIDR2_FUNC(void)
 {
-    return 0x80e080010ff8ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x80e080010ff8ll;
+    __cavm_csr_fatal("RTT_MDMX_FUNNEL_CIDR2", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_RTT_MDMX_FUNNEL_CIDR2 cavm_rtt_mdmx_funnel_cidr2_t
@@ -868,7 +876,9 @@ typedef union cavm_rtt_mdmx_funnel_cidr3 cavm_rtt_mdmx_funnel_cidr3_t;
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_CIDR3_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_CIDR3_FUNC(void)
 {
-    return 0x80e080010ffcll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x80e080010ffcll;
+    __cavm_csr_fatal("RTT_MDMX_FUNNEL_CIDR3", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_RTT_MDMX_FUNNEL_CIDR3 cavm_rtt_mdmx_funnel_cidr3_t
@@ -910,7 +920,9 @@ typedef union cavm_rtt_mdmx_funnel_claimclr cavm_rtt_mdmx_funnel_claimclr_t;
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_CLAIMCLR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_CLAIMCLR_FUNC(void)
 {
-    return 0x80e080010fa4ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x80e080010fa4ll;
+    __cavm_csr_fatal("RTT_MDMX_FUNNEL_CLAIMCLR", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_RTT_MDMX_FUNNEL_CLAIMCLR cavm_rtt_mdmx_funnel_claimclr_t
@@ -950,7 +962,9 @@ typedef union cavm_rtt_mdmx_funnel_claimset cavm_rtt_mdmx_funnel_claimset_t;
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_CLAIMSET_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_CLAIMSET_FUNC(void)
 {
-    return 0x80e080010fa0ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x80e080010fa0ll;
+    __cavm_csr_fatal("RTT_MDMX_FUNNEL_CLAIMSET", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_RTT_MDMX_FUNNEL_CLAIMSET cavm_rtt_mdmx_funnel_claimset_t
@@ -984,7 +998,9 @@ typedef union cavm_rtt_mdmx_funnel_devaff0 cavm_rtt_mdmx_funnel_devaff0_t;
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_DEVAFF0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_DEVAFF0_FUNC(void)
 {
-    return 0x80e080010fa8ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x80e080010fa8ll;
+    __cavm_csr_fatal("RTT_MDMX_FUNNEL_DEVAFF0", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_RTT_MDMX_FUNNEL_DEVAFF0 cavm_rtt_mdmx_funnel_devaff0_t
@@ -1018,7 +1034,9 @@ typedef union cavm_rtt_mdmx_funnel_devaff1 cavm_rtt_mdmx_funnel_devaff1_t;
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_DEVAFF1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_DEVAFF1_FUNC(void)
 {
-    return 0x80e080010facll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x80e080010facll;
+    __cavm_csr_fatal("RTT_MDMX_FUNNEL_DEVAFF1", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_RTT_MDMX_FUNNEL_DEVAFF1 cavm_rtt_mdmx_funnel_devaff1_t
@@ -1060,7 +1078,9 @@ typedef union cavm_rtt_mdmx_funnel_devarch cavm_rtt_mdmx_funnel_devarch_t;
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_DEVARCH_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_DEVARCH_FUNC(void)
 {
-    return 0x80e080010fbcll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x80e080010fbcll;
+    __cavm_csr_fatal("RTT_MDMX_FUNNEL_DEVARCH", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_RTT_MDMX_FUNNEL_DEVARCH cavm_rtt_mdmx_funnel_devarch_t
@@ -1101,7 +1121,9 @@ typedef union cavm_rtt_mdmx_funnel_devid cavm_rtt_mdmx_funnel_devid_t;
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_DEVID_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_DEVID_FUNC(void)
 {
-    return 0x80e080010fc8ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x80e080010fc8ll;
+    __cavm_csr_fatal("RTT_MDMX_FUNNEL_DEVID", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_RTT_MDMX_FUNNEL_DEVID cavm_rtt_mdmx_funnel_devid_t
@@ -1135,7 +1157,9 @@ typedef union cavm_rtt_mdmx_funnel_devid1 cavm_rtt_mdmx_funnel_devid1_t;
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_DEVID1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_DEVID1_FUNC(void)
 {
-    return 0x80e080010fc4ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x80e080010fc4ll;
+    __cavm_csr_fatal("RTT_MDMX_FUNNEL_DEVID1", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_RTT_MDMX_FUNNEL_DEVID1 cavm_rtt_mdmx_funnel_devid1_t
@@ -1169,7 +1193,9 @@ typedef union cavm_rtt_mdmx_funnel_devid2 cavm_rtt_mdmx_funnel_devid2_t;
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_DEVID2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_DEVID2_FUNC(void)
 {
-    return 0x80e080010fc0ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x80e080010fc0ll;
+    __cavm_csr_fatal("RTT_MDMX_FUNNEL_DEVID2", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_RTT_MDMX_FUNNEL_DEVID2 cavm_rtt_mdmx_funnel_devid2_t
@@ -1208,7 +1234,9 @@ typedef union cavm_rtt_mdmx_funnel_devtype cavm_rtt_mdmx_funnel_devtype_t;
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_DEVTYPE_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_DEVTYPE_FUNC(void)
 {
-    return 0x80e080010fccll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x80e080010fccll;
+    __cavm_csr_fatal("RTT_MDMX_FUNNEL_DEVTYPE", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_RTT_MDMX_FUNNEL_DEVTYPE cavm_rtt_mdmx_funnel_devtype_t
@@ -1271,7 +1299,9 @@ typedef union cavm_rtt_mdmx_funnel_funnelcontrol cavm_rtt_mdmx_funnel_funnelcont
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_FUNNELCONTROL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_FUNNELCONTROL_FUNC(void)
 {
-    return 0x80e080010000ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x80e080010000ll;
+    __cavm_csr_fatal("RTT_MDMX_FUNNEL_FUNNELCONTROL", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_RTT_MDMX_FUNNEL_FUNNELCONTROL cavm_rtt_mdmx_funnel_funnelcontrol_t
@@ -1316,7 +1346,9 @@ typedef union cavm_rtt_mdmx_funnel_itatbctr0 cavm_rtt_mdmx_funnel_itatbctr0_t;
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_ITATBCTR0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_ITATBCTR0_FUNC(void)
 {
-    return 0x80e080010efcll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x80e080010efcll;
+    __cavm_csr_fatal("RTT_MDMX_FUNNEL_ITATBCTR0", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_RTT_MDMX_FUNNEL_ITATBCTR0 cavm_rtt_mdmx_funnel_itatbctr0_t
@@ -1355,7 +1387,9 @@ typedef union cavm_rtt_mdmx_funnel_itatbctr1 cavm_rtt_mdmx_funnel_itatbctr1_t;
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_ITATBCTR1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_ITATBCTR1_FUNC(void)
 {
-    return 0x80e080010ef8ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x80e080010ef8ll;
+    __cavm_csr_fatal("RTT_MDMX_FUNNEL_ITATBCTR1", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_RTT_MDMX_FUNNEL_ITATBCTR1 cavm_rtt_mdmx_funnel_itatbctr1_t
@@ -1396,7 +1430,9 @@ typedef union cavm_rtt_mdmx_funnel_itatbctr2 cavm_rtt_mdmx_funnel_itatbctr2_t;
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_ITATBCTR2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_ITATBCTR2_FUNC(void)
 {
-    return 0x80e080010ef4ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x80e080010ef4ll;
+    __cavm_csr_fatal("RTT_MDMX_FUNNEL_ITATBCTR2", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_RTT_MDMX_FUNNEL_ITATBCTR2 cavm_rtt_mdmx_funnel_itatbctr2_t
@@ -1439,7 +1475,9 @@ typedef union cavm_rtt_mdmx_funnel_itatbctr3 cavm_rtt_mdmx_funnel_itatbctr3_t;
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_ITATBCTR3_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_ITATBCTR3_FUNC(void)
 {
-    return 0x80e080010ef0ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x80e080010ef0ll;
+    __cavm_csr_fatal("RTT_MDMX_FUNNEL_ITATBCTR3", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_RTT_MDMX_FUNNEL_ITATBCTR3 cavm_rtt_mdmx_funnel_itatbctr3_t
@@ -1510,7 +1548,9 @@ typedef union cavm_rtt_mdmx_funnel_itatbdata0 cavm_rtt_mdmx_funnel_itatbdata0_t;
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_ITATBDATA0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_ITATBDATA0_FUNC(void)
 {
-    return 0x80e080010eecll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x80e080010eecll;
+    __cavm_csr_fatal("RTT_MDMX_FUNNEL_ITATBDATA0", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_RTT_MDMX_FUNNEL_ITATBDATA0 cavm_rtt_mdmx_funnel_itatbdata0_t
@@ -1548,7 +1588,9 @@ typedef union cavm_rtt_mdmx_funnel_itctrl cavm_rtt_mdmx_funnel_itctrl_t;
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_ITCTRL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_ITCTRL_FUNC(void)
 {
-    return 0x80e080010f00ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x80e080010f00ll;
+    __cavm_csr_fatal("RTT_MDMX_FUNNEL_ITCTRL", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_RTT_MDMX_FUNNEL_ITCTRL cavm_rtt_mdmx_funnel_itctrl_t
@@ -1586,7 +1628,9 @@ typedef union cavm_rtt_mdmx_funnel_pidr0 cavm_rtt_mdmx_funnel_pidr0_t;
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_PIDR0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_PIDR0_FUNC(void)
 {
-    return 0x80e080010fe0ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x80e080010fe0ll;
+    __cavm_csr_fatal("RTT_MDMX_FUNNEL_PIDR0", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_RTT_MDMX_FUNNEL_PIDR0 cavm_rtt_mdmx_funnel_pidr0_t
@@ -1630,7 +1674,9 @@ typedef union cavm_rtt_mdmx_funnel_pidr1 cavm_rtt_mdmx_funnel_pidr1_t;
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_PIDR1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_PIDR1_FUNC(void)
 {
-    return 0x80e080010fe4ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x80e080010fe4ll;
+    __cavm_csr_fatal("RTT_MDMX_FUNNEL_PIDR1", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_RTT_MDMX_FUNNEL_PIDR1 cavm_rtt_mdmx_funnel_pidr1_t
@@ -1678,7 +1724,9 @@ typedef union cavm_rtt_mdmx_funnel_pidr2 cavm_rtt_mdmx_funnel_pidr2_t;
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_PIDR2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_PIDR2_FUNC(void)
 {
-    return 0x80e080010fe8ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x80e080010fe8ll;
+    __cavm_csr_fatal("RTT_MDMX_FUNNEL_PIDR2", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_RTT_MDMX_FUNNEL_PIDR2 cavm_rtt_mdmx_funnel_pidr2_t
@@ -1722,7 +1770,9 @@ typedef union cavm_rtt_mdmx_funnel_pidr3 cavm_rtt_mdmx_funnel_pidr3_t;
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_PIDR3_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_PIDR3_FUNC(void)
 {
-    return 0x80e080010fecll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x80e080010fecll;
+    __cavm_csr_fatal("RTT_MDMX_FUNNEL_PIDR3", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_RTT_MDMX_FUNNEL_PIDR3 cavm_rtt_mdmx_funnel_pidr3_t
@@ -1768,7 +1818,9 @@ typedef union cavm_rtt_mdmx_funnel_pidr4 cavm_rtt_mdmx_funnel_pidr4_t;
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_PIDR4_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_PIDR4_FUNC(void)
 {
-    return 0x80e080010fd0ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x80e080010fd0ll;
+    __cavm_csr_fatal("RTT_MDMX_FUNNEL_PIDR4", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_RTT_MDMX_FUNNEL_PIDR4 cavm_rtt_mdmx_funnel_pidr4_t
@@ -1804,7 +1856,9 @@ typedef union cavm_rtt_mdmx_funnel_pidr5 cavm_rtt_mdmx_funnel_pidr5_t;
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_PIDR5_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_PIDR5_FUNC(void)
 {
-    return 0x80e080010fd4ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x80e080010fd4ll;
+    __cavm_csr_fatal("RTT_MDMX_FUNNEL_PIDR5", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_RTT_MDMX_FUNNEL_PIDR5 cavm_rtt_mdmx_funnel_pidr5_t
@@ -1840,7 +1894,9 @@ typedef union cavm_rtt_mdmx_funnel_pidr6 cavm_rtt_mdmx_funnel_pidr6_t;
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_PIDR6_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_PIDR6_FUNC(void)
 {
-    return 0x80e080010fd8ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x80e080010fd8ll;
+    __cavm_csr_fatal("RTT_MDMX_FUNNEL_PIDR6", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_RTT_MDMX_FUNNEL_PIDR6 cavm_rtt_mdmx_funnel_pidr6_t
@@ -1876,7 +1932,9 @@ typedef union cavm_rtt_mdmx_funnel_pidr7 cavm_rtt_mdmx_funnel_pidr7_t;
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_PIDR7_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_PIDR7_FUNC(void)
 {
-    return 0x80e080010fdcll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x80e080010fdcll;
+    __cavm_csr_fatal("RTT_MDMX_FUNNEL_PIDR7", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_RTT_MDMX_FUNNEL_PIDR7 cavm_rtt_mdmx_funnel_pidr7_t
@@ -1934,7 +1992,9 @@ typedef union cavm_rtt_mdmx_funnel_prioritycontrol cavm_rtt_mdmx_funnel_priority
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_PRIORITYCONTROL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MDMX_FUNNEL_PRIORITYCONTROL_FUNC(void)
 {
-    return 0x80e080010004ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x80e080010004ll;
+    __cavm_csr_fatal("RTT_MDMX_FUNNEL_PRIORITYCONTROL", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_RTT_MDMX_FUNNEL_PRIORITYCONTROL cavm_rtt_mdmx_funnel_prioritycontrol_t

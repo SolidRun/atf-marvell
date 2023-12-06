@@ -1,0 +1,2024 @@
+#ifndef __CAVM_CSRS_OCLA_H__
+#define __CAVM_CSRS_OCLA_H__
+/* This file is auto-generated. Do not edit */
+
+/***********************license start***********************************
+* Copyright (C) 2021-2023 Marvell.
+* SPDX-License-Identifier: BSD-3-Clause
+* https://spdx.org/licenses
+***********************license end**************************************/
+
+
+/**
+ * @file
+ *
+ * Configuration and status register (CSR) address and type definitions for
+ * OCLA.
+ *
+ * This file is auto generated. Do not edit.
+ *
+ */
+
+/**
+ * Enumeration ocla_bar_e
+ *
+ * OCLA Base Address Register Enumeration
+ * Enumerates the base address registers.
+ */
+#define CAVM_OCLA_BAR_E_OCLAX_PF_BAR0(a) (0x87e380000000ll + 0x1000000ll * (a))
+#define CAVM_OCLA_BAR_E_OCLAX_PF_BAR0_SIZE 0x800000ull
+#define CAVM_OCLA_BAR_E_OCLAX_PF_BAR4(a) (0x87e380800000ll + 0x1000000ll * (a))
+#define CAVM_OCLA_BAR_E_OCLAX_PF_BAR4_SIZE 0x100000ull
+
+/**
+ * Enumeration ocla_int_vec_e
+ *
+ * OCLA MSI-X Vector Enumeration
+ * Enumerates the MSI-X interrupt vectors.
+ */
+#define CAVM_OCLA_INT_VEC_E_INTS (0)
+
+/**
+ * Structure ocla_cap_ctl_s
+ *
+ * OCLA Capture Control Structure
+ * Control packets are indicated by an entry's bit 37 being set, and described by the
+ * OCLA_CAP_CTL_S structure:
+ */
+union cavm_ocla_cap_ctl_s
+{
+    uint64_t u;
+    struct cavm_ocla_cap_ctl_s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_38_63        : 26;
+        uint64_t ctl                   : 1;  /**< [ 37: 37] Indicates a control word. Always set for control structures. */
+        uint64_t sinfo                 : 1;  /**< [ 36: 36] Indicates OCLA()_FSM()_STATE()[SINFO_SET] was set for the state that led to the
+                                                                 capture state. This allows the FSM to optionally communicate its current state
+                                                                 to observing software; [SINFO] is otherwise opaque to reassembling the trace
+                                                                 information. */
+        uint64_t eot1                  : 1;  /**< [ 35: 35] End of duplicated capture for high data. Symmetric with EOT0 description; see [EOT0]. */
+        uint64_t eot0                  : 1;  /**< [ 34: 34] End of duplicated capture for low data. When set, [CYCLE] indicates the cycle at which the
+                                                                 previous entry of low data stopped being replicated. This may be set along with [SOT0] to
+                                                                 indicate a repeat followed by new sequence. */
+        uint64_t sot1                  : 1;  /**< [ 33: 33] Start transition from no-capture to capture or duplicated data stopped while capturing for
+                                                                 high data. When set, [CYCLE] indicates the cycle number of the next new high data, minus one
+                                                                 cycle. */
+        uint64_t sot0                  : 1;  /**< [ 32: 32] Start transition from no-capture to capture or duplicated data stopped while capturing for
+                                                                 low data. When set, [CYCLE] indicates the cycle number of the next new low data, minus one
+                                                                 cycle. */
+        uint64_t cycle                 : 32; /**< [ 31:  0] Cycle at which this control entry was written, from OCLA()_TIME. */
+#else /* Word 0 - Little Endian */
+        uint64_t cycle                 : 32; /**< [ 31:  0] Cycle at which this control entry was written, from OCLA()_TIME. */
+        uint64_t sot0                  : 1;  /**< [ 32: 32] Start transition from no-capture to capture or duplicated data stopped while capturing for
+                                                                 low data. When set, [CYCLE] indicates the cycle number of the next new low data, minus one
+                                                                 cycle. */
+        uint64_t sot1                  : 1;  /**< [ 33: 33] Start transition from no-capture to capture or duplicated data stopped while capturing for
+                                                                 high data. When set, [CYCLE] indicates the cycle number of the next new high data, minus one
+                                                                 cycle. */
+        uint64_t eot0                  : 1;  /**< [ 34: 34] End of duplicated capture for low data. When set, [CYCLE] indicates the cycle at which the
+                                                                 previous entry of low data stopped being replicated. This may be set along with [SOT0] to
+                                                                 indicate a repeat followed by new sequence. */
+        uint64_t eot1                  : 1;  /**< [ 35: 35] End of duplicated capture for high data. Symmetric with EOT0 description; see [EOT0]. */
+        uint64_t sinfo                 : 1;  /**< [ 36: 36] Indicates OCLA()_FSM()_STATE()[SINFO_SET] was set for the state that led to the
+                                                                 capture state. This allows the FSM to optionally communicate its current state
+                                                                 to observing software; [SINFO] is otherwise opaque to reassembling the trace
+                                                                 information. */
+        uint64_t ctl                   : 1;  /**< [ 37: 37] Indicates a control word. Always set for control structures. */
+        uint64_t reserved_38_63        : 26;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ocla_cap_ctl_s_s cn; */
+};
+
+/**
+ * Structure ocla_cap_dat_s
+ *
+ * OCLA Capture Data Structure
+ * Data packets are indicated by an entry's bit 37 being clear, and described by the
+ * OCLA_CAP_DAT_S structure:
+ */
+union cavm_ocla_cap_dat_s
+{
+    uint64_t u;
+    struct cavm_ocla_cap_dat_s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_38_63        : 26;
+        uint64_t ctl                   : 1;  /**< [ 37: 37] Indicates a control word. Always clear for data structures. */
+        uint64_t hi                    : 1;  /**< [ 36: 36] Set to indicate a sample of high data, clear for a sample of low data. */
+        uint64_t data                  : 36; /**< [ 35:  0] Captured trace data. */
+#else /* Word 0 - Little Endian */
+        uint64_t data                  : 36; /**< [ 35:  0] Captured trace data. */
+        uint64_t hi                    : 1;  /**< [ 36: 36] Set to indicate a sample of high data, clear for a sample of low data. */
+        uint64_t ctl                   : 1;  /**< [ 37: 37] Indicates a control word. Always clear for data structures. */
+        uint64_t reserved_38_63        : 26;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ocla_cap_dat_s_s cn; */
+};
+
+/**
+ * Register (RSL) ocla#_active_pc
+ *
+ * OCLA Conditional Clock Counter Register
+ * This register counts conditional clocks for power management.
+ *
+ * This register is reset on OCLA domain reset.
+ */
+union cavm_oclax_active_pc
+{
+    uint64_t u;
+    struct cavm_oclax_active_pc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of conditional clock cycles since reset. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of conditional clock cycles since reset. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_oclax_active_pc_s cn; */
+};
+typedef union cavm_oclax_active_pc cavm_oclax_active_pc_t;
+
+static inline uint64_t CAVM_OCLAX_ACTIVE_PC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_OCLAX_ACTIVE_PC(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=23) || (a==64)))
+        return 0x87e380000620ll + 0x1000000ll * ((a) & 0x7f);
+    __cavm_csr_fatal("OCLAX_ACTIVE_PC", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_OCLAX_ACTIVE_PC(a) cavm_oclax_active_pc_t
+#define bustype_CAVM_OCLAX_ACTIVE_PC(a) CSR_TYPE_RSL
+#define basename_CAVM_OCLAX_ACTIVE_PC(a) "OCLAX_ACTIVE_PC"
+#define device_bar_CAVM_OCLAX_ACTIVE_PC(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_OCLAX_ACTIVE_PC(a) (a)
+#define arguments_CAVM_OCLAX_ACTIVE_PC(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) ocla#_cdh#_ctl
+ *
+ * OCLA Capture Data Half Control Registers
+ */
+union cavm_oclax_cdhx_ctl
+{
+    uint64_t u;
+    struct cavm_oclax_cdhx_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_6_63         : 58;
+        uint64_t dup                   : 1;  /**< [  5:  5](R/W) Retain duplicates in the data stream. */
+        uint64_t dis_stamp             : 1;  /**< [  4:  4](R/W) Remove time stamps from data stream. */
+        uint64_t cap_ctl               : 4;  /**< [  3:  0](R/W) Minterms that will cause data to be captured. These minterms are the four inputs
+                                                                 to a four-to-one mux selected by PLA1 and zero. The output is thus calculated
+                                                                 from the equation:
+
+                                                                 \<pre\>
+                                                                   fsmcap0 = OCLA()_FSM(0)_STATE[state0][CAP_CTL].
+                                                                   fsmcap1 = OCLA()_FSM(1)_STATE[state1][CAP_CTL].
+                                                                   out = (   (\<3\> & fsmcap1 & fsmcap0)
+                                                                          || (\<2\> & fsmcap1 & !fsmcap0)
+                                                                          || (\<1\> & !fsmcap1 & fsmcap0)
+                                                                          || (\<0\> & !fsmcap1 & !fsmcap0)).
+                                                                 \</pre\>
+
+                                                                 Common examples:
+                                                                 0x0 = No capture.
+                                                                 0xA = Capture when fsmcap0 requests capture.
+                                                                 0xC = Capture when fsmcap1 requests capture.
+                                                                 0x6 = Capture on fsmcap0 EXOR fsmcap1.
+                                                                 0x8 = Capture on fsmcap0 & fsmcap1.
+                                                                 0xE = Capture on fsmcap0 | fsmcap1.
+                                                                 0xF = Always capture. */
+#else /* Word 0 - Little Endian */
+        uint64_t cap_ctl               : 4;  /**< [  3:  0](R/W) Minterms that will cause data to be captured. These minterms are the four inputs
+                                                                 to a four-to-one mux selected by PLA1 and zero. The output is thus calculated
+                                                                 from the equation:
+
+                                                                 \<pre\>
+                                                                   fsmcap0 = OCLA()_FSM(0)_STATE[state0][CAP_CTL].
+                                                                   fsmcap1 = OCLA()_FSM(1)_STATE[state1][CAP_CTL].
+                                                                   out = (   (\<3\> & fsmcap1 & fsmcap0)
+                                                                          || (\<2\> & fsmcap1 & !fsmcap0)
+                                                                          || (\<1\> & !fsmcap1 & fsmcap0)
+                                                                          || (\<0\> & !fsmcap1 & !fsmcap0)).
+                                                                 \</pre\>
+
+                                                                 Common examples:
+                                                                 0x0 = No capture.
+                                                                 0xA = Capture when fsmcap0 requests capture.
+                                                                 0xC = Capture when fsmcap1 requests capture.
+                                                                 0x6 = Capture on fsmcap0 EXOR fsmcap1.
+                                                                 0x8 = Capture on fsmcap0 & fsmcap1.
+                                                                 0xE = Capture on fsmcap0 | fsmcap1.
+                                                                 0xF = Always capture. */
+        uint64_t dis_stamp             : 1;  /**< [  4:  4](R/W) Remove time stamps from data stream. */
+        uint64_t dup                   : 1;  /**< [  5:  5](R/W) Retain duplicates in the data stream. */
+        uint64_t reserved_6_63         : 58;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_oclax_cdhx_ctl_s cn; */
+};
+typedef union cavm_oclax_cdhx_ctl cavm_oclax_cdhx_ctl_t;
+
+static inline uint64_t CAVM_OCLAX_CDHX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_OCLAX_CDHX_CTL(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (((a<=23) || (a==64)) && (b<=1)))
+        return 0x87e380000600ll + 0x1000000ll * ((a) & 0x7f) + 8ll * ((b) & 0x1);
+    __cavm_csr_fatal("OCLAX_CDHX_CTL", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_OCLAX_CDHX_CTL(a,b) cavm_oclax_cdhx_ctl_t
+#define bustype_CAVM_OCLAX_CDHX_CTL(a,b) CSR_TYPE_RSL
+#define basename_CAVM_OCLAX_CDHX_CTL(a,b) "OCLAX_CDHX_CTL"
+#define device_bar_CAVM_OCLAX_CDHX_CTL(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_OCLAX_CDHX_CTL(a,b) (a)
+#define arguments_CAVM_OCLAX_CDHX_CTL(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) ocla#_cdh#_inject_state
+ *
+ * OCLA Capture Inject State Register
+ * This register allows various state inputs to be inserted into the captured stream
+ * data, to assist debugging of OCLA FSMs. Each input has two insertion positions
+ * (i.e. [MCD] and [ALT_MCD]), so that some of the normal non-inject capture stream data
+ * may still be observable.
+ */
+union cavm_oclax_cdhx_inject_state
+{
+    uint64_t u;
+    struct cavm_oclax_cdhx_inject_state_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t alt_trig              : 1;  /**< [ 31: 31](R/W) When set, insert FSM trigger input into captured stream \<31\>. */
+        uint64_t alt_mcd               : 3;  /**< [ 30: 28](R/W) When set, insert multichip debug (MCD) 0..2 FSM inputs into captured stream \<30:28\>. */
+        uint64_t alt_match             : 4;  /**< [ 27: 24](R/W) When set, insert matcher FSM inputs into captured stream \<27:24\>. */
+        uint64_t alt_fsm1_state        : 4;  /**< [ 23: 20](R/W) When set, insert FSM 1 state input into captured stream \<23:20\>. */
+        uint64_t alt_fsm0_state        : 4;  /**< [ 19: 16](R/W) When set, insert FSM 0 state input into captured stream \<19:16\>. */
+        uint64_t trig                  : 1;  /**< [ 15: 15](R/W) When set, insert FSM trigger input into captured stream \<15\>. */
+        uint64_t mcd                   : 3;  /**< [ 14: 12](R/W) When set, insert multichip debug (MCD) 0..2 FSM inputs into captured stream \<14:12\>. */
+        uint64_t match                 : 4;  /**< [ 11:  8](R/W) When set, insert matcher FSM inputs into captured stream \<11:8\>. */
+        uint64_t fsm1_state            : 4;  /**< [  7:  4](R/W) When set, insert FSM 1 state input into captured stream \<7:4\>. */
+        uint64_t fsm0_state            : 4;  /**< [  3:  0](R/W) When set, insert FSM 0 state input into captured stream \<3:0\>. */
+#else /* Word 0 - Little Endian */
+        uint64_t fsm0_state            : 4;  /**< [  3:  0](R/W) When set, insert FSM 0 state input into captured stream \<3:0\>. */
+        uint64_t fsm1_state            : 4;  /**< [  7:  4](R/W) When set, insert FSM 1 state input into captured stream \<7:4\>. */
+        uint64_t match                 : 4;  /**< [ 11:  8](R/W) When set, insert matcher FSM inputs into captured stream \<11:8\>. */
+        uint64_t mcd                   : 3;  /**< [ 14: 12](R/W) When set, insert multichip debug (MCD) 0..2 FSM inputs into captured stream \<14:12\>. */
+        uint64_t trig                  : 1;  /**< [ 15: 15](R/W) When set, insert FSM trigger input into captured stream \<15\>. */
+        uint64_t alt_fsm0_state        : 4;  /**< [ 19: 16](R/W) When set, insert FSM 0 state input into captured stream \<19:16\>. */
+        uint64_t alt_fsm1_state        : 4;  /**< [ 23: 20](R/W) When set, insert FSM 1 state input into captured stream \<23:20\>. */
+        uint64_t alt_match             : 4;  /**< [ 27: 24](R/W) When set, insert matcher FSM inputs into captured stream \<27:24\>. */
+        uint64_t alt_mcd               : 3;  /**< [ 30: 28](R/W) When set, insert multichip debug (MCD) 0..2 FSM inputs into captured stream \<30:28\>. */
+        uint64_t alt_trig              : 1;  /**< [ 31: 31](R/W) When set, insert FSM trigger input into captured stream \<31\>. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_oclax_cdhx_inject_state_s cn; */
+};
+typedef union cavm_oclax_cdhx_inject_state cavm_oclax_cdhx_inject_state_t;
+
+static inline uint64_t CAVM_OCLAX_CDHX_INJECT_STATE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_OCLAX_CDHX_INJECT_STATE(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (((a<=23) || (a==64)) && (b<=1)))
+        return 0x87e380000610ll + 0x1000000ll * ((a) & 0x7f) + 8ll * ((b) & 0x1);
+    __cavm_csr_fatal("OCLAX_CDHX_INJECT_STATE", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_OCLAX_CDHX_INJECT_STATE(a,b) cavm_oclax_cdhx_inject_state_t
+#define bustype_CAVM_OCLAX_CDHX_INJECT_STATE(a,b) CSR_TYPE_RSL
+#define basename_CAVM_OCLAX_CDHX_INJECT_STATE(a,b) "OCLAX_CDHX_INJECT_STATE"
+#define device_bar_CAVM_OCLAX_CDHX_INJECT_STATE(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_OCLAX_CDHX_INJECT_STATE(a,b) (a)
+#define arguments_CAVM_OCLAX_CDHX_INJECT_STATE(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) ocla#_const
+ *
+ * OCLA Constants Registers
+ */
+union cavm_oclax_const
+{
+    uint64_t u;
+    struct cavm_oclax_const_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_17_63        : 47;
+        uint64_t no_ddr                : 1;  /**< [ 16: 16](RO) No DDR supported.
+                                                                 0 = DDR dumping is supported, the OCLA()_STACK* registers exist and function.
+                                                                 1 = DDR dumping is not supported. */
+        uint64_t dat_size              : 16; /**< [ 15:  0](RO) Size of data RAM in units of 36-bit entries. This value is subject to change between chip
+                                                                 passes, and software should thus use this value rather than a hard-coded constant.
+                                                                 OCLA(0..3) size is 4096, OCLA(4) size is 16384. */
+#else /* Word 0 - Little Endian */
+        uint64_t dat_size              : 16; /**< [ 15:  0](RO) Size of data RAM in units of 36-bit entries. This value is subject to change between chip
+                                                                 passes, and software should thus use this value rather than a hard-coded constant.
+                                                                 OCLA(0..3) size is 4096, OCLA(4) size is 16384. */
+        uint64_t no_ddr                : 1;  /**< [ 16: 16](RO) No DDR supported.
+                                                                 0 = DDR dumping is supported, the OCLA()_STACK* registers exist and function.
+                                                                 1 = DDR dumping is not supported. */
+        uint64_t reserved_17_63        : 47;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_oclax_const_s cn; */
+};
+typedef union cavm_oclax_const cavm_oclax_const_t;
+
+static inline uint64_t CAVM_OCLAX_CONST(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_OCLAX_CONST(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=23) || (a==64)))
+        return 0x87e380000000ll + 0x1000000ll * ((a) & 0x7f);
+    __cavm_csr_fatal("OCLAX_CONST", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_OCLAX_CONST(a) cavm_oclax_const_t
+#define bustype_CAVM_OCLAX_CONST(a) CSR_TYPE_RSL
+#define basename_CAVM_OCLAX_CONST(a) "OCLAX_CONST"
+#define device_bar_CAVM_OCLAX_CONST(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_OCLAX_CONST(a) (a)
+#define arguments_CAVM_OCLAX_CONST(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) ocla#_dat#
+ *
+ * OCLA Data Registers
+ */
+union cavm_oclax_datx
+{
+    uint64_t u;
+    struct cavm_oclax_datx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_38_63        : 26;
+        uint64_t entry                 : 38; /**< [ 37:  0](RO/H) Captured entry. Data is in the format described by OCLA_CAP_DAT_S or OCLA_CAP_CTL_S. */
+#else /* Word 0 - Little Endian */
+        uint64_t entry                 : 38; /**< [ 37:  0](RO/H) Captured entry. Data is in the format described by OCLA_CAP_DAT_S or OCLA_CAP_CTL_S. */
+        uint64_t reserved_38_63        : 26;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_oclax_datx_s cn; */
+};
+typedef union cavm_oclax_datx cavm_oclax_datx_t;
+
+static inline uint64_t CAVM_OCLAX_DATX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_OCLAX_DATX(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (((a<=23) || (a==64)) && (b<=16383)))
+        return 0x87e380400000ll + 0x1000000ll * ((a) & 0x7f) + 8ll * ((b) & 0x3fff);
+    __cavm_csr_fatal("OCLAX_DATX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_OCLAX_DATX(a,b) cavm_oclax_datx_t
+#define bustype_CAVM_OCLAX_DATX(a,b) CSR_TYPE_RSL
+#define basename_CAVM_OCLAX_DATX(a,b) "OCLAX_DATX"
+#define device_bar_CAVM_OCLAX_DATX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_OCLAX_DATX(a,b) (a)
+#define arguments_CAVM_OCLAX_DATX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) ocla#_dat_pop
+ *
+ * OCLA Data Pop Registers
+ */
+union cavm_oclax_dat_pop
+{
+    uint64_t u;
+    struct cavm_oclax_dat_pop_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t valid                 : 1;  /**< [ 63: 63](RC/H) Valid entry. Indicates the FIFO contains data, and equivalent to OCLA()_FIFO_DEPTH[DEPTH] != 0. */
+        uint64_t trig                  : 1;  /**< [ 62: 62](RO/H) Internal trigger set. Equivalent to OCLA()_STATE_INT[TRIG]. */
+        uint64_t wmark                 : 1;  /**< [ 61: 61](RO/H) Internal buffer watermark reached. Equivalent to OCLA()_STATE_INT[WMARK]. */
+        uint64_t reserved_38_60        : 23;
+        uint64_t entry                 : 38; /**< [ 37:  0](RC/H) Captured entry. If [VALID] is set, has read side effect of unloading data by decrementing
+                                                                 OCLA()_FIFO_DEPTH[DEPTH]. Data is in the format described by OCLA_CAP_DAT_S or
+                                                                 OCLA_CAP_CTL_S.
+
+                                                                 Note that unloading data will cause that data not to be sent to memory, therefore
+                                                                 OCLA()_DAT_POP should not be read when OCLA()_FIFO_LIMIT[DDR] != all-ones. */
+#else /* Word 0 - Little Endian */
+        uint64_t entry                 : 38; /**< [ 37:  0](RC/H) Captured entry. If [VALID] is set, has read side effect of unloading data by decrementing
+                                                                 OCLA()_FIFO_DEPTH[DEPTH]. Data is in the format described by OCLA_CAP_DAT_S or
+                                                                 OCLA_CAP_CTL_S.
+
+                                                                 Note that unloading data will cause that data not to be sent to memory, therefore
+                                                                 OCLA()_DAT_POP should not be read when OCLA()_FIFO_LIMIT[DDR] != all-ones. */
+        uint64_t reserved_38_60        : 23;
+        uint64_t wmark                 : 1;  /**< [ 61: 61](RO/H) Internal buffer watermark reached. Equivalent to OCLA()_STATE_INT[WMARK]. */
+        uint64_t trig                  : 1;  /**< [ 62: 62](RO/H) Internal trigger set. Equivalent to OCLA()_STATE_INT[TRIG]. */
+        uint64_t valid                 : 1;  /**< [ 63: 63](RC/H) Valid entry. Indicates the FIFO contains data, and equivalent to OCLA()_FIFO_DEPTH[DEPTH] != 0. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_oclax_dat_pop_s cn; */
+};
+typedef union cavm_oclax_dat_pop cavm_oclax_dat_pop_t;
+
+static inline uint64_t CAVM_OCLAX_DAT_POP(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_OCLAX_DAT_POP(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=23) || (a==64)))
+        return 0x87e380000800ll + 0x1000000ll * ((a) & 0x7f);
+    __cavm_csr_fatal("OCLAX_DAT_POP", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_OCLAX_DAT_POP(a) cavm_oclax_dat_pop_t
+#define bustype_CAVM_OCLAX_DAT_POP(a) CSR_TYPE_RSL
+#define basename_CAVM_OCLAX_DAT_POP(a) "OCLAX_DAT_POP"
+#define device_bar_CAVM_OCLAX_DAT_POP(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_OCLAX_DAT_POP(a) (a)
+#define arguments_CAVM_OCLAX_DAT_POP(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) ocla#_fifo_depth
+ *
+ * OCLA Capture FIFO Depth Registers
+ */
+union cavm_oclax_fifo_depth
+{
+    uint64_t u;
+    struct cavm_oclax_fifo_depth_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t depth                 : 16; /**< [ 15:  0](RO/H) Current capture FIFO depth in 36-bit words. */
+#else /* Word 0 - Little Endian */
+        uint64_t depth                 : 16; /**< [ 15:  0](RO/H) Current capture FIFO depth in 36-bit words. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_oclax_fifo_depth_s cn; */
+};
+typedef union cavm_oclax_fifo_depth cavm_oclax_fifo_depth_t;
+
+static inline uint64_t CAVM_OCLAX_FIFO_DEPTH(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_OCLAX_FIFO_DEPTH(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=23) || (a==64)))
+        return 0x87e380000200ll + 0x1000000ll * ((a) & 0x7f);
+    __cavm_csr_fatal("OCLAX_FIFO_DEPTH", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_OCLAX_FIFO_DEPTH(a) cavm_oclax_fifo_depth_t
+#define bustype_CAVM_OCLAX_FIFO_DEPTH(a) CSR_TYPE_RSL
+#define basename_CAVM_OCLAX_FIFO_DEPTH(a) "OCLAX_FIFO_DEPTH"
+#define device_bar_CAVM_OCLAX_FIFO_DEPTH(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_OCLAX_FIFO_DEPTH(a) (a)
+#define arguments_CAVM_OCLAX_FIFO_DEPTH(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) ocla#_fifo_limit
+ *
+ * OCLA Capture FIFO Limit Registers
+ */
+union cavm_oclax_fifo_limit
+{
+    uint64_t u;
+    struct cavm_oclax_fifo_limit_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t overfull              : 16; /**< [ 63: 48](R/W) Stop level. When OCLA()_FIFO_DEPTH \> [OVERFULL], stop capturing and set
+                                                                 OCLA()_STATE_INT[OVERFULL]. This should be set to no more than
+                                                                 OCLA()_CONST[DAT_SIZE] minus 26 when using DDR capture to insure that overflow can be
+                                                                 detected. */
+        uint64_t ddr                   : 16; /**< [ 47: 32](R/W) DDR level. When OCLA()_FIFO_DEPTH \> [DDR], FIFO entries will be removed, packed into a
+                                                                 cache line, and overflowed to LLC/DRAM. All-ones disables overflow to LLC/DRAM. If nonzero
+                                                                 must be at least 52. */
+        uint64_t bp                    : 16; /**< [ 31: 16](R/W) Backpressure level. When OCLA()_FIFO_DEPTH \> [BP], OCLA will signal backpressure to
+                                                                 coprocessors. All-ones disables indicating backpressure. */
+        uint64_t wmark                 : 16; /**< [ 15:  0](R/W) Interrupt watermark level. When OCLA()_FIFO_DEPTH \> [WMARK], OCLA will set
+                                                                 OCLA()_STATE_INT[WMARK] interrupt. All-ones disables setting the interrupt. */
+#else /* Word 0 - Little Endian */
+        uint64_t wmark                 : 16; /**< [ 15:  0](R/W) Interrupt watermark level. When OCLA()_FIFO_DEPTH \> [WMARK], OCLA will set
+                                                                 OCLA()_STATE_INT[WMARK] interrupt. All-ones disables setting the interrupt. */
+        uint64_t bp                    : 16; /**< [ 31: 16](R/W) Backpressure level. When OCLA()_FIFO_DEPTH \> [BP], OCLA will signal backpressure to
+                                                                 coprocessors. All-ones disables indicating backpressure. */
+        uint64_t ddr                   : 16; /**< [ 47: 32](R/W) DDR level. When OCLA()_FIFO_DEPTH \> [DDR], FIFO entries will be removed, packed into a
+                                                                 cache line, and overflowed to LLC/DRAM. All-ones disables overflow to LLC/DRAM. If nonzero
+                                                                 must be at least 52. */
+        uint64_t overfull              : 16; /**< [ 63: 48](R/W) Stop level. When OCLA()_FIFO_DEPTH \> [OVERFULL], stop capturing and set
+                                                                 OCLA()_STATE_INT[OVERFULL]. This should be set to no more than
+                                                                 OCLA()_CONST[DAT_SIZE] minus 26 when using DDR capture to insure that overflow can be
+                                                                 detected. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_oclax_fifo_limit_s cn; */
+};
+typedef union cavm_oclax_fifo_limit cavm_oclax_fifo_limit_t;
+
+static inline uint64_t CAVM_OCLAX_FIFO_LIMIT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_OCLAX_FIFO_LIMIT(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=23) || (a==64)))
+        return 0x87e380000240ll + 0x1000000ll * ((a) & 0x7f);
+    __cavm_csr_fatal("OCLAX_FIFO_LIMIT", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_OCLAX_FIFO_LIMIT(a) cavm_oclax_fifo_limit_t
+#define bustype_CAVM_OCLAX_FIFO_LIMIT(a) CSR_TYPE_RSL
+#define basename_CAVM_OCLAX_FIFO_LIMIT(a) "OCLAX_FIFO_LIMIT"
+#define device_bar_CAVM_OCLAX_FIFO_LIMIT(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_OCLAX_FIFO_LIMIT(a) (a)
+#define arguments_CAVM_OCLAX_FIFO_LIMIT(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) ocla#_fifo_tail
+ *
+ * OCLA Capture FIFO Tail Registers
+ */
+union cavm_oclax_fifo_tail
+{
+    uint64_t u;
+    struct cavm_oclax_fifo_tail_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t tail                  : 16; /**< [ 15:  0](RO/H) Address last written into entry FIFO. */
+#else /* Word 0 - Little Endian */
+        uint64_t tail                  : 16; /**< [ 15:  0](RO/H) Address last written into entry FIFO. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_oclax_fifo_tail_s cn; */
+};
+typedef union cavm_oclax_fifo_tail cavm_oclax_fifo_tail_t;
+
+static inline uint64_t CAVM_OCLAX_FIFO_TAIL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_OCLAX_FIFO_TAIL(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=23) || (a==64)))
+        return 0x87e380000260ll + 0x1000000ll * ((a) & 0x7f);
+    __cavm_csr_fatal("OCLAX_FIFO_TAIL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_OCLAX_FIFO_TAIL(a) cavm_oclax_fifo_tail_t
+#define bustype_CAVM_OCLAX_FIFO_TAIL(a) CSR_TYPE_RSL
+#define basename_CAVM_OCLAX_FIFO_TAIL(a) "OCLAX_FIFO_TAIL"
+#define device_bar_CAVM_OCLAX_FIFO_TAIL(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_OCLAX_FIFO_TAIL(a) (a)
+#define arguments_CAVM_OCLAX_FIFO_TAIL(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) ocla#_fifo_trig
+ *
+ * OCLA Capture FIFO Trigger Level Registers
+ */
+union cavm_oclax_fifo_trig
+{
+    uint64_t u;
+    struct cavm_oclax_fifo_trig_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t limit                 : 16; /**< [ 31: 16](R/W) Post-trigger number of entries to collect before stopping collection. If zero, collection
+                                                                 will never stop, which may be desirable when overflowing to LLC/DRAM. Must be \<
+                                                                 OCLA()_CONST[DAT_SIZE] - 5. */
+        uint64_t cnt                   : 16; /**< [ 15:  0](R/W/H) Number of entries collected since trigger. Cleared when OCLA()_STATE_INT[TRIG] clear. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt                   : 16; /**< [ 15:  0](R/W/H) Number of entries collected since trigger. Cleared when OCLA()_STATE_INT[TRIG] clear. */
+        uint64_t limit                 : 16; /**< [ 31: 16](R/W) Post-trigger number of entries to collect before stopping collection. If zero, collection
+                                                                 will never stop, which may be desirable when overflowing to LLC/DRAM. Must be \<
+                                                                 OCLA()_CONST[DAT_SIZE] - 5. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_oclax_fifo_trig_s cn; */
+};
+typedef union cavm_oclax_fifo_trig cavm_oclax_fifo_trig_t;
+
+static inline uint64_t CAVM_OCLAX_FIFO_TRIG(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_OCLAX_FIFO_TRIG(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=23) || (a==64)))
+        return 0x87e3800002a0ll + 0x1000000ll * ((a) & 0x7f);
+    __cavm_csr_fatal("OCLAX_FIFO_TRIG", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_OCLAX_FIFO_TRIG(a) cavm_oclax_fifo_trig_t
+#define bustype_CAVM_OCLAX_FIFO_TRIG(a) CSR_TYPE_RSL
+#define basename_CAVM_OCLAX_FIFO_TRIG(a) "OCLAX_FIFO_TRIG"
+#define device_bar_CAVM_OCLAX_FIFO_TRIG(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_OCLAX_FIFO_TRIG(a) (a)
+#define arguments_CAVM_OCLAX_FIFO_TRIG(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) ocla#_fifo_wrap
+ *
+ * OCLA Capture FIFO Wrap Counter Registers
+ */
+union cavm_oclax_fifo_wrap
+{
+    uint64_t u;
+    struct cavm_oclax_fifo_wrap_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t wraps                 : 32; /**< [ 31:  0](R/W/H) Number of times FIFO has wrapped since trigger.
+                                                                 Cleared when OCLA()_STATE_INT[TRIG] is clear.
+                                                                 This count has a one cycle lag observing when a trigger event occurs. */
+#else /* Word 0 - Little Endian */
+        uint64_t wraps                 : 32; /**< [ 31:  0](R/W/H) Number of times FIFO has wrapped since trigger.
+                                                                 Cleared when OCLA()_STATE_INT[TRIG] is clear.
+                                                                 This count has a one cycle lag observing when a trigger event occurs. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_oclax_fifo_wrap_s cn; */
+};
+typedef union cavm_oclax_fifo_wrap cavm_oclax_fifo_wrap_t;
+
+static inline uint64_t CAVM_OCLAX_FIFO_WRAP(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_OCLAX_FIFO_WRAP(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=23) || (a==64)))
+        return 0x87e380000280ll + 0x1000000ll * ((a) & 0x7f);
+    __cavm_csr_fatal("OCLAX_FIFO_WRAP", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_OCLAX_FIFO_WRAP(a) cavm_oclax_fifo_wrap_t
+#define bustype_CAVM_OCLAX_FIFO_WRAP(a) CSR_TYPE_RSL
+#define basename_CAVM_OCLAX_FIFO_WRAP(a) "OCLAX_FIFO_WRAP"
+#define device_bar_CAVM_OCLAX_FIFO_WRAP(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_OCLAX_FIFO_WRAP(a) (a)
+#define arguments_CAVM_OCLAX_FIFO_WRAP(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) ocla#_fsm#_and#_i#
+ *
+ * OCLA FSM PLA AND Tree Registers
+ * Values for PLA-AND plane. AND(0..15) represents the 16 allowed AND terms. I(0..1) for I=0
+ * indicates the term non-inverted, for I=1 indicates the term inverted. Any AND tree may be
+ * disabled by setting the same bit in both _I(0) and _I(1), as '((1) & !(1))' is always false.
+ */
+union cavm_oclax_fsmx_andx_ix
+{
+    uint64_t u;
+    struct cavm_oclax_fsmx_andx_ix_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t trig                  : 1;  /**< [ 15: 15](R/W) AND plane control for trigger FSM input. */
+        uint64_t mcd                   : 3;  /**< [ 14: 12](R/W) AND plane control for multichip debug (MCD) 0..2 FSM inputs. */
+        uint64_t match                 : 4;  /**< [ 11:  8](R/W) AND plane control for matcher 0..3 FSM inputs. */
+        uint64_t fsm1_state            : 4;  /**< [  7:  4](R/W) AND plane control for FSM 1 last state input. */
+        uint64_t fsm0_state            : 4;  /**< [  3:  0](R/W) AND plane control for FSM 0 last state input. */
+#else /* Word 0 - Little Endian */
+        uint64_t fsm0_state            : 4;  /**< [  3:  0](R/W) AND plane control for FSM 0 last state input. */
+        uint64_t fsm1_state            : 4;  /**< [  7:  4](R/W) AND plane control for FSM 1 last state input. */
+        uint64_t match                 : 4;  /**< [ 11:  8](R/W) AND plane control for matcher 0..3 FSM inputs. */
+        uint64_t mcd                   : 3;  /**< [ 14: 12](R/W) AND plane control for multichip debug (MCD) 0..2 FSM inputs. */
+        uint64_t trig                  : 1;  /**< [ 15: 15](R/W) AND plane control for trigger FSM input. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_oclax_fsmx_andx_ix_s cn; */
+};
+typedef union cavm_oclax_fsmx_andx_ix cavm_oclax_fsmx_andx_ix_t;
+
+static inline uint64_t CAVM_OCLAX_FSMX_ANDX_IX(uint64_t a, uint64_t b, uint64_t c, uint64_t d) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_OCLAX_FSMX_ANDX_IX(uint64_t a, uint64_t b, uint64_t c, uint64_t d)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (((a<=23) || (a==64)) && (b<=1) && (c<=15) && (d<=1)))
+        return 0x87e380300000ll + 0x1000000ll * ((a) & 0x7f) + 0x1000ll * ((b) & 0x1) + 0x10ll * ((c) & 0xf) + 8ll * ((d) & 0x1);
+    __cavm_csr_fatal("OCLAX_FSMX_ANDX_IX", 4, a, b, c, d, 0, 0);
+}
+
+#define typedef_CAVM_OCLAX_FSMX_ANDX_IX(a,b,c,d) cavm_oclax_fsmx_andx_ix_t
+#define bustype_CAVM_OCLAX_FSMX_ANDX_IX(a,b,c,d) CSR_TYPE_RSL
+#define basename_CAVM_OCLAX_FSMX_ANDX_IX(a,b,c,d) "OCLAX_FSMX_ANDX_IX"
+#define device_bar_CAVM_OCLAX_FSMX_ANDX_IX(a,b,c,d) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_OCLAX_FSMX_ANDX_IX(a,b,c,d) (a)
+#define arguments_CAVM_OCLAX_FSMX_ANDX_IX(a,b,c,d) (a),(b),(c),(d)
+
+/**
+ * Register (RSL) ocla#_fsm#_or#
+ *
+ * OCLA FSM PLA AND Tree Registers
+ */
+union cavm_oclax_fsmx_orx
+{
+    uint64_t u;
+    struct cavm_oclax_fsmx_orx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t or_state              : 16; /**< [ 15:  0](R/W) Column to drive on PLA OR-plane. */
+#else /* Word 0 - Little Endian */
+        uint64_t or_state              : 16; /**< [ 15:  0](R/W) Column to drive on PLA OR-plane. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_oclax_fsmx_orx_s cn; */
+};
+typedef union cavm_oclax_fsmx_orx cavm_oclax_fsmx_orx_t;
+
+static inline uint64_t CAVM_OCLAX_FSMX_ORX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_OCLAX_FSMX_ORX(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (((a<=23) || (a==64)) && (b<=1) && (c<=15)))
+        return 0x87e380310000ll + 0x1000000ll * ((a) & 0x7f) + 0x1000ll * ((b) & 0x1) + 8ll * ((c) & 0xf);
+    __cavm_csr_fatal("OCLAX_FSMX_ORX", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_OCLAX_FSMX_ORX(a,b,c) cavm_oclax_fsmx_orx_t
+#define bustype_CAVM_OCLAX_FSMX_ORX(a,b,c) CSR_TYPE_RSL
+#define basename_CAVM_OCLAX_FSMX_ORX(a,b,c) "OCLAX_FSMX_ORX"
+#define device_bar_CAVM_OCLAX_FSMX_ORX(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_OCLAX_FSMX_ORX(a,b,c) (a)
+#define arguments_CAVM_OCLAX_FSMX_ORX(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (RSL) ocla#_fsm#_state#
+ *
+ * OCLA FSM State Registers
+ * See the OCLA chapter text for more details on each of these actions.
+ */
+union cavm_oclax_fsmx_statex
+{
+    uint64_t u;
+    struct cavm_oclax_fsmx_statex_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_31_63        : 33;
+        uint64_t sinfo_set             : 1;  /**< [ 30: 30](R/W) If a control packet is generated in this state (due to capture starting
+                                                                 in the next cycle), set OCLA_CAP_CTL_S[SINFO]. */
+        uint64_t set_int               : 1;  /**< [ 29: 29](R/W) In this state set interrupt. */
+        uint64_t cap                   : 1;  /**< [ 28: 28](R/W) In this state request capture this cycle. */
+        uint64_t set_mcd               : 3;  /**< [ 27: 25](R/W) In this state set MCD. */
+        uint64_t set_trig              : 1;  /**< [ 24: 24](R/W) In this state set internal trigger indication. */
+        uint64_t reserved_20_23        : 4;
+        uint64_t set_val               : 4;  /**< [ 19: 16](R/W) In this state store match value into matcher 0..3. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t clr_cnt               : 4;  /**< [ 11:  8](R/W) In this state clear match counter. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t inc_cnt               : 4;  /**< [  3:  0](R/W) In this state increment match counter. */
+#else /* Word 0 - Little Endian */
+        uint64_t inc_cnt               : 4;  /**< [  3:  0](R/W) In this state increment match counter. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t clr_cnt               : 4;  /**< [ 11:  8](R/W) In this state clear match counter. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t set_val               : 4;  /**< [ 19: 16](R/W) In this state store match value into matcher 0..3. */
+        uint64_t reserved_20_23        : 4;
+        uint64_t set_trig              : 1;  /**< [ 24: 24](R/W) In this state set internal trigger indication. */
+        uint64_t set_mcd               : 3;  /**< [ 27: 25](R/W) In this state set MCD. */
+        uint64_t cap                   : 1;  /**< [ 28: 28](R/W) In this state request capture this cycle. */
+        uint64_t set_int               : 1;  /**< [ 29: 29](R/W) In this state set interrupt. */
+        uint64_t sinfo_set             : 1;  /**< [ 30: 30](R/W) If a control packet is generated in this state (due to capture starting
+                                                                 in the next cycle), set OCLA_CAP_CTL_S[SINFO]. */
+        uint64_t reserved_31_63        : 33;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_oclax_fsmx_statex_s cn; */
+};
+typedef union cavm_oclax_fsmx_statex cavm_oclax_fsmx_statex_t;
+
+static inline uint64_t CAVM_OCLAX_FSMX_STATEX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_OCLAX_FSMX_STATEX(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (((a<=23) || (a==64)) && (b<=1) && (c<=15)))
+        return 0x87e380320000ll + 0x1000000ll * ((a) & 0x7f) + 0x1000ll * ((b) & 0x1) + 8ll * ((c) & 0xf);
+    __cavm_csr_fatal("OCLAX_FSMX_STATEX", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_OCLAX_FSMX_STATEX(a,b,c) cavm_oclax_fsmx_statex_t
+#define bustype_CAVM_OCLAX_FSMX_STATEX(a,b,c) CSR_TYPE_RSL
+#define basename_CAVM_OCLAX_FSMX_STATEX(a,b,c) "OCLAX_FSMX_STATEX"
+#define device_bar_CAVM_OCLAX_FSMX_STATEX(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_OCLAX_FSMX_STATEX(a,b,c) (a)
+#define arguments_CAVM_OCLAX_FSMX_STATEX(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (RSL) ocla#_gen_ctl
+ *
+ * OCLA General Control Registers
+ */
+union cavm_oclax_gen_ctl
+{
+    uint64_t u;
+    struct cavm_oclax_gen_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_9_63         : 55;
+        uint64_t trace_wrap            : 1;  /**< [  8:  8](R/W) Reserved. */
+        uint64_t trace_en              : 1;  /**< [  7:  7](R/W) Reserved. */
+        uint64_t mcdtrig               : 3;  /**< [  6:  4](R/W) Enable MCD triggering. For each bit corresponding to the three MCDs:
+                                                                 0 = MCD does not cause trigger.
+                                                                 1 = When the corresponding MCD is received it will cause
+                                                                 triggering and set OCLA()_STATE_SET[TRIG]. */
+        uint64_t exten                 : 1;  /**< [  3:  3](R/W) Enable external triggering.
+                                                                 0 = External triggering ignored.
+                                                                 1 = When the external trigger pin selected with GPIO_PIN_SEL_E::OCLA_EXT_TRIGGER
+                                                                 is high it will cause
+                                                                 triggering and set OCLA()_STATE_SET[TRIG]. The external device must de-assert the
+                                                                 signal (it is not edge sensitive.) */
+        uint64_t den                   : 1;  /**< [  2:  2](R/W) Enable data bus and counter clocking. When set, the OCLA inbound data bus may be used and
+                                                                 counters may increment. When clear, the bus is always zero and internal flops may be clock
+                                                                 gated off to save power. Must be set for normal operation. Note this will clear
+                                                                 on a software OCLA()_SFT_RST[RESET] reset. */
+        uint64_t stt                   : 1;  /**< [  1:  1](R/W) Store to DRAM directly, bypassing LLC. */
+        uint64_t force_ncbi_clken      : 1;  /**< [  0:  0](R/W) If set, force the NCBI conditional clocks always on. Note this effects ROC OCLA only.
+                                                                 For diagnostic use only. */
+#else /* Word 0 - Little Endian */
+        uint64_t force_ncbi_clken      : 1;  /**< [  0:  0](R/W) If set, force the NCBI conditional clocks always on. Note this effects ROC OCLA only.
+                                                                 For diagnostic use only. */
+        uint64_t stt                   : 1;  /**< [  1:  1](R/W) Store to DRAM directly, bypassing LLC. */
+        uint64_t den                   : 1;  /**< [  2:  2](R/W) Enable data bus and counter clocking. When set, the OCLA inbound data bus may be used and
+                                                                 counters may increment. When clear, the bus is always zero and internal flops may be clock
+                                                                 gated off to save power. Must be set for normal operation. Note this will clear
+                                                                 on a software OCLA()_SFT_RST[RESET] reset. */
+        uint64_t exten                 : 1;  /**< [  3:  3](R/W) Enable external triggering.
+                                                                 0 = External triggering ignored.
+                                                                 1 = When the external trigger pin selected with GPIO_PIN_SEL_E::OCLA_EXT_TRIGGER
+                                                                 is high it will cause
+                                                                 triggering and set OCLA()_STATE_SET[TRIG]. The external device must de-assert the
+                                                                 signal (it is not edge sensitive.) */
+        uint64_t mcdtrig               : 3;  /**< [  6:  4](R/W) Enable MCD triggering. For each bit corresponding to the three MCDs:
+                                                                 0 = MCD does not cause trigger.
+                                                                 1 = When the corresponding MCD is received it will cause
+                                                                 triggering and set OCLA()_STATE_SET[TRIG]. */
+        uint64_t trace_en              : 1;  /**< [  7:  7](R/W) Reserved. */
+        uint64_t trace_wrap            : 1;  /**< [  8:  8](R/W) Reserved. */
+        uint64_t reserved_9_63         : 55;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_oclax_gen_ctl_s cn; */
+};
+typedef union cavm_oclax_gen_ctl cavm_oclax_gen_ctl_t;
+
+static inline uint64_t CAVM_OCLAX_GEN_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_OCLAX_GEN_CTL(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=23) || (a==64)))
+        return 0x87e380000060ll + 0x1000000ll * ((a) & 0x7f);
+    __cavm_csr_fatal("OCLAX_GEN_CTL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_OCLAX_GEN_CTL(a) cavm_oclax_gen_ctl_t
+#define bustype_CAVM_OCLAX_GEN_CTL(a) CSR_TYPE_RSL
+#define basename_CAVM_OCLAX_GEN_CTL(a) "OCLAX_GEN_CTL"
+#define device_bar_CAVM_OCLAX_GEN_CTL(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_OCLAX_GEN_CTL(a) (a)
+#define arguments_CAVM_OCLAX_GEN_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) ocla#_mat#_count
+ *
+ * OCLA Matcher Count Registers
+ */
+union cavm_oclax_matx_count
+{
+    uint64_t u;
+    struct cavm_oclax_matx_count_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t count                 : 32; /**< [ 31:  0](R/W/H) Current counter value. Note software must reset this to zero (or the appropriate count)
+                                                                 before starting capture. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 32; /**< [ 31:  0](R/W/H) Current counter value. Note software must reset this to zero (or the appropriate count)
+                                                                 before starting capture. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_oclax_matx_count_s cn; */
+};
+typedef union cavm_oclax_matx_count cavm_oclax_matx_count_t;
+
+static inline uint64_t CAVM_OCLAX_MATX_COUNT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_OCLAX_MATX_COUNT(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (((a<=23) || (a==64)) && (b<=3)))
+        return 0x87e380230000ll + 0x1000000ll * ((a) & 0x7f) + 0x1000ll * ((b) & 0x3);
+    __cavm_csr_fatal("OCLAX_MATX_COUNT", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_OCLAX_MATX_COUNT(a,b) cavm_oclax_matx_count_t
+#define bustype_CAVM_OCLAX_MATX_COUNT(a,b) CSR_TYPE_RSL
+#define basename_CAVM_OCLAX_MATX_COUNT(a,b) "OCLAX_MATX_COUNT"
+#define device_bar_CAVM_OCLAX_MATX_COUNT(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_OCLAX_MATX_COUNT(a,b) (a)
+#define arguments_CAVM_OCLAX_MATX_COUNT(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) ocla#_mat#_ctl
+ *
+ * OCLA Matcher Control Registers
+ */
+union cavm_oclax_matx_ctl
+{
+    uint64_t u;
+    struct cavm_oclax_matx_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t fsm_ctr               : 1;  /**< [  7:  7](R/W) What output matcher provides to FSM:
+                                                                 0 = FSM receives raw match signal, asserting only in those cycles with matches.
+                                                                 1 = FSM receives OCLA()_MAT()_COUNT \>= OCLA()_MAT()_THRESH. */
+        uint64_t inc_match             : 1;  /**< [  6:  6](R/W) Increment OCLA()_MAT()_COUNT counter automatically on each match. */
+        uint64_t shift                 : 6;  /**< [  5:  0](R/W) Right rotation amount to apply to data loaded into OCLA()_MAT()_VALUE()
+                                                                 register when FSM requests a value load. */
+#else /* Word 0 - Little Endian */
+        uint64_t shift                 : 6;  /**< [  5:  0](R/W) Right rotation amount to apply to data loaded into OCLA()_MAT()_VALUE()
+                                                                 register when FSM requests a value load. */
+        uint64_t inc_match             : 1;  /**< [  6:  6](R/W) Increment OCLA()_MAT()_COUNT counter automatically on each match. */
+        uint64_t fsm_ctr               : 1;  /**< [  7:  7](R/W) What output matcher provides to FSM:
+                                                                 0 = FSM receives raw match signal, asserting only in those cycles with matches.
+                                                                 1 = FSM receives OCLA()_MAT()_COUNT \>= OCLA()_MAT()_THRESH. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_oclax_matx_ctl_s cn; */
+};
+typedef union cavm_oclax_matx_ctl cavm_oclax_matx_ctl_t;
+
+static inline uint64_t CAVM_OCLAX_MATX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_OCLAX_MATX_CTL(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (((a<=23) || (a==64)) && (b<=3)))
+        return 0x87e380200000ll + 0x1000000ll * ((a) & 0x7f) + 0x1000ll * ((b) & 0x3);
+    __cavm_csr_fatal("OCLAX_MATX_CTL", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_OCLAX_MATX_CTL(a,b) cavm_oclax_matx_ctl_t
+#define bustype_CAVM_OCLAX_MATX_CTL(a,b) CSR_TYPE_RSL
+#define basename_CAVM_OCLAX_MATX_CTL(a,b) "OCLAX_MATX_CTL"
+#define device_bar_CAVM_OCLAX_MATX_CTL(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_OCLAX_MATX_CTL(a,b) (a)
+#define arguments_CAVM_OCLAX_MATX_CTL(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) ocla#_mat#_mask#
+ *
+ * OCLA Matcher Compare Mask Registers
+ */
+union cavm_oclax_matx_maskx
+{
+    uint64_t u;
+    struct cavm_oclax_matx_maskx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t mask                  : 36; /**< [ 35:  0](R/W) Bitmask of which bits in OCLA()_MAT()_VALUE() are to be compared.
+
+                                                                 Each bit of OCLA()_MAT()_VALUE() and OCLA()_MAT()_MASK() are combined as
+                                                                 follows:
+
+                                                                 _ If MASK = 1 and VALUE = 0, matches when corresponding bit of data = "0".
+                                                                 _ If MASK = 1 and VALUE = 1, matches when corresponding bit of data = "1".
+                                                                 _ If MASK = 0, matches regardless of corresponding bit of data. */
+#else /* Word 0 - Little Endian */
+        uint64_t mask                  : 36; /**< [ 35:  0](R/W) Bitmask of which bits in OCLA()_MAT()_VALUE() are to be compared.
+
+                                                                 Each bit of OCLA()_MAT()_VALUE() and OCLA()_MAT()_MASK() are combined as
+                                                                 follows:
+
+                                                                 _ If MASK = 1 and VALUE = 0, matches when corresponding bit of data = "0".
+                                                                 _ If MASK = 1 and VALUE = 1, matches when corresponding bit of data = "1".
+                                                                 _ If MASK = 0, matches regardless of corresponding bit of data. */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_oclax_matx_maskx_s cn; */
+};
+typedef union cavm_oclax_matx_maskx cavm_oclax_matx_maskx_t;
+
+static inline uint64_t CAVM_OCLAX_MATX_MASKX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_OCLAX_MATX_MASKX(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (((a<=23) || (a==64)) && (b<=3) && (c<=1)))
+        return 0x87e380220000ll + 0x1000000ll * ((a) & 0x7f) + 0x1000ll * ((b) & 0x3) + 8ll * ((c) & 0x1);
+    __cavm_csr_fatal("OCLAX_MATX_MASKX", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_OCLAX_MATX_MASKX(a,b,c) cavm_oclax_matx_maskx_t
+#define bustype_CAVM_OCLAX_MATX_MASKX(a,b,c) CSR_TYPE_RSL
+#define basename_CAVM_OCLAX_MATX_MASKX(a,b,c) "OCLAX_MATX_MASKX"
+#define device_bar_CAVM_OCLAX_MATX_MASKX(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_OCLAX_MATX_MASKX(a,b,c) (a)
+#define arguments_CAVM_OCLAX_MATX_MASKX(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (RSL) ocla#_mat#_thresh
+ *
+ * OCLA Matcher Count Threshold Registers
+ */
+union cavm_oclax_matx_thresh
+{
+    uint64_t u;
+    struct cavm_oclax_matx_thresh_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t thresh                : 32; /**< [ 31:  0](R/W) Counter threshold value. Compared against OCLA()_MAT()_COUNT to assert matcher
+                                                                 output, and set OCLA()_STATE_INT[OVFL]. */
+#else /* Word 0 - Little Endian */
+        uint64_t thresh                : 32; /**< [ 31:  0](R/W) Counter threshold value. Compared against OCLA()_MAT()_COUNT to assert matcher
+                                                                 output, and set OCLA()_STATE_INT[OVFL]. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_oclax_matx_thresh_s cn; */
+};
+typedef union cavm_oclax_matx_thresh cavm_oclax_matx_thresh_t;
+
+static inline uint64_t CAVM_OCLAX_MATX_THRESH(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_OCLAX_MATX_THRESH(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (((a<=23) || (a==64)) && (b<=3)))
+        return 0x87e380240000ll + 0x1000000ll * ((a) & 0x7f) + 0x1000ll * ((b) & 0x3);
+    __cavm_csr_fatal("OCLAX_MATX_THRESH", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_OCLAX_MATX_THRESH(a,b) cavm_oclax_matx_thresh_t
+#define bustype_CAVM_OCLAX_MATX_THRESH(a,b) CSR_TYPE_RSL
+#define basename_CAVM_OCLAX_MATX_THRESH(a,b) "OCLAX_MATX_THRESH"
+#define device_bar_CAVM_OCLAX_MATX_THRESH(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_OCLAX_MATX_THRESH(a,b) (a)
+#define arguments_CAVM_OCLAX_MATX_THRESH(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) ocla#_mat#_value#
+ *
+ * OCLA Matcher Compare Value Registers
+ */
+union cavm_oclax_matx_valuex
+{
+    uint64_t u;
+    struct cavm_oclax_matx_valuex_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t mask                  : 36; /**< [ 35:  0](R/W/H) Data value to compare against when corresponding bits of OCLA()_MAT()_MASK()
+                                                                 are set. Value may be updated with OCLA()_FSM()_STATE()[SET_VAL]. */
+#else /* Word 0 - Little Endian */
+        uint64_t mask                  : 36; /**< [ 35:  0](R/W/H) Data value to compare against when corresponding bits of OCLA()_MAT()_MASK()
+                                                                 are set. Value may be updated with OCLA()_FSM()_STATE()[SET_VAL]. */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_oclax_matx_valuex_s cn; */
+};
+typedef union cavm_oclax_matx_valuex cavm_oclax_matx_valuex_t;
+
+static inline uint64_t CAVM_OCLAX_MATX_VALUEX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_OCLAX_MATX_VALUEX(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (((a<=23) || (a==64)) && (b<=3) && (c<=1)))
+        return 0x87e380210000ll + 0x1000000ll * ((a) & 0x7f) + 0x1000ll * ((b) & 0x3) + 8ll * ((c) & 0x1);
+    __cavm_csr_fatal("OCLAX_MATX_VALUEX", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_OCLAX_MATX_VALUEX(a,b,c) cavm_oclax_matx_valuex_t
+#define bustype_CAVM_OCLAX_MATX_VALUEX(a,b,c) CSR_TYPE_RSL
+#define basename_CAVM_OCLAX_MATX_VALUEX(a,b,c) "OCLAX_MATX_VALUEX"
+#define device_bar_CAVM_OCLAX_MATX_VALUEX(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_OCLAX_MATX_VALUEX(a,b,c) (a)
+#define arguments_CAVM_OCLAX_MATX_VALUEX(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (RSL) ocla#_mparid
+ *
+ * OCLA Memory Partition ID Register
+ */
+union cavm_oclax_mparid
+{
+    uint64_t u;
+    struct cavm_oclax_mparid_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t mparid                : 8;  /**< [  7:  0](R/W) Memory partition ID. Only used for OCLAs inside clusters. */
+#else /* Word 0 - Little Endian */
+        uint64_t mparid                : 8;  /**< [  7:  0](R/W) Memory partition ID. Only used for OCLAs inside clusters. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_oclax_mparid_s cn; */
+};
+typedef union cavm_oclax_mparid cavm_oclax_mparid_t;
+
+static inline uint64_t CAVM_OCLAX_MPARID(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_OCLAX_MPARID(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=23) || (a==64)))
+        return 0x87e3800000e0ll + 0x1000000ll * ((a) & 0x7f);
+    __cavm_csr_fatal("OCLAX_MPARID", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_OCLAX_MPARID(a) cavm_oclax_mparid_t
+#define bustype_CAVM_OCLAX_MPARID(a) CSR_TYPE_RSL
+#define basename_CAVM_OCLAX_MPARID(a) "OCLAX_MPARID"
+#define device_bar_CAVM_OCLAX_MPARID(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_OCLAX_MPARID(a) (a)
+#define arguments_CAVM_OCLAX_MPARID(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) ocla#_msix_pba#
+ *
+ * OCLA MSI-X Pending Bit Array Registers
+ * This register is the MSI-X PBA table; the bit number is indexed by the OCLA_INT_VEC_E enumeration.
+ */
+union cavm_oclax_msix_pbax
+{
+    uint64_t u;
+    struct cavm_oclax_msix_pbax_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated OCLA()_MSIX_VEC()_CTL, enumerated by OCLA_INT_VEC_E.
+                                                                 Bits that have no associated OCLA_INT_VEC_E are 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated OCLA()_MSIX_VEC()_CTL, enumerated by OCLA_INT_VEC_E.
+                                                                 Bits that have no associated OCLA_INT_VEC_E are 0. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_oclax_msix_pbax_s cn; */
+};
+typedef union cavm_oclax_msix_pbax cavm_oclax_msix_pbax_t;
+
+static inline uint64_t CAVM_OCLAX_MSIX_PBAX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_OCLAX_MSIX_PBAX(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (((a<=23) || (a==64)) && (b==0)))
+        return 0x87e3808f0000ll + 0x1000000ll * ((a) & 0x7f) + 8ll * ((b) & 0x0);
+    __cavm_csr_fatal("OCLAX_MSIX_PBAX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_OCLAX_MSIX_PBAX(a,b) cavm_oclax_msix_pbax_t
+#define bustype_CAVM_OCLAX_MSIX_PBAX(a,b) CSR_TYPE_RSL
+#define basename_CAVM_OCLAX_MSIX_PBAX(a,b) "OCLAX_MSIX_PBAX"
+#define device_bar_CAVM_OCLAX_MSIX_PBAX(a,b) 0x4 /* PF_BAR4 */
+#define busnum_CAVM_OCLAX_MSIX_PBAX(a,b) (a)
+#define arguments_CAVM_OCLAX_MSIX_PBAX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) ocla#_msix_vec#_addr
+ *
+ * OCLA MSI-X Vector-Table Address Register
+ * This register is the MSI-X vector table, indexed by the OCLA_INT_VEC_E enumeration.
+ */
+union cavm_oclax_msix_vecx_addr
+{
+    uint64_t u;
+    struct cavm_oclax_msix_vecx_addr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_53_63        : 11;
+        uint64_t addr                  : 51; /**< [ 52:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
+        uint64_t reserved_1            : 1;
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
+                                                                 The vector's IOVA is sent to the SMMU as nonsecure (though this only affects
+                                                                 physical addresses if PCCPF_XXX_VSEC_SCTL[MSIX_PHYS]=1).
+
+                                                                 1 = This vector's OCLA()_MSIX_VEC()_ADDR, OCLA()_MSIX_VEC()_CTL, and
+                                                                 corresponding bit of OCLA()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 by the nonsecure world.
+                                                                 The vector's IOVA is sent to the SMMU as secure (though this only affects
+                                                                 physical addresses if PCCPF_XXX_VSEC_SCTL[MSIX_PHYS]=1 or
+                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC_PHYS]=1).
+
+                                                                 If PCCPF_OCLA()_VSEC_SCTL[MSIX_SEC] (for documentation, see
+                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if [SECVEC]
+                                                                 was set.
+
+                                                                 Also note the following:
+                                                                 * When PCCPF_XXX_VSEC_SCTL[MSIX_SEC_EN]=1, all secure vectors (including secure
+                                                                 VF vectors) will act as if PCCPF/PCCVF_XXX_MSIX_CAP_HDR[MSIXEN]=1,
+                                                                 PCCPF/PCCVF_XXX_MSIX_CAP_HDR[FUNM]=0 and PCCPF/PCCVF_XXX_CMD[ME]=1.
+                                                                 * When PCCPF_XXX_VSEC_SCTL[MSIX_SEC_PHYS]=1, all secure vectors (including
+                                                                 secure VF vectors) are considered physical, regardless of
+                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_PHYS]. */
+#else /* Word 0 - Little Endian */
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
+                                                                 The vector's IOVA is sent to the SMMU as nonsecure (though this only affects
+                                                                 physical addresses if PCCPF_XXX_VSEC_SCTL[MSIX_PHYS]=1).
+
+                                                                 1 = This vector's OCLA()_MSIX_VEC()_ADDR, OCLA()_MSIX_VEC()_CTL, and
+                                                                 corresponding bit of OCLA()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 by the nonsecure world.
+                                                                 The vector's IOVA is sent to the SMMU as secure (though this only affects
+                                                                 physical addresses if PCCPF_XXX_VSEC_SCTL[MSIX_PHYS]=1 or
+                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC_PHYS]=1).
+
+                                                                 If PCCPF_OCLA()_VSEC_SCTL[MSIX_SEC] (for documentation, see
+                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if [SECVEC]
+                                                                 was set.
+
+                                                                 Also note the following:
+                                                                 * When PCCPF_XXX_VSEC_SCTL[MSIX_SEC_EN]=1, all secure vectors (including secure
+                                                                 VF vectors) will act as if PCCPF/PCCVF_XXX_MSIX_CAP_HDR[MSIXEN]=1,
+                                                                 PCCPF/PCCVF_XXX_MSIX_CAP_HDR[FUNM]=0 and PCCPF/PCCVF_XXX_CMD[ME]=1.
+                                                                 * When PCCPF_XXX_VSEC_SCTL[MSIX_SEC_PHYS]=1, all secure vectors (including
+                                                                 secure VF vectors) are considered physical, regardless of
+                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_PHYS]. */
+        uint64_t reserved_1            : 1;
+        uint64_t addr                  : 51; /**< [ 52:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
+        uint64_t reserved_53_63        : 11;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_oclax_msix_vecx_addr_s cn; */
+};
+typedef union cavm_oclax_msix_vecx_addr cavm_oclax_msix_vecx_addr_t;
+
+static inline uint64_t CAVM_OCLAX_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_OCLAX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (((a<=23) || (a==64)) && (b==0)))
+        return 0x87e380800000ll + 0x1000000ll * ((a) & 0x7f) + 0x10ll * ((b) & 0x0);
+    __cavm_csr_fatal("OCLAX_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_OCLAX_MSIX_VECX_ADDR(a,b) cavm_oclax_msix_vecx_addr_t
+#define bustype_CAVM_OCLAX_MSIX_VECX_ADDR(a,b) CSR_TYPE_RSL
+#define basename_CAVM_OCLAX_MSIX_VECX_ADDR(a,b) "OCLAX_MSIX_VECX_ADDR"
+#define device_bar_CAVM_OCLAX_MSIX_VECX_ADDR(a,b) 0x4 /* PF_BAR4 */
+#define busnum_CAVM_OCLAX_MSIX_VECX_ADDR(a,b) (a)
+#define arguments_CAVM_OCLAX_MSIX_VECX_ADDR(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) ocla#_msix_vec#_ctl
+ *
+ * OCLA MSI-X Vector-Table Control and Data Register
+ * This register is the MSI-X vector table, indexed by the OCLA_INT_VEC_E enumeration.
+ */
+union cavm_oclax_msix_vecx_ctl
+{
+    uint64_t u;
+    struct cavm_oclax_msix_vecx_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_33_63        : 31;
+        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts are sent to this vector. */
+        uint64_t data                  : 32; /**< [ 31:  0](R/W) Data to use for MSI-X delivery of this vector. */
+#else /* Word 0 - Little Endian */
+        uint64_t data                  : 32; /**< [ 31:  0](R/W) Data to use for MSI-X delivery of this vector. */
+        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts are sent to this vector. */
+        uint64_t reserved_33_63        : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_oclax_msix_vecx_ctl_s cn; */
+};
+typedef union cavm_oclax_msix_vecx_ctl cavm_oclax_msix_vecx_ctl_t;
+
+static inline uint64_t CAVM_OCLAX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_OCLAX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (((a<=23) || (a==64)) && (b==0)))
+        return 0x87e380800008ll + 0x1000000ll * ((a) & 0x7f) + 0x10ll * ((b) & 0x0);
+    __cavm_csr_fatal("OCLAX_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_OCLAX_MSIX_VECX_CTL(a,b) cavm_oclax_msix_vecx_ctl_t
+#define bustype_CAVM_OCLAX_MSIX_VECX_CTL(a,b) CSR_TYPE_RSL
+#define basename_CAVM_OCLAX_MSIX_VECX_CTL(a,b) "OCLAX_MSIX_VECX_CTL"
+#define device_bar_CAVM_OCLAX_MSIX_VECX_CTL(a,b) 0x4 /* PF_BAR4 */
+#define busnum_CAVM_OCLAX_MSIX_VECX_CTL(a,b) (a)
+#define arguments_CAVM_OCLAX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) ocla#_raw#
+ *
+ * OCLA Raw Input Registers
+ */
+union cavm_oclax_rawx
+{
+    uint64_t u;
+    struct cavm_oclax_rawx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t raw                   : 36; /**< [ 35:  0](RO/H) Raw value of debug bus input signals into OCLA. */
+#else /* Word 0 - Little Endian */
+        uint64_t raw                   : 36; /**< [ 35:  0](RO/H) Raw value of debug bus input signals into OCLA. */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_oclax_rawx_s cn; */
+};
+typedef union cavm_oclax_rawx cavm_oclax_rawx_t;
+
+static inline uint64_t CAVM_OCLAX_RAWX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_OCLAX_RAWX(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (((a<=23) || (a==64)) && (b<=1)))
+        return 0x87e380000100ll + 0x1000000ll * ((a) & 0x7f) + 8ll * ((b) & 0x1);
+    __cavm_csr_fatal("OCLAX_RAWX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_OCLAX_RAWX(a,b) cavm_oclax_rawx_t
+#define bustype_CAVM_OCLAX_RAWX(a,b) CSR_TYPE_RSL
+#define basename_CAVM_OCLAX_RAWX(a,b) "OCLAX_RAWX"
+#define device_bar_CAVM_OCLAX_RAWX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_OCLAX_RAWX(a,b) (a)
+#define arguments_CAVM_OCLAX_RAWX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) ocla#_sft_rst
+ *
+ * OCLA Reset Registers
+ */
+union cavm_oclax_sft_rst
+{
+    uint64_t u;
+    struct cavm_oclax_sft_rst_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t reset                 : 1;  /**< [  0:  0](R/W1) Reset. When written with one, reset OCLA excluding the RSL interface. Software
+                                                                 must wait at least 1024 coprocessor-clocks after resetting before sending any
+                                                                 other CSR read/write operations into OCLA. OCLA()_GEN_CTL[DEN] must be
+                                                                 clear before requesting this reset. */
+#else /* Word 0 - Little Endian */
+        uint64_t reset                 : 1;  /**< [  0:  0](R/W1) Reset. When written with one, reset OCLA excluding the RSL interface. Software
+                                                                 must wait at least 1024 coprocessor-clocks after resetting before sending any
+                                                                 other CSR read/write operations into OCLA. OCLA()_GEN_CTL[DEN] must be
+                                                                 clear before requesting this reset. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_oclax_sft_rst_s cn; */
+};
+typedef union cavm_oclax_sft_rst cavm_oclax_sft_rst_t;
+
+static inline uint64_t CAVM_OCLAX_SFT_RST(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_OCLAX_SFT_RST(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=23) || (a==64)))
+        return 0x87e380000020ll + 0x1000000ll * ((a) & 0x7f);
+    __cavm_csr_fatal("OCLAX_SFT_RST", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_OCLAX_SFT_RST(a) cavm_oclax_sft_rst_t
+#define bustype_CAVM_OCLAX_SFT_RST(a) CSR_TYPE_RSL
+#define basename_CAVM_OCLAX_SFT_RST(a) "OCLAX_SFT_RST"
+#define device_bar_CAVM_OCLAX_SFT_RST(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_OCLAX_SFT_RST(a) (a)
+#define arguments_CAVM_OCLAX_SFT_RST(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) ocla#_stack_base
+ *
+ * OCLA Stack Base Registers
+ * This register controls the DDR stack, and is reserved when OCLA()_CONST[NO_DDR] = 1.
+ */
+union cavm_oclax_stack_base
+{
+    uint64_t u;
+    struct cavm_oclax_stack_base_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_53_63        : 11;
+        uint64_t ptr                   : 46; /**< [ 52:  7](R/W) Memory address for base of overflow stack. This address must be on the local node in a
+                                                                 CCPI system.
+                                                                 This may be an IOVA or physical address; see [PA]. */
+        uint64_t reserved_2_6          : 5;
+        uint64_t sec                   : 1;  /**< [  1:  1](SR/W) If set, and physical addressing is used as described under [PA], the physical address
+                                                                 is in the secure world. */
+        uint64_t pa                    : 1;  /**< [  0:  0](R/W) When set, [PTR] and all DMA addresses are physical addresses and will not be translated by
+                                                                 the SMMU.  When clear, is a virtual address which is subject to SMMU translation.
+
+                                                                 Only used for the OCLA in the coprocessor-clock domain; for OCLAs in the core-clock
+                                                                 domains this bit is ignored, addresses are always physical. */
+#else /* Word 0 - Little Endian */
+        uint64_t pa                    : 1;  /**< [  0:  0](R/W) When set, [PTR] and all DMA addresses are physical addresses and will not be translated by
+                                                                 the SMMU.  When clear, is a virtual address which is subject to SMMU translation.
+
+                                                                 Only used for the OCLA in the coprocessor-clock domain; for OCLAs in the core-clock
+                                                                 domains this bit is ignored, addresses are always physical. */
+        uint64_t sec                   : 1;  /**< [  1:  1](SR/W) If set, and physical addressing is used as described under [PA], the physical address
+                                                                 is in the secure world. */
+        uint64_t reserved_2_6          : 5;
+        uint64_t ptr                   : 46; /**< [ 52:  7](R/W) Memory address for base of overflow stack. This address must be on the local node in a
+                                                                 CCPI system.
+                                                                 This may be an IOVA or physical address; see [PA]. */
+        uint64_t reserved_53_63        : 11;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_oclax_stack_base_s cn; */
+};
+typedef union cavm_oclax_stack_base cavm_oclax_stack_base_t;
+
+static inline uint64_t CAVM_OCLAX_STACK_BASE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_OCLAX_STACK_BASE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=23) || (a==64)))
+        return 0x87e380000400ll + 0x1000000ll * ((a) & 0x7f);
+    __cavm_csr_fatal("OCLAX_STACK_BASE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_OCLAX_STACK_BASE(a) cavm_oclax_stack_base_t
+#define bustype_CAVM_OCLAX_STACK_BASE(a) CSR_TYPE_RSL
+#define basename_CAVM_OCLAX_STACK_BASE(a) "OCLAX_STACK_BASE"
+#define device_bar_CAVM_OCLAX_STACK_BASE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_OCLAX_STACK_BASE(a) (a)
+#define arguments_CAVM_OCLAX_STACK_BASE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) ocla#_stack_cur
+ *
+ * OCLA Stack Current Registers
+ * This register controls the DDR stack, and is reserved when OCLA()_CONST[NO_DDR] = 1.
+ */
+union cavm_oclax_stack_cur
+{
+    uint64_t u;
+    struct cavm_oclax_stack_cur_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_53_63        : 11;
+        uint64_t ptr                   : 46; /**< [ 52:  7](R/W/H) Next address to write for overflow stack. This address must be on the local node in a
+                                                                 CCPI system. During initialization this must be between OCLA()_STACK_BASE and
+                                                                 OCLA()_STACK_TOP.
+                                                                 This may be an IOVA or physical address; see OCLA()_STACK_BASE[PA]. */
+        uint64_t reserved_0_6          : 7;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_6          : 7;
+        uint64_t ptr                   : 46; /**< [ 52:  7](R/W/H) Next address to write for overflow stack. This address must be on the local node in a
+                                                                 CCPI system. During initialization this must be between OCLA()_STACK_BASE and
+                                                                 OCLA()_STACK_TOP.
+                                                                 This may be an IOVA or physical address; see OCLA()_STACK_BASE[PA]. */
+        uint64_t reserved_53_63        : 11;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_oclax_stack_cur_s cn; */
+};
+typedef union cavm_oclax_stack_cur cavm_oclax_stack_cur_t;
+
+static inline uint64_t CAVM_OCLAX_STACK_CUR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_OCLAX_STACK_CUR(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=23) || (a==64)))
+        return 0x87e380000480ll + 0x1000000ll * ((a) & 0x7f);
+    __cavm_csr_fatal("OCLAX_STACK_CUR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_OCLAX_STACK_CUR(a) cavm_oclax_stack_cur_t
+#define bustype_CAVM_OCLAX_STACK_CUR(a) CSR_TYPE_RSL
+#define basename_CAVM_OCLAX_STACK_CUR(a) "OCLAX_STACK_CUR"
+#define device_bar_CAVM_OCLAX_STACK_CUR(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_OCLAX_STACK_CUR(a) (a)
+#define arguments_CAVM_OCLAX_STACK_CUR(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) ocla#_stack_store_cnt
+ *
+ * OCLA Stack Stores Performance Counter Registers
+ * This register controls the DDR stack, and is reserved when OCLA()_CONST[NO_DDR] = 1.
+ */
+union cavm_oclax_stack_store_cnt
+{
+    uint64_t u;
+    struct cavm_oclax_stack_store_cnt_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t stores                : 32; /**< [ 31:  0](R/W/H) Number of cache line stores sent to memory subsystem. Not cleared by hardware. */
+#else /* Word 0 - Little Endian */
+        uint64_t stores                : 32; /**< [ 31:  0](R/W/H) Number of cache line stores sent to memory subsystem. Not cleared by hardware. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_oclax_stack_store_cnt_s cn; */
+};
+typedef union cavm_oclax_stack_store_cnt cavm_oclax_stack_store_cnt_t;
+
+static inline uint64_t CAVM_OCLAX_STACK_STORE_CNT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_OCLAX_STACK_STORE_CNT(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=23) || (a==64)))
+        return 0x87e380000460ll + 0x1000000ll * ((a) & 0x7f);
+    __cavm_csr_fatal("OCLAX_STACK_STORE_CNT", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_OCLAX_STACK_STORE_CNT(a) cavm_oclax_stack_store_cnt_t
+#define bustype_CAVM_OCLAX_STACK_STORE_CNT(a) CSR_TYPE_RSL
+#define basename_CAVM_OCLAX_STACK_STORE_CNT(a) "OCLAX_STACK_STORE_CNT"
+#define device_bar_CAVM_OCLAX_STACK_STORE_CNT(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_OCLAX_STACK_STORE_CNT(a) (a)
+#define arguments_CAVM_OCLAX_STACK_STORE_CNT(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) ocla#_stack_top
+ *
+ * OCLA Stack Top Address Registers
+ * This register controls the DDR stack, and is reserved when OCLA()_CONST[NO_DDR] = 1.
+ */
+union cavm_oclax_stack_top
+{
+    uint64_t u;
+    struct cavm_oclax_stack_top_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_53_63        : 11;
+        uint64_t ptr                   : 46; /**< [ 52:  7](R/W) Memory address for top of overflow stack plus one. This address must be on the local node
+                                                                 in a CCPI system.
+                                                                 This may be an IOVA or physical address; see OCLA()_STACK_BASE[PA]. */
+        uint64_t reserved_0_6          : 7;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_6          : 7;
+        uint64_t ptr                   : 46; /**< [ 52:  7](R/W) Memory address for top of overflow stack plus one. This address must be on the local node
+                                                                 in a CCPI system.
+                                                                 This may be an IOVA or physical address; see OCLA()_STACK_BASE[PA]. */
+        uint64_t reserved_53_63        : 11;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_oclax_stack_top_s cn; */
+};
+typedef union cavm_oclax_stack_top cavm_oclax_stack_top_t;
+
+static inline uint64_t CAVM_OCLAX_STACK_TOP(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_OCLAX_STACK_TOP(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=23) || (a==64)))
+        return 0x87e380000420ll + 0x1000000ll * ((a) & 0x7f);
+    __cavm_csr_fatal("OCLAX_STACK_TOP", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_OCLAX_STACK_TOP(a) cavm_oclax_stack_top_t
+#define bustype_CAVM_OCLAX_STACK_TOP(a) CSR_TYPE_RSL
+#define basename_CAVM_OCLAX_STACK_TOP(a) "OCLAX_STACK_TOP"
+#define device_bar_CAVM_OCLAX_STACK_TOP(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_OCLAX_STACK_TOP(a) (a)
+#define arguments_CAVM_OCLAX_STACK_TOP(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) ocla#_stack_wrap
+ *
+ * OCLA Stack Wrap Counter Registers
+ * This register controls the DDR stack, and is reserved when OCLA()_CONST[NO_DDR] = 1.
+ */
+union cavm_oclax_stack_wrap
+{
+    uint64_t u;
+    struct cavm_oclax_stack_wrap_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t wraps                 : 32; /**< [ 31:  0](R/W/H) Number of times stack has been reset to OCLA()_STACK_BASE since trigger. Cleared when
+                                                                 OCLA()_STATE_INT[TRIG] clear. */
+#else /* Word 0 - Little Endian */
+        uint64_t wraps                 : 32; /**< [ 31:  0](R/W/H) Number of times stack has been reset to OCLA()_STACK_BASE since trigger. Cleared when
+                                                                 OCLA()_STATE_INT[TRIG] clear. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_oclax_stack_wrap_s cn; */
+};
+typedef union cavm_oclax_stack_wrap cavm_oclax_stack_wrap_t;
+
+static inline uint64_t CAVM_OCLAX_STACK_WRAP(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_OCLAX_STACK_WRAP(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=23) || (a==64)))
+        return 0x87e380000440ll + 0x1000000ll * ((a) & 0x7f);
+    __cavm_csr_fatal("OCLAX_STACK_WRAP", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_OCLAX_STACK_WRAP(a) cavm_oclax_stack_wrap_t
+#define bustype_CAVM_OCLAX_STACK_WRAP(a) CSR_TYPE_RSL
+#define basename_CAVM_OCLAX_STACK_WRAP(a) "OCLAX_STACK_WRAP"
+#define device_bar_CAVM_OCLAX_STACK_WRAP(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_OCLAX_STACK_WRAP(a) (a)
+#define arguments_CAVM_OCLAX_STACK_WRAP(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) ocla#_stage#
+ *
+ * OCLA Input Staging Registers
+ */
+union cavm_oclax_stagex
+{
+    uint64_t u;
+    struct cavm_oclax_stagex_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t dly                   : 4;  /**< [  3:  0](R/W) Cycles of delay staging to apply to corresponding input bit. */
+#else /* Word 0 - Little Endian */
+        uint64_t dly                   : 4;  /**< [  3:  0](R/W) Cycles of delay staging to apply to corresponding input bit. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_oclax_stagex_s cn; */
+};
+typedef union cavm_oclax_stagex cavm_oclax_stagex_t;
+
+static inline uint64_t CAVM_OCLAX_STAGEX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_OCLAX_STAGEX(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (((a<=23) || (a==64)) && (b<=71)))
+        return 0x87e380100000ll + 0x1000000ll * ((a) & 0x7f) + 8ll * ((b) & 0x7f);
+    __cavm_csr_fatal("OCLAX_STAGEX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_OCLAX_STAGEX(a,b) cavm_oclax_stagex_t
+#define bustype_CAVM_OCLAX_STAGEX(a,b) CSR_TYPE_RSL
+#define basename_CAVM_OCLAX_STAGEX(a,b) "OCLAX_STAGEX"
+#define device_bar_CAVM_OCLAX_STAGEX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_OCLAX_STAGEX(a,b) (a)
+#define arguments_CAVM_OCLAX_STAGEX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) ocla#_state_ena_w1c
+ *
+ * OCLA State Interrupt Enable Clear Registers
+ * This register clears interrupt enable bits.
+ */
+union cavm_oclax_state_ena_w1c
+{
+    uint64_t u;
+    struct cavm_oclax_state_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_19_63        : 45;
+        uint64_t ddrfull               : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears OCLA()_STATE_ENA_W1S[DDRFULL]. */
+        uint64_t wmark                 : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears OCLA()_STATE_ENA_W1S[WMARK]. */
+        uint64_t overfull              : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears OCLA()_STATE_ENA_W1S[OVERFULL]. */
+        uint64_t trigfull              : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears OCLA()_STATE_ENA_W1S[TRIGFULL]. */
+        uint64_t captured              : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears OCLA()_STATE_ENA_W1S[CAPTURED]. */
+        uint64_t fsm1_int              : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears OCLA()_STATE_ENA_W1S[FSM1_INT]. */
+        uint64_t fsm0_int              : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears OCLA()_STATE_ENA_W1S[FSM0_INT]. */
+        uint64_t mcd                   : 3;  /**< [ 11:  9](R/W1C/H) Reads or clears OCLA()_STATE_ENA_W1S[MCD]. */
+        uint64_t trig                  : 1;  /**< [  8:  8](R/W1C/H) Reads or clears OCLA()_STATE_ENA_W1S[TRIG]. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t ovfl                  : 4;  /**< [  3:  0](R/W1C/H) Reads or clears OCLA()_STATE_ENA_W1S[OVFL]. */
+#else /* Word 0 - Little Endian */
+        uint64_t ovfl                  : 4;  /**< [  3:  0](R/W1C/H) Reads or clears OCLA()_STATE_ENA_W1S[OVFL]. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t trig                  : 1;  /**< [  8:  8](R/W1C/H) Reads or clears OCLA()_STATE_ENA_W1S[TRIG]. */
+        uint64_t mcd                   : 3;  /**< [ 11:  9](R/W1C/H) Reads or clears OCLA()_STATE_ENA_W1S[MCD]. */
+        uint64_t fsm0_int              : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears OCLA()_STATE_ENA_W1S[FSM0_INT]. */
+        uint64_t fsm1_int              : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears OCLA()_STATE_ENA_W1S[FSM1_INT]. */
+        uint64_t captured              : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears OCLA()_STATE_ENA_W1S[CAPTURED]. */
+        uint64_t trigfull              : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears OCLA()_STATE_ENA_W1S[TRIGFULL]. */
+        uint64_t overfull              : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears OCLA()_STATE_ENA_W1S[OVERFULL]. */
+        uint64_t wmark                 : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears OCLA()_STATE_ENA_W1S[WMARK]. */
+        uint64_t ddrfull               : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears OCLA()_STATE_ENA_W1S[DDRFULL]. */
+        uint64_t reserved_19_63        : 45;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_oclax_state_ena_w1c_s cn; */
+};
+typedef union cavm_oclax_state_ena_w1c cavm_oclax_state_ena_w1c_t;
+
+static inline uint64_t CAVM_OCLAX_STATE_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_OCLAX_STATE_ENA_W1C(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=23) || (a==64)))
+        return 0x87e3800000b8ll + 0x1000000ll * ((a) & 0x7f);
+    __cavm_csr_fatal("OCLAX_STATE_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_OCLAX_STATE_ENA_W1C(a) cavm_oclax_state_ena_w1c_t
+#define bustype_CAVM_OCLAX_STATE_ENA_W1C(a) CSR_TYPE_RSL
+#define basename_CAVM_OCLAX_STATE_ENA_W1C(a) "OCLAX_STATE_ENA_W1C"
+#define device_bar_CAVM_OCLAX_STATE_ENA_W1C(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_OCLAX_STATE_ENA_W1C(a) (a)
+#define arguments_CAVM_OCLAX_STATE_ENA_W1C(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) ocla#_state_ena_w1s
+ *
+ * OCLA State Interrupt Enable Set Registers
+ * This register sets interrupt enable bits.
+ */
+union cavm_oclax_state_ena_w1s
+{
+    uint64_t u;
+    struct cavm_oclax_state_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_19_63        : 45;
+        uint64_t ddrfull               : 1;  /**< [ 18: 18](R/W1S/H) Enables reporting of OCLA()_STATE_INT[DDRFULL]. */
+        uint64_t wmark                 : 1;  /**< [ 17: 17](R/W1S/H) Enables reporting of OCLA()_STATE_INT[WMARK]. */
+        uint64_t overfull              : 1;  /**< [ 16: 16](R/W1S/H) Enables reporting of OCLA()_STATE_INT[OVERFULL]. */
+        uint64_t trigfull              : 1;  /**< [ 15: 15](R/W1S/H) Enables reporting of OCLA()_STATE_INT[TRIGFULL]. */
+        uint64_t captured              : 1;  /**< [ 14: 14](R/W1S/H) Enables reporting of OCLA()_STATE_INT[CAPTURED]. */
+        uint64_t fsm1_int              : 1;  /**< [ 13: 13](R/W1S/H) Enables reporting of OCLA()_STATE_INT[FSM1_INT]. */
+        uint64_t fsm0_int              : 1;  /**< [ 12: 12](R/W1S/H) Enables reporting of OCLA()_STATE_INT[FSM0_INT]. */
+        uint64_t mcd                   : 3;  /**< [ 11:  9](R/W1S/H) Enables reporting of OCLA()_STATE_INT[MCD]. */
+        uint64_t trig                  : 1;  /**< [  8:  8](R/W1S/H) Enables reporting of OCLA()_STATE_INT[TRIG]. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t ovfl                  : 4;  /**< [  3:  0](R/W1S/H) Enables reporting of OCLA()_STATE_INT[OVFL]. */
+#else /* Word 0 - Little Endian */
+        uint64_t ovfl                  : 4;  /**< [  3:  0](R/W1S/H) Enables reporting of OCLA()_STATE_INT[OVFL]. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t trig                  : 1;  /**< [  8:  8](R/W1S/H) Enables reporting of OCLA()_STATE_INT[TRIG]. */
+        uint64_t mcd                   : 3;  /**< [ 11:  9](R/W1S/H) Enables reporting of OCLA()_STATE_INT[MCD]. */
+        uint64_t fsm0_int              : 1;  /**< [ 12: 12](R/W1S/H) Enables reporting of OCLA()_STATE_INT[FSM0_INT]. */
+        uint64_t fsm1_int              : 1;  /**< [ 13: 13](R/W1S/H) Enables reporting of OCLA()_STATE_INT[FSM1_INT]. */
+        uint64_t captured              : 1;  /**< [ 14: 14](R/W1S/H) Enables reporting of OCLA()_STATE_INT[CAPTURED]. */
+        uint64_t trigfull              : 1;  /**< [ 15: 15](R/W1S/H) Enables reporting of OCLA()_STATE_INT[TRIGFULL]. */
+        uint64_t overfull              : 1;  /**< [ 16: 16](R/W1S/H) Enables reporting of OCLA()_STATE_INT[OVERFULL]. */
+        uint64_t wmark                 : 1;  /**< [ 17: 17](R/W1S/H) Enables reporting of OCLA()_STATE_INT[WMARK]. */
+        uint64_t ddrfull               : 1;  /**< [ 18: 18](R/W1S/H) Enables reporting of OCLA()_STATE_INT[DDRFULL]. */
+        uint64_t reserved_19_63        : 45;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_oclax_state_ena_w1s_s cn; */
+};
+typedef union cavm_oclax_state_ena_w1s cavm_oclax_state_ena_w1s_t;
+
+static inline uint64_t CAVM_OCLAX_STATE_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_OCLAX_STATE_ENA_W1S(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=23) || (a==64)))
+        return 0x87e3800000b0ll + 0x1000000ll * ((a) & 0x7f);
+    __cavm_csr_fatal("OCLAX_STATE_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_OCLAX_STATE_ENA_W1S(a) cavm_oclax_state_ena_w1s_t
+#define bustype_CAVM_OCLAX_STATE_ENA_W1S(a) CSR_TYPE_RSL
+#define basename_CAVM_OCLAX_STATE_ENA_W1S(a) "OCLAX_STATE_ENA_W1S"
+#define device_bar_CAVM_OCLAX_STATE_ENA_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_OCLAX_STATE_ENA_W1S(a) (a)
+#define arguments_CAVM_OCLAX_STATE_ENA_W1S(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) ocla#_state_int
+ *
+ * OCLA State and Interrupt Registers
+ */
+union cavm_oclax_state_int
+{
+    uint64_t u;
+    struct cavm_oclax_state_int_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t fsm1_state            : 4;  /**< [ 63: 60](RO/H) FSM1 current state. */
+        uint64_t fsm0_state            : 4;  /**< [ 59: 56](RO/H) FSM0 current state. */
+        uint64_t reserved_36_55        : 20;
+        uint64_t fsm1_rst              : 1;  /**< [ 35: 35](R/W1C) FSM1 hold in state zero. Writing one to OCLA()_STATE_SET[FSM1_RST] sets this bit and
+                                                                 holds FSM1 in state zero, writing one to OCLA()_STATE_INT[FSM1_RST] removes the hold. */
+        uint64_t fsm0_rst              : 1;  /**< [ 34: 34](R/W1C) FSM0 hold in state zero. Writing one to OCLA()_STATE_SET[FSM0_RST] sets this bit and
+                                                                 holds FSM0 in state zero, writing one to OCLA()_STATE_INT[FSM0_RST] removes the hold. */
+        uint64_t fsm1_ena              : 1;  /**< [ 33: 33](R/W1C/H) FSM1 sequencing enabled. */
+        uint64_t fsm0_ena              : 1;  /**< [ 32: 32](R/W1C/H) FSM0 sequencing enabled. */
+        uint64_t reserved_19_31        : 13;
+        uint64_t ddrfull               : 1;  /**< [ 18: 18](R/W1C/H) DDR buffer wrapped. Asserted when OCLA()_STACK_CUR has wrapped and been re-initialized
+                                                                 to OCLA()_STACK_BASE. */
+        uint64_t wmark                 : 1;  /**< [ 17: 17](R/W1C/H) Internal buffer watermark reached. Asserted when OCLA()_FIFO_DEPTH \>
+                                                                 OCLA()_FIFO_LIMIT[WMARK]. */
+        uint64_t overfull              : 1;  /**< [ 16: 16](R/W1C/H) Capture ended due to FIFO overflow. Asserted when OCLA()_FIFO_DEPTH \>
+                                                                 OCLA()_FIFO_LIMIT[OVERFULL]. */
+        uint64_t trigfull              : 1;  /**< [ 15: 15](R/W1C/H) Capture ended due to buffer full. Asserted when OCLA()_FIFO_TRIG[LIMIT] \>=
+                                                                 OCLA()_FIFO_TRIG[CNT]. */
+        uint64_t captured              : 1;  /**< [ 14: 14](R/W1C/H) Capture started. Asserted when the first capture is made. Informational only; often masked. */
+        uint64_t fsm1_int              : 1;  /**< [ 13: 13](R/W1C/H) FSM1 interrupt requested. */
+        uint64_t fsm0_int              : 1;  /**< [ 12: 12](R/W1C/H) FSM0 interrupt requested. */
+        uint64_t mcd                   : 3;  /**< [ 11:  9](R/W1C/H) Multichip debug (MCD0..2) set. Asserted on MCD received from another coprocessor or code,
+                                                                 or FSM MCD request or W1S to OCLA()_STATE_SET[MCD]. */
+        uint64_t trig                  : 1;  /**< [  8:  8](R/W1C/H) Internal trigger set. Asserted on FSM internal trigger request or W1S to OCLA()_STATE_SET[TRIG]. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t ovfl                  : 4;  /**< [  3:  0](R/W1C/H) Match counter has overflowed. Asserted when OCLA()_MAT()_COUNT \>=
+                                                                 OCLA()_MAT()_THRESH. Informational only; often masked. Writing 1 clears the
+                                                                 counter, not just the interrupt. */
+#else /* Word 0 - Little Endian */
+        uint64_t ovfl                  : 4;  /**< [  3:  0](R/W1C/H) Match counter has overflowed. Asserted when OCLA()_MAT()_COUNT \>=
+                                                                 OCLA()_MAT()_THRESH. Informational only; often masked. Writing 1 clears the
+                                                                 counter, not just the interrupt. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t trig                  : 1;  /**< [  8:  8](R/W1C/H) Internal trigger set. Asserted on FSM internal trigger request or W1S to OCLA()_STATE_SET[TRIG]. */
+        uint64_t mcd                   : 3;  /**< [ 11:  9](R/W1C/H) Multichip debug (MCD0..2) set. Asserted on MCD received from another coprocessor or code,
+                                                                 or FSM MCD request or W1S to OCLA()_STATE_SET[MCD]. */
+        uint64_t fsm0_int              : 1;  /**< [ 12: 12](R/W1C/H) FSM0 interrupt requested. */
+        uint64_t fsm1_int              : 1;  /**< [ 13: 13](R/W1C/H) FSM1 interrupt requested. */
+        uint64_t captured              : 1;  /**< [ 14: 14](R/W1C/H) Capture started. Asserted when the first capture is made. Informational only; often masked. */
+        uint64_t trigfull              : 1;  /**< [ 15: 15](R/W1C/H) Capture ended due to buffer full. Asserted when OCLA()_FIFO_TRIG[LIMIT] \>=
+                                                                 OCLA()_FIFO_TRIG[CNT]. */
+        uint64_t overfull              : 1;  /**< [ 16: 16](R/W1C/H) Capture ended due to FIFO overflow. Asserted when OCLA()_FIFO_DEPTH \>
+                                                                 OCLA()_FIFO_LIMIT[OVERFULL]. */
+        uint64_t wmark                 : 1;  /**< [ 17: 17](R/W1C/H) Internal buffer watermark reached. Asserted when OCLA()_FIFO_DEPTH \>
+                                                                 OCLA()_FIFO_LIMIT[WMARK]. */
+        uint64_t ddrfull               : 1;  /**< [ 18: 18](R/W1C/H) DDR buffer wrapped. Asserted when OCLA()_STACK_CUR has wrapped and been re-initialized
+                                                                 to OCLA()_STACK_BASE. */
+        uint64_t reserved_19_31        : 13;
+        uint64_t fsm0_ena              : 1;  /**< [ 32: 32](R/W1C/H) FSM0 sequencing enabled. */
+        uint64_t fsm1_ena              : 1;  /**< [ 33: 33](R/W1C/H) FSM1 sequencing enabled. */
+        uint64_t fsm0_rst              : 1;  /**< [ 34: 34](R/W1C) FSM0 hold in state zero. Writing one to OCLA()_STATE_SET[FSM0_RST] sets this bit and
+                                                                 holds FSM0 in state zero, writing one to OCLA()_STATE_INT[FSM0_RST] removes the hold. */
+        uint64_t fsm1_rst              : 1;  /**< [ 35: 35](R/W1C) FSM1 hold in state zero. Writing one to OCLA()_STATE_SET[FSM1_RST] sets this bit and
+                                                                 holds FSM1 in state zero, writing one to OCLA()_STATE_INT[FSM1_RST] removes the hold. */
+        uint64_t reserved_36_55        : 20;
+        uint64_t fsm0_state            : 4;  /**< [ 59: 56](RO/H) FSM0 current state. */
+        uint64_t fsm1_state            : 4;  /**< [ 63: 60](RO/H) FSM1 current state. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_oclax_state_int_s cn; */
+};
+typedef union cavm_oclax_state_int cavm_oclax_state_int_t;
+
+static inline uint64_t CAVM_OCLAX_STATE_INT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_OCLAX_STATE_INT(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=23) || (a==64)))
+        return 0x87e380000080ll + 0x1000000ll * ((a) & 0x7f);
+    __cavm_csr_fatal("OCLAX_STATE_INT", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_OCLAX_STATE_INT(a) cavm_oclax_state_int_t
+#define bustype_CAVM_OCLAX_STATE_INT(a) CSR_TYPE_RSL
+#define basename_CAVM_OCLAX_STATE_INT(a) "OCLAX_STATE_INT"
+#define device_bar_CAVM_OCLAX_STATE_INT(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_OCLAX_STATE_INT(a) (a)
+#define arguments_CAVM_OCLAX_STATE_INT(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) ocla#_state_set
+ *
+ * OCLA State Set Registers
+ * This register reads identically to OCLA()_STATE_INT, but allows R/W1S instead of R/W1C access.
+ */
+union cavm_oclax_state_set
+{
+    uint64_t u;
+    struct cavm_oclax_state_set_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t fsm1_state            : 4;  /**< [ 63: 60](RO/H) See OCLA()_STATE_INT[FSM1_STATE]. */
+        uint64_t fsm0_state            : 4;  /**< [ 59: 56](RO/H) See OCLA()_STATE_INT[FSM0_STATE]. */
+        uint64_t reserved_36_55        : 20;
+        uint64_t fsm1_rst              : 1;  /**< [ 35: 35](R/W1S) See OCLA()_STATE_INT[FSM1_RST]. */
+        uint64_t fsm0_rst              : 1;  /**< [ 34: 34](R/W1S) See OCLA()_STATE_INT[FSM0_RST]. */
+        uint64_t fsm1_ena              : 1;  /**< [ 33: 33](R/W1S/H) See OCLA()_STATE_INT[FSM1_ENA]. */
+        uint64_t fsm0_ena              : 1;  /**< [ 32: 32](R/W1S/H) See OCLA()_STATE_INT[FSM0_ENA]. */
+        uint64_t reserved_19_31        : 13;
+        uint64_t ddrfull               : 1;  /**< [ 18: 18](R/W1S/H) See OCLA()_STATE_INT[DDRFULL]. */
+        uint64_t wmark                 : 1;  /**< [ 17: 17](R/W1S/H) See OCLA()_STATE_INT[WMARK]. */
+        uint64_t overfull              : 1;  /**< [ 16: 16](R/W1S/H) See OCLA()_STATE_INT[OVERFULL]. */
+        uint64_t trigfull              : 1;  /**< [ 15: 15](R/W1S/H) See OCLA()_STATE_INT[TRIGFULL]. */
+        uint64_t captured              : 1;  /**< [ 14: 14](R/W1S/H) See OCLA()_STATE_INT[CAPTURED]. */
+        uint64_t fsm1_int              : 1;  /**< [ 13: 13](R/W1S/H) See OCLA()_STATE_INT[FSM1_INT]. */
+        uint64_t fsm0_int              : 1;  /**< [ 12: 12](R/W1S/H) See OCLA()_STATE_INT[FSM0_INT]. */
+        uint64_t mcd                   : 3;  /**< [ 11:  9](R/W1S/H) See OCLA()_STATE_INT[MCD]. */
+        uint64_t trig                  : 1;  /**< [  8:  8](R/W1S/H) See OCLA()_STATE_INT[TRIG]. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t ovfl                  : 4;  /**< [  3:  0](R/W1S/H) See OCLA()_STATE_INT[OVFL]. */
+#else /* Word 0 - Little Endian */
+        uint64_t ovfl                  : 4;  /**< [  3:  0](R/W1S/H) See OCLA()_STATE_INT[OVFL]. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t trig                  : 1;  /**< [  8:  8](R/W1S/H) See OCLA()_STATE_INT[TRIG]. */
+        uint64_t mcd                   : 3;  /**< [ 11:  9](R/W1S/H) See OCLA()_STATE_INT[MCD]. */
+        uint64_t fsm0_int              : 1;  /**< [ 12: 12](R/W1S/H) See OCLA()_STATE_INT[FSM0_INT]. */
+        uint64_t fsm1_int              : 1;  /**< [ 13: 13](R/W1S/H) See OCLA()_STATE_INT[FSM1_INT]. */
+        uint64_t captured              : 1;  /**< [ 14: 14](R/W1S/H) See OCLA()_STATE_INT[CAPTURED]. */
+        uint64_t trigfull              : 1;  /**< [ 15: 15](R/W1S/H) See OCLA()_STATE_INT[TRIGFULL]. */
+        uint64_t overfull              : 1;  /**< [ 16: 16](R/W1S/H) See OCLA()_STATE_INT[OVERFULL]. */
+        uint64_t wmark                 : 1;  /**< [ 17: 17](R/W1S/H) See OCLA()_STATE_INT[WMARK]. */
+        uint64_t ddrfull               : 1;  /**< [ 18: 18](R/W1S/H) See OCLA()_STATE_INT[DDRFULL]. */
+        uint64_t reserved_19_31        : 13;
+        uint64_t fsm0_ena              : 1;  /**< [ 32: 32](R/W1S/H) See OCLA()_STATE_INT[FSM0_ENA]. */
+        uint64_t fsm1_ena              : 1;  /**< [ 33: 33](R/W1S/H) See OCLA()_STATE_INT[FSM1_ENA]. */
+        uint64_t fsm0_rst              : 1;  /**< [ 34: 34](R/W1S) See OCLA()_STATE_INT[FSM0_RST]. */
+        uint64_t fsm1_rst              : 1;  /**< [ 35: 35](R/W1S) See OCLA()_STATE_INT[FSM1_RST]. */
+        uint64_t reserved_36_55        : 20;
+        uint64_t fsm0_state            : 4;  /**< [ 59: 56](RO/H) See OCLA()_STATE_INT[FSM0_STATE]. */
+        uint64_t fsm1_state            : 4;  /**< [ 63: 60](RO/H) See OCLA()_STATE_INT[FSM1_STATE]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_oclax_state_set_s cn; */
+};
+typedef union cavm_oclax_state_set cavm_oclax_state_set_t;
+
+static inline uint64_t CAVM_OCLAX_STATE_SET(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_OCLAX_STATE_SET(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=23) || (a==64)))
+        return 0x87e3800000a0ll + 0x1000000ll * ((a) & 0x7f);
+    __cavm_csr_fatal("OCLAX_STATE_SET", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_OCLAX_STATE_SET(a) cavm_oclax_state_set_t
+#define bustype_CAVM_OCLAX_STATE_SET(a) CSR_TYPE_RSL
+#define basename_CAVM_OCLAX_STATE_SET(a) "OCLAX_STATE_SET"
+#define device_bar_CAVM_OCLAX_STATE_SET(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_OCLAX_STATE_SET(a) (a)
+#define arguments_CAVM_OCLAX_STATE_SET(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) ocla#_time
+ *
+ * OCLA Current Time Registers
+ */
+union cavm_oclax_time
+{
+    uint64_t u;
+    struct cavm_oclax_time_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t cycle                 : 64; /**< [ 63:  0](R/W/H) Current time as free running counter. Loaded into captured control packets.
+                                                                 Unconditionally clocked, independent of OCLA()_SFT_RST. */
+#else /* Word 0 - Little Endian */
+        uint64_t cycle                 : 64; /**< [ 63:  0](R/W/H) Current time as free running counter. Loaded into captured control packets.
+                                                                 Unconditionally clocked, independent of OCLA()_SFT_RST. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_oclax_time_s cn; */
+};
+typedef union cavm_oclax_time cavm_oclax_time_t;
+
+static inline uint64_t CAVM_OCLAX_TIME(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_OCLAX_TIME(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=23) || (a==64)))
+        return 0x87e3800000c0ll + 0x1000000ll * ((a) & 0x7f);
+    __cavm_csr_fatal("OCLAX_TIME", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_OCLAX_TIME(a) cavm_oclax_time_t
+#define bustype_CAVM_OCLAX_TIME(a) CSR_TYPE_RSL
+#define basename_CAVM_OCLAX_TIME(a) "OCLAX_TIME"
+#define device_bar_CAVM_OCLAX_TIME(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_OCLAX_TIME(a) (a)
+#define arguments_CAVM_OCLAX_TIME(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) ocla#_trace_fifo#
+ *
+ * OCLA Trace FIFO Entry Register
+ * Reserved.
+ */
+union cavm_oclax_trace_fifox
+{
+    uint64_t u;
+    struct cavm_oclax_trace_fifox_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_40_63        : 24;
+        uint64_t fsm0_state            : 4;  /**< [ 39: 36](RO/H) FSM0 state. */
+        uint64_t fsm1_state            : 4;  /**< [ 35: 32](RO/H) FSM1 state. */
+        uint64_t cycle                 : 32; /**< [ 31:  0](RO/H) Cycle at which this entry was written, from OCLA()_TIME. */
+#else /* Word 0 - Little Endian */
+        uint64_t cycle                 : 32; /**< [ 31:  0](RO/H) Cycle at which this entry was written, from OCLA()_TIME. */
+        uint64_t fsm1_state            : 4;  /**< [ 35: 32](RO/H) FSM1 state. */
+        uint64_t fsm0_state            : 4;  /**< [ 39: 36](RO/H) FSM0 state. */
+        uint64_t reserved_40_63        : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_oclax_trace_fifox_s cn; */
+};
+typedef union cavm_oclax_trace_fifox cavm_oclax_trace_fifox_t;
+
+static inline uint64_t CAVM_OCLAX_TRACE_FIFOX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_OCLAX_TRACE_FIFOX(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (((a<=23) || (a==64)) && (b<=1023)))
+        return 0x87e380010000ll + 0x1000000ll * ((a) & 0x7f) + 8ll * ((b) & 0x3ff);
+    __cavm_csr_fatal("OCLAX_TRACE_FIFOX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_OCLAX_TRACE_FIFOX(a,b) cavm_oclax_trace_fifox_t
+#define bustype_CAVM_OCLAX_TRACE_FIFOX(a,b) CSR_TYPE_RSL
+#define basename_CAVM_OCLAX_TRACE_FIFOX(a,b) "OCLAX_TRACE_FIFOX"
+#define device_bar_CAVM_OCLAX_TRACE_FIFOX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_OCLAX_TRACE_FIFOX(a,b) (a)
+#define arguments_CAVM_OCLAX_TRACE_FIFOX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) ocla#_trace_fifo_state
+ *
+ * OCLA Trace FIFO State Register
+ * Reserved.
+ */
+union cavm_oclax_trace_fifo_state
+{
+    uint64_t u;
+    struct cavm_oclax_trace_fifo_state_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_25_63        : 39;
+        uint64_t tail                  : 10; /**< [ 24: 15](R/W/H) Current FIFO tail pointer. */
+        uint64_t wraps                 : 4;  /**< [ 14: 11](R/W/H) Number of times FIFO has wrapped since trigger. Locks at 7. */
+        uint64_t depth                 : 11; /**< [ 10:  0](R/W/H) Current trace FIFO depth. Max is 1024. */
+#else /* Word 0 - Little Endian */
+        uint64_t depth                 : 11; /**< [ 10:  0](R/W/H) Current trace FIFO depth. Max is 1024. */
+        uint64_t wraps                 : 4;  /**< [ 14: 11](R/W/H) Number of times FIFO has wrapped since trigger. Locks at 7. */
+        uint64_t tail                  : 10; /**< [ 24: 15](R/W/H) Current FIFO tail pointer. */
+        uint64_t reserved_25_63        : 39;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_oclax_trace_fifo_state_s cn; */
+};
+typedef union cavm_oclax_trace_fifo_state cavm_oclax_trace_fifo_state_t;
+
+static inline uint64_t CAVM_OCLAX_TRACE_FIFO_STATE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_OCLAX_TRACE_FIFO_STATE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=23) || (a==64)))
+        return 0x87e380018000ll + 0x1000000ll * ((a) & 0x7f);
+    __cavm_csr_fatal("OCLAX_TRACE_FIFO_STATE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_OCLAX_TRACE_FIFO_STATE(a) cavm_oclax_trace_fifo_state_t
+#define bustype_CAVM_OCLAX_TRACE_FIFO_STATE(a) CSR_TYPE_RSL
+#define basename_CAVM_OCLAX_TRACE_FIFO_STATE(a) "OCLAX_TRACE_FIFO_STATE"
+#define device_bar_CAVM_OCLAX_TRACE_FIFO_STATE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_OCLAX_TRACE_FIFO_STATE(a) (a)
+#define arguments_CAVM_OCLAX_TRACE_FIFO_STATE(a) (a),-1,-1,-1
+
+#endif /* __CAVM_CSRS_OCLA_H__ */

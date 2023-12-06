@@ -105,9 +105,30 @@
  * Enumerates the PROTOCOL_STS_WRD and RFOE_TIMESTAMP fields in RX packet status word
  */
 #define CAVM_RFOE_RX_PSWT_E_ECPRI_BCN_TYPE (3)
-#define CAVM_RFOE_RX_PSWT_E_ECPRI_BFN_TYPE (2)
 #define CAVM_RFOE_RX_PSWT_E_ROE_BCN_TYPE (1)
-#define CAVM_RFOE_RX_PSWT_E_ROE_BFN_TYPE (0)
+#define CAVM_RFOE_RX_PSWT_E_RSVD5 (0)
+#define CAVM_RFOE_RX_PSWT_E_RSVD6 (2)
+
+/**
+ * Enumeration rfoe_rx_sw_tbl_action_e
+ *
+ * RFOE RX Switch Table Action Enumeration
+ * Enumerates the action to be performed on switch table entry match.
+ */
+#define CAVM_RFOE_RX_SW_TBL_ACTION_E_DROP (2)
+#define CAVM_RFOE_RX_SW_TBL_ACTION_E_FORWARD (1)
+#define CAVM_RFOE_RX_SW_TBL_ACTION_E_TERMINATE (0)
+
+/**
+ * Enumeration rfoe_rx_sw_tbl_term_flow_id_calc_e
+ *
+ * RFOE RX Switch Table Flow_ID Calculation Method for terminated flows Enumeration
+ * Enumerates the flow_id calculation method for terminated flows.
+ */
+#define CAVM_RFOE_RX_SW_TBL_TERM_FLOW_ID_CALC_E_LEGACY (0)
+#define CAVM_RFOE_RX_SW_TBL_TERM_FLOW_ID_CALC_E_PC_ID_HASH_SUBTABLE (2)
+#define CAVM_RFOE_RX_SW_TBL_TERM_FLOW_ID_CALC_E_PC_ID_REMAP_SUBTABLE (1)
+#define CAVM_RFOE_RX_SW_TBL_TERM_FLOW_ID_CALC_E_SW_TBL_ACT (3)
 
 /**
  * Structure ecpri_hdr_s
@@ -292,7 +313,7 @@ union cavm_rfoe_fd_cstm_hdr_s
         uint64_t reserved_0_63         : 64;
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t rfoe_timestamp        : 32; /**< [127: 96] Arrival timestamp, formatted according to RFOE_TIMESTAMP_S. */
+        uint64_t rfoe_timestamp        : 32; /**< [127: 96] Arrival timestamp, formatted according to RFOE_TIMESTAMP_S */
         uint64_t antenna               : 8;  /**< [ 95: 88] Antenna number. */
         uint64_t symbol                : 8;  /**< [ 87: 80] Symbol number. */
         uint64_t sos                   : 1;  /**< [ 79: 79] Start of symbol flag. Indicates first packet for current symbol. */
@@ -306,7 +327,7 @@ union cavm_rfoe_fd_cstm_hdr_s
         uint64_t sos                   : 1;  /**< [ 79: 79] Start of symbol flag. Indicates first packet for current symbol. */
         uint64_t symbol                : 8;  /**< [ 87: 80] Symbol number. */
         uint64_t antenna               : 8;  /**< [ 95: 88] Antenna number. */
-        uint64_t rfoe_timestamp        : 32; /**< [127: 96] Arrival timestamp, formatted according to RFOE_TIMESTAMP_S. */
+        uint64_t rfoe_timestamp        : 32; /**< [127: 96] Arrival timestamp, formatted according to RFOE_TIMESTAMP_S */
 #endif /* Word 1 - End */
     } s;
     /* struct cavm_rfoe_fd_cstm_hdr_s_s cn; */
@@ -364,8 +385,14 @@ union cavm_rfoe_psw_s
                                                                  * Bit(5) is the eCPRI Sequence ID (ECPRI_HDR_S[SEQ_ID]) error status. Set
                                                                  when the packet's sequence and/or subsequence ID in ECPRI_HDR_S[SEQ_ID] do
                                                                  not match their expected values. */
-        uint64_t mcs_err_sts           : 8;  /**< [111:104] Reserved. */
-        uint64_t pkt_len               : 16; /**< [103: 88] Size of the packet payload written to the memory buffer in bytes. */
+        uint64_t mcs_err_sts           : 8;  /**< [111:104] MCS Packet Error Status from exception code err field.  0 = no error detected.
+                                                                   Bit[7]    : punted_drop.
+                                                                   Bits[6:2] : exception_code as enumerated in MCS_RX_EXCEPTION_CODE_E.
+                                                                   Bits[1:0] : pkt_kind as enumerated in MCS_RX_PKT_KIND_E. */
+        uint64_t pkt_len               : 16; /**< [103: 88] Size of the packet payload written to the memory buffer in bytes.
+                                                                 - eCPRI, CHI packets: Packet Length value is taken from respective header.
+                                                                 - RoE packets       : Unused.
+                                                                 - other packets     : This indicates the total received length. */
         uint64_t reserved_85_87        : 3;
         uint64_t eindex                : 5;  /**< [ 84: 80] Byte index to MSB of EtherType used for rx_direction_ctl lookup (non-VLAN EtherType). */
         uint64_t ethertype             : 16; /**< [ 79: 64] EtherType pointed to by EINDEX */
@@ -373,8 +400,14 @@ union cavm_rfoe_psw_s
         uint64_t ethertype             : 16; /**< [ 79: 64] EtherType pointed to by EINDEX */
         uint64_t eindex                : 5;  /**< [ 84: 80] Byte index to MSB of EtherType used for rx_direction_ctl lookup (non-VLAN EtherType). */
         uint64_t reserved_85_87        : 3;
-        uint64_t pkt_len               : 16; /**< [103: 88] Size of the packet payload written to the memory buffer in bytes. */
-        uint64_t mcs_err_sts           : 8;  /**< [111:104] Reserved. */
+        uint64_t pkt_len               : 16; /**< [103: 88] Size of the packet payload written to the memory buffer in bytes.
+                                                                 - eCPRI, CHI packets: Packet Length value is taken from respective header.
+                                                                 - RoE packets       : Unused.
+                                                                 - other packets     : This indicates the total received length. */
+        uint64_t mcs_err_sts           : 8;  /**< [111:104] MCS Packet Error Status from exception code err field.  0 = no error detected.
+                                                                   Bit[7]    : punted_drop.
+                                                                   Bits[6:2] : exception_code as enumerated in MCS_RX_EXCEPTION_CODE_E.
+                                                                   Bits[1:0] : pkt_kind as enumerated in MCS_RX_PKT_KIND_E. */
         uint64_t mac_err_sts           : 6;  /**< [117:112] Packet error status; 0 = no errors detected.  For non-zero:
                                                                  * Bits(3..0) are the packet error status from MAC, enumerated by RFOE_RX_PKT_ERR_E.
                                                                  * Bit(4) is the DMA error status, indicating DMA or header processing error.
@@ -510,8 +543,14 @@ union cavm_rfoe_psw_w1_s
                                                                  * Bit(5) is the eCPRI Sequence ID (ECPRI_HDR_S[SEQ_ID]) error status. Set
                                                                  when the packet's sequence and/or subsequence ID in ECPRI_HDR_S[SEQ_ID] do
                                                                  not match their expected values. */
-        uint64_t mcs_err_sts           : 8;  /**< [ 47: 40] Reserved. */
-        uint64_t pkt_len               : 16; /**< [ 39: 24] Size of the packet payload written to the memory buffer in bytes. */
+        uint64_t mcs_err_sts           : 8;  /**< [ 47: 40] MCS Packet Error Status from exception code err field.  0 = no error detected.
+                                                                   Bit[7]    : punted_drop.
+                                                                   Bits[6:2] : exception_code as enumerated in MCS_RX_EXCEPTION_CODE_E.
+                                                                   Bits[1:0] : pkt_kind as enumerated in MCS_RX_PKT_KIND_E. */
+        uint64_t pkt_len               : 16; /**< [ 39: 24] Size of the packet payload written to the memory buffer in bytes.
+                                                                 - eCPRI, CHI packets: Packet Length value is taken from respective header.
+                                                                 - RoE packets       : Unused.
+                                                                 - other packets     : This indicates the total received length. */
         uint64_t reserved_21_23        : 3;
         uint64_t eindex                : 5;  /**< [ 20: 16] Byte index to MSB of EtherType used for rx_direction_ctl lookup (non-VLAN EtherType). */
         uint64_t ethertype             : 16; /**< [ 15:  0] EtherType pointed to by EINDEX. */
@@ -519,8 +558,14 @@ union cavm_rfoe_psw_w1_s
         uint64_t ethertype             : 16; /**< [ 15:  0] EtherType pointed to by EINDEX. */
         uint64_t eindex                : 5;  /**< [ 20: 16] Byte index to MSB of EtherType used for rx_direction_ctl lookup (non-VLAN EtherType). */
         uint64_t reserved_21_23        : 3;
-        uint64_t pkt_len               : 16; /**< [ 39: 24] Size of the packet payload written to the memory buffer in bytes. */
-        uint64_t mcs_err_sts           : 8;  /**< [ 47: 40] Reserved. */
+        uint64_t pkt_len               : 16; /**< [ 39: 24] Size of the packet payload written to the memory buffer in bytes.
+                                                                 - eCPRI, CHI packets: Packet Length value is taken from respective header.
+                                                                 - RoE packets       : Unused.
+                                                                 - other packets     : This indicates the total received length. */
+        uint64_t mcs_err_sts           : 8;  /**< [ 47: 40] MCS Packet Error Status from exception code err field.  0 = no error detected.
+                                                                   Bit[7]    : punted_drop.
+                                                                   Bits[6:2] : exception_code as enumerated in MCS_RX_EXCEPTION_CODE_E.
+                                                                   Bits[1:0] : pkt_kind as enumerated in MCS_RX_PKT_KIND_E. */
         uint64_t mac_err_sts           : 6;  /**< [ 53: 48] Packet error status, 0 = no errors detected.  For non-zero:
                                                                  * Bits(3..0) are the packet error status from MAC, enumerated by RFOE_RX_PKT_ERR_E.
                                                                  * Bit(4) is the DMA error status, indicating DMA or header processing error.
@@ -551,10 +596,11 @@ union cavm_rfoe_psw_w2_ecpri_s
     struct cavm_rfoe_psw_w2_ecpri_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_56_63        : 8;
+        uint64_t reserved_63           : 1;
+        uint64_t sa_table_index        : 7;  /**< [ 62: 56] Source Address Table Index. */
         uint64_t rfoe_id               : 4;  /**< [ 55: 52] RFOE Instance ID on which the packet was received. */
         uint64_t lmac_id               : 2;  /**< [ 51: 50] LMAC ID on which the packet was received. */
-        uint64_t flow_id               : 10; /**< [ 49: 40] Calculated from ECPRI_HDR_S[PC_ID] when ECPRI_HDR_S[MSG_TYPE]==0, else 0x0. */
+        uint64_t flow_id               : 10; /**< [ 49: 40] EDEC_FLOW_ID with subtable offset added. */
         uint64_t seq_id                : 16; /**< [ 39: 24] ECPRI_HDR_S[SEQ_ID] field from eCPRI header when ECPRI_HDR_S[MSG_TYPE] == 0, else 0x0. */
         uint64_t pc_id                 : 16; /**< [ 23:  8] Value of ECPRI_HDR_S[PC_ID] ID field from eCPRI header. */
         uint64_t msg_type              : 8;  /**< [  7:  0] eCPRI Message Type field from eCPRI header (ECPRI_HDR_S[MSG_TYPE]). */
@@ -562,10 +608,11 @@ union cavm_rfoe_psw_w2_ecpri_s
         uint64_t msg_type              : 8;  /**< [  7:  0] eCPRI Message Type field from eCPRI header (ECPRI_HDR_S[MSG_TYPE]). */
         uint64_t pc_id                 : 16; /**< [ 23:  8] Value of ECPRI_HDR_S[PC_ID] ID field from eCPRI header. */
         uint64_t seq_id                : 16; /**< [ 39: 24] ECPRI_HDR_S[SEQ_ID] field from eCPRI header when ECPRI_HDR_S[MSG_TYPE] == 0, else 0x0. */
-        uint64_t flow_id               : 10; /**< [ 49: 40] Calculated from ECPRI_HDR_S[PC_ID] when ECPRI_HDR_S[MSG_TYPE]==0, else 0x0. */
+        uint64_t flow_id               : 10; /**< [ 49: 40] EDEC_FLOW_ID with subtable offset added. */
         uint64_t lmac_id               : 2;  /**< [ 51: 50] LMAC ID on which the packet was received. */
         uint64_t rfoe_id               : 4;  /**< [ 55: 52] RFOE Instance ID on which the packet was received. */
-        uint64_t reserved_56_63        : 8;
+        uint64_t sa_table_index        : 7;  /**< [ 62: 56] Source Address Table Index. */
+        uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rfoe_psw_w2_ecpri_s_s cn; */
@@ -583,7 +630,8 @@ union cavm_rfoe_psw_w2_roe_s
     struct cavm_rfoe_psw_w2_roe_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_56_63        : 8;
+        uint64_t reserved_63           : 1;
+        uint64_t sa_table_index        : 7;  /**< [ 62: 56] Source Address Table Index. */
         uint64_t rfoe_id               : 4;  /**< [ 55: 52] RFOE Instance ID on which the Packet was received */
         uint64_t lmac_id               : 2;  /**< [ 51: 50] LMAC ID on which the Packet was received */
         uint64_t reserved_48_49        : 2;
@@ -609,10 +657,33 @@ union cavm_rfoe_psw_w2_roe_s
         uint64_t reserved_48_49        : 2;
         uint64_t lmac_id               : 2;  /**< [ 51: 50] LMAC ID on which the Packet was received */
         uint64_t rfoe_id               : 4;  /**< [ 55: 52] RFOE Instance ID on which the Packet was received */
-        uint64_t reserved_56_63        : 8;
+        uint64_t sa_table_index        : 7;  /**< [ 62: 56] Source Address Table Index. */
+        uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rfoe_psw_w2_roe_s_s cn; */
+};
+
+/**
+ * Structure rfoe_psw_w3_bcn_s
+ *
+ * RFOE Timestamp BCN Structure
+ * RFOE Timestamp field described in BCN format
+ */
+union cavm_rfoe_psw_w3_bcn_s
+{
+    uint64_t u;
+    struct cavm_rfoe_psw_w3_bcn_s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t n1                    : 40; /**< [ 63: 24] BCN N1 Timer value */
+        uint64_t n2                    : 24; /**< [ 23:  0] BCN N2 Timer value */
+#else /* Word 0 - Little Endian */
+        uint64_t n2                    : 24; /**< [ 23:  0] BCN N2 Timer value */
+        uint64_t n1                    : 40; /**< [ 63: 24] BCN N1 Timer value */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rfoe_psw_w3_bcn_s_s cn; */
 };
 
 /**
@@ -642,7 +713,7 @@ union cavm_rfoe_psw_w4_s
  *
  * RFOE RX ROE Packet Logger Structure
  * Structure written to the RX packet logger in memory for ROE packets. RX packet logging is
- * enabled by RFOE()_TX_LMAC_CFG()[TX_PKT_LOG_EN].
+ * enabled by RFOE()_RX_PKT_LOGGER()_CFG[ENABLE].
  */
 union cavm_rfoe_rx_pkt_log_s
 {
@@ -665,10 +736,12 @@ union cavm_rfoe_rx_pkt_log_s
         uint64_t psw_w2                : 64; /**< [191:128] Contains either RFOE_PSW_W2_ROE_S or RFOE_PSW_W2_ECPRI_S */
 #endif /* Word 2 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
-        uint64_t timestamp             : 64; /**< [255:192] Contains either RFOE_PSW_W4_S.PTP_TIMESTAMP if PTP is enabled, or RFOE_TIMESTAMP_S
+        uint64_t timestamp             : 64; /**< [255:192] Contains either RFOE_PSW_W4_S.PTP_TIMESTAMP if PTP is enabled, or according to
+                                                                 RFOE()_RX_CTRL[TSTAMP_FORMAT]
                                                                  otherwise. */
 #else /* Word 3 - Little Endian */
-        uint64_t timestamp             : 64; /**< [255:192] Contains either RFOE_PSW_W4_S.PTP_TIMESTAMP if PTP is enabled, or RFOE_TIMESTAMP_S
+        uint64_t timestamp             : 64; /**< [255:192] Contains either RFOE_PSW_W4_S.PTP_TIMESTAMP if PTP is enabled, or according to
+                                                                 RFOE()_RX_CTRL[TSTAMP_FORMAT]
                                                                  otherwise. */
 #endif /* Word 3 - End */
     } s;
@@ -703,8 +776,9 @@ union cavm_rfoe_timestamp_s
  * Structure rfoe_tx_pkt_log_s
  *
  * RFOE TX Packet Logger Structure
- * Structure written to the TX packet logger in memory. TX packet logging is
- * enabled by RFOE()_TX_LMAC_CFG()[TX_PKT_LOG_EN].
+ * Structure used by TX packet logger and TX PTP timestamp ring. TX packet logging is
+ * enabled by RFOE()_TX_LMAC_CFG()[TX_PKT_LOG_EN]. TX PTP timestamp ring is
+ * enabled by RFOE()_LINK()_TX_PTP_RING_CTL[ENABLE].
  */
 union cavm_rfoe_tx_pkt_log_s
 {
@@ -712,10 +786,10 @@ union cavm_rfoe_tx_pkt_log_s
     struct cavm_rfoe_tx_pkt_log_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ptp_timestamp         : 64; /**< [ 63:  0] Timestamp value sampled when the packet was sent from the RFOE block.
+        uint64_t timestamp             : 64; /**< [ 63:  0] Timestamp value sampled when the packet was sent from the RFOE block.
                                                                  Timestamp format is based on RFOE()_TX_CTRL[TSTAMP_FORMAT] */
 #else /* Word 0 - Little Endian */
-        uint64_t ptp_timestamp         : 64; /**< [ 63:  0] Timestamp value sampled when the packet was sent from the RFOE block.
+        uint64_t timestamp             : 64; /**< [ 63:  0] Timestamp value sampled when the packet was sent from the RFOE block.
                                                                  Timestamp format is based on RFOE()_TX_CTRL[TSTAMP_FORMAT] */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
@@ -735,44 +809,6 @@ union cavm_rfoe_tx_pkt_log_s
 #endif /* Word 1 - End */
     } s;
     /* struct cavm_rfoe_tx_pkt_log_s_s cn; */
-};
-
-/**
- * Structure rfoe_tx_ptp_tstmp_s
- *
- * RFOE TX PTP Timestamp Ring Entry Structure
- * Structure written to the TX PTP timestamp ring in memory. TX PTP timestamp ring is
- * enabled by RFOE()_LINK()_TX_PTP_RING_CTL[ENABLE].
- */
-union cavm_rfoe_tx_ptp_tstmp_s
-{
-    uint64_t u[2];
-    struct cavm_rfoe_tx_ptp_tstmp_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ptp_timestamp         : 64; /**< [ 63:  0] PTP timestamp value sampled when the packet was sent from the RFOE block. */
-#else /* Word 0 - Little Endian */
-        uint64_t ptp_timestamp         : 64; /**< [ 63:  0] PTP timestamp value sampled when the packet was sent from the RFOE block. */
-#endif /* Word 0 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t valid                 : 1;  /**< [127:127] When set to 1, indicates a valid entry in the TX PTP timestamp ring in memory. */
-        uint64_t reserved_88_126       : 39;
-        uint64_t tx_err                : 1;  /**< [ 87: 87] When set to 1, indicates the packet was sent to RPM with the error bit set. */
-        uint64_t drop                  : 1;  /**< [ 86: 86] When set to 1, indicates the packet was dropped by the RFOE block. */
-        uint64_t jobid                 : 16; /**< [ 85: 70] The AB job ID for this packet. */
-        uint64_t rfoe_id               : 4;  /**< [ 69: 66] Instance of the RFOE block from which the packet was sent. */
-        uint64_t reserved_64_65        : 2;
-#else /* Word 1 - Little Endian */
-        uint64_t reserved_64_65        : 2;
-        uint64_t rfoe_id               : 4;  /**< [ 69: 66] Instance of the RFOE block from which the packet was sent. */
-        uint64_t jobid                 : 16; /**< [ 85: 70] The AB job ID for this packet. */
-        uint64_t drop                  : 1;  /**< [ 86: 86] When set to 1, indicates the packet was dropped by the RFOE block. */
-        uint64_t tx_err                : 1;  /**< [ 87: 87] When set to 1, indicates the packet was sent to RPM with the error bit set. */
-        uint64_t reserved_88_126       : 39;
-        uint64_t valid                 : 1;  /**< [127:127] When set to 1, indicates a valid entry in the TX PTP timestamp ring in memory. */
-#endif /* Word 1 - End */
-    } s;
-    /* struct cavm_rfoe_tx_ptp_tstmp_s_s cn; */
 };
 
 /**
@@ -799,7 +835,7 @@ typedef union cavm_rfoex_active_pc cavm_rfoex_active_pc_t;
 static inline uint64_t CAVM_RFOEX_ACTIVE_PC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_ACTIVE_PC(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001068ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_ACTIVE_PC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -836,7 +872,7 @@ typedef union cavm_rfoex_linkx_tx_ptp_ring_addrx cavm_rfoex_linkx_tx_ptp_ring_ad
 static inline uint64_t CAVM_RFOEX_LINKX_TX_PTP_RING_ADDRX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_LINKX_TX_PTP_RING_ADDRX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=6) && (b<=3) && (c<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=3) && (c<=3)))
         return 0x861000001920ll + 0x1000000ll * ((a) & 0x7) + 0x40ll * ((b) & 0x3) + 8ll * ((c) & 0x3);
     __cavm_csr_fatal("RFOEX_LINKX_TX_PTP_RING_ADDRX", 3, a, b, c, 0, 0, 0);
 }
@@ -915,7 +951,7 @@ typedef union cavm_rfoex_linkx_tx_ptp_ring_ctl cavm_rfoex_linkx_tx_ptp_ring_ctl_
 static inline uint64_t CAVM_RFOEX_LINKX_TX_PTP_RING_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_LINKX_TX_PTP_RING_CTL(uint64_t a, uint64_t b)
 {
-    if ((a<=6) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=3)))
         return 0x861000001900ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("RFOEX_LINKX_TX_PTP_RING_CTL", 2, a, b, 0, 0, 0, 0);
 }
@@ -958,7 +994,7 @@ typedef union cavm_rfoex_rx_apert_ddr_max cavm_rfoex_rx_apert_ddr_max_t;
 static inline uint64_t CAVM_RFOEX_RX_APERT_DDR_MAX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_APERT_DDR_MAX(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001838ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_APERT_DDR_MAX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -995,7 +1031,7 @@ typedef union cavm_rfoex_rx_apert_ddr_max_ena cavm_rfoex_rx_apert_ddr_max_ena_t;
 static inline uint64_t CAVM_RFOEX_RX_APERT_DDR_MAX_ENA(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_APERT_DDR_MAX_ENA(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001858ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_APERT_DDR_MAX_ENA", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1038,7 +1074,7 @@ typedef union cavm_rfoex_rx_apert_ddr_min cavm_rfoex_rx_apert_ddr_min_t;
 static inline uint64_t CAVM_RFOEX_RX_APERT_DDR_MIN(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_APERT_DDR_MIN(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001830ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_APERT_DDR_MIN", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1075,7 +1111,7 @@ typedef union cavm_rfoex_rx_apert_ddr_min_ena cavm_rfoex_rx_apert_ddr_min_ena_t;
 static inline uint64_t CAVM_RFOEX_RX_APERT_DDR_MIN_ENA(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_APERT_DDR_MIN_ENA(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001850ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_APERT_DDR_MIN_ENA", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1118,7 +1154,7 @@ typedef union cavm_rfoex_rx_apert_smem_max cavm_rfoex_rx_apert_smem_max_t;
 static inline uint64_t CAVM_RFOEX_RX_APERT_SMEM_MAX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_APERT_SMEM_MAX(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001828ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_APERT_SMEM_MAX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1155,7 +1191,7 @@ typedef union cavm_rfoex_rx_apert_smem_max_ena cavm_rfoex_rx_apert_smem_max_ena_
 static inline uint64_t CAVM_RFOEX_RX_APERT_SMEM_MAX_ENA(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_APERT_SMEM_MAX_ENA(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001848ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_APERT_SMEM_MAX_ENA", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1198,7 +1234,7 @@ typedef union cavm_rfoex_rx_apert_smem_min cavm_rfoex_rx_apert_smem_min_t;
 static inline uint64_t CAVM_RFOEX_RX_APERT_SMEM_MIN(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_APERT_SMEM_MIN(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001820ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_APERT_SMEM_MIN", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1235,7 +1271,7 @@ typedef union cavm_rfoex_rx_apert_smem_min_ena cavm_rfoex_rx_apert_smem_min_ena_
 static inline uint64_t CAVM_RFOEX_RX_APERT_SMEM_MIN_ENA(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_APERT_SMEM_MIN_ENA(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001840ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_APERT_SMEM_MIN_ENA", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1298,7 +1334,7 @@ typedef union cavm_rfoex_rx_cfg cavm_rfoex_rx_cfg_t;
 static inline uint64_t CAVM_RFOEX_RX_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_CFG(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001008ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1323,7 +1359,7 @@ union cavm_rfoex_rx_ctrl
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t swe                   : 1;  /**< [ 31: 31](R/W) Reserved. */
+        uint64_t swe                   : 1;  /**< [ 31: 31](R/W) Enables Switch Table Look up for Ingress. Default is to skip lookup. */
         uint64_t reserved_20_30        : 11;
         uint64_t vlan_tpid_err_drop_ena : 4; /**< [ 19: 16](R/W) Per LMAC control of VLAN matching error handling. For error cases that set
                                                                  RFOE()_RX_ERROR_INT[VLAN_TPID]:
@@ -1332,17 +1368,17 @@ union cavm_rfoex_rx_ctrl
         uint64_t rx_sync_enhanced_mode : 1;  /**< [ 15: 15](R/W) Selects the RFOE RX_SYNC Action for ROE 0xFD subType:
                                                                  1: Enables sequence ID checking for RFOE()_RX_IND_JDT_CFG1.ORDERINFO_TYPE SEQNUM.
                                                                  0: Legacy behavior, uses TIMESTAMP sequence checking. */
-        uint64_t reserved_8_14         : 7;
-        uint64_t rx_ptp_mode           : 4;  /**< [  7:  4](R/W) Per LMAC control of RX PTP.
+        uint64_t reserved_12_14        : 3;
+        uint64_t rx_ptp_mode           : 4;  /**< [ 11:  8](R/W) Per LMAC control of RX PTP.
                                                                  When set, causes RX to interpret first 8B of packet as PTP Timestamp. Normal
                                                                  packet data starts at byte 8.
                                                                  RX strips PTP and writes value in RFOE_PSW.PTP_TIMESTAMP and Packet logger.
                                                                  Packet traffic must be IDLE or disabled before changing the value of [RX_PTP_MODE] */
-        uint64_t tstamp_format         : 1;  /**< [  3:  3](R/W) Selects the RFOE timestamp format:
-                                                                 0: BFN format.
-                                                                 1: Reserved. */
-        uint64_t reserved_2            : 1;
-        uint64_t rx_idle               : 1;  /**< [  1:  1](RO/H) When [DATA_PKT_RX_EN] = 0, [RX_IDLE]=1 indicates no in-flight RX
+        uint64_t tstamp_format         : 1;  /**< [  7:  7](R/W) Selects the RFOE timestamp format:
+                                                                 1: BCN format.
+                                                                 0: Reserved. */
+        uint64_t reserved_5_6          : 2;
+        uint64_t rx_idle               : 1;  /**< [  4:  4](RO/H) When [DATA_PKT_RX_EN] = 0, [RX_IDLE]=1 indicates no in-flight RX
                                                                  packets and any new RX packets will be discarded. [RX_IDLE] = 1
                                                                  indicates that it is safe to do a BPHY and/or RFIF reset.
                                                                  For the reset domains:
@@ -1350,26 +1386,30 @@ union cavm_rfoex_rx_ctrl
                                                                  * RFIF domain is discarding all traffic.
                                                                  * Once [RX_IDLE] is set, it will stay set until [DATA_PKT_RX_EN] is set by software.
                                                                  [RX_IDLE] should be ignored when [DATA_PKT_RX_EN] = 1. */
-        uint64_t data_pkt_rx_en        : 1;  /**< [  0:  0](R/W) Enable RX traffic.  Software must write to 1 to enable RX traffic.
+        uint64_t data_pkt_rx_en        : 4;  /**< [  3:  0](R/W) Per-LMAC enables for RX traffic. Software must write to 1 to enable RX traffic for that LMAC.
 
                                                                  When [DATA_PKT_RX_EN] transitions from 1 to 0, RFOE completes any
-                                                                 in-flight RX packets. At the next packet boundary, RFOE will set
-                                                                 [RX_IDLE] and begin discarding any subsequent packets.
+                                                                 in-flight RX packets for that LMAC. At the next packet boundary, RFOE will
+                                                                 begin discarding any subsequent packets for that LMAC. RFOE will set RX_IDLE
+                                                                 when all LMACs have their respective [DATA_PKT_RX_EN] transition to 0 and all
+                                                                 in-flight RX packets have completed.
 
                                                                  When [DATA_PKT_RX_EN] transitions from 0 to 1, RFOE will continue to
-                                                                 discard any in-flight packets and begin normal reception at the next
+                                                                 discard any in-flight packets for that LMAC, and begin normal reception at the next
                                                                  start-of-packet boundary from RPM. */
 #else /* Word 0 - Little Endian */
-        uint64_t data_pkt_rx_en        : 1;  /**< [  0:  0](R/W) Enable RX traffic.  Software must write to 1 to enable RX traffic.
+        uint64_t data_pkt_rx_en        : 4;  /**< [  3:  0](R/W) Per-LMAC enables for RX traffic. Software must write to 1 to enable RX traffic for that LMAC.
 
                                                                  When [DATA_PKT_RX_EN] transitions from 1 to 0, RFOE completes any
-                                                                 in-flight RX packets. At the next packet boundary, RFOE will set
-                                                                 [RX_IDLE] and begin discarding any subsequent packets.
+                                                                 in-flight RX packets for that LMAC. At the next packet boundary, RFOE will
+                                                                 begin discarding any subsequent packets for that LMAC. RFOE will set RX_IDLE
+                                                                 when all LMACs have their respective [DATA_PKT_RX_EN] transition to 0 and all
+                                                                 in-flight RX packets have completed.
 
                                                                  When [DATA_PKT_RX_EN] transitions from 0 to 1, RFOE will continue to
-                                                                 discard any in-flight packets and begin normal reception at the next
+                                                                 discard any in-flight packets for that LMAC, and begin normal reception at the next
                                                                  start-of-packet boundary from RPM. */
-        uint64_t rx_idle               : 1;  /**< [  1:  1](RO/H) When [DATA_PKT_RX_EN] = 0, [RX_IDLE]=1 indicates no in-flight RX
+        uint64_t rx_idle               : 1;  /**< [  4:  4](RO/H) When [DATA_PKT_RX_EN] = 0, [RX_IDLE]=1 indicates no in-flight RX
                                                                  packets and any new RX packets will be discarded. [RX_IDLE] = 1
                                                                  indicates that it is safe to do a BPHY and/or RFIF reset.
                                                                  For the reset domains:
@@ -1377,16 +1417,16 @@ union cavm_rfoex_rx_ctrl
                                                                  * RFIF domain is discarding all traffic.
                                                                  * Once [RX_IDLE] is set, it will stay set until [DATA_PKT_RX_EN] is set by software.
                                                                  [RX_IDLE] should be ignored when [DATA_PKT_RX_EN] = 1. */
-        uint64_t reserved_2            : 1;
-        uint64_t tstamp_format         : 1;  /**< [  3:  3](R/W) Selects the RFOE timestamp format:
-                                                                 0: BFN format.
-                                                                 1: Reserved. */
-        uint64_t rx_ptp_mode           : 4;  /**< [  7:  4](R/W) Per LMAC control of RX PTP.
+        uint64_t reserved_5_6          : 2;
+        uint64_t tstamp_format         : 1;  /**< [  7:  7](R/W) Selects the RFOE timestamp format:
+                                                                 1: BCN format.
+                                                                 0: Reserved. */
+        uint64_t rx_ptp_mode           : 4;  /**< [ 11:  8](R/W) Per LMAC control of RX PTP.
                                                                  When set, causes RX to interpret first 8B of packet as PTP Timestamp. Normal
                                                                  packet data starts at byte 8.
                                                                  RX strips PTP and writes value in RFOE_PSW.PTP_TIMESTAMP and Packet logger.
                                                                  Packet traffic must be IDLE or disabled before changing the value of [RX_PTP_MODE] */
-        uint64_t reserved_8_14         : 7;
+        uint64_t reserved_12_14        : 3;
         uint64_t rx_sync_enhanced_mode : 1;  /**< [ 15: 15](R/W) Selects the RFOE RX_SYNC Action for ROE 0xFD subType:
                                                                  1: Enables sequence ID checking for RFOE()_RX_IND_JDT_CFG1.ORDERINFO_TYPE SEQNUM.
                                                                  0: Legacy behavior, uses TIMESTAMP sequence checking. */
@@ -1395,7 +1435,7 @@ union cavm_rfoex_rx_ctrl
                                                                  *0 - treat packet as an ALT packet.
                                                                  *1 - clean drop packet.  Increment  RFOE()_RX_PKT_ERR_DROP_STAT. */
         uint64_t reserved_20_30        : 11;
-        uint64_t swe                   : 1;  /**< [ 31: 31](R/W) Reserved. */
+        uint64_t swe                   : 1;  /**< [ 31: 31](R/W) Enables Switch Table Look up for Ingress. Default is to skip lookup. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -1406,7 +1446,7 @@ typedef union cavm_rfoex_rx_ctrl cavm_rfoex_rx_ctrl_t;
 static inline uint64_t CAVM_RFOEX_RX_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_CTRL(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001018ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1489,7 +1529,7 @@ typedef union cavm_rfoex_rx_direction_ctlx cavm_rfoex_rx_direction_ctlx_t;
 static inline uint64_t CAVM_RFOEX_RX_DIRECTION_CTLX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_DIRECTION_CTLX(uint64_t a, uint64_t b)
 {
-    if ((a<=6) && (b<=7))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=7)))
         return 0x861000001780ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_DIRECTION_CTLX", 2, a, b, 0, 0, 0, 0);
 }
@@ -1532,7 +1572,7 @@ typedef union cavm_rfoex_rx_dma_complete_statx cavm_rfoex_rx_dma_complete_statx_
 static inline uint64_t CAVM_RFOEX_RX_DMA_COMPLETE_STATX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_DMA_COMPLETE_STATX(uint64_t a, uint64_t b)
 {
-    if ((a<=6) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=3)))
         return 0x861000001da0ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("RFOEX_RX_DMA_COMPLETE_STATX", 2, a, b, 0, 0, 0, 0);
 }
@@ -1573,7 +1613,7 @@ typedef union cavm_rfoex_rx_dma_octs_statx cavm_rfoex_rx_dma_octs_statx_t;
 static inline uint64_t CAVM_RFOEX_RX_DMA_OCTS_STATX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_DMA_OCTS_STATX(uint64_t a, uint64_t b)
 {
-    if ((a<=6) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=3)))
         return 0x861000001d80ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("RFOEX_RX_DMA_OCTS_STATX", 2, a, b, 0, 0, 0, 0);
 }
@@ -1610,7 +1650,7 @@ typedef union cavm_rfoex_rx_dma_pkt_statx cavm_rfoex_rx_dma_pkt_statx_t;
 static inline uint64_t CAVM_RFOEX_RX_DMA_PKT_STATX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_DMA_PKT_STATX(uint64_t a, uint64_t b)
 {
-    if ((a<=6) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=3)))
         return 0x861000001d60ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("RFOEX_RX_DMA_PKT_STATX", 2, a, b, 0, 0, 0, 0);
 }
@@ -1625,7 +1665,7 @@ static inline uint64_t CAVM_RFOEX_RX_DMA_PKT_STATX(uint64_t a, uint64_t b)
  * Register (NCB) rfoe#_rx_ecpri_cfg#
  *
  * RFOE RX eCPRI Miscellaneous Configuration Register
- * Per LMAC Configurations
+ * Per LMAC Configurations.
  */
 union cavm_rfoex_rx_ecpri_cfgx
 {
@@ -1737,7 +1777,7 @@ typedef union cavm_rfoex_rx_ecpri_cfgx cavm_rfoex_rx_ecpri_cfgx_t;
 static inline uint64_t CAVM_RFOEX_RX_ECPRI_CFGX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_ECPRI_CFGX(uint64_t a, uint64_t b)
 {
-    if ((a<=6) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=3)))
         return 0x8610000018c0ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("RFOEX_RX_ECPRI_CFGX", 2, a, b, 0, 0, 0, 0);
 }
@@ -1781,7 +1821,7 @@ typedef union cavm_rfoex_rx_ecpri_check_enax cavm_rfoex_rx_ecpri_check_enax_t;
 static inline uint64_t CAVM_RFOEX_RX_ECPRI_CHECK_ENAX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_ECPRI_CHECK_ENAX(uint64_t a, uint64_t b)
 {
-    if ((a<=6) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=3)))
         return 0x861000001e60ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("RFOEX_RX_ECPRI_CHECK_ENAX", 2, a, b, 0, 0, 0, 0);
 }
@@ -1822,7 +1862,7 @@ typedef union cavm_rfoex_rx_ecpri_err_drop_statx cavm_rfoex_rx_ecpri_err_drop_st
 static inline uint64_t CAVM_RFOEX_RX_ECPRI_ERR_DROP_STATX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_ECPRI_ERR_DROP_STATX(uint64_t a, uint64_t b)
 {
-    if ((a<=6) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=3)))
         return 0x861000001e00ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("RFOEX_RX_ECPRI_ERR_DROP_STATX", 2, a, b, 0, 0, 0, 0);
 }
@@ -1862,7 +1902,7 @@ typedef union cavm_rfoex_rx_ecpri_pc_id_apertx cavm_rfoex_rx_ecpri_pc_id_apertx_
 static inline uint64_t CAVM_RFOEX_RX_ECPRI_PC_ID_APERTX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_ECPRI_PC_ID_APERTX(uint64_t a, uint64_t b)
 {
-    if ((a<=6) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=3)))
         return 0x861000001860ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("RFOEX_RX_ECPRI_PC_ID_APERTX", 2, a, b, 0, 0, 0, 0);
 }
@@ -1931,7 +1971,7 @@ typedef union cavm_rfoex_rx_error_ena_w1c cavm_rfoex_rx_error_ena_w1c_t;
 static inline uint64_t CAVM_RFOEX_RX_ERROR_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_ERROR_ENA_W1C(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001ea0ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_ERROR_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2000,7 +2040,7 @@ typedef union cavm_rfoex_rx_error_ena_w1s cavm_rfoex_rx_error_ena_w1s_t;
 static inline uint64_t CAVM_RFOEX_RX_ERROR_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_ERROR_ENA_W1S(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001e98ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_ERROR_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2103,7 +2143,7 @@ typedef union cavm_rfoex_rx_error_infox cavm_rfoex_rx_error_infox_t;
 static inline uint64_t CAVM_RFOEX_RX_ERROR_INFOX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_ERROR_INFOX(uint64_t a, uint64_t b)
 {
-    if ((a<=6) && (b<=16))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=16)))
         return 0x861000013000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1f);
     __cavm_csr_fatal("RFOEX_RX_ERROR_INFOX", 2, a, b, 0, 0, 0, 0);
 }
@@ -2269,7 +2309,7 @@ typedef union cavm_rfoex_rx_error_int cavm_rfoex_rx_error_int_t;
 static inline uint64_t CAVM_RFOEX_RX_ERROR_INT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_ERROR_INT(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001e90ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_ERROR_INT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2338,7 +2378,7 @@ typedef union cavm_rfoex_rx_error_int_w1s cavm_rfoex_rx_error_int_w1s_t;
 static inline uint64_t CAVM_RFOEX_RX_ERROR_INT_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_ERROR_INT_W1S(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001ea8ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_ERROR_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2373,7 +2413,7 @@ typedef union cavm_rfoex_rx_error_psm_msg_w0 cavm_rfoex_rx_error_psm_msg_w0_t;
 static inline uint64_t CAVM_RFOEX_RX_ERROR_PSM_MSG_W0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_ERROR_PSM_MSG_W0(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001eb0ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_ERROR_PSM_MSG_W0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2408,7 +2448,7 @@ typedef union cavm_rfoex_rx_error_psm_msg_w1 cavm_rfoex_rx_error_psm_msg_w1_t;
 static inline uint64_t CAVM_RFOEX_RX_ERROR_PSM_MSG_W1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_ERROR_PSM_MSG_W1(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001eb8ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_ERROR_PSM_MSG_W1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2444,7 +2484,7 @@ typedef union cavm_rfoex_rx_fc_psm_opcode_ena cavm_rfoex_rx_fc_psm_opcode_ena_t;
 static inline uint64_t CAVM_RFOEX_RX_FC_PSM_OPCODE_ENA(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_FC_PSM_OPCODE_ENA(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x8610000018a0ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_FC_PSM_OPCODE_ENA", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2497,7 +2537,7 @@ typedef union cavm_rfoex_rx_fd_resetx cavm_rfoex_rx_fd_resetx_t;
 static inline uint64_t CAVM_RFOEX_RX_FD_RESETX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_FD_RESETX(uint64_t a, uint64_t b)
 {
-    if ((a<=6) && (b<=15))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=15)))
         return 0x861000001300ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0xf);
     __cavm_csr_fatal("RFOEX_RX_FD_RESETX", 2, a, b, 0, 0, 0, 0);
 }
@@ -2537,7 +2577,7 @@ typedef union cavm_rfoex_rx_fd_sos_drop_stat cavm_rfoex_rx_fd_sos_drop_stat_t;
 static inline uint64_t CAVM_RFOEX_RX_FD_SOS_DROP_STAT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_FD_SOS_DROP_STAT(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001d30ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_FD_SOS_DROP_STAT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2582,7 +2622,7 @@ typedef union cavm_rfoex_rx_fd_statex cavm_rfoex_rx_fd_statex_t;
 static inline uint64_t CAVM_RFOEX_RX_FD_STATEX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_FD_STATEX(uint64_t a, uint64_t b)
 {
-    if ((a<=6) && (b<=31))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=31)))
         return 0x861000001200ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1f);
     __cavm_csr_fatal("RFOEX_RX_FD_STATEX", 2, a, b, 0, 0, 0, 0);
 }
@@ -2622,7 +2662,7 @@ typedef union cavm_rfoex_rx_ft_enable_drop_stat cavm_rfoex_rx_ft_enable_drop_sta
 static inline uint64_t CAVM_RFOEX_RX_FT_ENABLE_DROP_STAT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_FT_ENABLE_DROP_STAT(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001d28ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_FT_ENABLE_DROP_STAT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2659,7 +2699,7 @@ typedef union cavm_rfoex_rx_full_drop_statx cavm_rfoex_rx_full_drop_statx_t;
 static inline uint64_t CAVM_RFOEX_RX_FULL_DROP_STATX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_FULL_DROP_STATX(uint64_t a, uint64_t b)
 {
-    if ((a<=6) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=3)))
         return 0x861000001e20ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("RFOEX_RX_FULL_DROP_STATX", 2, a, b, 0, 0, 0, 0);
 }
@@ -2719,7 +2759,7 @@ typedef union cavm_rfoex_rx_ind_ecpri_ft_cfg cavm_rfoex_rx_ind_ecpri_ft_cfg_t;
 static inline uint64_t CAVM_RFOEX_RX_IND_ECPRI_FT_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_IND_ECPRI_FT_CFG(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001cc0ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_IND_ECPRI_FT_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2789,7 +2829,7 @@ typedef union cavm_rfoex_rx_ind_ecpri_hash_cfg cavm_rfoex_rx_ind_ecpri_hash_cfg_
 static inline uint64_t CAVM_RFOEX_RX_IND_ECPRI_HASH_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_IND_ECPRI_HASH_CFG(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001ce0ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_IND_ECPRI_HASH_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2874,7 +2914,7 @@ typedef union cavm_rfoex_rx_ind_ftx_cfg cavm_rfoex_rx_ind_ftx_cfg_t;
 static inline uint64_t CAVM_RFOEX_RX_IND_FTX_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_IND_FTX_CFG(uint64_t a, uint64_t b)
 {
-    if ((a<=6) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=3)))
         return 0x861000001c00ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("RFOEX_RX_IND_FTX_CFG", 2, a, b, 0, 0, 0, 0);
 }
@@ -3030,7 +3070,7 @@ typedef union cavm_rfoex_rx_ind_jdt_cfg0 cavm_rfoex_rx_ind_jdt_cfg0_t;
 static inline uint64_t CAVM_RFOEX_RX_IND_JDT_CFG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_IND_JDT_CFG0(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001c40ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_IND_JDT_CFG0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3134,7 +3174,7 @@ typedef union cavm_rfoex_rx_ind_jdt_cfg1 cavm_rfoex_rx_ind_jdt_cfg1_t;
 static inline uint64_t CAVM_RFOEX_RX_IND_JDT_CFG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_IND_JDT_CFG1(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001c48ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_IND_JDT_CFG1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3171,14 +3211,14 @@ union cavm_rfoex_rx_ind_jdt_cfg2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_6_63         : 58;
-        uint64_t ab_cfg_offset         : 6;  /**< [  5:  0](R/W) Location of AB Config descriptor within each job descriptor, in units
+        uint64_t ab_cfg_offset         : 6;  /**< [  5:  0](R/W) Location of AB Config descriptor Word 3 within each job descriptor, in units
                                                                  of 8 bytes.
-                                                                 * Must be less than [RFOE()_RX_IND_JDT_CFG0.JD_SIZE]-1.
+                                                                 * Must be less than or equal to RFOE()_RX_IND_JDT_CFG0[JD_SIZE]-1.
                                                                  * ([AB_CFG_OFFSET]*8)+RFOE()_RX_IND_JDT_PTR[PTR] must be 128-bit aligned. */
 #else /* Word 0 - Little Endian */
-        uint64_t ab_cfg_offset         : 6;  /**< [  5:  0](R/W) Location of AB Config descriptor within each job descriptor, in units
+        uint64_t ab_cfg_offset         : 6;  /**< [  5:  0](R/W) Location of AB Config descriptor Word 3 within each job descriptor, in units
                                                                  of 8 bytes.
-                                                                 * Must be less than [RFOE()_RX_IND_JDT_CFG0.JD_SIZE]-1.
+                                                                 * Must be less than or equal to RFOE()_RX_IND_JDT_CFG0[JD_SIZE]-1.
                                                                  * ([AB_CFG_OFFSET]*8)+RFOE()_RX_IND_JDT_PTR[PTR] must be 128-bit aligned. */
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
@@ -3190,7 +3230,7 @@ typedef union cavm_rfoex_rx_ind_jdt_cfg2 cavm_rfoex_rx_ind_jdt_cfg2_t;
 static inline uint64_t CAVM_RFOEX_RX_IND_JDT_CFG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_IND_JDT_CFG2(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001c90ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_IND_JDT_CFG2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3255,7 +3295,7 @@ typedef union cavm_rfoex_rx_ind_jdt_psm_w0 cavm_rfoex_rx_ind_jdt_psm_w0_t;
 static inline uint64_t CAVM_RFOEX_RX_IND_JDT_PSM_W0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_IND_JDT_PSM_W0(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001c58ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_IND_JDT_PSM_W0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3290,7 +3330,7 @@ typedef union cavm_rfoex_rx_ind_jdt_psm_w1 cavm_rfoex_rx_ind_jdt_psm_w1_t;
 static inline uint64_t CAVM_RFOEX_RX_IND_JDT_PSM_W1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_IND_JDT_PSM_W1(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001c60ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_IND_JDT_PSM_W1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3341,7 +3381,7 @@ typedef union cavm_rfoex_rx_ind_jdt_ptr cavm_rfoex_rx_ind_jdt_ptr_t;
 static inline uint64_t CAVM_RFOEX_RX_IND_JDT_PTR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_IND_JDT_PTR(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001c50ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_IND_JDT_PTR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3405,7 +3445,7 @@ typedef union cavm_rfoex_rx_ind_jdt_seqnum_p_cfg cavm_rfoex_rx_ind_jdt_seqnum_p_
 static inline uint64_t CAVM_RFOEX_RX_IND_JDT_SEQNUM_P_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_IND_JDT_SEQNUM_P_CFG(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001c68ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_IND_JDT_SEQNUM_P_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3459,7 +3499,7 @@ typedef union cavm_rfoex_rx_ind_jdt_seqnum_q_cfg cavm_rfoex_rx_ind_jdt_seqnum_q_
 static inline uint64_t CAVM_RFOEX_RX_IND_JDT_SEQNUM_Q_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_IND_JDT_SEQNUM_Q_CFG(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001c70ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_IND_JDT_SEQNUM_Q_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3514,7 +3554,7 @@ typedef union cavm_rfoex_rx_ind_jdt_seqnum_state cavm_rfoex_rx_ind_jdt_seqnum_st
 static inline uint64_t CAVM_RFOEX_RX_IND_JDT_SEQNUM_STATE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_IND_JDT_SEQNUM_STATE(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001c80ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_IND_JDT_SEQNUM_STATE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3563,7 +3603,7 @@ typedef union cavm_rfoex_rx_ind_jdt_state cavm_rfoex_rx_ind_jdt_state_t;
 static inline uint64_t CAVM_RFOEX_RX_IND_JDT_STATE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_IND_JDT_STATE(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001c78ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_IND_JDT_STATE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3619,7 +3659,7 @@ typedef union cavm_rfoex_rx_ind_mbt_addr cavm_rfoex_rx_ind_mbt_addr_t;
 static inline uint64_t CAVM_RFOEX_RX_IND_MBT_ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_IND_MBT_ADDR(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001c30ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_IND_MBT_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3711,7 +3751,7 @@ typedef union cavm_rfoex_rx_ind_mbt_cfg cavm_rfoex_rx_ind_mbt_cfg_t;
 static inline uint64_t CAVM_RFOEX_RX_IND_MBT_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_IND_MBT_CFG(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001c20ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_IND_MBT_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3759,7 +3799,7 @@ typedef union cavm_rfoex_rx_ind_mbt_cfg2 cavm_rfoex_rx_ind_mbt_cfg2_t;
 static inline uint64_t CAVM_RFOEX_RX_IND_MBT_CFG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_IND_MBT_CFG2(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001c28ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_IND_MBT_CFG2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3829,7 +3869,7 @@ typedef union cavm_rfoex_rx_ind_mbt_seg_state cavm_rfoex_rx_ind_mbt_seg_state_t;
 static inline uint64_t CAVM_RFOEX_RX_IND_MBT_SEG_STATE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_IND_MBT_SEG_STATE(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001c38ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_IND_MBT_SEG_STATE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3839,6 +3879,381 @@ static inline uint64_t CAVM_RFOEX_RX_IND_MBT_SEG_STATE(uint64_t a)
 #define basename_CAVM_RFOEX_RX_IND_MBT_SEG_STATE(a) "RFOEX_RX_IND_MBT_SEG_STATE"
 #define busnum_CAVM_RFOEX_RX_IND_MBT_SEG_STATE(a) (a)
 #define arguments_CAVM_RFOEX_RX_IND_MBT_SEG_STATE(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) rfoe#_rx_ind_sw_tbl_act_cfg1
+ *
+ * RFOE RX Indirect Switch Table Action Configuration Register1
+ * Switch configuration table action configuration.
+ *
+ * This register indirectly accesses a table of 64 entries.
+ *
+ * Reads and writes to this register access the table entry specified by
+ * RFOE()_RX_INDIRECT_INDEX[INDEX].
+ *
+ * Incoming packets select a Switch Table entry based on valid masked address matching.
+ */
+union cavm_rfoex_rx_ind_sw_tbl_act_cfg1
+{
+    uint64_t u;
+    struct cavm_rfoex_rx_ind_sw_tbl_act_cfg1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_22_63        : 42;
+        uint64_t term_flow_id_calc     : 2;  /**< [ 21: 20](R/W) Specifies the Calculation method for flow_id. Used only
+                                                                 when ACTION=RFOE_RX_SW_TBL_ACTION_E::TERMINATE. */
+        uint64_t reserved_18_19        : 2;
+        uint64_t dest_lmac_id          : 2;  /**< [ 17: 16](R/W) Destination LMAC_ID.
+                                                                 Used only when ACTION=RFOE_RX_SW_TBL_ACTION_E::FORWARD. */
+        uint64_t reserved_11_15        : 5;
+        uint64_t rfoe_flow_id          : 7;  /**< [ 10:  4](R/W) Forwarding flow_id used to lookup MBT_IDX and JDT_IDX.
+                                                                 Used when ACTION=RFOE_RX_SW_TBL_ACTION_E::FORWARD or
+                                                                 when ACTION=RFOE_RX_SW_TBL_ACTION_E::TERMINATE and
+                                                                 TERM_FLOW_ID_CALC=RFOE_RX_SW_TBL_TERM_FLOW_ID_CALC_E::PC_ID_REMAP_SUBTABLE or
+                                                                 TERM_FLOW_ID_CALC=RFOE_RX_SW_TBL_TERM_FLOW_ID_CALC_E::PC_ID_HASH_SUBTABLE. */
+        uint64_t reserved_2_3          : 2;
+        uint64_t action                : 2;  /**< [  1:  0](R/W) Specifies Action on Match. */
+#else /* Word 0 - Little Endian */
+        uint64_t action                : 2;  /**< [  1:  0](R/W) Specifies Action on Match. */
+        uint64_t reserved_2_3          : 2;
+        uint64_t rfoe_flow_id          : 7;  /**< [ 10:  4](R/W) Forwarding flow_id used to lookup MBT_IDX and JDT_IDX.
+                                                                 Used when ACTION=RFOE_RX_SW_TBL_ACTION_E::FORWARD or
+                                                                 when ACTION=RFOE_RX_SW_TBL_ACTION_E::TERMINATE and
+                                                                 TERM_FLOW_ID_CALC=RFOE_RX_SW_TBL_TERM_FLOW_ID_CALC_E::PC_ID_REMAP_SUBTABLE or
+                                                                 TERM_FLOW_ID_CALC=RFOE_RX_SW_TBL_TERM_FLOW_ID_CALC_E::PC_ID_HASH_SUBTABLE. */
+        uint64_t reserved_11_15        : 5;
+        uint64_t dest_lmac_id          : 2;  /**< [ 17: 16](R/W) Destination LMAC_ID.
+                                                                 Used only when ACTION=RFOE_RX_SW_TBL_ACTION_E::FORWARD. */
+        uint64_t reserved_18_19        : 2;
+        uint64_t term_flow_id_calc     : 2;  /**< [ 21: 20](R/W) Specifies the Calculation method for flow_id. Used only
+                                                                 when ACTION=RFOE_RX_SW_TBL_ACTION_E::TERMINATE. */
+        uint64_t reserved_22_63        : 42;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rfoex_rx_ind_sw_tbl_act_cfg1_s cn; */
+};
+typedef union cavm_rfoex_rx_ind_sw_tbl_act_cfg1 cavm_rfoex_rx_ind_sw_tbl_act_cfg1_t;
+
+static inline uint64_t CAVM_RFOEX_RX_IND_SW_TBL_ACT_CFG1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RFOEX_RX_IND_SW_TBL_ACT_CFG1(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
+        return 0x861000013110ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RFOEX_RX_IND_SW_TBL_ACT_CFG1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RFOEX_RX_IND_SW_TBL_ACT_CFG1(a) cavm_rfoex_rx_ind_sw_tbl_act_cfg1_t
+#define bustype_CAVM_RFOEX_RX_IND_SW_TBL_ACT_CFG1(a) CSR_TYPE_NCB
+#define basename_CAVM_RFOEX_RX_IND_SW_TBL_ACT_CFG1(a) "RFOEX_RX_IND_SW_TBL_ACT_CFG1"
+#define busnum_CAVM_RFOEX_RX_IND_SW_TBL_ACT_CFG1(a) (a)
+#define arguments_CAVM_RFOEX_RX_IND_SW_TBL_ACT_CFG1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) rfoe#_rx_ind_sw_tbl_act_cfg2
+ *
+ * RFOE RX Indirect Switch Table Action Configuration 2 Register
+ * This register indirectly accesses a table of 64 entries.
+ *
+ * Reads and writes to this register access the table entry specified by
+ * RFOE()_RX_INDIRECT_INDEX[INDEX].
+ *
+ * Incoming packets select a Switch Table entry based on valid masked address matching.
+ */
+union cavm_rfoex_rx_ind_sw_tbl_act_cfg2
+{
+    uint64_t u;
+    struct cavm_rfoex_rx_ind_sw_tbl_act_cfg2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_62_63        : 2;
+        uint64_t subtable_offset       : 10; /**< [ 61: 52](R/W) EDEC Subtable offset.
+                                                                 Used when ACTION=RFOE_RX_SW_TBL_ACTION_E::TERMINATE and
+                                                                 TERM_FLOW_ID_CALC=RFOE_RX_SW_TBL_TERM_FLOW_ID_CALC_E::PC_ID_REMAP_SUBTABLE or
+                                                                 TERM_FLOW_ID_CALC=RFOE_RX_SW_TBL_TERM_FLOW_ID_CALC_E::PC_ID_HASH_SUBTABLE. */
+        uint64_t reserved_50_51        : 2;
+        uint64_t pc_id_key_select      : 50; /**< [ 49:  0](R/W) Selectors for PC_ID_KEY[9:0].
+                                                                 Used when ACTION=RFOE_RX_SW_TBL_ACTION_E::TERMINATE and
+                                                                 TERM_FLOW_ID_CALC=RFOE_RX_SW_TBL_TERM_FLOW_ID_CALC_E::PC_ID_REMAP_SUBTABLE or
+                                                                 TERM_FLOW_ID_CALC=RFOE_RX_SW_TBL_TERM_FLOW_ID_CALC_E::PC_ID_HASH_SUBTABLE.
+                                                                 Only 9:0 used for PC_ID_HASH_SUBTABLE. */
+#else /* Word 0 - Little Endian */
+        uint64_t pc_id_key_select      : 50; /**< [ 49:  0](R/W) Selectors for PC_ID_KEY[9:0].
+                                                                 Used when ACTION=RFOE_RX_SW_TBL_ACTION_E::TERMINATE and
+                                                                 TERM_FLOW_ID_CALC=RFOE_RX_SW_TBL_TERM_FLOW_ID_CALC_E::PC_ID_REMAP_SUBTABLE or
+                                                                 TERM_FLOW_ID_CALC=RFOE_RX_SW_TBL_TERM_FLOW_ID_CALC_E::PC_ID_HASH_SUBTABLE.
+                                                                 Only 9:0 used for PC_ID_HASH_SUBTABLE. */
+        uint64_t reserved_50_51        : 2;
+        uint64_t subtable_offset       : 10; /**< [ 61: 52](R/W) EDEC Subtable offset.
+                                                                 Used when ACTION=RFOE_RX_SW_TBL_ACTION_E::TERMINATE and
+                                                                 TERM_FLOW_ID_CALC=RFOE_RX_SW_TBL_TERM_FLOW_ID_CALC_E::PC_ID_REMAP_SUBTABLE or
+                                                                 TERM_FLOW_ID_CALC=RFOE_RX_SW_TBL_TERM_FLOW_ID_CALC_E::PC_ID_HASH_SUBTABLE. */
+        uint64_t reserved_62_63        : 2;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rfoex_rx_ind_sw_tbl_act_cfg2_s cn; */
+};
+typedef union cavm_rfoex_rx_ind_sw_tbl_act_cfg2 cavm_rfoex_rx_ind_sw_tbl_act_cfg2_t;
+
+static inline uint64_t CAVM_RFOEX_RX_IND_SW_TBL_ACT_CFG2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RFOEX_RX_IND_SW_TBL_ACT_CFG2(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
+        return 0x861000013118ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RFOEX_RX_IND_SW_TBL_ACT_CFG2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RFOEX_RX_IND_SW_TBL_ACT_CFG2(a) cavm_rfoex_rx_ind_sw_tbl_act_cfg2_t
+#define bustype_CAVM_RFOEX_RX_IND_SW_TBL_ACT_CFG2(a) CSR_TYPE_NCB
+#define basename_CAVM_RFOEX_RX_IND_SW_TBL_ACT_CFG2(a) "RFOEX_RX_IND_SW_TBL_ACT_CFG2"
+#define busnum_CAVM_RFOEX_RX_IND_SW_TBL_ACT_CFG2(a) (a)
+#define arguments_CAVM_RFOEX_RX_IND_SW_TBL_ACT_CFG2(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) rfoe#_rx_ind_sw_tbl_ft_cfg
+ *
+ * RFOE RX Indirect Flow Table Configuration Register
+ * Flow table configuration for Switched packets.
+ *
+ * This register indirectly accesses a flow configuration table with 128
+ * entries.
+ *
+ * Reads and writes to this register access the table entry specified by
+ * RFOE()_RX_INDIRECT_INDEX[INDEX].
+ *
+ * Incoming packets with switch table lookup index the flow table using the
+ * RFOE_FLOW_ID field configured
+ * in RFOE()_RX_IND_SW_TBL_ACT_CFG1().
+ */
+union cavm_rfoex_rx_ind_sw_tbl_ft_cfg
+{
+    uint64_t u;
+    struct cavm_rfoex_rx_ind_sw_tbl_ft_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_29_63        : 35;
+        uint64_t ab_cfg_w_enable       : 1;  /**< [ 28: 28](R/W) Configures whether AB_CFG_W3 will be written by RX to JD. If set, will write
+                                                                 the AB_CFG_W3 consisting of pkt_len, destination lmac_id and tx_err. */
+        uint64_t reserved_25_27        : 3;
+        uint64_t enable                : 1;  /**< [ 24: 24](R/W) Enable this flow. Drop packets when clear. */
+        uint64_t reserved_23           : 1;
+        uint64_t mbt_idx               : 11; /**< [ 22: 12](R/W) MBT index. Pointer to MBT entry for DMA write buffer configurations. */
+        uint64_t reserved_11           : 1;
+        uint64_t flow_idx              : 11; /**< [ 10:  0](R/W) Flow index. Pointer to JDT entry for job descriptor and flow configuration. */
+#else /* Word 0 - Little Endian */
+        uint64_t flow_idx              : 11; /**< [ 10:  0](R/W) Flow index. Pointer to JDT entry for job descriptor and flow configuration. */
+        uint64_t reserved_11           : 1;
+        uint64_t mbt_idx               : 11; /**< [ 22: 12](R/W) MBT index. Pointer to MBT entry for DMA write buffer configurations. */
+        uint64_t reserved_23           : 1;
+        uint64_t enable                : 1;  /**< [ 24: 24](R/W) Enable this flow. Drop packets when clear. */
+        uint64_t reserved_25_27        : 3;
+        uint64_t ab_cfg_w_enable       : 1;  /**< [ 28: 28](R/W) Configures whether AB_CFG_W3 will be written by RX to JD. If set, will write
+                                                                 the AB_CFG_W3 consisting of pkt_len, destination lmac_id and tx_err. */
+        uint64_t reserved_29_63        : 35;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rfoex_rx_ind_sw_tbl_ft_cfg_s cn; */
+};
+typedef union cavm_rfoex_rx_ind_sw_tbl_ft_cfg cavm_rfoex_rx_ind_sw_tbl_ft_cfg_t;
+
+static inline uint64_t CAVM_RFOEX_RX_IND_SW_TBL_FT_CFG(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RFOEX_RX_IND_SW_TBL_FT_CFG(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
+        return 0x861000013240ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RFOEX_RX_IND_SW_TBL_FT_CFG", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RFOEX_RX_IND_SW_TBL_FT_CFG(a) cavm_rfoex_rx_ind_sw_tbl_ft_cfg_t
+#define bustype_CAVM_RFOEX_RX_IND_SW_TBL_FT_CFG(a) CSR_TYPE_NCB
+#define basename_CAVM_RFOEX_RX_IND_SW_TBL_FT_CFG(a) "RFOEX_RX_IND_SW_TBL_FT_CFG"
+#define busnum_CAVM_RFOEX_RX_IND_SW_TBL_FT_CFG(a) (a)
+#define arguments_CAVM_RFOEX_RX_IND_SW_TBL_FT_CFG(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) rfoe#_rx_ind_sw_tbl_key1
+ *
+ * RFOE RX Indirect Switch Table Search Key Register1
+ * Switch configuration table Search Key MAC address.
+ *
+ * This register indirectly accesses a table of 64 entries.
+ *
+ * Reads and writes to this register access the table entry specified by
+ * RFOE()_RX_INDIRECT_INDEX[INDEX].
+ *
+ * Incoming packets select a Switch Table entry based on valid masked address matching.
+ */
+union cavm_rfoex_rx_ind_sw_tbl_key1
+{
+    uint64_t u;
+    struct cavm_rfoex_rx_ind_sw_tbl_key1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_49_63        : 15;
+        uint64_t sa                    : 1;  /**< [ 48: 48](R/W) Source Address.
+                                                                 SA=0 Destination Address.
+                                                                 SA=1 Source Address. */
+        uint64_t mac_addr              : 48; /**< [ 47:  0](R/W) MAC Address. Can be source or destination, depending on SA field. */
+#else /* Word 0 - Little Endian */
+        uint64_t mac_addr              : 48; /**< [ 47:  0](R/W) MAC Address. Can be source or destination, depending on SA field. */
+        uint64_t sa                    : 1;  /**< [ 48: 48](R/W) Source Address.
+                                                                 SA=0 Destination Address.
+                                                                 SA=1 Source Address. */
+        uint64_t reserved_49_63        : 15;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rfoex_rx_ind_sw_tbl_key1_s cn; */
+};
+typedef union cavm_rfoex_rx_ind_sw_tbl_key1 cavm_rfoex_rx_ind_sw_tbl_key1_t;
+
+static inline uint64_t CAVM_RFOEX_RX_IND_SW_TBL_KEY1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RFOEX_RX_IND_SW_TBL_KEY1(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
+        return 0x861000013100ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RFOEX_RX_IND_SW_TBL_KEY1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RFOEX_RX_IND_SW_TBL_KEY1(a) cavm_rfoex_rx_ind_sw_tbl_key1_t
+#define bustype_CAVM_RFOEX_RX_IND_SW_TBL_KEY1(a) CSR_TYPE_NCB
+#define basename_CAVM_RFOEX_RX_IND_SW_TBL_KEY1(a) "RFOEX_RX_IND_SW_TBL_KEY1"
+#define busnum_CAVM_RFOEX_RX_IND_SW_TBL_KEY1(a) (a)
+#define arguments_CAVM_RFOEX_RX_IND_SW_TBL_KEY1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) rfoe#_rx_ind_sw_tbl_key2
+ *
+ * RFOE RX Indirect Switch Table Search Key 2 Register
+ * This register indirectly accesses a table of 64 entries.
+ *
+ * Reads and writes to this register access the table entry specified by
+ * RFOE()_RX_INDIRECT_INDEX[INDEX].
+ *
+ * Incoming packets select a Switch Table entry based on valid masked address matching.
+ */
+union cavm_rfoex_rx_ind_sw_tbl_key2
+{
+    uint64_t u;
+    struct cavm_rfoex_rx_ind_sw_tbl_key2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_41_63        : 23;
+        uint64_t ecpri_mtz             : 1;  /**< [ 40: 40](R/W) Table entry for eCPRI Message Type 0 packets.
+                                                                 ECPRI_MTZ=0 Disable match for eCPRI MTZ (Message Type 0) packets. Set
+                                                                 RFOE()_RX_IND_SW_TBL_MSK.PC_ID_COMP_EN=0 to avoid unpredictable behavior when
+                                                                 using for non-eCPRI messages or eCPRI messages with no PC_ID or no RTC_ID.
+                                                                 ECPRI_MTZ=1 Enable match for eCPRI MTZ (Message Type 0) packets. PC_ID masked
+                                                                 with RFOE()_RX_IND_SW_TBL_MSK.PC_ID_COMP_EN will be used for matching. */
+        uint64_t pc_id                 : 16; /**< [ 39: 24](R/W) PC_ID (only for ECPRI). */
+        uint64_t reserved_12_23        : 12;
+        uint64_t vlan_id               : 12; /**< [ 11:  0](R/W) Inner VLAN_ID. */
+#else /* Word 0 - Little Endian */
+        uint64_t vlan_id               : 12; /**< [ 11:  0](R/W) Inner VLAN_ID. */
+        uint64_t reserved_12_23        : 12;
+        uint64_t pc_id                 : 16; /**< [ 39: 24](R/W) PC_ID (only for ECPRI). */
+        uint64_t ecpri_mtz             : 1;  /**< [ 40: 40](R/W) Table entry for eCPRI Message Type 0 packets.
+                                                                 ECPRI_MTZ=0 Disable match for eCPRI MTZ (Message Type 0) packets. Set
+                                                                 RFOE()_RX_IND_SW_TBL_MSK.PC_ID_COMP_EN=0 to avoid unpredictable behavior when
+                                                                 using for non-eCPRI messages or eCPRI messages with no PC_ID or no RTC_ID.
+                                                                 ECPRI_MTZ=1 Enable match for eCPRI MTZ (Message Type 0) packets. PC_ID masked
+                                                                 with RFOE()_RX_IND_SW_TBL_MSK.PC_ID_COMP_EN will be used for matching. */
+        uint64_t reserved_41_63        : 23;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rfoex_rx_ind_sw_tbl_key2_s cn; */
+};
+typedef union cavm_rfoex_rx_ind_sw_tbl_key2 cavm_rfoex_rx_ind_sw_tbl_key2_t;
+
+static inline uint64_t CAVM_RFOEX_RX_IND_SW_TBL_KEY2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RFOEX_RX_IND_SW_TBL_KEY2(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
+        return 0x861000013108ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RFOEX_RX_IND_SW_TBL_KEY2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RFOEX_RX_IND_SW_TBL_KEY2(a) cavm_rfoex_rx_ind_sw_tbl_key2_t
+#define bustype_CAVM_RFOEX_RX_IND_SW_TBL_KEY2(a) CSR_TYPE_NCB
+#define basename_CAVM_RFOEX_RX_IND_SW_TBL_KEY2(a) "RFOEX_RX_IND_SW_TBL_KEY2"
+#define busnum_CAVM_RFOEX_RX_IND_SW_TBL_KEY2(a) (a)
+#define arguments_CAVM_RFOEX_RX_IND_SW_TBL_KEY2(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) rfoe#_rx_ind_sw_tbl_msk
+ *
+ * RFOE RX Indirect Switch Table Mask Register
+ * Switch configuration table action configuration.
+ *
+ * This register indirectly accesses a table of 64 entries.
+ *
+ * Reads and writes to this register access the table entry specified by
+ * RFOE()_RX_INDIRECT_INDEX[INDEX].
+ *
+ * Incoming packets select a Switch Table entry based on valid masked address matching.
+ */
+union cavm_rfoex_rx_ind_sw_tbl_msk
+{
+    uint64_t u;
+    struct cavm_rfoex_rx_ind_sw_tbl_msk_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t mac_addr_comp_en      : 1;  /**< [ 63: 63](R/W) Compare enable for MAC Address matching.
+                                                                 MAC_ADDR_COMP_EN=0 Ignore RFOE()_RX_IND_SW_TBL_KEY1.MAC_ADDR at same index for matching.
+                                                                 MAC_ADDR_COMP_EN=1 Enable Match of RFOE()_RX_IND_SW_TBL_KEY1.MAC_ADDR at same index for matching. */
+        uint64_t reserved_33_62        : 30;
+        uint64_t ecpri_mtz_comp_en     : 1;  /**< [ 32: 32](R/W) Compare enable for ECPRI Message Type 0 matching.
+                                                                 ECPRI_MTZ_COMP_EN=0 Disable RFOE()_RX_IND_SW_TBL_KEY2.ECPRI_MTZ at same index.
+                                                                 eCPRI MTZ packets will not be matched at this index.
+                                                                 ECPRI_MTZ_COMP_EN=1, RFOE()_RX_IND_SW_TBL_KEY2.ECPRI_MTZ=0 at same index. eCPRI
+                                                                 MTZ packets will not be matched at this index.
+                                                                 ECPRI_MTZ_COMP_EN=1, RFOE()_RX_IND_SW_TBL_KEY2.ECPRI_MTZ=1 at same index. eCPRI
+                                                                 MTZ packets will be matched at this index. */
+        uint64_t pc_id_comp_en         : 16; /**< [ 31: 16](R/W) Bit-wise enable for PC_ID matching.
+                                                                 Applicable only for ECPRI packets.
+                                                                 Unpredictable behavior if PC_ID_COMP_EN=1 and (ECPRI_COMP_EN=0 or
+                                                                 RFOE()_RX_IND_SW_TBL_KEY2.ECPRI=0). */
+        uint64_t reserved_1_15         : 15;
+        uint64_t vlan_comp_en          : 1;  /**< [  0:  0](R/W) Compare enable for VLAN matching. VLAN_COMP_EN=0 Ignore
+                                                                 RFOE()_RX_IND_SW_TBL_KEY2.VLAN at same index for matching. VLAN_COMP_EN=1 Enable
+                                                                 Match of RFOE()_RX_IND_SW_TBL_KEY2.VLAN at same index for matching. */
+#else /* Word 0 - Little Endian */
+        uint64_t vlan_comp_en          : 1;  /**< [  0:  0](R/W) Compare enable for VLAN matching. VLAN_COMP_EN=0 Ignore
+                                                                 RFOE()_RX_IND_SW_TBL_KEY2.VLAN at same index for matching. VLAN_COMP_EN=1 Enable
+                                                                 Match of RFOE()_RX_IND_SW_TBL_KEY2.VLAN at same index for matching. */
+        uint64_t reserved_1_15         : 15;
+        uint64_t pc_id_comp_en         : 16; /**< [ 31: 16](R/W) Bit-wise enable for PC_ID matching.
+                                                                 Applicable only for ECPRI packets.
+                                                                 Unpredictable behavior if PC_ID_COMP_EN=1 and (ECPRI_COMP_EN=0 or
+                                                                 RFOE()_RX_IND_SW_TBL_KEY2.ECPRI=0). */
+        uint64_t ecpri_mtz_comp_en     : 1;  /**< [ 32: 32](R/W) Compare enable for ECPRI Message Type 0 matching.
+                                                                 ECPRI_MTZ_COMP_EN=0 Disable RFOE()_RX_IND_SW_TBL_KEY2.ECPRI_MTZ at same index.
+                                                                 eCPRI MTZ packets will not be matched at this index.
+                                                                 ECPRI_MTZ_COMP_EN=1, RFOE()_RX_IND_SW_TBL_KEY2.ECPRI_MTZ=0 at same index. eCPRI
+                                                                 MTZ packets will not be matched at this index.
+                                                                 ECPRI_MTZ_COMP_EN=1, RFOE()_RX_IND_SW_TBL_KEY2.ECPRI_MTZ=1 at same index. eCPRI
+                                                                 MTZ packets will be matched at this index. */
+        uint64_t reserved_33_62        : 30;
+        uint64_t mac_addr_comp_en      : 1;  /**< [ 63: 63](R/W) Compare enable for MAC Address matching.
+                                                                 MAC_ADDR_COMP_EN=0 Ignore RFOE()_RX_IND_SW_TBL_KEY1.MAC_ADDR at same index for matching.
+                                                                 MAC_ADDR_COMP_EN=1 Enable Match of RFOE()_RX_IND_SW_TBL_KEY1.MAC_ADDR at same index for matching. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rfoex_rx_ind_sw_tbl_msk_s cn; */
+};
+typedef union cavm_rfoex_rx_ind_sw_tbl_msk cavm_rfoex_rx_ind_sw_tbl_msk_t;
+
+static inline uint64_t CAVM_RFOEX_RX_IND_SW_TBL_MSK(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RFOEX_RX_IND_SW_TBL_MSK(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
+        return 0x861000013290ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RFOEX_RX_IND_SW_TBL_MSK", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RFOEX_RX_IND_SW_TBL_MSK(a) cavm_rfoex_rx_ind_sw_tbl_msk_t
+#define bustype_CAVM_RFOEX_RX_IND_SW_TBL_MSK(a) CSR_TYPE_NCB
+#define basename_CAVM_RFOEX_RX_IND_SW_TBL_MSK(a) "RFOEX_RX_IND_SW_TBL_MSK"
+#define busnum_CAVM_RFOEX_RX_IND_SW_TBL_MSK(a) (a)
+#define arguments_CAVM_RFOEX_RX_IND_SW_TBL_MSK(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) rfoe#_rx_ind_vlan#_fwd
@@ -3875,7 +4290,7 @@ typedef union cavm_rfoex_rx_ind_vlanx_fwd cavm_rfoex_rx_ind_vlanx_fwd_t;
 static inline uint64_t CAVM_RFOEX_RX_IND_VLANX_FWD(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_IND_VLANX_FWD(uint64_t a, uint64_t b)
 {
-    if ((a<=6) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=1)))
         return 0x861000001cd0ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("RFOEX_RX_IND_VLANX_FWD", 2, a, b, 0, 0, 0, 0);
 }
@@ -3912,7 +4327,7 @@ typedef union cavm_rfoex_rx_indirect_index cavm_rfoex_rx_indirect_index_t;
 static inline uint64_t CAVM_RFOEX_RX_INDIRECT_INDEX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_INDIRECT_INDEX(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001bf8ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_INDIRECT_INDEX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3927,7 +4342,7 @@ static inline uint64_t CAVM_RFOEX_RX_INDIRECT_INDEX(uint64_t a)
  * Register (NCB) rfoe#_rx_inst
  *
  * RFOE Instance ID Register
- * RFOE Instance ID Register
+ * RFOE Instance ID Register.
  */
 union cavm_rfoex_rx_inst
 {
@@ -3949,7 +4364,7 @@ typedef union cavm_rfoex_rx_inst cavm_rfoex_rx_inst_t;
 static inline uint64_t CAVM_RFOEX_RX_INST(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_INST(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001cf0ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_INST", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3998,7 +4413,7 @@ typedef union cavm_rfoex_rx_jca_addjob_jobtag cavm_rfoex_rx_jca_addjob_jobtag_t;
 static inline uint64_t CAVM_RFOEX_RX_JCA_ADDJOB_JOBTAG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_JCA_ADDJOB_JOBTAG(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001060ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_JCA_ADDJOB_JOBTAG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4038,7 +4453,7 @@ typedef union cavm_rfoex_rx_mbtx_status cavm_rfoex_rx_mbtx_status_t;
 static inline uint64_t CAVM_RFOEX_RX_MBTX_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_MBTX_STATUS(uint64_t a, uint64_t b)
 {
-    if ((a<=6) && (b<=1055))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=1055)))
         return 0x861000010000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7ff);
     __cavm_csr_fatal("RFOEX_RX_MBTX_STATUS", 2, a, b, 0, 0, 0, 0);
 }
@@ -4048,6 +4463,173 @@ static inline uint64_t CAVM_RFOEX_RX_MBTX_STATUS(uint64_t a, uint64_t b)
 #define basename_CAVM_RFOEX_RX_MBTX_STATUS(a,b) "RFOEX_RX_MBTX_STATUS"
 #define busnum_CAVM_RFOEX_RX_MBTX_STATUS(a,b) (a)
 #define arguments_CAVM_RFOEX_RX_MBTX_STATUS(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) rfoe#_rx_mcs_shunt_act_cfg1
+ *
+ * RFOE RX MCS Shunt Action Configuration Register1
+ */
+union cavm_rfoex_rx_mcs_shunt_act_cfg1
+{
+    uint64_t u;
+    struct cavm_rfoex_rx_mcs_shunt_act_cfg1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_22_63        : 42;
+        uint64_t term_flow_id_calc     : 2;  /**< [ 21: 20](R/W) Specifies the Calculation method for flow_id. Used only
+                                                                 when ACTION=RFOE_RX_SW_TBL_ACTION_E::TERMINATE. */
+        uint64_t reserved_18_19        : 2;
+        uint64_t dest_lmac_id          : 2;  /**< [ 17: 16](R/W) Destination LMAC_ID.
+                                                                 Used only when ACTION=RFOE_RX_SW_TBL_ACTION_E::FORWARD. */
+        uint64_t reserved_11_15        : 5;
+        uint64_t rfoe_flow_id          : 7;  /**< [ 10:  4](R/W) Forwarding flow_id used to lookup MBT_IDX and JDT_IDX.
+                                                                 Used when ACTION=RFOE_RX_SW_TBL_ACTION_E::FORWARD or
+                                                                 when ACTION=RFOE_RX_SW_TBL_ACTION_E::TERMINATE and
+                                                                 TERM_FLOW_ID_CALC=RFOE_RX_SW_TBL_TERM_FLOW_ID_CALC_E::PC_ID_REMAP_SUBTABLE or
+                                                                 TERM_FLOW_ID_CALC=RFOE_RX_SW_TBL_TERM_FLOW_ID_CALC_E::PC_ID_HASH_SUBTABLE. */
+        uint64_t reserved_2_3          : 2;
+        uint64_t action                : 2;  /**< [  1:  0](R/W) Specifies Action on Match. */
+#else /* Word 0 - Little Endian */
+        uint64_t action                : 2;  /**< [  1:  0](R/W) Specifies Action on Match. */
+        uint64_t reserved_2_3          : 2;
+        uint64_t rfoe_flow_id          : 7;  /**< [ 10:  4](R/W) Forwarding flow_id used to lookup MBT_IDX and JDT_IDX.
+                                                                 Used when ACTION=RFOE_RX_SW_TBL_ACTION_E::FORWARD or
+                                                                 when ACTION=RFOE_RX_SW_TBL_ACTION_E::TERMINATE and
+                                                                 TERM_FLOW_ID_CALC=RFOE_RX_SW_TBL_TERM_FLOW_ID_CALC_E::PC_ID_REMAP_SUBTABLE or
+                                                                 TERM_FLOW_ID_CALC=RFOE_RX_SW_TBL_TERM_FLOW_ID_CALC_E::PC_ID_HASH_SUBTABLE. */
+        uint64_t reserved_11_15        : 5;
+        uint64_t dest_lmac_id          : 2;  /**< [ 17: 16](R/W) Destination LMAC_ID.
+                                                                 Used only when ACTION=RFOE_RX_SW_TBL_ACTION_E::FORWARD. */
+        uint64_t reserved_18_19        : 2;
+        uint64_t term_flow_id_calc     : 2;  /**< [ 21: 20](R/W) Specifies the Calculation method for flow_id. Used only
+                                                                 when ACTION=RFOE_RX_SW_TBL_ACTION_E::TERMINATE. */
+        uint64_t reserved_22_63        : 42;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rfoex_rx_mcs_shunt_act_cfg1_s cn; */
+};
+typedef union cavm_rfoex_rx_mcs_shunt_act_cfg1 cavm_rfoex_rx_mcs_shunt_act_cfg1_t;
+
+static inline uint64_t CAVM_RFOEX_RX_MCS_SHUNT_ACT_CFG1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RFOEX_RX_MCS_SHUNT_ACT_CFG1(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
+        return 0x8610000132a0ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RFOEX_RX_MCS_SHUNT_ACT_CFG1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RFOEX_RX_MCS_SHUNT_ACT_CFG1(a) cavm_rfoex_rx_mcs_shunt_act_cfg1_t
+#define bustype_CAVM_RFOEX_RX_MCS_SHUNT_ACT_CFG1(a) CSR_TYPE_NCB
+#define basename_CAVM_RFOEX_RX_MCS_SHUNT_ACT_CFG1(a) "RFOEX_RX_MCS_SHUNT_ACT_CFG1"
+#define busnum_CAVM_RFOEX_RX_MCS_SHUNT_ACT_CFG1(a) (a)
+#define arguments_CAVM_RFOEX_RX_MCS_SHUNT_ACT_CFG1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) rfoe#_rx_mcs_shunt_act_cfg2
+ *
+ * RFOE RX MCS Shunt Action Configuration 2 Register
+ */
+union cavm_rfoex_rx_mcs_shunt_act_cfg2
+{
+    uint64_t u;
+    struct cavm_rfoex_rx_mcs_shunt_act_cfg2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_62_63        : 2;
+        uint64_t subtable_offset       : 10; /**< [ 61: 52](R/W) EDEC Subtable offset.
+                                                                 Used when ACTION=RFOE_RX_SW_TBL_ACTION_E::TERMINATE and
+                                                                 TERM_FLOW_ID_CALC=RFOE_RX_SW_TBL_TERM_FLOW_ID_CALC_E::PC_ID_REMAP_SUBTABLE or
+                                                                 TERM_FLOW_ID_CALC=RFOE_RX_SW_TBL_TERM_FLOW_ID_CALC_E::PC_ID_HASH_SUBTABLE. */
+        uint64_t reserved_50_51        : 2;
+        uint64_t pc_id_key_select      : 50; /**< [ 49:  0](R/W) Selectors for PC_ID_KEY[9:0].
+                                                                 Used when ACTION=RFOE_RX_SW_TBL_ACTION_E::TERMINATE and
+                                                                 TERM_FLOW_ID_CALC=RFOE_RX_SW_TBL_TERM_FLOW_ID_CALC_E::PC_ID_REMAP_SUBTABLE or
+                                                                 TERM_FLOW_ID_CALC=RFOE_RX_SW_TBL_TERM_FLOW_ID_CALC_E::PC_ID_HASH_SUBTABLE.
+                                                                 Only 9:0 used for PC_ID_HASH_SUBTABLE. */
+#else /* Word 0 - Little Endian */
+        uint64_t pc_id_key_select      : 50; /**< [ 49:  0](R/W) Selectors for PC_ID_KEY[9:0].
+                                                                 Used when ACTION=RFOE_RX_SW_TBL_ACTION_E::TERMINATE and
+                                                                 TERM_FLOW_ID_CALC=RFOE_RX_SW_TBL_TERM_FLOW_ID_CALC_E::PC_ID_REMAP_SUBTABLE or
+                                                                 TERM_FLOW_ID_CALC=RFOE_RX_SW_TBL_TERM_FLOW_ID_CALC_E::PC_ID_HASH_SUBTABLE.
+                                                                 Only 9:0 used for PC_ID_HASH_SUBTABLE. */
+        uint64_t reserved_50_51        : 2;
+        uint64_t subtable_offset       : 10; /**< [ 61: 52](R/W) EDEC Subtable offset.
+                                                                 Used when ACTION=RFOE_RX_SW_TBL_ACTION_E::TERMINATE and
+                                                                 TERM_FLOW_ID_CALC=RFOE_RX_SW_TBL_TERM_FLOW_ID_CALC_E::PC_ID_REMAP_SUBTABLE or
+                                                                 TERM_FLOW_ID_CALC=RFOE_RX_SW_TBL_TERM_FLOW_ID_CALC_E::PC_ID_HASH_SUBTABLE. */
+        uint64_t reserved_62_63        : 2;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rfoex_rx_mcs_shunt_act_cfg2_s cn; */
+};
+typedef union cavm_rfoex_rx_mcs_shunt_act_cfg2 cavm_rfoex_rx_mcs_shunt_act_cfg2_t;
+
+static inline uint64_t CAVM_RFOEX_RX_MCS_SHUNT_ACT_CFG2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RFOEX_RX_MCS_SHUNT_ACT_CFG2(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
+        return 0x8610000132a8ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RFOEX_RX_MCS_SHUNT_ACT_CFG2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RFOEX_RX_MCS_SHUNT_ACT_CFG2(a) cavm_rfoex_rx_mcs_shunt_act_cfg2_t
+#define bustype_CAVM_RFOEX_RX_MCS_SHUNT_ACT_CFG2(a) CSR_TYPE_NCB
+#define basename_CAVM_RFOEX_RX_MCS_SHUNT_ACT_CFG2(a) "RFOEX_RX_MCS_SHUNT_ACT_CFG2"
+#define busnum_CAVM_RFOEX_RX_MCS_SHUNT_ACT_CFG2(a) (a)
+#define arguments_CAVM_RFOEX_RX_MCS_SHUNT_ACT_CFG2(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) rfoe#_rx_mcs_shunt_enable
+ *
+ * RFOE RX MCS Shunt Enable Register
+ * X2P MCS Sideband Interface Shunt Enable configuration.
+ */
+union cavm_rfoex_rx_mcs_shunt_enable
+{
+    uint64_t u;
+    struct cavm_rfoex_rx_mcs_shunt_enable_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_44_63        : 20;
+        uint64_t pkt_kind_shunt_enable : 4;  /**< [ 43: 40](R/W) Packet Kind Shunt Enable bitmap.
+                                                                 Look up bitmap for incoming packet MCS Exception code.
+                                                                 SHUNT_ENABLE=0 MCS Packet Kind cannot be shunted to DSP.
+                                                                 SHUNT_ENABLE=1 MCS Packet Kind can be shunted to DSP. */
+        uint64_t reserved_32_39        : 8;
+        uint64_t exc_code_shunt_enable : 32; /**< [ 31:  0](R/W) Exception Code Shunt enable bitmap.
+                                                                 Look up bitmap for incoming packet MCS Exception code.
+                                                                 SHUNT_ENABLE=0 MCS exception code cannot be shunted to DSP.
+                                                                 SHUNT_ENABLE=1 MCS exception code can be shunted to DSP. */
+#else /* Word 0 - Little Endian */
+        uint64_t exc_code_shunt_enable : 32; /**< [ 31:  0](R/W) Exception Code Shunt enable bitmap.
+                                                                 Look up bitmap for incoming packet MCS Exception code.
+                                                                 SHUNT_ENABLE=0 MCS exception code cannot be shunted to DSP.
+                                                                 SHUNT_ENABLE=1 MCS exception code can be shunted to DSP. */
+        uint64_t reserved_32_39        : 8;
+        uint64_t pkt_kind_shunt_enable : 4;  /**< [ 43: 40](R/W) Packet Kind Shunt Enable bitmap.
+                                                                 Look up bitmap for incoming packet MCS Exception code.
+                                                                 SHUNT_ENABLE=0 MCS Packet Kind cannot be shunted to DSP.
+                                                                 SHUNT_ENABLE=1 MCS Packet Kind can be shunted to DSP. */
+        uint64_t reserved_44_63        : 20;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rfoex_rx_mcs_shunt_enable_s cn; */
+};
+typedef union cavm_rfoex_rx_mcs_shunt_enable cavm_rfoex_rx_mcs_shunt_enable_t;
+
+static inline uint64_t CAVM_RFOEX_RX_MCS_SHUNT_ENABLE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RFOEX_RX_MCS_SHUNT_ENABLE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
+        return 0x861000013298ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RFOEX_RX_MCS_SHUNT_ENABLE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RFOEX_RX_MCS_SHUNT_ENABLE(a) cavm_rfoex_rx_mcs_shunt_enable_t
+#define bustype_CAVM_RFOEX_RX_MCS_SHUNT_ENABLE(a) CSR_TYPE_NCB
+#define basename_CAVM_RFOEX_RX_MCS_SHUNT_ENABLE(a) "RFOEX_RX_MCS_SHUNT_ENABLE"
+#define busnum_CAVM_RFOEX_RX_MCS_SHUNT_ENABLE(a) (a)
+#define arguments_CAVM_RFOEX_RX_MCS_SHUNT_ENABLE(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) rfoe#_rx_orderinfo_fail_stat
@@ -4076,7 +4658,7 @@ typedef union cavm_rfoex_rx_orderinfo_fail_stat cavm_rfoex_rx_orderinfo_fail_sta
 static inline uint64_t CAVM_RFOEX_RX_ORDERINFO_FAIL_STAT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_ORDERINFO_FAIL_STAT(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001d40ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_ORDERINFO_FAIL_STAT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4111,7 +4693,7 @@ typedef union cavm_rfoex_rx_ordinf_err_ena_w1cx cavm_rfoex_rx_ordinf_err_ena_w1c
 static inline uint64_t CAVM_RFOEX_RX_ORDINF_ERR_ENA_W1CX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_ORDINF_ERR_ENA_W1CX(uint64_t a, uint64_t b)
 {
-    if ((a<=6) && (b<=15))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=15)))
         return 0x861000001500ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0xf);
     __cavm_csr_fatal("RFOEX_RX_ORDINF_ERR_ENA_W1CX", 2, a, b, 0, 0, 0, 0);
 }
@@ -4146,7 +4728,7 @@ typedef union cavm_rfoex_rx_ordinf_err_ena_w1sx cavm_rfoex_rx_ordinf_err_ena_w1s
 static inline uint64_t CAVM_RFOEX_RX_ORDINF_ERR_ENA_W1SX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_ORDINF_ERR_ENA_W1SX(uint64_t a, uint64_t b)
 {
-    if ((a<=6) && (b<=15))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=15)))
         return 0x861000001480ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0xf);
     __cavm_csr_fatal("RFOEX_RX_ORDINF_ERR_ENA_W1SX", 2, a, b, 0, 0, 0, 0);
 }
@@ -4191,7 +4773,7 @@ typedef union cavm_rfoex_rx_ordinf_err_intx cavm_rfoex_rx_ordinf_err_intx_t;
 static inline uint64_t CAVM_RFOEX_RX_ORDINF_ERR_INTX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_ORDINF_ERR_INTX(uint64_t a, uint64_t b)
 {
-    if ((a<=6) && (b<=15))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=15)))
         return 0x861000001400ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0xf);
     __cavm_csr_fatal("RFOEX_RX_ORDINF_ERR_INTX", 2, a, b, 0, 0, 0, 0);
 }
@@ -4226,7 +4808,7 @@ typedef union cavm_rfoex_rx_ordinf_err_int_w1sx cavm_rfoex_rx_ordinf_err_int_w1s
 static inline uint64_t CAVM_RFOEX_RX_ORDINF_ERR_INT_W1SX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_ORDINF_ERR_INT_W1SX(uint64_t a, uint64_t b)
 {
-    if ((a<=6) && (b<=15))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=15)))
         return 0x861000001580ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0xf);
     __cavm_csr_fatal("RFOEX_RX_ORDINF_ERR_INT_W1SX", 2, a, b, 0, 0, 0, 0);
 }
@@ -4261,7 +4843,7 @@ typedef union cavm_rfoex_rx_ordinf_psm_msg_w0 cavm_rfoex_rx_ordinf_psm_msg_w0_t;
 static inline uint64_t CAVM_RFOEX_RX_ORDINF_PSM_MSG_W0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_ORDINF_PSM_MSG_W0(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001600ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_ORDINF_PSM_MSG_W0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4296,7 +4878,7 @@ typedef union cavm_rfoex_rx_ordinf_psm_msg_w1 cavm_rfoex_rx_ordinf_psm_msg_w1_t;
 static inline uint64_t CAVM_RFOEX_RX_ORDINF_PSM_MSG_W1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_ORDINF_PSM_MSG_W1(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001608ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_ORDINF_PSM_MSG_W1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4336,7 +4918,7 @@ typedef union cavm_rfoex_rx_pkt_err_drop_stat cavm_rfoex_rx_pkt_err_drop_stat_t;
 static inline uint64_t CAVM_RFOEX_RX_PKT_ERR_DROP_STAT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_PKT_ERR_DROP_STAT(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001d38ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_PKT_ERR_DROP_STAT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4384,7 +4966,7 @@ typedef union cavm_rfoex_rx_pkt_len_cfgx cavm_rfoex_rx_pkt_len_cfgx_t;
 static inline uint64_t CAVM_RFOEX_RX_PKT_LEN_CFGX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_PKT_LEN_CFGX(uint64_t a, uint64_t b)
 {
-    if ((a<=6) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=3)))
         return 0x861000001880ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("RFOEX_RX_PKT_LEN_CFGX", 2, a, b, 0, 0, 0, 0);
 }
@@ -4432,7 +5014,7 @@ typedef union cavm_rfoex_rx_pkt_loggerx_addr cavm_rfoex_rx_pkt_loggerx_addr_t;
 static inline uint64_t CAVM_RFOEX_RX_PKT_LOGGERX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_PKT_LOGGERX_ADDR(uint64_t a, uint64_t b)
 {
-    if ((a<=6) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=1)))
         return 0x861000001020ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("RFOEX_RX_PKT_LOGGERX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
@@ -4584,7 +5166,7 @@ typedef union cavm_rfoex_rx_pkt_loggerx_cfg cavm_rfoex_rx_pkt_loggerx_cfg_t;
 static inline uint64_t CAVM_RFOEX_RX_PKT_LOGGERX_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_PKT_LOGGERX_CFG(uint64_t a, uint64_t b)
 {
-    if ((a<=6) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=1)))
         return 0x861000001030ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("RFOEX_RX_PKT_LOGGERX_CFG", 2, a, b, 0, 0, 0, 0);
 }
@@ -4626,7 +5208,7 @@ typedef union cavm_rfoex_rx_rpm_octs_statx cavm_rfoex_rx_rpm_octs_statx_t;
 static inline uint64_t CAVM_RFOEX_RX_RPM_OCTS_STATX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_RPM_OCTS_STATX(uint64_t a, uint64_t b)
 {
-    if ((a<=6) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=3)))
         return 0x861000001de0ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("RFOEX_RX_RPM_OCTS_STATX", 2, a, b, 0, 0, 0, 0);
 }
@@ -4668,7 +5250,7 @@ typedef union cavm_rfoex_rx_rpm_pkt_statx cavm_rfoex_rx_rpm_pkt_statx_t;
 static inline uint64_t CAVM_RFOEX_RX_RPM_PKT_STATX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_RPM_PKT_STATX(uint64_t a, uint64_t b)
 {
-    if ((a<=6) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=3)))
         return 0x861000001dc0ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("RFOEX_RX_RPM_PKT_STATX", 2, a, b, 0, 0, 0, 0);
 }
@@ -4736,7 +5318,7 @@ typedef union cavm_rfoex_rx_status cavm_rfoex_rx_status_t;
 static inline uint64_t CAVM_RFOEX_RX_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_STATUS(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001010ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4746,6 +5328,463 @@ static inline uint64_t CAVM_RFOEX_RX_STATUS(uint64_t a)
 #define basename_CAVM_RFOEX_RX_STATUS(a) "RFOEX_RX_STATUS"
 #define busnum_CAVM_RFOEX_RX_STATUS(a) (a)
 #define arguments_CAVM_RFOEX_RX_STATUS(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) rfoe#_rx_sw_tbl_bc_miss_sts#
+ *
+ * RFOE RX Switch Table Broadcast Miss Stats Register
+ */
+union cavm_rfoex_rx_sw_tbl_bc_miss_stsx
+{
+    uint64_t u;
+    struct cavm_rfoex_rx_sw_tbl_bc_miss_stsx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Switch table broadcast miss count. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Switch table broadcast miss count. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rfoex_rx_sw_tbl_bc_miss_stsx_s cn; */
+};
+typedef union cavm_rfoex_rx_sw_tbl_bc_miss_stsx cavm_rfoex_rx_sw_tbl_bc_miss_stsx_t;
+
+static inline uint64_t CAVM_RFOEX_RX_SW_TBL_BC_MISS_STSX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RFOEX_RX_SW_TBL_BC_MISS_STSX(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=3)))
+        return 0x861000013220ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
+    __cavm_csr_fatal("RFOEX_RX_SW_TBL_BC_MISS_STSX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RFOEX_RX_SW_TBL_BC_MISS_STSX(a,b) cavm_rfoex_rx_sw_tbl_bc_miss_stsx_t
+#define bustype_CAVM_RFOEX_RX_SW_TBL_BC_MISS_STSX(a,b) CSR_TYPE_NCB
+#define basename_CAVM_RFOEX_RX_SW_TBL_BC_MISS_STSX(a,b) "RFOEX_RX_SW_TBL_BC_MISS_STSX"
+#define busnum_CAVM_RFOEX_RX_SW_TBL_BC_MISS_STSX(a,b) (a)
+#define arguments_CAVM_RFOEX_RX_SW_TBL_BC_MISS_STSX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) rfoe#_rx_sw_tbl_cfg_hit_sts
+ *
+ * RFOE RX Switch Table Hit Status Aging Register
+ * Switch Table Aging Hit Status Register.
+ */
+union cavm_rfoex_rx_sw_tbl_cfg_hit_sts
+{
+    uint64_t u;
+    struct cavm_rfoex_rx_sw_tbl_cfg_hit_sts_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t hit                   : 64; /**< [ 63:  0](R/W1C/H) Switch Table entry hit status for entries 0-63.
+                                                                 Hardware set to 1 to indicate that Switch Table Entry was matched.
+                                                                 Software can clear the hit status for a switch table entry by writing a 1. */
+#else /* Word 0 - Little Endian */
+        uint64_t hit                   : 64; /**< [ 63:  0](R/W1C/H) Switch Table entry hit status for entries 0-63.
+                                                                 Hardware set to 1 to indicate that Switch Table Entry was matched.
+                                                                 Software can clear the hit status for a switch table entry by writing a 1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rfoex_rx_sw_tbl_cfg_hit_sts_s cn; */
+};
+typedef union cavm_rfoex_rx_sw_tbl_cfg_hit_sts cavm_rfoex_rx_sw_tbl_cfg_hit_sts_t;
+
+static inline uint64_t CAVM_RFOEX_RX_SW_TBL_CFG_HIT_STS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RFOEX_RX_SW_TBL_CFG_HIT_STS(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
+        return 0x861000013280ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("RFOEX_RX_SW_TBL_CFG_HIT_STS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RFOEX_RX_SW_TBL_CFG_HIT_STS(a) cavm_rfoex_rx_sw_tbl_cfg_hit_sts_t
+#define bustype_CAVM_RFOEX_RX_SW_TBL_CFG_HIT_STS(a) CSR_TYPE_NCB
+#define basename_CAVM_RFOEX_RX_SW_TBL_CFG_HIT_STS(a) "RFOEX_RX_SW_TBL_CFG_HIT_STS"
+#define busnum_CAVM_RFOEX_RX_SW_TBL_CFG_HIT_STS(a) (a)
+#define arguments_CAVM_RFOEX_RX_SW_TBL_CFG_HIT_STS(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) rfoe#_rx_sw_tbl_cfg_vld#
+ *
+ * RFOE RX Switch Table Configuration Valid Register
+ * Enables Switch Table entry for an LMAC for entries 0-63. One register per LMAC.
+ */
+union cavm_rfoex_rx_sw_tbl_cfg_vldx
+{
+    uint64_t u;
+    struct cavm_rfoex_rx_sw_tbl_cfg_vldx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t vld                   : 64; /**< [ 63:  0](R/W) Valid bits for Switch Table entries 0-63 for a particular LMAC. */
+#else /* Word 0 - Little Endian */
+        uint64_t vld                   : 64; /**< [ 63:  0](R/W) Valid bits for Switch Table entries 0-63 for a particular LMAC. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rfoex_rx_sw_tbl_cfg_vldx_s cn; */
+};
+typedef union cavm_rfoex_rx_sw_tbl_cfg_vldx cavm_rfoex_rx_sw_tbl_cfg_vldx_t;
+
+static inline uint64_t CAVM_RFOEX_RX_SW_TBL_CFG_VLDX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RFOEX_RX_SW_TBL_CFG_VLDX(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=3)))
+        return 0x861000013120ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
+    __cavm_csr_fatal("RFOEX_RX_SW_TBL_CFG_VLDX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RFOEX_RX_SW_TBL_CFG_VLDX(a,b) cavm_rfoex_rx_sw_tbl_cfg_vldx_t
+#define bustype_CAVM_RFOEX_RX_SW_TBL_CFG_VLDX(a,b) CSR_TYPE_NCB
+#define basename_CAVM_RFOEX_RX_SW_TBL_CFG_VLDX(a,b) "RFOEX_RX_SW_TBL_CFG_VLDX"
+#define busnum_CAVM_RFOEX_RX_SW_TBL_CFG_VLDX(a,b) (a)
+#define arguments_CAVM_RFOEX_RX_SW_TBL_CFG_VLDX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) rfoe#_rx_sw_tbl_da_msk#
+ *
+ * RFOE RX Switch Table Destination Address Mask Register
+ * Switch Table Destination Address Mask. One register per LMAC.
+ */
+union cavm_rfoex_rx_sw_tbl_da_mskx
+{
+    uint64_t u;
+    struct cavm_rfoex_rx_sw_tbl_da_mskx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t vid_mask              : 12; /**< [ 63: 52](R/W) Destination VLAN ID Switch Table Lookup match is Masked with VID_MASK.
+                                                                 One mask per source LMAC. */
+        uint64_t reserved_48_51        : 4;
+        uint64_t addr_mask             : 48; /**< [ 47:  0](R/W) Destination Address Switch Table Lookup match is Masked with ADDR_MASK.
+                                                                 One address mask per source LMAC. */
+#else /* Word 0 - Little Endian */
+        uint64_t addr_mask             : 48; /**< [ 47:  0](R/W) Destination Address Switch Table Lookup match is Masked with ADDR_MASK.
+                                                                 One address mask per source LMAC. */
+        uint64_t reserved_48_51        : 4;
+        uint64_t vid_mask              : 12; /**< [ 63: 52](R/W) Destination VLAN ID Switch Table Lookup match is Masked with VID_MASK.
+                                                                 One mask per source LMAC. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rfoex_rx_sw_tbl_da_mskx_s cn; */
+};
+typedef union cavm_rfoex_rx_sw_tbl_da_mskx cavm_rfoex_rx_sw_tbl_da_mskx_t;
+
+static inline uint64_t CAVM_RFOEX_RX_SW_TBL_DA_MSKX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RFOEX_RX_SW_TBL_DA_MSKX(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=3)))
+        return 0x861000013400ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
+    __cavm_csr_fatal("RFOEX_RX_SW_TBL_DA_MSKX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RFOEX_RX_SW_TBL_DA_MSKX(a,b) cavm_rfoex_rx_sw_tbl_da_mskx_t
+#define bustype_CAVM_RFOEX_RX_SW_TBL_DA_MSKX(a,b) CSR_TYPE_NCB
+#define basename_CAVM_RFOEX_RX_SW_TBL_DA_MSKX(a,b) "RFOEX_RX_SW_TBL_DA_MSKX"
+#define busnum_CAVM_RFOEX_RX_SW_TBL_DA_MSKX(a,b) (a)
+#define arguments_CAVM_RFOEX_RX_SW_TBL_DA_MSKX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) rfoe#_rx_sw_tbl_mc_miss_sts#
+ *
+ * RFOE RX Switch Table Multicast Miss Stats Register
+ */
+union cavm_rfoex_rx_sw_tbl_mc_miss_stsx
+{
+    uint64_t u;
+    struct cavm_rfoex_rx_sw_tbl_mc_miss_stsx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Switch table multicast miss count. One register per LMAC. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Switch table multicast miss count. One register per LMAC. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rfoex_rx_sw_tbl_mc_miss_stsx_s cn; */
+};
+typedef union cavm_rfoex_rx_sw_tbl_mc_miss_stsx cavm_rfoex_rx_sw_tbl_mc_miss_stsx_t;
+
+static inline uint64_t CAVM_RFOEX_RX_SW_TBL_MC_MISS_STSX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RFOEX_RX_SW_TBL_MC_MISS_STSX(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=3)))
+        return 0x861000013200ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
+    __cavm_csr_fatal("RFOEX_RX_SW_TBL_MC_MISS_STSX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RFOEX_RX_SW_TBL_MC_MISS_STSX(a,b) cavm_rfoex_rx_sw_tbl_mc_miss_stsx_t
+#define bustype_CAVM_RFOEX_RX_SW_TBL_MC_MISS_STSX(a,b) CSR_TYPE_NCB
+#define basename_CAVM_RFOEX_RX_SW_TBL_MC_MISS_STSX(a,b) "RFOEX_RX_SW_TBL_MC_MISS_STSX"
+#define busnum_CAVM_RFOEX_RX_SW_TBL_MC_MISS_STSX(a,b) (a)
+#define arguments_CAVM_RFOEX_RX_SW_TBL_MC_MISS_STSX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) rfoe#_rx_sw_tbl_miss_def_act#
+ *
+ * RFOE RX Switch Table Miss Default Action Register
+ * Switch Table Miss Default Actions. One register per LMAC.
+ */
+union cavm_rfoex_rx_sw_tbl_miss_def_actx
+{
+    uint64_t u;
+    struct cavm_rfoex_rx_sw_tbl_miss_def_actx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_60_63        : 4;
+        uint64_t mc_miss_check_en      : 1;  /**< [ 59: 59](R/W) Enables checking for switch defaults for multicast misses when set.
+                                                                 When BC_MISS_CHECK_EN==0 and MC_MISS_CHECK_EN==1, the broadcast address (all ones)
+                                                                 is classified as MultiCast.
+                                                                 When BC_MISS_CHECK_EN==0 and MC_MISS_CHECK_EN==0, all BC and MC addresses are looked up
+                                                                 in the switch table, similar to UniCast packets, and UC Miss defaults apply for misses. */
+        uint64_t reserved_56_58        : 3;
+        uint64_t mc_miss_dest_lmac_id  : 2;  /**< [ 55: 54](R/W) Specifies the destination LMAC ID for multicast misses. */
+        uint64_t reserved_51_53        : 3;
+        uint64_t mc_miss_fwd_flow_id   : 7;  /**< [ 50: 44](R/W) Specifies the forwarding flow_id used to lookup MBT_IDX and JDT_IDX for multicast misses. */
+        uint64_t reserved_42_43        : 2;
+        uint64_t mc_miss_action        : 2;  /**< [ 41: 40](R/W) Specifies default action on Multicast Miss. */
+        uint64_t bc_miss_check_en      : 1;  /**< [ 39: 39](R/W) Enables checking for switch defaults for broadcast misses when set.
+                                                                 When BC_MISS_CHECK_EN==0 and MC_MISS_CHECK_EN==1, the broadcast address (all ones)
+                                                                 is classified as MultiCast.
+                                                                 When BC_MISS_CHECK_EN==0 and MC_MISS_CHECK_EN==0, all BC and MC addresses are looked up
+                                                                 in the switch table, similar to UniCast packets, and UC Miss defaults apply for misses. */
+        uint64_t reserved_36_38        : 3;
+        uint64_t bc_miss_dest_lmac_id  : 2;  /**< [ 35: 34](R/W) Specifies the destination LMAC ID for broadcast misses. */
+        uint64_t reserved_31_33        : 3;
+        uint64_t bc_miss_fwd_flow_id   : 7;  /**< [ 30: 24](R/W) Specifies the forwarding flow_id used to lookup MBT_IDX and JDT_IDX for broadcast misses. */
+        uint64_t reserved_22_23        : 2;
+        uint64_t bc_miss_action        : 2;  /**< [ 21: 20](R/W) Specifies default action on Broadcast Miss. */
+        uint64_t uc_miss_check_en      : 1;  /**< [ 19: 19](R/W) Enables checking for switch defaults for unicast misses when set. */
+        uint64_t reserved_16_18        : 3;
+        uint64_t uc_miss_dest_lmac_id  : 2;  /**< [ 15: 14](R/W) Specifies the destination LMAC ID for unicast misses. */
+        uint64_t reserved_11_13        : 3;
+        uint64_t uc_miss_fwd_flow_id   : 7;  /**< [ 10:  4](R/W) Specifies the forwarding flow_id used to lookup MBT_IDX and JDT_IDX for unicast misses. */
+        uint64_t reserved_2_3          : 2;
+        uint64_t uc_miss_action        : 2;  /**< [  1:  0](R/W) Specifies default action on Unicast Miss. */
+#else /* Word 0 - Little Endian */
+        uint64_t uc_miss_action        : 2;  /**< [  1:  0](R/W) Specifies default action on Unicast Miss. */
+        uint64_t reserved_2_3          : 2;
+        uint64_t uc_miss_fwd_flow_id   : 7;  /**< [ 10:  4](R/W) Specifies the forwarding flow_id used to lookup MBT_IDX and JDT_IDX for unicast misses. */
+        uint64_t reserved_11_13        : 3;
+        uint64_t uc_miss_dest_lmac_id  : 2;  /**< [ 15: 14](R/W) Specifies the destination LMAC ID for unicast misses. */
+        uint64_t reserved_16_18        : 3;
+        uint64_t uc_miss_check_en      : 1;  /**< [ 19: 19](R/W) Enables checking for switch defaults for unicast misses when set. */
+        uint64_t bc_miss_action        : 2;  /**< [ 21: 20](R/W) Specifies default action on Broadcast Miss. */
+        uint64_t reserved_22_23        : 2;
+        uint64_t bc_miss_fwd_flow_id   : 7;  /**< [ 30: 24](R/W) Specifies the forwarding flow_id used to lookup MBT_IDX and JDT_IDX for broadcast misses. */
+        uint64_t reserved_31_33        : 3;
+        uint64_t bc_miss_dest_lmac_id  : 2;  /**< [ 35: 34](R/W) Specifies the destination LMAC ID for broadcast misses. */
+        uint64_t reserved_36_38        : 3;
+        uint64_t bc_miss_check_en      : 1;  /**< [ 39: 39](R/W) Enables checking for switch defaults for broadcast misses when set.
+                                                                 When BC_MISS_CHECK_EN==0 and MC_MISS_CHECK_EN==1, the broadcast address (all ones)
+                                                                 is classified as MultiCast.
+                                                                 When BC_MISS_CHECK_EN==0 and MC_MISS_CHECK_EN==0, all BC and MC addresses are looked up
+                                                                 in the switch table, similar to UniCast packets, and UC Miss defaults apply for misses. */
+        uint64_t mc_miss_action        : 2;  /**< [ 41: 40](R/W) Specifies default action on Multicast Miss. */
+        uint64_t reserved_42_43        : 2;
+        uint64_t mc_miss_fwd_flow_id   : 7;  /**< [ 50: 44](R/W) Specifies the forwarding flow_id used to lookup MBT_IDX and JDT_IDX for multicast misses. */
+        uint64_t reserved_51_53        : 3;
+        uint64_t mc_miss_dest_lmac_id  : 2;  /**< [ 55: 54](R/W) Specifies the destination LMAC ID for multicast misses. */
+        uint64_t reserved_56_58        : 3;
+        uint64_t mc_miss_check_en      : 1;  /**< [ 59: 59](R/W) Enables checking for switch defaults for multicast misses when set.
+                                                                 When BC_MISS_CHECK_EN==0 and MC_MISS_CHECK_EN==1, the broadcast address (all ones)
+                                                                 is classified as MultiCast.
+                                                                 When BC_MISS_CHECK_EN==0 and MC_MISS_CHECK_EN==0, all BC and MC addresses are looked up
+                                                                 in the switch table, similar to UniCast packets, and UC Miss defaults apply for misses. */
+        uint64_t reserved_60_63        : 4;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rfoex_rx_sw_tbl_miss_def_actx_s cn; */
+};
+typedef union cavm_rfoex_rx_sw_tbl_miss_def_actx cavm_rfoex_rx_sw_tbl_miss_def_actx_t;
+
+static inline uint64_t CAVM_RFOEX_RX_SW_TBL_MISS_DEF_ACTX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RFOEX_RX_SW_TBL_MISS_DEF_ACTX(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=3)))
+        return 0x861000013160ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
+    __cavm_csr_fatal("RFOEX_RX_SW_TBL_MISS_DEF_ACTX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RFOEX_RX_SW_TBL_MISS_DEF_ACTX(a,b) cavm_rfoex_rx_sw_tbl_miss_def_actx_t
+#define bustype_CAVM_RFOEX_RX_SW_TBL_MISS_DEF_ACTX(a,b) CSR_TYPE_NCB
+#define basename_CAVM_RFOEX_RX_SW_TBL_MISS_DEF_ACTX(a,b) "RFOEX_RX_SW_TBL_MISS_DEF_ACTX"
+#define busnum_CAVM_RFOEX_RX_SW_TBL_MISS_DEF_ACTX(a,b) (a)
+#define arguments_CAVM_RFOEX_RX_SW_TBL_MISS_DEF_ACTX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) rfoe#_rx_sw_tbl_sa_msk#
+ *
+ * RFOE RX Switch Table Source Address Mask Register
+ * Switch Table Source Address Mask. One register per LMAC.
+ */
+union cavm_rfoex_rx_sw_tbl_sa_mskx
+{
+    uint64_t u;
+    struct cavm_rfoex_rx_sw_tbl_sa_mskx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t vid_mask              : 12; /**< [ 63: 52](R/W) Source VLAN ID Switch Table Lookup match is Masked with VID_MASK.
+                                                                 One mask per source LMAC. */
+        uint64_t reserved_48_51        : 4;
+        uint64_t addr_mask             : 48; /**< [ 47:  0](R/W) Source Address Switch Table Lookup match is Masked with ADDR_MASK.
+                                                                 One address mask per source LMAC. */
+#else /* Word 0 - Little Endian */
+        uint64_t addr_mask             : 48; /**< [ 47:  0](R/W) Source Address Switch Table Lookup match is Masked with ADDR_MASK.
+                                                                 One address mask per source LMAC. */
+        uint64_t reserved_48_51        : 4;
+        uint64_t vid_mask              : 12; /**< [ 63: 52](R/W) Source VLAN ID Switch Table Lookup match is Masked with VID_MASK.
+                                                                 One mask per source LMAC. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rfoex_rx_sw_tbl_sa_mskx_s cn; */
+};
+typedef union cavm_rfoex_rx_sw_tbl_sa_mskx cavm_rfoex_rx_sw_tbl_sa_mskx_t;
+
+static inline uint64_t CAVM_RFOEX_RX_SW_TBL_SA_MSKX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RFOEX_RX_SW_TBL_SA_MSKX(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=3)))
+        return 0x861000013420ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
+    __cavm_csr_fatal("RFOEX_RX_SW_TBL_SA_MSKX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RFOEX_RX_SW_TBL_SA_MSKX(a,b) cavm_rfoex_rx_sw_tbl_sa_mskx_t
+#define bustype_CAVM_RFOEX_RX_SW_TBL_SA_MSKX(a,b) CSR_TYPE_NCB
+#define basename_CAVM_RFOEX_RX_SW_TBL_SA_MSKX(a,b) "RFOEX_RX_SW_TBL_SA_MSKX"
+#define busnum_CAVM_RFOEX_RX_SW_TBL_SA_MSKX(a,b) (a)
+#define arguments_CAVM_RFOEX_RX_SW_TBL_SA_MSKX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) rfoe#_rx_sw_tbl_uc_drop_sts#
+ *
+ * RFOE RX Switch Table Unicast Drop Stats Register
+ */
+union cavm_rfoex_rx_sw_tbl_uc_drop_stsx
+{
+    uint64_t u;
+    struct cavm_rfoex_rx_sw_tbl_uc_drop_stsx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Switch table unicast drop count. One register per LMAC. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Switch table unicast drop count. One register per LMAC. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rfoex_rx_sw_tbl_uc_drop_stsx_s cn; */
+};
+typedef union cavm_rfoex_rx_sw_tbl_uc_drop_stsx cavm_rfoex_rx_sw_tbl_uc_drop_stsx_t;
+
+static inline uint64_t CAVM_RFOEX_RX_SW_TBL_UC_DROP_STSX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RFOEX_RX_SW_TBL_UC_DROP_STSX(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=3)))
+        return 0x8610000131e0ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
+    __cavm_csr_fatal("RFOEX_RX_SW_TBL_UC_DROP_STSX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RFOEX_RX_SW_TBL_UC_DROP_STSX(a,b) cavm_rfoex_rx_sw_tbl_uc_drop_stsx_t
+#define bustype_CAVM_RFOEX_RX_SW_TBL_UC_DROP_STSX(a,b) CSR_TYPE_NCB
+#define basename_CAVM_RFOEX_RX_SW_TBL_UC_DROP_STSX(a,b) "RFOEX_RX_SW_TBL_UC_DROP_STSX"
+#define busnum_CAVM_RFOEX_RX_SW_TBL_UC_DROP_STSX(a,b) (a)
+#define arguments_CAVM_RFOEX_RX_SW_TBL_UC_DROP_STSX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) rfoe#_rx_sw_tbl_uc_fwd_sts#
+ *
+ * RFOE RX Switch Table Unicast Forwarded Stats Register
+ */
+union cavm_rfoex_rx_sw_tbl_uc_fwd_stsx
+{
+    uint64_t u;
+    struct cavm_rfoex_rx_sw_tbl_uc_fwd_stsx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Switch table unicast forwarded count. One register per LMAC. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Switch table unicast forwarded count. One register per LMAC. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rfoex_rx_sw_tbl_uc_fwd_stsx_s cn; */
+};
+typedef union cavm_rfoex_rx_sw_tbl_uc_fwd_stsx cavm_rfoex_rx_sw_tbl_uc_fwd_stsx_t;
+
+static inline uint64_t CAVM_RFOEX_RX_SW_TBL_UC_FWD_STSX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RFOEX_RX_SW_TBL_UC_FWD_STSX(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=3)))
+        return 0x8610000131c0ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
+    __cavm_csr_fatal("RFOEX_RX_SW_TBL_UC_FWD_STSX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RFOEX_RX_SW_TBL_UC_FWD_STSX(a,b) cavm_rfoex_rx_sw_tbl_uc_fwd_stsx_t
+#define bustype_CAVM_RFOEX_RX_SW_TBL_UC_FWD_STSX(a,b) CSR_TYPE_NCB
+#define basename_CAVM_RFOEX_RX_SW_TBL_UC_FWD_STSX(a,b) "RFOEX_RX_SW_TBL_UC_FWD_STSX"
+#define busnum_CAVM_RFOEX_RX_SW_TBL_UC_FWD_STSX(a,b) (a)
+#define arguments_CAVM_RFOEX_RX_SW_TBL_UC_FWD_STSX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) rfoe#_rx_sw_tbl_uc_miss_sts#
+ *
+ * RFOE RX Switch Table Unicast Miss Stats Register
+ */
+union cavm_rfoex_rx_sw_tbl_uc_miss_stsx
+{
+    uint64_t u;
+    struct cavm_rfoex_rx_sw_tbl_uc_miss_stsx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Switch table unicast miss count. One register per LMAC. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Switch table unicast miss count. One register per LMAC. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rfoex_rx_sw_tbl_uc_miss_stsx_s cn; */
+};
+typedef union cavm_rfoex_rx_sw_tbl_uc_miss_stsx cavm_rfoex_rx_sw_tbl_uc_miss_stsx_t;
+
+static inline uint64_t CAVM_RFOEX_RX_SW_TBL_UC_MISS_STSX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RFOEX_RX_SW_TBL_UC_MISS_STSX(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=3)))
+        return 0x861000013180ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
+    __cavm_csr_fatal("RFOEX_RX_SW_TBL_UC_MISS_STSX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RFOEX_RX_SW_TBL_UC_MISS_STSX(a,b) cavm_rfoex_rx_sw_tbl_uc_miss_stsx_t
+#define bustype_CAVM_RFOEX_RX_SW_TBL_UC_MISS_STSX(a,b) CSR_TYPE_NCB
+#define basename_CAVM_RFOEX_RX_SW_TBL_UC_MISS_STSX(a,b) "RFOEX_RX_SW_TBL_UC_MISS_STSX"
+#define busnum_CAVM_RFOEX_RX_SW_TBL_UC_MISS_STSX(a,b) (a)
+#define arguments_CAVM_RFOEX_RX_SW_TBL_UC_MISS_STSX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) rfoe#_rx_sw_tbl_uc_term_sts#
+ *
+ * RFOE RX Switch Table Unicast Terminate Stats Register
+ */
+union cavm_rfoex_rx_sw_tbl_uc_term_stsx
+{
+    uint64_t u;
+    struct cavm_rfoex_rx_sw_tbl_uc_term_stsx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Switch table unicast terminate count. One register per LMAC. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Switch table unicast terminate count. One register per LMAC. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rfoex_rx_sw_tbl_uc_term_stsx_s cn; */
+};
+typedef union cavm_rfoex_rx_sw_tbl_uc_term_stsx cavm_rfoex_rx_sw_tbl_uc_term_stsx_t;
+
+static inline uint64_t CAVM_RFOEX_RX_SW_TBL_UC_TERM_STSX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RFOEX_RX_SW_TBL_UC_TERM_STSX(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=3)))
+        return 0x8610000131a0ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
+    __cavm_csr_fatal("RFOEX_RX_SW_TBL_UC_TERM_STSX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RFOEX_RX_SW_TBL_UC_TERM_STSX(a,b) cavm_rfoex_rx_sw_tbl_uc_term_stsx_t
+#define bustype_CAVM_RFOEX_RX_SW_TBL_UC_TERM_STSX(a,b) CSR_TYPE_NCB
+#define basename_CAVM_RFOEX_RX_SW_TBL_UC_TERM_STSX(a,b) "RFOEX_RX_SW_TBL_UC_TERM_STSX"
+#define busnum_CAVM_RFOEX_RX_SW_TBL_UC_TERM_STSX(a,b) (a)
+#define arguments_CAVM_RFOEX_RX_SW_TBL_UC_TERM_STSX(a,b) (a),(b),-1,-1
 
 /**
  * Register (NCB) rfoe#_rx_sync_discard_counter
@@ -4771,7 +5810,7 @@ typedef union cavm_rfoex_rx_sync_discard_counter cavm_rfoex_rx_sync_discard_coun
 static inline uint64_t CAVM_RFOEX_RX_SYNC_DISCARD_COUNTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_SYNC_DISCARD_COUNTER(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000001d20ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_RX_SYNC_DISCARD_COUNTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4813,7 +5852,7 @@ typedef union cavm_rfoex_rx_sync_flowx cavm_rfoex_rx_sync_flowx_t;
 static inline uint64_t CAVM_RFOEX_RX_SYNC_FLOWX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_SYNC_FLOWX(uint64_t a, uint64_t b)
 {
-    if ((a<=6) && (b<=15))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=15)))
         return 0x861000001100ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0xf);
     __cavm_csr_fatal("RFOEX_RX_SYNC_FLOWX", 2, a, b, 0, 0, 0, 0);
 }
@@ -4862,7 +5901,7 @@ typedef union cavm_rfoex_rx_sync_statex cavm_rfoex_rx_sync_statex_t;
 static inline uint64_t CAVM_RFOEX_RX_SYNC_STATEX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_SYNC_STATEX(uint64_t a, uint64_t b)
 {
-    if ((a<=6) && (b<=15))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=15)))
         return 0x861000001180ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0xf);
     __cavm_csr_fatal("RFOEX_RX_SYNC_STATEX", 2, a, b, 0, 0, 0, 0);
 }
@@ -4905,7 +5944,7 @@ typedef union cavm_rfoex_rx_vlanx_cfg cavm_rfoex_rx_vlanx_cfg_t;
 static inline uint64_t CAVM_RFOEX_RX_VLANX_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_VLANX_CFG(uint64_t a, uint64_t b)
 {
-    if ((a<=6) && (b<=1))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=1)))
         return 0x861000001070ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("RFOEX_RX_VLANX_CFG", 2, a, b, 0, 0, 0, 0);
 }
@@ -4942,7 +5981,7 @@ typedef union cavm_rfoex_rx_vlan_drop_statx cavm_rfoex_rx_vlan_drop_statx_t;
 static inline uint64_t CAVM_RFOEX_RX_VLAN_DROP_STATX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_VLAN_DROP_STATX(uint64_t a, uint64_t b)
 {
-    if ((a<=6) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=3)))
         return 0x8610000010a0ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("RFOEX_RX_VLAN_DROP_STATX", 2, a, b, 0, 0, 0, 0);
 }
@@ -4979,7 +6018,7 @@ typedef union cavm_rfoex_rx_vlan_fwd_statx cavm_rfoex_rx_vlan_fwd_statx_t;
 static inline uint64_t CAVM_RFOEX_RX_VLAN_FWD_STATX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_VLAN_FWD_STATX(uint64_t a, uint64_t b)
 {
-    if ((a<=6) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=3)))
         return 0x8610000010c0ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("RFOEX_RX_VLAN_FWD_STATX", 2, a, b, 0, 0, 0, 0);
 }
@@ -5016,7 +6055,7 @@ typedef union cavm_rfoex_rx_x2p_eop_err_stsx cavm_rfoex_rx_x2p_eop_err_stsx_t;
 static inline uint64_t CAVM_RFOEX_RX_X2P_EOP_ERR_STSX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_RX_X2P_EOP_ERR_STSX(uint64_t a, uint64_t b)
 {
-    if ((a<=6) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=3)))
         return 0x861000013260ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("RFOEX_RX_X2P_EOP_ERR_STSX", 2, a, b, 0, 0, 0, 0);
 }
@@ -5041,8 +6080,8 @@ union cavm_rfoex_tx_ctrl
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
         uint64_t tstamp_format         : 1;  /**< [  3:  3](R/W) Selects the timestamp format:
-                                                                 0 = BFN format.
-                                                                 1 = Reserved. */
+                                                                 1 = BCN format.
+                                                                 0 = Reserved. */
         uint64_t force_intf_clk_en     : 1;  /**< [  2:  2](R/W) Force the clock enable on P2X interface signals between blocks. For diagnostic use only. */
         uint64_t tx_idle               : 1;  /**< [  1:  1](RO/H) Transmit path idle.
                                                                  When [DATA_PKT_TX_EN] = 0, [TX_IDLE] = 1 indicates that the in-flight packets are sent
@@ -5081,8 +6120,8 @@ union cavm_rfoex_tx_ctrl
                                                                  [TX_IDLE] should be ignored when [DATA_PKT_TX_EN] == 1. */
         uint64_t force_intf_clk_en     : 1;  /**< [  2:  2](R/W) Force the clock enable on P2X interface signals between blocks. For diagnostic use only. */
         uint64_t tstamp_format         : 1;  /**< [  3:  3](R/W) Selects the timestamp format:
-                                                                 0 = BFN format.
-                                                                 1 = Reserved. */
+                                                                 1 = BCN format.
+                                                                 0 = Reserved. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
@@ -5093,7 +6132,7 @@ typedef union cavm_rfoex_tx_ctrl cavm_rfoex_tx_ctrl_t;
 static inline uint64_t CAVM_RFOEX_TX_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_TX_CTRL(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000000f08ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_TX_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5141,7 +6180,7 @@ typedef union cavm_rfoex_tx_hdr_dax cavm_rfoex_tx_hdr_dax_t;
 static inline uint64_t CAVM_RFOEX_TX_HDR_DAX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_TX_HDR_DAX(uint64_t a, uint64_t b)
 {
-    if ((a<=6) && (b<=7))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=7)))
         return 0x861000000800ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("RFOEX_TX_HDR_DAX", 2, a, b, 0, 0, 0, 0);
 }
@@ -5183,7 +6222,7 @@ typedef union cavm_rfoex_tx_hdr_ethertypex cavm_rfoex_tx_hdr_ethertypex_t;
 static inline uint64_t CAVM_RFOEX_TX_HDR_ETHERTYPEX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_TX_HDR_ETHERTYPEX(uint64_t a, uint64_t b)
 {
-    if ((a<=6) && (b<=7))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=7)))
         return 0x861000000880ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("RFOEX_TX_HDR_ETHERTYPEX", 2, a, b, 0, 0, 0, 0);
 }
@@ -5231,7 +6270,7 @@ typedef union cavm_rfoex_tx_hdr_sax cavm_rfoex_tx_hdr_sax_t;
 static inline uint64_t CAVM_RFOEX_TX_HDR_SAX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_TX_HDR_SAX(uint64_t a, uint64_t b)
 {
-    if ((a<=6) && (b<=7))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=7)))
         return 0x861000000840ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("RFOEX_TX_HDR_SAX", 2, a, b, 0, 0, 0, 0);
 }
@@ -5275,7 +6314,7 @@ typedef union cavm_rfoex_tx_hdr_vlanx cavm_rfoex_tx_hdr_vlanx_t;
 static inline uint64_t CAVM_RFOEX_TX_HDR_VLANX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_TX_HDR_VLANX(uint64_t a, uint64_t b)
 {
-    if ((a<=6) && (b<=7))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=7)))
         return 0x8610000008c0ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("RFOEX_TX_HDR_VLANX", 2, a, b, 0, 0, 0, 0);
 }
@@ -5332,7 +6371,7 @@ typedef union cavm_rfoex_tx_ind_seqnum_p_cfg cavm_rfoex_tx_ind_seqnum_p_cfg_t;
 static inline uint64_t CAVM_RFOEX_TX_IND_SEQNUM_P_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_TX_IND_SEQNUM_P_CFG(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000000c00ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_TX_IND_SEQNUM_P_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5403,7 +6442,7 @@ typedef union cavm_rfoex_tx_ind_seqnum_prop_cfg cavm_rfoex_tx_ind_seqnum_prop_cf
 static inline uint64_t CAVM_RFOEX_TX_IND_SEQNUM_PROP_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_TX_IND_SEQNUM_PROP_CFG(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000000c10ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_TX_IND_SEQNUM_PROP_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5452,7 +6491,7 @@ typedef union cavm_rfoex_tx_ind_seqnum_q_cfg cavm_rfoex_tx_ind_seqnum_q_cfg_t;
 static inline uint64_t CAVM_RFOEX_TX_IND_SEQNUM_Q_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_TX_IND_SEQNUM_Q_CFG(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000000c08ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_TX_IND_SEQNUM_Q_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5503,7 +6542,7 @@ typedef union cavm_rfoex_tx_ind_seqnum_state cavm_rfoex_tx_ind_seqnum_state_t;
 static inline uint64_t CAVM_RFOEX_TX_IND_SEQNUM_STATE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_TX_IND_SEQNUM_STATE(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000000c18ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_TX_IND_SEQNUM_STATE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5540,7 +6579,7 @@ typedef union cavm_rfoex_tx_indirect_index cavm_rfoex_tx_indirect_index_t;
 static inline uint64_t CAVM_RFOEX_TX_INDIRECT_INDEX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_TX_INDIRECT_INDEX(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000000bf8ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_TX_INDIRECT_INDEX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5583,7 +6622,7 @@ typedef union cavm_rfoex_tx_inst cavm_rfoex_tx_inst_t;
 static inline uint64_t CAVM_RFOEX_TX_INST(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_TX_INST(uint64_t a)
 {
-    if (a<=6)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=6))
         return 0x861000000908ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("RFOEX_TX_INST", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5714,7 +6753,7 @@ typedef union cavm_rfoex_tx_lmac_cfgx cavm_rfoex_tx_lmac_cfgx_t;
 static inline uint64_t CAVM_RFOEX_TX_LMAC_CFGX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_TX_LMAC_CFGX(uint64_t a, uint64_t b)
 {
-    if ((a<=6) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=3)))
         return 0x861000000f80ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("RFOEX_TX_LMAC_CFGX", 2, a, b, 0, 0, 0, 0);
 }
@@ -5751,7 +6790,7 @@ typedef union cavm_rfoex_tx_octs_statx cavm_rfoex_tx_octs_statx_t;
 static inline uint64_t CAVM_RFOEX_TX_OCTS_STATX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_TX_OCTS_STATX(uint64_t a, uint64_t b)
 {
-    if ((a<=6) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=3)))
         return 0x861000000f40ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("RFOEX_TX_OCTS_STATX", 2, a, b, 0, 0, 0, 0);
 }
@@ -5788,7 +6827,7 @@ typedef union cavm_rfoex_tx_pkt_drop_statx cavm_rfoex_tx_pkt_drop_statx_t;
 static inline uint64_t CAVM_RFOEX_TX_PKT_DROP_STATX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_TX_PKT_DROP_STATX(uint64_t a, uint64_t b)
 {
-    if ((a<=6) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=3)))
         return 0x861000000f60ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("RFOEX_TX_PKT_DROP_STATX", 2, a, b, 0, 0, 0, 0);
 }
@@ -5825,7 +6864,7 @@ typedef union cavm_rfoex_tx_pkt_statx cavm_rfoex_tx_pkt_statx_t;
 static inline uint64_t CAVM_RFOEX_TX_PKT_STATX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_TX_PKT_STATX(uint64_t a, uint64_t b)
 {
-    if ((a<=6) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=3)))
         return 0x861000000f20ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("RFOEX_TX_PKT_STATX", 2, a, b, 0, 0, 0, 0);
 }
@@ -5861,7 +6900,7 @@ typedef union cavm_rfoex_tx_ptp_tstmp_w0x cavm_rfoex_tx_ptp_tstmp_w0x_t;
 static inline uint64_t CAVM_RFOEX_TX_PTP_TSTMP_W0X(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_TX_PTP_TSTMP_W0X(uint64_t a, uint64_t b)
 {
-    if ((a<=6) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=3)))
         return 0x861000000fa0ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("RFOEX_TX_PTP_TSTMP_W0X", 2, a, b, 0, 0, 0, 0);
 }
@@ -5910,7 +6949,7 @@ typedef union cavm_rfoex_tx_ptp_tstmp_w1x cavm_rfoex_tx_ptp_tstmp_w1x_t;
 static inline uint64_t CAVM_RFOEX_TX_PTP_TSTMP_W1X(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_TX_PTP_TSTMP_W1X(uint64_t a, uint64_t b)
 {
-    if ((a<=6) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=3)))
         return 0x861000000fc0ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("RFOEX_TX_PTP_TSTMP_W1X", 2, a, b, 0, 0, 0, 0);
 }

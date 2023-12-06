@@ -57,7 +57,9 @@ typedef union cavm_rtt_axi_ncbw_raddr_hi_fault cavm_rtt_axi_ncbw_raddr_hi_fault_
 static inline uint64_t CAVM_RTT_AXI_NCBW_RADDR_HI_FAULT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_AXI_NCBW_RADDR_HI_FAULT_FUNC(void)
 {
-    return 0x80e500000018ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x80e500000018ll;
+    __cavm_csr_fatal("RTT_AXI_NCBW_RADDR_HI_FAULT", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_RTT_AXI_NCBW_RADDR_HI_FAULT cavm_rtt_axi_ncbw_raddr_hi_fault_t

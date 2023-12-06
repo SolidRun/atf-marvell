@@ -57,11 +57,13 @@
  */
 #define CAVM_RVU_BLOCK_ADDR_E_APR (0x16)
 #define CAVM_RVU_BLOCK_ADDR_E_CPTX(a) (0xa + (a))
+#define CAVM_RVU_BLOCK_ADDR_E_DPIX(a) (0x18 + (a))
 #define CAVM_RVU_BLOCK_ADDR_E_LMT (1)
 #define CAVM_RVU_BLOCK_ADDR_E_NDCX(a) (0xc + (a))
 #define CAVM_RVU_BLOCK_ADDR_E_NIXX(a) (4 + (a))
 #define CAVM_RVU_BLOCK_ADDR_E_NPA (3)
 #define CAVM_RVU_BLOCK_ADDR_E_NPC (6)
+#define CAVM_RVU_BLOCK_ADDR_E_PMA (0x17)
 #define CAVM_RVU_BLOCK_ADDR_E_RX(a) (0 + (a))
 #define CAVM_RVU_BLOCK_ADDR_E_REEX(a) (0x14 + (a))
 #define CAVM_RVU_BLOCK_ADDR_E_RVUM (0)
@@ -78,11 +80,13 @@
 #define CAVM_RVU_BLOCK_TYPE_E_APR (0xf)
 #define CAVM_RVU_BLOCK_TYPE_E_CPT (9)
 #define CAVM_RVU_BLOCK_TYPE_E_DDF (0xb)
+#define CAVM_RVU_BLOCK_TYPE_E_DPI (0x11)
 #define CAVM_RVU_BLOCK_TYPE_E_LMT (2)
 #define CAVM_RVU_BLOCK_TYPE_E_NDC (0xa)
 #define CAVM_RVU_BLOCK_TYPE_E_NIX (3)
 #define CAVM_RVU_BLOCK_TYPE_E_NPA (4)
 #define CAVM_RVU_BLOCK_TYPE_E_NPC (5)
+#define CAVM_RVU_BLOCK_TYPE_E_PMA (0x10)
 #define CAVM_RVU_BLOCK_TYPE_E_RAD (0xd)
 #define CAVM_RVU_BLOCK_TYPE_E_REE (0xe)
 #define CAVM_RVU_BLOCK_TYPE_E_RVUM (0)
@@ -234,8 +238,8 @@ union cavm_rvu_pf_func_s
 /**
  * Structure rvu_tln_s
  *
- * RVU Address Transaltion Structure
- * Address transaltion format recieved from SMMU in two FLITs.
+ * RVU Address Translation Structure
+ * Address translation format received from SMMU in two FLITs.
  */
 union cavm_rvu_tln_s
 {
@@ -243,29 +247,31 @@ union cavm_rvu_tln_s
     struct cavm_rvu_tln_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t mpam_hi               : 1;  /**< [ 63: 63] Reserved. */
-        uint64_t zero                  : 1;  /**< [ 62: 62] Reserved. */
-        uint64_t absorb                : 1;  /**< [ 61: 61] Reserved. */
-        uint64_t ppn                   : 40; /**< [ 60: 21] Physical page number - 40 MSBs of physical address (12 LSBs are taken from VA). */
-        uint64_t nsbypass              : 1;  /**< [ 20: 20] Output ns indication equals to input ns indication because of bypass */
-        uint64_t perm_dre              : 1;  /**< [ 19: 19] Destructive read enable */
-        uint64_t perm_write            : 1;  /**< [ 18: 18] Write permission granted from SMMU */
-        uint64_t pern_read             : 1;  /**< [ 17: 17] Read permission granted from SMMU */
-        uint64_t non_sec               : 1;  /**< [ 16: 16] Output non-secure indication from SMMU */
-        uint64_t block_size            : 5;  /**< [ 15: 11] Reserved. */
-        uint64_t txn_hi_flit1          : 11; /**< [ 10:  0] Reserved. */
+        uint64_t block_size_lsb        : 1;  /**< [ 63: 63] Reserved. */
+        uint64_t non_sec               : 1;  /**< [ 62: 62] Reserved. */
+        uint64_t perm_read             : 1;  /**< [ 61: 61] Reserved. */
+        uint64_t prem_write            : 1;  /**< [ 60: 60] Write permission granted from SMMU. */
+        uint64_t perm_dre              : 1;  /**< [ 59: 59] SMMU request destructive read enable. */
+        uint64_t nsbypass              : 1;  /**< [ 58: 58] Output ns indication equals to input ns indication because of bypass */
+        uint64_t ppn                   : 40; /**< [ 57: 18] Physical page number - 40 MSBs of physical address (12 LSBs are taken from VA). */
+        uint64_t abort_ind             : 1;  /**< [ 17: 17] Reserved. */
+        uint64_t zero                  : 1;  /**< [ 16: 16] Reserved. */
+        uint64_t mpam                  : 11; /**< [ 15:  5] MPAM indication from STE/CD.MPAM */
+        uint64_t qos                   : 4;  /**< [  4:  1] Reserved. */
+        uint64_t cacheable             : 1;  /**< [  0:  0] Reserved. */
 #else /* Word 0 - Little Endian */
-        uint64_t txn_hi_flit1          : 11; /**< [ 10:  0] Reserved. */
-        uint64_t block_size            : 5;  /**< [ 15: 11] Reserved. */
-        uint64_t non_sec               : 1;  /**< [ 16: 16] Output non-secure indication from SMMU */
-        uint64_t pern_read             : 1;  /**< [ 17: 17] Read permission granted from SMMU */
-        uint64_t perm_write            : 1;  /**< [ 18: 18] Write permission granted from SMMU */
-        uint64_t perm_dre              : 1;  /**< [ 19: 19] Destructive read enable */
-        uint64_t nsbypass              : 1;  /**< [ 20: 20] Output ns indication equals to input ns indication because of bypass */
-        uint64_t ppn                   : 40; /**< [ 60: 21] Physical page number - 40 MSBs of physical address (12 LSBs are taken from VA). */
-        uint64_t absorb                : 1;  /**< [ 61: 61] Reserved. */
-        uint64_t zero                  : 1;  /**< [ 62: 62] Reserved. */
-        uint64_t mpam_hi               : 1;  /**< [ 63: 63] Reserved. */
+        uint64_t cacheable             : 1;  /**< [  0:  0] Reserved. */
+        uint64_t qos                   : 4;  /**< [  4:  1] Reserved. */
+        uint64_t mpam                  : 11; /**< [ 15:  5] MPAM indication from STE/CD.MPAM */
+        uint64_t zero                  : 1;  /**< [ 16: 16] Reserved. */
+        uint64_t abort_ind             : 1;  /**< [ 17: 17] Reserved. */
+        uint64_t ppn                   : 40; /**< [ 57: 18] Physical page number - 40 MSBs of physical address (12 LSBs are taken from VA). */
+        uint64_t nsbypass              : 1;  /**< [ 58: 58] Output ns indication equals to input ns indication because of bypass */
+        uint64_t perm_dre              : 1;  /**< [ 59: 59] SMMU request destructive read enable. */
+        uint64_t prem_write            : 1;  /**< [ 60: 60] Write permission granted from SMMU. */
+        uint64_t perm_read             : 1;  /**< [ 61: 61] Reserved. */
+        uint64_t non_sec               : 1;  /**< [ 62: 62] Reserved. */
+        uint64_t block_size_lsb        : 1;  /**< [ 63: 63] Reserved. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rvu_tln_s_s cn; */
@@ -1759,11 +1765,11 @@ union cavm_rvu_af_smmu_addr_req
     struct cavm_rvu_af_smmu_addr_req_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_52_63        : 12;
-        uint64_t va                    : 52; /**< [ 51:  0](R/W) IOVA to be translated by SMMU when RVU_AF_SMMU_TXN_REQ[TRG] is set. */
+        uint64_t reserved_53_63        : 11;
+        uint64_t va                    : 53; /**< [ 52:  0](R/W) IOVA to be translated by SMMU when RVU_AF_SMMU_TXN_REQ[TRG] is set. */
 #else /* Word 0 - Little Endian */
-        uint64_t va                    : 52; /**< [ 51:  0](R/W) IOVA to be translated by SMMU when RVU_AF_SMMU_TXN_REQ[TRG] is set. */
-        uint64_t reserved_52_63        : 12;
+        uint64_t va                    : 53; /**< [ 52:  0](R/W) IOVA to be translated by SMMU when RVU_AF_SMMU_TXN_REQ[TRG] is set. */
+        uint64_t reserved_53_63        : 11;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rvu_af_smmu_addr_req_s cn; */
@@ -1831,40 +1837,78 @@ static inline uint64_t CAVM_RVU_AF_SMMU_ADDR_RSP_STS_FUNC(void)
 #define arguments_CAVM_RVU_AF_SMMU_ADDR_RSP_STS -1,-1,-1,-1
 
 /**
- * Register (RVU_PF_BAR0) rvu_af_smmu_tln_flit1
+ * Register (RVU_PF_BAR0) rvu_af_smmu_addr_tln
  *
- * RVU Admin Function SMMU Translation FLIT1 Register
+ * RVU Admin Function SMMU Address Translation Register
  */
-union cavm_rvu_af_smmu_tln_flit1
+union cavm_rvu_af_smmu_addr_tln
 {
     uint64_t u;
-    struct cavm_rvu_af_smmu_tln_flit1_s
+    struct cavm_rvu_af_smmu_addr_tln_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](RO/H) Translation returned FLIT1[63:0] from SMMU.
-                                                                 Includes data described in structure RVU_TLN_S. */
+        uint64_t reserved_52_63        : 12;
+        uint64_t pa                    : 52; /**< [ 51:  0](RO/H) Translation returned physical address from SMMU. */
 #else /* Word 0 - Little Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](RO/H) Translation returned FLIT1[63:0] from SMMU.
-                                                                 Includes data described in structure RVU_TLN_S. */
+        uint64_t pa                    : 52; /**< [ 51:  0](RO/H) Translation returned physical address from SMMU. */
+        uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rvu_af_smmu_tln_flit1_s cn; */
+    /* struct cavm_rvu_af_smmu_addr_tln_s cn; */
 };
-typedef union cavm_rvu_af_smmu_tln_flit1 cavm_rvu_af_smmu_tln_flit1_t;
+typedef union cavm_rvu_af_smmu_addr_tln cavm_rvu_af_smmu_addr_tln_t;
 
-#define CAVM_RVU_AF_SMMU_TLN_FLIT1 CAVM_RVU_AF_SMMU_TLN_FLIT1_FUNC()
-static inline uint64_t CAVM_RVU_AF_SMMU_TLN_FLIT1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RVU_AF_SMMU_TLN_FLIT1_FUNC(void)
+#define CAVM_RVU_AF_SMMU_ADDR_TLN CAVM_RVU_AF_SMMU_ADDR_TLN_FUNC()
+static inline uint64_t CAVM_RVU_AF_SMMU_ADDR_TLN_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RVU_AF_SMMU_ADDR_TLN_FUNC(void)
 {
-    return 0x840000006030ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x840000006018ll;
+    __cavm_csr_fatal("RVU_AF_SMMU_ADDR_TLN", 0, 0, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_RVU_AF_SMMU_TLN_FLIT1 cavm_rvu_af_smmu_tln_flit1_t
-#define bustype_CAVM_RVU_AF_SMMU_TLN_FLIT1 CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_RVU_AF_SMMU_TLN_FLIT1 "RVU_AF_SMMU_TLN_FLIT1"
-#define device_bar_CAVM_RVU_AF_SMMU_TLN_FLIT1 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_RVU_AF_SMMU_TLN_FLIT1 0
-#define arguments_CAVM_RVU_AF_SMMU_TLN_FLIT1 -1,-1,-1,-1
+#define typedef_CAVM_RVU_AF_SMMU_ADDR_TLN cavm_rvu_af_smmu_addr_tln_t
+#define bustype_CAVM_RVU_AF_SMMU_ADDR_TLN CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_RVU_AF_SMMU_ADDR_TLN "RVU_AF_SMMU_ADDR_TLN"
+#define device_bar_CAVM_RVU_AF_SMMU_ADDR_TLN 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_RVU_AF_SMMU_ADDR_TLN 0
+#define arguments_CAVM_RVU_AF_SMMU_ADDR_TLN -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) rvu_af_smmu_tln_flit0
+ *
+ * RVU Admin Function SMMU Translation FLIT0 Register
+ */
+union cavm_rvu_af_smmu_tln_flit0
+{
+    uint64_t u;
+    struct cavm_rvu_af_smmu_tln_flit0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t data                  : 64; /**< [ 63:  0](RO/H) Translation returned FLIT0[63:0] from SMMU. */
+#else /* Word 0 - Little Endian */
+        uint64_t data                  : 64; /**< [ 63:  0](RO/H) Translation returned FLIT0[63:0] from SMMU. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rvu_af_smmu_tln_flit0_s cn; */
+};
+typedef union cavm_rvu_af_smmu_tln_flit0 cavm_rvu_af_smmu_tln_flit0_t;
+
+#define CAVM_RVU_AF_SMMU_TLN_FLIT0 CAVM_RVU_AF_SMMU_TLN_FLIT0_FUNC()
+static inline uint64_t CAVM_RVU_AF_SMMU_TLN_FLIT0_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RVU_AF_SMMU_TLN_FLIT0_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840000006020ll;
+    __cavm_csr_fatal("RVU_AF_SMMU_TLN_FLIT0", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RVU_AF_SMMU_TLN_FLIT0 cavm_rvu_af_smmu_tln_flit0_t
+#define bustype_CAVM_RVU_AF_SMMU_TLN_FLIT0 CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_RVU_AF_SMMU_TLN_FLIT0 "RVU_AF_SMMU_TLN_FLIT0"
+#define device_bar_CAVM_RVU_AF_SMMU_TLN_FLIT0 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_RVU_AF_SMMU_TLN_FLIT0 0
+#define arguments_CAVM_RVU_AF_SMMU_TLN_FLIT0 -1,-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) rvu_af_smmu_txn_req
@@ -3320,6 +3364,46 @@ static inline uint64_t CAVM_RVU_PRIV_HWVFX_CPTX_CFG(uint64_t a, uint64_t b)
 #define arguments_CAVM_RVU_PRIV_HWVFX_CPTX_CFG(a,b) (a),(b),-1,-1
 
 /**
+ * Register (RVU_PF_BAR0) rvu_priv_hwvf#_dpi#_cfg
+ *
+ * RVU Privileged Hardware VF DPI Work Slot Configuration Registers
+ * Similar to RVU_PRIV_HWVF()_NIX()_CFG, but for DPI block.
+ */
+union cavm_rvu_priv_hwvfx_dpix_cfg
+{
+    uint64_t u;
+    struct cavm_rvu_priv_hwvfx_dpix_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_9_63         : 55;
+        uint64_t num_lfs               : 9;  /**< [  8:  0](R/W) Number of LFs from the block that are provisioned to the PF/VF. When non-zero,
+                                                                 the provisioned LFs are mapped to slots 0 to [NUM_LFS]-1 in the block. */
+#else /* Word 0 - Little Endian */
+        uint64_t num_lfs               : 9;  /**< [  8:  0](R/W) Number of LFs from the block that are provisioned to the PF/VF. When non-zero,
+                                                                 the provisioned LFs are mapped to slots 0 to [NUM_LFS]-1 in the block. */
+        uint64_t reserved_9_63         : 55;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rvu_priv_hwvfx_dpix_cfg_s cn; */
+};
+typedef union cavm_rvu_priv_hwvfx_dpix_cfg cavm_rvu_priv_hwvfx_dpix_cfg_t;
+
+static inline uint64_t CAVM_RVU_PRIV_HWVFX_DPIX_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RVU_PRIV_HWVFX_DPIX_CFG(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=255) && (b<=1)))
+        return 0x840008001380ll + 0x10000ll * ((a) & 0xff) + 8ll * ((b) & 0x1);
+    __cavm_csr_fatal("RVU_PRIV_HWVFX_DPIX_CFG", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RVU_PRIV_HWVFX_DPIX_CFG(a,b) cavm_rvu_priv_hwvfx_dpix_cfg_t
+#define bustype_CAVM_RVU_PRIV_HWVFX_DPIX_CFG(a,b) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_RVU_PRIV_HWVFX_DPIX_CFG(a,b) "RVU_PRIV_HWVFX_DPIX_CFG"
+#define device_bar_CAVM_RVU_PRIV_HWVFX_DPIX_CFG(a,b) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_RVU_PRIV_HWVFX_DPIX_CFG(a,b) (a)
+#define arguments_CAVM_RVU_PRIV_HWVFX_DPIX_CFG(a,b) (a),(b),-1,-1
+
+/**
  * Register (RVU_PF_BAR0) rvu_priv_hwvf#_int_cfg
  *
  * RVU Privileged Hardware VF Interrupt Configuration Registers
@@ -3749,6 +3833,46 @@ static inline uint64_t CAVM_RVU_PRIV_PFX_CPTX_CFG(uint64_t a, uint64_t b)
 #define arguments_CAVM_RVU_PRIV_PFX_CPTX_CFG(a,b) (a),(b),-1,-1
 
 /**
+ * Register (RVU_PF_BAR0) rvu_priv_pf#_dpi#_cfg
+ *
+ * RVU Privileged PF SSO Work Slot Configuration Registers
+ * Similar to RVU_PRIV_PF()_NIX()_CFG, but for DPI block.
+ */
+union cavm_rvu_priv_pfx_dpix_cfg
+{
+    uint64_t u;
+    struct cavm_rvu_priv_pfx_dpix_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_9_63         : 55;
+        uint64_t num_lfs               : 9;  /**< [  8:  0](R/W) Number of LFs from the block that are provisioned to the PF/VF. When non-zero,
+                                                                 the provisioned LFs are mapped to slots 0 to [NUM_LFS]-1 in the block. */
+#else /* Word 0 - Little Endian */
+        uint64_t num_lfs               : 9;  /**< [  8:  0](R/W) Number of LFs from the block that are provisioned to the PF/VF. When non-zero,
+                                                                 the provisioned LFs are mapped to slots 0 to [NUM_LFS]-1 in the block. */
+        uint64_t reserved_9_63         : 55;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rvu_priv_pfx_dpix_cfg_s cn; */
+};
+typedef union cavm_rvu_priv_pfx_dpix_cfg cavm_rvu_priv_pfx_dpix_cfg_t;
+
+static inline uint64_t CAVM_RVU_PRIV_PFX_DPIX_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RVU_PRIV_PFX_DPIX_CFG(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=31) && (b<=1)))
+        return 0x840008000380ll + 0x10000ll * ((a) & 0x1f) + 8ll * ((b) & 0x1);
+    __cavm_csr_fatal("RVU_PRIV_PFX_DPIX_CFG", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RVU_PRIV_PFX_DPIX_CFG(a,b) cavm_rvu_priv_pfx_dpix_cfg_t
+#define bustype_CAVM_RVU_PRIV_PFX_DPIX_CFG(a,b) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_RVU_PRIV_PFX_DPIX_CFG(a,b) "RVU_PRIV_PFX_DPIX_CFG"
+#define device_bar_CAVM_RVU_PRIV_PFX_DPIX_CFG(a,b) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_RVU_PRIV_PFX_DPIX_CFG(a,b) (a)
+#define arguments_CAVM_RVU_PRIV_PFX_DPIX_CFG(a,b) (a),(b),-1,-1
+
+/**
  * Register (RVU_PF_BAR0) rvu_priv_pf#_id_cfg
  *
  * RVU Privileged PF ID Configuration Registers
@@ -4000,6 +4124,46 @@ static inline uint64_t CAVM_RVU_PRIV_PFX_NPA_CFG(uint64_t a)
 #define device_bar_CAVM_RVU_PRIV_PFX_NPA_CFG(a) 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_RVU_PRIV_PFX_NPA_CFG(a) (a)
 #define arguments_CAVM_RVU_PRIV_PFX_NPA_CFG(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) rvu_priv_pf#_pma_cfg
+ *
+ * RVU Privileged PF PMA Configuration Registers
+ * Similar to RVU_PRIV_PF()_NIX()_CFG, but for PMA block.
+ */
+union cavm_rvu_priv_pfx_pma_cfg
+{
+    uint64_t u;
+    struct cavm_rvu_priv_pfx_pma_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_9_63         : 55;
+        uint64_t num_lfs               : 9;  /**< [  8:  0](R/W) Number of LFs from the block that are provisioned to the PF/VF. When non-zero,
+                                                                 the provisioned LFs are mapped to slots 0 to [NUM_LFS]-1 in the block. */
+#else /* Word 0 - Little Endian */
+        uint64_t num_lfs               : 9;  /**< [  8:  0](R/W) Number of LFs from the block that are provisioned to the PF/VF. When non-zero,
+                                                                 the provisioned LFs are mapped to slots 0 to [NUM_LFS]-1 in the block. */
+        uint64_t reserved_9_63         : 55;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rvu_priv_pfx_pma_cfg_s cn; */
+};
+typedef union cavm_rvu_priv_pfx_pma_cfg cavm_rvu_priv_pfx_pma_cfg_t;
+
+static inline uint64_t CAVM_RVU_PRIV_PFX_PMA_CFG(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RVU_PRIV_PFX_PMA_CFG(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=31))
+        return 0x840008000370ll + 0x10000ll * ((a) & 0x1f);
+    __cavm_csr_fatal("RVU_PRIV_PFX_PMA_CFG", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RVU_PRIV_PFX_PMA_CFG(a) cavm_rvu_priv_pfx_pma_cfg_t
+#define bustype_CAVM_RVU_PRIV_PFX_PMA_CFG(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_RVU_PRIV_PFX_PMA_CFG(a) "RVU_PRIV_PFX_PMA_CFG"
+#define device_bar_CAVM_RVU_PRIV_PFX_PMA_CFG(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_RVU_PRIV_PFX_PMA_CFG(a) (a)
+#define arguments_CAVM_RVU_PRIV_PFX_PMA_CFG(a) (a),-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) rvu_priv_pf#_ree#_cfg

@@ -37,6 +37,7 @@
  * Enumerates the MSI-X interrupt vectors.
  */
 #define CAVM_EMMC_INT_VEC_E_EMMC_INTR (0)
+#define CAVM_EMMC_INT_VEC_E_EMMC_INTR_CLEAR (1)
 
 /**
  * Register (NCB) emmc#_clk_ctrl
@@ -49,14 +50,33 @@ union cavm_emmcx_clk_ctrl
     struct cavm_emmcx_clk_ctrl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
+        uint64_t reserved_3_63         : 61;
+        uint64_t emmc_imsc_shadow      : 1;  /**< [  2:  2](R/W) EMMC interrupt mask. 1 = EMMC INTR IS UNMASKED. 0 = EMMC INTR IS MASKED. */
+        uint64_t wrap_sclk_force       : 1;  /**< [  1:  1](R/W) EMMC sclk clk gate override. 0 = EMMC sclk gating is enabled. 1 = EMMC sclk gating is disabled. */
         uint64_t emmc_clk_en           : 1;  /**< [  0:  0](R/W) EMMC IO clk enable. 0 = EMMC IO clock is disabled. 1 = EMMC IO clock is enabled. */
 #else /* Word 0 - Little Endian */
         uint64_t emmc_clk_en           : 1;  /**< [  0:  0](R/W) EMMC IO clk enable. 0 = EMMC IO clock is disabled. 1 = EMMC IO clock is enabled. */
-        uint64_t reserved_1_63         : 63;
+        uint64_t wrap_sclk_force       : 1;  /**< [  1:  1](R/W) EMMC sclk clk gate override. 0 = EMMC sclk gating is enabled. 1 = EMMC sclk gating is disabled. */
+        uint64_t emmc_imsc_shadow      : 1;  /**< [  2:  2](R/W) EMMC interrupt mask. 1 = EMMC INTR IS UNMASKED. 0 = EMMC INTR IS MASKED. */
+        uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_emmcx_clk_ctrl_s cn; */
+    /* struct cavm_emmcx_clk_ctrl_s cheetah; */
+    /* struct cavm_emmcx_clk_ctrl_s cn20; */
+    struct cavm_emmcx_clk_ctrl_odinmp
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_3_63         : 61;
+        uint64_t emmc_imsc_shadow      : 1;  /**< [  2:  2](R/W) EMMC interrupt mask. 1 = EMMC INTR IS UNMASKED. 0 = EMMC INTR IS MASKED. */
+        uint64_t reserved_1            : 1;
+        uint64_t emmc_clk_en           : 1;  /**< [  0:  0](R/W) EMMC IO clk enable. 0 = EMMC IO clock is disabled. 1 = EMMC IO clock is enabled. */
+#else /* Word 0 - Little Endian */
+        uint64_t emmc_clk_en           : 1;  /**< [  0:  0](R/W) EMMC IO clk enable. 0 = EMMC IO clock is disabled. 1 = EMMC IO clock is enabled. */
+        uint64_t reserved_1            : 1;
+        uint64_t emmc_imsc_shadow      : 1;  /**< [  2:  2](R/W) EMMC interrupt mask. 1 = EMMC INTR IS UNMASKED. 0 = EMMC INTR IS MASKED. */
+        uint64_t reserved_3_63         : 61;
+#endif /* Word 0 - End */
+    } odinmp;
 };
 typedef union cavm_emmcx_clk_ctrl cavm_emmcx_clk_ctrl_t;
 
@@ -2726,7 +2746,7 @@ union cavm_emmcx_host_hrs_hrs42
                                                                  timeout is detected. The interval can be computed as below:
                                                                  0x0 = clk*2^(14+2).
                                                                  0x1 = clk*2^(15+2).
-                                                                 ...
+                                                                 _ ...
                                                                  0xD = clk*2^(27+2).
                                                                  0xE = clk*2^(28+2).
                                                                  0xF = clk*2^(29+2).
@@ -2741,7 +2761,7 @@ union cavm_emmcx_host_hrs_hrs42
                                                                  timeout is detected. The interval can be computed as below:
                                                                  0x0 = clk*2^(14+2).
                                                                  0x1 = clk*2^(15+2).
-                                                                 ...
+                                                                 _ ...
                                                                  0xD = clk*2^(27+2).
                                                                  0xE = clk*2^(28+2).
                                                                  0xF = clk*2^(29+2).
@@ -2935,10 +2955,10 @@ union cavm_emmcx_host_srs_srs01
                                                                  0x001 = 1 data byte.
                                                                  0x002 = 2 data bytes.
                                                                  0x003 = 3 data bytes.
-                                                                 ...
+                                                                 _ ...
                                                                  0x1FF = 511 data bytes.
                                                                  0x200 = 512 data bytes.
-                                                                 ...
+                                                                 _ ...
                                                                  0x800 = 2048 data bytes.
                                                                  others = not used.
                                                                  Note: It is recommended for the software to use native data block size (512B) in case of multiple
@@ -2954,10 +2974,10 @@ union cavm_emmcx_host_srs_srs01
                                                                  0x001 = 1 data byte.
                                                                  0x002 = 2 data bytes.
                                                                  0x003 = 3 data bytes.
-                                                                 ...
+                                                                 _ ...
                                                                  0x1FF = 511 data bytes.
                                                                  0x200 = 512 data bytes.
-                                                                 ...
+                                                                 _ ...
                                                                  0x800 = 2048 data bytes.
                                                                  others = not used.
                                                                  Note: It is recommended for the software to use native data block size (512B) in case of multiple
@@ -5180,9 +5200,9 @@ union cavm_emmcx_host_srs_srs17
                                                                  Re-Tuning Operation.
                                                                  0x0 = Re-Tuning Timer disabled.
                                                                  0x1 = 1 second.
-                                                                 ...
+                                                                 _ ...
                                                                  n   = 2^(n-1) seconds.
-                                                                 ...
+                                                                 _ ...
                                                                  0xB = 1024 seconds.
                                                                  0xC-0xE = Reserved.
                                                                  0xF = Obtain this info in other way. */
@@ -5233,9 +5253,9 @@ union cavm_emmcx_host_srs_srs17
                                                                  Re-Tuning Operation.
                                                                  0x0 = Re-Tuning Timer disabled.
                                                                  0x1 = 1 second.
-                                                                 ...
+                                                                 _ ...
                                                                  n   = 2^(n-1) seconds.
-                                                                 ...
+                                                                 _ ...
                                                                  0xB = 1024 seconds.
                                                                  0xC-0xE = Reserved.
                                                                  0xF = Obtain this info in other way. */
@@ -5304,21 +5324,21 @@ union cavm_emmcx_host_srs_srs18
                                                                  0x1 = 4 mA.
                                                                  0x2 = 8 mA.
                                                                  0x3 = 12 mA.
-                                                                 ...
+                                                                 _ ...
                                                                  0xFF = 1020 mA. */
         uint32_t mc30                  : 8;  /**< [ 15:  8](RO) Maximum Current for 3.0V.
                                                                  0x0 = Host System has to obtain the current value via another method.
                                                                  0x1 = 4 mA.
                                                                  0x2 = 8 mA.
                                                                  0x3 = 12 mA.
-                                                                 ...
+                                                                 _ ...
                                                                  0xFF = 1020 mA. */
         uint32_t mc33                  : 8;  /**< [  7:  0](RO) Maximum Current for 3.3V.
                                                                  0x0 = Host System has to obtain the current value via another method.
                                                                  0x1 = 4 mA.
                                                                  0x2 = 8 mA.
                                                                  0x3 = 12 mA.
-                                                                 ...
+                                                                 _ ...
                                                                  0xFF = 1020 mA. */
 #else /* Word 0 - Little Endian */
         uint32_t mc33                  : 8;  /**< [  7:  0](RO) Maximum Current for 3.3V.
@@ -5326,21 +5346,21 @@ union cavm_emmcx_host_srs_srs18
                                                                  0x1 = 4 mA.
                                                                  0x2 = 8 mA.
                                                                  0x3 = 12 mA.
-                                                                 ...
+                                                                 _ ...
                                                                  0xFF = 1020 mA. */
         uint32_t mc30                  : 8;  /**< [ 15:  8](RO) Maximum Current for 3.0V.
                                                                  0x0 = Host System has to obtain the current value via another method.
                                                                  0x1 = 4 mA.
                                                                  0x2 = 8 mA.
                                                                  0x3 = 12 mA.
-                                                                 ...
+                                                                 _ ...
                                                                  0xFF = 1020 mA. */
         uint32_t mc18                  : 8;  /**< [ 23: 16](RO) Maximum Current for 1.8.
                                                                  0x0 = Host System has to obtain the current value via another method.
                                                                  0x1 = 4 mA.
                                                                  0x2 = 8 mA.
                                                                  0x3 = 12 mA.
-                                                                 ...
+                                                                 _ ...
                                                                  0xFF = 1020 mA. */
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
@@ -5381,7 +5401,7 @@ union cavm_emmcx_host_srs_srs19
                                                                  0x1 = 4 mA.
                                                                  0x2 = 8 mA.
                                                                  0x3 = 12 mA.
-                                                                 ...
+                                                                 _ ...
                                                                  0xFF = 1020 mA. */
 #else /* Word 0 - Little Endian */
         uint32_t mc18v2                : 8;  /**< [  7:  0](RO) Maximum Current for 1.8V VDD2.
@@ -5389,7 +5409,7 @@ union cavm_emmcx_host_srs_srs19
                                                                  0x1 = 4 mA.
                                                                  0x2 = 8 mA.
                                                                  0x3 = 12 mA.
-                                                                 ...
+                                                                 _ ...
                                                                  0xFF = 1020 mA. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
@@ -5974,158 +5994,6 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS31(uint64_t a)
 #define arguments_CAVM_EMMCX_HOST_SRS_SRS31(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) emmc#_intr
- *
- * EMMC PF Interrupt Register
- * This register contains the different interrupt summary bits of the EMMC.
- */
-union cavm_emmcx_intr
-{
-    uint64_t u;
-    struct cavm_emmcx_intr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t emmc_intr_out         : 1;  /**< [  0:  0](R/W1C/H) eMMC system interrupt set when any interrupt is triggered as indicated by EMMC_HOST_SRS_SRS12. */
-#else /* Word 0 - Little Endian */
-        uint64_t emmc_intr_out         : 1;  /**< [  0:  0](R/W1C/H) eMMC system interrupt set when any interrupt is triggered as indicated by EMMC_HOST_SRS_SRS12. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_emmcx_intr_s cn; */
-};
-typedef union cavm_emmcx_intr cavm_emmcx_intr_t;
-
-static inline uint64_t CAVM_EMMCX_INTR(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_EMMCX_INTR(uint64_t a)
-{
-    if (a==0)
-        return 0x824000000718ll + 0x1000000ll * ((a) & 0x0);
-    __cavm_csr_fatal("EMMCX_INTR", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_EMMCX_INTR(a) cavm_emmcx_intr_t
-#define bustype_CAVM_EMMCX_INTR(a) CSR_TYPE_NCB
-#define basename_CAVM_EMMCX_INTR(a) "EMMCX_INTR"
-#define device_bar_CAVM_EMMCX_INTR(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_EMMCX_INTR(a) (a)
-#define arguments_CAVM_EMMCX_INTR(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) emmc#_intr_ena_w1c
- *
- * EMMC PF Interrupt Enable Clear Register
- * This register clears interrupt enable bits.
- */
-union cavm_emmcx_intr_ena_w1c
-{
-    uint64_t u;
-    struct cavm_emmcx_intr_ena_w1c_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t emmc_intr_out         : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for EMMC(0)_INTR[EMMC_INTR_OUT]. */
-#else /* Word 0 - Little Endian */
-        uint64_t emmc_intr_out         : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for EMMC(0)_INTR[EMMC_INTR_OUT]. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_emmcx_intr_ena_w1c_s cn; */
-};
-typedef union cavm_emmcx_intr_ena_w1c cavm_emmcx_intr_ena_w1c_t;
-
-static inline uint64_t CAVM_EMMCX_INTR_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_EMMCX_INTR_ENA_W1C(uint64_t a)
-{
-    if (a==0)
-        return 0x824000000728ll + 0x1000000ll * ((a) & 0x0);
-    __cavm_csr_fatal("EMMCX_INTR_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_EMMCX_INTR_ENA_W1C(a) cavm_emmcx_intr_ena_w1c_t
-#define bustype_CAVM_EMMCX_INTR_ENA_W1C(a) CSR_TYPE_NCB
-#define basename_CAVM_EMMCX_INTR_ENA_W1C(a) "EMMCX_INTR_ENA_W1C"
-#define device_bar_CAVM_EMMCX_INTR_ENA_W1C(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_EMMCX_INTR_ENA_W1C(a) (a)
-#define arguments_CAVM_EMMCX_INTR_ENA_W1C(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) emmc#_intr_ena_w1s
- *
- * EMMC PF Interrupt Enable Set Register
- * This register sets interrupt enable bits.
- */
-union cavm_emmcx_intr_ena_w1s
-{
-    uint64_t u;
-    struct cavm_emmcx_intr_ena_w1s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t emmc_intr_out         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for EMMC(0)_INTR[EMMC_INTR_OUT]. */
-#else /* Word 0 - Little Endian */
-        uint64_t emmc_intr_out         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for EMMC(0)_INTR[EMMC_INTR_OUT]. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_emmcx_intr_ena_w1s_s cn; */
-};
-typedef union cavm_emmcx_intr_ena_w1s cavm_emmcx_intr_ena_w1s_t;
-
-static inline uint64_t CAVM_EMMCX_INTR_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_EMMCX_INTR_ENA_W1S(uint64_t a)
-{
-    if (a==0)
-        return 0x824000000730ll + 0x1000000ll * ((a) & 0x0);
-    __cavm_csr_fatal("EMMCX_INTR_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_EMMCX_INTR_ENA_W1S(a) cavm_emmcx_intr_ena_w1s_t
-#define bustype_CAVM_EMMCX_INTR_ENA_W1S(a) CSR_TYPE_NCB
-#define basename_CAVM_EMMCX_INTR_ENA_W1S(a) "EMMCX_INTR_ENA_W1S"
-#define device_bar_CAVM_EMMCX_INTR_ENA_W1S(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_EMMCX_INTR_ENA_W1S(a) (a)
-#define arguments_CAVM_EMMCX_INTR_ENA_W1S(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) emmc#_intr_w1s
- *
- * EMMC PF Interrupt Set Register
- * This register sets interrupt bits.
- */
-union cavm_emmcx_intr_w1s
-{
-    uint64_t u;
-    struct cavm_emmcx_intr_w1s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t emmc_intr_out         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets EMMC(0)_INTR[EMMC_INTR_OUT]. */
-#else /* Word 0 - Little Endian */
-        uint64_t emmc_intr_out         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets EMMC(0)_INTR[EMMC_INTR_OUT]. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_emmcx_intr_w1s_s cn; */
-};
-typedef union cavm_emmcx_intr_w1s cavm_emmcx_intr_w1s_t;
-
-static inline uint64_t CAVM_EMMCX_INTR_W1S(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_EMMCX_INTR_W1S(uint64_t a)
-{
-    if (a==0)
-        return 0x824000000720ll + 0x1000000ll * ((a) & 0x0);
-    __cavm_csr_fatal("EMMCX_INTR_W1S", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_EMMCX_INTR_W1S(a) cavm_emmcx_intr_w1s_t
-#define bustype_CAVM_EMMCX_INTR_W1S(a) CSR_TYPE_NCB
-#define basename_CAVM_EMMCX_INTR_W1S(a) "EMMCX_INTR_W1S"
-#define device_bar_CAVM_EMMCX_INTR_W1S(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_EMMCX_INTR_W1S(a) (a)
-#define arguments_CAVM_EMMCX_INTR_W1S(a) (a),-1,-1,-1
-
-/**
  * Register (NCB) emmc#_msix_pba#
  *
  * EMMC MSI-X Pending Bit Array Registers
@@ -6207,8 +6075,8 @@ typedef union cavm_emmcx_msix_vecx_addr cavm_emmcx_msix_vecx_addr_t;
 static inline uint64_t CAVM_EMMCX_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EMMCX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b==0))
-        return 0x824009f00000ll + 0x1000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x0);
+    if ((a==0) && (b<=1))
+        return 0x824009f00000ll + 0x1000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     __cavm_csr_fatal("EMMCX_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -6247,8 +6115,8 @@ typedef union cavm_emmcx_msix_vecx_ctl cavm_emmcx_msix_vecx_ctl_t;
 static inline uint64_t CAVM_EMMCX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EMMCX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b==0))
-        return 0x824009f00008ll + 0x1000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x0);
+    if ((a==0) && (b<=1))
+        return 0x824009f00008ll + 0x1000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     __cavm_csr_fatal("EMMCX_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -6356,26 +6224,28 @@ union cavm_emmcx_phy_ctb_rfile_phy_gpio_ctrl_0
                                                                  0x2 = 33 ohm.
                                                                  0x3 = 20 ohm. */
         uint32_t drv_str_ovr_en        : 1;  /**< [  4:  4](R/W) emmc_io_ctl output drive strength override enable.
-                                                                 0x0 = Drive is 0x10.
-                                                                 0x1 = Drive strenght as per DRIVE. */
+                                                                 0 = Drive is 0x2.
+                                                                 1 = Drive strength as per DRIVE. */
         uint32_t reserved_3            : 1;
         uint32_t slew                  : 2;  /**< [  2:  1](R/W) emmc_io_ctl output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
         uint32_t slew_rate_ovr_en      : 1;  /**< [  0:  0](R/W) emmc_io_ctl output slew rate control override enable.
-                                                                 0x0 = SLEW is 0x11.
-                                                                 0x1 = SLEW rate as per SLEW . */
+                                                                 0 = SLEW is 0x3.
+                                                                 1 = SLEW rate as per SLEW. */
 #else /* Word 0 - Little Endian */
         uint32_t slew_rate_ovr_en      : 1;  /**< [  0:  0](R/W) emmc_io_ctl output slew rate control override enable.
-                                                                 0x0 = SLEW is 0x11.
-                                                                 0x1 = SLEW rate as per SLEW . */
+                                                                 0 = SLEW is 0x3.
+                                                                 1 = SLEW rate as per SLEW. */
         uint32_t slew                  : 2;  /**< [  2:  1](R/W) emmc_io_ctl output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
         uint32_t reserved_3            : 1;
         uint32_t drv_str_ovr_en        : 1;  /**< [  4:  4](R/W) emmc_io_ctl output drive strength override enable.
-                                                                 0x0 = Drive is 0x10.
-                                                                 0x1 = Drive strenght as per DRIVE. */
+                                                                 0 = Drive is 0x2.
+                                                                 1 = Drive strength as per DRIVE. */
         uint32_t drive                 : 2;  /**< [  6:  5](R/W) emmc_io_ctl output impedance.
                                                                  0x0 = 55 ohm.
                                                                  0x1 = 45 ohm.
@@ -8319,5 +8189,263 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_RD_DESKEW_CMD(uint6
 #define device_bar_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_RD_DESKEW_CMD(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_RD_DESKEW_CMD(a) (a)
 #define arguments_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_RD_DESKEW_CMD(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) emmc#_soft_reset
+ *
+ * EMMC SOFT RESET Register
+ * This register is used as soft reset
+ */
+union cavm_emmcx_soft_reset
+{
+    uint32_t u;
+    struct cavm_emmcx_soft_reset_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_1_31         : 31;
+        uint32_t soft_reset            : 1;  /**< [  0:  0](R/W) This register field is used as soft reset. */
+#else /* Word 0 - Little Endian */
+        uint32_t soft_reset            : 1;  /**< [  0:  0](R/W) This register field is used as soft reset. */
+        uint32_t reserved_1_31         : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_emmcx_soft_reset_s cn; */
+};
+typedef union cavm_emmcx_soft_reset cavm_emmcx_soft_reset_t;
+
+static inline uint64_t CAVM_EMMCX_SOFT_RESET(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EMMCX_SOFT_RESET(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x8240000020a0ll + 0x1000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("EMMCX_SOFT_RESET", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_EMMCX_SOFT_RESET(a) cavm_emmcx_soft_reset_t
+#define bustype_CAVM_EMMCX_SOFT_RESET(a) CSR_TYPE_NCB32b
+#define basename_CAVM_EMMCX_SOFT_RESET(a) "EMMCX_SOFT_RESET"
+#define device_bar_CAVM_EMMCX_SOFT_RESET(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EMMCX_SOFT_RESET(a) (a)
+#define arguments_CAVM_EMMCX_SOFT_RESET(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) emmc#_srs_ctl0
+ *
+ * EMMC SRS Control Register0
+ */
+union cavm_emmcx_srs_ctl0
+{
+    uint64_t u;
+    struct cavm_emmcx_srs_ctl0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t srs16                 : 32; /**< [ 63: 32](R/W) This register controls value of EMMC_HOST_SRS_SRS16. */
+        uint64_t srs17                 : 32; /**< [ 31:  0](R/W) This register controls value of EMMC_HOST_SRS_SRS17. */
+#else /* Word 0 - Little Endian */
+        uint64_t srs17                 : 32; /**< [ 31:  0](R/W) This register controls value of EMMC_HOST_SRS_SRS17. */
+        uint64_t srs16                 : 32; /**< [ 63: 32](R/W) This register controls value of EMMC_HOST_SRS_SRS16. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_emmcx_srs_ctl0_s cn; */
+};
+typedef union cavm_emmcx_srs_ctl0 cavm_emmcx_srs_ctl0_t;
+
+static inline uint64_t CAVM_EMMCX_SRS_CTL0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EMMCX_SRS_CTL0(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x824000000800ll + 0x1000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("EMMCX_SRS_CTL0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_EMMCX_SRS_CTL0(a) cavm_emmcx_srs_ctl0_t
+#define bustype_CAVM_EMMCX_SRS_CTL0(a) CSR_TYPE_NCB
+#define basename_CAVM_EMMCX_SRS_CTL0(a) "EMMCX_SRS_CTL0"
+#define device_bar_CAVM_EMMCX_SRS_CTL0(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EMMCX_SRS_CTL0(a) (a)
+#define arguments_CAVM_EMMCX_SRS_CTL0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) emmc#_srs_ctl1
+ *
+ * EMMC SRS Control Register1
+ */
+union cavm_emmcx_srs_ctl1
+{
+    uint64_t u;
+    struct cavm_emmcx_srs_ctl1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t srs18                 : 32; /**< [ 63: 32](R/W) This register controls value of EMMC_HOST_SRS_SRS18. */
+        uint64_t srs19                 : 32; /**< [ 31:  0](R/W) This register controls value of EMMC_HOST_SRS_SRS19. */
+#else /* Word 0 - Little Endian */
+        uint64_t srs19                 : 32; /**< [ 31:  0](R/W) This register controls value of EMMC_HOST_SRS_SRS19. */
+        uint64_t srs18                 : 32; /**< [ 63: 32](R/W) This register controls value of EMMC_HOST_SRS_SRS18. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_emmcx_srs_ctl1_s cn; */
+};
+typedef union cavm_emmcx_srs_ctl1 cavm_emmcx_srs_ctl1_t;
+
+static inline uint64_t CAVM_EMMCX_SRS_CTL1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EMMCX_SRS_CTL1(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x824000000808ll + 0x1000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("EMMCX_SRS_CTL1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_EMMCX_SRS_CTL1(a) cavm_emmcx_srs_ctl1_t
+#define bustype_CAVM_EMMCX_SRS_CTL1(a) CSR_TYPE_NCB
+#define basename_CAVM_EMMCX_SRS_CTL1(a) "EMMCX_SRS_CTL1"
+#define device_bar_CAVM_EMMCX_SRS_CTL1(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EMMCX_SRS_CTL1(a) (a)
+#define arguments_CAVM_EMMCX_SRS_CTL1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) emmc#_srs_ctl2
+ *
+ * EMMC SRS Control Register2
+ */
+union cavm_emmcx_srs_ctl2
+{
+    uint64_t u;
+    struct cavm_emmcx_srs_ctl2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t srs24                 : 32; /**< [ 63: 32](R/W) This register controls value of EMMC_HOST_SRS_SRS24. */
+        uint64_t srs25                 : 32; /**< [ 31:  0](R/W) This register controls value of EMMC_HOST_SRS_SRS25. */
+#else /* Word 0 - Little Endian */
+        uint64_t srs25                 : 32; /**< [ 31:  0](R/W) This register controls value of EMMC_HOST_SRS_SRS25. */
+        uint64_t srs24                 : 32; /**< [ 63: 32](R/W) This register controls value of EMMC_HOST_SRS_SRS24. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_emmcx_srs_ctl2_s cn; */
+};
+typedef union cavm_emmcx_srs_ctl2 cavm_emmcx_srs_ctl2_t;
+
+static inline uint64_t CAVM_EMMCX_SRS_CTL2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EMMCX_SRS_CTL2(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x824000000810ll + 0x1000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("EMMCX_SRS_CTL2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_EMMCX_SRS_CTL2(a) cavm_emmcx_srs_ctl2_t
+#define bustype_CAVM_EMMCX_SRS_CTL2(a) CSR_TYPE_NCB
+#define basename_CAVM_EMMCX_SRS_CTL2(a) "EMMCX_SRS_CTL2"
+#define device_bar_CAVM_EMMCX_SRS_CTL2(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EMMCX_SRS_CTL2(a) (a)
+#define arguments_CAVM_EMMCX_SRS_CTL2(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) emmc#_srs_ctl3
+ *
+ * EMMC SRS Control Register3
+ */
+union cavm_emmcx_srs_ctl3
+{
+    uint64_t u;
+    struct cavm_emmcx_srs_ctl3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t srs26                 : 32; /**< [ 63: 32](R/W) This register controls value of EMMC_HOST_SRS_SRS26. */
+        uint64_t srs27                 : 32; /**< [ 31:  0](R/W) This register controls value of EMMC_HOST_SRS_SRS27. */
+#else /* Word 0 - Little Endian */
+        uint64_t srs27                 : 32; /**< [ 31:  0](R/W) This register controls value of EMMC_HOST_SRS_SRS27. */
+        uint64_t srs26                 : 32; /**< [ 63: 32](R/W) This register controls value of EMMC_HOST_SRS_SRS26. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_emmcx_srs_ctl3_s cn; */
+};
+typedef union cavm_emmcx_srs_ctl3 cavm_emmcx_srs_ctl3_t;
+
+static inline uint64_t CAVM_EMMCX_SRS_CTL3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EMMCX_SRS_CTL3(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x824000000818ll + 0x1000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("EMMCX_SRS_CTL3", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_EMMCX_SRS_CTL3(a) cavm_emmcx_srs_ctl3_t
+#define bustype_CAVM_EMMCX_SRS_CTL3(a) CSR_TYPE_NCB
+#define basename_CAVM_EMMCX_SRS_CTL3(a) "EMMCX_SRS_CTL3"
+#define device_bar_CAVM_EMMCX_SRS_CTL3(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EMMCX_SRS_CTL3(a) (a)
+#define arguments_CAVM_EMMCX_SRS_CTL3(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) emmc#_tie_off_0
+ *
+ * EMMC TIE OFF 0 Register
+ * This register is used to tie any ports with '0'
+ */
+union cavm_emmcx_tie_off_0
+{
+    uint32_t u;
+    struct cavm_emmcx_tie_off_0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t tie_off_0             : 32; /**< [ 31:  0](R/W) This register field is used to tie any ports with '0'. */
+#else /* Word 0 - Little Endian */
+        uint32_t tie_off_0             : 32; /**< [ 31:  0](R/W) This register field is used to tie any ports with '0'. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_emmcx_tie_off_0_s cn; */
+};
+typedef union cavm_emmcx_tie_off_0 cavm_emmcx_tie_off_0_t;
+
+static inline uint64_t CAVM_EMMCX_TIE_OFF_0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EMMCX_TIE_OFF_0(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x824000002098ll + 0x1000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("EMMCX_TIE_OFF_0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_EMMCX_TIE_OFF_0(a) cavm_emmcx_tie_off_0_t
+#define bustype_CAVM_EMMCX_TIE_OFF_0(a) CSR_TYPE_NCB32b
+#define basename_CAVM_EMMCX_TIE_OFF_0(a) "EMMCX_TIE_OFF_0"
+#define device_bar_CAVM_EMMCX_TIE_OFF_0(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EMMCX_TIE_OFF_0(a) (a)
+#define arguments_CAVM_EMMCX_TIE_OFF_0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) emmc#_tie_off_1
+ *
+ * EMMC TIE OFF 1 Register
+ * This register is used to tie any ports with '1'
+ */
+union cavm_emmcx_tie_off_1
+{
+    uint32_t u;
+    struct cavm_emmcx_tie_off_1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t tie_off_1             : 32; /**< [ 31:  0](R/W) This register field is used to tie any ports with '1'. */
+#else /* Word 0 - Little Endian */
+        uint32_t tie_off_1             : 32; /**< [ 31:  0](R/W) This register field is used to tie any ports with '1'. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_emmcx_tie_off_1_s cn; */
+};
+typedef union cavm_emmcx_tie_off_1 cavm_emmcx_tie_off_1_t;
+
+static inline uint64_t CAVM_EMMCX_TIE_OFF_1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EMMCX_TIE_OFF_1(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x82400000209cll + 0x1000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("EMMCX_TIE_OFF_1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_EMMCX_TIE_OFF_1(a) cavm_emmcx_tie_off_1_t
+#define bustype_CAVM_EMMCX_TIE_OFF_1(a) CSR_TYPE_NCB32b
+#define basename_CAVM_EMMCX_TIE_OFF_1(a) "EMMCX_TIE_OFF_1"
+#define device_bar_CAVM_EMMCX_TIE_OFF_1(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EMMCX_TIE_OFF_1(a) (a)
+#define arguments_CAVM_EMMCX_TIE_OFF_1(a) (a),-1,-1,-1
 
 #endif /* __CAVM_CSRS_EMMC_H__ */

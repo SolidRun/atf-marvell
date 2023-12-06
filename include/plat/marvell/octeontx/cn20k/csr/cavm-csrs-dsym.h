@@ -49,7 +49,7 @@ typedef union cavm_dsymx_abx_block1_ab_control cavm_dsymx_abx_block1_ab_control_
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK1_AB_CONTROL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK1_AB_CONTROL(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=3)))
         return 0x87e041e00000ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("DSYMX_ABX_BLOCK1_AB_CONTROL", 2, a, b, 0, 0, 0, 0);
 }
@@ -94,7 +94,7 @@ typedef union cavm_dsymx_abx_block1_ab_error cavm_dsymx_abx_block1_ab_error_t;
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK1_AB_ERROR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK1_AB_ERROR(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=3)))
         return 0x87e041e00030ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("DSYMX_ABX_BLOCK1_AB_ERROR", 2, a, b, 0, 0, 0, 0);
 }
@@ -136,7 +136,7 @@ typedef union cavm_dsymx_abx_block1_ab_error_enable cavm_dsymx_abx_block1_ab_err
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK1_AB_ERROR_ENABLE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK1_AB_ERROR_ENABLE(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=3)))
         return 0x87e041e00040ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("DSYMX_ABX_BLOCK1_AB_ERROR_ENABLE", 2, a, b, 0, 0, 0, 0);
 }
@@ -172,7 +172,7 @@ typedef union cavm_dsymx_abx_block1_ab_reserved1 cavm_dsymx_abx_block1_ab_reserv
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK1_AB_RESERVED1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK1_AB_RESERVED1(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=3)))
         return 0x87e041e00060ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("DSYMX_ABX_BLOCK1_AB_RESERVED1", 2, a, b, 0, 0, 0, 0);
 }
@@ -208,7 +208,7 @@ typedef union cavm_dsymx_abx_block1_ab_reserved2 cavm_dsymx_abx_block1_ab_reserv
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK1_AB_RESERVED2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK1_AB_RESERVED2(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=3)))
         return 0x87e041e00068ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("DSYMX_ABX_BLOCK1_AB_RESERVED2", 2, a, b, 0, 0, 0, 0);
 }
@@ -244,7 +244,7 @@ typedef union cavm_dsymx_abx_block1_ab_status cavm_dsymx_abx_block1_ab_status_t;
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK1_AB_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK1_AB_STATUS(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=3)))
         return 0x87e041e00018ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("DSYMX_ABX_BLOCK1_AB_STATUS", 2, a, b, 0, 0, 0, 0);
 }
@@ -292,7 +292,7 @@ typedef union cavm_dsymx_abx_block1_const_ramx cavm_dsymx_abx_block1_const_ramx_
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK1_CONST_RAMX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK1_CONST_RAMX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=3) && (b<=3) && (c<=854))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=3) && (c<=854)))
         return 0x87e041e00100ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x3) + 8ll * ((c) & 0x3ff);
     __cavm_csr_fatal("DSYMX_ABX_BLOCK1_CONST_RAMX", 3, a, b, c, 0, 0, 0);
 }
@@ -323,6 +323,7 @@ union cavm_dsymx_abx_block1_errcodes
                                                                  _ \<4\>: Precoder out-of inQueues for TxDiv channels.
                                                                  _ \<5\>: Busif: RefSignalGen requested for wrong channel (CH_TYPE).
                                                                  _ \<6\>: Busif: out of input data.
+                                                                 _ \<7\>:  Obuffers: over/underflow when adding OFFSET_I/Q to output data (Thor B0)
                                                                  _ \<9\>:  Obuffers: OStream count mismatch (ostream=8, but no 8tx channels,
                                                                  some ostreams not written out).
                                                                  _ \<10\>:  ChConfig; 2codeword channel not enabling CHID_MASK_ENABLE.
@@ -352,6 +353,7 @@ union cavm_dsymx_abx_block1_errcodes
                                                                  _ \<4\>: Precoder out-of inQueues for TxDiv channels.
                                                                  _ \<5\>: Busif: RefSignalGen requested for wrong channel (CH_TYPE).
                                                                  _ \<6\>: Busif: out of input data.
+                                                                 _ \<7\>:  Obuffers: over/underflow when adding OFFSET_I/Q to output data (Thor B0)
                                                                  _ \<9\>:  Obuffers: OStream count mismatch (ostream=8, but no 8tx channels,
                                                                  some ostreams not written out).
                                                                  _ \<10\>:  ChConfig; 2codeword channel not enabling CHID_MASK_ENABLE.
@@ -383,7 +385,7 @@ typedef union cavm_dsymx_abx_block1_errcodes cavm_dsymx_abx_block1_errcodes_t;
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK1_ERRCODES(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK1_ERRCODES(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=3)))
         return 0x87e041e000a0ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("DSYMX_ABX_BLOCK1_ERRCODES", 2, a, b, 0, 0, 0, 0);
 }
@@ -437,7 +439,7 @@ typedef union cavm_dsymx_abx_block1_global_control cavm_dsymx_abx_block1_global_
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK1_GLOBAL_CONTROL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK1_GLOBAL_CONTROL(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=3)))
         return 0x87e041e000e0ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("DSYMX_ABX_BLOCK1_GLOBAL_CONTROL", 2, a, b, 0, 0, 0, 0);
 }
@@ -473,7 +475,7 @@ typedef union cavm_dsymx_abx_block1_hab_ecc_dbe cavm_dsymx_abx_block1_hab_ecc_db
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK1_HAB_ECC_DBE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK1_HAB_ECC_DBE(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=3)))
         return 0x87e041e00078ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("DSYMX_ABX_BLOCK1_HAB_ECC_DBE", 2, a, b, 0, 0, 0, 0);
 }
@@ -509,7 +511,7 @@ typedef union cavm_dsymx_abx_block1_hab_ecc_sbe cavm_dsymx_abx_block1_hab_ecc_sb
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK1_HAB_ECC_SBE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK1_HAB_ECC_SBE(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=3)))
         return 0x87e041e00070ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("DSYMX_ABX_BLOCK1_HAB_ECC_SBE", 2, a, b, 0, 0, 0, 0);
 }
@@ -566,7 +568,7 @@ typedef union cavm_dsymx_abx_block1_id cavm_dsymx_abx_block1_id_t;
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK1_ID(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK1_ID(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=3)))
         return 0x87e041e000c0ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("DSYMX_ABX_BLOCK1_ID", 2, a, b, 0, 0, 0, 0);
 }
@@ -602,7 +604,7 @@ typedef union cavm_dsymx_abx_block1_max_time_status cavm_dsymx_abx_block1_max_ti
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK1_MAX_TIME_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK1_MAX_TIME_STATUS(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=3)))
         return 0x87e041e000b8ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("DSYMX_ABX_BLOCK1_MAX_TIME_STATUS", 2, a, b, 0, 0, 0, 0);
 }
@@ -646,7 +648,7 @@ typedef union cavm_dsymx_abx_block1_nfat_error_enable cavm_dsymx_abx_block1_nfat
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK1_NFAT_ERROR_ENABLE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK1_NFAT_ERROR_ENABLE(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=3)))
         return 0x87e041e000d0ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("DSYMX_ABX_BLOCK1_NFAT_ERROR_ENABLE", 2, a, b, 0, 0, 0, 0);
 }
@@ -684,7 +686,7 @@ typedef union cavm_dsymx_abx_block1_nfat_status cavm_dsymx_abx_block1_nfat_statu
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK1_NFAT_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK1_NFAT_STATUS(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=3)))
         return 0x87e041e000d8ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("DSYMX_ABX_BLOCK1_NFAT_STATUS", 2, a, b, 0, 0, 0, 0);
 }
@@ -694,6 +696,44 @@ static inline uint64_t CAVM_DSYMX_ABX_BLOCK1_NFAT_STATUS(uint64_t a, uint64_t b)
 #define basename_CAVM_DSYMX_ABX_BLOCK1_NFAT_STATUS(a,b) "DSYMX_ABX_BLOCK1_NFAT_STATUS"
 #define busnum_CAVM_DSYMX_ABX_BLOCK1_NFAT_STATUS(a,b) (a)
 #define arguments_CAVM_DSYMX_ABX_BLOCK1_NFAT_STATUS(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) dsym#_ab#_block1_ofifo_ctrl
+ *
+ * DSYM Block1 OFIFO Control Register
+ */
+union cavm_dsymx_abx_block1_ofifo_ctrl
+{
+    uint64_t u;
+    struct cavm_dsymx_abx_block1_ofifo_ctrl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t ofifo_headroom        : 8;  /**< [  7:  0](R/W) THOR B0: Internal control, use reset value. BUFFERS Fifo depth is 90 words,
+                                                                 this control word sets level at which OBUFFERS signals BUSY for the signal processing path. */
+#else /* Word 0 - Little Endian */
+        uint64_t ofifo_headroom        : 8;  /**< [  7:  0](R/W) THOR B0: Internal control, use reset value. BUFFERS Fifo depth is 90 words,
+                                                                 this control word sets level at which OBUFFERS signals BUSY for the signal processing path. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dsymx_abx_block1_ofifo_ctrl_s cn; */
+};
+typedef union cavm_dsymx_abx_block1_ofifo_ctrl cavm_dsymx_abx_block1_ofifo_ctrl_t;
+
+static inline uint64_t CAVM_DSYMX_ABX_BLOCK1_OFIFO_CTRL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSYMX_ABX_BLOCK1_OFIFO_CTRL(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=3)))
+        return 0x87e041e000e8ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x3);
+    __cavm_csr_fatal("DSYMX_ABX_BLOCK1_OFIFO_CTRL", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSYMX_ABX_BLOCK1_OFIFO_CTRL(a,b) cavm_dsymx_abx_block1_ofifo_ctrl_t
+#define bustype_CAVM_DSYMX_ABX_BLOCK1_OFIFO_CTRL(a,b) CSR_TYPE_RSL
+#define basename_CAVM_DSYMX_ABX_BLOCK1_OFIFO_CTRL(a,b) "DSYMX_ABX_BLOCK1_OFIFO_CTRL"
+#define busnum_CAVM_DSYMX_ABX_BLOCK1_OFIFO_CTRL(a,b) (a)
+#define arguments_CAVM_DSYMX_ABX_BLOCK1_OFIFO_CTRL(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) dsym#_ab#_block1_ostatus
@@ -732,7 +772,7 @@ typedef union cavm_dsymx_abx_block1_ostatus cavm_dsymx_abx_block1_ostatus_t;
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK1_OSTATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK1_OSTATUS(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=3)))
         return 0x87e041e000a8ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("DSYMX_ABX_BLOCK1_OSTATUS", 2, a, b, 0, 0, 0, 0);
 }
@@ -772,7 +812,7 @@ typedef union cavm_dsymx_abx_block1_time_status cavm_dsymx_abx_block1_time_statu
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK1_TIME_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK1_TIME_STATUS(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=3)))
         return 0x87e041e000b0ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("DSYMX_ABX_BLOCK1_TIME_STATUS", 2, a, b, 0, 0, 0, 0);
 }
@@ -813,7 +853,7 @@ typedef union cavm_dsymx_abx_block1_timing_ev cavm_dsymx_abx_block1_timing_ev_t;
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK1_TIMING_EV(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK1_TIMING_EV(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=3)))
         return 0x87e041e000c8ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("DSYMX_ABX_BLOCK1_TIMING_EV", 2, a, b, 0, 0, 0, 0);
 }
@@ -829,6 +869,8 @@ static inline uint64_t CAVM_DSYMX_ABX_BLOCK1_TIMING_EV(uint64_t a, uint64_t b)
  *
  * DSYM Block2 Codebookwr Config Register
  * TO BE RENAMED: SEC_LEN_CTRL.
+ * Hardware loads a portion of the job configuration in this register. Software should
+ * never directly write to this register.
  */
 union cavm_dsymx_abx_block2_codebookwr_config
 {
@@ -908,7 +950,7 @@ typedef union cavm_dsymx_abx_block2_codebookwr_config cavm_dsymx_abx_block2_code
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK2_CODEBOOKWR_CONFIG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK2_CODEBOOKWR_CONFIG(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=3)))
         return 0x87e041e02008ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("DSYMX_ABX_BLOCK2_CODEBOOKWR_CONFIG", 2, a, b, 0, 0, 0, 0);
 }
@@ -923,6 +965,8 @@ static inline uint64_t CAVM_DSYMX_ABX_BLOCK2_CODEBOOKWR_CONFIG(uint64_t a, uint6
  * Register (RSL) dsym#_ab#_block2_gen_ctrl
  *
  * DSYM Block2 Gen Ctrl Register
+ * Hardware loads a portion of the job configuration in this register. Software should
+ * never directly write to this register.
  */
 union cavm_dsymx_abx_block2_gen_ctrl
 {
@@ -933,15 +977,13 @@ union cavm_dsymx_abx_block2_gen_ctrl
         uint64_t reserved_52_63        : 12;
         uint64_t x2_scaling            : 1;  /**< [ 51: 51](R/W) Select if ChParam.SCALING and Codebook.SCALER are using 2x scale.
                                                                   0 = 0xFFFF means 1.0x scaling (range 0...1.0).
-                                                                  1 = 0xFFFF means 2.0x scaling (range 0...2.0).
-
-                                                                 Added 24.2.2021. */
+                                                                  1 = 0xFFFF means 2.0x scaling (range 0...2.0). */
         uint64_t precoder_odd_subcar   : 1;  /**< [ 50: 50](R/W) Configure odd/even SUBCAR definition for PRECODER's PRB BUNDLE.
                                                                   0 = SUBCAR0 is odd subcarrier.
                                                                   1 = SUBCAR0 is even  subcarrier.
                                                                  Precoder internally numbers subcarriers: 0,1,2,3,..., even/odd bundles have
                                                                  different D-matrix k-parameter calculation.
-                                                                 Added 12.2.2021. */
+                                                                 NOTE: Design error limits use to value 1 only if PRB Bundle size of 1PRB is used. */
         uint64_t enable_2nd_bps        : 1;  /**< [ 49: 49](R/W) Select if BPS_CONSTELLATION is used: 0=using BPS for both data access and
                                                                  constellation map selection, 1=using BPS for data access and BPS_CONSTELLATION
                                                                  for constellation map selection. */
@@ -950,8 +992,7 @@ union cavm_dsymx_abx_block2_gen_ctrl
                                                                   1 = Bundle0 is even bundle.
 
                                                                  Precoder internally numbers PRB bundles: 0,1,2,3,..., even/odd bundles have
-                                                                 different D-matrix k-parameter calculation.
-                                                                 Added 2.2.2021. */
+                                                                 different D-matrix k-parameter calculation. */
         uint64_t ifft_size             : 16; /**< [ 47: 32](R/W) This parameters is needed for NR CDD D-matrix creation.
                                                                    4096 = 4096 point FFT.
                                                                    2048 = 2048 point FFT.
@@ -1000,8 +1041,7 @@ union cavm_dsymx_abx_block2_gen_ctrl
                                                                   1 = Bundle0 is even bundle.
 
                                                                  Precoder internally numbers PRB bundles: 0,1,2,3,..., even/odd bundles have
-                                                                 different D-matrix k-parameter calculation.
-                                                                 Added 2.2.2021. */
+                                                                 different D-matrix k-parameter calculation. */
         uint64_t enable_2nd_bps        : 1;  /**< [ 49: 49](R/W) Select if BPS_CONSTELLATION is used: 0=using BPS for both data access and
                                                                  constellation map selection, 1=using BPS for data access and BPS_CONSTELLATION
                                                                  for constellation map selection. */
@@ -1010,12 +1050,10 @@ union cavm_dsymx_abx_block2_gen_ctrl
                                                                   1 = SUBCAR0 is even  subcarrier.
                                                                  Precoder internally numbers subcarriers: 0,1,2,3,..., even/odd bundles have
                                                                  different D-matrix k-parameter calculation.
-                                                                 Added 12.2.2021. */
+                                                                 NOTE: Design error limits use to value 1 only if PRB Bundle size of 1PRB is used. */
         uint64_t x2_scaling            : 1;  /**< [ 51: 51](R/W) Select if ChParam.SCALING and Codebook.SCALER are using 2x scale.
                                                                   0 = 0xFFFF means 1.0x scaling (range 0...1.0).
-                                                                  1 = 0xFFFF means 2.0x scaling (range 0...2.0).
-
-                                                                 Added 24.2.2021. */
+                                                                  1 = 0xFFFF means 2.0x scaling (range 0...2.0). */
         uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
     } s;
@@ -1026,7 +1064,7 @@ typedef union cavm_dsymx_abx_block2_gen_ctrl cavm_dsymx_abx_block2_gen_ctrl_t;
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK2_GEN_CTRL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK2_GEN_CTRL(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=3)))
         return 0x87e041e02018ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("DSYMX_ABX_BLOCK2_GEN_CTRL", 2, a, b, 0, 0, 0, 0);
 }
@@ -1041,6 +1079,8 @@ static inline uint64_t CAVM_DSYMX_ABX_BLOCK2_GEN_CTRL(uint64_t a, uint64_t b)
  * Register (RSL) dsym#_ab#_block2_gen_ctrl2
  *
  * DSYM Block2 Gen Ctrl2 Register
+ * Hardware loads a portion of the job configuration in this register. Software should
+ * never directly write to this register.
  */
 union cavm_dsymx_abx_block2_gen_ctrl2
 {
@@ -1048,7 +1088,11 @@ union cavm_dsymx_abx_block2_gen_ctrl2
     struct cavm_dsymx_abx_block2_gen_ctrl2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_7_63         : 57;
+        uint64_t refmap_00             : 32; /**< [ 63: 32](R/W) THOR B0: Constellation map for RefSignalGen data value 0 (I using bits 15:0, Q using bits 31:16). */
+        uint64_t offset_q              : 8;  /**< [ 31: 24](R/W) THOR B0: Offset added to every output Q-sample right before DSYM output, signed number -128...127. */
+        uint64_t offset_i              : 8;  /**< [ 23: 16](R/W) THOR B0: Offset added to every output I-sample right before DSYM output, signed number -128...127. */
+        uint64_t unalloc_chid          : 8;  /**< [ 15:  8](R/W) THOR B0: ChannelID used to initialize AllocationRam. */
+        uint64_t reserved_7            : 1;
         uint64_t chid_2cw_incr         : 7;  /**< [  6:  0](R/W) For 2codeword operation two channelIDs are needed (to deliver channel parameters
                                                                  and data), this parameter sets the fixed increment between these two IDs. NOTE:
                                                                  IDs must be masked with DSYM()_AB()_BLOCK2_GEN_CTRL[CHID_MASK] to appear as same ID; so this
@@ -1060,7 +1104,11 @@ union cavm_dsymx_abx_block2_gen_ctrl2
                                                                  IDs must be masked with DSYM()_AB()_BLOCK2_GEN_CTRL[CHID_MASK] to appear as same ID; so this
                                                                  increment should be two's exponent (2^n)
                                                                  [CHID_2CW_INCR] = 255 - [CHID_MASK]. */
-        uint64_t reserved_7_63         : 57;
+        uint64_t reserved_7            : 1;
+        uint64_t unalloc_chid          : 8;  /**< [ 15:  8](R/W) THOR B0: ChannelID used to initialize AllocationRam. */
+        uint64_t offset_i              : 8;  /**< [ 23: 16](R/W) THOR B0: Offset added to every output I-sample right before DSYM output, signed number -128...127. */
+        uint64_t offset_q              : 8;  /**< [ 31: 24](R/W) THOR B0: Offset added to every output Q-sample right before DSYM output, signed number -128...127. */
+        uint64_t refmap_00             : 32; /**< [ 63: 32](R/W) THOR B0: Constellation map for RefSignalGen data value 0 (I using bits 15:0, Q using bits 31:16). */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_dsymx_abx_block2_gen_ctrl2_s cn; */
@@ -1070,7 +1118,7 @@ typedef union cavm_dsymx_abx_block2_gen_ctrl2 cavm_dsymx_abx_block2_gen_ctrl2_t;
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK2_GEN_CTRL2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK2_GEN_CTRL2(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=3)))
         return 0x87e041e02020ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("DSYMX_ABX_BLOCK2_GEN_CTRL2", 2, a, b, 0, 0, 0, 0);
 }
@@ -1082,10 +1130,50 @@ static inline uint64_t CAVM_DSYMX_ABX_BLOCK2_GEN_CTRL2(uint64_t a, uint64_t b)
 #define arguments_CAVM_DSYMX_ABX_BLOCK2_GEN_CTRL2(a,b) (a),(b),-1,-1
 
 /**
+ * Register (RSL) dsym#_ab#_block2_gen_ctrl3
+ *
+ * DSYM Block2 Gen Ctrl3 Register
+ * Hardware loads a portion of the job configuration in this register. Software should
+ * never directly write to this register.
+ */
+union cavm_dsymx_abx_block2_gen_ctrl3
+{
+    uint64_t u;
+    struct cavm_dsymx_abx_block2_gen_ctrl3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t refmap_11             : 32; /**< [ 63: 32](R/W) THOR B0: Constellation map for RefSignalGen data value -1 (I using bits 15:0, Q using bits 31:16). */
+        uint64_t refmap_01             : 32; /**< [ 31:  0](R/W) THOR B0: Constellation map for RefSignalGen data value +1 (I using bits 15:0, Q using bits 31:16). */
+#else /* Word 0 - Little Endian */
+        uint64_t refmap_01             : 32; /**< [ 31:  0](R/W) THOR B0: Constellation map for RefSignalGen data value +1 (I using bits 15:0, Q using bits 31:16). */
+        uint64_t refmap_11             : 32; /**< [ 63: 32](R/W) THOR B0: Constellation map for RefSignalGen data value -1 (I using bits 15:0, Q using bits 31:16). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dsymx_abx_block2_gen_ctrl3_s cn; */
+};
+typedef union cavm_dsymx_abx_block2_gen_ctrl3 cavm_dsymx_abx_block2_gen_ctrl3_t;
+
+static inline uint64_t CAVM_DSYMX_ABX_BLOCK2_GEN_CTRL3(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSYMX_ABX_BLOCK2_GEN_CTRL3(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=3)))
+        return 0x87e041e02028ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x3);
+    __cavm_csr_fatal("DSYMX_ABX_BLOCK2_GEN_CTRL3", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSYMX_ABX_BLOCK2_GEN_CTRL3(a,b) cavm_dsymx_abx_block2_gen_ctrl3_t
+#define bustype_CAVM_DSYMX_ABX_BLOCK2_GEN_CTRL3(a,b) CSR_TYPE_RSL
+#define basename_CAVM_DSYMX_ABX_BLOCK2_GEN_CTRL3(a,b) "DSYMX_ABX_BLOCK2_GEN_CTRL3"
+#define busnum_CAVM_DSYMX_ABX_BLOCK2_GEN_CTRL3(a,b) (a)
+#define arguments_CAVM_DSYMX_ABX_BLOCK2_GEN_CTRL3(a,b) (a),(b),-1,-1
+
+/**
  * Register (RSL) dsym#_ab#_block2_gold_seq_ctrl
  *
  * DSYM Block2 Gold Seq Ctrl Register
  * Initialization value for X1 of gold sequence generators.
+ * Hardware loads a portion of the job configuration in this register. Software should
+ * never directly write to this register.
  */
 union cavm_dsymx_abx_block2_gold_seq_ctrl
 {
@@ -1107,7 +1195,7 @@ typedef union cavm_dsymx_abx_block2_gold_seq_ctrl cavm_dsymx_abx_block2_gold_seq
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK2_GOLD_SEQ_CTRL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK2_GOLD_SEQ_CTRL(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=3)))
         return 0x87e041e02010ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("DSYMX_ABX_BLOCK2_GOLD_SEQ_CTRL", 2, a, b, 0, 0, 0, 0);
 }
@@ -1122,6 +1210,8 @@ static inline uint64_t CAVM_DSYMX_ABX_BLOCK2_GOLD_SEQ_CTRL(uint64_t a, uint64_t 
  * Register (RSL) dsym#_ab#_block2_symbol_config
  *
  * DSYM Block2 Symbol Config Register
+ * Hardware loads a portion of the job configuration in this register. Software should
+ * never directly write to this register.
  */
 union cavm_dsymx_abx_block2_symbol_config
 {
@@ -1133,7 +1223,16 @@ union cavm_dsymx_abx_block2_symbol_config
                                                                  PRB number always starting from 0, when PRB bundle indexes are created. Can be
                                                                  used with "vertical symbol to multiple jobs splitting". */
         uint64_t ch_alloc_len          : 15; /**< [ 54: 40](R/W) Unused, value has no effect (internally left unconnected). */
-        uint64_t reserved_34_39        : 6;
+        uint64_t reserved_36_39        : 4;
+        uint64_t mode_prb_wise         : 1;  /**< [ 35: 35](R/W) Output data ordering.
+                                                                 0 = Thor A0 mode, unallocated zero-data written in bursts as-late-as possible
+                                                                 (with allocated PRB), four-RE-level zero-fill evaluation.
+                                                                 1 = PRB-to-PRB WriteDMA operation, all streams (regardless of allocation)
+                                                                 progress same pace, PRB-level zero-fill evaluation. */
+        uint64_t req_also_chid0        : 1;  /**< [ 34: 34](R/W) DO NOT USE, always 0, Thor B0: Request also ChannelID 0 from data path (when
+                                                                 this bit set 1), otherwise Channel ID0 output data (zero IQ) is generated at the
+                                                                 OBUFFERS (speeds up operation, but WriteDMA is not output in simple order, ie
+                                                                 some streams advance much further before some others). */
         uint64_t iq_swap               : 1;  /**< [ 33: 33](R/W) Output data I/Q swap.
                                                                    0 = No I/Q swap (I=bit 15:0, Q=bits 31:16).
                                                                    1 = I/Q swapped (Q=bit 15:0, I=bits 31:16). */
@@ -1171,7 +1270,16 @@ union cavm_dsymx_abx_block2_symbol_config
         uint64_t iq_swap               : 1;  /**< [ 33: 33](R/W) Output data I/Q swap.
                                                                    0 = No I/Q swap (I=bit 15:0, Q=bits 31:16).
                                                                    1 = I/Q swapped (Q=bit 15:0, I=bits 31:16). */
-        uint64_t reserved_34_39        : 6;
+        uint64_t req_also_chid0        : 1;  /**< [ 34: 34](R/W) DO NOT USE, always 0, Thor B0: Request also ChannelID 0 from data path (when
+                                                                 this bit set 1), otherwise Channel ID0 output data (zero IQ) is generated at the
+                                                                 OBUFFERS (speeds up operation, but WriteDMA is not output in simple order, ie
+                                                                 some streams advance much further before some others). */
+        uint64_t mode_prb_wise         : 1;  /**< [ 35: 35](R/W) Output data ordering.
+                                                                 0 = Thor A0 mode, unallocated zero-data written in bursts as-late-as possible
+                                                                 (with allocated PRB), four-RE-level zero-fill evaluation.
+                                                                 1 = PRB-to-PRB WriteDMA operation, all streams (regardless of allocation)
+                                                                 progress same pace, PRB-level zero-fill evaluation. */
+        uint64_t reserved_36_39        : 4;
         uint64_t ch_alloc_len          : 15; /**< [ 54: 40](R/W) Unused, value has no effect (internally left unconnected). */
         uint64_t nr_prb_offset         : 9;  /**< [ 63: 55](R/W) PRB index offset for PRB bundle creation. This number will be added to internal
                                                                  PRB number always starting from 0, when PRB bundle indexes are created. Can be
@@ -1185,7 +1293,7 @@ typedef union cavm_dsymx_abx_block2_symbol_config cavm_dsymx_abx_block2_symbol_c
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK2_SYMBOL_CONFIG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSYMX_ABX_BLOCK2_SYMBOL_CONFIG(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=3)))
         return 0x87e041e02000ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("DSYMX_ABX_BLOCK2_SYMBOL_CONFIG", 2, a, b, 0, 0, 0, 0);
 }

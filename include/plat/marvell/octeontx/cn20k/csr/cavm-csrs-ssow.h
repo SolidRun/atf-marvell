@@ -62,7 +62,7 @@ typedef union cavm_ssow_af_bar2_aliasx cavm_ssow_af_bar2_aliasx_t;
 static inline uint64_t CAVM_SSOW_AF_BAR2_ALIASX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_AF_BAR2_ALIASX(uint64_t a)
 {
-    if (a<=131071)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=131071))
         return 0x840089100000ll + 8ll * ((a) & 0x1ffff);
     __cavm_csr_fatal("SSOW_AF_BAR2_ALIASX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -105,7 +105,9 @@ typedef union cavm_ssow_af_bar2_sel cavm_ssow_af_bar2_sel_t;
 static inline uint64_t CAVM_SSOW_AF_BAR2_SEL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_AF_BAR2_SEL_FUNC(void)
 {
-    return 0x840089000000ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840089000000ll;
+    __cavm_csr_fatal("SSOW_AF_BAR2_SEL", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SSOW_AF_BAR2_SEL cavm_ssow_af_bar2_sel_t
@@ -114,6 +116,224 @@ static inline uint64_t CAVM_SSOW_AF_BAR2_SEL_FUNC(void)
 #define device_bar_CAVM_SSOW_AF_BAR2_SEL 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_SSOW_AF_BAR2_SEL 0
 #define arguments_CAVM_SSOW_AF_BAR2_SEL -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) ssow_af_flr_ggrp_digest#
+ *
+ * SSO AF FLR GGRP Summary Registers
+ * One bit per GGRP to indicate which groups are currently mapped to SSOW_AF_LF_FLR[LF].
+ */
+union cavm_ssow_af_flr_ggrp_digestx
+{
+    uint64_t u;
+    struct cavm_ssow_af_flr_ggrp_digestx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t ggrp                  : 64; /**< [ 63:  0](R/W1C/H) One bit per GGRP. Only valid after SSOW_AF_LF_FLR[STEP3] has completed. */
+#else /* Word 0 - Little Endian */
+        uint64_t ggrp                  : 64; /**< [ 63:  0](R/W1C/H) One bit per GGRP. Only valid after SSOW_AF_LF_FLR[STEP3] has completed. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ssow_af_flr_ggrp_digestx_s cn; */
+};
+typedef union cavm_ssow_af_flr_ggrp_digestx cavm_ssow_af_flr_ggrp_digestx_t;
+
+static inline uint64_t CAVM_SSOW_AF_FLR_GGRP_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SSOW_AF_FLR_GGRP_DIGESTX(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
+        return 0x840080000200ll + 8ll * ((a) & 0x3);
+    __cavm_csr_fatal("SSOW_AF_FLR_GGRP_DIGESTX", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SSOW_AF_FLR_GGRP_DIGESTX(a) cavm_ssow_af_flr_ggrp_digestx_t
+#define bustype_CAVM_SSOW_AF_FLR_GGRP_DIGESTX(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_SSOW_AF_FLR_GGRP_DIGESTX(a) "SSOW_AF_FLR_GGRP_DIGESTX"
+#define device_bar_CAVM_SSOW_AF_FLR_GGRP_DIGESTX(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_SSOW_AF_FLR_GGRP_DIGESTX(a) (a)
+#define arguments_CAVM_SSOW_AF_FLR_GGRP_DIGESTX(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) ssow_af_flr_gws_digest
+ *
+ * SSO AF FLR GSLT Summary Registers
+ * One bit per GSLT to indicate which groups are currently mapped to SSOW_AF_LF_FLR[LF].
+ */
+union cavm_ssow_af_flr_gws_digest
+{
+    uint64_t u;
+    struct cavm_ssow_af_flr_gws_digest_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t gws                   : 64; /**< [ 63:  0](R/W1C/H) One bit per HWS. Only valid after SSOW_AF_LF_FLR[STEP3] has completed. */
+#else /* Word 0 - Little Endian */
+        uint64_t gws                   : 64; /**< [ 63:  0](R/W1C/H) One bit per HWS. Only valid after SSOW_AF_LF_FLR[STEP3] has completed. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ssow_af_flr_gws_digest_s cn; */
+};
+typedef union cavm_ssow_af_flr_gws_digest cavm_ssow_af_flr_gws_digest_t;
+
+#define CAVM_SSOW_AF_FLR_GWS_DIGEST CAVM_SSOW_AF_FLR_GWS_DIGEST_FUNC()
+static inline uint64_t CAVM_SSOW_AF_FLR_GWS_DIGEST_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SSOW_AF_FLR_GWS_DIGEST_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840080000400ll;
+    __cavm_csr_fatal("SSOW_AF_FLR_GWS_DIGEST", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SSOW_AF_FLR_GWS_DIGEST cavm_ssow_af_flr_gws_digest_t
+#define bustype_CAVM_SSOW_AF_FLR_GWS_DIGEST CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_SSOW_AF_FLR_GWS_DIGEST "SSOW_AF_FLR_GWS_DIGEST"
+#define device_bar_CAVM_SSOW_AF_FLR_GWS_DIGEST 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_SSOW_AF_FLR_GWS_DIGEST 0
+#define arguments_CAVM_SSOW_AF_FLR_GWS_DIGEST -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) ssow_af_flr_hwgrp_digest#
+ *
+ * SSO AF FLR HWGRP Summary Registers
+ * One bit per HWGRP to indicate which groups are currently mapped to SSOW_AF_LF_FLR[LF].
+ */
+union cavm_ssow_af_flr_hwgrp_digestx
+{
+    uint64_t u;
+    struct cavm_ssow_af_flr_hwgrp_digestx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1C/H) One bit per HWGRP. Only valid after SSOW_AF_LF_FLR[STEP3] has completed. */
+#else /* Word 0 - Little Endian */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1C/H) One bit per HWGRP. Only valid after SSOW_AF_LF_FLR[STEP3] has completed. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ssow_af_flr_hwgrp_digestx_s cn; */
+};
+typedef union cavm_ssow_af_flr_hwgrp_digestx cavm_ssow_af_flr_hwgrp_digestx_t;
+
+static inline uint64_t CAVM_SSOW_AF_FLR_HWGRP_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SSOW_AF_FLR_HWGRP_DIGESTX(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
+        return 0x840080000100ll + 8ll * ((a) & 0x3);
+    __cavm_csr_fatal("SSOW_AF_FLR_HWGRP_DIGESTX", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SSOW_AF_FLR_HWGRP_DIGESTX(a) cavm_ssow_af_flr_hwgrp_digestx_t
+#define bustype_CAVM_SSOW_AF_FLR_HWGRP_DIGESTX(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_SSOW_AF_FLR_HWGRP_DIGESTX(a) "SSOW_AF_FLR_HWGRP_DIGESTX"
+#define device_bar_CAVM_SSOW_AF_FLR_HWGRP_DIGESTX(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_SSOW_AF_FLR_HWGRP_DIGESTX(a) (a)
+#define arguments_CAVM_SSOW_AF_FLR_HWGRP_DIGESTX(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) ssow_af_flr_hws_digest
+ *
+ * SSO AF FLR HWS Summary Registers
+ * One bit per HWS to indicate which groups are currently mapped to SSOW_AF_LF_FLR[LF].
+ */
+union cavm_ssow_af_flr_hws_digest
+{
+    uint64_t u;
+    struct cavm_ssow_af_flr_hws_digest_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t hws                   : 64; /**< [ 63:  0](R/W1C/H) One bit per HWS. Only valid after SSOW_AF_LF_FLR[STEP3] has completed. */
+#else /* Word 0 - Little Endian */
+        uint64_t hws                   : 64; /**< [ 63:  0](R/W1C/H) One bit per HWS. Only valid after SSOW_AF_LF_FLR[STEP3] has completed. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ssow_af_flr_hws_digest_s cn; */
+};
+typedef union cavm_ssow_af_flr_hws_digest cavm_ssow_af_flr_hws_digest_t;
+
+#define CAVM_SSOW_AF_FLR_HWS_DIGEST CAVM_SSOW_AF_FLR_HWS_DIGEST_FUNC()
+static inline uint64_t CAVM_SSOW_AF_FLR_HWS_DIGEST_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SSOW_AF_FLR_HWS_DIGEST_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840080000300ll;
+    __cavm_csr_fatal("SSOW_AF_FLR_HWS_DIGEST", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SSOW_AF_FLR_HWS_DIGEST cavm_ssow_af_flr_hws_digest_t
+#define bustype_CAVM_SSOW_AF_FLR_HWS_DIGEST CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_SSOW_AF_FLR_HWS_DIGEST "SSOW_AF_FLR_HWS_DIGEST"
+#define device_bar_CAVM_SSOW_AF_FLR_HWS_DIGEST 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_SSOW_AF_FLR_HWS_DIGEST 0
+#define arguments_CAVM_SSOW_AF_FLR_HWS_DIGEST -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) ssow_af_lf_flr
+ *
+ * SSOW AF LF Reset Register
+ */
+union cavm_ssow_af_lf_flr
+{
+    uint64_t u;
+    struct cavm_ssow_af_lf_flr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_33_63        : 31;
+        uint64_t flr_abort             : 1;  /**< [ 32: 32](R/W1S) Terminate hardware FLR in progress. */
+        uint64_t flr_error             : 1;  /**< [ 31: 31](RO) The last set step bit received an error. Hardware FLR was aborted. */
+        uint64_t reserved_21_30        : 10;
+        uint64_t step7                 : 1;  /**< [ 20: 20](R/W1S/H) Step 7 Hardware FLR. When set, hardware will perform
+                                                                 GET_WORK operations. Steps 3-6 are performed first if set.
+                                                                 Hardware clears this bit when done. */
+        uint64_t step6                 : 1;  /**< [ 19: 19](R/W1S/H) Step 6 Hardware FLR. When set, hardware will write
+                                                                 SSO_AF_HWS(0..51)_S(0..1)_GRPMSK(0..3). Steps 3-5 are
+                                                                 performed first if set. Hardware clears this bit when done. */
+        uint64_t step5                 : 1;  /**< [ 18: 18](R/W1S/H) Step 5 Hardware FLR. When set, hardware will write
+                                                                 SSOW_LF_GWS_OP_DESCHED, SSOW_LF_GWS_OP_SWTAG_FLUSH.
+                                                                 Steps 3-4 are performed first if set. Hardware clears this bit when done. */
+        uint64_t step4                 : 1;  /**< [ 17: 17](R/W1S/H) Step 4 Hardware FLR. When set, hardware will write SSO_AF_GWS_INV,
+                                                                 SSOW_LF_GWS_NW_TIM, and SSO_AF_HWS(0..51)_LSW_CFG. Step 3 is performed
+                                                                 first if set. Hardware clears this bit when done. */
+        uint64_t step3                 : 1;  /**< [ 16: 16](R/W1S/H) Step 3 Hardware FLR. When set, hardware will create 4 map files
+                                                                 Hardware clears this bit when done. */
+        uint64_t pf_func               : 16; /**< [ 15:  0](R/W) Local function that is FLR'd when any STEP bits are set. */
+#else /* Word 0 - Little Endian */
+        uint64_t pf_func               : 16; /**< [ 15:  0](R/W) Local function that is FLR'd when any STEP bits are set. */
+        uint64_t step3                 : 1;  /**< [ 16: 16](R/W1S/H) Step 3 Hardware FLR. When set, hardware will create 4 map files
+                                                                 Hardware clears this bit when done. */
+        uint64_t step4                 : 1;  /**< [ 17: 17](R/W1S/H) Step 4 Hardware FLR. When set, hardware will write SSO_AF_GWS_INV,
+                                                                 SSOW_LF_GWS_NW_TIM, and SSO_AF_HWS(0..51)_LSW_CFG. Step 3 is performed
+                                                                 first if set. Hardware clears this bit when done. */
+        uint64_t step5                 : 1;  /**< [ 18: 18](R/W1S/H) Step 5 Hardware FLR. When set, hardware will write
+                                                                 SSOW_LF_GWS_OP_DESCHED, SSOW_LF_GWS_OP_SWTAG_FLUSH.
+                                                                 Steps 3-4 are performed first if set. Hardware clears this bit when done. */
+        uint64_t step6                 : 1;  /**< [ 19: 19](R/W1S/H) Step 6 Hardware FLR. When set, hardware will write
+                                                                 SSO_AF_HWS(0..51)_S(0..1)_GRPMSK(0..3). Steps 3-5 are
+                                                                 performed first if set. Hardware clears this bit when done. */
+        uint64_t step7                 : 1;  /**< [ 20: 20](R/W1S/H) Step 7 Hardware FLR. When set, hardware will perform
+                                                                 GET_WORK operations. Steps 3-6 are performed first if set.
+                                                                 Hardware clears this bit when done. */
+        uint64_t reserved_21_30        : 10;
+        uint64_t flr_error             : 1;  /**< [ 31: 31](RO) The last set step bit received an error. Hardware FLR was aborted. */
+        uint64_t flr_abort             : 1;  /**< [ 32: 32](R/W1S) Terminate hardware FLR in progress. */
+        uint64_t reserved_33_63        : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ssow_af_lf_flr_s cn; */
+};
+typedef union cavm_ssow_af_lf_flr cavm_ssow_af_lf_flr_t;
+
+#define CAVM_SSOW_AF_LF_FLR CAVM_SSOW_AF_LF_FLR_FUNC()
+static inline uint64_t CAVM_SSOW_AF_LF_FLR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SSOW_AF_LF_FLR_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840080000040ll;
+    __cavm_csr_fatal("SSOW_AF_LF_FLR", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SSOW_AF_LF_FLR cavm_ssow_af_lf_flr_t
+#define bustype_CAVM_SSOW_AF_LF_FLR CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_SSOW_AF_LF_FLR "SSOW_AF_LF_FLR"
+#define device_bar_CAVM_SSOW_AF_LF_FLR 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_SSOW_AF_LF_FLR 0
+#define arguments_CAVM_SSOW_AF_LF_FLR -1,-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) ssow_af_lf_hws_rst
@@ -149,7 +369,9 @@ typedef union cavm_ssow_af_lf_hws_rst cavm_ssow_af_lf_hws_rst_t;
 static inline uint64_t CAVM_SSOW_AF_LF_HWS_RST_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_AF_LF_HWS_RST_FUNC(void)
 {
-    return 0x840080000030ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840080000030ll;
+    __cavm_csr_fatal("SSOW_AF_LF_HWS_RST", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SSOW_AF_LF_HWS_RST cavm_ssow_af_lf_hws_rst_t
@@ -205,7 +427,9 @@ typedef union cavm_ssow_af_rvu_lf_hws_cfg_debug cavm_ssow_af_rvu_lf_hws_cfg_debu
 static inline uint64_t CAVM_SSOW_AF_RVU_LF_HWS_CFG_DEBUG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_AF_RVU_LF_HWS_CFG_DEBUG_FUNC(void)
 {
-    return 0x840080000010ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840080000010ll;
+    __cavm_csr_fatal("SSOW_AF_RVU_LF_HWS_CFG_DEBUG", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SSOW_AF_RVU_LF_HWS_CFG_DEBUG cavm_ssow_af_rvu_lf_hws_cfg_debug_t
@@ -241,7 +465,9 @@ typedef union cavm_ssow_af_scratch_aw cavm_ssow_af_scratch_aw_t;
 static inline uint64_t CAVM_SSOW_AF_SCRATCH_AW_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_AF_SCRATCH_AW_FUNC(void)
 {
-    return 0x840080300000ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840080300000ll;
+    __cavm_csr_fatal("SSOW_AF_SCRATCH_AW", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SSOW_AF_SCRATCH_AW cavm_ssow_af_scratch_aw_t
@@ -277,7 +503,9 @@ typedef union cavm_ssow_af_scratch_gw cavm_ssow_af_scratch_gw_t;
 static inline uint64_t CAVM_SSOW_AF_SCRATCH_GW_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_AF_SCRATCH_GW_FUNC(void)
 {
-    return 0x840080200000ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840080200000ll;
+    __cavm_csr_fatal("SSOW_AF_SCRATCH_GW", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SSOW_AF_SCRATCH_GW cavm_ssow_af_scratch_gw_t
@@ -313,7 +541,9 @@ typedef union cavm_ssow_af_scratch_ws cavm_ssow_af_scratch_ws_t;
 static inline uint64_t CAVM_SSOW_AF_SCRATCH_WS_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_AF_SCRATCH_WS_FUNC(void)
 {
-    return 0x840080100000ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840080100000ll;
+    __cavm_csr_fatal("SSOW_AF_SCRATCH_WS", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SSOW_AF_SCRATCH_WS cavm_ssow_af_scratch_ws_t
@@ -471,7 +701,9 @@ typedef union cavm_ssow_lf_gws_grpmsk_chg cavm_ssow_lf_gws_grpmsk_chg_t;
 static inline uint64_t CAVM_SSOW_LF_GWS_GRPMSK_CHG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_LF_GWS_GRPMSK_CHG_FUNC(void)
 {
-    return 0x840200800080ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200800080ll;
+    __cavm_csr_fatal("SSOW_LF_GWS_GRPMSK_CHG", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SSOW_LF_GWS_GRPMSK_CHG cavm_ssow_lf_gws_grpmsk_chg_t
@@ -494,7 +726,8 @@ union cavm_ssow_lf_gws_int
     struct cavm_ssow_lf_gws_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_14_63        : 50;
+        uint64_t reserved_15_63        : 49;
+        uint64_t illegal_swprf_req     : 1;  /**< [ 14: 14](R/W1C/H) Received an illegal SWPRF_REQ. */
         uint64_t cpu_psn               : 1;  /**< [ 13: 13](R/W1C/H) Poison signaled on data. Generally indicates a hardware failure. */
         uint64_t illegal_slmtst        : 1;  /**< [ 12: 12](R/W1C/H) Received illegal Scheduled LMTST. */
         uint64_t swtag_dis             : 1;  /**< [ 11: 11](R/W1C/H) Received UPD_WQP_GRP/SWTAG_FULL/SWTAG_DESCH when SSO_AF_HWGRP()_AW_CFG[SWTAG_DIS] was set. */
@@ -536,7 +769,8 @@ union cavm_ssow_lf_gws_int
         uint64_t swtag_dis             : 1;  /**< [ 11: 11](R/W1C/H) Received UPD_WQP_GRP/SWTAG_FULL/SWTAG_DESCH when SSO_AF_HWGRP()_AW_CFG[SWTAG_DIS] was set. */
         uint64_t illegal_slmtst        : 1;  /**< [ 12: 12](R/W1C/H) Received illegal Scheduled LMTST. */
         uint64_t cpu_psn               : 1;  /**< [ 13: 13](R/W1C/H) Poison signaled on data. Generally indicates a hardware failure. */
-        uint64_t reserved_14_63        : 50;
+        uint64_t illegal_swprf_req     : 1;  /**< [ 14: 14](R/W1C/H) Received an illegal SWPRF_REQ. */
+        uint64_t reserved_15_63        : 49;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ssow_lf_gws_int_s cn; */
@@ -547,7 +781,9 @@ typedef union cavm_ssow_lf_gws_int cavm_ssow_lf_gws_int_t;
 static inline uint64_t CAVM_SSOW_LF_GWS_INT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_LF_GWS_INT_FUNC(void)
 {
-    return 0x840200800100ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200800100ll;
+    __cavm_csr_fatal("SSOW_LF_GWS_INT", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SSOW_LF_GWS_INT cavm_ssow_lf_gws_int_t
@@ -569,7 +805,8 @@ union cavm_ssow_lf_gws_int_ena_w1c
     struct cavm_ssow_lf_gws_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_14_63        : 50;
+        uint64_t reserved_15_63        : 49;
+        uint64_t illegal_swprf_req     : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for SSOW_LF_GWS_INT[ILLEGAL_SWPRF_REQ]. */
         uint64_t cpu_psn               : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for SSOW_LF_GWS_INT[CPU_PSN]. */
         uint64_t illegal_slmtst        : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for SSOW_LF_GWS_INT[ILLEGAL_SLMTST]. */
         uint64_t swtag_dis             : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for SSOW_LF_GWS_INT[SWTAG_DIS]. */
@@ -595,7 +832,8 @@ union cavm_ssow_lf_gws_int_ena_w1c
         uint64_t swtag_dis             : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for SSOW_LF_GWS_INT[SWTAG_DIS]. */
         uint64_t illegal_slmtst        : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for SSOW_LF_GWS_INT[ILLEGAL_SLMTST]. */
         uint64_t cpu_psn               : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for SSOW_LF_GWS_INT[CPU_PSN]. */
-        uint64_t reserved_14_63        : 50;
+        uint64_t illegal_swprf_req     : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for SSOW_LF_GWS_INT[ILLEGAL_SWPRF_REQ]. */
+        uint64_t reserved_15_63        : 49;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ssow_lf_gws_int_ena_w1c_s cn; */
@@ -606,7 +844,9 @@ typedef union cavm_ssow_lf_gws_int_ena_w1c cavm_ssow_lf_gws_int_ena_w1c_t;
 static inline uint64_t CAVM_SSOW_LF_GWS_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_LF_GWS_INT_ENA_W1C_FUNC(void)
 {
-    return 0x840200800118ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200800118ll;
+    __cavm_csr_fatal("SSOW_LF_GWS_INT_ENA_W1C", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SSOW_LF_GWS_INT_ENA_W1C cavm_ssow_lf_gws_int_ena_w1c_t
@@ -628,7 +868,8 @@ union cavm_ssow_lf_gws_int_ena_w1s
     struct cavm_ssow_lf_gws_int_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_14_63        : 50;
+        uint64_t reserved_15_63        : 49;
+        uint64_t illegal_swprf_req     : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for SSOW_LF_GWS_INT[ILLEGAL_SWPRF_REQ]. */
         uint64_t cpu_psn               : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for SSOW_LF_GWS_INT[CPU_PSN]. */
         uint64_t illegal_slmtst        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for SSOW_LF_GWS_INT[ILLEGAL_SLMTST]. */
         uint64_t swtag_dis             : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for SSOW_LF_GWS_INT[SWTAG_DIS]. */
@@ -654,7 +895,8 @@ union cavm_ssow_lf_gws_int_ena_w1s
         uint64_t swtag_dis             : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for SSOW_LF_GWS_INT[SWTAG_DIS]. */
         uint64_t illegal_slmtst        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for SSOW_LF_GWS_INT[ILLEGAL_SLMTST]. */
         uint64_t cpu_psn               : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for SSOW_LF_GWS_INT[CPU_PSN]. */
-        uint64_t reserved_14_63        : 50;
+        uint64_t illegal_swprf_req     : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for SSOW_LF_GWS_INT[ILLEGAL_SWPRF_REQ]. */
+        uint64_t reserved_15_63        : 49;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ssow_lf_gws_int_ena_w1s_s cn; */
@@ -665,7 +907,9 @@ typedef union cavm_ssow_lf_gws_int_ena_w1s cavm_ssow_lf_gws_int_ena_w1s_t;
 static inline uint64_t CAVM_SSOW_LF_GWS_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_LF_GWS_INT_ENA_W1S_FUNC(void)
 {
-    return 0x840200800110ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200800110ll;
+    __cavm_csr_fatal("SSOW_LF_GWS_INT_ENA_W1S", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SSOW_LF_GWS_INT_ENA_W1S cavm_ssow_lf_gws_int_ena_w1s_t
@@ -687,7 +931,8 @@ union cavm_ssow_lf_gws_int_w1s
     struct cavm_ssow_lf_gws_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_14_63        : 50;
+        uint64_t reserved_15_63        : 49;
+        uint64_t illegal_swprf_req     : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets SSOW_LF_GWS_INT[ILLEGAL_SWPRF_REQ]. */
         uint64_t cpu_psn               : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets SSOW_LF_GWS_INT[CPU_PSN]. */
         uint64_t illegal_slmtst        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets SSOW_LF_GWS_INT[ILLEGAL_SLMTST]. */
         uint64_t swtag_dis             : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets SSOW_LF_GWS_INT[SWTAG_DIS]. */
@@ -713,7 +958,8 @@ union cavm_ssow_lf_gws_int_w1s
         uint64_t swtag_dis             : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets SSOW_LF_GWS_INT[SWTAG_DIS]. */
         uint64_t illegal_slmtst        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets SSOW_LF_GWS_INT[ILLEGAL_SLMTST]. */
         uint64_t cpu_psn               : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets SSOW_LF_GWS_INT[CPU_PSN]. */
-        uint64_t reserved_14_63        : 50;
+        uint64_t illegal_swprf_req     : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets SSOW_LF_GWS_INT[ILLEGAL_SWPRF_REQ]. */
+        uint64_t reserved_15_63        : 49;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ssow_lf_gws_int_w1s_s cn; */
@@ -724,7 +970,9 @@ typedef union cavm_ssow_lf_gws_int_w1s cavm_ssow_lf_gws_int_w1s_t;
 static inline uint64_t CAVM_SSOW_LF_GWS_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_LF_GWS_INT_W1S_FUNC(void)
 {
-    return 0x840200800108ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200800108ll;
+    __cavm_csr_fatal("SSOW_LF_GWS_INT_W1S", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SSOW_LF_GWS_INT_W1S cavm_ssow_lf_gws_int_w1s_t
@@ -779,7 +1027,9 @@ typedef union cavm_ssow_lf_gws_links cavm_ssow_lf_gws_links_t;
 static inline uint64_t CAVM_SSOW_LF_GWS_LINKS_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_LF_GWS_LINKS_FUNC(void)
 {
-    return 0x840200800010ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200800010ll;
+    __cavm_csr_fatal("SSOW_LF_GWS_LINKS", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SSOW_LF_GWS_LINKS cavm_ssow_lf_gws_links_t
@@ -839,7 +1089,9 @@ typedef union cavm_ssow_lf_gws_nw_tim cavm_ssow_lf_gws_nw_tim_t;
 static inline uint64_t CAVM_SSOW_LF_GWS_NW_TIM_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_LF_GWS_NW_TIM_FUNC(void)
 {
-    return 0x840200800070ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200800070ll;
+    __cavm_csr_fatal("SSOW_LF_GWS_NW_TIM", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SSOW_LF_GWS_NW_TIM cavm_ssow_lf_gws_nw_tim_t
@@ -874,7 +1126,9 @@ typedef union cavm_ssow_lf_gws_op_desched cavm_ssow_lf_gws_op_desched_t;
 static inline uint64_t CAVM_SSOW_LF_GWS_OP_DESCHED_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_LF_GWS_OP_DESCHED_FUNC(void)
 {
-    return 0x840200800880ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200800880ll;
+    __cavm_csr_fatal("SSOW_LF_GWS_OP_DESCHED", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SSOW_LF_GWS_OP_DESCHED cavm_ssow_lf_gws_op_desched_t
@@ -967,7 +1221,9 @@ typedef union cavm_ssow_lf_gws_op_get_work0 cavm_ssow_lf_gws_op_get_work0_t;
 static inline uint64_t CAVM_SSOW_LF_GWS_OP_GET_WORK0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_LF_GWS_OP_GET_WORK0_FUNC(void)
 {
-    return 0x840200800600ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200800600ll;
+    __cavm_csr_fatal("SSOW_LF_GWS_OP_GET_WORK0", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SSOW_LF_GWS_OP_GET_WORK0 cavm_ssow_lf_gws_op_get_work0_t
@@ -1005,7 +1261,9 @@ typedef union cavm_ssow_lf_gws_op_get_work1 cavm_ssow_lf_gws_op_get_work1_t;
 static inline uint64_t CAVM_SSOW_LF_GWS_OP_GET_WORK1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_LF_GWS_OP_GET_WORK1_FUNC(void)
 {
-    return 0x840200800608ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200800608ll;
+    __cavm_csr_fatal("SSOW_LF_GWS_OP_GET_WORK1", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SSOW_LF_GWS_OP_GET_WORK1 cavm_ssow_lf_gws_op_get_work1_t
@@ -1042,7 +1300,9 @@ typedef union cavm_ssow_lf_gws_op_gwc_inval cavm_ssow_lf_gws_op_gwc_inval_t;
 static inline uint64_t CAVM_SSOW_LF_GWS_OP_GWC_INVAL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_LF_GWS_OP_GWC_INVAL_FUNC(void)
 {
-    return 0x840200800e00ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200800e00ll;
+    __cavm_csr_fatal("SSOW_LF_GWS_OP_GWC_INVAL", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SSOW_LF_GWS_OP_GWC_INVAL cavm_ssow_lf_gws_op_gwc_inval_t
@@ -1051,6 +1311,86 @@ static inline uint64_t CAVM_SSOW_LF_GWS_OP_GWC_INVAL_FUNC(void)
 #define device_bar_CAVM_SSOW_LF_GWS_OP_GWC_INVAL 0x2 /* RVU_BAR2 */
 #define busnum_CAVM_SSOW_LF_GWS_OP_GWC_INVAL 0
 #define arguments_CAVM_SSOW_LF_GWS_OP_GWC_INVAL -1,-1,-1,-1
+
+/**
+ * Register (RVU_PFVF_BAR2) ssow_lf_gws_op_prf_getwork
+ *
+ * SSO Workslot LF PRF Operator Register
+ * Contains information for the attributes of the Work Entry to be prefetched during a
+ * Software Prefetch. A 64 - bit write to this register initiates a SWPRF_REQ operation.
+ * If DISABLE_PREFETCH is set in the SSO AF Configuration Register, then the SWPRF_REQ
+ * is effectively dropped and no IOP errors are reported.
+ */
+union cavm_ssow_lf_gws_op_prf_getwork
+{
+    uint64_t u;
+    struct cavm_ssow_lf_gws_op_prf_getwork_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_19_63        : 45;
+        uint64_t grouped               : 1;  /**< [ 18: 18](WO) Get from a specific group number, specified in [GGRP_MASK]. */
+        uint64_t reserved_17           : 1;
+        uint64_t waitw                 : 1;  /**< [ 16: 16](WO) If set, wait for work; don't complete GET_WORK until work is available
+                                                                 or timeout. */
+        uint64_t reserved_8_15         : 8;
+        uint64_t ggrp_mask             : 8;  /**< [  7:  0](WO) Guest group or masks.
+
+                                                                 * If [GROUPED]=0, \<1:0\> indicates how to use the mask sets
+                                                                 in SSO_AF_HWS()_S()_GRPMSK() (\<13:2\> are ignored):
+                                                                 0x0 = use mask set 0 as high priority, and mask set 1 as lower priority if no groups
+                                                                 satisfy mask set 0.
+                                                                 0x1 = use mask set 0.
+                                                                 0x2 = use mask set 1.
+                                                                 0x3 = reserved, behaves as 0x0.
+
+                                                                 * If [GROUPED] = 1, \<7:0\> provides the guest group number.
+
+                                                                  o GGRP is translated to a hardware group as described in SSOW_LF_GWS_GRPMSK_CHG.
+                                                                    If no match or a multi-match is found SSO_AF_ERR2[WS_UNMAP] or
+                                                                    SSO_AF_ERR2[WS_MULTI] is set respectively and no-work is returned. */
+#else /* Word 0 - Little Endian */
+        uint64_t ggrp_mask             : 8;  /**< [  7:  0](WO) Guest group or masks.
+
+                                                                 * If [GROUPED]=0, \<1:0\> indicates how to use the mask sets
+                                                                 in SSO_AF_HWS()_S()_GRPMSK() (\<13:2\> are ignored):
+                                                                 0x0 = use mask set 0 as high priority, and mask set 1 as lower priority if no groups
+                                                                 satisfy mask set 0.
+                                                                 0x1 = use mask set 0.
+                                                                 0x2 = use mask set 1.
+                                                                 0x3 = reserved, behaves as 0x0.
+
+                                                                 * If [GROUPED] = 1, \<7:0\> provides the guest group number.
+
+                                                                  o GGRP is translated to a hardware group as described in SSOW_LF_GWS_GRPMSK_CHG.
+                                                                    If no match or a multi-match is found SSO_AF_ERR2[WS_UNMAP] or
+                                                                    SSO_AF_ERR2[WS_MULTI] is set respectively and no-work is returned. */
+        uint64_t reserved_8_15         : 8;
+        uint64_t waitw                 : 1;  /**< [ 16: 16](WO) If set, wait for work; don't complete GET_WORK until work is available
+                                                                 or timeout. */
+        uint64_t reserved_17           : 1;
+        uint64_t grouped               : 1;  /**< [ 18: 18](WO) Get from a specific group number, specified in [GGRP_MASK]. */
+        uint64_t reserved_19_63        : 45;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ssow_lf_gws_op_prf_getwork_s cn; */
+};
+typedef union cavm_ssow_lf_gws_op_prf_getwork cavm_ssow_lf_gws_op_prf_getwork_t;
+
+#define CAVM_SSOW_LF_GWS_OP_PRF_GETWORK CAVM_SSOW_LF_GWS_OP_PRF_GETWORK_FUNC()
+static inline uint64_t CAVM_SSOW_LF_GWS_OP_PRF_GETWORK_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SSOW_LF_GWS_OP_PRF_GETWORK_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200800610ll;
+    __cavm_csr_fatal("SSOW_LF_GWS_OP_PRF_GETWORK", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SSOW_LF_GWS_OP_PRF_GETWORK cavm_ssow_lf_gws_op_prf_getwork_t
+#define bustype_CAVM_SSOW_LF_GWS_OP_PRF_GETWORK CSR_TYPE_RVU_PFVF_BAR2
+#define basename_CAVM_SSOW_LF_GWS_OP_PRF_GETWORK "SSOW_LF_GWS_OP_PRF_GETWORK"
+#define device_bar_CAVM_SSOW_LF_GWS_OP_PRF_GETWORK 0x2 /* RVU_BAR2 */
+#define busnum_CAVM_SSOW_LF_GWS_OP_PRF_GETWORK 0
+#define arguments_CAVM_SSOW_LF_GWS_OP_PRF_GETWORK -1,-1,-1,-1
 
 /**
  * Register (RVU_PFVF_BAR2) ssow_lf_gws_op_swtag_desched
@@ -1085,7 +1425,9 @@ typedef union cavm_ssow_lf_gws_op_swtag_desched cavm_ssow_lf_gws_op_swtag_desche
 static inline uint64_t CAVM_SSOW_LF_GWS_OP_SWTAG_DESCHED_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_LF_GWS_OP_SWTAG_DESCHED_FUNC(void)
 {
-    return 0x840200800980ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200800980ll;
+    __cavm_csr_fatal("SSOW_LF_GWS_OP_SWTAG_DESCHED", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SSOW_LF_GWS_OP_SWTAG_DESCHED cavm_ssow_lf_gws_op_swtag_desched_t
@@ -1120,7 +1462,9 @@ typedef union cavm_ssow_lf_gws_op_swtag_flush cavm_ssow_lf_gws_op_swtag_flush_t;
 static inline uint64_t CAVM_SSOW_LF_GWS_OP_SWTAG_FLUSH_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_LF_GWS_OP_SWTAG_FLUSH_FUNC(void)
 {
-    return 0x840200800800ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200800800ll;
+    __cavm_csr_fatal("SSOW_LF_GWS_OP_SWTAG_FLUSH", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SSOW_LF_GWS_OP_SWTAG_FLUSH cavm_ssow_lf_gws_op_swtag_flush_t
@@ -1168,7 +1512,9 @@ typedef union cavm_ssow_lf_gws_op_swtag_full0 cavm_ssow_lf_gws_op_swtag_full0_t;
 static inline uint64_t CAVM_SSOW_LF_GWS_OP_SWTAG_FULL0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_LF_GWS_OP_SWTAG_FULL0_FUNC(void)
 {
-    return 0x840200800c20ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200800c20ll;
+    __cavm_csr_fatal("SSOW_LF_GWS_OP_SWTAG_FULL0", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SSOW_LF_GWS_OP_SWTAG_FULL0 cavm_ssow_lf_gws_op_swtag_full0_t
@@ -1206,7 +1552,9 @@ typedef union cavm_ssow_lf_gws_op_swtag_full1 cavm_ssow_lf_gws_op_swtag_full1_t;
 static inline uint64_t CAVM_SSOW_LF_GWS_OP_SWTAG_FULL1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_LF_GWS_OP_SWTAG_FULL1_FUNC(void)
 {
-    return 0x840200800c28ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200800c28ll;
+    __cavm_csr_fatal("SSOW_LF_GWS_OP_SWTAG_FULL1", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SSOW_LF_GWS_OP_SWTAG_FULL1 cavm_ssow_lf_gws_op_swtag_full1_t
@@ -1245,7 +1593,9 @@ typedef union cavm_ssow_lf_gws_op_swtag_norm cavm_ssow_lf_gws_op_swtag_norm_t;
 static inline uint64_t CAVM_SSOW_LF_GWS_OP_SWTAG_NORM_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_LF_GWS_OP_SWTAG_NORM_FUNC(void)
 {
-    return 0x840200800c10ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200800c10ll;
+    __cavm_csr_fatal("SSOW_LF_GWS_OP_SWTAG_NORM", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SSOW_LF_GWS_OP_SWTAG_NORM cavm_ssow_lf_gws_op_swtag_norm_t
@@ -1280,7 +1630,9 @@ typedef union cavm_ssow_lf_gws_op_swtag_untag cavm_ssow_lf_gws_op_swtag_untag_t;
 static inline uint64_t CAVM_SSOW_LF_GWS_OP_SWTAG_UNTAG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_LF_GWS_OP_SWTAG_UNTAG_FUNC(void)
 {
-    return 0x840200800810ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200800810ll;
+    __cavm_csr_fatal("SSOW_LF_GWS_OP_SWTAG_UNTAG", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SSOW_LF_GWS_OP_SWTAG_UNTAG cavm_ssow_lf_gws_op_swtag_untag_t
@@ -1324,7 +1676,9 @@ typedef union cavm_ssow_lf_gws_op_upd_wqp_grp0 cavm_ssow_lf_gws_op_upd_wqp_grp0_
 static inline uint64_t CAVM_SSOW_LF_GWS_OP_UPD_WQP_GRP0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_LF_GWS_OP_UPD_WQP_GRP0_FUNC(void)
 {
-    return 0x840200800830ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200800830ll;
+    __cavm_csr_fatal("SSOW_LF_GWS_OP_UPD_WQP_GRP0", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SSOW_LF_GWS_OP_UPD_WQP_GRP0 cavm_ssow_lf_gws_op_upd_wqp_grp0_t
@@ -1364,7 +1718,9 @@ typedef union cavm_ssow_lf_gws_op_upd_wqp_grp1 cavm_ssow_lf_gws_op_upd_wqp_grp1_
 static inline uint64_t CAVM_SSOW_LF_GWS_OP_UPD_WQP_GRP1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_LF_GWS_OP_UPD_WQP_GRP1_FUNC(void)
 {
-    return 0x840200800838ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200800838ll;
+    __cavm_csr_fatal("SSOW_LF_GWS_OP_UPD_WQP_GRP1", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SSOW_LF_GWS_OP_UPD_WQP_GRP1 cavm_ssow_lf_gws_op_upd_wqp_grp1_t
@@ -1424,7 +1780,9 @@ typedef union cavm_ssow_lf_gws_pendstate cavm_ssow_lf_gws_pendstate_t;
 static inline uint64_t CAVM_SSOW_LF_GWS_PENDSTATE_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_LF_GWS_PENDSTATE_FUNC(void)
 {
-    return 0x840200800050ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200800050ll;
+    __cavm_csr_fatal("SSOW_LF_GWS_PENDSTATE", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SSOW_LF_GWS_PENDSTATE cavm_ssow_lf_gws_pendstate_t
@@ -1471,7 +1829,9 @@ typedef union cavm_ssow_lf_gws_pendtag cavm_ssow_lf_gws_pendtag_t;
 static inline uint64_t CAVM_SSOW_LF_GWS_PENDTAG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_LF_GWS_PENDTAG_FUNC(void)
 {
-    return 0x840200800230ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200800230ll;
+    __cavm_csr_fatal("SSOW_LF_GWS_PENDTAG", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SSOW_LF_GWS_PENDTAG cavm_ssow_lf_gws_pendtag_t
@@ -1534,7 +1894,9 @@ typedef union cavm_ssow_lf_gws_prf_tag cavm_ssow_lf_gws_prf_tag_t;
 static inline uint64_t CAVM_SSOW_LF_GWS_PRF_TAG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_LF_GWS_PRF_TAG_FUNC(void)
 {
-    return 0x840200800400ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200800400ll;
+    __cavm_csr_fatal("SSOW_LF_GWS_PRF_TAG", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SSOW_LF_GWS_PRF_TAG cavm_ssow_lf_gws_prf_tag_t
@@ -1600,7 +1962,9 @@ typedef union cavm_ssow_lf_gws_prf_wqe0 cavm_ssow_lf_gws_prf_wqe0_t;
 static inline uint64_t CAVM_SSOW_LF_GWS_PRF_WQE0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_LF_GWS_PRF_WQE0_FUNC(void)
 {
-    return 0x840200800440ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200800440ll;
+    __cavm_csr_fatal("SSOW_LF_GWS_PRF_WQE0", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SSOW_LF_GWS_PRF_WQE0 cavm_ssow_lf_gws_prf_wqe0_t
@@ -1638,7 +2002,9 @@ typedef union cavm_ssow_lf_gws_prf_wqe1 cavm_ssow_lf_gws_prf_wqe1_t;
 static inline uint64_t CAVM_SSOW_LF_GWS_PRF_WQE1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_LF_GWS_PRF_WQE1_FUNC(void)
 {
-    return 0x840200800448ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200800448ll;
+    __cavm_csr_fatal("SSOW_LF_GWS_PRF_WQE1", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SSOW_LF_GWS_PRF_WQE1 cavm_ssow_lf_gws_prf_wqe1_t
@@ -1679,7 +2045,9 @@ typedef union cavm_ssow_lf_gws_prf_wqp cavm_ssow_lf_gws_prf_wqp_t;
 static inline uint64_t CAVM_SSOW_LF_GWS_PRF_WQP_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_LF_GWS_PRF_WQP_FUNC(void)
 {
-    return 0x840200800410ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200800410ll;
+    __cavm_csr_fatal("SSOW_LF_GWS_PRF_WQP", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SSOW_LF_GWS_PRF_WQP cavm_ssow_lf_gws_prf_wqp_t
@@ -1720,7 +2088,9 @@ typedef union cavm_ssow_lf_gws_swtp cavm_ssow_lf_gws_swtp_t;
 static inline uint64_t CAVM_SSOW_LF_GWS_SWTP_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_LF_GWS_SWTP_FUNC(void)
 {
-    return 0x840200800220ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200800220ll;
+    __cavm_csr_fatal("SSOW_LF_GWS_SWTP", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SSOW_LF_GWS_SWTP cavm_ssow_lf_gws_swtp_t
@@ -1783,7 +2153,9 @@ typedef union cavm_ssow_lf_gws_tag cavm_ssow_lf_gws_tag_t;
 static inline uint64_t CAVM_SSOW_LF_GWS_TAG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_LF_GWS_TAG_FUNC(void)
 {
-    return 0x840200800200ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200800200ll;
+    __cavm_csr_fatal("SSOW_LF_GWS_TAG", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SSOW_LF_GWS_TAG cavm_ssow_lf_gws_tag_t
@@ -1850,7 +2222,9 @@ typedef union cavm_ssow_lf_gws_wqe0 cavm_ssow_lf_gws_wqe0_t;
 static inline uint64_t CAVM_SSOW_LF_GWS_WQE0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_LF_GWS_WQE0_FUNC(void)
 {
-    return 0x840200800240ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200800240ll;
+    __cavm_csr_fatal("SSOW_LF_GWS_WQE0", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SSOW_LF_GWS_WQE0 cavm_ssow_lf_gws_wqe0_t
@@ -1887,7 +2261,9 @@ typedef union cavm_ssow_lf_gws_wqe1 cavm_ssow_lf_gws_wqe1_t;
 static inline uint64_t CAVM_SSOW_LF_GWS_WQE1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_LF_GWS_WQE1_FUNC(void)
 {
-    return 0x840200800248ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200800248ll;
+    __cavm_csr_fatal("SSOW_LF_GWS_WQE1", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SSOW_LF_GWS_WQE1 cavm_ssow_lf_gws_wqe1_t
@@ -1928,7 +2304,9 @@ typedef union cavm_ssow_lf_gws_wqp cavm_ssow_lf_gws_wqp_t;
 static inline uint64_t CAVM_SSOW_LF_GWS_WQP_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_LF_GWS_WQP_FUNC(void)
 {
-    return 0x840200800210ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200800210ll;
+    __cavm_csr_fatal("SSOW_LF_GWS_WQP", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SSOW_LF_GWS_WQP cavm_ssow_lf_gws_wqp_t
@@ -1979,7 +2357,7 @@ typedef union cavm_ssow_priv_lfx_hws_cfg cavm_ssow_priv_lfx_hws_cfg_t;
 static inline uint64_t CAVM_SSOW_PRIV_LFX_HWS_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_PRIV_LFX_HWS_CFG(uint64_t a)
 {
-    if (a<=51)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=51))
         return 0x840080001000ll + 8ll * ((a) & 0x3f);
     __cavm_csr_fatal("SSOW_PRIV_LFX_HWS_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2030,7 +2408,7 @@ typedef union cavm_ssow_priv_lfx_hws_int_cfg cavm_ssow_priv_lfx_hws_int_cfg_t;
 static inline uint64_t CAVM_SSOW_PRIV_LFX_HWS_INT_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_PRIV_LFX_HWS_INT_CFG(uint64_t a)
 {
-    if (a<=51)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=51))
         return 0x840080002000ll + 8ll * ((a) & 0x3f);
     __cavm_csr_fatal("SSOW_PRIV_LFX_HWS_INT_CFG", 1, a, 0, 0, 0, 0, 0);
 }

@@ -171,7 +171,7 @@ typedef union cavm_arxlx_control cavm_arxlx_control_t;
 static inline uint64_t CAVM_ARXLX_CONTROL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ARXLX_CONTROL(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=1))
         return 0x87e042200000ll + 0x80000ll * ((a) & 0x1);
     __cavm_csr_fatal("ARXLX_CONTROL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -195,7 +195,28 @@ union cavm_arxlx_error_enable0
     struct cavm_arxlx_error_enable0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
+        uint64_t reserved_43_63        : 21;
+        uint64_t overflow_process_en   : 1;  /**< [ 42: 42](R/W) This enables the check for the maximum internal range of +-1.99996948x2^127 is exceeded
+                                                                 when performing a calculation. */
+        uint64_t overflow_out_en       : 1;  /**< [ 41: 41](R/W) This enables the check for the results for output conversion to IQFP/EXFP if
+                                                                 its out range. The particular output data will be set to the maximum(saturated)
+                                                                 value. */
+        uint64_t neg_sqrt_en           : 1;  /**< [ 40: 40](R/W) This enables the check for negative square root when performing a calculation. */
+        uint64_t overflow_happened_in_en : 1;/**< [ 39: 39](R/W) This enables the check for the maximum range of +-1.99996948x2^127 is exceeded when
+                                                                 converting input data. */
+        uint64_t pmem_mat_offset_en    : 1;  /**< [ 38: 38](R/W) pmem_mat_offset error check enable. */
+        uint64_t num_matrix_en         : 1;  /**< [ 37: 37](R/W) num_matrix error check enable. */
+        uint64_t processing_mode_en    : 1;  /**< [ 36: 36](R/W) processing_mode error check enable. */
+        uint64_t num_beam_en           : 1;  /**< [ 35: 35](R/W) num_beam error check enable. */
+        uint64_t num_iter_en           : 1;  /**< [ 34: 34](R/W) num_iter error check enable. */
+        uint64_t num_eig_en            : 1;  /**< [ 33: 33](R/W) num_eig error check enable. */
+        uint64_t num_tasks_en          : 1;  /**< [ 32: 32](R/W) num_tasks error check enable. */
+        uint64_t reserved_8_31         : 24;
+        uint64_t pmem_intf_en          : 1;  /**< [  7:  7](R/W) PMEM Interface error check enable. */
+        uint64_t bad_cholesky_err_en   : 1;  /**< [  6:  6](R/W) 0 : sqrt(abs(x)) is used. No error reported for a bad Cholesky Decomposition.
+                                                                 1 : x\<=0 ? NaN : sqrt(x) A non-positive square root result in an error. Output
+                                                                 will be forced to zero. */
+        uint64_t reserved_5            : 1;
         uint64_t rp0_of_en             : 1;  /**< [  4:  4](R/W) Read port 0 overflow enable. */
         uint64_t reserved_1_3          : 3;
         uint64_t rp0_uf_en             : 1;  /**< [  0:  0](R/W) Read port 0 underflow enable. */
@@ -203,7 +224,28 @@ union cavm_arxlx_error_enable0
         uint64_t rp0_uf_en             : 1;  /**< [  0:  0](R/W) Read port 0 underflow enable. */
         uint64_t reserved_1_3          : 3;
         uint64_t rp0_of_en             : 1;  /**< [  4:  4](R/W) Read port 0 overflow enable. */
-        uint64_t reserved_5_63         : 59;
+        uint64_t reserved_5            : 1;
+        uint64_t bad_cholesky_err_en   : 1;  /**< [  6:  6](R/W) 0 : sqrt(abs(x)) is used. No error reported for a bad Cholesky Decomposition.
+                                                                 1 : x\<=0 ? NaN : sqrt(x) A non-positive square root result in an error. Output
+                                                                 will be forced to zero. */
+        uint64_t pmem_intf_en          : 1;  /**< [  7:  7](R/W) PMEM Interface error check enable. */
+        uint64_t reserved_8_31         : 24;
+        uint64_t num_tasks_en          : 1;  /**< [ 32: 32](R/W) num_tasks error check enable. */
+        uint64_t num_eig_en            : 1;  /**< [ 33: 33](R/W) num_eig error check enable. */
+        uint64_t num_iter_en           : 1;  /**< [ 34: 34](R/W) num_iter error check enable. */
+        uint64_t num_beam_en           : 1;  /**< [ 35: 35](R/W) num_beam error check enable. */
+        uint64_t processing_mode_en    : 1;  /**< [ 36: 36](R/W) processing_mode error check enable. */
+        uint64_t num_matrix_en         : 1;  /**< [ 37: 37](R/W) num_matrix error check enable. */
+        uint64_t pmem_mat_offset_en    : 1;  /**< [ 38: 38](R/W) pmem_mat_offset error check enable. */
+        uint64_t overflow_happened_in_en : 1;/**< [ 39: 39](R/W) This enables the check for the maximum range of +-1.99996948x2^127 is exceeded when
+                                                                 converting input data. */
+        uint64_t neg_sqrt_en           : 1;  /**< [ 40: 40](R/W) This enables the check for negative square root when performing a calculation. */
+        uint64_t overflow_out_en       : 1;  /**< [ 41: 41](R/W) This enables the check for the results for output conversion to IQFP/EXFP if
+                                                                 its out range. The particular output data will be set to the maximum(saturated)
+                                                                 value. */
+        uint64_t overflow_process_en   : 1;  /**< [ 42: 42](R/W) This enables the check for the maximum internal range of +-1.99996948x2^127 is exceeded
+                                                                 when performing a calculation. */
+        uint64_t reserved_43_63        : 21;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_arxlx_error_enable0_s cn; */
@@ -213,7 +255,7 @@ typedef union cavm_arxlx_error_enable0 cavm_arxlx_error_enable0_t;
 static inline uint64_t CAVM_ARXLX_ERROR_ENABLE0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ARXLX_ERROR_ENABLE0(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=1))
         return 0x87e042200040ll + 0x80000ll * ((a) & 0x1);
     __cavm_csr_fatal("ARXLX_ERROR_ENABLE0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -237,7 +279,22 @@ union cavm_arxlx_error_source0
     struct cavm_arxlx_error_source0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
+        uint64_t reserved_43_63        : 21;
+        uint64_t overflow_process      : 1;  /**< [ 42: 42](R/W1C/H) This is set whenever the maximum internal range of +-1.99996948x2^127 when
+                                                                 performing a calculation. */
+        uint64_t overflow_out          : 1;  /**< [ 41: 41](R/W1C/H) This is set whenever the output conversion to IQFP/EXFP results in an out of
+                                                                 range value. The particular output data will be set to the maximum(saturated)
+                                                                 value. This error may indicate a bad exponent configuration. */
+        uint64_t neg_sqrt              : 1;  /**< [ 40: 40](R/W1C/H) This is set whenever a negative square root is encountered AND bad_cholesky_error_enable=1 */
+        uint64_t overflow_happened_in  : 1;  /**< [ 39: 39](R/W1C/H) This is set whenever the maximum range of +-1.99996948x2^127 is exceed when
+                                                                 converting input data. This indicates a bad exponent configuration. */
+        uint64_t pmem_mat_offset       : 1;  /**< [ 38: 38](R/W1C/H) pmem_mat_offset error status. */
+        uint64_t num_matrix            : 1;  /**< [ 37: 37](R/W1C/H) num_matrix error status. */
+        uint64_t processing_mode       : 1;  /**< [ 36: 36](R/W1C/H) processing_mode error status. */
+        uint64_t num_beam              : 1;  /**< [ 35: 35](R/W1C/H) num_beam error status. */
+        uint64_t num_iter              : 1;  /**< [ 34: 34](R/W1C/H) num_iter error status. */
+        uint64_t num_eig               : 1;  /**< [ 33: 33](R/W1C/H) num_eig error status. */
+        uint64_t num_tasks             : 1;  /**< [ 32: 32](R/W1C/H) num_tasks error status. */
         uint64_t rp0_jobid             : 16; /**< [ 31: 16](RO/H) Job ID for read port 0 overflow/underflow. */
         uint64_t reserved_5_15         : 11;
         uint64_t rp0_of                : 1;  /**< [  4:  4](R/W1C/H) Read port 0 overflow. */
@@ -249,7 +306,22 @@ union cavm_arxlx_error_source0
         uint64_t rp0_of                : 1;  /**< [  4:  4](R/W1C/H) Read port 0 overflow. */
         uint64_t reserved_5_15         : 11;
         uint64_t rp0_jobid             : 16; /**< [ 31: 16](RO/H) Job ID for read port 0 overflow/underflow. */
-        uint64_t reserved_32_63        : 32;
+        uint64_t num_tasks             : 1;  /**< [ 32: 32](R/W1C/H) num_tasks error status. */
+        uint64_t num_eig               : 1;  /**< [ 33: 33](R/W1C/H) num_eig error status. */
+        uint64_t num_iter              : 1;  /**< [ 34: 34](R/W1C/H) num_iter error status. */
+        uint64_t num_beam              : 1;  /**< [ 35: 35](R/W1C/H) num_beam error status. */
+        uint64_t processing_mode       : 1;  /**< [ 36: 36](R/W1C/H) processing_mode error status. */
+        uint64_t num_matrix            : 1;  /**< [ 37: 37](R/W1C/H) num_matrix error status. */
+        uint64_t pmem_mat_offset       : 1;  /**< [ 38: 38](R/W1C/H) pmem_mat_offset error status. */
+        uint64_t overflow_happened_in  : 1;  /**< [ 39: 39](R/W1C/H) This is set whenever the maximum range of +-1.99996948x2^127 is exceed when
+                                                                 converting input data. This indicates a bad exponent configuration. */
+        uint64_t neg_sqrt              : 1;  /**< [ 40: 40](R/W1C/H) This is set whenever a negative square root is encountered AND bad_cholesky_error_enable=1 */
+        uint64_t overflow_out          : 1;  /**< [ 41: 41](R/W1C/H) This is set whenever the output conversion to IQFP/EXFP results in an out of
+                                                                 range value. The particular output data will be set to the maximum(saturated)
+                                                                 value. This error may indicate a bad exponent configuration. */
+        uint64_t overflow_process      : 1;  /**< [ 42: 42](R/W1C/H) This is set whenever the maximum internal range of +-1.99996948x2^127 when
+                                                                 performing a calculation. */
+        uint64_t reserved_43_63        : 21;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_arxlx_error_source0_s cn; */
@@ -259,7 +331,7 @@ typedef union cavm_arxlx_error_source0 cavm_arxlx_error_source0_t;
 static inline uint64_t CAVM_ARXLX_ERROR_SOURCE0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ARXLX_ERROR_SOURCE0(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=1))
         return 0x87e042200030ll + 0x80000ll * ((a) & 0x1);
     __cavm_csr_fatal("ARXLX_ERROR_SOURCE0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -295,7 +367,7 @@ typedef union cavm_arxlx_slotx_jcfgx cavm_arxlx_slotx_jcfgx_t;
 static inline uint64_t CAVM_ARXLX_SLOTX_JCFGX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ARXLX_SLOTX_JCFGX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=1) && (b<=1) && (c<=60))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=1) && (b<=1) && (c<=60)))
         return 0x87e042202000ll + 0x80000ll * ((a) & 0x1) + 0x2000ll * ((b) & 0x1) + 8ll * ((c) & 0x3f);
     __cavm_csr_fatal("ARXLX_SLOTX_JCFGX", 3, a, b, c, 0, 0, 0);
 }
@@ -339,7 +411,7 @@ typedef union cavm_arxlx_status cavm_arxlx_status_t;
 static inline uint64_t CAVM_ARXLX_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ARXLX_STATUS(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=1))
         return 0x87e042200018ll + 0x80000ll * ((a) & 0x1);
     __cavm_csr_fatal("ARXLX_STATUS", 1, a, 0, 0, 0, 0, 0);
 }

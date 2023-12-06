@@ -64,7 +64,9 @@ typedef union cavm_mrml_active_pc cavm_mrml_active_pc_t;
 static inline uint64_t CAVM_MRML_ACTIVE_PC_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MRML_ACTIVE_PC_FUNC(void)
 {
-    return 0x87e0fc000010ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x87e0fc000010ll;
+    __cavm_csr_fatal("MRML_ACTIVE_PC", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_MRML_ACTIVE_PC cavm_mrml_active_pc_t
@@ -182,7 +184,9 @@ typedef union cavm_mrml_cmd_to cavm_mrml_cmd_to_t;
 static inline uint64_t CAVM_MRML_CMD_TO_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MRML_CMD_TO_FUNC(void)
 {
-    return 0x87e0fc000008ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x87e0fc000008ll;
+    __cavm_csr_fatal("MRML_CMD_TO", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_MRML_CMD_TO cavm_mrml_cmd_to_t
@@ -220,7 +224,9 @@ typedef union cavm_mrml_config cavm_mrml_config_t;
 static inline uint64_t CAVM_MRML_CONFIG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MRML_CONFIG_FUNC(void)
 {
-    return 0x87e0fc002000ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x87e0fc002000ll;
+    __cavm_csr_fatal("MRML_CONFIG", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_MRML_CONFIG cavm_mrml_config_t
@@ -261,7 +267,9 @@ typedef union cavm_mrml_int_ena_w1c cavm_mrml_int_ena_w1c_t;
 static inline uint64_t CAVM_MRML_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MRML_INT_ENA_W1C_FUNC(void)
 {
-    return 0x87e0fc000880ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x87e0fc000880ll;
+    __cavm_csr_fatal("MRML_INT_ENA_W1C", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_MRML_INT_ENA_W1C cavm_mrml_int_ena_w1c_t
@@ -302,7 +310,9 @@ typedef union cavm_mrml_int_ena_w1s cavm_mrml_int_ena_w1s_t;
 static inline uint64_t CAVM_MRML_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MRML_INT_ENA_W1S_FUNC(void)
 {
-    return 0x87e0fc001000ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x87e0fc001000ll;
+    __cavm_csr_fatal("MRML_INT_ENA_W1S", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_MRML_INT_ENA_W1S cavm_mrml_int_ena_w1s_t
@@ -347,7 +357,9 @@ typedef union cavm_mrml_int_local_to cavm_mrml_int_local_to_t;
 static inline uint64_t CAVM_MRML_INT_LOCAL_TO_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MRML_INT_LOCAL_TO_FUNC(void)
 {
-    return 0x87e0fc000800ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x87e0fc000800ll;
+    __cavm_csr_fatal("MRML_INT_LOCAL_TO", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_MRML_INT_LOCAL_TO cavm_mrml_int_local_to_t
@@ -372,7 +384,7 @@ union cavm_mrml_int_sum
         uint64_t reserved_3_63         : 61;
         uint64_t gibm                  : 1;  /**< [  2:  2](SR/W1C/H) GIBM received a fault response when attempting to write a GIB interrupt message towards
                                                                  the GIC.  The interrupt message was dropped.  This most likely indicates a bad MSIX
-                                                                 vecator address, or SMMU misprogramming. */
+                                                                 vector address, or SMMU misprogramming. */
         uint64_t local_toe             : 1;  /**< [  1:  1](SR/W1C/H) Local timeout error. When set, a local timeout error has occurred. */
         uint64_t ocx_toe               : 1;  /**< [  0:  0](SR/W1C/H) Reserved. */
 #else /* Word 0 - Little Endian */
@@ -380,7 +392,7 @@ union cavm_mrml_int_sum
         uint64_t local_toe             : 1;  /**< [  1:  1](SR/W1C/H) Local timeout error. When set, a local timeout error has occurred. */
         uint64_t gibm                  : 1;  /**< [  2:  2](SR/W1C/H) GIBM received a fault response when attempting to write a GIB interrupt message towards
                                                                  the GIC.  The interrupt message was dropped.  This most likely indicates a bad MSIX
-                                                                 vecator address, or SMMU misprogramming. */
+                                                                 vector address, or SMMU misprogramming. */
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;
@@ -392,7 +404,9 @@ typedef union cavm_mrml_int_sum cavm_mrml_int_sum_t;
 static inline uint64_t CAVM_MRML_INT_SUM_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MRML_INT_SUM_FUNC(void)
 {
-    return 0x87e0fc000810ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x87e0fc000810ll;
+    __cavm_csr_fatal("MRML_INT_SUM", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_MRML_INT_SUM cavm_mrml_int_sum_t
@@ -433,7 +447,9 @@ typedef union cavm_mrml_int_sum_w1s cavm_mrml_int_sum_w1s_t;
 static inline uint64_t CAVM_MRML_INT_SUM_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MRML_INT_SUM_W1S_FUNC(void)
 {
-    return 0x87e0fc000818ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x87e0fc000818ll;
+    __cavm_csr_fatal("MRML_INT_SUM_W1S", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_MRML_INT_SUM_W1S cavm_mrml_int_sum_w1s_t
@@ -469,7 +485,7 @@ typedef union cavm_mrml_msix_pbax cavm_mrml_msix_pbax_t;
 static inline uint64_t CAVM_MRML_MSIX_PBAX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MRML_MSIX_PBAX(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
         return 0x87e0fcff0000ll + 8ll * ((a) & 0x0);
     __cavm_csr_fatal("MRML_MSIX_PBAX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -553,7 +569,7 @@ typedef union cavm_mrml_msix_vecx_addr cavm_mrml_msix_vecx_addr_t;
 static inline uint64_t CAVM_MRML_MSIX_VECX_ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MRML_MSIX_VECX_ADDR(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
         return 0x87e0fcf00000ll + 0x10ll * ((a) & 0x0);
     __cavm_csr_fatal("MRML_MSIX_VECX_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -593,7 +609,7 @@ typedef union cavm_mrml_msix_vecx_ctl cavm_mrml_msix_vecx_ctl_t;
 static inline uint64_t CAVM_MRML_MSIX_VECX_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MRML_MSIX_VECX_CTL(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
         return 0x87e0fcf00008ll + 0x10ll * ((a) & 0x0);
     __cavm_csr_fatal("MRML_MSIX_VECX_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -610,6 +626,7 @@ static inline uint64_t CAVM_MRML_MSIX_VECX_CTL(uint64_t a)
  *
  * MRML NCB Bus Permit Registers
  * This register sets the permissions for access to NCBDIDs address bits \<43:36\>.
+ * Also see and program identically IOBN_NCB()_PERMIT.
  */
 union cavm_mrml_ncbx_permit
 {
@@ -617,29 +634,31 @@ union cavm_mrml_ncbx_permit
     struct cavm_mrml_ncbx_permit_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
+        uint64_t reserved_9_63         : 55;
+        uint64_t lock                  : 1;  /**< [  8:  8](SR/W1S) Lock Bit, Lock the register from any further updates Once this bit is set all
+                                                                 the sbsequent writes are ignored. The whole register acts as read only. */
         uint64_t kill                  : 1;  /**< [  7:  7](SR/W1S) Kill the device. Once written with one, stays
                                                                  set until chip domain reset.  If set, no access
                                                                  allowed by any initiator. */
         uint64_t reserved_5_6          : 2;
-        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable. As with [SEC_DIS], but for accesses initiated by XCP2 (ECP). */
-        uint64_t xcp1_dis              : 1;  /**< [  3:  3](SR/W) XCP1 disable. As with [SEC_DIS], but for accesses initiated by XCP1 (MCP). */
-        uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. As with [SEC_DIS], but for accesses initiated by XCP0 (SCP). */
-        uint64_t nsec_dis              : 1;  /**< [  1:  1](SR/W) Nonsecure disable. As with [SEC_DIS], but for accesses initiated by non-secure devices
-                                                                 excluding XCP0/XCP1/XCP2. */
-        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. */
+        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable. Disable any accesses initiated by XCP2. */
+        uint64_t xcp1_dis              : 1;  /**< [  3:  3](SR/W) XCP1 disable. Disable any accesses initiated by XCP1. */
+        uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. Disable any accesses initiated by XCP0. */
+        uint64_t nsec_dis              : 1;  /**< [  1:  1](SR/W) Nonsecure disable. Disable any nonsecure accesses from devices except from XCP0/XCP1/XCP2. */
+        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. Disable secure acceses from devices except from XCP0/XCP1/XCP2. */
 #else /* Word 0 - Little Endian */
-        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. */
-        uint64_t nsec_dis              : 1;  /**< [  1:  1](SR/W) Nonsecure disable. As with [SEC_DIS], but for accesses initiated by non-secure devices
-                                                                 excluding XCP0/XCP1/XCP2. */
-        uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. As with [SEC_DIS], but for accesses initiated by XCP0 (SCP). */
-        uint64_t xcp1_dis              : 1;  /**< [  3:  3](SR/W) XCP1 disable. As with [SEC_DIS], but for accesses initiated by XCP1 (MCP). */
-        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable. As with [SEC_DIS], but for accesses initiated by XCP2 (ECP). */
+        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. Disable secure acceses from devices except from XCP0/XCP1/XCP2. */
+        uint64_t nsec_dis              : 1;  /**< [  1:  1](SR/W) Nonsecure disable. Disable any nonsecure accesses from devices except from XCP0/XCP1/XCP2. */
+        uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. Disable any accesses initiated by XCP0. */
+        uint64_t xcp1_dis              : 1;  /**< [  3:  3](SR/W) XCP1 disable. Disable any accesses initiated by XCP1. */
+        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable. Disable any accesses initiated by XCP2. */
         uint64_t reserved_5_6          : 2;
         uint64_t kill                  : 1;  /**< [  7:  7](SR/W1S) Kill the device. Once written with one, stays
                                                                  set until chip domain reset.  If set, no access
                                                                  allowed by any initiator. */
-        uint64_t reserved_8_63         : 56;
+        uint64_t lock                  : 1;  /**< [  8:  8](SR/W1S) Lock Bit, Lock the register from any further updates Once this bit is set all
+                                                                 the sbsequent writes are ignored. The whole register acts as read only. */
+        uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mrml_ncbx_permit_s cn; */
@@ -649,7 +668,7 @@ typedef union cavm_mrml_ncbx_permit cavm_mrml_ncbx_permit_t;
 static inline uint64_t CAVM_MRML_NCBX_PERMIT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MRML_NCBX_PERMIT(uint64_t a)
 {
-    if (a<=255)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=255))
         return 0x87e0fc020000ll + 8ll * ((a) & 0xff);
     __cavm_csr_fatal("MRML_NCBX_PERMIT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -673,29 +692,31 @@ union cavm_mrml_rslx_permit
     struct cavm_mrml_rslx_permit_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
+        uint64_t reserved_9_63         : 55;
+        uint64_t lock                  : 1;  /**< [  8:  8](SR/W1S) Lock Bit, Lock the register from any further updates Once this bit is set all
+                                                                 the sbsequent writes are ignored. The whole register acts as read only. */
         uint64_t kill                  : 1;  /**< [  7:  7](SR/W1S) Kill the device. Once written with one, stays
                                                                  set until chip domain reset.  If set, no access
                                                                  allowed by any initiator. */
         uint64_t reserved_5_6          : 2;
-        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable. As with [SEC_DIS], but for accesses initiated by XCP2 (ECP). */
-        uint64_t xcp1_dis              : 1;  /**< [  3:  3](SR/W) XCP1 disable. As with [SEC_DIS], but for accesses initiated by XCP1 (MCP). */
-        uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. As with [SEC_DIS], but for accesses initiated by XCP0 (SCP). */
-        uint64_t nsec_dis              : 1;  /**< [  1:  1](SR/W) Nonsecure disable. As with [SEC_DIS], but for accesses initiated by non-secure devices
-                                                                 excluding XCP0/XCP1/XCP2. */
-        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. */
+        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable. Disable any access initiated by XCP2. */
+        uint64_t xcp1_dis              : 1;  /**< [  3:  3](SR/W) XCP1 disable. Disable any accesses initiated by XCP1. */
+        uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. Disable any accesses initiated by XCP0. */
+        uint64_t nsec_dis              : 1;  /**< [  1:  1](SR/W) Nonsecure disable. Disable nonsecure accesses by devices except for XCP0/XCP1/XCP2. */
+        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. Disable secure acceses by devices except for XCP0/XCP1/XCP2. */
 #else /* Word 0 - Little Endian */
-        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. */
-        uint64_t nsec_dis              : 1;  /**< [  1:  1](SR/W) Nonsecure disable. As with [SEC_DIS], but for accesses initiated by non-secure devices
-                                                                 excluding XCP0/XCP1/XCP2. */
-        uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. As with [SEC_DIS], but for accesses initiated by XCP0 (SCP). */
-        uint64_t xcp1_dis              : 1;  /**< [  3:  3](SR/W) XCP1 disable. As with [SEC_DIS], but for accesses initiated by XCP1 (MCP). */
-        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable. As with [SEC_DIS], but for accesses initiated by XCP2 (ECP). */
+        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. Disable secure acceses by devices except for XCP0/XCP1/XCP2. */
+        uint64_t nsec_dis              : 1;  /**< [  1:  1](SR/W) Nonsecure disable. Disable nonsecure accesses by devices except for XCP0/XCP1/XCP2. */
+        uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. Disable any accesses initiated by XCP0. */
+        uint64_t xcp1_dis              : 1;  /**< [  3:  3](SR/W) XCP1 disable. Disable any accesses initiated by XCP1. */
+        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable. Disable any access initiated by XCP2. */
         uint64_t reserved_5_6          : 2;
         uint64_t kill                  : 1;  /**< [  7:  7](SR/W1S) Kill the device. Once written with one, stays
                                                                  set until chip domain reset.  If set, no access
                                                                  allowed by any initiator. */
-        uint64_t reserved_8_63         : 56;
+        uint64_t lock                  : 1;  /**< [  8:  8](SR/W1S) Lock Bit, Lock the register from any further updates Once this bit is set all
+                                                                 the sbsequent writes are ignored. The whole register acts as read only. */
+        uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mrml_rslx_permit_s cn; */
@@ -705,7 +726,7 @@ typedef union cavm_mrml_rslx_permit cavm_mrml_rslx_permit_t;
 static inline uint64_t CAVM_MRML_RSLX_PERMIT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MRML_RSLX_PERMIT(uint64_t a)
 {
-    if (a<=1023)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1023))
         return 0x87e0fc010000ll + 8ll * ((a) & 0x3ff);
     __cavm_csr_fatal("MRML_RSLX_PERMIT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -741,7 +762,9 @@ typedef union cavm_mrml_scfg cavm_mrml_scfg_t;
 static inline uint64_t CAVM_MRML_SCFG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MRML_SCFG_FUNC(void)
 {
-    return 0x87e0fc000000ll;
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x87e0fc000000ll;
+    __cavm_csr_fatal("MRML_SCFG", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_MRML_SCFG cavm_mrml_scfg_t

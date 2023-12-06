@@ -45,7 +45,7 @@ typedef union cavm_rtt_mg_masi_ctix_asicctrl cavm_rtt_mg_masi_ctix_asicctrl_t;
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_ASICCTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_ASICCTRL(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e080890144 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_CTIX_ASICCTRL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -92,7 +92,7 @@ typedef union cavm_rtt_mg_masi_ctix_authstatus cavm_rtt_mg_masi_ctix_authstatus_
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_AUTHSTATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_AUTHSTATUS(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e080890fb8 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_CTIX_AUTHSTATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -129,7 +129,7 @@ typedef union cavm_rtt_mg_masi_ctix_cidr0 cavm_rtt_mg_masi_ctix_cidr0_t;
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_CIDR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_CIDR0(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e080890ff0 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_CTIX_CIDR0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -168,7 +168,7 @@ typedef union cavm_rtt_mg_masi_ctix_cidr1 cavm_rtt_mg_masi_ctix_cidr1_t;
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_CIDR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_CIDR1(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e080890ff4 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_CTIX_CIDR1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -205,7 +205,7 @@ typedef union cavm_rtt_mg_masi_ctix_cidr2 cavm_rtt_mg_masi_ctix_cidr2_t;
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_CIDR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_CIDR2(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e080890ff8 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_CTIX_CIDR2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -242,7 +242,7 @@ typedef union cavm_rtt_mg_masi_ctix_cidr3 cavm_rtt_mg_masi_ctix_cidr3_t;
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_CIDR3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_CIDR3(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e080890ffc + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_CTIX_CIDR3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -285,7 +285,7 @@ typedef union cavm_rtt_mg_masi_ctix_claimclr cavm_rtt_mg_masi_ctix_claimclr_t;
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_CLAIMCLR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_CLAIMCLR(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e080890fa4 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_CTIX_CLAIMCLR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -326,7 +326,7 @@ typedef union cavm_rtt_mg_masi_ctix_claimset cavm_rtt_mg_masi_ctix_claimset_t;
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_CLAIMSET(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_CLAIMSET(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e080890fa0 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_CTIX_CLAIMSET", 1, a, 0, 0, 0, 0, 0);
 }
@@ -369,7 +369,7 @@ typedef union cavm_rtt_mg_masi_ctix_ctiappclear cavm_rtt_mg_masi_ctix_ctiappclea
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_CTIAPPCLEAR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_CTIAPPCLEAR(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e080890018 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_CTIX_CTIAPPCLEAR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -410,7 +410,7 @@ typedef union cavm_rtt_mg_masi_ctix_ctiapppulse cavm_rtt_mg_masi_ctix_ctiapppuls
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_CTIAPPPULSE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_CTIAPPPULSE(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e08089001c + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_CTIX_CTIAPPPULSE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -453,7 +453,7 @@ typedef union cavm_rtt_mg_masi_ctix_ctiappset cavm_rtt_mg_masi_ctix_ctiappset_t;
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_CTIAPPSET(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_CTIAPPSET(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e080890014 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_CTIX_CTIAPPSET", 1, a, 0, 0, 0, 0, 0);
 }
@@ -491,7 +491,7 @@ typedef union cavm_rtt_mg_masi_ctix_ctichinstatus cavm_rtt_mg_masi_ctix_ctichins
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_CTICHINSTATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_CTICHINSTATUS(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e080890138 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_CTIX_CTICHINSTATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -529,7 +529,7 @@ typedef union cavm_rtt_mg_masi_ctix_ctichoutstatus cavm_rtt_mg_masi_ctix_ctichou
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_CTICHOUTSTATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_CTICHOUTSTATUS(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e08089013c + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_CTIX_CTICHOUTSTATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -566,7 +566,7 @@ typedef union cavm_rtt_mg_masi_ctix_cticontrol cavm_rtt_mg_masi_ctix_cticontrol_
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_CTICONTROL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_CTICONTROL(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e080890000 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_CTIX_CTICONTROL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -603,7 +603,7 @@ typedef union cavm_rtt_mg_masi_ctix_ctigate cavm_rtt_mg_masi_ctix_ctigate_t;
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_CTIGATE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_CTIGATE(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e080890140 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_CTIX_CTIGATE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -644,7 +644,7 @@ typedef union cavm_rtt_mg_masi_ctix_ctiinenx cavm_rtt_mg_masi_ctix_ctiinenx_t;
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_CTIINENX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_CTIINENX(uint64_t a, uint64_t b)
 {
-    if ((a<=15) && (b<=31))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=15) && (b<=31)))
         return 0x80e080890020 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000) + b*0x4;
     __cavm_csr_fatal("RTT_MG_MASI_CTIX_CTIINENX", 2, a, b, 0, 0, 0, 0);
 }
@@ -685,7 +685,7 @@ typedef union cavm_rtt_mg_masi_ctix_ctiintack cavm_rtt_mg_masi_ctix_ctiintack_t;
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_CTIINTACK(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_CTIINTACK(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e080890010 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_CTIX_CTIINTACK", 1, a, 0, 0, 0, 0, 0);
 }
@@ -726,7 +726,7 @@ typedef union cavm_rtt_mg_masi_ctix_ctioutenx cavm_rtt_mg_masi_ctix_ctioutenx_t;
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_CTIOUTENX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_CTIOUTENX(uint64_t a, uint64_t b)
 {
-    if ((a<=15) && (b<=31))
+    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=15) && (b<=31)))
         return 0x80e0808900a0 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000) + b*0x4;
     __cavm_csr_fatal("RTT_MG_MASI_CTIX_CTIOUTENX", 2, a, b, 0, 0, 0, 0);
 }
@@ -762,7 +762,7 @@ typedef union cavm_rtt_mg_masi_ctix_ctitriginstatus cavm_rtt_mg_masi_ctix_ctitri
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_CTITRIGINSTATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_CTITRIGINSTATUS(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e080890130 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_CTIX_CTITRIGINSTATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -798,7 +798,7 @@ typedef union cavm_rtt_mg_masi_ctix_ctitrigoutstatus cavm_rtt_mg_masi_ctix_ctitr
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_CTITRIGOUTSTATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_CTITRIGOUTSTATUS(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e080890134 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_CTIX_CTITRIGOUTSTATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -833,7 +833,7 @@ typedef union cavm_rtt_mg_masi_ctix_devaff0 cavm_rtt_mg_masi_ctix_devaff0_t;
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_DEVAFF0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_DEVAFF0(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e080890fa8 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_CTIX_DEVAFF0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -868,7 +868,7 @@ typedef union cavm_rtt_mg_masi_ctix_devaff1 cavm_rtt_mg_masi_ctix_devaff1_t;
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_DEVAFF1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_DEVAFF1(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e080890fac + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_CTIX_DEVAFF1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -911,7 +911,7 @@ typedef union cavm_rtt_mg_masi_ctix_devarch cavm_rtt_mg_masi_ctix_devarch_t;
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_DEVARCH(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_DEVARCH(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e080890fbc + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_CTIX_DEVARCH", 1, a, 0, 0, 0, 0, 0);
 }
@@ -965,7 +965,7 @@ typedef union cavm_rtt_mg_masi_ctix_devid cavm_rtt_mg_masi_ctix_devid_t;
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_DEVID(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_DEVID(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e080890fc8 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_CTIX_DEVID", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1005,7 +1005,7 @@ typedef union cavm_rtt_mg_masi_ctix_devtype cavm_rtt_mg_masi_ctix_devtype_t;
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_DEVTYPE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_DEVTYPE(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e080890fcc + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_CTIX_DEVTYPE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1047,7 +1047,7 @@ typedef union cavm_rtt_mg_masi_ctix_itchin cavm_rtt_mg_masi_ctix_itchin_t;
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_ITCHIN(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_ITCHIN(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e080890ef4 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_CTIX_ITCHIN", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1085,7 +1085,7 @@ typedef union cavm_rtt_mg_masi_ctix_itchout cavm_rtt_mg_masi_ctix_itchout_t;
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_ITCHOUT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_ITCHOUT(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e080890ee4 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_CTIX_ITCHOUT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1124,7 +1124,7 @@ typedef union cavm_rtt_mg_masi_ctix_itctrl cavm_rtt_mg_masi_ctix_itctrl_t;
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_ITCTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_ITCTRL(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e080890f00 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_CTIX_ITCTRL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1164,7 +1164,7 @@ typedef union cavm_rtt_mg_masi_ctix_ittrigin cavm_rtt_mg_masi_ctix_ittrigin_t;
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_ITTRIGIN(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_ITTRIGIN(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e080890ef8 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_CTIX_ITTRIGIN", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1199,7 +1199,7 @@ typedef union cavm_rtt_mg_masi_ctix_ittrigout cavm_rtt_mg_masi_ctix_ittrigout_t;
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_ITTRIGOUT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_ITTRIGOUT(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e080890ee8 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_CTIX_ITTRIGOUT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1238,7 +1238,7 @@ typedef union cavm_rtt_mg_masi_ctix_pidr0 cavm_rtt_mg_masi_ctix_pidr0_t;
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_PIDR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_PIDR0(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e080890fe0 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_CTIX_PIDR0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1283,7 +1283,7 @@ typedef union cavm_rtt_mg_masi_ctix_pidr1 cavm_rtt_mg_masi_ctix_pidr1_t;
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_PIDR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_PIDR1(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e080890fe4 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_CTIX_PIDR1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1332,7 +1332,7 @@ typedef union cavm_rtt_mg_masi_ctix_pidr2 cavm_rtt_mg_masi_ctix_pidr2_t;
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_PIDR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_PIDR2(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e080890fe8 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_CTIX_PIDR2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1377,7 +1377,7 @@ typedef union cavm_rtt_mg_masi_ctix_pidr3 cavm_rtt_mg_masi_ctix_pidr3_t;
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_PIDR3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_PIDR3(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e080890fec + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_CTIX_PIDR3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1424,7 +1424,7 @@ typedef union cavm_rtt_mg_masi_ctix_pidr4 cavm_rtt_mg_masi_ctix_pidr4_t;
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_PIDR4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_PIDR4(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e080890fd0 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_CTIX_PIDR4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1461,7 +1461,7 @@ typedef union cavm_rtt_mg_masi_ctix_pidr5 cavm_rtt_mg_masi_ctix_pidr5_t;
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_PIDR5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_PIDR5(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e080890fd4 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_CTIX_PIDR5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1498,7 +1498,7 @@ typedef union cavm_rtt_mg_masi_ctix_pidr6 cavm_rtt_mg_masi_ctix_pidr6_t;
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_PIDR6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_PIDR6(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e080890fd8 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_CTIX_PIDR6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1535,7 +1535,7 @@ typedef union cavm_rtt_mg_masi_ctix_pidr7 cavm_rtt_mg_masi_ctix_pidr7_t;
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_PIDR7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_CTIX_PIDR7(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e080890fdc + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_CTIX_PIDR7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1582,7 +1582,7 @@ typedef union cavm_rtt_mg_masi_etfx_authstatus cavm_rtt_mg_masi_etfx_authstatus_
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_AUTHSTATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_AUTHSTATUS(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a0fb8 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_AUTHSTATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1633,7 +1633,7 @@ typedef union cavm_rtt_mg_masi_etfx_bufwm cavm_rtt_mg_masi_etfx_bufwm_t;
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_BUFWM(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_BUFWM(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a0034 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_BUFWM", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1678,7 +1678,7 @@ typedef union cavm_rtt_mg_masi_etfx_cbuflevel cavm_rtt_mg_masi_etfx_cbuflevel_t;
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_CBUFLEVEL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_CBUFLEVEL(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a0030 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_CBUFLEVEL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1715,7 +1715,7 @@ typedef union cavm_rtt_mg_masi_etfx_cidr0 cavm_rtt_mg_masi_etfx_cidr0_t;
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_CIDR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_CIDR0(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a0ff0 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_CIDR0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1754,7 +1754,7 @@ typedef union cavm_rtt_mg_masi_etfx_cidr1 cavm_rtt_mg_masi_etfx_cidr1_t;
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_CIDR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_CIDR1(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a0ff4 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_CIDR1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1791,7 +1791,7 @@ typedef union cavm_rtt_mg_masi_etfx_cidr2 cavm_rtt_mg_masi_etfx_cidr2_t;
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_CIDR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_CIDR2(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a0ff8 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_CIDR2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1828,7 +1828,7 @@ typedef union cavm_rtt_mg_masi_etfx_cidr3 cavm_rtt_mg_masi_etfx_cidr3_t;
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_CIDR3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_CIDR3(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a0ffc + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_CIDR3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1871,7 +1871,7 @@ typedef union cavm_rtt_mg_masi_etfx_claimclr cavm_rtt_mg_masi_etfx_claimclr_t;
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_CLAIMCLR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_CLAIMCLR(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a0fa4 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_CLAIMCLR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1912,7 +1912,7 @@ typedef union cavm_rtt_mg_masi_etfx_claimset cavm_rtt_mg_masi_etfx_claimset_t;
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_CLAIMSET(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_CLAIMSET(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a0fa0 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_CLAIMSET", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1951,7 +1951,7 @@ typedef union cavm_rtt_mg_masi_etfx_ctl cavm_rtt_mg_masi_etfx_ctl_t;
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_CTL(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a0020 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2003,7 +2003,7 @@ typedef union cavm_rtt_mg_masi_etfx_devid cavm_rtt_mg_masi_etfx_devid_t;
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_DEVID(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_DEVID(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a0fc8 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_DEVID", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2040,7 +2040,7 @@ typedef union cavm_rtt_mg_masi_etfx_devid1 cavm_rtt_mg_masi_etfx_devid1_t;
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_DEVID1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_DEVID1(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a0fc4 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_DEVID1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2080,7 +2080,7 @@ typedef union cavm_rtt_mg_masi_etfx_devtype cavm_rtt_mg_masi_etfx_devtype_t;
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_DEVTYPE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_DEVTYPE(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a0fcc + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_DEVTYPE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2286,7 +2286,7 @@ typedef union cavm_rtt_mg_masi_etfx_ffcr cavm_rtt_mg_masi_etfx_ffcr_t;
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_FFCR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_FFCR(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a0304 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_FFCR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2339,7 +2339,7 @@ typedef union cavm_rtt_mg_masi_etfx_ffsr cavm_rtt_mg_masi_etfx_ffsr_t;
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_FFSR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_FFSR(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a0300 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_FFSR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2388,7 +2388,7 @@ typedef union cavm_rtt_mg_masi_etfx_itatbctr0 cavm_rtt_mg_masi_etfx_itatbctr0_t;
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_ITATBCTR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_ITATBCTR0(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a0ef8 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_ITATBCTR0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2427,7 +2427,7 @@ typedef union cavm_rtt_mg_masi_etfx_itatbctr1 cavm_rtt_mg_masi_etfx_itatbctr1_t;
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_ITATBCTR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_ITATBCTR1(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a0ef4 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_ITATBCTR1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2471,7 +2471,7 @@ typedef union cavm_rtt_mg_masi_etfx_itatbctr2 cavm_rtt_mg_masi_etfx_itatbctr2_t;
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_ITATBCTR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_ITATBCTR2(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a0ef0 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_ITATBCTR2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2519,7 +2519,7 @@ typedef union cavm_rtt_mg_masi_etfx_itatbdata0 cavm_rtt_mg_masi_etfx_itatbdata0_
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_ITATBDATA0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_ITATBDATA0(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a0eec + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_ITATBDATA0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2570,7 +2570,7 @@ typedef union cavm_rtt_mg_masi_etfx_itatbmctr0 cavm_rtt_mg_masi_etfx_itatbmctr0_
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_ITATBMCTR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_ITATBMCTR0(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a0edc + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_ITATBMCTR0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2610,7 +2610,7 @@ typedef union cavm_rtt_mg_masi_etfx_itatbmctr1 cavm_rtt_mg_masi_etfx_itatbmctr1_
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_ITATBMCTR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_ITATBMCTR1(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a0ed8 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_ITATBMCTR1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2660,7 +2660,7 @@ typedef union cavm_rtt_mg_masi_etfx_itatbmctr2 cavm_rtt_mg_masi_etfx_itatbmctr2_
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_ITATBMCTR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_ITATBMCTR2(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a0ed4 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_ITATBMCTR2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2709,7 +2709,7 @@ typedef union cavm_rtt_mg_masi_etfx_itatbmdata0 cavm_rtt_mg_masi_etfx_itatbmdata
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_ITATBMDATA0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_ITATBMDATA0(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a0ed0 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_ITATBMDATA0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2748,7 +2748,7 @@ typedef union cavm_rtt_mg_masi_etfx_itctrl cavm_rtt_mg_masi_etfx_itctrl_t;
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_ITCTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_ITCTRL(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a0f00 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_ITCTRL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2792,7 +2792,7 @@ typedef union cavm_rtt_mg_masi_etfx_itevtintr cavm_rtt_mg_masi_etfx_itevtintr_t;
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_ITEVTINTR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_ITEVTINTR(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a0ee0 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_ITEVTINTR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2840,7 +2840,7 @@ typedef union cavm_rtt_mg_masi_etfx_ittrflin cavm_rtt_mg_masi_etfx_ittrflin_t;
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_ITTRFLIN(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_ITTRFLIN(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a0ee8 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_ITTRFLIN", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2886,7 +2886,7 @@ typedef union cavm_rtt_mg_masi_etfx_lbuflevel cavm_rtt_mg_masi_etfx_lbuflevel_t;
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_LBUFLEVEL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_LBUFLEVEL(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a002c + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_LBUFLEVEL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2942,7 +2942,7 @@ typedef union cavm_rtt_mg_masi_etfx_mode cavm_rtt_mg_masi_etfx_mode_t;
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_MODE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_MODE(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a0028 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_MODE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2979,7 +2979,7 @@ typedef union cavm_rtt_mg_masi_etfx_pidr0 cavm_rtt_mg_masi_etfx_pidr0_t;
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_PIDR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_PIDR0(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a0fe0 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_PIDR0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3024,7 +3024,7 @@ typedef union cavm_rtt_mg_masi_etfx_pidr1 cavm_rtt_mg_masi_etfx_pidr1_t;
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_PIDR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_PIDR1(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a0fe4 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_PIDR1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3073,7 +3073,7 @@ typedef union cavm_rtt_mg_masi_etfx_pidr2 cavm_rtt_mg_masi_etfx_pidr2_t;
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_PIDR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_PIDR2(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a0fe8 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_PIDR2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3118,7 +3118,7 @@ typedef union cavm_rtt_mg_masi_etfx_pidr3 cavm_rtt_mg_masi_etfx_pidr3_t;
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_PIDR3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_PIDR3(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a0fec + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_PIDR3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3165,7 +3165,7 @@ typedef union cavm_rtt_mg_masi_etfx_pidr4 cavm_rtt_mg_masi_etfx_pidr4_t;
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_PIDR4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_PIDR4(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a0fd0 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_PIDR4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3202,7 +3202,7 @@ typedef union cavm_rtt_mg_masi_etfx_pidr5 cavm_rtt_mg_masi_etfx_pidr5_t;
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_PIDR5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_PIDR5(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a0fd4 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_PIDR5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3239,7 +3239,7 @@ typedef union cavm_rtt_mg_masi_etfx_pidr6 cavm_rtt_mg_masi_etfx_pidr6_t;
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_PIDR6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_PIDR6(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a0fd8 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_PIDR6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3276,7 +3276,7 @@ typedef union cavm_rtt_mg_masi_etfx_pidr7 cavm_rtt_mg_masi_etfx_pidr7_t;
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_PIDR7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_PIDR7(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a0fdc + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_PIDR7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3346,7 +3346,7 @@ typedef union cavm_rtt_mg_masi_etfx_pscr cavm_rtt_mg_masi_etfx_pscr_t;
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_PSCR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_PSCR(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a0308 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_PSCR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3391,7 +3391,7 @@ typedef union cavm_rtt_mg_masi_etfx_rrd cavm_rtt_mg_masi_etfx_rrd_t;
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_RRD(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_RRD(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a0010 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_RRD", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3449,7 +3449,7 @@ typedef union cavm_rtt_mg_masi_etfx_rrp cavm_rtt_mg_masi_etfx_rrp_t;
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_RRP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_RRP(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a0014 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_RRP", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3490,7 +3490,7 @@ typedef union cavm_rtt_mg_masi_etfx_rsz cavm_rtt_mg_masi_etfx_rsz_t;
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_RSZ(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_RSZ(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a0004 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_RSZ", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3532,7 +3532,7 @@ typedef union cavm_rtt_mg_masi_etfx_rwd cavm_rtt_mg_masi_etfx_rwd_t;
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_RWD(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_RWD(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a0024 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_RWD", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3588,7 +3588,7 @@ typedef union cavm_rtt_mg_masi_etfx_rwp cavm_rtt_mg_masi_etfx_rwp_t;
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_RWP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_RWP(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a0018 + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_RWP", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3684,7 +3684,7 @@ typedef union cavm_rtt_mg_masi_etfx_sts cavm_rtt_mg_masi_etfx_sts_t;
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_STS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_STS(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a000c + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_STS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3729,7 +3729,7 @@ typedef union cavm_rtt_mg_masi_etfx_trg cavm_rtt_mg_masi_etfx_trg_t;
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_TRG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RTT_MG_MASI_ETFX_TRG(uint64_t a)
 {
-    if (a<=15)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=15))
         return 0x80e0808a001c + ((a&0x1)*0x800000+((a&0xe)>>1)*0x80000);
     __cavm_csr_fatal("RTT_MG_MASI_ETFX_TRG", 1, a, 0, 0, 0, 0, 0);
 }

@@ -40,6 +40,14 @@
 #define CAVM_GPIO_ASSIGNED_PIN_E_GSERM_PHY_SIF_JTG_DEN (0x33)
 #define CAVM_GPIO_ASSIGNED_PIN_E_GSERM_PHY_SIF_JTG_DIN (0x30)
 #define CAVM_GPIO_ASSIGNED_PIN_E_GSERM_PHY_SIF_JTG_DOUT (0x32)
+#define CAVM_GPIO_ASSIGNED_PIN_E_GSERP_PHY_SIF_JTG_CLK (0x35)
+#define CAVM_GPIO_ASSIGNED_PIN_E_GSERP_PHY_SIF_JTG_DEN (0x37)
+#define CAVM_GPIO_ASSIGNED_PIN_E_GSERP_PHY_SIF_JTG_DIN (0x34)
+#define CAVM_GPIO_ASSIGNED_PIN_E_GSERP_PHY_SIF_JTG_DOUT (0x36)
+#define CAVM_GPIO_ASSIGNED_PIN_E_I3C3_SCL (0x31)
+#define CAVM_GPIO_ASSIGNED_PIN_E_I3C3_SDA (0x30)
+#define CAVM_GPIO_ASSIGNED_PIN_E_I3C4_SCL (0x33)
+#define CAVM_GPIO_ASSIGNED_PIN_E_I3C4_SDA (0x32)
 #define CAVM_GPIO_ASSIGNED_PIN_E_JTAG_ALT_TCK (0x47)
 #define CAVM_GPIO_ASSIGNED_PIN_E_JTAG_ALT_TDI (0x44)
 #define CAVM_GPIO_ASSIGNED_PIN_E_JTAG_ALT_TDO (0x43)
@@ -64,6 +72,7 @@
 #define CAVM_GPIO_ASSIGNED_PIN_E_SPI0_IO5 (0x15)
 #define CAVM_GPIO_ASSIGNED_PIN_E_SPI0_IO6 (0x16)
 #define CAVM_GPIO_ASSIGNED_PIN_E_SPI0_IO7 (0x17)
+#define CAVM_GPIO_ASSIGNED_PIN_E_SPI0_RESET (0x2f)
 #define CAVM_GPIO_ASSIGNED_PIN_E_SPI1_CLK (0x26)
 #define CAVM_GPIO_ASSIGNED_PIN_E_SPI1_CS0 (0x28)
 #define CAVM_GPIO_ASSIGNED_PIN_E_SPI1_CS1 (0x29)
@@ -78,6 +87,7 @@
 #define CAVM_GPIO_ASSIGNED_PIN_E_SPI1_IO5 (0x23)
 #define CAVM_GPIO_ASSIGNED_PIN_E_SPI1_IO6 (0x24)
 #define CAVM_GPIO_ASSIGNED_PIN_E_SPI1_IO7 (0x25)
+#define CAVM_GPIO_ASSIGNED_PIN_E_SPI1_RESET (0x2c)
 
 /**
  * Enumeration gpio_bar_e
@@ -96,8 +106,11 @@
  * GPIO MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define CAVM_GPIO_INT_VEC_E_INTR_PINX(a) (0x18 + 2 * (a))
-#define CAVM_GPIO_INT_VEC_E_INTR_PINX_CLEAR(a) (0x19 + 2 * (a))
+#define CAVM_GPIO_INT_VEC_E_INTR_PINX_CHEETAH(a) (0x52 + 2 * (a))
+#define CAVM_GPIO_INT_VEC_E_INTR_PINX_ODINMP(a) (0x18 + 2 * (a))
+#define CAVM_GPIO_INT_VEC_E_INTR_PINX_CLEAR_CHEETAH(a) (0x53 + 2 * (a))
+#define CAVM_GPIO_INT_VEC_E_INTR_PINX_CLEAR_ODINMP(a) (0x19 + 2 * (a))
+#define CAVM_GPIO_INT_VEC_E_MC_INTR1_PPX(a) (0x40 + (a))
 #define CAVM_GPIO_INT_VEC_E_MC_INTR_PPX(a) (0 + (a))
 
 /**
@@ -122,6 +135,7 @@
  */
 #define CAVM_GPIO_PIN_SEL_E_BOOT_REQ (0x3e0)
 #define CAVM_GPIO_PIN_SEL_E_BOOT_WAIT (0x3e1)
+#define CAVM_GPIO_PIN_SEL_E_BPHY_RESET_OUT (0x486)
 #define CAVM_GPIO_PIN_SEL_E_BTS_BFN_CLK (0x506)
 #define CAVM_GPIO_PIN_SEL_E_BTS_BFN_IN (0x505)
 #define CAVM_GPIO_PIN_SEL_E_BTS_BFN_OUT (0x510)
@@ -137,6 +151,9 @@
 #define CAVM_GPIO_PIN_SEL_E_BTS_TPX(a) (0x507 + (a))
 #define CAVM_GPIO_PIN_SEL_E_CORE_RESET_IN (0x480)
 #define CAVM_GPIO_PIN_SEL_E_CORE_RESET_OUT (0x481)
+#define CAVM_GPIO_PIN_SEL_E_CPRI_HDLC_CK (0x259)
+#define CAVM_GPIO_PIN_SEL_E_CPRI_HDLC_RX (0x258)
+#define CAVM_GPIO_PIN_SEL_E_CPRI_HDLC_TX (0x257)
 #define CAVM_GPIO_PIN_SEL_E_EMMC_LED (0x120)
 #define CAVM_GPIO_PIN_SEL_E_EMMC_RST (0x121)
 #define CAVM_GPIO_PIN_SEL_E_EUSB20_PHY_DTBX(a) (0x127 + (a))
@@ -158,16 +175,26 @@
 #define CAVM_GPIO_PIN_SEL_E_GSERMX_UART_RX_CMN(a) (0x6d1 + 2 * (a))
 #define CAVM_GPIO_PIN_SEL_E_GSERMX_UART_TX(a) (0x6a0 + 2 * (a))
 #define CAVM_GPIO_PIN_SEL_E_GSERMX_UART_TX_CMN(a) (0x6a1 + 2 * (a))
-#define CAVM_GPIO_PIN_SEL_E_GSERPX_DTESTX(a,b) (0x580 + 0x10 * (a) + (b))
-#define CAVM_GPIO_PIN_SEL_E_GSERPX_GPIX(a,b) (0x5b0 + 8 * (a) + (b))
-#define CAVM_GPIO_PIN_SEL_E_GSERPX_GPOX(a,b) (0x5d0 + 8 * (a) + (b))
-#define CAVM_GPIO_PIN_SEL_E_GSERPX_PHY_SIF_INX(a,b) (0x550 + 5 * (a) + (b))
-#define CAVM_GPIO_PIN_SEL_E_GSERPX_PHY_SIF_OUT(a) (0x570 + (a))
-#define CAVM_GPIO_PIN_SEL_E_GSERPX_PRAM_SIF_INX(a,b) (0x560 + 5 * (a) + (b))
-#define CAVM_GPIO_PIN_SEL_E_GSERPX_PRAM_SIF_OUT(a) (0x578 + (a))
-#define CAVM_GPIO_PIN_SEL_E_GSERPX_UART_RXX(a,b) (0x620 + 5 * (a) + (b))
-#define CAVM_GPIO_PIN_SEL_E_GSERPX_UART_TXX(a,b) (0x600 + 5 * (a) + (b))
-#define CAVM_GPIO_PIN_SEL_E_I3CX_SCL(a) (0x290 + (a))
+#define CAVM_GPIO_PIN_SEL_E_GSERPX_DTESTX_CHEETAH(a,b) (0x5a0 + 0x10 * (a) + (b))
+#define CAVM_GPIO_PIN_SEL_E_GSERPX_DTESTX_ODINMP(a,b) (0x580 + 0x10 * (a) + (b))
+#define CAVM_GPIO_PIN_SEL_E_GSERPX_GPIX_CHEETAH(a,b) (0x670 + 8 * (a) + (b))
+#define CAVM_GPIO_PIN_SEL_E_GSERPX_GPIX_ODINMP(a,b) (0x5b0 + 8 * (a) + (b))
+#define CAVM_GPIO_PIN_SEL_E_GSERPX_GPOX_CHEETAH(a,b) (0x6e0 + 8 * (a) + (b))
+#define CAVM_GPIO_PIN_SEL_E_GSERPX_GPOX_ODINMP(a,b) (0x5d0 + 8 * (a) + (b))
+#define CAVM_GPIO_PIN_SEL_E_GSERPX_PHY_SIF_INX_CHEETAH(a,b) (0x520 + 3 * (a) + (b))
+#define CAVM_GPIO_PIN_SEL_E_GSERPX_PHY_SIF_INX_ODINMP(a,b) (0x550 + 5 * (a) + (b))
+#define CAVM_GPIO_PIN_SEL_E_GSERPX_PHY_SIF_OUT_CHEETAH(a) (0x580 + (a))
+#define CAVM_GPIO_PIN_SEL_E_GSERPX_PHY_SIF_OUT_ODINMP(a) (0x570 + (a))
+#define CAVM_GPIO_PIN_SEL_E_GSERPX_PRAM_SIF_INX_CHEETAH(a,b) (0x550 + 3 * (a) + (b))
+#define CAVM_GPIO_PIN_SEL_E_GSERPX_PRAM_SIF_INX_ODINMP(a,b) (0x560 + 5 * (a) + (b))
+#define CAVM_GPIO_PIN_SEL_E_GSERPX_PRAM_SIF_OUT_CHEETAH(a) (0x590 + (a))
+#define CAVM_GPIO_PIN_SEL_E_GSERPX_PRAM_SIF_OUT_ODINMP(a) (0x578 + (a))
+#define CAVM_GPIO_PIN_SEL_E_GSERPX_UART_RXX_CHEETAH(a,b) (0x7a0 + 5 * (a) + (b))
+#define CAVM_GPIO_PIN_SEL_E_GSERPX_UART_RXX_ODINMP(a,b) (0x620 + 5 * (a) + (b))
+#define CAVM_GPIO_PIN_SEL_E_GSERPX_UART_TXX_CHEETAH(a,b) (0x750 + 5 * (a) + (b))
+#define CAVM_GPIO_PIN_SEL_E_GSERPX_UART_TXX_ODINMP(a,b) (0x600 + 5 * (a) + (b))
+#define CAVM_GPIO_PIN_SEL_E_I3CX_SCL_CHEETAH(a) (0x28d + (a))
+#define CAVM_GPIO_PIN_SEL_E_I3CX_SCL_ODINMP(a) (0x290 + (a))
 #define CAVM_GPIO_PIN_SEL_E_I3CX_SDA(a) (0x291 + (a))
 #define CAVM_GPIO_PIN_SEL_E_MCDX_IN(a) (0x23f + (a))
 #define CAVM_GPIO_PIN_SEL_E_MCDX_OUT(a) (0x242 + (a))
@@ -191,6 +218,9 @@
 #define CAVM_GPIO_PIN_SEL_E_RPMX_LMACX_RX(a,b) (0x4a0 + 4 * (a) + (b))
 #define CAVM_GPIO_PIN_SEL_E_RPMX_LMACX_RXTX(a,b) (0x4e0 + 4 * (a) + (b))
 #define CAVM_GPIO_PIN_SEL_E_RPMX_LMACX_TX(a,b) (0x4c0 + 4 * (a) + (b))
+#define CAVM_GPIO_PIN_SEL_E_RPM8_LMACX_RX(a) (0x490 + (a))
+#define CAVM_GPIO_PIN_SEL_E_RPM8_LMACX_RXTX(a) (0x498 + (a))
+#define CAVM_GPIO_PIN_SEL_E_RPM8_LMACX_TX(a) (0x494 + (a))
 #define CAVM_GPIO_PIN_SEL_E_SCP_RESET_IN (0x484)
 #define CAVM_GPIO_PIN_SEL_E_SCP_RESET_OUT (0x485)
 #define CAVM_GPIO_PIN_SEL_E_SMIX_MDC(a) (0x253 + (a))
@@ -199,14 +229,18 @@
 #define CAVM_GPIO_PIN_SEL_E_SPI0_CSX(a) (0x270 + (a))
 #define CAVM_GPIO_PIN_SEL_E_SPI0_DQS (0x275)
 #define CAVM_GPIO_PIN_SEL_E_SPI0_IOX(a) (0x278 + (a))
+#define CAVM_GPIO_PIN_SEL_E_SPI0_RESET (0x276)
 #define CAVM_GPIO_PIN_SEL_E_SPI1_CLK (0x280)
 #define CAVM_GPIO_PIN_SEL_E_SPI1_CSX(a) (0x284 + (a))
 #define CAVM_GPIO_PIN_SEL_E_SPI1_DQS (0x281)
 #define CAVM_GPIO_PIN_SEL_E_SPI1_IOX(a) (0x288 + (a))
+#define CAVM_GPIO_PIN_SEL_E_SPI1_RESET (0x282)
 #define CAVM_GPIO_PIN_SEL_E_TIMER (0x11c)
 #define CAVM_GPIO_PIN_SEL_E_TIM_GPIO_CLK (0x230)
-#define CAVM_GPIO_PIN_SEL_E_TWS_SCLX(a) (0x294 + (a))
-#define CAVM_GPIO_PIN_SEL_E_TWS_SDAX(a) (0x2a0 + (a))
+#define CAVM_GPIO_PIN_SEL_E_TWS_SCLX_CHEETAH(a) (0x298 + (a))
+#define CAVM_GPIO_PIN_SEL_E_TWS_SCLX_ODINMP(a) (0x294 + (a))
+#define CAVM_GPIO_PIN_SEL_E_TWS_SDAX_CHEETAH(a) (0x2a4 + (a))
+#define CAVM_GPIO_PIN_SEL_E_TWS_SDAX_ODINMP(a) (0x2a0 + (a))
 #define CAVM_GPIO_PIN_SEL_E_UARTX_CTS(a) (0x3c0 + (a))
 #define CAVM_GPIO_PIN_SEL_E_UARTX_DCD(a) (0x3b0 + (a))
 #define CAVM_GPIO_PIN_SEL_E_UARTX_DSR(a) (0x3b8 + (a))
@@ -236,6 +270,7 @@
 #define CAVM_GPIO_STRAP_PIN_E_BOOT_METHOD4 (0xc)
 #define CAVM_GPIO_STRAP_PIN_E_BOOT_METHOD5 (0xd)
 #define CAVM_GPIO_STRAP_PIN_E_PCIE0_EP_MODE (0xf)
+#define CAVM_GPIO_STRAP_PIN_E_REF_CLK_TERMINATION (0xb)
 
 /**
  * Register (NCB) gpio_bit_cfg#
@@ -363,7 +398,9 @@ typedef union cavm_gpio_bit_cfgx cavm_gpio_bit_cfgx_t;
 static inline uint64_t CAVM_GPIO_BIT_CFGX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GPIO_BIT_CFGX(uint64_t a)
 {
-    if (a<=75)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=63))
+        return 0x803000000400ll + 8ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=75))
         return 0x803000000400ll + 8ll * ((a) & 0x7f);
     __cavm_csr_fatal("GPIO_BIT_CFGX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -419,7 +456,9 @@ typedef union cavm_gpio_bit_permitx cavm_gpio_bit_permitx_t;
 static inline uint64_t CAVM_GPIO_BIT_PERMITX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GPIO_BIT_PERMITX(uint64_t a)
 {
-    if (a<=75)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=63))
+        return 0x803000002000ll + 8ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=75))
         return 0x803000002000ll + 8ll * ((a) & 0x7f);
     __cavm_csr_fatal("GPIO_BIT_PERMITX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -452,44 +491,44 @@ union cavm_gpio_blink_cfg
                                                                  it has been continually enabled for the [MAX_ON] time.
                                                                  0x0 = No minimum.
                                                                  0x1 = 1/8 second.
-                                                                 ...
+                                                                 _ ...
                                                                  0xF = 15/8 seconds. */
         uint64_t max_on                : 4;  /**< [ 11:  8](R/W) Maximum activity on time. The maximum amount of time to enable the activity indicator.
                                                                  0x0 = No maximum.
                                                                  0x1 = 1/4 second.
-                                                                 ...
+                                                                 _ ...
                                                                  0xF = 15/4 seconds. */
         uint64_t stretch_off           : 4;  /**< [  7:  4](R/W) Stretch activity off. The minimum amount of time to disable the activity indicator.
                                                                  0x0 = No minimum.
                                                                  0x1 = 1/64 second.
-                                                                 ...
+                                                                 _ ...
                                                                  0xF = 15/64 seconds. */
         uint64_t stretch_on            : 4;  /**< [  3:  0](R/W) Stretch activity on. The minimum amount of time to enable the activity indicator.
                                                                  0x0 = 1/64 second.
                                                                  0x1 = 2/64 second.
-                                                                 ...
+                                                                 _ ...
                                                                  0xF = 16/64 seconds. */
 #else /* Word 0 - Little Endian */
         uint64_t stretch_on            : 4;  /**< [  3:  0](R/W) Stretch activity on. The minimum amount of time to enable the activity indicator.
                                                                  0x0 = 1/64 second.
                                                                  0x1 = 2/64 second.
-                                                                 ...
+                                                                 _ ...
                                                                  0xF = 16/64 seconds. */
         uint64_t stretch_off           : 4;  /**< [  7:  4](R/W) Stretch activity off. The minimum amount of time to disable the activity indicator.
                                                                  0x0 = No minimum.
                                                                  0x1 = 1/64 second.
-                                                                 ...
+                                                                 _ ...
                                                                  0xF = 15/64 seconds. */
         uint64_t max_on                : 4;  /**< [ 11:  8](R/W) Maximum activity on time. The maximum amount of time to enable the activity indicator.
                                                                  0x0 = No maximum.
                                                                  0x1 = 1/4 second.
-                                                                 ...
+                                                                 _ ...
                                                                  0xF = 15/4 seconds. */
         uint64_t force_off             : 4;  /**< [ 15: 12](R/W) Force activity off time. The minimum amount of time to disable the activity indicator if
                                                                  it has been continually enabled for the [MAX_ON] time.
                                                                  0x0 = No minimum.
                                                                  0x1 = 1/8 second.
-                                                                 ...
+                                                                 _ ...
                                                                  0xF = 15/8 seconds. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
@@ -614,8 +653,7 @@ static inline uint64_t CAVM_GPIO_CLK_GENX(uint64_t a)
  * GPIO Clock SyncE Registers
  * Certain SerDes may be configured as a clock source. The GPIO block can support up to two
  * unique clocks to send out any GPIO pin as configured when GPIO_BIT_CFG()[PIN_SEL] =
- * GPIO_PIN_SEL_E::GPIO_CLK_SYNCE(0..1). The clock can be divided by 20, 40, 80 or 160
- * of the selected SerDes clock. Legal values are based on the number of SerDes.
+ * GPIO_PIN_SEL_E::GPIO_CLK_SYNCE(0..1). Legal values are based on the number of SerDes.
  *
  * This register is only accessible to the requestor(s) permitted with GPIO_PERMIT.
  *
@@ -633,10 +671,10 @@ union cavm_gpio_clk_syncex
         uint64_t div                   : 2;  /**< [  3:  2](R/W) GPIO internal clock division of the SerDes recovered clock selected by [QLM_SEL]
                                                                  to create the output clock. The maximum supported GPIO output frequency is 125
                                                                  MHz.
-                                                                 0x0 = Divide by 40.
-                                                                 0x1 = Divide by 80.
-                                                                 0x2 = Divide by 160.
-                                                                 0x3 = Divide by 320. */
+                                                                 0x0 = Divide by 1.
+                                                                 0x1 = Divide by 2.
+                                                                 0x2 = Divide by 4.
+                                                                 0x3 = Divide by 8. */
         uint64_t lane_sel              : 2;  /**< [  1:  0](R/W) Which RX lane within the SerDes selected with [QLM_SEL] to use as the GPIO
                                                                  internal clock. */
 #else /* Word 0 - Little Endian */
@@ -645,10 +683,10 @@ union cavm_gpio_clk_syncex
         uint64_t div                   : 2;  /**< [  3:  2](R/W) GPIO internal clock division of the SerDes recovered clock selected by [QLM_SEL]
                                                                  to create the output clock. The maximum supported GPIO output frequency is 125
                                                                  MHz.
-                                                                 0x0 = Divide by 40.
-                                                                 0x1 = Divide by 80.
-                                                                 0x2 = Divide by 160.
-                                                                 0x3 = Divide by 320. */
+                                                                 0x0 = Divide by 1.
+                                                                 0x1 = Divide by 2.
+                                                                 0x2 = Divide by 4.
+                                                                 0x3 = Divide by 8. */
         uint64_t reserved_4_7          : 4;
         uint64_t qlm_sel               : 4;  /**< [ 11:  8](R/W) Selects which GSERM to select from. */
         uint64_t reserved_12_63        : 52;
@@ -769,7 +807,9 @@ typedef union cavm_gpio_intrx cavm_gpio_intrx_t;
 static inline uint64_t CAVM_GPIO_INTRX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GPIO_INTRX(uint64_t a)
 {
-    if (a<=75)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=63))
+        return 0x803000000800ll + 8ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=75))
         return 0x803000000800ll + 8ll * ((a) & 0x7f);
     __cavm_csr_fatal("GPIO_INTRX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -803,6 +843,7 @@ union cavm_gpio_io_ctl
                                                                  0x3 = 20 ohm. */
         uint64_t slew7                 : 2;  /**< [ 29: 28](R/W) GPIO\<127:112\> pin output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
         uint64_t drive6                : 2;  /**< [ 27: 26](R/W) GPIO\<111:96\> pin output impedance.
                                                                  0x0 = 55 ohm.
@@ -811,6 +852,7 @@ union cavm_gpio_io_ctl
                                                                  0x3 = 20 ohm. */
         uint64_t slew6                 : 2;  /**< [ 25: 24](R/W) GPIO\<111:96\> pin output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
         uint64_t drive5                : 2;  /**< [ 23: 22](R/W) GPIO\<95:80\> pin output impedance.
                                                                  0x0 = 55 ohm.
@@ -819,6 +861,7 @@ union cavm_gpio_io_ctl
                                                                  0x3 = 20 ohm. */
         uint64_t slew5                 : 2;  /**< [ 21: 20](R/W) GPIO\<95:80\> pin output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
         uint64_t drive4                : 2;  /**< [ 19: 18](R/W) GPIO\<79:64\> pin output impedance.
                                                                  0x0 = 55 ohm.
@@ -827,6 +870,7 @@ union cavm_gpio_io_ctl
                                                                  0x3 = 20 ohm. */
         uint64_t slew4                 : 2;  /**< [ 17: 16](R/W) GPIO\<63:48\> pin output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
         uint64_t drive3                : 2;  /**< [ 15: 14](R/W) GPIO\<47:32\> pin output impedance.
                                                                  0x0 = 55 ohm.
@@ -835,6 +879,7 @@ union cavm_gpio_io_ctl
                                                                  0x3 = 20 ohm. */
         uint64_t slew3                 : 2;  /**< [ 13: 12](R/W) GPIO\<47:32\> pin output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
         uint64_t drive2                : 2;  /**< [ 11: 10](R/W) GPIO\<47:32\> pin output impedance.
                                                                  0x0 = 55 ohm.
@@ -843,6 +888,7 @@ union cavm_gpio_io_ctl
                                                                  0x3 = 20 ohm. */
         uint64_t slew2                 : 2;  /**< [  9:  8](R/W) GPIO\<47:32\> pin output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
         uint64_t drive1                : 2;  /**< [  7:  6](R/W) GPIO\<31:16\> pin output impedance.
                                                                  0x0 = 55 ohm.
@@ -851,6 +897,7 @@ union cavm_gpio_io_ctl
                                                                  0x3 = 20 ohm. */
         uint64_t slew1                 : 2;  /**< [  5:  4](R/W) GPIO\<31:16\> pin output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
         uint64_t drive0                : 2;  /**< [  3:  2](R/W) GPIO\<15:0\> pin output impedance.
                                                                  0x0 = 55 ohm.
@@ -859,10 +906,12 @@ union cavm_gpio_io_ctl
                                                                  0x3 = 20 ohm. */
         uint64_t slew0                 : 2;  /**< [  1:  0](R/W) GPIO\<15:0\> pin output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
 #else /* Word 0 - Little Endian */
         uint64_t slew0                 : 2;  /**< [  1:  0](R/W) GPIO\<15:0\> pin output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
         uint64_t drive0                : 2;  /**< [  3:  2](R/W) GPIO\<15:0\> pin output impedance.
                                                                  0x0 = 55 ohm.
@@ -871,6 +920,7 @@ union cavm_gpio_io_ctl
                                                                  0x3 = 20 ohm. */
         uint64_t slew1                 : 2;  /**< [  5:  4](R/W) GPIO\<31:16\> pin output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
         uint64_t drive1                : 2;  /**< [  7:  6](R/W) GPIO\<31:16\> pin output impedance.
                                                                  0x0 = 55 ohm.
@@ -879,6 +929,7 @@ union cavm_gpio_io_ctl
                                                                  0x3 = 20 ohm. */
         uint64_t slew2                 : 2;  /**< [  9:  8](R/W) GPIO\<47:32\> pin output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
         uint64_t drive2                : 2;  /**< [ 11: 10](R/W) GPIO\<47:32\> pin output impedance.
                                                                  0x0 = 55 ohm.
@@ -887,6 +938,7 @@ union cavm_gpio_io_ctl
                                                                  0x3 = 20 ohm. */
         uint64_t slew3                 : 2;  /**< [ 13: 12](R/W) GPIO\<47:32\> pin output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
         uint64_t drive3                : 2;  /**< [ 15: 14](R/W) GPIO\<47:32\> pin output impedance.
                                                                  0x0 = 55 ohm.
@@ -895,6 +947,7 @@ union cavm_gpio_io_ctl
                                                                  0x3 = 20 ohm. */
         uint64_t slew4                 : 2;  /**< [ 17: 16](R/W) GPIO\<63:48\> pin output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
         uint64_t drive4                : 2;  /**< [ 19: 18](R/W) GPIO\<79:64\> pin output impedance.
                                                                  0x0 = 55 ohm.
@@ -903,6 +956,7 @@ union cavm_gpio_io_ctl
                                                                  0x3 = 20 ohm. */
         uint64_t slew5                 : 2;  /**< [ 21: 20](R/W) GPIO\<95:80\> pin output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
         uint64_t drive5                : 2;  /**< [ 23: 22](R/W) GPIO\<95:80\> pin output impedance.
                                                                  0x0 = 55 ohm.
@@ -911,6 +965,7 @@ union cavm_gpio_io_ctl
                                                                  0x3 = 20 ohm. */
         uint64_t slew6                 : 2;  /**< [ 25: 24](R/W) GPIO\<111:96\> pin output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
         uint64_t drive6                : 2;  /**< [ 27: 26](R/W) GPIO\<111:96\> pin output impedance.
                                                                  0x0 = 55 ohm.
@@ -919,6 +974,7 @@ union cavm_gpio_io_ctl
                                                                  0x3 = 20 ohm. */
         uint64_t slew7                 : 2;  /**< [ 29: 28](R/W) GPIO\<127:112\> pin output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
         uint64_t drive7                : 2;  /**< [ 31: 30](R/W) GPIO\<127:112\> pin output impedance.
                                                                  0x0 = 55 ohm.
@@ -928,7 +984,160 @@ union cavm_gpio_io_ctl
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_gpio_io_ctl_s cn; */
+    /* struct cavm_gpio_io_ctl_s cheetah; */
+    /* struct cavm_gpio_io_ctl_s cn20; */
+    struct cavm_gpio_io_ctl_odinmp
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t drive7                : 2;  /**< [ 31: 30](R/W) GPIO\<127:112\> pin output impedance.
+                                                                 0x0 = 55 ohm.
+                                                                 0x1 = 45 ohm.
+                                                                 0x2 = 33 ohm.
+                                                                 0x3 = 20 ohm. */
+        uint64_t slew7                 : 2;  /**< [ 29: 28](R/W) GPIO\<127:112\> pin output slew rate control.
+                                                                 0x0 = Weakest.
+                                                                 _ ...
+                                                                 0x3 = Strongest. */
+        uint64_t drive6                : 2;  /**< [ 27: 26](R/W) GPIO\<111:96\> pin output impedance.
+                                                                 0x0 = 55 ohm.
+                                                                 0x1 = 45 ohm.
+                                                                 0x2 = 33 ohm.
+                                                                 0x3 = 20 ohm. */
+        uint64_t slew6                 : 2;  /**< [ 25: 24](R/W) GPIO\<111:96\> pin output slew rate control.
+                                                                 0x0 = Weakest.
+                                                                 _ ...
+                                                                 0x3 = Strongest. */
+        uint64_t drive5                : 2;  /**< [ 23: 22](R/W) GPIO\<95:80\> pin output impedance.
+                                                                 0x0 = 55 ohm.
+                                                                 0x1 = 45 ohm.
+                                                                 0x2 = 33 ohm.
+                                                                 0x3 = 20 ohm. */
+        uint64_t slew5                 : 2;  /**< [ 21: 20](R/W) GPIO\<95:80\> pin output slew rate control.
+                                                                 0x0 = Weakest.
+                                                                 _ ...
+                                                                 0x3 = Strongest. */
+        uint64_t drive4                : 2;  /**< [ 19: 18](R/W) GPIO\<79:64\> pin output impedance.
+                                                                 0x0 = 55 ohm.
+                                                                 0x1 = 45 ohm.
+                                                                 0x2 = 33 ohm.
+                                                                 0x3 = 20 ohm. */
+        uint64_t slew4                 : 2;  /**< [ 17: 16](R/W) GPIO\<79:64\> pin output slew rate control.
+                                                                 0x0 = Weakest.
+                                                                 _ ...
+                                                                 0x3 = Strongest. */
+        uint64_t drive3                : 2;  /**< [ 15: 14](R/W) GPIO\<63:48\> pin output impedance.
+                                                                 0x0 = 55 ohm.
+                                                                 0x1 = 45 ohm.
+                                                                 0x2 = 33 ohm.
+                                                                 0x3 = 20 ohm. */
+        uint64_t slew3                 : 2;  /**< [ 13: 12](R/W) GPIO\<63:48\> pin output slew rate control.
+                                                                 0x0 = Weakest.
+                                                                 _ ...
+                                                                 0x3 = Strongest. */
+        uint64_t drive2                : 2;  /**< [ 11: 10](R/W) GPIO\<47:32\> pin output impedance.
+                                                                 0x0 = 55 ohm.
+                                                                 0x1 = 45 ohm.
+                                                                 0x2 = 33 ohm.
+                                                                 0x3 = 20 ohm. */
+        uint64_t slew2                 : 2;  /**< [  9:  8](R/W) GPIO\<47:32\> pin output slew rate control.
+                                                                 0x0 = Weakest.
+                                                                 _ ...
+                                                                 0x3 = Strongest. */
+        uint64_t drive1                : 2;  /**< [  7:  6](R/W) GPIO\<31:16\> pin output impedance.
+                                                                 0x0 = 55 ohm.
+                                                                 0x1 = 45 ohm.
+                                                                 0x2 = 33 ohm.
+                                                                 0x3 = 20 ohm. */
+        uint64_t slew1                 : 2;  /**< [  5:  4](R/W) GPIO\<31:16\> pin output slew rate control.
+                                                                 0x0 = Weakest.
+                                                                 _ ...
+                                                                 0x3 = Strongest. */
+        uint64_t drive0                : 2;  /**< [  3:  2](R/W) GPIO\<15:0\> pin output impedance.
+                                                                 0x0 = 55 ohm.
+                                                                 0x1 = 45 ohm.
+                                                                 0x2 = 33 ohm.
+                                                                 0x3 = 20 ohm. */
+        uint64_t slew0                 : 2;  /**< [  1:  0](R/W) GPIO\<15:0\> pin output slew rate control.
+                                                                 0x0 = Weakest.
+                                                                 _ ...
+                                                                 0x3 = Strongest. */
+#else /* Word 0 - Little Endian */
+        uint64_t slew0                 : 2;  /**< [  1:  0](R/W) GPIO\<15:0\> pin output slew rate control.
+                                                                 0x0 = Weakest.
+                                                                 _ ...
+                                                                 0x3 = Strongest. */
+        uint64_t drive0                : 2;  /**< [  3:  2](R/W) GPIO\<15:0\> pin output impedance.
+                                                                 0x0 = 55 ohm.
+                                                                 0x1 = 45 ohm.
+                                                                 0x2 = 33 ohm.
+                                                                 0x3 = 20 ohm. */
+        uint64_t slew1                 : 2;  /**< [  5:  4](R/W) GPIO\<31:16\> pin output slew rate control.
+                                                                 0x0 = Weakest.
+                                                                 _ ...
+                                                                 0x3 = Strongest. */
+        uint64_t drive1                : 2;  /**< [  7:  6](R/W) GPIO\<31:16\> pin output impedance.
+                                                                 0x0 = 55 ohm.
+                                                                 0x1 = 45 ohm.
+                                                                 0x2 = 33 ohm.
+                                                                 0x3 = 20 ohm. */
+        uint64_t slew2                 : 2;  /**< [  9:  8](R/W) GPIO\<47:32\> pin output slew rate control.
+                                                                 0x0 = Weakest.
+                                                                 _ ...
+                                                                 0x3 = Strongest. */
+        uint64_t drive2                : 2;  /**< [ 11: 10](R/W) GPIO\<47:32\> pin output impedance.
+                                                                 0x0 = 55 ohm.
+                                                                 0x1 = 45 ohm.
+                                                                 0x2 = 33 ohm.
+                                                                 0x3 = 20 ohm. */
+        uint64_t slew3                 : 2;  /**< [ 13: 12](R/W) GPIO\<63:48\> pin output slew rate control.
+                                                                 0x0 = Weakest.
+                                                                 _ ...
+                                                                 0x3 = Strongest. */
+        uint64_t drive3                : 2;  /**< [ 15: 14](R/W) GPIO\<63:48\> pin output impedance.
+                                                                 0x0 = 55 ohm.
+                                                                 0x1 = 45 ohm.
+                                                                 0x2 = 33 ohm.
+                                                                 0x3 = 20 ohm. */
+        uint64_t slew4                 : 2;  /**< [ 17: 16](R/W) GPIO\<79:64\> pin output slew rate control.
+                                                                 0x0 = Weakest.
+                                                                 _ ...
+                                                                 0x3 = Strongest. */
+        uint64_t drive4                : 2;  /**< [ 19: 18](R/W) GPIO\<79:64\> pin output impedance.
+                                                                 0x0 = 55 ohm.
+                                                                 0x1 = 45 ohm.
+                                                                 0x2 = 33 ohm.
+                                                                 0x3 = 20 ohm. */
+        uint64_t slew5                 : 2;  /**< [ 21: 20](R/W) GPIO\<95:80\> pin output slew rate control.
+                                                                 0x0 = Weakest.
+                                                                 _ ...
+                                                                 0x3 = Strongest. */
+        uint64_t drive5                : 2;  /**< [ 23: 22](R/W) GPIO\<95:80\> pin output impedance.
+                                                                 0x0 = 55 ohm.
+                                                                 0x1 = 45 ohm.
+                                                                 0x2 = 33 ohm.
+                                                                 0x3 = 20 ohm. */
+        uint64_t slew6                 : 2;  /**< [ 25: 24](R/W) GPIO\<111:96\> pin output slew rate control.
+                                                                 0x0 = Weakest.
+                                                                 _ ...
+                                                                 0x3 = Strongest. */
+        uint64_t drive6                : 2;  /**< [ 27: 26](R/W) GPIO\<111:96\> pin output impedance.
+                                                                 0x0 = 55 ohm.
+                                                                 0x1 = 45 ohm.
+                                                                 0x2 = 33 ohm.
+                                                                 0x3 = 20 ohm. */
+        uint64_t slew7                 : 2;  /**< [ 29: 28](R/W) GPIO\<127:112\> pin output slew rate control.
+                                                                 0x0 = Weakest.
+                                                                 _ ...
+                                                                 0x3 = Strongest. */
+        uint64_t drive7                : 2;  /**< [ 31: 30](R/W) GPIO\<127:112\> pin output impedance.
+                                                                 0x0 = 55 ohm.
+                                                                 0x1 = 45 ohm.
+                                                                 0x2 = 33 ohm.
+                                                                 0x3 = 20 ohm. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } odinmp;
 };
 typedef union cavm_gpio_io_ctl cavm_gpio_io_ctl_t;
 
@@ -962,6 +1171,22 @@ union cavm_gpio_mc_intrx
     struct cavm_gpio_mc_intrx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) GPIO interrupt for each core. When corresponding GPIO4-7 is edge-triggered and GPIO_MULTI_CAST[EN]
+                                                                 is enabled, a GPIO assertion will set all the INTR bits. Each bit is expected to be routed to
+                                                                 interrupt a different core using the GIC, and each core will then write one to clear its
+                                                                 corresponding bit in this register. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) GPIO interrupt for each core. When corresponding GPIO4-7 is edge-triggered and GPIO_MULTI_CAST[EN]
+                                                                 is enabled, a GPIO assertion will set all the INTR bits. Each bit is expected to be routed to
+                                                                 interrupt a different core using the GIC, and each core will then write one to clear its
+                                                                 corresponding bit in this register. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gpio_mc_intrx_s cheetah; */
+    /* struct cavm_gpio_mc_intrx_s cn20; */
+    struct cavm_gpio_mc_intrx_odinmp
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_24_63        : 40;
         uint64_t intr                  : 24; /**< [ 23:  0](R/W1C/H) GPIO interrupt for each core. When corresponding GPIO4-7 is edge-triggered and GPIO_MULTI_CAST[EN]
                                                                  is enabled, a GPIO assertion will set all the INTR bits. Each bit is expected to be routed to
@@ -974,8 +1199,7 @@ union cavm_gpio_mc_intrx
                                                                  corresponding bit in this register. */
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_gpio_mc_intrx_s cn; */
+    } odinmp;
 };
 typedef union cavm_gpio_mc_intrx cavm_gpio_mc_intrx_t;
 
@@ -1006,14 +1230,23 @@ union cavm_gpio_mc_intrx_ena_w1c
     struct cavm_gpio_mc_intrx_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for GPIO_MC_INTR(4..7)[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for GPIO_MC_INTR(4..7)[INTR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gpio_mc_intrx_ena_w1c_s cheetah; */
+    /* struct cavm_gpio_mc_intrx_ena_w1c_s cn20; */
+    struct cavm_gpio_mc_intrx_ena_w1c_odinmp
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_24_63        : 40;
         uint64_t intr                  : 24; /**< [ 23:  0](R/W1C/H) Reads or clears enable for GPIO_MC_INTR(4..7)[INTR]. */
 #else /* Word 0 - Little Endian */
         uint64_t intr                  : 24; /**< [ 23:  0](R/W1C/H) Reads or clears enable for GPIO_MC_INTR(4..7)[INTR]. */
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_gpio_mc_intrx_ena_w1c_s cn; */
+    } odinmp;
 };
 typedef union cavm_gpio_mc_intrx_ena_w1c cavm_gpio_mc_intrx_ena_w1c_t;
 
@@ -1044,14 +1277,23 @@ union cavm_gpio_mc_intrx_ena_w1s
     struct cavm_gpio_mc_intrx_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for GPIO_MC_INTR(4..7)[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for GPIO_MC_INTR(4..7)[INTR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gpio_mc_intrx_ena_w1s_s cheetah; */
+    /* struct cavm_gpio_mc_intrx_ena_w1s_s cn20; */
+    struct cavm_gpio_mc_intrx_ena_w1s_odinmp
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_24_63        : 40;
         uint64_t intr                  : 24; /**< [ 23:  0](R/W1S/H) Reads or sets enable for GPIO_MC_INTR(4..7)[INTR]. */
 #else /* Word 0 - Little Endian */
         uint64_t intr                  : 24; /**< [ 23:  0](R/W1S/H) Reads or sets enable for GPIO_MC_INTR(4..7)[INTR]. */
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_gpio_mc_intrx_ena_w1s_s cn; */
+    } odinmp;
 };
 typedef union cavm_gpio_mc_intrx_ena_w1s cavm_gpio_mc_intrx_ena_w1s_t;
 
@@ -1082,14 +1324,23 @@ union cavm_gpio_mc_intrx_w1s
     struct cavm_gpio_mc_intrx_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets GPIO_MC_INTR(4..7)[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets GPIO_MC_INTR(4..7)[INTR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gpio_mc_intrx_w1s_s cheetah; */
+    /* struct cavm_gpio_mc_intrx_w1s_s cn20; */
+    struct cavm_gpio_mc_intrx_w1s_odinmp
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_24_63        : 40;
         uint64_t intr                  : 24; /**< [ 23:  0](R/W1S/H) Reads or sets GPIO_MC_INTR(4..7)[INTR]. */
 #else /* Word 0 - Little Endian */
         uint64_t intr                  : 24; /**< [ 23:  0](R/W1S/H) Reads or sets GPIO_MC_INTR(4..7)[INTR]. */
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_gpio_mc_intrx_w1s_s cn; */
+    } odinmp;
 };
 typedef union cavm_gpio_mc_intrx_w1s cavm_gpio_mc_intrx_w1s_t;
 
@@ -1107,6 +1358,168 @@ static inline uint64_t CAVM_GPIO_MC_INTRX_W1S(uint64_t a)
 #define device_bar_CAVM_GPIO_MC_INTRX_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_GPIO_MC_INTRX_W1S(a) (a)
 #define arguments_CAVM_GPIO_MC_INTRX_W1S(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) gpio_mc_intr1#
+ *
+ * GPIO Bit Multicast Interrupt Registers
+ * Each register provides interrupt multicasting for GPIO(4..7).
+ *
+ * This register is only accessible to the requestor(s) permitted with GPIO_PERMIT.
+ *
+ * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
+ */
+union cavm_gpio_mc_intr1x
+{
+    uint64_t u;
+    struct cavm_gpio_mc_intr1x_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_18_63        : 46;
+        uint64_t intr                  : 18; /**< [ 17:  0](R/W1C/H) GPIO interrupt for each core. When corresponding GPIO4-7 is edge-triggered and GPIO_MULTI_CAST[EN]
+                                                                 is enabled, a GPIO assertion will set all the INTR bits. Each bit is expected to be routed to
+                                                                 interrupt a different core using the GIC, and each core will then write one to clear its
+                                                                 corresponding bit in this register. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 18; /**< [ 17:  0](R/W1C/H) GPIO interrupt for each core. When corresponding GPIO4-7 is edge-triggered and GPIO_MULTI_CAST[EN]
+                                                                 is enabled, a GPIO assertion will set all the INTR bits. Each bit is expected to be routed to
+                                                                 interrupt a different core using the GIC, and each core will then write one to clear its
+                                                                 corresponding bit in this register. */
+        uint64_t reserved_18_63        : 46;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gpio_mc_intr1x_s cn; */
+};
+typedef union cavm_gpio_mc_intr1x cavm_gpio_mc_intr1x_t;
+
+static inline uint64_t CAVM_GPIO_MC_INTR1X(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GPIO_MC_INTR1X(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a>=4)&&(a<=7)))
+        return 0x803000001040ll + 8ll * ((a) & 0x7);
+    __cavm_csr_fatal("GPIO_MC_INTR1X", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GPIO_MC_INTR1X(a) cavm_gpio_mc_intr1x_t
+#define bustype_CAVM_GPIO_MC_INTR1X(a) CSR_TYPE_NCB
+#define basename_CAVM_GPIO_MC_INTR1X(a) "GPIO_MC_INTR1X"
+#define device_bar_CAVM_GPIO_MC_INTR1X(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GPIO_MC_INTR1X(a) (a)
+#define arguments_CAVM_GPIO_MC_INTR1X(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) gpio_mc_intr1#_ena_w1c
+ *
+ * GPIO Bit Multicast Interrupt Registers
+ * This register clears interrupt enable bits.
+ */
+union cavm_gpio_mc_intr1x_ena_w1c
+{
+    uint64_t u;
+    struct cavm_gpio_mc_intr1x_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_18_63        : 46;
+        uint64_t intr                  : 18; /**< [ 17:  0](R/W1C/H) Reads or clears enable for GPIO_MC_INTR1(4..7)[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 18; /**< [ 17:  0](R/W1C/H) Reads or clears enable for GPIO_MC_INTR1(4..7)[INTR]. */
+        uint64_t reserved_18_63        : 46;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gpio_mc_intr1x_ena_w1c_s cn; */
+};
+typedef union cavm_gpio_mc_intr1x_ena_w1c cavm_gpio_mc_intr1x_ena_w1c_t;
+
+static inline uint64_t CAVM_GPIO_MC_INTR1X_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GPIO_MC_INTR1X_ENA_W1C(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a>=4)&&(a<=7)))
+        return 0x803000001240ll + 8ll * ((a) & 0x7);
+    __cavm_csr_fatal("GPIO_MC_INTR1X_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GPIO_MC_INTR1X_ENA_W1C(a) cavm_gpio_mc_intr1x_ena_w1c_t
+#define bustype_CAVM_GPIO_MC_INTR1X_ENA_W1C(a) CSR_TYPE_NCB
+#define basename_CAVM_GPIO_MC_INTR1X_ENA_W1C(a) "GPIO_MC_INTR1X_ENA_W1C"
+#define device_bar_CAVM_GPIO_MC_INTR1X_ENA_W1C(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GPIO_MC_INTR1X_ENA_W1C(a) (a)
+#define arguments_CAVM_GPIO_MC_INTR1X_ENA_W1C(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) gpio_mc_intr1#_ena_w1s
+ *
+ * GPIO Bit Multicast Interrupt Registers
+ * This register sets interrupt enable bits.
+ */
+union cavm_gpio_mc_intr1x_ena_w1s
+{
+    uint64_t u;
+    struct cavm_gpio_mc_intr1x_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_18_63        : 46;
+        uint64_t intr                  : 18; /**< [ 17:  0](R/W1S/H) Reads or sets enable for GPIO_MC_INTR1(4..7)[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 18; /**< [ 17:  0](R/W1S/H) Reads or sets enable for GPIO_MC_INTR1(4..7)[INTR]. */
+        uint64_t reserved_18_63        : 46;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gpio_mc_intr1x_ena_w1s_s cn; */
+};
+typedef union cavm_gpio_mc_intr1x_ena_w1s cavm_gpio_mc_intr1x_ena_w1s_t;
+
+static inline uint64_t CAVM_GPIO_MC_INTR1X_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GPIO_MC_INTR1X_ENA_W1S(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a>=4)&&(a<=7)))
+        return 0x803000001340ll + 8ll * ((a) & 0x7);
+    __cavm_csr_fatal("GPIO_MC_INTR1X_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GPIO_MC_INTR1X_ENA_W1S(a) cavm_gpio_mc_intr1x_ena_w1s_t
+#define bustype_CAVM_GPIO_MC_INTR1X_ENA_W1S(a) CSR_TYPE_NCB
+#define basename_CAVM_GPIO_MC_INTR1X_ENA_W1S(a) "GPIO_MC_INTR1X_ENA_W1S"
+#define device_bar_CAVM_GPIO_MC_INTR1X_ENA_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GPIO_MC_INTR1X_ENA_W1S(a) (a)
+#define arguments_CAVM_GPIO_MC_INTR1X_ENA_W1S(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) gpio_mc_intr1#_w1s
+ *
+ * GPIO Bit Multicast Interrupt Registers
+ * This register sets interrupt bits.
+ */
+union cavm_gpio_mc_intr1x_w1s
+{
+    uint64_t u;
+    struct cavm_gpio_mc_intr1x_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_18_63        : 46;
+        uint64_t intr                  : 18; /**< [ 17:  0](R/W1S/H) Reads or sets GPIO_MC_INTR1(4..7)[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 18; /**< [ 17:  0](R/W1S/H) Reads or sets GPIO_MC_INTR1(4..7)[INTR]. */
+        uint64_t reserved_18_63        : 46;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gpio_mc_intr1x_w1s_s cn; */
+};
+typedef union cavm_gpio_mc_intr1x_w1s cavm_gpio_mc_intr1x_w1s_t;
+
+static inline uint64_t CAVM_GPIO_MC_INTR1X_W1S(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GPIO_MC_INTR1X_W1S(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a>=4)&&(a<=7)))
+        return 0x803000001140ll + 8ll * ((a) & 0x7);
+    __cavm_csr_fatal("GPIO_MC_INTR1X_W1S", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GPIO_MC_INTR1X_W1S(a) cavm_gpio_mc_intr1x_w1s_t
+#define bustype_CAVM_GPIO_MC_INTR1X_W1S(a) CSR_TYPE_NCB
+#define basename_CAVM_GPIO_MC_INTR1X_W1S(a) "GPIO_MC_INTR1X_W1S"
+#define device_bar_CAVM_GPIO_MC_INTR1X_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GPIO_MC_INTR1X_W1S(a) (a)
+#define arguments_CAVM_GPIO_MC_INTR1X_W1S(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) gpio_misc_strap
@@ -1225,7 +1638,9 @@ typedef union cavm_gpio_msix_pbax cavm_gpio_msix_pbax_t;
 static inline uint64_t CAVM_GPIO_MSIX_PBAX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GPIO_MSIX_PBAX(uint64_t a)
 {
-    if (a<=2)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
+        return 0x803000ff0000ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
         return 0x803000ff0000ll + 8ll * ((a) & 0x3);
     __cavm_csr_fatal("GPIO_MSIX_PBAX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1311,7 +1726,9 @@ typedef union cavm_gpio_msix_vecx_addr cavm_gpio_msix_vecx_addr_t;
 static inline uint64_t CAVM_GPIO_MSIX_VECX_ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GPIO_MSIX_VECX_ADDR(uint64_t a)
 {
-    if (a<=175)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=209))
+        return 0x803000f00000ll + 0x10ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=175))
         return 0x803000f00000ll + 0x10ll * ((a) & 0xff);
     __cavm_csr_fatal("GPIO_MSIX_VECX_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1353,7 +1770,9 @@ typedef union cavm_gpio_msix_vecx_ctl cavm_gpio_msix_vecx_ctl_t;
 static inline uint64_t CAVM_GPIO_MSIX_VECX_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GPIO_MSIX_VECX_CTL(uint64_t a)
 {
-    if (a<=175)
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=209))
+        return 0x803000f00008ll + 0x10ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=175))
         return 0x803000f00008ll + 0x10ll * ((a) & 0xff);
     __cavm_csr_fatal("GPIO_MSIX_VECX_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1432,6 +1851,30 @@ union cavm_gpio_permit
         uint64_t reserved_5_63         : 59;
         uint64_t permitdis             : 5;  /**< [  4:  0](R/W) Each bit, if set, disables the given requestor from accessing GPIO global registers.
                                                                  If a disabled requestor makes a request, the access becomes read-zero/write ignored.
+                                                                   \<0\> = Disable AP/JTAG (non MCP/SCP) secure world from accessing GPIO global registers.
+                                                                   \<1\> = Disable AP/JTAG (non MCP/SCP) nonsecure world from accessing GPIO global registers.
+                                                                   \<2\> = Disable XCP0 (SCP) from accessing GPIO global registers.
+                                                                   \<3\> = Disable XCP1 (MCP) from accessing GPIO global registers.
+                                                                   \<4\> = Disable XCP2 (ECP) from accessing GPIO global registers. */
+#else /* Word 0 - Little Endian */
+        uint64_t permitdis             : 5;  /**< [  4:  0](R/W) Each bit, if set, disables the given requestor from accessing GPIO global registers.
+                                                                 If a disabled requestor makes a request, the access becomes read-zero/write ignored.
+                                                                   \<0\> = Disable AP/JTAG (non MCP/SCP) secure world from accessing GPIO global registers.
+                                                                   \<1\> = Disable AP/JTAG (non MCP/SCP) nonsecure world from accessing GPIO global registers.
+                                                                   \<2\> = Disable XCP0 (SCP) from accessing GPIO global registers.
+                                                                   \<3\> = Disable XCP1 (MCP) from accessing GPIO global registers.
+                                                                   \<4\> = Disable XCP2 (ECP) from accessing GPIO global registers. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gpio_permit_s cheetah; */
+    /* struct cavm_gpio_permit_s cn20; */
+    struct cavm_gpio_permit_odinmp
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t permitdis             : 5;  /**< [  4:  0](R/W) Each bit, if set, disables the given requestor from accessing GPIO global registers.
+                                                                 If a disabled requestor makes a request, the access becomes read-zero/write ignored.
                                                                    \<0\> = Disable AP/NCSI/JTAG (non MCP/SCP) secure world from accessing GPIO global registers.
                                                                    \<1\> = Disable AP/NCSI/JTAG (non MCP/SCP) nonsecure world from accessing GPIO global registers.
                                                                    \<2\> = Disable XCP0 (SCP) from accessing GPIO global registers.
@@ -1447,8 +1890,7 @@ union cavm_gpio_permit
                                                                    \<4\> = Disable XCP2 (ECP) from accessing GPIO global registers. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_gpio_permit_s cn; */
+    } odinmp;
 };
 typedef union cavm_gpio_permit cavm_gpio_permit_t;
 
@@ -1489,7 +1931,22 @@ union cavm_gpio_pkg_ver
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_gpio_pkg_ver_s cn; */
+    /* struct cavm_gpio_pkg_ver_s cheetah; */
+    /* struct cavm_gpio_pkg_ver_s cn20; */
+    struct cavm_gpio_pkg_ver_odinmp
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t pkg_ver               : 4;  /**< [  3:  0](RO/H) Reads the package version straps, which are set by the package.
+                                                                 0x0 = SKU package A, code TBD = TBD x TBD package, for CNF105XXN.
+                                                                 0x1 = SKU package A1, code TBD = TBD x TBD package, for CNF105XXN */
+#else /* Word 0 - Little Endian */
+        uint64_t pkg_ver               : 4;  /**< [  3:  0](RO/H) Reads the package version straps, which are set by the package.
+                                                                 0x0 = SKU package A, code TBD = TBD x TBD package, for CNF105XXN.
+                                                                 0x1 = SKU package A1, code TBD = TBD x TBD package, for CNF105XXN */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } odinmp;
 };
 typedef union cavm_gpio_pkg_ver cavm_gpio_pkg_ver_t;
 
@@ -1506,6 +1963,80 @@ static inline uint64_t CAVM_GPIO_PKG_VER_FUNC(void)
 #define device_bar_CAVM_GPIO_PKG_VER 0x0 /* PF_BAR0 */
 #define busnum_CAVM_GPIO_PKG_VER 0
 #define arguments_CAVM_GPIO_PKG_VER -1,-1,-1,-1
+
+/**
+ * Register (NCB) gpio_pull_down#
+ *
+ * GPIO control for Pull-down Register
+ * This register controls the pull-down for GPIOs. Each bit of this register corresponds
+ * to a GPIO IO. These pull-downs are not replacement for proper board pull-downs.
+ */
+union cavm_gpio_pull_downx
+{
+    uint64_t u;
+    struct cavm_gpio_pull_downx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t pull_down             : 64; /**< [ 63:  0](R/W) PULL DOWN value for each GPIO. */
+#else /* Word 0 - Little Endian */
+        uint64_t pull_down             : 64; /**< [ 63:  0](R/W) PULL DOWN value for each GPIO. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gpio_pull_downx_s cn; */
+};
+typedef union cavm_gpio_pull_downx cavm_gpio_pull_downx_t;
+
+static inline uint64_t CAVM_GPIO_PULL_DOWNX(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GPIO_PULL_DOWNX(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+        return 0x803000001630ll + 8ll * ((a) & 0x1);
+    __cavm_csr_fatal("GPIO_PULL_DOWNX", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GPIO_PULL_DOWNX(a) cavm_gpio_pull_downx_t
+#define bustype_CAVM_GPIO_PULL_DOWNX(a) CSR_TYPE_NCB
+#define basename_CAVM_GPIO_PULL_DOWNX(a) "GPIO_PULL_DOWNX"
+#define device_bar_CAVM_GPIO_PULL_DOWNX(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GPIO_PULL_DOWNX(a) (a)
+#define arguments_CAVM_GPIO_PULL_DOWNX(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) gpio_pull_up#
+ *
+ * GPIO control for Pull-up Register
+ * This register controls the pull-up for GPIOs. Each bit of this register corresponds
+ * to a GPIO IO. These pull-ups are not replacement for proper board pull-ups.
+ */
+union cavm_gpio_pull_upx
+{
+    uint64_t u;
+    struct cavm_gpio_pull_upx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t pull_up               : 64; /**< [ 63:  0](R/W) PULL up value for each GPIO. */
+#else /* Word 0 - Little Endian */
+        uint64_t pull_up               : 64; /**< [ 63:  0](R/W) PULL up value for each GPIO. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gpio_pull_upx_s cn; */
+};
+typedef union cavm_gpio_pull_upx cavm_gpio_pull_upx_t;
+
+static inline uint64_t CAVM_GPIO_PULL_UPX(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GPIO_PULL_UPX(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+        return 0x803000001620ll + 8ll * ((a) & 0x1);
+    __cavm_csr_fatal("GPIO_PULL_UPX", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GPIO_PULL_UPX(a) cavm_gpio_pull_upx_t
+#define bustype_CAVM_GPIO_PULL_UPX(a) CSR_TYPE_NCB
+#define basename_CAVM_GPIO_PULL_UPX(a) "GPIO_PULL_UPX"
+#define device_bar_CAVM_GPIO_PULL_UPX(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GPIO_PULL_UPX(a) (a)
+#define arguments_CAVM_GPIO_PULL_UPX(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) gpio_rx1_dat
@@ -1534,7 +2065,9 @@ typedef union cavm_gpio_rx1_dat cavm_gpio_rx1_dat_t;
 static inline uint64_t CAVM_GPIO_RX1_DAT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GPIO_RX1_DAT_FUNC(void)
 {
-    return 0x803000001400ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x803000001400ll;
+    __cavm_csr_fatal("GPIO_RX1_DAT", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_GPIO_RX1_DAT cavm_gpio_rx1_dat_t
@@ -1587,6 +2120,45 @@ static inline uint64_t CAVM_GPIO_RX_DAT_FUNC(void)
 #define device_bar_CAVM_GPIO_RX_DAT 0x0 /* PF_BAR0 */
 #define busnum_CAVM_GPIO_RX_DAT 0
 #define arguments_CAVM_GPIO_RX_DAT -1,-1,-1,-1
+
+/**
+ * Register (NCB) gpio_soft_reset
+ *
+ * GPIO SOFT RESET Register
+ * This register is used as soft reset.
+ */
+union cavm_gpio_soft_reset
+{
+    uint64_t u;
+    struct cavm_gpio_soft_reset_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t soft_reset            : 1;  /**< [  0:  0](R/W) This register field is used as soft reset. */
+#else /* Word 0 - Little Endian */
+        uint64_t soft_reset            : 1;  /**< [  0:  0](R/W) This register field is used as soft reset. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gpio_soft_reset_s cn; */
+};
+typedef union cavm_gpio_soft_reset cavm_gpio_soft_reset_t;
+
+#define CAVM_GPIO_SOFT_RESET CAVM_GPIO_SOFT_RESET_FUNC()
+static inline uint64_t CAVM_GPIO_SOFT_RESET_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GPIO_SOFT_RESET_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x803000002208ll;
+    __cavm_csr_fatal("GPIO_SOFT_RESET", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GPIO_SOFT_RESET cavm_gpio_soft_reset_t
+#define bustype_CAVM_GPIO_SOFT_RESET CSR_TYPE_NCB
+#define basename_CAVM_GPIO_SOFT_RESET "GPIO_SOFT_RESET"
+#define device_bar_CAVM_GPIO_SOFT_RESET 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GPIO_SOFT_RESET 0
+#define arguments_CAVM_GPIO_SOFT_RESET -1,-1,-1,-1
 
 /**
  * Register (NCB) gpio_strap
@@ -1657,7 +2229,9 @@ typedef union cavm_gpio_strap1 cavm_gpio_strap1_t;
 static inline uint64_t CAVM_GPIO_STRAP1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GPIO_STRAP1_FUNC(void)
 {
-    return 0x803000001418ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x803000001418ll;
+    __cavm_csr_fatal("GPIO_STRAP1", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_GPIO_STRAP1 cavm_gpio_strap1_t
@@ -1719,6 +2293,45 @@ static inline uint64_t CAVM_GPIO_THERMAL_HOT_FUNC(void)
 #define arguments_CAVM_GPIO_THERMAL_HOT -1,-1,-1,-1
 
 /**
+ * Register (NCB) gpio_tie_off
+ *
+ * GPIO TIE OFF Register
+ * This register is used to tie any ports with '0' or '1'.
+ */
+union cavm_gpio_tie_off
+{
+    uint64_t u;
+    struct cavm_gpio_tie_off_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t tie_off_0             : 32; /**< [ 63: 32](R/W) This register field is used to tie any ports with '0'. */
+        uint64_t tie_off_1             : 32; /**< [ 31:  0](R/W) This register field is used to tie any ports with '1'. */
+#else /* Word 0 - Little Endian */
+        uint64_t tie_off_1             : 32; /**< [ 31:  0](R/W) This register field is used to tie any ports with '1'. */
+        uint64_t tie_off_0             : 32; /**< [ 63: 32](R/W) This register field is used to tie any ports with '0'. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gpio_tie_off_s cn; */
+};
+typedef union cavm_gpio_tie_off cavm_gpio_tie_off_t;
+
+#define CAVM_GPIO_TIE_OFF CAVM_GPIO_TIE_OFF_FUNC()
+static inline uint64_t CAVM_GPIO_TIE_OFF_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GPIO_TIE_OFF_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x803000002200ll;
+    __cavm_csr_fatal("GPIO_TIE_OFF", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GPIO_TIE_OFF cavm_gpio_tie_off_t
+#define bustype_CAVM_GPIO_TIE_OFF CSR_TYPE_NCB
+#define basename_CAVM_GPIO_TIE_OFF "GPIO_TIE_OFF"
+#define device_bar_CAVM_GPIO_TIE_OFF 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GPIO_TIE_OFF 0
+#define arguments_CAVM_GPIO_TIE_OFF -1,-1,-1,-1
+
+/**
  * Register (NCB) gpio_tx1_clr
  *
  * GPIO Transmit Clear Mask Register
@@ -1747,7 +2360,9 @@ typedef union cavm_gpio_tx1_clr cavm_gpio_tx1_clr_t;
 static inline uint64_t CAVM_GPIO_TX1_CLR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GPIO_TX1_CLR_FUNC(void)
 {
-    return 0x803000001410ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x803000001410ll;
+    __cavm_csr_fatal("GPIO_TX1_CLR", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_GPIO_TX1_CLR cavm_gpio_tx1_clr_t
@@ -1786,7 +2401,9 @@ typedef union cavm_gpio_tx1_set cavm_gpio_tx1_set_t;
 static inline uint64_t CAVM_GPIO_TX1_SET_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GPIO_TX1_SET_FUNC(void)
 {
-    return 0x803000001408ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x803000001408ll;
+    __cavm_csr_fatal("GPIO_TX1_SET", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_GPIO_TX1_SET cavm_gpio_tx1_set_t

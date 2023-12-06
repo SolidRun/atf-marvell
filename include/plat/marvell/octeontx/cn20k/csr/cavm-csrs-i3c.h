@@ -73,7 +73,9 @@ typedef union cavm_i3c_bus_free_timing cavm_i3c_bus_free_timing_t;
 static inline uint64_t CAVM_I3C_BUS_FREE_TIMING_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_BUS_FREE_TIMING_FUNC(void)
 {
-    return 0x87e0d0000134ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000134ll;
+    __cavm_csr_fatal("I3C_BUS_FREE_TIMING", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_BUS_FREE_TIMING cavm_i3c_bus_free_timing_t
@@ -116,7 +118,9 @@ typedef union cavm_i3c_bus_timing_header cavm_i3c_bus_timing_header_t;
 static inline uint64_t CAVM_I3C_BUS_TIMING_HEADER_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_BUS_TIMING_HEADER_FUNC(void)
 {
-    return 0x87e0d0000110ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000110ll;
+    __cavm_csr_fatal("I3C_BUS_TIMING_HEADER", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_BUS_TIMING_HEADER cavm_i3c_bus_timing_header_t
@@ -153,7 +157,9 @@ typedef union cavm_i3c_clken cavm_i3c_clken_t;
 static inline uint64_t CAVM_I3C_CLKEN_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_CLKEN_FUNC(void)
 {
-    return 0x87e0d0000748ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000748ll;
+    __cavm_csr_fatal("I3C_CLKEN", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_CLKEN cavm_i3c_clken_t
@@ -192,7 +198,9 @@ typedef union cavm_i3c_command_queue_port cavm_i3c_command_queue_port_t;
 static inline uint64_t CAVM_I3C_COMMAND_QUEUE_PORT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_COMMAND_QUEUE_PORT_FUNC(void)
 {
-    return 0x87e0d0000300ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000300ll;
+    __cavm_csr_fatal("I3C_COMMAND_QUEUE_PORT", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_COMMAND_QUEUE_PORT cavm_i3c_command_queue_port_t
@@ -231,7 +239,9 @@ typedef union cavm_i3c_comp_manufacturer cavm_i3c_comp_manufacturer_t;
 static inline uint64_t CAVM_I3C_COMP_MANUFACTURER_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_COMP_MANUFACTURER_FUNC(void)
 {
-    return 0x87e0d0000104ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000104ll;
+    __cavm_csr_fatal("I3C_COMP_MANUFACTURER", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_COMP_MANUFACTURER cavm_i3c_comp_manufacturer_t
@@ -284,7 +294,9 @@ typedef union cavm_i3c_comp_type cavm_i3c_comp_type_t;
 static inline uint64_t CAVM_I3C_COMP_TYPE_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_COMP_TYPE_FUNC(void)
 {
-    return 0x87e0d000010cll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d000010cll;
+    __cavm_csr_fatal("I3C_COMP_TYPE", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_COMP_TYPE cavm_i3c_comp_type_t
@@ -333,7 +345,9 @@ typedef union cavm_i3c_comp_version cavm_i3c_comp_version_t;
 static inline uint64_t CAVM_I3C_COMP_VERSION_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_COMP_VERSION_FUNC(void)
 {
-    return 0x87e0d0000108ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000108ll;
+    __cavm_csr_fatal("I3C_COMP_VERSION", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_COMP_VERSION cavm_i3c_comp_version_t
@@ -357,13 +371,13 @@ union cavm_i3c_dat_section_offset
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_18_31        : 14;
         uint32_t table_size            : 6;  /**< [ 17: 12](RO/H) DAT Table Size in terms of DWORDs. */
-        uint32_t table_offset          : 12; /**< [ 11:  0](RO/H) DAT Table Offset
+        uint32_t table_offset          : 12; /**< [ 11:  0](RO/H) DAT Table Offset.
                                                                  Offset of the DAT relative to the BASE address of the current HCI.
                                                                  If the Host Controller does not support implementing the DAT in registers
                                                                  (thereby forcing the software to provide the Device Context in memory), then it
                                                                  should indicate this by setting this field to 12'h000. */
 #else /* Word 0 - Little Endian */
-        uint32_t table_offset          : 12; /**< [ 11:  0](RO/H) DAT Table Offset
+        uint32_t table_offset          : 12; /**< [ 11:  0](RO/H) DAT Table Offset.
                                                                  Offset of the DAT relative to the BASE address of the current HCI.
                                                                  If the Host Controller does not support implementing the DAT in registers
                                                                  (thereby forcing the software to provide the Device Context in memory), then it
@@ -380,7 +394,9 @@ typedef union cavm_i3c_dat_section_offset cavm_i3c_dat_section_offset_t;
 static inline uint64_t CAVM_I3C_DAT_SECTION_OFFSET_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DAT_SECTION_OFFSET_FUNC(void)
 {
-    return 0x87e0d0000030ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000030ll;
+    __cavm_csr_fatal("I3C_DAT_SECTION_OFFSET", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DAT_SECTION_OFFSET cavm_i3c_dat_section_offset_t
@@ -419,7 +435,9 @@ typedef union cavm_i3c_data_buffer_status_level cavm_i3c_data_buffer_status_leve
 static inline uint64_t CAVM_I3C_DATA_BUFFER_STATUS_LEVEL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DATA_BUFFER_STATUS_LEVEL_FUNC(void)
 {
-    return 0x87e0d0000148ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000148ll;
+    __cavm_csr_fatal("I3C_DATA_BUFFER_STATUS_LEVEL", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DATA_BUFFER_STATUS_LEVEL cavm_i3c_data_buffer_status_level_t
@@ -447,7 +465,7 @@ union cavm_i3c_data_buffer_thld_ctrl
         uint32_t rx_start_thld         : 3;  /**< [ 26: 24](R/W) Receive Start Threshold Value
 
                                                                  When the controller is set up to initiate a read transfer, it waits until the
-                                                                 programmed number of empty locations(or more) are
+                                                                 programmed number of empty locations (or more) are
                                                                  available in its receive buffer before it initiates the read transfer on the I3C Interface.
 
                                                                  The following configurable options are provided:
@@ -594,7 +612,7 @@ union cavm_i3c_data_buffer_thld_ctrl
         uint32_t rx_start_thld         : 3;  /**< [ 26: 24](R/W) Receive Start Threshold Value
 
                                                                  When the controller is set up to initiate a read transfer, it waits until the
-                                                                 programmed number of empty locations(or more) are
+                                                                 programmed number of empty locations (or more) are
                                                                  available in its receive buffer before it initiates the read transfer on the I3C Interface.
 
                                                                  The following configurable options are provided:
@@ -628,7 +646,9 @@ typedef union cavm_i3c_data_buffer_thld_ctrl cavm_i3c_data_buffer_thld_ctrl_t;
 static inline uint64_t CAVM_I3C_DATA_BUFFER_THLD_CTRL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DATA_BUFFER_THLD_CTRL_FUNC(void)
 {
-    return 0x87e0d0000314ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000314ll;
+    __cavm_csr_fatal("I3C_DATA_BUFFER_THLD_CTRL", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DATA_BUFFER_THLD_CTRL cavm_i3c_data_buffer_thld_ctrl_t
@@ -652,27 +672,27 @@ union cavm_i3c_dct_section_offset
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_20_31        : 12;
-        uint32_t table_index           : 1;  /**< [ 19: 19](R/W) DCT Table Index Current index of the DCT, which is used as the starting index
+        uint32_t table_index           : 1;  /**< [ 19: 19](R/W) DCT Table Index. Current index of the DCT, which is used as the starting index
                                                                  for the I3C ENTDAA CCC. Once the complete characteristics of device that won the
                                                                  arbitration are written to the DCT (during ENTDAA using Address Assignment
                                                                  Command) this index is incremented by 1. If needed, the software may override
                                                                  starting DCT index by setting this field. */
-        uint32_t table_size            : 7;  /**< [ 18: 12](RO/H) DCT Table Size
+        uint32_t table_size            : 7;  /**< [ 18: 12](RO/H) DCT Table Size.
                                                                  Size of the DCT, in DWORDs. */
-        uint32_t table_offset          : 12; /**< [ 11:  0](RO/H) DCT Table Offset
+        uint32_t table_offset          : 12; /**< [ 11:  0](RO/H) DCT Table Offset.
                                                                  Offset of the DCT relative to the BASE address of the current HCI.
                                                                  If the Host Controller does not support implementing the DCT in registers,
                                                                  thereby forcing the Software to provide the Device Context, then it should
                                                                  indicate this by providing this field to 12'h000. */
 #else /* Word 0 - Little Endian */
-        uint32_t table_offset          : 12; /**< [ 11:  0](RO/H) DCT Table Offset
+        uint32_t table_offset          : 12; /**< [ 11:  0](RO/H) DCT Table Offset.
                                                                  Offset of the DCT relative to the BASE address of the current HCI.
                                                                  If the Host Controller does not support implementing the DCT in registers,
                                                                  thereby forcing the Software to provide the Device Context, then it should
                                                                  indicate this by providing this field to 12'h000. */
-        uint32_t table_size            : 7;  /**< [ 18: 12](RO/H) DCT Table Size
+        uint32_t table_size            : 7;  /**< [ 18: 12](RO/H) DCT Table Size.
                                                                  Size of the DCT, in DWORDs. */
-        uint32_t table_index           : 1;  /**< [ 19: 19](R/W) DCT Table Index Current index of the DCT, which is used as the starting index
+        uint32_t table_index           : 1;  /**< [ 19: 19](R/W) DCT Table Index. Current index of the DCT, which is used as the starting index
                                                                  for the I3C ENTDAA CCC. Once the complete characteristics of device that won the
                                                                  arbitration are written to the DCT (during ENTDAA using Address Assignment
                                                                  Command) this index is incremented by 1. If needed, the software may override
@@ -688,7 +708,9 @@ typedef union cavm_i3c_dct_section_offset cavm_i3c_dct_section_offset_t;
 static inline uint64_t CAVM_I3C_DCT_SECTION_OFFSET_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DCT_SECTION_OFFSET_FUNC(void)
 {
-    return 0x87e0d0000034ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000034ll;
+    __cavm_csr_fatal("I3C_DCT_SECTION_OFFSET", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DCT_SECTION_OFFSET cavm_i3c_dct_section_offset_t
@@ -723,7 +745,7 @@ union cavm_i3c_dev0_addr_table_loc1
 
                                                                  This feature is used for Retry Model for the following features mentioned in the I3C Specification:
                                                                   - Retry Model for Direct GET CCC Commands.
-                                                                  - The incoming SIR-IBI matches with the slave address initated by the Master. */
+                                                                  - The incoming SIR-IBI matches with the slave address initiated by the Master. */
         uint32_t ring_id               : 3;  /**< [ 28: 26](R/W) Ring group identification. This field is used to put IBI from specific device to
                                                                  appropriate ring bundle. */
         uint32_t reserved_24_25        : 2;
@@ -780,7 +802,7 @@ union cavm_i3c_dev0_addr_table_loc1
 
                                                                  This feature is used for Retry Model for the following features mentioned in the I3C Specification:
                                                                   - Retry Model for Direct GET CCC Commands.
-                                                                  - The incoming SIR-IBI matches with the slave address initated by the Master. */
+                                                                  - The incoming SIR-IBI matches with the slave address initiated by the Master. */
         uint32_t device                : 1;  /**< [ 31: 31](R/W) Type of device
 
                                                                   0 = I3C.
@@ -795,7 +817,9 @@ typedef union cavm_i3c_dev0_addr_table_loc1 cavm_i3c_dev0_addr_table_loc1_t;
 static inline uint64_t CAVM_I3C_DEV0_ADDR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV0_ADDR_TABLE_LOC1_FUNC(void)
 {
-    return 0x87e0d0000400ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000400ll;
+    __cavm_csr_fatal("I3C_DEV0_ADDR_TABLE_LOC1", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV0_ADDR_TABLE_LOC1 cavm_i3c_dev0_addr_table_loc1_t
@@ -821,14 +845,14 @@ union cavm_i3c_dev0_addr_table_loc2
         uint32_t autocmd_hdr_code      : 8;  /**< [ 26: 19](R/W) Auto command HDR code */
         uint32_t autocmd_mode          : 3;  /**< [ 18: 16](R/W) Mode of automatic Read transaction on the Bus (Auto Command feature). */
         uint32_t autocmd_value         : 8;  /**< [ 15:  8](R/W) Value of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
         uint32_t autocmd_mask          : 8;  /**< [  7:  0](R/W) Mask of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
 #else /* Word 0 - Little Endian */
         uint32_t autocmd_mask          : 8;  /**< [  7:  0](R/W) Mask of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
         uint32_t autocmd_value         : 8;  /**< [ 15:  8](R/W) Value of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
         uint32_t autocmd_mode          : 3;  /**< [ 18: 16](R/W) Mode of automatic Read transaction on the Bus (Auto Command feature). */
         uint32_t autocmd_hdr_code      : 8;  /**< [ 26: 19](R/W) Auto command HDR code */
         uint32_t reserved_27_31        : 5;
@@ -842,7 +866,9 @@ typedef union cavm_i3c_dev0_addr_table_loc2 cavm_i3c_dev0_addr_table_loc2_t;
 static inline uint64_t CAVM_I3C_DEV0_ADDR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV0_ADDR_TABLE_LOC2_FUNC(void)
 {
-    return 0x87e0d0000404ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000404ll;
+    __cavm_csr_fatal("I3C_DEV0_ADDR_TABLE_LOC2", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV0_ADDR_TABLE_LOC2 cavm_i3c_dev0_addr_table_loc2_t
@@ -877,7 +903,9 @@ typedef union cavm_i3c_dev0_char_table_loc1 cavm_i3c_dev0_char_table_loc1_t;
 static inline uint64_t CAVM_I3C_DEV0_CHAR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV0_CHAR_TABLE_LOC1_FUNC(void)
 {
-    return 0x87e0d0000600ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000600ll;
+    __cavm_csr_fatal("I3C_DEV0_CHAR_TABLE_LOC1", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV0_CHAR_TABLE_LOC1 cavm_i3c_dev0_char_table_loc1_t
@@ -914,7 +942,9 @@ typedef union cavm_i3c_dev0_char_table_loc2 cavm_i3c_dev0_char_table_loc2_t;
 static inline uint64_t CAVM_I3C_DEV0_CHAR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV0_CHAR_TABLE_LOC2_FUNC(void)
 {
-    return 0x87e0d0000604ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000604ll;
+    __cavm_csr_fatal("I3C_DEV0_CHAR_TABLE_LOC2", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV0_CHAR_TABLE_LOC2 cavm_i3c_dev0_char_table_loc2_t
@@ -953,7 +983,9 @@ typedef union cavm_i3c_dev0_char_table_loc3 cavm_i3c_dev0_char_table_loc3_t;
 static inline uint64_t CAVM_I3C_DEV0_CHAR_TABLE_LOC3_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV0_CHAR_TABLE_LOC3_FUNC(void)
 {
-    return 0x87e0d0000608ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000608ll;
+    __cavm_csr_fatal("I3C_DEV0_CHAR_TABLE_LOC3", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV0_CHAR_TABLE_LOC3 cavm_i3c_dev0_char_table_loc3_t
@@ -990,7 +1022,9 @@ typedef union cavm_i3c_dev0_char_table_loc4 cavm_i3c_dev0_char_table_loc4_t;
 static inline uint64_t CAVM_I3C_DEV0_CHAR_TABLE_LOC4_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV0_CHAR_TABLE_LOC4_FUNC(void)
 {
-    return 0x87e0d000060cll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d000060cll;
+    __cavm_csr_fatal("I3C_DEV0_CHAR_TABLE_LOC4", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV0_CHAR_TABLE_LOC4 cavm_i3c_dev0_char_table_loc4_t
@@ -1025,7 +1059,7 @@ union cavm_i3c_dev10_addr_table_loc1
 
                                                                  This feature is used for Retry Model for the following features mentioned in the I3C Specification:
                                                                   - Retry Model for Direct GET CCC Commands.
-                                                                  - The incoming SIR-IBI matches with the slave address initated by the Master. */
+                                                                  - The incoming SIR-IBI matches with the slave address initiated by the Master. */
         uint32_t ring_id               : 3;  /**< [ 28: 26](R/W) Ring group identification. This field is used to put IBI from specific device to
                                                                  appropriate ring bundle. */
         uint32_t reserved_24_25        : 2;
@@ -1082,7 +1116,7 @@ union cavm_i3c_dev10_addr_table_loc1
 
                                                                  This feature is used for Retry Model for the following features mentioned in the I3C Specification:
                                                                   - Retry Model for Direct GET CCC Commands.
-                                                                  - The incoming SIR-IBI matches with the slave address initated by the Master. */
+                                                                  - The incoming SIR-IBI matches with the slave address initiated by the Master. */
         uint32_t device                : 1;  /**< [ 31: 31](R/W) Type of device
 
                                                                   0 = I3C.
@@ -1097,7 +1131,9 @@ typedef union cavm_i3c_dev10_addr_table_loc1 cavm_i3c_dev10_addr_table_loc1_t;
 static inline uint64_t CAVM_I3C_DEV10_ADDR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV10_ADDR_TABLE_LOC1_FUNC(void)
 {
-    return 0x87e0d0000450ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000450ll;
+    __cavm_csr_fatal("I3C_DEV10_ADDR_TABLE_LOC1", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV10_ADDR_TABLE_LOC1 cavm_i3c_dev10_addr_table_loc1_t
@@ -1123,14 +1159,14 @@ union cavm_i3c_dev10_addr_table_loc2
         uint32_t autocmd_hdr_code      : 8;  /**< [ 26: 19](R/W) Auto command HDR code */
         uint32_t autocmd_mode          : 3;  /**< [ 18: 16](R/W) Mode of automatic Read transaction on the Bus (Auto Command feature). */
         uint32_t autocmd_value         : 8;  /**< [ 15:  8](R/W) Value of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
         uint32_t autocmd_mask          : 8;  /**< [  7:  0](R/W) Mask of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
 #else /* Word 0 - Little Endian */
         uint32_t autocmd_mask          : 8;  /**< [  7:  0](R/W) Mask of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
         uint32_t autocmd_value         : 8;  /**< [ 15:  8](R/W) Value of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
         uint32_t autocmd_mode          : 3;  /**< [ 18: 16](R/W) Mode of automatic Read transaction on the Bus (Auto Command feature). */
         uint32_t autocmd_hdr_code      : 8;  /**< [ 26: 19](R/W) Auto command HDR code */
         uint32_t reserved_27_31        : 5;
@@ -1144,7 +1180,9 @@ typedef union cavm_i3c_dev10_addr_table_loc2 cavm_i3c_dev10_addr_table_loc2_t;
 static inline uint64_t CAVM_I3C_DEV10_ADDR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV10_ADDR_TABLE_LOC2_FUNC(void)
 {
-    return 0x87e0d0000454ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000454ll;
+    __cavm_csr_fatal("I3C_DEV10_ADDR_TABLE_LOC2", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV10_ADDR_TABLE_LOC2 cavm_i3c_dev10_addr_table_loc2_t
@@ -1179,7 +1217,9 @@ typedef union cavm_i3c_dev10_char_table_loc1 cavm_i3c_dev10_char_table_loc1_t;
 static inline uint64_t CAVM_I3C_DEV10_CHAR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV10_CHAR_TABLE_LOC1_FUNC(void)
 {
-    return 0x87e0d00006a0ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d00006a0ll;
+    __cavm_csr_fatal("I3C_DEV10_CHAR_TABLE_LOC1", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV10_CHAR_TABLE_LOC1 cavm_i3c_dev10_char_table_loc1_t
@@ -1216,7 +1256,9 @@ typedef union cavm_i3c_dev10_char_table_loc2 cavm_i3c_dev10_char_table_loc2_t;
 static inline uint64_t CAVM_I3C_DEV10_CHAR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV10_CHAR_TABLE_LOC2_FUNC(void)
 {
-    return 0x87e0d00006a4ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d00006a4ll;
+    __cavm_csr_fatal("I3C_DEV10_CHAR_TABLE_LOC2", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV10_CHAR_TABLE_LOC2 cavm_i3c_dev10_char_table_loc2_t
@@ -1255,7 +1297,9 @@ typedef union cavm_i3c_dev10_char_table_loc3 cavm_i3c_dev10_char_table_loc3_t;
 static inline uint64_t CAVM_I3C_DEV10_CHAR_TABLE_LOC3_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV10_CHAR_TABLE_LOC3_FUNC(void)
 {
-    return 0x87e0d00006a8ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d00006a8ll;
+    __cavm_csr_fatal("I3C_DEV10_CHAR_TABLE_LOC3", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV10_CHAR_TABLE_LOC3 cavm_i3c_dev10_char_table_loc3_t
@@ -1292,7 +1336,9 @@ typedef union cavm_i3c_dev10_char_table_loc4 cavm_i3c_dev10_char_table_loc4_t;
 static inline uint64_t CAVM_I3C_DEV10_CHAR_TABLE_LOC4_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV10_CHAR_TABLE_LOC4_FUNC(void)
 {
-    return 0x87e0d00006acll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d00006acll;
+    __cavm_csr_fatal("I3C_DEV10_CHAR_TABLE_LOC4", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV10_CHAR_TABLE_LOC4 cavm_i3c_dev10_char_table_loc4_t
@@ -1327,7 +1373,7 @@ union cavm_i3c_dev1_addr_table_loc1
 
                                                                  This feature is used for Retry Model for the following features mentioned in the I3C Specification:
                                                                   - Retry Model for Direct GET CCC Commands.
-                                                                  - The incoming SIR-IBI matches with the slave address initated by the Master. */
+                                                                  - The incoming SIR-IBI matches with the slave address initiated by the Master. */
         uint32_t ring_id               : 3;  /**< [ 28: 26](R/W) Ring group identification. This field is used to put IBI from specific device to
                                                                  appropriate ring bundle. */
         uint32_t reserved_24_25        : 2;
@@ -1384,7 +1430,7 @@ union cavm_i3c_dev1_addr_table_loc1
 
                                                                  This feature is used for Retry Model for the following features mentioned in the I3C Specification:
                                                                   - Retry Model for Direct GET CCC Commands.
-                                                                  - The incoming SIR-IBI matches with the slave address initated by the Master. */
+                                                                  - The incoming SIR-IBI matches with the slave address initiated by the Master. */
         uint32_t device                : 1;  /**< [ 31: 31](R/W) Type of device
 
                                                                   0 = I3C.
@@ -1399,7 +1445,9 @@ typedef union cavm_i3c_dev1_addr_table_loc1 cavm_i3c_dev1_addr_table_loc1_t;
 static inline uint64_t CAVM_I3C_DEV1_ADDR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV1_ADDR_TABLE_LOC1_FUNC(void)
 {
-    return 0x87e0d0000408ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000408ll;
+    __cavm_csr_fatal("I3C_DEV1_ADDR_TABLE_LOC1", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV1_ADDR_TABLE_LOC1 cavm_i3c_dev1_addr_table_loc1_t
@@ -1425,14 +1473,14 @@ union cavm_i3c_dev1_addr_table_loc2
         uint32_t autocmd_hdr_code      : 8;  /**< [ 26: 19](R/W) Auto command HDR code */
         uint32_t autocmd_mode          : 3;  /**< [ 18: 16](R/W) Mode of automatic Read transaction on the Bus (Auto Command feature). */
         uint32_t autocmd_value         : 8;  /**< [ 15:  8](R/W) Value of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
         uint32_t autocmd_mask          : 8;  /**< [  7:  0](R/W) Mask of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
 #else /* Word 0 - Little Endian */
         uint32_t autocmd_mask          : 8;  /**< [  7:  0](R/W) Mask of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
         uint32_t autocmd_value         : 8;  /**< [ 15:  8](R/W) Value of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
         uint32_t autocmd_mode          : 3;  /**< [ 18: 16](R/W) Mode of automatic Read transaction on the Bus (Auto Command feature). */
         uint32_t autocmd_hdr_code      : 8;  /**< [ 26: 19](R/W) Auto command HDR code */
         uint32_t reserved_27_31        : 5;
@@ -1446,7 +1494,9 @@ typedef union cavm_i3c_dev1_addr_table_loc2 cavm_i3c_dev1_addr_table_loc2_t;
 static inline uint64_t CAVM_I3C_DEV1_ADDR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV1_ADDR_TABLE_LOC2_FUNC(void)
 {
-    return 0x87e0d000040cll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d000040cll;
+    __cavm_csr_fatal("I3C_DEV1_ADDR_TABLE_LOC2", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV1_ADDR_TABLE_LOC2 cavm_i3c_dev1_addr_table_loc2_t
@@ -1481,7 +1531,9 @@ typedef union cavm_i3c_dev1_char_table_loc1 cavm_i3c_dev1_char_table_loc1_t;
 static inline uint64_t CAVM_I3C_DEV1_CHAR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV1_CHAR_TABLE_LOC1_FUNC(void)
 {
-    return 0x87e0d0000610ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000610ll;
+    __cavm_csr_fatal("I3C_DEV1_CHAR_TABLE_LOC1", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV1_CHAR_TABLE_LOC1 cavm_i3c_dev1_char_table_loc1_t
@@ -1518,7 +1570,9 @@ typedef union cavm_i3c_dev1_char_table_loc2 cavm_i3c_dev1_char_table_loc2_t;
 static inline uint64_t CAVM_I3C_DEV1_CHAR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV1_CHAR_TABLE_LOC2_FUNC(void)
 {
-    return 0x87e0d0000614ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000614ll;
+    __cavm_csr_fatal("I3C_DEV1_CHAR_TABLE_LOC2", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV1_CHAR_TABLE_LOC2 cavm_i3c_dev1_char_table_loc2_t
@@ -1557,7 +1611,9 @@ typedef union cavm_i3c_dev1_char_table_loc3 cavm_i3c_dev1_char_table_loc3_t;
 static inline uint64_t CAVM_I3C_DEV1_CHAR_TABLE_LOC3_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV1_CHAR_TABLE_LOC3_FUNC(void)
 {
-    return 0x87e0d0000618ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000618ll;
+    __cavm_csr_fatal("I3C_DEV1_CHAR_TABLE_LOC3", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV1_CHAR_TABLE_LOC3 cavm_i3c_dev1_char_table_loc3_t
@@ -1594,7 +1650,9 @@ typedef union cavm_i3c_dev1_char_table_loc4 cavm_i3c_dev1_char_table_loc4_t;
 static inline uint64_t CAVM_I3C_DEV1_CHAR_TABLE_LOC4_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV1_CHAR_TABLE_LOC4_FUNC(void)
 {
-    return 0x87e0d000061cll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d000061cll;
+    __cavm_csr_fatal("I3C_DEV1_CHAR_TABLE_LOC4", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV1_CHAR_TABLE_LOC4 cavm_i3c_dev1_char_table_loc4_t
@@ -1629,7 +1687,7 @@ union cavm_i3c_dev2_addr_table_loc1
 
                                                                  This feature is used for Retry Model for the following features mentioned in the I3C Specification:
                                                                   - Retry Model for Direct GET CCC Commands.
-                                                                  - The incoming SIR-IBI matches with the slave address initated by the Master. */
+                                                                  - The incoming SIR-IBI matches with the slave address initiated by the Master. */
         uint32_t ring_id               : 3;  /**< [ 28: 26](R/W) Ring group identification. This field is used to put IBI from specific device to
                                                                  appropriate ring bundle. */
         uint32_t reserved_24_25        : 2;
@@ -1686,7 +1744,7 @@ union cavm_i3c_dev2_addr_table_loc1
 
                                                                  This feature is used for Retry Model for the following features mentioned in the I3C Specification:
                                                                   - Retry Model for Direct GET CCC Commands.
-                                                                  - The incoming SIR-IBI matches with the slave address initated by the Master. */
+                                                                  - The incoming SIR-IBI matches with the slave address initiated by the Master. */
         uint32_t device                : 1;  /**< [ 31: 31](R/W) Type of device
 
                                                                   0 = I3C.
@@ -1701,7 +1759,9 @@ typedef union cavm_i3c_dev2_addr_table_loc1 cavm_i3c_dev2_addr_table_loc1_t;
 static inline uint64_t CAVM_I3C_DEV2_ADDR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV2_ADDR_TABLE_LOC1_FUNC(void)
 {
-    return 0x87e0d0000410ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000410ll;
+    __cavm_csr_fatal("I3C_DEV2_ADDR_TABLE_LOC1", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV2_ADDR_TABLE_LOC1 cavm_i3c_dev2_addr_table_loc1_t
@@ -1727,14 +1787,14 @@ union cavm_i3c_dev2_addr_table_loc2
         uint32_t autocmd_hdr_code      : 8;  /**< [ 26: 19](R/W) Auto command HDR code */
         uint32_t autocmd_mode          : 3;  /**< [ 18: 16](R/W) Mode of automatic Read transaction on the Bus (Auto Command feature). */
         uint32_t autocmd_value         : 8;  /**< [ 15:  8](R/W) Value of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
         uint32_t autocmd_mask          : 8;  /**< [  7:  0](R/W) Mask of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
 #else /* Word 0 - Little Endian */
         uint32_t autocmd_mask          : 8;  /**< [  7:  0](R/W) Mask of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
         uint32_t autocmd_value         : 8;  /**< [ 15:  8](R/W) Value of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
         uint32_t autocmd_mode          : 3;  /**< [ 18: 16](R/W) Mode of automatic Read transaction on the Bus (Auto Command feature). */
         uint32_t autocmd_hdr_code      : 8;  /**< [ 26: 19](R/W) Auto command HDR code */
         uint32_t reserved_27_31        : 5;
@@ -1748,7 +1808,9 @@ typedef union cavm_i3c_dev2_addr_table_loc2 cavm_i3c_dev2_addr_table_loc2_t;
 static inline uint64_t CAVM_I3C_DEV2_ADDR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV2_ADDR_TABLE_LOC2_FUNC(void)
 {
-    return 0x87e0d0000414ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000414ll;
+    __cavm_csr_fatal("I3C_DEV2_ADDR_TABLE_LOC2", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV2_ADDR_TABLE_LOC2 cavm_i3c_dev2_addr_table_loc2_t
@@ -1783,7 +1845,9 @@ typedef union cavm_i3c_dev2_char_table_loc1 cavm_i3c_dev2_char_table_loc1_t;
 static inline uint64_t CAVM_I3C_DEV2_CHAR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV2_CHAR_TABLE_LOC1_FUNC(void)
 {
-    return 0x87e0d0000620ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000620ll;
+    __cavm_csr_fatal("I3C_DEV2_CHAR_TABLE_LOC1", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV2_CHAR_TABLE_LOC1 cavm_i3c_dev2_char_table_loc1_t
@@ -1820,7 +1884,9 @@ typedef union cavm_i3c_dev2_char_table_loc2 cavm_i3c_dev2_char_table_loc2_t;
 static inline uint64_t CAVM_I3C_DEV2_CHAR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV2_CHAR_TABLE_LOC2_FUNC(void)
 {
-    return 0x87e0d0000624ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000624ll;
+    __cavm_csr_fatal("I3C_DEV2_CHAR_TABLE_LOC2", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV2_CHAR_TABLE_LOC2 cavm_i3c_dev2_char_table_loc2_t
@@ -1859,7 +1925,9 @@ typedef union cavm_i3c_dev2_char_table_loc3 cavm_i3c_dev2_char_table_loc3_t;
 static inline uint64_t CAVM_I3C_DEV2_CHAR_TABLE_LOC3_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV2_CHAR_TABLE_LOC3_FUNC(void)
 {
-    return 0x87e0d0000628ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000628ll;
+    __cavm_csr_fatal("I3C_DEV2_CHAR_TABLE_LOC3", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV2_CHAR_TABLE_LOC3 cavm_i3c_dev2_char_table_loc3_t
@@ -1896,7 +1964,9 @@ typedef union cavm_i3c_dev2_char_table_loc4 cavm_i3c_dev2_char_table_loc4_t;
 static inline uint64_t CAVM_I3C_DEV2_CHAR_TABLE_LOC4_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV2_CHAR_TABLE_LOC4_FUNC(void)
 {
-    return 0x87e0d000062cll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d000062cll;
+    __cavm_csr_fatal("I3C_DEV2_CHAR_TABLE_LOC4", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV2_CHAR_TABLE_LOC4 cavm_i3c_dev2_char_table_loc4_t
@@ -1931,7 +2001,7 @@ union cavm_i3c_dev3_addr_table_loc1
 
                                                                  This feature is used for Retry Model for the following features mentioned in the I3C Specification:
                                                                   - Retry Model for Direct GET CCC Commands.
-                                                                  - The incoming SIR-IBI matches with the slave address initated by the Master. */
+                                                                  - The incoming SIR-IBI matches with the slave address initiated by the Master. */
         uint32_t ring_id               : 3;  /**< [ 28: 26](R/W) Ring group identification. This field is used to put IBI from specific device to
                                                                  appropriate ring bundle. */
         uint32_t reserved_24_25        : 2;
@@ -1988,7 +2058,7 @@ union cavm_i3c_dev3_addr_table_loc1
 
                                                                  This feature is used for Retry Model for the following features mentioned in the I3C Specification:
                                                                   - Retry Model for Direct GET CCC Commands.
-                                                                  - The incoming SIR-IBI matches with the slave address initated by the Master. */
+                                                                  - The incoming SIR-IBI matches with the slave address initiated by the Master. */
         uint32_t device                : 1;  /**< [ 31: 31](R/W) Type of device
 
                                                                   0 = I3C.
@@ -2003,7 +2073,9 @@ typedef union cavm_i3c_dev3_addr_table_loc1 cavm_i3c_dev3_addr_table_loc1_t;
 static inline uint64_t CAVM_I3C_DEV3_ADDR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV3_ADDR_TABLE_LOC1_FUNC(void)
 {
-    return 0x87e0d0000418ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000418ll;
+    __cavm_csr_fatal("I3C_DEV3_ADDR_TABLE_LOC1", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV3_ADDR_TABLE_LOC1 cavm_i3c_dev3_addr_table_loc1_t
@@ -2029,14 +2101,14 @@ union cavm_i3c_dev3_addr_table_loc2
         uint32_t autocmd_hdr_code      : 8;  /**< [ 26: 19](R/W) Auto command HDR code */
         uint32_t autocmd_mode          : 3;  /**< [ 18: 16](R/W) Mode of automatic Read transaction on the Bus (Auto Command feature). */
         uint32_t autocmd_value         : 8;  /**< [ 15:  8](R/W) Value of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
         uint32_t autocmd_mask          : 8;  /**< [  7:  0](R/W) Mask of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
 #else /* Word 0 - Little Endian */
         uint32_t autocmd_mask          : 8;  /**< [  7:  0](R/W) Mask of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
         uint32_t autocmd_value         : 8;  /**< [ 15:  8](R/W) Value of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
         uint32_t autocmd_mode          : 3;  /**< [ 18: 16](R/W) Mode of automatic Read transaction on the Bus (Auto Command feature). */
         uint32_t autocmd_hdr_code      : 8;  /**< [ 26: 19](R/W) Auto command HDR code */
         uint32_t reserved_27_31        : 5;
@@ -2050,7 +2122,9 @@ typedef union cavm_i3c_dev3_addr_table_loc2 cavm_i3c_dev3_addr_table_loc2_t;
 static inline uint64_t CAVM_I3C_DEV3_ADDR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV3_ADDR_TABLE_LOC2_FUNC(void)
 {
-    return 0x87e0d000041cll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d000041cll;
+    __cavm_csr_fatal("I3C_DEV3_ADDR_TABLE_LOC2", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV3_ADDR_TABLE_LOC2 cavm_i3c_dev3_addr_table_loc2_t
@@ -2085,7 +2159,9 @@ typedef union cavm_i3c_dev3_char_table_loc1 cavm_i3c_dev3_char_table_loc1_t;
 static inline uint64_t CAVM_I3C_DEV3_CHAR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV3_CHAR_TABLE_LOC1_FUNC(void)
 {
-    return 0x87e0d0000630ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000630ll;
+    __cavm_csr_fatal("I3C_DEV3_CHAR_TABLE_LOC1", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV3_CHAR_TABLE_LOC1 cavm_i3c_dev3_char_table_loc1_t
@@ -2122,7 +2198,9 @@ typedef union cavm_i3c_dev3_char_table_loc2 cavm_i3c_dev3_char_table_loc2_t;
 static inline uint64_t CAVM_I3C_DEV3_CHAR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV3_CHAR_TABLE_LOC2_FUNC(void)
 {
-    return 0x87e0d0000634ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000634ll;
+    __cavm_csr_fatal("I3C_DEV3_CHAR_TABLE_LOC2", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV3_CHAR_TABLE_LOC2 cavm_i3c_dev3_char_table_loc2_t
@@ -2161,7 +2239,9 @@ typedef union cavm_i3c_dev3_char_table_loc3 cavm_i3c_dev3_char_table_loc3_t;
 static inline uint64_t CAVM_I3C_DEV3_CHAR_TABLE_LOC3_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV3_CHAR_TABLE_LOC3_FUNC(void)
 {
-    return 0x87e0d0000638ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000638ll;
+    __cavm_csr_fatal("I3C_DEV3_CHAR_TABLE_LOC3", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV3_CHAR_TABLE_LOC3 cavm_i3c_dev3_char_table_loc3_t
@@ -2198,7 +2278,9 @@ typedef union cavm_i3c_dev3_char_table_loc4 cavm_i3c_dev3_char_table_loc4_t;
 static inline uint64_t CAVM_I3C_DEV3_CHAR_TABLE_LOC4_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV3_CHAR_TABLE_LOC4_FUNC(void)
 {
-    return 0x87e0d000063cll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d000063cll;
+    __cavm_csr_fatal("I3C_DEV3_CHAR_TABLE_LOC4", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV3_CHAR_TABLE_LOC4 cavm_i3c_dev3_char_table_loc4_t
@@ -2233,7 +2315,7 @@ union cavm_i3c_dev4_addr_table_loc1
 
                                                                  This feature is used for Retry Model for the following features mentioned in the I3C Specification:
                                                                   - Retry Model for Direct GET CCC Commands.
-                                                                  - The incoming SIR-IBI matches with the slave address initated by the Master. */
+                                                                  - The incoming SIR-IBI matches with the slave address initiated by the Master. */
         uint32_t ring_id               : 3;  /**< [ 28: 26](R/W) Ring group identification. This field is used to put IBI from specific device to
                                                                  appropriate ring bundle. */
         uint32_t reserved_24_25        : 2;
@@ -2290,7 +2372,7 @@ union cavm_i3c_dev4_addr_table_loc1
 
                                                                  This feature is used for Retry Model for the following features mentioned in the I3C Specification:
                                                                   - Retry Model for Direct GET CCC Commands.
-                                                                  - The incoming SIR-IBI matches with the slave address initated by the Master. */
+                                                                  - The incoming SIR-IBI matches with the slave address initiated by the Master. */
         uint32_t device                : 1;  /**< [ 31: 31](R/W) Type of device
 
                                                                   0 = I3C.
@@ -2305,7 +2387,9 @@ typedef union cavm_i3c_dev4_addr_table_loc1 cavm_i3c_dev4_addr_table_loc1_t;
 static inline uint64_t CAVM_I3C_DEV4_ADDR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV4_ADDR_TABLE_LOC1_FUNC(void)
 {
-    return 0x87e0d0000420ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000420ll;
+    __cavm_csr_fatal("I3C_DEV4_ADDR_TABLE_LOC1", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV4_ADDR_TABLE_LOC1 cavm_i3c_dev4_addr_table_loc1_t
@@ -2331,14 +2415,14 @@ union cavm_i3c_dev4_addr_table_loc2
         uint32_t autocmd_hdr_code      : 8;  /**< [ 26: 19](R/W) Auto command HDR code */
         uint32_t autocmd_mode          : 3;  /**< [ 18: 16](R/W) Mode of automatic Read transaction on the Bus (Auto Command feature). */
         uint32_t autocmd_value         : 8;  /**< [ 15:  8](R/W) Value of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
         uint32_t autocmd_mask          : 8;  /**< [  7:  0](R/W) Mask of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
 #else /* Word 0 - Little Endian */
         uint32_t autocmd_mask          : 8;  /**< [  7:  0](R/W) Mask of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
         uint32_t autocmd_value         : 8;  /**< [ 15:  8](R/W) Value of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
         uint32_t autocmd_mode          : 3;  /**< [ 18: 16](R/W) Mode of automatic Read transaction on the Bus (Auto Command feature). */
         uint32_t autocmd_hdr_code      : 8;  /**< [ 26: 19](R/W) Auto command HDR code */
         uint32_t reserved_27_31        : 5;
@@ -2352,7 +2436,9 @@ typedef union cavm_i3c_dev4_addr_table_loc2 cavm_i3c_dev4_addr_table_loc2_t;
 static inline uint64_t CAVM_I3C_DEV4_ADDR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV4_ADDR_TABLE_LOC2_FUNC(void)
 {
-    return 0x87e0d0000424ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000424ll;
+    __cavm_csr_fatal("I3C_DEV4_ADDR_TABLE_LOC2", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV4_ADDR_TABLE_LOC2 cavm_i3c_dev4_addr_table_loc2_t
@@ -2387,7 +2473,9 @@ typedef union cavm_i3c_dev4_char_table_loc1 cavm_i3c_dev4_char_table_loc1_t;
 static inline uint64_t CAVM_I3C_DEV4_CHAR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV4_CHAR_TABLE_LOC1_FUNC(void)
 {
-    return 0x87e0d0000640ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000640ll;
+    __cavm_csr_fatal("I3C_DEV4_CHAR_TABLE_LOC1", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV4_CHAR_TABLE_LOC1 cavm_i3c_dev4_char_table_loc1_t
@@ -2424,7 +2512,9 @@ typedef union cavm_i3c_dev4_char_table_loc2 cavm_i3c_dev4_char_table_loc2_t;
 static inline uint64_t CAVM_I3C_DEV4_CHAR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV4_CHAR_TABLE_LOC2_FUNC(void)
 {
-    return 0x87e0d0000644ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000644ll;
+    __cavm_csr_fatal("I3C_DEV4_CHAR_TABLE_LOC2", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV4_CHAR_TABLE_LOC2 cavm_i3c_dev4_char_table_loc2_t
@@ -2463,7 +2553,9 @@ typedef union cavm_i3c_dev4_char_table_loc3 cavm_i3c_dev4_char_table_loc3_t;
 static inline uint64_t CAVM_I3C_DEV4_CHAR_TABLE_LOC3_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV4_CHAR_TABLE_LOC3_FUNC(void)
 {
-    return 0x87e0d0000648ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000648ll;
+    __cavm_csr_fatal("I3C_DEV4_CHAR_TABLE_LOC3", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV4_CHAR_TABLE_LOC3 cavm_i3c_dev4_char_table_loc3_t
@@ -2500,7 +2592,9 @@ typedef union cavm_i3c_dev4_char_table_loc4 cavm_i3c_dev4_char_table_loc4_t;
 static inline uint64_t CAVM_I3C_DEV4_CHAR_TABLE_LOC4_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV4_CHAR_TABLE_LOC4_FUNC(void)
 {
-    return 0x87e0d000064cll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d000064cll;
+    __cavm_csr_fatal("I3C_DEV4_CHAR_TABLE_LOC4", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV4_CHAR_TABLE_LOC4 cavm_i3c_dev4_char_table_loc4_t
@@ -2535,7 +2629,7 @@ union cavm_i3c_dev5_addr_table_loc1
 
                                                                  This feature is used for Retry Model for the following features mentioned in the I3C Specification:
                                                                   - Retry Model for Direct GET CCC Commands.
-                                                                  - The incoming SIR-IBI matches with the slave address initated by the Master. */
+                                                                  - The incoming SIR-IBI matches with the slave address initiated by the Master. */
         uint32_t ring_id               : 3;  /**< [ 28: 26](R/W) Ring group identification. This field is used to put IBI from specific device to
                                                                  appropriate ring bundle. */
         uint32_t reserved_24_25        : 2;
@@ -2592,7 +2686,7 @@ union cavm_i3c_dev5_addr_table_loc1
 
                                                                  This feature is used for Retry Model for the following features mentioned in the I3C Specification:
                                                                   - Retry Model for Direct GET CCC Commands.
-                                                                  - The incoming SIR-IBI matches with the slave address initated by the Master. */
+                                                                  - The incoming SIR-IBI matches with the slave address initiated by the Master. */
         uint32_t device                : 1;  /**< [ 31: 31](R/W) Type of device
 
                                                                   0 = I3C.
@@ -2607,7 +2701,9 @@ typedef union cavm_i3c_dev5_addr_table_loc1 cavm_i3c_dev5_addr_table_loc1_t;
 static inline uint64_t CAVM_I3C_DEV5_ADDR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV5_ADDR_TABLE_LOC1_FUNC(void)
 {
-    return 0x87e0d0000428ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000428ll;
+    __cavm_csr_fatal("I3C_DEV5_ADDR_TABLE_LOC1", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV5_ADDR_TABLE_LOC1 cavm_i3c_dev5_addr_table_loc1_t
@@ -2633,14 +2729,14 @@ union cavm_i3c_dev5_addr_table_loc2
         uint32_t autocmd_hdr_code      : 8;  /**< [ 26: 19](R/W) Auto command HDR code */
         uint32_t autocmd_mode          : 3;  /**< [ 18: 16](R/W) Mode of automatic Read transaction on the Bus (Auto Command feature). */
         uint32_t autocmd_value         : 8;  /**< [ 15:  8](R/W) Value of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
         uint32_t autocmd_mask          : 8;  /**< [  7:  0](R/W) Mask of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
 #else /* Word 0 - Little Endian */
         uint32_t autocmd_mask          : 8;  /**< [  7:  0](R/W) Mask of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
         uint32_t autocmd_value         : 8;  /**< [ 15:  8](R/W) Value of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
         uint32_t autocmd_mode          : 3;  /**< [ 18: 16](R/W) Mode of automatic Read transaction on the Bus (Auto Command feature). */
         uint32_t autocmd_hdr_code      : 8;  /**< [ 26: 19](R/W) Auto command HDR code */
         uint32_t reserved_27_31        : 5;
@@ -2654,7 +2750,9 @@ typedef union cavm_i3c_dev5_addr_table_loc2 cavm_i3c_dev5_addr_table_loc2_t;
 static inline uint64_t CAVM_I3C_DEV5_ADDR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV5_ADDR_TABLE_LOC2_FUNC(void)
 {
-    return 0x87e0d000042cll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d000042cll;
+    __cavm_csr_fatal("I3C_DEV5_ADDR_TABLE_LOC2", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV5_ADDR_TABLE_LOC2 cavm_i3c_dev5_addr_table_loc2_t
@@ -2689,7 +2787,9 @@ typedef union cavm_i3c_dev5_char_table_loc1 cavm_i3c_dev5_char_table_loc1_t;
 static inline uint64_t CAVM_I3C_DEV5_CHAR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV5_CHAR_TABLE_LOC1_FUNC(void)
 {
-    return 0x87e0d0000650ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000650ll;
+    __cavm_csr_fatal("I3C_DEV5_CHAR_TABLE_LOC1", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV5_CHAR_TABLE_LOC1 cavm_i3c_dev5_char_table_loc1_t
@@ -2726,7 +2826,9 @@ typedef union cavm_i3c_dev5_char_table_loc2 cavm_i3c_dev5_char_table_loc2_t;
 static inline uint64_t CAVM_I3C_DEV5_CHAR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV5_CHAR_TABLE_LOC2_FUNC(void)
 {
-    return 0x87e0d0000654ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000654ll;
+    __cavm_csr_fatal("I3C_DEV5_CHAR_TABLE_LOC2", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV5_CHAR_TABLE_LOC2 cavm_i3c_dev5_char_table_loc2_t
@@ -2765,7 +2867,9 @@ typedef union cavm_i3c_dev5_char_table_loc3 cavm_i3c_dev5_char_table_loc3_t;
 static inline uint64_t CAVM_I3C_DEV5_CHAR_TABLE_LOC3_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV5_CHAR_TABLE_LOC3_FUNC(void)
 {
-    return 0x87e0d0000658ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000658ll;
+    __cavm_csr_fatal("I3C_DEV5_CHAR_TABLE_LOC3", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV5_CHAR_TABLE_LOC3 cavm_i3c_dev5_char_table_loc3_t
@@ -2802,7 +2906,9 @@ typedef union cavm_i3c_dev5_char_table_loc4 cavm_i3c_dev5_char_table_loc4_t;
 static inline uint64_t CAVM_I3C_DEV5_CHAR_TABLE_LOC4_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV5_CHAR_TABLE_LOC4_FUNC(void)
 {
-    return 0x87e0d000065cll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d000065cll;
+    __cavm_csr_fatal("I3C_DEV5_CHAR_TABLE_LOC4", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV5_CHAR_TABLE_LOC4 cavm_i3c_dev5_char_table_loc4_t
@@ -2837,7 +2943,7 @@ union cavm_i3c_dev6_addr_table_loc1
 
                                                                  This feature is used for Retry Model for the following features mentioned in the I3C Specification:
                                                                   - Retry Model for Direct GET CCC Commands.
-                                                                  - The incoming SIR-IBI matches with the slave address initated by the Master. */
+                                                                  - The incoming SIR-IBI matches with the slave address initiated by the Master. */
         uint32_t ring_id               : 3;  /**< [ 28: 26](R/W) Ring group identification. This field is used to put IBI from specific device to
                                                                  appropriate ring bundle. */
         uint32_t reserved_24_25        : 2;
@@ -2894,7 +3000,7 @@ union cavm_i3c_dev6_addr_table_loc1
 
                                                                  This feature is used for Retry Model for the following features mentioned in the I3C Specification:
                                                                   - Retry Model for Direct GET CCC Commands.
-                                                                  - The incoming SIR-IBI matches with the slave address initated by the Master. */
+                                                                  - The incoming SIR-IBI matches with the slave address initiated by the Master. */
         uint32_t device                : 1;  /**< [ 31: 31](R/W) Type of device
 
                                                                   0 = I3C.
@@ -2909,7 +3015,9 @@ typedef union cavm_i3c_dev6_addr_table_loc1 cavm_i3c_dev6_addr_table_loc1_t;
 static inline uint64_t CAVM_I3C_DEV6_ADDR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV6_ADDR_TABLE_LOC1_FUNC(void)
 {
-    return 0x87e0d0000430ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000430ll;
+    __cavm_csr_fatal("I3C_DEV6_ADDR_TABLE_LOC1", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV6_ADDR_TABLE_LOC1 cavm_i3c_dev6_addr_table_loc1_t
@@ -2935,14 +3043,14 @@ union cavm_i3c_dev6_addr_table_loc2
         uint32_t autocmd_hdr_code      : 8;  /**< [ 26: 19](R/W) Auto command HDR code */
         uint32_t autocmd_mode          : 3;  /**< [ 18: 16](R/W) Mode of automatic Read transaction on the Bus (Auto Command feature). */
         uint32_t autocmd_value         : 8;  /**< [ 15:  8](R/W) Value of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
         uint32_t autocmd_mask          : 8;  /**< [  7:  0](R/W) Mask of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
 #else /* Word 0 - Little Endian */
         uint32_t autocmd_mask          : 8;  /**< [  7:  0](R/W) Mask of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
         uint32_t autocmd_value         : 8;  /**< [ 15:  8](R/W) Value of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
         uint32_t autocmd_mode          : 3;  /**< [ 18: 16](R/W) Mode of automatic Read transaction on the Bus (Auto Command feature). */
         uint32_t autocmd_hdr_code      : 8;  /**< [ 26: 19](R/W) Auto command HDR code */
         uint32_t reserved_27_31        : 5;
@@ -2956,7 +3064,9 @@ typedef union cavm_i3c_dev6_addr_table_loc2 cavm_i3c_dev6_addr_table_loc2_t;
 static inline uint64_t CAVM_I3C_DEV6_ADDR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV6_ADDR_TABLE_LOC2_FUNC(void)
 {
-    return 0x87e0d0000434ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000434ll;
+    __cavm_csr_fatal("I3C_DEV6_ADDR_TABLE_LOC2", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV6_ADDR_TABLE_LOC2 cavm_i3c_dev6_addr_table_loc2_t
@@ -2991,7 +3101,9 @@ typedef union cavm_i3c_dev6_char_table_loc1 cavm_i3c_dev6_char_table_loc1_t;
 static inline uint64_t CAVM_I3C_DEV6_CHAR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV6_CHAR_TABLE_LOC1_FUNC(void)
 {
-    return 0x87e0d0000660ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000660ll;
+    __cavm_csr_fatal("I3C_DEV6_CHAR_TABLE_LOC1", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV6_CHAR_TABLE_LOC1 cavm_i3c_dev6_char_table_loc1_t
@@ -3028,7 +3140,9 @@ typedef union cavm_i3c_dev6_char_table_loc2 cavm_i3c_dev6_char_table_loc2_t;
 static inline uint64_t CAVM_I3C_DEV6_CHAR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV6_CHAR_TABLE_LOC2_FUNC(void)
 {
-    return 0x87e0d0000664ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000664ll;
+    __cavm_csr_fatal("I3C_DEV6_CHAR_TABLE_LOC2", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV6_CHAR_TABLE_LOC2 cavm_i3c_dev6_char_table_loc2_t
@@ -3067,7 +3181,9 @@ typedef union cavm_i3c_dev6_char_table_loc3 cavm_i3c_dev6_char_table_loc3_t;
 static inline uint64_t CAVM_I3C_DEV6_CHAR_TABLE_LOC3_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV6_CHAR_TABLE_LOC3_FUNC(void)
 {
-    return 0x87e0d0000668ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000668ll;
+    __cavm_csr_fatal("I3C_DEV6_CHAR_TABLE_LOC3", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV6_CHAR_TABLE_LOC3 cavm_i3c_dev6_char_table_loc3_t
@@ -3104,7 +3220,9 @@ typedef union cavm_i3c_dev6_char_table_loc4 cavm_i3c_dev6_char_table_loc4_t;
 static inline uint64_t CAVM_I3C_DEV6_CHAR_TABLE_LOC4_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV6_CHAR_TABLE_LOC4_FUNC(void)
 {
-    return 0x87e0d000066cll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d000066cll;
+    __cavm_csr_fatal("I3C_DEV6_CHAR_TABLE_LOC4", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV6_CHAR_TABLE_LOC4 cavm_i3c_dev6_char_table_loc4_t
@@ -3139,7 +3257,7 @@ union cavm_i3c_dev7_addr_table_loc1
 
                                                                  This feature is used for Retry Model for the following features mentioned in the I3C Specification:
                                                                   - Retry Model for Direct GET CCC Commands.
-                                                                  - The incoming SIR-IBI matches with the slave address initated by the Master. */
+                                                                  - The incoming SIR-IBI matches with the slave address initiated by the Master. */
         uint32_t ring_id               : 3;  /**< [ 28: 26](R/W) Ring group identification. This field is used to put IBI from specific device to
                                                                  appropriate ring bundle. */
         uint32_t reserved_24_25        : 2;
@@ -3196,7 +3314,7 @@ union cavm_i3c_dev7_addr_table_loc1
 
                                                                  This feature is used for Retry Model for the following features mentioned in the I3C Specification:
                                                                   - Retry Model for Direct GET CCC Commands.
-                                                                  - The incoming SIR-IBI matches with the slave address initated by the Master. */
+                                                                  - The incoming SIR-IBI matches with the slave address initiated by the Master. */
         uint32_t device                : 1;  /**< [ 31: 31](R/W) Type of device
 
                                                                   0 = I3C.
@@ -3211,7 +3329,9 @@ typedef union cavm_i3c_dev7_addr_table_loc1 cavm_i3c_dev7_addr_table_loc1_t;
 static inline uint64_t CAVM_I3C_DEV7_ADDR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV7_ADDR_TABLE_LOC1_FUNC(void)
 {
-    return 0x87e0d0000438ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000438ll;
+    __cavm_csr_fatal("I3C_DEV7_ADDR_TABLE_LOC1", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV7_ADDR_TABLE_LOC1 cavm_i3c_dev7_addr_table_loc1_t
@@ -3237,14 +3357,14 @@ union cavm_i3c_dev7_addr_table_loc2
         uint32_t autocmd_hdr_code      : 8;  /**< [ 26: 19](R/W) Auto command HDR code */
         uint32_t autocmd_mode          : 3;  /**< [ 18: 16](R/W) Mode of automatic Read transaction on the Bus (Auto Command feature). */
         uint32_t autocmd_value         : 8;  /**< [ 15:  8](R/W) Value of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
         uint32_t autocmd_mask          : 8;  /**< [  7:  0](R/W) Mask of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
 #else /* Word 0 - Little Endian */
         uint32_t autocmd_mask          : 8;  /**< [  7:  0](R/W) Mask of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
         uint32_t autocmd_value         : 8;  /**< [ 15:  8](R/W) Value of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
         uint32_t autocmd_mode          : 3;  /**< [ 18: 16](R/W) Mode of automatic Read transaction on the Bus (Auto Command feature). */
         uint32_t autocmd_hdr_code      : 8;  /**< [ 26: 19](R/W) Auto command HDR code */
         uint32_t reserved_27_31        : 5;
@@ -3258,7 +3378,9 @@ typedef union cavm_i3c_dev7_addr_table_loc2 cavm_i3c_dev7_addr_table_loc2_t;
 static inline uint64_t CAVM_I3C_DEV7_ADDR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV7_ADDR_TABLE_LOC2_FUNC(void)
 {
-    return 0x87e0d000043cll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d000043cll;
+    __cavm_csr_fatal("I3C_DEV7_ADDR_TABLE_LOC2", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV7_ADDR_TABLE_LOC2 cavm_i3c_dev7_addr_table_loc2_t
@@ -3293,7 +3415,9 @@ typedef union cavm_i3c_dev7_char_table_loc1 cavm_i3c_dev7_char_table_loc1_t;
 static inline uint64_t CAVM_I3C_DEV7_CHAR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV7_CHAR_TABLE_LOC1_FUNC(void)
 {
-    return 0x87e0d0000670ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000670ll;
+    __cavm_csr_fatal("I3C_DEV7_CHAR_TABLE_LOC1", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV7_CHAR_TABLE_LOC1 cavm_i3c_dev7_char_table_loc1_t
@@ -3330,7 +3454,9 @@ typedef union cavm_i3c_dev7_char_table_loc2 cavm_i3c_dev7_char_table_loc2_t;
 static inline uint64_t CAVM_I3C_DEV7_CHAR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV7_CHAR_TABLE_LOC2_FUNC(void)
 {
-    return 0x87e0d0000674ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000674ll;
+    __cavm_csr_fatal("I3C_DEV7_CHAR_TABLE_LOC2", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV7_CHAR_TABLE_LOC2 cavm_i3c_dev7_char_table_loc2_t
@@ -3369,7 +3495,9 @@ typedef union cavm_i3c_dev7_char_table_loc3 cavm_i3c_dev7_char_table_loc3_t;
 static inline uint64_t CAVM_I3C_DEV7_CHAR_TABLE_LOC3_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV7_CHAR_TABLE_LOC3_FUNC(void)
 {
-    return 0x87e0d0000678ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000678ll;
+    __cavm_csr_fatal("I3C_DEV7_CHAR_TABLE_LOC3", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV7_CHAR_TABLE_LOC3 cavm_i3c_dev7_char_table_loc3_t
@@ -3406,7 +3534,9 @@ typedef union cavm_i3c_dev7_char_table_loc4 cavm_i3c_dev7_char_table_loc4_t;
 static inline uint64_t CAVM_I3C_DEV7_CHAR_TABLE_LOC4_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV7_CHAR_TABLE_LOC4_FUNC(void)
 {
-    return 0x87e0d000067cll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d000067cll;
+    __cavm_csr_fatal("I3C_DEV7_CHAR_TABLE_LOC4", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV7_CHAR_TABLE_LOC4 cavm_i3c_dev7_char_table_loc4_t
@@ -3441,7 +3571,7 @@ union cavm_i3c_dev8_addr_table_loc1
 
                                                                  This feature is used for Retry Model for the following features mentioned in the I3C Specification:
                                                                   - Retry Model for Direct GET CCC Commands.
-                                                                  - The incoming SIR-IBI matches with the slave address initated by the Master. */
+                                                                  - The incoming SIR-IBI matches with the slave address initiated by the Master. */
         uint32_t ring_id               : 3;  /**< [ 28: 26](R/W) Ring group identification. This field is used to put IBI from specific device to
                                                                  appropriate ring bundle. */
         uint32_t reserved_24_25        : 2;
@@ -3498,7 +3628,7 @@ union cavm_i3c_dev8_addr_table_loc1
 
                                                                  This feature is used for Retry Model for the following features mentioned in the I3C Specification:
                                                                   - Retry Model for Direct GET CCC Commands.
-                                                                  - The incoming SIR-IBI matches with the slave address initated by the Master. */
+                                                                  - The incoming SIR-IBI matches with the slave address initiated by the Master. */
         uint32_t device                : 1;  /**< [ 31: 31](R/W) Type of device
 
                                                                   0 = I3C.
@@ -3513,7 +3643,9 @@ typedef union cavm_i3c_dev8_addr_table_loc1 cavm_i3c_dev8_addr_table_loc1_t;
 static inline uint64_t CAVM_I3C_DEV8_ADDR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV8_ADDR_TABLE_LOC1_FUNC(void)
 {
-    return 0x87e0d0000440ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000440ll;
+    __cavm_csr_fatal("I3C_DEV8_ADDR_TABLE_LOC1", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV8_ADDR_TABLE_LOC1 cavm_i3c_dev8_addr_table_loc1_t
@@ -3539,14 +3671,14 @@ union cavm_i3c_dev8_addr_table_loc2
         uint32_t autocmd_hdr_code      : 8;  /**< [ 26: 19](R/W) Auto command HDR code */
         uint32_t autocmd_mode          : 3;  /**< [ 18: 16](R/W) Mode of automatic Read transaction on the Bus (Auto Command feature). */
         uint32_t autocmd_value         : 8;  /**< [ 15:  8](R/W) Value of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
         uint32_t autocmd_mask          : 8;  /**< [  7:  0](R/W) Mask of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
 #else /* Word 0 - Little Endian */
         uint32_t autocmd_mask          : 8;  /**< [  7:  0](R/W) Mask of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
         uint32_t autocmd_value         : 8;  /**< [ 15:  8](R/W) Value of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
         uint32_t autocmd_mode          : 3;  /**< [ 18: 16](R/W) Mode of automatic Read transaction on the Bus (Auto Command feature). */
         uint32_t autocmd_hdr_code      : 8;  /**< [ 26: 19](R/W) Auto command HDR code */
         uint32_t reserved_27_31        : 5;
@@ -3560,7 +3692,9 @@ typedef union cavm_i3c_dev8_addr_table_loc2 cavm_i3c_dev8_addr_table_loc2_t;
 static inline uint64_t CAVM_I3C_DEV8_ADDR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV8_ADDR_TABLE_LOC2_FUNC(void)
 {
-    return 0x87e0d0000444ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000444ll;
+    __cavm_csr_fatal("I3C_DEV8_ADDR_TABLE_LOC2", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV8_ADDR_TABLE_LOC2 cavm_i3c_dev8_addr_table_loc2_t
@@ -3595,7 +3729,9 @@ typedef union cavm_i3c_dev8_char_table_loc1 cavm_i3c_dev8_char_table_loc1_t;
 static inline uint64_t CAVM_I3C_DEV8_CHAR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV8_CHAR_TABLE_LOC1_FUNC(void)
 {
-    return 0x87e0d0000680ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000680ll;
+    __cavm_csr_fatal("I3C_DEV8_CHAR_TABLE_LOC1", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV8_CHAR_TABLE_LOC1 cavm_i3c_dev8_char_table_loc1_t
@@ -3632,7 +3768,9 @@ typedef union cavm_i3c_dev8_char_table_loc2 cavm_i3c_dev8_char_table_loc2_t;
 static inline uint64_t CAVM_I3C_DEV8_CHAR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV8_CHAR_TABLE_LOC2_FUNC(void)
 {
-    return 0x87e0d0000684ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000684ll;
+    __cavm_csr_fatal("I3C_DEV8_CHAR_TABLE_LOC2", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV8_CHAR_TABLE_LOC2 cavm_i3c_dev8_char_table_loc2_t
@@ -3671,7 +3809,9 @@ typedef union cavm_i3c_dev8_char_table_loc3 cavm_i3c_dev8_char_table_loc3_t;
 static inline uint64_t CAVM_I3C_DEV8_CHAR_TABLE_LOC3_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV8_CHAR_TABLE_LOC3_FUNC(void)
 {
-    return 0x87e0d0000688ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000688ll;
+    __cavm_csr_fatal("I3C_DEV8_CHAR_TABLE_LOC3", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV8_CHAR_TABLE_LOC3 cavm_i3c_dev8_char_table_loc3_t
@@ -3708,7 +3848,9 @@ typedef union cavm_i3c_dev8_char_table_loc4 cavm_i3c_dev8_char_table_loc4_t;
 static inline uint64_t CAVM_I3C_DEV8_CHAR_TABLE_LOC4_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV8_CHAR_TABLE_LOC4_FUNC(void)
 {
-    return 0x87e0d000068cll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d000068cll;
+    __cavm_csr_fatal("I3C_DEV8_CHAR_TABLE_LOC4", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV8_CHAR_TABLE_LOC4 cavm_i3c_dev8_char_table_loc4_t
@@ -3743,7 +3885,7 @@ union cavm_i3c_dev9_addr_table_loc1
 
                                                                  This feature is used for Retry Model for the following features mentioned in the I3C Specification:
                                                                   - Retry Model for Direct GET CCC Commands.
-                                                                  - The incoming SIR-IBI matches with the slave address initated by the Master. */
+                                                                  - The incoming SIR-IBI matches with the slave address initiated by the Master. */
         uint32_t ring_id               : 3;  /**< [ 28: 26](R/W) Ring group identification. This field is used to put IBI from specific device to
                                                                  appropriate ring bundle. */
         uint32_t reserved_24_25        : 2;
@@ -3800,7 +3942,7 @@ union cavm_i3c_dev9_addr_table_loc1
 
                                                                  This feature is used for Retry Model for the following features mentioned in the I3C Specification:
                                                                   - Retry Model for Direct GET CCC Commands.
-                                                                  - The incoming SIR-IBI matches with the slave address initated by the Master. */
+                                                                  - The incoming SIR-IBI matches with the slave address initiated by the Master. */
         uint32_t device                : 1;  /**< [ 31: 31](R/W) Type of device
 
                                                                   0 = I3C.
@@ -3815,7 +3957,9 @@ typedef union cavm_i3c_dev9_addr_table_loc1 cavm_i3c_dev9_addr_table_loc1_t;
 static inline uint64_t CAVM_I3C_DEV9_ADDR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV9_ADDR_TABLE_LOC1_FUNC(void)
 {
-    return 0x87e0d0000448ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000448ll;
+    __cavm_csr_fatal("I3C_DEV9_ADDR_TABLE_LOC1", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV9_ADDR_TABLE_LOC1 cavm_i3c_dev9_addr_table_loc1_t
@@ -3841,14 +3985,14 @@ union cavm_i3c_dev9_addr_table_loc2
         uint32_t autocmd_hdr_code      : 8;  /**< [ 26: 19](R/W) Auto command HDR code */
         uint32_t autocmd_mode          : 3;  /**< [ 18: 16](R/W) Mode of automatic Read transaction on the Bus (Auto Command feature). */
         uint32_t autocmd_value         : 8;  /**< [ 15:  8](R/W) Value of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
         uint32_t autocmd_mask          : 8;  /**< [  7:  0](R/W) Mask of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
 #else /* Word 0 - Little Endian */
         uint32_t autocmd_mask          : 8;  /**< [  7:  0](R/W) Mask of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
         uint32_t autocmd_value         : 8;  /**< [ 15:  8](R/W) Value of IBI mandatory byte that triggers automatic Read transaction on the
-                                                                 Bus(Auto Command feature). */
+                                                                 Bus (Auto Command feature). */
         uint32_t autocmd_mode          : 3;  /**< [ 18: 16](R/W) Mode of automatic Read transaction on the Bus (Auto Command feature). */
         uint32_t autocmd_hdr_code      : 8;  /**< [ 26: 19](R/W) Auto command HDR code */
         uint32_t reserved_27_31        : 5;
@@ -3862,7 +4006,9 @@ typedef union cavm_i3c_dev9_addr_table_loc2 cavm_i3c_dev9_addr_table_loc2_t;
 static inline uint64_t CAVM_I3C_DEV9_ADDR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV9_ADDR_TABLE_LOC2_FUNC(void)
 {
-    return 0x87e0d000044cll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d000044cll;
+    __cavm_csr_fatal("I3C_DEV9_ADDR_TABLE_LOC2", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV9_ADDR_TABLE_LOC2 cavm_i3c_dev9_addr_table_loc2_t
@@ -3897,7 +4043,9 @@ typedef union cavm_i3c_dev9_char_table_loc1 cavm_i3c_dev9_char_table_loc1_t;
 static inline uint64_t CAVM_I3C_DEV9_CHAR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV9_CHAR_TABLE_LOC1_FUNC(void)
 {
-    return 0x87e0d0000690ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000690ll;
+    __cavm_csr_fatal("I3C_DEV9_CHAR_TABLE_LOC1", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV9_CHAR_TABLE_LOC1 cavm_i3c_dev9_char_table_loc1_t
@@ -3934,7 +4082,9 @@ typedef union cavm_i3c_dev9_char_table_loc2 cavm_i3c_dev9_char_table_loc2_t;
 static inline uint64_t CAVM_I3C_DEV9_CHAR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV9_CHAR_TABLE_LOC2_FUNC(void)
 {
-    return 0x87e0d0000694ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000694ll;
+    __cavm_csr_fatal("I3C_DEV9_CHAR_TABLE_LOC2", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV9_CHAR_TABLE_LOC2 cavm_i3c_dev9_char_table_loc2_t
@@ -3973,7 +4123,9 @@ typedef union cavm_i3c_dev9_char_table_loc3 cavm_i3c_dev9_char_table_loc3_t;
 static inline uint64_t CAVM_I3C_DEV9_CHAR_TABLE_LOC3_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV9_CHAR_TABLE_LOC3_FUNC(void)
 {
-    return 0x87e0d0000698ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000698ll;
+    __cavm_csr_fatal("I3C_DEV9_CHAR_TABLE_LOC3", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV9_CHAR_TABLE_LOC3 cavm_i3c_dev9_char_table_loc3_t
@@ -4010,7 +4162,9 @@ typedef union cavm_i3c_dev9_char_table_loc4 cavm_i3c_dev9_char_table_loc4_t;
 static inline uint64_t CAVM_I3C_DEV9_CHAR_TABLE_LOC4_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV9_CHAR_TABLE_LOC4_FUNC(void)
 {
-    return 0x87e0d000069cll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d000069cll;
+    __cavm_csr_fatal("I3C_DEV9_CHAR_TABLE_LOC4", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV9_CHAR_TABLE_LOC4 cavm_i3c_dev9_char_table_loc4_t
@@ -4033,10 +4187,10 @@ union cavm_i3c_dev_ctx_base_hi
     struct cavm_i3c_dev_ctx_base_hi_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t base_hi               : 32; /**< [ 31:  0](RO/H) Device Context Base High
+        uint32_t base_hi               : 32; /**< [ 31:  0](RO/H) Device Context Base High.
                                                                  Upper 32 bits of pointer to physical memory allocated for Device Context. */
 #else /* Word 0 - Little Endian */
-        uint32_t base_hi               : 32; /**< [ 31:  0](RO/H) Device Context Base High
+        uint32_t base_hi               : 32; /**< [ 31:  0](RO/H) Device Context Base High.
                                                                  Upper 32 bits of pointer to physical memory allocated for Device Context. */
 #endif /* Word 0 - End */
     } s;
@@ -4048,7 +4202,9 @@ typedef union cavm_i3c_dev_ctx_base_hi cavm_i3c_dev_ctx_base_hi_t;
 static inline uint64_t CAVM_I3C_DEV_CTX_BASE_HI_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV_CTX_BASE_HI_FUNC(void)
 {
-    return 0x87e0d0000064ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000064ll;
+    __cavm_csr_fatal("I3C_DEV_CTX_BASE_HI", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV_CTX_BASE_HI cavm_i3c_dev_ctx_base_hi_t
@@ -4071,11 +4227,11 @@ union cavm_i3c_dev_ctx_base_lo
     struct cavm_i3c_dev_ctx_base_lo_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t base_lo               : 32; /**< [ 31:  0](RO/H) Device Context Base Low
+        uint32_t base_lo               : 32; /**< [ 31:  0](RO/H) Device Context Base Low.
                                                                  Lower 32 bits of pointer to physical memory allocated for the Device Context.
                                                                  The Device Context is DWORD aligned, so the last two address bits are always 2'b00. */
 #else /* Word 0 - Little Endian */
-        uint32_t base_lo               : 32; /**< [ 31:  0](RO/H) Device Context Base Low
+        uint32_t base_lo               : 32; /**< [ 31:  0](RO/H) Device Context Base Low.
                                                                  Lower 32 bits of pointer to physical memory allocated for the Device Context.
                                                                  The Device Context is DWORD aligned, so the last two address bits are always 2'b00. */
 #endif /* Word 0 - End */
@@ -4088,7 +4244,9 @@ typedef union cavm_i3c_dev_ctx_base_lo cavm_i3c_dev_ctx_base_lo_t;
 static inline uint64_t CAVM_I3C_DEV_CTX_BASE_LO_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DEV_CTX_BASE_LO_FUNC(void)
 {
-    return 0x87e0d0000060ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000060ll;
+    __cavm_csr_fatal("I3C_DEV_CTX_BASE_LO", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DEV_CTX_BASE_LO cavm_i3c_dev_ctx_base_lo_t
@@ -4129,7 +4287,9 @@ typedef union cavm_i3c_ds_extcap_header cavm_i3c_ds_extcap_header_t;
 static inline uint64_t CAVM_I3C_DS_EXTCAP_HEADER_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_DS_EXTCAP_HEADER_FUNC(void)
 {
-    return 0x87e0d0000140ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000140ll;
+    __cavm_csr_fatal("I3C_DS_EXTCAP_HEADER", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_DS_EXTCAP_HEADER cavm_i3c_ds_extcap_header_t
@@ -4169,7 +4329,9 @@ typedef union cavm_i3c_extcaps_section_offset cavm_i3c_extcaps_section_offset_t;
 static inline uint64_t CAVM_I3C_EXTCAPS_SECTION_OFFSET_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_EXTCAPS_SECTION_OFFSET_FUNC(void)
 {
-    return 0x87e0d0000040ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000040ll;
+    __cavm_csr_fatal("I3C_EXTCAPS_SECTION_OFFSET", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_EXTCAPS_SECTION_OFFSET cavm_i3c_extcaps_section_offset_t
@@ -4220,7 +4382,9 @@ typedef union cavm_i3c_hc_capabilities cavm_i3c_hc_capabilities_t;
 static inline uint64_t CAVM_I3C_HC_CAPABILITIES_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_HC_CAPABILITIES_FUNC(void)
 {
-    return 0x87e0d000000cll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d000000cll;
+    __cavm_csr_fatal("I3C_HC_CAPABILITIES", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_HC_CAPABILITIES cavm_i3c_hc_capabilities_t
@@ -4303,7 +4467,9 @@ typedef union cavm_i3c_hc_control cavm_i3c_hc_control_t;
 static inline uint64_t CAVM_I3C_HC_CONTROL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_HC_CONTROL_FUNC(void)
 {
-    return 0x87e0d0000004ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000004ll;
+    __cavm_csr_fatal("I3C_HC_CONTROL", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_HC_CONTROL cavm_i3c_hc_control_t
@@ -4340,7 +4506,9 @@ typedef union cavm_i3c_hci_version cavm_i3c_hci_version_t;
 static inline uint64_t CAVM_I3C_HCI_VERSION_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_HCI_VERSION_FUNC(void)
 {
-    return 0x87e0d0000000ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000000ll;
+    __cavm_csr_fatal("I3C_HCI_VERSION", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_HCI_VERSION cavm_i3c_hci_version_t
@@ -4382,7 +4550,9 @@ typedef union cavm_i3c_hw_identification_header cavm_i3c_hw_identification_heade
 static inline uint64_t CAVM_I3C_HW_IDENTIFICATION_HEADER_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_HW_IDENTIFICATION_HEADER_FUNC(void)
 {
-    return 0x87e0d0000100ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000100ll;
+    __cavm_csr_fatal("I3C_HW_IDENTIFICATION_HEADER", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_HW_IDENTIFICATION_HEADER cavm_i3c_hw_identification_header_t
@@ -4431,7 +4601,9 @@ typedef union cavm_i3c_ibi_notify_ctrl cavm_i3c_ibi_notify_ctrl_t;
 static inline uint64_t CAVM_I3C_IBI_NOTIFY_CTRL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_IBI_NOTIFY_CTRL_FUNC(void)
 {
-    return 0x87e0d0000058ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000058ll;
+    __cavm_csr_fatal("I3C_IBI_NOTIFY_CTRL", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_IBI_NOTIFY_CTRL cavm_i3c_ibi_notify_ctrl_t
@@ -4479,7 +4651,9 @@ typedef union cavm_i3c_ibi_port cavm_i3c_ibi_port_t;
 static inline uint64_t CAVM_I3C_IBI_PORT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_IBI_PORT_FUNC(void)
 {
-    return 0x87e0d000030cll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d000030cll;
+    __cavm_csr_fatal("I3C_IBI_PORT", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_IBI_PORT cavm_i3c_ibi_port_t
@@ -4574,7 +4748,9 @@ typedef union cavm_i3c_int cavm_i3c_int_t;
 static inline uint64_t CAVM_I3C_INT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_INT_FUNC(void)
 {
-    return 0x87e0d0000320ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000320ll;
+    __cavm_csr_fatal("I3C_INT", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_INT cavm_i3c_int_t
@@ -4626,7 +4802,9 @@ typedef union cavm_i3c_int_ena_w1c cavm_i3c_int_ena_w1c_t;
 static inline uint64_t CAVM_I3C_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_INT_ENA_W1C_FUNC(void)
 {
-    return 0x87e0d0000730ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000730ll;
+    __cavm_csr_fatal("I3C_INT_ENA_W1C", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_INT_ENA_W1C cavm_i3c_int_ena_w1c_t
@@ -4677,7 +4855,9 @@ typedef union cavm_i3c_int_ena_w1s cavm_i3c_int_ena_w1s_t;
 static inline uint64_t CAVM_I3C_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_INT_ENA_W1S_FUNC(void)
 {
-    return 0x87e0d0000324ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000324ll;
+    __cavm_csr_fatal("I3C_INT_ENA_W1S", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_INT_ENA_W1S cavm_i3c_int_ena_w1s_t
@@ -4729,7 +4909,9 @@ typedef union cavm_i3c_int_w1s cavm_i3c_int_w1s_t;
 static inline uint64_t CAVM_I3C_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_INT_W1S_FUNC(void)
 {
-    return 0x87e0d0000328ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000328ll;
+    __cavm_csr_fatal("I3C_INT_W1S", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_INT_W1S cavm_i3c_int_w1s_t
@@ -4768,7 +4950,9 @@ typedef union cavm_i3c_intr cavm_i3c_intr_t;
 static inline uint64_t CAVM_I3C_INTR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_INTR_FUNC(void)
 {
-    return 0x87e0d0000750ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000750ll;
+    __cavm_csr_fatal("I3C_INTR", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_INTR cavm_i3c_intr_t
@@ -4805,7 +4989,9 @@ typedef union cavm_i3c_intr_ena_w1c cavm_i3c_intr_ena_w1c_t;
 static inline uint64_t CAVM_I3C_INTR_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_INTR_ENA_W1C_FUNC(void)
 {
-    return 0x87e0d0000760ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000760ll;
+    __cavm_csr_fatal("I3C_INTR_ENA_W1C", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_INTR_ENA_W1C cavm_i3c_intr_ena_w1c_t
@@ -4842,7 +5028,9 @@ typedef union cavm_i3c_intr_ena_w1s cavm_i3c_intr_ena_w1s_t;
 static inline uint64_t CAVM_I3C_INTR_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_INTR_ENA_W1S_FUNC(void)
 {
-    return 0x87e0d0000768ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000768ll;
+    __cavm_csr_fatal("I3C_INTR_ENA_W1S", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_INTR_ENA_W1S cavm_i3c_intr_ena_w1s_t
@@ -4881,7 +5069,9 @@ typedef union cavm_i3c_intr_force cavm_i3c_intr_force_t;
 static inline uint64_t CAVM_I3C_INTR_FORCE_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_INTR_FORCE_FUNC(void)
 {
-    return 0x87e0d000002cll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d000002cll;
+    __cavm_csr_fatal("I3C_INTR_FORCE", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_INTR_FORCE cavm_i3c_intr_force_t
@@ -4920,7 +5110,9 @@ typedef union cavm_i3c_intr_signal_enable cavm_i3c_intr_signal_enable_t;
 static inline uint64_t CAVM_I3C_INTR_SIGNAL_ENABLE_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_INTR_SIGNAL_ENABLE_FUNC(void)
 {
-    return 0x87e0d0000028ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000028ll;
+    __cavm_csr_fatal("I3C_INTR_SIGNAL_ENABLE", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_INTR_SIGNAL_ENABLE cavm_i3c_intr_signal_enable_t
@@ -4961,7 +5153,9 @@ typedef union cavm_i3c_intr_status cavm_i3c_intr_status_t;
 static inline uint64_t CAVM_I3C_INTR_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_INTR_STATUS_FUNC(void)
 {
-    return 0x87e0d0000020ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000020ll;
+    __cavm_csr_fatal("I3C_INTR_STATUS", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_INTR_STATUS cavm_i3c_intr_status_t
@@ -5000,7 +5194,9 @@ typedef union cavm_i3c_intr_status_enable cavm_i3c_intr_status_enable_t;
 static inline uint64_t CAVM_I3C_INTR_STATUS_ENABLE_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_INTR_STATUS_ENABLE_FUNC(void)
 {
-    return 0x87e0d0000024ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000024ll;
+    __cavm_csr_fatal("I3C_INTR_STATUS_ENABLE", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_INTR_STATUS_ENABLE cavm_i3c_intr_status_enable_t
@@ -5037,7 +5233,9 @@ typedef union cavm_i3c_intr_w1s cavm_i3c_intr_w1s_t;
 static inline uint64_t CAVM_I3C_INTR_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_INTR_W1S_FUNC(void)
 {
-    return 0x87e0d0000758ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000758ll;
+    __cavm_csr_fatal("I3C_INTR_W1S", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_INTR_W1S cavm_i3c_intr_w1s_t
@@ -5069,10 +5267,12 @@ union cavm_i3c_io_ctl
                                                                  0x3 = 20 ohm. */
         uint32_t slew                  : 2;  /**< [  1:  0](R/W) I3C bus pins output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
 #else /* Word 0 - Little Endian */
         uint32_t slew                  : 2;  /**< [  1:  0](R/W) I3C bus pins output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
         uint32_t drive                 : 2;  /**< [  3:  2](R/W) I3C bus pin output impedance.
                                                                  0x0 = 55 ohm.
@@ -5090,7 +5290,9 @@ typedef union cavm_i3c_io_ctl cavm_i3c_io_ctl_t;
 static inline uint64_t CAVM_I3C_IO_CTL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_IO_CTL_FUNC(void)
 {
-    return 0x87e0d0000740ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000740ll;
+    __cavm_csr_fatal("I3C_IO_CTL", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_IO_CTL cavm_i3c_io_ctl_t
@@ -5147,7 +5349,9 @@ typedef union cavm_i3c_master_config cavm_i3c_master_config_t;
 static inline uint64_t CAVM_I3C_MASTER_CONFIG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_MASTER_CONFIG_FUNC(void)
 {
-    return 0x87e0d0000158ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000158ll;
+    __cavm_csr_fatal("I3C_MASTER_CONFIG", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_MASTER_CONFIG cavm_i3c_master_config_t
@@ -5188,7 +5392,9 @@ typedef union cavm_i3c_master_device_addr cavm_i3c_master_device_addr_t;
 static inline uint64_t CAVM_I3C_MASTER_DEVICE_ADDR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_MASTER_DEVICE_ADDR_FUNC(void)
 {
-    return 0x87e0d0000008ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000008ll;
+    __cavm_csr_fatal("I3C_MASTER_DEVICE_ADDR", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_MASTER_DEVICE_ADDR cavm_i3c_master_device_addr_t
@@ -5229,7 +5435,9 @@ typedef union cavm_i3c_master_ext_header cavm_i3c_master_ext_header_t;
 static inline uint64_t CAVM_I3C_MASTER_EXT_HEADER_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_MASTER_EXT_HEADER_FUNC(void)
 {
-    return 0x87e0d0000154ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000154ll;
+    __cavm_csr_fatal("I3C_MASTER_EXT_HEADER", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_MASTER_EXT_HEADER cavm_i3c_master_ext_header_t
@@ -5266,7 +5474,7 @@ typedef union cavm_i3c_msix_pbax cavm_i3c_msix_pbax_t;
 static inline uint64_t CAVM_I3C_MSIX_PBAX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_MSIX_PBAX(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a==0))
         return 0x87e0d0ff0000ll + 8ll * ((a) & 0x0);
     __cavm_csr_fatal("I3C_MSIX_PBAX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5352,7 +5560,7 @@ typedef union cavm_i3c_msix_vecx_addr cavm_i3c_msix_vecx_addr_t;
 static inline uint64_t CAVM_I3C_MSIX_VECX_ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_MSIX_VECX_ADDR(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a==0))
         return 0x87e0d0f00000ll + 0x10ll * ((a) & 0x0);
     __cavm_csr_fatal("I3C_MSIX_VECX_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5392,7 +5600,7 @@ typedef union cavm_i3c_msix_vecx_ctl cavm_i3c_msix_vecx_ctl_t;
 static inline uint64_t CAVM_I3C_MSIX_VECX_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_MSIX_VECX_CTL(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a==0))
         return 0x87e0d0f00008ll + 0x10ll * ((a) & 0x0);
     __cavm_csr_fatal("I3C_MSIX_VECX_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5468,7 +5676,9 @@ typedef union cavm_i3c_pio_intr_force cavm_i3c_pio_intr_force_t;
 static inline uint64_t CAVM_I3C_PIO_INTR_FORCE_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_PIO_INTR_FORCE_FUNC(void)
 {
-    return 0x87e0d000032cll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d000032cll;
+    __cavm_csr_fatal("I3C_PIO_INTR_FORCE", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_PIO_INTR_FORCE cavm_i3c_pio_intr_force_t
@@ -5509,7 +5719,9 @@ typedef union cavm_i3c_pio_section_offset cavm_i3c_pio_section_offset_t;
 static inline uint64_t CAVM_I3C_PIO_SECTION_OFFSET_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_PIO_SECTION_OFFSET_FUNC(void)
 {
-    return 0x87e0d000003cll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d000003cll;
+    __cavm_csr_fatal("I3C_PIO_SECTION_OFFSET", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_PIO_SECTION_OFFSET cavm_i3c_pio_section_offset_t
@@ -5548,7 +5760,9 @@ typedef union cavm_i3c_present_state cavm_i3c_present_state_t;
 static inline uint64_t CAVM_I3C_PRESENT_STATE_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_PRESENT_STATE_FUNC(void)
 {
-    return 0x87e0d0000014ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000014ll;
+    __cavm_csr_fatal("I3C_PRESENT_STATE", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_PRESENT_STATE cavm_i3c_present_state_t
@@ -5578,7 +5792,7 @@ union cavm_i3c_present_state_debug
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_29_31        : 3;
         uint32_t master_idle           : 1;  /**< [ 28: 28](RO/H) This field reflects whether the Master Controller is in Idle state or not. This
-                                                                 bit is set when all the Queues(Command , Response, IBI) and Buffers(Transmit and
+                                                                 bit is set when all the Queues (Command , Response, IBI) and Buffers (Transmit and
                                                                  Receive) are empty along with the Master State machine is in Idle state. */
         uint32_t cmd_tid               : 4;  /**< [ 27: 24](RO/H) This field reflects the Transaction-ID of the current executing command. The
                                                                  Transaction ID is optional, software defined tag for
@@ -5589,7 +5803,7 @@ union cavm_i3c_present_state_debug
         uint32_t cm_tfr_st_status      : 6;  /**< [ 21: 16](RO/H) Indicates the state of current transfer currently executing by the Host controller.
 
                                                                   0x0 = IDLE (Controller is Idle state, waiting for commands from application
-                                                                 or Slave initated In-band Interrupt).
+                                                                 or Slave initiated In-band Interrupt).
                                                                   0x1 = START Generation State.
                                                                   0x2 = RESTART Generation State.
                                                                   0x3 = STOP Generation State.
@@ -5602,17 +5816,17 @@ union cavm_i3c_present_state_debug
                                                                   0xC = HDR Command Generation State.
                                                                   0xD = Write Data Transfer State.
                                                                   0xE = Read Data Transfer State.
-                                                                  0xF = In-Band Interrupt(SIR) Address Read Data State.
+                                                                  0xF = In-Band Interrupt (SIR) Address Read Data State.
                                                                   0x10 = In-Band Interrupt Auto-Disable State
                                                                   0x11 = HDR-DDR CRC Data Generation/Receive State.
                                                                   0x12 = Clock Extension State.
                                                                   0x13 = Halt State.
-                                                                  0x14 = In-Band Interrupt(SIR) Read Data State. */
+                                                                  0x14 = In-Band Interrupt (SIR) Read Data State. */
         uint32_t reserved_14_15        : 2;
         uint32_t cm_tfr_status         : 6;  /**< [ 13:  8](RO/H) Indicates the type of transfer currently executing by the DWC_mipi_i3c controller.
 
                                                                   0x0 = IDLE (Controller is in Idle state, waiting for commands from
-                                                                 application or Slave initated In-band Interrupt).
+                                                                 application or Slave initiated In-band Interrupt).
                                                                   0x1 = Broadcast CCC Write Transfer.
                                                                   0x2 = Directed CCC Write Transfer.
                                                                   0x3 = Directed CCC Read Transfer.
@@ -5622,10 +5836,10 @@ union cavm_i3c_present_state_debug
                                                                   0x7 = Private I3C SDR Read Transfer.
                                                                   0x8 = Private I2C SDR Write Transfer.
                                                                   0x9 = Private I2C SDR Read Transfer.
-                                                                  0xA = Private HDR Ternary Symbol(TS) Write Transfer.
-                                                                  0xB = Private HDR Ternary Symbol(TS) Read Transfer.
-                                                                  0xC = Private HDR Double-Data Rate(DDR) Write Transfer.
-                                                                  0xD = Private HDR Double-Data Rate(DDR) Read Transfer.
+                                                                  0xA = Private HDR Ternary Symbol (TS) Write Transfer.
+                                                                  0xB = Private HDR Ternary Symbol (TS) Read Transfer.
+                                                                  0xC = Private HDR Double-Data Rate (DDR) Write Transfer.
+                                                                  0xD = Private HDR Double-Data Rate (DDR) Read Transfer.
                                                                   0xE = Servicing In-Band Interrupt Transfer.
                                                                   0xF = Halt state (Controller is in Halt State, waiting for the application to
                                                                  resume through DEVICE_CTRL Register) */
@@ -5643,7 +5857,7 @@ union cavm_i3c_present_state_debug
         uint32_t cm_tfr_status         : 6;  /**< [ 13:  8](RO/H) Indicates the type of transfer currently executing by the DWC_mipi_i3c controller.
 
                                                                   0x0 = IDLE (Controller is in Idle state, waiting for commands from
-                                                                 application or Slave initated In-band Interrupt).
+                                                                 application or Slave initiated In-band Interrupt).
                                                                   0x1 = Broadcast CCC Write Transfer.
                                                                   0x2 = Directed CCC Write Transfer.
                                                                   0x3 = Directed CCC Read Transfer.
@@ -5653,10 +5867,10 @@ union cavm_i3c_present_state_debug
                                                                   0x7 = Private I3C SDR Read Transfer.
                                                                   0x8 = Private I2C SDR Write Transfer.
                                                                   0x9 = Private I2C SDR Read Transfer.
-                                                                  0xA = Private HDR Ternary Symbol(TS) Write Transfer.
-                                                                  0xB = Private HDR Ternary Symbol(TS) Read Transfer.
-                                                                  0xC = Private HDR Double-Data Rate(DDR) Write Transfer.
-                                                                  0xD = Private HDR Double-Data Rate(DDR) Read Transfer.
+                                                                  0xA = Private HDR Ternary Symbol (TS) Write Transfer.
+                                                                  0xB = Private HDR Ternary Symbol (TS) Read Transfer.
+                                                                  0xC = Private HDR Double-Data Rate (DDR) Write Transfer.
+                                                                  0xD = Private HDR Double-Data Rate (DDR) Read Transfer.
                                                                   0xE = Servicing In-Band Interrupt Transfer.
                                                                   0xF = Halt state (Controller is in Halt State, waiting for the application to
                                                                  resume through DEVICE_CTRL Register) */
@@ -5664,7 +5878,7 @@ union cavm_i3c_present_state_debug
         uint32_t cm_tfr_st_status      : 6;  /**< [ 21: 16](RO/H) Indicates the state of current transfer currently executing by the Host controller.
 
                                                                   0x0 = IDLE (Controller is Idle state, waiting for commands from application
-                                                                 or Slave initated In-band Interrupt).
+                                                                 or Slave initiated In-band Interrupt).
                                                                   0x1 = START Generation State.
                                                                   0x2 = RESTART Generation State.
                                                                   0x3 = STOP Generation State.
@@ -5677,12 +5891,12 @@ union cavm_i3c_present_state_debug
                                                                   0xC = HDR Command Generation State.
                                                                   0xD = Write Data Transfer State.
                                                                   0xE = Read Data Transfer State.
-                                                                  0xF = In-Band Interrupt(SIR) Address Read Data State.
+                                                                  0xF = In-Band Interrupt (SIR) Address Read Data State.
                                                                   0x10 = In-Band Interrupt Auto-Disable State
                                                                   0x11 = HDR-DDR CRC Data Generation/Receive State.
                                                                   0x12 = Clock Extension State.
                                                                   0x13 = Halt State.
-                                                                  0x14 = In-Band Interrupt(SIR) Read Data State. */
+                                                                  0x14 = In-Band Interrupt (SIR) Read Data State. */
         uint32_t reserved_22_23        : 2;
         uint32_t cmd_tid               : 4;  /**< [ 27: 24](RO/H) This field reflects the Transaction-ID of the current executing command. The
                                                                  Transaction ID is optional, software defined tag for
@@ -5690,7 +5904,7 @@ union cavm_i3c_present_state_debug
                                                                  detection of currently executed command while scheduling
                                                                  transfers in PIO mode. */
         uint32_t master_idle           : 1;  /**< [ 28: 28](RO/H) This field reflects whether the Master Controller is in Idle state or not. This
-                                                                 bit is set when all the Queues(Command , Response, IBI) and Buffers(Transmit and
+                                                                 bit is set when all the Queues (Command , Response, IBI) and Buffers (Transmit and
                                                                  Receive) are empty along with the Master State machine is in Idle state. */
         uint32_t reserved_29_31        : 3;
 #endif /* Word 0 - End */
@@ -5703,7 +5917,9 @@ typedef union cavm_i3c_present_state_debug cavm_i3c_present_state_debug_t;
 static inline uint64_t CAVM_I3C_PRESENT_STATE_DEBUG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_PRESENT_STATE_DEBUG_FUNC(void)
 {
-    return 0x87e0d000014cll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d000014cll;
+    __cavm_csr_fatal("I3C_PRESENT_STATE_DEBUG", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_PRESENT_STATE_DEBUG cavm_i3c_present_state_debug_t
@@ -5744,7 +5960,9 @@ typedef union cavm_i3c_queue_size_ctrl cavm_i3c_queue_size_ctrl_t;
 static inline uint64_t CAVM_I3C_QUEUE_SIZE_CTRL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_QUEUE_SIZE_CTRL_FUNC(void)
 {
-    return 0x87e0d0000318ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000318ll;
+    __cavm_csr_fatal("I3C_QUEUE_SIZE_CTRL", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_QUEUE_SIZE_CTRL cavm_i3c_queue_size_ctrl_t
@@ -5787,7 +6005,9 @@ typedef union cavm_i3c_queue_status_level cavm_i3c_queue_status_level_t;
 static inline uint64_t CAVM_I3C_QUEUE_STATUS_LEVEL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_QUEUE_STATUS_LEVEL_FUNC(void)
 {
-    return 0x87e0d0000144ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000144ll;
+    __cavm_csr_fatal("I3C_QUEUE_STATUS_LEVEL", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_QUEUE_STATUS_LEVEL cavm_i3c_queue_status_level_t
@@ -5881,7 +6101,9 @@ typedef union cavm_i3c_queue_thld_ctrl cavm_i3c_queue_thld_ctrl_t;
 static inline uint64_t CAVM_I3C_QUEUE_THLD_CTRL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_QUEUE_THLD_CTRL_FUNC(void)
 {
-    return 0x87e0d0000310ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000310ll;
+    __cavm_csr_fatal("I3C_QUEUE_THLD_CTRL", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_QUEUE_THLD_CTRL cavm_i3c_queue_thld_ctrl_t
@@ -5929,7 +6151,9 @@ typedef union cavm_i3c_reset_control cavm_i3c_reset_control_t;
 static inline uint64_t CAVM_I3C_RESET_CONTROL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_RESET_CONTROL_FUNC(void)
 {
-    return 0x87e0d0000010ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000010ll;
+    __cavm_csr_fatal("I3C_RESET_CONTROL", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_RESET_CONTROL cavm_i3c_reset_control_t
@@ -6025,7 +6249,9 @@ typedef union cavm_i3c_response_queue_port cavm_i3c_response_queue_port_t;
 static inline uint64_t CAVM_I3C_RESPONSE_QUEUE_PORT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_RESPONSE_QUEUE_PORT_FUNC(void)
 {
-    return 0x87e0d0000304ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000304ll;
+    __cavm_csr_fatal("I3C_RESPONSE_QUEUE_PORT", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_RESPONSE_QUEUE_PORT cavm_i3c_response_queue_port_t
@@ -6048,12 +6274,12 @@ union cavm_i3c_ring_headers_section_offset
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_16_31        : 16;
-        uint32_t section_offset        : 16; /**< [ 15:  0](RO/H) Ring Headers Section Offset
+        uint32_t section_offset        : 16; /**< [ 15:  0](RO/H) Ring Headers Section Offset.
                                                                  Offset of the Ring Headers registers section of the register map, relative to
                                                                  the BASE address of the current HCI.
                                                                  A value of 0 in this register indicates that the Ring Headers section is not implemented. */
 #else /* Word 0 - Little Endian */
-        uint32_t section_offset        : 16; /**< [ 15:  0](RO/H) Ring Headers Section Offset
+        uint32_t section_offset        : 16; /**< [ 15:  0](RO/H) Ring Headers Section Offset.
                                                                  Offset of the Ring Headers registers section of the register map, relative to
                                                                  the BASE address of the current HCI.
                                                                  A value of 0 in this register indicates that the Ring Headers section is not implemented. */
@@ -6068,7 +6294,9 @@ typedef union cavm_i3c_ring_headers_section_offset cavm_i3c_ring_headers_section
 static inline uint64_t CAVM_I3C_RING_HEADERS_SECTION_OFFSET_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_RING_HEADERS_SECTION_OFFSET_FUNC(void)
 {
-    return 0x87e0d0000038ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000038ll;
+    __cavm_csr_fatal("I3C_RING_HEADERS_SECTION_OFFSET", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_RING_HEADERS_SECTION_OFFSET cavm_i3c_ring_headers_section_offset_t
@@ -6117,7 +6345,9 @@ typedef union cavm_i3c_scl_ext_lcnt_timing cavm_i3c_scl_ext_lcnt_timing_t;
 static inline uint64_t CAVM_I3C_SCL_EXT_LCNT_TIMING_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_SCL_EXT_LCNT_TIMING_FUNC(void)
 {
-    return 0x87e0d0000128ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000128ll;
+    __cavm_csr_fatal("I3C_SCL_EXT_LCNT_TIMING", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_SCL_EXT_LCNT_TIMING cavm_i3c_scl_ext_lcnt_timing_t
@@ -6166,7 +6396,9 @@ typedef union cavm_i3c_scl_ext_termn_lcnt_timing cavm_i3c_scl_ext_termn_lcnt_tim
 static inline uint64_t CAVM_I3C_SCL_EXT_TERMN_LCNT_TIMING_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_SCL_EXT_TERMN_LCNT_TIMING_FUNC(void)
 {
-    return 0x87e0d000012cll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d000012cll;
+    __cavm_csr_fatal("I3C_SCL_EXT_TERMN_LCNT_TIMING", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_SCL_EXT_TERMN_LCNT_TIMING cavm_i3c_scl_ext_termn_lcnt_timing_t
@@ -6217,7 +6449,9 @@ typedef union cavm_i3c_scl_i2c_fm_timing cavm_i3c_scl_i2c_fm_timing_t;
 static inline uint64_t CAVM_I3C_SCL_I2C_FM_TIMING_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_SCL_I2C_FM_TIMING_FUNC(void)
 {
-    return 0x87e0d000011cll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d000011cll;
+    __cavm_csr_fatal("I3C_SCL_I2C_FM_TIMING", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_SCL_I2C_FM_TIMING cavm_i3c_scl_i2c_fm_timing_t
@@ -6270,7 +6504,9 @@ typedef union cavm_i3c_scl_i2c_fmp_timing cavm_i3c_scl_i2c_fmp_timing_t;
 static inline uint64_t CAVM_I3C_SCL_I2C_FMP_TIMING_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_SCL_I2C_FMP_TIMING_FUNC(void)
 {
-    return 0x87e0d0000120ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000120ll;
+    __cavm_csr_fatal("I3C_SCL_I2C_FMP_TIMING", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_SCL_I2C_FMP_TIMING cavm_i3c_scl_i2c_fmp_timing_t
@@ -6309,7 +6545,9 @@ typedef union cavm_i3c_scl_i2c_ss_timing cavm_i3c_scl_i2c_ss_timing_t;
 static inline uint64_t CAVM_I3C_SCL_I2C_SS_TIMING_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_SCL_I2C_SS_TIMING_FUNC(void)
 {
-    return 0x87e0d0000124ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000124ll;
+    __cavm_csr_fatal("I3C_SCL_I2C_SS_TIMING", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_SCL_I2C_SS_TIMING cavm_i3c_scl_i2c_ss_timing_t
@@ -6352,7 +6590,9 @@ typedef union cavm_i3c_scl_i3c_od_timing cavm_i3c_scl_i3c_od_timing_t;
 static inline uint64_t CAVM_I3C_SCL_I3C_OD_TIMING_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_SCL_I3C_OD_TIMING_FUNC(void)
 {
-    return 0x87e0d0000114ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000114ll;
+    __cavm_csr_fatal("I3C_SCL_I3C_OD_TIMING", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_SCL_I3C_OD_TIMING cavm_i3c_scl_i3c_od_timing_t
@@ -6403,7 +6643,9 @@ typedef union cavm_i3c_scl_i3c_pp_timing cavm_i3c_scl_i3c_pp_timing_t;
 static inline uint64_t CAVM_I3C_SCL_I3C_PP_TIMING_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_SCL_I3C_PP_TIMING_FUNC(void)
 {
-    return 0x87e0d0000118ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000118ll;
+    __cavm_csr_fatal("I3C_SCL_I3C_PP_TIMING", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_SCL_I3C_PP_TIMING cavm_i3c_scl_i3c_pp_timing_t
@@ -6473,7 +6715,9 @@ typedef union cavm_i3c_sda_hold_switch_dly_timing cavm_i3c_sda_hold_switch_dly_t
 static inline uint64_t CAVM_I3C_SDA_HOLD_SWITCH_DLY_TIMING_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_SDA_HOLD_SWITCH_DLY_TIMING_FUNC(void)
 {
-    return 0x87e0d0000130ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000130ll;
+    __cavm_csr_fatal("I3C_SDA_HOLD_SWITCH_DLY_TIMING", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_SDA_HOLD_SWITCH_DLY_TIMING cavm_i3c_sda_hold_switch_dly_timing_t
@@ -6524,7 +6768,9 @@ typedef union cavm_i3c_tx_data_port cavm_i3c_tx_data_port_t;
 static inline uint64_t CAVM_I3C_TX_DATA_PORT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_TX_DATA_PORT_FUNC(void)
 {
-    return 0x87e0d0000308ll;
+    if (cavm_is_model(OCTEONTX_ODINMP))
+        return 0x87e0d0000308ll;
+    __cavm_csr_fatal("I3C_TX_DATA_PORT", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_I3C_TX_DATA_PORT cavm_i3c_tx_data_port_t
