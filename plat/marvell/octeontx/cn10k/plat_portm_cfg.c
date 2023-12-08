@@ -690,51 +690,6 @@ static const cn10k_portm_modes_t portm_1_lane[] = {
 	PORTM_MODE_DISABLED
 };
 
-/* Support 1 SERDES Lane Ethernet (excluding QSGMII) modes */
-static const cn10k_portm_modes_t portm_1_lane_all_basex[] = {
-	/* 1 lane */
-	PORTM_MODE_SGMII,
-	PORTM_MODE_1000BASE_X,
-	PORTM_MODE_SFI_1G,
-	PORTM_MODE_2500BASE_X,
-	PORTM_MODE_5000BASE_X,
-	PORTM_MODE_XFI,
-	PORTM_MODE_SFI,
-	PORTM_MODE_10GBASE_KR,
-	PORTM_MODE_25GAUI_C2C,
-	PORTM_MODE_25GAUI_C2M,
-	PORTM_MODE_25GBASE_CR,
-	PORTM_MODE_25GBASE_KR,
-	PORTM_MODE_25GBASE_CR_C,
-	PORTM_MODE_25GBASE_KR_C,
-	PORTM_MODE_50GAUI_1_C2C,
-	PORTM_MODE_50GAUI_1_C2M,
-	PORTM_MODE_50GBASE_CR,
-	PORTM_MODE_50GBASE_KR,
-	PORTM_MODE_10G_SXGMII,
-	/* 802_3AP */
-	PORTM_MODE_802_3AP,
-
-	PORTM_MODE_DISABLED
-};
-
-/* Support 1 SERDES Lane Ethernet of up to 10g rate  */
-static const cn10k_portm_modes_t portm_1_lane_up_to_10g_basex[] = {
-	/* 1 lane */
-	PORTM_MODE_SGMII,
-	PORTM_MODE_1000BASE_X,
-	PORTM_MODE_SFI_1G,
-	PORTM_MODE_2500BASE_X,
-	PORTM_MODE_5000BASE_X,
-	PORTM_MODE_XFI,
-	PORTM_MODE_SFI,
-	PORTM_MODE_10GBASE_KR,
-	PORTM_MODE_10G_SXGMII,
-	/* 802_3AP */
-	PORTM_MODE_802_3AP,
-	PORTM_MODE_DISABLED
-};
-
 /* Support 1 SERDES Lane Ethernet (excluding QSGMII and 50G PAM4) modes	*/
 static const cn10k_portm_modes_t portm_1_lane_25g[] = {
 	/* 1 lane */
@@ -1044,13 +999,12 @@ const cn10k_portm_modes_t *portm_get_mode_desc(int portm)
 		case 1:
 			return portm_1_lane_slow_usgmii_usxgmii;
 		case 2:
-		case 3:
+			return portm_4_lane;
 		case 4:
+			return portm_2_lane;
+		case 3:
 		case 5:
-			if (plat_get_altpkg() == CN10KB_PKG) /* CN102xx */
-				return portm_1_lane_up_to_10g_basex;
-			else /* CN103xx */
-				return portm_1_lane_all_basex;
+			return portm_1_lane;
 		default:
 			return NULL;
 		}
