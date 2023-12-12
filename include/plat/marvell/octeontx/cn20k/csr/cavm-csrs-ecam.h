@@ -145,9 +145,11 @@ union cavm_ecamx_domx_busx_permit
         uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. Disable any accesses initiated by XCP0 (SCP). */
         uint64_t nsec_dis              : 1;  /**< [  1:  1](SR/W) Nonsecure disable. Disable any non secure acceses by devices except for the ones
                                                                  from XCP0/XCP1/XCP2/XCP3 */
-        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. Disable secure acceses from devices except for teh ones from XCP0/XCP1/XCP2. */
+        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. Disable secure acceses from devices except for the ones
+                                                                 from XCP0/XCP1/XCP2/XCP3. */
 #else /* Word 0 - Little Endian */
-        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. Disable secure acceses from devices except for teh ones from XCP0/XCP1/XCP2. */
+        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. Disable secure acceses from devices except for the ones
+                                                                 from XCP0/XCP1/XCP2/XCP3. */
         uint64_t nsec_dis              : 1;  /**< [  1:  1](SR/W) Nonsecure disable. Disable any non secure acceses by devices except for the ones
                                                                  from XCP0/XCP1/XCP2/XCP3 */
         uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. Disable any accesses initiated by XCP0 (SCP). */
@@ -227,6 +229,24 @@ union cavm_ecamx_domx_const
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_6_63         : 58;
         uint64_t pres                  : 1;  /**< [  5:  5](RO) If implemented. */
+        uint64_t permit                : 1;  /**< [  4:  4](RO) If set, for this domain number, the ECAM()_DOM()_BUS()_PERMIT
+                                                                 or ECAM()_DOM()_DEV()_PERMIT registers are implemented. */
+        uint64_t smmu                  : 4;  /**< [  3:  0](RO) Attached SMMU number. */
+#else /* Word 0 - Little Endian */
+        uint64_t smmu                  : 4;  /**< [  3:  0](RO) Attached SMMU number. */
+        uint64_t permit                : 1;  /**< [  4:  4](RO) If set, for this domain number, the ECAM()_DOM()_BUS()_PERMIT
+                                                                 or ECAM()_DOM()_DEV()_PERMIT registers are implemented. */
+        uint64_t pres                  : 1;  /**< [  5:  5](RO) If implemented. */
+        uint64_t reserved_6_63         : 58;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ecamx_domx_const_s cheetah; */
+    /* struct cavm_ecamx_domx_const_s cn20; */
+    struct cavm_ecamx_domx_const_odinmp
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_6_63         : 58;
+        uint64_t pres                  : 1;  /**< [  5:  5](RO) If implemented. */
         uint64_t permit                : 1;  /**< [  4:  4](RO) If set, for this domain number, the ECAM()_DOM()_BUS()_PERMIT,
                                                                  ECAM()_DOM()_RSL()_PERMIT, and ECAM()_DOM()_DEV()_PERMIT registers are implemented. */
         uint64_t smmu                  : 4;  /**< [  3:  0](RO) Attached SMMU number. */
@@ -237,8 +257,7 @@ union cavm_ecamx_domx_const
         uint64_t pres                  : 1;  /**< [  5:  5](RO) If implemented. */
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_ecamx_domx_const_s cn; */
+    } odinmp;
 };
 typedef union cavm_ecamx_domx_const cavm_ecamx_domx_const_t;
 
@@ -290,9 +309,11 @@ union cavm_ecamx_domx_devx_permit
         uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. Disable any accesses initiated by XCP0 (SCP). */
         uint64_t nsec_dis              : 1;  /**< [  1:  1](SR/W) Nonsecure disable. Disable any non secure acceses by devices except for the ones
                                                                  from XCP0/XCP1/XCP2/XCP3 */
-        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. Disable secure acceses from devices except for teh ones from XCP0/XCP1/XCP2. */
+        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. Disable secure acceses from devices except for the ones
+                                                                 from XCP0/XCP1/XCP2/XCP3. */
 #else /* Word 0 - Little Endian */
-        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. Disable secure acceses from devices except for teh ones from XCP0/XCP1/XCP2. */
+        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. Disable secure acceses from devices except for the ones
+                                                                 from XCP0/XCP1/XCP2/XCP3. */
         uint64_t nsec_dis              : 1;  /**< [  1:  1](SR/W) Nonsecure disable. Disable any non secure acceses by devices except for the ones
                                                                  from XCP0/XCP1/XCP2/XCP3 */
         uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. Disable any accesses initiated by XCP0 (SCP). */

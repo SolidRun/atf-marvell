@@ -3707,7 +3707,11 @@ union cavm_dssx_ddrctl_regb_chb_mpam_ns_mpamcfg_mbw_max
     struct cavm_dssx_ddrctl_regb_chb_mpam_ns_mpamcfg_mbw_max_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_16_31        : 16;
+        uint32_t hardlim               : 1;  /**< [ 31: 31](R/W) 0: When MAX bandwidth is exceeded, the partition may contend with a low
+                                                                 preference for downstream bandwidth beyond its maximum bandwidth.   1: When MAX
+                                                                 bandwidth is exceeded, the partition may not be use any more bandwidth until its
+                                                                 memory bandwidth measurement falls below the maximum limit. */
+        uint32_t reserved_16_30        : 15;
         uint32_t max                   : 8;  /**< [ 15:  8](R/W) Memory maximum bandwidth allocated to the partition selected by
                                                                  MPAMCFG_PART_SEL. Width of this field, w, is BWA_WD. BWA is a fixed-point
                                                                  fraction of the available memory bandwidth. */
@@ -3717,7 +3721,11 @@ union cavm_dssx_ddrctl_regb_chb_mpam_ns_mpamcfg_mbw_max
         uint32_t max                   : 8;  /**< [ 15:  8](R/W) Memory maximum bandwidth allocated to the partition selected by
                                                                  MPAMCFG_PART_SEL. Width of this field, w, is BWA_WD. BWA is a fixed-point
                                                                  fraction of the available memory bandwidth. */
-        uint32_t reserved_16_31        : 16;
+        uint32_t reserved_16_30        : 15;
+        uint32_t hardlim               : 1;  /**< [ 31: 31](R/W) 0: When MAX bandwidth is exceeded, the partition may contend with a low
+                                                                 preference for downstream bandwidth beyond its maximum bandwidth.   1: When MAX
+                                                                 bandwidth is exceeded, the partition may not be use any more bandwidth until its
+                                                                 memory bandwidth measurement falls below the maximum limit. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_dssx_ddrctl_regb_chb_mpam_ns_mpamcfg_mbw_max_s cn; */
@@ -5303,7 +5311,11 @@ union cavm_dssx_ddrctl_regb_chb_mpam_s_mpamcfg_mbw_max
     struct cavm_dssx_ddrctl_regb_chb_mpam_s_mpamcfg_mbw_max_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_16_31        : 16;
+        uint32_t hardlim               : 1;  /**< [ 31: 31](SR/W) 0: When MAX bandwidth is exceeded, the partition may contend with a low
+                                                                 preference for downstream bandwidth beyond its maximum bandwidth.   1: When MAX
+                                                                 bandwidth is exceeded, the partition may not be use any more bandwidth until its
+                                                                 memory bandwidth measurement falls below the maximum limit. */
+        uint32_t reserved_16_30        : 15;
         uint32_t max                   : 8;  /**< [ 15:  8](SR/W) Memory maximum bandwidth allocated to the partition selected by
                                                                  MPAMCFG_PART_SEL. Width of this field, w, is BWA_WD. BWA is a fixed-point
                                                                  fraction of the available memory bandwidth. */
@@ -5313,7 +5325,11 @@ union cavm_dssx_ddrctl_regb_chb_mpam_s_mpamcfg_mbw_max
         uint32_t max                   : 8;  /**< [ 15:  8](SR/W) Memory maximum bandwidth allocated to the partition selected by
                                                                  MPAMCFG_PART_SEL. Width of this field, w, is BWA_WD. BWA is a fixed-point
                                                                  fraction of the available memory bandwidth. */
-        uint32_t reserved_16_31        : 16;
+        uint32_t reserved_16_30        : 15;
+        uint32_t hardlim               : 1;  /**< [ 31: 31](SR/W) 0: When MAX bandwidth is exceeded, the partition may contend with a low
+                                                                 preference for downstream bandwidth beyond its maximum bandwidth.   1: When MAX
+                                                                 bandwidth is exceeded, the partition may not be use any more bandwidth until its
+                                                                 memory bandwidth measurement falls below the maximum limit. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_dssx_ddrctl_regb_chb_mpam_s_mpamcfg_mbw_max_s cn; */
@@ -28474,17 +28490,17 @@ union cavm_dssx_rsl_ddrctl_permit
         uint64_t lock                  : 1;  /**< [  8:  8](SR/W1S) Lock Bit, Lock the register from any further updates Once this bit is set all
                                                                  the sbsequent writes are ignored. The whole register acts as read only. */
         uint64_t reserved_5_7          : 3;
-        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable. Disable any access initiated by XCP2(CCP). */
-        uint64_t xcp1_dis              : 1;  /**< [  3:  3](SR/W) XCP1 disable. Disable any access initiated by XCP1(MCP). */
-        uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. Disable any access initiated by XCP0(SCP). */
+        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable. Disable any access initiated by XCP2.(ECP). */
+        uint64_t xcp1_dis              : 1;  /**< [  3:  3](SR/W) XCP1 disable. Disable any access initiated by XCP1.(MCP). */
+        uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. Disable any access initiated by XCP0.(SCP). */
         uint64_t nsec_dis              : 1;  /**< [  1:  1](SR/W) Nonsecure disable. Disable nonsecure accesses by devices except for XCP0/XCP1/XCP2. */
         uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. Disable secure accesses by devices except for XCP0/XCP1/XCP2. */
 #else /* Word 0 - Little Endian */
         uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. Disable secure accesses by devices except for XCP0/XCP1/XCP2. */
         uint64_t nsec_dis              : 1;  /**< [  1:  1](SR/W) Nonsecure disable. Disable nonsecure accesses by devices except for XCP0/XCP1/XCP2. */
-        uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. Disable any access initiated by XCP0(SCP). */
-        uint64_t xcp1_dis              : 1;  /**< [  3:  3](SR/W) XCP1 disable. Disable any access initiated by XCP1(MCP). */
-        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable. Disable any access initiated by XCP2(CCP). */
+        uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. Disable any access initiated by XCP0.(SCP). */
+        uint64_t xcp1_dis              : 1;  /**< [  3:  3](SR/W) XCP1 disable. Disable any access initiated by XCP1.(MCP). */
+        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable. Disable any access initiated by XCP2.(ECP). */
         uint64_t reserved_5_7          : 3;
         uint64_t lock                  : 1;  /**< [  8:  8](SR/W1S) Lock Bit, Lock the register from any further updates Once this bit is set all
                                                                  the sbsequent writes are ignored. The whole register acts as read only. */
@@ -28526,7 +28542,7 @@ union cavm_dssx_rsl_mct_permit
         uint64_t lock                  : 1;  /**< [  8:  8](SR/W1S) Lock Bit, Lock the register from any further updates Once this bit is set all
                                                                  the sbsequent writes are ignored. The whole register acts as read only. */
         uint64_t reserved_5_7          : 3;
-        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable. Disable any access initiated by XCP2.(CCP). */
+        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable. Disable any access initiated by XCP2.(ECP). */
         uint64_t xcp1_dis              : 1;  /**< [  3:  3](SR/W) XCP1 disable. Disable any access initiated by XCP1.(MCP). */
         uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. Disable any access initiated by XCP0.(SCP). */
         uint64_t nsec_dis              : 1;  /**< [  1:  1](SR/W) Nonsecure disable. Disable nonsecure accesses by devices except for XCP0/XCP1/XCP2. */
@@ -28536,7 +28552,7 @@ union cavm_dssx_rsl_mct_permit
         uint64_t nsec_dis              : 1;  /**< [  1:  1](SR/W) Nonsecure disable. Disable nonsecure accesses by devices except for XCP0/XCP1/XCP2. */
         uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. Disable any access initiated by XCP0.(SCP). */
         uint64_t xcp1_dis              : 1;  /**< [  3:  3](SR/W) XCP1 disable. Disable any access initiated by XCP1.(MCP). */
-        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable. Disable any access initiated by XCP2.(CCP). */
+        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable. Disable any access initiated by XCP2.(ECP). */
         uint64_t reserved_5_7          : 3;
         uint64_t lock                  : 1;  /**< [  8:  8](SR/W1S) Lock Bit, Lock the register from any further updates Once this bit is set all
                                                                  the sbsequent writes are ignored. The whole register acts as read only. */

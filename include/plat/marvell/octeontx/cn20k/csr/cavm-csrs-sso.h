@@ -315,8 +315,8 @@ typedef union cavm_sso_af_aw_dropped_digestx cavm_sso_af_aw_dropped_digestx_t;
 static inline uint64_t CAVM_SSO_AF_AW_DROPPED_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_AW_DROPPED_DIGESTX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x840070900c00ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x840070900c00ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("SSO_AF_AW_DROPPED_DIGESTX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -339,9 +339,9 @@ union cavm_sso_af_aw_dropped_digestx_w1s
     struct cavm_sso_af_aw_dropped_digestx_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_AW_DROPPED_DIGEST(0..3)[HWGRP]. */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_AW_DROPPED_DIGEST(0..5)[HWGRP]. */
 #else /* Word 0 - Little Endian */
-        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_AW_DROPPED_DIGEST(0..3)[HWGRP]. */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_AW_DROPPED_DIGEST(0..5)[HWGRP]. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_sso_af_aw_dropped_digestx_w1s_s cn; */
@@ -351,8 +351,8 @@ typedef union cavm_sso_af_aw_dropped_digestx_w1s cavm_sso_af_aw_dropped_digestx_
 static inline uint64_t CAVM_SSO_AF_AW_DROPPED_DIGESTX_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_AW_DROPPED_DIGESTX_W1S(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x840070900d00ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x840070900d00ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("SSO_AF_AW_DROPPED_DIGESTX_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -530,8 +530,8 @@ typedef union cavm_sso_af_awempty_digestx cavm_sso_af_awempty_digestx_t;
 static inline uint64_t CAVM_SSO_AF_AWEMPTY_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_AWEMPTY_DIGESTX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x840070900800ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x840070900800ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("SSO_AF_AWEMPTY_DIGESTX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -554,9 +554,9 @@ union cavm_sso_af_awempty_digestx_w1s
     struct cavm_sso_af_awempty_digestx_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_AWEMPTY_DIGEST(0..3)[HWGRP]. */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_AWEMPTY_DIGEST(0..5)[HWGRP]. */
 #else /* Word 0 - Little Endian */
-        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_AWEMPTY_DIGEST(0..3)[HWGRP]. */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_AWEMPTY_DIGEST(0..5)[HWGRP]. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_sso_af_awempty_digestx_w1s_s cn; */
@@ -566,8 +566,8 @@ typedef union cavm_sso_af_awempty_digestx_w1s cavm_sso_af_awempty_digestx_w1s_t;
 static inline uint64_t CAVM_SSO_AF_AWEMPTY_DIGESTX_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_AWEMPTY_DIGESTX_W1S(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x840070900900ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x840070900900ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("SSO_AF_AWEMPTY_DIGESTX_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -602,8 +602,8 @@ typedef union cavm_sso_af_bad_stash_digestx cavm_sso_af_bad_stash_digestx_t;
 static inline uint64_t CAVM_SSO_AF_BAD_STASH_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_BAD_STASH_DIGESTX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x8400702000e0ll + 0x1000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x8400702000e0ll + 0x1000ll * ((a) & 0x7);
     __cavm_csr_fatal("SSO_AF_BAD_STASH_DIGESTX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -626,9 +626,9 @@ union cavm_sso_af_bad_stash_digestx_w1s
     struct cavm_sso_af_bad_stash_digestx_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_BAD_STASH_DIGEST(0..3)[HWGRP]. */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_BAD_STASH_DIGEST(0..5)[HWGRP]. */
 #else /* Word 0 - Little Endian */
-        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_BAD_STASH_DIGEST(0..3)[HWGRP]. */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_BAD_STASH_DIGEST(0..5)[HWGRP]. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_sso_af_bad_stash_digestx_w1s_s cn; */
@@ -638,8 +638,8 @@ typedef union cavm_sso_af_bad_stash_digestx_w1s cavm_sso_af_bad_stash_digestx_w1
 static inline uint64_t CAVM_SSO_AF_BAD_STASH_DIGESTX_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_BAD_STASH_DIGESTX_W1S(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x8400702000f0ll + 0x1000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x8400702000f0ll + 0x1000ll * ((a) & 0x7);
     __cavm_csr_fatal("SSO_AF_BAD_STASH_DIGESTX_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -754,8 +754,8 @@ typedef union cavm_sso_af_bfp_digestx cavm_sso_af_bfp_digestx_t;
 static inline uint64_t CAVM_SSO_AF_BFP_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_BFP_DIGESTX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x840070900200ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x840070900200ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("SSO_AF_BFP_DIGESTX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -778,9 +778,9 @@ union cavm_sso_af_bfp_digestx_w1s
     struct cavm_sso_af_bfp_digestx_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_BFP_DIGEST(0..3)[HWGRP]. */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_BFP_DIGEST(0..5)[HWGRP]. */
 #else /* Word 0 - Little Endian */
-        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_BFP_DIGEST(0..3)[HWGRP]. */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_BFP_DIGEST(0..5)[HWGRP]. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_sso_af_bfp_digestx_w1s_s cn; */
@@ -790,8 +790,8 @@ typedef union cavm_sso_af_bfp_digestx_w1s cavm_sso_af_bfp_digestx_w1s_t;
 static inline uint64_t CAVM_SSO_AF_BFP_DIGESTX_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_BFP_DIGESTX_W1S(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x840070900300ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x840070900300ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("SSO_AF_BFP_DIGESTX_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -826,8 +826,8 @@ typedef union cavm_sso_af_bfpn_digestx cavm_sso_af_bfpn_digestx_t;
 static inline uint64_t CAVM_SSO_AF_BFPN_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_BFPN_DIGESTX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x840070900400ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x840070900400ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("SSO_AF_BFPN_DIGESTX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -850,9 +850,9 @@ union cavm_sso_af_bfpn_digestx_w1s
     struct cavm_sso_af_bfpn_digestx_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_BFPN_DIGEST(0..3)[HWGRP]. */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_BFPN_DIGEST(0..5)[HWGRP]. */
 #else /* Word 0 - Little Endian */
-        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_BFPN_DIGEST(0..3)[HWGRP]. */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_BFPN_DIGEST(0..5)[HWGRP]. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_sso_af_bfpn_digestx_w1s_s cn; */
@@ -862,8 +862,8 @@ typedef union cavm_sso_af_bfpn_digestx_w1s cavm_sso_af_bfpn_digestx_w1s_t;
 static inline uint64_t CAVM_SSO_AF_BFPN_DIGESTX_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_BFPN_DIGESTX_W1S(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x840070900500ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x840070900500ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("SSO_AF_BFPN_DIGESTX_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1681,8 +1681,8 @@ typedef union cavm_sso_af_flr_aq_digestx cavm_sso_af_flr_aq_digestx_t;
 static inline uint64_t CAVM_SSO_AF_FLR_AQ_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_FLR_AQ_DIGESTX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x840070901200ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x840070901200ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("SSO_AF_FLR_AQ_DIGESTX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1705,9 +1705,9 @@ union cavm_sso_af_flr_aq_digestx_w1s
     struct cavm_sso_af_flr_aq_digestx_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_FLR_AQ_DIGEST(0..3)[HWGRP]. */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_FLR_AQ_DIGEST(0..5)[HWGRP]. */
 #else /* Word 0 - Little Endian */
-        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_FLR_AQ_DIGEST(0..3)[HWGRP]. */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_FLR_AQ_DIGEST(0..5)[HWGRP]. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_sso_af_flr_aq_digestx_w1s_s cn; */
@@ -1717,8 +1717,8 @@ typedef union cavm_sso_af_flr_aq_digestx_w1s cavm_sso_af_flr_aq_digestx_w1s_t;
 static inline uint64_t CAVM_SSO_AF_FLR_AQ_DIGESTX_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_FLR_AQ_DIGESTX_W1S(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x840070901300ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x840070901300ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("SSO_AF_FLR_AQ_DIGESTX_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1753,8 +1753,8 @@ typedef union cavm_sso_af_grpdis_digestx cavm_sso_af_grpdis_digestx_t;
 static inline uint64_t CAVM_SSO_AF_GRPDIS_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_GRPDIS_DIGESTX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x840070900600ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x840070900600ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("SSO_AF_GRPDIS_DIGESTX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1777,9 +1777,9 @@ union cavm_sso_af_grpdis_digestx_w1s
     struct cavm_sso_af_grpdis_digestx_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_GRPDIS_DIGEST(0..3)[HWGRP]. */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_GRPDIS_DIGEST(0..5)[HWGRP]. */
 #else /* Word 0 - Little Endian */
-        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_GRPDIS_DIGEST(0..3)[HWGRP]. */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_GRPDIS_DIGEST(0..5)[HWGRP]. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_sso_af_grpdis_digestx_w1s_s cn; */
@@ -1789,8 +1789,8 @@ typedef union cavm_sso_af_grpdis_digestx_w1s cavm_sso_af_grpdis_digestx_w1s_t;
 static inline uint64_t CAVM_SSO_AF_GRPDIS_DIGESTX_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_GRPDIS_DIGESTX_W1S(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x840070900700ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x840070900700ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("SSO_AF_GRPDIS_DIGESTX_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2000,8 +2000,8 @@ typedef union cavm_sso_af_hwgrpx_aw_cfg cavm_sso_af_hwgrpx_aw_cfg_t;
 static inline uint64_t CAVM_SSO_AF_HWGRPX_AW_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWGRPX_AW_CFG(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=255))
-        return 0x840070200120ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=383))
+        return 0x840070200120ll + 0x1000ll * ((a) & 0x1ff);
     __cavm_csr_fatal("SSO_AF_HWGRPX_AW_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2024,11 +2024,11 @@ union cavm_sso_af_hwgrpx_aw_fwd
     struct cavm_sso_af_hwgrpx_aw_fwd_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
-        uint64_t fwgrp                 : 8;  /**< [  7:  0](R/W) The HWGRP this group forwards to. */
+        uint64_t reserved_9_63         : 55;
+        uint64_t fwgrp                 : 9;  /**< [  8:  0](R/W) The HWGRP this group forwards to. */
 #else /* Word 0 - Little Endian */
-        uint64_t fwgrp                 : 8;  /**< [  7:  0](R/W) The HWGRP this group forwards to. */
-        uint64_t reserved_8_63         : 56;
+        uint64_t fwgrp                 : 9;  /**< [  8:  0](R/W) The HWGRP this group forwards to. */
+        uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_sso_af_hwgrpx_aw_fwd_s cn; */
@@ -2038,8 +2038,8 @@ typedef union cavm_sso_af_hwgrpx_aw_fwd cavm_sso_af_hwgrpx_aw_fwd_t;
 static inline uint64_t CAVM_SSO_AF_HWGRPX_AW_FWD(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWGRPX_AW_FWD(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=255))
-        return 0x840070200030ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=383))
+        return 0x840070200030ll + 0x1000ll * ((a) & 0x1ff);
     __cavm_csr_fatal("SSO_AF_HWGRPX_AW_FWD", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2136,8 +2136,8 @@ typedef union cavm_sso_af_hwgrpx_aw_status cavm_sso_af_hwgrpx_aw_status_t;
 static inline uint64_t CAVM_SSO_AF_HWGRPX_AW_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWGRPX_AW_STATUS(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=255))
-        return 0x840070200110ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=383))
+        return 0x840070200110ll + 0x1000ll * ((a) & 0x1ff);
     __cavm_csr_fatal("SSO_AF_HWGRPX_AW_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2182,8 +2182,8 @@ typedef union cavm_sso_af_hwgrpx_aw_tagspace cavm_sso_af_hwgrpx_aw_tagspace_t;
 static inline uint64_t CAVM_SSO_AF_HWGRPX_AW_TAGSPACE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWGRPX_AW_TAGSPACE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=255))
-        return 0x840070200130ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=383))
+        return 0x840070200130ll + 0x1000ll * ((a) & 0x1ff);
     __cavm_csr_fatal("SSO_AF_HWGRPX_AW_TAGSPACE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2223,8 +2223,8 @@ typedef union cavm_sso_af_hwgrpx_dq_pc cavm_sso_af_hwgrpx_dq_pc_t;
 static inline uint64_t CAVM_SSO_AF_HWGRPX_DQ_PC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWGRPX_DQ_PC(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=255))
-        return 0x8400702000a0ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=383))
+        return 0x8400702000a0ll + 0x1000ll * ((a) & 0x1ff);
     __cavm_csr_fatal("SSO_AF_HWGRPX_DQ_PC", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2262,8 +2262,8 @@ typedef union cavm_sso_af_hwgrpx_ds_pc cavm_sso_af_hwgrpx_ds_pc_t;
 static inline uint64_t CAVM_SSO_AF_HWGRPX_DS_PC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWGRPX_DS_PC(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=255))
-        return 0x840070200090ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=383))
+        return 0x840070200090ll + 0x1000ll * ((a) & 0x1ff);
     __cavm_csr_fatal("SSO_AF_HWGRPX_DS_PC", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2303,8 +2303,8 @@ typedef union cavm_sso_af_hwgrpx_ext_pc cavm_sso_af_hwgrpx_ext_pc_t;
 static inline uint64_t CAVM_SSO_AF_HWGRPX_EXT_PC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWGRPX_EXT_PC(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=255))
-        return 0x840070200060ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=383))
+        return 0x840070200060ll + 0x1000ll * ((a) & 0x1ff);
     __cavm_csr_fatal("SSO_AF_HWGRPX_EXT_PC", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2363,8 +2363,8 @@ typedef union cavm_sso_af_hwgrpx_iaq_thr cavm_sso_af_hwgrpx_iaq_thr_t;
 static inline uint64_t CAVM_SSO_AF_HWGRPX_IAQ_THR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWGRPX_IAQ_THR(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=255))
-        return 0x840070200000ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=383))
+        return 0x840070200000ll + 0x1000ll * ((a) & 0x1ff);
     __cavm_csr_fatal("SSO_AF_HWGRPX_IAQ_THR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2394,11 +2394,11 @@ union cavm_sso_af_hwgrpx_iu_accnt
                                                                  Note that the per-group IAQ thresholds in SSO_AF_HWGRP()_IAQ_THR and
                                                                  SSO_LF_GGRP_INT_THR[IAQ_THR] always apply, regardless of the in-unit
                                                                  accounting index. */
-        uint64_t reserved_8_15         : 8;
-        uint64_t accnt_indx            : 8;  /**< [  7:  0](R/W) In-unit accounting index assigned to this hardware group. */
+        uint64_t reserved_9_15         : 7;
+        uint64_t accnt_indx            : 9;  /**< [  8:  0](R/W) In-unit accounting index assigned to this hardware group. */
 #else /* Word 0 - Little Endian */
-        uint64_t accnt_indx            : 8;  /**< [  7:  0](R/W) In-unit accounting index assigned to this hardware group. */
-        uint64_t reserved_8_15         : 8;
+        uint64_t accnt_indx            : 9;  /**< [  8:  0](R/W) In-unit accounting index assigned to this hardware group. */
+        uint64_t reserved_9_15         : 7;
         uint64_t ena                   : 1;  /**< [ 16: 16](R/W) Enable the use of the in-unit accounting index. When clear, the
                                                                  hardware group does not participate in any in-unit accounting index.
 
@@ -2415,8 +2415,8 @@ typedef union cavm_sso_af_hwgrpx_iu_accnt cavm_sso_af_hwgrpx_iu_accnt_t;
 static inline uint64_t CAVM_SSO_AF_HWGRPX_IU_ACCNT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWGRPX_IU_ACCNT(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=255))
-        return 0x840070200230ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=383))
+        return 0x840070200230ll + 0x1000ll * ((a) & 0x1ff);
     __cavm_csr_fatal("SSO_AF_HWGRPX_IU_ACCNT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2456,8 +2456,8 @@ typedef union cavm_sso_af_hwgrpx_ls_pc cavm_sso_af_hwgrpx_ls_pc_t;
 static inline uint64_t CAVM_SSO_AF_HWGRPX_LS_PC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWGRPX_LS_PC(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=255))
-        return 0x8400702000c0ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=383))
+        return 0x8400702000c0ll + 0x1000ll * ((a) & 0x1ff);
     __cavm_csr_fatal("SSO_AF_HWGRPX_LS_PC", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2497,8 +2497,8 @@ typedef union cavm_sso_af_hwgrpx_page_cnt cavm_sso_af_hwgrpx_page_cnt_t;
 static inline uint64_t CAVM_SSO_AF_HWGRPX_PAGE_CNT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWGRPX_PAGE_CNT(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=255))
-        return 0x840070200100ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=383))
+        return 0x840070200100ll + 0x1000ll * ((a) & 0x1ff);
     __cavm_csr_fatal("SSO_AF_HWGRPX_PAGE_CNT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2565,8 +2565,8 @@ typedef union cavm_sso_af_hwgrpx_pri cavm_sso_af_hwgrpx_pri_t;
 static inline uint64_t CAVM_SSO_AF_HWGRPX_PRI(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWGRPX_PRI(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=255))
-        return 0x840070200020ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=383))
+        return 0x840070200020ll + 0x1000ll * ((a) & 0x1ff);
     __cavm_csr_fatal("SSO_AF_HWGRPX_PRI", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2613,8 +2613,8 @@ typedef union cavm_sso_af_hwgrpx_stash cavm_sso_af_hwgrpx_stash_t;
 static inline uint64_t CAVM_SSO_AF_HWGRPX_STASH(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWGRPX_STASH(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=255))
-        return 0x8400702000d0ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=383))
+        return 0x8400702000d0ll + 0x1000ll * ((a) & 0x1ff);
     __cavm_csr_fatal("SSO_AF_HWGRPX_STASH", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2684,8 +2684,8 @@ typedef union cavm_sso_af_hwgrpx_taq_thr cavm_sso_af_hwgrpx_taq_thr_t;
 static inline uint64_t CAVM_SSO_AF_HWGRPX_TAQ_THR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWGRPX_TAQ_THR(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=255))
-        return 0x840070200010ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=383))
+        return 0x840070200010ll + 0x1000ll * ((a) & 0x1ff);
     __cavm_csr_fatal("SSO_AF_HWGRPX_TAQ_THR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2723,8 +2723,8 @@ typedef union cavm_sso_af_hwgrpx_ts_pc cavm_sso_af_hwgrpx_ts_pc_t;
 static inline uint64_t CAVM_SSO_AF_HWGRPX_TS_PC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWGRPX_TS_PC(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=255))
-        return 0x840070200080ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=383))
+        return 0x840070200080ll + 0x1000ll * ((a) & 0x1ff);
     __cavm_csr_fatal("SSO_AF_HWGRPX_TS_PC", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2764,8 +2764,8 @@ typedef union cavm_sso_af_hwgrpx_wa_pc cavm_sso_af_hwgrpx_wa_pc_t;
 static inline uint64_t CAVM_SSO_AF_HWGRPX_WA_PC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWGRPX_WA_PC(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=255))
-        return 0x840070200070ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=383))
+        return 0x840070200070ll + 0x1000ll * ((a) & 0x1ff);
     __cavm_csr_fatal("SSO_AF_HWGRPX_WA_PC", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2805,8 +2805,8 @@ typedef union cavm_sso_af_hwgrpx_ws_pc cavm_sso_af_hwgrpx_ws_pc_t;
 static inline uint64_t CAVM_SSO_AF_HWGRPX_WS_PC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWGRPX_WS_PC(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=255))
-        return 0x840070200050ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=383))
+        return 0x840070200050ll + 0x1000ll * ((a) & 0x1ff);
     __cavm_csr_fatal("SSO_AF_HWGRPX_WS_PC", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2844,8 +2844,8 @@ typedef union cavm_sso_af_hwgrpx_xaq_aura cavm_sso_af_hwgrpx_xaq_aura_t;
 static inline uint64_t CAVM_SSO_AF_HWGRPX_XAQ_AURA(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWGRPX_XAQ_AURA(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=255))
-        return 0x840070200140ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=383))
+        return 0x840070200140ll + 0x1000ll * ((a) & 0x1ff);
     __cavm_csr_fatal("SSO_AF_HWGRPX_XAQ_AURA", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2889,8 +2889,8 @@ typedef union cavm_sso_af_hwgrpx_xaq_limit cavm_sso_af_hwgrpx_xaq_limit_t;
 static inline uint64_t CAVM_SSO_AF_HWGRPX_XAQ_LIMIT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWGRPX_XAQ_LIMIT(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=255))
-        return 0x840070200220ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=383))
+        return 0x840070200220ll + 0x1000ll * ((a) & 0x1ff);
     __cavm_csr_fatal("SSO_AF_HWGRPX_XAQ_LIMIT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3077,7 +3077,7 @@ static inline uint64_t CAVM_SSO_AF_HWSX_LSW_CFG(uint64_t a)
  *
  * SSO AF HWS Hardware Group Mask Registers
  * These registers select which hardware group(s) a HWS belongs to. There are two sets of
- * masks per HWS, each with four registers corresponding to 256 hardware groups
+ * masks per HWS, each with some registers corresponding to 384 hardware groups
  * (64 hardware groups per register).
  *
  * Note bit-fields are indexed by hardware group, not the guest group; therefore this
@@ -3090,7 +3090,7 @@ union cavm_sso_af_hwsx_sx_grpmskx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t grp_msk               : 64; /**< [ 63:  0](R/W) HWS hardware group mask. A one in any bit position sets the HWS's membership in
-                                                                 the corresponding hardware group for hardware groups \<255:0\>.
+                                                                 the corresponding hardware group for hardware groups \<383:0\>.
 
                                                                  A value of 0x0 in GRPMSK for a given HWS prevents the HWS from receiving new
                                                                  work. HWSs that will never receive work should use GRPMSK=0x0; while this
@@ -3102,7 +3102,7 @@ union cavm_sso_af_hwsx_sx_grpmskx
                                                                  Individual changes must use SSOW_LF_GWS_GRPMSK_CHG. */
 #else /* Word 0 - Little Endian */
         uint64_t grp_msk               : 64; /**< [ 63:  0](R/W) HWS hardware group mask. A one in any bit position sets the HWS's membership in
-                                                                 the corresponding hardware group for hardware groups \<255:0\>.
+                                                                 the corresponding hardware group for hardware groups \<383:0\>.
 
                                                                  A value of 0x0 in GRPMSK for a given HWS prevents the HWS from receiving new
                                                                  work. HWSs that will never receive work should use GRPMSK=0x0; while this
@@ -3121,8 +3121,8 @@ typedef union cavm_sso_af_hwsx_sx_grpmskx cavm_sso_af_hwsx_sx_grpmskx_t;
 static inline uint64_t CAVM_SSO_AF_HWSX_SX_GRPMSKX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWSX_SX_GRPMSKX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=51) && (b<=1) && (c<=3)))
-        return 0x840070400400ll + 0x1000ll * ((a) & 0x3f) + 0x20ll * ((b) & 0x1) + 8ll * ((c) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=51) && (b<=1) && (c<=5)))
+        return 0x840070400400ll + 0x1000ll * ((a) & 0x3f) + 0x40ll * ((b) & 0x1) + 8ll * ((c) & 0x7);
     __cavm_csr_fatal("SSO_AF_HWSX_SX_GRPMSKX", 3, a, b, c, 0, 0, 0);
 }
 
@@ -3586,8 +3586,8 @@ typedef union cavm_sso_af_ipl_confx cavm_sso_af_ipl_confx_t;
 static inline uint64_t CAVM_SSO_AF_IPL_CONFX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_IPL_CONFX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=255))
-        return 0x840070880000ll + 8ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=383))
+        return 0x840070880000ll + 8ll * ((a) & 0x1ff);
     __cavm_csr_fatal("SSO_AF_IPL_CONFX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3631,8 +3631,8 @@ typedef union cavm_sso_af_ipl_deschedx cavm_sso_af_ipl_deschedx_t;
 static inline uint64_t CAVM_SSO_AF_IPL_DESCHEDX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_IPL_DESCHEDX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=255))
-        return 0x840070860000ll + 8ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=383))
+        return 0x840070860000ll + 8ll * ((a) & 0x1ff);
     __cavm_csr_fatal("SSO_AF_IPL_DESCHEDX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3725,8 +3725,8 @@ typedef union cavm_sso_af_ipl_iaqx cavm_sso_af_ipl_iaqx_t;
 static inline uint64_t CAVM_SSO_AF_IPL_IAQX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_IPL_IAQX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=255))
-        return 0x840070840000ll + 8ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=383))
+        return 0x840070840000ll + 8ll * ((a) & 0x1ff);
     __cavm_csr_fatal("SSO_AF_IPL_IAQX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3772,8 +3772,8 @@ typedef union cavm_sso_af_iu_accntx_cfg cavm_sso_af_iu_accntx_cfg_t;
 static inline uint64_t CAVM_SSO_AF_IU_ACCNTX_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_IU_ACCNTX_CFG(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=255))
-        return 0x840070050000ll + 8ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=383))
+        return 0x840070050000ll + 8ll * ((a) & 0x1ff);
     __cavm_csr_fatal("SSO_AF_IU_ACCNTX_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3809,8 +3809,8 @@ typedef union cavm_sso_af_iu_accntx_rst cavm_sso_af_iu_accntx_rst_t;
 static inline uint64_t CAVM_SSO_AF_IU_ACCNTX_RST(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_IU_ACCNTX_RST(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=255))
-        return 0x840070060000ll + 8ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=383))
+        return 0x840070060000ll + 8ll * ((a) & 0x1ff);
     __cavm_csr_fatal("SSO_AF_IU_ACCNTX_RST", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3825,6 +3825,7 @@ static inline uint64_t CAVM_SSO_AF_IU_ACCNTX_RST(uint64_t a)
  * Register (RVU_PF_BAR0) sso_af_lf_hwgrp_rst
  *
  * SSO AF LF HWGRP Reset Register
+ * This register initiates LF resets.
  */
 union cavm_sso_af_lf_hwgrp_rst
 {
@@ -3836,11 +3837,11 @@ union cavm_sso_af_lf_hwgrp_rst
         uint64_t exec                  : 1;  /**< [ 12: 12](R/W1S/H) Execute LF software-initiated reset. When software writes a one to set this bit, hardware
                                                                  resets the local function selected by [LF]. Hardware clears this bit when
                                                                  done. */
-        uint64_t reserved_8_11         : 4;
-        uint64_t lf                    : 8;  /**< [  7:  0](R/W) Local function that is reset when [EXEC] is set. */
+        uint64_t reserved_9_11         : 3;
+        uint64_t lf                    : 9;  /**< [  8:  0](R/W) Local function that is reset when [EXEC] is set. */
 #else /* Word 0 - Little Endian */
-        uint64_t lf                    : 8;  /**< [  7:  0](R/W) Local function that is reset when [EXEC] is set. */
-        uint64_t reserved_8_11         : 4;
+        uint64_t lf                    : 9;  /**< [  8:  0](R/W) Local function that is reset when [EXEC] is set. */
+        uint64_t reserved_9_11         : 3;
         uint64_t exec                  : 1;  /**< [ 12: 12](R/W1S/H) Execute LF software-initiated reset. When software writes a one to set this bit, hardware
                                                                  resets the local function selected by [LF]. Hardware clears this bit when
                                                                  done. */
@@ -3891,8 +3892,8 @@ typedef union cavm_sso_af_npa_digestx cavm_sso_af_npa_digestx_t;
 static inline uint64_t CAVM_SSO_AF_NPA_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_NPA_DIGESTX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x840070900000ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x840070900000ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("SSO_AF_NPA_DIGESTX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3915,9 +3916,9 @@ union cavm_sso_af_npa_digestx_w1s
     struct cavm_sso_af_npa_digestx_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_NPA_DIGEST(0..3)[HWGRP]. */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_NPA_DIGEST(0..5)[HWGRP]. */
 #else /* Word 0 - Little Endian */
-        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_NPA_DIGEST(0..3)[HWGRP]. */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_NPA_DIGEST(0..5)[HWGRP]. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_sso_af_npa_digestx_w1s_s cn; */
@@ -3927,8 +3928,8 @@ typedef union cavm_sso_af_npa_digestx_w1s cavm_sso_af_npa_digestx_w1s_t;
 static inline uint64_t CAVM_SSO_AF_NPA_DIGESTX_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_NPA_DIGESTX_W1S(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x840070900100ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x840070900100ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("SSO_AF_NPA_DIGESTX_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3964,8 +3965,8 @@ typedef union cavm_sso_af_poisonx cavm_sso_af_poisonx_t;
 static inline uint64_t CAVM_SSO_AF_POISONX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_POISONX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x840070002100ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x840070002100ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("SSO_AF_POISONX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3988,9 +3989,9 @@ union cavm_sso_af_poisonx_w1s
     struct cavm_sso_af_poisonx_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t hwgrps                : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_POISON(0..3)[HWGRPS]. */
+        uint64_t hwgrps                : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_POISON(0..5)[HWGRPS]. */
 #else /* Word 0 - Little Endian */
-        uint64_t hwgrps                : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_POISON(0..3)[HWGRPS]. */
+        uint64_t hwgrps                : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_POISON(0..5)[HWGRPS]. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_sso_af_poisonx_w1s_s cn; */
@@ -4000,8 +4001,8 @@ typedef union cavm_sso_af_poisonx_w1s cavm_sso_af_poisonx_w1s_t;
 static inline uint64_t CAVM_SSO_AF_POISONX_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_POISONX_W1S(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x840070002200ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x840070002200ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("SSO_AF_POISONX_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4037,8 +4038,8 @@ typedef union cavm_sso_af_qctldis_digestx cavm_sso_af_qctldis_digestx_t;
 static inline uint64_t CAVM_SSO_AF_QCTLDIS_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_QCTLDIS_DIGESTX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x840070900e00ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x840070900e00ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("SSO_AF_QCTLDIS_DIGESTX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4061,9 +4062,9 @@ union cavm_sso_af_qctldis_digestx_w1s
     struct cavm_sso_af_qctldis_digestx_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_QCTLDIS_DIGEST(0..3)[HWGRP]. */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_QCTLDIS_DIGEST(0..5)[HWGRP]. */
 #else /* Word 0 - Little Endian */
-        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_QCTLDIS_DIGEST(0..3)[HWGRP]. */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_QCTLDIS_DIGEST(0..5)[HWGRP]. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_sso_af_qctldis_digestx_w1s_s cn; */
@@ -4073,8 +4074,8 @@ typedef union cavm_sso_af_qctldis_digestx_w1s cavm_sso_af_qctldis_digestx_w1s_t;
 static inline uint64_t CAVM_SSO_AF_QCTLDIS_DIGESTX_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_QCTLDIS_DIGESTX_W1S(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x840070900f00ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x840070900f00ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("SSO_AF_QCTLDIS_DIGESTX_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4327,7 +4328,7 @@ typedef union cavm_sso_af_taqx_link cavm_sso_af_taqx_link_t;
 static inline uint64_t CAVM_SSO_AF_TAQX_LINK(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_TAQX_LINK(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1279))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1919))
         return 0x840070c00000ll + 8ll * ((a) & 0x7ff);
     __cavm_csr_fatal("SSO_AF_TAQX_LINK", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4367,7 +4368,7 @@ typedef union cavm_sso_af_taqx_waex_tag cavm_sso_af_taqx_waex_tag_t;
 static inline uint64_t CAVM_SSO_AF_TAQX_WAEX_TAG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_TAQX_WAEX_TAG(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1279) && (b<=10)))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1919) && (b<=10)))
         return 0x840070e00000ll + 0x100ll * ((a) & 0x7ff) + 0x10ll * ((b) & 0xf);
     __cavm_csr_fatal("SSO_AF_TAQX_WAEX_TAG", 2, a, b, 0, 0, 0, 0);
 }
@@ -4405,7 +4406,7 @@ typedef union cavm_sso_af_taqx_waex_wqp cavm_sso_af_taqx_waex_wqp_t;
 static inline uint64_t CAVM_SSO_AF_TAQX_WAEX_WQP(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_TAQX_WAEX_WQP(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1279) && (b<=10)))
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1919) && (b<=10)))
         return 0x840070e00008ll + 0x100ll * ((a) & 0x7ff) + 0x10ll * ((b) & 0xf);
     __cavm_csr_fatal("SSO_AF_TAQX_WAEX_WQP", 2, a, b, 0, 0, 0, 0);
 }
@@ -4470,25 +4471,25 @@ union cavm_sso_af_taq_cnt
     struct cavm_sso_af_taq_cnt_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_27_63        : 37;
-        uint64_t rsvd_free             : 11; /**< [ 26: 16](R/W/H) Number of free reserved buffers. Used to ensure each hardware group may get a
+        uint64_t reserved_28_63        : 36;
+        uint64_t rsvd_free             : 12; /**< [ 27: 16](R/W/H) Number of free reserved buffers. Used to ensure each hardware group may get a
                                                                  specific number of buffers. Must always be greater than or equal to the sum
                                                                  across all SSO_AF_HWGRP()_TAQ_THR[RSVD_THR], and will generally be equal to that sum
                                                                  unless changes to SSO_AF_HWGRP()_TAQ_THR[RSVD_THR] are going to be made. To
                                                                  prevent races, software should not change this register when SSO is being used;
                                                                  instead use SSO_AF_TAQ_ADD[RSVD_FREE]. Legal values are 0..0x4FF. */
-        uint64_t reserved_11_15        : 5;
-        uint64_t free_cnt              : 11; /**< [ 10:  0](RO/H) Number of total free buffers. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t free_cnt              : 12; /**< [ 11:  0](RO/H) Number of total free buffers. */
 #else /* Word 0 - Little Endian */
-        uint64_t free_cnt              : 11; /**< [ 10:  0](RO/H) Number of total free buffers. */
-        uint64_t reserved_11_15        : 5;
-        uint64_t rsvd_free             : 11; /**< [ 26: 16](R/W/H) Number of free reserved buffers. Used to ensure each hardware group may get a
+        uint64_t free_cnt              : 12; /**< [ 11:  0](RO/H) Number of total free buffers. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t rsvd_free             : 12; /**< [ 27: 16](R/W/H) Number of free reserved buffers. Used to ensure each hardware group may get a
                                                                  specific number of buffers. Must always be greater than or equal to the sum
                                                                  across all SSO_AF_HWGRP()_TAQ_THR[RSVD_THR], and will generally be equal to that sum
                                                                  unless changes to SSO_AF_HWGRP()_TAQ_THR[RSVD_THR] are going to be made. To
                                                                  prevent races, software should not change this register when SSO is being used;
                                                                  instead use SSO_AF_TAQ_ADD[RSVD_FREE]. Legal values are 0..0x4FF. */
-        uint64_t reserved_27_63        : 37;
+        uint64_t reserved_28_63        : 36;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_sso_af_taq_cnt_s cn; */
@@ -4561,8 +4562,8 @@ typedef union cavm_sso_af_tiaqx_status cavm_sso_af_tiaqx_status_t;
 static inline uint64_t CAVM_SSO_AF_TIAQX_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_TIAQX_STATUS(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=255))
-        return 0x8400700c0000ll + 8ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=383))
+        return 0x8400700c0000ll + 8ll * ((a) & 0x1ff);
     __cavm_csr_fatal("SSO_AF_TIAQX_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4680,8 +4681,8 @@ typedef union cavm_sso_af_toaqx_status cavm_sso_af_toaqx_status_t;
 static inline uint64_t CAVM_SSO_AF_TOAQX_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_TOAQX_STATUS(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=255))
-        return 0x8400700d0000ll + 8ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=383))
+        return 0x8400700d0000ll + 8ll * ((a) & 0x1ff);
     __cavm_csr_fatal("SSO_AF_TOAQX_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5036,8 +5037,8 @@ typedef union cavm_sso_af_wqp0_digestx cavm_sso_af_wqp0_digestx_t;
 static inline uint64_t CAVM_SSO_AF_WQP0_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_WQP0_DIGESTX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x840070900a00ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x840070900a00ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("SSO_AF_WQP0_DIGESTX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5060,9 +5061,9 @@ union cavm_sso_af_wqp0_digestx_w1s
     struct cavm_sso_af_wqp0_digestx_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_WQP0_DIGEST(0..3)[HWGRP]. */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_WQP0_DIGEST(0..5)[HWGRP]. */
 #else /* Word 0 - Little Endian */
-        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_WQP0_DIGEST(0..3)[HWGRP]. */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_WQP0_DIGEST(0..5)[HWGRP]. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_sso_af_wqp0_digestx_w1s_s cn; */
@@ -5072,8 +5073,8 @@ typedef union cavm_sso_af_wqp0_digestx_w1s cavm_sso_af_wqp0_digestx_w1s_t;
 static inline uint64_t CAVM_SSO_AF_WQP0_DIGESTX_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_WQP0_DIGESTX_W1S(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x840070900b00ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x840070900b00ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("SSO_AF_WQP0_DIGESTX_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5568,8 +5569,8 @@ typedef union cavm_sso_af_xaqx_gmctl cavm_sso_af_xaqx_gmctl_t;
 static inline uint64_t CAVM_SSO_AF_XAQX_GMCTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_XAQX_GMCTL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=255))
-        return 0x8400700e0000ll + 8ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=383))
+        return 0x8400700e0000ll + 8ll * ((a) & 0x1ff);
     __cavm_csr_fatal("SSO_AF_XAQX_GMCTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5611,8 +5612,8 @@ typedef union cavm_sso_af_xaqx_head_next cavm_sso_af_xaqx_head_next_t;
 static inline uint64_t CAVM_SSO_AF_XAQX_HEAD_NEXT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_XAQX_HEAD_NEXT(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=255))
-        return 0x8400700a0000ll + 8ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=383))
+        return 0x8400700a0000ll + 8ll * ((a) & 0x1ff);
     __cavm_csr_fatal("SSO_AF_XAQX_HEAD_NEXT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5656,8 +5657,8 @@ typedef union cavm_sso_af_xaqx_head_ptr cavm_sso_af_xaqx_head_ptr_t;
 static inline uint64_t CAVM_SSO_AF_XAQX_HEAD_PTR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_XAQX_HEAD_PTR(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=255))
-        return 0x840070080000ll + 8ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=383))
+        return 0x840070080000ll + 8ll * ((a) & 0x1ff);
     __cavm_csr_fatal("SSO_AF_XAQX_HEAD_PTR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5700,8 +5701,8 @@ typedef union cavm_sso_af_xaqx_tail_next cavm_sso_af_xaqx_tail_next_t;
 static inline uint64_t CAVM_SSO_AF_XAQX_TAIL_NEXT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_XAQX_TAIL_NEXT(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=255))
-        return 0x8400700b0000ll + 8ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=383))
+        return 0x8400700b0000ll + 8ll * ((a) & 0x1ff);
     __cavm_csr_fatal("SSO_AF_XAQX_TAIL_NEXT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5749,8 +5750,8 @@ typedef union cavm_sso_af_xaqx_tail_ptr cavm_sso_af_xaqx_tail_ptr_t;
 static inline uint64_t CAVM_SSO_AF_XAQX_TAIL_PTR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_XAQX_TAIL_PTR(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=255))
-        return 0x840070090000ll + 8ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=383))
+        return 0x840070090000ll + 8ll * ((a) & 0x1ff);
     __cavm_csr_fatal("SSO_AF_XAQX_TAIL_PTR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5859,8 +5860,8 @@ typedef union cavm_sso_af_xaqdis_digestx cavm_sso_af_xaqdis_digestx_t;
 static inline uint64_t CAVM_SSO_AF_XAQDIS_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_XAQDIS_DIGESTX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x840070901000ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x840070901000ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("SSO_AF_XAQDIS_DIGESTX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5883,9 +5884,9 @@ union cavm_sso_af_xaqdis_digestx_w1s
     struct cavm_sso_af_xaqdis_digestx_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_XAQDIS_DIGEST(0..3)[HWGRP]. */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_XAQDIS_DIGEST(0..5)[HWGRP]. */
 #else /* Word 0 - Little Endian */
-        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_XAQDIS_DIGEST(0..3)[HWGRP]. */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_XAQDIS_DIGEST(0..5)[HWGRP]. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_sso_af_xaqdis_digestx_w1s_s cn; */
@@ -5895,8 +5896,8 @@ typedef union cavm_sso_af_xaqdis_digestx_w1s cavm_sso_af_xaqdis_digestx_w1s_t;
 static inline uint64_t CAVM_SSO_AF_XAQDIS_DIGESTX_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_XAQDIS_DIGESTX_W1S(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x840070901100ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x840070901100ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("SSO_AF_XAQDIS_DIGESTX_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6589,6 +6590,49 @@ static inline uint64_t CAVM_SSO_LF_GGRP_QCTL_FUNC(void)
 #define arguments_CAVM_SSO_LF_GGRP_QCTL -1,-1,-1,-1
 
 /**
+ * Register (RVU_PFVF_BAR2) sso_lf_ggrp_tag_cfg
+ *
+ * SSO LF Guest Group Tag Configuration Register
+ * Contains the per-guest group tag-width configuration setting.
+ */
+union cavm_sso_lf_ggrp_tag_cfg
+{
+    uint64_t u;
+    struct cavm_sso_lf_ggrp_tag_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t width                 : 1;  /**< [  0:  0](R/W) Configures the width of the tag used to order entries on the tag chain. A zero
+                                                                 uses all 32 bits of the TAG, a one uses the lower 20 bits of TAG and the upper
+                                                                 12 bits are preserved but not used for ordering the tag chain. */
+#else /* Word 0 - Little Endian */
+        uint64_t width                 : 1;  /**< [  0:  0](R/W) Configures the width of the tag used to order entries on the tag chain. A zero
+                                                                 uses all 32 bits of the TAG, a one uses the lower 20 bits of TAG and the upper
+                                                                 12 bits are preserved but not used for ordering the tag chain. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_sso_lf_ggrp_tag_cfg_s cn; */
+};
+typedef union cavm_sso_lf_ggrp_tag_cfg cavm_sso_lf_ggrp_tag_cfg_t;
+
+#define CAVM_SSO_LF_GGRP_TAG_CFG CAVM_SSO_LF_GGRP_TAG_CFG_FUNC()
+static inline uint64_t CAVM_SSO_LF_GGRP_TAG_CFG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SSO_LF_GGRP_TAG_CFG_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200700040ll;
+    __cavm_csr_fatal("SSO_LF_GGRP_TAG_CFG", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SSO_LF_GGRP_TAG_CFG cavm_sso_lf_ggrp_tag_cfg_t
+#define bustype_CAVM_SSO_LF_GGRP_TAG_CFG CSR_TYPE_RVU_PFVF_BAR2
+#define basename_CAVM_SSO_LF_GGRP_TAG_CFG "SSO_LF_GGRP_TAG_CFG"
+#define device_bar_CAVM_SSO_LF_GGRP_TAG_CFG 0x2 /* RVU_BAR2 */
+#define busnum_CAVM_SSO_LF_GGRP_TAG_CFG 0
+#define arguments_CAVM_SSO_LF_GGRP_TAG_CFG -1,-1,-1,-1
+
+/**
  * Register (RVU_PFVF_BAR2) sso_lf_ggrp_xaq_cnt
  *
  * SSO LF Guest Group External Queue Count Registers
@@ -6717,8 +6761,8 @@ typedef union cavm_sso_priv_lfx_hwgrp_cfg cavm_sso_priv_lfx_hwgrp_cfg_t;
 static inline uint64_t CAVM_SSO_PRIV_LFX_HWGRP_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_PRIV_LFX_HWGRP_CFG(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=255))
-        return 0x840070010000ll + 8ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=383))
+        return 0x840070010000ll + 8ll * ((a) & 0x1ff);
     __cavm_csr_fatal("SSO_PRIV_LFX_HWGRP_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6768,8 +6812,8 @@ typedef union cavm_sso_priv_lfx_hwgrp_int_cfg cavm_sso_priv_lfx_hwgrp_int_cfg_t;
 static inline uint64_t CAVM_SSO_PRIV_LFX_HWGRP_INT_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_PRIV_LFX_HWGRP_INT_CFG(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=255))
-        return 0x840070020000ll + 8ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=383))
+        return 0x840070020000ll + 8ll * ((a) & 0x1ff);
     __cavm_csr_fatal("SSO_PRIV_LFX_HWGRP_INT_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 

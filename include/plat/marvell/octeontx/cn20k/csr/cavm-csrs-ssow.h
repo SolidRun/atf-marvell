@@ -141,8 +141,8 @@ typedef union cavm_ssow_af_flr_ggrp_digestx cavm_ssow_af_flr_ggrp_digestx_t;
 static inline uint64_t CAVM_SSOW_AF_FLR_GGRP_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_AF_FLR_GGRP_DIGESTX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x840080000200ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x840080000200ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("SSOW_AF_FLR_GGRP_DIGESTX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -214,8 +214,8 @@ typedef union cavm_ssow_af_flr_hwgrp_digestx cavm_ssow_af_flr_hwgrp_digestx_t;
 static inline uint64_t CAVM_SSOW_AF_FLR_HWGRP_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_AF_FLR_HWGRP_DIGESTX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x840080000100ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0x840080000100ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("SSOW_AF_FLR_HWGRP_DIGESTX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -282,7 +282,7 @@ union cavm_ssow_af_lf_flr
                                                                  GET_WORK operations. Steps 3-6 are performed first if set.
                                                                  Hardware clears this bit when done. */
         uint64_t step6                 : 1;  /**< [ 19: 19](R/W1S/H) Step 6 Hardware FLR. When set, hardware will write
-                                                                 SSO_AF_HWS(0..51)_S(0..1)_GRPMSK(0..3). Steps 3-5 are
+                                                                 SSO_AF_HWS(0..51)_S(0..1)_GRPMSK(0..5). Steps 3-5 are
                                                                  performed first if set. Hardware clears this bit when done. */
         uint64_t step5                 : 1;  /**< [ 18: 18](R/W1S/H) Step 5 Hardware FLR. When set, hardware will write
                                                                  SSOW_LF_GWS_OP_DESCHED, SSOW_LF_GWS_OP_SWTAG_FLUSH.
@@ -304,7 +304,7 @@ union cavm_ssow_af_lf_flr
                                                                  SSOW_LF_GWS_OP_DESCHED, SSOW_LF_GWS_OP_SWTAG_FLUSH.
                                                                  Steps 3-4 are performed first if set. Hardware clears this bit when done. */
         uint64_t step6                 : 1;  /**< [ 19: 19](R/W1S/H) Step 6 Hardware FLR. When set, hardware will write
-                                                                 SSO_AF_HWS(0..51)_S(0..1)_GRPMSK(0..3). Steps 3-5 are
+                                                                 SSO_AF_HWS(0..51)_S(0..1)_GRPMSK(0..5). Steps 3-5 are
                                                                  performed first if set. Hardware clears this bit when done. */
         uint64_t step7                 : 1;  /**< [ 20: 20](R/W1S/H) Step 7 Hardware FLR. When set, hardware will perform
                                                                  GET_WORK operations. Steps 3-6 are performed first if set.

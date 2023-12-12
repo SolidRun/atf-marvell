@@ -26,7 +26,7 @@
  * Enumerates the base address registers.
  */
 #define CAVM_SMMU_BAR_E_SMMUX_PF_BAR0(a) (0x830000000000ll + 0x1000000000ll * (a))
-#define CAVM_SMMU_BAR_E_SMMUX_PF_BAR0_SIZE 0x200000ull
+#define CAVM_SMMU_BAR_E_SMMUX_PF_BAR0_SIZE 0x1000000ull
 
 /**
  * Enumeration smmu_cerror_e
@@ -119,6 +119,8 @@
 #define CAVM_SMMU_PMCG_E_CFG_MISS (3)
 #define CAVM_SMMU_PMCG_E_CFG_READ (5)
 #define CAVM_SMMU_PMCG_E_CLOCKS (0)
+#define CAVM_SMMU_PMCG_E_REPLAY_TXN (0x9d)
+#define CAVM_SMMU_PMCG_E_TLB_DOUBLE_HIT (0x99)
 #define CAVM_SMMU_PMCG_E_TLB_FXL_TTD2B (0x93)
 #define CAVM_SMMU_PMCG_E_TLB_FXL_TTD2T (0x92)
 #define CAVM_SMMU_PMCG_E_TLB_FXL_TTD3P (0x91)
@@ -133,6 +135,7 @@
 #define CAVM_SMMU_PMCG_E_TLB_WLK_TTDNONE (0x87)
 #define CAVM_SMMU_PMCG_E_TRANSLATION_REQUESTS (1)
 #define CAVM_SMMU_PMCG_E_TTD_READ (4)
+#define CAVM_SMMU_PMCG_E_TXN_INFLIGHT (0x9c)
 #define CAVM_SMMU_PMCG_E_UTLB_HIT (0x9b)
 
 /**
@@ -153,11 +156,9 @@ union cavm_smmux_agbpa
     struct cavm_smmux_agbpa_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_4_31         : 28;
-        uint32_t qos                   : 4;  /**< [  3:  0](R/W) SMMU(0..3)_S_AGBPA[QOS] */
+        uint32_t reserved_0_31         : 32;
 #else /* Word 0 - Little Endian */
-        uint32_t qos                   : 4;  /**< [  3:  0](R/W) SMMU(0..3)_S_AGBPA[QOS] */
-        uint32_t reserved_4_31         : 28;
+        uint32_t reserved_0_31         : 32;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_smmux_agbpa_s cn; */
@@ -167,8 +168,8 @@ typedef union cavm_smmux_agbpa cavm_smmux_agbpa_t;
 static inline uint64_t CAVM_SMMUX_AGBPA(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_AGBPA(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000048ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000048ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_AGBPA", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -207,8 +208,8 @@ typedef union cavm_smmux_aidr cavm_smmux_aidr_t;
 static inline uint64_t CAVM_SMMUX_AIDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_AIDR(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x83000000001cll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x83000000001cll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_AIDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -244,8 +245,8 @@ typedef union cavm_smmux_cidr0 cavm_smmux_cidr0_t;
 static inline uint64_t CAVM_SMMUX_CIDR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_CIDR0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000ff0ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000ff0ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_CIDR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -283,8 +284,8 @@ typedef union cavm_smmux_cidr1 cavm_smmux_cidr1_t;
 static inline uint64_t CAVM_SMMUX_CIDR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_CIDR1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000ff4ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000ff4ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_CIDR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -320,8 +321,8 @@ typedef union cavm_smmux_cidr2 cavm_smmux_cidr2_t;
 static inline uint64_t CAVM_SMMUX_CIDR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_CIDR2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000ff8ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000ff8ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_CIDR2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -357,8 +358,8 @@ typedef union cavm_smmux_cidr3 cavm_smmux_cidr3_t;
 static inline uint64_t CAVM_SMMUX_CIDR3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_CIDR3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000ffcll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000ffcll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_CIDR3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -381,15 +382,15 @@ union cavm_smmux_cmdq_base
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_63           : 1;
-        uint64_t ra                    : 1;  /**< [ 62: 62](R/W) SMMU(0..3)_S_CMDQ_BASE[RA] */
+        uint64_t ra                    : 1;  /**< [ 62: 62](R/W) SMMU(0)_S_CMDQ_BASE[RA] */
         uint64_t reserved_52_61        : 10;
-        uint64_t addr                  : 47; /**< [ 51:  5](R/W) SMMU(0..3)_S_CMDQ_BASE[ADDR] */
-        uint64_t log2size              : 5;  /**< [  4:  0](R/W) SMMU(0..3)_S_CMDQ_BASE[LOG2SIZE] */
+        uint64_t addr                  : 47; /**< [ 51:  5](R/W) SMMU(0)_S_CMDQ_BASE[ADDR] */
+        uint64_t log2size              : 5;  /**< [  4:  0](R/W) SMMU(0)_S_CMDQ_BASE[LOG2SIZE] */
 #else /* Word 0 - Little Endian */
-        uint64_t log2size              : 5;  /**< [  4:  0](R/W) SMMU(0..3)_S_CMDQ_BASE[LOG2SIZE] */
-        uint64_t addr                  : 47; /**< [ 51:  5](R/W) SMMU(0..3)_S_CMDQ_BASE[ADDR] */
+        uint64_t log2size              : 5;  /**< [  4:  0](R/W) SMMU(0)_S_CMDQ_BASE[LOG2SIZE] */
+        uint64_t addr                  : 47; /**< [ 51:  5](R/W) SMMU(0)_S_CMDQ_BASE[ADDR] */
         uint64_t reserved_52_61        : 10;
-        uint64_t ra                    : 1;  /**< [ 62: 62](R/W) SMMU(0..3)_S_CMDQ_BASE[RA] */
+        uint64_t ra                    : 1;  /**< [ 62: 62](R/W) SMMU(0)_S_CMDQ_BASE[RA] */
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } s;
@@ -400,8 +401,8 @@ typedef union cavm_smmux_cmdq_base cavm_smmux_cmdq_base_t;
 static inline uint64_t CAVM_SMMUX_CMDQ_BASE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_CMDQ_BASE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000090ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000090ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_CMDQ_BASE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -424,13 +425,13 @@ union cavm_smmux_cmdq_cons
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_31           : 1;
-        uint32_t errx                  : 7;  /**< [ 30: 24](RO/H) SMMU(0..3)_S_CMDQ_CONS[ERRX] */
+        uint32_t errx                  : 7;  /**< [ 30: 24](RO/H) SMMU(0)_S_CMDQ_CONS[ERRX] */
         uint32_t reserved_20_23        : 4;
-        uint32_t rd                    : 20; /**< [ 19:  0](R/W/H) SMMU(0..3)_S_CMDQ_CONS[RD] */
+        uint32_t rd                    : 20; /**< [ 19:  0](R/W/H) SMMU(0)_S_CMDQ_CONS[RD] */
 #else /* Word 0 - Little Endian */
-        uint32_t rd                    : 20; /**< [ 19:  0](R/W/H) SMMU(0..3)_S_CMDQ_CONS[RD] */
+        uint32_t rd                    : 20; /**< [ 19:  0](R/W/H) SMMU(0)_S_CMDQ_CONS[RD] */
         uint32_t reserved_20_23        : 4;
-        uint32_t errx                  : 7;  /**< [ 30: 24](RO/H) SMMU(0..3)_S_CMDQ_CONS[ERRX] */
+        uint32_t errx                  : 7;  /**< [ 30: 24](RO/H) SMMU(0)_S_CMDQ_CONS[ERRX] */
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } s;
@@ -441,8 +442,8 @@ typedef union cavm_smmux_cmdq_cons cavm_smmux_cmdq_cons_t;
 static inline uint64_t CAVM_SMMUX_CMDQ_CONS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_CMDQ_CONS(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x83000000009cll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x83000000009cll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_CMDQ_CONS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -502,8 +503,8 @@ typedef union cavm_smmux_cmdq_control_page_basex cavm_smmux_cmdq_control_page_ba
 static inline uint64_t CAVM_SMMUX_CMDQ_CONTROL_PAGE_BASEX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_CMDQ_CONTROL_PAGE_BASEX(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b==0)))
-        return 0x830000004000ll + 0x1000000000ll * ((a) & 0x3) + 0x20ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b==0)))
+        return 0x830000004000ll + 0x1000000000ll * ((a) & 0x0) + 0x20ll * ((b) & 0x0);
     __cavm_csr_fatal("SMMUX_CMDQ_CONTROL_PAGE_BASEX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -540,8 +541,8 @@ typedef union cavm_smmux_cmdq_control_page_cfgx cavm_smmux_cmdq_control_page_cfg
 static inline uint64_t CAVM_SMMUX_CMDQ_CONTROL_PAGE_CFGX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_CMDQ_CONTROL_PAGE_CFGX(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b==0)))
-        return 0x830000004008ll + 0x1000000000ll * ((a) & 0x3) + 0x20ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b==0)))
+        return 0x830000004008ll + 0x1000000000ll * ((a) & 0x0) + 0x20ll * ((b) & 0x0);
     __cavm_csr_fatal("SMMUX_CMDQ_CONTROL_PAGE_CFGX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -578,8 +579,8 @@ typedef union cavm_smmux_cmdq_control_page_statusx cavm_smmux_cmdq_control_page_
 static inline uint64_t CAVM_SMMUX_CMDQ_CONTROL_PAGE_STATUSX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_CMDQ_CONTROL_PAGE_STATUSX(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b==0)))
-        return 0x83000000400cll + 0x1000000000ll * ((a) & 0x3) + 0x20ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b==0)))
+        return 0x83000000400cll + 0x1000000000ll * ((a) & 0x0) + 0x20ll * ((b) & 0x0);
     __cavm_csr_fatal("SMMUX_CMDQ_CONTROL_PAGE_STATUSX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -602,9 +603,9 @@ union cavm_smmux_cmdq_prod
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_20_31        : 12;
-        uint32_t wr                    : 20; /**< [ 19:  0](R/W) SMMU(0..3)_S_CMDQ_PROD[WR] */
+        uint32_t wr                    : 20; /**< [ 19:  0](R/W) SMMU(0)_S_CMDQ_PROD[WR] */
 #else /* Word 0 - Little Endian */
-        uint32_t wr                    : 20; /**< [ 19:  0](R/W) SMMU(0..3)_S_CMDQ_PROD[WR] */
+        uint32_t wr                    : 20; /**< [ 19:  0](R/W) SMMU(0)_S_CMDQ_PROD[WR] */
         uint32_t reserved_20_31        : 12;
 #endif /* Word 0 - End */
     } s;
@@ -615,8 +616,8 @@ typedef union cavm_smmux_cmdq_prod cavm_smmux_cmdq_prod_t;
 static inline uint64_t CAVM_SMMUX_CMDQ_PROD(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_CMDQ_PROD(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000098ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000098ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_CMDQ_PROD", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -749,8 +750,8 @@ typedef union cavm_smmux_cr0 cavm_smmux_cr0_t;
 static inline uint64_t CAVM_SMMUX_CR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_CR0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000020ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000020ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_CR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -774,21 +775,21 @@ union cavm_smmux_cr0ack
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_9_31         : 23;
-        uint32_t vmw                   : 3;  /**< [  8:  6](RAZ) Read-only hardware-modified SMMU(0..3)_CR0[VMW]. */
+        uint32_t vmw                   : 3;  /**< [  8:  6](RAZ) Read-only hardware-modified SMMU(0)_CR0[VMW]. */
         uint32_t reserved_5            : 1;
-        uint32_t atschk                : 1;  /**< [  4:  4](RO/H) Read-only hardware-modified SMMU(0..3)_CR0[ATSCHK]. */
-        uint32_t cmdqen                : 1;  /**< [  3:  3](RO/H) Read-only hardware-modified SMMU(0..3)_CR0[CMDQEN]. */
-        uint32_t eventqen              : 1;  /**< [  2:  2](RO/H) Read-only hardware-modified SMMU(0..3)_CR0[EVENTQEN]. */
-        uint32_t priqen                : 1;  /**< [  1:  1](RO/H) Read-only hardware-modified SMMU(0..3)_CR0[PRIQEN]. */
-        uint32_t smmuen                : 1;  /**< [  0:  0](RO/H) Read-only hardware-modified SMMU(0..3)_CR0[SMMUEN]. */
+        uint32_t atschk                : 1;  /**< [  4:  4](RO/H) Read-only hardware-modified SMMU(0)_CR0[ATSCHK]. */
+        uint32_t cmdqen                : 1;  /**< [  3:  3](RO/H) Read-only hardware-modified SMMU(0)_CR0[CMDQEN]. */
+        uint32_t eventqen              : 1;  /**< [  2:  2](RO/H) Read-only hardware-modified SMMU(0)_CR0[EVENTQEN]. */
+        uint32_t priqen                : 1;  /**< [  1:  1](RO/H) Read-only hardware-modified SMMU(0)_CR0[PRIQEN]. */
+        uint32_t smmuen                : 1;  /**< [  0:  0](RO/H) Read-only hardware-modified SMMU(0)_CR0[SMMUEN]. */
 #else /* Word 0 - Little Endian */
-        uint32_t smmuen                : 1;  /**< [  0:  0](RO/H) Read-only hardware-modified SMMU(0..3)_CR0[SMMUEN]. */
-        uint32_t priqen                : 1;  /**< [  1:  1](RO/H) Read-only hardware-modified SMMU(0..3)_CR0[PRIQEN]. */
-        uint32_t eventqen              : 1;  /**< [  2:  2](RO/H) Read-only hardware-modified SMMU(0..3)_CR0[EVENTQEN]. */
-        uint32_t cmdqen                : 1;  /**< [  3:  3](RO/H) Read-only hardware-modified SMMU(0..3)_CR0[CMDQEN]. */
-        uint32_t atschk                : 1;  /**< [  4:  4](RO/H) Read-only hardware-modified SMMU(0..3)_CR0[ATSCHK]. */
+        uint32_t smmuen                : 1;  /**< [  0:  0](RO/H) Read-only hardware-modified SMMU(0)_CR0[SMMUEN]. */
+        uint32_t priqen                : 1;  /**< [  1:  1](RO/H) Read-only hardware-modified SMMU(0)_CR0[PRIQEN]. */
+        uint32_t eventqen              : 1;  /**< [  2:  2](RO/H) Read-only hardware-modified SMMU(0)_CR0[EVENTQEN]. */
+        uint32_t cmdqen                : 1;  /**< [  3:  3](RO/H) Read-only hardware-modified SMMU(0)_CR0[CMDQEN]. */
+        uint32_t atschk                : 1;  /**< [  4:  4](RO/H) Read-only hardware-modified SMMU(0)_CR0[ATSCHK]. */
         uint32_t reserved_5            : 1;
-        uint32_t vmw                   : 3;  /**< [  8:  6](RAZ) Read-only hardware-modified SMMU(0..3)_CR0[VMW]. */
+        uint32_t vmw                   : 3;  /**< [  8:  6](RAZ) Read-only hardware-modified SMMU(0)_CR0[VMW]. */
         uint32_t reserved_9_31         : 23;
 #endif /* Word 0 - End */
     } s;
@@ -799,8 +800,8 @@ typedef union cavm_smmux_cr0ack cavm_smmux_cr0ack_t;
 static inline uint64_t CAVM_SMMUX_CR0ACK(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_CR0ACK(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000024ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000024ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_CR0ACK", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -823,19 +824,19 @@ union cavm_smmux_cr1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_12_31        : 20;
-        uint32_t table_sh              : 2;  /**< [ 11: 10](R/W) SMMU(0..3)_S_CR1[TABLE_SH] */
-        uint32_t table_oc              : 2;  /**< [  9:  8](R/W) SMMU(0..3)_S_CR1[TABLE_OC] */
-        uint32_t table_ic              : 2;  /**< [  7:  6](R/W) SMMU(0..3)_S_CR1[TABLE_IC] */
-        uint32_t queue_sh              : 2;  /**< [  5:  4](R/W) SMMU(0..3)_S_CR1[QUEUE_SH] */
-        uint32_t queue_oc              : 2;  /**< [  3:  2](R/W) SMMU(0..3)_S_CR1[QUEUE_OC] */
-        uint32_t queue_ic              : 2;  /**< [  1:  0](R/W) SMMU(0..3)_S_CR1[QUEUE_IC] */
+        uint32_t table_sh              : 2;  /**< [ 11: 10](R/W) SMMU(0)_S_CR1[TABLE_SH] */
+        uint32_t table_oc              : 2;  /**< [  9:  8](R/W) SMMU(0)_S_CR1[TABLE_OC] */
+        uint32_t table_ic              : 2;  /**< [  7:  6](R/W) SMMU(0)_S_CR1[TABLE_IC] */
+        uint32_t queue_sh              : 2;  /**< [  5:  4](R/W) SMMU(0)_S_CR1[QUEUE_SH] */
+        uint32_t queue_oc              : 2;  /**< [  3:  2](R/W) SMMU(0)_S_CR1[QUEUE_OC] */
+        uint32_t queue_ic              : 2;  /**< [  1:  0](R/W) SMMU(0)_S_CR1[QUEUE_IC] */
 #else /* Word 0 - Little Endian */
-        uint32_t queue_ic              : 2;  /**< [  1:  0](R/W) SMMU(0..3)_S_CR1[QUEUE_IC] */
-        uint32_t queue_oc              : 2;  /**< [  3:  2](R/W) SMMU(0..3)_S_CR1[QUEUE_OC] */
-        uint32_t queue_sh              : 2;  /**< [  5:  4](R/W) SMMU(0..3)_S_CR1[QUEUE_SH] */
-        uint32_t table_ic              : 2;  /**< [  7:  6](R/W) SMMU(0..3)_S_CR1[TABLE_IC] */
-        uint32_t table_oc              : 2;  /**< [  9:  8](R/W) SMMU(0..3)_S_CR1[TABLE_OC] */
-        uint32_t table_sh              : 2;  /**< [ 11: 10](R/W) SMMU(0..3)_S_CR1[TABLE_SH] */
+        uint32_t queue_ic              : 2;  /**< [  1:  0](R/W) SMMU(0)_S_CR1[QUEUE_IC] */
+        uint32_t queue_oc              : 2;  /**< [  3:  2](R/W) SMMU(0)_S_CR1[QUEUE_OC] */
+        uint32_t queue_sh              : 2;  /**< [  5:  4](R/W) SMMU(0)_S_CR1[QUEUE_SH] */
+        uint32_t table_ic              : 2;  /**< [  7:  6](R/W) SMMU(0)_S_CR1[TABLE_IC] */
+        uint32_t table_oc              : 2;  /**< [  9:  8](R/W) SMMU(0)_S_CR1[TABLE_OC] */
+        uint32_t table_sh              : 2;  /**< [ 11: 10](R/W) SMMU(0)_S_CR1[TABLE_SH] */
         uint32_t reserved_12_31        : 20;
 #endif /* Word 0 - End */
     } s;
@@ -846,8 +847,8 @@ typedef union cavm_smmux_cr1 cavm_smmux_cr1_t;
 static inline uint64_t CAVM_SMMUX_CR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_CR1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000028ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000028ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_CR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -945,8 +946,8 @@ typedef union cavm_smmux_cr2 cavm_smmux_cr2_t;
 static inline uint64_t CAVM_SMMUX_CR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_CR2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x83000000002cll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x83000000002cll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_CR2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -993,8 +994,8 @@ typedef union cavm_smmux_ecmdq_basex cavm_smmux_ecmdq_basex_t;
 static inline uint64_t CAVM_SMMUX_ECMDQ_BASEX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_ECMDQ_BASEX(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b<=127)))
-        return 0x830000180000ll + 0x1000000000ll * ((a) & 0x3) + 0x200ll * ((b) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+        return 0x830000030000ll + 0x1000000000ll * ((a) & 0x0) + 0x200ll * ((b) & 0x7f);
     __cavm_csr_fatal("SMMUX_ECMDQ_BASEX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1045,8 +1046,8 @@ typedef union cavm_smmux_ecmdq_consx cavm_smmux_ecmdq_consx_t;
 static inline uint64_t CAVM_SMMUX_ECMDQ_CONSX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_ECMDQ_CONSX(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b<=127)))
-        return 0x83000018000cll + 0x1000000000ll * ((a) & 0x3) + 0x200ll * ((b) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+        return 0x83000003000cll + 0x1000000000ll * ((a) & 0x0) + 0x200ll * ((b) & 0x7f);
     __cavm_csr_fatal("SMMUX_ECMDQ_CONSX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1095,8 +1096,8 @@ typedef union cavm_smmux_ecmdq_prodx cavm_smmux_ecmdq_prodx_t;
 static inline uint64_t CAVM_SMMUX_ECMDQ_PRODX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_ECMDQ_PRODX(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b<=127)))
-        return 0x830000180008ll + 0x1000000000ll * ((a) & 0x3) + 0x200ll * ((b) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+        return 0x830000030008ll + 0x1000000000ll * ((a) & 0x0) + 0x200ll * ((b) & 0x7f);
     __cavm_csr_fatal("SMMUX_ECMDQ_PRODX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1119,15 +1120,15 @@ union cavm_smmux_eventq_base
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_63           : 1;
-        uint64_t wa                    : 1;  /**< [ 62: 62](R/W) SMMU(0..3)_S_EVENTQ_BASE[WA] */
+        uint64_t wa                    : 1;  /**< [ 62: 62](R/W) SMMU(0)_S_EVENTQ_BASE[WA] */
         uint64_t reserved_52_61        : 10;
-        uint64_t addr                  : 47; /**< [ 51:  5](R/W) SMMU(0..3)_S_EVENTQ_BASE[ADDR] */
-        uint64_t log2size              : 5;  /**< [  4:  0](R/W) SMMU(0..3)_S_EVENTQ_BASE[LOG2SIZE] */
+        uint64_t addr                  : 47; /**< [ 51:  5](R/W) SMMU(0)_S_EVENTQ_BASE[ADDR] */
+        uint64_t log2size              : 5;  /**< [  4:  0](R/W) SMMU(0)_S_EVENTQ_BASE[LOG2SIZE] */
 #else /* Word 0 - Little Endian */
-        uint64_t log2size              : 5;  /**< [  4:  0](R/W) SMMU(0..3)_S_EVENTQ_BASE[LOG2SIZE] */
-        uint64_t addr                  : 47; /**< [ 51:  5](R/W) SMMU(0..3)_S_EVENTQ_BASE[ADDR] */
+        uint64_t log2size              : 5;  /**< [  4:  0](R/W) SMMU(0)_S_EVENTQ_BASE[LOG2SIZE] */
+        uint64_t addr                  : 47; /**< [ 51:  5](R/W) SMMU(0)_S_EVENTQ_BASE[ADDR] */
         uint64_t reserved_52_61        : 10;
-        uint64_t wa                    : 1;  /**< [ 62: 62](R/W) SMMU(0..3)_S_EVENTQ_BASE[WA] */
+        uint64_t wa                    : 1;  /**< [ 62: 62](R/W) SMMU(0)_S_EVENTQ_BASE[WA] */
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } s;
@@ -1138,8 +1139,8 @@ typedef union cavm_smmux_eventq_base cavm_smmux_eventq_base_t;
 static inline uint64_t CAVM_SMMUX_EVENTQ_BASE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_EVENTQ_BASE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x8300000000a0ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x8300000000a0ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_EVENTQ_BASE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1161,13 +1162,13 @@ union cavm_smmux_eventq_cons
     struct cavm_smmux_eventq_cons_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t ovackflg              : 1;  /**< [ 31: 31](R/W) SMMU(0..3)_S_EVENTQ_CONS[OVACKFLG] */
+        uint32_t ovackflg              : 1;  /**< [ 31: 31](R/W) SMMU(0)_S_EVENTQ_CONS[OVACKFLG] */
         uint32_t reserved_20_30        : 11;
-        uint32_t rd                    : 20; /**< [ 19:  0](R/W) SMMU(0..3)_S_EVENTQ_CONS[RD] */
+        uint32_t rd                    : 20; /**< [ 19:  0](R/W) SMMU(0)_S_EVENTQ_CONS[RD] */
 #else /* Word 0 - Little Endian */
-        uint32_t rd                    : 20; /**< [ 19:  0](R/W) SMMU(0..3)_S_EVENTQ_CONS[RD] */
+        uint32_t rd                    : 20; /**< [ 19:  0](R/W) SMMU(0)_S_EVENTQ_CONS[RD] */
         uint32_t reserved_20_30        : 11;
-        uint32_t ovackflg              : 1;  /**< [ 31: 31](R/W) SMMU(0..3)_S_EVENTQ_CONS[OVACKFLG] */
+        uint32_t ovackflg              : 1;  /**< [ 31: 31](R/W) SMMU(0)_S_EVENTQ_CONS[OVACKFLG] */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_smmux_eventq_cons_s cn; */
@@ -1177,8 +1178,8 @@ typedef union cavm_smmux_eventq_cons cavm_smmux_eventq_cons_t;
 static inline uint64_t CAVM_SMMUX_EVENTQ_CONS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_EVENTQ_CONS(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x8300000100acll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x8300000100acll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_EVENTQ_CONS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1201,11 +1202,11 @@ union cavm_smmux_eventq_irq_cfg0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_52_63        : 12;
-        uint64_t addr                  : 50; /**< [ 51:  2](R/W) SMMU(0..3)_S_GERROR_IRQ_CFG0[ADDR] */
+        uint64_t addr                  : 50; /**< [ 51:  2](R/W) SMMU(0)_S_GERROR_IRQ_CFG0[ADDR] */
         uint64_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_1          : 2;
-        uint64_t addr                  : 50; /**< [ 51:  2](R/W) SMMU(0..3)_S_GERROR_IRQ_CFG0[ADDR] */
+        uint64_t addr                  : 50; /**< [ 51:  2](R/W) SMMU(0)_S_GERROR_IRQ_CFG0[ADDR] */
         uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
     } s;
@@ -1216,8 +1217,8 @@ typedef union cavm_smmux_eventq_irq_cfg0 cavm_smmux_eventq_irq_cfg0_t;
 static inline uint64_t CAVM_SMMUX_EVENTQ_IRQ_CFG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_EVENTQ_IRQ_CFG0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x8300000000b0ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x8300000000b0ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_EVENTQ_IRQ_CFG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1239,9 +1240,9 @@ union cavm_smmux_eventq_irq_cfg1
     struct cavm_smmux_eventq_irq_cfg1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) SMMU(0..3)_S_GERROR_IRQ_CFG1[DATA] */
+        uint32_t data                  : 32; /**< [ 31:  0](R/W) SMMU(0)_S_GERROR_IRQ_CFG1[DATA] */
 #else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) SMMU(0..3)_S_GERROR_IRQ_CFG1[DATA] */
+        uint32_t data                  : 32; /**< [ 31:  0](R/W) SMMU(0)_S_GERROR_IRQ_CFG1[DATA] */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_smmux_eventq_irq_cfg1_s cn; */
@@ -1251,8 +1252,8 @@ typedef union cavm_smmux_eventq_irq_cfg1 cavm_smmux_eventq_irq_cfg1_t;
 static inline uint64_t CAVM_SMMUX_EVENTQ_IRQ_CFG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_EVENTQ_IRQ_CFG1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x8300000000b8ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x8300000000b8ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_EVENTQ_IRQ_CFG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1275,11 +1276,11 @@ union cavm_smmux_eventq_irq_cfg2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_6_31         : 26;
-        uint32_t sh                    : 2;  /**< [  5:  4](R/W) SMMU(0..3)_S_GERROR_IRQ_CFG2[SH] */
-        uint32_t memattr               : 4;  /**< [  3:  0](R/W) SMMU(0..3)_S_GERROR_IRQ_CFG2[MEMATTR] */
+        uint32_t sh                    : 2;  /**< [  5:  4](R/W) SMMU(0)_S_GERROR_IRQ_CFG2[SH] */
+        uint32_t memattr               : 4;  /**< [  3:  0](R/W) SMMU(0)_S_GERROR_IRQ_CFG2[MEMATTR] */
 #else /* Word 0 - Little Endian */
-        uint32_t memattr               : 4;  /**< [  3:  0](R/W) SMMU(0..3)_S_GERROR_IRQ_CFG2[MEMATTR] */
-        uint32_t sh                    : 2;  /**< [  5:  4](R/W) SMMU(0..3)_S_GERROR_IRQ_CFG2[SH] */
+        uint32_t memattr               : 4;  /**< [  3:  0](R/W) SMMU(0)_S_GERROR_IRQ_CFG2[MEMATTR] */
+        uint32_t sh                    : 2;  /**< [  5:  4](R/W) SMMU(0)_S_GERROR_IRQ_CFG2[SH] */
         uint32_t reserved_6_31         : 26;
 #endif /* Word 0 - End */
     } s;
@@ -1290,8 +1291,8 @@ typedef union cavm_smmux_eventq_irq_cfg2 cavm_smmux_eventq_irq_cfg2_t;
 static inline uint64_t CAVM_SMMUX_EVENTQ_IRQ_CFG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_EVENTQ_IRQ_CFG2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x8300000000bcll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x8300000000bcll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_EVENTQ_IRQ_CFG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1313,13 +1314,13 @@ union cavm_smmux_eventq_prod
     struct cavm_smmux_eventq_prod_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t ovflg                 : 1;  /**< [ 31: 31](R/W/H) SMMU(0..3)_S_EVENTQ_PROD[OVFLG] */
+        uint32_t ovflg                 : 1;  /**< [ 31: 31](R/W/H) SMMU(0)_S_EVENTQ_PROD[OVFLG] */
         uint32_t reserved_20_30        : 11;
-        uint32_t wr                    : 20; /**< [ 19:  0](R/W/H) SMMU(0..3)_S_EVENTQ_PROD[WR] */
+        uint32_t wr                    : 20; /**< [ 19:  0](R/W/H) SMMU(0)_S_EVENTQ_PROD[WR] */
 #else /* Word 0 - Little Endian */
-        uint32_t wr                    : 20; /**< [ 19:  0](R/W/H) SMMU(0..3)_S_EVENTQ_PROD[WR] */
+        uint32_t wr                    : 20; /**< [ 19:  0](R/W/H) SMMU(0)_S_EVENTQ_PROD[WR] */
         uint32_t reserved_20_30        : 11;
-        uint32_t ovflg                 : 1;  /**< [ 31: 31](R/W/H) SMMU(0..3)_S_EVENTQ_PROD[OVFLG] */
+        uint32_t ovflg                 : 1;  /**< [ 31: 31](R/W/H) SMMU(0)_S_EVENTQ_PROD[OVFLG] */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_smmux_eventq_prod_s cn; */
@@ -1329,8 +1330,8 @@ typedef union cavm_smmux_eventq_prod cavm_smmux_eventq_prod_t;
 static inline uint64_t CAVM_SMMUX_EVENTQ_PROD(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_EVENTQ_PROD(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x8300000100a8ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x8300000100a8ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_EVENTQ_PROD", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1352,25 +1353,25 @@ union cavm_smmux_gatos_addr
     struct cavm_smmux_gatos_addr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t addr                  : 52; /**< [ 63: 12](R/W) SMMU(0..3)_S_GATOS_ADDR[ADDR] */
-        uint64_t rtype                 : 2;  /**< [ 11: 10](R/W) SMMU(0..3)_S_GATOS_ADDR[RTYPE] */
-        uint64_t pnu                   : 1;  /**< [  9:  9](R/W) SMMU(0..3)_S_GATOS_ADDR[PNU] */
-        uint64_t rnw                   : 1;  /**< [  8:  8](R/W) SMMU(0..3)_S_GATOS_ADDR[RNW] */
-        uint64_t ind                   : 1;  /**< [  7:  7](R/W) SMMU(0..3)_S_GATOS_ADDR[IND] */
-        uint64_t httui                 : 1;  /**< [  6:  6](R/W) SMMU(0..3)_S_GATOS_ADDR[HTTUI] */
+        uint64_t addr                  : 52; /**< [ 63: 12](R/W) SMMU(0)_S_GATOS_ADDR[ADDR] */
+        uint64_t rtype                 : 2;  /**< [ 11: 10](R/W) SMMU(0)_S_GATOS_ADDR[RTYPE] */
+        uint64_t pnu                   : 1;  /**< [  9:  9](R/W) SMMU(0)_S_GATOS_ADDR[PNU] */
+        uint64_t rnw                   : 1;  /**< [  8:  8](R/W) SMMU(0)_S_GATOS_ADDR[RNW] */
+        uint64_t ind                   : 1;  /**< [  7:  7](R/W) SMMU(0)_S_GATOS_ADDR[IND] */
+        uint64_t httui                 : 1;  /**< [  6:  6](R/W) SMMU(0)_S_GATOS_ADDR[HTTUI] */
         uint64_t reserved_5            : 1;
-        uint64_t ns_ind                : 1;  /**< [  4:  4](R/W) SMMU(0..3)_S_GATOS_ADDR[NS_IND] */
+        uint64_t ns_ind                : 1;  /**< [  4:  4](R/W) SMMU(0)_S_GATOS_ADDR[NS_IND] */
         uint64_t reserved_0_3          : 4;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_3          : 4;
-        uint64_t ns_ind                : 1;  /**< [  4:  4](R/W) SMMU(0..3)_S_GATOS_ADDR[NS_IND] */
+        uint64_t ns_ind                : 1;  /**< [  4:  4](R/W) SMMU(0)_S_GATOS_ADDR[NS_IND] */
         uint64_t reserved_5            : 1;
-        uint64_t httui                 : 1;  /**< [  6:  6](R/W) SMMU(0..3)_S_GATOS_ADDR[HTTUI] */
-        uint64_t ind                   : 1;  /**< [  7:  7](R/W) SMMU(0..3)_S_GATOS_ADDR[IND] */
-        uint64_t rnw                   : 1;  /**< [  8:  8](R/W) SMMU(0..3)_S_GATOS_ADDR[RNW] */
-        uint64_t pnu                   : 1;  /**< [  9:  9](R/W) SMMU(0..3)_S_GATOS_ADDR[PNU] */
-        uint64_t rtype                 : 2;  /**< [ 11: 10](R/W) SMMU(0..3)_S_GATOS_ADDR[RTYPE] */
-        uint64_t addr                  : 52; /**< [ 63: 12](R/W) SMMU(0..3)_S_GATOS_ADDR[ADDR] */
+        uint64_t httui                 : 1;  /**< [  6:  6](R/W) SMMU(0)_S_GATOS_ADDR[HTTUI] */
+        uint64_t ind                   : 1;  /**< [  7:  7](R/W) SMMU(0)_S_GATOS_ADDR[IND] */
+        uint64_t rnw                   : 1;  /**< [  8:  8](R/W) SMMU(0)_S_GATOS_ADDR[RNW] */
+        uint64_t pnu                   : 1;  /**< [  9:  9](R/W) SMMU(0)_S_GATOS_ADDR[PNU] */
+        uint64_t rtype                 : 2;  /**< [ 11: 10](R/W) SMMU(0)_S_GATOS_ADDR[RTYPE] */
+        uint64_t addr                  : 52; /**< [ 63: 12](R/W) SMMU(0)_S_GATOS_ADDR[ADDR] */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_smmux_gatos_addr_s cn; */
@@ -1380,8 +1381,8 @@ typedef union cavm_smmux_gatos_addr cavm_smmux_gatos_addr_t;
 static inline uint64_t CAVM_SMMUX_GATOS_ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_GATOS_ADDR(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000110ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000110ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_GATOS_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1404,9 +1405,9 @@ union cavm_smmux_gatos_ctrl
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_1_31         : 31;
-        uint32_t run                   : 1;  /**< [  0:  0](R/W1S/H) SMMU(0..3)_S_GATOS_CTRL[RUN] */
+        uint32_t run                   : 1;  /**< [  0:  0](R/W1S/H) SMMU(0)_S_GATOS_CTRL[RUN] */
 #else /* Word 0 - Little Endian */
-        uint32_t run                   : 1;  /**< [  0:  0](R/W1S/H) SMMU(0..3)_S_GATOS_CTRL[RUN] */
+        uint32_t run                   : 1;  /**< [  0:  0](R/W1S/H) SMMU(0)_S_GATOS_CTRL[RUN] */
         uint32_t reserved_1_31         : 31;
 #endif /* Word 0 - End */
     } s;
@@ -1417,8 +1418,8 @@ typedef union cavm_smmux_gatos_ctrl cavm_smmux_gatos_ctrl_t;
 static inline uint64_t CAVM_SMMUX_GATOS_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_GATOS_CTRL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000100ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000100ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_GATOS_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1440,9 +1441,9 @@ union cavm_smmux_gatos_par
     struct cavm_smmux_gatos_par_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t par                   : 64; /**< [ 63:  0](RO/H) SMMU(0..3)_S_GATOS_PAR[PAR] */
+        uint64_t par                   : 64; /**< [ 63:  0](RO/H) SMMU(0)_S_GATOS_PAR[PAR] */
 #else /* Word 0 - Little Endian */
-        uint64_t par                   : 64; /**< [ 63:  0](RO/H) SMMU(0..3)_S_GATOS_PAR[PAR] */
+        uint64_t par                   : 64; /**< [ 63:  0](RO/H) SMMU(0)_S_GATOS_PAR[PAR] */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_smmux_gatos_par_s cn; */
@@ -1452,8 +1453,8 @@ typedef union cavm_smmux_gatos_par cavm_smmux_gatos_par_t;
 static inline uint64_t CAVM_SMMUX_GATOS_PAR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_GATOS_PAR(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000118ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000118ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_GATOS_PAR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1503,8 +1504,8 @@ typedef union cavm_smmux_gatos_sid cavm_smmux_gatos_sid_t;
 static inline uint64_t CAVM_SMMUX_GATOS_SID(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_GATOS_SID(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000108ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000108ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_GATOS_SID", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1618,8 +1619,8 @@ typedef union cavm_smmux_gbpa cavm_smmux_gbpa_t;
 static inline uint64_t CAVM_SMMUX_GBPA(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_GBPA(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000044ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000044ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_GBPA", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1675,8 +1676,8 @@ typedef union cavm_smmux_gbpmpam cavm_smmux_gbpmpam_t;
 static inline uint64_t CAVM_SMMUX_GBPMPAM(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_GBPMPAM(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x83000000013cll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x83000000013cll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_GBPMPAM", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1784,8 +1785,8 @@ typedef union cavm_smmux_gerror cavm_smmux_gerror_t;
 static inline uint64_t CAVM_SMMUX_GERROR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_GERROR(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000060ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000060ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_GERROR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1811,11 +1812,11 @@ union cavm_smmux_gerror_irq_cfg0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_52_63        : 12;
-        uint64_t addr                  : 50; /**< [ 51:  2](R/W) SMMU(0..3)_S_GERROR_IRQ_CFG0[ADDR] */
+        uint64_t addr                  : 50; /**< [ 51:  2](R/W) SMMU(0)_S_GERROR_IRQ_CFG0[ADDR] */
         uint64_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_1          : 2;
-        uint64_t addr                  : 50; /**< [ 51:  2](R/W) SMMU(0..3)_S_GERROR_IRQ_CFG0[ADDR] */
+        uint64_t addr                  : 50; /**< [ 51:  2](R/W) SMMU(0)_S_GERROR_IRQ_CFG0[ADDR] */
         uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
     } s;
@@ -1826,8 +1827,8 @@ typedef union cavm_smmux_gerror_irq_cfg0 cavm_smmux_gerror_irq_cfg0_t;
 static inline uint64_t CAVM_SMMUX_GERROR_IRQ_CFG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_GERROR_IRQ_CFG0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000068ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000068ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_GERROR_IRQ_CFG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1849,9 +1850,9 @@ union cavm_smmux_gerror_irq_cfg1
     struct cavm_smmux_gerror_irq_cfg1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) SMMU(0..3)_S_GERROR_IRQ_CFG1[DATA] */
+        uint32_t data                  : 32; /**< [ 31:  0](R/W) SMMU(0)_S_GERROR_IRQ_CFG1[DATA] */
 #else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) SMMU(0..3)_S_GERROR_IRQ_CFG1[DATA] */
+        uint32_t data                  : 32; /**< [ 31:  0](R/W) SMMU(0)_S_GERROR_IRQ_CFG1[DATA] */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_smmux_gerror_irq_cfg1_s cn; */
@@ -1861,8 +1862,8 @@ typedef union cavm_smmux_gerror_irq_cfg1 cavm_smmux_gerror_irq_cfg1_t;
 static inline uint64_t CAVM_SMMUX_GERROR_IRQ_CFG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_GERROR_IRQ_CFG1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000070ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000070ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_GERROR_IRQ_CFG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1885,11 +1886,11 @@ union cavm_smmux_gerror_irq_cfg2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_6_31         : 26;
-        uint32_t sh                    : 2;  /**< [  5:  4](R/W) SMMU(0..3)_S_GERROR_IRQ_CFG2[SH] */
-        uint32_t memattr               : 4;  /**< [  3:  0](R/W) SMMU(0..3)_S_GERROR_IRQ_CFG2[MEMATTR] */
+        uint32_t sh                    : 2;  /**< [  5:  4](R/W) SMMU(0)_S_GERROR_IRQ_CFG2[SH] */
+        uint32_t memattr               : 4;  /**< [  3:  0](R/W) SMMU(0)_S_GERROR_IRQ_CFG2[MEMATTR] */
 #else /* Word 0 - Little Endian */
-        uint32_t memattr               : 4;  /**< [  3:  0](R/W) SMMU(0..3)_S_GERROR_IRQ_CFG2[MEMATTR] */
-        uint32_t sh                    : 2;  /**< [  5:  4](R/W) SMMU(0..3)_S_GERROR_IRQ_CFG2[SH] */
+        uint32_t memattr               : 4;  /**< [  3:  0](R/W) SMMU(0)_S_GERROR_IRQ_CFG2[MEMATTR] */
+        uint32_t sh                    : 2;  /**< [  5:  4](R/W) SMMU(0)_S_GERROR_IRQ_CFG2[SH] */
         uint32_t reserved_6_31         : 26;
 #endif /* Word 0 - End */
     } s;
@@ -1900,8 +1901,8 @@ typedef union cavm_smmux_gerror_irq_cfg2 cavm_smmux_gerror_irq_cfg2_t;
 static inline uint64_t CAVM_SMMUX_GERROR_IRQ_CFG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_GERROR_IRQ_CFG2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000074ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000074ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_GERROR_IRQ_CFG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2005,8 +2006,8 @@ typedef union cavm_smmux_gerrorn cavm_smmux_gerrorn_t;
 static inline uint64_t CAVM_SMMUX_GERRORN(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_GERRORN(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000064ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000064ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_GERRORN", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2058,8 +2059,8 @@ typedef union cavm_smmux_gmpam cavm_smmux_gmpam_t;
 static inline uint64_t CAVM_SMMUX_GMPAM(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_GMPAM(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000138ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000138ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_GMPAM", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2082,7 +2083,7 @@ union cavm_smmux_idr0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_29_31        : 3;
-        uint32_t st_level              : 2;  /**< [ 28: 27](RO) Multilevel stream table support.
+        uint32_t st_level              : 2;  /**< [ 28: 27](RO) Multi-level stream table support.
                                                                  0x0 = Linear stream table supported.
                                                                  0x1 = Two-level stream table supported in addition to linear stream table.
                                                                  0x2 = Reserved.
@@ -2091,18 +2092,17 @@ union cavm_smmux_idr0
 
                                                                  0 = SMMU_CD_S[A] determines Abort or RAZ/WI behavior of a terminated transaction. The
                                                                  act of terminating a transaction may be configured using SMMU_CD_S[A] to successfully
-                                                                 complete the transaction (RAZ/WI) or abort the transaction/return error.
+                                                                 complete the transaction (RAZ/WI) or abort the transaction.
 
                                                                  1 = Terminating a transaction with RAZ/WI behavior is not supported,
                                                                  SMMU_CD_S[A] must be one. This means that a terminated transaction will always be
-                                                                 aborted/error returned. */
+                                                                 aborted. */
         uint32_t stall_model           : 2;  /**< [ 25: 24](RO) Stalling fault model support.
                                                                      0x0 = Stall and terminate models supported.
-                                                                     0x1 = Stall is not supported (all faults terminate transaction); SMMU_STE_S[S2S]/CD[S]
+                                                                     0x1 = Stall is not supported (all faults terminate transaction); SMMU_STE_S[S2S]/SMMU_S_CD[S]
                                                                      must be zero CMD_RESUME and CMD_STALL_TERM are not available.
                                                                      0x2 = Stall is forced (all faults eligible to stall cause stall);
-                                                                 SMMU_STE_S[S2S]/CD[S]
-                                                                     must be one.
+                                                                 SMMU_STE_S[S2S]/SMMU_CD_S[S] must be one.
                                                                      0x3 = Reserved.
 
                                                                      SMMU_STE_S[S2S] must be in the states above only if stage 2 translation was
@@ -2112,9 +2112,9 @@ union cavm_smmux_idr0
                                                                      SMMU()_S_CR0[NSSTALLD].
 
                                                                      An SMMU associated with a PCI system must not have [STALL_MODEL]=0x2. */
-        uint32_t atsrecerr             : 1;  /**< [ 23: 23](RO) Indicates support for recording errors for ATS Translation Requests. 0 = SMMU
-                                                                 does not support recording non-ATS events for ATS Translation Requests. 1 = SMMU
-                                                                 supports recording some events for ATS Translation Requests. See
+        uint32_t atsrecerr             : 1;  /**< [ 23: 23](RO) Indicates support for recording errors for ATS Translation Requests.
+                                                                   0 = SMMU does not support recording non-ATS events for ATS Translation Requests.
+                                                                   1 = SMMU supports recording some events for ATS Translation Requests. See
                                                                  SMMU_CR2[REC_CFG_ATS] for details. */
         uint32_t ttendian              : 2;  /**< [ 22: 21](RO) Endianness support for translation table walks.
                                                                  0x0 = Mixed-endian: SMMU_CD_S[ENDI] and SMMU_STE_S[S2ENDI] may select either endian.
@@ -2138,7 +2138,7 @@ union cavm_smmux_idr0
                                                                  Must be zero when SMMU()_IDR0[ATS]=0. */
         uint32_t atos                  : 1;  /**< [ 15: 15](RO) Address translation operations supported.
                                                                  When zero, VATOS=0 and all SMMU()_(S_)GATOS_* registers are reserved. */
-        uint32_t sev                   : 1;  /**< [ 14: 14](RO) SMMU, and system, support generation of events to CPU.
+        uint32_t sev                   : 1;  /**< [ 14: 14](RO) SMMU, and system, support generation of WFE events to PE.
                                                                  When set, WFE may be used on the CPU to wait for CMD_SYNC completion.
                                                                  This bit must reflect the ability of the system, and SMMU implementation, to convey
                                                                  events to all CPUs that are expected to run SMMU maintenance software. */
@@ -2237,7 +2237,7 @@ union cavm_smmux_idr0
                                                                  When 16-bit ASIDs are not supported, ASID\<15:8\> is RES0 in command parameters and must be
                                                                  zero in SMMU_CD_S[ASID]. */
         uint32_t msi                   : 1;  /**< [ 13: 13](RO) Message signaled interrupts are supported. */
-        uint32_t sev                   : 1;  /**< [ 14: 14](RO) SMMU, and system, support generation of events to CPU.
+        uint32_t sev                   : 1;  /**< [ 14: 14](RO) SMMU, and system, support generation of WFE events to PE.
                                                                  When set, WFE may be used on the CPU to wait for CMD_SYNC completion.
                                                                  This bit must reflect the ability of the system, and SMMU implementation, to convey
                                                                  events to all CPUs that are expected to run SMMU maintenance software. */
@@ -2263,17 +2263,16 @@ union cavm_smmux_idr0
                                                                  0x1 = Reserved.
                                                                  0x2 = Little-endian: SMMU_CD_S[ENDI] and SMMU_STE_S[S2ENDI] must select little-endian.
                                                                  0x3 = Big-endian: SMMU_CD_S[ENDI] and SMMU_STE_S[S2ENDI] must select big-endian. */
-        uint32_t atsrecerr             : 1;  /**< [ 23: 23](RO) Indicates support for recording errors for ATS Translation Requests. 0 = SMMU
-                                                                 does not support recording non-ATS events for ATS Translation Requests. 1 = SMMU
-                                                                 supports recording some events for ATS Translation Requests. See
+        uint32_t atsrecerr             : 1;  /**< [ 23: 23](RO) Indicates support for recording errors for ATS Translation Requests.
+                                                                   0 = SMMU does not support recording non-ATS events for ATS Translation Requests.
+                                                                   1 = SMMU supports recording some events for ATS Translation Requests. See
                                                                  SMMU_CR2[REC_CFG_ATS] for details. */
         uint32_t stall_model           : 2;  /**< [ 25: 24](RO) Stalling fault model support.
                                                                      0x0 = Stall and terminate models supported.
-                                                                     0x1 = Stall is not supported (all faults terminate transaction); SMMU_STE_S[S2S]/CD[S]
+                                                                     0x1 = Stall is not supported (all faults terminate transaction); SMMU_STE_S[S2S]/SMMU_S_CD[S]
                                                                      must be zero CMD_RESUME and CMD_STALL_TERM are not available.
                                                                      0x2 = Stall is forced (all faults eligible to stall cause stall);
-                                                                 SMMU_STE_S[S2S]/CD[S]
-                                                                     must be one.
+                                                                 SMMU_STE_S[S2S]/SMMU_CD_S[S] must be one.
                                                                      0x3 = Reserved.
 
                                                                      SMMU_STE_S[S2S] must be in the states above only if stage 2 translation was
@@ -2287,12 +2286,12 @@ union cavm_smmux_idr0
 
                                                                  0 = SMMU_CD_S[A] determines Abort or RAZ/WI behavior of a terminated transaction. The
                                                                  act of terminating a transaction may be configured using SMMU_CD_S[A] to successfully
-                                                                 complete the transaction (RAZ/WI) or abort the transaction/return error.
+                                                                 complete the transaction (RAZ/WI) or abort the transaction.
 
                                                                  1 = Terminating a transaction with RAZ/WI behavior is not supported,
                                                                  SMMU_CD_S[A] must be one. This means that a terminated transaction will always be
-                                                                 aborted/error returned. */
-        uint32_t st_level              : 2;  /**< [ 28: 27](RO) Multilevel stream table support.
+                                                                 aborted. */
+        uint32_t st_level              : 2;  /**< [ 28: 27](RO) Multi-level stream table support.
                                                                  0x0 = Linear stream table supported.
                                                                  0x1 = Two-level stream table supported in addition to linear stream table.
                                                                  0x2 = Reserved.
@@ -2307,8 +2306,8 @@ typedef union cavm_smmux_idr0 cavm_smmux_idr0_t;
 static inline uint64_t CAVM_SMMUX_IDR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_IDR0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000000ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000000ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_IDR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2349,7 +2348,8 @@ union cavm_smmux_idr1
                                                                  As with [TABLES_PRESET]: when set, the contents of SMMU()_(S_)CMDQ_BASE,
                                                                  SMMU()_(S_)EVENTQ_BASE, and if present, SMMU()_PRIQ_BASE are fixed and pre-set
                                                                  at initialization time. */
-        uint32_t rel                   : 1;  /**< [ 28: 28](RO) Relative base pointers. For embedded implementations, this flag indicates that a
+        uint32_t rel                   : 1;  /**< [ 28: 28](RO) Relative base pointers.
+                                                                 For embedded implementations, this flag indicates that a
                                                                  base register affected by [TABLES_PRESET] or [QUEUES_PRESET] being set to 1
                                                                  contains a preset address relative to the SMMU base address (register offset
                                                                  0). Otherwise, all addresses in SMMU registers are absolute physical
@@ -2375,17 +2375,25 @@ union cavm_smmux_idr1
                                                                  indices of N bits but an index register containing (N+1) bits. */
         uint32_t eventqs               : 5;  /**< [ 20: 16](RO) Event queue maximum number of entries as log2(entries), max 19. */
         uint32_t priqs                 : 5;  /**< [ 15: 11](RO) PRIQ maximum number of entries as log2(entries), max 19. */
-        uint32_t ssidsize              : 5;  /**< [ 10:  6](RO) Max bits of SubstreamID. Valid range 0 to 20 inclusive, 0 meaning no Substreams
-                                                                 are supported. */
+        uint32_t ssidsize              : 5;  /**< [ 10:  6](RO) Max bits of SubstreamID.
+                                                                 Valid range 0 to 20 inclusive, 0 meaning no Substreams are supported.
+                                                                 Reflects physical SubstreamID representation size, that is the SMMU cannot represent
+                                                                 or be presented with SubstreamIDs greater than SSIDSIZE. */
         uint32_t sidsize               : 6;  /**< [  5:  0](RO) Max bits of StreamID. This value is between 0 and 32 inclusive. This reflects
                                                                  the physical StreamID size, i.e. an SMMU cannot represent (or be presented with)
-                                                                 StreamIDs greater than SIDSIZE. */
+                                                                 StreamIDs greater than SIDSIZE.
+
+                                                                 When SMMU_IDR1[SIDSIZE] \>= 7, SMMU_IDR0[ST_LEVEL] != 0. */
 #else /* Word 0 - Little Endian */
         uint32_t sidsize               : 6;  /**< [  5:  0](RO) Max bits of StreamID. This value is between 0 and 32 inclusive. This reflects
                                                                  the physical StreamID size, i.e. an SMMU cannot represent (or be presented with)
-                                                                 StreamIDs greater than SIDSIZE. */
-        uint32_t ssidsize              : 5;  /**< [ 10:  6](RO) Max bits of SubstreamID. Valid range 0 to 20 inclusive, 0 meaning no Substreams
-                                                                 are supported. */
+                                                                 StreamIDs greater than SIDSIZE.
+
+                                                                 When SMMU_IDR1[SIDSIZE] \>= 7, SMMU_IDR0[ST_LEVEL] != 0. */
+        uint32_t ssidsize              : 5;  /**< [ 10:  6](RO) Max bits of SubstreamID.
+                                                                 Valid range 0 to 20 inclusive, 0 meaning no Substreams are supported.
+                                                                 Reflects physical SubstreamID representation size, that is the SMMU cannot represent
+                                                                 or be presented with SubstreamIDs greater than SSIDSIZE. */
         uint32_t priqs                 : 5;  /**< [ 15: 11](RO) PRIQ maximum number of entries as log2(entries), max 19. */
         uint32_t eventqs               : 5;  /**< [ 20: 16](RO) Event queue maximum number of entries as log2(entries), max 19. */
         uint32_t cmdqs                 : 5;  /**< [ 25: 21](RO) Command queue maximum number of entries as log2(entries), max 19. The index
@@ -2404,7 +2412,8 @@ union cavm_smmux_idr1
                                                                  as use incoming.
 
                                                                  1 = Incoming attributes can be overridden. */
-        uint32_t rel                   : 1;  /**< [ 28: 28](RO) Relative base pointers. For embedded implementations, this flag indicates that a
+        uint32_t rel                   : 1;  /**< [ 28: 28](RO) Relative base pointers.
+                                                                 For embedded implementations, this flag indicates that a
                                                                  base register affected by [TABLES_PRESET] or [QUEUES_PRESET] being set to 1
                                                                  contains a preset address relative to the SMMU base address (register offset
                                                                  0). Otherwise, all addresses in SMMU registers are absolute physical
@@ -2440,8 +2449,8 @@ typedef union cavm_smmux_idr1 cavm_smmux_idr1_t;
 static inline uint64_t CAVM_SMMUX_IDR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_IDR1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000004ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000004ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_IDR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2464,11 +2473,15 @@ union cavm_smmux_idr2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_10_31        : 22;
-        uint32_t ba_vatos              : 10; /**< [  9:  0](RO) VATOS page base address offset. If SMMU()_IDR0[VATOS]=0, no VATOS page is
-                                                                 present and this value is zero. */
+        uint32_t ba_vatos              : 10; /**< [  9:  0](RO) VATOS page base address offset.
+                                                                 All BA values are encoded as an unsigned offset from SMMU address 0x20000 in units of 64KB.
+                                                                 Page_Address = SMMU_BASE + 0x20000 + (BA * 0x10000)
+                                                                 If SMMU()_IDR0[VATOS]=0, no VATOS page is present and this value is zero. */
 #else /* Word 0 - Little Endian */
-        uint32_t ba_vatos              : 10; /**< [  9:  0](RO) VATOS page base address offset. If SMMU()_IDR0[VATOS]=0, no VATOS page is
-                                                                 present and this value is zero. */
+        uint32_t ba_vatos              : 10; /**< [  9:  0](RO) VATOS page base address offset.
+                                                                 All BA values are encoded as an unsigned offset from SMMU address 0x20000 in units of 64KB.
+                                                                 Page_Address = SMMU_BASE + 0x20000 + (BA * 0x10000)
+                                                                 If SMMU()_IDR0[VATOS]=0, no VATOS page is present and this value is zero. */
         uint32_t reserved_10_31        : 22;
 #endif /* Word 0 - End */
     } s;
@@ -2479,8 +2492,8 @@ typedef union cavm_smmux_idr2 cavm_smmux_idr2_t;
 static inline uint64_t CAVM_SMMUX_IDR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_IDR2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000008ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000008ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_IDR2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2598,8 +2611,8 @@ typedef union cavm_smmux_idr3 cavm_smmux_idr3_t;
 static inline uint64_t CAVM_SMMUX_IDR3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_IDR3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x83000000000cll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x83000000000cll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_IDR3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2636,8 +2649,8 @@ typedef union cavm_smmux_idr4 cavm_smmux_idr4_t;
 static inline uint64_t CAVM_SMMUX_IDR4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_IDR4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000010ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000010ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_IDR4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2717,8 +2730,8 @@ typedef union cavm_smmux_idr5 cavm_smmux_idr5_t;
 static inline uint64_t CAVM_SMMUX_IDR5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_IDR5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000014ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000014ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_IDR5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2768,8 +2781,8 @@ typedef union cavm_smmux_idr6 cavm_smmux_idr6_t;
 static inline uint64_t CAVM_SMMUX_IDR6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_IDR6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000190ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000190ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_IDR6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2823,8 +2836,8 @@ typedef union cavm_smmux_iidr cavm_smmux_iidr_t;
 static inline uint64_t CAVM_SMMUX_IIDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_IIDR(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000018ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000018ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_IIDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2846,11 +2859,11 @@ union cavm_smmux_imp_actlr
     struct cavm_smmux_imp_actlr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_4_31         : 28;
-        uint32_t qos                   : 4;  /**< [  3:  0](R/W) SMMU(0..3)_S_IMP_ACTLR[QOS] */
+        uint32_t reserved_1_31         : 31;
+        uint32_t mpam_override         : 1;  /**< [  0:  0](R/W) Reserved. */
 #else /* Word 0 - Little Endian */
-        uint32_t qos                   : 4;  /**< [  3:  0](R/W) SMMU(0..3)_S_IMP_ACTLR[QOS] */
-        uint32_t reserved_4_31         : 28;
+        uint32_t mpam_override         : 1;  /**< [  0:  0](R/W) Reserved. */
+        uint32_t reserved_1_31         : 31;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_smmux_imp_actlr_s cn; */
@@ -2860,8 +2873,8 @@ typedef union cavm_smmux_imp_actlr cavm_smmux_imp_actlr_t;
 static inline uint64_t CAVM_SMMUX_IMP_ACTLR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_IMP_ACTLR(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000e10ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000e10ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_IMP_ACTLR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2899,8 +2912,8 @@ typedef union cavm_smmux_imp_const0 cavm_smmux_imp_const0_t;
 static inline uint64_t CAVM_SMMUX_IMP_CONST0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_IMP_CONST0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000e08ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000e08ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_IMP_CONST0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2910,146 +2923,6 @@ static inline uint64_t CAVM_SMMUX_IMP_CONST0(uint64_t a)
 #define device_bar_CAVM_SMMUX_IMP_CONST0(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SMMUX_IMP_CONST0(a) (a)
 #define arguments_CAVM_SMMUX_IMP_CONST0(a) (a),-1,-1,-1
-
-/**
- * Register (NCB32b) smmu#_imp_error_cause
- *
- * SMMU cause for error event Register
- * This register contains debug information.
- */
-union cavm_smmux_imp_error_cause
-{
-    uint32_t u;
-    struct cavm_smmux_imp_error_cause_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t bus_error             : 1;  /**< [ 31: 31](R/W1C/H) Error detected on MESH bus (RXRDAT.error). */
-        uint32_t bus_poison            : 1;  /**< [ 30: 30](R/W1C/H) Poison detected on MESH bus (RXRDAT.poison). */
-        uint32_t wlk_crs_miss_httu_upd_needed : 1;/**< [ 29: 29](R/W1C/H) Reserved. */
-        uint32_t wlk_crs_miss_dbm_upd_needed : 1;/**< [ 28: 28](R/W1C/H) Reserved. */
-        uint32_t crs_unexp_err_on_httu_upd_resp : 1;/**< [ 27: 27](R/W1C/H) Reserved. */
-        uint32_t crs_compr_err_on_httu_upd_resp : 1;/**< [ 26: 26](R/W1C/H) Reserved. */
-        uint32_t crs_endianness        : 1;  /**< [ 25: 25](R/W1C/H) Endianess fault - CD.ENDI or STE.S2ENDI indicates Big Endian which is not supported. */
-        uint32_t ttd_valid             : 1;  /**< [ 24: 24](R/W1C/H) Valid bit of TTD not set when walker read it. */
-        uint32_t reserved_20_23        : 4;
-        uint32_t cd_tgx                : 1;  /**< [ 19: 19](R/W1C/H) CD TG0 or TG1 granule is not supported. */
-        uint32_t cd_ttbx               : 1;  /**< [ 18: 18](R/W1C/H) CD TTB0 or TTB1 is outside of range. */
-        uint32_t cd_txsz               : 1;  /**< [ 17: 17](R/W1C/H) CD T0SZ or T1SZ is invalid. */
-        uint32_t cd_httu               : 1;  /**< [ 16: 16](R/W1C/H) CD access flag and dirty state bits not supported by our system as indicated
-                                                                 from SMMU()_IDR0[HTTU]. */
-        uint32_t cd_aarch              : 1;  /**< [ 15: 15](R/W1C/H) CD AArch is not supported by our system as indicated from (SMMU()_IDR0[TTF]. */
-        uint32_t cd_streamworld        : 1;  /**< [ 14: 14](R/W1C/H) CD STREAMWORLD not supported. */
-        uint32_t cd_s                  : 1;  /**< [ 13: 13](R/W1C/H) CD_S not supported by our stall model as indicated in SMMU(0)(_S)_IDR0.STALL_MODEL. */
-        uint32_t cd_valid              : 1;  /**< [ 12: 12](R/W1C/H) Valid bit of CD not set when walker read it. */
-        uint32_t ste_s2_walk_cfg       : 1;  /**< [ 11: 11](R/W1C/H) STE walk config inconsist between following parameters: S2TG, S2SL0, S2T0SZ.
-                                                                 See Arm spec DDIO487D, tables D5-11, D5-13, D5-15. */
-        uint32_t ste_s2t0sz            : 1;  /**< [ 10: 10](R/W1C/H) STE S2T0SZ invalid for granularity specified by STE.S2TG. */
-        uint32_t ste_s2ttb             : 1;  /**< [  9:  9](R/W1C/H) STE S2TTB outside range. */
-        uint32_t ste_httu              : 1;  /**< [  8:  8](R/W1C/H) STE access flag and dirty state bits not supported by our system as indicated
-                                                                 from SMMU()_IDR0[HTTU]. */
-        uint32_t ste_aarch             : 1;  /**< [  7:  7](R/W1C/H) STE AArch is not supported by our system as indicated from (SMMU()_IDR0[TTF]. */
-        uint32_t ste_s2tg              : 1;  /**< [  6:  6](R/W1C/H) STE granule not supported. */
-        uint32_t ste_s2s               : 1;  /**< [  5:  5](R/W1C/H) STE S2S field not supported by our stall model as indicated in SMMU(0)(_S)_IDR0.STALL_MODEL. */
-        uint32_t ste_s1contextptr      : 1;  /**< [  4:  4](R/W1C/H) STE S1ContextPtr is out of range. */
-        uint32_t ste_s1stalld          : 1;  /**< [  3:  3](R/W1C/H) STE S1STALLD field not supported by our stall model as indicated in SMMU(0)(_S)_IDR0.STALL_MODEL. */
-        uint32_t ste_strw              : 1;  /**< [  2:  2](R/W1C/H) STE STRW not match with SSEC indication of TXN. */
-        uint32_t ste_sel2              : 1;  /**< [  1:  1](R/W1C/H) Secure stage 2 is not supported when SMMU(0)_S_IDR1.SEL2 == 0. */
-        uint32_t ste_valid             : 1;  /**< [  0:  0](R/W1C/H) Valid bit of STE not set when walker read it. */
-#else /* Word 0 - Little Endian */
-        uint32_t ste_valid             : 1;  /**< [  0:  0](R/W1C/H) Valid bit of STE not set when walker read it. */
-        uint32_t ste_sel2              : 1;  /**< [  1:  1](R/W1C/H) Secure stage 2 is not supported when SMMU(0)_S_IDR1.SEL2 == 0. */
-        uint32_t ste_strw              : 1;  /**< [  2:  2](R/W1C/H) STE STRW not match with SSEC indication of TXN. */
-        uint32_t ste_s1stalld          : 1;  /**< [  3:  3](R/W1C/H) STE S1STALLD field not supported by our stall model as indicated in SMMU(0)(_S)_IDR0.STALL_MODEL. */
-        uint32_t ste_s1contextptr      : 1;  /**< [  4:  4](R/W1C/H) STE S1ContextPtr is out of range. */
-        uint32_t ste_s2s               : 1;  /**< [  5:  5](R/W1C/H) STE S2S field not supported by our stall model as indicated in SMMU(0)(_S)_IDR0.STALL_MODEL. */
-        uint32_t ste_s2tg              : 1;  /**< [  6:  6](R/W1C/H) STE granule not supported. */
-        uint32_t ste_aarch             : 1;  /**< [  7:  7](R/W1C/H) STE AArch is not supported by our system as indicated from (SMMU()_IDR0[TTF]. */
-        uint32_t ste_httu              : 1;  /**< [  8:  8](R/W1C/H) STE access flag and dirty state bits not supported by our system as indicated
-                                                                 from SMMU()_IDR0[HTTU]. */
-        uint32_t ste_s2ttb             : 1;  /**< [  9:  9](R/W1C/H) STE S2TTB outside range. */
-        uint32_t ste_s2t0sz            : 1;  /**< [ 10: 10](R/W1C/H) STE S2T0SZ invalid for granularity specified by STE.S2TG. */
-        uint32_t ste_s2_walk_cfg       : 1;  /**< [ 11: 11](R/W1C/H) STE walk config inconsist between following parameters: S2TG, S2SL0, S2T0SZ.
-                                                                 See Arm spec DDIO487D, tables D5-11, D5-13, D5-15. */
-        uint32_t cd_valid              : 1;  /**< [ 12: 12](R/W1C/H) Valid bit of CD not set when walker read it. */
-        uint32_t cd_s                  : 1;  /**< [ 13: 13](R/W1C/H) CD_S not supported by our stall model as indicated in SMMU(0)(_S)_IDR0.STALL_MODEL. */
-        uint32_t cd_streamworld        : 1;  /**< [ 14: 14](R/W1C/H) CD STREAMWORLD not supported. */
-        uint32_t cd_aarch              : 1;  /**< [ 15: 15](R/W1C/H) CD AArch is not supported by our system as indicated from (SMMU()_IDR0[TTF]. */
-        uint32_t cd_httu               : 1;  /**< [ 16: 16](R/W1C/H) CD access flag and dirty state bits not supported by our system as indicated
-                                                                 from SMMU()_IDR0[HTTU]. */
-        uint32_t cd_txsz               : 1;  /**< [ 17: 17](R/W1C/H) CD T0SZ or T1SZ is invalid. */
-        uint32_t cd_ttbx               : 1;  /**< [ 18: 18](R/W1C/H) CD TTB0 or TTB1 is outside of range. */
-        uint32_t cd_tgx                : 1;  /**< [ 19: 19](R/W1C/H) CD TG0 or TG1 granule is not supported. */
-        uint32_t reserved_20_23        : 4;
-        uint32_t ttd_valid             : 1;  /**< [ 24: 24](R/W1C/H) Valid bit of TTD not set when walker read it. */
-        uint32_t crs_endianness        : 1;  /**< [ 25: 25](R/W1C/H) Endianess fault - CD.ENDI or STE.S2ENDI indicates Big Endian which is not supported. */
-        uint32_t crs_compr_err_on_httu_upd_resp : 1;/**< [ 26: 26](R/W1C/H) Reserved. */
-        uint32_t crs_unexp_err_on_httu_upd_resp : 1;/**< [ 27: 27](R/W1C/H) Reserved. */
-        uint32_t wlk_crs_miss_dbm_upd_needed : 1;/**< [ 28: 28](R/W1C/H) Reserved. */
-        uint32_t wlk_crs_miss_httu_upd_needed : 1;/**< [ 29: 29](R/W1C/H) Reserved. */
-        uint32_t bus_poison            : 1;  /**< [ 30: 30](R/W1C/H) Poison detected on MESH bus (RXRDAT.poison). */
-        uint32_t bus_error             : 1;  /**< [ 31: 31](R/W1C/H) Error detected on MESH bus (RXRDAT.error). */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_imp_error_cause_s cn; */
-};
-typedef union cavm_smmux_imp_error_cause cavm_smmux_imp_error_cause_t;
-
-static inline uint64_t CAVM_SMMUX_IMP_ERROR_CAUSE(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_IMP_ERROR_CAUSE(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000e20ll + 0x1000000000ll * ((a) & 0x3);
-    __cavm_csr_fatal("SMMUX_IMP_ERROR_CAUSE", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SMMUX_IMP_ERROR_CAUSE(a) cavm_smmux_imp_error_cause_t
-#define bustype_CAVM_SMMUX_IMP_ERROR_CAUSE(a) CSR_TYPE_NCB32b
-#define basename_CAVM_SMMUX_IMP_ERROR_CAUSE(a) "SMMUX_IMP_ERROR_CAUSE"
-#define device_bar_CAVM_SMMUX_IMP_ERROR_CAUSE(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_IMP_ERROR_CAUSE(a) (a)
-#define arguments_CAVM_SMMUX_IMP_ERROR_CAUSE(a) (a),-1,-1,-1
-
-/**
- * Register (NCB32b) smmu#_imp_status
- *
- * SMMU Debug Registers
- * This register contains debug information.
- */
-union cavm_smmux_imp_status
-{
-    uint32_t u;
-    struct cavm_smmux_imp_status_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_26_31        : 6;
-        uint32_t cfgwalker             : 5;  /**< [ 25: 21](RO/H) Configuration walkers active. */
-        uint32_t walker                : 5;  /**< [ 20: 16](RO/H) Walkers active. */
-        uint32_t inflight              : 16; /**< [ 15:  0](RO/H) Valid entries in inflight queue. */
-#else /* Word 0 - Little Endian */
-        uint32_t inflight              : 16; /**< [ 15:  0](RO/H) Valid entries in inflight queue. */
-        uint32_t walker                : 5;  /**< [ 20: 16](RO/H) Walkers active. */
-        uint32_t cfgwalker             : 5;  /**< [ 25: 21](RO/H) Configuration walkers active. */
-        uint32_t reserved_26_31        : 6;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_imp_status_s cn; */
-};
-typedef union cavm_smmux_imp_status cavm_smmux_imp_status_t;
-
-static inline uint64_t CAVM_SMMUX_IMP_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_IMP_STATUS(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000e18ll + 0x1000000000ll * ((a) & 0x3);
-    __cavm_csr_fatal("SMMUX_IMP_STATUS", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SMMUX_IMP_STATUS(a) cavm_smmux_imp_status_t
-#define bustype_CAVM_SMMUX_IMP_STATUS(a) CSR_TYPE_NCB32b
-#define basename_CAVM_SMMUX_IMP_STATUS(a) "SMMUX_IMP_STATUS"
-#define device_bar_CAVM_SMMUX_IMP_STATUS(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_IMP_STATUS(a) (a)
-#define arguments_CAVM_SMMUX_IMP_STATUS(a) (a),-1,-1,-1
 
 /**
  * Register (NCB32b) smmu#_irq_ctrl
@@ -3096,8 +2969,8 @@ typedef union cavm_smmux_irq_ctrl cavm_smmux_irq_ctrl_t;
 static inline uint64_t CAVM_SMMUX_IRQ_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_IRQ_CTRL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000050ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000050ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_IRQ_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3121,13 +2994,13 @@ union cavm_smmux_irq_ctrlack
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_3_31         : 29;
-        uint32_t eventq_irqen          : 1;  /**< [  2:  2](RO/H) Read-only hardware-modified SMMU(0..3)_IRQ_CTRL[EVENTQ_IRQEN]. */
-        uint32_t priq_irqen            : 1;  /**< [  1:  1](RO/H) Read-only hardware-modified SMMU(0..3)_IRQ_CTRL[PRIQ_IRQEN]. */
-        uint32_t gerror_irqen          : 1;  /**< [  0:  0](RO/H) Read-only hardware-modified SMMU(0..3)_IRQ_CTRL[GERROR_IRQEN]. */
+        uint32_t eventq_irqen          : 1;  /**< [  2:  2](RO/H) Read-only hardware-modified SMMU(0)_IRQ_CTRL[EVENTQ_IRQEN]. */
+        uint32_t priq_irqen            : 1;  /**< [  1:  1](RO/H) Read-only hardware-modified SMMU(0)_IRQ_CTRL[PRIQ_IRQEN]. */
+        uint32_t gerror_irqen          : 1;  /**< [  0:  0](RO/H) Read-only hardware-modified SMMU(0)_IRQ_CTRL[GERROR_IRQEN]. */
 #else /* Word 0 - Little Endian */
-        uint32_t gerror_irqen          : 1;  /**< [  0:  0](RO/H) Read-only hardware-modified SMMU(0..3)_IRQ_CTRL[GERROR_IRQEN]. */
-        uint32_t priq_irqen            : 1;  /**< [  1:  1](RO/H) Read-only hardware-modified SMMU(0..3)_IRQ_CTRL[PRIQ_IRQEN]. */
-        uint32_t eventq_irqen          : 1;  /**< [  2:  2](RO/H) Read-only hardware-modified SMMU(0..3)_IRQ_CTRL[EVENTQ_IRQEN]. */
+        uint32_t gerror_irqen          : 1;  /**< [  0:  0](RO/H) Read-only hardware-modified SMMU(0)_IRQ_CTRL[GERROR_IRQEN]. */
+        uint32_t priq_irqen            : 1;  /**< [  1:  1](RO/H) Read-only hardware-modified SMMU(0)_IRQ_CTRL[PRIQ_IRQEN]. */
+        uint32_t eventq_irqen          : 1;  /**< [  2:  2](RO/H) Read-only hardware-modified SMMU(0)_IRQ_CTRL[EVENTQ_IRQEN]. */
         uint32_t reserved_3_31         : 29;
 #endif /* Word 0 - End */
     } s;
@@ -3138,8 +3011,8 @@ typedef union cavm_smmux_irq_ctrlack cavm_smmux_irq_ctrlack_t;
 static inline uint64_t CAVM_SMMUX_IRQ_CTRLACK(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_IRQ_CTRLACK(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000054ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000054ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_IRQ_CTRLACK", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3181,8 +3054,8 @@ typedef union cavm_smmux_mpamidr cavm_smmux_mpamidr_t;
 static inline uint64_t CAVM_SMMUX_MPAMIDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_MPAMIDR(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000130ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000130ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_MPAMIDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3218,8 +3091,8 @@ typedef union cavm_smmux_pidr0 cavm_smmux_pidr0_t;
 static inline uint64_t CAVM_SMMUX_PIDR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_PIDR0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000fe0ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000fe0ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_PIDR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3257,8 +3130,8 @@ typedef union cavm_smmux_pidr1 cavm_smmux_pidr1_t;
 static inline uint64_t CAVM_SMMUX_PIDR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_PIDR1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000fe4ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000fe4ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_PIDR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3304,8 +3177,8 @@ typedef union cavm_smmux_pidr2 cavm_smmux_pidr2_t;
 static inline uint64_t CAVM_SMMUX_PIDR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_PIDR2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000fe8ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000fe8ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_PIDR2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3345,8 +3218,8 @@ typedef union cavm_smmux_pidr3 cavm_smmux_pidr3_t;
 static inline uint64_t CAVM_SMMUX_PIDR3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_PIDR3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000fecll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000fecll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_PIDR3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3384,8 +3257,8 @@ typedef union cavm_smmux_pidr4 cavm_smmux_pidr4_t;
 static inline uint64_t CAVM_SMMUX_PIDR4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_PIDR4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000fd0ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000fd0ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_PIDR4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3419,8 +3292,8 @@ typedef union cavm_smmux_pidr5 cavm_smmux_pidr5_t;
 static inline uint64_t CAVM_SMMUX_PIDR5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_PIDR5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000fd4ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000fd4ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_PIDR5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3454,8 +3327,8 @@ typedef union cavm_smmux_pidr6 cavm_smmux_pidr6_t;
 static inline uint64_t CAVM_SMMUX_PIDR6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_PIDR6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000fd8ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000fd8ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_PIDR6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3489,8 +3362,8 @@ typedef union cavm_smmux_pidr7 cavm_smmux_pidr7_t;
 static inline uint64_t CAVM_SMMUX_PIDR7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_PIDR7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000fdcll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000fdcll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_PIDR7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3500,1730 +3373,6 @@ static inline uint64_t CAVM_SMMUX_PIDR7(uint64_t a)
 #define device_bar_CAVM_SMMUX_PIDR7(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SMMUX_PIDR7(a) (a)
 #define arguments_CAVM_SMMUX_PIDR7(a) (a),-1,-1,-1
-
-/**
- * Register (NCB32b) smmu#_pmcg#_aidr
- *
- * SMMU PMCG Architecture Identification Register
- */
-union cavm_smmux_pmcgx_aidr
-{
-    uint32_t u;
-    struct cavm_smmux_pmcgx_aidr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
-        uint32_t archmajorrev          : 4;  /**< [  7:  4](RO) Architecture major revision. */
-        uint32_t archminorrev          : 4;  /**< [  3:  0](RO) Architecture minor revision. */
-#else /* Word 0 - Little Endian */
-        uint32_t archminorrev          : 4;  /**< [  3:  0](RO) Architecture minor revision. */
-        uint32_t archmajorrev          : 4;  /**< [  7:  4](RO) Architecture major revision. */
-        uint32_t reserved_8_31         : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_pmcgx_aidr_s cn; */
-};
-typedef union cavm_smmux_pmcgx_aidr cavm_smmux_pmcgx_aidr_t;
-
-static inline uint64_t CAVM_SMMUX_PMCGX_AIDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_PMCGX_AIDR(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b<=3)))
-        return 0x830000100e70ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3);
-    __cavm_csr_fatal("SMMUX_PMCGX_AIDR", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SMMUX_PMCGX_AIDR(a,b) cavm_smmux_pmcgx_aidr_t
-#define bustype_CAVM_SMMUX_PMCGX_AIDR(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_SMMUX_PMCGX_AIDR(a,b) "SMMUX_PMCGX_AIDR"
-#define device_bar_CAVM_SMMUX_PMCGX_AIDR(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_PMCGX_AIDR(a,b) (a)
-#define arguments_CAVM_SMMUX_PMCGX_AIDR(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) smmu#_pmcg#_capr
- *
- * SMMU PMCG Counter Shadow Value Register
- */
-union cavm_smmux_pmcgx_capr
-{
-    uint32_t u;
-    struct cavm_smmux_pmcgx_capr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_1_31         : 31;
-        uint32_t capture               : 1;  /**< [  0:  0](WO) When counter capture is supported (SMMU_PMCG_CFGR.CAPTURE == 1), a write of 1 to this
-                                                                 bit triggers a capture of all SMMU_PMCG_EVCNTRn values within the PMCG into their
-                                                                 respective SMMU_PMCG_SVRn shadow register.
-
-                                                                 When SMMU_PMCG_CFGR.CAPTURE == 0, this field is RES0 . */
-#else /* Word 0 - Little Endian */
-        uint32_t capture               : 1;  /**< [  0:  0](WO) When counter capture is supported (SMMU_PMCG_CFGR.CAPTURE == 1), a write of 1 to this
-                                                                 bit triggers a capture of all SMMU_PMCG_EVCNTRn values within the PMCG into their
-                                                                 respective SMMU_PMCG_SVRn shadow register.
-
-                                                                 When SMMU_PMCG_CFGR.CAPTURE == 0, this field is RES0 . */
-        uint32_t reserved_1_31         : 31;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_pmcgx_capr_s cn; */
-};
-typedef union cavm_smmux_pmcgx_capr cavm_smmux_pmcgx_capr_t;
-
-static inline uint64_t CAVM_SMMUX_PMCGX_CAPR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_PMCGX_CAPR(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b<=3)))
-        return 0x830000100d88ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3);
-    __cavm_csr_fatal("SMMUX_PMCGX_CAPR", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SMMUX_PMCGX_CAPR(a,b) cavm_smmux_pmcgx_capr_t
-#define bustype_CAVM_SMMUX_PMCGX_CAPR(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_SMMUX_PMCGX_CAPR(a,b) "SMMUX_PMCGX_CAPR"
-#define device_bar_CAVM_SMMUX_PMCGX_CAPR(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_PMCGX_CAPR(a,b) (a)
-#define arguments_CAVM_SMMUX_PMCGX_CAPR(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB) smmu#_pmcg#_ceid0
- *
- * SMMU PMCG Common Event ID bitmap, Lower Register
- */
-union cavm_smmux_pmcgx_ceid0
-{
-    uint64_t u;
-    struct cavm_smmux_pmcgx_ceid0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t bitmap                : 64; /**< [ 63:  0](RO) 128-bit bitmap comprised of two consecutive 64-bit registers. Bit (N & 63) of the 64-bit
-                                                                 word at offset 8*(N/64)
-                                                                 relates to event number N. For each bit:
-                                                                 0 = Event N cannot be counted by counters in this group.
-                                                                 1 = Event N can be counted by counters in this group. */
-#else /* Word 0 - Little Endian */
-        uint64_t bitmap                : 64; /**< [ 63:  0](RO) 128-bit bitmap comprised of two consecutive 64-bit registers. Bit (N & 63) of the 64-bit
-                                                                 word at offset 8*(N/64)
-                                                                 relates to event number N. For each bit:
-                                                                 0 = Event N cannot be counted by counters in this group.
-                                                                 1 = Event N can be counted by counters in this group. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_pmcgx_ceid0_s cn; */
-};
-typedef union cavm_smmux_pmcgx_ceid0 cavm_smmux_pmcgx_ceid0_t;
-
-static inline uint64_t CAVM_SMMUX_PMCGX_CEID0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_PMCGX_CEID0(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b<=3)))
-        return 0x830000100e20ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3);
-    __cavm_csr_fatal("SMMUX_PMCGX_CEID0", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SMMUX_PMCGX_CEID0(a,b) cavm_smmux_pmcgx_ceid0_t
-#define bustype_CAVM_SMMUX_PMCGX_CEID0(a,b) CSR_TYPE_NCB
-#define basename_CAVM_SMMUX_PMCGX_CEID0(a,b) "SMMUX_PMCGX_CEID0"
-#define device_bar_CAVM_SMMUX_PMCGX_CEID0(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_PMCGX_CEID0(a,b) (a)
-#define arguments_CAVM_SMMUX_PMCGX_CEID0(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB) smmu#_pmcg#_ceid1
- *
- * SMMU PMCG Common Event ID bitmap, Upper Register
- */
-union cavm_smmux_pmcgx_ceid1
-{
-    uint64_t u;
-    struct cavm_smmux_pmcgx_ceid1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t bitmap                : 64; /**< [ 63:  0](RO) 128-bit bitmap comprised of two consecutive 64-bit registers. Bit (N & 63) of the 64-bit
-                                                                 word at offset 8*(N/64)
-                                                                 relates to event number N. For each bit,
-                                                                 0 = Event N cannot be counted by counters in this group.
-                                                                 1 = Event N can be counted by counters in this group. */
-#else /* Word 0 - Little Endian */
-        uint64_t bitmap                : 64; /**< [ 63:  0](RO) 128-bit bitmap comprised of two consecutive 64-bit registers. Bit (N & 63) of the 64-bit
-                                                                 word at offset 8*(N/64)
-                                                                 relates to event number N. For each bit,
-                                                                 0 = Event N cannot be counted by counters in this group.
-                                                                 1 = Event N can be counted by counters in this group. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_pmcgx_ceid1_s cn; */
-};
-typedef union cavm_smmux_pmcgx_ceid1 cavm_smmux_pmcgx_ceid1_t;
-
-static inline uint64_t CAVM_SMMUX_PMCGX_CEID1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_PMCGX_CEID1(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b<=3)))
-        return 0x830000100e28ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3);
-    __cavm_csr_fatal("SMMUX_PMCGX_CEID1", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SMMUX_PMCGX_CEID1(a,b) cavm_smmux_pmcgx_ceid1_t
-#define bustype_CAVM_SMMUX_PMCGX_CEID1(a,b) CSR_TYPE_NCB
-#define basename_CAVM_SMMUX_PMCGX_CEID1(a,b) "SMMUX_PMCGX_CEID1"
-#define device_bar_CAVM_SMMUX_PMCGX_CEID1(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_PMCGX_CEID1(a,b) (a)
-#define arguments_CAVM_SMMUX_PMCGX_CEID1(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) smmu#_pmcg#_cfgr
- *
- * SMMU PMCG Configuration Register
- */
-union cavm_smmux_pmcgx_cfgr
-{
-    uint32_t u;
-    struct cavm_smmux_pmcgx_cfgr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_26_31        : 6;
-        uint32_t filter_partid_pmg     : 1;  /**< [ 25: 25](RO) 0 = This PMCG cannot filter events by PARTID nor PMG.
-                                                                 1 = This PMCG can filter events by PARTID and PMG. */
-        uint32_t mpam                  : 1;  /**< [ 24: 24](RO) Memory Partitioning And Monitoring (MPAM) support
-                                                                 0 = MPAM is not supported by the PMCG.
-                                                                 1 = MPAM is supported by the PMCG. */
-        uint32_t sid_filter_type       : 1;  /**< [ 23: 23](RO) 0 = Separate StreamID filtering is supported for each counter in the PMCG.
-                                                                 1 = The StreamID filter configured by SMMU()_PMCG()_SMR(0) and
-                                                                 SMMU()_PMCG()_EVTYPER(0)[FILTER_SID_SPAN] applies to all counter in the PMCG. */
-        uint32_t capture               : 1;  /**< [ 22: 22](RAZ) Capture of counter values.
-                                                                 0 = Capture of counter values into SVRn registers not supported (SMMU()_PMCG()_SVR() and
-                                                                 SMMU()_PMCG()_CAPR are reserved.)
-                                                                 1 = Capture of counter values supported. */
-        uint32_t msi                   : 1;  /**< [ 21: 21](RO) Counter group supports message signaled interrupts.
-                                                                 0 = Group does not support MSI.
-                                                                 1 = Group can send MSI. */
-        uint32_t reloc_ctrs            : 1;  /**< [ 20: 20](RO) If set, page 1 is present and the following registers are relocated to the equivalent
-                                                                 offset
-                                                                 on page 1 (their page 0 locations become reserved):
-                                                                   * SMMU()_PMCG()_EVCNTR().
-                                                                   * SMMU()_PMCG()_SVR().
-                                                                   * SMMU()_PMCG()_OVSCLR0.
-                                                                   * SMMU()_PMCG()_OVSSET0.
-                                                                   * SMMU()_PMCG()_CAPR. */
-        uint32_t reserved_14_19        : 6;
-        uint32_t size                  : 6;  /**< [ 13:  8](RO) Size of PMCG counters in bits, minus one. Valid values are:
-                                                                    31 = 32-bit counters.
-                                                                    39 = 40-bit counters.
-                                                                    43 = 44-bit counters.
-                                                                    47 = 48-bit counters.
-                                                                    63 = 64-bit counters.
-
-                                                                 Other values are reserved. */
-        uint32_t reserved_6_7          : 2;
-        uint32_t nctr                  : 6;  /**< [  5:  0](RO) Number of counters in group minus 1. */
-#else /* Word 0 - Little Endian */
-        uint32_t nctr                  : 6;  /**< [  5:  0](RO) Number of counters in group minus 1. */
-        uint32_t reserved_6_7          : 2;
-        uint32_t size                  : 6;  /**< [ 13:  8](RO) Size of PMCG counters in bits, minus one. Valid values are:
-                                                                    31 = 32-bit counters.
-                                                                    39 = 40-bit counters.
-                                                                    43 = 44-bit counters.
-                                                                    47 = 48-bit counters.
-                                                                    63 = 64-bit counters.
-
-                                                                 Other values are reserved. */
-        uint32_t reserved_14_19        : 6;
-        uint32_t reloc_ctrs            : 1;  /**< [ 20: 20](RO) If set, page 1 is present and the following registers are relocated to the equivalent
-                                                                 offset
-                                                                 on page 1 (their page 0 locations become reserved):
-                                                                   * SMMU()_PMCG()_EVCNTR().
-                                                                   * SMMU()_PMCG()_SVR().
-                                                                   * SMMU()_PMCG()_OVSCLR0.
-                                                                   * SMMU()_PMCG()_OVSSET0.
-                                                                   * SMMU()_PMCG()_CAPR. */
-        uint32_t msi                   : 1;  /**< [ 21: 21](RO) Counter group supports message signaled interrupts.
-                                                                 0 = Group does not support MSI.
-                                                                 1 = Group can send MSI. */
-        uint32_t capture               : 1;  /**< [ 22: 22](RAZ) Capture of counter values.
-                                                                 0 = Capture of counter values into SVRn registers not supported (SMMU()_PMCG()_SVR() and
-                                                                 SMMU()_PMCG()_CAPR are reserved.)
-                                                                 1 = Capture of counter values supported. */
-        uint32_t sid_filter_type       : 1;  /**< [ 23: 23](RO) 0 = Separate StreamID filtering is supported for each counter in the PMCG.
-                                                                 1 = The StreamID filter configured by SMMU()_PMCG()_SMR(0) and
-                                                                 SMMU()_PMCG()_EVTYPER(0)[FILTER_SID_SPAN] applies to all counter in the PMCG. */
-        uint32_t mpam                  : 1;  /**< [ 24: 24](RO) Memory Partitioning And Monitoring (MPAM) support
-                                                                 0 = MPAM is not supported by the PMCG.
-                                                                 1 = MPAM is supported by the PMCG. */
-        uint32_t filter_partid_pmg     : 1;  /**< [ 25: 25](RO) 0 = This PMCG cannot filter events by PARTID nor PMG.
-                                                                 1 = This PMCG can filter events by PARTID and PMG. */
-        uint32_t reserved_26_31        : 6;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_pmcgx_cfgr_s cn; */
-};
-typedef union cavm_smmux_pmcgx_cfgr cavm_smmux_pmcgx_cfgr_t;
-
-static inline uint64_t CAVM_SMMUX_PMCGX_CFGR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_PMCGX_CFGR(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b<=3)))
-        return 0x830000100e00ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3);
-    __cavm_csr_fatal("SMMUX_PMCGX_CFGR", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SMMUX_PMCGX_CFGR(a,b) cavm_smmux_pmcgx_cfgr_t
-#define bustype_CAVM_SMMUX_PMCGX_CFGR(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_SMMUX_PMCGX_CFGR(a,b) "SMMUX_PMCGX_CFGR"
-#define device_bar_CAVM_SMMUX_PMCGX_CFGR(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_PMCGX_CFGR(a,b) (a)
-#define arguments_CAVM_SMMUX_PMCGX_CFGR(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) smmu#_pmcg#_cidr0
- *
- * SMMU Component Identification Register 0
- */
-union cavm_smmux_pmcgx_cidr0
-{
-    uint32_t u;
-    struct cavm_smmux_pmcgx_cidr0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
-        uint32_t preamble              : 8;  /**< [  7:  0](RO) Preamble identification value. */
-#else /* Word 0 - Little Endian */
-        uint32_t preamble              : 8;  /**< [  7:  0](RO) Preamble identification value. */
-        uint32_t reserved_8_31         : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_pmcgx_cidr0_s cn; */
-};
-typedef union cavm_smmux_pmcgx_cidr0 cavm_smmux_pmcgx_cidr0_t;
-
-static inline uint64_t CAVM_SMMUX_PMCGX_CIDR0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_PMCGX_CIDR0(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b<=3)))
-        return 0x830000100ff0ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3);
-    __cavm_csr_fatal("SMMUX_PMCGX_CIDR0", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SMMUX_PMCGX_CIDR0(a,b) cavm_smmux_pmcgx_cidr0_t
-#define bustype_CAVM_SMMUX_PMCGX_CIDR0(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_SMMUX_PMCGX_CIDR0(a,b) "SMMUX_PMCGX_CIDR0"
-#define device_bar_CAVM_SMMUX_PMCGX_CIDR0(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_PMCGX_CIDR0(a,b) (a)
-#define arguments_CAVM_SMMUX_PMCGX_CIDR0(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) smmu#_pmcg#_cidr1
- *
- * SMMU PMCG Component Identification Register 1
- */
-union cavm_smmux_pmcgx_cidr1
-{
-    uint32_t u;
-    struct cavm_smmux_pmcgx_cidr1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
-        uint32_t component_class       : 4;  /**< [  7:  4](RO) Class identification value. */
-        uint32_t preamble              : 4;  /**< [  3:  0](RO) Preamble identification value. */
-#else /* Word 0 - Little Endian */
-        uint32_t preamble              : 4;  /**< [  3:  0](RO) Preamble identification value. */
-        uint32_t component_class       : 4;  /**< [  7:  4](RO) Class identification value. */
-        uint32_t reserved_8_31         : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_pmcgx_cidr1_s cn; */
-};
-typedef union cavm_smmux_pmcgx_cidr1 cavm_smmux_pmcgx_cidr1_t;
-
-static inline uint64_t CAVM_SMMUX_PMCGX_CIDR1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_PMCGX_CIDR1(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b<=3)))
-        return 0x830000100ff4ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3);
-    __cavm_csr_fatal("SMMUX_PMCGX_CIDR1", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SMMUX_PMCGX_CIDR1(a,b) cavm_smmux_pmcgx_cidr1_t
-#define bustype_CAVM_SMMUX_PMCGX_CIDR1(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_SMMUX_PMCGX_CIDR1(a,b) "SMMUX_PMCGX_CIDR1"
-#define device_bar_CAVM_SMMUX_PMCGX_CIDR1(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_PMCGX_CIDR1(a,b) (a)
-#define arguments_CAVM_SMMUX_PMCGX_CIDR1(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) smmu#_pmcg#_cidr2
- *
- * SMMU PMCG Component Identification Register 2
- */
-union cavm_smmux_pmcgx_cidr2
-{
-    uint32_t u;
-    struct cavm_smmux_pmcgx_cidr2_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
-        uint32_t preamble              : 8;  /**< [  7:  0](RO) Preamble identification value. */
-#else /* Word 0 - Little Endian */
-        uint32_t preamble              : 8;  /**< [  7:  0](RO) Preamble identification value. */
-        uint32_t reserved_8_31         : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_pmcgx_cidr2_s cn; */
-};
-typedef union cavm_smmux_pmcgx_cidr2 cavm_smmux_pmcgx_cidr2_t;
-
-static inline uint64_t CAVM_SMMUX_PMCGX_CIDR2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_PMCGX_CIDR2(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b<=3)))
-        return 0x830000100ff8ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3);
-    __cavm_csr_fatal("SMMUX_PMCGX_CIDR2", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SMMUX_PMCGX_CIDR2(a,b) cavm_smmux_pmcgx_cidr2_t
-#define bustype_CAVM_SMMUX_PMCGX_CIDR2(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_SMMUX_PMCGX_CIDR2(a,b) "SMMUX_PMCGX_CIDR2"
-#define device_bar_CAVM_SMMUX_PMCGX_CIDR2(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_PMCGX_CIDR2(a,b) (a)
-#define arguments_CAVM_SMMUX_PMCGX_CIDR2(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) smmu#_pmcg#_cidr3
- *
- * SMMU PMCG Component Identification Register 3
- */
-union cavm_smmux_pmcgx_cidr3
-{
-    uint32_t u;
-    struct cavm_smmux_pmcgx_cidr3_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
-        uint32_t preamble              : 8;  /**< [  7:  0](RO) Preamble identification value. */
-#else /* Word 0 - Little Endian */
-        uint32_t preamble              : 8;  /**< [  7:  0](RO) Preamble identification value. */
-        uint32_t reserved_8_31         : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_pmcgx_cidr3_s cn; */
-};
-typedef union cavm_smmux_pmcgx_cidr3 cavm_smmux_pmcgx_cidr3_t;
-
-static inline uint64_t CAVM_SMMUX_PMCGX_CIDR3(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_PMCGX_CIDR3(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b<=3)))
-        return 0x830000100ffcll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3);
-    __cavm_csr_fatal("SMMUX_PMCGX_CIDR3", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SMMUX_PMCGX_CIDR3(a,b) cavm_smmux_pmcgx_cidr3_t
-#define bustype_CAVM_SMMUX_PMCGX_CIDR3(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_SMMUX_PMCGX_CIDR3(a,b) "SMMUX_PMCGX_CIDR3"
-#define device_bar_CAVM_SMMUX_PMCGX_CIDR3(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_PMCGX_CIDR3(a,b) (a)
-#define arguments_CAVM_SMMUX_PMCGX_CIDR3(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB) smmu#_pmcg#_cntenclr0
- *
- * SMMU PMCG Counter Enable Clear Register
- */
-union cavm_smmux_pmcgx_cntenclr0
-{
-    uint64_t u;
-    struct cavm_smmux_pmcgx_cntenclr0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t cnten                 : 4;  /**< [  3:  0](R/W1C) Counter enable. */
-#else /* Word 0 - Little Endian */
-        uint64_t cnten                 : 4;  /**< [  3:  0](R/W1C) Counter enable. */
-        uint64_t reserved_4_63         : 60;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_pmcgx_cntenclr0_s cn; */
-};
-typedef union cavm_smmux_pmcgx_cntenclr0 cavm_smmux_pmcgx_cntenclr0_t;
-
-static inline uint64_t CAVM_SMMUX_PMCGX_CNTENCLR0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_PMCGX_CNTENCLR0(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b<=3)))
-        return 0x830000100c20ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3);
-    __cavm_csr_fatal("SMMUX_PMCGX_CNTENCLR0", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SMMUX_PMCGX_CNTENCLR0(a,b) cavm_smmux_pmcgx_cntenclr0_t
-#define bustype_CAVM_SMMUX_PMCGX_CNTENCLR0(a,b) CSR_TYPE_NCB
-#define basename_CAVM_SMMUX_PMCGX_CNTENCLR0(a,b) "SMMUX_PMCGX_CNTENCLR0"
-#define device_bar_CAVM_SMMUX_PMCGX_CNTENCLR0(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_PMCGX_CNTENCLR0(a,b) (a)
-#define arguments_CAVM_SMMUX_PMCGX_CNTENCLR0(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB) smmu#_pmcg#_cntenset0
- *
- * SMMU PMCG Counter Enable Set Register
- */
-union cavm_smmux_pmcgx_cntenset0
-{
-    uint64_t u;
-    struct cavm_smmux_pmcgx_cntenset0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t cnten                 : 4;  /**< [  3:  0](R/W1S) Counter enable. */
-#else /* Word 0 - Little Endian */
-        uint64_t cnten                 : 4;  /**< [  3:  0](R/W1S) Counter enable. */
-        uint64_t reserved_4_63         : 60;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_pmcgx_cntenset0_s cn; */
-};
-typedef union cavm_smmux_pmcgx_cntenset0 cavm_smmux_pmcgx_cntenset0_t;
-
-static inline uint64_t CAVM_SMMUX_PMCGX_CNTENSET0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_PMCGX_CNTENSET0(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b<=3)))
-        return 0x830000100c00ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3);
-    __cavm_csr_fatal("SMMUX_PMCGX_CNTENSET0", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SMMUX_PMCGX_CNTENSET0(a,b) cavm_smmux_pmcgx_cntenset0_t
-#define bustype_CAVM_SMMUX_PMCGX_CNTENSET0(a,b) CSR_TYPE_NCB
-#define basename_CAVM_SMMUX_PMCGX_CNTENSET0(a,b) "SMMUX_PMCGX_CNTENSET0"
-#define device_bar_CAVM_SMMUX_PMCGX_CNTENSET0(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_PMCGX_CNTENSET0(a,b) (a)
-#define arguments_CAVM_SMMUX_PMCGX_CNTENSET0(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) smmu#_pmcg#_cr
- *
- * SMMU PMCG Global Counter Enable Register
- */
-union cavm_smmux_pmcgx_cr
-{
-    uint32_t u;
-    struct cavm_smmux_pmcgx_cr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_1_31         : 31;
-        uint32_t enable                : 1;  /**< [  0:  0](R/W) Global counter enable. When clear, no events are counted and values in
-                                                                 SMMU()_PMCG()_EVCNTR() do not change. This bit takes precedence over the
-                                                                 SMMU()_PMCG()_CNTENSET0[CNTEN] bits. */
-#else /* Word 0 - Little Endian */
-        uint32_t enable                : 1;  /**< [  0:  0](R/W) Global counter enable. When clear, no events are counted and values in
-                                                                 SMMU()_PMCG()_EVCNTR() do not change. This bit takes precedence over the
-                                                                 SMMU()_PMCG()_CNTENSET0[CNTEN] bits. */
-        uint32_t reserved_1_31         : 31;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_pmcgx_cr_s cn; */
-};
-typedef union cavm_smmux_pmcgx_cr cavm_smmux_pmcgx_cr_t;
-
-static inline uint64_t CAVM_SMMUX_PMCGX_CR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_PMCGX_CR(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b<=3)))
-        return 0x830000100e04ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3);
-    __cavm_csr_fatal("SMMUX_PMCGX_CR", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SMMUX_PMCGX_CR(a,b) cavm_smmux_pmcgx_cr_t
-#define bustype_CAVM_SMMUX_PMCGX_CR(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_SMMUX_PMCGX_CR(a,b) "SMMUX_PMCGX_CR"
-#define device_bar_CAVM_SMMUX_PMCGX_CR(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_PMCGX_CR(a,b) (a)
-#define arguments_CAVM_SMMUX_PMCGX_CR(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB) smmu#_pmcg#_evcntr#
- *
- * SMMU PMCG Event Counter Register
- */
-union cavm_smmux_pmcgx_evcntrx
-{
-    uint64_t u;
-    struct cavm_smmux_pmcgx_evcntrx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Counter value. */
-#else /* Word 0 - Little Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Counter value. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_pmcgx_evcntrx_s cn; */
-};
-typedef union cavm_smmux_pmcgx_evcntrx cavm_smmux_pmcgx_evcntrx_t;
-
-static inline uint64_t CAVM_SMMUX_PMCGX_EVCNTRX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_PMCGX_EVCNTRX(uint64_t a, uint64_t b, uint64_t c)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b<=3) && (c<=3)))
-        return 0x830000110000ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3) + 8ll * ((c) & 0x3);
-    __cavm_csr_fatal("SMMUX_PMCGX_EVCNTRX", 3, a, b, c, 0, 0, 0);
-}
-
-#define typedef_CAVM_SMMUX_PMCGX_EVCNTRX(a,b,c) cavm_smmux_pmcgx_evcntrx_t
-#define bustype_CAVM_SMMUX_PMCGX_EVCNTRX(a,b,c) CSR_TYPE_NCB
-#define basename_CAVM_SMMUX_PMCGX_EVCNTRX(a,b,c) "SMMUX_PMCGX_EVCNTRX"
-#define device_bar_CAVM_SMMUX_PMCGX_EVCNTRX(a,b,c) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_PMCGX_EVCNTRX(a,b,c) (a)
-#define arguments_CAVM_SMMUX_PMCGX_EVCNTRX(a,b,c) (a),(b),(c),-1
-
-/**
- * Register (NCB32b) smmu#_pmcg#_evtyper#
- *
- * SMMU PMCG Event Type Configuration Register
- */
-union cavm_smmux_pmcgx_evtyperx
-{
-    uint32_t u;
-    struct cavm_smmux_pmcgx_evtyperx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t ovfcap                : 1;  /**< [ 31: 31](R/W) 0 = An overflow of counter n does not trigger a capture of all counters.
-                                                                 1 = An overflow of counter n triggers a capture of all counters in the same way as by
-                                                                     SMMU_PMCG_CAPR.CAPTURE.
-
-                                                                 When SMMU_PMCG_CFGR.CAPTURE == 0, this bit is RES0. */
-        uint32_t filter_sec_sid        : 1;  /**< [ 30: 30](R/W) 0 = Count events originating from nonsecure StreamIDs.
-                                                                 1 = Count events originating from secure StreamIDs.
-
-                                                                 This bit is RES0 if the PMCG does not implement security support. Otherwise,
-                                                                 this bit is effectively 0 if security support is implemented but secure
-                                                                 observation is disabled (SMMU()_PMCG()_SCR[SO]=0).
-
-                                                                 For event types that can be filtered on StreamID, this bit causes the StreamID
-                                                                 match determined by [FILTER_SID_SPAN] and SMMU()_PMCG()_SMR()[STREAMID] to match
-                                                                 secure or nonsecure StreamIDs (as determined by SMMU SSD).
-
-                                                                 Where the StreamID match span encodes `ALL', this bit selects counting of events
-                                                                 associated with all nonsecure StreamIDs or all secure StreamIDs. */
-        uint32_t filter_sid_span       : 1;  /**< [ 29: 29](R/W) 0 = SMMU()_PMCG()_SMR()[STREAMID] filters event on an exact StreamID match (if the
-                                                                     event type can be filtered on StreamID).
-
-                                                                 1 = SMMU()_PMCG()_SMR()[STREAMID] encodes a `match span' of StreamID values.
-
-                                                                 The span can encode `ALL', equivalent to disabling filtering on StreamID. */
-        uint32_t reserved_8_28         : 21;
-        uint32_t evnt                  : 8;  /**< [  7:  0](R/W) Event type that causes this counter to increment. */
-#else /* Word 0 - Little Endian */
-        uint32_t evnt                  : 8;  /**< [  7:  0](R/W) Event type that causes this counter to increment. */
-        uint32_t reserved_8_28         : 21;
-        uint32_t filter_sid_span       : 1;  /**< [ 29: 29](R/W) 0 = SMMU()_PMCG()_SMR()[STREAMID] filters event on an exact StreamID match (if the
-                                                                     event type can be filtered on StreamID).
-
-                                                                 1 = SMMU()_PMCG()_SMR()[STREAMID] encodes a `match span' of StreamID values.
-
-                                                                 The span can encode `ALL', equivalent to disabling filtering on StreamID. */
-        uint32_t filter_sec_sid        : 1;  /**< [ 30: 30](R/W) 0 = Count events originating from nonsecure StreamIDs.
-                                                                 1 = Count events originating from secure StreamIDs.
-
-                                                                 This bit is RES0 if the PMCG does not implement security support. Otherwise,
-                                                                 this bit is effectively 0 if security support is implemented but secure
-                                                                 observation is disabled (SMMU()_PMCG()_SCR[SO]=0).
-
-                                                                 For event types that can be filtered on StreamID, this bit causes the StreamID
-                                                                 match determined by [FILTER_SID_SPAN] and SMMU()_PMCG()_SMR()[STREAMID] to match
-                                                                 secure or nonsecure StreamIDs (as determined by SMMU SSD).
-
-                                                                 Where the StreamID match span encodes `ALL', this bit selects counting of events
-                                                                 associated with all nonsecure StreamIDs or all secure StreamIDs. */
-        uint32_t ovfcap                : 1;  /**< [ 31: 31](R/W) 0 = An overflow of counter n does not trigger a capture of all counters.
-                                                                 1 = An overflow of counter n triggers a capture of all counters in the same way as by
-                                                                     SMMU_PMCG_CAPR.CAPTURE.
-
-                                                                 When SMMU_PMCG_CFGR.CAPTURE == 0, this bit is RES0. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_pmcgx_evtyperx_s cn; */
-};
-typedef union cavm_smmux_pmcgx_evtyperx cavm_smmux_pmcgx_evtyperx_t;
-
-static inline uint64_t CAVM_SMMUX_PMCGX_EVTYPERX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_PMCGX_EVTYPERX(uint64_t a, uint64_t b, uint64_t c)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b<=3) && (c<=3)))
-        return 0x830000100400ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3) + 4ll * ((c) & 0x3);
-    __cavm_csr_fatal("SMMUX_PMCGX_EVTYPERX", 3, a, b, c, 0, 0, 0);
-}
-
-#define typedef_CAVM_SMMUX_PMCGX_EVTYPERX(a,b,c) cavm_smmux_pmcgx_evtyperx_t
-#define bustype_CAVM_SMMUX_PMCGX_EVTYPERX(a,b,c) CSR_TYPE_NCB32b
-#define basename_CAVM_SMMUX_PMCGX_EVTYPERX(a,b,c) "SMMUX_PMCGX_EVTYPERX"
-#define device_bar_CAVM_SMMUX_PMCGX_EVTYPERX(a,b,c) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_PMCGX_EVTYPERX(a,b,c) (a)
-#define arguments_CAVM_SMMUX_PMCGX_EVTYPERX(a,b,c) (a),(b),(c),-1
-
-/**
- * Register (NCB) smmu#_pmcg#_intenclr0
- *
- * SMMU PMCG Interrupt Enable Clear Register
- */
-union cavm_smmux_pmcgx_intenclr0
-{
-    uint64_t u;
-    struct cavm_smmux_pmcgx_intenclr0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t inten                 : 4;  /**< [  3:  0](R/W1C) Overflow status. */
-#else /* Word 0 - Little Endian */
-        uint64_t inten                 : 4;  /**< [  3:  0](R/W1C) Overflow status. */
-        uint64_t reserved_4_63         : 60;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_pmcgx_intenclr0_s cn; */
-};
-typedef union cavm_smmux_pmcgx_intenclr0 cavm_smmux_pmcgx_intenclr0_t;
-
-static inline uint64_t CAVM_SMMUX_PMCGX_INTENCLR0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_PMCGX_INTENCLR0(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b<=3)))
-        return 0x830000100c60ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3);
-    __cavm_csr_fatal("SMMUX_PMCGX_INTENCLR0", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SMMUX_PMCGX_INTENCLR0(a,b) cavm_smmux_pmcgx_intenclr0_t
-#define bustype_CAVM_SMMUX_PMCGX_INTENCLR0(a,b) CSR_TYPE_NCB
-#define basename_CAVM_SMMUX_PMCGX_INTENCLR0(a,b) "SMMUX_PMCGX_INTENCLR0"
-#define device_bar_CAVM_SMMUX_PMCGX_INTENCLR0(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_PMCGX_INTENCLR0(a,b) (a)
-#define arguments_CAVM_SMMUX_PMCGX_INTENCLR0(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB) smmu#_pmcg#_intenset0
- *
- * SMMU PMCG Interrupt Enable Set Register
- */
-union cavm_smmux_pmcgx_intenset0
-{
-    uint64_t u;
-    struct cavm_smmux_pmcgx_intenset0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t inten                 : 4;  /**< [  3:  0](R/W1S) Counter enable. */
-#else /* Word 0 - Little Endian */
-        uint64_t inten                 : 4;  /**< [  3:  0](R/W1S) Counter enable. */
-        uint64_t reserved_4_63         : 60;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_pmcgx_intenset0_s cn; */
-};
-typedef union cavm_smmux_pmcgx_intenset0 cavm_smmux_pmcgx_intenset0_t;
-
-static inline uint64_t CAVM_SMMUX_PMCGX_INTENSET0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_PMCGX_INTENSET0(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b<=3)))
-        return 0x830000100c40ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3);
-    __cavm_csr_fatal("SMMUX_PMCGX_INTENSET0", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SMMUX_PMCGX_INTENSET0(a,b) cavm_smmux_pmcgx_intenset0_t
-#define bustype_CAVM_SMMUX_PMCGX_INTENSET0(a,b) CSR_TYPE_NCB
-#define basename_CAVM_SMMUX_PMCGX_INTENSET0(a,b) "SMMUX_PMCGX_INTENSET0"
-#define device_bar_CAVM_SMMUX_PMCGX_INTENSET0(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_PMCGX_INTENSET0(a,b) (a)
-#define arguments_CAVM_SMMUX_PMCGX_INTENSET0(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB) smmu#_pmcg#_irq_cfg0
- *
- * SMMU PMCG MSI Configuration Register
- */
-union cavm_smmux_pmcgx_irq_cfg0
-{
-    uint64_t u;
-    struct cavm_smmux_pmcgx_irq_cfg0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_52_63        : 12;
-        uint64_t addr                  : 50; /**< [ 51:  2](R/W) IOVA of MSI target address.
-                                                                 If [ADDR]=0x0, no MSI is sent. This allows a wired IRQ, if implemented, to be used instead
-                                                                 of an MSI.  Address bits above and below this field are implied as zero.
-
-                                                                 Note unlike most CNXXXX MSI-X address registers, this is a physical address, not
-                                                                 a virtual address. The address is always secure world.
-
-                                                                 The interrupt message will use the SMMU's stream ID plus the PMCG number (0..3). */
-        uint64_t reserved_0_1          : 2;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_1          : 2;
-        uint64_t addr                  : 50; /**< [ 51:  2](R/W) IOVA of MSI target address.
-                                                                 If [ADDR]=0x0, no MSI is sent. This allows a wired IRQ, if implemented, to be used instead
-                                                                 of an MSI.  Address bits above and below this field are implied as zero.
-
-                                                                 Note unlike most CNXXXX MSI-X address registers, this is a physical address, not
-                                                                 a virtual address. The address is always secure world.
-
-                                                                 The interrupt message will use the SMMU's stream ID plus the PMCG number (0..3). */
-        uint64_t reserved_52_63        : 12;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_pmcgx_irq_cfg0_s cn; */
-};
-typedef union cavm_smmux_pmcgx_irq_cfg0 cavm_smmux_pmcgx_irq_cfg0_t;
-
-static inline uint64_t CAVM_SMMUX_PMCGX_IRQ_CFG0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_PMCGX_IRQ_CFG0(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b<=3)))
-        return 0x830000100e58ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3);
-    __cavm_csr_fatal("SMMUX_PMCGX_IRQ_CFG0", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SMMUX_PMCGX_IRQ_CFG0(a,b) cavm_smmux_pmcgx_irq_cfg0_t
-#define bustype_CAVM_SMMUX_PMCGX_IRQ_CFG0(a,b) CSR_TYPE_NCB
-#define basename_CAVM_SMMUX_PMCGX_IRQ_CFG0(a,b) "SMMUX_PMCGX_IRQ_CFG0"
-#define device_bar_CAVM_SMMUX_PMCGX_IRQ_CFG0(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_PMCGX_IRQ_CFG0(a,b) (a)
-#define arguments_CAVM_SMMUX_PMCGX_IRQ_CFG0(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) smmu#_pmcg#_irq_cfg1
- *
- * SMMU PMCG MSI Configuration Register
- */
-union cavm_smmux_pmcgx_irq_cfg1
-{
-    uint32_t u;
-    struct cavm_smmux_pmcgx_irq_cfg1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) MSIX data payload. */
-#else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) MSIX data payload. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_pmcgx_irq_cfg1_s cn; */
-};
-typedef union cavm_smmux_pmcgx_irq_cfg1 cavm_smmux_pmcgx_irq_cfg1_t;
-
-static inline uint64_t CAVM_SMMUX_PMCGX_IRQ_CFG1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_PMCGX_IRQ_CFG1(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b<=3)))
-        return 0x830000100e60ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3);
-    __cavm_csr_fatal("SMMUX_PMCGX_IRQ_CFG1", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SMMUX_PMCGX_IRQ_CFG1(a,b) cavm_smmux_pmcgx_irq_cfg1_t
-#define bustype_CAVM_SMMUX_PMCGX_IRQ_CFG1(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_SMMUX_PMCGX_IRQ_CFG1(a,b) "SMMUX_PMCGX_IRQ_CFG1"
-#define device_bar_CAVM_SMMUX_PMCGX_IRQ_CFG1(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_PMCGX_IRQ_CFG1(a,b) (a)
-#define arguments_CAVM_SMMUX_PMCGX_IRQ_CFG1(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) smmu#_pmcg#_irq_cfg2
- *
- * SMMU PMCG MSI Configuration Register
- */
-union cavm_smmux_pmcgx_irq_cfg2
-{
-    uint32_t u;
-    struct cavm_smmux_pmcgx_irq_cfg2_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_6_31         : 26;
-        uint32_t sh                    : 2;  /**< [  5:  4](R/W) Shareability.
-                                                                 0x0 = NSH.
-                                                                 0x1 = Reserved (behaves as 0x0).
-                                                                 0x2 = OSH.
-                                                                 0x3 = ISH.
-
-                                                                 When [MEMATTR] encodes a device memory type, the value of this field is ignored
-                                                                 and the shareability is effectively OSH. */
-        uint32_t memattr               : 4;  /**< [  3:  0](R/W) MemAttr. Memory type, encoded the same as SMMU_STE_S[MEMATTR]. */
-#else /* Word 0 - Little Endian */
-        uint32_t memattr               : 4;  /**< [  3:  0](R/W) MemAttr. Memory type, encoded the same as SMMU_STE_S[MEMATTR]. */
-        uint32_t sh                    : 2;  /**< [  5:  4](R/W) Shareability.
-                                                                 0x0 = NSH.
-                                                                 0x1 = Reserved (behaves as 0x0).
-                                                                 0x2 = OSH.
-                                                                 0x3 = ISH.
-
-                                                                 When [MEMATTR] encodes a device memory type, the value of this field is ignored
-                                                                 and the shareability is effectively OSH. */
-        uint32_t reserved_6_31         : 26;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_pmcgx_irq_cfg2_s cn; */
-};
-typedef union cavm_smmux_pmcgx_irq_cfg2 cavm_smmux_pmcgx_irq_cfg2_t;
-
-static inline uint64_t CAVM_SMMUX_PMCGX_IRQ_CFG2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_PMCGX_IRQ_CFG2(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b<=3)))
-        return 0x830000100e64ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3);
-    __cavm_csr_fatal("SMMUX_PMCGX_IRQ_CFG2", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SMMUX_PMCGX_IRQ_CFG2(a,b) cavm_smmux_pmcgx_irq_cfg2_t
-#define bustype_CAVM_SMMUX_PMCGX_IRQ_CFG2(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_SMMUX_PMCGX_IRQ_CFG2(a,b) "SMMUX_PMCGX_IRQ_CFG2"
-#define device_bar_CAVM_SMMUX_PMCGX_IRQ_CFG2(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_PMCGX_IRQ_CFG2(a,b) (a)
-#define arguments_CAVM_SMMUX_PMCGX_IRQ_CFG2(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) smmu#_pmcg#_irq_ctrl
- *
- * SMMU PMCG IRQ Enable Register
- */
-union cavm_smmux_pmcgx_irq_ctrl
-{
-    uint32_t u;
-    struct cavm_smmux_pmcgx_irq_ctrl_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_1_31         : 31;
-        uint32_t irqen                 : 1;  /**< [  0:  0](R/W) Main IRQ enable for a per-counter group interrupt source. This enable
-                                                                 allows/inhibits both edge-triggered wired outputs (if implemented) and MSI
-                                                                 writes (if supported by the counter group). When [IRQEN] is clear, no interrupt
-                                                                 is triggered regardless of individual per-counter overflow INTEN flags
-                                                                 (i.e. they are overridden). [IRQEN] also controls overall interrupt
-                                                                 completion/MSI configuration changes as described below. */
-#else /* Word 0 - Little Endian */
-        uint32_t irqen                 : 1;  /**< [  0:  0](R/W) Main IRQ enable for a per-counter group interrupt source. This enable
-                                                                 allows/inhibits both edge-triggered wired outputs (if implemented) and MSI
-                                                                 writes (if supported by the counter group). When [IRQEN] is clear, no interrupt
-                                                                 is triggered regardless of individual per-counter overflow INTEN flags
-                                                                 (i.e. they are overridden). [IRQEN] also controls overall interrupt
-                                                                 completion/MSI configuration changes as described below. */
-        uint32_t reserved_1_31         : 31;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_pmcgx_irq_ctrl_s cn; */
-};
-typedef union cavm_smmux_pmcgx_irq_ctrl cavm_smmux_pmcgx_irq_ctrl_t;
-
-static inline uint64_t CAVM_SMMUX_PMCGX_IRQ_CTRL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_PMCGX_IRQ_CTRL(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b<=3)))
-        return 0x830000100e50ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3);
-    __cavm_csr_fatal("SMMUX_PMCGX_IRQ_CTRL", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SMMUX_PMCGX_IRQ_CTRL(a,b) cavm_smmux_pmcgx_irq_ctrl_t
-#define bustype_CAVM_SMMUX_PMCGX_IRQ_CTRL(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_SMMUX_PMCGX_IRQ_CTRL(a,b) "SMMUX_PMCGX_IRQ_CTRL"
-#define device_bar_CAVM_SMMUX_PMCGX_IRQ_CTRL(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_PMCGX_IRQ_CTRL(a,b) (a)
-#define arguments_CAVM_SMMUX_PMCGX_IRQ_CTRL(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) smmu#_pmcg#_irq_ctrlack
- *
- * SMMU PMCG IRQ Enable Ack Register
- * This register is a read-only copy of SMMU()_PMCG()_IRQ_CTRL.
- */
-union cavm_smmux_pmcgx_irq_ctrlack
-{
-    uint32_t u;
-    struct cavm_smmux_pmcgx_irq_ctrlack_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_1_31         : 31;
-        uint32_t irqen                 : 1;  /**< [  0:  0](RO/H) Read-only hardware-modified SMMU(0..3)_PMCG(0..3)_IRQ_CTRL[IRQEN]. */
-#else /* Word 0 - Little Endian */
-        uint32_t irqen                 : 1;  /**< [  0:  0](RO/H) Read-only hardware-modified SMMU(0..3)_PMCG(0..3)_IRQ_CTRL[IRQEN]. */
-        uint32_t reserved_1_31         : 31;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_pmcgx_irq_ctrlack_s cn; */
-};
-typedef union cavm_smmux_pmcgx_irq_ctrlack cavm_smmux_pmcgx_irq_ctrlack_t;
-
-static inline uint64_t CAVM_SMMUX_PMCGX_IRQ_CTRLACK(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_PMCGX_IRQ_CTRLACK(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b<=3)))
-        return 0x830000100e54ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3);
-    __cavm_csr_fatal("SMMUX_PMCGX_IRQ_CTRLACK", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SMMUX_PMCGX_IRQ_CTRLACK(a,b) cavm_smmux_pmcgx_irq_ctrlack_t
-#define bustype_CAVM_SMMUX_PMCGX_IRQ_CTRLACK(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_SMMUX_PMCGX_IRQ_CTRLACK(a,b) "SMMUX_PMCGX_IRQ_CTRLACK"
-#define device_bar_CAVM_SMMUX_PMCGX_IRQ_CTRLACK(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_PMCGX_IRQ_CTRLACK(a,b) (a)
-#define arguments_CAVM_SMMUX_PMCGX_IRQ_CTRLACK(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) smmu#_pmcg#_irq_status
- *
- * SMMU PMCG MSI Status Register
- */
-union cavm_smmux_pmcgx_irq_status
-{
-    uint32_t u;
-    struct cavm_smmux_pmcgx_irq_status_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_1_31         : 31;
-        uint32_t irq_abt               : 1;  /**< [  0:  0](RO) The SMMU sets this bit to one if it detects that an MSI has terminated with an abort.
-                                                                 This bit is RES0 when SMMU()_PMCG()_CFGR[MSI]=0.
-                                                                 It is implementation defined whether an implementation can detect this condition.
-                                                                 This bit is cleared when SMMU()_PMCG()_IRQ_CTRL[IRQEN] is updated from zero to one.
-                                                                        Note: An IRQEN transition from one to zero does not clear this bit, as this
-                                                                 transition also
-                                                                           ensures visibility of outstanding MSI writes and clearing [IRQ_ABT] at this point
-                                                                 might
-                                                                           mask possible abort completions of those MSI writes. */
-#else /* Word 0 - Little Endian */
-        uint32_t irq_abt               : 1;  /**< [  0:  0](RO) The SMMU sets this bit to one if it detects that an MSI has terminated with an abort.
-                                                                 This bit is RES0 when SMMU()_PMCG()_CFGR[MSI]=0.
-                                                                 It is implementation defined whether an implementation can detect this condition.
-                                                                 This bit is cleared when SMMU()_PMCG()_IRQ_CTRL[IRQEN] is updated from zero to one.
-                                                                        Note: An IRQEN transition from one to zero does not clear this bit, as this
-                                                                 transition also
-                                                                           ensures visibility of outstanding MSI writes and clearing [IRQ_ABT] at this point
-                                                                 might
-                                                                           mask possible abort completions of those MSI writes. */
-        uint32_t reserved_1_31         : 31;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_pmcgx_irq_status_s cn; */
-};
-typedef union cavm_smmux_pmcgx_irq_status cavm_smmux_pmcgx_irq_status_t;
-
-static inline uint64_t CAVM_SMMUX_PMCGX_IRQ_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_PMCGX_IRQ_STATUS(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b<=3)))
-        return 0x830000100e68ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3);
-    __cavm_csr_fatal("SMMUX_PMCGX_IRQ_STATUS", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SMMUX_PMCGX_IRQ_STATUS(a,b) cavm_smmux_pmcgx_irq_status_t
-#define bustype_CAVM_SMMUX_PMCGX_IRQ_STATUS(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_SMMUX_PMCGX_IRQ_STATUS(a,b) "SMMUX_PMCGX_IRQ_STATUS"
-#define device_bar_CAVM_SMMUX_PMCGX_IRQ_STATUS(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_PMCGX_IRQ_STATUS(a,b) (a)
-#define arguments_CAVM_SMMUX_PMCGX_IRQ_STATUS(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) smmu#_pmcg#_mpamidr
- *
- * PMCG MPAM capability identification Register
- */
-union cavm_smmux_pmcgx_mpamidr
-{
-    uint32_t u;
-    struct cavm_smmux_pmcgx_mpamidr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_24_31        : 8;
-        uint32_t pmg_max               : 8;  /**< [ 23: 16](RO) The maximum Non-secure PMG value that is permitted to be used by this PMCG for Non-secure MSIs.
-                                                                 This field is RES0 when MPAM is not supported, as indicated by SMMU_PMCG_CFGR.MPAM == 0. */
-        uint32_t partid_max            : 16; /**< [ 15:  0](RO) The maximum Non-secure PARTID value that is permitted to be used by this PMCG for Non-secure MSIs.
-                                                                 This field is RES0 when MPAM is not supported, as indicated by SMMU_PMCG_CFGR.MPAM == 0. */
-#else /* Word 0 - Little Endian */
-        uint32_t partid_max            : 16; /**< [ 15:  0](RO) The maximum Non-secure PARTID value that is permitted to be used by this PMCG for Non-secure MSIs.
-                                                                 This field is RES0 when MPAM is not supported, as indicated by SMMU_PMCG_CFGR.MPAM == 0. */
-        uint32_t pmg_max               : 8;  /**< [ 23: 16](RO) The maximum Non-secure PMG value that is permitted to be used by this PMCG for Non-secure MSIs.
-                                                                 This field is RES0 when MPAM is not supported, as indicated by SMMU_PMCG_CFGR.MPAM == 0. */
-        uint32_t reserved_24_31        : 8;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_pmcgx_mpamidr_s cn; */
-};
-typedef union cavm_smmux_pmcgx_mpamidr cavm_smmux_pmcgx_mpamidr_t;
-
-static inline uint64_t CAVM_SMMUX_PMCGX_MPAMIDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_PMCGX_MPAMIDR(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b<=3)))
-        return 0x830000100e74ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3);
-    __cavm_csr_fatal("SMMUX_PMCGX_MPAMIDR", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SMMUX_PMCGX_MPAMIDR(a,b) cavm_smmux_pmcgx_mpamidr_t
-#define bustype_CAVM_SMMUX_PMCGX_MPAMIDR(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_SMMUX_PMCGX_MPAMIDR(a,b) "SMMUX_PMCGX_MPAMIDR"
-#define device_bar_CAVM_SMMUX_PMCGX_MPAMIDR(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_PMCGX_MPAMIDR(a,b) (a)
-#define arguments_CAVM_SMMUX_PMCGX_MPAMIDR(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB) smmu#_pmcg#_ovsclr0
- *
- * SMMU PMCG Overflow Status Clear Register
- */
-union cavm_smmux_pmcgx_ovsclr0
-{
-    uint64_t u;
-    struct cavm_smmux_pmcgx_ovsclr0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t ovs                   : 4;  /**< [  3:  0](R/W1C/H)  */
-#else /* Word 0 - Little Endian */
-        uint64_t ovs                   : 4;  /**< [  3:  0](R/W1C/H)  */
-        uint64_t reserved_4_63         : 60;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_pmcgx_ovsclr0_s cn; */
-};
-typedef union cavm_smmux_pmcgx_ovsclr0 cavm_smmux_pmcgx_ovsclr0_t;
-
-static inline uint64_t CAVM_SMMUX_PMCGX_OVSCLR0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_PMCGX_OVSCLR0(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b<=3)))
-        return 0x830000110c80ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3);
-    __cavm_csr_fatal("SMMUX_PMCGX_OVSCLR0", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SMMUX_PMCGX_OVSCLR0(a,b) cavm_smmux_pmcgx_ovsclr0_t
-#define bustype_CAVM_SMMUX_PMCGX_OVSCLR0(a,b) CSR_TYPE_NCB
-#define basename_CAVM_SMMUX_PMCGX_OVSCLR0(a,b) "SMMUX_PMCGX_OVSCLR0"
-#define device_bar_CAVM_SMMUX_PMCGX_OVSCLR0(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_PMCGX_OVSCLR0(a,b) (a)
-#define arguments_CAVM_SMMUX_PMCGX_OVSCLR0(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB) smmu#_pmcg#_ovsset0
- *
- * SMMU PMCG Overflow Status Set Register
- */
-union cavm_smmux_pmcgx_ovsset0
-{
-    uint64_t u;
-    struct cavm_smmux_pmcgx_ovsset0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t ovs                   : 4;  /**< [  3:  0](R/W1S/H)  */
-#else /* Word 0 - Little Endian */
-        uint64_t ovs                   : 4;  /**< [  3:  0](R/W1S/H)  */
-        uint64_t reserved_4_63         : 60;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_pmcgx_ovsset0_s cn; */
-};
-typedef union cavm_smmux_pmcgx_ovsset0 cavm_smmux_pmcgx_ovsset0_t;
-
-static inline uint64_t CAVM_SMMUX_PMCGX_OVSSET0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_PMCGX_OVSSET0(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b<=3)))
-        return 0x830000110cc0ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3);
-    __cavm_csr_fatal("SMMUX_PMCGX_OVSSET0", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SMMUX_PMCGX_OVSSET0(a,b) cavm_smmux_pmcgx_ovsset0_t
-#define bustype_CAVM_SMMUX_PMCGX_OVSSET0(a,b) CSR_TYPE_NCB
-#define basename_CAVM_SMMUX_PMCGX_OVSSET0(a,b) "SMMUX_PMCGX_OVSSET0"
-#define device_bar_CAVM_SMMUX_PMCGX_OVSSET0(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_PMCGX_OVSSET0(a,b) (a)
-#define arguments_CAVM_SMMUX_PMCGX_OVSSET0(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) smmu#_pmcg#_pidr0
- *
- * SMMU Peripheral Identification Register 0
- */
-union cavm_smmux_pmcgx_pidr0
-{
-    uint32_t u;
-    struct cavm_smmux_pmcgx_pidr0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
-        uint32_t partnum0              : 8;  /**< [  7:  0](RO) Part number \<7:0\>.  Indicates PCC_PIDR_PARTNUM0_E::SMMU3. */
-#else /* Word 0 - Little Endian */
-        uint32_t partnum0              : 8;  /**< [  7:  0](RO) Part number \<7:0\>.  Indicates PCC_PIDR_PARTNUM0_E::SMMU3. */
-        uint32_t reserved_8_31         : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_pmcgx_pidr0_s cn; */
-};
-typedef union cavm_smmux_pmcgx_pidr0 cavm_smmux_pmcgx_pidr0_t;
-
-static inline uint64_t CAVM_SMMUX_PMCGX_PIDR0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_PMCGX_PIDR0(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b<=3)))
-        return 0x830000100fe0ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3);
-    __cavm_csr_fatal("SMMUX_PMCGX_PIDR0", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SMMUX_PMCGX_PIDR0(a,b) cavm_smmux_pmcgx_pidr0_t
-#define bustype_CAVM_SMMUX_PMCGX_PIDR0(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_SMMUX_PMCGX_PIDR0(a,b) "SMMUX_PMCGX_PIDR0"
-#define device_bar_CAVM_SMMUX_PMCGX_PIDR0(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_PMCGX_PIDR0(a,b) (a)
-#define arguments_CAVM_SMMUX_PMCGX_PIDR0(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) smmu#_pmcg#_pidr1
- *
- * SMMU Peripheral Identification Register 1
- */
-union cavm_smmux_pmcgx_pidr1
-{
-    uint32_t u;
-    struct cavm_smmux_pmcgx_pidr1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
-        uint32_t idcode                : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Marvell code is 0x34C. */
-        uint32_t partnum1              : 4;  /**< [  3:  0](RO) Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
-#else /* Word 0 - Little Endian */
-        uint32_t partnum1              : 4;  /**< [  3:  0](RO) Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
-        uint32_t idcode                : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Marvell code is 0x34C. */
-        uint32_t reserved_8_31         : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_pmcgx_pidr1_s cn; */
-};
-typedef union cavm_smmux_pmcgx_pidr1 cavm_smmux_pmcgx_pidr1_t;
-
-static inline uint64_t CAVM_SMMUX_PMCGX_PIDR1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_PMCGX_PIDR1(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b<=3)))
-        return 0x830000100fe4ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3);
-    __cavm_csr_fatal("SMMUX_PMCGX_PIDR1", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SMMUX_PMCGX_PIDR1(a,b) cavm_smmux_pmcgx_pidr1_t
-#define bustype_CAVM_SMMUX_PMCGX_PIDR1(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_SMMUX_PMCGX_PIDR1(a,b) "SMMUX_PMCGX_PIDR1"
-#define device_bar_CAVM_SMMUX_PMCGX_PIDR1(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_PMCGX_PIDR1(a,b) (a)
-#define arguments_CAVM_SMMUX_PMCGX_PIDR1(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) smmu#_pmcg#_pidr2
- *
- * SMMU Peripheral Identification Register 2
- */
-union cavm_smmux_pmcgx_pidr2
-{
-    uint32_t u;
-    struct cavm_smmux_pmcgx_pidr2_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
-        uint32_t revision              : 4;  /**< [  7:  4](RO) SMMU Revision.
-                                                                 0x0 = SMMUv1.
-                                                                 0x1 = SMMUv2.
-                                                                 0x2 = SMMUv3. */
-        uint32_t jedec                 : 1;  /**< [  3:  3](RO) JEDEC assigned. */
-        uint32_t idcode                : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Marvell code is 0x34C. */
-#else /* Word 0 - Little Endian */
-        uint32_t idcode                : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Marvell code is 0x34C. */
-        uint32_t jedec                 : 1;  /**< [  3:  3](RO) JEDEC assigned. */
-        uint32_t revision              : 4;  /**< [  7:  4](RO) SMMU Revision.
-                                                                 0x0 = SMMUv1.
-                                                                 0x1 = SMMUv2.
-                                                                 0x2 = SMMUv3. */
-        uint32_t reserved_8_31         : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_pmcgx_pidr2_s cn; */
-};
-typedef union cavm_smmux_pmcgx_pidr2 cavm_smmux_pmcgx_pidr2_t;
-
-static inline uint64_t CAVM_SMMUX_PMCGX_PIDR2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_PMCGX_PIDR2(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b<=3)))
-        return 0x830000100fe8ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3);
-    __cavm_csr_fatal("SMMUX_PMCGX_PIDR2", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SMMUX_PMCGX_PIDR2(a,b) cavm_smmux_pmcgx_pidr2_t
-#define bustype_CAVM_SMMUX_PMCGX_PIDR2(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_SMMUX_PMCGX_PIDR2(a,b) "SMMUX_PMCGX_PIDR2"
-#define device_bar_CAVM_SMMUX_PMCGX_PIDR2(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_PMCGX_PIDR2(a,b) (a)
-#define arguments_CAVM_SMMUX_PMCGX_PIDR2(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) smmu#_pmcg#_pidr3
- *
- * SMMU Peripheral Identification Register 3
- */
-union cavm_smmux_pmcgx_pidr3
-{
-    uint32_t u;
-    struct cavm_smmux_pmcgx_pidr3_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
-        uint32_t revand                : 4;  /**< [  7:  4](RO) Manufacturer revision number. For CNXXXX always 0x0. */
-        uint32_t cust                  : 4;  /**< [  3:  0](RO) Customer modified. 1 = Overall product information should be consulted for
-                                                                 product, major and minor pass numbers. */
-#else /* Word 0 - Little Endian */
-        uint32_t cust                  : 4;  /**< [  3:  0](RO) Customer modified. 1 = Overall product information should be consulted for
-                                                                 product, major and minor pass numbers. */
-        uint32_t revand                : 4;  /**< [  7:  4](RO) Manufacturer revision number. For CNXXXX always 0x0. */
-        uint32_t reserved_8_31         : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_pmcgx_pidr3_s cn; */
-};
-typedef union cavm_smmux_pmcgx_pidr3 cavm_smmux_pmcgx_pidr3_t;
-
-static inline uint64_t CAVM_SMMUX_PMCGX_PIDR3(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_PMCGX_PIDR3(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b<=3)))
-        return 0x830000100fecll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3);
-    __cavm_csr_fatal("SMMUX_PMCGX_PIDR3", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SMMUX_PMCGX_PIDR3(a,b) cavm_smmux_pmcgx_pidr3_t
-#define bustype_CAVM_SMMUX_PMCGX_PIDR3(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_SMMUX_PMCGX_PIDR3(a,b) "SMMUX_PMCGX_PIDR3"
-#define device_bar_CAVM_SMMUX_PMCGX_PIDR3(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_PMCGX_PIDR3(a,b) (a)
-#define arguments_CAVM_SMMUX_PMCGX_PIDR3(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) smmu#_pmcg#_pidr4
- *
- * SMMU Peripheral Identification Register 4
- */
-union cavm_smmux_pmcgx_pidr4
-{
-    uint32_t u;
-    struct cavm_smmux_pmcgx_pidr4_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
-        uint32_t pagecnt               : 4;  /**< [  7:  4](RO) Number of log-2 4 KB blocks occupied. */
-        uint32_t jepcont               : 4;  /**< [  3:  0](RO) JEP106 continuation code, least significant nibble. Indicates Cavium. */
-#else /* Word 0 - Little Endian */
-        uint32_t jepcont               : 4;  /**< [  3:  0](RO) JEP106 continuation code, least significant nibble. Indicates Cavium. */
-        uint32_t pagecnt               : 4;  /**< [  7:  4](RO) Number of log-2 4 KB blocks occupied. */
-        uint32_t reserved_8_31         : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_pmcgx_pidr4_s cn; */
-};
-typedef union cavm_smmux_pmcgx_pidr4 cavm_smmux_pmcgx_pidr4_t;
-
-static inline uint64_t CAVM_SMMUX_PMCGX_PIDR4(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_PMCGX_PIDR4(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b<=3)))
-        return 0x830000100fd0ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3);
-    __cavm_csr_fatal("SMMUX_PMCGX_PIDR4", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SMMUX_PMCGX_PIDR4(a,b) cavm_smmux_pmcgx_pidr4_t
-#define bustype_CAVM_SMMUX_PMCGX_PIDR4(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_SMMUX_PMCGX_PIDR4(a,b) "SMMUX_PMCGX_PIDR4"
-#define device_bar_CAVM_SMMUX_PMCGX_PIDR4(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_PMCGX_PIDR4(a,b) (a)
-#define arguments_CAVM_SMMUX_PMCGX_PIDR4(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) smmu#_pmcg#_pidr5
- *
- * SMMU Peripheral Identification Register 5
- */
-union cavm_smmux_pmcgx_pidr5
-{
-    uint32_t u;
-    struct cavm_smmux_pmcgx_pidr5_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_0_31         : 32;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_31         : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_pmcgx_pidr5_s cn; */
-};
-typedef union cavm_smmux_pmcgx_pidr5 cavm_smmux_pmcgx_pidr5_t;
-
-static inline uint64_t CAVM_SMMUX_PMCGX_PIDR5(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_PMCGX_PIDR5(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b<=3)))
-        return 0x830000100fd4ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3);
-    __cavm_csr_fatal("SMMUX_PMCGX_PIDR5", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SMMUX_PMCGX_PIDR5(a,b) cavm_smmux_pmcgx_pidr5_t
-#define bustype_CAVM_SMMUX_PMCGX_PIDR5(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_SMMUX_PMCGX_PIDR5(a,b) "SMMUX_PMCGX_PIDR5"
-#define device_bar_CAVM_SMMUX_PMCGX_PIDR5(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_PMCGX_PIDR5(a,b) (a)
-#define arguments_CAVM_SMMUX_PMCGX_PIDR5(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) smmu#_pmcg#_pidr6
- *
- * SMMU Peripheral Identification Register 6
- */
-union cavm_smmux_pmcgx_pidr6
-{
-    uint32_t u;
-    struct cavm_smmux_pmcgx_pidr6_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_0_31         : 32;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_31         : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_pmcgx_pidr6_s cn; */
-};
-typedef union cavm_smmux_pmcgx_pidr6 cavm_smmux_pmcgx_pidr6_t;
-
-static inline uint64_t CAVM_SMMUX_PMCGX_PIDR6(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_PMCGX_PIDR6(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b<=3)))
-        return 0x830000100fd8ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3);
-    __cavm_csr_fatal("SMMUX_PMCGX_PIDR6", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SMMUX_PMCGX_PIDR6(a,b) cavm_smmux_pmcgx_pidr6_t
-#define bustype_CAVM_SMMUX_PMCGX_PIDR6(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_SMMUX_PMCGX_PIDR6(a,b) "SMMUX_PMCGX_PIDR6"
-#define device_bar_CAVM_SMMUX_PMCGX_PIDR6(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_PMCGX_PIDR6(a,b) (a)
-#define arguments_CAVM_SMMUX_PMCGX_PIDR6(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) smmu#_pmcg#_pidr7
- *
- * SMMU Peripheral Identification Register 7
- */
-union cavm_smmux_pmcgx_pidr7
-{
-    uint32_t u;
-    struct cavm_smmux_pmcgx_pidr7_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_0_31         : 32;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_31         : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_pmcgx_pidr7_s cn; */
-};
-typedef union cavm_smmux_pmcgx_pidr7 cavm_smmux_pmcgx_pidr7_t;
-
-static inline uint64_t CAVM_SMMUX_PMCGX_PIDR7(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_PMCGX_PIDR7(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b<=3)))
-        return 0x830000100fdcll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3);
-    __cavm_csr_fatal("SMMUX_PMCGX_PIDR7", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SMMUX_PMCGX_PIDR7(a,b) cavm_smmux_pmcgx_pidr7_t
-#define bustype_CAVM_SMMUX_PMCGX_PIDR7(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_SMMUX_PMCGX_PIDR7(a,b) "SMMUX_PMCGX_PIDR7"
-#define device_bar_CAVM_SMMUX_PMCGX_PIDR7(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_PMCGX_PIDR7(a,b) (a)
-#define arguments_CAVM_SMMUX_PMCGX_PIDR7(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) smmu#_pmcg#_pmauthstatus
- *
- * Performance Monitor Authentication Status Register
- */
-union cavm_smmux_pmcgx_pmauthstatus
-{
-    uint32_t u;
-    struct cavm_smmux_pmcgx_pmauthstatus_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_0_31         : 32;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_31         : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_pmcgx_pmauthstatus_s cn; */
-};
-typedef union cavm_smmux_pmcgx_pmauthstatus cavm_smmux_pmcgx_pmauthstatus_t;
-
-static inline uint64_t CAVM_SMMUX_PMCGX_PMAUTHSTATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_PMCGX_PMAUTHSTATUS(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b<=3)))
-        return 0x830000100fb8ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3);
-    __cavm_csr_fatal("SMMUX_PMCGX_PMAUTHSTATUS", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SMMUX_PMCGX_PMAUTHSTATUS(a,b) cavm_smmux_pmcgx_pmauthstatus_t
-#define bustype_CAVM_SMMUX_PMCGX_PMAUTHSTATUS(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_SMMUX_PMCGX_PMAUTHSTATUS(a,b) "SMMUX_PMCGX_PMAUTHSTATUS"
-#define device_bar_CAVM_SMMUX_PMCGX_PMAUTHSTATUS(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_PMCGX_PMAUTHSTATUS(a,b) (a)
-#define arguments_CAVM_SMMUX_PMCGX_PMAUTHSTATUS(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) smmu#_pmcg#_pmdevarch
- *
- * Performance Monitor Device Architecture Register
- */
-union cavm_smmux_pmcgx_pmdevarch
-{
-    uint32_t u;
-    struct cavm_smmux_pmcgx_pmdevarch_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t architect             : 11; /**< [ 31: 21](RO) ARM's architect code. */
-        uint32_t present               : 1;  /**< [ 20: 20](RO) . */
-        uint32_t revision              : 4;  /**< [ 19: 16](RO) Architecture Revision. */
-        uint32_t archid                : 16; /**< [ 15:  0](RO) Architectural ID. */
-#else /* Word 0 - Little Endian */
-        uint32_t archid                : 16; /**< [ 15:  0](RO) Architectural ID. */
-        uint32_t revision              : 4;  /**< [ 19: 16](RO) Architecture Revision. */
-        uint32_t present               : 1;  /**< [ 20: 20](RO) . */
-        uint32_t architect             : 11; /**< [ 31: 21](RO) ARM's architect code. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_pmcgx_pmdevarch_s cn; */
-};
-typedef union cavm_smmux_pmcgx_pmdevarch cavm_smmux_pmcgx_pmdevarch_t;
-
-static inline uint64_t CAVM_SMMUX_PMCGX_PMDEVARCH(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_PMCGX_PMDEVARCH(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b<=3)))
-        return 0x830000100fbcll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3);
-    __cavm_csr_fatal("SMMUX_PMCGX_PMDEVARCH", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SMMUX_PMCGX_PMDEVARCH(a,b) cavm_smmux_pmcgx_pmdevarch_t
-#define bustype_CAVM_SMMUX_PMCGX_PMDEVARCH(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_SMMUX_PMCGX_PMDEVARCH(a,b) "SMMUX_PMCGX_PMDEVARCH"
-#define device_bar_CAVM_SMMUX_PMCGX_PMDEVARCH(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_PMCGX_PMDEVARCH(a,b) (a)
-#define arguments_CAVM_SMMUX_PMCGX_PMDEVARCH(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) smmu#_pmcg#_pmdevtype
- *
- * Performance Monitor Device Type Register
- */
-union cavm_smmux_pmcgx_pmdevtype
-{
-    uint32_t u;
-    struct cavm_smmux_pmcgx_pmdevtype_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
-        uint32_t subtype               : 4;  /**< [  7:  4](RO) Associated with an SMMU subtype. */
-        uint32_t device_class          : 4;  /**< [  3:  0](RO) Performance monitor device type. */
-#else /* Word 0 - Little Endian */
-        uint32_t device_class          : 4;  /**< [  3:  0](RO) Performance monitor device type. */
-        uint32_t subtype               : 4;  /**< [  7:  4](RO) Associated with an SMMU subtype. */
-        uint32_t reserved_8_31         : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_pmcgx_pmdevtype_s cn; */
-};
-typedef union cavm_smmux_pmcgx_pmdevtype cavm_smmux_pmcgx_pmdevtype_t;
-
-static inline uint64_t CAVM_SMMUX_PMCGX_PMDEVTYPE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_PMCGX_PMDEVTYPE(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b<=3)))
-        return 0x830000100fccll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3);
-    __cavm_csr_fatal("SMMUX_PMCGX_PMDEVTYPE", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SMMUX_PMCGX_PMDEVTYPE(a,b) cavm_smmux_pmcgx_pmdevtype_t
-#define bustype_CAVM_SMMUX_PMCGX_PMDEVTYPE(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_SMMUX_PMCGX_PMDEVTYPE(a,b) "SMMUX_PMCGX_PMDEVTYPE"
-#define device_bar_CAVM_SMMUX_PMCGX_PMDEVTYPE(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_PMCGX_PMDEVTYPE(a,b) (a)
-#define arguments_CAVM_SMMUX_PMCGX_PMDEVTYPE(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) smmu#_pmcg#_scr
- *
- * SMMU PMCG Secure Control Register
- */
-union cavm_smmux_pmcgx_scr
-{
-    uint32_t u;
-    struct cavm_smmux_pmcgx_scr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t valid                 : 1;  /**< [ 31: 31](SRO) Reads as one.
-                                                                 Secure software can use this bit to discover security support in the PMCG. */
-        uint32_t reserved_4_30         : 27;
-        uint32_t msi_mpam_ns           : 1;  /**< [  3:  3](SRO) RES0 since SMMU_PMCG_S_MPAMIDR.HAS_MPAM_NS == 0 . */
-        uint32_t nsmsi                 : 1;  /**< [  2:  2](SR/W) Nonsecure MSI-X.
-                                                                    0 = Generated MSIs have an NS=0 attribute.
-                                                                    1 = Generated MSIs have an NS=1 attribute. */
-        uint32_t nsra                  : 1;  /**< [  1:  1](SR/W) Nonsecure register access.
-                                                                 0 = Nonsecure register access is disabled.
-                                                                     Nonsecure access to any PMCG register is RAZ/WI.
-                                                                 1 = Nonsecure register access is enabled.
-                                                                     If the PMCG supports MSIs, generated MSIs have an NS=1 attribute. */
-        uint32_t so                    : 1;  /**< [  0:  0](SR/W) Secure observation.
-                                                                 0 = Secure observation is disabled.
-                                                                     SMMU()_PMCG()_EVTYPER()[FILTER_SEC_SID] is effectively 0.
-                                                                 1 = Secure observation is enabled. */
-#else /* Word 0 - Little Endian */
-        uint32_t so                    : 1;  /**< [  0:  0](SR/W) Secure observation.
-                                                                 0 = Secure observation is disabled.
-                                                                     SMMU()_PMCG()_EVTYPER()[FILTER_SEC_SID] is effectively 0.
-                                                                 1 = Secure observation is enabled. */
-        uint32_t nsra                  : 1;  /**< [  1:  1](SR/W) Nonsecure register access.
-                                                                 0 = Nonsecure register access is disabled.
-                                                                     Nonsecure access to any PMCG register is RAZ/WI.
-                                                                 1 = Nonsecure register access is enabled.
-                                                                     If the PMCG supports MSIs, generated MSIs have an NS=1 attribute. */
-        uint32_t nsmsi                 : 1;  /**< [  2:  2](SR/W) Nonsecure MSI-X.
-                                                                    0 = Generated MSIs have an NS=0 attribute.
-                                                                    1 = Generated MSIs have an NS=1 attribute. */
-        uint32_t msi_mpam_ns           : 1;  /**< [  3:  3](SRO) RES0 since SMMU_PMCG_S_MPAMIDR.HAS_MPAM_NS == 0 . */
-        uint32_t reserved_4_30         : 27;
-        uint32_t valid                 : 1;  /**< [ 31: 31](SRO) Reads as one.
-                                                                 Secure software can use this bit to discover security support in the PMCG. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_pmcgx_scr_s cn; */
-};
-typedef union cavm_smmux_pmcgx_scr cavm_smmux_pmcgx_scr_t;
-
-static inline uint64_t CAVM_SMMUX_PMCGX_SCR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_PMCGX_SCR(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b<=3)))
-        return 0x830000100df8ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3);
-    __cavm_csr_fatal("SMMUX_PMCGX_SCR", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SMMUX_PMCGX_SCR(a,b) cavm_smmux_pmcgx_scr_t
-#define bustype_CAVM_SMMUX_PMCGX_SCR(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_SMMUX_PMCGX_SCR(a,b) "SMMUX_PMCGX_SCR"
-#define device_bar_CAVM_SMMUX_PMCGX_SCR(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_PMCGX_SCR(a,b) (a)
-#define arguments_CAVM_SMMUX_PMCGX_SCR(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) smmu#_pmcg#_smr#
- *
- * SMMU PMCG Counter Stream Match Filter Register
- */
-union cavm_smmux_pmcgx_smrx
-{
-    uint32_t u;
-    struct cavm_smmux_pmcgx_smrx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_22_31        : 10;
-        uint32_t streamid              : 22; /**< [ 21:  0](R/W) When the corresponding SMMU()_PMCG()_EVTYPER()[EVNT] indicates an event that cannot be
-                                                                 filtered on StreamID, the value in this register is ignored. Otherwise:
-
-                                                                 When the corresponding SMMU()_PMCG()_EVTYPER()[FILTER_SID_SPAN]=0, counter `n' only
-                                                                 counts events associated with a StreamID matching this field exactly.
-
-                                                                 When SMMU()_PMCG()_EVTYPER()[FILTER_SID_SPAN]=1, this field is encoded such that the
-                                                                 least-significant zero bit indicates the uppermost of a contiguous span of
-                                                                 least-significant StreamID bits that are ignored for the purposes of filtering
-                                                                 on a StreamID match. Bits above this position match the corresponding bits in an
-                                                                 event's StreamID for the event to be counted and bits below this position down
-                                                                 to bit 0 are 1. When all implemented bits are 1, any StreamID is
-                                                                 matched. See Section 12.4.  When secure observation is enabled,
-                                                                 SMMU()_PMCG()_EVTYPER()[FILTER_SEC_SID] determines whether the StreamID is matched
-                                                                 from secure or nonsecure StreamID spaces (as defined by SMMU SSD).
-
-                                                                 This field implements an implementation defined number of contiguous bits (from
-                                                                 0 upwards) corresponding to the PMCG StreamID size. Bits outside this range read
-                                                                 as zero, writes ignored (RAZ/WI). */
-#else /* Word 0 - Little Endian */
-        uint32_t streamid              : 22; /**< [ 21:  0](R/W) When the corresponding SMMU()_PMCG()_EVTYPER()[EVNT] indicates an event that cannot be
-                                                                 filtered on StreamID, the value in this register is ignored. Otherwise:
-
-                                                                 When the corresponding SMMU()_PMCG()_EVTYPER()[FILTER_SID_SPAN]=0, counter `n' only
-                                                                 counts events associated with a StreamID matching this field exactly.
-
-                                                                 When SMMU()_PMCG()_EVTYPER()[FILTER_SID_SPAN]=1, this field is encoded such that the
-                                                                 least-significant zero bit indicates the uppermost of a contiguous span of
-                                                                 least-significant StreamID bits that are ignored for the purposes of filtering
-                                                                 on a StreamID match. Bits above this position match the corresponding bits in an
-                                                                 event's StreamID for the event to be counted and bits below this position down
-                                                                 to bit 0 are 1. When all implemented bits are 1, any StreamID is
-                                                                 matched. See Section 12.4.  When secure observation is enabled,
-                                                                 SMMU()_PMCG()_EVTYPER()[FILTER_SEC_SID] determines whether the StreamID is matched
-                                                                 from secure or nonsecure StreamID spaces (as defined by SMMU SSD).
-
-                                                                 This field implements an implementation defined number of contiguous bits (from
-                                                                 0 upwards) corresponding to the PMCG StreamID size. Bits outside this range read
-                                                                 as zero, writes ignored (RAZ/WI). */
-        uint32_t reserved_22_31        : 10;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_pmcgx_smrx_s cn; */
-};
-typedef union cavm_smmux_pmcgx_smrx cavm_smmux_pmcgx_smrx_t;
-
-static inline uint64_t CAVM_SMMUX_PMCGX_SMRX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_PMCGX_SMRX(uint64_t a, uint64_t b, uint64_t c)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b<=3) && (c==0)))
-        return 0x830000100a00ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3) + 4ll * ((c) & 0x0);
-    __cavm_csr_fatal("SMMUX_PMCGX_SMRX", 3, a, b, c, 0, 0, 0);
-}
-
-#define typedef_CAVM_SMMUX_PMCGX_SMRX(a,b,c) cavm_smmux_pmcgx_smrx_t
-#define bustype_CAVM_SMMUX_PMCGX_SMRX(a,b,c) CSR_TYPE_NCB32b
-#define basename_CAVM_SMMUX_PMCGX_SMRX(a,b,c) "SMMUX_PMCGX_SMRX"
-#define device_bar_CAVM_SMMUX_PMCGX_SMRX(a,b,c) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_PMCGX_SMRX(a,b,c) (a)
-#define arguments_CAVM_SMMUX_PMCGX_SMRX(a,b,c) (a),(b),(c),-1
-
-/**
- * Register (NCB) smmu#_pmcg#_svr#
- *
- * SMMU PMCG Counter Shadow Value Register
- */
-union cavm_smmux_pmcgx_svrx
-{
-    uint64_t u;
-    struct cavm_smmux_pmcgx_svrx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_pmcgx_svrx_s cn; */
-};
-typedef union cavm_smmux_pmcgx_svrx cavm_smmux_pmcgx_svrx_t;
-
-static inline uint64_t CAVM_SMMUX_PMCGX_SVRX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMMUX_PMCGX_SVRX(uint64_t a, uint64_t b, uint64_t c)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=3) && (b<=3) && (c==0)))
-        return 0x830000100600ll + 0x1000000000ll * ((a) & 0x3) + 0x20000ll * ((b) & 0x3) + 4ll * ((c) & 0x0);
-    __cavm_csr_fatal("SMMUX_PMCGX_SVRX", 3, a, b, c, 0, 0, 0);
-}
-
-#define typedef_CAVM_SMMUX_PMCGX_SVRX(a,b,c) cavm_smmux_pmcgx_svrx_t
-#define bustype_CAVM_SMMUX_PMCGX_SVRX(a,b,c) CSR_TYPE_NCB
-#define basename_CAVM_SMMUX_PMCGX_SVRX(a,b,c) "SMMUX_PMCGX_SVRX"
-#define device_bar_CAVM_SMMUX_PMCGX_SVRX(a,b,c) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMMUX_PMCGX_SVRX(a,b,c) (a)
-#define arguments_CAVM_SMMUX_PMCGX_SVRX(a,b,c) (a),(b),(c),-1
 
 /**
  * Register (NCB) smmu#_priq_base
@@ -5237,15 +3386,15 @@ union cavm_smmux_priq_base
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_63           : 1;
-        uint64_t wa                    : 1;  /**< [ 62: 62](R/W) SMMU(0..3)_S_EVENTQ_BASE[WA] */
+        uint64_t wa                    : 1;  /**< [ 62: 62](R/W) SMMU(0)_S_EVENTQ_BASE[WA] */
         uint64_t reserved_52_61        : 10;
-        uint64_t addr                  : 47; /**< [ 51:  5](R/W) SMMU(0..3)_S_EVENTQ_BASE[ADDR] */
-        uint64_t log2size              : 5;  /**< [  4:  0](R/W) SMMU(0..3)_S_EVENTQ_BASE[LOG2SIZE] */
+        uint64_t addr                  : 47; /**< [ 51:  5](R/W) SMMU(0)_S_EVENTQ_BASE[ADDR] */
+        uint64_t log2size              : 5;  /**< [  4:  0](R/W) SMMU(0)_S_EVENTQ_BASE[LOG2SIZE] */
 #else /* Word 0 - Little Endian */
-        uint64_t log2size              : 5;  /**< [  4:  0](R/W) SMMU(0..3)_S_EVENTQ_BASE[LOG2SIZE] */
-        uint64_t addr                  : 47; /**< [ 51:  5](R/W) SMMU(0..3)_S_EVENTQ_BASE[ADDR] */
+        uint64_t log2size              : 5;  /**< [  4:  0](R/W) SMMU(0)_S_EVENTQ_BASE[LOG2SIZE] */
+        uint64_t addr                  : 47; /**< [ 51:  5](R/W) SMMU(0)_S_EVENTQ_BASE[ADDR] */
         uint64_t reserved_52_61        : 10;
-        uint64_t wa                    : 1;  /**< [ 62: 62](R/W) SMMU(0..3)_S_EVENTQ_BASE[WA] */
+        uint64_t wa                    : 1;  /**< [ 62: 62](R/W) SMMU(0)_S_EVENTQ_BASE[WA] */
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } s;
@@ -5256,8 +3405,8 @@ typedef union cavm_smmux_priq_base cavm_smmux_priq_base_t;
 static inline uint64_t CAVM_SMMUX_PRIQ_BASE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_PRIQ_BASE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x8300000000c0ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x8300000000c0ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_PRIQ_BASE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5279,13 +3428,13 @@ union cavm_smmux_priq_cons
     struct cavm_smmux_priq_cons_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t ovackflg              : 1;  /**< [ 31: 31](R/W) SMMU(0..3)_S_EVENTQ_CONS[OVACKFLG] */
+        uint32_t ovackflg              : 1;  /**< [ 31: 31](R/W) SMMU(0)_S_EVENTQ_CONS[OVACKFLG] */
         uint32_t reserved_20_30        : 11;
-        uint32_t rd                    : 20; /**< [ 19:  0](R/W) SMMU(0..3)_S_EVENTQ_CONS[RD] */
+        uint32_t rd                    : 20; /**< [ 19:  0](R/W) SMMU(0)_S_EVENTQ_CONS[RD] */
 #else /* Word 0 - Little Endian */
-        uint32_t rd                    : 20; /**< [ 19:  0](R/W) SMMU(0..3)_S_EVENTQ_CONS[RD] */
+        uint32_t rd                    : 20; /**< [ 19:  0](R/W) SMMU(0)_S_EVENTQ_CONS[RD] */
         uint32_t reserved_20_30        : 11;
-        uint32_t ovackflg              : 1;  /**< [ 31: 31](R/W) SMMU(0..3)_S_EVENTQ_CONS[OVACKFLG] */
+        uint32_t ovackflg              : 1;  /**< [ 31: 31](R/W) SMMU(0)_S_EVENTQ_CONS[OVACKFLG] */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_smmux_priq_cons_s cn; */
@@ -5295,8 +3444,8 @@ typedef union cavm_smmux_priq_cons cavm_smmux_priq_cons_t;
 static inline uint64_t CAVM_SMMUX_PRIQ_CONS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_PRIQ_CONS(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x8300000100ccll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x8300000100ccll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_PRIQ_CONS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5319,11 +3468,11 @@ union cavm_smmux_priq_irq_cfg0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_52_63        : 12;
-        uint64_t addr                  : 50; /**< [ 51:  2](R/W) SMMU(0..3)_S_GERROR_IRQ_CFG0[ADDR] */
+        uint64_t addr                  : 50; /**< [ 51:  2](R/W) SMMU(0)_S_GERROR_IRQ_CFG0[ADDR] */
         uint64_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_1          : 2;
-        uint64_t addr                  : 50; /**< [ 51:  2](R/W) SMMU(0..3)_S_GERROR_IRQ_CFG0[ADDR] */
+        uint64_t addr                  : 50; /**< [ 51:  2](R/W) SMMU(0)_S_GERROR_IRQ_CFG0[ADDR] */
         uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
     } s;
@@ -5334,8 +3483,8 @@ typedef union cavm_smmux_priq_irq_cfg0 cavm_smmux_priq_irq_cfg0_t;
 static inline uint64_t CAVM_SMMUX_PRIQ_IRQ_CFG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_PRIQ_IRQ_CFG0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x8300000000d0ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x8300000000d0ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_PRIQ_IRQ_CFG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5357,9 +3506,9 @@ union cavm_smmux_priq_irq_cfg1
     struct cavm_smmux_priq_irq_cfg1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) SMMU(0..3)_S_GERROR_IRQ_CFG1[DATA] */
+        uint32_t data                  : 32; /**< [ 31:  0](R/W) SMMU(0)_S_GERROR_IRQ_CFG1[DATA] */
 #else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) SMMU(0..3)_S_GERROR_IRQ_CFG1[DATA] */
+        uint32_t data                  : 32; /**< [ 31:  0](R/W) SMMU(0)_S_GERROR_IRQ_CFG1[DATA] */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_smmux_priq_irq_cfg1_s cn; */
@@ -5369,8 +3518,8 @@ typedef union cavm_smmux_priq_irq_cfg1 cavm_smmux_priq_irq_cfg1_t;
 static inline uint64_t CAVM_SMMUX_PRIQ_IRQ_CFG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_PRIQ_IRQ_CFG1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x8300000000d8ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x8300000000d8ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_PRIQ_IRQ_CFG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5428,8 +3577,8 @@ typedef union cavm_smmux_priq_irq_cfg2 cavm_smmux_priq_irq_cfg2_t;
 static inline uint64_t CAVM_SMMUX_PRIQ_IRQ_CFG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_PRIQ_IRQ_CFG2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x8300000000dcll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x8300000000dcll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_PRIQ_IRQ_CFG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5451,13 +3600,13 @@ union cavm_smmux_priq_prod
     struct cavm_smmux_priq_prod_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t ovflg                 : 1;  /**< [ 31: 31](R/W/H) SMMU(0..3)_S_EVENTQ_PROD[OVFLG] */
+        uint32_t ovflg                 : 1;  /**< [ 31: 31](R/W/H) SMMU(0)_S_EVENTQ_PROD[OVFLG] */
         uint32_t reserved_20_30        : 11;
-        uint32_t wr                    : 20; /**< [ 19:  0](R/W/H) SMMU(0..3)_S_EVENTQ_PROD[WR] */
+        uint32_t wr                    : 20; /**< [ 19:  0](R/W/H) SMMU(0)_S_EVENTQ_PROD[WR] */
 #else /* Word 0 - Little Endian */
-        uint32_t wr                    : 20; /**< [ 19:  0](R/W/H) SMMU(0..3)_S_EVENTQ_PROD[WR] */
+        uint32_t wr                    : 20; /**< [ 19:  0](R/W/H) SMMU(0)_S_EVENTQ_PROD[WR] */
         uint32_t reserved_20_30        : 11;
-        uint32_t ovflg                 : 1;  /**< [ 31: 31](R/W/H) SMMU(0..3)_S_EVENTQ_PROD[OVFLG] */
+        uint32_t ovflg                 : 1;  /**< [ 31: 31](R/W/H) SMMU(0)_S_EVENTQ_PROD[OVFLG] */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_smmux_priq_prod_s cn; */
@@ -5467,8 +3616,8 @@ typedef union cavm_smmux_priq_prod cavm_smmux_priq_prod_t;
 static inline uint64_t CAVM_SMMUX_PRIQ_PROD(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_PRIQ_PROD(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x8300000100c8ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x8300000100c8ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_PRIQ_PROD", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5497,11 +3646,9 @@ union cavm_smmux_s_agbpa
     struct cavm_smmux_s_agbpa_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_4_31         : 28;
-        uint32_t qos                   : 4;  /**< [  3:  0](SR/W) Quality-of-service for bypassed transactions. */
+        uint32_t reserved_0_31         : 32;
 #else /* Word 0 - Little Endian */
-        uint32_t qos                   : 4;  /**< [  3:  0](SR/W) Quality-of-service for bypassed transactions. */
-        uint32_t reserved_4_31         : 28;
+        uint32_t reserved_0_31         : 32;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_smmux_s_agbpa_s cn; */
@@ -5511,8 +3658,8 @@ typedef union cavm_smmux_s_agbpa cavm_smmux_s_agbpa_t;
 static inline uint64_t CAVM_SMMUX_S_AGBPA(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_AGBPA(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008048ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008048ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_AGBPA", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5568,8 +3715,8 @@ typedef union cavm_smmux_s_cmdq_base cavm_smmux_s_cmdq_base_t;
 static inline uint64_t CAVM_SMMUX_S_CMDQ_BASE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_CMDQ_BASE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008090ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008090ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_CMDQ_BASE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5621,8 +3768,8 @@ typedef union cavm_smmux_s_cmdq_cons cavm_smmux_s_cmdq_cons_t;
 static inline uint64_t CAVM_SMMUX_S_CMDQ_CONS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_CMDQ_CONS(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x83000000809cll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x83000000809cll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_CMDQ_CONS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5660,8 +3807,8 @@ typedef union cavm_smmux_s_cmdq_prod cavm_smmux_s_cmdq_prod_t;
 static inline uint64_t CAVM_SMMUX_S_CMDQ_PROD(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_CMDQ_PROD(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008098ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008098ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_CMDQ_PROD", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5790,8 +3937,8 @@ typedef union cavm_smmux_s_cr0 cavm_smmux_s_cr0_t;
 static inline uint64_t CAVM_SMMUX_S_CR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_CR0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008020ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008020ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_CR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5815,23 +3962,23 @@ union cavm_smmux_s_cr0ack
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_10_31        : 22;
-        uint32_t nsstalld              : 1;  /**< [  9:  9](SRO/H) Read-only hardware-modified SMMU(0..3)_S_CR0[NSSTALLD]. */
-        uint32_t vmw                   : 3;  /**< [  8:  6](SRO/H) Read-only hardware-modified SMMU(0..3)_S_CR0[VMW]. */
-        uint32_t sif                   : 1;  /**< [  5:  5](SRO/H) Read-only hardware-modified SMMU(0..3)_S_CR0[SIF]. */
+        uint32_t nsstalld              : 1;  /**< [  9:  9](SRO/H) Read-only hardware-modified SMMU(0)_S_CR0[NSSTALLD]. */
+        uint32_t vmw                   : 3;  /**< [  8:  6](SRO/H) Read-only hardware-modified SMMU(0)_S_CR0[VMW]. */
+        uint32_t sif                   : 1;  /**< [  5:  5](SRO/H) Read-only hardware-modified SMMU(0)_S_CR0[SIF]. */
         uint32_t reserved_4            : 1;
-        uint32_t cmdqen                : 1;  /**< [  3:  3](SRO/H) Read-only hardware-modified SMMU(0..3)_S_CR0[CMDQEN]. */
-        uint32_t eventqen              : 1;  /**< [  2:  2](SRO/H) Read-only hardware-modified SMMU(0..3)_S_CR0[EVENTQEN]. */
+        uint32_t cmdqen                : 1;  /**< [  3:  3](SRO/H) Read-only hardware-modified SMMU(0)_S_CR0[CMDQEN]. */
+        uint32_t eventqen              : 1;  /**< [  2:  2](SRO/H) Read-only hardware-modified SMMU(0)_S_CR0[EVENTQEN]. */
         uint32_t reserved_1            : 1;
-        uint32_t smmuen                : 1;  /**< [  0:  0](SRO/H) Read-only hardware-modified SMMU(0..3)_S_CR0[SMMUEN]. */
+        uint32_t smmuen                : 1;  /**< [  0:  0](SRO/H) Read-only hardware-modified SMMU(0)_S_CR0[SMMUEN]. */
 #else /* Word 0 - Little Endian */
-        uint32_t smmuen                : 1;  /**< [  0:  0](SRO/H) Read-only hardware-modified SMMU(0..3)_S_CR0[SMMUEN]. */
+        uint32_t smmuen                : 1;  /**< [  0:  0](SRO/H) Read-only hardware-modified SMMU(0)_S_CR0[SMMUEN]. */
         uint32_t reserved_1            : 1;
-        uint32_t eventqen              : 1;  /**< [  2:  2](SRO/H) Read-only hardware-modified SMMU(0..3)_S_CR0[EVENTQEN]. */
-        uint32_t cmdqen                : 1;  /**< [  3:  3](SRO/H) Read-only hardware-modified SMMU(0..3)_S_CR0[CMDQEN]. */
+        uint32_t eventqen              : 1;  /**< [  2:  2](SRO/H) Read-only hardware-modified SMMU(0)_S_CR0[EVENTQEN]. */
+        uint32_t cmdqen                : 1;  /**< [  3:  3](SRO/H) Read-only hardware-modified SMMU(0)_S_CR0[CMDQEN]. */
         uint32_t reserved_4            : 1;
-        uint32_t sif                   : 1;  /**< [  5:  5](SRO/H) Read-only hardware-modified SMMU(0..3)_S_CR0[SIF]. */
-        uint32_t vmw                   : 3;  /**< [  8:  6](SRO/H) Read-only hardware-modified SMMU(0..3)_S_CR0[VMW]. */
-        uint32_t nsstalld              : 1;  /**< [  9:  9](SRO/H) Read-only hardware-modified SMMU(0..3)_S_CR0[NSSTALLD]. */
+        uint32_t sif                   : 1;  /**< [  5:  5](SRO/H) Read-only hardware-modified SMMU(0)_S_CR0[SIF]. */
+        uint32_t vmw                   : 3;  /**< [  8:  6](SRO/H) Read-only hardware-modified SMMU(0)_S_CR0[VMW]. */
+        uint32_t nsstalld              : 1;  /**< [  9:  9](SRO/H) Read-only hardware-modified SMMU(0)_S_CR0[NSSTALLD]. */
         uint32_t reserved_10_31        : 22;
 #endif /* Word 0 - End */
     } s;
@@ -5842,8 +3989,8 @@ typedef union cavm_smmux_s_cr0ack cavm_smmux_s_cr0ack_t;
 static inline uint64_t CAVM_SMMUX_S_CR0ACK(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_CR0ACK(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008024ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008024ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_CR0ACK", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5949,8 +4096,8 @@ typedef union cavm_smmux_s_cr1 cavm_smmux_s_cr1_t;
 static inline uint64_t CAVM_SMMUX_S_CR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_CR1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008028ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008028ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_CR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5985,7 +4132,7 @@ union cavm_smmux_s_cr2
                                                                  an invalid pointer in a two-level stream table or out of the range of a second-level
                                                                  array will be aborted. This bit determines whether such events are also
                                                                  recorded. */
-        uint32_t e2h                   : 1;  /**< [  0:  0](SR/W) Enable Secure EL2-E2H translation regime
+        uint32_t e2h                   : 1;  /**< [  0:  0](SRO) Enable Secure EL2-E2H translation regime
                                                                    0 = Secure EL2 translation regime, without ASID.
                                                                    1 = Secure EL2-E2H translation regime used, with ASID.
 
@@ -6003,7 +4150,7 @@ union cavm_smmux_s_cr2
 
                                                                  This bit affects the StreamWorld of Secure streams only */
 #else /* Word 0 - Little Endian */
-        uint32_t e2h                   : 1;  /**< [  0:  0](SR/W) Enable Secure EL2-E2H translation regime
+        uint32_t e2h                   : 1;  /**< [  0:  0](SRO) Enable Secure EL2-E2H translation regime
                                                                    0 = Secure EL2 translation regime, without ASID.
                                                                    1 = Secure EL2-E2H translation regime used, with ASID.
 
@@ -6042,8 +4189,8 @@ typedef union cavm_smmux_s_cr2 cavm_smmux_s_cr2_t;
 static inline uint64_t CAVM_SMMUX_S_CR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_CR2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x83000000802cll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x83000000802cll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_CR2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6101,8 +4248,8 @@ typedef union cavm_smmux_s_eventq_base cavm_smmux_s_eventq_base_t;
 static inline uint64_t CAVM_SMMUX_S_EVENTQ_BASE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_EVENTQ_BASE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x8300000080a0ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x8300000080a0ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_EVENTQ_BASE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6148,8 +4295,8 @@ typedef union cavm_smmux_s_eventq_cons cavm_smmux_s_eventq_cons_t;
 static inline uint64_t CAVM_SMMUX_S_EVENTQ_CONS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_EVENTQ_CONS(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x8300000080acll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x8300000080acll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_EVENTQ_CONS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6203,8 +4350,8 @@ typedef union cavm_smmux_s_eventq_irq_cfg0 cavm_smmux_s_eventq_irq_cfg0_t;
 static inline uint64_t CAVM_SMMUX_S_EVENTQ_IRQ_CFG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_EVENTQ_IRQ_CFG0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x8300000080b0ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x8300000080b0ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_EVENTQ_IRQ_CFG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6238,8 +4385,8 @@ typedef union cavm_smmux_s_eventq_irq_cfg1 cavm_smmux_s_eventq_irq_cfg1_t;
 static inline uint64_t CAVM_SMMUX_S_EVENTQ_IRQ_CFG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_EVENTQ_IRQ_CFG1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x8300000080b8ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x8300000080b8ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_EVENTQ_IRQ_CFG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6291,8 +4438,8 @@ typedef union cavm_smmux_s_eventq_irq_cfg2 cavm_smmux_s_eventq_irq_cfg2_t;
 static inline uint64_t CAVM_SMMUX_S_EVENTQ_IRQ_CFG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_EVENTQ_IRQ_CFG2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x8300000080bcll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x8300000080bcll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_EVENTQ_IRQ_CFG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6344,8 +4491,8 @@ typedef union cavm_smmux_s_eventq_prod cavm_smmux_s_eventq_prod_t;
 static inline uint64_t CAVM_SMMUX_S_EVENTQ_PROD(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_EVENTQ_PROD(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x8300000080a8ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x8300000080a8ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_EVENTQ_PROD", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6453,8 +4600,8 @@ typedef union cavm_smmux_s_gatos_addr cavm_smmux_s_gatos_addr_t;
 static inline uint64_t CAVM_SMMUX_S_GATOS_ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_GATOS_ADDR(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008110ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008110ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_GATOS_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6500,8 +4647,8 @@ typedef union cavm_smmux_s_gatos_ctrl cavm_smmux_s_gatos_ctrl_t;
 static inline uint64_t CAVM_SMMUX_S_GATOS_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_GATOS_CTRL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008100ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008100ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_GATOS_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6545,8 +4692,8 @@ typedef union cavm_smmux_s_gatos_par cavm_smmux_s_gatos_par_t;
 static inline uint64_t CAVM_SMMUX_S_GATOS_PAR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_GATOS_PAR(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008118ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008118ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_GATOS_PAR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6604,8 +4751,8 @@ typedef union cavm_smmux_s_gatos_sid cavm_smmux_s_gatos_sid_t;
 static inline uint64_t CAVM_SMMUX_S_GATOS_SID(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_GATOS_SID(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008108ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008108ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_GATOS_SID", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6731,8 +4878,8 @@ typedef union cavm_smmux_s_gbpa cavm_smmux_s_gbpa_t;
 static inline uint64_t CAVM_SMMUX_S_GBPA(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_GBPA(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008044ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008044ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_GBPA", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6794,8 +4941,8 @@ typedef union cavm_smmux_s_gbpmpam cavm_smmux_s_gbpmpam_t;
 static inline uint64_t CAVM_SMMUX_S_GBPMPAM(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_GBPMPAM(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x83000000813cll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x83000000813cll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_GBPMPAM", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6867,8 +5014,8 @@ typedef union cavm_smmux_s_gerror cavm_smmux_s_gerror_t;
 static inline uint64_t CAVM_SMMUX_S_GERROR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_GERROR(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008060ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008060ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_GERROR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6925,8 +5072,8 @@ typedef union cavm_smmux_s_gerror_irq_cfg0 cavm_smmux_s_gerror_irq_cfg0_t;
 static inline uint64_t CAVM_SMMUX_S_GERROR_IRQ_CFG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_GERROR_IRQ_CFG0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008068ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008068ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_GERROR_IRQ_CFG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6960,8 +5107,8 @@ typedef union cavm_smmux_s_gerror_irq_cfg1 cavm_smmux_s_gerror_irq_cfg1_t;
 static inline uint64_t CAVM_SMMUX_S_GERROR_IRQ_CFG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_GERROR_IRQ_CFG1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008070ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008070ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_GERROR_IRQ_CFG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7013,8 +5160,8 @@ typedef union cavm_smmux_s_gerror_irq_cfg2 cavm_smmux_s_gerror_irq_cfg2_t;
 static inline uint64_t CAVM_SMMUX_S_GERROR_IRQ_CFG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_GERROR_IRQ_CFG2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008074ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008074ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_GERROR_IRQ_CFG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7086,8 +5233,8 @@ typedef union cavm_smmux_s_gerrorn cavm_smmux_s_gerrorn_t;
 static inline uint64_t CAVM_SMMUX_S_GERRORN(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_GERRORN(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008064ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008064ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_GERRORN", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7145,8 +5292,8 @@ typedef union cavm_smmux_s_gmpam cavm_smmux_s_gmpam_t;
 static inline uint64_t CAVM_SMMUX_S_GMPAM(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_GMPAM(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008138ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008138ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_GMPAM", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7204,8 +5351,8 @@ typedef union cavm_smmux_s_idr0 cavm_smmux_s_idr0_t;
 static inline uint64_t CAVM_SMMUX_S_IDR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_IDR0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008000ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008000ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_IDR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7265,8 +5412,8 @@ typedef union cavm_smmux_s_idr1 cavm_smmux_s_idr1_t;
 static inline uint64_t CAVM_SMMUX_S_IDR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_IDR1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008004ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008004ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_IDR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7304,8 +5451,8 @@ typedef union cavm_smmux_s_idr2 cavm_smmux_s_idr2_t;
 static inline uint64_t CAVM_SMMUX_S_IDR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_IDR2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008008ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008008ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_IDR2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7361,8 +5508,8 @@ typedef union cavm_smmux_s_idr3 cavm_smmux_s_idr3_t;
 static inline uint64_t CAVM_SMMUX_S_IDR3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_IDR3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x83000000800cll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x83000000800cll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_IDR3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7396,8 +5543,8 @@ typedef union cavm_smmux_s_idr4 cavm_smmux_s_idr4_t;
 static inline uint64_t CAVM_SMMUX_S_IDR4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_IDR4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008010ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008010ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_IDR4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7419,11 +5566,11 @@ union cavm_smmux_s_imp_actlr
     struct cavm_smmux_s_imp_actlr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_4_31         : 28;
-        uint32_t qos                   : 4;  /**< [  3:  0](SR/W) Quality-of-service for the memory accesses performed during the translation process. */
+        uint32_t reserved_1_31         : 31;
+        uint32_t mpam_override         : 1;  /**< [  0:  0](SR/W) Reserved. */
 #else /* Word 0 - Little Endian */
-        uint32_t qos                   : 4;  /**< [  3:  0](SR/W) Quality-of-service for the memory accesses performed during the translation process. */
-        uint32_t reserved_4_31         : 28;
+        uint32_t mpam_override         : 1;  /**< [  0:  0](SR/W) Reserved. */
+        uint32_t reserved_1_31         : 31;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_smmux_s_imp_actlr_s cn; */
@@ -7433,8 +5580,8 @@ typedef union cavm_smmux_s_imp_actlr cavm_smmux_s_imp_actlr_t;
 static inline uint64_t CAVM_SMMUX_S_IMP_ACTLR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_IMP_ACTLR(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008e10ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008e10ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_IMP_ACTLR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7501,8 +5648,8 @@ typedef union cavm_smmux_s_imp_chicken_bits cavm_smmux_s_imp_chicken_bits_t;
 static inline uint64_t CAVM_SMMUX_S_IMP_CHICKEN_BITS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_IMP_CHICKEN_BITS(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008e78ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008e78ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_IMP_CHICKEN_BITS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7570,8 +5717,8 @@ typedef union cavm_smmux_s_imp_diag_ctl cavm_smmux_s_imp_diag_ctl_t;
 static inline uint64_t CAVM_SMMUX_S_IMP_DIAG_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_IMP_DIAG_CTL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008e14ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008e14ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_IMP_DIAG_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7611,8 +5758,8 @@ typedef union cavm_smmux_s_imp_fifo_threshold cavm_smmux_s_imp_fifo_threshold_t;
 static inline uint64_t CAVM_SMMUX_S_IMP_FIFO_THRESHOLD(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_IMP_FIFO_THRESHOLD(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008e60ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008e60ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_IMP_FIFO_THRESHOLD", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7643,7 +5790,11 @@ union cavm_smmux_s_imp_long_rbi
                                                                  [DVM_LONG_RBI_LOG2LIMIT]).
                                                                  Should not be set together with [DVM_LONG_RBI_FORCE_EN]. */
         uint32_t dvm_long_rbi_log2limit : 5; /**< [ 20: 16](SR/W) Convert a range-based DVM TLBI into a slow TLBI, if
-                                                                 (DVM.NUM+1)*2^(5*DVM.SCALE+1) \> 2^[DVM_LONG_RBI_LOG2LIMIT]. */
+                                                                 (DVM.NUM+1)*2^(5*DVM.SCALE+1) \> 2^[DVM_LONG_RBI_LOG2LIMIT].
+                                                                 Converting means that instead of "peeling off" one VA-matching TBLI per cycle
+                                                                 (the duration of which depends linearly on the size of the invalidation range), the FSM
+                                                                 instead goes over each line in the TLB (512 in the current implementation) and
+                                                                 matches only non-address fields. */
         uint32_t reserved_7_15         : 9;
         uint32_t cmd_long_rbi_force_en : 1;  /**< [  6:  6](SR/W) Always convert a range-based CMD TLBI into a slow TLBI (ignores the value of
                                                                  [CMD_LONG_RBI_LOG2LIMIT]).
@@ -7652,10 +5803,18 @@ union cavm_smmux_s_imp_long_rbi
                                                                  [CMD_LONG_RBI_LOG2LIMIT]).
                                                                  Should not be set together with [CMD_LONG_RBI_FORCE_EN]. */
         uint32_t cmd_long_rbi_log2limit : 5; /**< [  4:  0](SR/W) Convert a range-based CMD TLBI into a slow TLBI, if (CMD.NUM+1)*2^CMD.SCALE \>
-                                                                 2^[CMD_LONG_RBI_LOG2LIMIT]. */
+                                                                 2^[CMD_LONG_RBI_LOG2LIMIT].
+                                                                 Converting means that instead of "peeling off" one VA-matching TBLI per cycle
+                                                                 (the duration of which depends linearly on the size of the invalidation range), the FSM
+                                                                 instead goes over each line in the TLB (512 in the current implementation) and
+                                                                 matches only non-address fields. */
 #else /* Word 0 - Little Endian */
         uint32_t cmd_long_rbi_log2limit : 5; /**< [  4:  0](SR/W) Convert a range-based CMD TLBI into a slow TLBI, if (CMD.NUM+1)*2^CMD.SCALE \>
-                                                                 2^[CMD_LONG_RBI_LOG2LIMIT]. */
+                                                                 2^[CMD_LONG_RBI_LOG2LIMIT].
+                                                                 Converting means that instead of "peeling off" one VA-matching TBLI per cycle
+                                                                 (the duration of which depends linearly on the size of the invalidation range), the FSM
+                                                                 instead goes over each line in the TLB (512 in the current implementation) and
+                                                                 matches only non-address fields. */
         uint32_t cmd_long_rbi_force_dis : 1; /**< [  5:  5](SR/W) Never convert a range-based CMD TLBI into a slow TLBI (ignores the value of
                                                                  [CMD_LONG_RBI_LOG2LIMIT]).
                                                                  Should not be set together with [CMD_LONG_RBI_FORCE_EN]. */
@@ -7664,7 +5823,11 @@ union cavm_smmux_s_imp_long_rbi
                                                                  Should not be set together with [CMD_LONG_RBI_FORCE_DIS]. */
         uint32_t reserved_7_15         : 9;
         uint32_t dvm_long_rbi_log2limit : 5; /**< [ 20: 16](SR/W) Convert a range-based DVM TLBI into a slow TLBI, if
-                                                                 (DVM.NUM+1)*2^(5*DVM.SCALE+1) \> 2^[DVM_LONG_RBI_LOG2LIMIT]. */
+                                                                 (DVM.NUM+1)*2^(5*DVM.SCALE+1) \> 2^[DVM_LONG_RBI_LOG2LIMIT].
+                                                                 Converting means that instead of "peeling off" one VA-matching TBLI per cycle
+                                                                 (the duration of which depends linearly on the size of the invalidation range), the FSM
+                                                                 instead goes over each line in the TLB (512 in the current implementation) and
+                                                                 matches only non-address fields. */
         uint32_t dvm_long_rbi_force_dis : 1; /**< [ 21: 21](SR/W) Never convert a range-based DVM TLBI into a slow TLBI (ignores the value of
                                                                  [DVM_LONG_RBI_LOG2LIMIT]).
                                                                  Should not be set together with [DVM_LONG_RBI_FORCE_EN]. */
@@ -7681,8 +5844,8 @@ typedef union cavm_smmux_s_imp_long_rbi cavm_smmux_s_imp_long_rbi_t;
 static inline uint64_t CAVM_SMMUX_S_IMP_LONG_RBI(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_IMP_LONG_RBI(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008e70ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008e70ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_IMP_LONG_RBI", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7692,6 +5855,41 @@ static inline uint64_t CAVM_SMMUX_S_IMP_LONG_RBI(uint64_t a)
 #define device_bar_CAVM_SMMUX_S_IMP_LONG_RBI(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SMMUX_S_IMP_LONG_RBI(a) (a)
 #define arguments_CAVM_SMMUX_S_IMP_LONG_RBI(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) smmu#_s_imp_manager_ctl
+ *
+ * SMMU Secure Diagnostic Control Register
+ */
+union cavm_smmux_s_imp_manager_ctl
+{
+    uint32_t u;
+    struct cavm_smmux_s_imp_manager_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_s_imp_manager_ctl_s cn; */
+};
+typedef union cavm_smmux_s_imp_manager_ctl cavm_smmux_s_imp_manager_ctl_t;
+
+static inline uint64_t CAVM_SMMUX_S_IMP_MANAGER_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_S_IMP_MANAGER_CTL(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008ec0ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("SMMUX_S_IMP_MANAGER_CTL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_S_IMP_MANAGER_CTL(a) cavm_smmux_s_imp_manager_ctl_t
+#define bustype_CAVM_SMMUX_S_IMP_MANAGER_CTL(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SMMUX_S_IMP_MANAGER_CTL(a) "SMMUX_S_IMP_MANAGER_CTL"
+#define device_bar_CAVM_SMMUX_S_IMP_MANAGER_CTL(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_S_IMP_MANAGER_CTL(a) (a)
+#define arguments_CAVM_SMMUX_S_IMP_MANAGER_CTL(a) (a),-1,-1,-1
 
 /**
  * Register (NCB32b) smmu#_s_imp_prefetch_addr_cap
@@ -7750,8 +5948,8 @@ typedef union cavm_smmux_s_imp_prefetch_addr_cap cavm_smmux_s_imp_prefetch_addr_
 static inline uint64_t CAVM_SMMUX_S_IMP_PREFETCH_ADDR_CAP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_IMP_PREFETCH_ADDR_CAP(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008e88ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008e88ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_IMP_PREFETCH_ADDR_CAP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7793,8 +5991,8 @@ typedef union cavm_smmux_s_imp_ras_ctl cavm_smmux_s_imp_ras_ctl_t;
 static inline uint64_t CAVM_SMMUX_S_IMP_RAS_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_IMP_RAS_CTL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008e50ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008e50ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_IMP_RAS_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7842,8 +6040,8 @@ typedef union cavm_smmux_s_imp_ras_int cavm_smmux_s_imp_ras_int_t;
 static inline uint64_t CAVM_SMMUX_S_IMP_RAS_INT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_IMP_RAS_INT(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008e20ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008e20ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_IMP_RAS_INT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7867,13 +6065,13 @@ union cavm_smmux_s_imp_ras_int_ena_w1c
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_3_31         : 29;
-        uint32_t fetch_psn             : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for SMMU(0..3)_S_IMP_RAS_INT[FETCH_PSN]. */
-        uint32_t s_cmdq_psn            : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for SMMU(0..3)_S_IMP_RAS_INT[S_CMDQ_PSN]. */
-        uint32_t ns_cmdq_psn           : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for SMMU(0..3)_S_IMP_RAS_INT[NS_CMDQ_PSN]. */
+        uint32_t fetch_psn             : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for SMMU(0)_S_IMP_RAS_INT[FETCH_PSN]. */
+        uint32_t s_cmdq_psn            : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for SMMU(0)_S_IMP_RAS_INT[S_CMDQ_PSN]. */
+        uint32_t ns_cmdq_psn           : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for SMMU(0)_S_IMP_RAS_INT[NS_CMDQ_PSN]. */
 #else /* Word 0 - Little Endian */
-        uint32_t ns_cmdq_psn           : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for SMMU(0..3)_S_IMP_RAS_INT[NS_CMDQ_PSN]. */
-        uint32_t s_cmdq_psn            : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for SMMU(0..3)_S_IMP_RAS_INT[S_CMDQ_PSN]. */
-        uint32_t fetch_psn             : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for SMMU(0..3)_S_IMP_RAS_INT[FETCH_PSN]. */
+        uint32_t ns_cmdq_psn           : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for SMMU(0)_S_IMP_RAS_INT[NS_CMDQ_PSN]. */
+        uint32_t s_cmdq_psn            : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for SMMU(0)_S_IMP_RAS_INT[S_CMDQ_PSN]. */
+        uint32_t fetch_psn             : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for SMMU(0)_S_IMP_RAS_INT[FETCH_PSN]. */
         uint32_t reserved_3_31         : 29;
 #endif /* Word 0 - End */
     } s;
@@ -7884,8 +6082,8 @@ typedef union cavm_smmux_s_imp_ras_int_ena_w1c cavm_smmux_s_imp_ras_int_ena_w1c_
 static inline uint64_t CAVM_SMMUX_S_IMP_RAS_INT_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_IMP_RAS_INT_ENA_W1C(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008e38ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008e38ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_IMP_RAS_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7909,13 +6107,13 @@ union cavm_smmux_s_imp_ras_int_ena_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_3_31         : 29;
-        uint32_t fetch_psn             : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for SMMU(0..3)_S_IMP_RAS_INT[FETCH_PSN]. */
-        uint32_t s_cmdq_psn            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for SMMU(0..3)_S_IMP_RAS_INT[S_CMDQ_PSN]. */
-        uint32_t ns_cmdq_psn           : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for SMMU(0..3)_S_IMP_RAS_INT[NS_CMDQ_PSN]. */
+        uint32_t fetch_psn             : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for SMMU(0)_S_IMP_RAS_INT[FETCH_PSN]. */
+        uint32_t s_cmdq_psn            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for SMMU(0)_S_IMP_RAS_INT[S_CMDQ_PSN]. */
+        uint32_t ns_cmdq_psn           : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for SMMU(0)_S_IMP_RAS_INT[NS_CMDQ_PSN]. */
 #else /* Word 0 - Little Endian */
-        uint32_t ns_cmdq_psn           : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for SMMU(0..3)_S_IMP_RAS_INT[NS_CMDQ_PSN]. */
-        uint32_t s_cmdq_psn            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for SMMU(0..3)_S_IMP_RAS_INT[S_CMDQ_PSN]. */
-        uint32_t fetch_psn             : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for SMMU(0..3)_S_IMP_RAS_INT[FETCH_PSN]. */
+        uint32_t ns_cmdq_psn           : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for SMMU(0)_S_IMP_RAS_INT[NS_CMDQ_PSN]. */
+        uint32_t s_cmdq_psn            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for SMMU(0)_S_IMP_RAS_INT[S_CMDQ_PSN]. */
+        uint32_t fetch_psn             : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for SMMU(0)_S_IMP_RAS_INT[FETCH_PSN]. */
         uint32_t reserved_3_31         : 29;
 #endif /* Word 0 - End */
     } s;
@@ -7926,8 +6124,8 @@ typedef union cavm_smmux_s_imp_ras_int_ena_w1s cavm_smmux_s_imp_ras_int_ena_w1s_
 static inline uint64_t CAVM_SMMUX_S_IMP_RAS_INT_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_IMP_RAS_INT_ENA_W1S(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008e30ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008e30ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_IMP_RAS_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7951,13 +6149,13 @@ union cavm_smmux_s_imp_ras_int_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_3_31         : 29;
-        uint32_t fetch_psn             : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets SMMU(0..3)_S_IMP_RAS_INT[FETCH_PSN]. */
-        uint32_t s_cmdq_psn            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets SMMU(0..3)_S_IMP_RAS_INT[S_CMDQ_PSN]. */
-        uint32_t ns_cmdq_psn           : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets SMMU(0..3)_S_IMP_RAS_INT[NS_CMDQ_PSN]. */
+        uint32_t fetch_psn             : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets SMMU(0)_S_IMP_RAS_INT[FETCH_PSN]. */
+        uint32_t s_cmdq_psn            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets SMMU(0)_S_IMP_RAS_INT[S_CMDQ_PSN]. */
+        uint32_t ns_cmdq_psn           : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets SMMU(0)_S_IMP_RAS_INT[NS_CMDQ_PSN]. */
 #else /* Word 0 - Little Endian */
-        uint32_t ns_cmdq_psn           : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets SMMU(0..3)_S_IMP_RAS_INT[NS_CMDQ_PSN]. */
-        uint32_t s_cmdq_psn            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets SMMU(0..3)_S_IMP_RAS_INT[S_CMDQ_PSN]. */
-        uint32_t fetch_psn             : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets SMMU(0..3)_S_IMP_RAS_INT[FETCH_PSN]. */
+        uint32_t ns_cmdq_psn           : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets SMMU(0)_S_IMP_RAS_INT[NS_CMDQ_PSN]. */
+        uint32_t s_cmdq_psn            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets SMMU(0)_S_IMP_RAS_INT[S_CMDQ_PSN]. */
+        uint32_t fetch_psn             : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets SMMU(0)_S_IMP_RAS_INT[FETCH_PSN]. */
         uint32_t reserved_3_31         : 29;
 #endif /* Word 0 - End */
     } s;
@@ -7968,8 +6166,8 @@ typedef union cavm_smmux_s_imp_ras_int_w1s cavm_smmux_s_imp_ras_int_w1s_t;
 static inline uint64_t CAVM_SMMUX_S_IMP_RAS_INT_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_IMP_RAS_INT_W1S(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008e28ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008e28ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_IMP_RAS_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8023,8 +6221,8 @@ typedef union cavm_smmux_s_imp_ras_irq_cfg0 cavm_smmux_s_imp_ras_irq_cfg0_t;
 static inline uint64_t CAVM_SMMUX_S_IMP_RAS_IRQ_CFG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_IMP_RAS_IRQ_CFG0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008e40ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008e40ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_IMP_RAS_IRQ_CFG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8058,8 +6256,8 @@ typedef union cavm_smmux_s_imp_ras_irq_cfg1 cavm_smmux_s_imp_ras_irq_cfg1_t;
 static inline uint64_t CAVM_SMMUX_S_IMP_RAS_IRQ_CFG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_IMP_RAS_IRQ_CFG1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008e48ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008e48ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_IMP_RAS_IRQ_CFG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8104,8 +6302,8 @@ typedef union cavm_smmux_s_imp_txn_arb_weight cavm_smmux_s_imp_txn_arb_weight_t;
 static inline uint64_t CAVM_SMMUX_S_IMP_TXN_ARB_WEIGHT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_IMP_TXN_ARB_WEIGHT(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008e68ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008e68ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_IMP_TXN_ARB_WEIGHT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8149,8 +6347,8 @@ typedef union cavm_smmux_s_imp_txreq_arb_weight cavm_smmux_s_imp_txreq_arb_weigh
 static inline uint64_t CAVM_SMMUX_S_IMP_TXREQ_ARB_WEIGHT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_IMP_TXREQ_ARB_WEIGHT(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008e6cll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008e6cll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_IMP_TXREQ_ARB_WEIGHT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8197,8 +6395,8 @@ typedef union cavm_smmux_s_imp_typ_arb_weight cavm_smmux_s_imp_typ_arb_weight_t;
 static inline uint64_t CAVM_SMMUX_S_IMP_TYP_ARB_WEIGHT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_IMP_TYP_ARB_WEIGHT(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008e64ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008e64ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_IMP_TYP_ARB_WEIGHT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8234,8 +6432,8 @@ typedef union cavm_smmux_s_imp_wlk_dis cavm_smmux_s_imp_wlk_dis_t;
 static inline uint64_t CAVM_SMMUX_S_IMP_WLK_DIS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_IMP_WLK_DIS(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008e80ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008e80ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_IMP_WLK_DIS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8273,8 +6471,8 @@ typedef union cavm_smmux_s_imp_wlk_skip_lu cavm_smmux_s_imp_wlk_skip_lu_t;
 static inline uint64_t CAVM_SMMUX_S_IMP_WLK_SKIP_LU(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_IMP_WLK_SKIP_LU(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008e84ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008e84ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_IMP_WLK_SKIP_LU", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8322,8 +6520,8 @@ typedef union cavm_smmux_s_init cavm_smmux_s_init_t;
 static inline uint64_t CAVM_SMMUX_S_INIT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_INIT(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x83000000803cll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x83000000803cll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_INIT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8366,8 +6564,8 @@ typedef union cavm_smmux_s_irq_ctrl cavm_smmux_s_irq_ctrl_t;
 static inline uint64_t CAVM_SMMUX_S_IRQ_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_IRQ_CTRL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008050ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008050ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_IRQ_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8391,13 +6589,13 @@ union cavm_smmux_s_irq_ctrlack
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_3_31         : 29;
-        uint32_t eventq_irqen          : 1;  /**< [  2:  2](SRO/H) Read-only hardware-modified SMMU(0..3)_S_IRQ_CTRL[EVENTQ_IRQEN]. */
+        uint32_t eventq_irqen          : 1;  /**< [  2:  2](SRO/H) Read-only hardware-modified SMMU(0)_S_IRQ_CTRL[EVENTQ_IRQEN]. */
         uint32_t reserved_1            : 1;
-        uint32_t gerror_irqen          : 1;  /**< [  0:  0](SRO/H) Read-only hardware-modified SMMU(0..3)_S_IRQ_CTRL[GERROR_IRQEN]. */
+        uint32_t gerror_irqen          : 1;  /**< [  0:  0](SRO/H) Read-only hardware-modified SMMU(0)_S_IRQ_CTRL[GERROR_IRQEN]. */
 #else /* Word 0 - Little Endian */
-        uint32_t gerror_irqen          : 1;  /**< [  0:  0](SRO/H) Read-only hardware-modified SMMU(0..3)_S_IRQ_CTRL[GERROR_IRQEN]. */
+        uint32_t gerror_irqen          : 1;  /**< [  0:  0](SRO/H) Read-only hardware-modified SMMU(0)_S_IRQ_CTRL[GERROR_IRQEN]. */
         uint32_t reserved_1            : 1;
-        uint32_t eventq_irqen          : 1;  /**< [  2:  2](SRO/H) Read-only hardware-modified SMMU(0..3)_S_IRQ_CTRL[EVENTQ_IRQEN]. */
+        uint32_t eventq_irqen          : 1;  /**< [  2:  2](SRO/H) Read-only hardware-modified SMMU(0)_S_IRQ_CTRL[EVENTQ_IRQEN]. */
         uint32_t reserved_3_31         : 29;
 #endif /* Word 0 - End */
     } s;
@@ -8408,8 +6606,8 @@ typedef union cavm_smmux_s_irq_ctrlack cavm_smmux_s_irq_ctrlack_t;
 static inline uint64_t CAVM_SMMUX_S_IRQ_CTRLACK(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_IRQ_CTRLACK(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008054ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008054ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_IRQ_CTRLACK", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8457,8 +6655,8 @@ typedef union cavm_smmux_s_mpamidr cavm_smmux_s_mpamidr_t;
 static inline uint64_t CAVM_SMMUX_S_MPAMIDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_MPAMIDR(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008130ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008130ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_MPAMIDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8536,8 +6734,8 @@ typedef union cavm_smmux_s_strtab_base cavm_smmux_s_strtab_base_t;
 static inline uint64_t CAVM_SMMUX_S_STRTAB_BASE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_STRTAB_BASE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008080ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008080ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_STRTAB_BASE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8648,8 +6846,8 @@ typedef union cavm_smmux_s_strtab_base_cfg cavm_smmux_s_strtab_base_cfg_t;
 static inline uint64_t CAVM_SMMUX_S_STRTAB_BASE_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_S_STRTAB_BASE_CFG(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000008088ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000008088ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_S_STRTAB_BASE_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8711,8 +6909,8 @@ typedef union cavm_smmux_statusr cavm_smmux_statusr_t;
 static inline uint64_t CAVM_SMMUX_STATUSR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_STATUSR(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000040ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000040ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_STATUSR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8735,15 +6933,15 @@ union cavm_smmux_strtab_base
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_63           : 1;
-        uint64_t ra                    : 1;  /**< [ 62: 62](R/W) SMMU(0..3)_S_STRTAB_BASE[RA] */
+        uint64_t ra                    : 1;  /**< [ 62: 62](R/W) SMMU(0)_S_STRTAB_BASE[RA] */
         uint64_t reserved_52_61        : 10;
-        uint64_t addr                  : 46; /**< [ 51:  6](R/W) SMMU(0..3)_S_STRTAB_BASE[ADDR] */
+        uint64_t addr                  : 46; /**< [ 51:  6](R/W) SMMU(0)_S_STRTAB_BASE[ADDR] */
         uint64_t reserved_0_5          : 6;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_5          : 6;
-        uint64_t addr                  : 46; /**< [ 51:  6](R/W) SMMU(0..3)_S_STRTAB_BASE[ADDR] */
+        uint64_t addr                  : 46; /**< [ 51:  6](R/W) SMMU(0)_S_STRTAB_BASE[ADDR] */
         uint64_t reserved_52_61        : 10;
-        uint64_t ra                    : 1;  /**< [ 62: 62](R/W) SMMU(0..3)_S_STRTAB_BASE[RA] */
+        uint64_t ra                    : 1;  /**< [ 62: 62](R/W) SMMU(0)_S_STRTAB_BASE[RA] */
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } s;
@@ -8754,8 +6952,8 @@ typedef union cavm_smmux_strtab_base cavm_smmux_strtab_base_t;
 static inline uint64_t CAVM_SMMUX_STRTAB_BASE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_STRTAB_BASE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000080ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000080ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_STRTAB_BASE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8795,15 +6993,15 @@ union cavm_smmux_strtab_base_cfg
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_18_31        : 14;
-        uint32_t fmt                   : 2;  /**< [ 17: 16](R/W) SMMU(0..3)_S_STRTAB_BASE_CFG[FMT] */
+        uint32_t fmt                   : 2;  /**< [ 17: 16](R/W) SMMU(0)_S_STRTAB_BASE_CFG[FMT] */
         uint32_t reserved_11_15        : 5;
-        uint32_t split                 : 5;  /**< [ 10:  6](R/W) SMMU(0..3)_S_STRTAB_BASE_CFG[SPLIT] */
-        uint32_t log2size              : 6;  /**< [  5:  0](R/W) SMMU(0..3)_S_STRTAB_BASE_CFG[LOG2SIZE] */
+        uint32_t split                 : 5;  /**< [ 10:  6](R/W) SMMU(0)_S_STRTAB_BASE_CFG[SPLIT] */
+        uint32_t log2size              : 6;  /**< [  5:  0](R/W) SMMU(0)_S_STRTAB_BASE_CFG[LOG2SIZE] */
 #else /* Word 0 - Little Endian */
-        uint32_t log2size              : 6;  /**< [  5:  0](R/W) SMMU(0..3)_S_STRTAB_BASE_CFG[LOG2SIZE] */
-        uint32_t split                 : 5;  /**< [ 10:  6](R/W) SMMU(0..3)_S_STRTAB_BASE_CFG[SPLIT] */
+        uint32_t log2size              : 6;  /**< [  5:  0](R/W) SMMU(0)_S_STRTAB_BASE_CFG[LOG2SIZE] */
+        uint32_t split                 : 5;  /**< [ 10:  6](R/W) SMMU(0)_S_STRTAB_BASE_CFG[SPLIT] */
         uint32_t reserved_11_15        : 5;
-        uint32_t fmt                   : 2;  /**< [ 17: 16](R/W) SMMU(0..3)_S_STRTAB_BASE_CFG[FMT] */
+        uint32_t fmt                   : 2;  /**< [ 17: 16](R/W) SMMU(0)_S_STRTAB_BASE_CFG[FMT] */
         uint32_t reserved_18_31        : 14;
 #endif /* Word 0 - End */
     } s;
@@ -8814,8 +7012,8 @@ typedef union cavm_smmux_strtab_base_cfg cavm_smmux_strtab_base_cfg_t;
 static inline uint64_t CAVM_SMMUX_STRTAB_BASE_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_STRTAB_BASE_CFG(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000088ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000088ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_STRTAB_BASE_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8825,6 +7023,1823 @@ static inline uint64_t CAVM_SMMUX_STRTAB_BASE_CFG(uint64_t a)
 #define device_bar_CAVM_SMMUX_STRTAB_BASE_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SMMUX_STRTAB_BASE_CFG(a) (a)
 #define arguments_CAVM_SMMUX_STRTAB_BASE_CFG(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) smmu#_tcus#_imp_error_cause
+ *
+ * SMMU cause for error event Register
+ * This register contains debug information.
+ */
+union cavm_smmux_tcusx_imp_error_cause
+{
+    uint32_t u;
+    struct cavm_smmux_tcusx_imp_error_cause_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t bus_error             : 1;  /**< [ 31: 31](R/W1C/H) Error detected on MESH bus (RXRDAT.error). */
+        uint32_t bus_poison            : 1;  /**< [ 30: 30](R/W1C/H) Poison detected on MESH bus (RXRDAT.poison). */
+        uint32_t wlk_crs_miss_httu_upd_needed : 1;/**< [ 29: 29](R/W1C/H) Reserved. */
+        uint32_t wlk_crs_miss_dbm_upd_needed : 1;/**< [ 28: 28](R/W1C/H) Reserved. */
+        uint32_t crs_unexp_err_on_httu_upd_resp : 1;/**< [ 27: 27](R/W1C/H) Reserved. */
+        uint32_t crs_compr_err_on_httu_upd_resp : 1;/**< [ 26: 26](R/W1C/H) Reserved. */
+        uint32_t crs_endianness        : 1;  /**< [ 25: 25](R/W1C/H) Endianess fault - CD.ENDI or STE.S2ENDI indicates Big Endian which is not supported. */
+        uint32_t ttd_valid             : 1;  /**< [ 24: 24](R/W1C/H) Valid bit of TTD not set when walker read it. */
+        uint32_t reserved_20_23        : 4;
+        uint32_t cd_tgx                : 1;  /**< [ 19: 19](R/W1C/H) CD TG0 or TG1 granule is not supported. */
+        uint32_t cd_ttbx               : 1;  /**< [ 18: 18](R/W1C/H) CD TTB0 or TTB1 is outside of range. */
+        uint32_t cd_txsz               : 1;  /**< [ 17: 17](R/W1C/H) CD T0SZ or T1SZ is invalid. */
+        uint32_t cd_httu               : 1;  /**< [ 16: 16](R/W1C/H) CD access flag and dirty state bits not supported by our system as indicated
+                                                                 from SMMU()_IDR0[HTTU]. */
+        uint32_t cd_aarch              : 1;  /**< [ 15: 15](R/W1C/H) CD AArch is not supported by our system as indicated from (SMMU()_IDR0[TTF]. */
+        uint32_t cd_streamworld        : 1;  /**< [ 14: 14](R/W1C/H) CD STREAMWORLD not supported. */
+        uint32_t cd_s                  : 1;  /**< [ 13: 13](R/W1C/H) CD_S not supported by our stall model as indicated in SMMU(0)(_S)_IDR0.STALL_MODEL. */
+        uint32_t cd_valid              : 1;  /**< [ 12: 12](R/W1C/H) Valid bit of CD not set when walker read it. */
+        uint32_t ste_s2_walk_cfg       : 1;  /**< [ 11: 11](R/W1C/H) STE walk config inconsist between following parameters: S2TG, S2SL0, S2T0SZ.
+                                                                 See Arm spec DDIO487D, tables D5-11, D5-13, D5-15. */
+        uint32_t ste_s2t0sz            : 1;  /**< [ 10: 10](R/W1C/H) STE S2T0SZ invalid for granularity specified by STE.S2TG. */
+        uint32_t ste_s2ttb             : 1;  /**< [  9:  9](R/W1C/H) STE S2TTB outside range. */
+        uint32_t ste_httu              : 1;  /**< [  8:  8](R/W1C/H) STE access flag and dirty state bits not supported by our system as indicated
+                                                                 from SMMU()_IDR0[HTTU]. */
+        uint32_t ste_aarch             : 1;  /**< [  7:  7](R/W1C/H) STE AArch is not supported by our system as indicated from (SMMU()_IDR0[TTF]. */
+        uint32_t ste_s2tg              : 1;  /**< [  6:  6](R/W1C/H) STE granule not supported. */
+        uint32_t ste_s2s               : 1;  /**< [  5:  5](R/W1C/H) STE S2S field not supported by our stall model as indicated in SMMU(0)(_S)_IDR0.STALL_MODEL. */
+        uint32_t ste_s1contextptr      : 1;  /**< [  4:  4](R/W1C/H) STE S1ContextPtr is out of range. */
+        uint32_t ste_s1stalld          : 1;  /**< [  3:  3](R/W1C/H) STE S1STALLD field not supported by our stall model as indicated in SMMU(0)(_S)_IDR0.STALL_MODEL. */
+        uint32_t ste_strw              : 1;  /**< [  2:  2](R/W1C/H) STE STRW not match with SSEC indication of TXN. */
+        uint32_t ste_sel2              : 1;  /**< [  1:  1](R/W1C/H) Secure stage 2 is not supported when SMMU(0)_S_IDR1.SEL2 == 0. */
+        uint32_t ste_valid             : 1;  /**< [  0:  0](R/W1C/H) Valid bit of STE not set when walker read it. */
+#else /* Word 0 - Little Endian */
+        uint32_t ste_valid             : 1;  /**< [  0:  0](R/W1C/H) Valid bit of STE not set when walker read it. */
+        uint32_t ste_sel2              : 1;  /**< [  1:  1](R/W1C/H) Secure stage 2 is not supported when SMMU(0)_S_IDR1.SEL2 == 0. */
+        uint32_t ste_strw              : 1;  /**< [  2:  2](R/W1C/H) STE STRW not match with SSEC indication of TXN. */
+        uint32_t ste_s1stalld          : 1;  /**< [  3:  3](R/W1C/H) STE S1STALLD field not supported by our stall model as indicated in SMMU(0)(_S)_IDR0.STALL_MODEL. */
+        uint32_t ste_s1contextptr      : 1;  /**< [  4:  4](R/W1C/H) STE S1ContextPtr is out of range. */
+        uint32_t ste_s2s               : 1;  /**< [  5:  5](R/W1C/H) STE S2S field not supported by our stall model as indicated in SMMU(0)(_S)_IDR0.STALL_MODEL. */
+        uint32_t ste_s2tg              : 1;  /**< [  6:  6](R/W1C/H) STE granule not supported. */
+        uint32_t ste_aarch             : 1;  /**< [  7:  7](R/W1C/H) STE AArch is not supported by our system as indicated from (SMMU()_IDR0[TTF]. */
+        uint32_t ste_httu              : 1;  /**< [  8:  8](R/W1C/H) STE access flag and dirty state bits not supported by our system as indicated
+                                                                 from SMMU()_IDR0[HTTU]. */
+        uint32_t ste_s2ttb             : 1;  /**< [  9:  9](R/W1C/H) STE S2TTB outside range. */
+        uint32_t ste_s2t0sz            : 1;  /**< [ 10: 10](R/W1C/H) STE S2T0SZ invalid for granularity specified by STE.S2TG. */
+        uint32_t ste_s2_walk_cfg       : 1;  /**< [ 11: 11](R/W1C/H) STE walk config inconsist between following parameters: S2TG, S2SL0, S2T0SZ.
+                                                                 See Arm spec DDIO487D, tables D5-11, D5-13, D5-15. */
+        uint32_t cd_valid              : 1;  /**< [ 12: 12](R/W1C/H) Valid bit of CD not set when walker read it. */
+        uint32_t cd_s                  : 1;  /**< [ 13: 13](R/W1C/H) CD_S not supported by our stall model as indicated in SMMU(0)(_S)_IDR0.STALL_MODEL. */
+        uint32_t cd_streamworld        : 1;  /**< [ 14: 14](R/W1C/H) CD STREAMWORLD not supported. */
+        uint32_t cd_aarch              : 1;  /**< [ 15: 15](R/W1C/H) CD AArch is not supported by our system as indicated from (SMMU()_IDR0[TTF]. */
+        uint32_t cd_httu               : 1;  /**< [ 16: 16](R/W1C/H) CD access flag and dirty state bits not supported by our system as indicated
+                                                                 from SMMU()_IDR0[HTTU]. */
+        uint32_t cd_txsz               : 1;  /**< [ 17: 17](R/W1C/H) CD T0SZ or T1SZ is invalid. */
+        uint32_t cd_ttbx               : 1;  /**< [ 18: 18](R/W1C/H) CD TTB0 or TTB1 is outside of range. */
+        uint32_t cd_tgx                : 1;  /**< [ 19: 19](R/W1C/H) CD TG0 or TG1 granule is not supported. */
+        uint32_t reserved_20_23        : 4;
+        uint32_t ttd_valid             : 1;  /**< [ 24: 24](R/W1C/H) Valid bit of TTD not set when walker read it. */
+        uint32_t crs_endianness        : 1;  /**< [ 25: 25](R/W1C/H) Endianess fault - CD.ENDI or STE.S2ENDI indicates Big Endian which is not supported. */
+        uint32_t crs_compr_err_on_httu_upd_resp : 1;/**< [ 26: 26](R/W1C/H) Reserved. */
+        uint32_t crs_unexp_err_on_httu_upd_resp : 1;/**< [ 27: 27](R/W1C/H) Reserved. */
+        uint32_t wlk_crs_miss_dbm_upd_needed : 1;/**< [ 28: 28](R/W1C/H) Reserved. */
+        uint32_t wlk_crs_miss_httu_upd_needed : 1;/**< [ 29: 29](R/W1C/H) Reserved. */
+        uint32_t bus_poison            : 1;  /**< [ 30: 30](R/W1C/H) Poison detected on MESH bus (RXRDAT.poison). */
+        uint32_t bus_error             : 1;  /**< [ 31: 31](R/W1C/H) Error detected on MESH bus (RXRDAT.error). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_tcusx_imp_error_cause_s cn; */
+};
+typedef union cavm_smmux_tcusx_imp_error_cause cavm_smmux_tcusx_imp_error_cause_t;
+
+static inline uint64_t CAVM_SMMUX_TCUSX_IMP_ERROR_CAUSE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_TCUSX_IMP_ERROR_CAUSE(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=7)))
+        return 0x8300008c8008ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7);
+    __cavm_csr_fatal("SMMUX_TCUSX_IMP_ERROR_CAUSE", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_TCUSX_IMP_ERROR_CAUSE(a,b) cavm_smmux_tcusx_imp_error_cause_t
+#define bustype_CAVM_SMMUX_TCUSX_IMP_ERROR_CAUSE(a,b) CSR_TYPE_NCB32b
+#define basename_CAVM_SMMUX_TCUSX_IMP_ERROR_CAUSE(a,b) "SMMUX_TCUSX_IMP_ERROR_CAUSE"
+#define device_bar_CAVM_SMMUX_TCUSX_IMP_ERROR_CAUSE(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_TCUSX_IMP_ERROR_CAUSE(a,b) (a)
+#define arguments_CAVM_SMMUX_TCUSX_IMP_ERROR_CAUSE(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB32b) smmu#_tcus#_imp_status
+ *
+ * SMMU Debug Registers
+ * This register contains debug information.
+ */
+union cavm_smmux_tcusx_imp_status
+{
+    uint32_t u;
+    struct cavm_smmux_tcusx_imp_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_26_31        : 6;
+        uint32_t cfgwalker             : 5;  /**< [ 25: 21](RO/H) Configuration walkers active. */
+        uint32_t walker                : 5;  /**< [ 20: 16](RO/H) Walkers active. */
+        uint32_t inflight              : 16; /**< [ 15:  0](RO/H) Valid entries in inflight queue. */
+#else /* Word 0 - Little Endian */
+        uint32_t inflight              : 16; /**< [ 15:  0](RO/H) Valid entries in inflight queue. */
+        uint32_t walker                : 5;  /**< [ 20: 16](RO/H) Walkers active. */
+        uint32_t cfgwalker             : 5;  /**< [ 25: 21](RO/H) Configuration walkers active. */
+        uint32_t reserved_26_31        : 6;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_tcusx_imp_status_s cn; */
+};
+typedef union cavm_smmux_tcusx_imp_status cavm_smmux_tcusx_imp_status_t;
+
+static inline uint64_t CAVM_SMMUX_TCUSX_IMP_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_TCUSX_IMP_STATUS(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=7)))
+        return 0x8300008c8004ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7);
+    __cavm_csr_fatal("SMMUX_TCUSX_IMP_STATUS", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_TCUSX_IMP_STATUS(a,b) cavm_smmux_tcusx_imp_status_t
+#define bustype_CAVM_SMMUX_TCUSX_IMP_STATUS(a,b) CSR_TYPE_NCB32b
+#define basename_CAVM_SMMUX_TCUSX_IMP_STATUS(a,b) "SMMUX_TCUSX_IMP_STATUS"
+#define device_bar_CAVM_SMMUX_TCUSX_IMP_STATUS(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_TCUSX_IMP_STATUS(a,b) (a)
+#define arguments_CAVM_SMMUX_TCUSX_IMP_STATUS(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB32b) smmu#_tcus#_pmcg#_aidr
+ *
+ * SMMU PMCG Architecture Identification Register
+ */
+union cavm_smmux_tcusx_pmcgx_aidr
+{
+    uint32_t u;
+    struct cavm_smmux_tcusx_pmcgx_aidr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t archmajorrev          : 4;  /**< [  7:  4](RO) Architecture major revision. */
+        uint32_t archminorrev          : 4;  /**< [  3:  0](RO) Architecture minor revision. */
+#else /* Word 0 - Little Endian */
+        uint32_t archminorrev          : 4;  /**< [  3:  0](RO) Architecture minor revision. */
+        uint32_t archmajorrev          : 4;  /**< [  7:  4](RO) Architecture major revision. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_tcusx_pmcgx_aidr_s cn; */
+};
+typedef union cavm_smmux_tcusx_pmcgx_aidr cavm_smmux_tcusx_pmcgx_aidr_t;
+
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_AIDR(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_AIDR(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=7) && (c<=3)))
+        return 0x830000800e70ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x20000ll * ((c) & 0x3);
+    __cavm_csr_fatal("SMMUX_TCUSX_PMCGX_AIDR", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_TCUSX_PMCGX_AIDR(a,b,c) cavm_smmux_tcusx_pmcgx_aidr_t
+#define bustype_CAVM_SMMUX_TCUSX_PMCGX_AIDR(a,b,c) CSR_TYPE_NCB32b
+#define basename_CAVM_SMMUX_TCUSX_PMCGX_AIDR(a,b,c) "SMMUX_TCUSX_PMCGX_AIDR"
+#define device_bar_CAVM_SMMUX_TCUSX_PMCGX_AIDR(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_TCUSX_PMCGX_AIDR(a,b,c) (a)
+#define arguments_CAVM_SMMUX_TCUSX_PMCGX_AIDR(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (NCB32b) smmu#_tcus#_pmcg#_capr
+ *
+ * SMMU PMCG Counter Shadow Value Register
+ */
+union cavm_smmux_tcusx_pmcgx_capr
+{
+    uint32_t u;
+    struct cavm_smmux_tcusx_pmcgx_capr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_1_31         : 31;
+        uint32_t capture               : 1;  /**< [  0:  0](WO) When counter capture is supported (SMMU_PMCG_CFGR.CAPTURE == 1), a write of 1 to this
+                                                                 bit triggers a capture of all SMMU_PMCG_EVCNTRn values within the PMCG into their
+                                                                 respective SMMU_PMCG_SVRn shadow register.
+
+                                                                 When SMMU_PMCG_CFGR.CAPTURE == 0, this field is RES0 . */
+#else /* Word 0 - Little Endian */
+        uint32_t capture               : 1;  /**< [  0:  0](WO) When counter capture is supported (SMMU_PMCG_CFGR.CAPTURE == 1), a write of 1 to this
+                                                                 bit triggers a capture of all SMMU_PMCG_EVCNTRn values within the PMCG into their
+                                                                 respective SMMU_PMCG_SVRn shadow register.
+
+                                                                 When SMMU_PMCG_CFGR.CAPTURE == 0, this field is RES0 . */
+        uint32_t reserved_1_31         : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_tcusx_pmcgx_capr_s cn; */
+};
+typedef union cavm_smmux_tcusx_pmcgx_capr cavm_smmux_tcusx_pmcgx_capr_t;
+
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_CAPR(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_CAPR(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=7) && (c<=3)))
+        return 0x830000800d88ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x20000ll * ((c) & 0x3);
+    __cavm_csr_fatal("SMMUX_TCUSX_PMCGX_CAPR", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_TCUSX_PMCGX_CAPR(a,b,c) cavm_smmux_tcusx_pmcgx_capr_t
+#define bustype_CAVM_SMMUX_TCUSX_PMCGX_CAPR(a,b,c) CSR_TYPE_NCB32b
+#define basename_CAVM_SMMUX_TCUSX_PMCGX_CAPR(a,b,c) "SMMUX_TCUSX_PMCGX_CAPR"
+#define device_bar_CAVM_SMMUX_TCUSX_PMCGX_CAPR(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_TCUSX_PMCGX_CAPR(a,b,c) (a)
+#define arguments_CAVM_SMMUX_TCUSX_PMCGX_CAPR(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (NCB) smmu#_tcus#_pmcg#_ceid0
+ *
+ * SMMU PMCG Common Event ID bitmap, Lower Register
+ */
+union cavm_smmux_tcusx_pmcgx_ceid0
+{
+    uint64_t u;
+    struct cavm_smmux_tcusx_pmcgx_ceid0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t bitmap                : 64; /**< [ 63:  0](RO) 128-bit bitmap comprised of two consecutive 64-bit registers. Bit (N & 63) of the 64-bit
+                                                                 word at offset 8*(N/64)
+                                                                 relates to event number N. For each bit:
+                                                                 0 = Event N cannot be counted by counters in this group.
+                                                                 1 = Event N can be counted by counters in this group. */
+#else /* Word 0 - Little Endian */
+        uint64_t bitmap                : 64; /**< [ 63:  0](RO) 128-bit bitmap comprised of two consecutive 64-bit registers. Bit (N & 63) of the 64-bit
+                                                                 word at offset 8*(N/64)
+                                                                 relates to event number N. For each bit:
+                                                                 0 = Event N cannot be counted by counters in this group.
+                                                                 1 = Event N can be counted by counters in this group. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_tcusx_pmcgx_ceid0_s cn; */
+};
+typedef union cavm_smmux_tcusx_pmcgx_ceid0 cavm_smmux_tcusx_pmcgx_ceid0_t;
+
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_CEID0(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_CEID0(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=7) && (c<=3)))
+        return 0x830000800e20ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x20000ll * ((c) & 0x3);
+    __cavm_csr_fatal("SMMUX_TCUSX_PMCGX_CEID0", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_TCUSX_PMCGX_CEID0(a,b,c) cavm_smmux_tcusx_pmcgx_ceid0_t
+#define bustype_CAVM_SMMUX_TCUSX_PMCGX_CEID0(a,b,c) CSR_TYPE_NCB
+#define basename_CAVM_SMMUX_TCUSX_PMCGX_CEID0(a,b,c) "SMMUX_TCUSX_PMCGX_CEID0"
+#define device_bar_CAVM_SMMUX_TCUSX_PMCGX_CEID0(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_TCUSX_PMCGX_CEID0(a,b,c) (a)
+#define arguments_CAVM_SMMUX_TCUSX_PMCGX_CEID0(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (NCB) smmu#_tcus#_pmcg#_ceid1
+ *
+ * SMMU PMCG Common Event ID bitmap, Upper Register
+ */
+union cavm_smmux_tcusx_pmcgx_ceid1
+{
+    uint64_t u;
+    struct cavm_smmux_tcusx_pmcgx_ceid1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t bitmap                : 64; /**< [ 63:  0](RO) 128-bit bitmap comprised of two consecutive 64-bit registers. Bit (N & 63) of the 64-bit
+                                                                 word at offset 8*(N/64)
+                                                                 relates to event number N. For each bit,
+                                                                 0 = Event N cannot be counted by counters in this group.
+                                                                 1 = Event N can be counted by counters in this group. */
+#else /* Word 0 - Little Endian */
+        uint64_t bitmap                : 64; /**< [ 63:  0](RO) 128-bit bitmap comprised of two consecutive 64-bit registers. Bit (N & 63) of the 64-bit
+                                                                 word at offset 8*(N/64)
+                                                                 relates to event number N. For each bit,
+                                                                 0 = Event N cannot be counted by counters in this group.
+                                                                 1 = Event N can be counted by counters in this group. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_tcusx_pmcgx_ceid1_s cn; */
+};
+typedef union cavm_smmux_tcusx_pmcgx_ceid1 cavm_smmux_tcusx_pmcgx_ceid1_t;
+
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_CEID1(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_CEID1(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=7) && (c<=3)))
+        return 0x830000800e28ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x20000ll * ((c) & 0x3);
+    __cavm_csr_fatal("SMMUX_TCUSX_PMCGX_CEID1", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_TCUSX_PMCGX_CEID1(a,b,c) cavm_smmux_tcusx_pmcgx_ceid1_t
+#define bustype_CAVM_SMMUX_TCUSX_PMCGX_CEID1(a,b,c) CSR_TYPE_NCB
+#define basename_CAVM_SMMUX_TCUSX_PMCGX_CEID1(a,b,c) "SMMUX_TCUSX_PMCGX_CEID1"
+#define device_bar_CAVM_SMMUX_TCUSX_PMCGX_CEID1(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_TCUSX_PMCGX_CEID1(a,b,c) (a)
+#define arguments_CAVM_SMMUX_TCUSX_PMCGX_CEID1(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (NCB32b) smmu#_tcus#_pmcg#_cfgr
+ *
+ * SMMU PMCG Configuration Register
+ */
+union cavm_smmux_tcusx_pmcgx_cfgr
+{
+    uint32_t u;
+    struct cavm_smmux_tcusx_pmcgx_cfgr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_26_31        : 6;
+        uint32_t filter_partid_pmg     : 1;  /**< [ 25: 25](RO) 0 = This PMCG cannot filter events by PARTID nor PMG.
+                                                                 1 = This PMCG can filter events by PARTID and PMG. */
+        uint32_t mpam                  : 1;  /**< [ 24: 24](RO) Memory Partitioning And Monitoring (MPAM) support
+                                                                 0 = MPAM is not supported by the PMCG.
+                                                                 1 = MPAM is supported by the PMCG. */
+        uint32_t sid_filter_type       : 1;  /**< [ 23: 23](RO) 0 = Separate StreamID filtering is supported for each counter in the PMCG.
+                                                                 1 = The StreamID filter configured by SMMU()_TCUS()_PMCG()_SMR(0) and
+                                                                 SMMU()_TCUS()_PMCG()_EVTYPER(0)[FILTER_SID_SPAN] applies to all counter in the PMCG. */
+        uint32_t capture               : 1;  /**< [ 22: 22](RAZ) Capture of counter values.
+                                                                 0 = Capture of counter values into SVRn registers not supported (SMMU()_TCUS()_PMCG()_SVR() and
+                                                                 SMMU()_TCUS()_PMCG()_CAPR are reserved.)
+                                                                 1 = Capture of counter values supported. */
+        uint32_t msi                   : 1;  /**< [ 21: 21](RO) Counter group supports message signaled interrupts.
+                                                                 0 = Group does not support MSI.
+                                                                 1 = Group can send MSI. */
+        uint32_t reloc_ctrs            : 1;  /**< [ 20: 20](RO) If set, page 1 is present and the following registers are relocated to the equivalent
+                                                                 offset
+                                                                 on page 1 (their page 0 locations become reserved):
+                                                                   * SMMU()_TCUS()_PMCG()_EVCNTR().
+                                                                   * SMMU()_TCUS()_PMCG()_SVR().
+                                                                   * SMMU()_TCUS()_PMCG()_OVSCLR0.
+                                                                   * SMMU()_TCUS()_PMCG()_OVSSET0.
+                                                                   * SMMU()_TCUS()_PMCG()_CAPR. */
+        uint32_t reserved_14_19        : 6;
+        uint32_t size                  : 6;  /**< [ 13:  8](RO) Size of PMCG counters in bits, minus one. Valid values are:
+                                                                    31 = 32-bit counters.
+                                                                    39 = 40-bit counters.
+                                                                    43 = 44-bit counters.
+                                                                    47 = 48-bit counters.
+                                                                    63 = 64-bit counters.
+
+                                                                 Other values are reserved. */
+        uint32_t reserved_6_7          : 2;
+        uint32_t nctr                  : 6;  /**< [  5:  0](RO) Number of counters in group minus 1. */
+#else /* Word 0 - Little Endian */
+        uint32_t nctr                  : 6;  /**< [  5:  0](RO) Number of counters in group minus 1. */
+        uint32_t reserved_6_7          : 2;
+        uint32_t size                  : 6;  /**< [ 13:  8](RO) Size of PMCG counters in bits, minus one. Valid values are:
+                                                                    31 = 32-bit counters.
+                                                                    39 = 40-bit counters.
+                                                                    43 = 44-bit counters.
+                                                                    47 = 48-bit counters.
+                                                                    63 = 64-bit counters.
+
+                                                                 Other values are reserved. */
+        uint32_t reserved_14_19        : 6;
+        uint32_t reloc_ctrs            : 1;  /**< [ 20: 20](RO) If set, page 1 is present and the following registers are relocated to the equivalent
+                                                                 offset
+                                                                 on page 1 (their page 0 locations become reserved):
+                                                                   * SMMU()_TCUS()_PMCG()_EVCNTR().
+                                                                   * SMMU()_TCUS()_PMCG()_SVR().
+                                                                   * SMMU()_TCUS()_PMCG()_OVSCLR0.
+                                                                   * SMMU()_TCUS()_PMCG()_OVSSET0.
+                                                                   * SMMU()_TCUS()_PMCG()_CAPR. */
+        uint32_t msi                   : 1;  /**< [ 21: 21](RO) Counter group supports message signaled interrupts.
+                                                                 0 = Group does not support MSI.
+                                                                 1 = Group can send MSI. */
+        uint32_t capture               : 1;  /**< [ 22: 22](RAZ) Capture of counter values.
+                                                                 0 = Capture of counter values into SVRn registers not supported (SMMU()_TCUS()_PMCG()_SVR() and
+                                                                 SMMU()_TCUS()_PMCG()_CAPR are reserved.)
+                                                                 1 = Capture of counter values supported. */
+        uint32_t sid_filter_type       : 1;  /**< [ 23: 23](RO) 0 = Separate StreamID filtering is supported for each counter in the PMCG.
+                                                                 1 = The StreamID filter configured by SMMU()_TCUS()_PMCG()_SMR(0) and
+                                                                 SMMU()_TCUS()_PMCG()_EVTYPER(0)[FILTER_SID_SPAN] applies to all counter in the PMCG. */
+        uint32_t mpam                  : 1;  /**< [ 24: 24](RO) Memory Partitioning And Monitoring (MPAM) support
+                                                                 0 = MPAM is not supported by the PMCG.
+                                                                 1 = MPAM is supported by the PMCG. */
+        uint32_t filter_partid_pmg     : 1;  /**< [ 25: 25](RO) 0 = This PMCG cannot filter events by PARTID nor PMG.
+                                                                 1 = This PMCG can filter events by PARTID and PMG. */
+        uint32_t reserved_26_31        : 6;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_tcusx_pmcgx_cfgr_s cn; */
+};
+typedef union cavm_smmux_tcusx_pmcgx_cfgr cavm_smmux_tcusx_pmcgx_cfgr_t;
+
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_CFGR(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_CFGR(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=7) && (c<=3)))
+        return 0x830000800e00ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x20000ll * ((c) & 0x3);
+    __cavm_csr_fatal("SMMUX_TCUSX_PMCGX_CFGR", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_TCUSX_PMCGX_CFGR(a,b,c) cavm_smmux_tcusx_pmcgx_cfgr_t
+#define bustype_CAVM_SMMUX_TCUSX_PMCGX_CFGR(a,b,c) CSR_TYPE_NCB32b
+#define basename_CAVM_SMMUX_TCUSX_PMCGX_CFGR(a,b,c) "SMMUX_TCUSX_PMCGX_CFGR"
+#define device_bar_CAVM_SMMUX_TCUSX_PMCGX_CFGR(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_TCUSX_PMCGX_CFGR(a,b,c) (a)
+#define arguments_CAVM_SMMUX_TCUSX_PMCGX_CFGR(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (NCB32b) smmu#_tcus#_pmcg#_cidr0
+ *
+ * SMMU Component Identification Register 0
+ */
+union cavm_smmux_tcusx_pmcgx_cidr0
+{
+    uint32_t u;
+    struct cavm_smmux_tcusx_pmcgx_cidr0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t preamble              : 8;  /**< [  7:  0](RO) Preamble identification value. */
+#else /* Word 0 - Little Endian */
+        uint32_t preamble              : 8;  /**< [  7:  0](RO) Preamble identification value. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_tcusx_pmcgx_cidr0_s cn; */
+};
+typedef union cavm_smmux_tcusx_pmcgx_cidr0 cavm_smmux_tcusx_pmcgx_cidr0_t;
+
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_CIDR0(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_CIDR0(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=7) && (c<=3)))
+        return 0x830000800ff0ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x20000ll * ((c) & 0x3);
+    __cavm_csr_fatal("SMMUX_TCUSX_PMCGX_CIDR0", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_TCUSX_PMCGX_CIDR0(a,b,c) cavm_smmux_tcusx_pmcgx_cidr0_t
+#define bustype_CAVM_SMMUX_TCUSX_PMCGX_CIDR0(a,b,c) CSR_TYPE_NCB32b
+#define basename_CAVM_SMMUX_TCUSX_PMCGX_CIDR0(a,b,c) "SMMUX_TCUSX_PMCGX_CIDR0"
+#define device_bar_CAVM_SMMUX_TCUSX_PMCGX_CIDR0(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_TCUSX_PMCGX_CIDR0(a,b,c) (a)
+#define arguments_CAVM_SMMUX_TCUSX_PMCGX_CIDR0(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (NCB32b) smmu#_tcus#_pmcg#_cidr1
+ *
+ * SMMU PMCG Component Identification Register 1
+ */
+union cavm_smmux_tcusx_pmcgx_cidr1
+{
+    uint32_t u;
+    struct cavm_smmux_tcusx_pmcgx_cidr1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t component_class       : 4;  /**< [  7:  4](RO) Class identification value. */
+        uint32_t preamble              : 4;  /**< [  3:  0](RO) Preamble identification value. */
+#else /* Word 0 - Little Endian */
+        uint32_t preamble              : 4;  /**< [  3:  0](RO) Preamble identification value. */
+        uint32_t component_class       : 4;  /**< [  7:  4](RO) Class identification value. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_tcusx_pmcgx_cidr1_s cn; */
+};
+typedef union cavm_smmux_tcusx_pmcgx_cidr1 cavm_smmux_tcusx_pmcgx_cidr1_t;
+
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_CIDR1(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_CIDR1(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=7) && (c<=3)))
+        return 0x830000800ff4ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x20000ll * ((c) & 0x3);
+    __cavm_csr_fatal("SMMUX_TCUSX_PMCGX_CIDR1", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_TCUSX_PMCGX_CIDR1(a,b,c) cavm_smmux_tcusx_pmcgx_cidr1_t
+#define bustype_CAVM_SMMUX_TCUSX_PMCGX_CIDR1(a,b,c) CSR_TYPE_NCB32b
+#define basename_CAVM_SMMUX_TCUSX_PMCGX_CIDR1(a,b,c) "SMMUX_TCUSX_PMCGX_CIDR1"
+#define device_bar_CAVM_SMMUX_TCUSX_PMCGX_CIDR1(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_TCUSX_PMCGX_CIDR1(a,b,c) (a)
+#define arguments_CAVM_SMMUX_TCUSX_PMCGX_CIDR1(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (NCB32b) smmu#_tcus#_pmcg#_cidr2
+ *
+ * SMMU PMCG Component Identification Register 2
+ */
+union cavm_smmux_tcusx_pmcgx_cidr2
+{
+    uint32_t u;
+    struct cavm_smmux_tcusx_pmcgx_cidr2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t preamble              : 8;  /**< [  7:  0](RO) Preamble identification value. */
+#else /* Word 0 - Little Endian */
+        uint32_t preamble              : 8;  /**< [  7:  0](RO) Preamble identification value. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_tcusx_pmcgx_cidr2_s cn; */
+};
+typedef union cavm_smmux_tcusx_pmcgx_cidr2 cavm_smmux_tcusx_pmcgx_cidr2_t;
+
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_CIDR2(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_CIDR2(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=7) && (c<=3)))
+        return 0x830000800ff8ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x20000ll * ((c) & 0x3);
+    __cavm_csr_fatal("SMMUX_TCUSX_PMCGX_CIDR2", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_TCUSX_PMCGX_CIDR2(a,b,c) cavm_smmux_tcusx_pmcgx_cidr2_t
+#define bustype_CAVM_SMMUX_TCUSX_PMCGX_CIDR2(a,b,c) CSR_TYPE_NCB32b
+#define basename_CAVM_SMMUX_TCUSX_PMCGX_CIDR2(a,b,c) "SMMUX_TCUSX_PMCGX_CIDR2"
+#define device_bar_CAVM_SMMUX_TCUSX_PMCGX_CIDR2(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_TCUSX_PMCGX_CIDR2(a,b,c) (a)
+#define arguments_CAVM_SMMUX_TCUSX_PMCGX_CIDR2(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (NCB32b) smmu#_tcus#_pmcg#_cidr3
+ *
+ * SMMU PMCG Component Identification Register 3
+ */
+union cavm_smmux_tcusx_pmcgx_cidr3
+{
+    uint32_t u;
+    struct cavm_smmux_tcusx_pmcgx_cidr3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t preamble              : 8;  /**< [  7:  0](RO) Preamble identification value. */
+#else /* Word 0 - Little Endian */
+        uint32_t preamble              : 8;  /**< [  7:  0](RO) Preamble identification value. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_tcusx_pmcgx_cidr3_s cn; */
+};
+typedef union cavm_smmux_tcusx_pmcgx_cidr3 cavm_smmux_tcusx_pmcgx_cidr3_t;
+
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_CIDR3(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_CIDR3(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=7) && (c<=3)))
+        return 0x830000800ffcll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x20000ll * ((c) & 0x3);
+    __cavm_csr_fatal("SMMUX_TCUSX_PMCGX_CIDR3", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_TCUSX_PMCGX_CIDR3(a,b,c) cavm_smmux_tcusx_pmcgx_cidr3_t
+#define bustype_CAVM_SMMUX_TCUSX_PMCGX_CIDR3(a,b,c) CSR_TYPE_NCB32b
+#define basename_CAVM_SMMUX_TCUSX_PMCGX_CIDR3(a,b,c) "SMMUX_TCUSX_PMCGX_CIDR3"
+#define device_bar_CAVM_SMMUX_TCUSX_PMCGX_CIDR3(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_TCUSX_PMCGX_CIDR3(a,b,c) (a)
+#define arguments_CAVM_SMMUX_TCUSX_PMCGX_CIDR3(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (NCB) smmu#_tcus#_pmcg#_cntenclr0
+ *
+ * SMMU PMCG Counter Enable Clear Register
+ */
+union cavm_smmux_tcusx_pmcgx_cntenclr0
+{
+    uint64_t u;
+    struct cavm_smmux_tcusx_pmcgx_cntenclr0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t cnten                 : 4;  /**< [  3:  0](R/W1C) Counter enable. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnten                 : 4;  /**< [  3:  0](R/W1C) Counter enable. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_tcusx_pmcgx_cntenclr0_s cn; */
+};
+typedef union cavm_smmux_tcusx_pmcgx_cntenclr0 cavm_smmux_tcusx_pmcgx_cntenclr0_t;
+
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_CNTENCLR0(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_CNTENCLR0(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=7) && (c<=3)))
+        return 0x830000800c20ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x20000ll * ((c) & 0x3);
+    __cavm_csr_fatal("SMMUX_TCUSX_PMCGX_CNTENCLR0", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_TCUSX_PMCGX_CNTENCLR0(a,b,c) cavm_smmux_tcusx_pmcgx_cntenclr0_t
+#define bustype_CAVM_SMMUX_TCUSX_PMCGX_CNTENCLR0(a,b,c) CSR_TYPE_NCB
+#define basename_CAVM_SMMUX_TCUSX_PMCGX_CNTENCLR0(a,b,c) "SMMUX_TCUSX_PMCGX_CNTENCLR0"
+#define device_bar_CAVM_SMMUX_TCUSX_PMCGX_CNTENCLR0(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_TCUSX_PMCGX_CNTENCLR0(a,b,c) (a)
+#define arguments_CAVM_SMMUX_TCUSX_PMCGX_CNTENCLR0(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (NCB) smmu#_tcus#_pmcg#_cntenset0
+ *
+ * SMMU PMCG Counter Enable Set Register
+ */
+union cavm_smmux_tcusx_pmcgx_cntenset0
+{
+    uint64_t u;
+    struct cavm_smmux_tcusx_pmcgx_cntenset0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t cnten                 : 4;  /**< [  3:  0](R/W1S) Counter enable. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnten                 : 4;  /**< [  3:  0](R/W1S) Counter enable. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_tcusx_pmcgx_cntenset0_s cn; */
+};
+typedef union cavm_smmux_tcusx_pmcgx_cntenset0 cavm_smmux_tcusx_pmcgx_cntenset0_t;
+
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_CNTENSET0(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_CNTENSET0(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=7) && (c<=3)))
+        return 0x830000800c00ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x20000ll * ((c) & 0x3);
+    __cavm_csr_fatal("SMMUX_TCUSX_PMCGX_CNTENSET0", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_TCUSX_PMCGX_CNTENSET0(a,b,c) cavm_smmux_tcusx_pmcgx_cntenset0_t
+#define bustype_CAVM_SMMUX_TCUSX_PMCGX_CNTENSET0(a,b,c) CSR_TYPE_NCB
+#define basename_CAVM_SMMUX_TCUSX_PMCGX_CNTENSET0(a,b,c) "SMMUX_TCUSX_PMCGX_CNTENSET0"
+#define device_bar_CAVM_SMMUX_TCUSX_PMCGX_CNTENSET0(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_TCUSX_PMCGX_CNTENSET0(a,b,c) (a)
+#define arguments_CAVM_SMMUX_TCUSX_PMCGX_CNTENSET0(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (NCB32b) smmu#_tcus#_pmcg#_cr
+ *
+ * SMMU PMCG Global Counter Enable Register
+ */
+union cavm_smmux_tcusx_pmcgx_cr
+{
+    uint32_t u;
+    struct cavm_smmux_tcusx_pmcgx_cr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_1_31         : 31;
+        uint32_t enable                : 1;  /**< [  0:  0](R/W) Global counter enable. When clear, no events are counted and values in
+                                                                 SMMU()_TCUS()_PMCG()_EVCNTR() do not change. This bit takes precedence over the
+                                                                 SMMU()_TCUS()_PMCG()_CNTENSET0[CNTEN] bits. */
+#else /* Word 0 - Little Endian */
+        uint32_t enable                : 1;  /**< [  0:  0](R/W) Global counter enable. When clear, no events are counted and values in
+                                                                 SMMU()_TCUS()_PMCG()_EVCNTR() do not change. This bit takes precedence over the
+                                                                 SMMU()_TCUS()_PMCG()_CNTENSET0[CNTEN] bits. */
+        uint32_t reserved_1_31         : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_tcusx_pmcgx_cr_s cn; */
+};
+typedef union cavm_smmux_tcusx_pmcgx_cr cavm_smmux_tcusx_pmcgx_cr_t;
+
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_CR(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_CR(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=7) && (c<=3)))
+        return 0x830000800e04ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x20000ll * ((c) & 0x3);
+    __cavm_csr_fatal("SMMUX_TCUSX_PMCGX_CR", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_TCUSX_PMCGX_CR(a,b,c) cavm_smmux_tcusx_pmcgx_cr_t
+#define bustype_CAVM_SMMUX_TCUSX_PMCGX_CR(a,b,c) CSR_TYPE_NCB32b
+#define basename_CAVM_SMMUX_TCUSX_PMCGX_CR(a,b,c) "SMMUX_TCUSX_PMCGX_CR"
+#define device_bar_CAVM_SMMUX_TCUSX_PMCGX_CR(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_TCUSX_PMCGX_CR(a,b,c) (a)
+#define arguments_CAVM_SMMUX_TCUSX_PMCGX_CR(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (NCB) smmu#_tcus#_pmcg#_evcntr#
+ *
+ * SMMU PMCG Event Counter Register
+ */
+union cavm_smmux_tcusx_pmcgx_evcntrx
+{
+    uint64_t u;
+    struct cavm_smmux_tcusx_pmcgx_evcntrx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Counter value. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Counter value. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_tcusx_pmcgx_evcntrx_s cn; */
+};
+typedef union cavm_smmux_tcusx_pmcgx_evcntrx cavm_smmux_tcusx_pmcgx_evcntrx_t;
+
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_EVCNTRX(uint64_t a, uint64_t b, uint64_t c, uint64_t d) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_EVCNTRX(uint64_t a, uint64_t b, uint64_t c, uint64_t d)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=7) && (c<=3) && (d<=3)))
+        return 0x830000810000ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x20000ll * ((c) & 0x3) + 8ll * ((d) & 0x3);
+    __cavm_csr_fatal("SMMUX_TCUSX_PMCGX_EVCNTRX", 4, a, b, c, d, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_TCUSX_PMCGX_EVCNTRX(a,b,c,d) cavm_smmux_tcusx_pmcgx_evcntrx_t
+#define bustype_CAVM_SMMUX_TCUSX_PMCGX_EVCNTRX(a,b,c,d) CSR_TYPE_NCB
+#define basename_CAVM_SMMUX_TCUSX_PMCGX_EVCNTRX(a,b,c,d) "SMMUX_TCUSX_PMCGX_EVCNTRX"
+#define device_bar_CAVM_SMMUX_TCUSX_PMCGX_EVCNTRX(a,b,c,d) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_TCUSX_PMCGX_EVCNTRX(a,b,c,d) (a)
+#define arguments_CAVM_SMMUX_TCUSX_PMCGX_EVCNTRX(a,b,c,d) (a),(b),(c),(d)
+
+/**
+ * Register (NCB32b) smmu#_tcus#_pmcg#_evtyper#
+ *
+ * SMMU PMCG Event Type Configuration Register
+ */
+union cavm_smmux_tcusx_pmcgx_evtyperx
+{
+    uint32_t u;
+    struct cavm_smmux_tcusx_pmcgx_evtyperx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ovfcap                : 1;  /**< [ 31: 31](R/W) 0 = An overflow of counter n does not trigger a capture of all counters.
+                                                                 1 = An overflow of counter n triggers a capture of all counters in the same way as by
+                                                                     SMMU_PMCG_CAPR.CAPTURE.
+
+                                                                 When SMMU_PMCG_CFGR.CAPTURE == 0, this bit is RES0. */
+        uint32_t filter_sec_sid        : 1;  /**< [ 30: 30](R/W) 0 = Count events originating from nonsecure StreamIDs.
+                                                                 1 = Count events originating from secure StreamIDs.
+
+                                                                 This bit is RES0 if the PMCG does not implement security support. Otherwise,
+                                                                 this bit is effectively 0 if security support is implemented but secure
+                                                                 observation is disabled (SMMU()_TCUS()_PMCG()_SCR[SO]=0).
+
+                                                                 For event types that can be filtered on StreamID, this bit causes the StreamID
+                                                                 match determined by [FILTER_SID_SPAN] and SMMU()_TCUS()_PMCG()_SMR()[STREAMID] to match
+                                                                 secure or nonsecure StreamIDs (as determined by SMMU SSD).
+
+                                                                 Where the StreamID match span encodes `ALL', this bit selects counting of events
+                                                                 associated with all nonsecure StreamIDs or all secure StreamIDs. */
+        uint32_t filter_sid_span       : 1;  /**< [ 29: 29](R/W) 0 = SMMU()_TCUS()_PMCG()_SMR()[STREAMID] filters event on an exact StreamID match (if the
+                                                                     event type can be filtered on StreamID).
+
+                                                                 1 = SMMU()_TCUS()_PMCG()_SMR()[STREAMID] encodes a `match span' of StreamID values.
+
+                                                                 The span can encode `ALL', equivalent to disabling filtering on StreamID. */
+        uint32_t reserved_19_28        : 10;
+        uint32_t filter_mpam_ns        : 1;  /**< [ 18: 18](R/W) 0: SMMU_PMCG_SMRn.{PARTID, PMG} are Secure PARTID and PMG values respectively.
+
+                                                                 1: SMMU_PMCG_SMRn.{PARTID, PMG} are Non-secure PARTID and PMG values respectively. */
+        uint32_t filter_pmg            : 1;  /**< [ 17: 17](R/W) 0: Events are not filtered by PMG
+
+                                                                 1: Only count events associated with the PMG specified in SMMU_PMCG_SMRn.PMG. */
+        uint32_t filter_partid         : 1;  /**< [ 16: 16](R/W) 0: Events are not filtered by PARTID.
+
+                                                                 1: Only count events associated with the PARTID specified in SMMU_PMCG_SMRn.PARTID. */
+        uint32_t reserved_8_15         : 8;
+        uint32_t evnt                  : 8;  /**< [  7:  0](R/W) Event type that causes this counter to increment. */
+#else /* Word 0 - Little Endian */
+        uint32_t evnt                  : 8;  /**< [  7:  0](R/W) Event type that causes this counter to increment. */
+        uint32_t reserved_8_15         : 8;
+        uint32_t filter_partid         : 1;  /**< [ 16: 16](R/W) 0: Events are not filtered by PARTID.
+
+                                                                 1: Only count events associated with the PARTID specified in SMMU_PMCG_SMRn.PARTID. */
+        uint32_t filter_pmg            : 1;  /**< [ 17: 17](R/W) 0: Events are not filtered by PMG
+
+                                                                 1: Only count events associated with the PMG specified in SMMU_PMCG_SMRn.PMG. */
+        uint32_t filter_mpam_ns        : 1;  /**< [ 18: 18](R/W) 0: SMMU_PMCG_SMRn.{PARTID, PMG} are Secure PARTID and PMG values respectively.
+
+                                                                 1: SMMU_PMCG_SMRn.{PARTID, PMG} are Non-secure PARTID and PMG values respectively. */
+        uint32_t reserved_19_28        : 10;
+        uint32_t filter_sid_span       : 1;  /**< [ 29: 29](R/W) 0 = SMMU()_TCUS()_PMCG()_SMR()[STREAMID] filters event on an exact StreamID match (if the
+                                                                     event type can be filtered on StreamID).
+
+                                                                 1 = SMMU()_TCUS()_PMCG()_SMR()[STREAMID] encodes a `match span' of StreamID values.
+
+                                                                 The span can encode `ALL', equivalent to disabling filtering on StreamID. */
+        uint32_t filter_sec_sid        : 1;  /**< [ 30: 30](R/W) 0 = Count events originating from nonsecure StreamIDs.
+                                                                 1 = Count events originating from secure StreamIDs.
+
+                                                                 This bit is RES0 if the PMCG does not implement security support. Otherwise,
+                                                                 this bit is effectively 0 if security support is implemented but secure
+                                                                 observation is disabled (SMMU()_TCUS()_PMCG()_SCR[SO]=0).
+
+                                                                 For event types that can be filtered on StreamID, this bit causes the StreamID
+                                                                 match determined by [FILTER_SID_SPAN] and SMMU()_TCUS()_PMCG()_SMR()[STREAMID] to match
+                                                                 secure or nonsecure StreamIDs (as determined by SMMU SSD).
+
+                                                                 Where the StreamID match span encodes `ALL', this bit selects counting of events
+                                                                 associated with all nonsecure StreamIDs or all secure StreamIDs. */
+        uint32_t ovfcap                : 1;  /**< [ 31: 31](R/W) 0 = An overflow of counter n does not trigger a capture of all counters.
+                                                                 1 = An overflow of counter n triggers a capture of all counters in the same way as by
+                                                                     SMMU_PMCG_CAPR.CAPTURE.
+
+                                                                 When SMMU_PMCG_CFGR.CAPTURE == 0, this bit is RES0. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_tcusx_pmcgx_evtyperx_s cn; */
+};
+typedef union cavm_smmux_tcusx_pmcgx_evtyperx cavm_smmux_tcusx_pmcgx_evtyperx_t;
+
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_EVTYPERX(uint64_t a, uint64_t b, uint64_t c, uint64_t d) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_EVTYPERX(uint64_t a, uint64_t b, uint64_t c, uint64_t d)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=7) && (c<=3) && (d<=3)))
+        return 0x830000800400ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x20000ll * ((c) & 0x3) + 4ll * ((d) & 0x3);
+    __cavm_csr_fatal("SMMUX_TCUSX_PMCGX_EVTYPERX", 4, a, b, c, d, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_TCUSX_PMCGX_EVTYPERX(a,b,c,d) cavm_smmux_tcusx_pmcgx_evtyperx_t
+#define bustype_CAVM_SMMUX_TCUSX_PMCGX_EVTYPERX(a,b,c,d) CSR_TYPE_NCB32b
+#define basename_CAVM_SMMUX_TCUSX_PMCGX_EVTYPERX(a,b,c,d) "SMMUX_TCUSX_PMCGX_EVTYPERX"
+#define device_bar_CAVM_SMMUX_TCUSX_PMCGX_EVTYPERX(a,b,c,d) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_TCUSX_PMCGX_EVTYPERX(a,b,c,d) (a)
+#define arguments_CAVM_SMMUX_TCUSX_PMCGX_EVTYPERX(a,b,c,d) (a),(b),(c),(d)
+
+/**
+ * Register (NCB) smmu#_tcus#_pmcg#_intenclr0
+ *
+ * SMMU PMCG Interrupt Enable Clear Register
+ */
+union cavm_smmux_tcusx_pmcgx_intenclr0
+{
+    uint64_t u;
+    struct cavm_smmux_tcusx_pmcgx_intenclr0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t inten                 : 4;  /**< [  3:  0](R/W1C) Overflow status. */
+#else /* Word 0 - Little Endian */
+        uint64_t inten                 : 4;  /**< [  3:  0](R/W1C) Overflow status. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_tcusx_pmcgx_intenclr0_s cn; */
+};
+typedef union cavm_smmux_tcusx_pmcgx_intenclr0 cavm_smmux_tcusx_pmcgx_intenclr0_t;
+
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_INTENCLR0(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_INTENCLR0(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=7) && (c<=3)))
+        return 0x830000800c60ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x20000ll * ((c) & 0x3);
+    __cavm_csr_fatal("SMMUX_TCUSX_PMCGX_INTENCLR0", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_TCUSX_PMCGX_INTENCLR0(a,b,c) cavm_smmux_tcusx_pmcgx_intenclr0_t
+#define bustype_CAVM_SMMUX_TCUSX_PMCGX_INTENCLR0(a,b,c) CSR_TYPE_NCB
+#define basename_CAVM_SMMUX_TCUSX_PMCGX_INTENCLR0(a,b,c) "SMMUX_TCUSX_PMCGX_INTENCLR0"
+#define device_bar_CAVM_SMMUX_TCUSX_PMCGX_INTENCLR0(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_TCUSX_PMCGX_INTENCLR0(a,b,c) (a)
+#define arguments_CAVM_SMMUX_TCUSX_PMCGX_INTENCLR0(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (NCB) smmu#_tcus#_pmcg#_intenset0
+ *
+ * SMMU PMCG Interrupt Enable Set Register
+ */
+union cavm_smmux_tcusx_pmcgx_intenset0
+{
+    uint64_t u;
+    struct cavm_smmux_tcusx_pmcgx_intenset0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t inten                 : 4;  /**< [  3:  0](R/W1S) Counter enable. */
+#else /* Word 0 - Little Endian */
+        uint64_t inten                 : 4;  /**< [  3:  0](R/W1S) Counter enable. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_tcusx_pmcgx_intenset0_s cn; */
+};
+typedef union cavm_smmux_tcusx_pmcgx_intenset0 cavm_smmux_tcusx_pmcgx_intenset0_t;
+
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_INTENSET0(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_INTENSET0(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=7) && (c<=3)))
+        return 0x830000800c40ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x20000ll * ((c) & 0x3);
+    __cavm_csr_fatal("SMMUX_TCUSX_PMCGX_INTENSET0", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_TCUSX_PMCGX_INTENSET0(a,b,c) cavm_smmux_tcusx_pmcgx_intenset0_t
+#define bustype_CAVM_SMMUX_TCUSX_PMCGX_INTENSET0(a,b,c) CSR_TYPE_NCB
+#define basename_CAVM_SMMUX_TCUSX_PMCGX_INTENSET0(a,b,c) "SMMUX_TCUSX_PMCGX_INTENSET0"
+#define device_bar_CAVM_SMMUX_TCUSX_PMCGX_INTENSET0(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_TCUSX_PMCGX_INTENSET0(a,b,c) (a)
+#define arguments_CAVM_SMMUX_TCUSX_PMCGX_INTENSET0(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (NCB) smmu#_tcus#_pmcg#_irq_cfg0
+ *
+ * SMMU PMCG MSI Configuration Register
+ */
+union cavm_smmux_tcusx_pmcgx_irq_cfg0
+{
+    uint64_t u;
+    struct cavm_smmux_tcusx_pmcgx_irq_cfg0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_52_63        : 12;
+        uint64_t addr                  : 50; /**< [ 51:  2](R/W) IOVA of MSI target address.
+                                                                 If [ADDR]=0x0, no MSI is sent. This allows a wired IRQ, if implemented, to be used instead
+                                                                 of an MSI.  Address bits above and below this field are implied as zero.
+
+                                                                 Note unlike most CNXXXX MSI-X address registers, this is a physical address, not
+                                                                 a virtual address. The address is always secure world.
+
+                                                                 The interrupt message will use the SMMU's stream ID plus the PMCG number (0..3). */
+        uint64_t reserved_0_1          : 2;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_1          : 2;
+        uint64_t addr                  : 50; /**< [ 51:  2](R/W) IOVA of MSI target address.
+                                                                 If [ADDR]=0x0, no MSI is sent. This allows a wired IRQ, if implemented, to be used instead
+                                                                 of an MSI.  Address bits above and below this field are implied as zero.
+
+                                                                 Note unlike most CNXXXX MSI-X address registers, this is a physical address, not
+                                                                 a virtual address. The address is always secure world.
+
+                                                                 The interrupt message will use the SMMU's stream ID plus the PMCG number (0..3). */
+        uint64_t reserved_52_63        : 12;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_tcusx_pmcgx_irq_cfg0_s cn; */
+};
+typedef union cavm_smmux_tcusx_pmcgx_irq_cfg0 cavm_smmux_tcusx_pmcgx_irq_cfg0_t;
+
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_IRQ_CFG0(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_IRQ_CFG0(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=7) && (c<=3)))
+        return 0x830000800e58ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x20000ll * ((c) & 0x3);
+    __cavm_csr_fatal("SMMUX_TCUSX_PMCGX_IRQ_CFG0", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_TCUSX_PMCGX_IRQ_CFG0(a,b,c) cavm_smmux_tcusx_pmcgx_irq_cfg0_t
+#define bustype_CAVM_SMMUX_TCUSX_PMCGX_IRQ_CFG0(a,b,c) CSR_TYPE_NCB
+#define basename_CAVM_SMMUX_TCUSX_PMCGX_IRQ_CFG0(a,b,c) "SMMUX_TCUSX_PMCGX_IRQ_CFG0"
+#define device_bar_CAVM_SMMUX_TCUSX_PMCGX_IRQ_CFG0(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_TCUSX_PMCGX_IRQ_CFG0(a,b,c) (a)
+#define arguments_CAVM_SMMUX_TCUSX_PMCGX_IRQ_CFG0(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (NCB32b) smmu#_tcus#_pmcg#_irq_cfg1
+ *
+ * SMMU PMCG MSI Configuration Register
+ */
+union cavm_smmux_tcusx_pmcgx_irq_cfg1
+{
+    uint32_t u;
+    struct cavm_smmux_tcusx_pmcgx_irq_cfg1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t data                  : 32; /**< [ 31:  0](R/W) MSIX data payload. */
+#else /* Word 0 - Little Endian */
+        uint32_t data                  : 32; /**< [ 31:  0](R/W) MSIX data payload. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_tcusx_pmcgx_irq_cfg1_s cn; */
+};
+typedef union cavm_smmux_tcusx_pmcgx_irq_cfg1 cavm_smmux_tcusx_pmcgx_irq_cfg1_t;
+
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_IRQ_CFG1(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_IRQ_CFG1(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=7) && (c<=3)))
+        return 0x830000800e60ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x20000ll * ((c) & 0x3);
+    __cavm_csr_fatal("SMMUX_TCUSX_PMCGX_IRQ_CFG1", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_TCUSX_PMCGX_IRQ_CFG1(a,b,c) cavm_smmux_tcusx_pmcgx_irq_cfg1_t
+#define bustype_CAVM_SMMUX_TCUSX_PMCGX_IRQ_CFG1(a,b,c) CSR_TYPE_NCB32b
+#define basename_CAVM_SMMUX_TCUSX_PMCGX_IRQ_CFG1(a,b,c) "SMMUX_TCUSX_PMCGX_IRQ_CFG1"
+#define device_bar_CAVM_SMMUX_TCUSX_PMCGX_IRQ_CFG1(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_TCUSX_PMCGX_IRQ_CFG1(a,b,c) (a)
+#define arguments_CAVM_SMMUX_TCUSX_PMCGX_IRQ_CFG1(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (NCB32b) smmu#_tcus#_pmcg#_irq_cfg2
+ *
+ * SMMU PMCG MSI Configuration Register
+ */
+union cavm_smmux_tcusx_pmcgx_irq_cfg2
+{
+    uint32_t u;
+    struct cavm_smmux_tcusx_pmcgx_irq_cfg2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_6_31         : 26;
+        uint32_t sh                    : 2;  /**< [  5:  4](R/W) Shareability.
+                                                                 0x0 = NSH.
+                                                                 0x1 = Reserved (behaves as 0x0).
+                                                                 0x2 = OSH.
+                                                                 0x3 = ISH.
+
+                                                                 When [MEMATTR] encodes a device memory type, the value of this field is ignored
+                                                                 and the shareability is effectively OSH. */
+        uint32_t memattr               : 4;  /**< [  3:  0](R/W) MemAttr. Memory type, encoded the same as SMMU_STE_S[MEMATTR]. */
+#else /* Word 0 - Little Endian */
+        uint32_t memattr               : 4;  /**< [  3:  0](R/W) MemAttr. Memory type, encoded the same as SMMU_STE_S[MEMATTR]. */
+        uint32_t sh                    : 2;  /**< [  5:  4](R/W) Shareability.
+                                                                 0x0 = NSH.
+                                                                 0x1 = Reserved (behaves as 0x0).
+                                                                 0x2 = OSH.
+                                                                 0x3 = ISH.
+
+                                                                 When [MEMATTR] encodes a device memory type, the value of this field is ignored
+                                                                 and the shareability is effectively OSH. */
+        uint32_t reserved_6_31         : 26;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_tcusx_pmcgx_irq_cfg2_s cn; */
+};
+typedef union cavm_smmux_tcusx_pmcgx_irq_cfg2 cavm_smmux_tcusx_pmcgx_irq_cfg2_t;
+
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_IRQ_CFG2(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_IRQ_CFG2(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=7) && (c<=3)))
+        return 0x830000800e64ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x20000ll * ((c) & 0x3);
+    __cavm_csr_fatal("SMMUX_TCUSX_PMCGX_IRQ_CFG2", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_TCUSX_PMCGX_IRQ_CFG2(a,b,c) cavm_smmux_tcusx_pmcgx_irq_cfg2_t
+#define bustype_CAVM_SMMUX_TCUSX_PMCGX_IRQ_CFG2(a,b,c) CSR_TYPE_NCB32b
+#define basename_CAVM_SMMUX_TCUSX_PMCGX_IRQ_CFG2(a,b,c) "SMMUX_TCUSX_PMCGX_IRQ_CFG2"
+#define device_bar_CAVM_SMMUX_TCUSX_PMCGX_IRQ_CFG2(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_TCUSX_PMCGX_IRQ_CFG2(a,b,c) (a)
+#define arguments_CAVM_SMMUX_TCUSX_PMCGX_IRQ_CFG2(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (NCB32b) smmu#_tcus#_pmcg#_irq_ctrl
+ *
+ * SMMU PMCG IRQ Enable Register
+ */
+union cavm_smmux_tcusx_pmcgx_irq_ctrl
+{
+    uint32_t u;
+    struct cavm_smmux_tcusx_pmcgx_irq_ctrl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_1_31         : 31;
+        uint32_t irqen                 : 1;  /**< [  0:  0](R/W) Main IRQ enable for a per-counter group interrupt source. This enable
+                                                                 allows/inhibits both edge-triggered wired outputs (if implemented) and MSI
+                                                                 writes (if supported by the counter group). When [IRQEN] is clear, no interrupt
+                                                                 is triggered regardless of individual per-counter overflow INTEN flags
+                                                                 (i.e. they are overridden). [IRQEN] also controls overall interrupt
+                                                                 completion/MSI configuration changes as described below. */
+#else /* Word 0 - Little Endian */
+        uint32_t irqen                 : 1;  /**< [  0:  0](R/W) Main IRQ enable for a per-counter group interrupt source. This enable
+                                                                 allows/inhibits both edge-triggered wired outputs (if implemented) and MSI
+                                                                 writes (if supported by the counter group). When [IRQEN] is clear, no interrupt
+                                                                 is triggered regardless of individual per-counter overflow INTEN flags
+                                                                 (i.e. they are overridden). [IRQEN] also controls overall interrupt
+                                                                 completion/MSI configuration changes as described below. */
+        uint32_t reserved_1_31         : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_tcusx_pmcgx_irq_ctrl_s cn; */
+};
+typedef union cavm_smmux_tcusx_pmcgx_irq_ctrl cavm_smmux_tcusx_pmcgx_irq_ctrl_t;
+
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_IRQ_CTRL(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_IRQ_CTRL(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=7) && (c<=3)))
+        return 0x830000800e50ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x20000ll * ((c) & 0x3);
+    __cavm_csr_fatal("SMMUX_TCUSX_PMCGX_IRQ_CTRL", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_TCUSX_PMCGX_IRQ_CTRL(a,b,c) cavm_smmux_tcusx_pmcgx_irq_ctrl_t
+#define bustype_CAVM_SMMUX_TCUSX_PMCGX_IRQ_CTRL(a,b,c) CSR_TYPE_NCB32b
+#define basename_CAVM_SMMUX_TCUSX_PMCGX_IRQ_CTRL(a,b,c) "SMMUX_TCUSX_PMCGX_IRQ_CTRL"
+#define device_bar_CAVM_SMMUX_TCUSX_PMCGX_IRQ_CTRL(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_TCUSX_PMCGX_IRQ_CTRL(a,b,c) (a)
+#define arguments_CAVM_SMMUX_TCUSX_PMCGX_IRQ_CTRL(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (NCB32b) smmu#_tcus#_pmcg#_irq_ctrlack
+ *
+ * SMMU PMCG IRQ Enable Ack Register
+ * This register is a read-only copy of SMMU()_TCUS()_PMCG()_IRQ_CTRL.
+ */
+union cavm_smmux_tcusx_pmcgx_irq_ctrlack
+{
+    uint32_t u;
+    struct cavm_smmux_tcusx_pmcgx_irq_ctrlack_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_1_31         : 31;
+        uint32_t irqen                 : 1;  /**< [  0:  0](RO/H) Read-only hardware-modified SMMU(0)_TCUS(0..7)_PMCG(0..3)_IRQ_CTRL[IRQEN]. */
+#else /* Word 0 - Little Endian */
+        uint32_t irqen                 : 1;  /**< [  0:  0](RO/H) Read-only hardware-modified SMMU(0)_TCUS(0..7)_PMCG(0..3)_IRQ_CTRL[IRQEN]. */
+        uint32_t reserved_1_31         : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_tcusx_pmcgx_irq_ctrlack_s cn; */
+};
+typedef union cavm_smmux_tcusx_pmcgx_irq_ctrlack cavm_smmux_tcusx_pmcgx_irq_ctrlack_t;
+
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_IRQ_CTRLACK(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_IRQ_CTRLACK(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=7) && (c<=3)))
+        return 0x830000800e54ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x20000ll * ((c) & 0x3);
+    __cavm_csr_fatal("SMMUX_TCUSX_PMCGX_IRQ_CTRLACK", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_TCUSX_PMCGX_IRQ_CTRLACK(a,b,c) cavm_smmux_tcusx_pmcgx_irq_ctrlack_t
+#define bustype_CAVM_SMMUX_TCUSX_PMCGX_IRQ_CTRLACK(a,b,c) CSR_TYPE_NCB32b
+#define basename_CAVM_SMMUX_TCUSX_PMCGX_IRQ_CTRLACK(a,b,c) "SMMUX_TCUSX_PMCGX_IRQ_CTRLACK"
+#define device_bar_CAVM_SMMUX_TCUSX_PMCGX_IRQ_CTRLACK(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_TCUSX_PMCGX_IRQ_CTRLACK(a,b,c) (a)
+#define arguments_CAVM_SMMUX_TCUSX_PMCGX_IRQ_CTRLACK(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (NCB32b) smmu#_tcus#_pmcg#_irq_status
+ *
+ * SMMU PMCG MSI Status Register
+ */
+union cavm_smmux_tcusx_pmcgx_irq_status
+{
+    uint32_t u;
+    struct cavm_smmux_tcusx_pmcgx_irq_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_1_31         : 31;
+        uint32_t irq_abt               : 1;  /**< [  0:  0](RO) The SMMU sets this bit to one if it detects that an MSI has terminated with an abort.
+                                                                 This bit is RES0 when SMMU()_TCUS()_PMCG()_CFGR[MSI]=0.
+                                                                 It is implementation defined whether an implementation can detect this condition.
+                                                                 This bit is cleared when SMMU()_TCUS()_PMCG()_IRQ_CTRL[IRQEN] is updated from zero to one.
+                                                                        Note: An IRQEN transition from one to zero does not clear this bit, as this
+                                                                 transition also
+                                                                           ensures visibility of outstanding MSI writes and clearing [IRQ_ABT] at this point
+                                                                 might
+                                                                           mask possible abort completions of those MSI writes. */
+#else /* Word 0 - Little Endian */
+        uint32_t irq_abt               : 1;  /**< [  0:  0](RO) The SMMU sets this bit to one if it detects that an MSI has terminated with an abort.
+                                                                 This bit is RES0 when SMMU()_TCUS()_PMCG()_CFGR[MSI]=0.
+                                                                 It is implementation defined whether an implementation can detect this condition.
+                                                                 This bit is cleared when SMMU()_TCUS()_PMCG()_IRQ_CTRL[IRQEN] is updated from zero to one.
+                                                                        Note: An IRQEN transition from one to zero does not clear this bit, as this
+                                                                 transition also
+                                                                           ensures visibility of outstanding MSI writes and clearing [IRQ_ABT] at this point
+                                                                 might
+                                                                           mask possible abort completions of those MSI writes. */
+        uint32_t reserved_1_31         : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_tcusx_pmcgx_irq_status_s cn; */
+};
+typedef union cavm_smmux_tcusx_pmcgx_irq_status cavm_smmux_tcusx_pmcgx_irq_status_t;
+
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_IRQ_STATUS(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_IRQ_STATUS(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=7) && (c<=3)))
+        return 0x830000800e68ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x20000ll * ((c) & 0x3);
+    __cavm_csr_fatal("SMMUX_TCUSX_PMCGX_IRQ_STATUS", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_TCUSX_PMCGX_IRQ_STATUS(a,b,c) cavm_smmux_tcusx_pmcgx_irq_status_t
+#define bustype_CAVM_SMMUX_TCUSX_PMCGX_IRQ_STATUS(a,b,c) CSR_TYPE_NCB32b
+#define basename_CAVM_SMMUX_TCUSX_PMCGX_IRQ_STATUS(a,b,c) "SMMUX_TCUSX_PMCGX_IRQ_STATUS"
+#define device_bar_CAVM_SMMUX_TCUSX_PMCGX_IRQ_STATUS(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_TCUSX_PMCGX_IRQ_STATUS(a,b,c) (a)
+#define arguments_CAVM_SMMUX_TCUSX_PMCGX_IRQ_STATUS(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (NCB32b) smmu#_tcus#_pmcg#_mpamidr
+ *
+ * PMCG MPAM capability identification Register
+ */
+union cavm_smmux_tcusx_pmcgx_mpamidr
+{
+    uint32_t u;
+    struct cavm_smmux_tcusx_pmcgx_mpamidr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t pmg_max               : 8;  /**< [ 23: 16](RO) The maximum Non-secure PMG value that is permitted to be used by this PMCG for Non-secure MSIs.
+                                                                 This field is RES0 when MPAM is not supported, as indicated by SMMU_PMCG_CFGR.MPAM == 0. */
+        uint32_t partid_max            : 16; /**< [ 15:  0](RO) The maximum Non-secure PARTID value that is permitted to be used by this PMCG for Non-secure MSIs.
+                                                                 This field is RES0 when MPAM is not supported, as indicated by SMMU_PMCG_CFGR.MPAM == 0. */
+#else /* Word 0 - Little Endian */
+        uint32_t partid_max            : 16; /**< [ 15:  0](RO) The maximum Non-secure PARTID value that is permitted to be used by this PMCG for Non-secure MSIs.
+                                                                 This field is RES0 when MPAM is not supported, as indicated by SMMU_PMCG_CFGR.MPAM == 0. */
+        uint32_t pmg_max               : 8;  /**< [ 23: 16](RO) The maximum Non-secure PMG value that is permitted to be used by this PMCG for Non-secure MSIs.
+                                                                 This field is RES0 when MPAM is not supported, as indicated by SMMU_PMCG_CFGR.MPAM == 0. */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_tcusx_pmcgx_mpamidr_s cn; */
+};
+typedef union cavm_smmux_tcusx_pmcgx_mpamidr cavm_smmux_tcusx_pmcgx_mpamidr_t;
+
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_MPAMIDR(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_MPAMIDR(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=7) && (c<=3)))
+        return 0x830000800e74ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x20000ll * ((c) & 0x3);
+    __cavm_csr_fatal("SMMUX_TCUSX_PMCGX_MPAMIDR", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_TCUSX_PMCGX_MPAMIDR(a,b,c) cavm_smmux_tcusx_pmcgx_mpamidr_t
+#define bustype_CAVM_SMMUX_TCUSX_PMCGX_MPAMIDR(a,b,c) CSR_TYPE_NCB32b
+#define basename_CAVM_SMMUX_TCUSX_PMCGX_MPAMIDR(a,b,c) "SMMUX_TCUSX_PMCGX_MPAMIDR"
+#define device_bar_CAVM_SMMUX_TCUSX_PMCGX_MPAMIDR(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_TCUSX_PMCGX_MPAMIDR(a,b,c) (a)
+#define arguments_CAVM_SMMUX_TCUSX_PMCGX_MPAMIDR(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (NCB) smmu#_tcus#_pmcg#_ovsclr0
+ *
+ * SMMU PMCG Overflow Status Clear Register
+ */
+union cavm_smmux_tcusx_pmcgx_ovsclr0
+{
+    uint64_t u;
+    struct cavm_smmux_tcusx_pmcgx_ovsclr0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t ovs                   : 4;  /**< [  3:  0](R/W1C/H)  */
+#else /* Word 0 - Little Endian */
+        uint64_t ovs                   : 4;  /**< [  3:  0](R/W1C/H)  */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_tcusx_pmcgx_ovsclr0_s cn; */
+};
+typedef union cavm_smmux_tcusx_pmcgx_ovsclr0 cavm_smmux_tcusx_pmcgx_ovsclr0_t;
+
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_OVSCLR0(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_OVSCLR0(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=7) && (c<=3)))
+        return 0x830000810c80ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x20000ll * ((c) & 0x3);
+    __cavm_csr_fatal("SMMUX_TCUSX_PMCGX_OVSCLR0", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_TCUSX_PMCGX_OVSCLR0(a,b,c) cavm_smmux_tcusx_pmcgx_ovsclr0_t
+#define bustype_CAVM_SMMUX_TCUSX_PMCGX_OVSCLR0(a,b,c) CSR_TYPE_NCB
+#define basename_CAVM_SMMUX_TCUSX_PMCGX_OVSCLR0(a,b,c) "SMMUX_TCUSX_PMCGX_OVSCLR0"
+#define device_bar_CAVM_SMMUX_TCUSX_PMCGX_OVSCLR0(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_TCUSX_PMCGX_OVSCLR0(a,b,c) (a)
+#define arguments_CAVM_SMMUX_TCUSX_PMCGX_OVSCLR0(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (NCB) smmu#_tcus#_pmcg#_ovsset0
+ *
+ * SMMU PMCG Overflow Status Set Register
+ */
+union cavm_smmux_tcusx_pmcgx_ovsset0
+{
+    uint64_t u;
+    struct cavm_smmux_tcusx_pmcgx_ovsset0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t ovs                   : 4;  /**< [  3:  0](R/W1S/H)  */
+#else /* Word 0 - Little Endian */
+        uint64_t ovs                   : 4;  /**< [  3:  0](R/W1S/H)  */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_tcusx_pmcgx_ovsset0_s cn; */
+};
+typedef union cavm_smmux_tcusx_pmcgx_ovsset0 cavm_smmux_tcusx_pmcgx_ovsset0_t;
+
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_OVSSET0(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_OVSSET0(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=7) && (c<=3)))
+        return 0x830000810cc0ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x20000ll * ((c) & 0x3);
+    __cavm_csr_fatal("SMMUX_TCUSX_PMCGX_OVSSET0", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_TCUSX_PMCGX_OVSSET0(a,b,c) cavm_smmux_tcusx_pmcgx_ovsset0_t
+#define bustype_CAVM_SMMUX_TCUSX_PMCGX_OVSSET0(a,b,c) CSR_TYPE_NCB
+#define basename_CAVM_SMMUX_TCUSX_PMCGX_OVSSET0(a,b,c) "SMMUX_TCUSX_PMCGX_OVSSET0"
+#define device_bar_CAVM_SMMUX_TCUSX_PMCGX_OVSSET0(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_TCUSX_PMCGX_OVSSET0(a,b,c) (a)
+#define arguments_CAVM_SMMUX_TCUSX_PMCGX_OVSSET0(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (NCB32b) smmu#_tcus#_pmcg#_pidr0
+ *
+ * SMMU Peripheral Identification Register 0
+ */
+union cavm_smmux_tcusx_pmcgx_pidr0
+{
+    uint32_t u;
+    struct cavm_smmux_tcusx_pmcgx_pidr0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t partnum0              : 8;  /**< [  7:  0](RO) Part number \<7:0\>.  Indicates PCC_PIDR_PARTNUM0_E::SMMU3. */
+#else /* Word 0 - Little Endian */
+        uint32_t partnum0              : 8;  /**< [  7:  0](RO) Part number \<7:0\>.  Indicates PCC_PIDR_PARTNUM0_E::SMMU3. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_tcusx_pmcgx_pidr0_s cn; */
+};
+typedef union cavm_smmux_tcusx_pmcgx_pidr0 cavm_smmux_tcusx_pmcgx_pidr0_t;
+
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_PIDR0(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_PIDR0(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=7) && (c<=3)))
+        return 0x830000800fe0ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x20000ll * ((c) & 0x3);
+    __cavm_csr_fatal("SMMUX_TCUSX_PMCGX_PIDR0", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_TCUSX_PMCGX_PIDR0(a,b,c) cavm_smmux_tcusx_pmcgx_pidr0_t
+#define bustype_CAVM_SMMUX_TCUSX_PMCGX_PIDR0(a,b,c) CSR_TYPE_NCB32b
+#define basename_CAVM_SMMUX_TCUSX_PMCGX_PIDR0(a,b,c) "SMMUX_TCUSX_PMCGX_PIDR0"
+#define device_bar_CAVM_SMMUX_TCUSX_PMCGX_PIDR0(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_TCUSX_PMCGX_PIDR0(a,b,c) (a)
+#define arguments_CAVM_SMMUX_TCUSX_PMCGX_PIDR0(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (NCB32b) smmu#_tcus#_pmcg#_pidr1
+ *
+ * SMMU Peripheral Identification Register 1
+ */
+union cavm_smmux_tcusx_pmcgx_pidr1
+{
+    uint32_t u;
+    struct cavm_smmux_tcusx_pmcgx_pidr1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t idcode                : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Marvell code is 0x34C. */
+        uint32_t partnum1              : 4;  /**< [  3:  0](RO) Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
+#else /* Word 0 - Little Endian */
+        uint32_t partnum1              : 4;  /**< [  3:  0](RO) Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
+        uint32_t idcode                : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Marvell code is 0x34C. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_tcusx_pmcgx_pidr1_s cn; */
+};
+typedef union cavm_smmux_tcusx_pmcgx_pidr1 cavm_smmux_tcusx_pmcgx_pidr1_t;
+
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_PIDR1(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_PIDR1(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=7) && (c<=3)))
+        return 0x830000800fe4ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x20000ll * ((c) & 0x3);
+    __cavm_csr_fatal("SMMUX_TCUSX_PMCGX_PIDR1", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_TCUSX_PMCGX_PIDR1(a,b,c) cavm_smmux_tcusx_pmcgx_pidr1_t
+#define bustype_CAVM_SMMUX_TCUSX_PMCGX_PIDR1(a,b,c) CSR_TYPE_NCB32b
+#define basename_CAVM_SMMUX_TCUSX_PMCGX_PIDR1(a,b,c) "SMMUX_TCUSX_PMCGX_PIDR1"
+#define device_bar_CAVM_SMMUX_TCUSX_PMCGX_PIDR1(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_TCUSX_PMCGX_PIDR1(a,b,c) (a)
+#define arguments_CAVM_SMMUX_TCUSX_PMCGX_PIDR1(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (NCB32b) smmu#_tcus#_pmcg#_pidr2
+ *
+ * SMMU Peripheral Identification Register 2
+ */
+union cavm_smmux_tcusx_pmcgx_pidr2
+{
+    uint32_t u;
+    struct cavm_smmux_tcusx_pmcgx_pidr2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t revision              : 4;  /**< [  7:  4](RO) SMMU Revision.
+                                                                 0x0 = SMMUv1.
+                                                                 0x1 = SMMUv2.
+                                                                 0x2 = SMMUv3. */
+        uint32_t jedec                 : 1;  /**< [  3:  3](RO) JEDEC assigned. */
+        uint32_t idcode                : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Marvell code is 0x34C. */
+#else /* Word 0 - Little Endian */
+        uint32_t idcode                : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Marvell code is 0x34C. */
+        uint32_t jedec                 : 1;  /**< [  3:  3](RO) JEDEC assigned. */
+        uint32_t revision              : 4;  /**< [  7:  4](RO) SMMU Revision.
+                                                                 0x0 = SMMUv1.
+                                                                 0x1 = SMMUv2.
+                                                                 0x2 = SMMUv3. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_tcusx_pmcgx_pidr2_s cn; */
+};
+typedef union cavm_smmux_tcusx_pmcgx_pidr2 cavm_smmux_tcusx_pmcgx_pidr2_t;
+
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_PIDR2(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_PIDR2(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=7) && (c<=3)))
+        return 0x830000800fe8ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x20000ll * ((c) & 0x3);
+    __cavm_csr_fatal("SMMUX_TCUSX_PMCGX_PIDR2", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_TCUSX_PMCGX_PIDR2(a,b,c) cavm_smmux_tcusx_pmcgx_pidr2_t
+#define bustype_CAVM_SMMUX_TCUSX_PMCGX_PIDR2(a,b,c) CSR_TYPE_NCB32b
+#define basename_CAVM_SMMUX_TCUSX_PMCGX_PIDR2(a,b,c) "SMMUX_TCUSX_PMCGX_PIDR2"
+#define device_bar_CAVM_SMMUX_TCUSX_PMCGX_PIDR2(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_TCUSX_PMCGX_PIDR2(a,b,c) (a)
+#define arguments_CAVM_SMMUX_TCUSX_PMCGX_PIDR2(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (NCB32b) smmu#_tcus#_pmcg#_pidr3
+ *
+ * SMMU Peripheral Identification Register 3
+ */
+union cavm_smmux_tcusx_pmcgx_pidr3
+{
+    uint32_t u;
+    struct cavm_smmux_tcusx_pmcgx_pidr3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t revand                : 4;  /**< [  7:  4](RO) Manufacturer revision number. For CNXXXX always 0x0. */
+        uint32_t cust                  : 4;  /**< [  3:  0](RO) Customer modified. 1 = Overall product information should be consulted for
+                                                                 product, major and minor pass numbers. */
+#else /* Word 0 - Little Endian */
+        uint32_t cust                  : 4;  /**< [  3:  0](RO) Customer modified. 1 = Overall product information should be consulted for
+                                                                 product, major and minor pass numbers. */
+        uint32_t revand                : 4;  /**< [  7:  4](RO) Manufacturer revision number. For CNXXXX always 0x0. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_tcusx_pmcgx_pidr3_s cn; */
+};
+typedef union cavm_smmux_tcusx_pmcgx_pidr3 cavm_smmux_tcusx_pmcgx_pidr3_t;
+
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_PIDR3(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_PIDR3(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=7) && (c<=3)))
+        return 0x830000800fecll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x20000ll * ((c) & 0x3);
+    __cavm_csr_fatal("SMMUX_TCUSX_PMCGX_PIDR3", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_TCUSX_PMCGX_PIDR3(a,b,c) cavm_smmux_tcusx_pmcgx_pidr3_t
+#define bustype_CAVM_SMMUX_TCUSX_PMCGX_PIDR3(a,b,c) CSR_TYPE_NCB32b
+#define basename_CAVM_SMMUX_TCUSX_PMCGX_PIDR3(a,b,c) "SMMUX_TCUSX_PMCGX_PIDR3"
+#define device_bar_CAVM_SMMUX_TCUSX_PMCGX_PIDR3(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_TCUSX_PMCGX_PIDR3(a,b,c) (a)
+#define arguments_CAVM_SMMUX_TCUSX_PMCGX_PIDR3(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (NCB32b) smmu#_tcus#_pmcg#_pidr4
+ *
+ * SMMU Peripheral Identification Register 4
+ */
+union cavm_smmux_tcusx_pmcgx_pidr4
+{
+    uint32_t u;
+    struct cavm_smmux_tcusx_pmcgx_pidr4_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t pagecnt               : 4;  /**< [  7:  4](RO) Number of log-2 4 KB blocks occupied. */
+        uint32_t jepcont               : 4;  /**< [  3:  0](RO) JEP106 continuation code, least significant nibble. Indicates Cavium. */
+#else /* Word 0 - Little Endian */
+        uint32_t jepcont               : 4;  /**< [  3:  0](RO) JEP106 continuation code, least significant nibble. Indicates Cavium. */
+        uint32_t pagecnt               : 4;  /**< [  7:  4](RO) Number of log-2 4 KB blocks occupied. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_tcusx_pmcgx_pidr4_s cn; */
+};
+typedef union cavm_smmux_tcusx_pmcgx_pidr4 cavm_smmux_tcusx_pmcgx_pidr4_t;
+
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_PIDR4(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_PIDR4(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=7) && (c<=3)))
+        return 0x830000800fd0ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x20000ll * ((c) & 0x3);
+    __cavm_csr_fatal("SMMUX_TCUSX_PMCGX_PIDR4", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_TCUSX_PMCGX_PIDR4(a,b,c) cavm_smmux_tcusx_pmcgx_pidr4_t
+#define bustype_CAVM_SMMUX_TCUSX_PMCGX_PIDR4(a,b,c) CSR_TYPE_NCB32b
+#define basename_CAVM_SMMUX_TCUSX_PMCGX_PIDR4(a,b,c) "SMMUX_TCUSX_PMCGX_PIDR4"
+#define device_bar_CAVM_SMMUX_TCUSX_PMCGX_PIDR4(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_TCUSX_PMCGX_PIDR4(a,b,c) (a)
+#define arguments_CAVM_SMMUX_TCUSX_PMCGX_PIDR4(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (NCB32b) smmu#_tcus#_pmcg#_pidr5
+ *
+ * SMMU Peripheral Identification Register 5
+ */
+union cavm_smmux_tcusx_pmcgx_pidr5
+{
+    uint32_t u;
+    struct cavm_smmux_tcusx_pmcgx_pidr5_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_tcusx_pmcgx_pidr5_s cn; */
+};
+typedef union cavm_smmux_tcusx_pmcgx_pidr5 cavm_smmux_tcusx_pmcgx_pidr5_t;
+
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_PIDR5(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_PIDR5(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=7) && (c<=3)))
+        return 0x830000800fd4ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x20000ll * ((c) & 0x3);
+    __cavm_csr_fatal("SMMUX_TCUSX_PMCGX_PIDR5", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_TCUSX_PMCGX_PIDR5(a,b,c) cavm_smmux_tcusx_pmcgx_pidr5_t
+#define bustype_CAVM_SMMUX_TCUSX_PMCGX_PIDR5(a,b,c) CSR_TYPE_NCB32b
+#define basename_CAVM_SMMUX_TCUSX_PMCGX_PIDR5(a,b,c) "SMMUX_TCUSX_PMCGX_PIDR5"
+#define device_bar_CAVM_SMMUX_TCUSX_PMCGX_PIDR5(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_TCUSX_PMCGX_PIDR5(a,b,c) (a)
+#define arguments_CAVM_SMMUX_TCUSX_PMCGX_PIDR5(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (NCB32b) smmu#_tcus#_pmcg#_pidr6
+ *
+ * SMMU Peripheral Identification Register 6
+ */
+union cavm_smmux_tcusx_pmcgx_pidr6
+{
+    uint32_t u;
+    struct cavm_smmux_tcusx_pmcgx_pidr6_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_tcusx_pmcgx_pidr6_s cn; */
+};
+typedef union cavm_smmux_tcusx_pmcgx_pidr6 cavm_smmux_tcusx_pmcgx_pidr6_t;
+
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_PIDR6(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_PIDR6(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=7) && (c<=3)))
+        return 0x830000800fd8ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x20000ll * ((c) & 0x3);
+    __cavm_csr_fatal("SMMUX_TCUSX_PMCGX_PIDR6", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_TCUSX_PMCGX_PIDR6(a,b,c) cavm_smmux_tcusx_pmcgx_pidr6_t
+#define bustype_CAVM_SMMUX_TCUSX_PMCGX_PIDR6(a,b,c) CSR_TYPE_NCB32b
+#define basename_CAVM_SMMUX_TCUSX_PMCGX_PIDR6(a,b,c) "SMMUX_TCUSX_PMCGX_PIDR6"
+#define device_bar_CAVM_SMMUX_TCUSX_PMCGX_PIDR6(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_TCUSX_PMCGX_PIDR6(a,b,c) (a)
+#define arguments_CAVM_SMMUX_TCUSX_PMCGX_PIDR6(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (NCB32b) smmu#_tcus#_pmcg#_pidr7
+ *
+ * SMMU Peripheral Identification Register 7
+ */
+union cavm_smmux_tcusx_pmcgx_pidr7
+{
+    uint32_t u;
+    struct cavm_smmux_tcusx_pmcgx_pidr7_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_tcusx_pmcgx_pidr7_s cn; */
+};
+typedef union cavm_smmux_tcusx_pmcgx_pidr7 cavm_smmux_tcusx_pmcgx_pidr7_t;
+
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_PIDR7(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_PIDR7(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=7) && (c<=3)))
+        return 0x830000800fdcll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x20000ll * ((c) & 0x3);
+    __cavm_csr_fatal("SMMUX_TCUSX_PMCGX_PIDR7", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_TCUSX_PMCGX_PIDR7(a,b,c) cavm_smmux_tcusx_pmcgx_pidr7_t
+#define bustype_CAVM_SMMUX_TCUSX_PMCGX_PIDR7(a,b,c) CSR_TYPE_NCB32b
+#define basename_CAVM_SMMUX_TCUSX_PMCGX_PIDR7(a,b,c) "SMMUX_TCUSX_PMCGX_PIDR7"
+#define device_bar_CAVM_SMMUX_TCUSX_PMCGX_PIDR7(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_TCUSX_PMCGX_PIDR7(a,b,c) (a)
+#define arguments_CAVM_SMMUX_TCUSX_PMCGX_PIDR7(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (NCB32b) smmu#_tcus#_pmcg#_pmdevarch
+ *
+ * Performance Monitor Device Architecture Register
+ */
+union cavm_smmux_tcusx_pmcgx_pmdevarch
+{
+    uint32_t u;
+    struct cavm_smmux_tcusx_pmcgx_pmdevarch_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t architect             : 11; /**< [ 31: 21](RO) Arm's architect code. */
+        uint32_t present               : 1;  /**< [ 20: 20](RO) . */
+        uint32_t revision              : 4;  /**< [ 19: 16](RO) Architecture Revision. */
+        uint32_t archid                : 16; /**< [ 15:  0](RO) Architectural ID. */
+#else /* Word 0 - Little Endian */
+        uint32_t archid                : 16; /**< [ 15:  0](RO) Architectural ID. */
+        uint32_t revision              : 4;  /**< [ 19: 16](RO) Architecture Revision. */
+        uint32_t present               : 1;  /**< [ 20: 20](RO) . */
+        uint32_t architect             : 11; /**< [ 31: 21](RO) Arm's architect code. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_tcusx_pmcgx_pmdevarch_s cn; */
+};
+typedef union cavm_smmux_tcusx_pmcgx_pmdevarch cavm_smmux_tcusx_pmcgx_pmdevarch_t;
+
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_PMDEVARCH(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_PMDEVARCH(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=7) && (c<=3)))
+        return 0x830000800fbcll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x20000ll * ((c) & 0x3);
+    __cavm_csr_fatal("SMMUX_TCUSX_PMCGX_PMDEVARCH", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_TCUSX_PMCGX_PMDEVARCH(a,b,c) cavm_smmux_tcusx_pmcgx_pmdevarch_t
+#define bustype_CAVM_SMMUX_TCUSX_PMCGX_PMDEVARCH(a,b,c) CSR_TYPE_NCB32b
+#define basename_CAVM_SMMUX_TCUSX_PMCGX_PMDEVARCH(a,b,c) "SMMUX_TCUSX_PMCGX_PMDEVARCH"
+#define device_bar_CAVM_SMMUX_TCUSX_PMCGX_PMDEVARCH(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_TCUSX_PMCGX_PMDEVARCH(a,b,c) (a)
+#define arguments_CAVM_SMMUX_TCUSX_PMCGX_PMDEVARCH(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (NCB32b) smmu#_tcus#_pmcg#_pmdevtype
+ *
+ * Performance Monitor Device Type Register
+ */
+union cavm_smmux_tcusx_pmcgx_pmdevtype
+{
+    uint32_t u;
+    struct cavm_smmux_tcusx_pmcgx_pmdevtype_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t subtype               : 4;  /**< [  7:  4](RO) Associated with an SMMU subtype. */
+        uint32_t device_class          : 4;  /**< [  3:  0](RO) Performance monitor device type. */
+#else /* Word 0 - Little Endian */
+        uint32_t device_class          : 4;  /**< [  3:  0](RO) Performance monitor device type. */
+        uint32_t subtype               : 4;  /**< [  7:  4](RO) Associated with an SMMU subtype. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_tcusx_pmcgx_pmdevtype_s cn; */
+};
+typedef union cavm_smmux_tcusx_pmcgx_pmdevtype cavm_smmux_tcusx_pmcgx_pmdevtype_t;
+
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_PMDEVTYPE(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_PMDEVTYPE(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=7) && (c<=3)))
+        return 0x830000800fccll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x20000ll * ((c) & 0x3);
+    __cavm_csr_fatal("SMMUX_TCUSX_PMCGX_PMDEVTYPE", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_TCUSX_PMCGX_PMDEVTYPE(a,b,c) cavm_smmux_tcusx_pmcgx_pmdevtype_t
+#define bustype_CAVM_SMMUX_TCUSX_PMCGX_PMDEVTYPE(a,b,c) CSR_TYPE_NCB32b
+#define basename_CAVM_SMMUX_TCUSX_PMCGX_PMDEVTYPE(a,b,c) "SMMUX_TCUSX_PMCGX_PMDEVTYPE"
+#define device_bar_CAVM_SMMUX_TCUSX_PMCGX_PMDEVTYPE(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_TCUSX_PMCGX_PMDEVTYPE(a,b,c) (a)
+#define arguments_CAVM_SMMUX_TCUSX_PMCGX_PMDEVTYPE(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (NCB32b) smmu#_tcus#_pmcg#_scr
+ *
+ * SMMU PMCG Secure Control Register
+ */
+union cavm_smmux_tcusx_pmcgx_scr
+{
+    uint32_t u;
+    struct cavm_smmux_tcusx_pmcgx_scr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t valid                 : 1;  /**< [ 31: 31](SRO) Reads as one.
+                                                                 Secure software can use this bit to discover security support in the PMCG. */
+        uint32_t reserved_4_30         : 27;
+        uint32_t msi_mpam_ns           : 1;  /**< [  3:  3](SRO) 0 = PMCG Secure MSIs are issued with MPAM_NS = 0.
+                                                                 1 = PMCG Secure MSIs are issued with MPAM_NS = 1.
+                                                                 This bit is RES0 if SMMU_PMCG_SCR.{NSMSI, NSRA} are configured for Non-secure MSIs */
+        uint32_t nsmsi                 : 1;  /**< [  2:  2](SR/W) Nonsecure MSI-X.
+                                                                    0 = Generated MSIs have an NS=0 attribute.
+                                                                    1 = Generated MSIs have an NS=1 attribute. */
+        uint32_t nsra                  : 1;  /**< [  1:  1](SR/W) Nonsecure register access.
+                                                                 0 = Nonsecure register access is disabled.
+                                                                     Nonsecure access to any PMCG register is RAZ/WI.
+                                                                 1 = Nonsecure register access is enabled.
+                                                                     If the PMCG supports MSIs, generated MSIs have an NS=1 attribute. */
+        uint32_t so                    : 1;  /**< [  0:  0](SR/W) Secure observation.
+                                                                 0 = Secure observation is disabled.
+                                                                     SMMU()_TCUS()_PMCG()_EVTYPER()[FILTER_SEC_SID] is effectively 0.
+                                                                 1 = Secure observation is enabled. */
+#else /* Word 0 - Little Endian */
+        uint32_t so                    : 1;  /**< [  0:  0](SR/W) Secure observation.
+                                                                 0 = Secure observation is disabled.
+                                                                     SMMU()_TCUS()_PMCG()_EVTYPER()[FILTER_SEC_SID] is effectively 0.
+                                                                 1 = Secure observation is enabled. */
+        uint32_t nsra                  : 1;  /**< [  1:  1](SR/W) Nonsecure register access.
+                                                                 0 = Nonsecure register access is disabled.
+                                                                     Nonsecure access to any PMCG register is RAZ/WI.
+                                                                 1 = Nonsecure register access is enabled.
+                                                                     If the PMCG supports MSIs, generated MSIs have an NS=1 attribute. */
+        uint32_t nsmsi                 : 1;  /**< [  2:  2](SR/W) Nonsecure MSI-X.
+                                                                    0 = Generated MSIs have an NS=0 attribute.
+                                                                    1 = Generated MSIs have an NS=1 attribute. */
+        uint32_t msi_mpam_ns           : 1;  /**< [  3:  3](SRO) 0 = PMCG Secure MSIs are issued with MPAM_NS = 0.
+                                                                 1 = PMCG Secure MSIs are issued with MPAM_NS = 1.
+                                                                 This bit is RES0 if SMMU_PMCG_SCR.{NSMSI, NSRA} are configured for Non-secure MSIs */
+        uint32_t reserved_4_30         : 27;
+        uint32_t valid                 : 1;  /**< [ 31: 31](SRO) Reads as one.
+                                                                 Secure software can use this bit to discover security support in the PMCG. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_tcusx_pmcgx_scr_s cn; */
+};
+typedef union cavm_smmux_tcusx_pmcgx_scr cavm_smmux_tcusx_pmcgx_scr_t;
+
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_SCR(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_SCR(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=7) && (c<=3)))
+        return 0x830000800df8ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x20000ll * ((c) & 0x3);
+    __cavm_csr_fatal("SMMUX_TCUSX_PMCGX_SCR", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_TCUSX_PMCGX_SCR(a,b,c) cavm_smmux_tcusx_pmcgx_scr_t
+#define bustype_CAVM_SMMUX_TCUSX_PMCGX_SCR(a,b,c) CSR_TYPE_NCB32b
+#define basename_CAVM_SMMUX_TCUSX_PMCGX_SCR(a,b,c) "SMMUX_TCUSX_PMCGX_SCR"
+#define device_bar_CAVM_SMMUX_TCUSX_PMCGX_SCR(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_TCUSX_PMCGX_SCR(a,b,c) (a)
+#define arguments_CAVM_SMMUX_TCUSX_PMCGX_SCR(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (NCB32b) smmu#_tcus#_pmcg#_smr#
+ *
+ * SMMU PMCG Counter Stream Match Filter Register
+ */
+union cavm_smmux_tcusx_pmcgx_smrx
+{
+    uint32_t u;
+    struct cavm_smmux_tcusx_pmcgx_smrx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_22_31        : 10;
+        uint32_t streamid              : 22; /**< [ 21:  0](R/W) StreamID for PMCG filtering. */
+#else /* Word 0 - Little Endian */
+        uint32_t streamid              : 22; /**< [ 21:  0](R/W) StreamID for PMCG filtering. */
+        uint32_t reserved_22_31        : 10;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_tcusx_pmcgx_smrx_s cn; */
+};
+typedef union cavm_smmux_tcusx_pmcgx_smrx cavm_smmux_tcusx_pmcgx_smrx_t;
+
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_SMRX(uint64_t a, uint64_t b, uint64_t c, uint64_t d) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_SMRX(uint64_t a, uint64_t b, uint64_t c, uint64_t d)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=7) && (c<=3) && (d==0)))
+        return 0x830000800a00ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x20000ll * ((c) & 0x3) + 4ll * ((d) & 0x0);
+    __cavm_csr_fatal("SMMUX_TCUSX_PMCGX_SMRX", 4, a, b, c, d, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_TCUSX_PMCGX_SMRX(a,b,c,d) cavm_smmux_tcusx_pmcgx_smrx_t
+#define bustype_CAVM_SMMUX_TCUSX_PMCGX_SMRX(a,b,c,d) CSR_TYPE_NCB32b
+#define basename_CAVM_SMMUX_TCUSX_PMCGX_SMRX(a,b,c,d) "SMMUX_TCUSX_PMCGX_SMRX"
+#define device_bar_CAVM_SMMUX_TCUSX_PMCGX_SMRX(a,b,c,d) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_TCUSX_PMCGX_SMRX(a,b,c,d) (a)
+#define arguments_CAVM_SMMUX_TCUSX_PMCGX_SMRX(a,b,c,d) (a),(b),(c),(d)
+
+/**
+ * Register (NCB) smmu#_tcus#_pmcg#_svr
+ *
+ * SMMU PMCG Counter Shadow Value Register
+ */
+union cavm_smmux_tcusx_pmcgx_svr
+{
+    uint64_t u;
+    struct cavm_smmux_tcusx_pmcgx_svr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_0_63         : 64;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_63         : 64;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_tcusx_pmcgx_svr_s cn; */
+};
+typedef union cavm_smmux_tcusx_pmcgx_svr cavm_smmux_tcusx_pmcgx_svr_t;
+
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_SVR(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_TCUSX_PMCGX_SVR(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=7) && (c<=3)))
+        return 0x830000800600ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x20000ll * ((c) & 0x3);
+    __cavm_csr_fatal("SMMUX_TCUSX_PMCGX_SVR", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_TCUSX_PMCGX_SVR(a,b,c) cavm_smmux_tcusx_pmcgx_svr_t
+#define bustype_CAVM_SMMUX_TCUSX_PMCGX_SVR(a,b,c) CSR_TYPE_NCB
+#define basename_CAVM_SMMUX_TCUSX_PMCGX_SVR(a,b,c) "SMMUX_TCUSX_PMCGX_SVR"
+#define device_bar_CAVM_SMMUX_TCUSX_PMCGX_SVR(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_TCUSX_PMCGX_SVR(a,b,c) (a)
+#define arguments_CAVM_SMMUX_TCUSX_PMCGX_SVR(a,b,c) (a),(b),(c),-1
 
 /**
  * Register (NCB32b) smmu#_vatos_sel
@@ -8851,8 +8866,8 @@ typedef union cavm_smmux_vatos_sel cavm_smmux_vatos_sel_t;
 static inline uint64_t CAVM_SMMUX_VATOS_SEL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_VATOS_SEL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
-        return 0x830000000180ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+        return 0x830000000180ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_VATOS_SEL", 1, a, 0, 0, 0, 0, 0);
 }
 
