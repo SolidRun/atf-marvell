@@ -216,6 +216,20 @@ typedef struct {
 } cn10k_portm_mode_desc_t;
 
 /**
+ * The following structure is used to describe persistent
+ * settings for PORTM boot configuration.
+ */
+typedef union portm_boot_cfg_ctx {
+	uint64_t u64;
+	struct portm_boot_cfg_ctx_s {
+		uint64_t status:2; /* valid 0x2, other values invalid */
+		uint64_t portm_idx:8; /* PORTM index */
+		uint64_t portm_mode:8; /* PORTM mode */
+		uint64_t rsvd:46;
+	} s;
+} portm_boot_cfg_ctx_t;
+
+/**
  * The following structure is used to map PORTM
  * to their associated GSER lanes and MACs.
  * Each chip defines an array of these.

@@ -274,6 +274,82 @@ error:
 }
 #endif
 
+int rpm_flash_read_portm_boot_cfg(portm_boot_cfg_ctx_t *ctx, size_t portm_count)
+{
+	uint64_t ctx_size;
+
+	if (!ctx || portm_count == 0 || portm_count > MAX_PORTM)
+		return -1;
+
+	ctx_size = portm_count * sizeof(*ctx);
+	return spi_read_portm_boot_persistent_data((uintptr_t)ctx, &ctx_size);
+}
+
+int rpm_flash_update_portm_boot_cfg(portm_boot_cfg_ctx_t *ctx, size_t portm_count)
+{
+	int err, idx;
+	uint64_t ctx_size;
+	portm_boot_cfg_ctx_t bctx[MAX_PORTM];
+
+	if (!ctx || portm_count == 0 || portm_count > MAX_PORTM)
+		return -1;
+
+	ctx_size = portm_count * sizeof(*ctx);
+
+	err = spi_read_portm_boot_persistent_data((uintptr_t)bctx, &ctx_size);
+	if (err < 0) {
+		debug_rpm_flash("%s: Flash read failed\n", __func__);
+		return -1;
+	}
+
+	for (idx = 0; idx < portm_count; idx++) {
+		portm_boot_cfg_ctx_t *dst_ptr = &bctx[idx];
+		portm_boot_cfg_ctx_t *src_ptr = &ctx[idx];
+
+		if (src_ptr->s.status == 0x2)
+			memcpy(dst_ptr, src_ptr, sizeof(*src_ptr));
+	}
+
+	for (idx = portm_count - 1; idx >= 0; idx--) {
+		int i, num_lanes = 0;
+		portm_boot_cfg_ctx_t *src_ptr = &bctx[idx];
+
+		if (src_ptr->s.status != 0x2)
+			continue;
+
+		if (!cn10k_portm_mode_valid(idx, src_ptr->s.portm_mode) &&
+					    src_ptr->s.portm_mode != PORTM_MODE_DISABLED) {
+			src_ptr->s.status = 0x3;
+			continue;
+		}
+
+		num_lanes = cn10k_portm_get_mode_desc_serdes_num(src_ptr->s.portm_mode);
+		for (i = 1; i < num_lanes; i++) {
+			portm_boot_cfg_ctx_t *ptr = &bctx[idx + i];
+
+			ptr->s.status = 0x2;
+			ptr->s.portm_idx = idx + i;
+			ptr->s.portm_mode = PORTM_MODE_INACTIVE;
+		}
+	}
+
+	err = spi_update_portm_boot_persistent_data((uintptr_t)bctx, ctx_size);
+	if (err < 0) {
+		debug_rpm_flash("%s: Flash update failed\n", __func__);
+		return -1;
+	}
+
+	memcpy(ctx, bctx, ctx_size);
+	return 0;
+}
+
+int rpm_flash_erase_portm_boot_cfg(void)
+{
+	uint64_t ctx_size = MAX_PORTM * sizeof(portm_boot_cfg_ctx_t);
+
+	return spi_update_portm_boot_persistent_data((uintptr_t)NULL, ctx_size);
+}
+
 int rpm_flash_collective_update(uint64_t portm_mask)
 {
 	rpm_lmac_flash_ctx_t fctx[MAX_PORTM];

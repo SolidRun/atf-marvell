@@ -31,4 +31,6 @@ int spi_write_memtest_persistent_data(uintptr_t buf, uint64_t sz);
 int spi_update_retimer_persistent_data(uintptr_t log_entry, size_t sz);
 int spi_read_retimer_persistent_data(uintptr_t log_entry, uint64_t *sz);
 #endif
+int spi_update_portm_boot_persistent_data(uintptr_t buffer, uint64_t sz);
+int spi_read_portm_boot_persistent_data(uintptr_t buffer, uint64_t *sz);
 #endif

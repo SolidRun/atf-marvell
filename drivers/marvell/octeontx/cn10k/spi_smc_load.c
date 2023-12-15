@@ -60,6 +60,9 @@
 #define PERSIST_RETIMER_CONFIG_LEN		0x1000
 #endif
 
+#define PERSIST_PORTM_MODE_BOOT_CFG_OFFSET	0x25000
+#define PERSIST_PORTM_MODE_BOOT_CFG_LEN		0x1000
+
 #define PERSIST_MEMTEST_DATA_OFFSET		0x3E000
 #define PERSIST_MEMTEST_DATA_LEN		0x1000
 
@@ -1025,6 +1028,81 @@ err:
 	return ret;
 }
 #endif
+
+int spi_read_portm_boot_persistent_data(uintptr_t buffer, uint64_t *sz)
+{
+	persist_data_cfg_t *cfg = cn10k_persistent_data_base();
+	uint64_t offset;
+	int ret;
+
+	if (cfg == NULL)
+		return -1;
+
+	offset = cfg->offset + PERSIST_PORTM_MODE_BOOT_CFG_OFFSET;
+
+	if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock) != 0) {
+		ERROR("%s: SPI_%d: Sem Lock failed\n", __func__, cfg->bus);
+		ret = -1;
+		goto err;
+	}
+
+	if (spi_dev_lock(cfg->bus)) {
+		ERROR("%s: SPI_%d: Lock failed\n", __func__, cfg->bus);
+		ret = -1;
+		goto err;
+	}
+
+	ret = cn10k_spi_dev_read(buffer, (uint64_t *)sz, offset, cfg->bus, cfg->cs);
+
+	if (spi_dev_unlock(cfg->bus)) {
+		WARN("%s: SPI_%d: Unlock failed\n", __func__, cfg->bus);
+		ret = -1;
+	}
+
+err:
+	octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
+
+	return ret;
+}
+
+int spi_update_portm_boot_persistent_data(uintptr_t buffer, uint64_t sz)
+{
+	persist_data_cfg_t *cfg = cn10k_persistent_data_base();
+	uint64_t offset;
+	int ret;
+
+	if (cfg == NULL)
+		return -1;
+
+	offset = cfg->offset + PERSIST_PORTM_MODE_BOOT_CFG_OFFSET;
+
+	if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock) != 0) {
+		ERROR("%s: SPI_%d: Sem Lock failed\n", __func__, cfg->bus);
+		ret = -1;
+		goto err;
+	}
+
+	if (spi_dev_lock(cfg->bus)) {
+		ERROR("%s: SPI_%d: Lock failed\n", __func__, cfg->bus);
+		ret = -1;
+		goto err;
+	}
+
+	ret = cn10k_spi_dev_erase(offset, sz, cfg->bus, cfg->cs);
+
+	if (ret == 0 && (void *)buffer != NULL)
+		ret = cn10k_spi_dev_write(buffer, sz, offset, cfg->bus, cfg->cs);
+
+	if (spi_dev_unlock(cfg->bus)) {
+		WARN("%s: SPI_%d: Unlock failed\n", __func__, cfg->bus);
+		ret = -1;
+	}
+
+err:
+	octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
+
+	return ret;
+}
 
 /* Gather info about all secure busses and chip selects */
 unsigned long sec_spi_get_info(void)

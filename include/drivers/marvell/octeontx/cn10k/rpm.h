@@ -237,6 +237,11 @@ int rpm_flash_collective_update(uint64_t portm_mask);
 #ifdef PLAT_cnf10kb
 int rpm_update_flash_retimer_params(struct retimer_mux_cfg *mux_cfgs, int num_cfgs);
 #endif
+
+int rpm_flash_read_portm_boot_cfg(portm_boot_cfg_ctx_t *ctx, size_t portm_count);
+int rpm_flash_update_portm_boot_cfg(portm_boot_cfg_ctx_t *ctx, size_t portm_count);
+int rpm_flash_erase_portm_boot_cfg(void);
+
 /* Returns 1 if debug enabled, 0 if disabled */
 int rpm_debug_log_state(void);
 int rpm_set_ptp_mode(int rpm_id, int lmac_id, int enable);
