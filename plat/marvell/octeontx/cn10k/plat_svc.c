@@ -811,6 +811,33 @@ err3:
 	}
 	break;
 
+	case PLAT_OCTEONTX_PORTM_MODE_BOOT_CFG: {
+		#define PORTM_MODE_BOOT_CFG_MAGIC 0xa5a5a5a5
+		enum {
+			SUBCMD_INIT = 0,
+			SUBCMD_READ,
+			SUBCMD_STORE,
+			SUBCMD_ERASE
+		};
+
+		portm_boot_cfg_ctx_t *portm_boot_cfg =
+			(portm_boot_cfg_ctx_t *)PORTM_MODE_BOOT_CFG_DATA_BASE;
+		ret = -1;
+
+		if (x1 == SUBCMD_INIT) {
+			SMC_RET4(handle, 0, portm_boot_cfg, MAX_PORTM, PORTM_MODE_BOOT_CFG_MAGIC);
+		} else if (x1 == SUBCMD_READ) {
+			ret = rpm_flash_read_portm_boot_cfg(portm_boot_cfg, MAX_PORTM);
+		} else if (x1 == SUBCMD_STORE) {
+			ret = rpm_flash_update_portm_boot_cfg(portm_boot_cfg, MAX_PORTM);
+		} else if (x1 == SUBCMD_ERASE) {
+			ret = rpm_flash_erase_portm_boot_cfg();
+		}
+
+		SMC_RET1(handle, ret);
+	}
+	break;
+
 #endif /* DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS */
 
 #ifdef DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS

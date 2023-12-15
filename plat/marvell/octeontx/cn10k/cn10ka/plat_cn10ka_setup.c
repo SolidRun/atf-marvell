@@ -516,6 +516,9 @@ void plat_add_mmio(void)
 		SERDES_PRBS_DATA_SIZE, (MT_MEMORY | MT_RW | MT_NS));
 #endif /* DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS */
 
+	mmap_add_region(PORTM_MODE_BOOT_CFG_DATA_BASE, PORTM_MODE_BOOT_CFG_DATA_BASE,
+		PORTM_MODE_BOOT_CFG_DATA_SIZE, (MT_MEMORY | MT_RW | MT_NS));
+
 	/* Shared memory region for EFI variables */
 	mmap_add_region(EFI_VAR_MEM_BASE, EFI_VAR_MEM_BASE,
 			EFI_VAR_MEM_SIZE, (MT_MEMORY | MT_RW | MT_NS));

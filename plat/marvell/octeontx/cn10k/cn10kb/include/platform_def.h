@@ -89,6 +89,9 @@
 |	40 KB	      |
 |		      |
 |---------------------|
+| PORTM mode boot cfg |
+|       4K            |
+|---------------------|
 |		      |
 |		      |
 |---------------------|
@@ -239,6 +242,10 @@
 #define SERDES_PRBS_DATA_BASE		(SERDES_SETTINGS_DATA_BASE + \
 					 SERDES_SETTINGS_DATA_SIZE)
 #define SERDES_PRBS_DATA_END		(SERDES_PRBS_DATA_BASE + SERDES_PRBS_DATA_SIZE)
+
+
+#define PORTM_MODE_BOOT_CFG_DATA_BASE	(SERDES_PRBS_DATA_BASE + SERDES_PRBS_DATA_SIZE)
+#define PORTM_MODE_BOOT_CFG_DATA_SIZE	0x1000
 
 #ifdef INCLUDE_OPTEE
 /* BL32 non-secure shared memory

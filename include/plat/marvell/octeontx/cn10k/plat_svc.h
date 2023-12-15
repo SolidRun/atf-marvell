@@ -258,6 +258,43 @@
 #define PLAT_OCTEONTX_CONFIG_RETIMER		0xc2000d0d
 #endif
 
+
+/*
+ *
+ * x1: cmd:
+ *	0 - SUBCMD_INIT
+ *	1 - SUBCMD_READ
+ *	2 - SUBCMD_STORE
+ *	3 - SUBCMD_ERASE
+ *
+ *
+ * Return:
+ *	x0: (All SUBCMD_*)
+ *		0x0 -- Success
+ *		other -- Fail
+ *
+ *	x1: (SUBCMD_INIT only)
+ *		PORTM_MODE_BOOT_CFG_DATA_BASE address, where
+ *		the following structure is stored:
+ *		union portm_boot_cfg_ctx {
+ *			uint64_t u64;
+ *			struct portm_boot_cfg_ctx_s {
+ *				uint64_t status:2;
+ *				uint64_t portm_idx:8;
+ *				uint64_t portm_mode:8;
+ *				uint64_t rsvd:46;
+ *			} s;
+ *		} portm_cfg_ctx[MAX_PORTM];
+ *
+ *	x2: (SUBCMD_INIT only)
+ *		Number of PORTMs (MAX_PORTM)
+ *
+ *	x3: (SUBCMD_INIT only)
+ *		Magic Number (see impl)
+ *
+ */
+#define PLAT_OCTEONTX_PORTM_MODE_BOOT_CFG	0xc2000d0e
+
 /*
  * x1 - cmd
  *	1 - PHY_PRBS_START_CMD - start phy prbs with config (x2)
@@ -753,7 +790,7 @@
 #define PLAT_OCTEONTX_EHSM_AUTH_CMD		0xc2000b2f
 
  /* Number of family specific SMCs */
-#define OTX3_NUM_SMC_CALLS			49
+#define OTX3_NUM_SMC_CALLS			50
 
 
 /* API that allows to define platform specific SMC CALLS */
