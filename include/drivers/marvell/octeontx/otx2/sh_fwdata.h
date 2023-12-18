@@ -53,7 +53,8 @@ struct eth_lmac_fwdata_s {
 	/* LMAC type updated with CSR macro CAVM_RPM_LMAC_TYPES_E_* */
 	uint32_t lmac_type;
 	uint32_t portm_idx;
-#define LMAC_FWDATA_RESERVED_MEM 1020
+	uint64_t mgmt_port:1;
+#define LMAC_FWDATA_RESERVED_MEM 1019
 	uint64_t reserved[LMAC_FWDATA_RESERVED_MEM];
 
 };

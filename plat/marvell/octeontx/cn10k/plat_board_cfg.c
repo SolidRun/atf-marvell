@@ -2794,6 +2794,11 @@ static void cn10k_fill_portm_details(void *fdt)
 			}
 		}
 
+		/* Read mgmt/debug port mode */
+		snprintf(prop, sizeof(prop), "ETHERNET-MGMT-PORT.P%d", portm_idx);
+		portm->mgmt_port = cn10k_fdtebf_get_num(fdt, prop, 10);
+		debug_dts("PORTM%d: is used for mgmt port %d\n", portm_idx, portm->mgmt_port);
+
 		/* Read the FEC type from EBF DT */
 		snprintf(prop, sizeof(prop), "PORTM-FEC.P%d", portm_idx);
 		fec = cn10k_fdtebf_get_num(fdt, prop, 10);

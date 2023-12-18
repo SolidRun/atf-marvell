@@ -185,10 +185,14 @@ void sh_fwdata_init(void)
 	for (int rpm_id = 0; rpm_id < MAX_RPM; rpm_id++) {
 		for (int lmac_id = 0; lmac_id < MAX_LMAC_PER_RPM; lmac_id++) {
 			lmac_cfg = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
+			portm_config_t *portm = &(plat_octeontx_bcfg->portm_cfg[lmac_cfg->portm_idx]);
 			if (lmac_cfg->lmac_enable) {
 				lmac_fwdata = get_sh_rpm_fwdata_ptr(rpm_id, lmac_id);
 				lmac_fwdata->lmac_type = lmac_cfg->mode;
 				lmac_fwdata->portm_idx = lmac_cfg->portm_idx;
+				lmac_fwdata->mgmt_port = (portm->mgmt_port != -1);
+				debug_shmem_mgmt("%s: mgmt port = %d\n",
+					__func__, lmac_fwdata->mgmt_port);
 			}
 		}
 	}

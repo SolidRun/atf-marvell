@@ -279,6 +279,7 @@ typedef struct portm_config {
 	int rx_pol[MAX_LANES_PER_PORTM];    /* Rx Polarity */
 	int tx_precode[MAX_LANES_PER_PORTM];  /* Tx Precode Enable */
 	int rx_precode[MAX_LANES_PER_PORTM];  /* Rx Precode Enable */
+	int mgmt_port;			    /* MGMT/Debug port */
 } portm_config_t;
 
 /**

@@ -265,6 +265,7 @@ typedef struct plat_octeontx_board_cfg {
 	ras_config_t ras_config;
 	uint64_t adbg_dram_region_base;
 	ppr_config_t ppr_config;
+	int mgmt_port;
 } plat_octeontx_board_cfg_t;
 
 extern plat_octeontx_board_cfg_t * const plat_octeontx_bcfg;
