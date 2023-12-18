@@ -50,7 +50,7 @@ static uint32_t PPR_REGION_ADDR;
 static uint32_t PPR_REGION_END;
 static uint32_t ERASE_SIZE;
 
-static uint32_t timer_hd;
+static int timer_hd;
 extern octeontx_ctr_sem_t octeontx_smc_spi_lock;
 
 static struct ppr_mrr_header ppr_mrr = {

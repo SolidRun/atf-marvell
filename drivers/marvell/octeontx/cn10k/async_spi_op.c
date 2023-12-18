@@ -287,10 +287,14 @@ static int async_tim_handler(int tim)
 
 	//Skip current vlock in case of failure?
 	if (res != SPI_OP_OK) {
-		UERROR("Fail during SPI async operation SPI_%" PRId64 ":%" PRId64 "\n",
-		       spi_ops[spi_op_cnt].op_config.bus, spi_ops[spi_op_cnt].op_config.cs);
-		UERROR("Operation: %d, block: %d, type: %d\n", spi_op_cnt, block_op_cnt,
-		       spi_ops[spi_op_cnt].type);
+		if (spi_op_cnt < SPI_OP_COUNT) {
+			UERROR("Fail during SPI async operation SPI_%" PRId64 ":%" PRId64 "\n",
+			       spi_ops[spi_op_cnt].op_config.bus, spi_ops[spi_op_cnt].op_config.cs);
+			UERROR("Operation: %d, block: %d, type: %d\n", spi_op_cnt, block_op_cnt,
+			       spi_ops[spi_op_cnt].type);
+		} else {
+			UERROR("Fail during SPI async operation: %d", spi_op_cnt);
+		}
 	}
 
 	if (spi_op_cnt < SPI_OP_COUNT) {
@@ -371,10 +375,6 @@ static void spi_update_delayed(uint64_t addr, uint64_t size, uint64_t buffer, in
 			calc_done = 1;
 		else
 			op_size += 1;
-
-		if (so_op_count == 0)
-			so_op_count = 1;
-
 	} while (!calc_done);
 
 	while (size) {
@@ -395,9 +395,9 @@ static void spi_update_delayed(uint64_t addr, uint64_t size, uint64_t buffer, in
 			spi_ops[i].op_config.cs = cs;
 			i++;
 			//Update params
-			addr += SPI_ERASE_SIZE*op_size;
-			size -= SPI_ERASE_SIZE*op_size;
-			buffer += SPI_ERASE_SIZE*op_size;
+			addr += SPI_ERASE_SIZE*(uint64_t)op_size;
+			size -= SPI_ERASE_SIZE*(uint64_t)op_size;
+			buffer += SPI_ERASE_SIZE*(uint64_t)op_size;
 		}
 
 	}
@@ -413,10 +413,6 @@ static void spi_write_delayed(uint64_t addr, uint64_t size, uint64_t buffer, int
 			calc_done = 1;
 		else
 			op_size += 1;
-
-		if (so_op_count == 0)
-			so_op_count = 1;
-
 	} while (!calc_done);
 
 	while (size) {
@@ -441,9 +437,9 @@ static void spi_write_delayed(uint64_t addr, uint64_t size, uint64_t buffer, int
 			spi_ops[i].op_config.cs = cs;
 			i++;
 			//Update params
-			addr += SPI_ERASE_SIZE*op_size;
-			size -= SPI_ERASE_SIZE*op_size;
-			buffer += SPI_ERASE_SIZE*op_size;
+			addr += SPI_ERASE_SIZE*(uint64_t)op_size;
+			size -= SPI_ERASE_SIZE*(uint64_t)op_size;
+			buffer += SPI_ERASE_SIZE*(uint64_t)op_size;
 		}
 	}
 }
@@ -458,10 +454,6 @@ static void spi_read_delayed(uint64_t addr, uint64_t size, uint64_t buffer, int 
 			calc_done = 1;
 		else
 			op_size += 1;
-
-		if (so_op_count == 0)
-			so_op_count = 1;
-
 	} while (!calc_done);
 
 	while (size) {
@@ -470,11 +462,11 @@ static void spi_read_delayed(uint64_t addr, uint64_t size, uint64_t buffer, int 
 		spi_ops[i].op_config.memory_addr = buffer;
 		spi_ops[i].op_config.bus = bus;
 		spi_ops[i].op_config.cs = cs;
-		if (size > SPI_ERASE_SIZE*op_size) {
+		if (size > SPI_ERASE_SIZE*(uint64_t)op_size) {
 			spi_ops[i].op_config.size = SPI_ERASE_SIZE*op_size;
-			size -= SPI_ERASE_SIZE*op_size;
-			addr += SPI_ERASE_SIZE*op_size;
-			buffer += SPI_ERASE_SIZE*op_size;
+			size -= SPI_ERASE_SIZE*(uint64_t)op_size;
+			addr += SPI_ERASE_SIZE*(uint64_t)op_size;
+			buffer += SPI_ERASE_SIZE*(uint64_t)op_size;
 		} else {
 			spi_ops[i].op_config.size = size;
 			size = 0;

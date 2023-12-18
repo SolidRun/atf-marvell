@@ -3842,7 +3842,7 @@ static MCESD_STATUS INT_N5XC56GP5X4_DisplayEntryPAM2
     entry->pam2.remoteReqPreset = (MCESD_BOOL)rawValue;
     leftString = (1 == rawValue) ? N5XC56GP5X4_STRING_PRESET_COE : N5XC56GP5X4_STRING_NORMAL_OP;
     
-    sprintf(msg, "    REMOTE_REQ_PRESET       %s\n", leftString);
+	snprintf(msg, sizeof(msg), "    REMOTE_REQ_PRESET       %s\n", leftString);
     MCESD_DBG_INFO(msg);
 
     /* REMOTE REQUEST CTRL_G1 */
@@ -3855,7 +3855,7 @@ static MCESD_STATUS INT_N5XC56GP5X4_DisplayEntryPAM2
     entry->pam2.remoteReqStsG1 = (E_N5XC56GP5X4_TLOG2_STS)rawValue;
     rightString = (rawValue < 2) ? (0 == rawValue ? N5XC56GP5X4_STRING_NO_UPDATE : N5XC56GP5X4_STRING_UPDATED) : (2 == rawValue ? N5XC56GP5X4_STRING_MIN : N5XC56GP5X4_STRING_MAX);
 
-    sprintf(msg, "    REMOTE_REQ_CTRL_G1      %-16sREMOTE_REQ_STS_G1       %s\n", leftString, rightString);
+	snprintf(msg, sizeof(msg), "    REMOTE_REQ_CTRL_G1      %-16sREMOTE_REQ_STS_G1       %s\n", leftString, rightString);
     MCESD_DBG_INFO(msg);
 
     /* REMOTE REQUEST CTRL_G0 */
@@ -3868,7 +3868,7 @@ static MCESD_STATUS INT_N5XC56GP5X4_DisplayEntryPAM2
     entry->pam2.remoteReqStsG0 = (E_N5XC56GP5X4_TLOG2_STS)rawValue;
     rightString = (rawValue < 2) ? (0 == rawValue ? N5XC56GP5X4_STRING_NO_UPDATE : N5XC56GP5X4_STRING_UPDATED) : (2 == rawValue ? N5XC56GP5X4_STRING_MIN : N5XC56GP5X4_STRING_MAX);
 
-    sprintf(msg, "    REMOTE_REQ_CTRL_G0      %-16sREMOTE_REQ_STS_G0       %s\n", leftString, rightString);
+	snprintf(msg, sizeof(msg), "    REMOTE_REQ_CTRL_G0      %-16sREMOTE_REQ_STS_G0       %s\n", leftString, rightString);
     MCESD_DBG_INFO(msg);
 
     /* REMOTE REQUEST CTRL_GN1 */
@@ -3881,7 +3881,7 @@ static MCESD_STATUS INT_N5XC56GP5X4_DisplayEntryPAM2
     entry->pam2.remoteReqStsGN1 = (E_N5XC56GP5X4_TLOG2_STS)rawValue;
     rightString = (rawValue < 2) ? (0 == rawValue ? N5XC56GP5X4_STRING_NO_UPDATE : N5XC56GP5X4_STRING_UPDATED) : (2 == rawValue ? N5XC56GP5X4_STRING_MIN : N5XC56GP5X4_STRING_MAX);
 
-    sprintf(msg, "    REMOTE_REQ_CTRL_GN1     %-16sREMOTE_REQ_STS_GN1      %s\n", leftString, rightString);
+	snprintf(msg, sizeof(msg), "    REMOTE_REQ_CTRL_GN1     %-16sREMOTE_REQ_STS_GN1      %s\n", leftString, rightString);
     MCESD_DBG_INFO(msg);
 
     /* INITIALIZE */
@@ -3894,7 +3894,7 @@ static MCESD_STATUS INT_N5XC56GP5X4_DisplayEntryPAM2
     entry->pam2.ready = (MCESD_BOOL)rawValue;
     rightString = (1 == rawValue) ? N5XC56GP5X4_STRING_TRUE : N5XC56GP5X4_STRING_FALSE;
 
-    sprintf(msg, "    INITIALIZE              %-16sREADY                   %s\n", leftString, rightString);
+	snprintf(msg, sizeof(msg), "    INITIALIZE              %-16sREADY                   %s\n", leftString, rightString);
     MCESD_DBG_INFO(msg);
 
     /* LOCAL REQUEST PRESET */
@@ -3902,7 +3902,7 @@ static MCESD_STATUS INT_N5XC56GP5X4_DisplayEntryPAM2
     entry->pam2.localReqPreset = (rawValue > N5XC56GP5X4_TLOG2_PRESET1) ? N5XC56GP5X4_TLOG2_PRESET_NA : (E_N5XC56GP5X4_TLOG2_PRESET)rawValue;
     leftString = (rawValue > N5XC56GP5X4_TLOG2_PRESET1) ? N5XC56GP5X4_STRING_DASH : (0 == rawValue ? N5XC56GP5X4_STRING_PRESET0 : N5XC56GP5X4_STRING_PRESET1);
 
-    sprintf(msg, "    LOCAL_REQ_PRESET        %s\n", leftString);
+	snprintf(msg, sizeof(msg), "    LOCAL_REQ_PRESET        %s\n", leftString);
     MCESD_DBG_INFO(msg);
 
     /* LOCAL REQUEST CTRL_G1 */
@@ -3915,7 +3915,7 @@ static MCESD_STATUS INT_N5XC56GP5X4_DisplayEntryPAM2
     entry->pam2.localReqStsG1 = (E_N5XC56GP5X4_TLOG2_STS)rawValue;
     rightString = (rawValue < 2) ? (0 == rawValue ? N5XC56GP5X4_STRING_NO_UPDATE : N5XC56GP5X4_STRING_UPDATED) : (2 == rawValue ? N5XC56GP5X4_STRING_MIN : N5XC56GP5X4_STRING_MAX);
 
-    sprintf(msg, "    LOCAL_REQ_CTRL_G1       %-16sLOCAL_REQ_STS_G1        %s\n", leftString, rightString);
+	snprintf(msg, sizeof(msg), "    LOCAL_REQ_CTRL_G1       %-16sLOCAL_REQ_STS_G1        %s\n", leftString, rightString);
     MCESD_DBG_INFO(msg);
 
     /* LOCAL REQUEST CTRL_G0 */
@@ -3928,7 +3928,7 @@ static MCESD_STATUS INT_N5XC56GP5X4_DisplayEntryPAM2
     entry->pam2.localReqStsG0 = (E_N5XC56GP5X4_TLOG2_STS)rawValue;
     rightString = (rawValue < 2) ? (0 == rawValue ? N5XC56GP5X4_STRING_NO_UPDATE : N5XC56GP5X4_STRING_UPDATED) : (2 == rawValue ? N5XC56GP5X4_STRING_MIN : N5XC56GP5X4_STRING_MAX);
 
-    sprintf(msg, "    LOCAL_REQ_CTRL_G0       %-16sLOCAL_REQ_STS_G0        %s\n", leftString, rightString);
+	snprintf(msg, sizeof(msg), "    LOCAL_REQ_CTRL_G0       %-16sLOCAL_REQ_STS_G0        %s\n", leftString, rightString);
     MCESD_DBG_INFO(msg);
 
     /* LOCAL REQUEST CTRL_GN1 */
@@ -3941,7 +3941,7 @@ static MCESD_STATUS INT_N5XC56GP5X4_DisplayEntryPAM2
     entry->pam2.localReqStsGN1 = (E_N5XC56GP5X4_TLOG2_STS)rawValue;
     rightString = (rawValue < 2) ? (0 == rawValue ? N5XC56GP5X4_STRING_NO_UPDATE : N5XC56GP5X4_STRING_UPDATED) : (2 == rawValue ? N5XC56GP5X4_STRING_MIN : N5XC56GP5X4_STRING_MAX);
 
-    sprintf(msg, "    LOCAL_REQ_CTRL_GN1      %-16sLOCAL_REQ_STS_GN1       %s\n", leftString, rightString);
+	snprintf(msg, sizeof(msg), "    LOCAL_REQ_CTRL_GN1      %-16sLOCAL_REQ_STS_GN1       %s\n", leftString, rightString);
     MCESD_DBG_INFO(msg);
 
     return MCESD_OK;
@@ -3970,7 +3970,7 @@ static MCESD_STATUS INT_N5XC56GP5X4_DisplayEntryPAM4
     entry->pam4.remoteReqPreset = (E_N5XC56GP5X4_TLOG4_PRESET)rawValue;
     rightString = (rawValue < 2) ? (0 == rawValue ? N5XC56GP5X4_STRING_PRESET0 : N5XC56GP5X4_STRING_PRESET1) : (2 == rawValue ? N5XC56GP5X4_STRING_PRESET2 : N5XC56GP5X4_STRING_PRESET3);
 
-    sprintf(msg, "    REMOTE_REQ_CTRL_PATTERN %-16sREMOTE_REQ_PRESET       %s\n", leftString, rightString);
+	snprintf(msg, sizeof(msg), "    REMOTE_REQ_CTRL_PATTERN %-16sREMOTE_REQ_PRESET       %s\n", leftString, rightString);
     MCESD_DBG_INFO(msg);
 
     /* REMOTE REQ CTRL_G */
@@ -4012,7 +4012,7 @@ static MCESD_STATUS INT_N5XC56GP5X4_DisplayEntryPAM4
         rightString = N5XC56GP5X4_STRING_DASH;
     }
 
-    sprintf(msg, "    REMOTE_REQ_CTRL_G       %-16sREMOTE_REQ_STS_G        %s\n", leftString, rightString);
+	snprintf(msg, sizeof(msg), "    REMOTE_REQ_CTRL_G       %-16sREMOTE_REQ_STS_G        %s\n", leftString, rightString);
     MCESD_DBG_INFO(msg);
 
     /* REMOTE REQ CTRL_SEL */
@@ -4049,7 +4049,7 @@ static MCESD_STATUS INT_N5XC56GP5X4_DisplayEntryPAM4
     entry->pam4.ready = (MCESD_BOOL)rawValue;
     rightString = (1 == rawValue) ? N5XC56GP5X4_STRING_TRUE : N5XC56GP5X4_STRING_FALSE;
 
-    sprintf(msg, "    REMOTE_REQ_CTRL_SEL     %-16sREADY                   %s\n", leftString, rightString);
+	snprintf(msg, sizeof(msg), "    REMOTE_REQ_CTRL_SEL     %-16sREADY                   %s\n", leftString, rightString);
     MCESD_DBG_INFO(msg);
 
     /* LOCAL REQ CTRL_PAT */
@@ -4062,7 +4062,7 @@ static MCESD_STATUS INT_N5XC56GP5X4_DisplayEntryPAM4
     entry->pam4.localReqPreset = (E_N5XC56GP5X4_TLOG4_PRESET)rawValue;
     rightString = (rawValue < 2) ? (0 == rawValue ? N5XC56GP5X4_STRING_PRESET0 : N5XC56GP5X4_STRING_PRESET1) : (2 == rawValue ? N5XC56GP5X4_STRING_PRESET2 : N5XC56GP5X4_STRING_PRESET3);
 
-    sprintf(msg, "    LOCAL_REQ_CTRL_PATTERN  %-16sLOCAL_REQ_PRESET        %s\n", leftString, rightString);
+	snprintf(msg, sizeof(msg), "    LOCAL_REQ_CTRL_PATTERN  %-16sLOCAL_REQ_PRESET        %s\n", leftString, rightString);
     MCESD_DBG_INFO(msg);
 
     /* LOCAL REQ CTRL_G */
@@ -4104,7 +4104,7 @@ static MCESD_STATUS INT_N5XC56GP5X4_DisplayEntryPAM4
         rightString = N5XC56GP5X4_STRING_DASH;
     }
 
-    sprintf(msg, "    LOCAL_REQ_CTRL_G        %-16sLOCAL_REQ_STS_G         %s\n", leftString, rightString);
+	snprintf(msg, sizeof(msg), "    LOCAL_REQ_CTRL_G        %-16sLOCAL_REQ_STS_G         %s\n", leftString, rightString);
     MCESD_DBG_INFO(msg);
 
     /* LOCAL REQ CTRL_SEL */
@@ -4141,7 +4141,7 @@ static MCESD_STATUS INT_N5XC56GP5X4_DisplayEntryPAM4
     entry->pam4.stsAck = (MCESD_BOOL)rawValue;
     rightString = (1 == rawValue) ? N5XC56GP5X4_STRING_TRUE : N5XC56GP5X4_STRING_FALSE;
 
-    sprintf(msg, "    LOCAL_REQ_CTRL_SEL      %-16sSTS_ACK                 %s\n", leftString, rightString);
+	snprintf(msg, sizeof(msg), "    LOCAL_REQ_CTRL_SEL      %-16sSTS_ACK                 %s\n", leftString, rightString);
     MCESD_DBG_INFO(msg);
 
     return MCESD_OK;

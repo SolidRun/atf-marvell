@@ -1247,6 +1247,11 @@ int sfp_validate_user_options(int portm_idx)
 	eth_id = cn10k_portm_get_rpm_num(portm_idx);
 	lmac_id = cn10k_portm_get_rpm_lmac_num(portm_idx);
 
+	if (eth_id < 0 || lmac_id < 0) {
+		ERROR("%s: eth id = %d/lmac id = %d is incorrect\n", __func__, eth_id, lmac_id);
+		return 0;
+	}
+
 	lmac_cfg = &(plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id]);
 	cap_info = &sfp_cap_info[portm_idx];
 	phy = lmac_cfg->phy_config;

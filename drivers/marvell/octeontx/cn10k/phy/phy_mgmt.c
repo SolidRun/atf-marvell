@@ -439,7 +439,7 @@ void phy_lookup(int eth_id, int lmac_id, int type)
 	if (eth_id < 0 || eth_id >= MAX_RPM)
 		return;
 
-	if (lmac_id < 0 || lmac_id > MAX_LMAC_PER_RPM)
+	if (lmac_id < 0 || lmac_id >= MAX_LMAC_PER_RPM)
 		return;
 
 	lmac = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id];

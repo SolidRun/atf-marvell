@@ -1284,7 +1284,6 @@ static int spi_block_write(io_entity_t *entity, const uintptr_t buffer,
 			*length_written += write_len;
 			bptr += write_len;
 			length -= write_len;
-			block_start_addr += write_len;
 		}
 		/* Check for end partial write at end */
 		if (length) {

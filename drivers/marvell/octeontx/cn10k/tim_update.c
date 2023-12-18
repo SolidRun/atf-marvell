@@ -3900,7 +3900,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	if (update_desc.async_operation != 0)
 		async_operation = true;
 
-	if ((bus > MAX_SPI_BUS) || (cs > MAX_SPI_CS)) {
+	if ((bus >= MAX_SPI_BUS) || (cs >= MAX_SPI_CS)) {
 		UERROR("Invalid bus 0x%x or chip select 0x%x\n", bus, cs);
 		*uret = UPDATE_INVALID_MEDIA;
 		goto error;
@@ -4140,7 +4140,7 @@ int spi_smc_read_flash(uintptr_t desc_buf, uint64_t desc_size)
 	if (read_desc.async_spi != 0)
 		async_operation = true;
 
-	if ((bus > MAX_SPI_BUS) || (cs > MAX_SPI_CS)) {
+	if ((bus >= MAX_SPI_BUS) || (cs >= MAX_SPI_CS)) {
 		UERROR("Invalid bus 0x%x or chip select 0x%x\n", bus, cs);
 		goto error;
 	}
@@ -4706,13 +4706,7 @@ flash_smc_copy_objects(struct smc_version_info *vinfo)
 		}
 		vinfo->retcode = RET_OK;
 	}
-	if (uret != UPDATE_OK) {
-		err = uret;
-		UERROR("Could not write tim0 to destination\n");
-		vinfo->retcode = BACKUP_IO_DST_ERROR;
-	} else {
-		vinfo->retcode = RET_OK;
-	}
+	vinfo->retcode = RET_OK;
 
 dest_io_error:
 	/*
@@ -5227,7 +5221,7 @@ static int prepare_vinfo(struct smc_version_info *vinfo, struct verification_dat
 		async_enabled = true;
 
 	/* The TIM code expects an update descriptor */
-	zeromem(udesc, sizeof(udesc));
+	zeromem(udesc, sizeof(*udesc));
 	udesc->bus = vinfo->bus;
 	udesc->cs = vinfo->cs;
 	if (vinfo->version_flags & VERSION_FLAG_EMMC)
@@ -5293,6 +5287,7 @@ static int prepare_vinfo(struct smc_version_info *vinfo, struct verification_dat
 				name = fdt_get_name(fdt_ptr, node, NULL);
 				UWARN("Missing type for FDT node %s\n",
 				     name ? name : "UNKNOWN");
+				continue;
 			}
 			if (!strcmp(type, "root-tim")) {
 				INFO("Found ROOT TIM\n");

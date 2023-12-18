@@ -50,7 +50,7 @@ int rpm_fec_change(int rpm_id, int lmac_id, int fec, rpm_lmac_context_t *lmac_ct
 {
 	rpm_lmac_config_t *lmac;
 	uint64_t init_time = 0, cmd_timeout = 0, ltimeout = 0;
-	int status = 0, ret = 0, sig_detect = 0, sig_detect_temp = 0;
+	int status = 0, ret = 0, sig_detect = 0;
 	ecp_link_state_t link_state = {0};
 	rpm_lmac_bringup_context_t *bringup_ctx;
 
@@ -95,7 +95,7 @@ int rpm_fec_change(int rpm_id, int lmac_id, int fec, rpm_lmac_context_t *lmac_ct
 		while (clock_get_count(GSER_CLOCK_TIME)
 						< cmd_timeout) {
 			status = ecp_get_link_state(lmac->portm_idx, lmac_id, &link_state, &sig_detect);
-			if ((!sig_detect) && (sig_detect_temp))
+			if ((!sig_detect))
 				sig_detect = 1;
 			if ((status == ETH_LINK_STATE_LINK_UP) ||
 						(status == ETH_LINK_STATE_LINK_STOPPED))

@@ -121,11 +121,17 @@ int prepare_elx_restore_context(void)
 
 	cpu = plat_core_pos_by_mpidr(read_mpidr());
 	val = read_ctx_reg((el3state_ctx), (uint32_t)(CTX_SPSR_EL3));
-	*gti_shared_addr[cpu].gti_addr_spsr = val;
+	if (cpu < 0)
+		debug_gti_watchdog("%s: GTI: cpu value = %d incorrect\n", __func__, cpu);
+	else
+		*gti_shared_addr[cpu].gti_addr_spsr = val;
 	el_mode = GET_EL(val);
 
 	val = read_ctx_reg((el3state_ctx), (uint32_t)(CTX_ELR_EL3));
-	*gti_shared_addr[cpu].gti_addr_elr = val;
+	if (cpu < 0)
+		debug_gti_watchdog("%s: GTI: cpu value = %d incorrect\n", __func__, cpu);
+	else
+		*gti_shared_addr[cpu].gti_addr_elr = val;
 
 	memcpy((void *) &g_gpregs_save, (void *)gpregs_ctx, sizeof(gp_regs_t));
 	memcpy((void *) &g_el3state_save, (void *)el3state_ctx,
@@ -223,7 +229,7 @@ static void gti_watchdog_set(uint64_t timeout_ms, uint64_t cores)
 		int i, rc;
 #if defined(PLAT_CN10K_FAMILY)
 		rst_pll.u = CSR_READ(CAVM_RST_PLLX(CAVM_RST_PLL_E_MESHCLK));
-		sclk = rst_pll.s.cur_mul * PLL_REF_CLK;
+		sclk = (uint64_t)rst_pll.s.cur_mul * PLL_REF_CLK;
 #elif defined(PLAT_CN20K_FAMILY)
 		sclk = 16 * PLL_REF_CLK; /* FIXME */
 #else

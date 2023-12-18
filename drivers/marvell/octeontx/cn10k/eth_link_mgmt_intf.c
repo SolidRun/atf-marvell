@@ -173,6 +173,11 @@ void ecp_link_update_sgmii_speed_dplx(int portm_idx, int specific_lmac)
 	int idx, rpm_id, lmac_id, num_lmacs;
 	rpm_config_t *rpm;
 
+	if (!sh_data) {
+		debug_eth_link_intf("%s ecp link sh_data is NULL\n", __func__);
+		return;
+	}
+
 	rpm_id = portm->mac_num;
 	lmac_id = portm->mac_lane;
 	num_lmacs = portm->num_lmacs;

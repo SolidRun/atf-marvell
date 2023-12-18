@@ -1633,6 +1633,12 @@ static int rpm_handle_eth_mode_change(int portm_idx,
 		lmac_id = cn10k_portm_get_rpm_lmac_num(portm_idx);
 	}
 
+	if (rpm_id < 0 || lmac_id < 0) {
+		ERROR("%s: RPM num = %d/LMAC num = %d is incorrect\n",
+		      __func__, rpm_id, lmac_id);
+		return -1;
+	}
+
 	rpm = &plat_octeontx_bcfg->rpm_cfg[rpm_id];
 	bringup_ctx = &bringup_context[rpm_id][lmac_id];
 	lmac = &rpm->lmac_cfg[lmac_id];
@@ -2109,6 +2115,13 @@ static int rpm_handle_mode_change(int rpm_id, int lmac_id,
 			rpm_id = cn10k_portm_get_rpm_num(portm_idx);
 			lmac_id = cn10k_portm_get_rpm_lmac_num(portm_idx);
 		}
+
+		if (rpm_id < 0 || lmac_id < 0) {
+			ERROR("%s: RPM num = %d/LMAC num = %d is incorrect\n",
+			      __func__, rpm_id, lmac_id);
+			return -1;
+		}
+
 		*bringup_ctx = &bringup_context[rpm_id][lmac_id];
 
 		if ((*bringup_ctx)->link_bringup_status == LINK_BRINGUP_IN_PROGRESS)

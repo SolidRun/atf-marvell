@@ -96,7 +96,7 @@ int gserm_get_mode_from_string(const char *str)
 	return -1;
 }
 
-const struct gserm_mode_strmap_s gserm_get_mode_strmap(int gserm_mode)
+struct gserm_mode_strmap_s gserm_get_mode_strmap(int gserm_mode)
 {
 	return gsermmode_strmap[gserm_mode];
 }

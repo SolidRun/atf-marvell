@@ -75,7 +75,7 @@ struct gserm_config {
 #define READ_PIN(_info, _pin_info, out) {				\
 		uint64_t mask = (1ULL << (_pin_info)->field_bits)-1;	\
 		uint64_t soc_addr = (GSERM_PIN_BAR +			\
-				     ((_info)->gserm_idx *		\
+				     (uint64_t)((_info)->gserm_idx *	\
 				      GSERM_PIN_OFFSET) +		\
 				     (_pin_info)->reg_addr);		\
 		uint64_t data =						\
@@ -90,7 +90,7 @@ struct gserm_config {
 		uint64_t fmask = (1ULL << (_pin_info)->field_bits)-1;	\
 		uint64_t wmask;						\
 		uint64_t soc_addr = (GSERM_PIN_BAR +			\
-				     ((_info)->gserm_idx *		\
+				     (uint64_t)((_info)->gserm_idx *	\
 				      GSERM_PIN_OFFSET) +		\
 				     (_pin_info)->reg_addr);		\
 		uint64_t data =						\
@@ -108,7 +108,7 @@ struct gserm_config {
 
 #define READ_REG(_info, reg, out) {					\
 		uint64_t soc_addr = (GSERM_REG_BAR +			\
-				     ((_info)->gserm_idx *		\
+				     (uint64_t)((_info)->gserm_idx *	\
 				      GSERM_REG_OFFSET) +		\
 				     ((reg)*2));			\
 									\
@@ -118,7 +118,7 @@ struct gserm_config {
 
 #define WRITE_REG(_info, reg, value) {					\
 		uint64_t soc_addr = (GSERM_REG_BAR +			\
-				     ((_info)->gserm_idx *		\
+				     (uint64_t)((_info)->gserm_idx *	\
 				      GSERM_REG_OFFSET) +		\
 				     ((reg)*2));			\
 									\
