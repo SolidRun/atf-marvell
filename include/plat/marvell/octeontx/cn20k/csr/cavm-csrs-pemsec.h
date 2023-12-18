@@ -25,9 +25,9 @@
  * PEMSEC Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define CAVM_PEMSEC_BAR_E_PEMSECX_PF_BAR0(a) (0x810000000000ll + 0x1000000000ll * (a))
+#define CAVM_PEMSEC_BAR_E_PEMSECX_PF_BAR0(a) (0xc2c000000000ll + 0x100000000ll * (a))
 #define CAVM_PEMSEC_BAR_E_PEMSECX_PF_BAR0_SIZE 0x40000000ull
-#define CAVM_PEMSEC_BAR_E_PEMSECX_PF_BAR4(a) (0x810f00000000ll + 0x1000000000ll * (a))
+#define CAVM_PEMSEC_BAR_E_PEMSECX_PF_BAR4(a) (0xc2c080000000ll + 0x100000000ll * (a))
 #define CAVM_PEMSEC_BAR_E_PEMSECX_PF_BAR4_SIZE 0x100000ull
 
 /**
@@ -46,7 +46,7 @@
 #define CAVM_PEMSEC_INT_VEC_E_VDMX_INT(a) (7 + (a))
 
 /**
- * Register (NCB) pemsec#_blk_ide_ctl
+ * Register (ARF) pemsec#_blk_ide_ctl
  *
  * PEMSEC IDE Block Control Register
  * This register provides control of the IDE block resets and miscellaneous
@@ -183,19 +183,19 @@ static inline uint64_t CAVM_PEMSECX_BLK_IDE_CTL(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_PEMSECX_BLK_IDE_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000006200ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000006200ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_BLK_IDE_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_BLK_IDE_CTL(a) cavm_pemsecx_blk_ide_ctl_t
-#define bustype_CAVM_PEMSECX_BLK_IDE_CTL(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_BLK_IDE_CTL(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_BLK_IDE_CTL(a) "PEMSECX_BLK_IDE_CTL"
 #define device_bar_CAVM_PEMSECX_BLK_IDE_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_BLK_IDE_CTL(a) (a)
 #define arguments_CAVM_PEMSECX_BLK_IDE_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_blk_ide_sts
+ * Register (ARF) pemsec#_blk_ide_sts
  *
  * PEMSEC IDE Block Status Register
  * This register provides status of the IDE block.
@@ -245,19 +245,19 @@ static inline uint64_t CAVM_PEMSECX_BLK_IDE_STS(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_PEMSECX_BLK_IDE_STS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000006208ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000006208ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_BLK_IDE_STS", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_BLK_IDE_STS(a) cavm_pemsecx_blk_ide_sts_t
-#define bustype_CAVM_PEMSECX_BLK_IDE_STS(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_BLK_IDE_STS(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_BLK_IDE_STS(a) "PEMSECX_BLK_IDE_STS"
 #define device_bar_CAVM_PEMSECX_BLK_IDE_STS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_BLK_IDE_STS(a) (a)
 #define arguments_CAVM_PEMSECX_BLK_IDE_STS(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_cfg_core_ver_num
+ * Register (ARF) pemsec#_cfg_core_ver_num
  *
  * CFG IP Version Number Register
  */
@@ -293,19 +293,19 @@ static inline uint64_t CAVM_PEMSECX_CFG_CORE_VER_NUM(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_PEMSECX_CFG_CORE_VER_NUM(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000001000ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000001000ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_CFG_CORE_VER_NUM", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_CFG_CORE_VER_NUM(a) cavm_pemsecx_cfg_core_ver_num_t
-#define bustype_CAVM_PEMSECX_CFG_CORE_VER_NUM(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_CFG_CORE_VER_NUM(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_CFG_CORE_VER_NUM(a) "PEMSECX_CFG_CORE_VER_NUM"
 #define device_bar_CAVM_PEMSECX_CFG_CORE_VER_NUM(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_CFG_CORE_VER_NUM(a) (a)
 #define arguments_CAVM_PEMSECX_CFG_CORE_VER_NUM(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_cfg_core_ver_type
+ * Register (ARF) pemsec#_cfg_core_ver_type
  *
  * CFG IP Version Type Register
  */
@@ -349,19 +349,19 @@ static inline uint64_t CAVM_PEMSECX_CFG_CORE_VER_TYPE(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_PEMSECX_CFG_CORE_VER_TYPE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000001008ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000001008ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_CFG_CORE_VER_TYPE", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_CFG_CORE_VER_TYPE(a) cavm_pemsecx_cfg_core_ver_type_t
-#define bustype_CAVM_PEMSECX_CFG_CORE_VER_TYPE(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_CFG_CORE_VER_TYPE(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_CFG_CORE_VER_TYPE(a) "PEMSECX_CFG_CORE_VER_TYPE"
 #define device_bar_CAVM_PEMSECX_CFG_CORE_VER_TYPE(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_CFG_CORE_VER_TYPE(a) (a)
 #define arguments_CAVM_PEMSECX_CFG_CORE_VER_TYPE(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_datapath_prot_error_inj_ctrl
+ * Register (ARF) pemsec#_datapath_prot_error_inj_ctrl
  *
  * Datapath Protection Error Injection Control Register
  */
@@ -521,19 +521,19 @@ static inline uint64_t CAVM_PEMSECX_DATAPATH_PROT_ERROR_INJ_CTRL(uint64_t a) __a
 static inline uint64_t CAVM_PEMSECX_DATAPATH_PROT_ERROR_INJ_CTRL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000001650ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000001650ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_DATAPATH_PROT_ERROR_INJ_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_DATAPATH_PROT_ERROR_INJ_CTRL(a) cavm_pemsecx_datapath_prot_error_inj_ctrl_t
-#define bustype_CAVM_PEMSECX_DATAPATH_PROT_ERROR_INJ_CTRL(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_DATAPATH_PROT_ERROR_INJ_CTRL(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_DATAPATH_PROT_ERROR_INJ_CTRL(a) "PEMSECX_DATAPATH_PROT_ERROR_INJ_CTRL"
 #define device_bar_CAVM_PEMSECX_DATAPATH_PROT_ERROR_INJ_CTRL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_DATAPATH_PROT_ERROR_INJ_CTRL(a) (a)
 #define arguments_CAVM_PEMSECX_DATAPATH_PROT_ERROR_INJ_CTRL(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_datapath_prot_irq_en
+ * Register (ARF) pemsec#_datapath_prot_irq_en
  *
  * Datapath ECC Interrupt Enable Register
  */
@@ -603,19 +603,19 @@ static inline uint64_t CAVM_PEMSECX_DATAPATH_PROT_IRQ_EN(uint64_t a) __attribute
 static inline uint64_t CAVM_PEMSECX_DATAPATH_PROT_IRQ_EN(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000001640ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000001640ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_DATAPATH_PROT_IRQ_EN", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_DATAPATH_PROT_IRQ_EN(a) cavm_pemsecx_datapath_prot_irq_en_t
-#define bustype_CAVM_PEMSECX_DATAPATH_PROT_IRQ_EN(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_DATAPATH_PROT_IRQ_EN(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_DATAPATH_PROT_IRQ_EN(a) "PEMSECX_DATAPATH_PROT_IRQ_EN"
 #define device_bar_CAVM_PEMSECX_DATAPATH_PROT_IRQ_EN(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_DATAPATH_PROT_IRQ_EN(a) (a)
 #define arguments_CAVM_PEMSECX_DATAPATH_PROT_IRQ_EN(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_datapath_prot_irq_stat
+ * Register (ARF) pemsec#_datapath_prot_irq_stat
  *
  * Datapath ECC Interrupt Status Register
  */
@@ -793,19 +793,19 @@ static inline uint64_t CAVM_PEMSECX_DATAPATH_PROT_IRQ_STAT(uint64_t a) __attribu
 static inline uint64_t CAVM_PEMSECX_DATAPATH_PROT_IRQ_STAT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000001648ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000001648ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_DATAPATH_PROT_IRQ_STAT", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_DATAPATH_PROT_IRQ_STAT(a) cavm_pemsecx_datapath_prot_irq_stat_t
-#define bustype_CAVM_PEMSECX_DATAPATH_PROT_IRQ_STAT(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_DATAPATH_PROT_IRQ_STAT(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_DATAPATH_PROT_IRQ_STAT(a) "PEMSECX_DATAPATH_PROT_IRQ_STAT"
 #define device_bar_CAVM_PEMSECX_DATAPATH_PROT_IRQ_STAT(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_DATAPATH_PROT_IRQ_STAT(a) (a)
 #define arguments_CAVM_PEMSECX_DATAPATH_PROT_IRQ_STAT(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_ide_counter_overflow
+ * Register (ARF) pemsec#_ide_counter_overflow
  *
  * IDE Counter Overflow Register
  */
@@ -853,19 +853,19 @@ static inline uint64_t CAVM_PEMSECX_IDE_COUNTER_OVERFLOW(uint64_t a) __attribute
 static inline uint64_t CAVM_PEMSECX_IDE_COUNTER_OVERFLOW(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8100000015a8ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c0000015a8ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_IDE_COUNTER_OVERFLOW", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_IDE_COUNTER_OVERFLOW(a) cavm_pemsecx_ide_counter_overflow_t
-#define bustype_CAVM_PEMSECX_IDE_COUNTER_OVERFLOW(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_IDE_COUNTER_OVERFLOW(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_IDE_COUNTER_OVERFLOW(a) "PEMSECX_IDE_COUNTER_OVERFLOW"
 #define device_bar_CAVM_PEMSECX_IDE_COUNTER_OVERFLOW(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_IDE_COUNTER_OVERFLOW(a) (a)
 #define arguments_CAVM_PEMSECX_IDE_COUNTER_OVERFLOW(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_ide_glbl_cfg
+ * Register (ARF) pemsec#_ide_glbl_cfg
  *
  * IDE Global Configuration Register
  */
@@ -969,19 +969,19 @@ static inline uint64_t CAVM_PEMSECX_IDE_GLBL_CFG(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_PEMSECX_IDE_GLBL_CFG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000001010ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000001010ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_IDE_GLBL_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_IDE_GLBL_CFG(a) cavm_pemsecx_ide_glbl_cfg_t
-#define bustype_CAVM_PEMSECX_IDE_GLBL_CFG(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_IDE_GLBL_CFG(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_IDE_GLBL_CFG(a) "PEMSECX_IDE_GLBL_CFG"
 #define device_bar_CAVM_PEMSECX_IDE_GLBL_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_IDE_GLBL_CFG(a) (a)
 #define arguments_CAVM_PEMSECX_IDE_GLBL_CFG(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_ide_int
+ * Register (ARF) pemsec#_ide_int
  *
  * PEMSEC IDE Interrupt Summary Register
  * This register contains the interrupt summary bits for the IDE Host Configuration
@@ -1036,19 +1036,19 @@ static inline uint64_t CAVM_PEMSECX_IDE_INT(uint64_t a) __attribute__ ((pure, al
 static inline uint64_t CAVM_PEMSECX_IDE_INT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000006000ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000006000ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_IDE_INT", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_IDE_INT(a) cavm_pemsecx_ide_int_t
-#define bustype_CAVM_PEMSECX_IDE_INT(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_IDE_INT(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_IDE_INT(a) "PEMSECX_IDE_INT"
 #define device_bar_CAVM_PEMSECX_IDE_INT(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_IDE_INT(a) (a)
 #define arguments_CAVM_PEMSECX_IDE_INT(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_ide_int_ena_w1c
+ * Register (ARF) pemsec#_ide_int_ena_w1c
  *
  * PEMSEC IDE Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
@@ -1080,19 +1080,19 @@ static inline uint64_t CAVM_PEMSECX_IDE_INT_ENA_W1C(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_PEMSECX_IDE_INT_ENA_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000006010ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000006010ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_IDE_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_IDE_INT_ENA_W1C(a) cavm_pemsecx_ide_int_ena_w1c_t
-#define bustype_CAVM_PEMSECX_IDE_INT_ENA_W1C(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_IDE_INT_ENA_W1C(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_IDE_INT_ENA_W1C(a) "PEMSECX_IDE_INT_ENA_W1C"
 #define device_bar_CAVM_PEMSECX_IDE_INT_ENA_W1C(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_IDE_INT_ENA_W1C(a) (a)
 #define arguments_CAVM_PEMSECX_IDE_INT_ENA_W1C(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_ide_int_ena_w1s
+ * Register (ARF) pemsec#_ide_int_ena_w1s
  *
  * PEMSEC IDE Interrupt Enable Set Register
  * This register sets interrupt enable bits.
@@ -1124,19 +1124,19 @@ static inline uint64_t CAVM_PEMSECX_IDE_INT_ENA_W1S(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_PEMSECX_IDE_INT_ENA_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000006018ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000006018ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_IDE_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_IDE_INT_ENA_W1S(a) cavm_pemsecx_ide_int_ena_w1s_t
-#define bustype_CAVM_PEMSECX_IDE_INT_ENA_W1S(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_IDE_INT_ENA_W1S(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_IDE_INT_ENA_W1S(a) "PEMSECX_IDE_INT_ENA_W1S"
 #define device_bar_CAVM_PEMSECX_IDE_INT_ENA_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_IDE_INT_ENA_W1S(a) (a)
 #define arguments_CAVM_PEMSECX_IDE_INT_ENA_W1S(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_ide_int_w1s
+ * Register (ARF) pemsec#_ide_int_w1s
  *
  * PEMSEC IDE Interrupt Set Register
  * This register sets interrupt bits.
@@ -1168,19 +1168,19 @@ static inline uint64_t CAVM_PEMSECX_IDE_INT_W1S(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_PEMSECX_IDE_INT_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000006008ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000006008ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_IDE_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_IDE_INT_W1S(a) cavm_pemsecx_ide_int_w1s_t
-#define bustype_CAVM_PEMSECX_IDE_INT_W1S(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_IDE_INT_W1S(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_IDE_INT_W1S(a) "PEMSECX_IDE_INT_W1S"
 #define device_bar_CAVM_PEMSECX_IDE_INT_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_IDE_INT_W1S(a) (a)
 #define arguments_CAVM_PEMSECX_IDE_INT_W1S(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_ide_io_irq_status
+ * Register (ARF) pemsec#_ide_io_irq_status
  *
  * IDE Interrupt Status Register
  */
@@ -1348,19 +1348,19 @@ static inline uint64_t CAVM_PEMSECX_IDE_IO_IRQ_STATUS(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_PEMSECX_IDE_IO_IRQ_STATUS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8100000015c8ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c0000015c8ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_IDE_IO_IRQ_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_IDE_IO_IRQ_STATUS(a) cavm_pemsecx_ide_io_irq_status_t
-#define bustype_CAVM_PEMSECX_IDE_IO_IRQ_STATUS(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_IDE_IO_IRQ_STATUS(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_IDE_IO_IRQ_STATUS(a) "PEMSECX_IDE_IO_IRQ_STATUS"
 #define device_bar_CAVM_PEMSECX_IDE_IO_IRQ_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_IDE_IO_IRQ_STATUS(a) (a)
 #define arguments_CAVM_PEMSECX_IDE_IO_IRQ_STATUS(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_ide_irq_en
+ * Register (ARF) pemsec#_ide_irq_en
  *
  * IDE Interrupt Enable Register
  */
@@ -1447,19 +1447,19 @@ static inline uint64_t CAVM_PEMSECX_IDE_IRQ_EN(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_PEMSECX_IDE_IRQ_EN(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8100000015b0ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c0000015b0ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_IDE_IRQ_EN", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_IDE_IRQ_EN(a) cavm_pemsecx_ide_irq_en_t
-#define bustype_CAVM_PEMSECX_IDE_IRQ_EN(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_IDE_IRQ_EN(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_IDE_IRQ_EN(a) "PEMSECX_IDE_IRQ_EN"
 #define device_bar_CAVM_PEMSECX_IDE_IRQ_EN(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_IDE_IRQ_EN(a) (a)
 #define arguments_CAVM_PEMSECX_IDE_IRQ_EN(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_ide_sync_msg_cfg
+ * Register (ARF) pemsec#_ide_sync_msg_cfg
  *
  * IDE Sync Message Configuration Register
  */
@@ -1499,19 +1499,19 @@ static inline uint64_t CAVM_PEMSECX_IDE_SYNC_MSG_CFG(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_PEMSECX_IDE_SYNC_MSG_CFG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000001018ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000001018ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_IDE_SYNC_MSG_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_IDE_SYNC_MSG_CFG(a) cavm_pemsecx_ide_sync_msg_cfg_t
-#define bustype_CAVM_PEMSECX_IDE_SYNC_MSG_CFG(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_IDE_SYNC_MSG_CFG(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_IDE_SYNC_MSG_CFG(a) "PEMSECX_IDE_SYNC_MSG_CFG"
 #define device_bar_CAVM_PEMSECX_IDE_SYNC_MSG_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_IDE_SYNC_MSG_CFG(a) (a)
 #define arguments_CAVM_PEMSECX_IDE_SYNC_MSG_CFG(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_key_security_irq_en
+ * Register (ARF) pemsec#_key_security_irq_en
  *
  * Key Security Interrupt Enable Register
  */
@@ -1567,19 +1567,19 @@ static inline uint64_t CAVM_PEMSECX_KEY_SECURITY_IRQ_EN(uint64_t a) __attribute_
 static inline uint64_t CAVM_PEMSECX_KEY_SECURITY_IRQ_EN(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8100000015c0ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c0000015c0ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_KEY_SECURITY_IRQ_EN", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_KEY_SECURITY_IRQ_EN(a) cavm_pemsecx_key_security_irq_en_t
-#define bustype_CAVM_PEMSECX_KEY_SECURITY_IRQ_EN(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_KEY_SECURITY_IRQ_EN(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_KEY_SECURITY_IRQ_EN(a) "PEMSECX_KEY_SECURITY_IRQ_EN"
 #define device_bar_CAVM_PEMSECX_KEY_SECURITY_IRQ_EN(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_KEY_SECURITY_IRQ_EN(a) (a)
 #define arguments_CAVM_PEMSECX_KEY_SECURITY_IRQ_EN(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_key_security_status_s0
+ * Register (ARF) pemsec#_key_security_status_s0
  *
  * Key Security Status Stream 0 Register
  */
@@ -1707,19 +1707,19 @@ static inline uint64_t CAVM_PEMSECX_KEY_SECURITY_STATUS_S0(uint64_t a) __attribu
 static inline uint64_t CAVM_PEMSECX_KEY_SECURITY_STATUS_S0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8100000014a0ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c0000014a0ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_KEY_SECURITY_STATUS_S0", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_KEY_SECURITY_STATUS_S0(a) cavm_pemsecx_key_security_status_s0_t
-#define bustype_CAVM_PEMSECX_KEY_SECURITY_STATUS_S0(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_KEY_SECURITY_STATUS_S0(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_KEY_SECURITY_STATUS_S0(a) "PEMSECX_KEY_SECURITY_STATUS_S0"
 #define device_bar_CAVM_PEMSECX_KEY_SECURITY_STATUS_S0(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_KEY_SECURITY_STATUS_S0(a) (a)
 #define arguments_CAVM_PEMSECX_KEY_SECURITY_STATUS_S0(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_key_thresh_en
+ * Register (ARF) pemsec#_key_thresh_en
  *
  * Key Threshold Enable Register
  */
@@ -1791,19 +1791,19 @@ static inline uint64_t CAVM_PEMSECX_KEY_THRESH_EN(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_PEMSECX_KEY_THRESH_EN(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000001058ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000001058ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_KEY_THRESH_EN", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_KEY_THRESH_EN(a) cavm_pemsecx_key_thresh_en_t
-#define bustype_CAVM_PEMSECX_KEY_THRESH_EN(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_KEY_THRESH_EN(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_KEY_THRESH_EN(a) "PEMSECX_KEY_THRESH_EN"
 #define device_bar_CAVM_PEMSECX_KEY_THRESH_EN(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_KEY_THRESH_EN(a) (a)
 #define arguments_CAVM_PEMSECX_KEY_THRESH_EN(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_lnk_snd_stream_insecure
+ * Register (ARF) pemsec#_lnk_snd_stream_insecure
  *
  * Send Link Stream to Insecure Register
  */
@@ -1845,19 +1845,19 @@ static inline uint64_t CAVM_PEMSECX_LNK_SND_STREAM_INSECURE(uint64_t a) __attrib
 static inline uint64_t CAVM_PEMSECX_LNK_SND_STREAM_INSECURE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8100000015d0ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c0000015d0ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_LNK_SND_STREAM_INSECURE", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_LNK_SND_STREAM_INSECURE(a) cavm_pemsecx_lnk_snd_stream_insecure_t
-#define bustype_CAVM_PEMSECX_LNK_SND_STREAM_INSECURE(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_LNK_SND_STREAM_INSECURE(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_LNK_SND_STREAM_INSECURE(a) "PEMSECX_LNK_SND_STREAM_INSECURE"
 #define device_bar_CAVM_PEMSECX_LNK_SND_STREAM_INSECURE(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_LNK_SND_STREAM_INSECURE(a) (a)
 #define arguments_CAVM_PEMSECX_LNK_SND_STREAM_INSECURE(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_msix_pba#
+ * Register (ARF) pemsec#_msix_pba#
  *
  * PEMSECC MSI-X Pending Bit Array Registers
  * This register is the MSI-X PBA table, the bit number is indexed by the
@@ -1884,19 +1884,19 @@ static inline uint64_t CAVM_PEMSECX_MSIX_PBAX(uint64_t a, uint64_t b) __attribut
 static inline uint64_t CAVM_PEMSECX_MSIX_PBAX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b==0)))
-        return 0x810f000f0000ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+        return 0xc2c0800f0000ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("PEMSECX_MSIX_PBAX", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_MSIX_PBAX(a,b) cavm_pemsecx_msix_pbax_t
-#define bustype_CAVM_PEMSECX_MSIX_PBAX(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_MSIX_PBAX(a,b) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_MSIX_PBAX(a,b) "PEMSECX_MSIX_PBAX"
 #define device_bar_CAVM_PEMSECX_MSIX_PBAX(a,b) 0x4 /* PF_BAR4 */
 #define busnum_CAVM_PEMSECX_MSIX_PBAX(a,b) (a)
 #define arguments_CAVM_PEMSECX_MSIX_PBAX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) pemsec#_msix_vec#_addr
+ * Register (ARF) pemsec#_msix_vec#_addr
  *
  * PEMSEC MSI-X Vector Table Address Registers
  * This register is the MSI-X vector table, indexed by the PEMSEC_INT_VEC_E enumeration.
@@ -1970,19 +1970,19 @@ static inline uint64_t CAVM_PEMSECX_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __att
 static inline uint64_t CAVM_PEMSECX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b<=7)))
-        return 0x810f00000000ll + 0x1000000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x7);
+        return 0xc2c080000000ll + 0x100000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x7);
     __cavm_csr_fatal("PEMSECX_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_MSIX_VECX_ADDR(a,b) cavm_pemsecx_msix_vecx_addr_t
-#define bustype_CAVM_PEMSECX_MSIX_VECX_ADDR(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_MSIX_VECX_ADDR(a,b) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_MSIX_VECX_ADDR(a,b) "PEMSECX_MSIX_VECX_ADDR"
 #define device_bar_CAVM_PEMSECX_MSIX_VECX_ADDR(a,b) 0x4 /* PF_BAR4 */
 #define busnum_CAVM_PEMSECX_MSIX_VECX_ADDR(a,b) (a)
 #define arguments_CAVM_PEMSECX_MSIX_VECX_ADDR(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) pemsec#_msix_vec#_ctl
+ * Register (ARF) pemsec#_msix_vec#_ctl
  *
  * PEMSEC MSI-X Vector Table Control and Data Registers
  * This register is the MSI-X vector table, indexed by the PEMSEC_INT_VEC_E enumeration.
@@ -2010,19 +2010,19 @@ static inline uint64_t CAVM_PEMSECX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attr
 static inline uint64_t CAVM_PEMSECX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b<=7)))
-        return 0x810f00000008ll + 0x1000000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x7);
+        return 0xc2c080000008ll + 0x100000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x7);
     __cavm_csr_fatal("PEMSECX_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_MSIX_VECX_CTL(a,b) cavm_pemsecx_msix_vecx_ctl_t
-#define bustype_CAVM_PEMSECX_MSIX_VECX_CTL(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_MSIX_VECX_CTL(a,b) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_MSIX_VECX_CTL(a,b) "PEMSECX_MSIX_VECX_CTL"
 #define device_bar_CAVM_PEMSECX_MSIX_VECX_CTL(a,b) 0x4 /* PF_BAR4 */
 #define busnum_CAVM_PEMSECX_MSIX_VECX_CTL(a,b) (a)
 #define arguments_CAVM_PEMSECX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) pemsec#_out_msg_size
+ * Register (ARF) pemsec#_out_msg_size
  *
  * FIPS Output Out MSG Size Register
  * This register is for testing the IDE encryption logic per the
@@ -2066,19 +2066,19 @@ static inline uint64_t CAVM_PEMSECX_OUT_MSG_SIZE(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_PEMSECX_OUT_MSG_SIZE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000004a40ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000004a40ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_OUT_MSG_SIZE", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_OUT_MSG_SIZE(a) cavm_pemsecx_out_msg_size_t
-#define bustype_CAVM_PEMSECX_OUT_MSG_SIZE(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_OUT_MSG_SIZE(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_OUT_MSG_SIZE(a) "PEMSECX_OUT_MSG_SIZE"
 #define device_bar_CAVM_PEMSECX_OUT_MSG_SIZE(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_OUT_MSG_SIZE(a) (a)
 #define arguments_CAVM_PEMSECX_OUT_MSG_SIZE(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_pem_int
+ * Register (ARF) pemsec#_pem_int
  *
  * PEMSEC PEM Interrupt Summary Register
  * This register contains the interrupt summary bits for the PEM Interrupts.
@@ -2122,19 +2122,19 @@ static inline uint64_t CAVM_PEMSECX_PEM_INT(uint64_t a) __attribute__ ((pure, al
 static inline uint64_t CAVM_PEMSECX_PEM_INT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000006108ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000006108ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_PEM_INT", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_PEM_INT(a) cavm_pemsecx_pem_int_t
-#define bustype_CAVM_PEMSECX_PEM_INT(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_PEM_INT(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_PEM_INT(a) "PEMSECX_PEM_INT"
 #define device_bar_CAVM_PEMSECX_PEM_INT(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_PEM_INT(a) (a)
 #define arguments_CAVM_PEMSECX_PEM_INT(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_pem_int_ena_w1c
+ * Register (ARF) pemsec#_pem_int_ena_w1c
  *
  * PEMSEC PEM Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
@@ -2164,19 +2164,19 @@ static inline uint64_t CAVM_PEMSECX_PEM_INT_ENA_W1C(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_PEMSECX_PEM_INT_ENA_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000006118ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000006118ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_PEM_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_PEM_INT_ENA_W1C(a) cavm_pemsecx_pem_int_ena_w1c_t
-#define bustype_CAVM_PEMSECX_PEM_INT_ENA_W1C(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_PEM_INT_ENA_W1C(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_PEM_INT_ENA_W1C(a) "PEMSECX_PEM_INT_ENA_W1C"
 #define device_bar_CAVM_PEMSECX_PEM_INT_ENA_W1C(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_PEM_INT_ENA_W1C(a) (a)
 #define arguments_CAVM_PEMSECX_PEM_INT_ENA_W1C(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_pem_int_ena_w1s
+ * Register (ARF) pemsec#_pem_int_ena_w1s
  *
  * PEMSEC PEM Interrupt Enable Set Register
  * This register sets interrupt enable bits.
@@ -2206,19 +2206,19 @@ static inline uint64_t CAVM_PEMSECX_PEM_INT_ENA_W1S(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_PEMSECX_PEM_INT_ENA_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000006120ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000006120ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_PEM_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_PEM_INT_ENA_W1S(a) cavm_pemsecx_pem_int_ena_w1s_t
-#define bustype_CAVM_PEMSECX_PEM_INT_ENA_W1S(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_PEM_INT_ENA_W1S(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_PEM_INT_ENA_W1S(a) "PEMSECX_PEM_INT_ENA_W1S"
 #define device_bar_CAVM_PEMSECX_PEM_INT_ENA_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_PEM_INT_ENA_W1S(a) (a)
 #define arguments_CAVM_PEMSECX_PEM_INT_ENA_W1S(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_pem_int_w1s
+ * Register (ARF) pemsec#_pem_int_w1s
  *
  * PEMSEC PEM Interrupt Set Register
  * This register sets interrupt bits.
@@ -2248,19 +2248,19 @@ static inline uint64_t CAVM_PEMSECX_PEM_INT_W1S(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_PEMSECX_PEM_INT_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000006110ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000006110ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_PEM_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_PEM_INT_W1S(a) cavm_pemsecx_pem_int_w1s_t
-#define bustype_CAVM_PEMSECX_PEM_INT_W1S(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_PEM_INT_W1S(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_PEM_INT_W1S(a) "PEMSECX_PEM_INT_W1S"
 #define device_bar_CAVM_PEMSECX_PEM_INT_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_PEM_INT_W1S(a) (a)
 #define arguments_CAVM_PEMSECX_PEM_INT_W1S(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_pem_status
+ * Register (ARF) pemsec#_pem_status
  *
  * PEMSEC PEM Status Register
  * This register contains PEM PCIe controller status information.
@@ -2298,19 +2298,19 @@ static inline uint64_t CAVM_PEMSECX_PEM_STATUS(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_PEMSECX_PEM_STATUS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000006100ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000006100ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_PEM_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_PEM_STATUS(a) cavm_pemsecx_pem_status_t
-#define bustype_CAVM_PEMSECX_PEM_STATUS(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_PEM_STATUS(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_PEM_STATUS(a) "PEMSECX_PEM_STATUS"
 #define device_bar_CAVM_PEMSECX_PEM_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_PEM_STATUS(a) (a)
 #define arguments_CAVM_PEMSECX_PEM_STATUS(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rekey_req_stat
+ * Register (ARF) pemsec#_rekey_req_stat
  *
  * Rekey Request Status Register
  */
@@ -2388,19 +2388,19 @@ static inline uint64_t CAVM_PEMSECX_REKEY_REQ_STAT(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_PEMSECX_REKEY_REQ_STAT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000001060ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000001060ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_REKEY_REQ_STAT", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_REKEY_REQ_STAT(a) cavm_pemsecx_rekey_req_stat_t
-#define bustype_CAVM_PEMSECX_REKEY_REQ_STAT(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_REKEY_REQ_STAT(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_REKEY_REQ_STAT(a) "PEMSECX_REKEY_REQ_STAT"
 #define device_bar_CAVM_PEMSECX_REKEY_REQ_STAT(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_REKEY_REQ_STAT(a) (a)
 #define arguments_CAVM_PEMSECX_REKEY_REQ_STAT(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_aes_sel
+ * Register (ARF) pemsec#_rx_aes_sel
  *
  * RX_FIPS AES Selection Register
  * This register is for testing the IDE encryption logic per the
@@ -2448,19 +2448,19 @@ static inline uint64_t CAVM_PEMSECX_RX_AES_SEL(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_PEMSECX_RX_AES_SEL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000005bf8ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000005bf8ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_AES_SEL", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_AES_SEL(a) cavm_pemsecx_rx_aes_sel_t
-#define bustype_CAVM_PEMSECX_RX_AES_SEL(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_AES_SEL(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_AES_SEL(a) "PEMSECX_RX_AES_SEL"
 #define device_bar_CAVM_PEMSECX_RX_AES_SEL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_AES_SEL(a) (a)
 #define arguments_CAVM_PEMSECX_RX_AES_SEL(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_cmd_aad
+ * Register (ARF) pemsec#_rx_cmd_aad
  *
  * RX FIPS Command - CMD AAD Register
  * This register is for testing the IDE encryption logic per the
@@ -2508,19 +2508,19 @@ static inline uint64_t CAVM_PEMSECX_RX_CMD_AAD(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_PEMSECX_RX_CMD_AAD(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000005810ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000005810ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_CMD_AAD", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_CMD_AAD(a) cavm_pemsecx_rx_cmd_aad_t
-#define bustype_CAVM_PEMSECX_RX_CMD_AAD(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_CMD_AAD(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_CMD_AAD(a) "PEMSECX_RX_CMD_AAD"
 #define device_bar_CAVM_PEMSECX_RX_CMD_AAD(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_CMD_AAD(a) (a)
 #define arguments_CAVM_PEMSECX_RX_CMD_AAD(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_cmd_aad_size
+ * Register (ARF) pemsec#_rx_cmd_aad_size
  *
  * RX FIPS Command - CMD AAD SIZE Register
  * This register is for testing the IDE encryption logic per the
@@ -2568,19 +2568,19 @@ static inline uint64_t CAVM_PEMSECX_RX_CMD_AAD_SIZE(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_PEMSECX_RX_CMD_AAD_SIZE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000005848ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000005848ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_CMD_AAD_SIZE", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_CMD_AAD_SIZE(a) cavm_pemsecx_rx_cmd_aad_size_t
-#define bustype_CAVM_PEMSECX_RX_CMD_AAD_SIZE(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_CMD_AAD_SIZE(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_CMD_AAD_SIZE(a) "PEMSECX_RX_CMD_AAD_SIZE"
 #define device_bar_CAVM_PEMSECX_RX_CMD_AAD_SIZE(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_CMD_AAD_SIZE(a) (a)
 #define arguments_CAVM_PEMSECX_RX_CMD_AAD_SIZE(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_cmd_ctx
+ * Register (ARF) pemsec#_rx_cmd_ctx
  *
  * RX FIPS Command - CTX Register
  * This register is for testing the IDE encryption logic per the
@@ -2624,19 +2624,19 @@ static inline uint64_t CAVM_PEMSECX_RX_CMD_CTX(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_PEMSECX_RX_CMD_CTX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000005858ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000005858ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_CMD_CTX", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_CMD_CTX(a) cavm_pemsecx_rx_cmd_ctx_t
-#define bustype_CAVM_PEMSECX_RX_CMD_CTX(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_CMD_CTX(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_CMD_CTX(a) "PEMSECX_RX_CMD_CTX"
 #define device_bar_CAVM_PEMSECX_RX_CMD_CTX(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_CMD_CTX(a) (a)
 #define arguments_CAVM_PEMSECX_RX_CMD_CTX(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_cmd_eop
+ * Register (ARF) pemsec#_rx_cmd_eop
  *
  * RX FIPS Command - CMD EOP Register
  * This register is for testing the IDE encryption logic per the
@@ -2680,19 +2680,19 @@ static inline uint64_t CAVM_PEMSECX_RX_CMD_EOP(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_PEMSECX_RX_CMD_EOP(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000005808ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000005808ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_CMD_EOP", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_CMD_EOP(a) cavm_pemsecx_rx_cmd_eop_t
-#define bustype_CAVM_PEMSECX_RX_CMD_EOP(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_CMD_EOP(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_CMD_EOP(a) "PEMSECX_RX_CMD_EOP"
 #define device_bar_CAVM_PEMSECX_RX_CMD_EOP(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_CMD_EOP(a) (a)
 #define arguments_CAVM_PEMSECX_RX_CMD_EOP(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_cmd_msg
+ * Register (ARF) pemsec#_rx_cmd_msg
  *
  * RX FIPS Command - CMD MSG Register
  * This register is for testing the IDE encryption logic per the
@@ -2736,19 +2736,19 @@ static inline uint64_t CAVM_PEMSECX_RX_CMD_MSG(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_PEMSECX_RX_CMD_MSG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000005818ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000005818ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_CMD_MSG", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_CMD_MSG(a) cavm_pemsecx_rx_cmd_msg_t
-#define bustype_CAVM_PEMSECX_RX_CMD_MSG(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_CMD_MSG(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_CMD_MSG(a) "PEMSECX_RX_CMD_MSG"
 #define device_bar_CAVM_PEMSECX_RX_CMD_MSG(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_CMD_MSG(a) (a)
 #define arguments_CAVM_PEMSECX_RX_CMD_MSG(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_cmd_msg_size
+ * Register (ARF) pemsec#_rx_cmd_msg_size
  *
  * RX FIPS Command - CMD MSG SIZE Register
  * This register is for testing the IDE encryption logic per the
@@ -2792,19 +2792,19 @@ static inline uint64_t CAVM_PEMSECX_RX_CMD_MSG_SIZE(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_PEMSECX_RX_CMD_MSG_SIZE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000005850ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000005850ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_CMD_MSG_SIZE", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_CMD_MSG_SIZE(a) cavm_pemsecx_rx_cmd_msg_size_t
-#define bustype_CAVM_PEMSECX_RX_CMD_MSG_SIZE(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_CMD_MSG_SIZE(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_CMD_MSG_SIZE(a) "PEMSECX_RX_CMD_MSG_SIZE"
 #define device_bar_CAVM_PEMSECX_RX_CMD_MSG_SIZE(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_CMD_MSG_SIZE(a) (a)
 #define arguments_CAVM_PEMSECX_RX_CMD_MSG_SIZE(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_cmd_ready
+ * Register (ARF) pemsec#_rx_cmd_ready
  *
  * RX FIPS Command - CMD Ready Register
  * This register is for testing the IDE encryption logic per the
@@ -2848,19 +2848,19 @@ static inline uint64_t CAVM_PEMSECX_RX_CMD_READY(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_PEMSECX_RX_CMD_READY(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000005868ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000005868ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_CMD_READY", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_CMD_READY(a) cavm_pemsecx_rx_cmd_ready_t
-#define bustype_CAVM_PEMSECX_RX_CMD_READY(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_CMD_READY(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_CMD_READY(a) "PEMSECX_RX_CMD_READY"
 #define device_bar_CAVM_PEMSECX_RX_CMD_READY(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_CMD_READY(a) (a)
 #define arguments_CAVM_PEMSECX_RX_CMD_READY(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_cmd_sop
+ * Register (ARF) pemsec#_rx_cmd_sop
  *
  * RX FIPS Command - CMD SOP Register
  * This register is for testing the IDE encryption logic per the
@@ -2904,19 +2904,19 @@ static inline uint64_t CAVM_PEMSECX_RX_CMD_SOP(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_PEMSECX_RX_CMD_SOP(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000005800ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000005800ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_CMD_SOP", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_CMD_SOP(a) cavm_pemsecx_rx_cmd_sop_t
-#define bustype_CAVM_PEMSECX_RX_CMD_SOP(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_CMD_SOP(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_CMD_SOP(a) "PEMSECX_RX_CMD_SOP"
 #define device_bar_CAVM_PEMSECX_RX_CMD_SOP(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_CMD_SOP(a) (a)
 #define arguments_CAVM_PEMSECX_RX_CMD_SOP(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_cmd_valid
+ * Register (ARF) pemsec#_rx_cmd_valid
  *
  * RX FIPS Command - CMD Valid Register
  * This register is for testing the IDE encryption logic per the
@@ -2960,19 +2960,19 @@ static inline uint64_t CAVM_PEMSECX_RX_CMD_VALID(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_PEMSECX_RX_CMD_VALID(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000005860ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000005860ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_CMD_VALID", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_CMD_VALID(a) cavm_pemsecx_rx_cmd_valid_t
-#define bustype_CAVM_PEMSECX_RX_CMD_VALID(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_CMD_VALID(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_CMD_VALID(a) "PEMSECX_RX_CMD_VALID"
 #define device_bar_CAVM_PEMSECX_RX_CMD_VALID(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_CMD_VALID(a) (a)
 #define arguments_CAVM_PEMSECX_RX_CMD_VALID(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_core_ver_num
+ * Register (ARF) pemsec#_rx_core_ver_num
  *
  * IP Version Number Register
  */
@@ -3008,19 +3008,19 @@ static inline uint64_t CAVM_PEMSECX_RX_CORE_VER_NUM(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_PEMSECX_RX_CORE_VER_NUM(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000005000ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000005000ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_CORE_VER_NUM", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_CORE_VER_NUM(a) cavm_pemsecx_rx_core_ver_num_t
-#define bustype_CAVM_PEMSECX_RX_CORE_VER_NUM(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_CORE_VER_NUM(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_CORE_VER_NUM(a) "PEMSECX_RX_CORE_VER_NUM"
 #define device_bar_CAVM_PEMSECX_RX_CORE_VER_NUM(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_CORE_VER_NUM(a) (a)
 #define arguments_CAVM_PEMSECX_RX_CORE_VER_NUM(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_core_ver_type
+ * Register (ARF) pemsec#_rx_core_ver_type
  *
  * RX IP Version Type Register
  */
@@ -3064,19 +3064,19 @@ static inline uint64_t CAVM_PEMSECX_RX_CORE_VER_TYPE(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_PEMSECX_RX_CORE_VER_TYPE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000005008ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000005008ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_CORE_VER_TYPE", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_CORE_VER_TYPE(a) cavm_pemsecx_rx_core_ver_type_t
-#define bustype_CAVM_PEMSECX_RX_CORE_VER_TYPE(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_CORE_VER_TYPE(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_CORE_VER_TYPE(a) "PEMSECX_RX_CORE_VER_TYPE"
 #define device_bar_CAVM_PEMSECX_RX_CORE_VER_TYPE(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_CORE_VER_TYPE(a) (a)
 #define arguments_CAVM_PEMSECX_RX_CORE_VER_TYPE(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_ctr_iv_chunk
+ * Register (ARF) pemsec#_rx_ctr_iv_chunk
  *
  * RX FIPS Command - CTR IV Chunk Register
  * This register is for testing the IDE encryption logic per the
@@ -3109,19 +3109,19 @@ static inline uint64_t CAVM_PEMSECX_RX_CTR_IV_CHUNK(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_PEMSECX_RX_CTR_IV_CHUNK(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000005828ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000005828ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_CTR_IV_CHUNK", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_CTR_IV_CHUNK(a) cavm_pemsecx_rx_ctr_iv_chunk_t
-#define bustype_CAVM_PEMSECX_RX_CTR_IV_CHUNK(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_CTR_IV_CHUNK(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_CTR_IV_CHUNK(a) "PEMSECX_RX_CTR_IV_CHUNK"
 #define device_bar_CAVM_PEMSECX_RX_CTR_IV_CHUNK(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_CTR_IV_CHUNK(a) (a)
 #define arguments_CAVM_PEMSECX_RX_CTR_IV_CHUNK(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_ctr_iv_idx
+ * Register (ARF) pemsec#_rx_ctr_iv_idx
  *
  * RX FIPS Command - CTR IV IDX Register
  * This register is for testing the IDE encryption logic per the
@@ -3169,19 +3169,19 @@ static inline uint64_t CAVM_PEMSECX_RX_CTR_IV_IDX(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_PEMSECX_RX_CTR_IV_IDX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000005820ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000005820ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_CTR_IV_IDX", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_CTR_IV_IDX(a) cavm_pemsecx_rx_ctr_iv_idx_t
-#define bustype_CAVM_PEMSECX_RX_CTR_IV_IDX(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_CTR_IV_IDX(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_CTR_IV_IDX(a) "PEMSECX_RX_CTR_IV_IDX"
 #define device_bar_CAVM_PEMSECX_RX_CTR_IV_IDX(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_CTR_IV_IDX(a) (a)
 #define arguments_CAVM_PEMSECX_RX_CTR_IV_IDX(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_ctrl
+ * Register (ARF) pemsec#_rx_ctrl
  *
  * RX Control Register
  */
@@ -3267,19 +3267,19 @@ static inline uint64_t CAVM_PEMSECX_RX_CTRL(uint64_t a) __attribute__ ((pure, al
 static inline uint64_t CAVM_PEMSECX_RX_CTRL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000005028ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000005028ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_CTRL(a) cavm_pemsecx_rx_ctrl_t
-#define bustype_CAVM_PEMSECX_RX_CTRL(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_CTRL(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_CTRL(a) "PEMSECX_RX_CTRL"
 #define device_bar_CAVM_PEMSECX_RX_CTRL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_CTRL(a) (a)
 #define arguments_CAVM_PEMSECX_RX_CTRL(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_data_ready
+ * Register (ARF) pemsec#_rx_data_ready
  *
  * RX FIPS Input DATA Ready Register
  * This register is for testing the IDE encryption logic per the
@@ -3323,19 +3323,19 @@ static inline uint64_t CAVM_PEMSECX_RX_DATA_READY(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_PEMSECX_RX_DATA_READY(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8100000058b8ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c0000058b8ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_DATA_READY", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_DATA_READY(a) cavm_pemsecx_rx_data_ready_t
-#define bustype_CAVM_PEMSECX_RX_DATA_READY(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_DATA_READY(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_DATA_READY(a) "PEMSECX_RX_DATA_READY"
 #define device_bar_CAVM_PEMSECX_RX_DATA_READY(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_DATA_READY(a) (a)
 #define arguments_CAVM_PEMSECX_RX_DATA_READY(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_data_valid
+ * Register (ARF) pemsec#_rx_data_valid
  *
  * RX FIPS Input DATA Valid Register
  * This register is for testing the IDE encryption logic per the
@@ -3379,19 +3379,19 @@ static inline uint64_t CAVM_PEMSECX_RX_DATA_VALID(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_PEMSECX_RX_DATA_VALID(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8100000058b0ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c0000058b0ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_DATA_VALID", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_DATA_VALID(a) cavm_pemsecx_rx_data_valid_t
-#define bustype_CAVM_PEMSECX_RX_DATA_VALID(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_DATA_VALID(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_DATA_VALID(a) "PEMSECX_RX_DATA_VALID"
 #define device_bar_CAVM_PEMSECX_RX_DATA_VALID(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_DATA_VALID(a) (a)
 #define arguments_CAVM_PEMSECX_RX_DATA_VALID(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_disable_stream_keys
+ * Register (ARF) pemsec#_rx_disable_stream_keys
  *
  * Invalidates the Stream Keys for RX Register
  */
@@ -3433,19 +3433,19 @@ static inline uint64_t CAVM_PEMSECX_RX_DISABLE_STREAM_KEYS(uint64_t a) __attribu
 static inline uint64_t CAVM_PEMSECX_RX_DISABLE_STREAM_KEYS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000005380ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000005380ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_DISABLE_STREAM_KEYS", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_DISABLE_STREAM_KEYS(a) cavm_pemsecx_rx_disable_stream_keys_t
-#define bustype_CAVM_PEMSECX_RX_DISABLE_STREAM_KEYS(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_DISABLE_STREAM_KEYS(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_DISABLE_STREAM_KEYS(a) "PEMSECX_RX_DISABLE_STREAM_KEYS"
 #define device_bar_CAVM_PEMSECX_RX_DISABLE_STREAM_KEYS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_DISABLE_STREAM_KEYS(a) (a)
 #define arguments_CAVM_PEMSECX_RX_DISABLE_STREAM_KEYS(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_in_data
+ * Register (ARF) pemsec#_rx_in_data
  *
  * RX FIPS Input DATA Register
  * This register is for testing the IDE encryption logic per the
@@ -3480,19 +3480,19 @@ static inline uint64_t CAVM_PEMSECX_RX_IN_DATA(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_PEMSECX_RX_IN_DATA(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8100000058a8ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c0000058a8ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_IN_DATA", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_IN_DATA(a) cavm_pemsecx_rx_in_data_t
-#define bustype_CAVM_PEMSECX_RX_IN_DATA(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_IN_DATA(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_IN_DATA(a) "PEMSECX_RX_IN_DATA"
 #define device_bar_CAVM_PEMSECX_RX_IN_DATA(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_IN_DATA(a) (a)
 #define arguments_CAVM_PEMSECX_RX_IN_DATA(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_in_data_idx
+ * Register (ARF) pemsec#_rx_in_data_idx
  *
  * RX FIPS Input DATA IDX Register
  * This register is for testing the IDE encryption logic per the
@@ -3540,19 +3540,19 @@ static inline uint64_t CAVM_PEMSECX_RX_IN_DATA_IDX(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_PEMSECX_RX_IN_DATA_IDX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8100000058a0ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c0000058a0ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_IN_DATA_IDX", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_IN_DATA_IDX(a) cavm_pemsecx_rx_in_data_idx_t
-#define bustype_CAVM_PEMSECX_RX_IN_DATA_IDX(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_IN_DATA_IDX(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_IN_DATA_IDX(a) "PEMSECX_RX_IN_DATA_IDX"
 #define device_bar_CAVM_PEMSECX_RX_IN_DATA_IDX(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_IN_DATA_IDX(a) (a)
 #define arguments_CAVM_PEMSECX_RX_IN_DATA_IDX(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_initial_iv_lsw
+ * Register (ARF) pemsec#_rx_initial_iv_lsw
  *
  * RX Initial IV configuration value Low Register
  */
@@ -3585,19 +3585,19 @@ static inline uint64_t CAVM_PEMSECX_RX_INITIAL_IV_LSW(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_PEMSECX_RX_INITIAL_IV_LSW(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000005080ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000005080ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_INITIAL_IV_LSW", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_INITIAL_IV_LSW(a) cavm_pemsecx_rx_initial_iv_lsw_t
-#define bustype_CAVM_PEMSECX_RX_INITIAL_IV_LSW(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_INITIAL_IV_LSW(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_INITIAL_IV_LSW(a) "PEMSECX_RX_INITIAL_IV_LSW"
 #define device_bar_CAVM_PEMSECX_RX_INITIAL_IV_LSW(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_INITIAL_IV_LSW(a) (a)
 #define arguments_CAVM_PEMSECX_RX_INITIAL_IV_LSW(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_initial_iv_msw
+ * Register (ARF) pemsec#_rx_initial_iv_msw
  *
  * RX Initial IV configuration value Hi Register
  */
@@ -3630,19 +3630,19 @@ static inline uint64_t CAVM_PEMSECX_RX_INITIAL_IV_MSW(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_PEMSECX_RX_INITIAL_IV_MSW(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000005088ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000005088ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_INITIAL_IV_MSW", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_INITIAL_IV_MSW(a) cavm_pemsecx_rx_initial_iv_msw_t
-#define bustype_CAVM_PEMSECX_RX_INITIAL_IV_MSW(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_INITIAL_IV_MSW(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_INITIAL_IV_MSW(a) "PEMSECX_RX_INITIAL_IV_MSW"
 #define device_bar_CAVM_PEMSECX_RX_INITIAL_IV_MSW(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_INITIAL_IV_MSW(a) (a)
 #define arguments_CAVM_PEMSECX_RX_INITIAL_IV_MSW(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_irq_en
+ * Register (ARF) pemsec#_rx_irq_en
  *
  * RX Interrupt Enable Register
  */
@@ -3758,19 +3758,19 @@ static inline uint64_t CAVM_PEMSECX_RX_IRQ_EN(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_PEMSECX_RX_IRQ_EN(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000005010ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000005010ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_IRQ_EN", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_IRQ_EN(a) cavm_pemsecx_rx_irq_en_t
-#define bustype_CAVM_PEMSECX_RX_IRQ_EN(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_IRQ_EN(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_IRQ_EN(a) "PEMSECX_RX_IRQ_EN"
 #define device_bar_CAVM_PEMSECX_RX_IRQ_EN(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_IRQ_EN(a) (a)
 #define arguments_CAVM_PEMSECX_RX_IRQ_EN(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_irq_stat
+ * Register (ARF) pemsec#_rx_irq_stat
  *
  * RX Interrupt Status Register
  */
@@ -3838,19 +3838,19 @@ static inline uint64_t CAVM_PEMSECX_RX_IRQ_STAT(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_PEMSECX_RX_IRQ_STAT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000005018ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000005018ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_IRQ_STAT", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_IRQ_STAT(a) cavm_pemsecx_rx_irq_stat_t
-#define bustype_CAVM_PEMSECX_RX_IRQ_STAT(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_IRQ_STAT(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_IRQ_STAT(a) "PEMSECX_RX_IRQ_STAT"
 #define device_bar_CAVM_PEMSECX_RX_IRQ_STAT(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_IRQ_STAT(a) (a)
 #define arguments_CAVM_PEMSECX_RX_IRQ_STAT(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_key_0
+ * Register (ARF) pemsec#_rx_key_0
  *
  * RX Key 0 Register
  */
@@ -3883,19 +3883,19 @@ static inline uint64_t CAVM_PEMSECX_RX_KEY_0(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PEMSECX_RX_KEY_0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000005040ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000005040ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_KEY_0", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_KEY_0(a) cavm_pemsecx_rx_key_0_t
-#define bustype_CAVM_PEMSECX_RX_KEY_0(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_KEY_0(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_KEY_0(a) "PEMSECX_RX_KEY_0"
 #define device_bar_CAVM_PEMSECX_RX_KEY_0(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_KEY_0(a) (a)
 #define arguments_CAVM_PEMSECX_RX_KEY_0(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_key_1
+ * Register (ARF) pemsec#_rx_key_1
  *
  * RX Key 1 Register
  */
@@ -3920,19 +3920,19 @@ static inline uint64_t CAVM_PEMSECX_RX_KEY_1(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PEMSECX_RX_KEY_1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000005048ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000005048ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_KEY_1", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_KEY_1(a) cavm_pemsecx_rx_key_1_t
-#define bustype_CAVM_PEMSECX_RX_KEY_1(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_KEY_1(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_KEY_1(a) "PEMSECX_RX_KEY_1"
 #define device_bar_CAVM_PEMSECX_RX_KEY_1(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_KEY_1(a) (a)
 #define arguments_CAVM_PEMSECX_RX_KEY_1(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_key_2
+ * Register (ARF) pemsec#_rx_key_2
  *
  * RX Key 2 Register
  */
@@ -3957,19 +3957,19 @@ static inline uint64_t CAVM_PEMSECX_RX_KEY_2(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PEMSECX_RX_KEY_2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000005050ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000005050ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_KEY_2", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_KEY_2(a) cavm_pemsecx_rx_key_2_t
-#define bustype_CAVM_PEMSECX_RX_KEY_2(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_KEY_2(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_KEY_2(a) "PEMSECX_RX_KEY_2"
 #define device_bar_CAVM_PEMSECX_RX_KEY_2(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_KEY_2(a) (a)
 #define arguments_CAVM_PEMSECX_RX_KEY_2(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_key_3
+ * Register (ARF) pemsec#_rx_key_3
  *
  * RX Key 3 Register
  */
@@ -3994,19 +3994,19 @@ static inline uint64_t CAVM_PEMSECX_RX_KEY_3(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PEMSECX_RX_KEY_3(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000005058ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000005058ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_KEY_3", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_KEY_3(a) cavm_pemsecx_rx_key_3_t
-#define bustype_CAVM_PEMSECX_RX_KEY_3(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_KEY_3(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_KEY_3(a) "PEMSECX_RX_KEY_3"
 #define device_bar_CAVM_PEMSECX_RX_KEY_3(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_KEY_3(a) (a)
 #define arguments_CAVM_PEMSECX_RX_KEY_3(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_key_4
+ * Register (ARF) pemsec#_rx_key_4
  *
  * RX Key 4 Register
  */
@@ -4031,19 +4031,19 @@ static inline uint64_t CAVM_PEMSECX_RX_KEY_4(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PEMSECX_RX_KEY_4(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000005060ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000005060ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_KEY_4", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_KEY_4(a) cavm_pemsecx_rx_key_4_t
-#define bustype_CAVM_PEMSECX_RX_KEY_4(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_KEY_4(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_KEY_4(a) "PEMSECX_RX_KEY_4"
 #define device_bar_CAVM_PEMSECX_RX_KEY_4(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_KEY_4(a) (a)
 #define arguments_CAVM_PEMSECX_RX_KEY_4(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_key_5
+ * Register (ARF) pemsec#_rx_key_5
  *
  * RX Key 5 Register
  */
@@ -4068,19 +4068,19 @@ static inline uint64_t CAVM_PEMSECX_RX_KEY_5(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PEMSECX_RX_KEY_5(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000005068ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000005068ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_KEY_5", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_KEY_5(a) cavm_pemsecx_rx_key_5_t
-#define bustype_CAVM_PEMSECX_RX_KEY_5(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_KEY_5(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_KEY_5(a) "PEMSECX_RX_KEY_5"
 #define device_bar_CAVM_PEMSECX_RX_KEY_5(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_KEY_5(a) (a)
 #define arguments_CAVM_PEMSECX_RX_KEY_5(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_key_6
+ * Register (ARF) pemsec#_rx_key_6
  *
  * RX Key 6 Register
  */
@@ -4105,19 +4105,19 @@ static inline uint64_t CAVM_PEMSECX_RX_KEY_6(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PEMSECX_RX_KEY_6(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000005070ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000005070ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_KEY_6", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_KEY_6(a) cavm_pemsecx_rx_key_6_t
-#define bustype_CAVM_PEMSECX_RX_KEY_6(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_KEY_6(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_KEY_6(a) "PEMSECX_RX_KEY_6"
 #define device_bar_CAVM_PEMSECX_RX_KEY_6(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_KEY_6(a) (a)
 #define arguments_CAVM_PEMSECX_RX_KEY_6(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_key_7
+ * Register (ARF) pemsec#_rx_key_7
  *
  * RX Key 7 Register
  */
@@ -4142,19 +4142,19 @@ static inline uint64_t CAVM_PEMSECX_RX_KEY_7(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PEMSECX_RX_KEY_7(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000005078ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000005078ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_KEY_7", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_KEY_7(a) cavm_pemsecx_rx_key_7_t
-#define bustype_CAVM_PEMSECX_RX_KEY_7(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_KEY_7(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_KEY_7(a) "PEMSECX_RX_KEY_7"
 #define device_bar_CAVM_PEMSECX_RX_KEY_7(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_KEY_7(a) (a)
 #define arguments_CAVM_PEMSECX_RX_KEY_7(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_key_threshold_high_s0
+ * Register (ARF) pemsec#_rx_key_threshold_high_s0
  *
  * RX Key Threshold value for Stream 0 Hi Register
  */
@@ -4179,19 +4179,19 @@ static inline uint64_t CAVM_PEMSECX_RX_KEY_THRESHOLD_HIGH_S0(uint64_t a) __attri
 static inline uint64_t CAVM_PEMSECX_RX_KEY_THRESHOLD_HIGH_S0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000001098ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000001098ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_KEY_THRESHOLD_HIGH_S0", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_KEY_THRESHOLD_HIGH_S0(a) cavm_pemsecx_rx_key_threshold_high_s0_t
-#define bustype_CAVM_PEMSECX_RX_KEY_THRESHOLD_HIGH_S0(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_KEY_THRESHOLD_HIGH_S0(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_KEY_THRESHOLD_HIGH_S0(a) "PEMSECX_RX_KEY_THRESHOLD_HIGH_S0"
 #define device_bar_CAVM_PEMSECX_RX_KEY_THRESHOLD_HIGH_S0(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_KEY_THRESHOLD_HIGH_S0(a) (a)
 #define arguments_CAVM_PEMSECX_RX_KEY_THRESHOLD_HIGH_S0(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_key_threshold_low_s0
+ * Register (ARF) pemsec#_rx_key_threshold_low_s0
  *
  * RX Key Threshold value for Stream 0 Low Register
  */
@@ -4216,19 +4216,19 @@ static inline uint64_t CAVM_PEMSECX_RX_KEY_THRESHOLD_LOW_S0(uint64_t a) __attrib
 static inline uint64_t CAVM_PEMSECX_RX_KEY_THRESHOLD_LOW_S0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000001090ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000001090ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_KEY_THRESHOLD_LOW_S0", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_KEY_THRESHOLD_LOW_S0(a) cavm_pemsecx_rx_key_threshold_low_s0_t
-#define bustype_CAVM_PEMSECX_RX_KEY_THRESHOLD_LOW_S0(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_KEY_THRESHOLD_LOW_S0(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_KEY_THRESHOLD_LOW_S0(a) "PEMSECX_RX_KEY_THRESHOLD_LOW_S0"
 #define device_bar_CAVM_PEMSECX_RX_KEY_THRESHOLD_LOW_S0(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_KEY_THRESHOLD_LOW_S0(a) (a)
 #define arguments_CAVM_PEMSECX_RX_KEY_THRESHOLD_LOW_S0(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_key_usage_counter_high_s0
+ * Register (ARF) pemsec#_rx_key_usage_counter_high_s0
  *
  * RX Key utilization counter value for Stream 0 LSW Register
  */
@@ -4253,19 +4253,19 @@ static inline uint64_t CAVM_PEMSECX_RX_KEY_USAGE_COUNTER_HIGH_S0(uint64_t a) __a
 static inline uint64_t CAVM_PEMSECX_RX_KEY_USAGE_COUNTER_HIGH_S0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000001670ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000001670ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_KEY_USAGE_COUNTER_HIGH_S0", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_KEY_USAGE_COUNTER_HIGH_S0(a) cavm_pemsecx_rx_key_usage_counter_high_s0_t
-#define bustype_CAVM_PEMSECX_RX_KEY_USAGE_COUNTER_HIGH_S0(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_KEY_USAGE_COUNTER_HIGH_S0(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_KEY_USAGE_COUNTER_HIGH_S0(a) "PEMSECX_RX_KEY_USAGE_COUNTER_HIGH_S0"
 #define device_bar_CAVM_PEMSECX_RX_KEY_USAGE_COUNTER_HIGH_S0(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_KEY_USAGE_COUNTER_HIGH_S0(a) (a)
 #define arguments_CAVM_PEMSECX_RX_KEY_USAGE_COUNTER_HIGH_S0(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_key_usage_counter_low_s0
+ * Register (ARF) pemsec#_rx_key_usage_counter_low_s0
  *
  * RX Key utilization counter value for Stream 0 LSW Register
  */
@@ -4290,19 +4290,19 @@ static inline uint64_t CAVM_PEMSECX_RX_KEY_USAGE_COUNTER_LOW_S0(uint64_t a) __at
 static inline uint64_t CAVM_PEMSECX_RX_KEY_USAGE_COUNTER_LOW_S0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000001668ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000001668ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_KEY_USAGE_COUNTER_LOW_S0", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_KEY_USAGE_COUNTER_LOW_S0(a) cavm_pemsecx_rx_key_usage_counter_low_s0_t
-#define bustype_CAVM_PEMSECX_RX_KEY_USAGE_COUNTER_LOW_S0(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_KEY_USAGE_COUNTER_LOW_S0(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_KEY_USAGE_COUNTER_LOW_S0(a) "PEMSECX_RX_KEY_USAGE_COUNTER_LOW_S0"
 #define device_bar_CAVM_PEMSECX_RX_KEY_USAGE_COUNTER_LOW_S0(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_KEY_USAGE_COUNTER_LOW_S0(a) (a)
 #define arguments_CAVM_PEMSECX_RX_KEY_USAGE_COUNTER_LOW_S0(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_lnk_kbit_cfg
+ * Register (ARF) pemsec#_rx_lnk_kbit_cfg
  *
  * IDE RX Link Kbit Register
  */
@@ -4396,19 +4396,19 @@ static inline uint64_t CAVM_PEMSECX_RX_LNK_KBIT_CFG(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_PEMSECX_RX_LNK_KBIT_CFG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000001048ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000001048ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_LNK_KBIT_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_LNK_KBIT_CFG(a) cavm_pemsecx_rx_lnk_kbit_cfg_t
-#define bustype_CAVM_PEMSECX_RX_LNK_KBIT_CFG(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_LNK_KBIT_CFG(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_LNK_KBIT_CFG(a) "PEMSECX_RX_LNK_KBIT_CFG"
 #define device_bar_CAVM_PEMSECX_RX_LNK_KBIT_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_LNK_KBIT_CFG(a) (a)
 #define arguments_CAVM_PEMSECX_RX_LNK_KBIT_CFG(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_lnk_kbit_current
+ * Register (ARF) pemsec#_rx_lnk_kbit_current
  *
  * RX Link Stream Current Kbit Register
  */
@@ -4454,19 +4454,19 @@ static inline uint64_t CAVM_PEMSECX_RX_LNK_KBIT_CURRENT(uint64_t a) __attribute_
 static inline uint64_t CAVM_PEMSECX_RX_LNK_KBIT_CURRENT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000001620ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000001620ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_LNK_KBIT_CURRENT", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_LNK_KBIT_CURRENT(a) cavm_pemsecx_rx_lnk_kbit_current_t
-#define bustype_CAVM_PEMSECX_RX_LNK_KBIT_CURRENT(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_LNK_KBIT_CURRENT(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_LNK_KBIT_CURRENT(a) "PEMSECX_RX_LNK_KBIT_CURRENT"
 #define device_bar_CAVM_PEMSECX_RX_LNK_KBIT_CURRENT(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_LNK_KBIT_CURRENT(a) (a)
 #define arguments_CAVM_PEMSECX_RX_LNK_KBIT_CURRENT(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_lnk_kbit_toggled
+ * Register (ARF) pemsec#_rx_lnk_kbit_toggled
  *
  * RX Link Stream Kbit Toggled Register
  */
@@ -4512,19 +4512,19 @@ static inline uint64_t CAVM_PEMSECX_RX_LNK_KBIT_TOGGLED(uint64_t a) __attribute_
 static inline uint64_t CAVM_PEMSECX_RX_LNK_KBIT_TOGGLED(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000001618ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000001618ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_LNK_KBIT_TOGGLED", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_LNK_KBIT_TOGGLED(a) cavm_pemsecx_rx_lnk_kbit_toggled_t
-#define bustype_CAVM_PEMSECX_RX_LNK_KBIT_TOGGLED(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_LNK_KBIT_TOGGLED(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_LNK_KBIT_TOGGLED(a) "PEMSECX_RX_LNK_KBIT_TOGGLED"
 #define device_bar_CAVM_PEMSECX_RX_LNK_KBIT_TOGGLED(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_LNK_KBIT_TOGGLED(a) (a)
 #define arguments_CAVM_PEMSECX_RX_LNK_KBIT_TOGGLED(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_out_aad
+ * Register (ARF) pemsec#_rx_out_aad
  *
  * RX FIPS Output Out AAD Register
  * This register is for testing the IDE encryption logic per the
@@ -4568,19 +4568,19 @@ static inline uint64_t CAVM_PEMSECX_RX_OUT_AAD(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_PEMSECX_RX_OUT_AAD(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000005a28ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000005a28ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_OUT_AAD", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_OUT_AAD(a) cavm_pemsecx_rx_out_aad_t
-#define bustype_CAVM_PEMSECX_RX_OUT_AAD(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_OUT_AAD(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_OUT_AAD(a) "PEMSECX_RX_OUT_AAD"
 #define device_bar_CAVM_PEMSECX_RX_OUT_AAD(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_OUT_AAD(a) (a)
 #define arguments_CAVM_PEMSECX_RX_OUT_AAD(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_out_aad_size
+ * Register (ARF) pemsec#_rx_out_aad_size
  *
  * RX FIPS Output Out AAD Size Register
  * This register is for testing the IDE encryption logic per the
@@ -4628,19 +4628,19 @@ static inline uint64_t CAVM_PEMSECX_RX_OUT_AAD_SIZE(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_PEMSECX_RX_OUT_AAD_SIZE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000005a30ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000005a30ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_OUT_AAD_SIZE", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_OUT_AAD_SIZE(a) cavm_pemsecx_rx_out_aad_size_t
-#define bustype_CAVM_PEMSECX_RX_OUT_AAD_SIZE(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_OUT_AAD_SIZE(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_OUT_AAD_SIZE(a) "PEMSECX_RX_OUT_AAD_SIZE"
 #define device_bar_CAVM_PEMSECX_RX_OUT_AAD_SIZE(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_OUT_AAD_SIZE(a) (a)
 #define arguments_CAVM_PEMSECX_RX_OUT_AAD_SIZE(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_out_data_chunk
+ * Register (ARF) pemsec#_rx_out_data_chunk
  *
  * RX FIPS Output Output Data Chunk Register
  * This register is for testing the IDE encryption logic per the
@@ -4673,19 +4673,19 @@ static inline uint64_t CAVM_PEMSECX_RX_OUT_DATA_CHUNK(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_PEMSECX_RX_OUT_DATA_CHUNK(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000005a50ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000005a50ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_OUT_DATA_CHUNK", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_OUT_DATA_CHUNK(a) cavm_pemsecx_rx_out_data_chunk_t
-#define bustype_CAVM_PEMSECX_RX_OUT_DATA_CHUNK(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_OUT_DATA_CHUNK(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_OUT_DATA_CHUNK(a) "PEMSECX_RX_OUT_DATA_CHUNK"
 #define device_bar_CAVM_PEMSECX_RX_OUT_DATA_CHUNK(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_OUT_DATA_CHUNK(a) (a)
 #define arguments_CAVM_PEMSECX_RX_OUT_DATA_CHUNK(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_out_data_idx
+ * Register (ARF) pemsec#_rx_out_data_idx
  *
  * RX FIPS Output Output Data IDX Register
  * This register is for testing the IDE encryption logic per the
@@ -4737,19 +4737,19 @@ static inline uint64_t CAVM_PEMSECX_RX_OUT_DATA_IDX(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_PEMSECX_RX_OUT_DATA_IDX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000005a48ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000005a48ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_OUT_DATA_IDX", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_OUT_DATA_IDX(a) cavm_pemsecx_rx_out_data_idx_t
-#define bustype_CAVM_PEMSECX_RX_OUT_DATA_IDX(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_OUT_DATA_IDX(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_OUT_DATA_IDX(a) "PEMSECX_RX_OUT_DATA_IDX"
 #define device_bar_CAVM_PEMSECX_RX_OUT_DATA_IDX(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_OUT_DATA_IDX(a) (a)
 #define arguments_CAVM_PEMSECX_RX_OUT_DATA_IDX(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_out_eop
+ * Register (ARF) pemsec#_rx_out_eop
  *
  * RX FIPS Output EOP Indication Register
  * This register is for testing the IDE encryption logic per the
@@ -4801,19 +4801,19 @@ static inline uint64_t CAVM_PEMSECX_RX_OUT_EOP(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_PEMSECX_RX_OUT_EOP(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000005a18ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000005a18ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_OUT_EOP", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_OUT_EOP(a) cavm_pemsecx_rx_out_eop_t
-#define bustype_CAVM_PEMSECX_RX_OUT_EOP(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_OUT_EOP(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_OUT_EOP(a) "PEMSECX_RX_OUT_EOP"
 #define device_bar_CAVM_PEMSECX_RX_OUT_EOP(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_OUT_EOP(a) (a)
 #define arguments_CAVM_PEMSECX_RX_OUT_EOP(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_out_mac_chunk
+ * Register (ARF) pemsec#_rx_out_mac_chunk
  *
  * RX FIPS Output MAC Chunk Register
  * This register is for testing the IDE encryption logic per the
@@ -4846,19 +4846,19 @@ static inline uint64_t CAVM_PEMSECX_RX_OUT_MAC_CHUNK(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_PEMSECX_RX_OUT_MAC_CHUNK(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000005a68ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000005a68ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_OUT_MAC_CHUNK", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_OUT_MAC_CHUNK(a) cavm_pemsecx_rx_out_mac_chunk_t
-#define bustype_CAVM_PEMSECX_RX_OUT_MAC_CHUNK(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_OUT_MAC_CHUNK(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_OUT_MAC_CHUNK(a) "PEMSECX_RX_OUT_MAC_CHUNK"
 #define device_bar_CAVM_PEMSECX_RX_OUT_MAC_CHUNK(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_OUT_MAC_CHUNK(a) (a)
 #define arguments_CAVM_PEMSECX_RX_OUT_MAC_CHUNK(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_out_mac_idx
+ * Register (ARF) pemsec#_rx_out_mac_idx
  *
  * RX FIPS Output MAC Index Register
  * This register is for testing the IDE encryption logic per the
@@ -4906,19 +4906,19 @@ static inline uint64_t CAVM_PEMSECX_RX_OUT_MAC_IDX(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_PEMSECX_RX_OUT_MAC_IDX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000005a60ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000005a60ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_OUT_MAC_IDX", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_OUT_MAC_IDX(a) cavm_pemsecx_rx_out_mac_idx_t
-#define bustype_CAVM_PEMSECX_RX_OUT_MAC_IDX(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_OUT_MAC_IDX(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_OUT_MAC_IDX(a) "PEMSECX_RX_OUT_MAC_IDX"
 #define device_bar_CAVM_PEMSECX_RX_OUT_MAC_IDX(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_OUT_MAC_IDX(a) (a)
 #define arguments_CAVM_PEMSECX_RX_OUT_MAC_IDX(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_out_msg
+ * Register (ARF) pemsec#_rx_out_msg
  *
  * RX_FIPS Output Out MSG Register
  * This register is for testing the IDE encryption logic per the
@@ -4962,19 +4962,19 @@ static inline uint64_t CAVM_PEMSECX_RX_OUT_MSG(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_PEMSECX_RX_OUT_MSG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000005a38ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000005a38ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_OUT_MSG", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_OUT_MSG(a) cavm_pemsecx_rx_out_msg_t
-#define bustype_CAVM_PEMSECX_RX_OUT_MSG(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_OUT_MSG(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_OUT_MSG(a) "PEMSECX_RX_OUT_MSG"
 #define device_bar_CAVM_PEMSECX_RX_OUT_MSG(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_OUT_MSG(a) (a)
 #define arguments_CAVM_PEMSECX_RX_OUT_MSG(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_out_msg_size
+ * Register (ARF) pemsec#_rx_out_msg_size
  *
  * RX FIPS Output Out MSG Size Register
  * This register is for testing the IDE encryption logic per the
@@ -5018,19 +5018,19 @@ static inline uint64_t CAVM_PEMSECX_RX_OUT_MSG_SIZE(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_PEMSECX_RX_OUT_MSG_SIZE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000005a40ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000005a40ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_OUT_MSG_SIZE", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_OUT_MSG_SIZE(a) cavm_pemsecx_rx_out_msg_size_t
-#define bustype_CAVM_PEMSECX_RX_OUT_MSG_SIZE(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_OUT_MSG_SIZE(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_OUT_MSG_SIZE(a) "PEMSECX_RX_OUT_MSG_SIZE"
 #define device_bar_CAVM_PEMSECX_RX_OUT_MSG_SIZE(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_OUT_MSG_SIZE(a) (a)
 #define arguments_CAVM_PEMSECX_RX_OUT_MSG_SIZE(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_out_ready
+ * Register (ARF) pemsec#_rx_out_ready
  *
  * RX FIPS Output Ready Register
  * This register is for testing the IDE encryption logic per the
@@ -5098,19 +5098,19 @@ static inline uint64_t CAVM_PEMSECX_RX_OUT_READY(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_PEMSECX_RX_OUT_READY(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000005a00ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000005a00ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_OUT_READY", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_OUT_READY(a) cavm_pemsecx_rx_out_ready_t
-#define bustype_CAVM_PEMSECX_RX_OUT_READY(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_OUT_READY(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_OUT_READY(a) "PEMSECX_RX_OUT_READY"
 #define device_bar_CAVM_PEMSECX_RX_OUT_READY(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_OUT_READY(a) (a)
 #define arguments_CAVM_PEMSECX_RX_OUT_READY(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_out_sop
+ * Register (ARF) pemsec#_rx_out_sop
  *
  * RX FIPS Output SOP Indication Register
  * This register is for testing the IDE encryption logic per the
@@ -5154,19 +5154,19 @@ static inline uint64_t CAVM_PEMSECX_RX_OUT_SOP(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_PEMSECX_RX_OUT_SOP(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000005a10ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000005a10ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_OUT_SOP", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_OUT_SOP(a) cavm_pemsecx_rx_out_sop_t
-#define bustype_CAVM_PEMSECX_RX_OUT_SOP(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_OUT_SOP(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_OUT_SOP(a) "PEMSECX_RX_OUT_SOP"
 #define device_bar_CAVM_PEMSECX_RX_OUT_SOP(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_OUT_SOP(a) (a)
 #define arguments_CAVM_PEMSECX_RX_OUT_SOP(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_out_valid
+ * Register (ARF) pemsec#_rx_out_valid
  *
  * RX FIPS Output Valid Register
  * This register is for testing the IDE encryption logic per the
@@ -5210,19 +5210,19 @@ static inline uint64_t CAVM_PEMSECX_RX_OUT_VALID(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_PEMSECX_RX_OUT_VALID(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000005a08ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000005a08ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_OUT_VALID", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_OUT_VALID(a) cavm_pemsecx_rx_out_valid_t
-#define bustype_CAVM_PEMSECX_RX_OUT_VALID(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_OUT_VALID(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_OUT_VALID(a) "PEMSECX_RX_OUT_VALID"
 #define device_bar_CAVM_PEMSECX_RX_OUT_VALID(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_OUT_VALID(a) (a)
 #define arguments_CAVM_PEMSECX_RX_OUT_VALID(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_pcrc_err_cnt
+ * Register (ARF) pemsec#_rx_pcrc_err_cnt
  *
  * IDE Rx PCRC Error Count Register
  */
@@ -5278,19 +5278,19 @@ static inline uint64_t CAVM_PEMSECX_RX_PCRC_ERR_CNT(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_PEMSECX_RX_PCRC_ERR_CNT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000001870ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000001870ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_PCRC_ERR_CNT", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_PCRC_ERR_CNT(a) cavm_pemsecx_rx_pcrc_err_cnt_t
-#define bustype_CAVM_PEMSECX_RX_PCRC_ERR_CNT(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_PCRC_ERR_CNT(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_PCRC_ERR_CNT(a) "PEMSECX_RX_PCRC_ERR_CNT"
 #define device_bar_CAVM_PEMSECX_RX_PCRC_ERR_CNT(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_PCRC_ERR_CNT(a) (a)
 #define arguments_CAVM_PEMSECX_RX_PCRC_ERR_CNT(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_pcrc_err_mask
+ * Register (ARF) pemsec#_rx_pcrc_err_mask
  *
  * IDE Rx PCRC Error Mask Register
  */
@@ -5321,19 +5321,19 @@ static inline uint64_t CAVM_PEMSECX_RX_PCRC_ERR_MASK(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_PEMSECX_RX_PCRC_ERR_MASK(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000001868ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000001868ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_PCRC_ERR_MASK", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_PCRC_ERR_MASK(a) cavm_pemsecx_rx_pcrc_err_mask_t
-#define bustype_CAVM_PEMSECX_RX_PCRC_ERR_MASK(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_PCRC_ERR_MASK(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_PCRC_ERR_MASK(a) "PEMSECX_RX_PCRC_ERR_MASK"
 #define device_bar_CAVM_PEMSECX_RX_PCRC_ERR_MASK(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_PCRC_ERR_MASK(a) (a)
 #define arguments_CAVM_PEMSECX_RX_PCRC_ERR_MASK(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_stat
+ * Register (ARF) pemsec#_rx_stat
  *
  * RX Status Register
  */
@@ -5379,19 +5379,19 @@ static inline uint64_t CAVM_PEMSECX_RX_STAT(uint64_t a) __attribute__ ((pure, al
 static inline uint64_t CAVM_PEMSECX_RX_STAT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000005030ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000005030ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_STAT", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_STAT(a) cavm_pemsecx_rx_stat_t
-#define bustype_CAVM_PEMSECX_RX_STAT(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_STAT(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_STAT(a) "PEMSECX_RX_STAT"
 #define device_bar_CAVM_PEMSECX_RX_STAT(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_STAT(a) (a)
 #define arguments_CAVM_PEMSECX_RX_STAT(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_rx_test_mode_cfg
+ * Register (ARF) pemsec#_rx_test_mode_cfg
  *
  * RX FIPS Test Mode Configuration Register
  * This register is for testing the IDE encryption logic per the
@@ -5451,19 +5451,19 @@ static inline uint64_t CAVM_PEMSECX_RX_TEST_MODE_CFG(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_PEMSECX_RX_TEST_MODE_CFG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000005898ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000005898ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_RX_TEST_MODE_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_RX_TEST_MODE_CFG(a) cavm_pemsecx_rx_test_mode_cfg_t
-#define bustype_CAVM_PEMSECX_RX_TEST_MODE_CFG(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_RX_TEST_MODE_CFG(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_RX_TEST_MODE_CFG(a) "PEMSECX_RX_TEST_MODE_CFG"
 #define device_bar_CAVM_PEMSECX_RX_TEST_MODE_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_RX_TEST_MODE_CFG(a) (a)
 #define arguments_CAVM_PEMSECX_RX_TEST_MODE_CFG(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_scratch#
+ * Register (ARF) pemsec#_scratch#
  *
  * PEMSEC Scratch Registers
  * Scratch Resisters.
@@ -5488,19 +5488,19 @@ static inline uint64_t CAVM_PEMSECX_SCRATCHX(uint64_t a, uint64_t b) __attribute
 static inline uint64_t CAVM_PEMSECX_SCRATCHX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b<=7)))
-        return 0x810000008000ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7);
+        return 0xc2c000008000ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("PEMSECX_SCRATCHX", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_SCRATCHX(a,b) cavm_pemsecx_scratchx_t
-#define bustype_CAVM_PEMSECX_SCRATCHX(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_SCRATCHX(a,b) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_SCRATCHX(a,b) "PEMSECX_SCRATCHX"
 #define device_bar_CAVM_PEMSECX_SCRATCHX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_SCRATCHX(a,b) (a)
 #define arguments_CAVM_PEMSECX_SCRATCHX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_aes_sel
+ * Register (ARF) pemsec#_tx_aes_sel
  *
  * TX_FIPS AES Selection Register
  * This register is for testing the IDE encryption logic per the
@@ -5548,19 +5548,19 @@ static inline uint64_t CAVM_PEMSECX_TX_AES_SEL(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_PEMSECX_TX_AES_SEL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000004bf8ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000004bf8ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_AES_SEL", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_AES_SEL(a) cavm_pemsecx_tx_aes_sel_t
-#define bustype_CAVM_PEMSECX_TX_AES_SEL(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_AES_SEL(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_AES_SEL(a) "PEMSECX_TX_AES_SEL"
 #define device_bar_CAVM_PEMSECX_TX_AES_SEL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_AES_SEL(a) (a)
 #define arguments_CAVM_PEMSECX_TX_AES_SEL(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_cmd_aad
+ * Register (ARF) pemsec#_tx_cmd_aad
  *
  * TX FIPS Command - CMD AAD Register
  * This register is for testing the IDE encryption logic per the
@@ -5608,19 +5608,19 @@ static inline uint64_t CAVM_PEMSECX_TX_CMD_AAD(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_PEMSECX_TX_CMD_AAD(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000004810ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000004810ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_CMD_AAD", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_CMD_AAD(a) cavm_pemsecx_tx_cmd_aad_t
-#define bustype_CAVM_PEMSECX_TX_CMD_AAD(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_CMD_AAD(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_CMD_AAD(a) "PEMSECX_TX_CMD_AAD"
 #define device_bar_CAVM_PEMSECX_TX_CMD_AAD(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_CMD_AAD(a) (a)
 #define arguments_CAVM_PEMSECX_TX_CMD_AAD(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_cmd_aad_size
+ * Register (ARF) pemsec#_tx_cmd_aad_size
  *
  * TX FIPS Command - CMD AAD SIZE Register
  * This register is for testing the IDE encryption logic per the
@@ -5668,19 +5668,19 @@ static inline uint64_t CAVM_PEMSECX_TX_CMD_AAD_SIZE(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_PEMSECX_TX_CMD_AAD_SIZE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000004848ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000004848ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_CMD_AAD_SIZE", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_CMD_AAD_SIZE(a) cavm_pemsecx_tx_cmd_aad_size_t
-#define bustype_CAVM_PEMSECX_TX_CMD_AAD_SIZE(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_CMD_AAD_SIZE(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_CMD_AAD_SIZE(a) "PEMSECX_TX_CMD_AAD_SIZE"
 #define device_bar_CAVM_PEMSECX_TX_CMD_AAD_SIZE(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_CMD_AAD_SIZE(a) (a)
 #define arguments_CAVM_PEMSECX_TX_CMD_AAD_SIZE(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_cmd_ctx
+ * Register (ARF) pemsec#_tx_cmd_ctx
  *
  * TX FIPS Command - CTX Register
  * This register is for testing the IDE encryption logic per the
@@ -5724,19 +5724,19 @@ static inline uint64_t CAVM_PEMSECX_TX_CMD_CTX(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_PEMSECX_TX_CMD_CTX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000004858ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000004858ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_CMD_CTX", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_CMD_CTX(a) cavm_pemsecx_tx_cmd_ctx_t
-#define bustype_CAVM_PEMSECX_TX_CMD_CTX(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_CMD_CTX(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_CMD_CTX(a) "PEMSECX_TX_CMD_CTX"
 #define device_bar_CAVM_PEMSECX_TX_CMD_CTX(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_CMD_CTX(a) (a)
 #define arguments_CAVM_PEMSECX_TX_CMD_CTX(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_cmd_eop
+ * Register (ARF) pemsec#_tx_cmd_eop
  *
  * TX FIPS Command - CMD EOP Register
  * This register is for testing the IDE encryption logic per the
@@ -5780,19 +5780,19 @@ static inline uint64_t CAVM_PEMSECX_TX_CMD_EOP(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_PEMSECX_TX_CMD_EOP(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000004808ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000004808ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_CMD_EOP", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_CMD_EOP(a) cavm_pemsecx_tx_cmd_eop_t
-#define bustype_CAVM_PEMSECX_TX_CMD_EOP(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_CMD_EOP(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_CMD_EOP(a) "PEMSECX_TX_CMD_EOP"
 #define device_bar_CAVM_PEMSECX_TX_CMD_EOP(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_CMD_EOP(a) (a)
 #define arguments_CAVM_PEMSECX_TX_CMD_EOP(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_cmd_msg
+ * Register (ARF) pemsec#_tx_cmd_msg
  *
  * TX FIPS Command - CMD MSG Register
  * This register is for testing the IDE encryption logic per the
@@ -5836,19 +5836,19 @@ static inline uint64_t CAVM_PEMSECX_TX_CMD_MSG(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_PEMSECX_TX_CMD_MSG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000004818ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000004818ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_CMD_MSG", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_CMD_MSG(a) cavm_pemsecx_tx_cmd_msg_t
-#define bustype_CAVM_PEMSECX_TX_CMD_MSG(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_CMD_MSG(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_CMD_MSG(a) "PEMSECX_TX_CMD_MSG"
 #define device_bar_CAVM_PEMSECX_TX_CMD_MSG(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_CMD_MSG(a) (a)
 #define arguments_CAVM_PEMSECX_TX_CMD_MSG(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_cmd_msg_size
+ * Register (ARF) pemsec#_tx_cmd_msg_size
  *
  * TX FIPS Command - CMD MSG SIZE Register
  * This register is for testing the IDE encryption logic per the
@@ -5892,19 +5892,19 @@ static inline uint64_t CAVM_PEMSECX_TX_CMD_MSG_SIZE(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_PEMSECX_TX_CMD_MSG_SIZE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000004850ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000004850ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_CMD_MSG_SIZE", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_CMD_MSG_SIZE(a) cavm_pemsecx_tx_cmd_msg_size_t
-#define bustype_CAVM_PEMSECX_TX_CMD_MSG_SIZE(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_CMD_MSG_SIZE(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_CMD_MSG_SIZE(a) "PEMSECX_TX_CMD_MSG_SIZE"
 #define device_bar_CAVM_PEMSECX_TX_CMD_MSG_SIZE(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_CMD_MSG_SIZE(a) (a)
 #define arguments_CAVM_PEMSECX_TX_CMD_MSG_SIZE(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_cmd_ready
+ * Register (ARF) pemsec#_tx_cmd_ready
  *
  * TX FIPS Command - CMD Ready Register
  * This register is for testing the IDE encryption logic per the
@@ -5948,19 +5948,19 @@ static inline uint64_t CAVM_PEMSECX_TX_CMD_READY(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_PEMSECX_TX_CMD_READY(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000004868ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000004868ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_CMD_READY", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_CMD_READY(a) cavm_pemsecx_tx_cmd_ready_t
-#define bustype_CAVM_PEMSECX_TX_CMD_READY(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_CMD_READY(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_CMD_READY(a) "PEMSECX_TX_CMD_READY"
 #define device_bar_CAVM_PEMSECX_TX_CMD_READY(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_CMD_READY(a) (a)
 #define arguments_CAVM_PEMSECX_TX_CMD_READY(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_cmd_sop
+ * Register (ARF) pemsec#_tx_cmd_sop
  *
  * TX FIPS Command - CMD SOP Register
  * This register is for testing the IDE encryption logic per the
@@ -6004,19 +6004,19 @@ static inline uint64_t CAVM_PEMSECX_TX_CMD_SOP(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_PEMSECX_TX_CMD_SOP(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000004800ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000004800ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_CMD_SOP", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_CMD_SOP(a) cavm_pemsecx_tx_cmd_sop_t
-#define bustype_CAVM_PEMSECX_TX_CMD_SOP(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_CMD_SOP(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_CMD_SOP(a) "PEMSECX_TX_CMD_SOP"
 #define device_bar_CAVM_PEMSECX_TX_CMD_SOP(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_CMD_SOP(a) (a)
 #define arguments_CAVM_PEMSECX_TX_CMD_SOP(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_cmd_valid
+ * Register (ARF) pemsec#_tx_cmd_valid
  *
  * TX FIPS Command - CMD Valid Register
  * This register is for testing the IDE encryption logic per the
@@ -6060,19 +6060,19 @@ static inline uint64_t CAVM_PEMSECX_TX_CMD_VALID(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_PEMSECX_TX_CMD_VALID(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000004860ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000004860ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_CMD_VALID", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_CMD_VALID(a) cavm_pemsecx_tx_cmd_valid_t
-#define bustype_CAVM_PEMSECX_TX_CMD_VALID(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_CMD_VALID(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_CMD_VALID(a) "PEMSECX_TX_CMD_VALID"
 #define device_bar_CAVM_PEMSECX_TX_CMD_VALID(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_CMD_VALID(a) (a)
 #define arguments_CAVM_PEMSECX_TX_CMD_VALID(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_core_ver_num
+ * Register (ARF) pemsec#_tx_core_ver_num
  *
  * TX IP Version Number Register
  */
@@ -6108,19 +6108,19 @@ static inline uint64_t CAVM_PEMSECX_TX_CORE_VER_NUM(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_PEMSECX_TX_CORE_VER_NUM(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000004000ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000004000ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_CORE_VER_NUM", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_CORE_VER_NUM(a) cavm_pemsecx_tx_core_ver_num_t
-#define bustype_CAVM_PEMSECX_TX_CORE_VER_NUM(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_CORE_VER_NUM(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_CORE_VER_NUM(a) "PEMSECX_TX_CORE_VER_NUM"
 #define device_bar_CAVM_PEMSECX_TX_CORE_VER_NUM(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_CORE_VER_NUM(a) (a)
 #define arguments_CAVM_PEMSECX_TX_CORE_VER_NUM(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_core_ver_type
+ * Register (ARF) pemsec#_tx_core_ver_type
  *
  * TX IP Version Type Register
  */
@@ -6164,19 +6164,19 @@ static inline uint64_t CAVM_PEMSECX_TX_CORE_VER_TYPE(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_PEMSECX_TX_CORE_VER_TYPE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000004008ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000004008ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_CORE_VER_TYPE", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_CORE_VER_TYPE(a) cavm_pemsecx_tx_core_ver_type_t
-#define bustype_CAVM_PEMSECX_TX_CORE_VER_TYPE(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_CORE_VER_TYPE(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_CORE_VER_TYPE(a) "PEMSECX_TX_CORE_VER_TYPE"
 #define device_bar_CAVM_PEMSECX_TX_CORE_VER_TYPE(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_CORE_VER_TYPE(a) (a)
 #define arguments_CAVM_PEMSECX_TX_CORE_VER_TYPE(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_ctr_iv_chunk
+ * Register (ARF) pemsec#_tx_ctr_iv_chunk
  *
  * TX FIPS Command - CTR IV Chunk Register
  * This register is for testing the IDE encryption logic per the
@@ -6209,19 +6209,19 @@ static inline uint64_t CAVM_PEMSECX_TX_CTR_IV_CHUNK(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_PEMSECX_TX_CTR_IV_CHUNK(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000004828ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000004828ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_CTR_IV_CHUNK", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_CTR_IV_CHUNK(a) cavm_pemsecx_tx_ctr_iv_chunk_t
-#define bustype_CAVM_PEMSECX_TX_CTR_IV_CHUNK(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_CTR_IV_CHUNK(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_CTR_IV_CHUNK(a) "PEMSECX_TX_CTR_IV_CHUNK"
 #define device_bar_CAVM_PEMSECX_TX_CTR_IV_CHUNK(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_CTR_IV_CHUNK(a) (a)
 #define arguments_CAVM_PEMSECX_TX_CTR_IV_CHUNK(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_ctr_iv_idx
+ * Register (ARF) pemsec#_tx_ctr_iv_idx
  *
  * TX FIPS Command - CTR IV IDX Register
  * This register is for testing the IDE encryption logic per the
@@ -6269,19 +6269,19 @@ static inline uint64_t CAVM_PEMSECX_TX_CTR_IV_IDX(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_PEMSECX_TX_CTR_IV_IDX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000004820ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000004820ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_CTR_IV_IDX", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_CTR_IV_IDX(a) cavm_pemsecx_tx_ctr_iv_idx_t
-#define bustype_CAVM_PEMSECX_TX_CTR_IV_IDX(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_CTR_IV_IDX(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_CTR_IV_IDX(a) "PEMSECX_TX_CTR_IV_IDX"
 #define device_bar_CAVM_PEMSECX_TX_CTR_IV_IDX(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_CTR_IV_IDX(a) (a)
 #define arguments_CAVM_PEMSECX_TX_CTR_IV_IDX(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_ctrl
+ * Register (ARF) pemsec#_tx_ctrl
  *
  * TX Control Register
  */
@@ -6367,19 +6367,19 @@ static inline uint64_t CAVM_PEMSECX_TX_CTRL(uint64_t a) __attribute__ ((pure, al
 static inline uint64_t CAVM_PEMSECX_TX_CTRL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000004028ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000004028ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_CTRL(a) cavm_pemsecx_tx_ctrl_t
-#define bustype_CAVM_PEMSECX_TX_CTRL(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_CTRL(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_CTRL(a) "PEMSECX_TX_CTRL"
 #define device_bar_CAVM_PEMSECX_TX_CTRL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_CTRL(a) (a)
 #define arguments_CAVM_PEMSECX_TX_CTRL(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_data_ready
+ * Register (ARF) pemsec#_tx_data_ready
  *
  * TX FIPS Input DATA Ready Register
  * This register is for testing the IDE encryption logic per the
@@ -6423,19 +6423,19 @@ static inline uint64_t CAVM_PEMSECX_TX_DATA_READY(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_PEMSECX_TX_DATA_READY(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8100000048b8ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c0000048b8ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_DATA_READY", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_DATA_READY(a) cavm_pemsecx_tx_data_ready_t
-#define bustype_CAVM_PEMSECX_TX_DATA_READY(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_DATA_READY(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_DATA_READY(a) "PEMSECX_TX_DATA_READY"
 #define device_bar_CAVM_PEMSECX_TX_DATA_READY(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_DATA_READY(a) (a)
 #define arguments_CAVM_PEMSECX_TX_DATA_READY(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_data_valid
+ * Register (ARF) pemsec#_tx_data_valid
  *
  * TX FIPS Input DATA Valid Register
  * This register is for testing the IDE encryption logic per the
@@ -6479,19 +6479,19 @@ static inline uint64_t CAVM_PEMSECX_TX_DATA_VALID(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_PEMSECX_TX_DATA_VALID(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8100000048b0ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c0000048b0ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_DATA_VALID", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_DATA_VALID(a) cavm_pemsecx_tx_data_valid_t
-#define bustype_CAVM_PEMSECX_TX_DATA_VALID(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_DATA_VALID(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_DATA_VALID(a) "PEMSECX_TX_DATA_VALID"
 #define device_bar_CAVM_PEMSECX_TX_DATA_VALID(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_DATA_VALID(a) (a)
 #define arguments_CAVM_PEMSECX_TX_DATA_VALID(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_in_data
+ * Register (ARF) pemsec#_tx_in_data
  *
  * TX FIPS Input DATA Register
  * This register is for testing the IDE encryption logic per the
@@ -6526,19 +6526,19 @@ static inline uint64_t CAVM_PEMSECX_TX_IN_DATA(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_PEMSECX_TX_IN_DATA(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8100000048a8ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c0000048a8ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_IN_DATA", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_IN_DATA(a) cavm_pemsecx_tx_in_data_t
-#define bustype_CAVM_PEMSECX_TX_IN_DATA(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_IN_DATA(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_IN_DATA(a) "PEMSECX_TX_IN_DATA"
 #define device_bar_CAVM_PEMSECX_TX_IN_DATA(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_IN_DATA(a) (a)
 #define arguments_CAVM_PEMSECX_TX_IN_DATA(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_in_data_idx
+ * Register (ARF) pemsec#_tx_in_data_idx
  *
  * TX FIPS Input DATA IDX Register
  * This register is for testing the IDE encryption logic per the
@@ -6586,19 +6586,19 @@ static inline uint64_t CAVM_PEMSECX_TX_IN_DATA_IDX(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_PEMSECX_TX_IN_DATA_IDX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8100000048a0ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c0000048a0ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_IN_DATA_IDX", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_IN_DATA_IDX(a) cavm_pemsecx_tx_in_data_idx_t
-#define bustype_CAVM_PEMSECX_TX_IN_DATA_IDX(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_IN_DATA_IDX(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_IN_DATA_IDX(a) "PEMSECX_TX_IN_DATA_IDX"
 #define device_bar_CAVM_PEMSECX_TX_IN_DATA_IDX(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_IN_DATA_IDX(a) (a)
 #define arguments_CAVM_PEMSECX_TX_IN_DATA_IDX(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_initial_iv_lsw
+ * Register (ARF) pemsec#_tx_initial_iv_lsw
  *
  * TX Initial IV configuration value Low Register
  */
@@ -6631,19 +6631,19 @@ static inline uint64_t CAVM_PEMSECX_TX_INITIAL_IV_LSW(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_PEMSECX_TX_INITIAL_IV_LSW(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000004080ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000004080ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_INITIAL_IV_LSW", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_INITIAL_IV_LSW(a) cavm_pemsecx_tx_initial_iv_lsw_t
-#define bustype_CAVM_PEMSECX_TX_INITIAL_IV_LSW(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_INITIAL_IV_LSW(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_INITIAL_IV_LSW(a) "PEMSECX_TX_INITIAL_IV_LSW"
 #define device_bar_CAVM_PEMSECX_TX_INITIAL_IV_LSW(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_INITIAL_IV_LSW(a) (a)
 #define arguments_CAVM_PEMSECX_TX_INITIAL_IV_LSW(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_initial_iv_msw
+ * Register (ARF) pemsec#_tx_initial_iv_msw
  *
  * TX Initial IV configuration value Hi Register
  */
@@ -6676,19 +6676,19 @@ static inline uint64_t CAVM_PEMSECX_TX_INITIAL_IV_MSW(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_PEMSECX_TX_INITIAL_IV_MSW(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000004088ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000004088ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_INITIAL_IV_MSW", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_INITIAL_IV_MSW(a) cavm_pemsecx_tx_initial_iv_msw_t
-#define bustype_CAVM_PEMSECX_TX_INITIAL_IV_MSW(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_INITIAL_IV_MSW(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_INITIAL_IV_MSW(a) "PEMSECX_TX_INITIAL_IV_MSW"
 #define device_bar_CAVM_PEMSECX_TX_INITIAL_IV_MSW(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_INITIAL_IV_MSW(a) (a)
 #define arguments_CAVM_PEMSECX_TX_INITIAL_IV_MSW(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_irq_en
+ * Register (ARF) pemsec#_tx_irq_en
  *
  * TX Interrupt Enable Register
  */
@@ -6804,19 +6804,19 @@ static inline uint64_t CAVM_PEMSECX_TX_IRQ_EN(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_PEMSECX_TX_IRQ_EN(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000004010ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000004010ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_IRQ_EN", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_IRQ_EN(a) cavm_pemsecx_tx_irq_en_t
-#define bustype_CAVM_PEMSECX_TX_IRQ_EN(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_IRQ_EN(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_IRQ_EN(a) "PEMSECX_TX_IRQ_EN"
 #define device_bar_CAVM_PEMSECX_TX_IRQ_EN(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_IRQ_EN(a) (a)
 #define arguments_CAVM_PEMSECX_TX_IRQ_EN(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_irq_stat
+ * Register (ARF) pemsec#_tx_irq_stat
  *
  * TX Interrupt Status Register
  */
@@ -6884,19 +6884,19 @@ static inline uint64_t CAVM_PEMSECX_TX_IRQ_STAT(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_PEMSECX_TX_IRQ_STAT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000004018ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000004018ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_IRQ_STAT", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_IRQ_STAT(a) cavm_pemsecx_tx_irq_stat_t
-#define bustype_CAVM_PEMSECX_TX_IRQ_STAT(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_IRQ_STAT(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_IRQ_STAT(a) "PEMSECX_TX_IRQ_STAT"
 #define device_bar_CAVM_PEMSECX_TX_IRQ_STAT(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_IRQ_STAT(a) (a)
 #define arguments_CAVM_PEMSECX_TX_IRQ_STAT(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_key_0
+ * Register (ARF) pemsec#_tx_key_0
  *
  * TX Key 0 Register
  */
@@ -6929,19 +6929,19 @@ static inline uint64_t CAVM_PEMSECX_TX_KEY_0(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PEMSECX_TX_KEY_0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000004040ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000004040ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_KEY_0", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_KEY_0(a) cavm_pemsecx_tx_key_0_t
-#define bustype_CAVM_PEMSECX_TX_KEY_0(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_KEY_0(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_KEY_0(a) "PEMSECX_TX_KEY_0"
 #define device_bar_CAVM_PEMSECX_TX_KEY_0(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_KEY_0(a) (a)
 #define arguments_CAVM_PEMSECX_TX_KEY_0(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_key_1
+ * Register (ARF) pemsec#_tx_key_1
  *
  * TX Key 1 Register
  */
@@ -6966,19 +6966,19 @@ static inline uint64_t CAVM_PEMSECX_TX_KEY_1(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PEMSECX_TX_KEY_1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000004048ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000004048ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_KEY_1", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_KEY_1(a) cavm_pemsecx_tx_key_1_t
-#define bustype_CAVM_PEMSECX_TX_KEY_1(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_KEY_1(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_KEY_1(a) "PEMSECX_TX_KEY_1"
 #define device_bar_CAVM_PEMSECX_TX_KEY_1(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_KEY_1(a) (a)
 #define arguments_CAVM_PEMSECX_TX_KEY_1(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_key_2
+ * Register (ARF) pemsec#_tx_key_2
  *
  * TX Key 2 Register
  */
@@ -7003,19 +7003,19 @@ static inline uint64_t CAVM_PEMSECX_TX_KEY_2(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PEMSECX_TX_KEY_2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000004050ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000004050ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_KEY_2", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_KEY_2(a) cavm_pemsecx_tx_key_2_t
-#define bustype_CAVM_PEMSECX_TX_KEY_2(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_KEY_2(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_KEY_2(a) "PEMSECX_TX_KEY_2"
 #define device_bar_CAVM_PEMSECX_TX_KEY_2(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_KEY_2(a) (a)
 #define arguments_CAVM_PEMSECX_TX_KEY_2(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_key_3
+ * Register (ARF) pemsec#_tx_key_3
  *
  * TX Key 3 Register
  */
@@ -7040,19 +7040,19 @@ static inline uint64_t CAVM_PEMSECX_TX_KEY_3(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PEMSECX_TX_KEY_3(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000004058ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000004058ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_KEY_3", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_KEY_3(a) cavm_pemsecx_tx_key_3_t
-#define bustype_CAVM_PEMSECX_TX_KEY_3(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_KEY_3(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_KEY_3(a) "PEMSECX_TX_KEY_3"
 #define device_bar_CAVM_PEMSECX_TX_KEY_3(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_KEY_3(a) (a)
 #define arguments_CAVM_PEMSECX_TX_KEY_3(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_key_4
+ * Register (ARF) pemsec#_tx_key_4
  *
  * TX Key 4 Register
  */
@@ -7077,19 +7077,19 @@ static inline uint64_t CAVM_PEMSECX_TX_KEY_4(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PEMSECX_TX_KEY_4(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000004060ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000004060ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_KEY_4", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_KEY_4(a) cavm_pemsecx_tx_key_4_t
-#define bustype_CAVM_PEMSECX_TX_KEY_4(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_KEY_4(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_KEY_4(a) "PEMSECX_TX_KEY_4"
 #define device_bar_CAVM_PEMSECX_TX_KEY_4(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_KEY_4(a) (a)
 #define arguments_CAVM_PEMSECX_TX_KEY_4(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_key_5
+ * Register (ARF) pemsec#_tx_key_5
  *
  * TX Key 5 Register
  */
@@ -7114,19 +7114,19 @@ static inline uint64_t CAVM_PEMSECX_TX_KEY_5(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PEMSECX_TX_KEY_5(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000004068ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000004068ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_KEY_5", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_KEY_5(a) cavm_pemsecx_tx_key_5_t
-#define bustype_CAVM_PEMSECX_TX_KEY_5(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_KEY_5(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_KEY_5(a) "PEMSECX_TX_KEY_5"
 #define device_bar_CAVM_PEMSECX_TX_KEY_5(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_KEY_5(a) (a)
 #define arguments_CAVM_PEMSECX_TX_KEY_5(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_key_6
+ * Register (ARF) pemsec#_tx_key_6
  *
  * TX Key 6 Register
  */
@@ -7151,19 +7151,19 @@ static inline uint64_t CAVM_PEMSECX_TX_KEY_6(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PEMSECX_TX_KEY_6(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000004070ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000004070ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_KEY_6", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_KEY_6(a) cavm_pemsecx_tx_key_6_t
-#define bustype_CAVM_PEMSECX_TX_KEY_6(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_KEY_6(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_KEY_6(a) "PEMSECX_TX_KEY_6"
 #define device_bar_CAVM_PEMSECX_TX_KEY_6(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_KEY_6(a) (a)
 #define arguments_CAVM_PEMSECX_TX_KEY_6(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_key_7
+ * Register (ARF) pemsec#_tx_key_7
  *
  * TX Key 7 Register
  */
@@ -7188,19 +7188,19 @@ static inline uint64_t CAVM_PEMSECX_TX_KEY_7(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PEMSECX_TX_KEY_7(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000004078ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000004078ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_KEY_7", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_KEY_7(a) cavm_pemsecx_tx_key_7_t
-#define bustype_CAVM_PEMSECX_TX_KEY_7(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_KEY_7(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_KEY_7(a) "PEMSECX_TX_KEY_7"
 #define device_bar_CAVM_PEMSECX_TX_KEY_7(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_KEY_7(a) (a)
 #define arguments_CAVM_PEMSECX_TX_KEY_7(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_key_threshold_high_s0
+ * Register (ARF) pemsec#_tx_key_threshold_high_s0
  *
  * TX Key Threshold value for Stream 0 Hi Register
  */
@@ -7225,19 +7225,19 @@ static inline uint64_t CAVM_PEMSECX_TX_KEY_THRESHOLD_HIGH_S0(uint64_t a) __attri
 static inline uint64_t CAVM_PEMSECX_TX_KEY_THRESHOLD_HIGH_S0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000001088ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000001088ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_KEY_THRESHOLD_HIGH_S0", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_KEY_THRESHOLD_HIGH_S0(a) cavm_pemsecx_tx_key_threshold_high_s0_t
-#define bustype_CAVM_PEMSECX_TX_KEY_THRESHOLD_HIGH_S0(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_KEY_THRESHOLD_HIGH_S0(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_KEY_THRESHOLD_HIGH_S0(a) "PEMSECX_TX_KEY_THRESHOLD_HIGH_S0"
 #define device_bar_CAVM_PEMSECX_TX_KEY_THRESHOLD_HIGH_S0(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_KEY_THRESHOLD_HIGH_S0(a) (a)
 #define arguments_CAVM_PEMSECX_TX_KEY_THRESHOLD_HIGH_S0(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_key_threshold_low_s0
+ * Register (ARF) pemsec#_tx_key_threshold_low_s0
  *
  * TX Key Threshold value for Stream 0 Low Register
  */
@@ -7262,19 +7262,19 @@ static inline uint64_t CAVM_PEMSECX_TX_KEY_THRESHOLD_LOW_S0(uint64_t a) __attrib
 static inline uint64_t CAVM_PEMSECX_TX_KEY_THRESHOLD_LOW_S0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000001080ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000001080ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_KEY_THRESHOLD_LOW_S0", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_KEY_THRESHOLD_LOW_S0(a) cavm_pemsecx_tx_key_threshold_low_s0_t
-#define bustype_CAVM_PEMSECX_TX_KEY_THRESHOLD_LOW_S0(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_KEY_THRESHOLD_LOW_S0(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_KEY_THRESHOLD_LOW_S0(a) "PEMSECX_TX_KEY_THRESHOLD_LOW_S0"
 #define device_bar_CAVM_PEMSECX_TX_KEY_THRESHOLD_LOW_S0(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_KEY_THRESHOLD_LOW_S0(a) (a)
 #define arguments_CAVM_PEMSECX_TX_KEY_THRESHOLD_LOW_S0(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_key_usage_counter_high_s0
+ * Register (ARF) pemsec#_tx_key_usage_counter_high_s0
  *
  * TX Key utilization counter value for Stream 0 LSW Register
  */
@@ -7299,19 +7299,19 @@ static inline uint64_t CAVM_PEMSECX_TX_KEY_USAGE_COUNTER_HIGH_S0(uint64_t a) __a
 static inline uint64_t CAVM_PEMSECX_TX_KEY_USAGE_COUNTER_HIGH_S0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000001660ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000001660ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_KEY_USAGE_COUNTER_HIGH_S0", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_KEY_USAGE_COUNTER_HIGH_S0(a) cavm_pemsecx_tx_key_usage_counter_high_s0_t
-#define bustype_CAVM_PEMSECX_TX_KEY_USAGE_COUNTER_HIGH_S0(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_KEY_USAGE_COUNTER_HIGH_S0(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_KEY_USAGE_COUNTER_HIGH_S0(a) "PEMSECX_TX_KEY_USAGE_COUNTER_HIGH_S0"
 #define device_bar_CAVM_PEMSECX_TX_KEY_USAGE_COUNTER_HIGH_S0(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_KEY_USAGE_COUNTER_HIGH_S0(a) (a)
 #define arguments_CAVM_PEMSECX_TX_KEY_USAGE_COUNTER_HIGH_S0(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_key_usage_counter_low_s0
+ * Register (ARF) pemsec#_tx_key_usage_counter_low_s0
  *
  * TX Key utilization counter value for Stream 0 LSW Register
  */
@@ -7336,19 +7336,19 @@ static inline uint64_t CAVM_PEMSECX_TX_KEY_USAGE_COUNTER_LOW_S0(uint64_t a) __at
 static inline uint64_t CAVM_PEMSECX_TX_KEY_USAGE_COUNTER_LOW_S0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000001658ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000001658ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_KEY_USAGE_COUNTER_LOW_S0", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_KEY_USAGE_COUNTER_LOW_S0(a) cavm_pemsecx_tx_key_usage_counter_low_s0_t
-#define bustype_CAVM_PEMSECX_TX_KEY_USAGE_COUNTER_LOW_S0(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_KEY_USAGE_COUNTER_LOW_S0(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_KEY_USAGE_COUNTER_LOW_S0(a) "PEMSECX_TX_KEY_USAGE_COUNTER_LOW_S0"
 #define device_bar_CAVM_PEMSECX_TX_KEY_USAGE_COUNTER_LOW_S0(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_KEY_USAGE_COUNTER_LOW_S0(a) (a)
 #define arguments_CAVM_PEMSECX_TX_KEY_USAGE_COUNTER_LOW_S0(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_link_tbit_cfg
+ * Register (ARF) pemsec#_tx_link_tbit_cfg
  *
  * IDE Link Stream Tbit Register
  */
@@ -7406,19 +7406,19 @@ static inline uint64_t CAVM_PEMSECX_TX_LINK_TBIT_CFG(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_PEMSECX_TX_LINK_TBIT_CFG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000001020ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000001020ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_LINK_TBIT_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_LINK_TBIT_CFG(a) cavm_pemsecx_tx_link_tbit_cfg_t
-#define bustype_CAVM_PEMSECX_TX_LINK_TBIT_CFG(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_LINK_TBIT_CFG(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_LINK_TBIT_CFG(a) "PEMSECX_TX_LINK_TBIT_CFG"
 #define device_bar_CAVM_PEMSECX_TX_LINK_TBIT_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_LINK_TBIT_CFG(a) (a)
 #define arguments_CAVM_PEMSECX_TX_LINK_TBIT_CFG(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_lnk_kbit_cfg
+ * Register (ARF) pemsec#_tx_lnk_kbit_cfg
  *
  * IDE TX Link Kbit Register
  */
@@ -7512,19 +7512,19 @@ static inline uint64_t CAVM_PEMSECX_TX_LNK_KBIT_CFG(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_PEMSECX_TX_LNK_KBIT_CFG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000001038ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000001038ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_LNK_KBIT_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_LNK_KBIT_CFG(a) cavm_pemsecx_tx_lnk_kbit_cfg_t
-#define bustype_CAVM_PEMSECX_TX_LNK_KBIT_CFG(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_LNK_KBIT_CFG(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_LNK_KBIT_CFG(a) "PEMSECX_TX_LNK_KBIT_CFG"
 #define device_bar_CAVM_PEMSECX_TX_LNK_KBIT_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_LNK_KBIT_CFG(a) (a)
 #define arguments_CAVM_PEMSECX_TX_LNK_KBIT_CFG(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_lnk_kbit_toggled
+ * Register (ARF) pemsec#_tx_lnk_kbit_toggled
  *
  * TX Link Stream Kbit Toggled Register
  */
@@ -7570,19 +7570,19 @@ static inline uint64_t CAVM_PEMSECX_TX_LNK_KBIT_TOGGLED(uint64_t a) __attribute_
 static inline uint64_t CAVM_PEMSECX_TX_LNK_KBIT_TOGGLED(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000001610ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000001610ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_LNK_KBIT_TOGGLED", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_LNK_KBIT_TOGGLED(a) cavm_pemsecx_tx_lnk_kbit_toggled_t
-#define bustype_CAVM_PEMSECX_TX_LNK_KBIT_TOGGLED(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_LNK_KBIT_TOGGLED(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_LNK_KBIT_TOGGLED(a) "PEMSECX_TX_LNK_KBIT_TOGGLED"
 #define device_bar_CAVM_PEMSECX_TX_LNK_KBIT_TOGGLED(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_LNK_KBIT_TOGGLED(a) (a)
 #define arguments_CAVM_PEMSECX_TX_LNK_KBIT_TOGGLED(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_out_aad
+ * Register (ARF) pemsec#_tx_out_aad
  *
  * TX FIPS Output Out AAD Register
  * This register is for testing the IDE encryption logic per the
@@ -7626,19 +7626,19 @@ static inline uint64_t CAVM_PEMSECX_TX_OUT_AAD(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_PEMSECX_TX_OUT_AAD(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000004a28ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000004a28ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_OUT_AAD", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_OUT_AAD(a) cavm_pemsecx_tx_out_aad_t
-#define bustype_CAVM_PEMSECX_TX_OUT_AAD(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_OUT_AAD(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_OUT_AAD(a) "PEMSECX_TX_OUT_AAD"
 #define device_bar_CAVM_PEMSECX_TX_OUT_AAD(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_OUT_AAD(a) (a)
 #define arguments_CAVM_PEMSECX_TX_OUT_AAD(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_out_aad_size
+ * Register (ARF) pemsec#_tx_out_aad_size
  *
  * TX FIPS Output Out AAD Size Register
  * This register is for testing the IDE encryption logic per the
@@ -7686,19 +7686,19 @@ static inline uint64_t CAVM_PEMSECX_TX_OUT_AAD_SIZE(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_PEMSECX_TX_OUT_AAD_SIZE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000004a30ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000004a30ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_OUT_AAD_SIZE", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_OUT_AAD_SIZE(a) cavm_pemsecx_tx_out_aad_size_t
-#define bustype_CAVM_PEMSECX_TX_OUT_AAD_SIZE(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_OUT_AAD_SIZE(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_OUT_AAD_SIZE(a) "PEMSECX_TX_OUT_AAD_SIZE"
 #define device_bar_CAVM_PEMSECX_TX_OUT_AAD_SIZE(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_OUT_AAD_SIZE(a) (a)
 #define arguments_CAVM_PEMSECX_TX_OUT_AAD_SIZE(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_out_data_chunk
+ * Register (ARF) pemsec#_tx_out_data_chunk
  *
  * TX FIPS Output Output Data Chunk Register
  * This register is for testing the IDE encryption logic per the
@@ -7731,19 +7731,19 @@ static inline uint64_t CAVM_PEMSECX_TX_OUT_DATA_CHUNK(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_PEMSECX_TX_OUT_DATA_CHUNK(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000004a50ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000004a50ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_OUT_DATA_CHUNK", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_OUT_DATA_CHUNK(a) cavm_pemsecx_tx_out_data_chunk_t
-#define bustype_CAVM_PEMSECX_TX_OUT_DATA_CHUNK(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_OUT_DATA_CHUNK(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_OUT_DATA_CHUNK(a) "PEMSECX_TX_OUT_DATA_CHUNK"
 #define device_bar_CAVM_PEMSECX_TX_OUT_DATA_CHUNK(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_OUT_DATA_CHUNK(a) (a)
 #define arguments_CAVM_PEMSECX_TX_OUT_DATA_CHUNK(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_out_data_idx
+ * Register (ARF) pemsec#_tx_out_data_idx
  *
  * TX FIPS Output Output Data IDX Register
  * This register is for testing the IDE encryption logic per the
@@ -7795,19 +7795,19 @@ static inline uint64_t CAVM_PEMSECX_TX_OUT_DATA_IDX(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_PEMSECX_TX_OUT_DATA_IDX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000004a48ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000004a48ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_OUT_DATA_IDX", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_OUT_DATA_IDX(a) cavm_pemsecx_tx_out_data_idx_t
-#define bustype_CAVM_PEMSECX_TX_OUT_DATA_IDX(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_OUT_DATA_IDX(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_OUT_DATA_IDX(a) "PEMSECX_TX_OUT_DATA_IDX"
 #define device_bar_CAVM_PEMSECX_TX_OUT_DATA_IDX(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_OUT_DATA_IDX(a) (a)
 #define arguments_CAVM_PEMSECX_TX_OUT_DATA_IDX(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_out_eop
+ * Register (ARF) pemsec#_tx_out_eop
  *
  * TX FIPS Output EOP Indication Register
  * This register is for testing the IDE encryption logic per the
@@ -7859,19 +7859,19 @@ static inline uint64_t CAVM_PEMSECX_TX_OUT_EOP(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_PEMSECX_TX_OUT_EOP(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000004a18ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000004a18ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_OUT_EOP", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_OUT_EOP(a) cavm_pemsecx_tx_out_eop_t
-#define bustype_CAVM_PEMSECX_TX_OUT_EOP(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_OUT_EOP(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_OUT_EOP(a) "PEMSECX_TX_OUT_EOP"
 #define device_bar_CAVM_PEMSECX_TX_OUT_EOP(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_OUT_EOP(a) (a)
 #define arguments_CAVM_PEMSECX_TX_OUT_EOP(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_out_mac_chunk
+ * Register (ARF) pemsec#_tx_out_mac_chunk
  *
  * TX FIPS Output MAC Chunk Register
  * This register is for testing the IDE encryption logic per the
@@ -7904,19 +7904,19 @@ static inline uint64_t CAVM_PEMSECX_TX_OUT_MAC_CHUNK(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_PEMSECX_TX_OUT_MAC_CHUNK(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000004a68ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000004a68ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_OUT_MAC_CHUNK", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_OUT_MAC_CHUNK(a) cavm_pemsecx_tx_out_mac_chunk_t
-#define bustype_CAVM_PEMSECX_TX_OUT_MAC_CHUNK(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_OUT_MAC_CHUNK(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_OUT_MAC_CHUNK(a) "PEMSECX_TX_OUT_MAC_CHUNK"
 #define device_bar_CAVM_PEMSECX_TX_OUT_MAC_CHUNK(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_OUT_MAC_CHUNK(a) (a)
 #define arguments_CAVM_PEMSECX_TX_OUT_MAC_CHUNK(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_out_mac_idx
+ * Register (ARF) pemsec#_tx_out_mac_idx
  *
  * TX FIPS Output MAC Index Register
  * This register is for testing the IDE encryption logic per the
@@ -7964,19 +7964,19 @@ static inline uint64_t CAVM_PEMSECX_TX_OUT_MAC_IDX(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_PEMSECX_TX_OUT_MAC_IDX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000004a60ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000004a60ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_OUT_MAC_IDX", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_OUT_MAC_IDX(a) cavm_pemsecx_tx_out_mac_idx_t
-#define bustype_CAVM_PEMSECX_TX_OUT_MAC_IDX(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_OUT_MAC_IDX(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_OUT_MAC_IDX(a) "PEMSECX_TX_OUT_MAC_IDX"
 #define device_bar_CAVM_PEMSECX_TX_OUT_MAC_IDX(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_OUT_MAC_IDX(a) (a)
 #define arguments_CAVM_PEMSECX_TX_OUT_MAC_IDX(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_out_msg
+ * Register (ARF) pemsec#_tx_out_msg
  *
  * TX_FIPS Output Out MSG Register
  * This register is for testing the IDE encryption logic per the
@@ -8020,19 +8020,19 @@ static inline uint64_t CAVM_PEMSECX_TX_OUT_MSG(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_PEMSECX_TX_OUT_MSG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000004a38ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000004a38ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_OUT_MSG", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_OUT_MSG(a) cavm_pemsecx_tx_out_msg_t
-#define bustype_CAVM_PEMSECX_TX_OUT_MSG(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_OUT_MSG(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_OUT_MSG(a) "PEMSECX_TX_OUT_MSG"
 #define device_bar_CAVM_PEMSECX_TX_OUT_MSG(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_OUT_MSG(a) (a)
 #define arguments_CAVM_PEMSECX_TX_OUT_MSG(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_out_ready
+ * Register (ARF) pemsec#_tx_out_ready
  *
  * TX FIPS Output Ready Register
  * This register is for testing the IDE encryption logic per the
@@ -8100,19 +8100,19 @@ static inline uint64_t CAVM_PEMSECX_TX_OUT_READY(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_PEMSECX_TX_OUT_READY(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000004a00ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000004a00ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_OUT_READY", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_OUT_READY(a) cavm_pemsecx_tx_out_ready_t
-#define bustype_CAVM_PEMSECX_TX_OUT_READY(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_OUT_READY(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_OUT_READY(a) "PEMSECX_TX_OUT_READY"
 #define device_bar_CAVM_PEMSECX_TX_OUT_READY(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_OUT_READY(a) (a)
 #define arguments_CAVM_PEMSECX_TX_OUT_READY(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_out_sop
+ * Register (ARF) pemsec#_tx_out_sop
  *
  * TX FIPS Output SOP Indication Register
  * This register is for testing the IDE encryption logic per the
@@ -8156,19 +8156,19 @@ static inline uint64_t CAVM_PEMSECX_TX_OUT_SOP(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_PEMSECX_TX_OUT_SOP(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000004a10ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000004a10ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_OUT_SOP", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_OUT_SOP(a) cavm_pemsecx_tx_out_sop_t
-#define bustype_CAVM_PEMSECX_TX_OUT_SOP(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_OUT_SOP(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_OUT_SOP(a) "PEMSECX_TX_OUT_SOP"
 #define device_bar_CAVM_PEMSECX_TX_OUT_SOP(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_OUT_SOP(a) (a)
 #define arguments_CAVM_PEMSECX_TX_OUT_SOP(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_out_valid
+ * Register (ARF) pemsec#_tx_out_valid
  *
  * TX FIPS Output Valid Register
  * This register is for testing the IDE encryption logic per the
@@ -8212,19 +8212,19 @@ static inline uint64_t CAVM_PEMSECX_TX_OUT_VALID(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_PEMSECX_TX_OUT_VALID(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000004a08ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000004a08ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_OUT_VALID", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_OUT_VALID(a) cavm_pemsecx_tx_out_valid_t
-#define bustype_CAVM_PEMSECX_TX_OUT_VALID(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_OUT_VALID(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_OUT_VALID(a) "PEMSECX_TX_OUT_VALID"
 #define device_bar_CAVM_PEMSECX_TX_OUT_VALID(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_OUT_VALID(a) (a)
 #define arguments_CAVM_PEMSECX_TX_OUT_VALID(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_pcrc_err_cnt
+ * Register (ARF) pemsec#_tx_pcrc_err_cnt
  *
  * IDE Tx PCRC Error Count Register
  */
@@ -8280,19 +8280,19 @@ static inline uint64_t CAVM_PEMSECX_TX_PCRC_ERR_CNT(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_PEMSECX_TX_PCRC_ERR_CNT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000001860ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000001860ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_PCRC_ERR_CNT", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_PCRC_ERR_CNT(a) cavm_pemsecx_tx_pcrc_err_cnt_t
-#define bustype_CAVM_PEMSECX_TX_PCRC_ERR_CNT(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_PCRC_ERR_CNT(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_PCRC_ERR_CNT(a) "PEMSECX_TX_PCRC_ERR_CNT"
 #define device_bar_CAVM_PEMSECX_TX_PCRC_ERR_CNT(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_PCRC_ERR_CNT(a) (a)
 #define arguments_CAVM_PEMSECX_TX_PCRC_ERR_CNT(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_pcrc_err_mask
+ * Register (ARF) pemsec#_tx_pcrc_err_mask
  *
  * IDE Tx PCRC Error Mask Register
  */
@@ -8323,19 +8323,19 @@ static inline uint64_t CAVM_PEMSECX_TX_PCRC_ERR_MASK(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_PEMSECX_TX_PCRC_ERR_MASK(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000001858ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000001858ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_PCRC_ERR_MASK", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_PCRC_ERR_MASK(a) cavm_pemsecx_tx_pcrc_err_mask_t
-#define bustype_CAVM_PEMSECX_TX_PCRC_ERR_MASK(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_PCRC_ERR_MASK(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_PCRC_ERR_MASK(a) "PEMSECX_TX_PCRC_ERR_MASK"
 #define device_bar_CAVM_PEMSECX_TX_PCRC_ERR_MASK(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_PCRC_ERR_MASK(a) (a)
 #define arguments_CAVM_PEMSECX_TX_PCRC_ERR_MASK(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_stat
+ * Register (ARF) pemsec#_tx_stat
  *
  * TX Status Register
  */
@@ -8381,19 +8381,19 @@ static inline uint64_t CAVM_PEMSECX_TX_STAT(uint64_t a) __attribute__ ((pure, al
 static inline uint64_t CAVM_PEMSECX_TX_STAT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000004030ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000004030ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_STAT", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_STAT(a) cavm_pemsecx_tx_stat_t
-#define bustype_CAVM_PEMSECX_TX_STAT(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_STAT(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_STAT(a) "PEMSECX_TX_STAT"
 #define device_bar_CAVM_PEMSECX_TX_STAT(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_STAT(a) (a)
 #define arguments_CAVM_PEMSECX_TX_STAT(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_tx_test_mode_cfg
+ * Register (ARF) pemsec#_tx_test_mode_cfg
  *
  * TX FIPS Test Mode Configuration Register
  * This register is for testing the IDE encryption logic per the
@@ -8453,19 +8453,19 @@ static inline uint64_t CAVM_PEMSECX_TX_TEST_MODE_CFG(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_PEMSECX_TX_TEST_MODE_CFG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000004898ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000004898ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TX_TEST_MODE_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TX_TEST_MODE_CFG(a) cavm_pemsecx_tx_test_mode_cfg_t
-#define bustype_CAVM_PEMSECX_TX_TEST_MODE_CFG(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TX_TEST_MODE_CFG(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TX_TEST_MODE_CFG(a) "PEMSECX_TX_TEST_MODE_CFG"
 #define device_bar_CAVM_PEMSECX_TX_TEST_MODE_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TX_TEST_MODE_CFG(a) (a)
 #define arguments_CAVM_PEMSECX_TX_TEST_MODE_CFG(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_txdisable_stream_keys
+ * Register (ARF) pemsec#_txdisable_stream_keys
  *
  * Invalidates the Stream Keys for TX Register
  */
@@ -8507,19 +8507,19 @@ static inline uint64_t CAVM_PEMSECX_TXDISABLE_STREAM_KEYS(uint64_t a) __attribut
 static inline uint64_t CAVM_PEMSECX_TXDISABLE_STREAM_KEYS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x810000004380ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc2c000004380ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMSECX_TXDISABLE_STREAM_KEYS", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_TXDISABLE_STREAM_KEYS(a) cavm_pemsecx_txdisable_stream_keys_t
-#define bustype_CAVM_PEMSECX_TXDISABLE_STREAM_KEYS(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_TXDISABLE_STREAM_KEYS(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_TXDISABLE_STREAM_KEYS(a) "PEMSECX_TXDISABLE_STREAM_KEYS"
 #define device_bar_CAVM_PEMSECX_TXDISABLE_STREAM_KEYS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_TXDISABLE_STREAM_KEYS(a) (a)
 #define arguments_CAVM_PEMSECX_TXDISABLE_STREAM_KEYS(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pemsec#_vdm#_cfg
+ * Register (ARF) pemsec#_vdm#_cfg
  *
  * PEMSEC VDM CONFIGURATIION Register
  * Vendor Defined Message Configuration Register.
@@ -8567,19 +8567,19 @@ static inline uint64_t CAVM_PEMSECX_VDMX_CFG(uint64_t a, uint64_t b) __attribute
 static inline uint64_t CAVM_PEMSECX_VDMX_CFG(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b==0)))
-        return 0x810000007f70ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+        return 0xc2c000007f70ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("PEMSECX_VDMX_CFG", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_VDMX_CFG(a,b) cavm_pemsecx_vdmx_cfg_t
-#define bustype_CAVM_PEMSECX_VDMX_CFG(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_VDMX_CFG(a,b) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_VDMX_CFG(a,b) "PEMSECX_VDMX_CFG"
 #define device_bar_CAVM_PEMSECX_VDMX_CFG(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_VDMX_CFG(a,b) (a)
 #define arguments_CAVM_PEMSECX_VDMX_CFG(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) pemsec#_vdm#_ctl
+ * Register (ARF) pemsec#_vdm#_ctl
  *
  * PEMSEC VDM Control Register
  * This register provides control of the Vendor Defined Message (VDM) inbound
@@ -8673,19 +8673,19 @@ static inline uint64_t CAVM_PEMSECX_VDMX_CTL(uint64_t a, uint64_t b) __attribute
 static inline uint64_t CAVM_PEMSECX_VDMX_CTL(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b==0)))
-        return 0x810000007f00ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+        return 0xc2c000007f00ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("PEMSECX_VDMX_CTL", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_VDMX_CTL(a,b) cavm_pemsecx_vdmx_ctl_t
-#define bustype_CAVM_PEMSECX_VDMX_CTL(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_VDMX_CTL(a,b) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_VDMX_CTL(a,b) "PEMSECX_VDMX_CTL"
 #define device_bar_CAVM_PEMSECX_VDMX_CTL(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_VDMX_CTL(a,b) (a)
 #define arguments_CAVM_PEMSECX_VDMX_CTL(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) pemsec#_vdm#_ib_hdr
+ * Register (ARF) pemsec#_vdm#_ib_hdr
  *
  * PEMSEC VDM Inbound Message Header Register
  * Vendor Defined Message Inbound Message Header Register.
@@ -8759,19 +8759,19 @@ static inline uint64_t CAVM_PEMSECX_VDMX_IB_HDR(uint64_t a, uint64_t b) __attrib
 static inline uint64_t CAVM_PEMSECX_VDMX_IB_HDR(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b==0)))
-        return 0x810000007f50ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+        return 0xc2c000007f50ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("PEMSECX_VDMX_IB_HDR", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_VDMX_IB_HDR(a,b) cavm_pemsecx_vdmx_ib_hdr_t
-#define bustype_CAVM_PEMSECX_VDMX_IB_HDR(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_VDMX_IB_HDR(a,b) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_VDMX_IB_HDR(a,b) "PEMSECX_VDMX_IB_HDR"
 #define device_bar_CAVM_PEMSECX_VDMX_IB_HDR(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_VDMX_IB_HDR(a,b) (a)
 #define arguments_CAVM_PEMSECX_VDMX_IB_HDR(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) pemsec#_vdm#_ib_pld
+ * Register (ARF) pemsec#_vdm#_ib_pld
  *
  * PEMSEC VDM Inbound Message Payload Register
  * Vendor Defined Message Inbound Message Payload Register.
@@ -8859,19 +8859,19 @@ static inline uint64_t CAVM_PEMSECX_VDMX_IB_PLD(uint64_t a, uint64_t b) __attrib
 static inline uint64_t CAVM_PEMSECX_VDMX_IB_PLD(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b==0)))
-        return 0x810000007f60ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+        return 0xc2c000007f60ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("PEMSECX_VDMX_IB_PLD", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_VDMX_IB_PLD(a,b) cavm_pemsecx_vdmx_ib_pld_t
-#define bustype_CAVM_PEMSECX_VDMX_IB_PLD(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_VDMX_IB_PLD(a,b) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_VDMX_IB_PLD(a,b) "PEMSECX_VDMX_IB_PLD"
 #define device_bar_CAVM_PEMSECX_VDMX_IB_PLD(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_VDMX_IB_PLD(a,b) (a)
 #define arguments_CAVM_PEMSECX_VDMX_IB_PLD(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) pemsec#_vdm#_ib_vid#
+ * Register (ARF) pemsec#_vdm#_ib_vid#
  *
  * PEMSEC VDM Inbound Message VID Match Register
  * Vendor Defined Message Inbound Message VID Match Register.
@@ -8953,19 +8953,19 @@ static inline uint64_t CAVM_PEMSECX_VDMX_IB_VIDX(uint64_t a, uint64_t b, uint64_
 static inline uint64_t CAVM_PEMSECX_VDMX_IB_VIDX(uint64_t a, uint64_t b, uint64_t c)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b==0) && (c<=7)))
-        return 0x810000007f80ll + 0x1000000000ll * ((a) & 0x7) + 0x40ll * ((b) & 0x0) + 8ll * ((c) & 0x7);
+        return 0xc2c000007f80ll + 0x100000000ll * ((a) & 0x7) + 0x40ll * ((b) & 0x0) + 8ll * ((c) & 0x7);
     __cavm_csr_fatal("PEMSECX_VDMX_IB_VIDX", 3, a, b, c, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_VDMX_IB_VIDX(a,b,c) cavm_pemsecx_vdmx_ib_vidx_t
-#define bustype_CAVM_PEMSECX_VDMX_IB_VIDX(a,b,c) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_VDMX_IB_VIDX(a,b,c) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_VDMX_IB_VIDX(a,b,c) "PEMSECX_VDMX_IB_VIDX"
 #define device_bar_CAVM_PEMSECX_VDMX_IB_VIDX(a,b,c) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_VDMX_IB_VIDX(a,b,c) (a)
 #define arguments_CAVM_PEMSECX_VDMX_IB_VIDX(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (NCB) pemsec#_vdm#_int
+ * Register (ARF) pemsec#_vdm#_int
  *
  * PEMSEC VDM Interrupt Register
  * This register contains the interrupt bits for VDM.
@@ -8998,19 +8998,19 @@ static inline uint64_t CAVM_PEMSECX_VDMX_INT(uint64_t a, uint64_t b) __attribute
 static inline uint64_t CAVM_PEMSECX_VDMX_INT(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b==0)))
-        return 0x810000007e00ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+        return 0xc2c000007e00ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("PEMSECX_VDMX_INT", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_VDMX_INT(a,b) cavm_pemsecx_vdmx_int_t
-#define bustype_CAVM_PEMSECX_VDMX_INT(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_VDMX_INT(a,b) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_VDMX_INT(a,b) "PEMSECX_VDMX_INT"
 #define device_bar_CAVM_PEMSECX_VDMX_INT(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_VDMX_INT(a,b) (a)
 #define arguments_CAVM_PEMSECX_VDMX_INT(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) pemsec#_vdm#_int_ena_w1c
+ * Register (ARF) pemsec#_vdm#_int_ena_w1c
  *
  * PEMSEC VDM Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
@@ -9036,19 +9036,19 @@ static inline uint64_t CAVM_PEMSECX_VDMX_INT_ENA_W1C(uint64_t a, uint64_t b) __a
 static inline uint64_t CAVM_PEMSECX_VDMX_INT_ENA_W1C(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b==0)))
-        return 0x810000007e20ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+        return 0xc2c000007e20ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("PEMSECX_VDMX_INT_ENA_W1C", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_VDMX_INT_ENA_W1C(a,b) cavm_pemsecx_vdmx_int_ena_w1c_t
-#define bustype_CAVM_PEMSECX_VDMX_INT_ENA_W1C(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_VDMX_INT_ENA_W1C(a,b) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_VDMX_INT_ENA_W1C(a,b) "PEMSECX_VDMX_INT_ENA_W1C"
 #define device_bar_CAVM_PEMSECX_VDMX_INT_ENA_W1C(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_VDMX_INT_ENA_W1C(a,b) (a)
 #define arguments_CAVM_PEMSECX_VDMX_INT_ENA_W1C(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) pemsec#_vdm#_int_ena_w1s
+ * Register (ARF) pemsec#_vdm#_int_ena_w1s
  *
  * PEMSEC VDM Interrupt Enable Set Register
  * This register sets interrupt enable bits.
@@ -9074,19 +9074,19 @@ static inline uint64_t CAVM_PEMSECX_VDMX_INT_ENA_W1S(uint64_t a, uint64_t b) __a
 static inline uint64_t CAVM_PEMSECX_VDMX_INT_ENA_W1S(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b==0)))
-        return 0x810000007e30ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+        return 0xc2c000007e30ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("PEMSECX_VDMX_INT_ENA_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_VDMX_INT_ENA_W1S(a,b) cavm_pemsecx_vdmx_int_ena_w1s_t
-#define bustype_CAVM_PEMSECX_VDMX_INT_ENA_W1S(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_VDMX_INT_ENA_W1S(a,b) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_VDMX_INT_ENA_W1S(a,b) "PEMSECX_VDMX_INT_ENA_W1S"
 #define device_bar_CAVM_PEMSECX_VDMX_INT_ENA_W1S(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_VDMX_INT_ENA_W1S(a,b) (a)
 #define arguments_CAVM_PEMSECX_VDMX_INT_ENA_W1S(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) pemsec#_vdm#_int_w1s
+ * Register (ARF) pemsec#_vdm#_int_w1s
  *
  * PEMSEC VDM Interrupt Set Register
  * This register sets interrupt bits.
@@ -9112,19 +9112,19 @@ static inline uint64_t CAVM_PEMSECX_VDMX_INT_W1S(uint64_t a, uint64_t b) __attri
 static inline uint64_t CAVM_PEMSECX_VDMX_INT_W1S(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b==0)))
-        return 0x810000007e10ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+        return 0xc2c000007e10ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("PEMSECX_VDMX_INT_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_VDMX_INT_W1S(a,b) cavm_pemsecx_vdmx_int_w1s_t
-#define bustype_CAVM_PEMSECX_VDMX_INT_W1S(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_VDMX_INT_W1S(a,b) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_VDMX_INT_W1S(a,b) "PEMSECX_VDMX_INT_W1S"
 #define device_bar_CAVM_PEMSECX_VDMX_INT_W1S(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_VDMX_INT_W1S(a,b) (a)
 #define arguments_CAVM_PEMSECX_VDMX_INT_W1S(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) pemsec#_vdm#_ob_hdrh
+ * Register (ARF) pemsec#_vdm#_ob_hdrh
  *
  * PEMSEC VDM Outbound Message Header Hi Register
  * Vendor Defined Message Outbound Message Header Hi Register.
@@ -9232,19 +9232,19 @@ static inline uint64_t CAVM_PEMSECX_VDMX_OB_HDRH(uint64_t a, uint64_t b) __attri
 static inline uint64_t CAVM_PEMSECX_VDMX_OB_HDRH(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b==0)))
-        return 0x810000007f30ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+        return 0xc2c000007f30ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("PEMSECX_VDMX_OB_HDRH", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_VDMX_OB_HDRH(a,b) cavm_pemsecx_vdmx_ob_hdrh_t
-#define bustype_CAVM_PEMSECX_VDMX_OB_HDRH(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_VDMX_OB_HDRH(a,b) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_VDMX_OB_HDRH(a,b) "PEMSECX_VDMX_OB_HDRH"
 #define device_bar_CAVM_PEMSECX_VDMX_OB_HDRH(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_VDMX_OB_HDRH(a,b) (a)
 #define arguments_CAVM_PEMSECX_VDMX_OB_HDRH(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) pemsec#_vdm#_ob_hdrl
+ * Register (ARF) pemsec#_vdm#_ob_hdrl
  *
  * PEMSEC VDM Outbound Message Header Low Register
  * Vendor Defined Message Outbound Message Header Low Register.
@@ -9354,19 +9354,19 @@ static inline uint64_t CAVM_PEMSECX_VDMX_OB_HDRL(uint64_t a, uint64_t b) __attri
 static inline uint64_t CAVM_PEMSECX_VDMX_OB_HDRL(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b==0)))
-        return 0x810000007f20ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+        return 0xc2c000007f20ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("PEMSECX_VDMX_OB_HDRL", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_VDMX_OB_HDRL(a,b) cavm_pemsecx_vdmx_ob_hdrl_t
-#define bustype_CAVM_PEMSECX_VDMX_OB_HDRL(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_VDMX_OB_HDRL(a,b) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_VDMX_OB_HDRL(a,b) "PEMSECX_VDMX_OB_HDRL"
 #define device_bar_CAVM_PEMSECX_VDMX_OB_HDRL(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_VDMX_OB_HDRL(a,b) (a)
 #define arguments_CAVM_PEMSECX_VDMX_OB_HDRL(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) pemsec#_vdm#_ob_pld
+ * Register (ARF) pemsec#_vdm#_ob_pld
  *
  * PEMSEC VDM Outbound Message Payload Register
  * Vendor Defined Message Outbound Message Payload Register.
@@ -9442,19 +9442,19 @@ static inline uint64_t CAVM_PEMSECX_VDMX_OB_PLD(uint64_t a, uint64_t b) __attrib
 static inline uint64_t CAVM_PEMSECX_VDMX_OB_PLD(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b==0)))
-        return 0x810000007f40ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+        return 0xc2c000007f40ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("PEMSECX_VDMX_OB_PLD", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_VDMX_OB_PLD(a,b) cavm_pemsecx_vdmx_ob_pld_t
-#define bustype_CAVM_PEMSECX_VDMX_OB_PLD(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_VDMX_OB_PLD(a,b) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_VDMX_OB_PLD(a,b) "PEMSECX_VDMX_OB_PLD"
 #define device_bar_CAVM_PEMSECX_VDMX_OB_PLD(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_VDMX_OB_PLD(a,b) (a)
 #define arguments_CAVM_PEMSECX_VDMX_OB_PLD(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) pemsec#_vdm#_status
+ * Register (ARF) pemsec#_vdm#_status
  *
  * PEMSEC VDM Status Register
  * This register provides status of the Vendor Defined Message (VDM) inbound
@@ -9587,12 +9587,12 @@ static inline uint64_t CAVM_PEMSECX_VDMX_STATUS(uint64_t a, uint64_t b) __attrib
 static inline uint64_t CAVM_PEMSECX_VDMX_STATUS(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b==0)))
-        return 0x810000007f10ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+        return 0xc2c000007f10ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("PEMSECX_VDMX_STATUS", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMSECX_VDMX_STATUS(a,b) cavm_pemsecx_vdmx_status_t
-#define bustype_CAVM_PEMSECX_VDMX_STATUS(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_PEMSECX_VDMX_STATUS(a,b) CSR_TYPE_ARF
 #define basename_CAVM_PEMSECX_VDMX_STATUS(a,b) "PEMSECX_VDMX_STATUS"
 #define device_bar_CAVM_PEMSECX_VDMX_STATUS(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMSECX_VDMX_STATUS(a,b) (a)

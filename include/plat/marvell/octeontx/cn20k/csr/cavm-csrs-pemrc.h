@@ -25,7 +25,7 @@
  * PEM Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define CAVM_PEMRC_BAR_E_PEMRCX_PF_BAR0(a) (0x8e0e00000000ll + 0x1000000000ll * (a))
+#define CAVM_PEMRC_BAR_E_PEMRCX_PF_BAR0(a) (0xc28070000000ll + 0x100000000ll * (a))
 #define CAVM_PEMRC_BAR_E_PEMRCX_PF_BAR0_SIZE 0x100000ull
 
 /**
@@ -38,7 +38,7 @@
 #define CAVM_PEMRC_INT_VEC_E_HP_PMEI (1)
 
 /**
- * Register (NCB) pemrc#_msix_pba#
+ * Register (ARF) pemrc#_msix_pba#
  *
  * PEM RC MSI-X Pending Bit Array Registers
  * This register is the MSI-X PBA table, the bit number is indexed by the PEMRC_INT_VEC_E enumeration.
@@ -64,19 +64,19 @@ static inline uint64_t CAVM_PEMRCX_MSIX_PBAX(uint64_t a, uint64_t b) __attribute
 static inline uint64_t CAVM_PEMRCX_MSIX_PBAX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b==0)))
-        return 0x8e0e000f0000ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+        return 0xc280700f0000ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("PEMRCX_MSIX_PBAX", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMRCX_MSIX_PBAX(a,b) cavm_pemrcx_msix_pbax_t
-#define bustype_CAVM_PEMRCX_MSIX_PBAX(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_PEMRCX_MSIX_PBAX(a,b) CSR_TYPE_ARF
 #define basename_CAVM_PEMRCX_MSIX_PBAX(a,b) "PEMRCX_MSIX_PBAX"
 #define device_bar_CAVM_PEMRCX_MSIX_PBAX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMRCX_MSIX_PBAX(a,b) (a)
 #define arguments_CAVM_PEMRCX_MSIX_PBAX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) pemrc#_msix_vec#_addr
+ * Register (ARF) pemrc#_msix_vec#_addr
  *
  * PEM RC MSI-X Vector Table Address Registers
  * This register is the MSI-X vector table, indexed by the PEMRC_INT_VEC_E enumeration.
@@ -150,19 +150,19 @@ static inline uint64_t CAVM_PEMRCX_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attr
 static inline uint64_t CAVM_PEMRCX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b<=1)))
-        return 0x8e0e00000000ll + 0x1000000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x1);
+        return 0xc28070000000ll + 0x100000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x1);
     __cavm_csr_fatal("PEMRCX_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMRCX_MSIX_VECX_ADDR(a,b) cavm_pemrcx_msix_vecx_addr_t
-#define bustype_CAVM_PEMRCX_MSIX_VECX_ADDR(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_PEMRCX_MSIX_VECX_ADDR(a,b) CSR_TYPE_ARF
 #define basename_CAVM_PEMRCX_MSIX_VECX_ADDR(a,b) "PEMRCX_MSIX_VECX_ADDR"
 #define device_bar_CAVM_PEMRCX_MSIX_VECX_ADDR(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMRCX_MSIX_VECX_ADDR(a,b) (a)
 #define arguments_CAVM_PEMRCX_MSIX_VECX_ADDR(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) pemrc#_msix_vec#_ctl
+ * Register (ARF) pemrc#_msix_vec#_ctl
  *
  * PEM RC MSI-X Vector Table Control and Data Registers
  * This register is the MSI-X vector table, indexed by the PEMRC_INT_VEC_E enumeration.
@@ -190,12 +190,12 @@ static inline uint64_t CAVM_PEMRCX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attri
 static inline uint64_t CAVM_PEMRCX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b<=1)))
-        return 0x8e0e00000008ll + 0x1000000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x1);
+        return 0xc28070000008ll + 0x100000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x1);
     __cavm_csr_fatal("PEMRCX_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMRCX_MSIX_VECX_CTL(a,b) cavm_pemrcx_msix_vecx_ctl_t
-#define bustype_CAVM_PEMRCX_MSIX_VECX_CTL(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_PEMRCX_MSIX_VECX_CTL(a,b) CSR_TYPE_ARF
 #define basename_CAVM_PEMRCX_MSIX_VECX_CTL(a,b) "PEMRCX_MSIX_VECX_CTL"
 #define device_bar_CAVM_PEMRCX_MSIX_VECX_CTL(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMRCX_MSIX_VECX_CTL(a,b) (a)

@@ -4180,6 +4180,9 @@ union cavm_dpix_af_stat_ctrl
                                                                  increment when the signal is asserted.
                                                                  [MUX_SEL]:
                                                                  0 - OPKT - [7:6] - PortEn.
+                                                                           [0] - SDP OPKT
+                                                                           [1] - BPHY0 OPKT
+                                                                           [2] - BPHY1 OPKT
                                                                  1 - RDENG - [5:0] - EngEn.
                                                                              [7:6] - PortEn.
                                                                              [9:8] - Dst - Ebus =1, 0=ncb.
@@ -4243,6 +4246,9 @@ union cavm_dpix_af_stat_ctrl
                                                                  increment when the signal is asserted.
                                                                  [MUX_SEL]:
                                                                  0 - OPKT - [7:6] - PortEn.
+                                                                           [0] - SDP OPKT
+                                                                           [1] - BPHY0 OPKT
+                                                                           [2] - BPHY1 OPKT
                                                                  1 - RDENG - [5:0] - EngEn.
                                                                              [7:6] - PortEn.
                                                                              [9:8] - Dst - Ebus =1, 0=ncb.

@@ -130,20 +130,7 @@ union cavm_fus_const
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_fus_const_s cheetah; */
-    /* struct cavm_fus_const_s cn20; */
-    struct cavm_fus_const_odinmp
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t repair_banks          : 8;  /**< [ 15:  8](RO) Number of 128-bit memory repair banks present. */
-        uint64_t fuse_banks            : 8;  /**< [  7:  0](RO) Number of 128-bit general purpose fuse banks present. */
-#else /* Word 0 - Little Endian */
-        uint64_t fuse_banks            : 8;  /**< [  7:  0](RO) Number of 128-bit general purpose fuse banks present. */
-        uint64_t repair_banks          : 8;  /**< [ 15:  8](RO) Number of 128-bit memory repair banks present. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } odinmp;
+    /* struct cavm_fus_const_s cn; */
 };
 typedef union cavm_fus_const cavm_fus_const_t;
 
@@ -235,9 +222,7 @@ typedef union cavm_fus_prog cavm_fus_prog_t;
 static inline uint64_t CAVM_FUS_PROG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_FUS_PROG_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
-        return 0x87e003001510ll;
-    __cavm_csr_fatal("FUS_PROG", 0, 0, 0, 0, 0, 0, 0);
+    return 0x87e003001510ll;
 }
 
 #define typedef_CAVM_FUS_PROG cavm_fus_prog_t

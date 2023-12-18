@@ -69,61 +69,15 @@
 /**
  * Register (RSL32b) gserm#_ana_data_reg0
  *
- * GSERM Phy
+ * GSERM PHY Reserved Des Register
  */
 union cavm_gsermx_ana_data_reg0
 {
-    uint32_t u;
+    uint64_t u;
     struct cavm_gsermx_ana_data_reg0_s
     {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
-        uint32_t txclk_nt_div_reset_lane : 1;/**< [  7:  7](R/W/H) Reset N-Divider For NT TX Clock Path */
-        uint32_t reserved_5_6          : 2;
-        uint32_t idcon_vddadata_lane   : 1;  /**< [  4:  4](R/W/H) Enable VDDA_DATA Bleeding Current */
-        uint32_t local_ana_tx2rx_lpbk_en_lane : 1;/**< [  3:  3](R/W/H) Enable Internal TX To RX Analog Loopback.
-                                                                 1
-                                                                 Also Need To Set PU_LB_LANE=1 For Internal Loopback */
-        uint32_t idcon_cur_lane        : 2;  /**< [  2:  1](R/W/H) Select VDDA_DATA Bleeding Current */
-        uint32_t reserved_0            : 1;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0            : 1;
-        uint32_t idcon_cur_lane        : 2;  /**< [  2:  1](R/W/H) Select VDDA_DATA Bleeding Current */
-        uint32_t local_ana_tx2rx_lpbk_en_lane : 1;/**< [  3:  3](R/W/H) Enable Internal TX To RX Analog Loopback.
-                                                                 1
-                                                                 Also Need To Set PU_LB_LANE=1 For Internal Loopback */
-        uint32_t idcon_vddadata_lane   : 1;  /**< [  4:  4](R/W/H) Enable VDDA_DATA Bleeding Current */
-        uint32_t reserved_5_6          : 2;
-        uint32_t txclk_nt_div_reset_lane : 1;/**< [  7:  7](R/W/H) Reset N-Divider For NT TX Clock Path */
-        uint32_t reserved_8_31         : 24;
-#endif /* Word 0 - End */
     } s;
-    struct cavm_gsermx_ana_data_reg0_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
-        uint32_t txclk_nt_div_reset_lane : 1;/**< [  7:  7](R/W/H) Reset N-Divider For NT TX Clock Path */
-        uint32_t reserved_6            : 1;
-        uint32_t reserved_5            : 1;
-        uint32_t idcon_vddadata_lane   : 1;  /**< [  4:  4](R/W/H) Enable VDDA_DATA Bleeding Current */
-        uint32_t local_ana_tx2rx_lpbk_en_lane : 1;/**< [  3:  3](R/W/H) Enable Internal TX To RX Analog Loopback.
-                                                                 1
-                                                                 Also Need To Set PU_LB_LANE=1 For Internal Loopback */
-        uint32_t idcon_cur_lane        : 2;  /**< [  2:  1](R/W/H) Select VDDA_DATA Bleeding Current */
-        uint32_t reserved_0            : 1;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0            : 1;
-        uint32_t idcon_cur_lane        : 2;  /**< [  2:  1](R/W/H) Select VDDA_DATA Bleeding Current */
-        uint32_t local_ana_tx2rx_lpbk_en_lane : 1;/**< [  3:  3](R/W/H) Enable Internal TX To RX Analog Loopback.
-                                                                 1
-                                                                 Also Need To Set PU_LB_LANE=1 For Internal Loopback */
-        uint32_t idcon_vddadata_lane   : 1;  /**< [  4:  4](R/W/H) Enable VDDA_DATA Bleeding Current */
-        uint32_t reserved_5            : 1;
-        uint32_t reserved_6            : 1;
-        uint32_t txclk_nt_div_reset_lane : 1;/**< [  7:  7](R/W/H) Reset N-Divider For NT TX Clock Path */
-        uint32_t reserved_8_31         : 24;
-#endif /* Word 0 - End */
-    } cn;
+    /* struct cavm_gsermx_ana_data_reg0_s cn; */
 };
 typedef union cavm_gsermx_ana_data_reg0 cavm_gsermx_ana_data_reg0_t;
 
@@ -3202,206 +3156,13 @@ static inline uint64_t CAVM_GSERMX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 /**
  * Register (RSL32b) gserm#_phytest_rx0
  *
- * GSERM Phy PHYtest Rx Control Register 0
+ * GSERM PHY PHYtest RX Control Register 0
  */
 union cavm_gsermx_phytest_rx0
 {
-    uint32_t u;
+    uint64_t u;
     struct cavm_gsermx_phytest_rx0_s
     {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t pt_rx_en_mode_lane    : 2;  /**< [ 31: 30](R/W/H) PHY Test Enable Mode
-                                                                 2'b00: enable PT after pt_en = 1
-                                                                 2'b01: enable PT after pt_en = 1 and normal_state_ready = 1
-                                                                 2'b10: enable PT after pt_en = 1 and pt_phyready_force = 1
-                                                                 Others: Reserved */
-        uint32_t pt_rx_pattern_sel_lane : 6; /**< [ 29: 24](R/W/H) PHY Test RX Pattern Select
-                                                                 6'h01: User Pattern 80Bit
-                                                                 6'h08: Jitter Pattern K28.5
-                                                                 6'h09: Jitter Pattern 1T
-                                                                 6'h0a: Jitter Pattern 2T
-                                                                 6'h0b: Jitter Pattern 4T
-                                                                 6'h0c: Jitter Pattern 5T (only for 10X bit mode)
-                                                                 6'h0d: Jitter Pattern 8T (only for 8X bit mode)
-                                                                 6'h0e: Jitter Pattern 10T (only for 10X bit mode)
-                                                                 6'h10: PRBS 7
-                                                                 6'h11: PRBS 9
-                                                                 6'h12: PRBS 11
-                                                                 6'h13: PRBS 11_0
-                                                                 6'h14: PRBS 11_1
-                                                                 6'h15: PRBS 11_2
-                                                                 6'h16: PRBS 11_3
-                                                                 6'h17: PRBS 15
-                                                                 6'h18: PRBS 16
-                                                                 6'h19: PRBS 23
-                                                                 6'h1a: PRBS 31
-                                                                 6'h1b: PRBS 32
-                                                                 6'h20: SATA Pattern LTDP
-                                                                 6'h21: SATA Pattern HTDP
-                                                                 6'h22: SATA Pattern LFSCP
-                                                                 6'h23: SATA Pattern SSOP
-                                                                 6'h24: SATA Pattern LBP
-                                                                 6'h25: SATA Pattern COMP
-                                                                 6'h28: SAS Pattern JTPAT
-                                                                 6'h29: SAS Pattern MJTPAT
-                                                                 6'h2a: SAS Pattern CJTPAT
-                                                                 6'h2b: SAS Pattern DFE_TRAIN
-                                                                 6'h2c: SAS Pattern DFE_TRAIN_DONE
-                                                                 Others: Reserved
-                                                                 Refer design spec for detail pattern selection */
-        uint32_t pt_rx_en_lane         : 1;  /**< [ 23: 23](R/W/H) PHY Test Enable
-                                                                 0: PHY Test disable
-                                                                 1: PHY Test enable
-                                                                 Pattern should be selected while PT_EN = 0. When set to 1, this signal clears the pattern and error counts and begins looking for pattern lock. When set to zero this stops the testing and freeze the error and pattern counts. */
-        uint32_t pt_rx_phyready_force_lane : 1;/**< [ 22: 22](R/W/H) PHY Test PHY Ready Force
-                                                                 0: Not force
-                                                                 1: Force PHY ready in PHY Test with 1 */
-        uint32_t pt_rx_cnt_rst_lane    : 1;  /**< [ 21: 21](R/W/H) PHY Test Pattern Counter Reset
-                                                                 0: not reset
-                                                                 1: reset */
-        uint32_t pt_rx_cnt_pause_lane  : 1;  /**< [ 20: 20](R/W/H) PHY Test Pattern Counter Pause
-                                                                 internal
-                                                                 PT_CNT and PT_ERR_CNT is paused when this register is set */
-        uint32_t pt_rx_relock_lane     : 1;  /**< [ 19: 19](R/W/H) PHY Test Relock Enable
-                                                                 internal
-                                                                 0: Disable relock
-                                                                 1: Enable relock,
-                                                                 This bit is only valid for SAS, USER_80B and JITP. Reset state machine for SAS and USER_80B. And enable 40bit sync detection for JITP. */
-        uint32_t pt_rx_sync_mode_lane  : 1;  /**< [ 18: 18](R/W/H) PHY Test Sync Mode Select
-                                                                 internal
-                                                                 For SATA Pattern
-                                                                 0: sync with K28.5 at beginning
-                                                                 1: sync with 40bit pattern at anytime, except HTDP pattern
-                                                                 For USER 80B Pattern
-                                                                 0: No Sync, just check if received pattern is repeat
-                                                                 1: sync with 283 pattern at beginning and check if received pattern is exactly reg_pt_user_patter[79:0] */
-        uint32_t pt_rx_prbs_load_lane  : 1;  /**< [ 17: 17](R/W/H) PRBS Input Select
-                                                                 internal
-                                                                 0: use previous data to calculate next
-                                                                 1: use input rxdata to calculate next */
-        uint32_t pt_rx_lock_mode_lane  : 1;  /**< [ 16: 16](R/W/H) Lock Mode Selection
-                                                                 internal
-                                                                 0: PRBS and Jitter pattern lock after total reg_pt_lock_cnt cycles match
-                                                                 1: PRBS and Jitter pattern lock after continuous reg_pt_lock_cnt cycles match
-                                                                 This bit is only valid for PRBS and Jitter pattern. Other patterns don't have continuous lock. */
-        uint32_t pt_rx_prbs_gray_en_lane : 1;/**< [ 15: 15](R/W/H) PRBS PAM4 Gray Code Enable
-                                                                 internal
-                                                                 0: normal PRBS data
-                                                                 1: Enable 2 bit gray code for PAM4 PRBS13Q and PRBS31Q */
-        uint32_t pt_rx_prbs_inv_lane   : 1;  /**< [ 14: 14](R/W/H) PRBS Pattern Inversion in PHY RX
-                                                                 internal
-                                                                 0: normal output
-                                                                 1: inverted output */
-        uint32_t force_pt_rx_lock_lane : 1;  /**< [ 13: 13](R/W/H) Force PT Lock Indicator
-                                                                 internal */
-        uint32_t pt_rx_lock_set_lane   : 1;  /**< [ 12: 12](R/W/H) Force PT Lock Indicator Value
-                                                                 internal */
-        uint32_t force_pt_rx_prbs_data_set_lane : 1;/**< [ 11: 11](R/W/H) Force PHY PRBS Data Selection In TX Train
-                                                                 internal */
-        uint32_t tx_train_pat_lock_mode_rx_lane : 1;/**< [ 10: 10](R/W/H) TX Training Pattern Lock Mode
-                                                                 internal
-                                                                 1: Lock and select PRBS pattern for every training packet
-                                                                 0: Only lock and select PRBS once for TX training */
-        uint32_t reserved_8_9          : 2;
-        uint32_t pt_rx_lock_cnt_lane   : 8;  /**< [  7:  0](R/W/H) PHY Test Pattern Lock Count Threshold
-                                                                 PHY Test comparator begins after pt_lock_cnt cycle's lock */
-#else /* Word 0 - Little Endian */
-        uint32_t pt_rx_lock_cnt_lane   : 8;  /**< [  7:  0](R/W/H) PHY Test Pattern Lock Count Threshold
-                                                                 PHY Test comparator begins after pt_lock_cnt cycle's lock */
-        uint32_t reserved_8_9          : 2;
-        uint32_t tx_train_pat_lock_mode_rx_lane : 1;/**< [ 10: 10](R/W/H) TX Training Pattern Lock Mode
-                                                                 internal
-                                                                 1: Lock and select PRBS pattern for every training packet
-                                                                 0: Only lock and select PRBS once for TX training */
-        uint32_t force_pt_rx_prbs_data_set_lane : 1;/**< [ 11: 11](R/W/H) Force PHY PRBS Data Selection In TX Train
-                                                                 internal */
-        uint32_t pt_rx_lock_set_lane   : 1;  /**< [ 12: 12](R/W/H) Force PT Lock Indicator Value
-                                                                 internal */
-        uint32_t force_pt_rx_lock_lane : 1;  /**< [ 13: 13](R/W/H) Force PT Lock Indicator
-                                                                 internal */
-        uint32_t pt_rx_prbs_inv_lane   : 1;  /**< [ 14: 14](R/W/H) PRBS Pattern Inversion in PHY RX
-                                                                 internal
-                                                                 0: normal output
-                                                                 1: inverted output */
-        uint32_t pt_rx_prbs_gray_en_lane : 1;/**< [ 15: 15](R/W/H) PRBS PAM4 Gray Code Enable
-                                                                 internal
-                                                                 0: normal PRBS data
-                                                                 1: Enable 2 bit gray code for PAM4 PRBS13Q and PRBS31Q */
-        uint32_t pt_rx_lock_mode_lane  : 1;  /**< [ 16: 16](R/W/H) Lock Mode Selection
-                                                                 internal
-                                                                 0: PRBS and Jitter pattern lock after total reg_pt_lock_cnt cycles match
-                                                                 1: PRBS and Jitter pattern lock after continuous reg_pt_lock_cnt cycles match
-                                                                 This bit is only valid for PRBS and Jitter pattern. Other patterns don't have continuous lock. */
-        uint32_t pt_rx_prbs_load_lane  : 1;  /**< [ 17: 17](R/W/H) PRBS Input Select
-                                                                 internal
-                                                                 0: use previous data to calculate next
-                                                                 1: use input rxdata to calculate next */
-        uint32_t pt_rx_sync_mode_lane  : 1;  /**< [ 18: 18](R/W/H) PHY Test Sync Mode Select
-                                                                 internal
-                                                                 For SATA Pattern
-                                                                 0: sync with K28.5 at beginning
-                                                                 1: sync with 40bit pattern at anytime, except HTDP pattern
-                                                                 For USER 80B Pattern
-                                                                 0: No Sync, just check if received pattern is repeat
-                                                                 1: sync with 283 pattern at beginning and check if received pattern is exactly reg_pt_user_patter[79:0] */
-        uint32_t pt_rx_relock_lane     : 1;  /**< [ 19: 19](R/W/H) PHY Test Relock Enable
-                                                                 internal
-                                                                 0: Disable relock
-                                                                 1: Enable relock,
-                                                                 This bit is only valid for SAS, USER_80B and JITP. Reset state machine for SAS and USER_80B. And enable 40bit sync detection for JITP. */
-        uint32_t pt_rx_cnt_pause_lane  : 1;  /**< [ 20: 20](R/W/H) PHY Test Pattern Counter Pause
-                                                                 internal
-                                                                 PT_CNT and PT_ERR_CNT is paused when this register is set */
-        uint32_t pt_rx_cnt_rst_lane    : 1;  /**< [ 21: 21](R/W/H) PHY Test Pattern Counter Reset
-                                                                 0: not reset
-                                                                 1: reset */
-        uint32_t pt_rx_phyready_force_lane : 1;/**< [ 22: 22](R/W/H) PHY Test PHY Ready Force
-                                                                 0: Not force
-                                                                 1: Force PHY ready in PHY Test with 1 */
-        uint32_t pt_rx_en_lane         : 1;  /**< [ 23: 23](R/W/H) PHY Test Enable
-                                                                 0: PHY Test disable
-                                                                 1: PHY Test enable
-                                                                 Pattern should be selected while PT_EN = 0. When set to 1, this signal clears the pattern and error counts and begins looking for pattern lock. When set to zero this stops the testing and freeze the error and pattern counts. */
-        uint32_t pt_rx_pattern_sel_lane : 6; /**< [ 29: 24](R/W/H) PHY Test RX Pattern Select
-                                                                 6'h01: User Pattern 80Bit
-                                                                 6'h08: Jitter Pattern K28.5
-                                                                 6'h09: Jitter Pattern 1T
-                                                                 6'h0a: Jitter Pattern 2T
-                                                                 6'h0b: Jitter Pattern 4T
-                                                                 6'h0c: Jitter Pattern 5T (only for 10X bit mode)
-                                                                 6'h0d: Jitter Pattern 8T (only for 8X bit mode)
-                                                                 6'h0e: Jitter Pattern 10T (only for 10X bit mode)
-                                                                 6'h10: PRBS 7
-                                                                 6'h11: PRBS 9
-                                                                 6'h12: PRBS 11
-                                                                 6'h13: PRBS 11_0
-                                                                 6'h14: PRBS 11_1
-                                                                 6'h15: PRBS 11_2
-                                                                 6'h16: PRBS 11_3
-                                                                 6'h17: PRBS 15
-                                                                 6'h18: PRBS 16
-                                                                 6'h19: PRBS 23
-                                                                 6'h1a: PRBS 31
-                                                                 6'h1b: PRBS 32
-                                                                 6'h20: SATA Pattern LTDP
-                                                                 6'h21: SATA Pattern HTDP
-                                                                 6'h22: SATA Pattern LFSCP
-                                                                 6'h23: SATA Pattern SSOP
-                                                                 6'h24: SATA Pattern LBP
-                                                                 6'h25: SATA Pattern COMP
-                                                                 6'h28: SAS Pattern JTPAT
-                                                                 6'h29: SAS Pattern MJTPAT
-                                                                 6'h2a: SAS Pattern CJTPAT
-                                                                 6'h2b: SAS Pattern DFE_TRAIN
-                                                                 6'h2c: SAS Pattern DFE_TRAIN_DONE
-                                                                 Others: Reserved
-                                                                 Refer design spec for detail pattern selection */
-        uint32_t pt_rx_en_mode_lane    : 2;  /**< [ 31: 30](R/W/H) PHY Test Enable Mode
-                                                                 2'b00: enable PT after pt_en = 1
-                                                                 2'b01: enable PT after pt_en = 1 and normal_state_ready = 1
-                                                                 2'b10: enable PT after pt_en = 1 and pt_phyready_force = 1
-                                                                 Others: Reserved */
-#endif /* Word 0 - End */
     } s;
     /* struct cavm_gsermx_phytest_rx0_s cn; */
 };
@@ -3425,104 +3186,13 @@ static inline uint64_t CAVM_GSERMX_PHYTEST_RX0(uint64_t a)
 /**
  * Register (RSL32b) gserm#_phytest_rx3
  *
- * GSERM Phy PHYtest Rx Control Register 3
+ * GSERM PHY PHYtest RX Control Register 3
  */
 union cavm_gsermx_phytest_rx3
 {
-    uint32_t u;
+    uint64_t u;
     struct cavm_gsermx_phytest_rx3_s
     {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t pt_rx_user_pattern_lane : 16;/**< [ 31: 16](R/W/H) User Defined Pattern
-                                                                 User defined pattern for both 80bit user pattern */
-        uint32_t reserved_15           : 1;
-        uint32_t tx_train_pat_sel_rx_lane : 3;/**< [ 14: 12](R/W/H) TX Training Pattern Select For RX PRBS Control
-                                                                 3'b000: No use
-                                                                 3'b001: LFSR11, each lane with same formula and seed for 10G-KR
-                                                                 3'b010: LFSR11, each lane with different formula and seed for 100G
-                                                                 3'b011: LFSR13, each lane with different formula and seed for 200G
-                                                                 3'b100:Packet mode, only for 40bit mode */
-        uint32_t pt_rx_start_rd_lane   : 1;  /**< [ 11: 11](R/W/H) PHY Test Start Running Disparity in RX
-                                                                 This register selects the initial running disparity for SATA test patterns.
-                                                                 0: Initial Disparity for pattern is negative
-                                                                 1: Initial Disparity for pattern is positive */
-        uint32_t pt_rx_sata_long_lane  : 1;  /**< [ 10: 10](R/W/H) SATA Pattern Select in RX
-                                                                 0: Short version of SATA pattern
-                                                                 1: Long version of SATA pattern */
-        uint32_t pt_rx_prbs_enc_en_lane : 1; /**< [  9:  9](R/W/H) PRBS 8/10bit Coding Enable in RX
-                                                                 0: disable
-                                                                 1: enable
-                                                                 After enable, PHY must works at 40bit mode. 32bit PRBS is sent to encoder to generate 40bit encoding data. */
-        uint32_t pt_trx_en_lane        : 1;  /**< [  8:  8](R/W/H) PHY Test Enable
-                                                                 0: PHY Test disable for TX and RT
-                                                                 1: PHY Test enable for TX and RX
-                                                                 Pattern should be selected while PT_EN = 0. When set to 1, this signal clears the pattern and error counts and begins looking for pattern lock. When set to zero this stops the testing and freeze the error and pattern counts. */
-        uint32_t pt_rx_rst_lane        : 1;  /**< [  7:  7](R/W/H) PHY Test RX Reset
-                                                                 0: Not reset mode
-                                                                 1: This is a reset signal to PHY Test TX. Once its set to 1, all registers in PHY Test TX are cleared. */
-        uint32_t pt_rx_prbs_data_set_lane : 2;/**< [  6:  5](R/W/H) PHY PRBS Data Selection In TX Train
-                                                                 internal */
-        uint32_t prbs_data_detected_rx_lane : 2;/**< [  4:  3](RO/H) PHY PRBS Detected In TX Train
-                                                                 internal
-                                                                 2'b00 : PRBS11, PRBS_11_0, PRBS_13_0
-                                                                 2'b01 : PRBS_11_1, PRBS_13_1
-                                                                 2'b10 : PRBS_11_2, PRBS_13_2
-                                                                 2'b11 : PRBS_11_3, PRBS_13_3 */
-        uint32_t pt_rx_cnt_ready_lane  : 1;  /**< [  2:  2](RO/H) PHY TEST Pattern Count Ready
-                                                                 PHY Test Pattern Counter PT_CNT_LANE Reach Maximum Pattern Counter MAX_PT_CNT_LANE */
-        uint32_t pt_rx_pass_lane       : 1;  /**< [  1:  1](RO/H) PHY Test Pass Flag
-                                                                 0: 1 or more errors is found or the pattern is not locked
-                                                                 1: the pattern is locked and no error is detected */
-        uint32_t pt_rx_lock_lane       : 1;  /**< [  0:  0](RO/H) PHY Test Pattern Lock Flag
-                                                                 0: Pattern detector is not locked onto the pattern
-                                                                 1: Pattern detector is locked onto the pattern
-                                                                 If the pattern doesn't lock then either the signal quality is low or the pattern provided to the receiver doesn't match the programmed pattern. */
-#else /* Word 0 - Little Endian */
-        uint32_t pt_rx_lock_lane       : 1;  /**< [  0:  0](RO/H) PHY Test Pattern Lock Flag
-                                                                 0: Pattern detector is not locked onto the pattern
-                                                                 1: Pattern detector is locked onto the pattern
-                                                                 If the pattern doesn't lock then either the signal quality is low or the pattern provided to the receiver doesn't match the programmed pattern. */
-        uint32_t pt_rx_pass_lane       : 1;  /**< [  1:  1](RO/H) PHY Test Pass Flag
-                                                                 0: 1 or more errors is found or the pattern is not locked
-                                                                 1: the pattern is locked and no error is detected */
-        uint32_t pt_rx_cnt_ready_lane  : 1;  /**< [  2:  2](RO/H) PHY TEST Pattern Count Ready
-                                                                 PHY Test Pattern Counter PT_CNT_LANE Reach Maximum Pattern Counter MAX_PT_CNT_LANE */
-        uint32_t prbs_data_detected_rx_lane : 2;/**< [  4:  3](RO/H) PHY PRBS Detected In TX Train
-                                                                 internal
-                                                                 2'b00 : PRBS11, PRBS_11_0, PRBS_13_0
-                                                                 2'b01 : PRBS_11_1, PRBS_13_1
-                                                                 2'b10 : PRBS_11_2, PRBS_13_2
-                                                                 2'b11 : PRBS_11_3, PRBS_13_3 */
-        uint32_t pt_rx_prbs_data_set_lane : 2;/**< [  6:  5](R/W/H) PHY PRBS Data Selection In TX Train
-                                                                 internal */
-        uint32_t pt_rx_rst_lane        : 1;  /**< [  7:  7](R/W/H) PHY Test RX Reset
-                                                                 0: Not reset mode
-                                                                 1: This is a reset signal to PHY Test TX. Once its set to 1, all registers in PHY Test TX are cleared. */
-        uint32_t pt_trx_en_lane        : 1;  /**< [  8:  8](R/W/H) PHY Test Enable
-                                                                 0: PHY Test disable for TX and RT
-                                                                 1: PHY Test enable for TX and RX
-                                                                 Pattern should be selected while PT_EN = 0. When set to 1, this signal clears the pattern and error counts and begins looking for pattern lock. When set to zero this stops the testing and freeze the error and pattern counts. */
-        uint32_t pt_rx_prbs_enc_en_lane : 1; /**< [  9:  9](R/W/H) PRBS 8/10bit Coding Enable in RX
-                                                                 0: disable
-                                                                 1: enable
-                                                                 After enable, PHY must works at 40bit mode. 32bit PRBS is sent to encoder to generate 40bit encoding data. */
-        uint32_t pt_rx_sata_long_lane  : 1;  /**< [ 10: 10](R/W/H) SATA Pattern Select in RX
-                                                                 0: Short version of SATA pattern
-                                                                 1: Long version of SATA pattern */
-        uint32_t pt_rx_start_rd_lane   : 1;  /**< [ 11: 11](R/W/H) PHY Test Start Running Disparity in RX
-                                                                 This register selects the initial running disparity for SATA test patterns.
-                                                                 0: Initial Disparity for pattern is negative
-                                                                 1: Initial Disparity for pattern is positive */
-        uint32_t tx_train_pat_sel_rx_lane : 3;/**< [ 14: 12](R/W/H) TX Training Pattern Select For RX PRBS Control
-                                                                 3'b000: No use
-                                                                 3'b001: LFSR11, each lane with same formula and seed for 10G-KR
-                                                                 3'b010: LFSR11, each lane with different formula and seed for 100G
-                                                                 3'b011: LFSR13, each lane with different formula and seed for 200G
-                                                                 3'b100:Packet mode, only for 40bit mode */
-        uint32_t reserved_15           : 1;
-        uint32_t pt_rx_user_pattern_lane : 16;/**< [ 31: 16](R/W/H) User Defined Pattern
-                                                                 User defined pattern for both 80bit user pattern */
-#endif /* Word 0 - End */
     } s;
     /* struct cavm_gsermx_phytest_rx3_s cn; */
 };
@@ -3546,22 +3216,13 @@ static inline uint64_t CAVM_GSERMX_PHYTEST_RX3(uint64_t a)
 /**
  * Register (RSL32b) gserm#_phytest_rx6
  *
- * GSERM Phy PHYtest Rx Control Register 6
+ * GSERM PHY PHYtest RX Control Register 6
  */
 union cavm_gsermx_phytest_rx6
 {
-    uint32_t u;
+    uint64_t u;
     struct cavm_gsermx_phytest_rx6_s
     {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t pt_rx_err_cnt_lane    : 16; /**< [ 31: 16](RO/H) PHY Test Error Count
-                                                                 The number of error bits encountered after obtaining pattern lock */
-        uint32_t reserved_0_15         : 16;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_15         : 16;
-        uint32_t pt_rx_err_cnt_lane    : 16; /**< [ 31: 16](RO/H) PHY Test Error Count
-                                                                 The number of error bits encountered after obtaining pattern lock */
-#endif /* Word 0 - End */
     } s;
     /* struct cavm_gsermx_phytest_rx6_s cn; */
 };
@@ -3585,198 +3246,13 @@ static inline uint64_t CAVM_GSERMX_PHYTEST_RX6(uint64_t a)
 /**
  * Register (RSL32b) gserm#_phytest_tx0
  *
- * GSERM Phy PHYTEST Control Registers 0
+ * GSERM PHY PHYTEST Control Registers 0
  */
 union cavm_gsermx_phytest_tx0
 {
-    uint32_t u;
+    uint64_t u;
     struct cavm_gsermx_phytest_tx0_s
     {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t pt_tx_en_lane         : 1;  /**< [ 31: 31](R/W/H) PHY Test Enable
-                                                                 0: PHY Test disable
-                                                                 1: PHY Test enable
-                                                                 Pattern should be selected while PT_EN = 0. When set to 1, this signal clears the pattern and error counts and begins looking for pattern lock. When set to zero this stops the testing and freeze the error and pattern counts. */
-        uint32_t pt_tx_phyready_force_lane : 1;/**< [ 30: 30](R/W/H) PHY Test PHY Ready Force
-                                                                 0: Not force
-                                                                 1: Force PHY ready in PHY Test with 1 */
-        uint32_t pt_tx_pattern_sel_lane : 6; /**< [ 29: 24](R/W/H) PHY Test TX Pattern Select
-                                                                 6'h01: User Pattern 80Bit
-                                                                 6'h04: Short Stress Pattern Random Quaternary(SSPRQ)
-                                                                 6'h08: Jitter Pattern K28.5
-                                                                 6'h09: Jitter Pattern 1T
-                                                                 6'h0a: Jitter Pattern 2T
-                                                                 6'h0b: Jitter Pattern 4T
-                                                                 6'h0c: Jitter Pattern 5T  (only for 10X bit mode)
-                                                                 6'h0d: Jitter Pattern 8T (only for 8X bit mode)
-                                                                 6'h0e: Jitter Pattern 10T (only for 10X bit mode)
-                                                                 6'h10: PRBS 7
-                                                                 6'h11: PRBS 9
-                                                                 6'h12: PRBS 11
-                                                                 6'h13: PRBS 11_0
-                                                                 6'h14: PRBS 11_1
-                                                                 6'h15: PRBS 11_2
-                                                                 6'h16: PRBS 11_3
-                                                                 6'h17: PRBS 15
-                                                                 6'h18: PRBS 16
-                                                                 6'h19: PRBS 23
-                                                                 6'h1a: PRBS 31
-                                                                 6'h1b: PRBS 32
-                                                                 6'h20: SATA Pattern LTDP
-                                                                 6'h21: SATA Pattern HTDP
-                                                                 6'h22: SATA Pattern LFSCP
-                                                                 6'h23: SATA Pattern SSOP
-                                                                 6'h24: SATA Pattern LBP
-                                                                 6'h25: SATA Pattern COMP
-                                                                 6'h28: SAS Pattern JTPAT
-                                                                 6'h29: SAS Pattern MJTPAT
-                                                                 6'h2a: SAS Pattern CJTPAT
-                                                                 6'h2b: SAS Pattern DFE_TRAIN
-                                                                 6'h2c: SAS Pattern DFE_TRAIN_DONE
-                                                                 Others: Reserved
-                                                                 Refer design spec for detail pattern selection */
-        uint32_t reserved_21_23        : 3;
-        uint32_t pt_tx_start_rd_lane   : 1;  /**< [ 20: 20](R/W/H) PHY Test Start Running Disparity in TX
-                                                                 This register selects the initial running disparity for SATA test patterns.
-                                                                 0: Initial Disparity for pattern is negative
-                                                                 1: Initial Disparity for pattern is positive */
-        uint32_t reserved_17_19        : 3;
-        uint32_t pt_tx_prbs_enc_en_lane : 1; /**< [ 16: 16](R/W/H) PRBS 8/10bit Coding Enable in TX
-                                                                 0: disable
-                                                                 1: enable
-                                                                 After enable, PHY must works at 40bit mode. 32bit PRBS is sent to encoder to generate 40bit encoding data. */
-        uint32_t ssprq_ui_dly_ctrl_lane : 5; /**< [ 15: 11](R/W/H) TX SSPRQ UI Delay Control For Each Lane
-                                                                 Control the SSPRQ UI Delay For Each Lane For The Output SSPRQ Sequence
-                                                                 The UI delay number of one clock cycle is determined by TX_SEL_BITS_LANE
-                                                                 1'b0: 80 UI when PAM4 and Quarter Rate mode, 40 UI when PAM4 mode, Other is 20 UI
-                                                                 1'b1: 64 UI when PAM4 and Quarter Rate mode, 32 UI when PAM4 mode, Other is 16 UI
-                                                                 The Total UI Number Delay = One Clock Cycle UI Delay Number x SSPRQ_UI_DLY_CTRL_LANE[4:0] */
-        uint32_t pt_tx_ssprq_inv_lane  : 1;  /**< [ 10: 10](R/W/H) TX SSPRQ Test Pattern Inversion
-                                                                 internal
-                                                                 0: normal output
-                                                                 1: inverted output */
-        uint32_t reserved_8_9          : 2;
-        uint32_t pt_tx_prbs_inv_lane   : 1;  /**< [  7:  7](R/W/H) PRBS Pattern Inversion
-                                                                 internal
-                                                                 0: normal output
-                                                                 1: inverted output */
-        uint32_t pt_tx_prbs_gray_en_lane : 1;/**< [  6:  6](R/W/H) PRBS PAM4 Gray Code Enable
-                                                                 internal
-                                                                 0: normal PRBS data
-                                                                 1: Enable 2 bit gray code for PAM4 PRBS13Q and PRBS31Q */
-        uint32_t pt_tx_rst_lane        : 1;  /**< [  5:  5](R/W/H) PHY Test TX Reset
-                                                                 0: Not reset mode
-                                                                 1: This is a reset signal to PHY Test TX. Once its set to 1, all registers in PHY Test TX are cleared. */
-        uint32_t tx_train_poly_sel_fm_pin_lane : 1;/**< [  4:  4](R/W/H) Tx training LFSR Pattern Polynomial Select
-                                                                 0: Fixed LFSR polynomial selection. LANE 0 always uses first LFSR. LANE3 always uses latest LFSR.
-                                                                 1: Control from PIN PIN_TX_TRAIN_POLY_SEL */
-        uint32_t pt_tx_en_mode_lane    : 2;  /**< [  3:  2](R/W/H) PHY Test Enable Mode
-                                                                 2'b00: enable PT after (pt_tx_en_lane=1 or pt_trx_en_lane=1)
-                                                                 2'b01: enable PT after (pt_tx_en_lane=1 or pt_trx_en_lane=1) and normal_state_ready = 1
-                                                                 2'b10: enable PT after (pt_tx_en_lane=1 or pt_trx_en_lane=1) and pt_phyready_force = 1
-                                                                 Others: Reserved */
-        uint32_t tx_train_pat_force_lane : 1;/**< [  1:  1](R/W/H) TX Training Pattern Force
-                                                                 internal
-                                                                 0: TX pattern is selected by tx_train_pat_sel
-                                                                 1: TX pattern is selected by pt_tx_pattern_sel
-                                                                 This bit is only valid when tx_train_en = 1. */
-        uint32_t pt_tx_mode2_rst_dis_lane : 1;/**< [  0:  0](R/W/H) Disable Tx Pattern Reset When PHY Test Enable Mode 2
-                                                                 internal
-                                                                 0: not disable
-                                                                 1: disable */
-#else /* Word 0 - Little Endian */
-        uint32_t pt_tx_mode2_rst_dis_lane : 1;/**< [  0:  0](R/W/H) Disable Tx Pattern Reset When PHY Test Enable Mode 2
-                                                                 internal
-                                                                 0: not disable
-                                                                 1: disable */
-        uint32_t tx_train_pat_force_lane : 1;/**< [  1:  1](R/W/H) TX Training Pattern Force
-                                                                 internal
-                                                                 0: TX pattern is selected by tx_train_pat_sel
-                                                                 1: TX pattern is selected by pt_tx_pattern_sel
-                                                                 This bit is only valid when tx_train_en = 1. */
-        uint32_t pt_tx_en_mode_lane    : 2;  /**< [  3:  2](R/W/H) PHY Test Enable Mode
-                                                                 2'b00: enable PT after (pt_tx_en_lane=1 or pt_trx_en_lane=1)
-                                                                 2'b01: enable PT after (pt_tx_en_lane=1 or pt_trx_en_lane=1) and normal_state_ready = 1
-                                                                 2'b10: enable PT after (pt_tx_en_lane=1 or pt_trx_en_lane=1) and pt_phyready_force = 1
-                                                                 Others: Reserved */
-        uint32_t tx_train_poly_sel_fm_pin_lane : 1;/**< [  4:  4](R/W/H) Tx training LFSR Pattern Polynomial Select
-                                                                 0: Fixed LFSR polynomial selection. LANE 0 always uses first LFSR. LANE3 always uses latest LFSR.
-                                                                 1: Control from PIN PIN_TX_TRAIN_POLY_SEL */
-        uint32_t pt_tx_rst_lane        : 1;  /**< [  5:  5](R/W/H) PHY Test TX Reset
-                                                                 0: Not reset mode
-                                                                 1: This is a reset signal to PHY Test TX. Once its set to 1, all registers in PHY Test TX are cleared. */
-        uint32_t pt_tx_prbs_gray_en_lane : 1;/**< [  6:  6](R/W/H) PRBS PAM4 Gray Code Enable
-                                                                 internal
-                                                                 0: normal PRBS data
-                                                                 1: Enable 2 bit gray code for PAM4 PRBS13Q and PRBS31Q */
-        uint32_t pt_tx_prbs_inv_lane   : 1;  /**< [  7:  7](R/W/H) PRBS Pattern Inversion
-                                                                 internal
-                                                                 0: normal output
-                                                                 1: inverted output */
-        uint32_t reserved_8_9          : 2;
-        uint32_t pt_tx_ssprq_inv_lane  : 1;  /**< [ 10: 10](R/W/H) TX SSPRQ Test Pattern Inversion
-                                                                 internal
-                                                                 0: normal output
-                                                                 1: inverted output */
-        uint32_t ssprq_ui_dly_ctrl_lane : 5; /**< [ 15: 11](R/W/H) TX SSPRQ UI Delay Control For Each Lane
-                                                                 Control the SSPRQ UI Delay For Each Lane For The Output SSPRQ Sequence
-                                                                 The UI delay number of one clock cycle is determined by TX_SEL_BITS_LANE
-                                                                 1'b0: 80 UI when PAM4 and Quarter Rate mode, 40 UI when PAM4 mode, Other is 20 UI
-                                                                 1'b1: 64 UI when PAM4 and Quarter Rate mode, 32 UI when PAM4 mode, Other is 16 UI
-                                                                 The Total UI Number Delay = One Clock Cycle UI Delay Number x SSPRQ_UI_DLY_CTRL_LANE[4:0] */
-        uint32_t pt_tx_prbs_enc_en_lane : 1; /**< [ 16: 16](R/W/H) PRBS 8/10bit Coding Enable in TX
-                                                                 0: disable
-                                                                 1: enable
-                                                                 After enable, PHY must works at 40bit mode. 32bit PRBS is sent to encoder to generate 40bit encoding data. */
-        uint32_t reserved_17_19        : 3;
-        uint32_t pt_tx_start_rd_lane   : 1;  /**< [ 20: 20](R/W/H) PHY Test Start Running Disparity in TX
-                                                                 This register selects the initial running disparity for SATA test patterns.
-                                                                 0: Initial Disparity for pattern is negative
-                                                                 1: Initial Disparity for pattern is positive */
-        uint32_t reserved_21_23        : 3;
-        uint32_t pt_tx_pattern_sel_lane : 6; /**< [ 29: 24](R/W/H) PHY Test TX Pattern Select
-                                                                 6'h01: User Pattern 80Bit
-                                                                 6'h04: Short Stress Pattern Random Quaternary(SSPRQ)
-                                                                 6'h08: Jitter Pattern K28.5
-                                                                 6'h09: Jitter Pattern 1T
-                                                                 6'h0a: Jitter Pattern 2T
-                                                                 6'h0b: Jitter Pattern 4T
-                                                                 6'h0c: Jitter Pattern 5T  (only for 10X bit mode)
-                                                                 6'h0d: Jitter Pattern 8T (only for 8X bit mode)
-                                                                 6'h0e: Jitter Pattern 10T (only for 10X bit mode)
-                                                                 6'h10: PRBS 7
-                                                                 6'h11: PRBS 9
-                                                                 6'h12: PRBS 11
-                                                                 6'h13: PRBS 11_0
-                                                                 6'h14: PRBS 11_1
-                                                                 6'h15: PRBS 11_2
-                                                                 6'h16: PRBS 11_3
-                                                                 6'h17: PRBS 15
-                                                                 6'h18: PRBS 16
-                                                                 6'h19: PRBS 23
-                                                                 6'h1a: PRBS 31
-                                                                 6'h1b: PRBS 32
-                                                                 6'h20: SATA Pattern LTDP
-                                                                 6'h21: SATA Pattern HTDP
-                                                                 6'h22: SATA Pattern LFSCP
-                                                                 6'h23: SATA Pattern SSOP
-                                                                 6'h24: SATA Pattern LBP
-                                                                 6'h25: SATA Pattern COMP
-                                                                 6'h28: SAS Pattern JTPAT
-                                                                 6'h29: SAS Pattern MJTPAT
-                                                                 6'h2a: SAS Pattern CJTPAT
-                                                                 6'h2b: SAS Pattern DFE_TRAIN
-                                                                 6'h2c: SAS Pattern DFE_TRAIN_DONE
-                                                                 Others: Reserved
-                                                                 Refer design spec for detail pattern selection */
-        uint32_t pt_tx_phyready_force_lane : 1;/**< [ 30: 30](R/W/H) PHY Test PHY Ready Force
-                                                                 0: Not force
-                                                                 1: Force PHY ready in PHY Test with 1 */
-        uint32_t pt_tx_en_lane         : 1;  /**< [ 31: 31](R/W/H) PHY Test Enable
-                                                                 0: PHY Test disable
-                                                                 1: PHY Test enable
-                                                                 Pattern should be selected while PT_EN = 0. When set to 1, this signal clears the pattern and error counts and begins looking for pattern lock. When set to zero this stops the testing and freeze the error and pattern counts. */
-#endif /* Word 0 - End */
     } s;
     /* struct cavm_gsermx_phytest_tx0_s cn; */
 };
@@ -3800,20 +3276,13 @@ static inline uint64_t CAVM_GSERMX_PHYTEST_TX0(uint64_t a)
 /**
  * Register (RSL32b) gserm#_phytest_tx1
  *
- * GSERM Phy PHYTEST Control Registers 1
+ * GSERM PHY PHYTEST Control Registers 1
  */
 union cavm_gsermx_phytest_tx1
 {
-    uint32_t u;
+    uint64_t u;
     struct cavm_gsermx_phytest_tx1_s
     {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t pt_tx_user_pattern_lane : 32;/**< [ 31:  0](R/W/H) User Defined Pattern
-                                                                 User defined pattern for both 80bit user pattern */
-#else /* Word 0 - Little Endian */
-        uint32_t pt_tx_user_pattern_lane : 32;/**< [ 31:  0](R/W/H) User Defined Pattern
-                                                                 User defined pattern for both 80bit user pattern */
-#endif /* Word 0 - End */
     } s;
     /* struct cavm_gsermx_phytest_tx1_s cn; */
 };
@@ -3837,20 +3306,13 @@ static inline uint64_t CAVM_GSERMX_PHYTEST_TX1(uint64_t a)
 /**
  * Register (RSL32b) gserm#_phytest_tx2
  *
- * GSERM Phy PHYTEST Control Registers 2
+ * GSERM PHY PHYTEST Control Registers 2
  */
 union cavm_gsermx_phytest_tx2
 {
-    uint32_t u;
+    uint64_t u;
     struct cavm_gsermx_phytest_tx2_s
     {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t pt_tx_user_pattern_lane : 32;/**< [ 31:  0](R/W/H) User Defined Pattern
-                                                                 User defined pattern for both 80bit user pattern */
-#else /* Word 0 - Little Endian */
-        uint32_t pt_tx_user_pattern_lane : 32;/**< [ 31:  0](R/W/H) User Defined Pattern
-                                                                 User defined pattern for both 80bit user pattern */
-#endif /* Word 0 - End */
     } s;
     /* struct cavm_gsermx_phytest_tx2_s cn; */
 };
@@ -3874,26 +3336,13 @@ static inline uint64_t CAVM_GSERMX_PHYTEST_TX2(uint64_t a)
 /**
  * Register (RSL32b) gserm#_phytest_tx3
  *
- * GSERM Phy PHYTEST Control Registers 3
+ * GSERM PHY PHYTEST Control Registers 3
  */
 union cavm_gsermx_phytest_tx3
 {
-    uint32_t u;
+    uint64_t u;
     struct cavm_gsermx_phytest_tx3_s
     {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t pt_tx_user_pattern_lane : 16;/**< [ 31: 16](R/W/H) User Defined Pattern
-                                                                 User defined pattern for both 80bit user pattern */
-        uint32_t pt_tx_user_k_char_lane : 8; /**< [ 15:  8](R/W/H) 64bit User Pattern K Character
-                                                                 Indicate which byte is K character for 8/10 encoder */
-        uint32_t reserved_0_7          : 8;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_7          : 8;
-        uint32_t pt_tx_user_k_char_lane : 8; /**< [ 15:  8](R/W/H) 64bit User Pattern K Character
-                                                                 Indicate which byte is K character for 8/10 encoder */
-        uint32_t pt_tx_user_pattern_lane : 16;/**< [ 31: 16](R/W/H) User Defined Pattern
-                                                                 User defined pattern for both 80bit user pattern */
-#endif /* Word 0 - End */
     } s;
     /* struct cavm_gsermx_phytest_tx3_s cn; */
 };
@@ -4586,131 +4035,15 @@ static inline uint64_t CAVM_GSERMX_REFCLK_STATUS(uint64_t a)
 /**
  * Register (RSL32b) gserm#_rx_data_path_reg
  *
- * GSERM Phy RX Data Path Regiser
+ * GSERM PHY RX Data Path Register
  */
 union cavm_gsermx_rx_data_path_reg
 {
-    uint32_t u;
+    uint64_t u;
     struct cavm_gsermx_rx_data_path_reg_s
     {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t local_dig_tx2rx_lpbk_en_lane : 1;/**< [ 31: 31](R/W/H) Parallel Transmit To Receive Loopback Enable
-                                                                 0: Not enabled
-                                                                 1: Enabled
-                                                                 The parallel data received on the transmit data bus for the transmission is looped back to the receive parallel bus and bypasses the majority of the PHY circuits. */
-        uint32_t det_bypass_lane       : 1;  /**< [ 30: 30](R/W/H) Bypass Frame Detection And Sync Detection For RXDATA
-                                                                 0: Frame detection or sync detection is enabled, PIN_RXDATA has cycle delay from analog, if sync detection is used or frame marker detection is used, this bit must be set to 0
-                                                                 1: Directly output analog data, PIN_RXDATA has no cycle delay from analog */
-        uint32_t rxd_inv_lane          : 1;  /**< [ 29: 29](R/W/H) Receive Polarity Invert
-                                                                 It is receive polarity swap enable.
-                                                                 0: No polarity swap
-                                                                 1: Polarity Swap (1 becomes 0 and 0 becomes 1)
-                                                                 This control allows PCB to select a layout where the plus and minus signals are swapped. Internally the logic can invert the polarity.
-                                                                 This inversion comes before the PHY Test logic so the PHY Test module also sees the inversion. */
-        uint32_t rxdata_latency_reduce_en_lane : 1;/**< [ 28: 28](R/W/H) Rx Data Path Latency Reduction Enable
-                                                                 Reduce Rx Data Path Latency By One Clock Cycle For Data Rate Under 12Gbps For Backward Compatible
-                                                                 0: Rx data path latency is not reduced
-                                                                 1: Rx data path latency is reduced */
-        uint32_t rxd_msb_lsb_swap_lane : 1;  /**< [ 27: 27](R/W/H) Receiver PAM4 Symbol Of Analog Data MSB LSB Swap
-                                                                 internal */
-        uint32_t reserved_25_26        : 2;
-        uint32_t rxdata_msb_lsb_swap_lane : 1;/**< [ 24: 24](R/W/H) Receiver PAM4 Symbol Of PIN Data MSB LSB Swap
-                                                                 internal */
-        uint32_t reserved_22_23        : 2;
-        uint32_t rxdata_pre_code_msb_lsb_swap_lane : 1;/**< [ 21: 21](R/W/H) Receiver PAM4 Symbol Of PRE Code MSB LSB Swap
-                                                                 internal */
-        uint32_t reserved_0_20         : 21;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_20         : 21;
-        uint32_t rxdata_pre_code_msb_lsb_swap_lane : 1;/**< [ 21: 21](R/W/H) Receiver PAM4 Symbol Of PRE Code MSB LSB Swap
-                                                                 internal */
-        uint32_t reserved_22_23        : 2;
-        uint32_t rxdata_msb_lsb_swap_lane : 1;/**< [ 24: 24](R/W/H) Receiver PAM4 Symbol Of PIN Data MSB LSB Swap
-                                                                 internal */
-        uint32_t reserved_25_26        : 2;
-        uint32_t rxd_msb_lsb_swap_lane : 1;  /**< [ 27: 27](R/W/H) Receiver PAM4 Symbol Of Analog Data MSB LSB Swap
-                                                                 internal */
-        uint32_t rxdata_latency_reduce_en_lane : 1;/**< [ 28: 28](R/W/H) Rx Data Path Latency Reduction Enable
-                                                                 Reduce Rx Data Path Latency By One Clock Cycle For Data Rate Under 12Gbps For Backward Compatible
-                                                                 0: Rx data path latency is not reduced
-                                                                 1: Rx data path latency is reduced */
-        uint32_t rxd_inv_lane          : 1;  /**< [ 29: 29](R/W/H) Receive Polarity Invert
-                                                                 It is receive polarity swap enable.
-                                                                 0: No polarity swap
-                                                                 1: Polarity Swap (1 becomes 0 and 0 becomes 1)
-                                                                 This control allows PCB to select a layout where the plus and minus signals are swapped. Internally the logic can invert the polarity.
-                                                                 This inversion comes before the PHY Test logic so the PHY Test module also sees the inversion. */
-        uint32_t det_bypass_lane       : 1;  /**< [ 30: 30](R/W/H) Bypass Frame Detection And Sync Detection For RXDATA
-                                                                 0: Frame detection or sync detection is enabled, PIN_RXDATA has cycle delay from analog, if sync detection is used or frame marker detection is used, this bit must be set to 0
-                                                                 1: Directly output analog data, PIN_RXDATA has no cycle delay from analog */
-        uint32_t local_dig_tx2rx_lpbk_en_lane : 1;/**< [ 31: 31](R/W/H) Parallel Transmit To Receive Loopback Enable
-                                                                 0: Not enabled
-                                                                 1: Enabled
-                                                                 The parallel data received on the transmit data bus for the transmission is looped back to the receive parallel bus and bypasses the majority of the PHY circuits. */
-#endif /* Word 0 - End */
     } s;
-    struct cavm_gsermx_rx_data_path_reg_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t local_dig_tx2rx_lpbk_en_lane : 1;/**< [ 31: 31](R/W/H) Parallel Transmit To Receive Loopback Enable
-                                                                 0: Not enabled
-                                                                 1: Enabled
-                                                                 The parallel data received on the transmit data bus for the transmission is looped back to the receive parallel bus and bypasses the majority of the PHY circuits. */
-        uint32_t det_bypass_lane       : 1;  /**< [ 30: 30](R/W/H) Bypass Frame Detection And Sync Detection For RXDATA
-                                                                 0: Frame detection or sync detection is enabled, PIN_RXDATA has cycle delay from analog, if sync detection is used or frame marker detection is used, this bit must be set to 0
-                                                                 1: Directly output analog data, PIN_RXDATA has no cycle delay from analog */
-        uint32_t rxd_inv_lane          : 1;  /**< [ 29: 29](R/W/H) Receive Polarity Invert
-                                                                 It is receive polarity swap enable.
-                                                                 0: No polarity swap
-                                                                 1: Polarity Swap (1 becomes 0 and 0 becomes 1)
-                                                                 This control allows PCB to select a layout where the plus and minus signals are swapped. Internally the logic can invert the polarity.
-                                                                 This inversion comes before the PHY Test logic so the PHY Test module also sees the inversion. */
-        uint32_t rxdata_latency_reduce_en_lane : 1;/**< [ 28: 28](R/W/H) Rx Data Path Latency Reduction Enable
-                                                                 Reduce Rx Data Path Latency By One Clock Cycle For Data Rate Under 12Gbps For Backward Compatible
-                                                                 0: Rx data path latency is not reduced
-                                                                 1: Rx data path latency is reduced */
-        uint32_t rxd_msb_lsb_swap_lane : 1;  /**< [ 27: 27](R/W/H) Receiver PAM4 Symbol Of Analog Data MSB LSB Swap
-                                                                 internal */
-        uint32_t reserved_26           : 1;
-        uint32_t reserved_25           : 1;
-        uint32_t rxdata_msb_lsb_swap_lane : 1;/**< [ 24: 24](R/W/H) Receiver PAM4 Symbol Of PIN Data MSB LSB Swap
-                                                                 internal */
-        uint32_t reserved_23           : 1;
-        uint32_t reserved_22           : 1;
-        uint32_t rxdata_pre_code_msb_lsb_swap_lane : 1;/**< [ 21: 21](R/W/H) Receiver PAM4 Symbol Of PRE Code MSB LSB Swap
-                                                                 internal */
-        uint32_t reserved_0_20         : 21;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_20         : 21;
-        uint32_t rxdata_pre_code_msb_lsb_swap_lane : 1;/**< [ 21: 21](R/W/H) Receiver PAM4 Symbol Of PRE Code MSB LSB Swap
-                                                                 internal */
-        uint32_t reserved_22           : 1;
-        uint32_t reserved_23           : 1;
-        uint32_t rxdata_msb_lsb_swap_lane : 1;/**< [ 24: 24](R/W/H) Receiver PAM4 Symbol Of PIN Data MSB LSB Swap
-                                                                 internal */
-        uint32_t reserved_25           : 1;
-        uint32_t reserved_26           : 1;
-        uint32_t rxd_msb_lsb_swap_lane : 1;  /**< [ 27: 27](R/W/H) Receiver PAM4 Symbol Of Analog Data MSB LSB Swap
-                                                                 internal */
-        uint32_t rxdata_latency_reduce_en_lane : 1;/**< [ 28: 28](R/W/H) Rx Data Path Latency Reduction Enable
-                                                                 Reduce Rx Data Path Latency By One Clock Cycle For Data Rate Under 12Gbps For Backward Compatible
-                                                                 0: Rx data path latency is not reduced
-                                                                 1: Rx data path latency is reduced */
-        uint32_t rxd_inv_lane          : 1;  /**< [ 29: 29](R/W/H) Receive Polarity Invert
-                                                                 It is receive polarity swap enable.
-                                                                 0: No polarity swap
-                                                                 1: Polarity Swap (1 becomes 0 and 0 becomes 1)
-                                                                 This control allows PCB to select a layout where the plus and minus signals are swapped. Internally the logic can invert the polarity.
-                                                                 This inversion comes before the PHY Test logic so the PHY Test module also sees the inversion. */
-        uint32_t det_bypass_lane       : 1;  /**< [ 30: 30](R/W/H) Bypass Frame Detection And Sync Detection For RXDATA
-                                                                 0: Frame detection or sync detection is enabled, PIN_RXDATA has cycle delay from analog, if sync detection is used or frame marker detection is used, this bit must be set to 0
-                                                                 1: Directly output analog data, PIN_RXDATA has no cycle delay from analog */
-        uint32_t local_dig_tx2rx_lpbk_en_lane : 1;/**< [ 31: 31](R/W/H) Parallel Transmit To Receive Loopback Enable
-                                                                 0: Not enabled
-                                                                 1: Enabled
-                                                                 The parallel data received on the transmit data bus for the transmission is looped back to the receive parallel bus and bypasses the majority of the PHY circuits. */
-#endif /* Word 0 - End */
-    } cn;
+    /* struct cavm_gsermx_rx_data_path_reg_s cn; */
 };
 typedef union cavm_gsermx_rx_data_path_reg cavm_gsermx_rx_data_path_reg_t;
 
@@ -4732,72 +4065,13 @@ static inline uint64_t CAVM_GSERMX_RX_DATA_PATH_REG(uint64_t a)
 /**
  * Register (RSL32b) gserm#_rx_system_lane
  *
- * GSERM Phy
+ * GSERM PHY Reserved Des Register
  */
 union cavm_gsermx_rx_system_lane
 {
-    uint32_t u;
+    uint64_t u;
     struct cavm_gsermx_rx_system_lane_s
     {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t rx_sel_bits_lane      : 1;  /**< [ 31: 31](R/W/H) Select Rx Data Bus Width
-                                                                 1'b0: 40-bit when PAM2_EN is 1, 80-bit when PAM2_EN is 0
-                                                                 1'b1: 32-bit when PAM2_EN is 1, 64-bit when PAM2_EN is 0 */
-        uint32_t train_rx_sel_bits_lane : 1; /**< [ 30: 30](R/W/H) Select Rx Data Bus Width For Tx Training
-                                                                 internal
-                                                                 1'b0: 160-bit when PAM4 and Quarter Rate mode, 80-bit when PAM4 mode, Other is 40-bit
-                                                                 1'b1: 128-bit when PAM4 and Quarter Rate mode, 64-bit when PAM4 mode, Other is 32-bit */
-        uint32_t rx_eq_pam2_en_lane    : 1;  /**< [ 29: 29](R/W/H) Rx Equalization PAM2 Enable
-                                                                 0: PAM4
-                                                                 1: PAM2 */
-        uint32_t rx_ana_pam2_en_lane   : 1;  /**< [ 28: 28](R/W/H) Rx Analog PAM2 Enable
-                                                                 0: PAM4
-                                                                 1: PAM2 */
-        uint32_t reserved_17_27        : 11;
-        uint32_t trx_rxclk_sel_lane    : 1;  /**< [ 16: 16](R/W/H) Select PLL Source For Rx
-                                                                 Select the PLL source for Rx.
-                                                                 0: Rx PLL is from PLL_RS
-                                                                 1: Rx PLL is from PLL_TS */
-        uint32_t reserved_3_15         : 13;
-        uint32_t rx_data_width_lane    : 2;  /**< [  2:  1](R/W/H) Rx Data Width
-                                                                 internal
-                                                                 00: 16 or 20 bits.
-                                                                 01: 32 or 40 bits.
-                                                                 10: 64 or 80 bits.
-                                                                 11: 128 or 160 bits. */
-        uint32_t rx_pam2_en_lane       : 1;  /**< [  0:  0](R/W/H) Rx PAM2 Enable
-                                                                 0: PAM4
-                                                                 1: PAM2 */
-#else /* Word 0 - Little Endian */
-        uint32_t rx_pam2_en_lane       : 1;  /**< [  0:  0](R/W/H) Rx PAM2 Enable
-                                                                 0: PAM4
-                                                                 1: PAM2 */
-        uint32_t rx_data_width_lane    : 2;  /**< [  2:  1](R/W/H) Rx Data Width
-                                                                 internal
-                                                                 00: 16 or 20 bits.
-                                                                 01: 32 or 40 bits.
-                                                                 10: 64 or 80 bits.
-                                                                 11: 128 or 160 bits. */
-        uint32_t reserved_3_15         : 13;
-        uint32_t trx_rxclk_sel_lane    : 1;  /**< [ 16: 16](R/W/H) Select PLL Source For Rx
-                                                                 Select the PLL source for Rx.
-                                                                 0: Rx PLL is from PLL_RS
-                                                                 1: Rx PLL is from PLL_TS */
-        uint32_t reserved_17_27        : 11;
-        uint32_t rx_ana_pam2_en_lane   : 1;  /**< [ 28: 28](R/W/H) Rx Analog PAM2 Enable
-                                                                 0: PAM4
-                                                                 1: PAM2 */
-        uint32_t rx_eq_pam2_en_lane    : 1;  /**< [ 29: 29](R/W/H) Rx Equalization PAM2 Enable
-                                                                 0: PAM4
-                                                                 1: PAM2 */
-        uint32_t train_rx_sel_bits_lane : 1; /**< [ 30: 30](R/W/H) Select Rx Data Bus Width For Tx Training
-                                                                 internal
-                                                                 1'b0: 160-bit when PAM4 and Quarter Rate mode, 80-bit when PAM4 mode, Other is 40-bit
-                                                                 1'b1: 128-bit when PAM4 and Quarter Rate mode, 64-bit when PAM4 mode, Other is 32-bit */
-        uint32_t rx_sel_bits_lane      : 1;  /**< [ 31: 31](R/W/H) Select Rx Data Bus Width
-                                                                 1'b0: 40-bit when PAM2_EN is 1, 80-bit when PAM2_EN is 0
-                                                                 1'b1: 32-bit when PAM2_EN is 1, 64-bit when PAM2_EN is 0 */
-#endif /* Word 0 - End */
     } s;
     /* struct cavm_gsermx_rx_system_lane_s cn; */
 };
@@ -4932,141 +4206,15 @@ static inline uint64_t CAVM_GSERMX_SCRATCH_DOM_RSTX(uint64_t a, uint64_t b)
 /**
  * Register (RSL32b) gserm#_system
  *
- * GSERM Phy Common System Registers
+ * GSERM PHY Common System Registers
  */
 union cavm_gsermx_system
 {
-    uint32_t u;
+    uint64_t u;
     struct cavm_gsermx_system_s
     {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t lane_sel              : 4;  /**< [ 31: 28](R/W/H) Register Lane Selection.
-                                                                 These registers select which lane to program.
-                                                                 4'h0: First lane
-                                                                 4'h1: Second lane
-                                                                 Others: N-1 lane */
-        uint32_t broadcast             : 1;  /**< [ 27: 27](R/W/H) Register Broadcast Mode.
-                                                                 This register indicates that the PHY is in Broadcast mode
-                                                                 0: Not in Broadcast mode. Program LANE_SEL[2:0] To access each lane.
-                                                                 1: APB and SIF Broadcast to all lanes. LANE_SEL[2:0] is ignored. */
-        uint32_t reserved_24_26        : 3;
-        uint32_t phy_isolate_mode      : 1;  /**< [ 23: 23](R/W/H) PHY Isolate Mode
-                                                                 0: PHY is in Normal mode
-                                                                 1: PHY is in Isolation mode. (This is used to isolate the PHY from outside logic to test it in standalone mode.) */
-        uint32_t reserved_22           : 1;
-        uint32_t sft_rst_no_reg_cmn    : 1;  /**< [ 21: 21](R/W/H) Software Reset For Internal Logic.
-                                                                 Soft reset internal logic except control registers. It shall be set to 0 to release reset
-                                                                 0: Not reset
-                                                                 1: Reset */
-        uint32_t sft_rst_only_reg      : 1;  /**< [ 20: 20](R/W/H) PHY Register Soft Reset With Auto Clear.
-                                                                 This register resets all PHY registers to default values including itself. It doesn't reset any PHY state machines. After this register is set to 1h, it is cleared back to 0h automatically. This field is ORed with PIN_RESET to generate a reset for all PHY registers.
-                                                                 0: No reset
-                                                                 1: Reset */
-        uint32_t reserved_1_19         : 19;
-        uint32_t rst_reg_clk_cmn       : 1;  /**< [  0:  0](R/W/H) Reset Common Control Registers
-                                                                 internal
-                                                                 1: Reset
-                                                                 0: Not reset */
-#else /* Word 0 - Little Endian */
-        uint32_t rst_reg_clk_cmn       : 1;  /**< [  0:  0](R/W/H) Reset Common Control Registers
-                                                                 internal
-                                                                 1: Reset
-                                                                 0: Not reset */
-        uint32_t reserved_1_19         : 19;
-        uint32_t sft_rst_only_reg      : 1;  /**< [ 20: 20](R/W/H) PHY Register Soft Reset With Auto Clear.
-                                                                 This register resets all PHY registers to default values including itself. It doesn't reset any PHY state machines. After this register is set to 1h, it is cleared back to 0h automatically. This field is ORed with PIN_RESET to generate a reset for all PHY registers.
-                                                                 0: No reset
-                                                                 1: Reset */
-        uint32_t sft_rst_no_reg_cmn    : 1;  /**< [ 21: 21](R/W/H) Software Reset For Internal Logic.
-                                                                 Soft reset internal logic except control registers. It shall be set to 0 to release reset
-                                                                 0: Not reset
-                                                                 1: Reset */
-        uint32_t reserved_22           : 1;
-        uint32_t phy_isolate_mode      : 1;  /**< [ 23: 23](R/W/H) PHY Isolate Mode
-                                                                 0: PHY is in Normal mode
-                                                                 1: PHY is in Isolation mode. (This is used to isolate the PHY from outside logic to test it in standalone mode.) */
-        uint32_t reserved_24_26        : 3;
-        uint32_t broadcast             : 1;  /**< [ 27: 27](R/W/H) Register Broadcast Mode.
-                                                                 This register indicates that the PHY is in Broadcast mode
-                                                                 0: Not in Broadcast mode. Program LANE_SEL[2:0] To access each lane.
-                                                                 1: APB and SIF Broadcast to all lanes. LANE_SEL[2:0] is ignored. */
-        uint32_t lane_sel              : 4;  /**< [ 31: 28](R/W/H) Register Lane Selection.
-                                                                 These registers select which lane to program.
-                                                                 4'h0: First lane
-                                                                 4'h1: Second lane
-                                                                 Others: N-1 lane */
-#endif /* Word 0 - End */
     } s;
-    struct cavm_gsermx_system_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t lane_sel              : 4;  /**< [ 31: 28](R/W/H) Register Lane Selection.
-                                                                 These registers select which lane to program.
-                                                                 4'h0: First lane
-                                                                 4'h1: Second lane
-                                                                 Others: N-1 lane */
-        uint32_t broadcast             : 1;  /**< [ 27: 27](R/W/H) Register Broadcast Mode.
-                                                                 This register indicates that the PHY is in Broadcast mode
-                                                                 0: Not in Broadcast mode. Program LANE_SEL[2:0] To access each lane.
-                                                                 1: APB and SIF Broadcast to all lanes. LANE_SEL[2:0] is ignored. */
-        uint32_t reserved_24_26        : 3;
-        uint32_t phy_isolate_mode      : 1;  /**< [ 23: 23](R/W/H) PHY Isolate Mode
-                                                                 0: PHY is in Normal mode
-                                                                 1: PHY is in Isolation mode. (This is used to isolate the PHY from outside logic to test it in standalone mode.) */
-        uint32_t reserved_22           : 1;
-        uint32_t sft_rst_no_reg_cmn    : 1;  /**< [ 21: 21](R/W/H) Software Reset For Internal Logic.
-                                                                 Soft reset internal logic except control registers. It shall be set to 0 to release reset
-                                                                 0: Not reset
-                                                                 1: Reset */
-        uint32_t sft_rst_only_reg      : 1;  /**< [ 20: 20](R/W/H) PHY Register Soft Reset With Auto Clear.
-                                                                 This register resets all PHY registers to default values including itself. It doesn't reset any PHY state machines. After this register is set to 1h, it is cleared back to 0h automatically. This field is ORed with PIN_RESET to generate a reset for all PHY registers.
-                                                                 0: No reset
-                                                                 1: Reset */
-        uint32_t reserved_19           : 1;
-        uint32_t reserved_16_18        : 3;
-        uint32_t reserved_13_15        : 3;
-        uint32_t reserved_12           : 1;
-        uint32_t reserved_8_11         : 4;
-        uint32_t reserved_1_7          : 7;
-        uint32_t rst_reg_clk_cmn       : 1;  /**< [  0:  0](R/W/H) Reset Common Control Registers
-                                                                 internal
-                                                                 1: Reset
-                                                                 0: Not reset */
-#else /* Word 0 - Little Endian */
-        uint32_t rst_reg_clk_cmn       : 1;  /**< [  0:  0](R/W/H) Reset Common Control Registers
-                                                                 internal
-                                                                 1: Reset
-                                                                 0: Not reset */
-        uint32_t reserved_1_7          : 7;
-        uint32_t reserved_8_11         : 4;
-        uint32_t reserved_12           : 1;
-        uint32_t reserved_13_15        : 3;
-        uint32_t reserved_16_18        : 3;
-        uint32_t reserved_19           : 1;
-        uint32_t sft_rst_only_reg      : 1;  /**< [ 20: 20](R/W/H) PHY Register Soft Reset With Auto Clear.
-                                                                 This register resets all PHY registers to default values including itself. It doesn't reset any PHY state machines. After this register is set to 1h, it is cleared back to 0h automatically. This field is ORed with PIN_RESET to generate a reset for all PHY registers.
-                                                                 0: No reset
-                                                                 1: Reset */
-        uint32_t sft_rst_no_reg_cmn    : 1;  /**< [ 21: 21](R/W/H) Software Reset For Internal Logic.
-                                                                 Soft reset internal logic except control registers. It shall be set to 0 to release reset
-                                                                 0: Not reset
-                                                                 1: Reset */
-        uint32_t reserved_22           : 1;
-        uint32_t phy_isolate_mode      : 1;  /**< [ 23: 23](R/W/H) PHY Isolate Mode
-                                                                 0: PHY is in Normal mode
-                                                                 1: PHY is in Isolation mode. (This is used to isolate the PHY from outside logic to test it in standalone mode.) */
-        uint32_t reserved_24_26        : 3;
-        uint32_t broadcast             : 1;  /**< [ 27: 27](R/W/H) Register Broadcast Mode.
-                                                                 This register indicates that the PHY is in Broadcast mode
-                                                                 0: Not in Broadcast mode. Program LANE_SEL[2:0] To access each lane.
-                                                                 1: APB and SIF Broadcast to all lanes. LANE_SEL[2:0] is ignored. */
-        uint32_t lane_sel              : 4;  /**< [ 31: 28](R/W/H) Register Lane Selection.
-                                                                 These registers select which lane to program.
-                                                                 4'h0: First lane
-                                                                 4'h1: Second lane
-                                                                 Others: N-1 lane */
-#endif /* Word 0 - End */
-    } cn;
+    /* struct cavm_gsermx_system_s cn; */
 };
 typedef union cavm_gsermx_system cavm_gsermx_system_t;
 
@@ -5197,265 +4345,15 @@ static inline uint64_t CAVM_GSERMX_TX_RX_TRAIN_STATUSX(uint64_t a, uint64_t b)
 /**
  * Register (RSL32b) gserm#_tx_speed_convert_lane
  *
- * GSERM Phy TX Clock and Data Speed Convert
+ * GSERM PHY TX Clock and Data Speed Convert Register
  */
 union cavm_gsermx_tx_speed_convert_lane
 {
-    uint32_t u;
+    uint64_t u;
     struct cavm_gsermx_tx_speed_convert_lane_s
     {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t local_dig_rx2tx_lpbk_en_lane : 1;/**< [ 31: 31](R/W/H) Far End Loopback Enable (Receiver To Transmitter In Local PHY).
-                                                                 0: loopback not enabled.
-                                                                 1: Send received data back through the transmitter. */
-        uint32_t txd_inv_lane          : 1;  /**< [ 30: 30](R/W/H) Transmit Polarity Invert.
-                                                                 It is transmit polarity swap enable.
-                                                                 0: No polarity swap
-                                                                 1: Polarity Swap (1 = 0 and 0 = 1)
-                                                                 This control allows PCB to select a layout where the plus and minus signals are swapped. Internally the logic  inverts the polarity.
-                                                                 This inversion comes after PHY Test so the PHY Test patterns would also be inverted. */
-        uint32_t add_err_en_lane       : 1;  /**< [ 29: 29](R/W/H) TXDATA Error Injection Enable
-                                                                 internal
-                                                                 0: Disable
-                                                                 1: Enable
-                                                                 Rising edge triggers error injection. Only inject pt_add_err_num of error in one cycle. */
-        uint32_t add_err_num_lane      : 3;  /**< [ 28: 26](R/W/H) TXDATA Error Injection Number
-                                                                 internal
-                                                                 3'b000-3'b111 represent 1 bit - 8 bit error accordingly */
-        uint32_t rx2tx_fifo_no_stop_lane : 1;/**< [ 25: 25](R/W/H) Far End Loopback FIFO Not Stop
-                                                                 internal
-                                                                 0: Write stops when FIFO is full, Read stops when FIFO is empty
-                                                                 1: FIFO does not stop at all
-                                                                 This register bit can be set to high when local PHY and remote PHY have same reference clock source
-                                                                 This register bit can also be set to high when DTX frequency loop is stable */
-        uint32_t rx2tx_fifo_rd_start_point_lane : 1;/**< [ 24: 24](R/W/H) Far End Loopback FIFO Read Start Point
-                                                                 internal
-                                                                 0: in the middle of FIFO
-                                                                 1: 4 cycles delay of write point
-                                                                 This register bit can be set to high when local PHY and remote PHY have same reference clock source. Thus it has short latency. In this case, rx2tx_fifo_no_stop_lane must be set to high. */
-        uint32_t rx2tx_fifo_full_lane  : 1;  /**< [ 23: 23](RO/H) Far End Loopback FIFO Is Full
-                                                                 internal
-                                                                 When FIFO is full, this register bit is asserted
-                                                                 When rx2tx_fifo_status_clear is high, this register bit is de-asserted */
-        uint32_t rx2tx_fifo_empty_lane : 1;  /**< [ 22: 22](RO/H) Far End Loopback FIFO Is Empty
-                                                                 internal
-                                                                 When FIFO is empty, this register bit is asserted
-                                                                 When rx2tx_fifo_status_clear is high, this register bit is de-asserted */
-        uint32_t rx2tx_fifo_status_clear_lane : 1;/**< [ 21: 21](R/W/H) Far End Loopback FIFO Status Clear
-                                                                 internal
-                                                                 When this register is high, rx2tx_fifo_full and rx2tx_fifo_empty flags are cleared */
-        uint32_t rx2tx_fifo_full_force_lane : 1;/**< [ 20: 20](R/W/H) Far End Loopback FIFO Full Force
-                                                                 internal
-                                                                 Rising edge of this register stops write operation for 4 cycles
-                                                                 It is used to make FIFO count close to the middle when rx2tx_w_fifo_cnt is close to 16 */
-        uint32_t rx2tx_fifo_empty_force_lane : 1;/**< [ 19: 19](R/W/H) Far End Loopback FIFO Empty Force
-                                                                 internal
-                                                                 Rising edge of this register stops read operation for 4 cycles.
-                                                                 It is used to make FIFO count close to the middle when rx2tx_r_fifo_cnt is close to 0 */
-        uint32_t txd_msb_lsb_swap_lane : 1;  /**< [ 18: 18](R/W/H) Transmit PAM4 Symbol Of Analog Data MSB LSB Swap
-                                                                 internal */
-        uint32_t reserved_6_17         : 12;
-        uint32_t txdata_msb_lsb_swap_lane : 1;/**< [  5:  5](R/W/H) Transmit PAM4 Symbol Of PIN Data MSB LSB Swap
-                                                                 internal */
-        uint32_t rx2tx_r_fifo_cnt_lane : 5;  /**< [  4:  0](RO/H) Far End Loopback FIFO Count In Write Side
-                                                                 internal
-                                                                 This register is updated when rx2tx_fifo_cnt_rd_req is high */
-#else /* Word 0 - Little Endian */
-        uint32_t rx2tx_r_fifo_cnt_lane : 5;  /**< [  4:  0](RO/H) Far End Loopback FIFO Count In Write Side
-                                                                 internal
-                                                                 This register is updated when rx2tx_fifo_cnt_rd_req is high */
-        uint32_t txdata_msb_lsb_swap_lane : 1;/**< [  5:  5](R/W/H) Transmit PAM4 Symbol Of PIN Data MSB LSB Swap
-                                                                 internal */
-        uint32_t reserved_6_17         : 12;
-        uint32_t txd_msb_lsb_swap_lane : 1;  /**< [ 18: 18](R/W/H) Transmit PAM4 Symbol Of Analog Data MSB LSB Swap
-                                                                 internal */
-        uint32_t rx2tx_fifo_empty_force_lane : 1;/**< [ 19: 19](R/W/H) Far End Loopback FIFO Empty Force
-                                                                 internal
-                                                                 Rising edge of this register stops read operation for 4 cycles.
-                                                                 It is used to make FIFO count close to the middle when rx2tx_r_fifo_cnt is close to 0 */
-        uint32_t rx2tx_fifo_full_force_lane : 1;/**< [ 20: 20](R/W/H) Far End Loopback FIFO Full Force
-                                                                 internal
-                                                                 Rising edge of this register stops write operation for 4 cycles
-                                                                 It is used to make FIFO count close to the middle when rx2tx_w_fifo_cnt is close to 16 */
-        uint32_t rx2tx_fifo_status_clear_lane : 1;/**< [ 21: 21](R/W/H) Far End Loopback FIFO Status Clear
-                                                                 internal
-                                                                 When this register is high, rx2tx_fifo_full and rx2tx_fifo_empty flags are cleared */
-        uint32_t rx2tx_fifo_empty_lane : 1;  /**< [ 22: 22](RO/H) Far End Loopback FIFO Is Empty
-                                                                 internal
-                                                                 When FIFO is empty, this register bit is asserted
-                                                                 When rx2tx_fifo_status_clear is high, this register bit is de-asserted */
-        uint32_t rx2tx_fifo_full_lane  : 1;  /**< [ 23: 23](RO/H) Far End Loopback FIFO Is Full
-                                                                 internal
-                                                                 When FIFO is full, this register bit is asserted
-                                                                 When rx2tx_fifo_status_clear is high, this register bit is de-asserted */
-        uint32_t rx2tx_fifo_rd_start_point_lane : 1;/**< [ 24: 24](R/W/H) Far End Loopback FIFO Read Start Point
-                                                                 internal
-                                                                 0: in the middle of FIFO
-                                                                 1: 4 cycles delay of write point
-                                                                 This register bit can be set to high when local PHY and remote PHY have same reference clock source. Thus it has short latency. In this case, rx2tx_fifo_no_stop_lane must be set to high. */
-        uint32_t rx2tx_fifo_no_stop_lane : 1;/**< [ 25: 25](R/W/H) Far End Loopback FIFO Not Stop
-                                                                 internal
-                                                                 0: Write stops when FIFO is full, Read stops when FIFO is empty
-                                                                 1: FIFO does not stop at all
-                                                                 This register bit can be set to high when local PHY and remote PHY have same reference clock source
-                                                                 This register bit can also be set to high when DTX frequency loop is stable */
-        uint32_t add_err_num_lane      : 3;  /**< [ 28: 26](R/W/H) TXDATA Error Injection Number
-                                                                 internal
-                                                                 3'b000-3'b111 represent 1 bit - 8 bit error accordingly */
-        uint32_t add_err_en_lane       : 1;  /**< [ 29: 29](R/W/H) TXDATA Error Injection Enable
-                                                                 internal
-                                                                 0: Disable
-                                                                 1: Enable
-                                                                 Rising edge triggers error injection. Only inject pt_add_err_num of error in one cycle. */
-        uint32_t txd_inv_lane          : 1;  /**< [ 30: 30](R/W/H) Transmit Polarity Invert.
-                                                                 It is transmit polarity swap enable.
-                                                                 0: No polarity swap
-                                                                 1: Polarity Swap (1 = 0 and 0 = 1)
-                                                                 This control allows PCB to select a layout where the plus and minus signals are swapped. Internally the logic  inverts the polarity.
-                                                                 This inversion comes after PHY Test so the PHY Test patterns would also be inverted. */
-        uint32_t local_dig_rx2tx_lpbk_en_lane : 1;/**< [ 31: 31](R/W/H) Far End Loopback Enable (Receiver To Transmitter In Local PHY).
-                                                                 0: loopback not enabled.
-                                                                 1: Send received data back through the transmitter. */
-#endif /* Word 0 - End */
     } s;
-    struct cavm_gsermx_tx_speed_convert_lane_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t local_dig_rx2tx_lpbk_en_lane : 1;/**< [ 31: 31](R/W/H) Far End Loopback Enable (Receiver To Transmitter In Local PHY).
-                                                                 0: loopback not enabled.
-                                                                 1: Send received data back through the transmitter. */
-        uint32_t txd_inv_lane          : 1;  /**< [ 30: 30](R/W/H) Transmit Polarity Invert.
-                                                                 It is transmit polarity swap enable.
-                                                                 0: No polarity swap
-                                                                 1: Polarity Swap (1 = 0 and 0 = 1)
-                                                                 This control allows PCB to select a layout where the plus and minus signals are swapped. Internally the logic  inverts the polarity.
-                                                                 This inversion comes after PHY Test so the PHY Test patterns would also be inverted. */
-        uint32_t add_err_en_lane       : 1;  /**< [ 29: 29](R/W/H) TXDATA Error Injection Enable
-                                                                 internal
-                                                                 0: Disable
-                                                                 1: Enable
-                                                                 Rising edge triggers error injection. Only inject pt_add_err_num of error in one cycle. */
-        uint32_t add_err_num_lane      : 3;  /**< [ 28: 26](R/W/H) TXDATA Error Injection Number
-                                                                 internal
-                                                                 3'b000-3'b111 represent 1 bit - 8 bit error accordingly */
-        uint32_t rx2tx_fifo_no_stop_lane : 1;/**< [ 25: 25](R/W/H) Far End Loopback FIFO Not Stop
-                                                                 internal
-                                                                 0: Write stops when FIFO is full, Read stops when FIFO is empty
-                                                                 1: FIFO does not stop at all
-                                                                 This register bit can be set to high when local PHY and remote PHY have same reference clock source
-                                                                 This register bit can also be set to high when DTX frequency loop is stable */
-        uint32_t rx2tx_fifo_rd_start_point_lane : 1;/**< [ 24: 24](R/W/H) Far End Loopback FIFO Read Start Point
-                                                                 internal
-                                                                 0: in the middle of FIFO
-                                                                 1: 4 cycles delay of write point
-                                                                 This register bit can be set to high when local PHY and remote PHY have same reference clock source. Thus it has short latency. In this case, rx2tx_fifo_no_stop_lane must be set to high. */
-        uint32_t rx2tx_fifo_full_lane  : 1;  /**< [ 23: 23](RO/H) Far End Loopback FIFO Is Full
-                                                                 internal
-                                                                 When FIFO is full, this register bit is asserted
-                                                                 When rx2tx_fifo_status_clear is high, this register bit is de-asserted */
-        uint32_t rx2tx_fifo_empty_lane : 1;  /**< [ 22: 22](RO/H) Far End Loopback FIFO Is Empty
-                                                                 internal
-                                                                 When FIFO is empty, this register bit is asserted
-                                                                 When rx2tx_fifo_status_clear is high, this register bit is de-asserted */
-        uint32_t rx2tx_fifo_status_clear_lane : 1;/**< [ 21: 21](R/W/H) Far End Loopback FIFO Status Clear
-                                                                 internal
-                                                                 When this register is high, rx2tx_fifo_full and rx2tx_fifo_empty flags are cleared */
-        uint32_t rx2tx_fifo_full_force_lane : 1;/**< [ 20: 20](R/W/H) Far End Loopback FIFO Full Force
-                                                                 internal
-                                                                 Rising edge of this register stops write operation for 4 cycles
-                                                                 It is used to make FIFO count close to the middle when rx2tx_w_fifo_cnt is close to 16 */
-        uint32_t rx2tx_fifo_empty_force_lane : 1;/**< [ 19: 19](R/W/H) Far End Loopback FIFO Empty Force
-                                                                 internal
-                                                                 Rising edge of this register stops read operation for 4 cycles.
-                                                                 It is used to make FIFO count close to the middle when rx2tx_r_fifo_cnt is close to 0 */
-        uint32_t txd_msb_lsb_swap_lane : 1;  /**< [ 18: 18](R/W/H) Transmit PAM4 Symbol Of Analog Data MSB LSB Swap
-                                                                 internal */
-        uint32_t reserved_17           : 1;
-        uint32_t reserved_16           : 1;
-        uint32_t reserved_15           : 1;
-        uint32_t reserved_14           : 1;
-        uint32_t reserved_13           : 1;
-        uint32_t reserved_12           : 1;
-        uint32_t reserved_11           : 1;
-        uint32_t reserved_10           : 1;
-        uint32_t reserved_9            : 1;
-        uint32_t reserved_8            : 1;
-        uint32_t reserved_7            : 1;
-        uint32_t reserved_6            : 1;
-        uint32_t txdata_msb_lsb_swap_lane : 1;/**< [  5:  5](R/W/H) Transmit PAM4 Symbol Of PIN Data MSB LSB Swap
-                                                                 internal */
-        uint32_t rx2tx_r_fifo_cnt_lane : 5;  /**< [  4:  0](RO/H) Far End Loopback FIFO Count In Write Side
-                                                                 internal
-                                                                 This register is updated when rx2tx_fifo_cnt_rd_req is high */
-#else /* Word 0 - Little Endian */
-        uint32_t rx2tx_r_fifo_cnt_lane : 5;  /**< [  4:  0](RO/H) Far End Loopback FIFO Count In Write Side
-                                                                 internal
-                                                                 This register is updated when rx2tx_fifo_cnt_rd_req is high */
-        uint32_t txdata_msb_lsb_swap_lane : 1;/**< [  5:  5](R/W/H) Transmit PAM4 Symbol Of PIN Data MSB LSB Swap
-                                                                 internal */
-        uint32_t reserved_6            : 1;
-        uint32_t reserved_7            : 1;
-        uint32_t reserved_8            : 1;
-        uint32_t reserved_9            : 1;
-        uint32_t reserved_10           : 1;
-        uint32_t reserved_11           : 1;
-        uint32_t reserved_12           : 1;
-        uint32_t reserved_13           : 1;
-        uint32_t reserved_14           : 1;
-        uint32_t reserved_15           : 1;
-        uint32_t reserved_16           : 1;
-        uint32_t reserved_17           : 1;
-        uint32_t txd_msb_lsb_swap_lane : 1;  /**< [ 18: 18](R/W/H) Transmit PAM4 Symbol Of Analog Data MSB LSB Swap
-                                                                 internal */
-        uint32_t rx2tx_fifo_empty_force_lane : 1;/**< [ 19: 19](R/W/H) Far End Loopback FIFO Empty Force
-                                                                 internal
-                                                                 Rising edge of this register stops read operation for 4 cycles.
-                                                                 It is used to make FIFO count close to the middle when rx2tx_r_fifo_cnt is close to 0 */
-        uint32_t rx2tx_fifo_full_force_lane : 1;/**< [ 20: 20](R/W/H) Far End Loopback FIFO Full Force
-                                                                 internal
-                                                                 Rising edge of this register stops write operation for 4 cycles
-                                                                 It is used to make FIFO count close to the middle when rx2tx_w_fifo_cnt is close to 16 */
-        uint32_t rx2tx_fifo_status_clear_lane : 1;/**< [ 21: 21](R/W/H) Far End Loopback FIFO Status Clear
-                                                                 internal
-                                                                 When this register is high, rx2tx_fifo_full and rx2tx_fifo_empty flags are cleared */
-        uint32_t rx2tx_fifo_empty_lane : 1;  /**< [ 22: 22](RO/H) Far End Loopback FIFO Is Empty
-                                                                 internal
-                                                                 When FIFO is empty, this register bit is asserted
-                                                                 When rx2tx_fifo_status_clear is high, this register bit is de-asserted */
-        uint32_t rx2tx_fifo_full_lane  : 1;  /**< [ 23: 23](RO/H) Far End Loopback FIFO Is Full
-                                                                 internal
-                                                                 When FIFO is full, this register bit is asserted
-                                                                 When rx2tx_fifo_status_clear is high, this register bit is de-asserted */
-        uint32_t rx2tx_fifo_rd_start_point_lane : 1;/**< [ 24: 24](R/W/H) Far End Loopback FIFO Read Start Point
-                                                                 internal
-                                                                 0: in the middle of FIFO
-                                                                 1: 4 cycles delay of write point
-                                                                 This register bit can be set to high when local PHY and remote PHY have same reference clock source. Thus it has short latency. In this case, rx2tx_fifo_no_stop_lane must be set to high. */
-        uint32_t rx2tx_fifo_no_stop_lane : 1;/**< [ 25: 25](R/W/H) Far End Loopback FIFO Not Stop
-                                                                 internal
-                                                                 0: Write stops when FIFO is full, Read stops when FIFO is empty
-                                                                 1: FIFO does not stop at all
-                                                                 This register bit can be set to high when local PHY and remote PHY have same reference clock source
-                                                                 This register bit can also be set to high when DTX frequency loop is stable */
-        uint32_t add_err_num_lane      : 3;  /**< [ 28: 26](R/W/H) TXDATA Error Injection Number
-                                                                 internal
-                                                                 3'b000-3'b111 represent 1 bit - 8 bit error accordingly */
-        uint32_t add_err_en_lane       : 1;  /**< [ 29: 29](R/W/H) TXDATA Error Injection Enable
-                                                                 internal
-                                                                 0: Disable
-                                                                 1: Enable
-                                                                 Rising edge triggers error injection. Only inject pt_add_err_num of error in one cycle. */
-        uint32_t txd_inv_lane          : 1;  /**< [ 30: 30](R/W/H) Transmit Polarity Invert.
-                                                                 It is transmit polarity swap enable.
-                                                                 0: No polarity swap
-                                                                 1: Polarity Swap (1 = 0 and 0 = 1)
-                                                                 This control allows PCB to select a layout where the plus and minus signals are swapped. Internally the logic  inverts the polarity.
-                                                                 This inversion comes after PHY Test so the PHY Test patterns would also be inverted. */
-        uint32_t local_dig_rx2tx_lpbk_en_lane : 1;/**< [ 31: 31](R/W/H) Far End Loopback Enable (Receiver To Transmitter In Local PHY).
-                                                                 0: loopback not enabled.
-                                                                 1: Send received data back through the transmitter. */
-#endif /* Word 0 - End */
-    } cn;
+    /* struct cavm_gsermx_tx_speed_convert_lane_s cn; */
 };
 typedef union cavm_gsermx_tx_speed_convert_lane cavm_gsermx_tx_speed_convert_lane_t;
 
@@ -5477,197 +4375,15 @@ static inline uint64_t CAVM_GSERMX_TX_SPEED_CONVERT_LANE(uint64_t a)
 /**
  * Register (RSL32b) gserm#_tx_system_lane0
  *
- * GSERM Phy Tx System Register0
+ * GSERM PHY TX System Register0
  */
 union cavm_gsermx_tx_system_lane0
 {
-    uint32_t u;
+    uint64_t u;
     struct cavm_gsermx_tx_system_lane0_s
     {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t tx_sel_bits_lane      : 1;  /**< [ 31: 31](R/W/H) Select Tx Data Bus Width
-                                                                 1'b0: 160-bit when PAM4 and Quarter Rate mode, 80-bit when PAM4 mode, Other is 40-bit
-                                                                 1'b1: 128-bit when PAM4 and Quarter Rate mode, 64-bit when PAM4 mode, Other is 32-bit */
-        uint32_t train_tx_sel_bits_lane : 1; /**< [ 30: 30](R/W/H) Select Tx Data Bus Width For Tx Training
-                                                                 internal
-                                                                 1'b0: 160-bit when PAM4 and Quarter Rate mode, 80-bit when PAM4 mode, Other is 40-bit
-                                                                 1'b1: 128-bit when PAM4 and Quarter Rate mode, 64-bit when PAM4 mode, Other is 32-bit */
-        uint32_t trx_txclk_sel_lane    : 1;  /**< [ 29: 29](R/W/H) Select PLL Source For Tx
-                                                                 Select the PLL source for Tx.
-                                                                 0: Rx PLL is from PLL_TS
-                                                                 1: Rx PLL is from PLL_RS */
-        uint32_t tx_sel_bits_rd_lane   : 3;  /**< [ 28: 26](RO/H) Tx Sel_bits Read Out Value
-                                                                 internal
-                                                                 3'b000: 20 bit
-                                                                 3'b001: 16 bit
-                                                                 3'b010: 40 bit
-                                                                 3'b011: 32 bit
-                                                                 3'b100: 80 bit
-                                                                 3'b101: 64 bit
-                                                                 3'b110: 160 bit
-                                                                 3'b111: 128 bit */
-        uint32_t reserved_25           : 1;
-        uint32_t ssc_dspread_tx_lane   : 1;  /**< [ 24: 24](R/W/H) Spread Spectrum Clock Down-spread Select
-                                                                 0: Center-spread
-                                                                 1: Down-spread */
-        uint32_t ssc_amp_lane          : 7;  /**< [ 23: 17](R/W/H) SSC Amplitude Setting
-                                                                 SSC Amplitude, Unit is around 125ppm, check user manual for detail */
-        uint32_t reserved_16           : 1;
-        uint32_t cnt_ini_lane          : 8;  /**< [ 15:  8](R/W/H) Clock 1M Divider For Power Control
-                                                                 internal
-                                                                 The clock for internal power control logic is 1/(beacon_divider + 1)/(cnt_ini+1) of MCU clock frequency.
-                                                                 Set correct register value to make this clock has frequency of 1M. This is mainly for Tx detect Rx discharge time measurement. */
-        uint32_t reserved_5_7          : 3;
-        uint32_t dtx_input_from_remote_lane : 1;/**< [  4:  4](R/W/H) DTX Input Control From Remote Side In Share PLL Mode
-                                                                 internal */
-        uint32_t share_pll_mode_lane   : 2;  /**< [  3:  2](R/W/H) Share PLL Mode LANE
-                                                                 internal
-                                                                 2'h0: Tx Rx use separate PLL
-                                                                 2'h1: 1 TRX has 1 PLL pair
-                                                                 2'h2: 2 TRX has 1 PLL pair
-                                                                 2'h3: 4 TRX has 1 PLL pair */
-        uint32_t reserved_0_1          : 2;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_1          : 2;
-        uint32_t share_pll_mode_lane   : 2;  /**< [  3:  2](R/W/H) Share PLL Mode LANE
-                                                                 internal
-                                                                 2'h0: Tx Rx use separate PLL
-                                                                 2'h1: 1 TRX has 1 PLL pair
-                                                                 2'h2: 2 TRX has 1 PLL pair
-                                                                 2'h3: 4 TRX has 1 PLL pair */
-        uint32_t dtx_input_from_remote_lane : 1;/**< [  4:  4](R/W/H) DTX Input Control From Remote Side In Share PLL Mode
-                                                                 internal */
-        uint32_t reserved_5_7          : 3;
-        uint32_t cnt_ini_lane          : 8;  /**< [ 15:  8](R/W/H) Clock 1M Divider For Power Control
-                                                                 internal
-                                                                 The clock for internal power control logic is 1/(beacon_divider + 1)/(cnt_ini+1) of MCU clock frequency.
-                                                                 Set correct register value to make this clock has frequency of 1M. This is mainly for Tx detect Rx discharge time measurement. */
-        uint32_t reserved_16           : 1;
-        uint32_t ssc_amp_lane          : 7;  /**< [ 23: 17](R/W/H) SSC Amplitude Setting
-                                                                 SSC Amplitude, Unit is around 125ppm, check user manual for detail */
-        uint32_t ssc_dspread_tx_lane   : 1;  /**< [ 24: 24](R/W/H) Spread Spectrum Clock Down-spread Select
-                                                                 0: Center-spread
-                                                                 1: Down-spread */
-        uint32_t reserved_25           : 1;
-        uint32_t tx_sel_bits_rd_lane   : 3;  /**< [ 28: 26](RO/H) Tx Sel_bits Read Out Value
-                                                                 internal
-                                                                 3'b000: 20 bit
-                                                                 3'b001: 16 bit
-                                                                 3'b010: 40 bit
-                                                                 3'b011: 32 bit
-                                                                 3'b100: 80 bit
-                                                                 3'b101: 64 bit
-                                                                 3'b110: 160 bit
-                                                                 3'b111: 128 bit */
-        uint32_t trx_txclk_sel_lane    : 1;  /**< [ 29: 29](R/W/H) Select PLL Source For Tx
-                                                                 Select the PLL source for Tx.
-                                                                 0: Rx PLL is from PLL_TS
-                                                                 1: Rx PLL is from PLL_RS */
-        uint32_t train_tx_sel_bits_lane : 1; /**< [ 30: 30](R/W/H) Select Tx Data Bus Width For Tx Training
-                                                                 internal
-                                                                 1'b0: 160-bit when PAM4 and Quarter Rate mode, 80-bit when PAM4 mode, Other is 40-bit
-                                                                 1'b1: 128-bit when PAM4 and Quarter Rate mode, 64-bit when PAM4 mode, Other is 32-bit */
-        uint32_t tx_sel_bits_lane      : 1;  /**< [ 31: 31](R/W/H) Select Tx Data Bus Width
-                                                                 1'b0: 160-bit when PAM4 and Quarter Rate mode, 80-bit when PAM4 mode, Other is 40-bit
-                                                                 1'b1: 128-bit when PAM4 and Quarter Rate mode, 64-bit when PAM4 mode, Other is 32-bit */
-#endif /* Word 0 - End */
     } s;
-    struct cavm_gsermx_tx_system_lane0_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t tx_sel_bits_lane      : 1;  /**< [ 31: 31](R/W/H) Select Tx Data Bus Width
-                                                                 1'b0: 160-bit when PAM4 and Quarter Rate mode, 80-bit when PAM4 mode, Other is 40-bit
-                                                                 1'b1: 128-bit when PAM4 and Quarter Rate mode, 64-bit when PAM4 mode, Other is 32-bit */
-        uint32_t train_tx_sel_bits_lane : 1; /**< [ 30: 30](R/W/H) Select Tx Data Bus Width For Tx Training
-                                                                 internal
-                                                                 1'b0: 160-bit when PAM4 and Quarter Rate mode, 80-bit when PAM4 mode, Other is 40-bit
-                                                                 1'b1: 128-bit when PAM4 and Quarter Rate mode, 64-bit when PAM4 mode, Other is 32-bit */
-        uint32_t trx_txclk_sel_lane    : 1;  /**< [ 29: 29](R/W/H) Select PLL Source For Tx
-                                                                 Select the PLL source for Tx.
-                                                                 0: Rx PLL is from PLL_TS
-                                                                 1: Rx PLL is from PLL_RS */
-        uint32_t tx_sel_bits_rd_lane   : 3;  /**< [ 28: 26](RO/H) Tx Sel_bits Read Out Value
-                                                                 internal
-                                                                 3'b000: 20 bit
-                                                                 3'b001: 16 bit
-                                                                 3'b010: 40 bit
-                                                                 3'b011: 32 bit
-                                                                 3'b100: 80 bit
-                                                                 3'b101: 64 bit
-                                                                 3'b110: 160 bit
-                                                                 3'b111: 128 bit */
-        uint32_t reserved_25           : 1;
-        uint32_t ssc_dspread_tx_lane   : 1;  /**< [ 24: 24](R/W/H) Spread Spectrum Clock Down-spread Select
-                                                                 0: Center-spread
-                                                                 1: Down-spread */
-        uint32_t ssc_amp_lane          : 7;  /**< [ 23: 17](R/W/H) SSC Amplitude Setting
-                                                                 SSC Amplitude, Unit is around 125ppm, check user manual for detail */
-        uint32_t reserved_16           : 1;
-        uint32_t cnt_ini_lane          : 8;  /**< [ 15:  8](R/W/H) Clock 1M Divider For Power Control
-                                                                 internal
-                                                                 The clock for internal power control logic is 1/(beacon_divider + 1)/(cnt_ini+1) of MCU clock frequency.
-                                                                 Set correct register value to make this clock has frequency of 1M. This is mainly for Tx detect Rx discharge time measurement. */
-        uint32_t reserved_7            : 1;
-        uint32_t reserved_6            : 1;
-        uint32_t reserved_5            : 1;
-        uint32_t dtx_input_from_remote_lane : 1;/**< [  4:  4](R/W/H) DTX Input Control From Remote Side In Share PLL Mode
-                                                                 internal */
-        uint32_t share_pll_mode_lane   : 2;  /**< [  3:  2](R/W/H) Share PLL Mode LANE
-                                                                 internal
-                                                                 2'h0: Tx Rx use separate PLL
-                                                                 2'h1: 1 TRX has 1 PLL pair
-                                                                 2'h2: 2 TRX has 1 PLL pair
-                                                                 2'h3: 4 TRX has 1 PLL pair */
-        uint32_t reserved_1            : 1;
-        uint32_t reserved_0            : 1;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0            : 1;
-        uint32_t reserved_1            : 1;
-        uint32_t share_pll_mode_lane   : 2;  /**< [  3:  2](R/W/H) Share PLL Mode LANE
-                                                                 internal
-                                                                 2'h0: Tx Rx use separate PLL
-                                                                 2'h1: 1 TRX has 1 PLL pair
-                                                                 2'h2: 2 TRX has 1 PLL pair
-                                                                 2'h3: 4 TRX has 1 PLL pair */
-        uint32_t dtx_input_from_remote_lane : 1;/**< [  4:  4](R/W/H) DTX Input Control From Remote Side In Share PLL Mode
-                                                                 internal */
-        uint32_t reserved_5            : 1;
-        uint32_t reserved_6            : 1;
-        uint32_t reserved_7            : 1;
-        uint32_t cnt_ini_lane          : 8;  /**< [ 15:  8](R/W/H) Clock 1M Divider For Power Control
-                                                                 internal
-                                                                 The clock for internal power control logic is 1/(beacon_divider + 1)/(cnt_ini+1) of MCU clock frequency.
-                                                                 Set correct register value to make this clock has frequency of 1M. This is mainly for Tx detect Rx discharge time measurement. */
-        uint32_t reserved_16           : 1;
-        uint32_t ssc_amp_lane          : 7;  /**< [ 23: 17](R/W/H) SSC Amplitude Setting
-                                                                 SSC Amplitude, Unit is around 125ppm, check user manual for detail */
-        uint32_t ssc_dspread_tx_lane   : 1;  /**< [ 24: 24](R/W/H) Spread Spectrum Clock Down-spread Select
-                                                                 0: Center-spread
-                                                                 1: Down-spread */
-        uint32_t reserved_25           : 1;
-        uint32_t tx_sel_bits_rd_lane   : 3;  /**< [ 28: 26](RO/H) Tx Sel_bits Read Out Value
-                                                                 internal
-                                                                 3'b000: 20 bit
-                                                                 3'b001: 16 bit
-                                                                 3'b010: 40 bit
-                                                                 3'b011: 32 bit
-                                                                 3'b100: 80 bit
-                                                                 3'b101: 64 bit
-                                                                 3'b110: 160 bit
-                                                                 3'b111: 128 bit */
-        uint32_t trx_txclk_sel_lane    : 1;  /**< [ 29: 29](R/W/H) Select PLL Source For Tx
-                                                                 Select the PLL source for Tx.
-                                                                 0: Rx PLL is from PLL_TS
-                                                                 1: Rx PLL is from PLL_RS */
-        uint32_t train_tx_sel_bits_lane : 1; /**< [ 30: 30](R/W/H) Select Tx Data Bus Width For Tx Training
-                                                                 internal
-                                                                 1'b0: 160-bit when PAM4 and Quarter Rate mode, 80-bit when PAM4 mode, Other is 40-bit
-                                                                 1'b1: 128-bit when PAM4 and Quarter Rate mode, 64-bit when PAM4 mode, Other is 32-bit */
-        uint32_t tx_sel_bits_lane      : 1;  /**< [ 31: 31](R/W/H) Select Tx Data Bus Width
-                                                                 1'b0: 160-bit when PAM4 and Quarter Rate mode, 80-bit when PAM4 mode, Other is 40-bit
-                                                                 1'b1: 128-bit when PAM4 and Quarter Rate mode, 64-bit when PAM4 mode, Other is 32-bit */
-#endif /* Word 0 - End */
-    } cn;
+    /* struct cavm_gsermx_tx_system_lane0_s cn; */
 };
 typedef union cavm_gsermx_tx_system_lane0 cavm_gsermx_tx_system_lane0_t;
 
@@ -5689,30 +4405,13 @@ static inline uint64_t CAVM_GSERMX_TX_SYSTEM_LANE0(uint64_t a)
 /**
  * Register (RSL32b) gserm#_tx_system_lane1
  *
- * GSERM Phy Tx System Register1
+ * GSERM PHY TX System Register1
  */
 union cavm_gsermx_tx_system_lane1
 {
-    uint32_t u;
+    uint64_t u;
     struct cavm_gsermx_tx_system_lane1_s
     {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_31           : 1;
-        uint32_t tx_pam2_en_lane       : 1;  /**< [ 30: 30](R/W/H) Tx PAM2 Enable
-                                                                 0: PAM4
-                                                                 1: PAM2 */
-        uint32_t reserved_8_29         : 22;
-        uint32_t dig_id_lane           : 8;  /**< [  7:  0](RO/H) TRx Revision
-                                                                 internal */
-#else /* Word 0 - Little Endian */
-        uint32_t dig_id_lane           : 8;  /**< [  7:  0](RO/H) TRx Revision
-                                                                 internal */
-        uint32_t reserved_8_29         : 22;
-        uint32_t tx_pam2_en_lane       : 1;  /**< [ 30: 30](R/W/H) Tx PAM2 Enable
-                                                                 0: PAM4
-                                                                 1: PAM2 */
-        uint32_t reserved_31           : 1;
-#endif /* Word 0 - End */
     } s;
     /* struct cavm_gsermx_tx_system_lane1_s cn; */
 };
@@ -5736,32 +4435,13 @@ static inline uint64_t CAVM_GSERMX_TX_SYSTEM_LANE1(uint64_t a)
 /**
  * Register (RSL32b) gserm#_tx_system_lane2
  *
- * GSERM Phy Tx System Register2
+ * GSERM PHY TX System Register2
  */
 union cavm_gsermx_tx_system_lane2
 {
-    uint32_t u;
+    uint64_t u;
     struct cavm_gsermx_tx_system_lane2_s
     {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_12_31        : 20;
-        uint32_t ssc_amp_unit_sel_lane : 1;  /**< [ 11: 11](R/W/H) SSC Amplitude unit select
-                                                                 internal
-                                                                 0: SSC_AMP_LANE is valid, Unit is around 125PPM
-                                                                 1: SSC_AMP_20UNIT_LANE is valid,Unit is around 20PPM */
-        uint32_t ssc_amp_20unit_lane   : 11; /**< [ 10:  0](R/W/H) SSC Amplitude Setting
-                                                                 internal
-                                                                 SSC Amplitude, Unit is around 20ppm, only valid when ssc_amp_unit_sel=1.check user manual for detail */
-#else /* Word 0 - Little Endian */
-        uint32_t ssc_amp_20unit_lane   : 11; /**< [ 10:  0](R/W/H) SSC Amplitude Setting
-                                                                 internal
-                                                                 SSC Amplitude, Unit is around 20ppm, only valid when ssc_amp_unit_sel=1.check user manual for detail */
-        uint32_t ssc_amp_unit_sel_lane : 1;  /**< [ 11: 11](R/W/H) SSC Amplitude unit select
-                                                                 internal
-                                                                 0: SSC_AMP_LANE is valid, Unit is around 125PPM
-                                                                 1: SSC_AMP_20UNIT_LANE is valid,Unit is around 20PPM */
-        uint32_t reserved_12_31        : 20;
-#endif /* Word 0 - End */
     } s;
     /* struct cavm_gsermx_tx_system_lane2_s cn; */
 };

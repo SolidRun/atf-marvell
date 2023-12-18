@@ -147,21 +147,22 @@ union cavm_mhbw_jd_dma_cfg_word_0_s
     struct cavm_mhbw_jd_dma_cfg_word_0_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_60_63        : 4;
-        uint64_t group_id              : 4;  /**< [ 59: 56] Group ID is used for multi-threaded DMA ports only. Groups must use
+        uint64_t group_id              : 4;  /**< [ 63: 60] Group ID is used for multi-threaded DMA ports only. Groups must use
                                                                  sequential IDs starting with 0. If more than 16 groups are required,
                                                                  the GROUP_IDs can be repeated, e.g., 0, 1, 2,..., 15, 0, 1,... */
-        uint64_t reserved_54_55        : 2;
-        uint64_t thread_id             : 6;  /**< [ 53: 48] Thread ID for this command. Thread IDs can be in the range 0-63,
+        uint64_t thread_id             : 6;  /**< [ 59: 54] Thread ID for this command. Thread IDs can be in the range 0-63,
                                                                  regardless of the number of threads supported on a given port. */
-        uint64_t block_size            : 16; /**< [ 47: 32] Defines the DMA block size in 32-bit words.
-                                                                 [BLOCK_SIZE] must be aligned to the port width. A multiple of 2 for 64-bit,
-                                                                 4 for 128-bit, and 8 for 256-bit ports. */
-        uint64_t chunk_size            : 16; /**< [ 31: 16] For multi-threaded read DMA ports, this field specifies how many words
+        uint64_t reserved_52_53        : 2;
+        uint64_t chunk_size            : 20; /**< [ 51: 32] For multi-threaded read DMA ports, this field specifies how many words
                                                                  are read from the thread before switching to the next thread.
                                                                  [CHUNK_SIZE] is specified as a number of 32-bit words, and must be
                                                                  of the same granularity as the port width. */
-        uint64_t reserved_9_15         : 7;
+        uint64_t block_size            : 22; /**< [ 31: 10] Defines the DMA block size in bytes (8 bits).
+                                                                 For 1D DMA, single threaded read ports only, [BLOCK_SIZE] can be byte aligned.
+                                                                 For any other mode, [BLOCK_SIZE] must be aligned to the port width. A multiple of 8 for 64-bit,
+                                                                 16 for 128-bit, and 32 for 256-bit ports.
+                                                                 Allows for a maximum [BLOCK_SIZE] of 4MB. */
+        uint64_t reserved_9            : 1;
         uint64_t cmd_type              : 2;  /**< [  8:  7] Command type for LLC/DRAM access. The read and write operations are
                                                                  enumerated with MHBW_PNB_RD_CMD_E and MHBW_PNB_WR_CMD_E respectively.
                                                                  When writing to LLC/DRAM, the specified command type is only used for full
@@ -189,21 +190,22 @@ union cavm_mhbw_jd_dma_cfg_word_0_s
                                                                  MHBW_PNB_WR_CMD_E:STP.
 
                                                                  Note that SMEM accesses ignore this field. */
-        uint64_t reserved_9_15         : 7;
-        uint64_t chunk_size            : 16; /**< [ 31: 16] For multi-threaded read DMA ports, this field specifies how many words
+        uint64_t reserved_9            : 1;
+        uint64_t block_size            : 22; /**< [ 31: 10] Defines the DMA block size in bytes (8 bits).
+                                                                 For 1D DMA, single threaded read ports only, [BLOCK_SIZE] can be byte aligned.
+                                                                 For any other mode, [BLOCK_SIZE] must be aligned to the port width. A multiple of 8 for 64-bit,
+                                                                 16 for 128-bit, and 32 for 256-bit ports.
+                                                                 Allows for a maximum [BLOCK_SIZE] of 4MB. */
+        uint64_t chunk_size            : 20; /**< [ 51: 32] For multi-threaded read DMA ports, this field specifies how many words
                                                                  are read from the thread before switching to the next thread.
                                                                  [CHUNK_SIZE] is specified as a number of 32-bit words, and must be
                                                                  of the same granularity as the port width. */
-        uint64_t block_size            : 16; /**< [ 47: 32] Defines the DMA block size in 32-bit words.
-                                                                 [BLOCK_SIZE] must be aligned to the port width. A multiple of 2 for 64-bit,
-                                                                 4 for 128-bit, and 8 for 256-bit ports. */
-        uint64_t thread_id             : 6;  /**< [ 53: 48] Thread ID for this command. Thread IDs can be in the range 0-63,
+        uint64_t reserved_52_53        : 2;
+        uint64_t thread_id             : 6;  /**< [ 59: 54] Thread ID for this command. Thread IDs can be in the range 0-63,
                                                                  regardless of the number of threads supported on a given port. */
-        uint64_t reserved_54_55        : 2;
-        uint64_t group_id              : 4;  /**< [ 59: 56] Group ID is used for multi-threaded DMA ports only. Groups must use
+        uint64_t group_id              : 4;  /**< [ 63: 60] Group ID is used for multi-threaded DMA ports only. Groups must use
                                                                  sequential IDs starting with 0. If more than 16 groups are required,
                                                                  the GROUP_IDs can be repeated, e.g., 0, 1, 2,..., 15, 0, 1,... */
-        uint64_t reserved_60_63        : 4;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mhbw_jd_dma_cfg_word_0_s_s cn; */
@@ -226,10 +228,12 @@ union cavm_mhbw_jd_dma_cfg_word_1_s
                                                                  MHBW_TMEM_SEL_E. */
         uint64_t reserved_53_61        : 9;
         uint64_t start_addr            : 53; /**< [ 52:  0] Specifies the byte address of the DMA starting location.
-                                                                 The address must be aligned to the width of the DMA port. */
+                                                                 For 1D DMA, single threaded read ports only, START_ADDR can be byte aligned.
+                                                                 For all other modes, The address must be aligned to the width of the DMA port. */
 #else /* Word 0 - Little Endian */
         uint64_t start_addr            : 53; /**< [ 52:  0] Specifies the byte address of the DMA starting location.
-                                                                 The address must be aligned to the width of the DMA port. */
+                                                                 For 1D DMA, single threaded read ports only, START_ADDR can be byte aligned.
+                                                                 For all other modes, The address must be aligned to the width of the DMA port. */
         uint64_t reserved_53_61        : 9;
         uint64_t target_mem            : 2;  /**< [ 63: 62] Specifies the target memory for the address, as enumerate in
                                                                  MHBW_TMEM_SEL_E. */
@@ -1637,9 +1641,10 @@ static inline uint64_t CAVM_MHBWX_ABX_SLTX_NFAT_ERR_ENA_W1S(uint64_t a, uint64_t
  * (MHBW). Note that registers only exist for the number of HABs and
  * slots in each specific MHAB.
  *
- * Nonfatal errors include:
+ * Fatal errors include:
  * * ECC single-bit errors on SMEM accesses.
- * * HAB-specific nonfatal errors.
+ * * ECC single-bit errors in internal HAB memories.
+ * * HAB-specific fatal errors.
  *
  * When an error occurs, the job tag is recorded in one of the following
  * registers:
@@ -1650,7 +1655,7 @@ static inline uint64_t CAVM_MHBWX_ABX_SLTX_NFAT_ERR_ENA_W1S(uint64_t a, uint64_t
  *
  * _ Other nonfatal errors: MHBW()_AB()_SLT()_CP_NFAT_JTAG
  *
- * When an error occurs, the MHAB sends a nonfatal error message to PSM which then
+ * When an error occurs, the MHAB sends a fatal error message to PSM which then
  * triggers an interrupt, if enabled. In addition, the MHBW sends the command
  * specified by \<MHBW()_NON_FATAL_ERROR_JCE_W1,MHBW()_NON_FATAL_ERROR_JCE_W0\>
  * to the PSM.
@@ -2567,7 +2572,8 @@ union cavm_mhbwx_cfg
                                                                  all associated state has been cleared. When resetting a HAB, software
                                                                  must wait until the corresponding bit is set before re-enabling a HAB
                                                                  using MHBW()_CFG[AB_ENA]. */
-        uint64_t reserved_29_45        : 17;
+        uint64_t reserved_30_45        : 16;
+        uint64_t jmgr_hp               : 1;  /**< [ 29: 29](R/W) When set to 1, all JD fetches will have high priority. */
         uint64_t mhbw_stopped          : 1;  /**< [ 28: 28](RO/H) Reserved. */
         uint64_t ab_stopped            : 4;  /**< [ 27: 24](RO/H) Reserved. */
         uint64_t ab_busy               : 4;  /**< [ 23: 20](RO/H) Each bit, when set to 1, indicates a HAB is busy processing a job. */
@@ -2655,7 +2661,8 @@ union cavm_mhbwx_cfg
         uint64_t ab_busy               : 4;  /**< [ 23: 20](RO/H) Each bit, when set to 1, indicates a HAB is busy processing a job. */
         uint64_t ab_stopped            : 4;  /**< [ 27: 24](RO/H) Reserved. */
         uint64_t mhbw_stopped          : 1;  /**< [ 28: 28](RO/H) Reserved. */
-        uint64_t reserved_29_45        : 17;
+        uint64_t jmgr_hp               : 1;  /**< [ 29: 29](R/W) When set to 1, all JD fetches will have high priority. */
+        uint64_t reserved_30_45        : 16;
         uint64_t ab_done               : 4;  /**< [ 49: 46](RO/H) For each HAB, these bits indicate when it has been disabled and
                                                                  all associated state has been cleared. When resetting a HAB, software
                                                                  must wait until the corresponding bit is set before re-enabling a HAB

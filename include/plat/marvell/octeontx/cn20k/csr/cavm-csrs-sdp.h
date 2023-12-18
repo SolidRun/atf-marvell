@@ -25,14 +25,10 @@
  * SDP Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define CAVM_SDP_BAR_E_SDPX_PF_BAR0(a) (0x86e000000000ll + 0x1000000000ll * (a))
-#define CAVM_SDP_BAR_E_SDPX_PF_BAR0_SIZE 0x100000000ull
-#define CAVM_SDP_BAR_E_SDPX_PF_BAR4(a) (0x86e100000000ll + 0x1000000000ll * (a))
-#define CAVM_SDP_BAR_E_SDPX_PF_BAR4_SIZE 0x100000ull
-#define CAVM_SDP_BAR_E_SDPX_VFX_BAR0(a,b) (0x86e200000000ll + 0x1000000000ll * (a) + 0x100000ll * (b))
-#define CAVM_SDP_BAR_E_SDPX_VFX_BAR0_SIZE 0x100000ull
-#define CAVM_SDP_BAR_E_SDPX_VFX_BAR4(a,b) (0x86e210000000ll + 0x1000000000ll * (a) + 0x100000ll * (b))
-#define CAVM_SDP_BAR_E_SDPX_VFX_BAR4_SIZE 0x100000ull
+#define CAVM_SDP_BAR_E_SDPX_PF_BAR0(a) (0xc01800000000ll + 0x100000000ll * (a))
+#define CAVM_SDP_BAR_E_SDPX_PF_BAR0_SIZE 0x40000000ull
+#define CAVM_SDP_BAR_E_SDPX_PF_BAR4(a) (0xc01880000000ll + 0x100000000ll * (a))
+#define CAVM_SDP_BAR_E_SDPX_PF_BAR4_SIZE 0x40000000ull
 
 /**
  * Enumeration sdp_cs_e
@@ -583,7 +579,7 @@ union cavm_sdp_sglist_component_s
 };
 
 /**
- * Register (NCB) sdp#_const
+ * Register (ARF) sdp#_const
  *
  * SDP Constants Register
  * This register contains constants for software discovery.
@@ -611,19 +607,19 @@ static inline uint64_t CAVM_SDPX_CONST(uint64_t a) __attribute__ ((pure, always_
 static inline uint64_t CAVM_SDPX_CONST(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
-        return 0x86e0c0080300ll + 0x1000000000ll * ((a) & 0x0);
+        return 0xc01810080300ll + 0x100000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SDPX_CONST", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_CONST(a) cavm_sdpx_const_t
-#define bustype_CAVM_SDPX_CONST(a) CSR_TYPE_NCB
+#define bustype_CAVM_SDPX_CONST(a) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_CONST(a) "SDPX_CONST"
 #define device_bar_CAVM_SDPX_CONST(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_CONST(a) (a)
 #define arguments_CAVM_SDPX_CONST(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) sdp#_csclk_active_pc
+ * Register (ARF) sdp#_csclk_active_pc
  *
  * SDP Conditional Coprocessor Clock Counter Register
  * This register counts conditional clocks for power management.
@@ -647,19 +643,19 @@ static inline uint64_t CAVM_SDPX_CSCLK_ACTIVE_PC(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_SDPX_CSCLK_ACTIVE_PC(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
-        return 0x86e0c0080220ll + 0x1000000000ll * ((a) & 0x0);
+        return 0xc01810080220ll + 0x100000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SDPX_CSCLK_ACTIVE_PC", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_CSCLK_ACTIVE_PC(a) cavm_sdpx_csclk_active_pc_t
-#define bustype_CAVM_SDPX_CSCLK_ACTIVE_PC(a) CSR_TYPE_NCB
+#define bustype_CAVM_SDPX_CSCLK_ACTIVE_PC(a) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_CSCLK_ACTIVE_PC(a) "SDPX_CSCLK_ACTIVE_PC"
 #define device_bar_CAVM_SDPX_CSCLK_ACTIVE_PC(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_CSCLK_ACTIVE_PC(a) (a)
 #define arguments_CAVM_SDPX_CSCLK_ACTIVE_PC(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) sdp#_diag
+ * Register (ARF) sdp#_diag
  *
  * SDP Diagnostic Status Register
  * This register indicates some conditions which may be interesting for diagnostics.
@@ -691,24 +687,24 @@ static inline uint64_t CAVM_SDPX_DIAG(uint64_t a) __attribute__ ((pure, always_i
 static inline uint64_t CAVM_SDPX_DIAG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
-        return 0x86e0c0080140ll + 0x1000000000ll * ((a) & 0x0);
+        return 0xc01810080140ll + 0x100000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SDPX_DIAG", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_DIAG(a) cavm_sdpx_diag_t
-#define bustype_CAVM_SDPX_DIAG(a) CSR_TYPE_NCB
+#define bustype_CAVM_SDPX_DIAG(a) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_DIAG(a) "SDPX_DIAG"
 #define device_bar_CAVM_SDPX_DIAG(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_DIAG(a) (a)
 #define arguments_CAVM_SDPX_DIAG(a) (a),-1,-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_dma_cnt#
+ * Register (ARF) sdp#_epf#_dma_cnt#
  *
  * SDP DMA Count Registers
  * These registers contain the DMA count values.
  *
- * Note: EPF(0..15) are mapped to MAC0, EPF(16..31) are mapped to MAC2.
+ * Note: EPF(0..7) are mapped to MAC0, EPF(8..15) are mapped to MAC2.
  */
 union cavm_sdpx_epfx_dma_cntx
 {
@@ -741,24 +737,24 @@ static inline uint64_t CAVM_SDPX_EPFX_DMA_CNTX(uint64_t a, uint64_t b, uint64_t 
 static inline uint64_t CAVM_SDPX_EPFX_DMA_CNTX(uint64_t a, uint64_t b, uint64_t c)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15) && (c<=1)))
-        return 0x86e080020860ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0xf) + 0x10ll * ((c) & 0x1);
+        return 0xc01810000760ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf) + 0x10ll * ((c) & 0x1);
     __cavm_csr_fatal("SDPX_EPFX_DMA_CNTX", 3, a, b, c, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_EPFX_DMA_CNTX(a,b,c) cavm_sdpx_epfx_dma_cntx_t
-#define bustype_CAVM_SDPX_EPFX_DMA_CNTX(a,b,c) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_EPFX_DMA_CNTX(a,b,c) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_EPFX_DMA_CNTX(a,b,c) "SDPX_EPFX_DMA_CNTX"
 #define device_bar_CAVM_SDPX_EPFX_DMA_CNTX(a,b,c) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_EPFX_DMA_CNTX(a,b,c) (a)
 #define arguments_CAVM_SDPX_EPFX_DMA_CNTX(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_dma_int_level#
+ * Register (ARF) sdp#_epf#_dma_int_level#
  *
  * SDP DMA Interrupt Level Registers
  * These registers contain the thresholds for DMA count and timer interrupts.
  *
- * Note: EPF(0..15) are mapped to MAC0, EPF(16..31) are mapped to MAC2.
+ * Note: EPF(0..7) are mapped to MAC0, EPF(8..15) are mapped to MAC2.
  */
 union cavm_sdpx_epfx_dma_int_levelx
 {
@@ -789,26 +785,26 @@ static inline uint64_t CAVM_SDPX_EPFX_DMA_INT_LEVELX(uint64_t a, uint64_t b, uin
 static inline uint64_t CAVM_SDPX_EPFX_DMA_INT_LEVELX(uint64_t a, uint64_t b, uint64_t c)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15) && (c<=1)))
-        return 0x86e080020840ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0xf) + 0x10ll * ((c) & 0x1);
+        return 0xc01810000740ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf) + 0x10ll * ((c) & 0x1);
     __cavm_csr_fatal("SDPX_EPFX_DMA_INT_LEVELX", 3, a, b, c, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_EPFX_DMA_INT_LEVELX(a,b,c) cavm_sdpx_epfx_dma_int_levelx_t
-#define bustype_CAVM_SDPX_EPFX_DMA_INT_LEVELX(a,b,c) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_EPFX_DMA_INT_LEVELX(a,b,c) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_EPFX_DMA_INT_LEVELX(a,b,c) "SDPX_EPFX_DMA_INT_LEVELX"
 #define device_bar_CAVM_SDPX_EPFX_DMA_INT_LEVELX(a,b,c) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_EPFX_DMA_INT_LEVELX(a,b,c) (a)
 #define arguments_CAVM_SDPX_EPFX_DMA_INT_LEVELX(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_dma_rint
+ * Register (ARF) sdp#_epf#_dma_rint
  *
  * SDP/DPI DTIME/DCNT/DMAFI Interrupt Registers
  * These registers contain interrupts related to the DPI DMA engines.
  * The given register associated with an EPF will be reset due to a PF FLR or MAC reset.
  * These registers are not affected by VF FLR.
  *
- * Note: EPF(0..15) are mapped to MAC0, EPF(16..31) are mapped to MAC2.
+ * Note: EPF(0..7) are mapped to MAC0, EPF(8..15) are mapped to MAC2.
  */
 union cavm_sdpx_epfx_dma_rint
 {
@@ -855,19 +851,19 @@ static inline uint64_t CAVM_SDPX_EPFX_DMA_RINT(uint64_t a, uint64_t b) __attribu
 static inline uint64_t CAVM_SDPX_EPFX_DMA_RINT(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
-        return 0x86e080020800ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0xf);
+        return 0xc01810000700ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_DMA_RINT", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_EPFX_DMA_RINT(a,b) cavm_sdpx_epfx_dma_rint_t
-#define bustype_CAVM_SDPX_EPFX_DMA_RINT(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_EPFX_DMA_RINT(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_EPFX_DMA_RINT(a,b) "SDPX_EPFX_DMA_RINT"
 #define device_bar_CAVM_SDPX_EPFX_DMA_RINT(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_EPFX_DMA_RINT(a,b) (a)
 #define arguments_CAVM_SDPX_EPFX_DMA_RINT(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_dma_rint_ena_w1c
+ * Register (ARF) sdp#_epf#_dma_rint_ena_w1c
  *
  * SDP/DPI DTIME/DCNT/DMAFI Interrupt Remote Enable Clear Registers
  * This register clears interrupt enable bits.
@@ -897,19 +893,19 @@ static inline uint64_t CAVM_SDPX_EPFX_DMA_RINT_ENA_W1C(uint64_t a, uint64_t b) _
 static inline uint64_t CAVM_SDPX_EPFX_DMA_RINT_ENA_W1C(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
-        return 0x86e080020820ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0xf);
+        return 0xc01810000720ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_DMA_RINT_ENA_W1C", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_EPFX_DMA_RINT_ENA_W1C(a,b) cavm_sdpx_epfx_dma_rint_ena_w1c_t
-#define bustype_CAVM_SDPX_EPFX_DMA_RINT_ENA_W1C(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_EPFX_DMA_RINT_ENA_W1C(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_EPFX_DMA_RINT_ENA_W1C(a,b) "SDPX_EPFX_DMA_RINT_ENA_W1C"
 #define device_bar_CAVM_SDPX_EPFX_DMA_RINT_ENA_W1C(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_EPFX_DMA_RINT_ENA_W1C(a,b) (a)
 #define arguments_CAVM_SDPX_EPFX_DMA_RINT_ENA_W1C(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_dma_rint_ena_w1s
+ * Register (ARF) sdp#_epf#_dma_rint_ena_w1s
  *
  * SDP/DPI DTIME/DCNT/DMAFI Interrupt Remote Enable Set Registers
  * This register sets interrupt enable bits.
@@ -939,19 +935,19 @@ static inline uint64_t CAVM_SDPX_EPFX_DMA_RINT_ENA_W1S(uint64_t a, uint64_t b) _
 static inline uint64_t CAVM_SDPX_EPFX_DMA_RINT_ENA_W1S(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
-        return 0x86e080020830ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0xf);
+        return 0xc01810000730ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_DMA_RINT_ENA_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_EPFX_DMA_RINT_ENA_W1S(a,b) cavm_sdpx_epfx_dma_rint_ena_w1s_t
-#define bustype_CAVM_SDPX_EPFX_DMA_RINT_ENA_W1S(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_EPFX_DMA_RINT_ENA_W1S(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_EPFX_DMA_RINT_ENA_W1S(a,b) "SDPX_EPFX_DMA_RINT_ENA_W1S"
 #define device_bar_CAVM_SDPX_EPFX_DMA_RINT_ENA_W1S(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_EPFX_DMA_RINT_ENA_W1S(a,b) (a)
 #define arguments_CAVM_SDPX_EPFX_DMA_RINT_ENA_W1S(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_dma_rint_w1s
+ * Register (ARF) sdp#_epf#_dma_rint_w1s
  *
  * SDP/DPI DTIME/DCNT/DMAFI Interrupt Set Registers
  * This register sets interrupt bits.
@@ -981,24 +977,24 @@ static inline uint64_t CAVM_SDPX_EPFX_DMA_RINT_W1S(uint64_t a, uint64_t b) __att
 static inline uint64_t CAVM_SDPX_EPFX_DMA_RINT_W1S(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
-        return 0x86e080020810ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0xf);
+        return 0xc01810000710ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_DMA_RINT_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_EPFX_DMA_RINT_W1S(a,b) cavm_sdpx_epfx_dma_rint_w1s_t
-#define bustype_CAVM_SDPX_EPFX_DMA_RINT_W1S(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_EPFX_DMA_RINT_W1S(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_EPFX_DMA_RINT_W1S(a,b) "SDPX_EPFX_DMA_RINT_W1S"
 #define device_bar_CAVM_SDPX_EPFX_DMA_RINT_W1S(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_EPFX_DMA_RINT_W1S(a,b) (a)
 #define arguments_CAVM_SDPX_EPFX_DMA_RINT_W1S(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_dma_tim#
+ * Register (ARF) sdp#_epf#_dma_tim#
  *
  * SDP DMA Timer Registers
  * These registers contain the DMA timer values.
  *
- * Note: EPF(0..15) are mapped to MAC0, EPF(16..31) are mapped to MAC2.
+ * Note: EPF(0..7) are mapped to MAC0, EPF(8..15) are mapped to MAC2.
  */
 union cavm_sdpx_epfx_dma_timx
 {
@@ -1025,19 +1021,19 @@ static inline uint64_t CAVM_SDPX_EPFX_DMA_TIMX(uint64_t a, uint64_t b, uint64_t 
 static inline uint64_t CAVM_SDPX_EPFX_DMA_TIMX(uint64_t a, uint64_t b, uint64_t c)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15) && (c<=1)))
-        return 0x86e080020880ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0xf) + 0x10ll * ((c) & 0x1);
+        return 0xc01810000780ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf) + 0x10ll * ((c) & 0x1);
     __cavm_csr_fatal("SDPX_EPFX_DMA_TIMX", 3, a, b, c, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_EPFX_DMA_TIMX(a,b,c) cavm_sdpx_epfx_dma_timx_t
-#define bustype_CAVM_SDPX_EPFX_DMA_TIMX(a,b,c) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_EPFX_DMA_TIMX(a,b,c) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_EPFX_DMA_TIMX(a,b,c) "SDPX_EPFX_DMA_TIMX"
 #define device_bar_CAVM_SDPX_EPFX_DMA_TIMX(a,b,c) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_EPFX_DMA_TIMX(a,b,c) (a)
 #define arguments_CAVM_SDPX_EPFX_DMA_TIMX(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_ire_rint
+ * Register (ARF) sdp#_epf#_ire_rint
  *
  * SDP Input Error Status Register
  * This register indicates if an error has been detected on an input ring.
@@ -1063,19 +1059,19 @@ static inline uint64_t CAVM_SDPX_EPFX_IRE_RINT(uint64_t a, uint64_t b) __attribu
 static inline uint64_t CAVM_SDPX_EPFX_IRE_RINT(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
-        return 0x86e080020200ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0xf);
+        return 0xc018100000c0ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_IRE_RINT", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_EPFX_IRE_RINT(a,b) cavm_sdpx_epfx_ire_rint_t
-#define bustype_CAVM_SDPX_EPFX_IRE_RINT(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_EPFX_IRE_RINT(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_EPFX_IRE_RINT(a,b) "SDPX_EPFX_IRE_RINT"
 #define device_bar_CAVM_SDPX_EPFX_IRE_RINT(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_EPFX_IRE_RINT(a,b) (a)
 #define arguments_CAVM_SDPX_EPFX_IRE_RINT(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_ire_rint_ena_w1c
+ * Register (ARF) sdp#_epf#_ire_rint_ena_w1c
  *
  * SDP Input Error Enable Clear Register
  * This register clears interrupt enable bits.
@@ -1099,19 +1095,19 @@ static inline uint64_t CAVM_SDPX_EPFX_IRE_RINT_ENA_W1C(uint64_t a, uint64_t b) _
 static inline uint64_t CAVM_SDPX_EPFX_IRE_RINT_ENA_W1C(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
-        return 0x86e080020220ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0xf);
+        return 0xc018100000e0ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_IRE_RINT_ENA_W1C", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_EPFX_IRE_RINT_ENA_W1C(a,b) cavm_sdpx_epfx_ire_rint_ena_w1c_t
-#define bustype_CAVM_SDPX_EPFX_IRE_RINT_ENA_W1C(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_EPFX_IRE_RINT_ENA_W1C(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_EPFX_IRE_RINT_ENA_W1C(a,b) "SDPX_EPFX_IRE_RINT_ENA_W1C"
 #define device_bar_CAVM_SDPX_EPFX_IRE_RINT_ENA_W1C(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_EPFX_IRE_RINT_ENA_W1C(a,b) (a)
 #define arguments_CAVM_SDPX_EPFX_IRE_RINT_ENA_W1C(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_ire_rint_ena_w1s
+ * Register (ARF) sdp#_epf#_ire_rint_ena_w1s
  *
  * SDP Input Error Enable Set Register
  * This register sets interrupt enable bits.
@@ -1135,19 +1131,19 @@ static inline uint64_t CAVM_SDPX_EPFX_IRE_RINT_ENA_W1S(uint64_t a, uint64_t b) _
 static inline uint64_t CAVM_SDPX_EPFX_IRE_RINT_ENA_W1S(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
-        return 0x86e080020230ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0xf);
+        return 0xc018100000f0ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_IRE_RINT_ENA_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_EPFX_IRE_RINT_ENA_W1S(a,b) cavm_sdpx_epfx_ire_rint_ena_w1s_t
-#define bustype_CAVM_SDPX_EPFX_IRE_RINT_ENA_W1S(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_EPFX_IRE_RINT_ENA_W1S(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_EPFX_IRE_RINT_ENA_W1S(a,b) "SDPX_EPFX_IRE_RINT_ENA_W1S"
 #define device_bar_CAVM_SDPX_EPFX_IRE_RINT_ENA_W1S(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_EPFX_IRE_RINT_ENA_W1S(a,b) (a)
 #define arguments_CAVM_SDPX_EPFX_IRE_RINT_ENA_W1S(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_ire_rint_w1s
+ * Register (ARF) sdp#_epf#_ire_rint_w1s
  *
  * SDP Input Error Status Set Register
  * This register sets interrupt bits.
@@ -1171,19 +1167,19 @@ static inline uint64_t CAVM_SDPX_EPFX_IRE_RINT_W1S(uint64_t a, uint64_t b) __att
 static inline uint64_t CAVM_SDPX_EPFX_IRE_RINT_W1S(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
-        return 0x86e080020210ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0xf);
+        return 0xc018100000d0ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_IRE_RINT_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_EPFX_IRE_RINT_W1S(a,b) cavm_sdpx_epfx_ire_rint_w1s_t
-#define bustype_CAVM_SDPX_EPFX_IRE_RINT_W1S(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_EPFX_IRE_RINT_W1S(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_EPFX_IRE_RINT_W1S(a,b) "SDPX_EPFX_IRE_RINT_W1S"
 #define device_bar_CAVM_SDPX_EPFX_IRE_RINT_W1S(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_EPFX_IRE_RINT_W1S(a,b) (a)
 #define arguments_CAVM_SDPX_EPFX_IRE_RINT_W1S(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_ism_msix_recovery
+ * Register (ARF) sdp#_epf#_ism_msix_recovery
  *
  * SDP Ring Information Register
  * This register can be used to implement a minimum delay between sending MSI-X messages
@@ -1191,6 +1187,7 @@ static inline uint64_t CAVM_SDPX_EPFX_IRE_RINT_W1S(uint64_t a, uint64_t b)
  * This could be used to prevent a misbehaving VF from flooding the system with MSI-X
  * or ISM writes and starving traffic from other VFs.
  *
+ * Note: EPF(0..7) are mapped to MAC0, EPF(8..15) are mapped to MAC2.
  * Note: EPF(0-1) are mapped to MAC0, EPF(2-3) are mapped to MAC2.
  */
 union cavm_sdpx_epfx_ism_msix_recovery
@@ -1214,19 +1211,19 @@ static inline uint64_t CAVM_SDPX_EPFX_ISM_MSIX_RECOVERY(uint64_t a, uint64_t b) 
 static inline uint64_t CAVM_SDPX_EPFX_ISM_MSIX_RECOVERY(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
-        return 0x86e080020a00ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0xf);
+        return 0xc01810000a00ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_ISM_MSIX_RECOVERY", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_EPFX_ISM_MSIX_RECOVERY(a,b) cavm_sdpx_epfx_ism_msix_recovery_t
-#define bustype_CAVM_SDPX_EPFX_ISM_MSIX_RECOVERY(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_EPFX_ISM_MSIX_RECOVERY(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_EPFX_ISM_MSIX_RECOVERY(a,b) "SDPX_EPFX_ISM_MSIX_RECOVERY"
 #define device_bar_CAVM_SDPX_EPFX_ISM_MSIX_RECOVERY(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_EPFX_ISM_MSIX_RECOVERY(a,b) (a)
 #define arguments_CAVM_SDPX_EPFX_ISM_MSIX_RECOVERY(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_mbox_rint
+ * Register (ARF) sdp#_epf#_mbox_rint
  *
  * SDP Mailbox Interrupt Status Register
  * This register indicates which VF/ring has signaled an interrupt.
@@ -1234,7 +1231,7 @@ static inline uint64_t CAVM_SDPX_EPFX_ISM_MSIX_RECOVERY(uint64_t a, uint64_t b)
  * The given register associated with an EPF will be reset due to a PF FLR or MAC Reset.
  * These registers are not affected by VF FLR.
  *
- * Note: EPF(0..15) are mapped to MAC0, EPF(16..31) are mapped to MAC2.
+ * Note: EPF(0..7) are mapped to MAC0, EPF(8..15) are mapped to MAC2.
  */
 union cavm_sdpx_epfx_mbox_rint
 {
@@ -1255,19 +1252,19 @@ static inline uint64_t CAVM_SDPX_EPFX_MBOX_RINT(uint64_t a, uint64_t b) __attrib
 static inline uint64_t CAVM_SDPX_EPFX_MBOX_RINT(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
-        return 0x86e080020100ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0xf);
+        return 0xc01810000000ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_MBOX_RINT", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_EPFX_MBOX_RINT(a,b) cavm_sdpx_epfx_mbox_rint_t
-#define bustype_CAVM_SDPX_EPFX_MBOX_RINT(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_EPFX_MBOX_RINT(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_EPFX_MBOX_RINT(a,b) "SDPX_EPFX_MBOX_RINT"
 #define device_bar_CAVM_SDPX_EPFX_MBOX_RINT(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_EPFX_MBOX_RINT(a,b) (a)
 #define arguments_CAVM_SDPX_EPFX_MBOX_RINT(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_mbox_rint_ena_w1c
+ * Register (ARF) sdp#_epf#_mbox_rint_ena_w1c
  *
  * SDP Mailbox Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
@@ -1291,19 +1288,19 @@ static inline uint64_t CAVM_SDPX_EPFX_MBOX_RINT_ENA_W1C(uint64_t a, uint64_t b) 
 static inline uint64_t CAVM_SDPX_EPFX_MBOX_RINT_ENA_W1C(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
-        return 0x86e080020140ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0xf);
+        return 0xc01810000040ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_MBOX_RINT_ENA_W1C", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_EPFX_MBOX_RINT_ENA_W1C(a,b) cavm_sdpx_epfx_mbox_rint_ena_w1c_t
-#define bustype_CAVM_SDPX_EPFX_MBOX_RINT_ENA_W1C(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_EPFX_MBOX_RINT_ENA_W1C(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_EPFX_MBOX_RINT_ENA_W1C(a,b) "SDPX_EPFX_MBOX_RINT_ENA_W1C"
 #define device_bar_CAVM_SDPX_EPFX_MBOX_RINT_ENA_W1C(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_EPFX_MBOX_RINT_ENA_W1C(a,b) (a)
 #define arguments_CAVM_SDPX_EPFX_MBOX_RINT_ENA_W1C(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_mbox_rint_ena_w1s
+ * Register (ARF) sdp#_epf#_mbox_rint_ena_w1s
  *
  * SDP Mailbox Interrupt Enable Set Register
  * This register sets interrupt enable bits.
@@ -1327,19 +1324,19 @@ static inline uint64_t CAVM_SDPX_EPFX_MBOX_RINT_ENA_W1S(uint64_t a, uint64_t b) 
 static inline uint64_t CAVM_SDPX_EPFX_MBOX_RINT_ENA_W1S(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
-        return 0x86e080020160ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0xf);
+        return 0xc01810000060ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_MBOX_RINT_ENA_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_EPFX_MBOX_RINT_ENA_W1S(a,b) cavm_sdpx_epfx_mbox_rint_ena_w1s_t
-#define bustype_CAVM_SDPX_EPFX_MBOX_RINT_ENA_W1S(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_EPFX_MBOX_RINT_ENA_W1S(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_EPFX_MBOX_RINT_ENA_W1S(a,b) "SDPX_EPFX_MBOX_RINT_ENA_W1S"
 #define device_bar_CAVM_SDPX_EPFX_MBOX_RINT_ENA_W1S(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_EPFX_MBOX_RINT_ENA_W1S(a,b) (a)
 #define arguments_CAVM_SDPX_EPFX_MBOX_RINT_ENA_W1S(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_mbox_rint_w1s
+ * Register (ARF) sdp#_epf#_mbox_rint_w1s
  *
  * SDP Mailbox Interrupt Set Register
  * This register sets interrupt bits.
@@ -1363,26 +1360,26 @@ static inline uint64_t CAVM_SDPX_EPFX_MBOX_RINT_W1S(uint64_t a, uint64_t b) __at
 static inline uint64_t CAVM_SDPX_EPFX_MBOX_RINT_W1S(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
-        return 0x86e080020120ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0xf);
+        return 0xc01810000020ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_MBOX_RINT_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_EPFX_MBOX_RINT_W1S(a,b) cavm_sdpx_epfx_mbox_rint_w1s_t
-#define bustype_CAVM_SDPX_EPFX_MBOX_RINT_W1S(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_EPFX_MBOX_RINT_W1S(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_EPFX_MBOX_RINT_W1S(a,b) "SDPX_EPFX_MBOX_RINT_W1S"
 #define device_bar_CAVM_SDPX_EPFX_MBOX_RINT_W1S(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_EPFX_MBOX_RINT_W1S(a,b) (a)
 #define arguments_CAVM_SDPX_EPFX_MBOX_RINT_W1S(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_misc_rint
+ * Register (ARF) sdp#_epf#_misc_rint
  *
  * SDP MAC Interrupt Summary Register
  * This register contains the different interrupt-summary bits for one MAC in the SDP.
  * The given register associated with an EPF will be reset due to a PF FLR or MAC reset.
  * These registers are not affected by VF FLR.
  *
- * Note: EPF(0..15) are mapped to MAC0, EPF(16..31) are mapped to MAC2.
+ * Note: EPF(0..7) are mapped to MAC0, EPF(8..15) are mapped to MAC2.
  */
 union cavm_sdpx_epfx_misc_rint
 {
@@ -1427,19 +1424,19 @@ static inline uint64_t CAVM_SDPX_EPFX_MISC_RINT(uint64_t a, uint64_t b) __attrib
 static inline uint64_t CAVM_SDPX_EPFX_MISC_RINT(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
-        return 0x86e0800208a0ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0xf);
+        return 0xc018100007a0ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_MISC_RINT", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_EPFX_MISC_RINT(a,b) cavm_sdpx_epfx_misc_rint_t
-#define bustype_CAVM_SDPX_EPFX_MISC_RINT(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_EPFX_MISC_RINT(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_EPFX_MISC_RINT(a,b) "SDPX_EPFX_MISC_RINT"
 #define device_bar_CAVM_SDPX_EPFX_MISC_RINT(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_EPFX_MISC_RINT(a,b) (a)
 #define arguments_CAVM_SDPX_EPFX_MISC_RINT(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_misc_rint_ena_w1c
+ * Register (ARF) sdp#_epf#_misc_rint_ena_w1c
  *
  * SDP MAC Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
@@ -1475,19 +1472,19 @@ static inline uint64_t CAVM_SDPX_EPFX_MISC_RINT_ENA_W1C(uint64_t a, uint64_t b) 
 static inline uint64_t CAVM_SDPX_EPFX_MISC_RINT_ENA_W1C(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
-        return 0x86e0800208c0ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0xf);
+        return 0xc018100007c0ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_MISC_RINT_ENA_W1C", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_EPFX_MISC_RINT_ENA_W1C(a,b) cavm_sdpx_epfx_misc_rint_ena_w1c_t
-#define bustype_CAVM_SDPX_EPFX_MISC_RINT_ENA_W1C(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_EPFX_MISC_RINT_ENA_W1C(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_EPFX_MISC_RINT_ENA_W1C(a,b) "SDPX_EPFX_MISC_RINT_ENA_W1C"
 #define device_bar_CAVM_SDPX_EPFX_MISC_RINT_ENA_W1C(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_EPFX_MISC_RINT_ENA_W1C(a,b) (a)
 #define arguments_CAVM_SDPX_EPFX_MISC_RINT_ENA_W1C(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_misc_rint_ena_w1s
+ * Register (ARF) sdp#_epf#_misc_rint_ena_w1s
  *
  * SDP MAC Interrupt Enable Set Register
  * This register sets interrupt enable bits.
@@ -1523,19 +1520,19 @@ static inline uint64_t CAVM_SDPX_EPFX_MISC_RINT_ENA_W1S(uint64_t a, uint64_t b) 
 static inline uint64_t CAVM_SDPX_EPFX_MISC_RINT_ENA_W1S(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
-        return 0x86e0800208d0ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0xf);
+        return 0xc018100007d0ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_MISC_RINT_ENA_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_EPFX_MISC_RINT_ENA_W1S(a,b) cavm_sdpx_epfx_misc_rint_ena_w1s_t
-#define bustype_CAVM_SDPX_EPFX_MISC_RINT_ENA_W1S(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_EPFX_MISC_RINT_ENA_W1S(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_EPFX_MISC_RINT_ENA_W1S(a,b) "SDPX_EPFX_MISC_RINT_ENA_W1S"
 #define device_bar_CAVM_SDPX_EPFX_MISC_RINT_ENA_W1S(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_EPFX_MISC_RINT_ENA_W1S(a,b) (a)
 #define arguments_CAVM_SDPX_EPFX_MISC_RINT_ENA_W1S(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_misc_rint_w1s
+ * Register (ARF) sdp#_epf#_misc_rint_w1s
  *
  * SDP MAC Interrupt Set Register
  * This register sets interrupt bits.
@@ -1571,25 +1568,25 @@ static inline uint64_t CAVM_SDPX_EPFX_MISC_RINT_W1S(uint64_t a, uint64_t b) __at
 static inline uint64_t CAVM_SDPX_EPFX_MISC_RINT_W1S(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
-        return 0x86e0800208b0ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0xf);
+        return 0xc018100007b0ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_MISC_RINT_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_EPFX_MISC_RINT_W1S(a,b) cavm_sdpx_epfx_misc_rint_w1s_t
-#define bustype_CAVM_SDPX_EPFX_MISC_RINT_W1S(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_EPFX_MISC_RINT_W1S(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_EPFX_MISC_RINT_W1S(a,b) "SDPX_EPFX_MISC_RINT_W1S"
 #define device_bar_CAVM_SDPX_EPFX_MISC_RINT_W1S(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_EPFX_MISC_RINT_W1S(a,b) (a)
 #define arguments_CAVM_SDPX_EPFX_MISC_RINT_W1S(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_oei_rint#
+ * Register (ARF) sdp#_epf#_oei_rint#
  *
  * SDP Output Endpoint Interrupt Register
  * Interrupt data for interrupts sent to remote hosts.
  * This register is reset due to PF FLR, it is not affected by VF FLR.
  *
- * Note: EPF(0..15) are mapped to MAC0, EPF(16..31) are mapped to MAC2.
+ * Note: EPF(0..7) are mapped to MAC0, EPF(8..15) are mapped to MAC2.
  */
 union cavm_sdpx_epfx_oei_rintx
 {
@@ -1610,19 +1607,19 @@ static inline uint64_t CAVM_SDPX_EPFX_OEI_RINTX(uint64_t a, uint64_t b, uint64_t
 static inline uint64_t CAVM_SDPX_EPFX_OEI_RINTX(uint64_t a, uint64_t b, uint64_t c)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15) && (c<=15)))
-        return 0x86e080020400ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0xf) + 0x10ll * ((c) & 0xf);
+        return 0xc01810000300ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf) + 0x10ll * ((c) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_OEI_RINTX", 3, a, b, c, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_EPFX_OEI_RINTX(a,b,c) cavm_sdpx_epfx_oei_rintx_t
-#define bustype_CAVM_SDPX_EPFX_OEI_RINTX(a,b,c) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_EPFX_OEI_RINTX(a,b,c) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_EPFX_OEI_RINTX(a,b,c) "SDPX_EPFX_OEI_RINTX"
 #define device_bar_CAVM_SDPX_EPFX_OEI_RINTX(a,b,c) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_EPFX_OEI_RINTX(a,b,c) (a)
 #define arguments_CAVM_SDPX_EPFX_OEI_RINTX(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_oei_rint_ena_w1c#
+ * Register (ARF) sdp#_epf#_oei_rint_ena_w1c#
  *
  * SDP Output Endpoint Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
@@ -1646,19 +1643,19 @@ static inline uint64_t CAVM_SDPX_EPFX_OEI_RINT_ENA_W1CX(uint64_t a, uint64_t b, 
 static inline uint64_t CAVM_SDPX_EPFX_OEI_RINT_ENA_W1CX(uint64_t a, uint64_t b, uint64_t c)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15) && (c<=15)))
-        return 0x86e080020600ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0xf) + 0x10ll * ((c) & 0xf);
+        return 0xc01810000500ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf) + 0x10ll * ((c) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_OEI_RINT_ENA_W1CX", 3, a, b, c, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_EPFX_OEI_RINT_ENA_W1CX(a,b,c) cavm_sdpx_epfx_oei_rint_ena_w1cx_t
-#define bustype_CAVM_SDPX_EPFX_OEI_RINT_ENA_W1CX(a,b,c) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_EPFX_OEI_RINT_ENA_W1CX(a,b,c) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_EPFX_OEI_RINT_ENA_W1CX(a,b,c) "SDPX_EPFX_OEI_RINT_ENA_W1CX"
 #define device_bar_CAVM_SDPX_EPFX_OEI_RINT_ENA_W1CX(a,b,c) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_EPFX_OEI_RINT_ENA_W1CX(a,b,c) (a)
 #define arguments_CAVM_SDPX_EPFX_OEI_RINT_ENA_W1CX(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_oei_rint_ena_w1s#
+ * Register (ARF) sdp#_epf#_oei_rint_ena_w1s#
  *
  * SDP Output Endpoint Interrupt Enable Set Register
  * This register sets interrupt enable bits.
@@ -1682,19 +1679,19 @@ static inline uint64_t CAVM_SDPX_EPFX_OEI_RINT_ENA_W1SX(uint64_t a, uint64_t b, 
 static inline uint64_t CAVM_SDPX_EPFX_OEI_RINT_ENA_W1SX(uint64_t a, uint64_t b, uint64_t c)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15) && (c<=15)))
-        return 0x86e080020700ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0xf) + 0x10ll * ((c) & 0xf);
+        return 0xc01810000600ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf) + 0x10ll * ((c) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_OEI_RINT_ENA_W1SX", 3, a, b, c, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_EPFX_OEI_RINT_ENA_W1SX(a,b,c) cavm_sdpx_epfx_oei_rint_ena_w1sx_t
-#define bustype_CAVM_SDPX_EPFX_OEI_RINT_ENA_W1SX(a,b,c) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_EPFX_OEI_RINT_ENA_W1SX(a,b,c) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_EPFX_OEI_RINT_ENA_W1SX(a,b,c) "SDPX_EPFX_OEI_RINT_ENA_W1SX"
 #define device_bar_CAVM_SDPX_EPFX_OEI_RINT_ENA_W1SX(a,b,c) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_EPFX_OEI_RINT_ENA_W1SX(a,b,c) (a)
 #define arguments_CAVM_SDPX_EPFX_OEI_RINT_ENA_W1SX(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_oei_rint_w1s#
+ * Register (ARF) sdp#_epf#_oei_rint_w1s#
  *
  * SDP Output Endpoint Interrupt Set Register
  * This register sets interrupt bits.
@@ -1718,19 +1715,19 @@ static inline uint64_t CAVM_SDPX_EPFX_OEI_RINT_W1SX(uint64_t a, uint64_t b, uint
 static inline uint64_t CAVM_SDPX_EPFX_OEI_RINT_W1SX(uint64_t a, uint64_t b, uint64_t c)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15) && (c<=15)))
-        return 0x86e080020500ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0xf) + 0x10ll * ((c) & 0xf);
+        return 0xc01810000400ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf) + 0x10ll * ((c) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_OEI_RINT_W1SX", 3, a, b, c, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_EPFX_OEI_RINT_W1SX(a,b,c) cavm_sdpx_epfx_oei_rint_w1sx_t
-#define bustype_CAVM_SDPX_EPFX_OEI_RINT_W1SX(a,b,c) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_EPFX_OEI_RINT_W1SX(a,b,c) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_EPFX_OEI_RINT_W1SX(a,b,c) "SDPX_EPFX_OEI_RINT_W1SX"
 #define device_bar_CAVM_SDPX_EPFX_OEI_RINT_W1SX(a,b,c) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_EPFX_OEI_RINT_W1SX(a,b,c) (a)
 #define arguments_CAVM_SDPX_EPFX_OEI_RINT_W1SX(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (NCB) sdp#_epf#_oei_trig#
+ * Register (ARF) sdp#_epf#_oei_trig#
  *
  * SDP Output Endpoint Interrupt Trigger Register
  * This trigger register can be used to generate outbound interrupts to the remote host
@@ -1740,6 +1737,7 @@ static inline uint64_t CAVM_SDPX_EPFX_OEI_RINT_W1SX(uint64_t a, uint64_t b, uint
  * translation by the SMMU.  The [SET] field is used for edge triggered interrupts and
  * [SET] and [CLR] can be used to mimic a level sensitive interrupt.
  *
+ * Note: EPF(0..7) are mapped to MAC0, EPF(8..15) are mapped to MAC2.
  * Note: EPF(0-15) are mapped to MAC0, EPF(16-31) are mapped to MAC2.
  */
 union cavm_sdpx_epfx_oei_trigx
@@ -1781,26 +1779,26 @@ static inline uint64_t CAVM_SDPX_EPFX_OEI_TRIGX(uint64_t a, uint64_t b, uint64_t
 static inline uint64_t CAVM_SDPX_EPFX_OEI_TRIGX(uint64_t a, uint64_t b, uint64_t c)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15) && (c<=15)))
-        return 0x86e0c0000000ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0xf) + 0x10ll * ((c) & 0xf);
+        return 0xc01810080000ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf) + 0x10ll * ((c) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_OEI_TRIGX", 3, a, b, c, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_EPFX_OEI_TRIGX(a,b,c) cavm_sdpx_epfx_oei_trigx_t
-#define bustype_CAVM_SDPX_EPFX_OEI_TRIGX(a,b,c) CSR_TYPE_NCB
+#define bustype_CAVM_SDPX_EPFX_OEI_TRIGX(a,b,c) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_EPFX_OEI_TRIGX(a,b,c) "SDPX_EPFX_OEI_TRIGX"
 #define device_bar_CAVM_SDPX_EPFX_OEI_TRIGX(a,b,c) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_EPFX_OEI_TRIGX(a,b,c) (a)
 #define arguments_CAVM_SDPX_EPFX_OEI_TRIGX(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_ore_rint
+ * Register (ARF) sdp#_epf#_ore_rint
  *
  * SDP Output Error Status Register
  * This register indicates if an error has been detected on an output ring.
  * The given register associated with an EPF will be reset due to a PF FLR or MAC Reset.
  * These registers are not affected by VF FLR.
  *
- * Note: EPF(0..1) are mapped to MAC0, EPF(2..3) are mapped to MAC2.
+ * Note: EPF(0..7) are mapped to MAC0, EPF(8..15) are mapped to MAC2.
  */
 union cavm_sdpx_epfx_ore_rint
 {
@@ -1821,19 +1819,19 @@ static inline uint64_t CAVM_SDPX_EPFX_ORE_RINT(uint64_t a, uint64_t b) __attribu
 static inline uint64_t CAVM_SDPX_EPFX_ORE_RINT(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
-        return 0x86e080020320ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0xf);
+        return 0xc01810000140ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_ORE_RINT", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_EPFX_ORE_RINT(a,b) cavm_sdpx_epfx_ore_rint_t
-#define bustype_CAVM_SDPX_EPFX_ORE_RINT(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_EPFX_ORE_RINT(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_EPFX_ORE_RINT(a,b) "SDPX_EPFX_ORE_RINT"
 #define device_bar_CAVM_SDPX_EPFX_ORE_RINT(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_EPFX_ORE_RINT(a,b) (a)
 #define arguments_CAVM_SDPX_EPFX_ORE_RINT(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_ore_rint_ena_w1c
+ * Register (ARF) sdp#_epf#_ore_rint_ena_w1c
  *
  * SDP Output Error Enable Clear Register
  * This register clears interrupt enable bits.
@@ -1857,19 +1855,19 @@ static inline uint64_t CAVM_SDPX_EPFX_ORE_RINT_ENA_W1C(uint64_t a, uint64_t b) _
 static inline uint64_t CAVM_SDPX_EPFX_ORE_RINT_ENA_W1C(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
-        return 0x86e080020340ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0xf);
+        return 0xc01810000160ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_ORE_RINT_ENA_W1C", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_EPFX_ORE_RINT_ENA_W1C(a,b) cavm_sdpx_epfx_ore_rint_ena_w1c_t
-#define bustype_CAVM_SDPX_EPFX_ORE_RINT_ENA_W1C(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_EPFX_ORE_RINT_ENA_W1C(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_EPFX_ORE_RINT_ENA_W1C(a,b) "SDPX_EPFX_ORE_RINT_ENA_W1C"
 #define device_bar_CAVM_SDPX_EPFX_ORE_RINT_ENA_W1C(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_EPFX_ORE_RINT_ENA_W1C(a,b) (a)
 #define arguments_CAVM_SDPX_EPFX_ORE_RINT_ENA_W1C(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_ore_rint_ena_w1s
+ * Register (ARF) sdp#_epf#_ore_rint_ena_w1s
  *
  * SDP Output Error Enable Set Register
  * This register sets interrupt enable bits.
@@ -1893,19 +1891,19 @@ static inline uint64_t CAVM_SDPX_EPFX_ORE_RINT_ENA_W1S(uint64_t a, uint64_t b) _
 static inline uint64_t CAVM_SDPX_EPFX_ORE_RINT_ENA_W1S(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
-        return 0x86e080020350ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0xf);
+        return 0xc01810000170ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_ORE_RINT_ENA_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_EPFX_ORE_RINT_ENA_W1S(a,b) cavm_sdpx_epfx_ore_rint_ena_w1s_t
-#define bustype_CAVM_SDPX_EPFX_ORE_RINT_ENA_W1S(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_EPFX_ORE_RINT_ENA_W1S(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_EPFX_ORE_RINT_ENA_W1S(a,b) "SDPX_EPFX_ORE_RINT_ENA_W1S"
 #define device_bar_CAVM_SDPX_EPFX_ORE_RINT_ENA_W1S(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_EPFX_ORE_RINT_ENA_W1S(a,b) (a)
 #define arguments_CAVM_SDPX_EPFX_ORE_RINT_ENA_W1S(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_ore_rint_w1s
+ * Register (ARF) sdp#_epf#_ore_rint_w1s
  *
  * SDP Output Error Status Set Register
  * This register sets interrupt bits.
@@ -1929,19 +1927,19 @@ static inline uint64_t CAVM_SDPX_EPFX_ORE_RINT_W1S(uint64_t a, uint64_t b) __att
 static inline uint64_t CAVM_SDPX_EPFX_ORE_RINT_W1S(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
-        return 0x86e080020330ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0xf);
+        return 0xc01810000150ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_ORE_RINT_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_EPFX_ORE_RINT_W1S(a,b) cavm_sdpx_epfx_ore_rint_w1s_t
-#define bustype_CAVM_SDPX_EPFX_ORE_RINT_W1S(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_EPFX_ORE_RINT_W1S(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_EPFX_ORE_RINT_W1S(a,b) "SDPX_EPFX_ORE_RINT_W1S"
 #define device_bar_CAVM_SDPX_EPFX_ORE_RINT_W1S(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_EPFX_ORE_RINT_W1S(a,b) (a)
 #define arguments_CAVM_SDPX_EPFX_ORE_RINT_W1S(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_rinfo
+ * Register (ARF) sdp#_epf#_rinfo
  *
  * SDP Ring Information Register
  * This register sets the total number of vfs and vf rings for a given MAC and PF
@@ -1958,7 +1956,7 @@ static inline uint64_t CAVM_SDPX_EPFX_ORE_RINT_W1S(uint64_t a, uint64_t b)
  * The given register associated with an EPF will be reset due to a PF FLR or MAC Reset.
  * These registers are not affected by VF FLR.
  *
- * Note: EPF(0..15) are mapped to MAC0, EPF1(16..31) are mapped to MAC2.
+ * Note: EPF(0..7) are mapped to MAC0, EPF(8..15) are mapped to MAC2.
  */
 union cavm_sdpx_epfx_rinfo
 {
@@ -2018,24 +2016,26 @@ static inline uint64_t CAVM_SDPX_EPFX_RINFO(uint64_t a, uint64_t b) __attribute_
 static inline uint64_t CAVM_SDPX_EPFX_RINFO(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
-        return 0x86e0800209f0ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0xf);
+        return 0xc018100007f0ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_RINFO", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_EPFX_RINFO(a,b) cavm_sdpx_epfx_rinfo_t
-#define bustype_CAVM_SDPX_EPFX_RINFO(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_EPFX_RINFO(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_EPFX_RINFO(a,b) "SDPX_EPFX_RINFO"
 #define device_bar_CAVM_SDPX_EPFX_RINFO(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_EPFX_RINFO(a,b) (a)
 #define arguments_CAVM_SDPX_EPFX_RINFO(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_rmt_msix_pba#
+ * Register (ARF) sdp#_epf#_rmt_msix_pba#
  *
  * SDP Remote MSI-X Pending Bit Array Registers
  * This register is the remote MSI-X PBA table.
  *
- * Note: EPF(0-15) are mapped to MAC0, EPF(16-31) are mapped to MAC2.
+ * Note: EPF(0..7) are mapped to MAC0, EPF(8..15) are mapped to MAC2.
+ *       PBA(0) refers to the EPF's lower 64 MSIX vectors
+ *       PBA(1) refers to the EPF's upper 64 MSIX vectors
  */
 union cavm_sdpx_epfx_rmt_msix_pbax
 {
@@ -2058,19 +2058,19 @@ static inline uint64_t CAVM_SDPX_EPFX_RMT_MSIX_PBAX(uint64_t a, uint64_t b, uint
 static inline uint64_t CAVM_SDPX_EPFX_RMT_MSIX_PBAX(uint64_t a, uint64_t b, uint64_t c)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15) && (c<=1)))
-        return 0x86e080004000ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0xf) + 8ll * ((c) & 0x1);
+        return 0xc01800004000ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf) + 8ll * ((c) & 0x1);
     __cavm_csr_fatal("SDPX_EPFX_RMT_MSIX_PBAX", 3, a, b, c, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_EPFX_RMT_MSIX_PBAX(a,b,c) cavm_sdpx_epfx_rmt_msix_pbax_t
-#define bustype_CAVM_SDPX_EPFX_RMT_MSIX_PBAX(a,b,c) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_EPFX_RMT_MSIX_PBAX(a,b,c) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_EPFX_RMT_MSIX_PBAX(a,b,c) "SDPX_EPFX_RMT_MSIX_PBAX"
 #define device_bar_CAVM_SDPX_EPFX_RMT_MSIX_PBAX(a,b,c) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_EPFX_RMT_MSIX_PBAX(a,b,c) (a)
 #define arguments_CAVM_SDPX_EPFX_RMT_MSIX_PBAX(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_rmt_msix_vec#_addr
+ * Register (ARF) sdp#_epf#_rmt_msix_vec#_addr
  *
  * SDP Remote MSI-X Vector-Table Address Register
  * This register is the MSI-X vector table for remote hosts (when CNXXXX is an
@@ -2079,7 +2079,7 @@ static inline uint64_t CAVM_SDPX_EPFX_RMT_MSIX_PBAX(uint64_t a, uint64_t b, uint
  * This register is not affected by PF-FLR, VF-FLR, VF enable falling edge, or
  * MAC reset. It must be initialized before use.
  *
- * Note: EPF(0-15) are mapped to MAC0, EPF(16-31) are mapped to MAC2.
+ * Note: EPF(0..7) are mapped to MAC0, EPF(8..15) are mapped to MAC2.
  */
 union cavm_sdpx_epfx_rmt_msix_vecx_addr
 {
@@ -2102,25 +2102,25 @@ static inline uint64_t CAVM_SDPX_EPFX_RMT_MSIX_VECX_ADDR(uint64_t a, uint64_t b,
 static inline uint64_t CAVM_SDPX_EPFX_RMT_MSIX_VECX_ADDR(uint64_t a, uint64_t b, uint64_t c)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15) && (c<=95)))
-        return 0x86e080000000ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0xf) + 0x10ll * ((c) & 0x7f);
+        return 0xc01800000000ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf) + 0x10ll * ((c) & 0x7f);
     __cavm_csr_fatal("SDPX_EPFX_RMT_MSIX_VECX_ADDR", 3, a, b, c, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_EPFX_RMT_MSIX_VECX_ADDR(a,b,c) cavm_sdpx_epfx_rmt_msix_vecx_addr_t
-#define bustype_CAVM_SDPX_EPFX_RMT_MSIX_VECX_ADDR(a,b,c) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_EPFX_RMT_MSIX_VECX_ADDR(a,b,c) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_EPFX_RMT_MSIX_VECX_ADDR(a,b,c) "SDPX_EPFX_RMT_MSIX_VECX_ADDR"
 #define device_bar_CAVM_SDPX_EPFX_RMT_MSIX_VECX_ADDR(a,b,c) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_EPFX_RMT_MSIX_VECX_ADDR(a,b,c) (a)
 #define arguments_CAVM_SDPX_EPFX_RMT_MSIX_VECX_ADDR(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_rmt_msix_vec#_ctl
+ * Register (ARF) sdp#_epf#_rmt_msix_vec#_ctl
  *
  * SDP Remote MSI-X Table Entry Data Register
  * This register is the MSI-X vector table for remote hosts (when CNXXXX is an
  * endpoint), and is indexed by the SDP_RMT_INT_VEC_E enumeration.
  *
- * Note: EPF(0-15) are mapped to MAC0, EPF(16-31) are mapped to MAC2.
+ * Note: EPF(0..7) are mapped to MAC0, EPF(8..15) are mapped to MAC2.
  */
 union cavm_sdpx_epfx_rmt_msix_vecx_ctl
 {
@@ -2153,19 +2153,19 @@ static inline uint64_t CAVM_SDPX_EPFX_RMT_MSIX_VECX_CTL(uint64_t a, uint64_t b, 
 static inline uint64_t CAVM_SDPX_EPFX_RMT_MSIX_VECX_CTL(uint64_t a, uint64_t b, uint64_t c)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15) && (c<=95)))
-        return 0x86e080000008ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0xf) + 0x10ll * ((c) & 0x7f);
+        return 0xc01800000008ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf) + 0x10ll * ((c) & 0x7f);
     __cavm_csr_fatal("SDPX_EPFX_RMT_MSIX_VECX_CTL", 3, a, b, c, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_EPFX_RMT_MSIX_VECX_CTL(a,b,c) cavm_sdpx_epfx_rmt_msix_vecx_ctl_t
-#define bustype_CAVM_SDPX_EPFX_RMT_MSIX_VECX_CTL(a,b,c) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_EPFX_RMT_MSIX_VECX_CTL(a,b,c) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_EPFX_RMT_MSIX_VECX_CTL(a,b,c) "SDPX_EPFX_RMT_MSIX_VECX_CTL"
 #define device_bar_CAVM_SDPX_EPFX_RMT_MSIX_VECX_CTL(a,b,c) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_EPFX_RMT_MSIX_VECX_CTL(a,b,c) (a)
 #define arguments_CAVM_SDPX_EPFX_RMT_MSIX_VECX_CTL(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_scratch
+ * Register (ARF) sdp#_epf#_scratch
  *
  * SDP Scratch Register
  * These registers are general purpose 64-bit scratch registers for software use.
@@ -2189,19 +2189,19 @@ static inline uint64_t CAVM_SDPX_EPFX_SCRATCH(uint64_t a, uint64_t b) __attribut
 static inline uint64_t CAVM_SDPX_EPFX_SCRATCH(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
-        return 0x86e0800209e0ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0xf);
+        return 0xc018100007e0ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_SCRATCH", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_EPFX_SCRATCH(a,b) cavm_sdpx_epfx_scratch_t
-#define bustype_CAVM_SDPX_EPFX_SCRATCH(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_EPFX_SCRATCH(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_EPFX_SCRATCH(a,b) "SDPX_EPFX_SCRATCH"
 #define device_bar_CAVM_SDPX_EPFX_SCRATCH(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_EPFX_SCRATCH(a,b) (a)
 #define arguments_CAVM_SDPX_EPFX_SCRATCH(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_vfire_rint
+ * Register (ARF) sdp#_epf#_vfire_rint
  *
  * SDP Input Error Status Register
  * This register indicates if an error has been detected on an input VF ring.
@@ -2210,7 +2210,7 @@ static inline uint64_t CAVM_SDPX_EPFX_SCRATCH(uint64_t a, uint64_t b)
  * The given register associated with an EPF will be reset due to a PF FLR or MAC Reset.
  * These registers are not affected by VF FLR.
  *
- * Note: EPF(0..15) are mapped to MAC0, EPF(16..31) are mapped to MAC2.
+ * Note: EPF(0..7) are mapped to MAC0, EPF(8..15) are mapped to MAC2.
  */
 union cavm_sdpx_epfx_vfire_rint
 {
@@ -2231,19 +2231,19 @@ static inline uint64_t CAVM_SDPX_EPFX_VFIRE_RINT(uint64_t a, uint64_t b) __attri
 static inline uint64_t CAVM_SDPX_EPFX_VFIRE_RINT(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
-        return 0x86e080020180ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0xf);
+        return 0xc01810000080ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_VFIRE_RINT", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_EPFX_VFIRE_RINT(a,b) cavm_sdpx_epfx_vfire_rint_t
-#define bustype_CAVM_SDPX_EPFX_VFIRE_RINT(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_EPFX_VFIRE_RINT(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_EPFX_VFIRE_RINT(a,b) "SDPX_EPFX_VFIRE_RINT"
 #define device_bar_CAVM_SDPX_EPFX_VFIRE_RINT(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_EPFX_VFIRE_RINT(a,b) (a)
 #define arguments_CAVM_SDPX_EPFX_VFIRE_RINT(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_vfire_rint_ena_w1c
+ * Register (ARF) sdp#_epf#_vfire_rint_ena_w1c
  *
  * SDP Input Error Enable Clear Register
  * This register clears interrupt enable bits.
@@ -2267,19 +2267,19 @@ static inline uint64_t CAVM_SDPX_EPFX_VFIRE_RINT_ENA_W1C(uint64_t a, uint64_t b)
 static inline uint64_t CAVM_SDPX_EPFX_VFIRE_RINT_ENA_W1C(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
-        return 0x86e0800201c0ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0xf);
+        return 0xc018100000a0ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_VFIRE_RINT_ENA_W1C", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_EPFX_VFIRE_RINT_ENA_W1C(a,b) cavm_sdpx_epfx_vfire_rint_ena_w1c_t
-#define bustype_CAVM_SDPX_EPFX_VFIRE_RINT_ENA_W1C(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_EPFX_VFIRE_RINT_ENA_W1C(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_EPFX_VFIRE_RINT_ENA_W1C(a,b) "SDPX_EPFX_VFIRE_RINT_ENA_W1C"
 #define device_bar_CAVM_SDPX_EPFX_VFIRE_RINT_ENA_W1C(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_EPFX_VFIRE_RINT_ENA_W1C(a,b) (a)
 #define arguments_CAVM_SDPX_EPFX_VFIRE_RINT_ENA_W1C(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_vfire_rint_ena_w1s
+ * Register (ARF) sdp#_epf#_vfire_rint_ena_w1s
  *
  * SDP Input Error Enable Set Register
  * This register sets interrupt enable bits.
@@ -2303,19 +2303,19 @@ static inline uint64_t CAVM_SDPX_EPFX_VFIRE_RINT_ENA_W1S(uint64_t a, uint64_t b)
 static inline uint64_t CAVM_SDPX_EPFX_VFIRE_RINT_ENA_W1S(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
-        return 0x86e0800201e0ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0xf);
+        return 0xc018100000b0ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_VFIRE_RINT_ENA_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_EPFX_VFIRE_RINT_ENA_W1S(a,b) cavm_sdpx_epfx_vfire_rint_ena_w1s_t
-#define bustype_CAVM_SDPX_EPFX_VFIRE_RINT_ENA_W1S(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_EPFX_VFIRE_RINT_ENA_W1S(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_EPFX_VFIRE_RINT_ENA_W1S(a,b) "SDPX_EPFX_VFIRE_RINT_ENA_W1S"
 #define device_bar_CAVM_SDPX_EPFX_VFIRE_RINT_ENA_W1S(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_EPFX_VFIRE_RINT_ENA_W1S(a,b) (a)
 #define arguments_CAVM_SDPX_EPFX_VFIRE_RINT_ENA_W1S(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_vfire_rint_w1s
+ * Register (ARF) sdp#_epf#_vfire_rint_w1s
  *
  * SDP Input Error Status Set Register
  * This register sets interrupt bits.
@@ -2339,19 +2339,19 @@ static inline uint64_t CAVM_SDPX_EPFX_VFIRE_RINT_W1S(uint64_t a, uint64_t b) __a
 static inline uint64_t CAVM_SDPX_EPFX_VFIRE_RINT_W1S(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
-        return 0x86e0800201a0ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0xf);
+        return 0xc01810000090ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_VFIRE_RINT_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_EPFX_VFIRE_RINT_W1S(a,b) cavm_sdpx_epfx_vfire_rint_w1s_t
-#define bustype_CAVM_SDPX_EPFX_VFIRE_RINT_W1S(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_EPFX_VFIRE_RINT_W1S(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_EPFX_VFIRE_RINT_W1S(a,b) "SDPX_EPFX_VFIRE_RINT_W1S"
 #define device_bar_CAVM_SDPX_EPFX_VFIRE_RINT_W1S(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_EPFX_VFIRE_RINT_W1S(a,b) (a)
 #define arguments_CAVM_SDPX_EPFX_VFIRE_RINT_W1S(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_vfore_rint
+ * Register (ARF) sdp#_epf#_vfore_rint
  *
  * SDP Output Error Status Register
  * This register indicates if an error has been detected on an output VF ring.
@@ -2360,7 +2360,7 @@ static inline uint64_t CAVM_SDPX_EPFX_VFIRE_RINT_W1S(uint64_t a, uint64_t b)
  * The given register associated with an EPF will be reset due to a PF FLR or MAC Reset.
  * These registers are not affected by VF FLR.
  *
- * Note: EPF(0..15) are mapped to MAC0, EPF(16..31) are mapped to MAC2.
+ * Note: EPF(0..7) are mapped to MAC0, EPF(8..15) are mapped to MAC2.
  */
 union cavm_sdpx_epfx_vfore_rint
 {
@@ -2381,19 +2381,19 @@ static inline uint64_t CAVM_SDPX_EPFX_VFORE_RINT(uint64_t a, uint64_t b) __attri
 static inline uint64_t CAVM_SDPX_EPFX_VFORE_RINT(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
-        return 0x86e080020240ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0xf);
+        return 0xc01810000100ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_VFORE_RINT", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_EPFX_VFORE_RINT(a,b) cavm_sdpx_epfx_vfore_rint_t
-#define bustype_CAVM_SDPX_EPFX_VFORE_RINT(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_EPFX_VFORE_RINT(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_EPFX_VFORE_RINT(a,b) "SDPX_EPFX_VFORE_RINT"
 #define device_bar_CAVM_SDPX_EPFX_VFORE_RINT(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_EPFX_VFORE_RINT(a,b) (a)
 #define arguments_CAVM_SDPX_EPFX_VFORE_RINT(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_vfore_rint_ena_w1c
+ * Register (ARF) sdp#_epf#_vfore_rint_ena_w1c
  *
  * SDP Output Error Enable Clear Register
  * This register clears interrupt enable bits.
@@ -2417,19 +2417,19 @@ static inline uint64_t CAVM_SDPX_EPFX_VFORE_RINT_ENA_W1C(uint64_t a, uint64_t b)
 static inline uint64_t CAVM_SDPX_EPFX_VFORE_RINT_ENA_W1C(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
-        return 0x86e080020280ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0xf);
+        return 0xc01810000120ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_VFORE_RINT_ENA_W1C", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_EPFX_VFORE_RINT_ENA_W1C(a,b) cavm_sdpx_epfx_vfore_rint_ena_w1c_t
-#define bustype_CAVM_SDPX_EPFX_VFORE_RINT_ENA_W1C(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_EPFX_VFORE_RINT_ENA_W1C(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_EPFX_VFORE_RINT_ENA_W1C(a,b) "SDPX_EPFX_VFORE_RINT_ENA_W1C"
 #define device_bar_CAVM_SDPX_EPFX_VFORE_RINT_ENA_W1C(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_EPFX_VFORE_RINT_ENA_W1C(a,b) (a)
 #define arguments_CAVM_SDPX_EPFX_VFORE_RINT_ENA_W1C(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_vfore_rint_ena_w1s
+ * Register (ARF) sdp#_epf#_vfore_rint_ena_w1s
  *
  * SDP Output Error Enable Set Register
  * This register sets interrupt enable bits.
@@ -2453,19 +2453,19 @@ static inline uint64_t CAVM_SDPX_EPFX_VFORE_RINT_ENA_W1S(uint64_t a, uint64_t b)
 static inline uint64_t CAVM_SDPX_EPFX_VFORE_RINT_ENA_W1S(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
-        return 0x86e0800202a0ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0xf);
+        return 0xc01810000130ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_VFORE_RINT_ENA_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_EPFX_VFORE_RINT_ENA_W1S(a,b) cavm_sdpx_epfx_vfore_rint_ena_w1s_t
-#define bustype_CAVM_SDPX_EPFX_VFORE_RINT_ENA_W1S(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_EPFX_VFORE_RINT_ENA_W1S(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_EPFX_VFORE_RINT_ENA_W1S(a,b) "SDPX_EPFX_VFORE_RINT_ENA_W1S"
 #define device_bar_CAVM_SDPX_EPFX_VFORE_RINT_ENA_W1S(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_EPFX_VFORE_RINT_ENA_W1S(a,b) (a)
 #define arguments_CAVM_SDPX_EPFX_VFORE_RINT_ENA_W1S(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_vfore_rint_w1s
+ * Register (ARF) sdp#_epf#_vfore_rint_w1s
  *
  * SDP Output Error Status Set Register
  * This register sets interrupt bits.
@@ -2489,19 +2489,19 @@ static inline uint64_t CAVM_SDPX_EPFX_VFORE_RINT_W1S(uint64_t a, uint64_t b) __a
 static inline uint64_t CAVM_SDPX_EPFX_VFORE_RINT_W1S(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
-        return 0x86e080020260ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0xf);
+        return 0xc01810000110ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_VFORE_RINT_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_EPFX_VFORE_RINT_W1S(a,b) cavm_sdpx_epfx_vfore_rint_w1s_t
-#define bustype_CAVM_SDPX_EPFX_VFORE_RINT_W1S(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_EPFX_VFORE_RINT_W1S(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_EPFX_VFORE_RINT_W1S(a,b) "SDPX_EPFX_VFORE_RINT_W1S"
 #define device_bar_CAVM_SDPX_EPFX_VFORE_RINT_W1S(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_EPFX_VFORE_RINT_W1S(a,b) (a)
 #define arguments_CAVM_SDPX_EPFX_VFORE_RINT_W1S(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epvf_ring#
+ * Register (ARF) sdp#_epvf_ring#
  *
  * SDP EPVF Ring Register
  * These registers provide the virtual function number for each ring (both input and
@@ -2539,19 +2539,19 @@ static inline uint64_t CAVM_SDPX_EPVF_RINGX(uint64_t a, uint64_t b) __attribute_
 static inline uint64_t CAVM_SDPX_EPVF_RINGX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
-        return 0x86e080026000ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
+        return 0xc01820000008ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_EPVF_RINGX", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_EPVF_RINGX(a,b) cavm_sdpx_epvf_ringx_t
-#define bustype_CAVM_SDPX_EPVF_RINGX(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_EPVF_RINGX(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_EPVF_RINGX(a,b) "SDPX_EPVF_RINGX"
 #define device_bar_CAVM_SDPX_EPVF_RINGX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_EPVF_RINGX(a,b) (a)
 #define arguments_CAVM_SDPX_EPVF_RINGX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) sdp#_flr_ring_lint#
+ * Register (ARF) sdp#_flr_ring_lint#
  *
  * SDP Function Level Reset VF Bit Array Registers
  * These registers are bit maps for the 128 rings in SDP and
@@ -2584,19 +2584,19 @@ static inline uint64_t CAVM_SDPX_FLR_RING_LINTX(uint64_t a, uint64_t b) __attrib
 static inline uint64_t CAVM_SDPX_FLR_RING_LINTX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=1)))
-        return 0x86e0c0081000ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
+        return 0xc01810081000ll + 0x100000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     __cavm_csr_fatal("SDPX_FLR_RING_LINTX", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_FLR_RING_LINTX(a,b) cavm_sdpx_flr_ring_lintx_t
-#define bustype_CAVM_SDPX_FLR_RING_LINTX(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_SDPX_FLR_RING_LINTX(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_FLR_RING_LINTX(a,b) "SDPX_FLR_RING_LINTX"
 #define device_bar_CAVM_SDPX_FLR_RING_LINTX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_FLR_RING_LINTX(a,b) (a)
 #define arguments_CAVM_SDPX_FLR_RING_LINTX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) sdp#_flr_ring_lint_ena_w1c#
+ * Register (ARF) sdp#_flr_ring_lint_ena_w1c#
  *
  * SDP Function Level Reset VF Bit Array Local Enable Clear Registers
  * This register clears interrupt enable bits.
@@ -2620,19 +2620,19 @@ static inline uint64_t CAVM_SDPX_FLR_RING_LINT_ENA_W1CX(uint64_t a, uint64_t b) 
 static inline uint64_t CAVM_SDPX_FLR_RING_LINT_ENA_W1CX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=1)))
-        return 0x86e0c0081200ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
+        return 0xc01810081200ll + 0x100000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     __cavm_csr_fatal("SDPX_FLR_RING_LINT_ENA_W1CX", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_FLR_RING_LINT_ENA_W1CX(a,b) cavm_sdpx_flr_ring_lint_ena_w1cx_t
-#define bustype_CAVM_SDPX_FLR_RING_LINT_ENA_W1CX(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_SDPX_FLR_RING_LINT_ENA_W1CX(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_FLR_RING_LINT_ENA_W1CX(a,b) "SDPX_FLR_RING_LINT_ENA_W1CX"
 #define device_bar_CAVM_SDPX_FLR_RING_LINT_ENA_W1CX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_FLR_RING_LINT_ENA_W1CX(a,b) (a)
 #define arguments_CAVM_SDPX_FLR_RING_LINT_ENA_W1CX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) sdp#_flr_ring_lint_ena_w1s#
+ * Register (ARF) sdp#_flr_ring_lint_ena_w1s#
  *
  * SDP Function Level Reset VF Bit Array Local Enable Set Registers
  * This register sets interrupt enable bits.
@@ -2656,19 +2656,19 @@ static inline uint64_t CAVM_SDPX_FLR_RING_LINT_ENA_W1SX(uint64_t a, uint64_t b) 
 static inline uint64_t CAVM_SDPX_FLR_RING_LINT_ENA_W1SX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=1)))
-        return 0x86e0c0081300ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
+        return 0xc01810081300ll + 0x100000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     __cavm_csr_fatal("SDPX_FLR_RING_LINT_ENA_W1SX", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_FLR_RING_LINT_ENA_W1SX(a,b) cavm_sdpx_flr_ring_lint_ena_w1sx_t
-#define bustype_CAVM_SDPX_FLR_RING_LINT_ENA_W1SX(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_SDPX_FLR_RING_LINT_ENA_W1SX(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_FLR_RING_LINT_ENA_W1SX(a,b) "SDPX_FLR_RING_LINT_ENA_W1SX"
 #define device_bar_CAVM_SDPX_FLR_RING_LINT_ENA_W1SX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_FLR_RING_LINT_ENA_W1SX(a,b) (a)
 #define arguments_CAVM_SDPX_FLR_RING_LINT_ENA_W1SX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) sdp#_flr_ring_lint_w1s#
+ * Register (ARF) sdp#_flr_ring_lint_w1s#
  *
  * SDP Function Level Reset VF Bit Array Set Registers
  * This register sets interrupt bits.
@@ -2692,19 +2692,19 @@ static inline uint64_t CAVM_SDPX_FLR_RING_LINT_W1SX(uint64_t a, uint64_t b) __at
 static inline uint64_t CAVM_SDPX_FLR_RING_LINT_W1SX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=1)))
-        return 0x86e0c0081100ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
+        return 0xc01810081100ll + 0x100000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     __cavm_csr_fatal("SDPX_FLR_RING_LINT_W1SX", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_FLR_RING_LINT_W1SX(a,b) cavm_sdpx_flr_ring_lint_w1sx_t
-#define bustype_CAVM_SDPX_FLR_RING_LINT_W1SX(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_SDPX_FLR_RING_LINT_W1SX(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_FLR_RING_LINT_W1SX(a,b) "SDPX_FLR_RING_LINT_W1SX"
 #define device_bar_CAVM_SDPX_FLR_RING_LINT_W1SX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_FLR_RING_LINT_W1SX(a,b) (a)
 #define arguments_CAVM_SDPX_FLR_RING_LINT_W1SX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) sdp#_gbl_control
+ * Register (ARF) sdp#_gbl_control
  *
  * SDP Global Control Register
  * Global control bits for SDP.
@@ -2748,19 +2748,19 @@ static inline uint64_t CAVM_SDPX_GBL_CONTROL(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_SDPX_GBL_CONTROL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
-        return 0x86e0c0080200ll + 0x1000000000ll * ((a) & 0x0);
+        return 0xc01810080200ll + 0x100000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SDPX_GBL_CONTROL", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_GBL_CONTROL(a) cavm_sdpx_gbl_control_t
-#define bustype_CAVM_SDPX_GBL_CONTROL(a) CSR_TYPE_NCB
+#define bustype_CAVM_SDPX_GBL_CONTROL(a) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_GBL_CONTROL(a) "SDPX_GBL_CONTROL"
 #define device_bar_CAVM_SDPX_GBL_CONTROL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_GBL_CONTROL(a) (a)
 #define arguments_CAVM_SDPX_GBL_CONTROL(a) (a),-1,-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_in_rate_limit#
+ * Register (ARF) sdp#_in_rate_limit#
  *
  * SDP Input Instruction Rate Limit Register
  * This register is the control for rate limiting input instruction rings.
@@ -2804,19 +2804,19 @@ static inline uint64_t CAVM_SDPX_IN_RATE_LIMITX(uint64_t a, uint64_t b) __attrib
 static inline uint64_t CAVM_SDPX_IN_RATE_LIMITX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
-        return 0x86e08002a000ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
+        return 0xc01820000028ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_IN_RATE_LIMITX", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_IN_RATE_LIMITX(a,b) cavm_sdpx_in_rate_limitx_t
-#define bustype_CAVM_SDPX_IN_RATE_LIMITX(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_IN_RATE_LIMITX(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_IN_RATE_LIMITX(a,b) "SDPX_IN_RATE_LIMITX"
 #define device_bar_CAVM_SDPX_IN_RATE_LIMITX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_IN_RATE_LIMITX(a,b) (a)
 #define arguments_CAVM_SDPX_IN_RATE_LIMITX(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_in_ring_tb_map#
+ * Register (ARF) sdp#_in_ring_tb_map#
  *
  * SDP Input Ring Token Bucket Map Register
  * This register maps rings to token buckets used in Packet Input Byte Rate Limiting.
@@ -2855,19 +2855,19 @@ static inline uint64_t CAVM_SDPX_IN_RING_TB_MAPX(uint64_t a, uint64_t b) __attri
 static inline uint64_t CAVM_SDPX_IN_RING_TB_MAPX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
-        return 0x86e080028000ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
+        return 0xc01820000018ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_IN_RING_TB_MAPX", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_IN_RING_TB_MAPX(a,b) cavm_sdpx_in_ring_tb_mapx_t
-#define bustype_CAVM_SDPX_IN_RING_TB_MAPX(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_IN_RING_TB_MAPX(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_IN_RING_TB_MAPX(a,b) "SDPX_IN_RING_TB_MAPX"
 #define device_bar_CAVM_SDPX_IN_RING_TB_MAPX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_IN_RING_TB_MAPX(a,b) (a)
 #define arguments_CAVM_SDPX_IN_RING_TB_MAPX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) sdp#_link_cfg
+ * Register (ARF) sdp#_link_cfg
  *
  * Programmable SDP ID Mask Register
  * Use as a mask for SDP block id check.
@@ -2903,19 +2903,19 @@ static inline uint64_t CAVM_SDPX_LINK_CFG(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_SDPX_LINK_CFG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
-        return 0x86e0c0080180ll + 0x1000000000ll * ((a) & 0x0);
+        return 0xc01810080180ll + 0x100000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SDPX_LINK_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_LINK_CFG(a) cavm_sdpx_link_cfg_t
-#define bustype_CAVM_SDPX_LINK_CFG(a) CSR_TYPE_NCB
+#define bustype_CAVM_SDPX_LINK_CFG(a) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_LINK_CFG(a) "SDPX_LINK_CFG"
 #define device_bar_CAVM_SDPX_LINK_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_LINK_CFG(a) (a)
 #define arguments_CAVM_SDPX_LINK_CFG(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) sdp#_lmac_const0#
+ * Register (ARF) sdp#_lmac_const0#
  *
  * SDP Logical MAC Capabilities Register 0
  * These registers along with SDP()_LMAC_CONST1() create a table of logical MAC
@@ -2978,19 +2978,19 @@ static inline uint64_t CAVM_SDPX_LMAC_CONST0X(uint64_t a, uint64_t b) __attribut
 static inline uint64_t CAVM_SDPX_LMAC_CONST0X(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=4)))
-        return 0x86e0c0050000ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7);
+        return 0xc01810050000ll + 0x100000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7);
     __cavm_csr_fatal("SDPX_LMAC_CONST0X", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_LMAC_CONST0X(a,b) cavm_sdpx_lmac_const0x_t
-#define bustype_CAVM_SDPX_LMAC_CONST0X(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_SDPX_LMAC_CONST0X(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_LMAC_CONST0X(a,b) "SDPX_LMAC_CONST0X"
 #define device_bar_CAVM_SDPX_LMAC_CONST0X(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_LMAC_CONST0X(a,b) (a)
 #define arguments_CAVM_SDPX_LMAC_CONST0X(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) sdp#_lmac_const1#
+ * Register (ARF) sdp#_lmac_const1#
  *
  * SDP Logical MAC Capabilities Register 1
  * See SDP()_LMAC_CONST0().
@@ -3060,19 +3060,19 @@ static inline uint64_t CAVM_SDPX_LMAC_CONST1X(uint64_t a, uint64_t b) __attribut
 static inline uint64_t CAVM_SDPX_LMAC_CONST1X(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=4)))
-        return 0x86e0c0051000ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7);
+        return 0xc01810051000ll + 0x100000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7);
     __cavm_csr_fatal("SDPX_LMAC_CONST1X", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_LMAC_CONST1X(a,b) cavm_sdpx_lmac_const1x_t
-#define bustype_CAVM_SDPX_LMAC_CONST1X(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_SDPX_LMAC_CONST1X(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_LMAC_CONST1X(a,b) "SDPX_LMAC_CONST1X"
 #define device_bar_CAVM_SDPX_LMAC_CONST1X(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_LMAC_CONST1X(a,b) (a)
 #define arguments_CAVM_SDPX_LMAC_CONST1X(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_mac#_pf_ring_ctl
+ * Register (ARF) sdp#_mac#_pf_ring_ctl
  *
  * SDP PF Ring Control Register
  * This register sets up the PF rings on each MAC including the starting rings numbers
@@ -3112,19 +3112,19 @@ static inline uint64_t CAVM_SDPX_MACX_PF_RING_CTL(uint64_t a, uint64_t b) __attr
 static inline uint64_t CAVM_SDPX_MACX_PF_RING_CTL(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=3)))
-        return 0x86e08002c000ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3);
+        return 0xc0181000c000ll + 0x100000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3);
     __cavm_csr_fatal("SDPX_MACX_PF_RING_CTL", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_MACX_PF_RING_CTL(a,b) cavm_sdpx_macx_pf_ring_ctl_t
-#define bustype_CAVM_SDPX_MACX_PF_RING_CTL(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_MACX_PF_RING_CTL(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_MACX_PF_RING_CTL(a,b) "SDPX_MACX_PF_RING_CTL"
 #define device_bar_CAVM_SDPX_MACX_PF_RING_CTL(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_MACX_PF_RING_CTL(a,b) (a)
 #define arguments_CAVM_SDPX_MACX_PF_RING_CTL(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_mac_number
+ * Register (ARF) sdp#_mac_number
  *
  * SDP MAC Number Register
  * When read from a MAC, this register returns the MAC's port number, otherwise returns zero.
@@ -3158,19 +3158,19 @@ static inline uint64_t CAVM_SDPX_MAC_NUMBER(uint64_t a) __attribute__ ((pure, al
 static inline uint64_t CAVM_SDPX_MAC_NUMBER(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
-        return 0x86e08002c100ll + 0x1000000000ll * ((a) & 0x0);
+        return 0xc0181000c100ll + 0x100000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SDPX_MAC_NUMBER", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_MAC_NUMBER(a) cavm_sdpx_mac_number_t
-#define bustype_CAVM_SDPX_MAC_NUMBER(a) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_MAC_NUMBER(a) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_MAC_NUMBER(a) "SDPX_MAC_NUMBER"
 #define device_bar_CAVM_SDPX_MAC_NUMBER(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_MAC_NUMBER(a) (a)
 #define arguments_CAVM_SDPX_MAC_NUMBER(a) (a),-1,-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_mbox_pf_vf_data#
+ * Register (ARF) sdp#_mbox_pf_vf_data#
  *
  * SDP PF to VF Mailbox Data Registers
  * These registers are used for communication of data from the PF to VF.
@@ -3205,19 +3205,19 @@ static inline uint64_t CAVM_SDPX_MBOX_PF_VF_DATAX(uint64_t a, uint64_t b) __attr
 static inline uint64_t CAVM_SDPX_MBOX_PF_VF_DATAX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
-        return 0x86e080022000ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
+        return 0xc01810002000ll + 0x100000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_MBOX_PF_VF_DATAX", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_MBOX_PF_VF_DATAX(a,b) cavm_sdpx_mbox_pf_vf_datax_t
-#define bustype_CAVM_SDPX_MBOX_PF_VF_DATAX(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_MBOX_PF_VF_DATAX(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_MBOX_PF_VF_DATAX(a,b) "SDPX_MBOX_PF_VF_DATAX"
 #define device_bar_CAVM_SDPX_MBOX_PF_VF_DATAX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_MBOX_PF_VF_DATAX(a,b) (a)
 #define arguments_CAVM_SDPX_MBOX_PF_VF_DATAX(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_mbox_vf_pf_data#
+ * Register (ARF) sdp#_mbox_vf_pf_data#
  *
  * SDP PF to VF Mailbox Data Registers
  * These registers are used for communication of data from the VF to PF.
@@ -3248,19 +3248,19 @@ static inline uint64_t CAVM_SDPX_MBOX_VF_PF_DATAX(uint64_t a, uint64_t b) __attr
 static inline uint64_t CAVM_SDPX_MBOX_VF_PF_DATAX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
-        return 0x86e080024000ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
+        return 0xc01810004000ll + 0x100000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_MBOX_VF_PF_DATAX", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_MBOX_VF_PF_DATAX(a,b) cavm_sdpx_mbox_vf_pf_datax_t
-#define bustype_CAVM_SDPX_MBOX_VF_PF_DATAX(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_MBOX_VF_PF_DATAX(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_MBOX_VF_PF_DATAX(a,b) "SDPX_MBOX_VF_PF_DATAX"
 #define device_bar_CAVM_SDPX_MBOX_VF_PF_DATAX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_MBOX_VF_PF_DATAX(a,b) (a)
 #define arguments_CAVM_SDPX_MBOX_VF_PF_DATAX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) sdp#_mcast_table#
+ * Register (ARF) sdp#_mcast_table#
  *
  * SDP Output Multicast Table Register
  * Implements SDP Multicast Table consisting of a chain of rings and next pointers
@@ -3293,19 +3293,19 @@ static inline uint64_t CAVM_SDPX_MCAST_TABLEX(uint64_t a, uint64_t b) __attribut
 static inline uint64_t CAVM_SDPX_MCAST_TABLEX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=2047)))
-        return 0x86e0c0040000ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7ff);
+        return 0xc01810040000ll + 0x100000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7ff);
     __cavm_csr_fatal("SDPX_MCAST_TABLEX", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_MCAST_TABLEX(a,b) cavm_sdpx_mcast_tablex_t
-#define bustype_CAVM_SDPX_MCAST_TABLEX(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_SDPX_MCAST_TABLEX(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_MCAST_TABLEX(a,b) "SDPX_MCAST_TABLEX"
 #define device_bar_CAVM_SDPX_MCAST_TABLEX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_MCAST_TABLEX(a,b) (a)
 #define arguments_CAVM_SDPX_MCAST_TABLEX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) sdp#_ord_lint#
+ * Register (ARF) sdp#_ord_lint#
  *
  * SDP Output Drop Status Register
  * This register indicates if an output ring has transitioned from no drop state to
@@ -3334,19 +3334,19 @@ static inline uint64_t CAVM_SDPX_ORD_LINTX(uint64_t a, uint64_t b) __attribute__
 static inline uint64_t CAVM_SDPX_ORD_LINTX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=1)))
-        return 0x86e0c0080c00ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
+        return 0xc01810080c00ll + 0x100000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     __cavm_csr_fatal("SDPX_ORD_LINTX", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_ORD_LINTX(a,b) cavm_sdpx_ord_lintx_t
-#define bustype_CAVM_SDPX_ORD_LINTX(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_SDPX_ORD_LINTX(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_ORD_LINTX(a,b) "SDPX_ORD_LINTX"
 #define device_bar_CAVM_SDPX_ORD_LINTX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_ORD_LINTX(a,b) (a)
 #define arguments_CAVM_SDPX_ORD_LINTX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) sdp#_ord_lint_ena_w1c#
+ * Register (ARF) sdp#_ord_lint_ena_w1c#
  *
  * SDP Output Drop Enable Clear Register
  * This register clears interrupt enable bits.
@@ -3370,19 +3370,19 @@ static inline uint64_t CAVM_SDPX_ORD_LINT_ENA_W1CX(uint64_t a, uint64_t b) __att
 static inline uint64_t CAVM_SDPX_ORD_LINT_ENA_W1CX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=1)))
-        return 0x86e0c0080e00ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
+        return 0xc01810080e00ll + 0x100000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     __cavm_csr_fatal("SDPX_ORD_LINT_ENA_W1CX", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_ORD_LINT_ENA_W1CX(a,b) cavm_sdpx_ord_lint_ena_w1cx_t
-#define bustype_CAVM_SDPX_ORD_LINT_ENA_W1CX(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_SDPX_ORD_LINT_ENA_W1CX(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_ORD_LINT_ENA_W1CX(a,b) "SDPX_ORD_LINT_ENA_W1CX"
 #define device_bar_CAVM_SDPX_ORD_LINT_ENA_W1CX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_ORD_LINT_ENA_W1CX(a,b) (a)
 #define arguments_CAVM_SDPX_ORD_LINT_ENA_W1CX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) sdp#_ord_lint_ena_w1s#
+ * Register (ARF) sdp#_ord_lint_ena_w1s#
  *
  * SDP Output Drop Enable Set Register
  * This register sets interrupt enable bits.
@@ -3406,19 +3406,19 @@ static inline uint64_t CAVM_SDPX_ORD_LINT_ENA_W1SX(uint64_t a, uint64_t b) __att
 static inline uint64_t CAVM_SDPX_ORD_LINT_ENA_W1SX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=1)))
-        return 0x86e0c0080f00ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
+        return 0xc01810080f00ll + 0x100000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     __cavm_csr_fatal("SDPX_ORD_LINT_ENA_W1SX", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_ORD_LINT_ENA_W1SX(a,b) cavm_sdpx_ord_lint_ena_w1sx_t
-#define bustype_CAVM_SDPX_ORD_LINT_ENA_W1SX(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_SDPX_ORD_LINT_ENA_W1SX(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_ORD_LINT_ENA_W1SX(a,b) "SDPX_ORD_LINT_ENA_W1SX"
 #define device_bar_CAVM_SDPX_ORD_LINT_ENA_W1SX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_ORD_LINT_ENA_W1SX(a,b) (a)
 #define arguments_CAVM_SDPX_ORD_LINT_ENA_W1SX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) sdp#_ord_lint_w1s#
+ * Register (ARF) sdp#_ord_lint_w1s#
  *
  * SDP Output Drop Status Set Register
  * This register sets interrupt bits.
@@ -3442,19 +3442,19 @@ static inline uint64_t CAVM_SDPX_ORD_LINT_W1SX(uint64_t a, uint64_t b) __attribu
 static inline uint64_t CAVM_SDPX_ORD_LINT_W1SX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=1)))
-        return 0x86e0c0080d00ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
+        return 0xc01810080d00ll + 0x100000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     __cavm_csr_fatal("SDPX_ORD_LINT_W1SX", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_ORD_LINT_W1SX(a,b) cavm_sdpx_ord_lint_w1sx_t
-#define bustype_CAVM_SDPX_ORD_LINT_W1SX(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_SDPX_ORD_LINT_W1SX(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_ORD_LINT_W1SX(a,b) "SDPX_ORD_LINT_W1SX"
 #define device_bar_CAVM_SDPX_ORD_LINT_W1SX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_ORD_LINT_W1SX(a,b) (a)
 #define arguments_CAVM_SDPX_ORD_LINT_W1SX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) sdp#_out_bp_en#_w1c
+ * Register (ARF) sdp#_out_bp_en#_w1c
  *
  * SDP Packet Output Backpressure W1C Register
  * This register enables sending backpressure to NIX TX.
@@ -3486,19 +3486,19 @@ static inline uint64_t CAVM_SDPX_OUT_BP_ENX_W1C(uint64_t a, uint64_t b) __attrib
 static inline uint64_t CAVM_SDPX_OUT_BP_ENX_W1C(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=1)))
-        return 0x86e0c0080240ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
+        return 0xc01810080240ll + 0x100000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     __cavm_csr_fatal("SDPX_OUT_BP_ENX_W1C", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_OUT_BP_ENX_W1C(a,b) cavm_sdpx_out_bp_enx_w1c_t
-#define bustype_CAVM_SDPX_OUT_BP_ENX_W1C(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_SDPX_OUT_BP_ENX_W1C(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_OUT_BP_ENX_W1C(a,b) "SDPX_OUT_BP_ENX_W1C"
 #define device_bar_CAVM_SDPX_OUT_BP_ENX_W1C(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_OUT_BP_ENX_W1C(a,b) (a)
 #define arguments_CAVM_SDPX_OUT_BP_ENX_W1C(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) sdp#_out_bp_en#_w1s
+ * Register (ARF) sdp#_out_bp_en#_w1s
  *
  * SDP Packet Output Backpressure W1S Register
  * This register reads or sets bits.
@@ -3522,19 +3522,19 @@ static inline uint64_t CAVM_SDPX_OUT_BP_ENX_W1S(uint64_t a, uint64_t b) __attrib
 static inline uint64_t CAVM_SDPX_OUT_BP_ENX_W1S(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=1)))
-        return 0x86e0c0080280ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
+        return 0xc01810080280ll + 0x100000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     __cavm_csr_fatal("SDPX_OUT_BP_ENX_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_OUT_BP_ENX_W1S(a,b) cavm_sdpx_out_bp_enx_w1s_t
-#define bustype_CAVM_SDPX_OUT_BP_ENX_W1S(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_SDPX_OUT_BP_ENX_W1S(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_OUT_BP_ENX_W1S(a,b) "SDPX_OUT_BP_ENX_W1S"
 #define device_bar_CAVM_SDPX_OUT_BP_ENX_W1S(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_OUT_BP_ENX_W1S(a,b) (a)
 #define arguments_CAVM_SDPX_OUT_BP_ENX_W1S(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) sdp#_out_bp_timer#
+ * Register (ARF) sdp#_out_bp_timer#
  *
  * SDP Output Packet Backpressure Timer Register
  * These registers hold timers that increment every 1024 cycles when a SDP out packet ring
@@ -3570,19 +3570,19 @@ static inline uint64_t CAVM_SDPX_OUT_BP_TIMERX(uint64_t a, uint64_t b) __attribu
 static inline uint64_t CAVM_SDPX_OUT_BP_TIMERX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
-        return 0x86e0c0061000ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7f);
+        return 0xc01810061000ll + 0x100000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_OUT_BP_TIMERX", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_OUT_BP_TIMERX(a,b) cavm_sdpx_out_bp_timerx_t
-#define bustype_CAVM_SDPX_OUT_BP_TIMERX(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_SDPX_OUT_BP_TIMERX(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_OUT_BP_TIMERX(a,b) "SDPX_OUT_BP_TIMERX"
 #define device_bar_CAVM_SDPX_OUT_BP_TIMERX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_OUT_BP_TIMERX(a,b) (a)
 #define arguments_CAVM_SDPX_OUT_BP_TIMERX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) sdp#_out_bp_timer_ctl
+ * Register (ARF) sdp#_out_bp_timer_ctl
  *
  * SDP Output Packet Backpressure Timer Control Register
  * This register defines a timer limit to detect bad SDP output rings.
@@ -3620,19 +3620,19 @@ static inline uint64_t CAVM_SDPX_OUT_BP_TIMER_CTL(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_SDPX_OUT_BP_TIMER_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
-        return 0x86e0c0060010ll + 0x1000000000ll * ((a) & 0x0);
+        return 0xc01810060010ll + 0x100000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SDPX_OUT_BP_TIMER_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_OUT_BP_TIMER_CTL(a) cavm_sdpx_out_bp_timer_ctl_t
-#define bustype_CAVM_SDPX_OUT_BP_TIMER_CTL(a) CSR_TYPE_NCB
+#define bustype_CAVM_SDPX_OUT_BP_TIMER_CTL(a) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_OUT_BP_TIMER_CTL(a) "SDPX_OUT_BP_TIMER_CTL"
 #define device_bar_CAVM_SDPX_OUT_BP_TIMER_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_OUT_BP_TIMER_CTL(a) (a)
 #define arguments_CAVM_SDPX_OUT_BP_TIMER_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) sdp#_out_drop_state#
+ * Register (ARF) sdp#_out_drop_state#
  *
  * SDP Output Packet Drop State Register
  * These registers holds the SDP Output ring drop state bitwise vectors for all SDP Output
@@ -3676,19 +3676,19 @@ static inline uint64_t CAVM_SDPX_OUT_DROP_STATEX(uint64_t a, uint64_t b) __attri
 static inline uint64_t CAVM_SDPX_OUT_DROP_STATEX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=1)))
-        return 0x86e0c0060020ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
+        return 0xc01810060020ll + 0x100000000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("SDPX_OUT_DROP_STATEX", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_OUT_DROP_STATEX(a,b) cavm_sdpx_out_drop_statex_t
-#define bustype_CAVM_SDPX_OUT_DROP_STATEX(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_SDPX_OUT_DROP_STATEX(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_OUT_DROP_STATEX(a,b) "SDPX_OUT_DROP_STATEX"
 #define device_bar_CAVM_SDPX_OUT_DROP_STATEX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_OUT_DROP_STATEX(a,b) (a)
 #define arguments_CAVM_SDPX_OUT_DROP_STATEX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) sdp#_out_mcast_ctl
+ * Register (ARF) sdp#_out_mcast_ctl
  *
  * SDP Output Packet Mcast Control Register
  * This register contain control and state for MCAST packets.
@@ -3720,19 +3720,19 @@ static inline uint64_t CAVM_SDPX_OUT_MCAST_CTL(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_SDPX_OUT_MCAST_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
-        return 0x86e0c0060200ll + 0x1000000000ll * ((a) & 0x0);
+        return 0xc01810060200ll + 0x100000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SDPX_OUT_MCAST_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_OUT_MCAST_CTL(a) cavm_sdpx_out_mcast_ctl_t
-#define bustype_CAVM_SDPX_OUT_MCAST_CTL(a) CSR_TYPE_NCB
+#define bustype_CAVM_SDPX_OUT_MCAST_CTL(a) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_OUT_MCAST_CTL(a) "SDPX_OUT_MCAST_CTL"
 #define device_bar_CAVM_SDPX_OUT_MCAST_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_OUT_MCAST_CTL(a) (a)
 #define arguments_CAVM_SDPX_OUT_MCAST_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) sdp#_pf_msix_pba#
+ * Register (ARF) sdp#_pf_msix_pba#
  *
  * SDP MSI-X Pending Bit Array Registers
  * This register is the MSI-X PBA table; the bit number is indexed by the SDP_PF_INT_VEC_E
@@ -3759,19 +3759,19 @@ static inline uint64_t CAVM_SDPX_PF_MSIX_PBAX(uint64_t a, uint64_t b) __attribut
 static inline uint64_t CAVM_SDPX_PF_MSIX_PBAX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b==0)))
-        return 0x86e1000f0000ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x0);
+        return 0xc018800f0000ll + 0x100000000ll * ((a) & 0x0) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("SDPX_PF_MSIX_PBAX", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_PF_MSIX_PBAX(a,b) cavm_sdpx_pf_msix_pbax_t
-#define bustype_CAVM_SDPX_PF_MSIX_PBAX(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_SDPX_PF_MSIX_PBAX(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_PF_MSIX_PBAX(a,b) "SDPX_PF_MSIX_PBAX"
 #define device_bar_CAVM_SDPX_PF_MSIX_PBAX(a,b) 0x4 /* PF_BAR4 */
 #define busnum_CAVM_SDPX_PF_MSIX_PBAX(a,b) (a)
 #define arguments_CAVM_SDPX_PF_MSIX_PBAX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) sdp#_pf_msix_vec#_addr
+ * Register (ARF) sdp#_pf_msix_vec#_addr
  *
  * SDP MSI-X Vector-Table Address Register
  * This register is the MSI-X vector table, indexed by the SDP_PF_INT_VEC_E enumeration.
@@ -3845,19 +3845,19 @@ static inline uint64_t CAVM_SDPX_PF_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __att
 static inline uint64_t CAVM_SDPX_PF_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=3)))
-        return 0x86e100000000ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3);
+        return 0xc01880000000ll + 0x100000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3);
     __cavm_csr_fatal("SDPX_PF_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_PF_MSIX_VECX_ADDR(a,b) cavm_sdpx_pf_msix_vecx_addr_t
-#define bustype_CAVM_SDPX_PF_MSIX_VECX_ADDR(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_SDPX_PF_MSIX_VECX_ADDR(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_PF_MSIX_VECX_ADDR(a,b) "SDPX_PF_MSIX_VECX_ADDR"
 #define device_bar_CAVM_SDPX_PF_MSIX_VECX_ADDR(a,b) 0x4 /* PF_BAR4 */
 #define busnum_CAVM_SDPX_PF_MSIX_VECX_ADDR(a,b) (a)
 #define arguments_CAVM_SDPX_PF_MSIX_VECX_ADDR(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) sdp#_pf_msix_vec#_ctl
+ * Register (ARF) sdp#_pf_msix_vec#_ctl
  *
  * SDP MSI-X Vector-Table Control and Data Register
  * This register is the MSI-X vector table, indexed by the SDP_PF_INT_VEC_E enumeration.
@@ -3885,19 +3885,19 @@ static inline uint64_t CAVM_SDPX_PF_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attr
 static inline uint64_t CAVM_SDPX_PF_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=3)))
-        return 0x86e100000008ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3);
+        return 0xc01880000008ll + 0x100000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3);
     __cavm_csr_fatal("SDPX_PF_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_PF_MSIX_VECX_CTL(a,b) cavm_sdpx_pf_msix_vecx_ctl_t
-#define bustype_CAVM_SDPX_PF_MSIX_VECX_CTL(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_SDPX_PF_MSIX_VECX_CTL(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_PF_MSIX_VECX_CTL(a,b) "SDPX_PF_MSIX_VECX_CTL"
 #define device_bar_CAVM_SDPX_PF_MSIX_VECX_CTL(a,b) 0x4 /* PF_BAR4 */
 #define busnum_CAVM_SDPX_PF_MSIX_VECX_CTL(a,b) (a)
 #define arguments_CAVM_SDPX_PF_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) sdp#_pkind_valid
+ * Register (ARF) sdp#_pkind_valid
  *
  * SDP Packet PKIND Valid Register
  * Enables bits per PKIND that are allowed to be sent to PKI specified in the
@@ -3928,19 +3928,19 @@ static inline uint64_t CAVM_SDPX_PKIND_VALID(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_SDPX_PKIND_VALID(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
-        return 0x86e0c0080210ll + 0x1000000000ll * ((a) & 0x0);
+        return 0xc01810080210ll + 0x100000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SDPX_PKIND_VALID", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_PKIND_VALID(a) cavm_sdpx_pkind_valid_t
-#define bustype_CAVM_SDPX_PKIND_VALID(a) CSR_TYPE_NCB
+#define bustype_CAVM_SDPX_PKIND_VALID(a) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_PKIND_VALID(a) "SDPX_PKIND_VALID"
 #define device_bar_CAVM_SDPX_PKIND_VALID(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_PKIND_VALID(a) (a)
 #define arguments_CAVM_SDPX_PKIND_VALID(a) (a),-1,-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_r#_drop_byte_cnt
+ * Register (ARF) sdp#_r#_drop_byte_cnt
  *
  * SDP Packet Dropped Byte Count Register
  * This register contains byte counts per ring that have been read into SDP but dropped
@@ -3976,19 +3976,19 @@ static inline uint64_t CAVM_SDPX_RX_DROP_BYTE_CNT(uint64_t a, uint64_t b) __attr
 static inline uint64_t CAVM_SDPX_RX_DROP_BYTE_CNT(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
-        return 0x86e080010250ll + 0x1000000000ll * ((a) & 0x0) + 0x20000ll * ((b) & 0x7f);
+        return 0xc01820000250ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_DROP_BYTE_CNT", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_RX_DROP_BYTE_CNT(a,b) cavm_sdpx_rx_drop_byte_cnt_t
-#define bustype_CAVM_SDPX_RX_DROP_BYTE_CNT(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_RX_DROP_BYTE_CNT(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_RX_DROP_BYTE_CNT(a,b) "SDPX_RX_DROP_BYTE_CNT"
 #define device_bar_CAVM_SDPX_RX_DROP_BYTE_CNT(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_RX_DROP_BYTE_CNT(a,b) (a)
 #define arguments_CAVM_SDPX_RX_DROP_BYTE_CNT(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_r#_drop_pkt_cnt
+ * Register (ARF) sdp#_r#_drop_pkt_cnt
  *
  * SDP Packet Dropped Packet count Register
  * This register contains packet counts per ring that have been read into SDP, but dropped.
@@ -4026,19 +4026,19 @@ static inline uint64_t CAVM_SDPX_RX_DROP_PKT_CNT(uint64_t a, uint64_t b) __attri
 static inline uint64_t CAVM_SDPX_RX_DROP_PKT_CNT(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
-        return 0x86e080010240ll + 0x1000000000ll * ((a) & 0x0) + 0x20000ll * ((b) & 0x7f);
+        return 0xc01820000240ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_DROP_PKT_CNT", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_RX_DROP_PKT_CNT(a,b) cavm_sdpx_rx_drop_pkt_cnt_t
-#define bustype_CAVM_SDPX_RX_DROP_PKT_CNT(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_RX_DROP_PKT_CNT(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_RX_DROP_PKT_CNT(a,b) "SDPX_RX_DROP_PKT_CNT"
 #define device_bar_CAVM_SDPX_RX_DROP_PKT_CNT(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_RX_DROP_PKT_CNT(a,b) (a)
 #define arguments_CAVM_SDPX_RX_DROP_PKT_CNT(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_r#_err_type
+ * Register (ARF) sdp#_r#_err_type
  *
  * SDP Ring Error Type Register
  * These registers indicate which type of error(s) have been detected when
@@ -4129,19 +4129,19 @@ static inline uint64_t CAVM_SDPX_RX_ERR_TYPE(uint64_t a, uint64_t b) __attribute
 static inline uint64_t CAVM_SDPX_RX_ERR_TYPE(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
-        return 0x86e080010400ll + 0x1000000000ll * ((a) & 0x0) + 0x20000ll * ((b) & 0x7f);
+        return 0xc01820000400ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_ERR_TYPE", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_RX_ERR_TYPE(a,b) cavm_sdpx_rx_err_type_t
-#define bustype_CAVM_SDPX_RX_ERR_TYPE(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_RX_ERR_TYPE(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_RX_ERR_TYPE(a,b) "SDPX_RX_ERR_TYPE"
 #define device_bar_CAVM_SDPX_RX_ERR_TYPE(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_RX_ERR_TYPE(a,b) (a)
 #define arguments_CAVM_SDPX_RX_ERR_TYPE(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_r#_in_byte_cnt
+ * Register (ARF) sdp#_r#_in_byte_cnt
  *
  * SDP Packet Input Byte Count Register
  * This register contains byte counts per ring that have been read into SDP.
@@ -4177,19 +4177,19 @@ static inline uint64_t CAVM_SDPX_RX_IN_BYTE_CNT(uint64_t a, uint64_t b) __attrib
 static inline uint64_t CAVM_SDPX_RX_IN_BYTE_CNT(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
-        return 0x86e080010090ll + 0x1000000000ll * ((a) & 0x0) + 0x20000ll * ((b) & 0x7f);
+        return 0xc01820000090ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_IN_BYTE_CNT", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_RX_IN_BYTE_CNT(a,b) cavm_sdpx_rx_in_byte_cnt_t
-#define bustype_CAVM_SDPX_RX_IN_BYTE_CNT(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_RX_IN_BYTE_CNT(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_RX_IN_BYTE_CNT(a,b) "SDPX_RX_IN_BYTE_CNT"
 #define device_bar_CAVM_SDPX_RX_IN_BYTE_CNT(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_RX_IN_BYTE_CNT(a,b) (a)
 #define arguments_CAVM_SDPX_RX_IN_BYTE_CNT(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_r#_in_cnts
+ * Register (ARF) sdp#_r#_in_cnts
  *
  * SDP Input Instruction Ring Counts Register
  * This register contains the counters for the input instruction rings.
@@ -4329,19 +4329,19 @@ static inline uint64_t CAVM_SDPX_RX_IN_CNTS(uint64_t a, uint64_t b) __attribute_
 static inline uint64_t CAVM_SDPX_RX_IN_CNTS(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
-        return 0x86e080010050ll + 0x1000000000ll * ((a) & 0x0) + 0x20000ll * ((b) & 0x7f);
+        return 0xc01820000050ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_IN_CNTS", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_RX_IN_CNTS(a,b) cavm_sdpx_rx_in_cnts_t
-#define bustype_CAVM_SDPX_RX_IN_CNTS(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_RX_IN_CNTS(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_RX_IN_CNTS(a,b) "SDPX_RX_IN_CNTS"
 #define device_bar_CAVM_SDPX_RX_IN_CNTS(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_RX_IN_CNTS(a,b) (a)
 #define arguments_CAVM_SDPX_RX_IN_CNTS(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_r#_in_cnts_ism
+ * Register (ARF) sdp#_r#_in_cnts_ism
  *
  * SDP Ring Input Counts Status Message Register
  * This register configures input count status messages.
@@ -4387,19 +4387,19 @@ static inline uint64_t CAVM_SDPX_RX_IN_CNTS_ISM(uint64_t a, uint64_t b) __attrib
 static inline uint64_t CAVM_SDPX_RX_IN_CNTS_ISM(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
-        return 0x86e080010520ll + 0x1000000000ll * ((a) & 0x0) + 0x20000ll * ((b) & 0x7f);
+        return 0xc01820000520ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_IN_CNTS_ISM", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_RX_IN_CNTS_ISM(a,b) cavm_sdpx_rx_in_cnts_ism_t
-#define bustype_CAVM_SDPX_RX_IN_CNTS_ISM(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_RX_IN_CNTS_ISM(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_RX_IN_CNTS_ISM(a,b) "SDPX_RX_IN_CNTS_ISM"
 #define device_bar_CAVM_SDPX_RX_IN_CNTS_ISM(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_RX_IN_CNTS_ISM(a,b) (a)
 #define arguments_CAVM_SDPX_RX_IN_CNTS_ISM(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_r#_in_control
+ * Register (ARF) sdp#_r#_in_control
  *
  * SDP Input Instruction Ring Control Register
  * This register is the control for read operations on the input instruction rings.
@@ -4496,19 +4496,19 @@ static inline uint64_t CAVM_SDPX_RX_IN_CONTROL(uint64_t a, uint64_t b) __attribu
 static inline uint64_t CAVM_SDPX_RX_IN_CONTROL(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
-        return 0x86e080010000ll + 0x1000000000ll * ((a) & 0x0) + 0x20000ll * ((b) & 0x7f);
+        return 0xc01820000000ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_IN_CONTROL", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_RX_IN_CONTROL(a,b) cavm_sdpx_rx_in_control_t
-#define bustype_CAVM_SDPX_RX_IN_CONTROL(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_RX_IN_CONTROL(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_RX_IN_CONTROL(a,b) "SDPX_RX_IN_CONTROL"
 #define device_bar_CAVM_SDPX_RX_IN_CONTROL(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_RX_IN_CONTROL(a,b) (a)
 #define arguments_CAVM_SDPX_RX_IN_CONTROL(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_r#_in_enable
+ * Register (ARF) sdp#_r#_in_enable
  *
  * SDP Input Instruction Ring Enable Register
  * This register is the enable for read operations on the input instruction rings.
@@ -4544,19 +4544,19 @@ static inline uint64_t CAVM_SDPX_RX_IN_ENABLE(uint64_t a, uint64_t b) __attribut
 static inline uint64_t CAVM_SDPX_RX_IN_ENABLE(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
-        return 0x86e080010010ll + 0x1000000000ll * ((a) & 0x0) + 0x20000ll * ((b) & 0x7f);
+        return 0xc01820000010ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_IN_ENABLE", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_RX_IN_ENABLE(a,b) cavm_sdpx_rx_in_enable_t
-#define bustype_CAVM_SDPX_RX_IN_ENABLE(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_RX_IN_ENABLE(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_RX_IN_ENABLE(a,b) "SDPX_RX_IN_ENABLE"
 #define device_bar_CAVM_SDPX_RX_IN_ENABLE(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_RX_IN_ENABLE(a,b) (a)
 #define arguments_CAVM_SDPX_RX_IN_ENABLE(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_r#_in_instr_baddr
+ * Register (ARF) sdp#_r#_in_instr_baddr
  *
  * SDP Input Instruction Ring Base Address Register
  * This register contains the base address for the input instruction ring.
@@ -4593,19 +4593,19 @@ static inline uint64_t CAVM_SDPX_RX_IN_INSTR_BADDR(uint64_t a, uint64_t b) __att
 static inline uint64_t CAVM_SDPX_RX_IN_INSTR_BADDR(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
-        return 0x86e080010020ll + 0x1000000000ll * ((a) & 0x0) + 0x20000ll * ((b) & 0x7f);
+        return 0xc01820000020ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_IN_INSTR_BADDR", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_RX_IN_INSTR_BADDR(a,b) cavm_sdpx_rx_in_instr_baddr_t
-#define bustype_CAVM_SDPX_RX_IN_INSTR_BADDR(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_RX_IN_INSTR_BADDR(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_RX_IN_INSTR_BADDR(a,b) "SDPX_RX_IN_INSTR_BADDR"
 #define device_bar_CAVM_SDPX_RX_IN_INSTR_BADDR(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_RX_IN_INSTR_BADDR(a,b) (a)
 #define arguments_CAVM_SDPX_RX_IN_INSTR_BADDR(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_r#_in_instr_dbell
+ * Register (ARF) sdp#_r#_in_instr_dbell
  *
  * SDP Input Instruction Ring Input Doorbell Registers
  * This register contains the doorbell and base-address offset for the next read operation.
@@ -4649,19 +4649,19 @@ static inline uint64_t CAVM_SDPX_RX_IN_INSTR_DBELL(uint64_t a, uint64_t b) __att
 static inline uint64_t CAVM_SDPX_RX_IN_INSTR_DBELL(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
-        return 0x86e080010040ll + 0x1000000000ll * ((a) & 0x0) + 0x20000ll * ((b) & 0x7f);
+        return 0xc01820000040ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_IN_INSTR_DBELL", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_RX_IN_INSTR_DBELL(a,b) cavm_sdpx_rx_in_instr_dbell_t
-#define bustype_CAVM_SDPX_RX_IN_INSTR_DBELL(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_RX_IN_INSTR_DBELL(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_RX_IN_INSTR_DBELL(a,b) "SDPX_RX_IN_INSTR_DBELL"
 #define device_bar_CAVM_SDPX_RX_IN_INSTR_DBELL(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_RX_IN_INSTR_DBELL(a,b) (a)
 #define arguments_CAVM_SDPX_RX_IN_INSTR_DBELL(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_r#_in_instr_rsize
+ * Register (ARF) sdp#_r#_in_instr_rsize
  *
  * SDP Input Instruction Ring Size Register
  * This register contains the input instruction ring size.
@@ -4698,19 +4698,19 @@ static inline uint64_t CAVM_SDPX_RX_IN_INSTR_RSIZE(uint64_t a, uint64_t b) __att
 static inline uint64_t CAVM_SDPX_RX_IN_INSTR_RSIZE(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
-        return 0x86e080010030ll + 0x1000000000ll * ((a) & 0x0) + 0x20000ll * ((b) & 0x7f);
+        return 0xc01820000030ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_IN_INSTR_RSIZE", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_RX_IN_INSTR_RSIZE(a,b) cavm_sdpx_rx_in_instr_rsize_t
-#define bustype_CAVM_SDPX_RX_IN_INSTR_RSIZE(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_RX_IN_INSTR_RSIZE(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_RX_IN_INSTR_RSIZE(a,b) "SDPX_RX_IN_INSTR_RSIZE"
 #define device_bar_CAVM_SDPX_RX_IN_INSTR_RSIZE(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_RX_IN_INSTR_RSIZE(a,b) (a)
 #define arguments_CAVM_SDPX_RX_IN_INSTR_RSIZE(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_r#_in_int_levels
+ * Register (ARF) sdp#_r#_in_int_levels
  *
  * SDP Input Instruction Interrupt Levels Register
  * This register contains input instruction interrupt levels.
@@ -4780,19 +4780,19 @@ static inline uint64_t CAVM_SDPX_RX_IN_INT_LEVELS(uint64_t a, uint64_t b) __attr
 static inline uint64_t CAVM_SDPX_RX_IN_INT_LEVELS(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
-        return 0x86e080010060ll + 0x1000000000ll * ((a) & 0x0) + 0x20000ll * ((b) & 0x7f);
+        return 0xc01820000060ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_IN_INT_LEVELS", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_RX_IN_INT_LEVELS(a,b) cavm_sdpx_rx_in_int_levels_t
-#define bustype_CAVM_SDPX_RX_IN_INT_LEVELS(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_RX_IN_INT_LEVELS(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_RX_IN_INT_LEVELS(a,b) "SDPX_RX_IN_INT_LEVELS"
 #define device_bar_CAVM_SDPX_RX_IN_INT_LEVELS(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_RX_IN_INT_LEVELS(a,b) (a)
 #define arguments_CAVM_SDPX_RX_IN_INT_LEVELS(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_r#_in_int_mdrt_ctl0
+ * Register (ARF) sdp#_r#_in_int_mdrt_ctl0
  *
  * SDP Input Instruction Interrupt Moderation Control 0 Register
  * This register is used for interrupt moderation.
@@ -4829,19 +4829,19 @@ static inline uint64_t CAVM_SDPX_RX_IN_INT_MDRT_CTL0(uint64_t a, uint64_t b) __a
 static inline uint64_t CAVM_SDPX_RX_IN_INT_MDRT_CTL0(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
-        return 0x86e080010280ll + 0x1000000000ll * ((a) & 0x0) + 0x20000ll * ((b) & 0x7f);
+        return 0xc01820000280ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_IN_INT_MDRT_CTL0", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_RX_IN_INT_MDRT_CTL0(a,b) cavm_sdpx_rx_in_int_mdrt_ctl0_t
-#define bustype_CAVM_SDPX_RX_IN_INT_MDRT_CTL0(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_RX_IN_INT_MDRT_CTL0(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_RX_IN_INT_MDRT_CTL0(a,b) "SDPX_RX_IN_INT_MDRT_CTL0"
 #define device_bar_CAVM_SDPX_RX_IN_INT_MDRT_CTL0(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_RX_IN_INT_MDRT_CTL0(a,b) (a)
 #define arguments_CAVM_SDPX_RX_IN_INT_MDRT_CTL0(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_r#_in_int_mdrt_ctl1
+ * Register (ARF) sdp#_r#_in_int_mdrt_ctl1
  *
  * SDP Input Instruction Interrupt Moderation Control 1 Register
  * This register is used for interrupt moderation. For each ring the user sets a pair
@@ -4919,19 +4919,19 @@ static inline uint64_t CAVM_SDPX_RX_IN_INT_MDRT_CTL1(uint64_t a, uint64_t b) __a
 static inline uint64_t CAVM_SDPX_RX_IN_INT_MDRT_CTL1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
-        return 0x86e0800102a0ll + 0x1000000000ll * ((a) & 0x0) + 0x20000ll * ((b) & 0x7f);
+        return 0xc018200002a0ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_IN_INT_MDRT_CTL1", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_RX_IN_INT_MDRT_CTL1(a,b) cavm_sdpx_rx_in_int_mdrt_ctl1_t
-#define bustype_CAVM_SDPX_RX_IN_INT_MDRT_CTL1(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_RX_IN_INT_MDRT_CTL1(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_RX_IN_INT_MDRT_CTL1(a,b) "SDPX_RX_IN_INT_MDRT_CTL1"
 #define device_bar_CAVM_SDPX_RX_IN_INT_MDRT_CTL1(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_RX_IN_INT_MDRT_CTL1(a,b) (a)
 #define arguments_CAVM_SDPX_RX_IN_INT_MDRT_CTL1(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_r#_in_int_mdrt_dbg
+ * Register (ARF) sdp#_r#_in_int_mdrt_dbg
  *
  * SDP Input Instruction Interrupt Moderation Debug Register
  * This register is used for interrupt moderation.
@@ -4964,19 +4964,19 @@ static inline uint64_t CAVM_SDPX_RX_IN_INT_MDRT_DBG(uint64_t a, uint64_t b) __at
 static inline uint64_t CAVM_SDPX_RX_IN_INT_MDRT_DBG(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
-        return 0x86e0800102c0ll + 0x1000000000ll * ((a) & 0x0) + 0x20000ll * ((b) & 0x7f);
+        return 0xc018200002c0ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_IN_INT_MDRT_DBG", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_RX_IN_INT_MDRT_DBG(a,b) cavm_sdpx_rx_in_int_mdrt_dbg_t
-#define bustype_CAVM_SDPX_RX_IN_INT_MDRT_DBG(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_RX_IN_INT_MDRT_DBG(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_RX_IN_INT_MDRT_DBG(a,b) "SDPX_RX_IN_INT_MDRT_DBG"
 #define device_bar_CAVM_SDPX_RX_IN_INT_MDRT_DBG(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_RX_IN_INT_MDRT_DBG(a,b) (a)
 #define arguments_CAVM_SDPX_RX_IN_INT_MDRT_DBG(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_r#_in_pkt_cnt
+ * Register (ARF) sdp#_r#_in_pkt_cnt
  *
  * SDP Packet Input Packet Count Register
  * This register contains packet counts per ring that have been read into SDP.
@@ -5014,19 +5014,19 @@ static inline uint64_t CAVM_SDPX_RX_IN_PKT_CNT(uint64_t a, uint64_t b) __attribu
 static inline uint64_t CAVM_SDPX_RX_IN_PKT_CNT(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
-        return 0x86e080010080ll + 0x1000000000ll * ((a) & 0x0) + 0x20000ll * ((b) & 0x7f);
+        return 0xc01820000080ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_IN_PKT_CNT", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_RX_IN_PKT_CNT(a,b) cavm_sdpx_rx_in_pkt_cnt_t
-#define bustype_CAVM_SDPX_RX_IN_PKT_CNT(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_RX_IN_PKT_CNT(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_RX_IN_PKT_CNT(a,b) "SDPX_RX_IN_PKT_CNT"
 #define device_bar_CAVM_SDPX_RX_IN_PKT_CNT(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_RX_IN_PKT_CNT(a,b) (a)
 #define arguments_CAVM_SDPX_RX_IN_PKT_CNT(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_r#_mbox_ism
+ * Register (ARF) sdp#_r#_mbox_ism
  *
  * SDP Ring Mailbox Interrupt Status Message Register
  * This register configures mailbox status messages.
@@ -5072,19 +5072,19 @@ static inline uint64_t CAVM_SDPX_RX_MBOX_ISM(uint64_t a, uint64_t b) __attribute
 static inline uint64_t CAVM_SDPX_RX_MBOX_ISM(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
-        return 0x86e080010500ll + 0x1000000000ll * ((a) & 0x0) + 0x20000ll * ((b) & 0x7f);
+        return 0xc01820000500ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_MBOX_ISM", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_RX_MBOX_ISM(a,b) cavm_sdpx_rx_mbox_ism_t
-#define bustype_CAVM_SDPX_RX_MBOX_ISM(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_RX_MBOX_ISM(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_RX_MBOX_ISM(a,b) "SDPX_RX_MBOX_ISM"
 #define device_bar_CAVM_SDPX_RX_MBOX_ISM(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_RX_MBOX_ISM(a,b) (a)
 #define arguments_CAVM_SDPX_RX_MBOX_ISM(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_r#_mbox_pf_vf_data
+ * Register (ARF) sdp#_r#_mbox_pf_vf_data
  *
  * SDP PF to VF Mailbox Data Registers
  * These registers are used for communication of data from the PF to VF.
@@ -5118,19 +5118,19 @@ static inline uint64_t CAVM_SDPX_RX_MBOX_PF_VF_DATA(uint64_t a, uint64_t b) __at
 static inline uint64_t CAVM_SDPX_RX_MBOX_PF_VF_DATA(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
-        return 0x86e080010210ll + 0x1000000000ll * ((a) & 0x0) + 0x20000ll * ((b) & 0x7f);
+        return 0xc01820000210ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_MBOX_PF_VF_DATA", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_RX_MBOX_PF_VF_DATA(a,b) cavm_sdpx_rx_mbox_pf_vf_data_t
-#define bustype_CAVM_SDPX_RX_MBOX_PF_VF_DATA(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_RX_MBOX_PF_VF_DATA(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_RX_MBOX_PF_VF_DATA(a,b) "SDPX_RX_MBOX_PF_VF_DATA"
 #define device_bar_CAVM_SDPX_RX_MBOX_PF_VF_DATA(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_RX_MBOX_PF_VF_DATA(a,b) (a)
 #define arguments_CAVM_SDPX_RX_MBOX_PF_VF_DATA(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_r#_mbox_pf_vf_int
+ * Register (ARF) sdp#_r#_mbox_pf_vf_int
  *
  * SDP Packet PF to VF Mailbox Interrupt Register
  * These registers contain interrupt status and enable for the PF to VF mailbox communication
@@ -5170,19 +5170,19 @@ static inline uint64_t CAVM_SDPX_RX_MBOX_PF_VF_INT(uint64_t a, uint64_t b) __att
 static inline uint64_t CAVM_SDPX_RX_MBOX_PF_VF_INT(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
-        return 0x86e080010220ll + 0x1000000000ll * ((a) & 0x0) + 0x20000ll * ((b) & 0x7f);
+        return 0xc01820000220ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_MBOX_PF_VF_INT", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_RX_MBOX_PF_VF_INT(a,b) cavm_sdpx_rx_mbox_pf_vf_int_t
-#define bustype_CAVM_SDPX_RX_MBOX_PF_VF_INT(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_RX_MBOX_PF_VF_INT(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_RX_MBOX_PF_VF_INT(a,b) "SDPX_RX_MBOX_PF_VF_INT"
 #define device_bar_CAVM_SDPX_RX_MBOX_PF_VF_INT(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_RX_MBOX_PF_VF_INT(a,b) (a)
 #define arguments_CAVM_SDPX_RX_MBOX_PF_VF_INT(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_r#_mbox_vf_pf_data
+ * Register (ARF) sdp#_r#_mbox_vf_pf_data
  *
  * SDP VF to PF Mailbox Data Registers
  * These registers are used for communication of data from the VF to PF.
@@ -5216,19 +5216,19 @@ static inline uint64_t CAVM_SDPX_RX_MBOX_VF_PF_DATA(uint64_t a, uint64_t b) __at
 static inline uint64_t CAVM_SDPX_RX_MBOX_VF_PF_DATA(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
-        return 0x86e080010230ll + 0x1000000000ll * ((a) & 0x0) + 0x20000ll * ((b) & 0x7f);
+        return 0xc01820000230ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_MBOX_VF_PF_DATA", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_RX_MBOX_VF_PF_DATA(a,b) cavm_sdpx_rx_mbox_vf_pf_data_t
-#define bustype_CAVM_SDPX_RX_MBOX_VF_PF_DATA(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_RX_MBOX_VF_PF_DATA(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_RX_MBOX_VF_PF_DATA(a,b) "SDPX_RX_MBOX_VF_PF_DATA"
 #define device_bar_CAVM_SDPX_RX_MBOX_VF_PF_DATA(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_RX_MBOX_VF_PF_DATA(a,b) (a)
 #define arguments_CAVM_SDPX_RX_MBOX_VF_PF_DATA(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_r#_out_byte_cnt
+ * Register (ARF) sdp#_r#_out_byte_cnt
  *
  * SDP Packet Output Byte Count Register
  * This register contains byte counts per ring that have been written to memory by SDP.
@@ -5264,19 +5264,19 @@ static inline uint64_t CAVM_SDPX_RX_OUT_BYTE_CNT(uint64_t a, uint64_t b) __attri
 static inline uint64_t CAVM_SDPX_RX_OUT_BYTE_CNT(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
-        return 0x86e080010190ll + 0x1000000000ll * ((a) & 0x0) + 0x20000ll * ((b) & 0x7f);
+        return 0xc01820000190ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_OUT_BYTE_CNT", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_RX_OUT_BYTE_CNT(a,b) cavm_sdpx_rx_out_byte_cnt_t
-#define bustype_CAVM_SDPX_RX_OUT_BYTE_CNT(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_RX_OUT_BYTE_CNT(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_RX_OUT_BYTE_CNT(a,b) "SDPX_RX_OUT_BYTE_CNT"
 #define device_bar_CAVM_SDPX_RX_OUT_BYTE_CNT(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_RX_OUT_BYTE_CNT(a,b) (a)
 #define arguments_CAVM_SDPX_RX_OUT_BYTE_CNT(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_r#_out_cnts
+ * Register (ARF) sdp#_r#_out_cnts
  *
  * SDP Packet Output Counts Register
  * This register contains the counters for SDP output ports.
@@ -5422,19 +5422,19 @@ static inline uint64_t CAVM_SDPX_RX_OUT_CNTS(uint64_t a, uint64_t b) __attribute
 static inline uint64_t CAVM_SDPX_RX_OUT_CNTS(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
-        return 0x86e080010100ll + 0x1000000000ll * ((a) & 0x0) + 0x20000ll * ((b) & 0x7f);
+        return 0xc01820000100ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_OUT_CNTS", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_RX_OUT_CNTS(a,b) cavm_sdpx_rx_out_cnts_t
-#define bustype_CAVM_SDPX_RX_OUT_CNTS(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_RX_OUT_CNTS(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_RX_OUT_CNTS(a,b) "SDPX_RX_OUT_CNTS"
 #define device_bar_CAVM_SDPX_RX_OUT_CNTS(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_RX_OUT_CNTS(a,b) (a)
 #define arguments_CAVM_SDPX_RX_OUT_CNTS(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_r#_out_cnts_ism
+ * Register (ARF) sdp#_r#_out_cnts_ism
  *
  * SDP Ring Output Counts Status Message Register
  * This register configures output count status messages.
@@ -5480,19 +5480,19 @@ static inline uint64_t CAVM_SDPX_RX_OUT_CNTS_ISM(uint64_t a, uint64_t b) __attri
 static inline uint64_t CAVM_SDPX_RX_OUT_CNTS_ISM(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
-        return 0x86e080010510ll + 0x1000000000ll * ((a) & 0x0) + 0x20000ll * ((b) & 0x7f);
+        return 0xc01820000510ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_OUT_CNTS_ISM", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_RX_OUT_CNTS_ISM(a,b) cavm_sdpx_rx_out_cnts_ism_t
-#define bustype_CAVM_SDPX_RX_OUT_CNTS_ISM(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_RX_OUT_CNTS_ISM(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_RX_OUT_CNTS_ISM(a,b) "SDPX_RX_OUT_CNTS_ISM"
 #define device_bar_CAVM_SDPX_RX_OUT_CNTS_ISM(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_RX_OUT_CNTS_ISM(a,b) (a)
 #define arguments_CAVM_SDPX_RX_OUT_CNTS_ISM(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_r#_out_control
+ * Register (ARF) sdp#_r#_out_control
  *
  * SDP Packet Output Control Register
  * This register contains control bits for output packet rings.
@@ -5629,19 +5629,19 @@ static inline uint64_t CAVM_SDPX_RX_OUT_CONTROL(uint64_t a, uint64_t b) __attrib
 static inline uint64_t CAVM_SDPX_RX_OUT_CONTROL(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
-        return 0x86e080010150ll + 0x1000000000ll * ((a) & 0x0) + 0x20000ll * ((b) & 0x7f);
+        return 0xc01820000150ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_OUT_CONTROL", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_RX_OUT_CONTROL(a,b) cavm_sdpx_rx_out_control_t
-#define bustype_CAVM_SDPX_RX_OUT_CONTROL(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_RX_OUT_CONTROL(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_RX_OUT_CONTROL(a,b) "SDPX_RX_OUT_CONTROL"
 #define device_bar_CAVM_SDPX_RX_OUT_CONTROL(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_RX_OUT_CONTROL(a,b) (a)
 #define arguments_CAVM_SDPX_RX_OUT_CONTROL(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_r#_out_enable
+ * Register (ARF) sdp#_r#_out_enable
  *
  * SDP Packet Output Enable Register
  * This register is the enable for the output pointer rings.
@@ -5677,19 +5677,19 @@ static inline uint64_t CAVM_SDPX_RX_OUT_ENABLE(uint64_t a, uint64_t b) __attribu
 static inline uint64_t CAVM_SDPX_RX_OUT_ENABLE(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
-        return 0x86e080010170ll + 0x1000000000ll * ((a) & 0x0) + 0x20000ll * ((b) & 0x7f);
+        return 0xc01820000170ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_OUT_ENABLE", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_RX_OUT_ENABLE(a,b) cavm_sdpx_rx_out_enable_t
-#define bustype_CAVM_SDPX_RX_OUT_ENABLE(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_RX_OUT_ENABLE(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_RX_OUT_ENABLE(a,b) "SDPX_RX_OUT_ENABLE"
 #define device_bar_CAVM_SDPX_RX_OUT_ENABLE(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_RX_OUT_ENABLE(a,b) (a)
 #define arguments_CAVM_SDPX_RX_OUT_ENABLE(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_r#_out_int_levels
+ * Register (ARF) sdp#_r#_out_int_levels
  *
  * SDP Packet Output Interrupt Levels Register
  * This register contains SDP output packet interrupt levels.
@@ -5759,19 +5759,19 @@ static inline uint64_t CAVM_SDPX_RX_OUT_INT_LEVELS(uint64_t a, uint64_t b) __att
 static inline uint64_t CAVM_SDPX_RX_OUT_INT_LEVELS(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
-        return 0x86e080010110ll + 0x1000000000ll * ((a) & 0x0) + 0x20000ll * ((b) & 0x7f);
+        return 0xc01820000110ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_OUT_INT_LEVELS", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_RX_OUT_INT_LEVELS(a,b) cavm_sdpx_rx_out_int_levels_t
-#define bustype_CAVM_SDPX_RX_OUT_INT_LEVELS(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_RX_OUT_INT_LEVELS(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_RX_OUT_INT_LEVELS(a,b) "SDPX_RX_OUT_INT_LEVELS"
 #define device_bar_CAVM_SDPX_RX_OUT_INT_LEVELS(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_RX_OUT_INT_LEVELS(a,b) (a)
 #define arguments_CAVM_SDPX_RX_OUT_INT_LEVELS(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_r#_out_int_mdrt_ctl0
+ * Register (ARF) sdp#_r#_out_int_mdrt_ctl0
  *
  * SDP Output Instruction Interrupt Moderation Control 0 Register
  */
@@ -5800,19 +5800,19 @@ static inline uint64_t CAVM_SDPX_RX_OUT_INT_MDRT_CTL0(uint64_t a, uint64_t b) __
 static inline uint64_t CAVM_SDPX_RX_OUT_INT_MDRT_CTL0(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
-        return 0x86e080010380ll + 0x1000000000ll * ((a) & 0x0) + 0x20000ll * ((b) & 0x7f);
+        return 0xc01820000380ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_OUT_INT_MDRT_CTL0", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_RX_OUT_INT_MDRT_CTL0(a,b) cavm_sdpx_rx_out_int_mdrt_ctl0_t
-#define bustype_CAVM_SDPX_RX_OUT_INT_MDRT_CTL0(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_RX_OUT_INT_MDRT_CTL0(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_RX_OUT_INT_MDRT_CTL0(a,b) "SDPX_RX_OUT_INT_MDRT_CTL0"
 #define device_bar_CAVM_SDPX_RX_OUT_INT_MDRT_CTL0(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_RX_OUT_INT_MDRT_CTL0(a,b) (a)
 #define arguments_CAVM_SDPX_RX_OUT_INT_MDRT_CTL0(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_r#_out_int_mdrt_ctl1
+ * Register (ARF) sdp#_r#_out_int_mdrt_ctl1
  *
  * SDP Output Instruction Interrupt Moderation Control 1 Register
  */
@@ -5867,19 +5867,19 @@ static inline uint64_t CAVM_SDPX_RX_OUT_INT_MDRT_CTL1(uint64_t a, uint64_t b) __
 static inline uint64_t CAVM_SDPX_RX_OUT_INT_MDRT_CTL1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
-        return 0x86e0800103a0ll + 0x1000000000ll * ((a) & 0x0) + 0x20000ll * ((b) & 0x7f);
+        return 0xc018200003a0ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_OUT_INT_MDRT_CTL1", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_RX_OUT_INT_MDRT_CTL1(a,b) cavm_sdpx_rx_out_int_mdrt_ctl1_t
-#define bustype_CAVM_SDPX_RX_OUT_INT_MDRT_CTL1(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_RX_OUT_INT_MDRT_CTL1(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_RX_OUT_INT_MDRT_CTL1(a,b) "SDPX_RX_OUT_INT_MDRT_CTL1"
 #define device_bar_CAVM_SDPX_RX_OUT_INT_MDRT_CTL1(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_RX_OUT_INT_MDRT_CTL1(a,b) (a)
 #define arguments_CAVM_SDPX_RX_OUT_INT_MDRT_CTL1(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_r#_out_int_mdrt_dbg
+ * Register (ARF) sdp#_r#_out_int_mdrt_dbg
  *
  * SDP Output Instruction Interrupt Moderation Debug Register
  */
@@ -5904,19 +5904,19 @@ static inline uint64_t CAVM_SDPX_RX_OUT_INT_MDRT_DBG(uint64_t a, uint64_t b) __a
 static inline uint64_t CAVM_SDPX_RX_OUT_INT_MDRT_DBG(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
-        return 0x86e0800103c0ll + 0x1000000000ll * ((a) & 0x0) + 0x20000ll * ((b) & 0x7f);
+        return 0xc018200003c0ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_OUT_INT_MDRT_DBG", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_RX_OUT_INT_MDRT_DBG(a,b) cavm_sdpx_rx_out_int_mdrt_dbg_t
-#define bustype_CAVM_SDPX_RX_OUT_INT_MDRT_DBG(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_RX_OUT_INT_MDRT_DBG(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_RX_OUT_INT_MDRT_DBG(a,b) "SDPX_RX_OUT_INT_MDRT_DBG"
 #define device_bar_CAVM_SDPX_RX_OUT_INT_MDRT_DBG(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_RX_OUT_INT_MDRT_DBG(a,b) (a)
 #define arguments_CAVM_SDPX_RX_OUT_INT_MDRT_DBG(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_r#_out_pkt_cnt
+ * Register (ARF) sdp#_r#_out_pkt_cnt
  *
  * SDP Packet Output Packet Count Register
  * This register contains packet counts per ring that have been written to memory by SDP.
@@ -5954,19 +5954,19 @@ static inline uint64_t CAVM_SDPX_RX_OUT_PKT_CNT(uint64_t a, uint64_t b) __attrib
 static inline uint64_t CAVM_SDPX_RX_OUT_PKT_CNT(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
-        return 0x86e080010180ll + 0x1000000000ll * ((a) & 0x0) + 0x20000ll * ((b) & 0x7f);
+        return 0xc01820000180ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_OUT_PKT_CNT", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_RX_OUT_PKT_CNT(a,b) cavm_sdpx_rx_out_pkt_cnt_t
-#define bustype_CAVM_SDPX_RX_OUT_PKT_CNT(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_RX_OUT_PKT_CNT(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_RX_OUT_PKT_CNT(a,b) "SDPX_RX_OUT_PKT_CNT"
 #define device_bar_CAVM_SDPX_RX_OUT_PKT_CNT(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_RX_OUT_PKT_CNT(a,b) (a)
 #define arguments_CAVM_SDPX_RX_OUT_PKT_CNT(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_r#_out_slist_baddr
+ * Register (ARF) sdp#_r#_out_slist_baddr
  *
  * SDP Packet Ring Base Address Register
  * This register contains the base address for the output ring.
@@ -6013,19 +6013,19 @@ static inline uint64_t CAVM_SDPX_RX_OUT_SLIST_BADDR(uint64_t a, uint64_t b) __at
 static inline uint64_t CAVM_SDPX_RX_OUT_SLIST_BADDR(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
-        return 0x86e080010120ll + 0x1000000000ll * ((a) & 0x0) + 0x20000ll * ((b) & 0x7f);
+        return 0xc01820000120ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_OUT_SLIST_BADDR", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_RX_OUT_SLIST_BADDR(a,b) cavm_sdpx_rx_out_slist_baddr_t
-#define bustype_CAVM_SDPX_RX_OUT_SLIST_BADDR(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_RX_OUT_SLIST_BADDR(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_RX_OUT_SLIST_BADDR(a,b) "SDPX_RX_OUT_SLIST_BADDR"
 #define device_bar_CAVM_SDPX_RX_OUT_SLIST_BADDR(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_RX_OUT_SLIST_BADDR(a,b) (a)
 #define arguments_CAVM_SDPX_RX_OUT_SLIST_BADDR(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_r#_out_slist_dbell
+ * Register (ARF) sdp#_r#_out_slist_dbell
  *
  * SDP Packet Base-Address Offset and Doorbell Registers
  * This register contains the doorbell and base-address offset for the next read operation.
@@ -6071,19 +6071,19 @@ static inline uint64_t CAVM_SDPX_RX_OUT_SLIST_DBELL(uint64_t a, uint64_t b) __at
 static inline uint64_t CAVM_SDPX_RX_OUT_SLIST_DBELL(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
-        return 0x86e080010140ll + 0x1000000000ll * ((a) & 0x0) + 0x20000ll * ((b) & 0x7f);
+        return 0xc01820000140ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_OUT_SLIST_DBELL", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_RX_OUT_SLIST_DBELL(a,b) cavm_sdpx_rx_out_slist_dbell_t
-#define bustype_CAVM_SDPX_RX_OUT_SLIST_DBELL(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_RX_OUT_SLIST_DBELL(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_RX_OUT_SLIST_DBELL(a,b) "SDPX_RX_OUT_SLIST_DBELL"
 #define device_bar_CAVM_SDPX_RX_OUT_SLIST_DBELL(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_RX_OUT_SLIST_DBELL(a,b) (a)
 #define arguments_CAVM_SDPX_RX_OUT_SLIST_DBELL(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_r#_out_slist_rsize
+ * Register (ARF) sdp#_r#_out_slist_rsize
  *
  * SDP Packet Ring Size Register
  * This register contains the output packet ring size.
@@ -6124,19 +6124,19 @@ static inline uint64_t CAVM_SDPX_RX_OUT_SLIST_RSIZE(uint64_t a, uint64_t b) __at
 static inline uint64_t CAVM_SDPX_RX_OUT_SLIST_RSIZE(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
-        return 0x86e080010130ll + 0x1000000000ll * ((a) & 0x0) + 0x20000ll * ((b) & 0x7f);
+        return 0xc01820000130ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_OUT_SLIST_RSIZE", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_RX_OUT_SLIST_RSIZE(a,b) cavm_sdpx_rx_out_slist_rsize_t
-#define bustype_CAVM_SDPX_RX_OUT_SLIST_RSIZE(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_RX_OUT_SLIST_RSIZE(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_RX_OUT_SLIST_RSIZE(a,b) "SDPX_RX_OUT_SLIST_RSIZE"
 #define device_bar_CAVM_SDPX_RX_OUT_SLIST_RSIZE(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_RX_OUT_SLIST_RSIZE(a,b) (a)
 #define arguments_CAVM_SDPX_RX_OUT_SLIST_RSIZE(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_r#_out_wmark
+ * Register (ARF) sdp#_r#_out_wmark
  *
  * SDP Output Packet Watermark Register
  * This register defines a minimum pointer pair threshold required in order to send output
@@ -6184,19 +6184,87 @@ static inline uint64_t CAVM_SDPX_RX_OUT_WMARK(uint64_t a, uint64_t b) __attribut
 static inline uint64_t CAVM_SDPX_RX_OUT_WMARK(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
-        return 0x86e080010160ll + 0x1000000000ll * ((a) & 0x0) + 0x20000ll * ((b) & 0x7f);
+        return 0xc01820000160ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_OUT_WMARK", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_RX_OUT_WMARK(a,b) cavm_sdpx_rx_out_wmark_t
-#define bustype_CAVM_SDPX_RX_OUT_WMARK(a,b) CSR_TYPE_PEXP_NCB
+#define bustype_CAVM_SDPX_RX_OUT_WMARK(a,b) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_RX_OUT_WMARK(a,b) "SDPX_RX_OUT_WMARK"
 #define device_bar_CAVM_SDPX_RX_OUT_WMARK(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_RX_OUT_WMARK(a,b) (a)
 #define arguments_CAVM_SDPX_RX_OUT_WMARK(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) sdp#_sctl
+ * Register (ARF) sdp#_r#_tlp
+ *
+ * SDP Ring TLP info Register
+ * This register is the per ring steering tag, Pasid and controls and TLP PH info.
+ * The information in these rings are added on to the DMA read or write command bus.
+ *
+ * This register  must be initialize by the VF prior to enabling the ring. Also this
+ * register cannot be written while either of the following conditions is true:
+ *   * SDP()_R()_OUT_CONTROL[IDLE] is clear.
+ *   * Or, SDP()_R()_OUT_ENABLE[ENB] is set.
+ *
+ * This register is indexed by ring.
+ * From a VF the amount of rings that can be indexed is controlled by SDP()_EPF()_RINFO[RPVF].
+ * From a PF the amount of rings that can be indexed is controlled by
+ * SDP()_MAC()_PF_RING_CTL[RPPF].
+ * From an AP core all 128 rings can be indexed.
+ */
+union cavm_sdpx_rx_tlp
+{
+    uint64_t u;
+    struct cavm_sdpx_rx_tlp_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_41_63        : 23;
+        uint64_t pasid                 : 20; /**< [ 40: 21](R/W) processor space id  information per ring .It cannot be set unless SDP()_R()_OUT_CONTROL[IDLE] == 0. */
+        uint64_t st                    : 16; /**< [ 20:  5](R/W) TLP steering tag.It cannot be set unless SDP()_R()_OUT_CONTROL[IDLE] == 0. */
+        uint64_t ste                   : 1;  /**< [  4:  4](R/W) TLP steering tage enable. */
+        uint64_t pasid_ctrl            : 2;  /**< [  3:  2](R/W) Pasid Control selects between no pasid, Pasid with EXE bit set or pasid with PRIV bit set.
+                                                                 00 = No pasid
+                                                                 01 = PASID used EXE-0 and PRIV- 0
+                                                                 10 = PASID priviliged mode EXE-0, PRIV-1
+                                                                 11 = PASID Execute mode , EXE=1, PRIV-0
+                                                                 It cannot be set unless SDP()_R()_OUT_CONTROL[IDLE] == 0. */
+        uint64_t ph                    : 2;  /**< [  1:  0](R/W) TLP processing hint per Ring. It cannot be updated unless SDP()_R()_OUT_CONTROL[IDLE] == 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t ph                    : 2;  /**< [  1:  0](R/W) TLP processing hint per Ring. It cannot be updated unless SDP()_R()_OUT_CONTROL[IDLE] == 0. */
+        uint64_t pasid_ctrl            : 2;  /**< [  3:  2](R/W) Pasid Control selects between no pasid, Pasid with EXE bit set or pasid with PRIV bit set.
+                                                                 00 = No pasid
+                                                                 01 = PASID used EXE-0 and PRIV- 0
+                                                                 10 = PASID priviliged mode EXE-0, PRIV-1
+                                                                 11 = PASID Execute mode , EXE=1, PRIV-0
+                                                                 It cannot be set unless SDP()_R()_OUT_CONTROL[IDLE] == 0. */
+        uint64_t ste                   : 1;  /**< [  4:  4](R/W) TLP steering tage enable. */
+        uint64_t st                    : 16; /**< [ 20:  5](R/W) TLP steering tag.It cannot be set unless SDP()_R()_OUT_CONTROL[IDLE] == 0. */
+        uint64_t pasid                 : 20; /**< [ 40: 21](R/W) processor space id  information per ring .It cannot be set unless SDP()_R()_OUT_CONTROL[IDLE] == 0. */
+        uint64_t reserved_41_63        : 23;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_sdpx_rx_tlp_s cn; */
+};
+typedef union cavm_sdpx_rx_tlp cavm_sdpx_rx_tlp_t;
+
+static inline uint64_t CAVM_SDPX_RX_TLP(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SDPX_RX_TLP(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+        return 0xc01820000038ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
+    __cavm_csr_fatal("SDPX_RX_TLP", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SDPX_RX_TLP(a,b) cavm_sdpx_rx_tlp_t
+#define bustype_CAVM_SDPX_RX_TLP(a,b) CSR_TYPE_ARF
+#define basename_CAVM_SDPX_RX_TLP(a,b) "SDPX_RX_TLP"
+#define device_bar_CAVM_SDPX_RX_TLP(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SDPX_RX_TLP(a,b) (a)
+#define arguments_CAVM_SDPX_RX_TLP(a,b) (a),(b),-1,-1
+
+/**
+ * Register (ARF) sdp#_sctl
  *
  * SDP Secure Control Register
  */
@@ -6237,12 +6305,12 @@ static inline uint64_t CAVM_SDPX_SCTL(uint64_t a) __attribute__ ((pure, always_i
 static inline uint64_t CAVM_SDPX_SCTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
-        return 0x86e0c0080310ll + 0x1000000000ll * ((a) & 0x0);
+        return 0xc01810080310ll + 0x100000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SDPX_SCTL", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_SDPX_SCTL(a) cavm_sdpx_sctl_t
-#define bustype_CAVM_SDPX_SCTL(a) CSR_TYPE_NCB
+#define bustype_CAVM_SDPX_SCTL(a) CSR_TYPE_ARF
 #define basename_CAVM_SDPX_SCTL(a) "SDPX_SCTL"
 #define device_bar_CAVM_SDPX_SCTL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_SCTL(a) (a)

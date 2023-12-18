@@ -189,7 +189,7 @@ static inline uint64_t CAVM_CPRIX_CLK_DIV_CFG(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_CPRIX_CLK_DIV_CFG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x861010000030ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e027800030ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_CLK_DIV_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -373,7 +373,7 @@ static inline uint64_t CAVM_CPRIX_CLOCK_CONTROL(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_CPRIX_CLOCK_CONTROL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x861010000028ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e027800028ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_CLOCK_CONTROL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -394,17 +394,7 @@ union cavm_cprix_control
     struct cavm_cprix_control_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_40_63        : 24;
-        uint64_t axi_watchdog_timeout  : 3;  /**< [ 39: 37](R/W) Watchdog timeout for AXI response from CPRI MAC.
-                                                                 0x0 = 4K clocks.
-                                                                 0x1 = 3K clocks.
-                                                                 0x2 = 2K clocks.
-                                                                 0x3 = 1.5K clocks.
-                                                                 0x4 = 1K clocks.
-                                                                 0x5 = 512 clocks.
-                                                                 0x6 = 256 clocks.
-                                                                 0x7 = 128 clocks. */
-        uint64_t reserved_34_36        : 3;
+        uint64_t reserved_34_63        : 30;
         uint64_t cpri_reset            : 2;  /**< [ 33: 32](R/W) Resets the CN4IPs 0 and/or 1 and the associated wrapper logic, similar to a power on reset. */
         uint64_t reserved_25_31        : 7;
         uint64_t flush_done            : 1;  /**< [ 24: 24](RO/H) When CPRI is reset, this bit will go low for some time during which it will try
@@ -430,32 +420,14 @@ union cavm_cprix_control
                                                                  bit is set. */
         uint64_t reserved_25_31        : 7;
         uint64_t cpri_reset            : 2;  /**< [ 33: 32](R/W) Resets the CN4IPs 0 and/or 1 and the associated wrapper logic, similar to a power on reset. */
-        uint64_t reserved_34_36        : 3;
-        uint64_t axi_watchdog_timeout  : 3;  /**< [ 39: 37](R/W) Watchdog timeout for AXI response from CPRI MAC.
-                                                                 0x0 = 4K clocks.
-                                                                 0x1 = 3K clocks.
-                                                                 0x2 = 2K clocks.
-                                                                 0x3 = 1.5K clocks.
-                                                                 0x4 = 1K clocks.
-                                                                 0x5 = 512 clocks.
-                                                                 0x6 = 256 clocks.
-                                                                 0x7 = 128 clocks. */
-        uint64_t reserved_40_63        : 24;
+        uint64_t reserved_34_63        : 30;
 #endif /* Word 0 - End */
     } s;
     struct cavm_cprix_control_cn
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t axi_watchdog_timeout  : 3;  /**< [ 39: 37](R/W) Watchdog timeout for AXI response from CPRI MAC.
-                                                                 0x0 = 4K clocks.
-                                                                 0x1 = 3K clocks.
-                                                                 0x2 = 2K clocks.
-                                                                 0x3 = 1.5K clocks.
-                                                                 0x4 = 1K clocks.
-                                                                 0x5 = 512 clocks.
-                                                                 0x6 = 256 clocks.
-                                                                 0x7 = 128 clocks. */
+        uint64_t reserved_37_39        : 3;
         uint64_t reserved_34_36        : 3;
         uint64_t cpri_reset            : 2;  /**< [ 33: 32](R/W) Resets the CN4IPs 0 and/or 1 and the associated wrapper logic, similar to a power on reset. */
         uint64_t reserved_25_31        : 7;
@@ -485,15 +457,7 @@ union cavm_cprix_control
         uint64_t reserved_25_31        : 7;
         uint64_t cpri_reset            : 2;  /**< [ 33: 32](R/W) Resets the CN4IPs 0 and/or 1 and the associated wrapper logic, similar to a power on reset. */
         uint64_t reserved_34_36        : 3;
-        uint64_t axi_watchdog_timeout  : 3;  /**< [ 39: 37](R/W) Watchdog timeout for AXI response from CPRI MAC.
-                                                                 0x0 = 4K clocks.
-                                                                 0x1 = 3K clocks.
-                                                                 0x2 = 2K clocks.
-                                                                 0x3 = 1.5K clocks.
-                                                                 0x4 = 1K clocks.
-                                                                 0x5 = 512 clocks.
-                                                                 0x6 = 256 clocks.
-                                                                 0x7 = 128 clocks. */
+        uint64_t reserved_37_39        : 3;
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } cn;
@@ -504,7 +468,7 @@ static inline uint64_t CAVM_CPRIX_CONTROL(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_CPRIX_CONTROL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x861010000000ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e027800000ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_CONTROL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -547,7 +511,7 @@ static inline uint64_t CAVM_CPRIX_DL_GMII_CONTROL(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_CPRIX_DL_GMII_CONTROL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x861010002008ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e027802008ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_DL_GMII_CONTROL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -583,7 +547,7 @@ static inline uint64_t CAVM_CPRIX_ETHX_BAD_CRC_CNT(uint64_t a, uint64_t b) __att
 static inline uint64_t CAVM_CPRIX_ETHX_BAD_CRC_CNT(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=3)))
-        return 0x861010000400ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+        return 0x87e027800400ll + 0x100000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     __cavm_csr_fatal("CPRIX_ETHX_BAD_CRC_CNT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -621,7 +585,7 @@ static inline uint64_t CAVM_CPRIX_ETHX_DL_GOCTETS_CNT(uint64_t a, uint64_t b) __
 static inline uint64_t CAVM_CPRIX_ETHX_DL_GOCTETS_CNT(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=3)))
-        return 0x861010000450ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+        return 0x87e027800450ll + 0x100000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     __cavm_csr_fatal("CPRIX_ETHX_DL_GOCTETS_CNT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -657,7 +621,7 @@ static inline uint64_t CAVM_CPRIX_ETHX_DL_GPKTS_CNT(uint64_t a, uint64_t b) __at
 static inline uint64_t CAVM_CPRIX_ETHX_DL_GPKTS_CNT(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=3)))
-        return 0x861010000458ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+        return 0x87e027800458ll + 0x100000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     __cavm_csr_fatal("CPRIX_ETHX_DL_GPKTS_CNT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -697,7 +661,7 @@ static inline uint64_t CAVM_CPRIX_ETHX_UL_BOCT_CNT(uint64_t a, uint64_t b) __att
 static inline uint64_t CAVM_CPRIX_ETHX_UL_BOCT_CNT(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=3)))
-        return 0x861010000430ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+        return 0x87e027800430ll + 0x100000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     __cavm_csr_fatal("CPRIX_ETHX_UL_BOCT_CNT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -735,7 +699,7 @@ static inline uint64_t CAVM_CPRIX_ETHX_UL_ERR_CNT(uint64_t a, uint64_t b) __attr
 static inline uint64_t CAVM_CPRIX_ETHX_UL_ERR_CNT(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=3)))
-        return 0x861010000408ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+        return 0x87e027800408ll + 0x100000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     __cavm_csr_fatal("CPRIX_ETHX_UL_ERR_CNT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -771,7 +735,7 @@ static inline uint64_t CAVM_CPRIX_ETHX_UL_FIFO_ORUN_CNT(uint64_t a, uint64_t b) 
 static inline uint64_t CAVM_CPRIX_ETHX_UL_FIFO_ORUN_CNT(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=3)))
-        return 0x861010000420ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+        return 0x87e027800420ll + 0x100000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     __cavm_csr_fatal("CPRIX_ETHX_UL_FIFO_ORUN_CNT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -811,7 +775,7 @@ static inline uint64_t CAVM_CPRIX_ETHX_UL_GOCT_CNT(uint64_t a, uint64_t b) __att
 static inline uint64_t CAVM_CPRIX_ETHX_UL_GOCT_CNT(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=3)))
-        return 0x861010000438ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+        return 0x87e027800438ll + 0x100000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     __cavm_csr_fatal("CPRIX_ETHX_UL_GOCT_CNT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -849,7 +813,7 @@ static inline uint64_t CAVM_CPRIX_ETHX_UL_GPKTS_CNT(uint64_t a, uint64_t b) __at
 static inline uint64_t CAVM_CPRIX_ETHX_UL_GPKTS_CNT(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=3)))
-        return 0x861010000428ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+        return 0x87e027800428ll + 0x100000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     __cavm_csr_fatal("CPRIX_ETHX_UL_GPKTS_CNT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -889,7 +853,7 @@ static inline uint64_t CAVM_CPRIX_ETHX_UL_MALFORMED_CNT(uint64_t a, uint64_t b) 
 static inline uint64_t CAVM_CPRIX_ETHX_UL_MALFORMED_CNT(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=3)))
-        return 0x861010000440ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+        return 0x87e027800440ll + 0x100000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     __cavm_csr_fatal("CPRIX_ETHX_UL_MALFORMED_CNT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -925,7 +889,7 @@ static inline uint64_t CAVM_CPRIX_ETHX_UL_OSIZE_CNT(uint64_t a, uint64_t b) __at
 static inline uint64_t CAVM_CPRIX_ETHX_UL_OSIZE_CNT(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=3)))
-        return 0x861010000410ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+        return 0x87e027800410ll + 0x100000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     __cavm_csr_fatal("CPRIX_ETHX_UL_OSIZE_CNT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -961,7 +925,7 @@ static inline uint64_t CAVM_CPRIX_ETHX_UL_USIZE_CNT(uint64_t a, uint64_t b) __at
 static inline uint64_t CAVM_CPRIX_ETHX_UL_USIZE_CNT(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=3)))
-        return 0x861010000418ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+        return 0x87e027800418ll + 0x100000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     __cavm_csr_fatal("CPRIX_ETHX_UL_USIZE_CNT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -999,7 +963,7 @@ static inline uint64_t CAVM_CPRIX_ETH_UL_INT(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_CPRIX_ETH_UL_INT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x861010000280ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e027800280ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_ETH_UL_INT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1036,7 +1000,7 @@ static inline uint64_t CAVM_CPRIX_ETH_UL_INT_ENA_W1C(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_CPRIX_ETH_UL_INT_ENA_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x861010000290ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e027800290ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_ETH_UL_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1073,7 +1037,7 @@ static inline uint64_t CAVM_CPRIX_ETH_UL_INT_ENA_W1S(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_CPRIX_ETH_UL_INT_ENA_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x861010000288ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e027800288ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_ETH_UL_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1108,7 +1072,7 @@ static inline uint64_t CAVM_CPRIX_ETH_UL_INT_PSM_MSG_W0(uint64_t a) __attribute_
 static inline uint64_t CAVM_CPRIX_ETH_UL_INT_PSM_MSG_W0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x8610100002a0ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e0278002a0ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_ETH_UL_INT_PSM_MSG_W0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1143,7 +1107,7 @@ static inline uint64_t CAVM_CPRIX_ETH_UL_INT_PSM_MSG_W1(uint64_t a) __attribute_
 static inline uint64_t CAVM_CPRIX_ETH_UL_INT_PSM_MSG_W1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x8610100002a8ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e0278002a8ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_ETH_UL_INT_PSM_MSG_W1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1180,7 +1144,7 @@ static inline uint64_t CAVM_CPRIX_ETH_UL_INT_W1S(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_CPRIX_ETH_UL_INT_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x861010000298ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e027800298ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_ETH_UL_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1249,7 +1213,7 @@ static inline uint64_t CAVM_CPRIX_GHB_CONTROL(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_CPRIX_GHB_CONTROL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x8610100001f8ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e0278001f8ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_GHB_CONTROL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1287,7 +1251,7 @@ static inline uint64_t CAVM_CPRIX_IPX_AXI_INT(uint64_t a, uint64_t b) __attribut
 static inline uint64_t CAVM_CPRIX_IPX_AXI_INT(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
-        return 0x861010000108ll + 0x1000000ll * ((a) & 0x3) + 0x400ll * ((b) & 0x1);
+        return 0x87e027800108ll + 0x100000ll * ((a) & 0x3) + 0x400ll * ((b) & 0x1);
     __cavm_csr_fatal("CPRIX_IPX_AXI_INT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1324,7 +1288,7 @@ static inline uint64_t CAVM_CPRIX_IPX_AXI_INT_ENA_W1C(uint64_t a, uint64_t b) __
 static inline uint64_t CAVM_CPRIX_IPX_AXI_INT_ENA_W1C(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
-        return 0x861010000130ll + 0x1000000ll * ((a) & 0x3) + 0x400ll * ((b) & 0x1);
+        return 0x87e027800130ll + 0x100000ll * ((a) & 0x3) + 0x400ll * ((b) & 0x1);
     __cavm_csr_fatal("CPRIX_IPX_AXI_INT_ENA_W1C", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1361,7 +1325,7 @@ static inline uint64_t CAVM_CPRIX_IPX_AXI_INT_ENA_W1S(uint64_t a, uint64_t b) __
 static inline uint64_t CAVM_CPRIX_IPX_AXI_INT_ENA_W1S(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
-        return 0x861010000128ll + 0x1000000ll * ((a) & 0x3) + 0x400ll * ((b) & 0x1);
+        return 0x87e027800128ll + 0x100000ll * ((a) & 0x3) + 0x400ll * ((b) & 0x1);
     __cavm_csr_fatal("CPRIX_IPX_AXI_INT_ENA_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1397,7 +1361,7 @@ static inline uint64_t CAVM_CPRIX_IPX_AXI_INT_MASK(uint64_t a, uint64_t b) __att
 static inline uint64_t CAVM_CPRIX_IPX_AXI_INT_MASK(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
-        return 0x861010000120ll + 0x1000000ll * ((a) & 0x3) + 0x400ll * ((b) & 0x1);
+        return 0x87e027800120ll + 0x100000ll * ((a) & 0x3) + 0x400ll * ((b) & 0x1);
     __cavm_csr_fatal("CPRIX_IPX_AXI_INT_MASK", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1432,7 +1396,7 @@ static inline uint64_t CAVM_CPRIX_IPX_AXI_INT_PSM_MSG_W0(uint64_t a, uint64_t b)
 static inline uint64_t CAVM_CPRIX_IPX_AXI_INT_PSM_MSG_W0(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
-        return 0x861010000180ll + 0x1000000ll * ((a) & 0x3) + 0x400ll * ((b) & 0x1);
+        return 0x87e027800180ll + 0x100000ll * ((a) & 0x3) + 0x400ll * ((b) & 0x1);
     __cavm_csr_fatal("CPRIX_IPX_AXI_INT_PSM_MSG_W0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1467,7 +1431,7 @@ static inline uint64_t CAVM_CPRIX_IPX_AXI_INT_PSM_MSG_W1(uint64_t a, uint64_t b)
 static inline uint64_t CAVM_CPRIX_IPX_AXI_INT_PSM_MSG_W1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
-        return 0x861010000188ll + 0x1000000ll * ((a) & 0x3) + 0x400ll * ((b) & 0x1);
+        return 0x87e027800188ll + 0x100000ll * ((a) & 0x3) + 0x400ll * ((b) & 0x1);
     __cavm_csr_fatal("CPRIX_IPX_AXI_INT_PSM_MSG_W1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1503,7 +1467,7 @@ static inline uint64_t CAVM_CPRIX_IPX_AXI_INT_STATUS(uint64_t a, uint64_t b) __a
 static inline uint64_t CAVM_CPRIX_IPX_AXI_INT_STATUS(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
-        return 0x861010000100ll + 0x1000000ll * ((a) & 0x3) + 0x400ll * ((b) & 0x1);
+        return 0x87e027800100ll + 0x100000ll * ((a) & 0x3) + 0x400ll * ((b) & 0x1);
     __cavm_csr_fatal("CPRIX_IPX_AXI_INT_STATUS", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1540,7 +1504,7 @@ static inline uint64_t CAVM_CPRIX_IPX_AXI_INT_W1S(uint64_t a, uint64_t b) __attr
 static inline uint64_t CAVM_CPRIX_IPX_AXI_INT_W1S(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1)))
-        return 0x861010000110ll + 0x1000000ll * ((a) & 0x3) + 0x400ll * ((b) & 0x1);
+        return 0x87e027800110ll + 0x100000ll * ((a) & 0x3) + 0x400ll * ((b) & 0x1);
     __cavm_csr_fatal("CPRIX_IPX_AXI_INT_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1587,11 +1551,7 @@ union cavm_cprix_mhb_err_int
         uint64_t rp3_ul_jd_notif_ovfl  : 1;  /**< [ 24: 24](R/W1C/H) SW Message Overflow. */
         uint64_t rp3_ul_wr_drop_cntx_late : 1;/**< [ 23: 23](R/W1C/H) An RP3 message write DMA was dropped, because the memory access latency was too
                                                                  large and the logic ran out of context. */
-        uint64_t ip1_watchdog_timeout  : 1;  /**< [ 22: 22](R/W1C/H) IP1 did not respond to a AxC access and a watchdog timeout happened. IP1 might
-                                                                 need to be reset to recover. */
-        uint64_t ip0_watchdog_timeout  : 1;  /**< [ 21: 21](R/W1C/H) IP0 did not respond to a AxC access and a watchdog timeout happened. IP0 might
-                                                                 need to be reset to recover. */
-        uint64_t reserved_20           : 1;
+        uint64_t reserved_20_22        : 3;
         uint64_t dgmii_async_fifo_full_3 : 1;/**< [ 19: 19](R/W1C/H) Async fifo in transmit path of GMII got full for Lane 1 of IP 1. */
         uint64_t dgmii_async_fifo_full_2 : 1;/**< [ 18: 18](R/W1C/H) Async fifo in transmit path of GMII got full for Lane 0 of IP 1. */
         uint64_t dgmii_async_fifo_full_1 : 1;/**< [ 17: 17](R/W1C/H) Async fifo in transmit path of GMII got full for Lane 1 of IP 0. */
@@ -1633,11 +1593,7 @@ union cavm_cprix_mhb_err_int
         uint64_t dgmii_async_fifo_full_1 : 1;/**< [ 17: 17](R/W1C/H) Async fifo in transmit path of GMII got full for Lane 1 of IP 0. */
         uint64_t dgmii_async_fifo_full_2 : 1;/**< [ 18: 18](R/W1C/H) Async fifo in transmit path of GMII got full for Lane 0 of IP 1. */
         uint64_t dgmii_async_fifo_full_3 : 1;/**< [ 19: 19](R/W1C/H) Async fifo in transmit path of GMII got full for Lane 1 of IP 1. */
-        uint64_t reserved_20           : 1;
-        uint64_t ip0_watchdog_timeout  : 1;  /**< [ 21: 21](R/W1C/H) IP0 did not respond to a AxC access and a watchdog timeout happened. IP0 might
-                                                                 need to be reset to recover. */
-        uint64_t ip1_watchdog_timeout  : 1;  /**< [ 22: 22](R/W1C/H) IP1 did not respond to a AxC access and a watchdog timeout happened. IP1 might
-                                                                 need to be reset to recover. */
+        uint64_t reserved_20_22        : 3;
         uint64_t rp3_ul_wr_drop_cntx_late : 1;/**< [ 23: 23](R/W1C/H) An RP3 message write DMA was dropped, because the memory access latency was too
                                                                  large and the logic ran out of context. */
         uint64_t rp3_ul_jd_notif_ovfl  : 1;  /**< [ 24: 24](R/W1C/H) SW Message Overflow. */
@@ -1672,7 +1628,7 @@ static inline uint64_t CAVM_CPRIX_MHB_ERR_INT(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_CPRIX_MHB_ERR_INT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x861010000200ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e027800200ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_MHB_ERR_INT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1706,9 +1662,7 @@ union cavm_cprix_mhb_err_int_ena_w1c
         uint64_t rp3_ul_sw_msg_ovfl    : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for CPRI(0..2)_MHB_ERR_INT[RP3_UL_SW_MSG_OVFL]. */
         uint64_t rp3_ul_jd_notif_ovfl  : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for CPRI(0..2)_MHB_ERR_INT[RP3_UL_JD_NOTIF_OVFL]. */
         uint64_t rp3_ul_wr_drop_cntx_late : 1;/**< [ 23: 23](R/W1C/H) Reads or clears enable for CPRI(0..2)_MHB_ERR_INT[RP3_UL_WR_DROP_CNTX_LATE]. */
-        uint64_t ip1_watchdog_timeout  : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for CPRI(0..2)_MHB_ERR_INT[IP1_WATCHDOG_TIMEOUT]. */
-        uint64_t ip0_watchdog_timeout  : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for CPRI(0..2)_MHB_ERR_INT[IP0_WATCHDOG_TIMEOUT]. */
-        uint64_t reserved_20           : 1;
+        uint64_t reserved_20_22        : 3;
         uint64_t dgmii_async_fifo_full_3 : 1;/**< [ 19: 19](R/W1C/H) Reads or clears enable for CPRI(0..2)_MHB_ERR_INT[DGMII_ASYNC_FIFO_FULL_3]. */
         uint64_t dgmii_async_fifo_full_2 : 1;/**< [ 18: 18](R/W1C/H) Reads or clears enable for CPRI(0..2)_MHB_ERR_INT[DGMII_ASYNC_FIFO_FULL_2]. */
         uint64_t dgmii_async_fifo_full_1 : 1;/**< [ 17: 17](R/W1C/H) Reads or clears enable for CPRI(0..2)_MHB_ERR_INT[DGMII_ASYNC_FIFO_FULL_1]. */
@@ -1750,9 +1704,7 @@ union cavm_cprix_mhb_err_int_ena_w1c
         uint64_t dgmii_async_fifo_full_1 : 1;/**< [ 17: 17](R/W1C/H) Reads or clears enable for CPRI(0..2)_MHB_ERR_INT[DGMII_ASYNC_FIFO_FULL_1]. */
         uint64_t dgmii_async_fifo_full_2 : 1;/**< [ 18: 18](R/W1C/H) Reads or clears enable for CPRI(0..2)_MHB_ERR_INT[DGMII_ASYNC_FIFO_FULL_2]. */
         uint64_t dgmii_async_fifo_full_3 : 1;/**< [ 19: 19](R/W1C/H) Reads or clears enable for CPRI(0..2)_MHB_ERR_INT[DGMII_ASYNC_FIFO_FULL_3]. */
-        uint64_t reserved_20           : 1;
-        uint64_t ip0_watchdog_timeout  : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for CPRI(0..2)_MHB_ERR_INT[IP0_WATCHDOG_TIMEOUT]. */
-        uint64_t ip1_watchdog_timeout  : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for CPRI(0..2)_MHB_ERR_INT[IP1_WATCHDOG_TIMEOUT]. */
+        uint64_t reserved_20_22        : 3;
         uint64_t rp3_ul_wr_drop_cntx_late : 1;/**< [ 23: 23](R/W1C/H) Reads or clears enable for CPRI(0..2)_MHB_ERR_INT[RP3_UL_WR_DROP_CNTX_LATE]. */
         uint64_t rp3_ul_jd_notif_ovfl  : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for CPRI(0..2)_MHB_ERR_INT[RP3_UL_JD_NOTIF_OVFL]. */
         uint64_t rp3_ul_sw_msg_ovfl    : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for CPRI(0..2)_MHB_ERR_INT[RP3_UL_SW_MSG_OVFL]. */
@@ -1775,7 +1727,7 @@ static inline uint64_t CAVM_CPRIX_MHB_ERR_INT_ENA_W1C(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_CPRIX_MHB_ERR_INT_ENA_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x861010000210ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e027800210ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_MHB_ERR_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1809,9 +1761,7 @@ union cavm_cprix_mhb_err_int_ena_w1s
         uint64_t rp3_ul_sw_msg_ovfl    : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for CPRI(0..2)_MHB_ERR_INT[RP3_UL_SW_MSG_OVFL]. */
         uint64_t rp3_ul_jd_notif_ovfl  : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for CPRI(0..2)_MHB_ERR_INT[RP3_UL_JD_NOTIF_OVFL]. */
         uint64_t rp3_ul_wr_drop_cntx_late : 1;/**< [ 23: 23](R/W1S/H) Reads or sets enable for CPRI(0..2)_MHB_ERR_INT[RP3_UL_WR_DROP_CNTX_LATE]. */
-        uint64_t ip1_watchdog_timeout  : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for CPRI(0..2)_MHB_ERR_INT[IP1_WATCHDOG_TIMEOUT]. */
-        uint64_t ip0_watchdog_timeout  : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for CPRI(0..2)_MHB_ERR_INT[IP0_WATCHDOG_TIMEOUT]. */
-        uint64_t reserved_20           : 1;
+        uint64_t reserved_20_22        : 3;
         uint64_t dgmii_async_fifo_full_3 : 1;/**< [ 19: 19](R/W1S/H) Reads or sets enable for CPRI(0..2)_MHB_ERR_INT[DGMII_ASYNC_FIFO_FULL_3]. */
         uint64_t dgmii_async_fifo_full_2 : 1;/**< [ 18: 18](R/W1S/H) Reads or sets enable for CPRI(0..2)_MHB_ERR_INT[DGMII_ASYNC_FIFO_FULL_2]. */
         uint64_t dgmii_async_fifo_full_1 : 1;/**< [ 17: 17](R/W1S/H) Reads or sets enable for CPRI(0..2)_MHB_ERR_INT[DGMII_ASYNC_FIFO_FULL_1]. */
@@ -1853,9 +1803,7 @@ union cavm_cprix_mhb_err_int_ena_w1s
         uint64_t dgmii_async_fifo_full_1 : 1;/**< [ 17: 17](R/W1S/H) Reads or sets enable for CPRI(0..2)_MHB_ERR_INT[DGMII_ASYNC_FIFO_FULL_1]. */
         uint64_t dgmii_async_fifo_full_2 : 1;/**< [ 18: 18](R/W1S/H) Reads or sets enable for CPRI(0..2)_MHB_ERR_INT[DGMII_ASYNC_FIFO_FULL_2]. */
         uint64_t dgmii_async_fifo_full_3 : 1;/**< [ 19: 19](R/W1S/H) Reads or sets enable for CPRI(0..2)_MHB_ERR_INT[DGMII_ASYNC_FIFO_FULL_3]. */
-        uint64_t reserved_20           : 1;
-        uint64_t ip0_watchdog_timeout  : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for CPRI(0..2)_MHB_ERR_INT[IP0_WATCHDOG_TIMEOUT]. */
-        uint64_t ip1_watchdog_timeout  : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for CPRI(0..2)_MHB_ERR_INT[IP1_WATCHDOG_TIMEOUT]. */
+        uint64_t reserved_20_22        : 3;
         uint64_t rp3_ul_wr_drop_cntx_late : 1;/**< [ 23: 23](R/W1S/H) Reads or sets enable for CPRI(0..2)_MHB_ERR_INT[RP3_UL_WR_DROP_CNTX_LATE]. */
         uint64_t rp3_ul_jd_notif_ovfl  : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for CPRI(0..2)_MHB_ERR_INT[RP3_UL_JD_NOTIF_OVFL]. */
         uint64_t rp3_ul_sw_msg_ovfl    : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for CPRI(0..2)_MHB_ERR_INT[RP3_UL_SW_MSG_OVFL]. */
@@ -1878,7 +1826,7 @@ static inline uint64_t CAVM_CPRIX_MHB_ERR_INT_ENA_W1S(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_CPRIX_MHB_ERR_INT_ENA_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x861010000208ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e027800208ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_MHB_ERR_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1914,7 +1862,7 @@ static inline uint64_t CAVM_CPRIX_MHB_ERR_INT_PSM_MSG_W0(uint64_t a) __attribute
 static inline uint64_t CAVM_CPRIX_MHB_ERR_INT_PSM_MSG_W0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x861010000220ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e027800220ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_MHB_ERR_INT_PSM_MSG_W0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1950,7 +1898,7 @@ static inline uint64_t CAVM_CPRIX_MHB_ERR_INT_PSM_MSG_W1(uint64_t a) __attribute
 static inline uint64_t CAVM_CPRIX_MHB_ERR_INT_PSM_MSG_W1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x861010000228ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e027800228ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_MHB_ERR_INT_PSM_MSG_W1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1984,9 +1932,7 @@ union cavm_cprix_mhb_err_int_w1s
         uint64_t rp3_ul_sw_msg_ovfl    : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets CPRI(0..2)_MHB_ERR_INT[RP3_UL_SW_MSG_OVFL]. */
         uint64_t rp3_ul_jd_notif_ovfl  : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets CPRI(0..2)_MHB_ERR_INT[RP3_UL_JD_NOTIF_OVFL]. */
         uint64_t rp3_ul_wr_drop_cntx_late : 1;/**< [ 23: 23](R/W1S/H) Reads or sets CPRI(0..2)_MHB_ERR_INT[RP3_UL_WR_DROP_CNTX_LATE]. */
-        uint64_t ip1_watchdog_timeout  : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets CPRI(0..2)_MHB_ERR_INT[IP1_WATCHDOG_TIMEOUT]. */
-        uint64_t ip0_watchdog_timeout  : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets CPRI(0..2)_MHB_ERR_INT[IP0_WATCHDOG_TIMEOUT]. */
-        uint64_t reserved_20           : 1;
+        uint64_t reserved_20_22        : 3;
         uint64_t dgmii_async_fifo_full_3 : 1;/**< [ 19: 19](R/W1S/H) Reads or sets CPRI(0..2)_MHB_ERR_INT[DGMII_ASYNC_FIFO_FULL_3]. */
         uint64_t dgmii_async_fifo_full_2 : 1;/**< [ 18: 18](R/W1S/H) Reads or sets CPRI(0..2)_MHB_ERR_INT[DGMII_ASYNC_FIFO_FULL_2]. */
         uint64_t dgmii_async_fifo_full_1 : 1;/**< [ 17: 17](R/W1S/H) Reads or sets CPRI(0..2)_MHB_ERR_INT[DGMII_ASYNC_FIFO_FULL_1]. */
@@ -2028,9 +1974,7 @@ union cavm_cprix_mhb_err_int_w1s
         uint64_t dgmii_async_fifo_full_1 : 1;/**< [ 17: 17](R/W1S/H) Reads or sets CPRI(0..2)_MHB_ERR_INT[DGMII_ASYNC_FIFO_FULL_1]. */
         uint64_t dgmii_async_fifo_full_2 : 1;/**< [ 18: 18](R/W1S/H) Reads or sets CPRI(0..2)_MHB_ERR_INT[DGMII_ASYNC_FIFO_FULL_2]. */
         uint64_t dgmii_async_fifo_full_3 : 1;/**< [ 19: 19](R/W1S/H) Reads or sets CPRI(0..2)_MHB_ERR_INT[DGMII_ASYNC_FIFO_FULL_3]. */
-        uint64_t reserved_20           : 1;
-        uint64_t ip0_watchdog_timeout  : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets CPRI(0..2)_MHB_ERR_INT[IP0_WATCHDOG_TIMEOUT]. */
-        uint64_t ip1_watchdog_timeout  : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets CPRI(0..2)_MHB_ERR_INT[IP1_WATCHDOG_TIMEOUT]. */
+        uint64_t reserved_20_22        : 3;
         uint64_t rp3_ul_wr_drop_cntx_late : 1;/**< [ 23: 23](R/W1S/H) Reads or sets CPRI(0..2)_MHB_ERR_INT[RP3_UL_WR_DROP_CNTX_LATE]. */
         uint64_t rp3_ul_jd_notif_ovfl  : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets CPRI(0..2)_MHB_ERR_INT[RP3_UL_JD_NOTIF_OVFL]. */
         uint64_t rp3_ul_sw_msg_ovfl    : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets CPRI(0..2)_MHB_ERR_INT[RP3_UL_SW_MSG_OVFL]. */
@@ -2053,7 +1997,7 @@ static inline uint64_t CAVM_CPRIX_MHB_ERR_INT_W1S(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_CPRIX_MHB_ERR_INT_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x861010000218ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e027800218ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_MHB_ERR_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2091,7 +2035,7 @@ static inline uint64_t CAVM_CPRIX_RESET(uint64_t a) __attribute__ ((pure, always
 static inline uint64_t CAVM_CPRIX_RESET(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x861010000008ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e027800008ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_RESET", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2135,7 +2079,7 @@ static inline uint64_t CAVM_CPRIX_RP3_DL_CTRL_CFG0(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_CPRIX_RP3_DL_CTRL_CFG0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x861010010080ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e027810080ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_RP3_DL_CTRL_CFG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2169,7 +2113,7 @@ static inline uint64_t CAVM_CPRIX_RP3_DL_CTRL_DATA0(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_CPRIX_RP3_DL_CTRL_DATA0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x861010010088ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e027810088ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_RP3_DL_CTRL_DATA0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2203,7 +2147,7 @@ static inline uint64_t CAVM_CPRIX_RP3_DL_CTRL_DATA1(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_CPRIX_RP3_DL_CTRL_DATA1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x861010010090ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e027810090ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_RP3_DL_CTRL_DATA1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2239,7 +2183,7 @@ static inline uint64_t CAVM_CPRIX_RP3_DL_CTRL_DATA2(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_CPRIX_RP3_DL_CTRL_DATA2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x861010010098ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e027810098ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_RP3_DL_CTRL_DATA2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2279,7 +2223,7 @@ static inline uint64_t CAVM_CPRIX_RP3_DL_ERR_STATUS(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_CPRIX_RP3_DL_ERR_STATUS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x8610100100a8ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e0278100a8ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_RP3_DL_ERR_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2354,7 +2298,7 @@ static inline uint64_t CAVM_CPRIX_RP3_DL_IPX_AXC_CFG0X(uint64_t a, uint64_t b, u
 static inline uint64_t CAVM_CPRIX_RP3_DL_IPX_AXC_CFG0X(uint64_t a, uint64_t b, uint64_t c)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1) && (c<=127)))
-        return 0x861010010040ll + 0x1000000ll * ((a) & 0x3) + 0x8000ll * ((b) & 0x1) + 0x100ll * ((c) & 0x7f);
+        return 0x87e027810040ll + 0x100000ll * ((a) & 0x3) + 0x8000ll * ((b) & 0x1) + 0x100ll * ((c) & 0x7f);
     __cavm_csr_fatal("CPRIX_RP3_DL_IPX_AXC_CFG0X", 3, a, b, c, 0, 0, 0);
 }
 
@@ -2405,7 +2349,7 @@ static inline uint64_t CAVM_CPRIX_RP3_DL_IPX_AXC_CFG1X(uint64_t a, uint64_t b, u
 static inline uint64_t CAVM_CPRIX_RP3_DL_IPX_AXC_CFG1X(uint64_t a, uint64_t b, uint64_t c)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1) && (c<=127)))
-        return 0x861010010048ll + 0x1000000ll * ((a) & 0x3) + 0x8000ll * ((b) & 0x1) + 0x100ll * ((c) & 0x7f);
+        return 0x87e027810048ll + 0x100000ll * ((a) & 0x3) + 0x8000ll * ((b) & 0x1) + 0x100ll * ((c) & 0x7f);
     __cavm_csr_fatal("CPRIX_RP3_DL_IPX_AXC_CFG1X", 3, a, b, c, 0, 0, 0);
 }
 
@@ -2538,7 +2482,7 @@ static inline uint64_t CAVM_CPRIX_RP3_DL_IPX_AXC_CFG2X(uint64_t a, uint64_t b, u
 static inline uint64_t CAVM_CPRIX_RP3_DL_IPX_AXC_CFG2X(uint64_t a, uint64_t b, uint64_t c)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1) && (c<=127)))
-        return 0x8610100100b0ll + 0x1000000ll * ((a) & 0x3) + 0x8000ll * ((b) & 0x1) + 0x100ll * ((c) & 0x7f);
+        return 0x87e0278100b0ll + 0x100000ll * ((a) & 0x3) + 0x8000ll * ((b) & 0x1) + 0x100ll * ((c) & 0x7f);
     __cavm_csr_fatal("CPRIX_RP3_DL_IPX_AXC_CFG2X", 3, a, b, c, 0, 0, 0);
 }
 
@@ -2603,7 +2547,7 @@ static inline uint64_t CAVM_CPRIX_RP3_DL_IPX_CTRL_CFG1X(uint64_t a, uint64_t b, 
 static inline uint64_t CAVM_CPRIX_RP3_DL_IPX_CTRL_CFG1X(uint64_t a, uint64_t b, uint64_t c)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1) && (c<=63)))
-        return 0x8610100100c0ll + 0x1000000ll * ((a) & 0x3) + 0x8000ll * ((b) & 0x1) + 0x100ll * ((c) & 0x3f);
+        return 0x87e0278100c0ll + 0x100000ll * ((a) & 0x3) + 0x8000ll * ((b) & 0x1) + 0x100ll * ((c) & 0x3f);
     __cavm_csr_fatal("CPRIX_RP3_DL_IPX_CTRL_CFG1X", 3, a, b, c, 0, 0, 0);
 }
 
@@ -2644,7 +2588,7 @@ static inline uint64_t CAVM_CPRIX_RP3_DL_IPX_STRM_INTRX(uint64_t a, uint64_t b, 
 static inline uint64_t CAVM_CPRIX_RP3_DL_IPX_STRM_INTRX(uint64_t a, uint64_t b, uint64_t c)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1) && (c<=2)))
-        return 0x861010020040ll + 0x1000000ll * ((a) & 0x3) + 0x8000ll * ((b) & 0x1) + 0x100ll * ((c) & 0x3);
+        return 0x87e027820040ll + 0x100000ll * ((a) & 0x3) + 0x8000ll * ((b) & 0x1) + 0x100ll * ((c) & 0x3);
     __cavm_csr_fatal("CPRIX_RP3_DL_IPX_STRM_INTRX", 3, a, b, c, 0, 0, 0);
 }
 
@@ -2685,7 +2629,7 @@ static inline uint64_t CAVM_CPRIX_RP3_DL_IPX_UFLOW_IGNX(uint64_t a, uint64_t b, 
 static inline uint64_t CAVM_CPRIX_RP3_DL_IPX_UFLOW_IGNX(uint64_t a, uint64_t b, uint64_t c)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=1) && (c<=2)))
-        return 0x861010020048ll + 0x1000000ll * ((a) & 0x3) + 0x8000ll * ((b) & 0x1) + 0x100ll * ((c) & 0x3);
+        return 0x87e027820048ll + 0x100000ll * ((a) & 0x3) + 0x8000ll * ((b) & 0x1) + 0x100ll * ((c) & 0x3);
     __cavm_csr_fatal("CPRIX_RP3_DL_IPX_UFLOW_IGNX", 3, a, b, c, 0, 0, 0);
 }
 
@@ -2801,7 +2745,7 @@ static inline uint64_t CAVM_CPRIX_RP3_UL_AXC_CFG0X(uint64_t a, uint64_t b) __att
 static inline uint64_t CAVM_CPRIX_RP3_UL_AXC_CFG0X(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=255)))
-        return 0x861010010000ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0xff);
+        return 0x87e027810000ll + 0x100000ll * ((a) & 0x3) + 0x100ll * ((b) & 0xff);
     __cavm_csr_fatal("CPRIX_RP3_UL_AXC_CFG0X", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2851,7 +2795,7 @@ static inline uint64_t CAVM_CPRIX_RP3_UL_AXC_CFG1X(uint64_t a, uint64_t b) __att
 static inline uint64_t CAVM_CPRIX_RP3_UL_AXC_CFG1X(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=255)))
-        return 0x861010010008ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0xff);
+        return 0x87e027810008ll + 0x100000ll * ((a) & 0x3) + 0x100ll * ((b) & 0xff);
     __cavm_csr_fatal("CPRIX_RP3_UL_AXC_CFG1X", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2889,7 +2833,7 @@ static inline uint64_t CAVM_CPRIX_RP3_UL_AXC_JD_BA_CFGX(uint64_t a, uint64_t b) 
 static inline uint64_t CAVM_CPRIX_RP3_UL_AXC_JD_BA_CFGX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=255)))
-        return 0x8610100100f0ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0xff);
+        return 0x87e0278100f0ll + 0x100000ll * ((a) & 0x3) + 0x100ll * ((b) & 0xff);
     __cavm_csr_fatal("CPRIX_RP3_UL_AXC_JD_BA_CFGX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2927,7 +2871,7 @@ static inline uint64_t CAVM_CPRIX_RP3_UL_AXC_JD_BS_CFGX(uint64_t a, uint64_t b) 
 static inline uint64_t CAVM_CPRIX_RP3_UL_AXC_JD_BS_CFGX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=255)))
-        return 0x8610100100f8ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0xff);
+        return 0x87e0278100f8ll + 0x100000ll * ((a) & 0x3) + 0x100ll * ((b) & 0xff);
     __cavm_csr_fatal("CPRIX_RP3_UL_AXC_JD_BS_CFGX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2991,7 +2935,7 @@ static inline uint64_t CAVM_CPRIX_RP3_UL_AXC_JD_CFGX(uint64_t a, uint64_t b) __a
 static inline uint64_t CAVM_CPRIX_RP3_UL_AXC_JD_CFGX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=255)))
-        return 0x861010010018ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0xff);
+        return 0x87e027810018ll + 0x100000ll * ((a) & 0x3) + 0x100ll * ((b) & 0xff);
     __cavm_csr_fatal("CPRIX_RP3_UL_AXC_JD_CFGX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -3031,7 +2975,7 @@ static inline uint64_t CAVM_CPRIX_RP3_UL_AXC_MAP0X(uint64_t a, uint64_t b) __att
 static inline uint64_t CAVM_CPRIX_RP3_UL_AXC_MAP0X(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=127)))
-        return 0x861010010050ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7f);
+        return 0x87e027810050ll + 0x100000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7f);
     __cavm_csr_fatal("CPRIX_RP3_UL_AXC_MAP0X", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -3071,7 +3015,7 @@ static inline uint64_t CAVM_CPRIX_RP3_UL_AXC_MAP1X(uint64_t a, uint64_t b) __att
 static inline uint64_t CAVM_CPRIX_RP3_UL_AXC_MAP1X(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=127)))
-        return 0x861010010058ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7f);
+        return 0x87e027810058ll + 0x100000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7f);
     __cavm_csr_fatal("CPRIX_RP3_UL_AXC_MAP1X", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -3131,7 +3075,7 @@ static inline uint64_t CAVM_CPRIX_RP3_UL_AXC_SW_CFGX(uint64_t a, uint64_t b) __a
 static inline uint64_t CAVM_CPRIX_RP3_UL_AXC_SW_CFGX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=255)))
-        return 0x861010010010ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0xff);
+        return 0x87e027810010ll + 0x100000ll * ((a) & 0x3) + 0x100ll * ((b) & 0xff);
     __cavm_csr_fatal("CPRIX_RP3_UL_AXC_SW_CFGX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -3167,7 +3111,7 @@ static inline uint64_t CAVM_CPRIX_RP3_UL_CTRL_BA_CFG(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_CPRIX_RP3_UL_CTRL_BA_CFG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x8610100100d8ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e0278100d8ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_RP3_UL_CTRL_BA_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3203,7 +3147,7 @@ static inline uint64_t CAVM_CPRIX_RP3_UL_CTRL_BS_CFG(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_CPRIX_RP3_UL_CTRL_BS_CFG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x8610100100e0ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e0278100e0ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_RP3_UL_CTRL_BS_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3275,7 +3219,7 @@ static inline uint64_t CAVM_CPRIX_RP3_UL_CTRL_CFG(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_CPRIX_RP3_UL_CTRL_CFG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x8610100100e8ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e0278100e8ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_RP3_UL_CTRL_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3313,7 +3257,7 @@ static inline uint64_t CAVM_CPRIX_RP3_UL_CTRL_JD_BA_CFG(uint64_t a) __attribute_
 static inline uint64_t CAVM_CPRIX_RP3_UL_CTRL_JD_BA_CFG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x861010020000ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e027820000ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_RP3_UL_CTRL_JD_BA_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3351,7 +3295,7 @@ static inline uint64_t CAVM_CPRIX_RP3_UL_CTRL_JD_BS_CFG(uint64_t a) __attribute_
 static inline uint64_t CAVM_CPRIX_RP3_UL_CTRL_JD_BS_CFG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x861010020008ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e027820008ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_RP3_UL_CTRL_JD_BS_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3413,7 +3357,7 @@ static inline uint64_t CAVM_CPRIX_RP3_UL_CTRL_JD_CFG(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_CPRIX_RP3_UL_CTRL_JD_CFG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x861010010038ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e027810038ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_RP3_UL_CTRL_JD_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3461,7 +3405,7 @@ static inline uint64_t CAVM_CPRIX_RP3_UL_CTRL_MAP0X(uint64_t a, uint64_t b) __at
 static inline uint64_t CAVM_CPRIX_RP3_UL_CTRL_MAP0X(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=63)))
-        return 0x861010010060ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3f);
+        return 0x87e027810060ll + 0x100000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3f);
     __cavm_csr_fatal("CPRIX_RP3_UL_CTRL_MAP0X", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -3509,7 +3453,7 @@ static inline uint64_t CAVM_CPRIX_RP3_UL_CTRL_MAP1X(uint64_t a, uint64_t b) __at
 static inline uint64_t CAVM_CPRIX_RP3_UL_CTRL_MAP1X(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=63)))
-        return 0x861010010068ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3f);
+        return 0x87e027810068ll + 0x100000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3f);
     __cavm_csr_fatal("CPRIX_RP3_UL_CTRL_MAP1X", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -3547,7 +3491,7 @@ static inline uint64_t CAVM_CPRIX_RP3_UL_CTRL_SW_CFG0X(uint64_t a, uint64_t b) _
 static inline uint64_t CAVM_CPRIX_RP3_UL_CTRL_SW_CFG0X(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=63)))
-        return 0x861010010028ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3f);
+        return 0x87e027810028ll + 0x100000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3f);
     __cavm_csr_fatal("CPRIX_RP3_UL_CTRL_SW_CFG0X", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -3585,7 +3529,7 @@ static inline uint64_t CAVM_CPRIX_RP3_UL_CTRL_SW_CFG1X(uint64_t a, uint64_t b) _
 static inline uint64_t CAVM_CPRIX_RP3_UL_CTRL_SW_CFG1X(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=63)))
-        return 0x861010010030ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3f);
+        return 0x87e027810030ll + 0x100000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3f);
     __cavm_csr_fatal("CPRIX_RP3_UL_CTRL_SW_CFG1X", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -3624,7 +3568,7 @@ static inline uint64_t CAVM_CPRIX_RP3_UL_INT(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_CPRIX_RP3_UL_INT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x861010000240ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e027800240ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_RP3_UL_INT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3663,7 +3607,7 @@ static inline uint64_t CAVM_CPRIX_RP3_UL_INT_ENA_W1C(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_CPRIX_RP3_UL_INT_ENA_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x861010000250ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e027800250ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_RP3_UL_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3702,7 +3646,7 @@ static inline uint64_t CAVM_CPRIX_RP3_UL_INT_ENA_W1S(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_CPRIX_RP3_UL_INT_ENA_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x861010000248ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e027800248ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_RP3_UL_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3737,7 +3681,7 @@ static inline uint64_t CAVM_CPRIX_RP3_UL_INT_PSM_MSG_W0(uint64_t a) __attribute_
 static inline uint64_t CAVM_CPRIX_RP3_UL_INT_PSM_MSG_W0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x861010000260ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e027800260ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_RP3_UL_INT_PSM_MSG_W0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3772,7 +3716,7 @@ static inline uint64_t CAVM_CPRIX_RP3_UL_INT_PSM_MSG_W1(uint64_t a) __attribute_
 static inline uint64_t CAVM_CPRIX_RP3_UL_INT_PSM_MSG_W1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x861010000268ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e027800268ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_RP3_UL_INT_PSM_MSG_W1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3811,7 +3755,7 @@ static inline uint64_t CAVM_CPRIX_RP3_UL_INT_W1S(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_CPRIX_RP3_UL_INT_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x861010000258ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e027800258ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_RP3_UL_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3849,7 +3793,7 @@ static inline uint64_t CAVM_CPRIX_RP3_UL_JA_PARAMS_AXCX(uint64_t a, uint64_t b) 
 static inline uint64_t CAVM_CPRIX_RP3_UL_JA_PARAMS_AXCX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=2) && (b<=255)))
-        return 0x861010010078ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0xff);
+        return 0x87e027810078ll + 0x100000ll * ((a) & 0x3) + 0x100ll * ((b) & 0xff);
     __cavm_csr_fatal("CPRIX_RP3_UL_JA_PARAMS_AXCX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -3887,7 +3831,7 @@ static inline uint64_t CAVM_CPRIX_RP3_UL_JA_PARAMS_CTRL(uint64_t a) __attribute_
 static inline uint64_t CAVM_CPRIX_RP3_UL_JA_PARAMS_CTRL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x861010010070ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e027810070ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_RP3_UL_JA_PARAMS_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3931,7 +3875,7 @@ static inline uint64_t CAVM_CPRIX_RP3_UL_TYPE_LUT(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_CPRIX_RP3_UL_TYPE_LUT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x861010020018ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e027820018ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_RP3_UL_TYPE_LUT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3977,7 +3921,7 @@ static inline uint64_t CAVM_CPRIX_RXD_GMII_UL_CBUF_CFG1(uint64_t a) __attribute_
 static inline uint64_t CAVM_CPRIX_RXD_GMII_UL_CBUF_CFG1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x861010001000ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e027801000ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_RXD_GMII_UL_CBUF_CFG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4033,7 +3977,7 @@ static inline uint64_t CAVM_CPRIX_RXD_GMII_UL_CBUF_CFG2(uint64_t a) __attribute_
 static inline uint64_t CAVM_CPRIX_RXD_GMII_UL_CBUF_CFG2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x861010001008ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e027801008ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_RXD_GMII_UL_CBUF_CFG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4071,7 +4015,7 @@ static inline uint64_t CAVM_CPRIX_RXD_GMII_UL_NXT_WR_PTR(uint64_t a) __attribute
 static inline uint64_t CAVM_CPRIX_RXD_GMII_UL_NXT_WR_PTR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x861010001020ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e027801020ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_RXD_GMII_UL_NXT_WR_PTR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4107,7 +4051,7 @@ static inline uint64_t CAVM_CPRIX_RXD_GMII_UL_PKT_COUNT(uint64_t a) __attribute_
 static inline uint64_t CAVM_CPRIX_RXD_GMII_UL_PKT_COUNT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x861010001028ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e027801028ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_RXD_GMII_UL_PKT_COUNT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4147,7 +4091,7 @@ static inline uint64_t CAVM_CPRIX_RXD_GMII_UL_RD_DOORBELL(uint64_t a) __attribut
 static inline uint64_t CAVM_CPRIX_RXD_GMII_UL_RD_DOORBELL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x861010001010ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e027801010ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_RXD_GMII_UL_RD_DOORBELL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4185,7 +4129,7 @@ static inline uint64_t CAVM_CPRIX_RXD_GMII_UL_SW_RD_PTR(uint64_t a) __attribute_
 static inline uint64_t CAVM_CPRIX_RXD_GMII_UL_SW_RD_PTR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x861010001018ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e027801018ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_RXD_GMII_UL_SW_RD_PTR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4237,7 +4181,7 @@ static inline uint64_t CAVM_CPRIX_STATUS(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_CPRIX_STATUS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x861010000020ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e027800020ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4281,7 +4225,7 @@ static inline uint64_t CAVM_CPRIX_TXD_GMII_DL_CBUF_CFG1(uint64_t a) __attribute_
 static inline uint64_t CAVM_CPRIX_TXD_GMII_DL_CBUF_CFG1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x861010001100ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e027801100ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_TXD_GMII_DL_CBUF_CFG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4337,7 +4281,7 @@ static inline uint64_t CAVM_CPRIX_TXD_GMII_DL_CBUF_CFG2(uint64_t a) __attribute_
 static inline uint64_t CAVM_CPRIX_TXD_GMII_DL_CBUF_CFG2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x861010001108ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e027801108ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_TXD_GMII_DL_CBUF_CFG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4373,7 +4317,7 @@ static inline uint64_t CAVM_CPRIX_TXD_GMII_DL_NXT_RD_PTR(uint64_t a) __attribute
 static inline uint64_t CAVM_CPRIX_TXD_GMII_DL_NXT_RD_PTR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x861010001120ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e027801120ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_TXD_GMII_DL_NXT_RD_PTR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4409,7 +4353,7 @@ static inline uint64_t CAVM_CPRIX_TXD_GMII_DL_SW_WR_PTR(uint64_t a) __attribute_
 static inline uint64_t CAVM_CPRIX_TXD_GMII_DL_SW_WR_PTR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x861010001118ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e027801118ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_TXD_GMII_DL_SW_WR_PTR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4453,7 +4397,7 @@ static inline uint64_t CAVM_CPRIX_TXD_GMII_DL_WR_DOORBELL(uint64_t a) __attribut
 static inline uint64_t CAVM_CPRIX_TXD_GMII_DL_WR_DOORBELL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x861010001110ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e027801110ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_TXD_GMII_DL_WR_DOORBELL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4496,7 +4440,7 @@ static inline uint64_t CAVM_CPRIX_UL_GMII_CONTROL(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_CPRIX_UL_GMII_CONTROL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x861010002000ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e027802000ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_UL_GMII_CONTROL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4545,7 +4489,7 @@ static inline uint64_t CAVM_CPRIX_UL_JCA_ADDJOB_JOBTAG(uint64_t a) __attribute__
 static inline uint64_t CAVM_CPRIX_UL_JCA_ADDJOB_JOBTAG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
-        return 0x8610100100c8ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e0278100c8ll + 0x100000ll * ((a) & 0x3);
     __cavm_csr_fatal("CPRIX_UL_JCA_ADDJOB_JOBTAG", 1, a, 0, 0, 0, 0, 0);
 }
 

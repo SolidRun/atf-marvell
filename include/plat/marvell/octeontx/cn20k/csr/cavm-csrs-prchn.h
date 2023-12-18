@@ -97,7 +97,7 @@ union cavm_prch_job_cfg_s
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t reserved_113_127      : 15;
-        uint64_t fdagc_mode            : 5;  /**< [112:108] See Table 20-4 PRCHN_JD_PARM_S[FDAGC_MODE] Setting. */
+        uint64_t fdagc_mode            : 5;  /**< [112:108] See Table 3 of MSD */
         uint64_t reserved_105_107      : 3;
         uint64_t fdagc_backoff         : 5;  /**< [104:100] Frequency-domain AGC backoff level. */
         uint64_t reserved_97_99        : 3;
@@ -149,7 +149,7 @@ union cavm_prch_job_cfg_s
         uint64_t reserved_97_99        : 3;
         uint64_t fdagc_backoff         : 5;  /**< [104:100] Frequency-domain AGC backoff level. */
         uint64_t reserved_105_107      : 3;
-        uint64_t fdagc_mode            : 5;  /**< [112:108] See Table 20-4 PRCHN_JD_PARM_S[FDAGC_MODE] Setting. */
+        uint64_t fdagc_mode            : 5;  /**< [112:108] See Table 3 of MSD */
         uint64_t reserved_113_127      : 15;
 #endif /* Word 1 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */

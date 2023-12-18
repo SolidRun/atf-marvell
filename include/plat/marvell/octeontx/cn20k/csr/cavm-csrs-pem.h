@@ -25,9 +25,9 @@
  * PEM Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define CAVM_PEM_BAR_E_PEMX_PF_BAR0(a) (0x8e0000000000ll + 0x1000000000ll * (a))
+#define CAVM_PEM_BAR_E_PEMX_PF_BAR0(a) (0xc28000000000ll + 0x100000000ll * (a))
 #define CAVM_PEM_BAR_E_PEMX_PF_BAR0_SIZE 0x40000000ull
-#define CAVM_PEM_BAR_E_PEMX_PF_BAR4(a) (0x8e0f00000000ll + 0x1000000000ll * (a))
+#define CAVM_PEM_BAR_E_PEMX_PF_BAR4(a) (0xc28080000000ll + 0x100000000ll * (a))
 #define CAVM_PEM_BAR_E_PEMX_PF_BAR4_SIZE 0x100000ull
 
 /**
@@ -116,7 +116,7 @@ union cavm_pem_ncbo_norm_memio_s
 };
 
 /**
- * Register (NCB) pem#_ats_diag_status
+ * Register (ARF) pem#_ats_diag_status
  *
  * PEM ATS Diagnostic Status Register
  * This register contains selection control for the ATS diagnostic bus.
@@ -170,19 +170,19 @@ static inline uint64_t CAVM_PEMX_ATS_DIAG_STATUS(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_PEMX_ATS_DIAG_STATUS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000007d08ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000007d08ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_ATS_DIAG_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_ATS_DIAG_STATUS(a) cavm_pemx_ats_diag_status_t
-#define bustype_CAVM_PEMX_ATS_DIAG_STATUS(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_ATS_DIAG_STATUS(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_ATS_DIAG_STATUS(a) "PEMX_ATS_DIAG_STATUS"
 #define device_bar_CAVM_PEMX_ATS_DIAG_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_ATS_DIAG_STATUS(a) (a)
 #define arguments_CAVM_PEMX_ATS_DIAG_STATUS(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_ats_inv_control
+ * Register (ARF) pem#_ats_inv_control
  *
  * PEM ATS Invalidation Control Register
  */
@@ -223,19 +223,19 @@ static inline uint64_t CAVM_PEMX_ATS_INV_CONTROL(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_PEMX_ATS_INV_CONTROL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000007d48ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000007d48ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_ATS_INV_CONTROL", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_ATS_INV_CONTROL(a) cavm_pemx_ats_inv_control_t
-#define bustype_CAVM_PEMX_ATS_INV_CONTROL(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_ATS_INV_CONTROL(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_ATS_INV_CONTROL(a) "PEMX_ATS_INV_CONTROL"
 #define device_bar_CAVM_PEMX_ATS_INV_CONTROL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_ATS_INV_CONTROL(a) (a)
 #define arguments_CAVM_PEMX_ATS_INV_CONTROL(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_ats_inv_latency_pc
+ * Register (ARF) pem#_ats_inv_latency_pc
  *
  * PEM ATS Invalidtion Latency Counter Register
  */
@@ -262,19 +262,19 @@ static inline uint64_t CAVM_PEMX_ATS_INV_LATENCY_PC(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_PEMX_ATS_INV_LATENCY_PC(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000007d40ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000007d40ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_ATS_INV_LATENCY_PC", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_ATS_INV_LATENCY_PC(a) cavm_pemx_ats_inv_latency_pc_t
-#define bustype_CAVM_PEMX_ATS_INV_LATENCY_PC(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_ATS_INV_LATENCY_PC(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_ATS_INV_LATENCY_PC(a) "PEMX_ATS_INV_LATENCY_PC"
 #define device_bar_CAVM_PEMX_ATS_INV_LATENCY_PC(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_ATS_INV_LATENCY_PC(a) (a)
 #define arguments_CAVM_PEMX_ATS_INV_LATENCY_PC(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_ats_inv_pc
+ * Register (ARF) pem#_ats_inv_pc
  *
  * PEM ATS Invalidation Performance Counter Register
  */
@@ -297,19 +297,19 @@ static inline uint64_t CAVM_PEMX_ATS_INV_PC(uint64_t a) __attribute__ ((pure, al
 static inline uint64_t CAVM_PEMX_ATS_INV_PC(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000007d38ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000007d38ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_ATS_INV_PC", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_ATS_INV_PC(a) cavm_pemx_ats_inv_pc_t
-#define bustype_CAVM_PEMX_ATS_INV_PC(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_ATS_INV_PC(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_ATS_INV_PC(a) "PEMX_ATS_INV_PC"
 #define device_bar_CAVM_PEMX_ATS_INV_PC(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_ATS_INV_PC(a) (a)
 #define arguments_CAVM_PEMX_ATS_INV_PC(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_ats_inv_sync
+ * Register (ARF) pem#_ats_inv_sync
  *
  * PEM ATS Invalidation Sync Register
  * This register is used by PEM ATS on an ATC invalidation to synchronize outstanding
@@ -336,19 +336,19 @@ static inline uint64_t CAVM_PEMX_ATS_INV_SYNC(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_PEMX_ATS_INV_SYNC(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000007d00ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000007d00ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_ATS_INV_SYNC", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_ATS_INV_SYNC(a) cavm_pemx_ats_inv_sync_t
-#define bustype_CAVM_PEMX_ATS_INV_SYNC(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_ATS_INV_SYNC(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_ATS_INV_SYNC(a) "PEMX_ATS_INV_SYNC"
 #define device_bar_CAVM_PEMX_ATS_INV_SYNC(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_ATS_INV_SYNC(a) (a)
 #define arguments_CAVM_PEMX_ATS_INV_SYNC(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_ats_pri_latency_pc
+ * Register (ARF) pem#_ats_pri_latency_pc
  *
  * PEM ATS Page Request Latency Counter Register
  */
@@ -375,19 +375,19 @@ static inline uint64_t CAVM_PEMX_ATS_PRI_LATENCY_PC(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_PEMX_ATS_PRI_LATENCY_PC(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000007d30ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000007d30ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_ATS_PRI_LATENCY_PC", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_ATS_PRI_LATENCY_PC(a) cavm_pemx_ats_pri_latency_pc_t
-#define bustype_CAVM_PEMX_ATS_PRI_LATENCY_PC(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_ATS_PRI_LATENCY_PC(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_ATS_PRI_LATENCY_PC(a) "PEMX_ATS_PRI_LATENCY_PC"
 #define device_bar_CAVM_PEMX_ATS_PRI_LATENCY_PC(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_ATS_PRI_LATENCY_PC(a) (a)
 #define arguments_CAVM_PEMX_ATS_PRI_LATENCY_PC(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_ats_pri_pc
+ * Register (ARF) pem#_ats_pri_pc
  *
  * PEM ATS Page Request Performance Counter Register
  */
@@ -410,19 +410,19 @@ static inline uint64_t CAVM_PEMX_ATS_PRI_PC(uint64_t a) __attribute__ ((pure, al
 static inline uint64_t CAVM_PEMX_ATS_PRI_PC(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000007d28ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000007d28ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_ATS_PRI_PC", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_ATS_PRI_PC(a) cavm_pemx_ats_pri_pc_t
-#define bustype_CAVM_PEMX_ATS_PRI_PC(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_ATS_PRI_PC(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_ATS_PRI_PC(a) "PEMX_ATS_PRI_PC"
 #define device_bar_CAVM_PEMX_ATS_PRI_PC(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_ATS_PRI_PC(a) (a)
 #define arguments_CAVM_PEMX_ATS_PRI_PC(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_ats_tid_sts#
+ * Register (ARF) pem#_ats_tid_sts#
  *
  * PEM ATS Translation ID Status Register
  */
@@ -453,19 +453,19 @@ static inline uint64_t CAVM_PEMX_ATS_TID_STSX(uint64_t a, uint64_t b) __attribut
 static inline uint64_t CAVM_PEMX_ATS_TID_STSX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b<=3)))
-        return 0x8e0000007d60ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
+        return 0xc28000007d60ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("PEMX_ATS_TID_STSX", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_ATS_TID_STSX(a,b) cavm_pemx_ats_tid_stsx_t
-#define bustype_CAVM_PEMX_ATS_TID_STSX(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_ATS_TID_STSX(a,b) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_ATS_TID_STSX(a,b) "PEMX_ATS_TID_STSX"
 #define device_bar_CAVM_PEMX_ATS_TID_STSX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_ATS_TID_STSX(a,b) (a)
 #define arguments_CAVM_PEMX_ATS_TID_STSX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) pem#_ats_tlp_credits
+ * Register (ARF) pem#_ats_tlp_credits
  *
  * PEM ATS Inbound TLP Credits Register
  * This register specifies the number of credits for use in moving TLPs. When this register is
@@ -503,19 +503,19 @@ static inline uint64_t CAVM_PEMX_ATS_TLP_CREDITS(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_PEMX_ATS_TLP_CREDITS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000090ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000090ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_ATS_TLP_CREDITS", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_ATS_TLP_CREDITS(a) cavm_pemx_ats_tlp_credits_t
-#define bustype_CAVM_PEMX_ATS_TLP_CREDITS(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_ATS_TLP_CREDITS(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_ATS_TLP_CREDITS(a) "PEMX_ATS_TLP_CREDITS"
 #define device_bar_CAVM_PEMX_ATS_TLP_CREDITS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_ATS_TLP_CREDITS(a) (a)
 #define arguments_CAVM_PEMX_ATS_TLP_CREDITS(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_ats_trans_latency_pc
+ * Register (ARF) pem#_ats_trans_latency_pc
  *
  * PEM ATS Translation Latency Counter Register
  */
@@ -542,19 +542,19 @@ static inline uint64_t CAVM_PEMX_ATS_TRANS_LATENCY_PC(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_PEMX_ATS_TRANS_LATENCY_PC(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000007d20ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000007d20ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_ATS_TRANS_LATENCY_PC", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_ATS_TRANS_LATENCY_PC(a) cavm_pemx_ats_trans_latency_pc_t
-#define bustype_CAVM_PEMX_ATS_TRANS_LATENCY_PC(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_ATS_TRANS_LATENCY_PC(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_ATS_TRANS_LATENCY_PC(a) "PEMX_ATS_TRANS_LATENCY_PC"
 #define device_bar_CAVM_PEMX_ATS_TRANS_LATENCY_PC(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_ATS_TRANS_LATENCY_PC(a) (a)
 #define arguments_CAVM_PEMX_ATS_TRANS_LATENCY_PC(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_ats_trans_pc
+ * Register (ARF) pem#_ats_trans_pc
  *
  * PEM ATS Translation Performance Counter Register
  */
@@ -577,19 +577,19 @@ static inline uint64_t CAVM_PEMX_ATS_TRANS_PC(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_PEMX_ATS_TRANS_PC(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000007d18ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000007d18ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_ATS_TRANS_PC", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_ATS_TRANS_PC(a) cavm_pemx_ats_trans_pc_t
-#define bustype_CAVM_PEMX_ATS_TRANS_PC(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_ATS_TRANS_PC(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_ATS_TRANS_PC(a) "PEMX_ATS_TRANS_PC"
 #define device_bar_CAVM_PEMX_ATS_TRANS_PC(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_ATS_TRANS_PC(a) (a)
 #define arguments_CAVM_PEMX_ATS_TRANS_PC(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_bar2_mask
+ * Register (ARF) pem#_bar2_mask
  *
  * PEM BAR2 Mask Register
  * This register contains the mask pattern that is ANDed with the address from the PCIe core for
@@ -623,19 +623,19 @@ static inline uint64_t CAVM_PEMX_BAR2_MASK(uint64_t a) __attribute__ ((pure, alw
 static inline uint64_t CAVM_PEMX_BAR2_MASK(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000048ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000048ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_BAR2_MASK", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_BAR2_MASK(a) cavm_pemx_bar2_mask_t
-#define bustype_CAVM_PEMX_BAR2_MASK(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_BAR2_MASK(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_BAR2_MASK(a) "PEMX_BAR2_MASK"
 #define device_bar_CAVM_PEMX_BAR2_MASK(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_BAR2_MASK(a) (a)
 #define arguments_CAVM_PEMX_BAR2_MASK(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_bar4_index#
+ * Register (ARF) pem#_bar4_index#
  *
  * PEM BAR4 Index 0-15 Register
  * This register contains the address index and control bits for access to memory ranges of BAR4.
@@ -672,19 +672,19 @@ static inline uint64_t CAVM_PEMX_BAR4_INDEXX(uint64_t a, uint64_t b) __attribute
 static inline uint64_t CAVM_PEMX_BAR4_INDEXX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b<=15)))
-        return 0x8e0000000700ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0xf);
+        return 0xc28000000700ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0xf);
     __cavm_csr_fatal("PEMX_BAR4_INDEXX", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_BAR4_INDEXX(a,b) cavm_pemx_bar4_indexx_t
-#define bustype_CAVM_PEMX_BAR4_INDEXX(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_BAR4_INDEXX(a,b) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_BAR4_INDEXX(a,b) "PEMX_BAR4_INDEXX"
 #define device_bar_CAVM_PEMX_BAR4_INDEXX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_BAR4_INDEXX(a,b) (a)
 #define arguments_CAVM_PEMX_BAR4_INDEXX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) pem#_bar_ctl
+ * Register (ARF) pem#_bar_ctl
  *
  * PEM BAR Control Register
  * This register contains control for BAR accesses. This control always
@@ -835,19 +835,19 @@ static inline uint64_t CAVM_PEMX_BAR_CTL(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_PEMX_BAR_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000168ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000168ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_BAR_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_BAR_CTL(a) cavm_pemx_bar_ctl_t
-#define bustype_CAVM_PEMX_BAR_CTL(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_BAR_CTL(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_BAR_CTL(a) "PEMX_BAR_CTL"
 #define device_bar_CAVM_PEMX_BAR_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_BAR_CTL(a) (a)
 #define arguments_CAVM_PEMX_BAR_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_cfg
+ * Register (ARF) pem#_cfg
  *
  * PEM Application Configuration Register
  * This register configures the PCIe application.
@@ -937,19 +937,19 @@ static inline uint64_t CAVM_PEMX_CFG(uint64_t a) __attribute__ ((pure, always_in
 static inline uint64_t CAVM_PEMX_CFG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e00000000d8ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc280000000d8ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_CFG(a) cavm_pemx_cfg_t
-#define bustype_CAVM_PEMX_CFG(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_CFG(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_CFG(a) "PEMX_CFG"
 #define device_bar_CAVM_PEMX_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_CFG(a) (a)
 #define arguments_CAVM_PEMX_CFG(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_cfg_tbl#
+ * Register (ARF) pem#_cfg_tbl#
  *
  * PEM Configuration Table Registers
  * Software managed table with list of config registers to update when
@@ -1019,19 +1019,19 @@ static inline uint64_t CAVM_PEMX_CFG_TBLX(uint64_t a, uint64_t b) __attribute__ 
 static inline uint64_t CAVM_PEMX_CFG_TBLX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b<=1023)))
-        return 0x8e0000002000ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3ff);
+        return 0xc28000002000ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3ff);
     __cavm_csr_fatal("PEMX_CFG_TBLX", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_CFG_TBLX(a,b) cavm_pemx_cfg_tblx_t
-#define bustype_CAVM_PEMX_CFG_TBLX(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_CFG_TBLX(a,b) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_CFG_TBLX(a,b) "PEMX_CFG_TBLX"
 #define device_bar_CAVM_PEMX_CFG_TBLX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_CFG_TBLX(a,b) (a)
 #define arguments_CAVM_PEMX_CFG_TBLX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) pem#_cfg_tbl_size
+ * Register (ARF) pem#_cfg_tbl_size
  *
  * PEM Configuration Table Size Register
  * This register is accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
@@ -1069,19 +1069,19 @@ static inline uint64_t CAVM_PEMX_CFG_TBL_SIZE(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_PEMX_CFG_TBL_SIZE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000220ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000220ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_CFG_TBL_SIZE", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_CFG_TBL_SIZE(a) cavm_pemx_cfg_tbl_size_t
-#define bustype_CAVM_PEMX_CFG_TBL_SIZE(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_CFG_TBL_SIZE(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_CFG_TBL_SIZE(a) "PEMX_CFG_TBL_SIZE"
 #define device_bar_CAVM_PEMX_CFG_TBL_SIZE(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_CFG_TBL_SIZE(a) (a)
 #define arguments_CAVM_PEMX_CFG_TBL_SIZE(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_clk_en
+ * Register (ARF) pem#_clk_en
  *
  * PEM Clock Enable Register
  * This register contains the clock enable for CPCLK and PCE_CLK.
@@ -1153,19 +1153,19 @@ static inline uint64_t CAVM_PEMX_CLK_EN(uint64_t a) __attribute__ ((pure, always
 static inline uint64_t CAVM_PEMX_CLK_EN(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e00000000c8ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc280000000c8ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_CLK_EN", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_CLK_EN(a) cavm_pemx_clk_en_t
-#define bustype_CAVM_PEMX_CLK_EN(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_CLK_EN(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_CLK_EN(a) "PEMX_CLK_EN"
 #define device_bar_CAVM_PEMX_CLK_EN(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_CLK_EN(a) (a)
 #define arguments_CAVM_PEMX_CLK_EN(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_const_acc
+ * Register (ARF) pem#_const_acc
  *
  * PEM Constant ACC Register
  * Contains contant attributes related to the PEM ACC tables.
@@ -1195,19 +1195,19 @@ static inline uint64_t CAVM_PEMX_CONST_ACC(uint64_t a) __attribute__ ((pure, alw
 static inline uint64_t CAVM_PEMX_CONST_ACC(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000218ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000218ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_CONST_ACC", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_CONST_ACC(a) cavm_pemx_const_acc_t
-#define bustype_CAVM_PEMX_CONST_ACC(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_CONST_ACC(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_CONST_ACC(a) "PEMX_CONST_ACC"
 #define device_bar_CAVM_PEMX_CONST_ACC(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_CONST_ACC(a) (a)
 #define arguments_CAVM_PEMX_CONST_ACC(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_cpclk_active_pc
+ * Register (ARF) pem#_cpclk_active_pc
  *
  * PEM Conditional Coprocessor Clock Counter Register
  * This register counts conditional clocks for power management.
@@ -1235,19 +1235,19 @@ static inline uint64_t CAVM_PEMX_CPCLK_ACTIVE_PC(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_PEMX_CPCLK_ACTIVE_PC(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000058ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000058ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_CPCLK_ACTIVE_PC", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_CPCLK_ACTIVE_PC(a) cavm_pemx_cpclk_active_pc_t
-#define bustype_CAVM_PEMX_CPCLK_ACTIVE_PC(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_CPCLK_ACTIVE_PC(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_CPCLK_ACTIVE_PC(a) "PEMX_CPCLK_ACTIVE_PC"
 #define device_bar_CAVM_PEMX_CPCLK_ACTIVE_PC(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_CPCLK_ACTIVE_PC(a) (a)
 #define arguments_CAVM_PEMX_CPCLK_ACTIVE_PC(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_cpl_lut_valid
+ * Register (ARF) pem#_cpl_lut_valid
  *
  * PEM Completion Lookup Table Valid Register
  * This register specifies how many tags are outstanding for reads.
@@ -1277,19 +1277,19 @@ static inline uint64_t CAVM_PEMX_CPL_LUT_VALID(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_PEMX_CPL_LUT_VALID(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000040ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000040ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_CPL_LUT_VALID", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_CPL_LUT_VALID(a) cavm_pemx_cpl_lut_valid_t
-#define bustype_CAVM_PEMX_CPL_LUT_VALID(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_CPL_LUT_VALID(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_CPL_LUT_VALID(a) "PEMX_CPL_LUT_VALID"
 #define device_bar_CAVM_PEMX_CPL_LUT_VALID(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_CPL_LUT_VALID(a) (a)
 #define arguments_CAVM_PEMX_CPL_LUT_VALID(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_ctl_status
+ * Register (ARF) pem#_ctl_status
  *
  * PEM Control Status Register
  * This is a general control and status register of the PEM.
@@ -1433,19 +1433,19 @@ static inline uint64_t CAVM_PEMX_CTL_STATUS(uint64_t a) __attribute__ ((pure, al
 static inline uint64_t CAVM_PEMX_CTL_STATUS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000000ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000000ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_CTL_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_CTL_STATUS(a) cavm_pemx_ctl_status_t
-#define bustype_CAVM_PEMX_CTL_STATUS(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_CTL_STATUS(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_CTL_STATUS(a) "PEMX_CTL_STATUS"
 #define device_bar_CAVM_PEMX_CTL_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_CTL_STATUS(a) (a)
 #define arguments_CAVM_PEMX_CTL_STATUS(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_ctl_status2
+ * Register (ARF) pem#_ctl_status2
  *
  * PEM Control Status 2 Register
  * This register contains additional general control and status of the PEM.
@@ -1523,19 +1523,19 @@ static inline uint64_t CAVM_PEMX_CTL_STATUS2(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PEMX_CTL_STATUS2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000130ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000130ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_CTL_STATUS2", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_CTL_STATUS2(a) cavm_pemx_ctl_status2_t
-#define bustype_CAVM_PEMX_CTL_STATUS2(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_CTL_STATUS2(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_CTL_STATUS2(a) "PEMX_CTL_STATUS2"
 #define device_bar_CAVM_PEMX_CTL_STATUS2(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_CTL_STATUS2(a) (a)
 #define arguments_CAVM_PEMX_CTL_STATUS2(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_dbg_info
+ * Register (ARF) pem#_dbg_info
  *
  * PEM Debug Information Register
  * This is a debug information register of the PEM.
@@ -1695,19 +1695,19 @@ static inline uint64_t CAVM_PEMX_DBG_INFO(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_PEMX_DBG_INFO(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000108ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000108ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_DBG_INFO", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_DBG_INFO(a) cavm_pemx_dbg_info_t
-#define bustype_CAVM_PEMX_DBG_INFO(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_DBG_INFO(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_DBG_INFO(a) "PEMX_DBG_INFO"
 #define device_bar_CAVM_PEMX_DBG_INFO(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_DBG_INFO(a) (a)
 #define arguments_CAVM_PEMX_DBG_INFO(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_debug
+ * Register (ARF) pem#_debug
  *
  * PEM Debug Register
  * This register contains status of level interrupts for debugging purposes.
@@ -1793,19 +1793,19 @@ static inline uint64_t CAVM_PEMX_DEBUG(uint64_t a) __attribute__ ((pure, always_
 static inline uint64_t CAVM_PEMX_DEBUG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000110ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000110ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_DEBUG", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_DEBUG(a) cavm_pemx_debug_t
-#define bustype_CAVM_PEMX_DEBUG(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_DEBUG(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_DEBUG(a) "PEMX_DEBUG"
 #define device_bar_CAVM_PEMX_DEBUG(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_DEBUG(a) (a)
 #define arguments_CAVM_PEMX_DEBUG(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_diag_status
+ * Register (ARF) pem#_diag_status
  *
  * PEM Diagnostic Status Register
  * This register contains selection control for the core diagnostic bus.
@@ -2150,19 +2150,19 @@ static inline uint64_t CAVM_PEMX_DIAG_STATUS(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PEMX_DIAG_STATUS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000010ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000010ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_DIAG_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_DIAG_STATUS(a) cavm_pemx_diag_status_t
-#define bustype_CAVM_PEMX_DIAG_STATUS(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_DIAG_STATUS(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_DIAG_STATUS(a) "PEMX_DIAG_STATUS"
 #define device_bar_CAVM_PEMX_DIAG_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_DIAG_STATUS(a) (a)
 #define arguments_CAVM_PEMX_DIAG_STATUS(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_dis_port
+ * Register (ARF) pem#_dis_port
  *
  * PEM Disable Port Register
  * This register controls whether traffic is allowed to be sent out the PCIe link.
@@ -2210,19 +2210,19 @@ static inline uint64_t CAVM_PEMX_DIS_PORT(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_PEMX_DIS_PORT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000050ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000050ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_DIS_PORT", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_DIS_PORT(a) cavm_pemx_dis_port_t
-#define bustype_CAVM_PEMX_DIS_PORT(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_DIS_PORT(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_DIS_PORT(a) "PEMX_DIS_PORT"
 #define device_bar_CAVM_PEMX_DIS_PORT(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_DIS_PORT(a) (a)
 #define arguments_CAVM_PEMX_DIS_PORT(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_ebi_tlp_credits
+ * Register (ARF) pem#_ebi_tlp_credits
  *
  * PEM EBUS TLP Credits Register
  * This register specifies the number of credits for use in moving TLPs. When this register is
@@ -2264,19 +2264,19 @@ static inline uint64_t CAVM_PEMX_EBI_TLP_CREDITS(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_PEMX_EBI_TLP_CREDITS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000028ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000028ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_EBI_TLP_CREDITS", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_EBI_TLP_CREDITS(a) cavm_pemx_ebi_tlp_credits_t
-#define bustype_CAVM_PEMX_EBI_TLP_CREDITS(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_EBI_TLP_CREDITS(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_EBI_TLP_CREDITS(a) "PEMX_EBI_TLP_CREDITS"
 #define device_bar_CAVM_PEMX_EBI_TLP_CREDITS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_EBI_TLP_CREDITS(a) (a)
 #define arguments_CAVM_PEMX_EBI_TLP_CREDITS(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_ebo_fifo_status
+ * Register (ARF) pem#_ebo_fifo_status
  *
  * PEM EBO Offloading FIFO Status Register
  * This register contains status about the PEM EBO offloading FIFOs.
@@ -2368,19 +2368,19 @@ static inline uint64_t CAVM_PEMX_EBO_FIFO_STATUS(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_PEMX_EBO_FIFO_STATUS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000140ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000140ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_EBO_FIFO_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_EBO_FIFO_STATUS(a) cavm_pemx_ebo_fifo_status_t
-#define bustype_CAVM_PEMX_EBO_FIFO_STATUS(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_EBO_FIFO_STATUS(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_EBO_FIFO_STATUS(a) "PEMX_EBO_FIFO_STATUS"
 #define device_bar_CAVM_PEMX_EBO_FIFO_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_EBO_FIFO_STATUS(a) (a)
 #define arguments_CAVM_PEMX_EBO_FIFO_STATUS(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_ebus_ctl
+ * Register (ARF) pem#_ebus_ctl
  *
  * PEMEBUS Control Register
  * This register contains EBUS related control bits.
@@ -2514,19 +2514,19 @@ static inline uint64_t CAVM_PEMX_EBUS_CTL(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_PEMX_EBUS_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000080ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000080ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_EBUS_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_EBUS_CTL(a) cavm_pemx_ebus_ctl_t
-#define bustype_CAVM_PEMX_EBUS_CTL(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_EBUS_CTL(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_EBUS_CTL(a) "PEMX_EBUS_CTL"
 #define device_bar_CAVM_PEMX_EBUS_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_EBUS_CTL(a) (a)
 #define arguments_CAVM_PEMX_EBUS_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_end_merge
+ * Register (ARF) pem#_end_merge
  *
  * PEM End Merge Register
  * Any access (read or write) to this register over NCBO will create a merging barrier
@@ -2559,19 +2559,19 @@ static inline uint64_t CAVM_PEMX_END_MERGE(uint64_t a) __attribute__ ((pure, alw
 static inline uint64_t CAVM_PEMX_END_MERGE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000188ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000188ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_END_MERGE", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_END_MERGE(a) cavm_pemx_end_merge_t
-#define bustype_CAVM_PEMX_END_MERGE(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_END_MERGE(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_END_MERGE(a) "PEMX_END_MERGE"
 #define device_bar_CAVM_PEMX_END_MERGE(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_END_MERGE(a) (a)
 #define arguments_CAVM_PEMX_END_MERGE(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_erom_bar_addr
+ * Register (ARF) pem#_erom_bar_addr
  *
  * PEMEROM BAR Address Register
  * This register configures PEM EROM BAR accesses targeted at NCBI.
@@ -2615,19 +2615,19 @@ static inline uint64_t CAVM_PEMX_EROM_BAR_ADDR(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_PEMX_EROM_BAR_ADDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000160ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000160ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_EROM_BAR_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_EROM_BAR_ADDR(a) cavm_pemx_erom_bar_addr_t
-#define bustype_CAVM_PEMX_EROM_BAR_ADDR(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_EROM_BAR_ADDR(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_EROM_BAR_ADDR(a) "PEMX_EROM_BAR_ADDR"
 #define device_bar_CAVM_PEMX_EROM_BAR_ADDR(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_EROM_BAR_ADDR(a) (a)
 #define arguments_CAVM_PEMX_EROM_BAR_ADDR(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_erom_size
+ * Register (ARF) pem#_erom_size
  *
  * PEMPEM EROM BAR Address Register
  * This register configures PEM EROM BAR accesses targeted at NCBI.
@@ -2679,19 +2679,19 @@ static inline uint64_t CAVM_PEMX_EROM_SIZE(uint64_t a) __attribute__ ((pure, alw
 static inline uint64_t CAVM_PEMX_EROM_SIZE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000230ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000230ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_EROM_SIZE", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_EROM_SIZE(a) cavm_pemx_erom_size_t
-#define bustype_CAVM_PEMX_EROM_SIZE(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_EROM_SIZE(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_EROM_SIZE(a) "PEMX_EROM_SIZE"
 #define device_bar_CAVM_PEMX_EROM_SIZE(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_EROM_SIZE(a) (a)
 #define arguments_CAVM_PEMX_EROM_SIZE(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_flr_ctl
+ * Register (ARF) pem#_flr_ctl
  *
  * PEMPEM FLR Control Register
  * This register provides function level reset controls.
@@ -2753,19 +2753,19 @@ static inline uint64_t CAVM_PEMX_FLR_CTL(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_PEMX_FLR_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000070ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000070ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_FLR_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_FLR_CTL(a) cavm_pemx_flr_ctl_t
-#define bustype_CAVM_PEMX_FLR_CTL(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_FLR_CTL(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_FLR_CTL(a) "PEMX_FLR_CTL"
 #define device_bar_CAVM_PEMX_FLR_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_FLR_CTL(a) (a)
 #define arguments_CAVM_PEMX_FLR_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_flr_pf#_stopreq
+ * Register (ARF) pem#_flr_pf#_stopreq
  *
  * PEMPEM PF Stop Request Register
  * PF function level reset stop outbound requests register.
@@ -2814,19 +2814,19 @@ static inline uint64_t CAVM_PEMX_FLR_PFX_STOPREQ(uint64_t a, uint64_t b) __attri
 static inline uint64_t CAVM_PEMX_FLR_PFX_STOPREQ(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b==0)))
-        return 0x8e0000000c00ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+        return 0xc28000000c00ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("PEMX_FLR_PFX_STOPREQ", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_FLR_PFX_STOPREQ(a,b) cavm_pemx_flr_pfx_stopreq_t
-#define bustype_CAVM_PEMX_FLR_PFX_STOPREQ(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_FLR_PFX_STOPREQ(a,b) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_FLR_PFX_STOPREQ(a,b) "PEMX_FLR_PFX_STOPREQ"
 #define device_bar_CAVM_PEMX_FLR_PFX_STOPREQ(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_FLR_PFX_STOPREQ(a,b) (a)
 #define arguments_CAVM_PEMX_FLR_PFX_STOPREQ(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) pem#_flr_stopreq_ctl
+ * Register (ARF) pem#_flr_stopreq_ctl
  *
  * PEMPEM FLR Global Count Control Register
  * Function level reset STOPREQ control register.
@@ -2876,19 +2876,19 @@ static inline uint64_t CAVM_PEMX_FLR_STOPREQ_CTL(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_PEMX_FLR_STOPREQ_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000078ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000078ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_FLR_STOPREQ_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_FLR_STOPREQ_CTL(a) cavm_pemx_flr_stopreq_ctl_t
-#define bustype_CAVM_PEMX_FLR_STOPREQ_CTL(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_FLR_STOPREQ_CTL(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_FLR_STOPREQ_CTL(a) "PEMX_FLR_STOPREQ_CTL"
 #define device_bar_CAVM_PEMX_FLR_STOPREQ_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_FLR_STOPREQ_CTL(a) (a)
 #define arguments_CAVM_PEMX_FLR_STOPREQ_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_flr_vf_stopreq
+ * Register (ARF) pem#_flr_vf_stopreq
  *
  * PEMPEM VF Stop Request Register
  * VFI 0-63 virtual function level reset stop outbound requests register.
@@ -2941,19 +2941,19 @@ static inline uint64_t CAVM_PEMX_FLR_VF_STOPREQ(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_PEMX_FLR_VF_STOPREQ(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000e00ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000e00ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_FLR_VF_STOPREQ", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_FLR_VF_STOPREQ(a) cavm_pemx_flr_vf_stopreq_t
-#define bustype_CAVM_PEMX_FLR_VF_STOPREQ(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_FLR_VF_STOPREQ(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_FLR_VF_STOPREQ(a) "PEMX_FLR_VF_STOPREQ"
 #define device_bar_CAVM_PEMX_FLR_VF_STOPREQ(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_FLR_VF_STOPREQ(a) (a)
 #define arguments_CAVM_PEMX_FLR_VF_STOPREQ(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_ib_latency#_pc#
+ * Register (ARF) pem#_ib_latency#_pc#
  *
  * PEM Inbound Latency Time Registers
  * This register resets on core domain reset.  It measures the time portion
@@ -2987,19 +2987,19 @@ static inline uint64_t CAVM_PEMX_IB_LATENCYX_PCX(uint64_t a, uint64_t b, uint64_
 static inline uint64_t CAVM_PEMX_IB_LATENCYX_PCX(uint64_t a, uint64_t b, uint64_t c)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b==0) && (c<=7)))
-        return 0x8e0000005200ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0) + 0x20ll * ((c) & 0x7);
+        return 0xc28000005200ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0) + 0x20ll * ((c) & 0x7);
     __cavm_csr_fatal("PEMX_IB_LATENCYX_PCX", 3, a, b, c, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_IB_LATENCYX_PCX(a,b,c) cavm_pemx_ib_latencyx_pcx_t
-#define bustype_CAVM_PEMX_IB_LATENCYX_PCX(a,b,c) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_IB_LATENCYX_PCX(a,b,c) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_IB_LATENCYX_PCX(a,b,c) "PEMX_IB_LATENCYX_PCX"
 #define device_bar_CAVM_PEMX_IB_LATENCYX_PCX(a,b,c) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_IB_LATENCYX_PCX(a,b,c) (a)
 #define arguments_CAVM_PEMX_IB_LATENCYX_PCX(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (NCB) pem#_ib_reads#_pc#
+ * Register (ARF) pem#_ib_reads#_pc#
  *
  * PEM Inbound Read Count Registers
  * This register resets on core domain reset.  It measures the count portion
@@ -3051,19 +3051,19 @@ static inline uint64_t CAVM_PEMX_IB_READSX_PCX(uint64_t a, uint64_t b, uint64_t 
 static inline uint64_t CAVM_PEMX_IB_READSX_PCX(uint64_t a, uint64_t b, uint64_t c)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b==0) && (c<=7)))
-        return 0x8e0000005300ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0) + 0x20ll * ((c) & 0x7);
+        return 0xc28000005300ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0) + 0x20ll * ((c) & 0x7);
     __cavm_csr_fatal("PEMX_IB_READSX_PCX", 3, a, b, c, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_IB_READSX_PCX(a,b,c) cavm_pemx_ib_readsx_pcx_t
-#define bustype_CAVM_PEMX_IB_READSX_PCX(a,b,c) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_IB_READSX_PCX(a,b,c) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_IB_READSX_PCX(a,b,c) "PEMX_IB_READSX_PCX"
 #define device_bar_CAVM_PEMX_IB_READSX_PCX(a,b,c) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_IB_READSX_PCX(a,b,c) (a)
 #define arguments_CAVM_PEMX_IB_READSX_PCX(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (NCB) pem#_ib_req#_no_ro_pc#
+ * Register (ARF) pem#_ib_req#_no_ro_pc#
  *
  * PEM Inbound No Relaxed Ordering Registers
  * This register resets on core domain reset.  It measures the number of inbound requests
@@ -3094,19 +3094,19 @@ static inline uint64_t CAVM_PEMX_IB_REQX_NO_RO_PCX(uint64_t a, uint64_t b, uint6
 static inline uint64_t CAVM_PEMX_IB_REQX_NO_RO_PCX(uint64_t a, uint64_t b, uint64_t c)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b<=1) && (c<=7)))
-        return 0x8e0000005400ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1) + 0x20ll * ((c) & 0x7);
+        return 0xc28000005400ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1) + 0x20ll * ((c) & 0x7);
     __cavm_csr_fatal("PEMX_IB_REQX_NO_RO_PCX", 3, a, b, c, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_IB_REQX_NO_RO_PCX(a,b,c) cavm_pemx_ib_reqx_no_ro_pcx_t
-#define bustype_CAVM_PEMX_IB_REQX_NO_RO_PCX(a,b,c) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_IB_REQX_NO_RO_PCX(a,b,c) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_IB_REQX_NO_RO_PCX(a,b,c) "PEMX_IB_REQX_NO_RO_PCX"
 #define device_bar_CAVM_PEMX_IB_REQX_NO_RO_PCX(a,b,c) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_IB_REQX_NO_RO_PCX(a,b,c) (a)
 #define arguments_CAVM_PEMX_IB_REQX_NO_RO_PCX(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (NCB) pem#_ib_tlp#_dwords_pc#
+ * Register (ARF) pem#_ib_tlp#_dwords_pc#
  *
  * PEM Inbound TLP DWORDS Registers
  * This register resets on core domain reset.  Otherwise, it continuously accumulates
@@ -3138,19 +3138,19 @@ static inline uint64_t CAVM_PEMX_IB_TLPX_DWORDS_PCX(uint64_t a, uint64_t b, uint
 static inline uint64_t CAVM_PEMX_IB_TLPX_DWORDS_PCX(uint64_t a, uint64_t b, uint64_t c)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b<=2) && (c<=7)))
-        return 0x8e0000005100ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3) + 0x20ll * ((c) & 0x7);
+        return 0xc28000005100ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3) + 0x20ll * ((c) & 0x7);
     __cavm_csr_fatal("PEMX_IB_TLPX_DWORDS_PCX", 3, a, b, c, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_IB_TLPX_DWORDS_PCX(a,b,c) cavm_pemx_ib_tlpx_dwords_pcx_t
-#define bustype_CAVM_PEMX_IB_TLPX_DWORDS_PCX(a,b,c) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_IB_TLPX_DWORDS_PCX(a,b,c) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_IB_TLPX_DWORDS_PCX(a,b,c) "PEMX_IB_TLPX_DWORDS_PCX"
 #define device_bar_CAVM_PEMX_IB_TLPX_DWORDS_PCX(a,b,c) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_IB_TLPX_DWORDS_PCX(a,b,c) (a)
 #define arguments_CAVM_PEMX_IB_TLPX_DWORDS_PCX(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (NCB) pem#_ib_tlp#_pc#
+ * Register (ARF) pem#_ib_tlp#_pc#
  *
  * PEM Inbound TLP Count Registers
  * This register resets on core domain reset.  Otherwise, it continuously increments
@@ -3181,19 +3181,19 @@ static inline uint64_t CAVM_PEMX_IB_TLPX_PCX(uint64_t a, uint64_t b, uint64_t c)
 static inline uint64_t CAVM_PEMX_IB_TLPX_PCX(uint64_t a, uint64_t b, uint64_t c)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b<=2) && (c<=7)))
-        return 0x8e0000005000ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3) + 0x20ll * ((c) & 0x7);
+        return 0xc28000005000ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3) + 0x20ll * ((c) & 0x7);
     __cavm_csr_fatal("PEMX_IB_TLPX_PCX", 3, a, b, c, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_IB_TLPX_PCX(a,b,c) cavm_pemx_ib_tlpx_pcx_t
-#define bustype_CAVM_PEMX_IB_TLPX_PCX(a,b,c) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_IB_TLPX_PCX(a,b,c) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_IB_TLPX_PCX(a,b,c) "PEMX_IB_TLPX_PCX"
 #define device_bar_CAVM_PEMX_IB_TLPX_PCX(a,b,c) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_IB_TLPX_PCX(a,b,c) (a)
 #define arguments_CAVM_PEMX_IB_TLPX_PCX(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (NCB) pem#_int_ena_w1c
+ * Register (ARF) pem#_int_ena_w1c
  *
  * PEM Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
@@ -3269,19 +3269,19 @@ static inline uint64_t CAVM_PEMX_INT_ENA_W1C(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PEMX_INT_ENA_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e00000000f8ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc280000000f8ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_INT_ENA_W1C(a) cavm_pemx_int_ena_w1c_t
-#define bustype_CAVM_PEMX_INT_ENA_W1C(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_INT_ENA_W1C(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_INT_ENA_W1C(a) "PEMX_INT_ENA_W1C"
 #define device_bar_CAVM_PEMX_INT_ENA_W1C(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_INT_ENA_W1C(a) (a)
 #define arguments_CAVM_PEMX_INT_ENA_W1C(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_int_ena_w1s
+ * Register (ARF) pem#_int_ena_w1s
  *
  * PEM Interrupt Enable Set Register
  * This register sets interrupt enable bits.
@@ -3357,19 +3357,19 @@ static inline uint64_t CAVM_PEMX_INT_ENA_W1S(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PEMX_INT_ENA_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000100ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000100ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_INT_ENA_W1S(a) cavm_pemx_int_ena_w1s_t
-#define bustype_CAVM_PEMX_INT_ENA_W1S(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_INT_ENA_W1S(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_INT_ENA_W1S(a) "PEMX_INT_ENA_W1S"
 #define device_bar_CAVM_PEMX_INT_ENA_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_INT_ENA_W1S(a) (a)
 #define arguments_CAVM_PEMX_INT_ENA_W1S(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_int_sum
+ * Register (ARF) pem#_int_sum
  *
  * PEM Interrupt Summary Register
  * This register contains the different interrupt summary bits of the PEM.
@@ -3485,19 +3485,19 @@ static inline uint64_t CAVM_PEMX_INT_SUM(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_PEMX_INT_SUM(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e00000000e8ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc280000000e8ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_INT_SUM", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_INT_SUM(a) cavm_pemx_int_sum_t
-#define bustype_CAVM_PEMX_INT_SUM(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_INT_SUM(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_INT_SUM(a) "PEMX_INT_SUM"
 #define device_bar_CAVM_PEMX_INT_SUM(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_INT_SUM(a) (a)
 #define arguments_CAVM_PEMX_INT_SUM(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_int_sum_w1s
+ * Register (ARF) pem#_int_sum_w1s
  *
  * PEM Interrupt Summary Register
  * This register sets interrupt bits.
@@ -3573,19 +3573,150 @@ static inline uint64_t CAVM_PEMX_INT_SUM_W1S(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PEMX_INT_SUM_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e00000000f0ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc280000000f0ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_INT_SUM_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_INT_SUM_W1S(a) cavm_pemx_int_sum_w1s_t
-#define bustype_CAVM_PEMX_INT_SUM_W1S(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_INT_SUM_W1S(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_INT_SUM_W1S(a) "PEMX_INT_SUM_W1S"
 #define device_bar_CAVM_PEMX_INT_SUM_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_INT_SUM_W1S(a) (a)
 #define arguments_CAVM_PEMX_INT_SUM_W1S(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_merge_timer_ctl
+ * Register (ARF) pem#_ltr_cmd
+ *
+ * PEMPEM Latency Tolerance Command Register
+ * Writing to a one to set this bit creates a pulse in the application to send a LTR
+ * message across the link.
+ */
+union cavm_pemx_ltr_cmd
+{
+    uint64_t u;
+    struct cavm_pemx_ltr_cmd_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t ltr_cmd               : 1;  /**< [  0:  0](WO) Writing to a one to set this bit creates a pulse
+                                                                 in the application to send a LTR message across the link.
+                                                                 This bit will always read as a zero. */
+#else /* Word 0 - Little Endian */
+        uint64_t ltr_cmd               : 1;  /**< [  0:  0](WO) Writing to a one to set this bit creates a pulse
+                                                                 in the application to send a LTR message across the link.
+                                                                 This bit will always read as a zero. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pemx_ltr_cmd_s cn; */
+};
+typedef union cavm_pemx_ltr_cmd cavm_pemx_ltr_cmd_t;
+
+static inline uint64_t CAVM_PEMX_LTR_CMD(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PEMX_LTR_CMD(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0xc280000000b0ll + 0x100000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("PEMX_LTR_CMD", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PEMX_LTR_CMD(a) cavm_pemx_ltr_cmd_t
+#define bustype_CAVM_PEMX_LTR_CMD(a) CSR_TYPE_ARF
+#define basename_CAVM_PEMX_LTR_CMD(a) "PEMX_LTR_CMD"
+#define device_bar_CAVM_PEMX_LTR_CMD(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_PEMX_LTR_CMD(a) (a)
+#define arguments_CAVM_PEMX_LTR_CMD(a) (a),-1,-1,-1
+
+/**
+ * Register (ARF) pem#_ltr_latency
+ *
+ * PEMPEM Latency Tolerance Reporting Register
+ * This register contains the current LTR values reported and in-use
+ * by the downstream device.
+ *
+ * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
+ *
+ * This register is reset on MAC reset.
+ */
+union cavm_pemx_ltr_latency
+{
+    uint64_t u;
+    struct cavm_pemx_ltr_latency_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t latency               : 32; /**< [ 31:  0](RO/H) Reflects the captured LTR values from received LTR message in RC mode. */
+#else /* Word 0 - Little Endian */
+        uint64_t latency               : 32; /**< [ 31:  0](RO/H) Reflects the captured LTR values from received LTR message in RC mode. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pemx_ltr_latency_s cn; */
+};
+typedef union cavm_pemx_ltr_latency cavm_pemx_ltr_latency_t;
+
+static inline uint64_t CAVM_PEMX_LTR_LATENCY(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PEMX_LTR_LATENCY(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0xc280000000c0ll + 0x100000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("PEMX_LTR_LATENCY", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PEMX_LTR_LATENCY(a) cavm_pemx_ltr_latency_t
+#define bustype_CAVM_PEMX_LTR_LATENCY(a) CSR_TYPE_ARF
+#define basename_CAVM_PEMX_LTR_LATENCY(a) "PEMX_LTR_LATENCY"
+#define device_bar_CAVM_PEMX_LTR_LATENCY(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_PEMX_LTR_LATENCY(a) (a)
+#define arguments_CAVM_PEMX_LTR_LATENCY(a) (a),-1,-1,-1
+
+/**
+ * Register (ARF) pem#_ltr_val
+ *
+ * PEMPEM Latency Tolerance Reporting Register
+ * This register contains the values to put into the latency tolerance reporting (LTM) message
+ * when triggered by hardware.  EP Mode.
+ *
+ * This register is accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
+ *
+ * This register is reset on cold reset.
+ */
+union cavm_pemx_ltr_val
+{
+    uint64_t u;
+    struct cavm_pemx_ltr_val_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t ns_lat                : 16; /**< [ 31: 16](R/W) No-snoop latency value to put into LTM message when triggered by hardware. */
+        uint64_t snoop_lat             : 16; /**< [ 15:  0](R/W) Snoop latency value to put into LTM message when triggered by hardware. */
+#else /* Word 0 - Little Endian */
+        uint64_t snoop_lat             : 16; /**< [ 15:  0](R/W) Snoop latency value to put into LTM message when triggered by hardware. */
+        uint64_t ns_lat                : 16; /**< [ 31: 16](R/W) No-snoop latency value to put into LTM message when triggered by hardware. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pemx_ltr_val_s cn; */
+};
+typedef union cavm_pemx_ltr_val cavm_pemx_ltr_val_t;
+
+static inline uint64_t CAVM_PEMX_LTR_VAL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PEMX_LTR_VAL(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
+        return 0xc280000000b8ll + 0x100000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("PEMX_LTR_VAL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PEMX_LTR_VAL(a) cavm_pemx_ltr_val_t
+#define bustype_CAVM_PEMX_LTR_VAL(a) CSR_TYPE_ARF
+#define basename_CAVM_PEMX_LTR_VAL(a) "PEMX_LTR_VAL"
+#define device_bar_CAVM_PEMX_LTR_VAL(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_PEMX_LTR_VAL(a) (a)
+#define arguments_CAVM_PEMX_LTR_VAL(a) (a),-1,-1,-1
+
+/**
+ * Register (ARF) pem#_merge_timer_ctl
  *
  * PEM Merge Timer Control Register
  * This register controls merging timers and overrides for maximum merging size
@@ -3726,19 +3857,19 @@ static inline uint64_t CAVM_PEMX_MERGE_TIMER_CTL(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_PEMX_MERGE_TIMER_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000180ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000180ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_MERGE_TIMER_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_MERGE_TIMER_CTL(a) cavm_pemx_merge_timer_ctl_t
-#define bustype_CAVM_PEMX_MERGE_TIMER_CTL(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_MERGE_TIMER_CTL(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_MERGE_TIMER_CTL(a) "PEMX_MERGE_TIMER_CTL"
 #define device_bar_CAVM_PEMX_MERGE_TIMER_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_MERGE_TIMER_CTL(a) (a)
 #define arguments_CAVM_PEMX_MERGE_TIMER_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_mpam_assoc_pc#
+ * Register (ARF) pem#_mpam_assoc_pc#
  *
  * PEM NCB Outbound Merge Count Register
  * This register is used to create a mapping of MPAM ID to one of eight sets of
@@ -3767,19 +3898,19 @@ static inline uint64_t CAVM_PEMX_MPAM_ASSOC_PCX(uint64_t a, uint64_t b) __attrib
 static inline uint64_t CAVM_PEMX_MPAM_ASSOC_PCX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b<=255)))
-        return 0x8e0000006000ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0xff);
+        return 0xc28000006000ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0xff);
     __cavm_csr_fatal("PEMX_MPAM_ASSOC_PCX", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_MPAM_ASSOC_PCX(a,b) cavm_pemx_mpam_assoc_pcx_t
-#define bustype_CAVM_PEMX_MPAM_ASSOC_PCX(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_MPAM_ASSOC_PCX(a,b) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_MPAM_ASSOC_PCX(a,b) "PEMX_MPAM_ASSOC_PCX"
 #define device_bar_CAVM_PEMX_MPAM_ASSOC_PCX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_MPAM_ASSOC_PCX(a,b) (a)
 #define arguments_CAVM_PEMX_MPAM_ASSOC_PCX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) pem#_msix_pba#
+ * Register (ARF) pem#_msix_pba#
  *
  * PEM MSI-X Pending Bit Array Registers
  * This register is the MSI-X PBA table, the bit number is indexed by the PEM_INT_VEC_E enumeration.
@@ -3809,19 +3940,19 @@ static inline uint64_t CAVM_PEMX_MSIX_PBAX(uint64_t a, uint64_t b) __attribute__
 static inline uint64_t CAVM_PEMX_MSIX_PBAX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b==0)))
-        return 0x8e0f000f0000ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+        return 0xc280800f0000ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("PEMX_MSIX_PBAX", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_MSIX_PBAX(a,b) cavm_pemx_msix_pbax_t
-#define bustype_CAVM_PEMX_MSIX_PBAX(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_MSIX_PBAX(a,b) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_MSIX_PBAX(a,b) "PEMX_MSIX_PBAX"
 #define device_bar_CAVM_PEMX_MSIX_PBAX(a,b) 0x4 /* PF_BAR4 */
 #define busnum_CAVM_PEMX_MSIX_PBAX(a,b) (a)
 #define arguments_CAVM_PEMX_MSIX_PBAX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) pem#_msix_vec#_addr
+ * Register (ARF) pem#_msix_vec#_addr
  *
  * PEM MSI-X Vector Table Address Registers
  * This register is the MSI-X vector table, indexed by the PEM_INT_VEC_E enumeration.
@@ -3899,19 +4030,19 @@ static inline uint64_t CAVM_PEMX_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attrib
 static inline uint64_t CAVM_PEMX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b<=11)))
-        return 0x8e0f00000000ll + 0x1000000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0xf);
+        return 0xc28080000000ll + 0x100000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0xf);
     __cavm_csr_fatal("PEMX_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_MSIX_VECX_ADDR(a,b) cavm_pemx_msix_vecx_addr_t
-#define bustype_CAVM_PEMX_MSIX_VECX_ADDR(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_MSIX_VECX_ADDR(a,b) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_MSIX_VECX_ADDR(a,b) "PEMX_MSIX_VECX_ADDR"
 #define device_bar_CAVM_PEMX_MSIX_VECX_ADDR(a,b) 0x4 /* PF_BAR4 */
 #define busnum_CAVM_PEMX_MSIX_VECX_ADDR(a,b) (a)
 #define arguments_CAVM_PEMX_MSIX_VECX_ADDR(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) pem#_msix_vec#_ctl
+ * Register (ARF) pem#_msix_vec#_ctl
  *
  * PEM MSI-X Vector Table Control and Data Registers
  * This register is the MSI-X vector table, indexed by the PEM_INT_VEC_E enumeration.
@@ -3943,19 +4074,19 @@ static inline uint64_t CAVM_PEMX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribu
 static inline uint64_t CAVM_PEMX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b<=11)))
-        return 0x8e0f00000008ll + 0x1000000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0xf);
+        return 0xc28080000008ll + 0x100000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0xf);
     __cavm_csr_fatal("PEMX_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_MSIX_VECX_CTL(a,b) cavm_pemx_msix_vecx_ctl_t
-#define bustype_CAVM_PEMX_MSIX_VECX_CTL(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_MSIX_VECX_CTL(a,b) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_MSIX_VECX_CTL(a,b) "PEMX_MSIX_VECX_CTL"
 #define device_bar_CAVM_PEMX_MSIX_VECX_CTL(a,b) 0x4 /* PF_BAR4 */
 #define busnum_CAVM_PEMX_MSIX_VECX_CTL(a,b) (a)
 #define arguments_CAVM_PEMX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) pem#_ncbi_ctl
+ * Register (ARF) pem#_ncbi_ctl
  *
  * PEM Inbound NCBI Control Register
  * This register contains control bits for memory accesses targeting the NCBI bus.
@@ -4080,19 +4211,19 @@ static inline uint64_t CAVM_PEMX_NCBI_CTL(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_PEMX_NCBI_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000178ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000178ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_NCBI_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_NCBI_CTL(a) cavm_pemx_ncbi_ctl_t
-#define bustype_CAVM_PEMX_NCBI_CTL(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_NCBI_CTL(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_NCBI_CTL(a) "PEMX_NCBI_CTL"
 #define device_bar_CAVM_PEMX_NCBI_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_NCBI_CTL(a) (a)
 #define arguments_CAVM_PEMX_NCBI_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_ncbi_tlp_credits
+ * Register (ARF) pem#_ncbi_tlp_credits
  *
  * PEM NCB Inbound TLP Credits Register
  * This register specifies the number of credits for use in moving TLPs. When this register is
@@ -4134,19 +4265,19 @@ static inline uint64_t CAVM_PEMX_NCBI_TLP_CREDITS(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_PEMX_NCBI_TLP_CREDITS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000030ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000030ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_NCBI_TLP_CREDITS", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_NCBI_TLP_CREDITS(a) cavm_pemx_ncbi_tlp_credits_t
-#define bustype_CAVM_PEMX_NCBI_TLP_CREDITS(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_NCBI_TLP_CREDITS(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_NCBI_TLP_CREDITS(a) "PEMX_NCBI_TLP_CREDITS"
 #define device_bar_CAVM_PEMX_NCBI_TLP_CREDITS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_NCBI_TLP_CREDITS(a) (a)
 #define arguments_CAVM_PEMX_NCBI_TLP_CREDITS(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_ncbo_fifo_status
+ * Register (ARF) pem#_ncbo_fifo_status
  *
  * PEM NCBO Offloading FIFO Status Register
  * This register contains status about the PEM NCBO offloading FIFOs.
@@ -4202,19 +4333,19 @@ static inline uint64_t CAVM_PEMX_NCBO_FIFO_STATUS(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_PEMX_NCBO_FIFO_STATUS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000138ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000138ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_NCBO_FIFO_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_NCBO_FIFO_STATUS(a) cavm_pemx_ncbo_fifo_status_t
-#define bustype_CAVM_PEMX_NCBO_FIFO_STATUS(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_NCBO_FIFO_STATUS(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_NCBO_FIFO_STATUS(a) "PEMX_NCBO_FIFO_STATUS"
 #define device_bar_CAVM_PEMX_NCBO_FIFO_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_NCBO_FIFO_STATUS(a) (a)
 #define arguments_CAVM_PEMX_NCBO_FIFO_STATUS(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_ob_cmerge_limit
+ * Register (ARF) pem#_ob_cmerge_limit
  *
  * PEM Outbound Completion Merge Limit Register
  * This register provides a mechanism to artificially limit the number of active
@@ -4245,19 +4376,19 @@ static inline uint64_t CAVM_PEMX_OB_CMERGE_LIMIT(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_PEMX_OB_CMERGE_LIMIT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000330ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000330ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_OB_CMERGE_LIMIT", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_OB_CMERGE_LIMIT(a) cavm_pemx_ob_cmerge_limit_t
-#define bustype_CAVM_PEMX_OB_CMERGE_LIMIT(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_OB_CMERGE_LIMIT(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_OB_CMERGE_LIMIT(a) "PEMX_OB_CMERGE_LIMIT"
 #define device_bar_CAVM_PEMX_OB_CMERGE_LIMIT(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_OB_CMERGE_LIMIT(a) (a)
 #define arguments_CAVM_PEMX_OB_CMERGE_LIMIT(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_ob_cpl_fifo_status
+ * Register (ARF) pem#_ob_cpl_fifo_status
  *
  * PEM Outbound Completion FIFO Status Register
  * This register contains status about the PEM Outbound Completion FIFOs.
@@ -4311,19 +4442,19 @@ static inline uint64_t CAVM_PEMX_OB_CPL_FIFO_STATUS(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_PEMX_OB_CPL_FIFO_STATUS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000170ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000170ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_OB_CPL_FIFO_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_OB_CPL_FIFO_STATUS(a) cavm_pemx_ob_cpl_fifo_status_t
-#define bustype_CAVM_PEMX_OB_CPL_FIFO_STATUS(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_OB_CPL_FIFO_STATUS(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_OB_CPL_FIFO_STATUS(a) "PEMX_OB_CPL_FIFO_STATUS"
 #define device_bar_CAVM_PEMX_OB_CPL_FIFO_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_OB_CPL_FIFO_STATUS(a) (a)
 #define arguments_CAVM_PEMX_OB_CPL_FIFO_STATUS(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_ob_latency#_pc#
+ * Register (ARF) pem#_ob_latency#_pc#
  *
  * PEM Outbound Latency Time Registers
  * This register resets on core domain reset.  It measures the time portion
@@ -4357,19 +4488,19 @@ static inline uint64_t CAVM_PEMX_OB_LATENCYX_PCX(uint64_t a, uint64_t b, uint64_
 static inline uint64_t CAVM_PEMX_OB_LATENCYX_PCX(uint64_t a, uint64_t b, uint64_t c)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b==0) && (c<=7)))
-        return 0x8e0000005700ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0) + 0x20ll * ((c) & 0x7);
+        return 0xc28000005700ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0) + 0x20ll * ((c) & 0x7);
     __cavm_csr_fatal("PEMX_OB_LATENCYX_PCX", 3, a, b, c, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_OB_LATENCYX_PCX(a,b,c) cavm_pemx_ob_latencyx_pcx_t
-#define bustype_CAVM_PEMX_OB_LATENCYX_PCX(a,b,c) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_OB_LATENCYX_PCX(a,b,c) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_OB_LATENCYX_PCX(a,b,c) "PEMX_OB_LATENCYX_PCX"
 #define device_bar_CAVM_PEMX_OB_LATENCYX_PCX(a,b,c) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_OB_LATENCYX_PCX(a,b,c) (a)
 #define arguments_CAVM_PEMX_OB_LATENCYX_PCX(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (NCB) pem#_ob_reads#_pc#
+ * Register (ARF) pem#_ob_reads#_pc#
  *
  * PEM Outbound Read Count Registers
  * This register resets on core domain reset.  It measures the count portion
@@ -4415,19 +4546,19 @@ static inline uint64_t CAVM_PEMX_OB_READSX_PCX(uint64_t a, uint64_t b, uint64_t 
 static inline uint64_t CAVM_PEMX_OB_READSX_PCX(uint64_t a, uint64_t b, uint64_t c)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b==0) && (c<=7)))
-        return 0x8e0000005800ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0) + 0x20ll * ((c) & 0x7);
+        return 0xc28000005800ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0) + 0x20ll * ((c) & 0x7);
     __cavm_csr_fatal("PEMX_OB_READSX_PCX", 3, a, b, c, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_OB_READSX_PCX(a,b,c) cavm_pemx_ob_readsx_pcx_t
-#define bustype_CAVM_PEMX_OB_READSX_PCX(a,b,c) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_OB_READSX_PCX(a,b,c) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_OB_READSX_PCX(a,b,c) "PEMX_OB_READSX_PCX"
 #define device_bar_CAVM_PEMX_OB_READSX_PCX(a,b,c) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_OB_READSX_PCX(a,b,c) (a)
 #define arguments_CAVM_PEMX_OB_READSX_PCX(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (NCB) pem#_ob_tlp#_dwords_pc#
+ * Register (ARF) pem#_ob_tlp#_dwords_pc#
  *
  * PEM Outbound TLP DWORDS Registers
  * This register resets on core domain reset.  Otherwise, it continuously accumulates
@@ -4457,19 +4588,19 @@ static inline uint64_t CAVM_PEMX_OB_TLPX_DWORDS_PCX(uint64_t a, uint64_t b, uint
 static inline uint64_t CAVM_PEMX_OB_TLPX_DWORDS_PCX(uint64_t a, uint64_t b, uint64_t c)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b<=2) && (c<=7)))
-        return 0x8e0000005600ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3) + 0x20ll * ((c) & 0x7);
+        return 0xc28000005600ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3) + 0x20ll * ((c) & 0x7);
     __cavm_csr_fatal("PEMX_OB_TLPX_DWORDS_PCX", 3, a, b, c, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_OB_TLPX_DWORDS_PCX(a,b,c) cavm_pemx_ob_tlpx_dwords_pcx_t
-#define bustype_CAVM_PEMX_OB_TLPX_DWORDS_PCX(a,b,c) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_OB_TLPX_DWORDS_PCX(a,b,c) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_OB_TLPX_DWORDS_PCX(a,b,c) "PEMX_OB_TLPX_DWORDS_PCX"
 #define device_bar_CAVM_PEMX_OB_TLPX_DWORDS_PCX(a,b,c) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_OB_TLPX_DWORDS_PCX(a,b,c) (a)
 #define arguments_CAVM_PEMX_OB_TLPX_DWORDS_PCX(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (NCB) pem#_ob_tlp#_merges_pc#
+ * Register (ARF) pem#_ob_tlp#_merges_pc#
  *
  * PEM NCB Outbound Merge Count Register
  * This register resets on core domain reset.  Otherwise, it continuously tracks the
@@ -4499,19 +4630,19 @@ static inline uint64_t CAVM_PEMX_OB_TLPX_MERGES_PCX(uint64_t a, uint64_t b, uint
 static inline uint64_t CAVM_PEMX_OB_TLPX_MERGES_PCX(uint64_t a, uint64_t b, uint64_t c)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b<=2) && (c<=7)))
-        return 0x8e0000005900ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3) + 0x20ll * ((c) & 0x7);
+        return 0xc28000005900ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3) + 0x20ll * ((c) & 0x7);
     __cavm_csr_fatal("PEMX_OB_TLPX_MERGES_PCX", 3, a, b, c, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_OB_TLPX_MERGES_PCX(a,b,c) cavm_pemx_ob_tlpx_merges_pcx_t
-#define bustype_CAVM_PEMX_OB_TLPX_MERGES_PCX(a,b,c) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_OB_TLPX_MERGES_PCX(a,b,c) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_OB_TLPX_MERGES_PCX(a,b,c) "PEMX_OB_TLPX_MERGES_PCX"
 #define device_bar_CAVM_PEMX_OB_TLPX_MERGES_PCX(a,b,c) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_OB_TLPX_MERGES_PCX(a,b,c) (a)
 #define arguments_CAVM_PEMX_OB_TLPX_MERGES_PCX(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (NCB) pem#_ob_tlp#_pc#
+ * Register (ARF) pem#_ob_tlp#_pc#
  *
  * PEM Outbound TLP Count Registers
  * This register resets on core domain reset.  Otherwise, it continuously increments
@@ -4540,19 +4671,19 @@ static inline uint64_t CAVM_PEMX_OB_TLPX_PCX(uint64_t a, uint64_t b, uint64_t c)
 static inline uint64_t CAVM_PEMX_OB_TLPX_PCX(uint64_t a, uint64_t b, uint64_t c)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b<=2) && (c<=7)))
-        return 0x8e0000005500ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3) + 0x20ll * ((c) & 0x7);
+        return 0xc28000005500ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3) + 0x20ll * ((c) & 0x7);
     __cavm_csr_fatal("PEMX_OB_TLPX_PCX", 3, a, b, c, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_OB_TLPX_PCX(a,b,c) cavm_pemx_ob_tlpx_pcx_t
-#define bustype_CAVM_PEMX_OB_TLPX_PCX(a,b,c) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_OB_TLPX_PCX(a,b,c) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_OB_TLPX_PCX(a,b,c) "PEMX_OB_TLPX_PCX"
 #define device_bar_CAVM_PEMX_OB_TLPX_PCX(a,b,c) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_OB_TLPX_PCX(a,b,c) (a)
 #define arguments_CAVM_PEMX_OB_TLPX_PCX(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (NCB) pem#_on
+ * Register (ARF) pem#_on
  *
  * PEM On Status Register
  * This register indicates that PEM is configured and ready.
@@ -4608,19 +4739,19 @@ static inline uint64_t CAVM_PEMX_ON(uint64_t a) __attribute__ ((pure, always_inl
 static inline uint64_t CAVM_PEMX_ON(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e00000000e0ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc280000000e0ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_ON", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_ON(a) cavm_pemx_on_t
-#define bustype_CAVM_PEMX_ON(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_ON(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_ON(a) "PEMX_ON"
 #define device_bar_CAVM_PEMX_ON(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_ON(a) (a)
 #define arguments_CAVM_PEMX_ON(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_override_pclk_rate
+ * Register (ARF) pem#_override_pclk_rate
  *
  * PEM Reset Mac Register
  * This register provides a mechanism to override the divide ratio pemx__div_max_pclk_ratio
@@ -4677,19 +4808,19 @@ static inline uint64_t CAVM_PEMX_OVERRIDE_PCLK_RATE(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_PEMX_OVERRIDE_PCLK_RATE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e00000002a0ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc280000002a0ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_OVERRIDE_PCLK_RATE", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_OVERRIDE_PCLK_RATE(a) cavm_pemx_override_pclk_rate_t
-#define bustype_CAVM_PEMX_OVERRIDE_PCLK_RATE(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_OVERRIDE_PCLK_RATE(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_OVERRIDE_PCLK_RATE(a) "PEMX_OVERRIDE_PCLK_RATE"
 #define device_bar_CAVM_PEMX_OVERRIDE_PCLK_RATE(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_OVERRIDE_PCLK_RATE(a) (a)
 #define arguments_CAVM_PEMX_OVERRIDE_PCLK_RATE(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_p2n_bar0_start
+ * Register (ARF) pem#_p2n_bar0_start
  *
  * PEMPCIe RC BAR0 Start Register
  * This register specifies the starting address for memory requests that are to be forwarded to
@@ -4723,19 +4854,19 @@ static inline uint64_t CAVM_PEMX_P2N_BAR0_START(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_PEMX_P2N_BAR0_START(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000158ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000158ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_P2N_BAR0_START", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_P2N_BAR0_START(a) cavm_pemx_p2n_bar0_start_t
-#define bustype_CAVM_PEMX_P2N_BAR0_START(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_P2N_BAR0_START(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_P2N_BAR0_START(a) "PEMX_P2N_BAR0_START"
 #define device_bar_CAVM_PEMX_P2N_BAR0_START(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_P2N_BAR0_START(a) (a)
 #define arguments_CAVM_PEMX_P2N_BAR0_START(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_p2n_bar2_start
+ * Register (ARF) pem#_p2n_bar2_start
  *
  * PEM PCIe RC BAR2 Start Register
  * This register specifies the starting address for memory requests that are to be forwarded to
@@ -4769,19 +4900,19 @@ static inline uint64_t CAVM_PEMX_P2N_BAR2_START(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_PEMX_P2N_BAR2_START(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000150ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000150ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_P2N_BAR2_START", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_P2N_BAR2_START(a) cavm_pemx_p2n_bar2_start_t
-#define bustype_CAVM_PEMX_P2N_BAR2_START(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_P2N_BAR2_START(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_P2N_BAR2_START(a) "PEMX_P2N_BAR2_START"
 #define device_bar_CAVM_PEMX_P2N_BAR2_START(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_P2N_BAR2_START(a) (a)
 #define arguments_CAVM_PEMX_P2N_BAR2_START(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_p2n_bar4_start
+ * Register (ARF) pem#_p2n_bar4_start
  *
  * PEM PCIe RC BAR4 Start Register
  * This register specifies the starting address for memory requests that are to be forwarded to
@@ -4813,19 +4944,19 @@ static inline uint64_t CAVM_PEMX_P2N_BAR4_START(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_PEMX_P2N_BAR4_START(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000148ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000148ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_P2N_BAR4_START", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_P2N_BAR4_START(a) cavm_pemx_p2n_bar4_start_t
-#define bustype_CAVM_PEMX_P2N_BAR4_START(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_P2N_BAR4_START(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_P2N_BAR4_START(a) "PEMX_P2N_BAR4_START"
 #define device_bar_CAVM_PEMX_P2N_BAR4_START(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_P2N_BAR4_START(a) (a)
 #define arguments_CAVM_PEMX_P2N_BAR4_START(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_pemoor_int
+ * Register (ARF) pem#_pemoor_int
  *
  * PEM PEMOOR Interrupt Register
  * This register contains the interrupt bits for PEMOOR.
@@ -4855,19 +4986,19 @@ static inline uint64_t CAVM_PEMX_PEMOOR_INT(uint64_t a) __attribute__ ((pure, al
 static inline uint64_t CAVM_PEMX_PEMOOR_INT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000350ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000350ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_PEMOOR_INT", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_PEMOOR_INT(a) cavm_pemx_pemoor_int_t
-#define bustype_CAVM_PEMX_PEMOOR_INT(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_PEMOOR_INT(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_PEMOOR_INT(a) "PEMX_PEMOOR_INT"
 #define device_bar_CAVM_PEMX_PEMOOR_INT(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_PEMOOR_INT(a) (a)
 #define arguments_CAVM_PEMX_PEMOOR_INT(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_pemoor_int_ena_w1c
+ * Register (ARF) pem#_pemoor_int_ena_w1c
  *
  * PEM PEMOOR Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
@@ -4893,19 +5024,19 @@ static inline uint64_t CAVM_PEMX_PEMOOR_INT_ENA_W1C(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_PEMX_PEMOOR_INT_ENA_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000360ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000360ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_PEMOOR_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_PEMOOR_INT_ENA_W1C(a) cavm_pemx_pemoor_int_ena_w1c_t
-#define bustype_CAVM_PEMX_PEMOOR_INT_ENA_W1C(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_PEMOOR_INT_ENA_W1C(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_PEMOOR_INT_ENA_W1C(a) "PEMX_PEMOOR_INT_ENA_W1C"
 #define device_bar_CAVM_PEMX_PEMOOR_INT_ENA_W1C(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_PEMOOR_INT_ENA_W1C(a) (a)
 #define arguments_CAVM_PEMX_PEMOOR_INT_ENA_W1C(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_pemoor_int_ena_w1s
+ * Register (ARF) pem#_pemoor_int_ena_w1s
  *
  * PEM PEMOOR Interrupt Enable Set Register
  * This register sets interrupt enable bits.
@@ -4931,19 +5062,19 @@ static inline uint64_t CAVM_PEMX_PEMOOR_INT_ENA_W1S(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_PEMX_PEMOOR_INT_ENA_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000368ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000368ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_PEMOOR_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_PEMOOR_INT_ENA_W1S(a) cavm_pemx_pemoor_int_ena_w1s_t
-#define bustype_CAVM_PEMX_PEMOOR_INT_ENA_W1S(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_PEMOOR_INT_ENA_W1S(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_PEMOOR_INT_ENA_W1S(a) "PEMX_PEMOOR_INT_ENA_W1S"
 #define device_bar_CAVM_PEMX_PEMOOR_INT_ENA_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_PEMOOR_INT_ENA_W1S(a) (a)
 #define arguments_CAVM_PEMX_PEMOOR_INT_ENA_W1S(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_pemoor_int_w1s
+ * Register (ARF) pem#_pemoor_int_w1s
  *
  * PEM PEMOOR Interrupt Set Register
  * This register sets interrupt bits.
@@ -4969,19 +5100,19 @@ static inline uint64_t CAVM_PEMX_PEMOOR_INT_W1S(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_PEMX_PEMOOR_INT_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000358ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000358ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_PEMOOR_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_PEMOOR_INT_W1S(a) cavm_pemx_pemoor_int_w1s_t
-#define bustype_CAVM_PEMX_PEMOOR_INT_W1S(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_PEMOOR_INT_W1S(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_PEMOOR_INT_W1S(a) "PEMX_PEMOOR_INT_W1S"
 #define device_bar_CAVM_PEMX_PEMOOR_INT_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_PEMOOR_INT_W1S(a) (a)
 #define arguments_CAVM_PEMX_PEMOOR_INT_W1S(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_perr_status
+ * Register (ARF) pem#_perr_status
  *
  * PEM Parity Error Status Register
  * This register contains indications of parity errors detected inside PEM.
@@ -5037,19 +5168,19 @@ static inline uint64_t CAVM_PEMX_PERR_STATUS(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PEMX_PERR_STATUS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e00000001d8ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc280000001d8ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_PERR_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_PERR_STATUS(a) cavm_pemx_perr_status_t
-#define bustype_CAVM_PEMX_PERR_STATUS(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_PERR_STATUS(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_PERR_STATUS(a) "PEMX_PERR_STATUS"
 #define device_bar_CAVM_PEMX_PERR_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_PERR_STATUS(a) (a)
 #define arguments_CAVM_PEMX_PERR_STATUS(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_pf#_clr_flr_req
+ * Register (ARF) pem#_pf#_clr_flr_req
  *
  * PEMPEM PF Clear FLR Request Register
  * This register provides clear request for PCIe PF function level reset (FLR).
@@ -5081,19 +5212,19 @@ static inline uint64_t CAVM_PEMX_PFX_CLR_FLR_REQ(uint64_t a, uint64_t b) __attri
 static inline uint64_t CAVM_PEMX_PFX_CLR_FLR_REQ(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b==0)))
-        return 0x8e0000000a00ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+        return 0xc28000000a00ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("PEMX_PFX_CLR_FLR_REQ", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_PFX_CLR_FLR_REQ(a,b) cavm_pemx_pfx_clr_flr_req_t
-#define bustype_CAVM_PEMX_PFX_CLR_FLR_REQ(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_PFX_CLR_FLR_REQ(a,b) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_PFX_CLR_FLR_REQ(a,b) "PEMX_PFX_CLR_FLR_REQ"
 #define device_bar_CAVM_PEMX_PFX_CLR_FLR_REQ(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_PFX_CLR_FLR_REQ(a,b) (a)
 #define arguments_CAVM_PEMX_PFX_CLR_FLR_REQ(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) pem#_pf#_cs#_pfcfg#
+ * Register (ARF) pem#_pf#_cs#_pfcfg#
  *
  * PEM PCIe Direct Config PF Registers
  * This register is used to modify PF configuration space. It can only be accessed
@@ -5129,19 +5260,19 @@ static inline uint64_t CAVM_PEMX_PFX_CSX_PFCFGX(uint64_t a, uint64_t b, uint64_t
 static inline uint64_t CAVM_PEMX_PFX_CSX_PFCFGX(uint64_t a, uint64_t b, uint64_t c, uint64_t d)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b==0) && (c<=1) && (d<=511)))
-        return 0x8e0000008000ll + 0x1000000000ll * ((a) & 0x7) + 0x40000ll * ((b) & 0x0) + 0x10000ll * ((c) & 0x1) + 8ll * ((d) & 0x1ff);
+        return 0xc28000008000ll + 0x100000000ll * ((a) & 0x7) + 0x40000ll * ((b) & 0x0) + 0x10000ll * ((c) & 0x1) + 8ll * ((d) & 0x1ff);
     __cavm_csr_fatal("PEMX_PFX_CSX_PFCFGX", 4, a, b, c, d, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_PFX_CSX_PFCFGX(a,b,c,d) cavm_pemx_pfx_csx_pfcfgx_t
-#define bustype_CAVM_PEMX_PFX_CSX_PFCFGX(a,b,c,d) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_PFX_CSX_PFCFGX(a,b,c,d) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_PFX_CSX_PFCFGX(a,b,c,d) "PEMX_PFX_CSX_PFCFGX"
 #define device_bar_CAVM_PEMX_PFX_CSX_PFCFGX(a,b,c,d) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_PFX_CSX_PFCFGX(a,b,c,d) (a)
 #define arguments_CAVM_PEMX_PFX_CSX_PFCFGX(a,b,c,d) (a),(b),(c),(d)
 
 /**
- * Register (NCB) pem#_pf#_ctl_status
+ * Register (ARF) pem#_pf#_ctl_status
  *
  * PEM PF Control Status Register
  * This is a general PF control and status register of the PEM.
@@ -5208,19 +5339,19 @@ static inline uint64_t CAVM_PEMX_PFX_CTL_STATUS(uint64_t a, uint64_t b) __attrib
 static inline uint64_t CAVM_PEMX_PFX_CTL_STATUS(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b==0)))
-        return 0x8e0000000800ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+        return 0xc28000000800ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("PEMX_PFX_CTL_STATUS", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_PFX_CTL_STATUS(a,b) cavm_pemx_pfx_ctl_status_t
-#define bustype_CAVM_PEMX_PFX_CTL_STATUS(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_PFX_CTL_STATUS(a,b) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_PFX_CTL_STATUS(a,b) "PEMX_PFX_CTL_STATUS"
 #define device_bar_CAVM_PEMX_PFX_CTL_STATUS(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_PFX_CTL_STATUS(a,b) (a)
 #define arguments_CAVM_PEMX_PFX_CTL_STATUS(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) pem#_pf#_vf#_vfcfg#
+ * Register (ARF) pem#_pf#_vf#_vfcfg#
  *
  * PEMPEM PCIe Direct Config VF Registers
  * This register is used to modify VF configuration space. It can only be accessed
@@ -5256,19 +5387,19 @@ static inline uint64_t CAVM_PEMX_PFX_VFX_VFCFGX(uint64_t a, uint64_t b, uint64_t
 static inline uint64_t CAVM_PEMX_PFX_VFX_VFCFGX(uint64_t a, uint64_t b, uint64_t c, uint64_t d)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b==0) && (c<=63) && (d<=511)))
-        return 0x8e0000028000ll + 0x1000000000ll * ((a) & 0x7) + 0x40000ll * ((b) & 0x0) + 0x400000ll * ((c) & 0x3f) + 8ll * ((d) & 0x1ff);
+        return 0xc28000028000ll + 0x100000000ll * ((a) & 0x7) + 0x40000ll * ((b) & 0x0) + 0x400000ll * ((c) & 0x3f) + 8ll * ((d) & 0x1ff);
     __cavm_csr_fatal("PEMX_PFX_VFX_VFCFGX", 4, a, b, c, d, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_PFX_VFX_VFCFGX(a,b,c,d) cavm_pemx_pfx_vfx_vfcfgx_t
-#define bustype_CAVM_PEMX_PFX_VFX_VFCFGX(a,b,c,d) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_PFX_VFX_VFCFGX(a,b,c,d) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_PFX_VFX_VFCFGX(a,b,c,d) "PEMX_PFX_VFX_VFCFGX"
 #define device_bar_CAVM_PEMX_PFX_VFX_VFCFGX(a,b,c,d) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_PFX_VFX_VFCFGX(a,b,c,d) (a)
 #define arguments_CAVM_PEMX_PFX_VFX_VFCFGX(a,b,c,d) (a),(b),(c),(d)
 
 /**
- * Register (NCB) pem#_pspi_tlp_credits
+ * Register (ARF) pem#_pspi_tlp_credits
  *
  * PEM NCB Inbound TLP Credits Register
  * This register specifies the number of credits for use in moving TLPs. When this register is
@@ -5304,19 +5435,19 @@ static inline uint64_t CAVM_PEMX_PSPI_TLP_CREDITS(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_PEMX_PSPI_TLP_CREDITS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000038ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000038ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_PSPI_TLP_CREDITS", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_PSPI_TLP_CREDITS(a) cavm_pemx_pspi_tlp_credits_t
-#define bustype_CAVM_PEMX_PSPI_TLP_CREDITS(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_PSPI_TLP_CREDITS(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_PSPI_TLP_CREDITS(a) "PEMX_PSPI_TLP_CREDITS"
 #define device_bar_CAVM_PEMX_PSPI_TLP_CREDITS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_PSPI_TLP_CREDITS(a) (a)
 #define arguments_CAVM_PEMX_PSPI_TLP_CREDITS(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_ptm_ctl
+ * Register (ARF) pem#_ptm_ctl
  *
  * PEM Miscellaneous Control Register
  * This register contains precision timer control bits.
@@ -5410,19 +5541,19 @@ static inline uint64_t CAVM_PEMX_PTM_CTL(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_PEMX_PTM_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000098ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000098ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_PTM_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_PTM_CTL(a) cavm_pemx_ptm_ctl_t
-#define bustype_CAVM_PEMX_PTM_CTL(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_PTM_CTL(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_PTM_CTL(a) "PEMX_PTM_CTL"
 #define device_bar_CAVM_PEMX_PTM_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_PTM_CTL(a) (a)
 #define arguments_CAVM_PEMX_PTM_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_ptm_lcl_time
+ * Register (ARF) pem#_ptm_lcl_time
  *
  * PEM PTM Time Register
  * This register contains the PTM synchronized local time value.
@@ -5454,19 +5585,19 @@ static inline uint64_t CAVM_PEMX_PTM_LCL_TIME(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_PEMX_PTM_LCL_TIME(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e00000000a0ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc280000000a0ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_PTM_LCL_TIME", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_PTM_LCL_TIME(a) cavm_pemx_ptm_lcl_time_t
-#define bustype_CAVM_PEMX_PTM_LCL_TIME(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_PTM_LCL_TIME(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_PTM_LCL_TIME(a) "PEMX_PTM_LCL_TIME"
 #define device_bar_CAVM_PEMX_PTM_LCL_TIME(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_PTM_LCL_TIME(a) (a)
 #define arguments_CAVM_PEMX_PTM_LCL_TIME(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_ptm_mas_time
+ * Register (ARF) pem#_ptm_mas_time
  *
  * PEM PTM Time Register
  * This register contains the PTM synchronized local time value.
@@ -5498,19 +5629,19 @@ static inline uint64_t CAVM_PEMX_PTM_MAS_TIME(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_PEMX_PTM_MAS_TIME(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e00000000a8ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc280000000a8ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_PTM_MAS_TIME", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_PTM_MAS_TIME(a) cavm_pemx_ptm_mas_time_t
-#define bustype_CAVM_PEMX_PTM_MAS_TIME(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_PTM_MAS_TIME(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_PTM_MAS_TIME(a) "PEMX_PTM_MAS_TIME"
 #define device_bar_CAVM_PEMX_PTM_MAS_TIME(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_PTM_MAS_TIME(a) (a)
 #define arguments_CAVM_PEMX_PTM_MAS_TIME(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_ras_tba_ctl
+ * Register (ARF) pem#_ras_tba_ctl
  *
  * PEM RAS Time Based Analysis Control Register
  * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
@@ -5556,19 +5687,19 @@ static inline uint64_t CAVM_PEMX_RAS_TBA_CTL(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PEMX_RAS_TBA_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000068ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000068ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_RAS_TBA_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_RAS_TBA_CTL(a) cavm_pemx_ras_tba_ctl_t
-#define bustype_CAVM_PEMX_RAS_TBA_CTL(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_RAS_TBA_CTL(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_RAS_TBA_CTL(a) "PEMX_RAS_TBA_CTL"
 #define device_bar_CAVM_PEMX_RAS_TBA_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_RAS_TBA_CTL(a) (a)
 #define arguments_CAVM_PEMX_RAS_TBA_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_reg_ctl
+ * Register (ARF) pem#_reg_ctl
  *
  * PEM CSR Control Register
  * This register contains control for register accesses.
@@ -5600,19 +5731,19 @@ static inline uint64_t CAVM_PEMX_REG_CTL(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_PEMX_REG_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000060ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000060ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_REG_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_REG_CTL(a) cavm_pemx_reg_ctl_t
-#define bustype_CAVM_PEMX_REG_CTL(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_REG_CTL(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_REG_CTL(a) "PEMX_REG_CTL"
 #define device_bar_CAVM_PEMX_REG_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_REG_CTL(a) (a)
 #define arguments_CAVM_PEMX_REG_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_reg_norm#_acc
+ * Register (ARF) pem#_reg_norm#_acc
  *
  * PEM Normal Region Access Registers
  * These registers contains address index and control bits for access to memory from cores.
@@ -5715,19 +5846,19 @@ static inline uint64_t CAVM_PEMX_REG_NORMX_ACC(uint64_t a, uint64_t b) __attribu
 static inline uint64_t CAVM_PEMX_REG_NORMX_ACC(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b<=255)))
-        return 0x8e0000004000ll + 0x1000000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0xff);
+        return 0xc28000004000ll + 0x100000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0xff);
     __cavm_csr_fatal("PEMX_REG_NORMX_ACC", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_REG_NORMX_ACC(a,b) cavm_pemx_reg_normx_acc_t
-#define bustype_CAVM_PEMX_REG_NORMX_ACC(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_REG_NORMX_ACC(a,b) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_REG_NORMX_ACC(a,b) "PEMX_REG_NORMX_ACC"
 #define device_bar_CAVM_PEMX_REG_NORMX_ACC(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_REG_NORMX_ACC(a,b) (a)
 #define arguments_CAVM_PEMX_REG_NORMX_ACC(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) pem#_reg_norm#_acc2
+ * Register (ARF) pem#_reg_norm#_acc2
  *
  * PEM Normal Region Access 2 Registers
  * See PEM()_CONST_ACC.
@@ -5753,19 +5884,19 @@ static inline uint64_t CAVM_PEMX_REG_NORMX_ACC2(uint64_t a, uint64_t b) __attrib
 static inline uint64_t CAVM_PEMX_REG_NORMX_ACC2(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b<=255)))
-        return 0x8e0000004008ll + 0x1000000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0xff);
+        return 0xc28000004008ll + 0x100000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0xff);
     __cavm_csr_fatal("PEMX_REG_NORMX_ACC2", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_REG_NORMX_ACC2(a,b) cavm_pemx_reg_normx_acc2_t
-#define bustype_CAVM_PEMX_REG_NORMX_ACC2(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_REG_NORMX_ACC2(a,b) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_REG_NORMX_ACC2(a,b) "PEMX_REG_NORMX_ACC2"
 #define device_bar_CAVM_PEMX_REG_NORMX_ACC2(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_REG_NORMX_ACC2(a,b) (a)
 #define arguments_CAVM_PEMX_REG_NORMX_ACC2(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) pem#_rst_cold_state_w1c
+ * Register (ARF) pem#_rst_cold_state_w1c
  *
  * PEM Interrupt Summary Register
  * This register contains the state of PEM()_RST_INT through core domain reset.
@@ -5811,19 +5942,19 @@ static inline uint64_t CAVM_PEMX_RST_COLD_STATE_W1C(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_PEMX_RST_COLD_STATE_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000320ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000320ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_RST_COLD_STATE_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_RST_COLD_STATE_W1C(a) cavm_pemx_rst_cold_state_w1c_t
-#define bustype_CAVM_PEMX_RST_COLD_STATE_W1C(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_RST_COLD_STATE_W1C(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_RST_COLD_STATE_W1C(a) "PEMX_RST_COLD_STATE_W1C"
 #define device_bar_CAVM_PEMX_RST_COLD_STATE_W1C(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_RST_COLD_STATE_W1C(a) (a)
 #define arguments_CAVM_PEMX_RST_COLD_STATE_W1C(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_rst_cold_state_w1s
+ * Register (ARF) pem#_rst_cold_state_w1s
  *
  * PEM Reset Cold State Interrupt Summary Register
  */
@@ -5864,19 +5995,19 @@ static inline uint64_t CAVM_PEMX_RST_COLD_STATE_W1S(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_PEMX_RST_COLD_STATE_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000328ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000328ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_RST_COLD_STATE_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_RST_COLD_STATE_W1S(a) cavm_pemx_rst_cold_state_w1s_t
-#define bustype_CAVM_PEMX_RST_COLD_STATE_W1S(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_RST_COLD_STATE_W1S(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_RST_COLD_STATE_W1S(a) "PEMX_RST_COLD_STATE_W1S"
 #define device_bar_CAVM_PEMX_RST_COLD_STATE_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_RST_COLD_STATE_W1S(a) (a)
 #define arguments_CAVM_PEMX_RST_COLD_STATE_W1S(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_rst_int
+ * Register (ARF) pem#_rst_int
  *
  * PEM Interrupt Summary Register
  * This register contains the different interrupt summary bits of the PEM.
@@ -5934,19 +6065,19 @@ static inline uint64_t CAVM_PEMX_RST_INT(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_PEMX_RST_INT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000300ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000300ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_RST_INT", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_RST_INT(a) cavm_pemx_rst_int_t
-#define bustype_CAVM_PEMX_RST_INT(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_RST_INT(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_RST_INT(a) "PEMX_RST_INT"
 #define device_bar_CAVM_PEMX_RST_INT(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_RST_INT(a) (a)
 #define arguments_CAVM_PEMX_RST_INT(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_rst_int_ena_w1c
+ * Register (ARF) pem#_rst_int_ena_w1c
  *
  * PEM Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
@@ -5976,19 +6107,19 @@ static inline uint64_t CAVM_PEMX_RST_INT_ENA_W1C(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_PEMX_RST_INT_ENA_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000310ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000310ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_RST_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_RST_INT_ENA_W1C(a) cavm_pemx_rst_int_ena_w1c_t
-#define bustype_CAVM_PEMX_RST_INT_ENA_W1C(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_RST_INT_ENA_W1C(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_RST_INT_ENA_W1C(a) "PEMX_RST_INT_ENA_W1C"
 #define device_bar_CAVM_PEMX_RST_INT_ENA_W1C(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_RST_INT_ENA_W1C(a) (a)
 #define arguments_CAVM_PEMX_RST_INT_ENA_W1C(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_rst_int_ena_w1s
+ * Register (ARF) pem#_rst_int_ena_w1s
  *
  * PEM Interrupt Enable Set Register
  * This register sets interrupt enable bits.
@@ -6018,19 +6149,19 @@ static inline uint64_t CAVM_PEMX_RST_INT_ENA_W1S(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_PEMX_RST_INT_ENA_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000318ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000318ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_RST_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_RST_INT_ENA_W1S(a) cavm_pemx_rst_int_ena_w1s_t
-#define bustype_CAVM_PEMX_RST_INT_ENA_W1S(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_RST_INT_ENA_W1S(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_RST_INT_ENA_W1S(a) "PEMX_RST_INT_ENA_W1S"
 #define device_bar_CAVM_PEMX_RST_INT_ENA_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_RST_INT_ENA_W1S(a) (a)
 #define arguments_CAVM_PEMX_RST_INT_ENA_W1S(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_rst_int_w1s
+ * Register (ARF) pem#_rst_int_w1s
  *
  * PEM Interrupt Summary Register
  * This register sets interrupt bits.
@@ -6060,19 +6191,19 @@ static inline uint64_t CAVM_PEMX_RST_INT_W1S(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PEMX_RST_INT_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000308ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000308ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_RST_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_RST_INT_W1S(a) cavm_pemx_rst_int_w1s_t
-#define bustype_CAVM_PEMX_RST_INT_W1S(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_RST_INT_W1S(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_RST_INT_W1S(a) "PEMX_RST_INT_W1S"
 #define device_bar_CAVM_PEMX_RST_INT_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_RST_INT_W1S(a) (a)
 #define arguments_CAVM_PEMX_RST_INT_W1S(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_rst_lboot
+ * Register (ARF) pem#_rst_lboot
  *
  * PEM Reset Last Boot Register
  * This register contains status last reset cause.
@@ -6106,19 +6237,19 @@ static inline uint64_t CAVM_PEMX_RST_LBOOT(uint64_t a) __attribute__ ((pure, alw
 static inline uint64_t CAVM_PEMX_RST_LBOOT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000280ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000280ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_RST_LBOOT", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_RST_LBOOT(a) cavm_pemx_rst_lboot_t
-#define bustype_CAVM_PEMX_RST_LBOOT(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_RST_LBOOT(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_RST_LBOOT(a) "PEMX_RST_LBOOT"
 #define device_bar_CAVM_PEMX_RST_LBOOT(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_RST_LBOOT(a) (a)
 #define arguments_CAVM_PEMX_RST_LBOOT(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_rst_mac
+ * Register (ARF) pem#_rst_mac
  *
  * PEM Reset Mac Register
  * This register provides controls and modes related to resets to the MAC.
@@ -6216,19 +6347,19 @@ static inline uint64_t CAVM_PEMX_RST_MAC(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_PEMX_RST_MAC(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000290ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000290ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_RST_MAC", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_RST_MAC(a) cavm_pemx_rst_mac_t
-#define bustype_CAVM_PEMX_RST_MAC(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_RST_MAC(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_RST_MAC(a) "PEMX_RST_MAC"
 #define device_bar_CAVM_PEMX_RST_MAC(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_RST_MAC(a) (a)
 #define arguments_CAVM_PEMX_RST_MAC(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_rst_soft_perst
+ * Register (ARF) pem#_rst_soft_perst
  *
  * PEM Reset Software PERST Register
  * This register provides a mechanism to drive the PCIe PERSTN pin.
@@ -6298,19 +6429,19 @@ static inline uint64_t CAVM_PEMX_RST_SOFT_PERST(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_PEMX_RST_SOFT_PERST(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000298ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000298ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_RST_SOFT_PERST", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_RST_SOFT_PERST(a) cavm_pemx_rst_soft_perst_t
-#define bustype_CAVM_PEMX_RST_SOFT_PERST(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_RST_SOFT_PERST(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_RST_SOFT_PERST(a) "PEMX_RST_SOFT_PERST"
 #define device_bar_CAVM_PEMX_RST_SOFT_PERST(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_RST_SOFT_PERST(a) (a)
 #define arguments_CAVM_PEMX_RST_SOFT_PERST(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_s_rst_ctl
+ * Register (ARF) pem#_s_rst_ctl
  *
  * PEM Secure Reset Controllers Register
  * This register is accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
@@ -6576,19 +6707,19 @@ static inline uint64_t CAVM_PEMX_S_RST_CTL(uint64_t a) __attribute__ ((pure, alw
 static inline uint64_t CAVM_PEMX_S_RST_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000288ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000288ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_S_RST_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_S_RST_CTL(a) cavm_pemx_s_rst_ctl_t
-#define bustype_CAVM_PEMX_S_RST_CTL(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_S_RST_CTL(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_S_RST_CTL(a) "PEMX_S_RST_CTL"
 #define device_bar_CAVM_PEMX_S_RST_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_S_RST_CTL(a) (a)
 #define arguments_CAVM_PEMX_S_RST_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_strap
+ * Register (ARF) pem#_strap
  *
  * PEM Pin Strapping Register
  * This register is accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
@@ -6622,19 +6753,19 @@ static inline uint64_t CAVM_PEMX_STRAP(uint64_t a) __attribute__ ((pure, always_
 static inline uint64_t CAVM_PEMX_STRAP(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e00000000d0ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc280000000d0ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_STRAP", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_STRAP(a) cavm_pemx_strap_t
-#define bustype_CAVM_PEMX_STRAP(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_STRAP(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_STRAP(a) "PEMX_STRAP"
 #define device_bar_CAVM_PEMX_STRAP(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_STRAP(a) (a)
 #define arguments_CAVM_PEMX_STRAP(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pem#_vdm#_ctl
+ * Register (ARF) pem#_vdm#_ctl
  *
  * PEM VDM Control Register
  * This register provides control of the Vendor Defined Message (VDM) inbound
@@ -6728,19 +6859,19 @@ static inline uint64_t CAVM_PEMX_VDMX_CTL(uint64_t a, uint64_t b) __attribute__ 
 static inline uint64_t CAVM_PEMX_VDMX_CTL(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b==0)))
-        return 0x8e0000007f00ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+        return 0xc28000007f00ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("PEMX_VDMX_CTL", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_VDMX_CTL(a,b) cavm_pemx_vdmx_ctl_t
-#define bustype_CAVM_PEMX_VDMX_CTL(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_VDMX_CTL(a,b) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_VDMX_CTL(a,b) "PEMX_VDMX_CTL"
 #define device_bar_CAVM_PEMX_VDMX_CTL(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_VDMX_CTL(a,b) (a)
 #define arguments_CAVM_PEMX_VDMX_CTL(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) pem#_vdm#_ib_hdr
+ * Register (ARF) pem#_vdm#_ib_hdr
  *
  * PEM VDM Inbound Message Header Register
  * Vendor Defined Message Inbound Message Header Register.
@@ -6814,19 +6945,19 @@ static inline uint64_t CAVM_PEMX_VDMX_IB_HDR(uint64_t a, uint64_t b) __attribute
 static inline uint64_t CAVM_PEMX_VDMX_IB_HDR(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b==0)))
-        return 0x8e0000007f50ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+        return 0xc28000007f50ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("PEMX_VDMX_IB_HDR", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_VDMX_IB_HDR(a,b) cavm_pemx_vdmx_ib_hdr_t
-#define bustype_CAVM_PEMX_VDMX_IB_HDR(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_VDMX_IB_HDR(a,b) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_VDMX_IB_HDR(a,b) "PEMX_VDMX_IB_HDR"
 #define device_bar_CAVM_PEMX_VDMX_IB_HDR(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_VDMX_IB_HDR(a,b) (a)
 #define arguments_CAVM_PEMX_VDMX_IB_HDR(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) pem#_vdm#_ib_pld
+ * Register (ARF) pem#_vdm#_ib_pld
  *
  * PEM VDM Inbound Message Payload Register
  * Vendor Defined Message Inbound Message Payload Register.
@@ -6914,19 +7045,19 @@ static inline uint64_t CAVM_PEMX_VDMX_IB_PLD(uint64_t a, uint64_t b) __attribute
 static inline uint64_t CAVM_PEMX_VDMX_IB_PLD(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b==0)))
-        return 0x8e0000007f60ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+        return 0xc28000007f60ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("PEMX_VDMX_IB_PLD", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_VDMX_IB_PLD(a,b) cavm_pemx_vdmx_ib_pld_t
-#define bustype_CAVM_PEMX_VDMX_IB_PLD(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_VDMX_IB_PLD(a,b) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_VDMX_IB_PLD(a,b) "PEMX_VDMX_IB_PLD"
 #define device_bar_CAVM_PEMX_VDMX_IB_PLD(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_VDMX_IB_PLD(a,b) (a)
 #define arguments_CAVM_PEMX_VDMX_IB_PLD(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) pem#_vdm#_ib_vid#
+ * Register (ARF) pem#_vdm#_ib_vid#
  *
  * PEM VDM Inbound Message VID Match Register
  * Vendor Defined Message Inbound Message VID Match Register.
@@ -7008,19 +7139,19 @@ static inline uint64_t CAVM_PEMX_VDMX_IB_VIDX(uint64_t a, uint64_t b, uint64_t c
 static inline uint64_t CAVM_PEMX_VDMX_IB_VIDX(uint64_t a, uint64_t b, uint64_t c)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b==0) && (c<=7)))
-        return 0x8e0000007f80ll + 0x1000000000ll * ((a) & 0x7) + 0x40ll * ((b) & 0x0) + 8ll * ((c) & 0x7);
+        return 0xc28000007f80ll + 0x100000000ll * ((a) & 0x7) + 0x40ll * ((b) & 0x0) + 8ll * ((c) & 0x7);
     __cavm_csr_fatal("PEMX_VDMX_IB_VIDX", 3, a, b, c, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_VDMX_IB_VIDX(a,b,c) cavm_pemx_vdmx_ib_vidx_t
-#define bustype_CAVM_PEMX_VDMX_IB_VIDX(a,b,c) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_VDMX_IB_VIDX(a,b,c) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_VDMX_IB_VIDX(a,b,c) "PEMX_VDMX_IB_VIDX"
 #define device_bar_CAVM_PEMX_VDMX_IB_VIDX(a,b,c) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_VDMX_IB_VIDX(a,b,c) (a)
 #define arguments_CAVM_PEMX_VDMX_IB_VIDX(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (NCB) pem#_vdm#_int
+ * Register (ARF) pem#_vdm#_int
  *
  * PEM VDM Interrupt Register
  * This register contains the interrupt bits for VDM.
@@ -7053,19 +7184,19 @@ static inline uint64_t CAVM_PEMX_VDMX_INT(uint64_t a, uint64_t b) __attribute__ 
 static inline uint64_t CAVM_PEMX_VDMX_INT(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b==0)))
-        return 0x8e0000007e00ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+        return 0xc28000007e00ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("PEMX_VDMX_INT", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_VDMX_INT(a,b) cavm_pemx_vdmx_int_t
-#define bustype_CAVM_PEMX_VDMX_INT(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_VDMX_INT(a,b) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_VDMX_INT(a,b) "PEMX_VDMX_INT"
 #define device_bar_CAVM_PEMX_VDMX_INT(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_VDMX_INT(a,b) (a)
 #define arguments_CAVM_PEMX_VDMX_INT(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) pem#_vdm#_int_ena_w1c
+ * Register (ARF) pem#_vdm#_int_ena_w1c
  *
  * PEM VDM Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
@@ -7091,19 +7222,19 @@ static inline uint64_t CAVM_PEMX_VDMX_INT_ENA_W1C(uint64_t a, uint64_t b) __attr
 static inline uint64_t CAVM_PEMX_VDMX_INT_ENA_W1C(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b==0)))
-        return 0x8e0000007e20ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+        return 0xc28000007e20ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("PEMX_VDMX_INT_ENA_W1C", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_VDMX_INT_ENA_W1C(a,b) cavm_pemx_vdmx_int_ena_w1c_t
-#define bustype_CAVM_PEMX_VDMX_INT_ENA_W1C(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_VDMX_INT_ENA_W1C(a,b) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_VDMX_INT_ENA_W1C(a,b) "PEMX_VDMX_INT_ENA_W1C"
 #define device_bar_CAVM_PEMX_VDMX_INT_ENA_W1C(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_VDMX_INT_ENA_W1C(a,b) (a)
 #define arguments_CAVM_PEMX_VDMX_INT_ENA_W1C(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) pem#_vdm#_int_ena_w1s
+ * Register (ARF) pem#_vdm#_int_ena_w1s
  *
  * PEM VDM Interrupt Enable Set Register
  * This register sets interrupt enable bits.
@@ -7129,19 +7260,19 @@ static inline uint64_t CAVM_PEMX_VDMX_INT_ENA_W1S(uint64_t a, uint64_t b) __attr
 static inline uint64_t CAVM_PEMX_VDMX_INT_ENA_W1S(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b==0)))
-        return 0x8e0000007e30ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+        return 0xc28000007e30ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("PEMX_VDMX_INT_ENA_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_VDMX_INT_ENA_W1S(a,b) cavm_pemx_vdmx_int_ena_w1s_t
-#define bustype_CAVM_PEMX_VDMX_INT_ENA_W1S(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_VDMX_INT_ENA_W1S(a,b) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_VDMX_INT_ENA_W1S(a,b) "PEMX_VDMX_INT_ENA_W1S"
 #define device_bar_CAVM_PEMX_VDMX_INT_ENA_W1S(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_VDMX_INT_ENA_W1S(a,b) (a)
 #define arguments_CAVM_PEMX_VDMX_INT_ENA_W1S(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) pem#_vdm#_int_w1s
+ * Register (ARF) pem#_vdm#_int_w1s
  *
  * PEM VDM Interrupt Set Register
  * This register sets interrupt bits.
@@ -7167,19 +7298,19 @@ static inline uint64_t CAVM_PEMX_VDMX_INT_W1S(uint64_t a, uint64_t b) __attribut
 static inline uint64_t CAVM_PEMX_VDMX_INT_W1S(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b==0)))
-        return 0x8e0000007e10ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+        return 0xc28000007e10ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("PEMX_VDMX_INT_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_VDMX_INT_W1S(a,b) cavm_pemx_vdmx_int_w1s_t
-#define bustype_CAVM_PEMX_VDMX_INT_W1S(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_VDMX_INT_W1S(a,b) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_VDMX_INT_W1S(a,b) "PEMX_VDMX_INT_W1S"
 #define device_bar_CAVM_PEMX_VDMX_INT_W1S(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_VDMX_INT_W1S(a,b) (a)
 #define arguments_CAVM_PEMX_VDMX_INT_W1S(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) pem#_vdm#_ob_hdrh
+ * Register (ARF) pem#_vdm#_ob_hdrh
  *
  * PEM VDM Outbound Message Header Hi Register
  * Vendor Defined Message Outbound Message Header Hi Register.
@@ -7287,19 +7418,19 @@ static inline uint64_t CAVM_PEMX_VDMX_OB_HDRH(uint64_t a, uint64_t b) __attribut
 static inline uint64_t CAVM_PEMX_VDMX_OB_HDRH(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b==0)))
-        return 0x8e0000007f30ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+        return 0xc28000007f30ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("PEMX_VDMX_OB_HDRH", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_VDMX_OB_HDRH(a,b) cavm_pemx_vdmx_ob_hdrh_t
-#define bustype_CAVM_PEMX_VDMX_OB_HDRH(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_VDMX_OB_HDRH(a,b) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_VDMX_OB_HDRH(a,b) "PEMX_VDMX_OB_HDRH"
 #define device_bar_CAVM_PEMX_VDMX_OB_HDRH(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_VDMX_OB_HDRH(a,b) (a)
 #define arguments_CAVM_PEMX_VDMX_OB_HDRH(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) pem#_vdm#_ob_hdrl
+ * Register (ARF) pem#_vdm#_ob_hdrl
  *
  * PEM VDM Outbound Message Header Low Register
  * Vendor Defined Message Outbound Message Header Low Register.
@@ -7409,19 +7540,19 @@ static inline uint64_t CAVM_PEMX_VDMX_OB_HDRL(uint64_t a, uint64_t b) __attribut
 static inline uint64_t CAVM_PEMX_VDMX_OB_HDRL(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b==0)))
-        return 0x8e0000007f20ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+        return 0xc28000007f20ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("PEMX_VDMX_OB_HDRL", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_VDMX_OB_HDRL(a,b) cavm_pemx_vdmx_ob_hdrl_t
-#define bustype_CAVM_PEMX_VDMX_OB_HDRL(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_VDMX_OB_HDRL(a,b) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_VDMX_OB_HDRL(a,b) "PEMX_VDMX_OB_HDRL"
 #define device_bar_CAVM_PEMX_VDMX_OB_HDRL(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_VDMX_OB_HDRL(a,b) (a)
 #define arguments_CAVM_PEMX_VDMX_OB_HDRL(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) pem#_vdm#_ob_pld
+ * Register (ARF) pem#_vdm#_ob_pld
  *
  * PEM VDM Outbound Message Payload Register
  * Vendor Defined Message Outbound Message Payload Register.
@@ -7497,19 +7628,19 @@ static inline uint64_t CAVM_PEMX_VDMX_OB_PLD(uint64_t a, uint64_t b) __attribute
 static inline uint64_t CAVM_PEMX_VDMX_OB_PLD(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b==0)))
-        return 0x8e0000007f40ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+        return 0xc28000007f40ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("PEMX_VDMX_OB_PLD", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_VDMX_OB_PLD(a,b) cavm_pemx_vdmx_ob_pld_t
-#define bustype_CAVM_PEMX_VDMX_OB_PLD(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_VDMX_OB_PLD(a,b) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_VDMX_OB_PLD(a,b) "PEMX_VDMX_OB_PLD"
 #define device_bar_CAVM_PEMX_VDMX_OB_PLD(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_VDMX_OB_PLD(a,b) (a)
 #define arguments_CAVM_PEMX_VDMX_OB_PLD(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) pem#_vdm#_status
+ * Register (ARF) pem#_vdm#_status
  *
  * PEM VDM Status Register
  * This register provides status of the Vendor Defined Message (VDM) inbound
@@ -7642,19 +7773,19 @@ static inline uint64_t CAVM_PEMX_VDMX_STATUS(uint64_t a, uint64_t b) __attribute
 static inline uint64_t CAVM_PEMX_VDMX_STATUS(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=5) && (b==0)))
-        return 0x8e0000007f10ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+        return 0xc28000007f10ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("PEMX_VDMX_STATUS", 2, a, b, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_VDMX_STATUS(a,b) cavm_pemx_vdmx_status_t
-#define bustype_CAVM_PEMX_VDMX_STATUS(a,b) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_VDMX_STATUS(a,b) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_VDMX_STATUS(a,b) "PEMX_VDMX_STATUS"
 #define device_bar_CAVM_PEMX_VDMX_STATUS(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_VDMX_STATUS(a,b) (a)
 #define arguments_CAVM_PEMX_VDMX_STATUS(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) pem#_vf_clr_flr_req
+ * Register (ARF) pem#_vf_clr_flr_req
  *
  * PEMPEM FLR Request VF Clear Register
  * This register provides clear request for PCIe PF function level reset (FLR).
@@ -7688,12 +7819,12 @@ static inline uint64_t CAVM_PEMX_VF_CLR_FLR_REQ(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_PEMX_VF_CLR_FLR_REQ(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=5))
-        return 0x8e0000000228ll + 0x1000000000ll * ((a) & 0x7);
+        return 0xc28000000228ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_VF_CLR_FLR_REQ", 1, a, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_PEMX_VF_CLR_FLR_REQ(a) cavm_pemx_vf_clr_flr_req_t
-#define bustype_CAVM_PEMX_VF_CLR_FLR_REQ(a) CSR_TYPE_NCB
+#define bustype_CAVM_PEMX_VF_CLR_FLR_REQ(a) CSR_TYPE_ARF
 #define basename_CAVM_PEMX_VF_CLR_FLR_REQ(a) "PEMX_VF_CLR_FLR_REQ"
 #define device_bar_CAVM_PEMX_VF_CLR_FLR_REQ(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_VF_CLR_FLR_REQ(a) (a)

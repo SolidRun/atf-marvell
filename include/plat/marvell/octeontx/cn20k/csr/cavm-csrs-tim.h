@@ -49,6 +49,7 @@
  */
 #define CAVM_TIM_LF_INT_VEC_E_NRSPERR_INT (0)
 #define CAVM_TIM_LF_INT_VEC_E_RAS_INT (1)
+#define CAVM_TIM_LF_INT_VEC_E_SSO_FCTL_INT (2)
 
 /**
  * Structure tim_mem_bucket_s
@@ -61,10 +62,10 @@ union cavm_tim_mem_bucket_s
     struct cavm_tim_mem_bucket_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t first_chunk           : 64; /**< [ 63:  0] Pointer to first chunk memory. \<63:53,6:0\> must be zero. Updated by software when a first
+        uint64_t first_chunk           : 64; /**< [ 63:  0] Pointer to first chunk memory. \<63:53,7:0\> must be zero. Updated by software when a first
                                                                  chunk is added. Read by timer hardware. */
 #else /* Word 0 - Little Endian */
-        uint64_t first_chunk           : 64; /**< [ 63:  0] Pointer to first chunk memory. \<63:53,6:0\> must be zero. Updated by software when a first
+        uint64_t first_chunk           : 64; /**< [ 63:  0] Pointer to first chunk memory. \<63:53,7:0\> must be zero. Updated by software when a first
                                                                  chunk is added. Read by timer hardware. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
@@ -139,7 +140,7 @@ union cavm_tim_mem_entry_s
     struct cavm_tim_mem_entry_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_44_63        : 20;
+        uint64_t prd                   : 20; /**< [ 63: 44] PERIOD (in number of buckets, for periodic WQEs) */
         uint64_t grp                   : 10; /**< [ 43: 34] SSO guest group.
                                                                  For the SSO to not discard the add-work request, TIM_AF_RING()_GMCTL[SSO_PF_FUNC] must be legal. */
         uint64_t tt                    : 2;  /**< [ 33: 32] SSO tag type.  Enumerated by SSO_TT_E. */
@@ -149,19 +150,25 @@ union cavm_tim_mem_entry_s
         uint64_t tt                    : 2;  /**< [ 33: 32] SSO tag type.  Enumerated by SSO_TT_E. */
         uint64_t grp                   : 10; /**< [ 43: 34] SSO guest group.
                                                                  For the SSO to not discard the add-work request, TIM_AF_RING()_GMCTL[SSO_PF_FUNC] must be legal. */
-        uint64_t reserved_44_63        : 20;
+        uint64_t prd                   : 20; /**< [ 63: 44] PERIOD (in number of buckets, for periodic WQEs) */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t wqp                   : 64; /**< [127: 64] Pointer to a work-queue entry. An all-zero [WQP] is not sent to the SSO and may
+        uint64_t wqp                   : 63; /**< [127: 65] Pointer to a work-queue entry. An all-zero [WQP] is not sent to the SSO and may
                                                                  be used as a NOP, e.g. to indicate a deleted entry. \<2:0\> must be zero.
 
-                                                                 Bits \<2:0\> must be zero.  Bits \<63:53\> are ignored by hardware; software should
+                                                                 Bits \<2:1\> must be zero.  Bits \<63:53\> are ignored by hardware; software should
                                                                  store a sign-extended [WQP]\<52\> for forward compatibility. */
+        uint64_t ec                    : 1;  /**< [ 64: 64] Event counter enable. When this bit is set, count of how many times this WQP
+                                                                 related WQE is written in memory by TIM HW via HWWQE insertion feature, is
+                                                                 maintained in memory location "WQP + EC_OFFSET" */
 #else /* Word 1 - Little Endian */
-        uint64_t wqp                   : 64; /**< [127: 64] Pointer to a work-queue entry. An all-zero [WQP] is not sent to the SSO and may
+        uint64_t ec                    : 1;  /**< [ 64: 64] Event counter enable. When this bit is set, count of how many times this WQP
+                                                                 related WQE is written in memory by TIM HW via HWWQE insertion feature, is
+                                                                 maintained in memory location "WQP + EC_OFFSET" */
+        uint64_t wqp                   : 63; /**< [127: 65] Pointer to a work-queue entry. An all-zero [WQP] is not sent to the SSO and may
                                                                  be used as a NOP, e.g. to indicate a deleted entry. \<2:0\> must be zero.
 
-                                                                 Bits \<2:0\> must be zero.  Bits \<63:53\> are ignored by hardware; software should
+                                                                 Bits \<2:1\> must be zero.  Bits \<63:53\> are ignored by hardware; software should
                                                                  store a sign-extended [WQP]\<52\> for forward compatibility. */
 #endif /* Word 1 - End */
     } s;
@@ -1354,6 +1361,370 @@ static inline uint64_t CAVM_TIM_AF_FR_RN_TENNS_FUNC(void)
 #define arguments_CAVM_TIM_AF_FR_RN_TENNS -1,-1,-1,-1
 
 /**
+ * Register (RVU_PF_BAR0) tim_af_gen_cfg
+ *
+ * TIM AF General Config Register
+ */
+union cavm_tim_af_gen_cfg
+{
+    uint64_t u;
+    struct cavm_tim_af_gen_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t sta_n                 : 5;  /**< [  4:  0](R/W) Configurable value for enabling these many STA engines. Max value expected is
+                                                                 20. Minimum value expected is 8. */
+#else /* Word 0 - Little Endian */
+        uint64_t sta_n                 : 5;  /**< [  4:  0](R/W) Configurable value for enabling these many STA engines. Max value expected is
+                                                                 20. Minimum value expected is 8. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_af_gen_cfg_s cn; */
+};
+typedef union cavm_tim_af_gen_cfg cavm_tim_af_gen_cfg_t;
+
+#define CAVM_TIM_AF_GEN_CFG CAVM_TIM_AF_GEN_CFG_FUNC()
+static inline uint64_t CAVM_TIM_AF_GEN_CFG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_AF_GEN_CFG_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840090000270ll;
+    __cavm_csr_fatal("TIM_AF_GEN_CFG", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TIM_AF_GEN_CFG cavm_tim_af_gen_cfg_t
+#define bustype_CAVM_TIM_AF_GEN_CFG CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_TIM_AF_GEN_CFG "TIM_AF_GEN_CFG"
+#define device_bar_CAVM_TIM_AF_GEN_CFG 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_TIM_AF_GEN_CFG 0
+#define arguments_CAVM_TIM_AF_GEN_CFG -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) tim_af_hwwqe_debug
+ *
+ * TIM AF HWWQE IS Debug Registers
+ * This debug register allows software to lookup the debug information of HWWQE block.
+ */
+union cavm_tim_af_hwwqe_debug
+{
+    uint64_t u;
+    struct cavm_tim_af_hwwqe_debug_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_20_63        : 44;
+        uint64_t sm_state5             : 4;  /**< [ 19: 16](RO/H) state machine for state ....5 */
+        uint64_t sm_state4             : 4;  /**< [ 15: 12](RO/H) state machine for state ....4 */
+        uint64_t sm_state3             : 4;  /**< [ 11:  8](RO/H) state machine for state ....3 */
+        uint64_t sm_state2             : 4;  /**< [  7:  4](RO/H) state machine for state ....2 */
+        uint64_t sm_state1             : 4;  /**< [  3:  0](RO/H) state machine for state ....1 */
+#else /* Word 0 - Little Endian */
+        uint64_t sm_state1             : 4;  /**< [  3:  0](RO/H) state machine for state ....1 */
+        uint64_t sm_state2             : 4;  /**< [  7:  4](RO/H) state machine for state ....2 */
+        uint64_t sm_state3             : 4;  /**< [ 11:  8](RO/H) state machine for state ....3 */
+        uint64_t sm_state4             : 4;  /**< [ 15: 12](RO/H) state machine for state ....4 */
+        uint64_t sm_state5             : 4;  /**< [ 19: 16](RO/H) state machine for state ....5 */
+        uint64_t reserved_20_63        : 44;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_af_hwwqe_debug_s cn; */
+};
+typedef union cavm_tim_af_hwwqe_debug cavm_tim_af_hwwqe_debug_t;
+
+#define CAVM_TIM_AF_HWWQE_DEBUG CAVM_TIM_AF_HWWQE_DEBUG_FUNC()
+static inline uint64_t CAVM_TIM_AF_HWWQE_DEBUG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_AF_HWWQE_DEBUG_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840090078000ll;
+    __cavm_csr_fatal("TIM_AF_HWWQE_DEBUG", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TIM_AF_HWWQE_DEBUG cavm_tim_af_hwwqe_debug_t
+#define bustype_CAVM_TIM_AF_HWWQE_DEBUG CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_TIM_AF_HWWQE_DEBUG "TIM_AF_HWWQE_DEBUG"
+#define device_bar_CAVM_TIM_AF_HWWQE_DEBUG 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_TIM_AF_HWWQE_DEBUG 0
+#define arguments_CAVM_TIM_AF_HWWQE_DEBUG -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) tim_af_hwwqe_debug_brs
+ *
+ * TIM AF HWWQE IS Debug Registers
+ * This debug register allows software to lookup debug information of BRS.
+ */
+union cavm_tim_af_hwwqe_debug_brs
+{
+    uint64_t u;
+    struct cavm_tim_af_hwwqe_debug_brs_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_20_63        : 44;
+        uint64_t brs_sm_state5         : 4;  /**< [ 19: 16](RO/H) state machine for BRS state ....5 */
+        uint64_t brs_sm_state4         : 4;  /**< [ 15: 12](RO/H) state machine for BRS state ....4 */
+        uint64_t brs_sm_state3         : 4;  /**< [ 11:  8](RO/H) state machine for BRS state ....3 */
+        uint64_t brs_sm_state2         : 4;  /**< [  7:  4](RO/H) state machine for BRS state ....2 */
+        uint64_t brs_sm_state1         : 4;  /**< [  3:  0](RO/H) state machine for BRS state ....1 */
+#else /* Word 0 - Little Endian */
+        uint64_t brs_sm_state1         : 4;  /**< [  3:  0](RO/H) state machine for BRS state ....1 */
+        uint64_t brs_sm_state2         : 4;  /**< [  7:  4](RO/H) state machine for BRS state ....2 */
+        uint64_t brs_sm_state3         : 4;  /**< [ 11:  8](RO/H) state machine for BRS state ....3 */
+        uint64_t brs_sm_state4         : 4;  /**< [ 15: 12](RO/H) state machine for BRS state ....4 */
+        uint64_t brs_sm_state5         : 4;  /**< [ 19: 16](RO/H) state machine for BRS state ....5 */
+        uint64_t reserved_20_63        : 44;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_af_hwwqe_debug_brs_s cn; */
+};
+typedef union cavm_tim_af_hwwqe_debug_brs cavm_tim_af_hwwqe_debug_brs_t;
+
+#define CAVM_TIM_AF_HWWQE_DEBUG_BRS CAVM_TIM_AF_HWWQE_DEBUG_BRS_FUNC()
+static inline uint64_t CAVM_TIM_AF_HWWQE_DEBUG_BRS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_AF_HWWQE_DEBUG_BRS_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840090076000ll;
+    __cavm_csr_fatal("TIM_AF_HWWQE_DEBUG_BRS", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TIM_AF_HWWQE_DEBUG_BRS cavm_tim_af_hwwqe_debug_brs_t
+#define bustype_CAVM_TIM_AF_HWWQE_DEBUG_BRS CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_TIM_AF_HWWQE_DEBUG_BRS "TIM_AF_HWWQE_DEBUG_BRS"
+#define device_bar_CAVM_TIM_AF_HWWQE_DEBUG_BRS 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_TIM_AF_HWWQE_DEBUG_BRS 0
+#define arguments_CAVM_TIM_AF_HWWQE_DEBUG_BRS -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) tim_af_hwwqe_debug_bws
+ *
+ * TIM AF HWWQE BWS Debug Registers
+ * This debug register allows software to lookup debug information of BWS.
+ */
+union cavm_tim_af_hwwqe_debug_bws
+{
+    uint64_t u;
+    struct cavm_tim_af_hwwqe_debug_bws_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_20_63        : 44;
+        uint64_t bws_sm_state5         : 4;  /**< [ 19: 16](RO/H) state machine for BWS state ....5 */
+        uint64_t bws_sm_state4         : 4;  /**< [ 15: 12](RO/H) state machine for BWS state ....4 */
+        uint64_t bws_sm_state3         : 4;  /**< [ 11:  8](RO/H) state machine for BWS state ....3 */
+        uint64_t bws_sm_state2         : 4;  /**< [  7:  4](RO/H) state machine for BWS state ....2 */
+        uint64_t bws_sm_state1         : 4;  /**< [  3:  0](RO/H) state machine for BWS state ....1 */
+#else /* Word 0 - Little Endian */
+        uint64_t bws_sm_state1         : 4;  /**< [  3:  0](RO/H) state machine for BWS state ....1 */
+        uint64_t bws_sm_state2         : 4;  /**< [  7:  4](RO/H) state machine for BWS state ....2 */
+        uint64_t bws_sm_state3         : 4;  /**< [ 11:  8](RO/H) state machine for BWS state ....3 */
+        uint64_t bws_sm_state4         : 4;  /**< [ 15: 12](RO/H) state machine for BWS state ....4 */
+        uint64_t bws_sm_state5         : 4;  /**< [ 19: 16](RO/H) state machine for BWS state ....5 */
+        uint64_t reserved_20_63        : 44;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_af_hwwqe_debug_bws_s cn; */
+};
+typedef union cavm_tim_af_hwwqe_debug_bws cavm_tim_af_hwwqe_debug_bws_t;
+
+#define CAVM_TIM_AF_HWWQE_DEBUG_BWS CAVM_TIM_AF_HWWQE_DEBUG_BWS_FUNC()
+static inline uint64_t CAVM_TIM_AF_HWWQE_DEBUG_BWS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_AF_HWWQE_DEBUG_BWS_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840090074000ll;
+    __cavm_csr_fatal("TIM_AF_HWWQE_DEBUG_BWS", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TIM_AF_HWWQE_DEBUG_BWS cavm_tim_af_hwwqe_debug_bws_t
+#define bustype_CAVM_TIM_AF_HWWQE_DEBUG_BWS CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_TIM_AF_HWWQE_DEBUG_BWS "TIM_AF_HWWQE_DEBUG_BWS"
+#define device_bar_CAVM_TIM_AF_HWWQE_DEBUG_BWS 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_TIM_AF_HWWQE_DEBUG_BWS 0
+#define arguments_CAVM_TIM_AF_HWWQE_DEBUG_BWS -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) tim_af_hwwqe_debug_is
+ *
+ * TIM AF HWWQE IS Debug Registers
+ * This debug register allows software to lookup the debug information of IS.
+ */
+union cavm_tim_af_hwwqe_debug_is
+{
+    uint64_t u;
+    struct cavm_tim_af_hwwqe_debug_is_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_20_63        : 44;
+        uint64_t is_sm_state5          : 4;  /**< [ 19: 16](RO/H) state machine for IS state ....5 */
+        uint64_t is_sm_state4          : 4;  /**< [ 15: 12](RO/H) state machine for IS state ....4 */
+        uint64_t is_sm_state3          : 4;  /**< [ 11:  8](RO/H) state machine for IS state ....3 */
+        uint64_t is_sm_state2          : 4;  /**< [  7:  4](RO/H) state machine for IS state ....2 */
+        uint64_t is_sm_state1          : 4;  /**< [  3:  0](RO/H) state machine for IS state ....1 */
+#else /* Word 0 - Little Endian */
+        uint64_t is_sm_state1          : 4;  /**< [  3:  0](RO/H) state machine for IS state ....1 */
+        uint64_t is_sm_state2          : 4;  /**< [  7:  4](RO/H) state machine for IS state ....2 */
+        uint64_t is_sm_state3          : 4;  /**< [ 11:  8](RO/H) state machine for IS state ....3 */
+        uint64_t is_sm_state4          : 4;  /**< [ 15: 12](RO/H) state machine for IS state ....4 */
+        uint64_t is_sm_state5          : 4;  /**< [ 19: 16](RO/H) state machine for IS state ....5 */
+        uint64_t reserved_20_63        : 44;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_af_hwwqe_debug_is_s cn; */
+};
+typedef union cavm_tim_af_hwwqe_debug_is cavm_tim_af_hwwqe_debug_is_t;
+
+#define CAVM_TIM_AF_HWWQE_DEBUG_IS CAVM_TIM_AF_HWWQE_DEBUG_IS_FUNC()
+static inline uint64_t CAVM_TIM_AF_HWWQE_DEBUG_IS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_AF_HWWQE_DEBUG_IS_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840090072000ll;
+    __cavm_csr_fatal("TIM_AF_HWWQE_DEBUG_IS", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TIM_AF_HWWQE_DEBUG_IS cavm_tim_af_hwwqe_debug_is_t
+#define bustype_CAVM_TIM_AF_HWWQE_DEBUG_IS CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_TIM_AF_HWWQE_DEBUG_IS "TIM_AF_HWWQE_DEBUG_IS"
+#define device_bar_CAVM_TIM_AF_HWWQE_DEBUG_IS 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_TIM_AF_HWWQE_DEBUG_IS 0
+#define arguments_CAVM_TIM_AF_HWWQE_DEBUG_IS -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) tim_af_hwwqe_debug_npa
+ *
+ * TIM AF HWWQE Debug Registers
+ * This debug register allows software to lookup the debug information of NPA.
+ */
+union cavm_tim_af_hwwqe_debug_npa
+{
+    uint64_t u;
+    struct cavm_tim_af_hwwqe_debug_npa_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_20_63        : 44;
+        uint64_t npa_sm_state5         : 4;  /**< [ 19: 16](RO/H) state machine for NPA state ....5 */
+        uint64_t npa_sm_state4         : 4;  /**< [ 15: 12](RO/H) state machine for NPA state ....4 */
+        uint64_t npa_sm_state3         : 4;  /**< [ 11:  8](RO/H) state machine for NPA state ....3 */
+        uint64_t npa_sm_state2         : 4;  /**< [  7:  4](RO/H) state machine for NPA state ....2 */
+        uint64_t npa_sm_state1         : 4;  /**< [  3:  0](RO/H) state machine for NPA state ....1 */
+#else /* Word 0 - Little Endian */
+        uint64_t npa_sm_state1         : 4;  /**< [  3:  0](RO/H) state machine for NPA state ....1 */
+        uint64_t npa_sm_state2         : 4;  /**< [  7:  4](RO/H) state machine for NPA state ....2 */
+        uint64_t npa_sm_state3         : 4;  /**< [ 11:  8](RO/H) state machine for NPA state ....3 */
+        uint64_t npa_sm_state4         : 4;  /**< [ 15: 12](RO/H) state machine for NPA state ....4 */
+        uint64_t npa_sm_state5         : 4;  /**< [ 19: 16](RO/H) state machine for NPA state ....5 */
+        uint64_t reserved_20_63        : 44;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_af_hwwqe_debug_npa_s cn; */
+};
+typedef union cavm_tim_af_hwwqe_debug_npa cavm_tim_af_hwwqe_debug_npa_t;
+
+#define CAVM_TIM_AF_HWWQE_DEBUG_NPA CAVM_TIM_AF_HWWQE_DEBUG_NPA_FUNC()
+static inline uint64_t CAVM_TIM_AF_HWWQE_DEBUG_NPA_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_AF_HWWQE_DEBUG_NPA_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840090070000ll;
+    __cavm_csr_fatal("TIM_AF_HWWQE_DEBUG_NPA", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TIM_AF_HWWQE_DEBUG_NPA cavm_tim_af_hwwqe_debug_npa_t
+#define bustype_CAVM_TIM_AF_HWWQE_DEBUG_NPA CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_TIM_AF_HWWQE_DEBUG_NPA "TIM_AF_HWWQE_DEBUG_NPA"
+#define device_bar_CAVM_TIM_AF_HWWQE_DEBUG_NPA 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_TIM_AF_HWWQE_DEBUG_NPA 0
+#define arguments_CAVM_TIM_AF_HWWQE_DEBUG_NPA -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) tim_af_hwwqe_gen_cfg
+ *
+ * TIM AF Ring HWWQE General Config Register
+ */
+union cavm_tim_af_hwwqe_gen_cfg
+{
+    uint64_t u;
+    struct cavm_tim_af_hwwqe_gen_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_44_63        : 20;
+        uint64_t max_cycles_wqe_wr     : 4;  /**< [ 43: 40](R/W) Number of max. cycles in each WQE write transaction (in Insert Stage). default is 8. */
+        uint64_t max_wqe_per_grp       : 8;  /**< [ 39: 32](R/W) Number of WQE's that can be grouped together initially (at input IOBST Side). */
+        uint64_t reserved_29_31        : 3;
+        uint64_t crd_sta_arb_pre_brs   : 9;  /**< [ 28: 20](R/W) Number of credits given for STA side to Arbitration logic in before BRS. */
+        uint64_t reserved_17_19        : 3;
+        uint64_t crd_iobst_arb_pre_brs : 9;  /**< [ 16:  8](R/W) Number of credits given for IOBST side to Arbitration logic before BRS. */
+        uint64_t npa_rr_wght_free      : 4;  /**< [  7:  4](R/W) Weighted Round Robin weightage for free command in TIM_NPA. */
+        uint64_t npa_rr_wght_alloc     : 4;  /**< [  3:  0](R/W) Weighted Round Robin weightage for allocate command in TIM_NPA. */
+#else /* Word 0 - Little Endian */
+        uint64_t npa_rr_wght_alloc     : 4;  /**< [  3:  0](R/W) Weighted Round Robin weightage for allocate command in TIM_NPA. */
+        uint64_t npa_rr_wght_free      : 4;  /**< [  7:  4](R/W) Weighted Round Robin weightage for free command in TIM_NPA. */
+        uint64_t crd_iobst_arb_pre_brs : 9;  /**< [ 16:  8](R/W) Number of credits given for IOBST side to Arbitration logic before BRS. */
+        uint64_t reserved_17_19        : 3;
+        uint64_t crd_sta_arb_pre_brs   : 9;  /**< [ 28: 20](R/W) Number of credits given for STA side to Arbitration logic in before BRS. */
+        uint64_t reserved_29_31        : 3;
+        uint64_t max_wqe_per_grp       : 8;  /**< [ 39: 32](R/W) Number of WQE's that can be grouped together initially (at input IOBST Side). */
+        uint64_t max_cycles_wqe_wr     : 4;  /**< [ 43: 40](R/W) Number of max. cycles in each WQE write transaction (in Insert Stage). default is 8. */
+        uint64_t reserved_44_63        : 20;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_af_hwwqe_gen_cfg_s cn; */
+};
+typedef union cavm_tim_af_hwwqe_gen_cfg cavm_tim_af_hwwqe_gen_cfg_t;
+
+#define CAVM_TIM_AF_HWWQE_GEN_CFG CAVM_TIM_AF_HWWQE_GEN_CFG_FUNC()
+static inline uint64_t CAVM_TIM_AF_HWWQE_GEN_CFG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_AF_HWWQE_GEN_CFG_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840090000280ll;
+    __cavm_csr_fatal("TIM_AF_HWWQE_GEN_CFG", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TIM_AF_HWWQE_GEN_CFG cavm_tim_af_hwwqe_gen_cfg_t
+#define bustype_CAVM_TIM_AF_HWWQE_GEN_CFG CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_TIM_AF_HWWQE_GEN_CFG "TIM_AF_HWWQE_GEN_CFG"
+#define device_bar_CAVM_TIM_AF_HWWQE_GEN_CFG 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_TIM_AF_HWWQE_GEN_CFG 0
+#define arguments_CAVM_TIM_AF_HWWQE_GEN_CFG -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) tim_af_hwwqe_npa_ca_flush#
+ *
+ * TIM AF HWWQE NPA Flush Registers
+ */
+union cavm_tim_af_hwwqe_npa_ca_flushx
+{
+    uint64_t u;
+    struct cavm_tim_af_hwwqe_npa_ca_flushx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t npa_ca_flush          : 64; /**< [ 63:  0](R/W1S/H) NPA Cache flush control per ring. Each bit corresponds to rings 255:0
+                                                                 respectively. If set, pointers saved in NPA cache for this ring are flushed. */
+#else /* Word 0 - Little Endian */
+        uint64_t npa_ca_flush          : 64; /**< [ 63:  0](R/W1S/H) NPA Cache flush control per ring. Each bit corresponds to rings 255:0
+                                                                 respectively. If set, pointers saved in NPA cache for this ring are flushed. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_af_hwwqe_npa_ca_flushx_s cn; */
+};
+typedef union cavm_tim_af_hwwqe_npa_ca_flushx cavm_tim_af_hwwqe_npa_ca_flushx_t;
+
+static inline uint64_t CAVM_TIM_AF_HWWQE_NPA_CA_FLUSHX(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_AF_HWWQE_NPA_CA_FLUSHX(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
+        return 0x840090068000ll + 0x20ll * ((a) & 0x3);
+    __cavm_csr_fatal("TIM_AF_HWWQE_NPA_CA_FLUSHX", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TIM_AF_HWWQE_NPA_CA_FLUSHX(a) cavm_tim_af_hwwqe_npa_ca_flushx_t
+#define bustype_CAVM_TIM_AF_HWWQE_NPA_CA_FLUSHX(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_TIM_AF_HWWQE_NPA_CA_FLUSHX(a) "TIM_AF_HWWQE_NPA_CA_FLUSHX"
+#define device_bar_CAVM_TIM_AF_HWWQE_NPA_CA_FLUSHX(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_TIM_AF_HWWQE_NPA_CA_FLUSHX(a) (a)
+#define arguments_CAVM_TIM_AF_HWWQE_NPA_CA_FLUSHX(a) (a),-1,-1,-1
+
+/**
  * Register (RVU_PF_BAR0) tim_af_lf_rst
  *
  * TIM AF LF Reset Register
@@ -1758,12 +2129,12 @@ union cavm_tim_af_ringx_ctl2
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_53_63        : 11;
         uint64_t csize                 : 13; /**< [ 52: 40](R/W) Number of sixteen-byte words per chunk, i.e. one for the next pointer plus one
-                                                                 times the number of TIM_MEM_ENTRY_S. [CSIZE] mod(8) must be zero. */
+                                                                 times the number of TIM_MEM_ENTRY_S. [CSIZE] mod(16) must be zero. */
         uint64_t reserved_0_39         : 40;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_39         : 40;
         uint64_t csize                 : 13; /**< [ 52: 40](R/W) Number of sixteen-byte words per chunk, i.e. one for the next pointer plus one
-                                                                 times the number of TIM_MEM_ENTRY_S. [CSIZE] mod(8) must be zero. */
+                                                                 times the number of TIM_MEM_ENTRY_S. [CSIZE] mod(16) must be zero. */
         uint64_t reserved_53_63        : 11;
 #endif /* Word 0 - End */
     } s;
@@ -1785,6 +2156,112 @@ static inline uint64_t CAVM_TIM_AF_RINGX_CTL2(uint64_t a)
 #define device_bar_CAVM_TIM_AF_RINGX_CTL2(a) 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_TIM_AF_RINGX_CTL2(a) (a)
 #define arguments_CAVM_TIM_AF_RINGX_CTL2(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) tim_af_ring#_ctl3
+ *
+ * TIM AF Ring Control 3 Registers
+ */
+union cavm_tim_af_ringx_ctl3
+{
+    uint64_t u;
+    struct cavm_tim_af_ringx_ctl3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t npac_to_cntr          : 16; /**< [ 47: 32](R/W) Time out counter for NPA alloc response. When response for a particular PF-Aura
+                                                                 NPA alloc command doesn't come for these many clock cycles, interrupt
+                                                                 TIM_LF_NRSPERR_INT.NPA_ALLOC_ERR is generated. */
+        uint64_t wqe_ins_min_gap       : 8;  /**< [ 31: 24](R/W) minimum bucket gap. Minimum value expected is 2. */
+        uint64_t grp_to_cntr           : 16; /**< [ 23:  8](R/W) Time out counter for grouping. When new IOBST transaction doesnt happen for
+                                                                 these many clock cycles, last IOBST transaction doesn't wait for forming group
+                                                                 with next one and goes ahead with EOT. */
+        uint64_t reserved_5_7          : 3;
+        uint64_t flw_ctrl_ena          : 1;  /**< [  4:  4](R/W) If set to 1, enables the flow control feature for a ring. When Flow control is
+                                                                 enabled,then ring will stop sending WQEs to SSO if TIM_SSO_QUEUE_SPACE reaches
+                                                                 CSIZE-1 */
+        uint64_t reserved_3            : 1;
+        uint64_t grp_ena               : 1;  /**< [  2:  2](R/W) Control to enable grouping of IOBST Transactions for WQE insertion for a particular ring. */
+        uint64_t wqe_rd_clr_ena        : 1;  /**< [  1:  1](R/W) whether to make WQE 0 or not, while reading and sending to SSO. Which means
+                                                                 while sending read command to memory,decide whether to send normal read or read
+                                                                 clear based on the WQE_RD_CLR bit for this ring. */
+        uint64_t hwwqe_ena             : 1;  /**< [  0:  0](R/W) If set to 1, HWWQE insertion feature will be enabled. */
+#else /* Word 0 - Little Endian */
+        uint64_t hwwqe_ena             : 1;  /**< [  0:  0](R/W) If set to 1, HWWQE insertion feature will be enabled. */
+        uint64_t wqe_rd_clr_ena        : 1;  /**< [  1:  1](R/W) whether to make WQE 0 or not, while reading and sending to SSO. Which means
+                                                                 while sending read command to memory,decide whether to send normal read or read
+                                                                 clear based on the WQE_RD_CLR bit for this ring. */
+        uint64_t grp_ena               : 1;  /**< [  2:  2](R/W) Control to enable grouping of IOBST Transactions for WQE insertion for a particular ring. */
+        uint64_t reserved_3            : 1;
+        uint64_t flw_ctrl_ena          : 1;  /**< [  4:  4](R/W) If set to 1, enables the flow control feature for a ring. When Flow control is
+                                                                 enabled,then ring will stop sending WQEs to SSO if TIM_SSO_QUEUE_SPACE reaches
+                                                                 CSIZE-1 */
+        uint64_t reserved_5_7          : 3;
+        uint64_t grp_to_cntr           : 16; /**< [ 23:  8](R/W) Time out counter for grouping. When new IOBST transaction doesnt happen for
+                                                                 these many clock cycles, last IOBST transaction doesn't wait for forming group
+                                                                 with next one and goes ahead with EOT. */
+        uint64_t wqe_ins_min_gap       : 8;  /**< [ 31: 24](R/W) minimum bucket gap. Minimum value expected is 2. */
+        uint64_t npac_to_cntr          : 16; /**< [ 47: 32](R/W) Time out counter for NPA alloc response. When response for a particular PF-Aura
+                                                                 NPA alloc command doesn't come for these many clock cycles, interrupt
+                                                                 TIM_LF_NRSPERR_INT.NPA_ALLOC_ERR is generated. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_af_ringx_ctl3_s cn; */
+};
+typedef union cavm_tim_af_ringx_ctl3 cavm_tim_af_ringx_ctl3_t;
+
+static inline uint64_t CAVM_TIM_AF_RINGX_CTL3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_AF_RINGX_CTL3(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=255))
+        return 0x840090048000ll + 8ll * ((a) & 0xff);
+    __cavm_csr_fatal("TIM_AF_RINGX_CTL3", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TIM_AF_RINGX_CTL3(a) cavm_tim_af_ringx_ctl3_t
+#define bustype_CAVM_TIM_AF_RINGX_CTL3(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_TIM_AF_RINGX_CTL3(a) "TIM_AF_RINGX_CTL3"
+#define device_bar_CAVM_TIM_AF_RINGX_CTL3(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_TIM_AF_RINGX_CTL3(a) (a)
+#define arguments_CAVM_TIM_AF_RINGX_CTL3(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) tim_af_ring#_exp_off
+ *
+ * TIM AF Ring Expire Offset Registers
+ */
+union cavm_tim_af_ringx_exp_off
+{
+    uint64_t u;
+    struct cavm_tim_af_ringx_exp_off_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_62_63        : 2;
+        uint64_t exp_off               : 62; /**< [ 61:  0](R/W/H) Expire offset for the timer ring. */
+#else /* Word 0 - Little Endian */
+        uint64_t exp_off               : 62; /**< [ 61:  0](R/W/H) Expire offset for the timer ring. */
+        uint64_t reserved_62_63        : 2;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_af_ringx_exp_off_s cn; */
+};
+typedef union cavm_tim_af_ringx_exp_off cavm_tim_af_ringx_exp_off_t;
+
+static inline uint64_t CAVM_TIM_AF_RINGX_EXP_OFF(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_AF_RINGX_EXP_OFF(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=255))
+        return 0x840090050000ll + 8ll * ((a) & 0xff);
+    __cavm_csr_fatal("TIM_AF_RINGX_EXP_OFF", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TIM_AF_RINGX_EXP_OFF(a) cavm_tim_af_ringx_exp_off_t
+#define bustype_CAVM_TIM_AF_RINGX_EXP_OFF(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_TIM_AF_RINGX_EXP_OFF(a) "TIM_AF_RINGX_EXP_OFF"
+#define device_bar_CAVM_TIM_AF_RINGX_EXP_OFF(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_TIM_AF_RINGX_EXP_OFF(a) (a)
+#define arguments_CAVM_TIM_AF_RINGX_EXP_OFF(a) (a),-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) tim_af_ring#_gmctl
@@ -1828,6 +2305,82 @@ static inline uint64_t CAVM_TIM_AF_RINGX_GMCTL(uint64_t a)
 #define device_bar_CAVM_TIM_AF_RINGX_GMCTL(a) 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_TIM_AF_RINGX_GMCTL(a) (a)
 #define arguments_CAVM_TIM_AF_RINGX_GMCTL(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) tim_af_ring#_hwwqe_res_ec_off
+ *
+ * TIM AF HWWQE Result Offset Registers
+ */
+union cavm_tim_af_ringx_hwwqe_res_ec_off
+{
+    uint64_t u;
+    struct cavm_tim_af_ringx_hwwqe_res_ec_off_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t ec_off                : 16; /**< [ 31: 16](R/W) WQP + this offset will hold WQE count and other debug information. */
+        uint64_t res_off               : 16; /**< [ 15:  0](R/W) WQP + this offset will hold WQE's address and other debug information. */
+#else /* Word 0 - Little Endian */
+        uint64_t res_off               : 16; /**< [ 15:  0](R/W) WQP + this offset will hold WQE's address and other debug information. */
+        uint64_t ec_off                : 16; /**< [ 31: 16](R/W) WQP + this offset will hold WQE count and other debug information. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_af_ringx_hwwqe_res_ec_off_s cn; */
+};
+typedef union cavm_tim_af_ringx_hwwqe_res_ec_off cavm_tim_af_ringx_hwwqe_res_ec_off_t;
+
+static inline uint64_t CAVM_TIM_AF_RINGX_HWWQE_RES_EC_OFF(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_AF_RINGX_HWWQE_RES_EC_OFF(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=255))
+        return 0x840090054000ll + 8ll * ((a) & 0xff);
+    __cavm_csr_fatal("TIM_AF_RINGX_HWWQE_RES_EC_OFF", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TIM_AF_RINGX_HWWQE_RES_EC_OFF(a) cavm_tim_af_ringx_hwwqe_res_ec_off_t
+#define bustype_CAVM_TIM_AF_RINGX_HWWQE_RES_EC_OFF(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_TIM_AF_RINGX_HWWQE_RES_EC_OFF(a) "TIM_AF_RINGX_HWWQE_RES_EC_OFF"
+#define device_bar_CAVM_TIM_AF_RINGX_HWWQE_RES_EC_OFF(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_TIM_AF_RINGX_HWWQE_RES_EC_OFF(a) (a)
+#define arguments_CAVM_TIM_AF_RINGX_HWWQE_RES_EC_OFF(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) tim_af_ring#_intrvl
+ *
+ * TIM AF Ring Interval Registers
+ */
+union cavm_tim_af_ringx_intrvl
+{
+    uint64_t u;
+    struct cavm_tim_af_ringx_intrvl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_34_63        : 30;
+        uint64_t intrvl                : 34; /**< [ 33:  0](R/W) Interval for the timer ring. */
+#else /* Word 0 - Little Endian */
+        uint64_t intrvl                : 34; /**< [ 33:  0](R/W) Interval for the timer ring. */
+        uint64_t reserved_34_63        : 30;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_af_ringx_intrvl_s cn; */
+};
+typedef union cavm_tim_af_ringx_intrvl cavm_tim_af_ringx_intrvl_t;
+
+static inline uint64_t CAVM_TIM_AF_RINGX_INTRVL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_AF_RINGX_INTRVL(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=255))
+        return 0x840090052000ll + 8ll * ((a) & 0xff);
+    __cavm_csr_fatal("TIM_AF_RINGX_INTRVL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TIM_AF_RINGX_INTRVL(a) cavm_tim_af_ringx_intrvl_t
+#define bustype_CAVM_TIM_AF_RINGX_INTRVL(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_TIM_AF_RINGX_INTRVL(a) "TIM_AF_RINGX_INTRVL"
+#define device_bar_CAVM_TIM_AF_RINGX_INTRVL(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_TIM_AF_RINGX_INTRVL(a) (a)
+#define arguments_CAVM_TIM_AF_RINGX_INTRVL(a) (a),-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) tim_af_ring#_late
@@ -2403,6 +2956,94 @@ static inline uint64_t CAVM_TIM_LF_FR_RN_TENNS_FUNC(void)
 #define arguments_CAVM_TIM_LF_FR_RN_TENNS -1,-1,-1,-1
 
 /**
+ * Register (RVU_PFVF_BAR2) tim_lf_hwwqe_debug
+ *
+ * TIM LF HWWQE DEBUG Registers
+ * This register is a read-only copy of TIM_AF_HWWQE_DEBUG.
+ */
+union cavm_tim_lf_hwwqe_debug
+{
+    uint64_t u;
+    struct cavm_tim_lf_hwwqe_debug_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_20_63        : 44;
+        uint64_t sm_state5             : 4;  /**< [ 19: 16](RO/H) Read-only TIM_AF_HWWQE_DEBUG[SM_STATE5]. */
+        uint64_t sm_state4             : 4;  /**< [ 15: 12](RO/H) Read-only TIM_AF_HWWQE_DEBUG[SM_STATE4]. */
+        uint64_t sm_state3             : 4;  /**< [ 11:  8](RO/H) Read-only TIM_AF_HWWQE_DEBUG[SM_STATE3]. */
+        uint64_t sm_state2             : 4;  /**< [  7:  4](RO/H) Read-only TIM_AF_HWWQE_DEBUG[SM_STATE2]. */
+        uint64_t sm_state1             : 4;  /**< [  3:  0](RO/H) Read-only TIM_AF_HWWQE_DEBUG[SM_STATE1]. */
+#else /* Word 0 - Little Endian */
+        uint64_t sm_state1             : 4;  /**< [  3:  0](RO/H) Read-only TIM_AF_HWWQE_DEBUG[SM_STATE1]. */
+        uint64_t sm_state2             : 4;  /**< [  7:  4](RO/H) Read-only TIM_AF_HWWQE_DEBUG[SM_STATE2]. */
+        uint64_t sm_state3             : 4;  /**< [ 11:  8](RO/H) Read-only TIM_AF_HWWQE_DEBUG[SM_STATE3]. */
+        uint64_t sm_state4             : 4;  /**< [ 15: 12](RO/H) Read-only TIM_AF_HWWQE_DEBUG[SM_STATE4]. */
+        uint64_t sm_state5             : 4;  /**< [ 19: 16](RO/H) Read-only TIM_AF_HWWQE_DEBUG[SM_STATE5]. */
+        uint64_t reserved_20_63        : 44;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_lf_hwwqe_debug_s cn; */
+};
+typedef union cavm_tim_lf_hwwqe_debug cavm_tim_lf_hwwqe_debug_t;
+
+#define CAVM_TIM_LF_HWWQE_DEBUG CAVM_TIM_LF_HWWQE_DEBUG_FUNC()
+static inline uint64_t CAVM_TIM_LF_HWWQE_DEBUG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_LF_HWWQE_DEBUG_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200900560ll;
+    __cavm_csr_fatal("TIM_LF_HWWQE_DEBUG", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TIM_LF_HWWQE_DEBUG cavm_tim_lf_hwwqe_debug_t
+#define bustype_CAVM_TIM_LF_HWWQE_DEBUG CSR_TYPE_RVU_PFVF_BAR2
+#define basename_CAVM_TIM_LF_HWWQE_DEBUG "TIM_LF_HWWQE_DEBUG"
+#define device_bar_CAVM_TIM_LF_HWWQE_DEBUG 0x2 /* RVU_BAR2 */
+#define busnum_CAVM_TIM_LF_HWWQE_DEBUG 0
+#define arguments_CAVM_TIM_LF_HWWQE_DEBUG -1,-1,-1,-1
+
+/**
+ * Register (RVU_PFVF_BAR2) tim_lf_hwwqe_res_ec_off
+ *
+ * TIM LF Ring Event Count Offset Registers
+ * This register is a read-only copy of TIM_AF_RING()_HWWQE_RES_EC_OFF.
+ */
+union cavm_tim_lf_hwwqe_res_ec_off
+{
+    uint64_t u;
+    struct cavm_tim_lf_hwwqe_res_ec_off_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t ec_off                : 16; /**< [ 31: 16](RO) Read-only TIM_AF_RING(0..255)_HWWQE_RES_EC_OFF[EC_OFF]. */
+        uint64_t res_off               : 16; /**< [ 15:  0](RO) Read-only TIM_AF_RING(0..255)_HWWQE_RES_EC_OFF[RES_OFF]. */
+#else /* Word 0 - Little Endian */
+        uint64_t res_off               : 16; /**< [ 15:  0](RO) Read-only TIM_AF_RING(0..255)_HWWQE_RES_EC_OFF[RES_OFF]. */
+        uint64_t ec_off                : 16; /**< [ 31: 16](RO) Read-only TIM_AF_RING(0..255)_HWWQE_RES_EC_OFF[EC_OFF]. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_lf_hwwqe_res_ec_off_s cn; */
+};
+typedef union cavm_tim_lf_hwwqe_res_ec_off cavm_tim_lf_hwwqe_res_ec_off_t;
+
+#define CAVM_TIM_LF_HWWQE_RES_EC_OFF CAVM_TIM_LF_HWWQE_RES_EC_OFF_FUNC()
+static inline uint64_t CAVM_TIM_LF_HWWQE_RES_EC_OFF_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_LF_HWWQE_RES_EC_OFF_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200900510ll;
+    __cavm_csr_fatal("TIM_LF_HWWQE_RES_EC_OFF", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TIM_LF_HWWQE_RES_EC_OFF cavm_tim_lf_hwwqe_res_ec_off_t
+#define bustype_CAVM_TIM_LF_HWWQE_RES_EC_OFF CSR_TYPE_RVU_PFVF_BAR2
+#define basename_CAVM_TIM_LF_HWWQE_RES_EC_OFF "TIM_LF_HWWQE_RES_EC_OFF"
+#define device_bar_CAVM_TIM_LF_HWWQE_RES_EC_OFF 0x2 /* RVU_BAR2 */
+#define busnum_CAVM_TIM_LF_HWWQE_RES_EC_OFF 0
+#define arguments_CAVM_TIM_LF_HWWQE_RES_EC_OFF -1,-1,-1,-1
+
+/**
  * Register (RVU_PFVF_BAR2) tim_lf_nrsperr_int
  *
  * TIM LF NCB Response Error Interrupt Register
@@ -2413,7 +3054,19 @@ union cavm_tim_lf_nrsperr_int
     struct cavm_tim_lf_nrsperr_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
+        uint64_t reserved_14_63        : 50;
+        uint64_t bkt_rd_psn            : 1;  /**< [ 13: 13](R/W1C/H) Bucket Read fault flag. Set when a faulted bucket read load response was
+                                                                 detected when Bucket read was done for WQE insertion. */
+        uint64_t bkt_rd_flt            : 1;  /**< [ 12: 12](R/W1C/H) Bucket Read fault flag. Set when a faulted bucket read load response was
+                                                                 detected when Bucket read was done for WQE insertion. */
+        uint64_t bkt_wr_stdn_flt       : 1;  /**< [ 11: 11](R/W1C/H) Bucket Write fault flag. Set when a faulted store was detected when Bucket write
+                                                                 was done for WQE insertion. */
+        uint64_t wqe_wr_stdn_flt       : 1;  /**< [ 10: 10](R/W1C/H) WQE Write fault flag. Set when a faulted store was detected when WQE write was
+                                                                 done for WQE insertion. */
+        uint64_t npa_alloc_to          : 1;  /**< [  9:  9](R/W1C/H) If NPA doesn't return pointer in response of an alloc command within
+                                                                 TIMEOUT_NPA_ALLOC.TIMEOUT cycles. */
+        uint64_t npa_alloc_null_ptr    : 1;  /**< [  8:  8](R/W1C/H) If NPA returns pointer in response of an alloc command. */
+        uint64_t reserved_5_7          : 3;
         uint64_t wqe_psn               : 1;  /**< [  4:  4](R/W1C/H) WQE poison flag. Set when a poisoned WQE response or next chunk pointer was detected. */
         uint64_t la_psn                : 1;  /**< [  3:  3](R/W1C/H) Load and atomic poison flag. Set when a poisoned non-WQE load or atomic response was detected. */
         uint64_t wqe_flt               : 1;  /**< [  2:  2](R/W1C/H) WQE fault flag. Set when a faulted WQE response or next chunk pointer was detected. */
@@ -2431,7 +3084,19 @@ union cavm_tim_lf_nrsperr_int
         uint64_t wqe_flt               : 1;  /**< [  2:  2](R/W1C/H) WQE fault flag. Set when a faulted WQE response or next chunk pointer was detected. */
         uint64_t la_psn                : 1;  /**< [  3:  3](R/W1C/H) Load and atomic poison flag. Set when a poisoned non-WQE load or atomic response was detected. */
         uint64_t wqe_psn               : 1;  /**< [  4:  4](R/W1C/H) WQE poison flag. Set when a poisoned WQE response or next chunk pointer was detected. */
-        uint64_t reserved_5_63         : 59;
+        uint64_t reserved_5_7          : 3;
+        uint64_t npa_alloc_null_ptr    : 1;  /**< [  8:  8](R/W1C/H) If NPA returns pointer in response of an alloc command. */
+        uint64_t npa_alloc_to          : 1;  /**< [  9:  9](R/W1C/H) If NPA doesn't return pointer in response of an alloc command within
+                                                                 TIMEOUT_NPA_ALLOC.TIMEOUT cycles. */
+        uint64_t wqe_wr_stdn_flt       : 1;  /**< [ 10: 10](R/W1C/H) WQE Write fault flag. Set when a faulted store was detected when WQE write was
+                                                                 done for WQE insertion. */
+        uint64_t bkt_wr_stdn_flt       : 1;  /**< [ 11: 11](R/W1C/H) Bucket Write fault flag. Set when a faulted store was detected when Bucket write
+                                                                 was done for WQE insertion. */
+        uint64_t bkt_rd_flt            : 1;  /**< [ 12: 12](R/W1C/H) Bucket Read fault flag. Set when a faulted bucket read load response was
+                                                                 detected when Bucket read was done for WQE insertion. */
+        uint64_t bkt_rd_psn            : 1;  /**< [ 13: 13](R/W1C/H) Bucket Read fault flag. Set when a faulted bucket read load response was
+                                                                 detected when Bucket read was done for WQE insertion. */
+        uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tim_lf_nrsperr_int_s cn; */
@@ -2466,7 +3131,14 @@ union cavm_tim_lf_nrsperr_int_ena_w1c
     struct cavm_tim_lf_nrsperr_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
+        uint64_t reserved_14_63        : 50;
+        uint64_t bkt_rd_psn            : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for TIM_LF_NRSPERR_INT[BKT_RD_PSN]. */
+        uint64_t bkt_rd_flt            : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for TIM_LF_NRSPERR_INT[BKT_RD_FLT]. */
+        uint64_t bkt_wr_stdn_flt       : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for TIM_LF_NRSPERR_INT[BKT_WR_STDN_FLT]. */
+        uint64_t wqe_wr_stdn_flt       : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for TIM_LF_NRSPERR_INT[WQE_WR_STDN_FLT]. */
+        uint64_t npa_alloc_to          : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for TIM_LF_NRSPERR_INT[NPA_ALLOC_TO]. */
+        uint64_t npa_alloc_null_ptr    : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for TIM_LF_NRSPERR_INT[NPA_ALLOC_NULL_PTR]. */
+        uint64_t reserved_5_7          : 3;
         uint64_t wqe_psn               : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for TIM_LF_NRSPERR_INT[WQE_PSN]. */
         uint64_t la_psn                : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for TIM_LF_NRSPERR_INT[LA_PSN]. */
         uint64_t wqe_flt               : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for TIM_LF_NRSPERR_INT[WQE_FLT]. */
@@ -2478,7 +3150,14 @@ union cavm_tim_lf_nrsperr_int_ena_w1c
         uint64_t wqe_flt               : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for TIM_LF_NRSPERR_INT[WQE_FLT]. */
         uint64_t la_psn                : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for TIM_LF_NRSPERR_INT[LA_PSN]. */
         uint64_t wqe_psn               : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for TIM_LF_NRSPERR_INT[WQE_PSN]. */
-        uint64_t reserved_5_63         : 59;
+        uint64_t reserved_5_7          : 3;
+        uint64_t npa_alloc_null_ptr    : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for TIM_LF_NRSPERR_INT[NPA_ALLOC_NULL_PTR]. */
+        uint64_t npa_alloc_to          : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for TIM_LF_NRSPERR_INT[NPA_ALLOC_TO]. */
+        uint64_t wqe_wr_stdn_flt       : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for TIM_LF_NRSPERR_INT[WQE_WR_STDN_FLT]. */
+        uint64_t bkt_wr_stdn_flt       : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for TIM_LF_NRSPERR_INT[BKT_WR_STDN_FLT]. */
+        uint64_t bkt_rd_flt            : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for TIM_LF_NRSPERR_INT[BKT_RD_FLT]. */
+        uint64_t bkt_rd_psn            : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for TIM_LF_NRSPERR_INT[BKT_RD_PSN]. */
+        uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tim_lf_nrsperr_int_ena_w1c_s cn; */
@@ -2513,7 +3192,14 @@ union cavm_tim_lf_nrsperr_int_ena_w1s
     struct cavm_tim_lf_nrsperr_int_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
+        uint64_t reserved_14_63        : 50;
+        uint64_t bkt_rd_psn            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for TIM_LF_NRSPERR_INT[BKT_RD_PSN]. */
+        uint64_t bkt_rd_flt            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for TIM_LF_NRSPERR_INT[BKT_RD_FLT]. */
+        uint64_t bkt_wr_stdn_flt       : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for TIM_LF_NRSPERR_INT[BKT_WR_STDN_FLT]. */
+        uint64_t wqe_wr_stdn_flt       : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for TIM_LF_NRSPERR_INT[WQE_WR_STDN_FLT]. */
+        uint64_t npa_alloc_to          : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for TIM_LF_NRSPERR_INT[NPA_ALLOC_TO]. */
+        uint64_t npa_alloc_null_ptr    : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for TIM_LF_NRSPERR_INT[NPA_ALLOC_NULL_PTR]. */
+        uint64_t reserved_5_7          : 3;
         uint64_t wqe_psn               : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for TIM_LF_NRSPERR_INT[WQE_PSN]. */
         uint64_t la_psn                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for TIM_LF_NRSPERR_INT[LA_PSN]. */
         uint64_t wqe_flt               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for TIM_LF_NRSPERR_INT[WQE_FLT]. */
@@ -2525,7 +3211,14 @@ union cavm_tim_lf_nrsperr_int_ena_w1s
         uint64_t wqe_flt               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for TIM_LF_NRSPERR_INT[WQE_FLT]. */
         uint64_t la_psn                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for TIM_LF_NRSPERR_INT[LA_PSN]. */
         uint64_t wqe_psn               : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for TIM_LF_NRSPERR_INT[WQE_PSN]. */
-        uint64_t reserved_5_63         : 59;
+        uint64_t reserved_5_7          : 3;
+        uint64_t npa_alloc_null_ptr    : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for TIM_LF_NRSPERR_INT[NPA_ALLOC_NULL_PTR]. */
+        uint64_t npa_alloc_to          : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for TIM_LF_NRSPERR_INT[NPA_ALLOC_TO]. */
+        uint64_t wqe_wr_stdn_flt       : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for TIM_LF_NRSPERR_INT[WQE_WR_STDN_FLT]. */
+        uint64_t bkt_wr_stdn_flt       : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for TIM_LF_NRSPERR_INT[BKT_WR_STDN_FLT]. */
+        uint64_t bkt_rd_flt            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for TIM_LF_NRSPERR_INT[BKT_RD_FLT]. */
+        uint64_t bkt_rd_psn            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for TIM_LF_NRSPERR_INT[BKT_RD_PSN]. */
+        uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tim_lf_nrsperr_int_ena_w1s_s cn; */
@@ -2560,7 +3253,14 @@ union cavm_tim_lf_nrsperr_int_w1s
     struct cavm_tim_lf_nrsperr_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
+        uint64_t reserved_14_63        : 50;
+        uint64_t bkt_rd_psn            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets TIM_LF_NRSPERR_INT[BKT_RD_PSN]. */
+        uint64_t bkt_rd_flt            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets TIM_LF_NRSPERR_INT[BKT_RD_FLT]. */
+        uint64_t bkt_wr_stdn_flt       : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets TIM_LF_NRSPERR_INT[BKT_WR_STDN_FLT]. */
+        uint64_t wqe_wr_stdn_flt       : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets TIM_LF_NRSPERR_INT[WQE_WR_STDN_FLT]. */
+        uint64_t npa_alloc_to          : 1;  /**< [  9:  9](R/W1S/H) Reads or sets TIM_LF_NRSPERR_INT[NPA_ALLOC_TO]. */
+        uint64_t npa_alloc_null_ptr    : 1;  /**< [  8:  8](R/W1S/H) Reads or sets TIM_LF_NRSPERR_INT[NPA_ALLOC_NULL_PTR]. */
+        uint64_t reserved_5_7          : 3;
         uint64_t wqe_psn               : 1;  /**< [  4:  4](R/W1S/H) Reads or sets TIM_LF_NRSPERR_INT[WQE_PSN]. */
         uint64_t la_psn                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets TIM_LF_NRSPERR_INT[LA_PSN]. */
         uint64_t wqe_flt               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets TIM_LF_NRSPERR_INT[WQE_FLT]. */
@@ -2572,7 +3272,14 @@ union cavm_tim_lf_nrsperr_int_w1s
         uint64_t wqe_flt               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets TIM_LF_NRSPERR_INT[WQE_FLT]. */
         uint64_t la_psn                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets TIM_LF_NRSPERR_INT[LA_PSN]. */
         uint64_t wqe_psn               : 1;  /**< [  4:  4](R/W1S/H) Reads or sets TIM_LF_NRSPERR_INT[WQE_PSN]. */
-        uint64_t reserved_5_63         : 59;
+        uint64_t reserved_5_7          : 3;
+        uint64_t npa_alloc_null_ptr    : 1;  /**< [  8:  8](R/W1S/H) Reads or sets TIM_LF_NRSPERR_INT[NPA_ALLOC_NULL_PTR]. */
+        uint64_t npa_alloc_to          : 1;  /**< [  9:  9](R/W1S/H) Reads or sets TIM_LF_NRSPERR_INT[NPA_ALLOC_TO]. */
+        uint64_t wqe_wr_stdn_flt       : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets TIM_LF_NRSPERR_INT[WQE_WR_STDN_FLT]. */
+        uint64_t bkt_wr_stdn_flt       : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets TIM_LF_NRSPERR_INT[BKT_WR_STDN_FLT]. */
+        uint64_t bkt_rd_flt            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets TIM_LF_NRSPERR_INT[BKT_RD_FLT]. */
+        uint64_t bkt_rd_psn            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets TIM_LF_NRSPERR_INT[BKT_RD_PSN]. */
+        uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tim_lf_nrsperr_int_w1s_s cn; */
@@ -2606,13 +3313,17 @@ union cavm_tim_lf_ras_int
     struct cavm_tim_lf_ras_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
+        uint64_t reserved_3_63         : 61;
+        uint64_t bkt_rd_psn            : 1;  /**< [  2:  2](R/W1C/H) Bucket Read poison flag. Set when a poisoned bucket read load response was
+                                                                 detected when Bucket read was done for WQE insertion. */
         uint64_t wqe_psn               : 1;  /**< [  1:  1](R/W1C/H) WQE poison flag. Set when a poisoned WQE response was detected. */
         uint64_t la_psn                : 1;  /**< [  0:  0](R/W1C/H) Load and atomic poison flag. Set when a poisoned non-WQE load or atomic response was detected. */
 #else /* Word 0 - Little Endian */
         uint64_t la_psn                : 1;  /**< [  0:  0](R/W1C/H) Load and atomic poison flag. Set when a poisoned non-WQE load or atomic response was detected. */
         uint64_t wqe_psn               : 1;  /**< [  1:  1](R/W1C/H) WQE poison flag. Set when a poisoned WQE response was detected. */
-        uint64_t reserved_2_63         : 62;
+        uint64_t bkt_rd_psn            : 1;  /**< [  2:  2](R/W1C/H) Bucket Read poison flag. Set when a poisoned bucket read load response was
+                                                                 detected when Bucket read was done for WQE insertion. */
+        uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tim_lf_ras_int_s cn; */
@@ -2647,13 +3358,15 @@ union cavm_tim_lf_ras_int_ena_w1c
     struct cavm_tim_lf_ras_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
+        uint64_t reserved_3_63         : 61;
+        uint64_t bkt_rd_psn            : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for TIM_LF_RAS_INT[BKT_RD_PSN]. */
         uint64_t wqe_psn               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for TIM_LF_RAS_INT[WQE_PSN]. */
         uint64_t la_psn                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for TIM_LF_RAS_INT[LA_PSN]. */
 #else /* Word 0 - Little Endian */
         uint64_t la_psn                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for TIM_LF_RAS_INT[LA_PSN]. */
         uint64_t wqe_psn               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for TIM_LF_RAS_INT[WQE_PSN]. */
-        uint64_t reserved_2_63         : 62;
+        uint64_t bkt_rd_psn            : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for TIM_LF_RAS_INT[BKT_RD_PSN]. */
+        uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tim_lf_ras_int_ena_w1c_s cn; */
@@ -2688,13 +3401,15 @@ union cavm_tim_lf_ras_int_ena_w1s
     struct cavm_tim_lf_ras_int_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
+        uint64_t reserved_3_63         : 61;
+        uint64_t bkt_rd_psn            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for TIM_LF_RAS_INT[BKT_RD_PSN]. */
         uint64_t wqe_psn               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for TIM_LF_RAS_INT[WQE_PSN]. */
         uint64_t la_psn                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for TIM_LF_RAS_INT[LA_PSN]. */
 #else /* Word 0 - Little Endian */
         uint64_t la_psn                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for TIM_LF_RAS_INT[LA_PSN]. */
         uint64_t wqe_psn               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for TIM_LF_RAS_INT[WQE_PSN]. */
-        uint64_t reserved_2_63         : 62;
+        uint64_t bkt_rd_psn            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for TIM_LF_RAS_INT[BKT_RD_PSN]. */
+        uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tim_lf_ras_int_ena_w1s_s cn; */
@@ -2729,13 +3444,15 @@ union cavm_tim_lf_ras_int_w1s
     struct cavm_tim_lf_ras_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
+        uint64_t reserved_3_63         : 61;
+        uint64_t bkt_rd_psn            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets TIM_LF_RAS_INT[BKT_RD_PSN]. */
         uint64_t wqe_psn               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets TIM_LF_RAS_INT[WQE_PSN]. */
         uint64_t la_psn                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets TIM_LF_RAS_INT[LA_PSN]. */
 #else /* Word 0 - Little Endian */
         uint64_t la_psn                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets TIM_LF_RAS_INT[LA_PSN]. */
         uint64_t wqe_psn               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets TIM_LF_RAS_INT[WQE_PSN]. */
-        uint64_t reserved_2_63         : 62;
+        uint64_t bkt_rd_psn            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets TIM_LF_RAS_INT[BKT_RD_PSN]. */
+        uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tim_lf_ras_int_w1s_s cn; */
@@ -2980,6 +3697,177 @@ static inline uint64_t CAVM_TIM_LF_RING_CTL2_FUNC(void)
 #define arguments_CAVM_TIM_LF_RING_CTL2 -1,-1,-1,-1
 
 /**
+ * Register (RVU_PFVF_BAR2) tim_lf_ring_ctl3
+ *
+ * TIM Ring Control 3 Registers
+ * This register is a read-only copy of TIM_AF_RING()_CTL3.
+ */
+union cavm_tim_lf_ring_ctl3
+{
+    uint64_t u;
+    struct cavm_tim_lf_ring_ctl3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t npac_to_cntr          : 16; /**< [ 47: 32](RO) Read-only TIM_AF_RING(0..255)_CTL3[NPAC_TO_CNTR]. */
+        uint64_t wqe_ins_min_gap       : 8;  /**< [ 31: 24](RO) Read-only TIM_AF_RING(0..255)_CTL3[WQE_INS_MIN_GAP]. */
+        uint64_t grp_to_cntr           : 16; /**< [ 23:  8](RO) Read-only TIM_AF_RING(0..255)_CTL3[GRP_TO_CNTR]. */
+        uint64_t reserved_5_7          : 3;
+        uint64_t flw_ctrl_ena          : 1;  /**< [  4:  4](RO) Read-only TIM_AF_RING(0..255)_CTL3[FLW_CTRL_ENA]. */
+        uint64_t reserved_3            : 1;
+        uint64_t grp_ena               : 1;  /**< [  2:  2](RO) Read-only TIM_AF_RING(0..255)_CTL3[GRP_ENA]. */
+        uint64_t wqe_rd_clr_ena        : 1;  /**< [  1:  1](RO) Read-only TIM_AF_RING(0..255)_CTL3[WQE_RD_CLR_ENA]. */
+        uint64_t hwwqe_ena             : 1;  /**< [  0:  0](RO) Read-only TIM_AF_RING(0..255)_CTL3[HWWQE_ENA]. */
+#else /* Word 0 - Little Endian */
+        uint64_t hwwqe_ena             : 1;  /**< [  0:  0](RO) Read-only TIM_AF_RING(0..255)_CTL3[HWWQE_ENA]. */
+        uint64_t wqe_rd_clr_ena        : 1;  /**< [  1:  1](RO) Read-only TIM_AF_RING(0..255)_CTL3[WQE_RD_CLR_ENA]. */
+        uint64_t grp_ena               : 1;  /**< [  2:  2](RO) Read-only TIM_AF_RING(0..255)_CTL3[GRP_ENA]. */
+        uint64_t reserved_3            : 1;
+        uint64_t flw_ctrl_ena          : 1;  /**< [  4:  4](RO) Read-only TIM_AF_RING(0..255)_CTL3[FLW_CTRL_ENA]. */
+        uint64_t reserved_5_7          : 3;
+        uint64_t grp_to_cntr           : 16; /**< [ 23:  8](RO) Read-only TIM_AF_RING(0..255)_CTL3[GRP_TO_CNTR]. */
+        uint64_t wqe_ins_min_gap       : 8;  /**< [ 31: 24](RO) Read-only TIM_AF_RING(0..255)_CTL3[WQE_INS_MIN_GAP]. */
+        uint64_t npac_to_cntr          : 16; /**< [ 47: 32](RO) Read-only TIM_AF_RING(0..255)_CTL3[NPAC_TO_CNTR]. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_lf_ring_ctl3_s cn; */
+};
+typedef union cavm_tim_lf_ring_ctl3 cavm_tim_lf_ring_ctl3_t;
+
+#define CAVM_TIM_LF_RING_CTL3 CAVM_TIM_LF_RING_CTL3_FUNC()
+static inline uint64_t CAVM_TIM_LF_RING_CTL3_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_LF_RING_CTL3_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200900410ll;
+    __cavm_csr_fatal("TIM_LF_RING_CTL3", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TIM_LF_RING_CTL3 cavm_tim_lf_ring_ctl3_t
+#define bustype_CAVM_TIM_LF_RING_CTL3 CSR_TYPE_RVU_PFVF_BAR2
+#define basename_CAVM_TIM_LF_RING_CTL3 "TIM_LF_RING_CTL3"
+#define device_bar_CAVM_TIM_LF_RING_CTL3 0x2 /* RVU_BAR2 */
+#define busnum_CAVM_TIM_LF_RING_CTL3 0
+#define arguments_CAVM_TIM_LF_RING_CTL3 -1,-1,-1,-1
+
+/**
+ * Register (RVU_PFVF_BAR2) tim_lf_ring_curr_itr_reg
+ *
+ * TIM LF Current Iteration Registers
+ */
+union cavm_tim_lf_ring_curr_itr_reg
+{
+    uint64_t u;
+    struct cavm_tim_lf_ring_curr_itr_reg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_24_63        : 40;
+        uint64_t curr_itr              : 24; /**< [ 23:  0](RO) Read Only Register for current iteration number of a ring. */
+#else /* Word 0 - Little Endian */
+        uint64_t curr_itr              : 24; /**< [ 23:  0](RO) Read Only Register for current iteration number of a ring. */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_lf_ring_curr_itr_reg_s cn; */
+};
+typedef union cavm_tim_lf_ring_curr_itr_reg cavm_tim_lf_ring_curr_itr_reg_t;
+
+#define CAVM_TIM_LF_RING_CURR_ITR_REG CAVM_TIM_LF_RING_CURR_ITR_REG_FUNC()
+static inline uint64_t CAVM_TIM_LF_RING_CURR_ITR_REG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_LF_RING_CURR_ITR_REG_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200900500ll;
+    __cavm_csr_fatal("TIM_LF_RING_CURR_ITR_REG", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TIM_LF_RING_CURR_ITR_REG cavm_tim_lf_ring_curr_itr_reg_t
+#define bustype_CAVM_TIM_LF_RING_CURR_ITR_REG CSR_TYPE_RVU_PFVF_BAR2
+#define basename_CAVM_TIM_LF_RING_CURR_ITR_REG "TIM_LF_RING_CURR_ITR_REG"
+#define device_bar_CAVM_TIM_LF_RING_CURR_ITR_REG 0x2 /* RVU_BAR2 */
+#define busnum_CAVM_TIM_LF_RING_CURR_ITR_REG 0
+#define arguments_CAVM_TIM_LF_RING_CURR_ITR_REG -1,-1,-1,-1
+
+/**
+ * Register (RVU_PFVF_BAR2) tim_lf_ring_exp_off
+ *
+ * TIM Ring Expire Offset Registers
+ * This register is a read-only copy of TIM_AF_RING()_EXP_OFF.
+ */
+union cavm_tim_lf_ring_exp_off
+{
+    uint64_t u;
+    struct cavm_tim_lf_ring_exp_off_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_62_63        : 2;
+        uint64_t exp_off               : 62; /**< [ 61:  0](RO/H) Read-only TIM_AF_RING(0..255)_EXP_OFF[EXP_OFF]. */
+#else /* Word 0 - Little Endian */
+        uint64_t exp_off               : 62; /**< [ 61:  0](RO/H) Read-only TIM_AF_RING(0..255)_EXP_OFF[EXP_OFF]. */
+        uint64_t reserved_62_63        : 2;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_lf_ring_exp_off_s cn; */
+};
+typedef union cavm_tim_lf_ring_exp_off cavm_tim_lf_ring_exp_off_t;
+
+#define CAVM_TIM_LF_RING_EXP_OFF CAVM_TIM_LF_RING_EXP_OFF_FUNC()
+static inline uint64_t CAVM_TIM_LF_RING_EXP_OFF_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_LF_RING_EXP_OFF_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200900420ll;
+    __cavm_csr_fatal("TIM_LF_RING_EXP_OFF", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TIM_LF_RING_EXP_OFF cavm_tim_lf_ring_exp_off_t
+#define bustype_CAVM_TIM_LF_RING_EXP_OFF CSR_TYPE_RVU_PFVF_BAR2
+#define basename_CAVM_TIM_LF_RING_EXP_OFF "TIM_LF_RING_EXP_OFF"
+#define device_bar_CAVM_TIM_LF_RING_EXP_OFF 0x2 /* RVU_BAR2 */
+#define busnum_CAVM_TIM_LF_RING_EXP_OFF 0
+#define arguments_CAVM_TIM_LF_RING_EXP_OFF -1,-1,-1,-1
+
+/**
+ * Register (RVU_PFVF_BAR2) tim_lf_ring_intrvl
+ *
+ * TIM Ring Expire Interval Registers
+ * This register is a read-only copy of TIM_AF_RING()_INTRVL.
+ */
+union cavm_tim_lf_ring_intrvl
+{
+    uint64_t u;
+    struct cavm_tim_lf_ring_intrvl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_34_63        : 30;
+        uint64_t intrvl                : 34; /**< [ 33:  0](RO) Read-only TIM_AF_RING(0..255)_INTRVL[INTRVL]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intrvl                : 34; /**< [ 33:  0](RO) Read-only TIM_AF_RING(0..255)_INTRVL[INTRVL]. */
+        uint64_t reserved_34_63        : 30;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_lf_ring_intrvl_s cn; */
+};
+typedef union cavm_tim_lf_ring_intrvl cavm_tim_lf_ring_intrvl_t;
+
+#define CAVM_TIM_LF_RING_INTRVL CAVM_TIM_LF_RING_INTRVL_FUNC()
+static inline uint64_t CAVM_TIM_LF_RING_INTRVL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_LF_RING_INTRVL_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200900430ll;
+    __cavm_csr_fatal("TIM_LF_RING_INTRVL", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TIM_LF_RING_INTRVL cavm_tim_lf_ring_intrvl_t
+#define bustype_CAVM_TIM_LF_RING_INTRVL CSR_TYPE_RVU_PFVF_BAR2
+#define basename_CAVM_TIM_LF_RING_INTRVL "TIM_LF_RING_INTRVL"
+#define device_bar_CAVM_TIM_LF_RING_INTRVL 0x2 /* RVU_BAR2 */
+#define busnum_CAVM_TIM_LF_RING_INTRVL 0
+#define arguments_CAVM_TIM_LF_RING_INTRVL -1,-1,-1,-1
+
+/**
  * Register (RVU_PFVF_BAR2) tim_lf_ring_rel
  *
  * TIM Ring Relative Position Register
@@ -3056,6 +3944,494 @@ static inline uint64_t CAVM_TIM_LF_RING_REL_FUNC(void)
 #define arguments_CAVM_TIM_LF_RING_REL -1,-1,-1,-1
 
 /**
+ * Register (RVU_PFVF_BAR2) tim_lf_ring_rel_timer_cnt
+ *
+ * TIM Ring Relative Timer Count Position Register
+ * Current positions and status of the TIM walker in both time and ring position,
+ * for easy synchronization with software.
+ */
+union cavm_tim_lf_ring_rel_timer_cnt
+{
+    uint64_t u;
+    struct cavm_tim_lf_ring_rel_timer_cnt_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t timercount            : 64; /**< [ 63:  0](RO/H) Timer count indicates how many timer ticks are left until the interval
+                                                                 expiration, calculated as TIM_AF_RING()_EXP_OFF[EXP_OFF] minus current time
+                                                                 (TIM_LF_FR_RN_TENNS, TIM_LF_FR_RN_GPIOS, TIM_LF_FR_RN_GTI, TIM_LF_FR_RN_PTP,
+                                                                 TIM_LF_FR_RN_BTS).
+
+                                                                 Once TIM_AF_RING()_CTL1[ENA] = 1, [TIMERCOUNT] will be observed to count down timer
+                                                                 ticks. When [TIMERCOUNT] reaches 0x0, the ring's interval expired and the
+                                                                 hardware forces a bucket traversal (and increments [LATE_COUNT]).
+
+                                                                 Typical initialization value should be interval/constant; Marvell recommends that
+                                                                 the constant be unique per ring. This creates an offset between the rings.
+                                                                 [TIMERCOUNT] becomes and remains unpredictable whenever TIM_AF_RING()_CTL1[ENA] = 0
+                                                                 or TIM_AF_RING()_CTL1[CLK_SRC] changes, until TIM_AF_RING()_CTL0 is updated. */
+#else /* Word 0 - Little Endian */
+        uint64_t timercount            : 64; /**< [ 63:  0](RO/H) Timer count indicates how many timer ticks are left until the interval
+                                                                 expiration, calculated as TIM_AF_RING()_EXP_OFF[EXP_OFF] minus current time
+                                                                 (TIM_LF_FR_RN_TENNS, TIM_LF_FR_RN_GPIOS, TIM_LF_FR_RN_GTI, TIM_LF_FR_RN_PTP,
+                                                                 TIM_LF_FR_RN_BTS).
+
+                                                                 Once TIM_AF_RING()_CTL1[ENA] = 1, [TIMERCOUNT] will be observed to count down timer
+                                                                 ticks. When [TIMERCOUNT] reaches 0x0, the ring's interval expired and the
+                                                                 hardware forces a bucket traversal (and increments [LATE_COUNT]).
+
+                                                                 Typical initialization value should be interval/constant; Marvell recommends that
+                                                                 the constant be unique per ring. This creates an offset between the rings.
+                                                                 [TIMERCOUNT] becomes and remains unpredictable whenever TIM_AF_RING()_CTL1[ENA] = 0
+                                                                 or TIM_AF_RING()_CTL1[CLK_SRC] changes, until TIM_AF_RING()_CTL0 is updated. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_lf_ring_rel_timer_cnt_s cn; */
+};
+typedef union cavm_tim_lf_ring_rel_timer_cnt cavm_tim_lf_ring_rel_timer_cnt_t;
+
+#define CAVM_TIM_LF_RING_REL_TIMER_CNT CAVM_TIM_LF_RING_REL_TIMER_CNT_FUNC()
+static inline uint64_t CAVM_TIM_LF_RING_REL_TIMER_CNT_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_LF_RING_REL_TIMER_CNT_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200900610ll;
+    __cavm_csr_fatal("TIM_LF_RING_REL_TIMER_CNT", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TIM_LF_RING_REL_TIMER_CNT cavm_tim_lf_ring_rel_timer_cnt_t
+#define bustype_CAVM_TIM_LF_RING_REL_TIMER_CNT CSR_TYPE_RVU_PFVF_BAR2
+#define basename_CAVM_TIM_LF_RING_REL_TIMER_CNT "TIM_LF_RING_REL_TIMER_CNT"
+#define device_bar_CAVM_TIM_LF_RING_REL_TIMER_CNT 0x2 /* RVU_BAR2 */
+#define busnum_CAVM_TIM_LF_RING_REL_TIMER_CNT 0
+#define arguments_CAVM_TIM_LF_RING_REL_TIMER_CNT -1,-1,-1,-1
+
+/**
+ * Register (RVU_PFVF_BAR2) tim_lf_sched_timer#
+ *
+ * TIM LF Schedule Timer Registers
+ */
+union cavm_tim_lf_sched_timerx
+{
+    uint64_t u;
+    struct cavm_tim_lf_sched_timerx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t wqe                   : 64; /**< [ 63:  0](WO) Part of 16 registers- software will write when IOBLD instruction is issued.
+                                                                 Please refer to TIM_WQE_S given below "Register 2,4,6,8,10,12,14-
+                                                                 WQE0,1,2,3,4,5,6 LSB = TIM_WQE_S[w0] Register 3,5,7,9,11,13,15- WQE0,1,2,3,4,5,6
+                                                                 MSB = TIM_WQE_S[w1]
+                                                                 Register 2- WQE01 LSB = TIM_WQE_S[w0] Register 3- WQE0 MSB = TIM_WQE_S[w1]
+                                                                 Register 4- WQE1 LSB = TIM_WQE_S[w0] Register 5- WQE1 MSB = TIM_WQE_S[w1]
+                                                                 Register 6- WQE2 LSB = TIM_WQE_S[w0] Register 7- WQE2 MSB = TIM_WQE_S[w1]
+                                                                 Register 8- WQE3 LSB = TIM_WQE_S[w0] Register 9- WQE3 MSB = TIM_WQE_S[w1]
+                                                                 Register 10- WQE4 LSB = TIM_WQE_S[w0]
+                                                                 Register 11- WQE4 MSB = TIM_WQE_S[w1] Register 12- WQE5 LSB = TIM_WQE_S[w0]
+                                                                 Register 13- WQE5 MSB = TIM_WQE_S[w1]
+                                                                 Register 14- WQE6 LSB = TIM_WQE_S[w0] Register 15- WQE6 MSB = TIM_WQE_S[w1]" */
+#else /* Word 0 - Little Endian */
+        uint64_t wqe                   : 64; /**< [ 63:  0](WO) Part of 16 registers- software will write when IOBLD instruction is issued.
+                                                                 Please refer to TIM_WQE_S given below "Register 2,4,6,8,10,12,14-
+                                                                 WQE0,1,2,3,4,5,6 LSB = TIM_WQE_S[w0] Register 3,5,7,9,11,13,15- WQE0,1,2,3,4,5,6
+                                                                 MSB = TIM_WQE_S[w1]
+                                                                 Register 2- WQE01 LSB = TIM_WQE_S[w0] Register 3- WQE0 MSB = TIM_WQE_S[w1]
+                                                                 Register 4- WQE1 LSB = TIM_WQE_S[w0] Register 5- WQE1 MSB = TIM_WQE_S[w1]
+                                                                 Register 6- WQE2 LSB = TIM_WQE_S[w0] Register 7- WQE2 MSB = TIM_WQE_S[w1]
+                                                                 Register 8- WQE3 LSB = TIM_WQE_S[w0] Register 9- WQE3 MSB = TIM_WQE_S[w1]
+                                                                 Register 10- WQE4 LSB = TIM_WQE_S[w0]
+                                                                 Register 11- WQE4 MSB = TIM_WQE_S[w1] Register 12- WQE5 LSB = TIM_WQE_S[w0]
+                                                                 Register 13- WQE5 MSB = TIM_WQE_S[w1]
+                                                                 Register 14- WQE6 LSB = TIM_WQE_S[w0] Register 15- WQE6 MSB = TIM_WQE_S[w1]" */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_lf_sched_timerx_s cn; */
+};
+typedef union cavm_tim_lf_sched_timerx cavm_tim_lf_sched_timerx_t;
+
+static inline uint64_t CAVM_TIM_LF_SCHED_TIMERX(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_LF_SCHED_TIMERX(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a>=2)&&(a<=15)))
+        return 0x840200900480ll + 8ll * ((a) & 0xf);
+    __cavm_csr_fatal("TIM_LF_SCHED_TIMERX", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TIM_LF_SCHED_TIMERX(a) cavm_tim_lf_sched_timerx_t
+#define bustype_CAVM_TIM_LF_SCHED_TIMERX(a) CSR_TYPE_RVU_PFVF_BAR2
+#define basename_CAVM_TIM_LF_SCHED_TIMERX(a) "TIM_LF_SCHED_TIMERX"
+#define device_bar_CAVM_TIM_LF_SCHED_TIMERX(a) 0x2 /* RVU_BAR2 */
+#define busnum_CAVM_TIM_LF_SCHED_TIMERX(a) (a)
+#define arguments_CAVM_TIM_LF_SCHED_TIMERX(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PFVF_BAR2) tim_lf_sched_timer0
+ *
+ * TIM LF Schedule Timer0 Register
+ */
+union cavm_tim_lf_sched_timer0
+{
+    uint64_t u;
+    struct cavm_tim_lf_sched_timer0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t wqe_ins_time          : 64; /**< [ 63:  0](WO) Part of 16 registers- software will write when IOBLD instruction is issued.
+                                                                 Register 0 - Absolute time or Relative time depending on bit 0 of sched_timer1. */
+#else /* Word 0 - Little Endian */
+        uint64_t wqe_ins_time          : 64; /**< [ 63:  0](WO) Part of 16 registers- software will write when IOBLD instruction is issued.
+                                                                 Register 0 - Absolute time or Relative time depending on bit 0 of sched_timer1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_lf_sched_timer0_s cn; */
+};
+typedef union cavm_tim_lf_sched_timer0 cavm_tim_lf_sched_timer0_t;
+
+#define CAVM_TIM_LF_SCHED_TIMER0 CAVM_TIM_LF_SCHED_TIMER0_FUNC()
+static inline uint64_t CAVM_TIM_LF_SCHED_TIMER0_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_LF_SCHED_TIMER0_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200900480ll;
+    __cavm_csr_fatal("TIM_LF_SCHED_TIMER0", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TIM_LF_SCHED_TIMER0 cavm_tim_lf_sched_timer0_t
+#define bustype_CAVM_TIM_LF_SCHED_TIMER0 CSR_TYPE_RVU_PFVF_BAR2
+#define basename_CAVM_TIM_LF_SCHED_TIMER0 "TIM_LF_SCHED_TIMER0"
+#define device_bar_CAVM_TIM_LF_SCHED_TIMER0 0x2 /* RVU_BAR2 */
+#define busnum_CAVM_TIM_LF_SCHED_TIMER0 0
+#define arguments_CAVM_TIM_LF_SCHED_TIMER0 -1,-1,-1,-1
+
+/**
+ * Register (RVU_PFVF_BAR2) tim_lf_sched_timer1
+ *
+ * TIM LF Schedule Timer1 Register
+ */
+union cavm_tim_lf_sched_timer1
+{
+    uint64_t u;
+    struct cavm_tim_lf_sched_timer1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t wqe_ins_cfg           : 64; /**< [ 63:  0](WO) Software will write when IOBLD instruction is issued. Bit_0 = 1 indicates
+                                                                 relative time.Register 1- Reserved. */
+#else /* Word 0 - Little Endian */
+        uint64_t wqe_ins_cfg           : 64; /**< [ 63:  0](WO) Software will write when IOBLD instruction is issued. Bit_0 = 1 indicates
+                                                                 relative time.Register 1- Reserved. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_lf_sched_timer1_s cn; */
+};
+typedef union cavm_tim_lf_sched_timer1 cavm_tim_lf_sched_timer1_t;
+
+#define CAVM_TIM_LF_SCHED_TIMER1 CAVM_TIM_LF_SCHED_TIMER1_FUNC()
+static inline uint64_t CAVM_TIM_LF_SCHED_TIMER1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_LF_SCHED_TIMER1_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200900488ll;
+    __cavm_csr_fatal("TIM_LF_SCHED_TIMER1", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TIM_LF_SCHED_TIMER1 cavm_tim_lf_sched_timer1_t
+#define bustype_CAVM_TIM_LF_SCHED_TIMER1 CSR_TYPE_RVU_PFVF_BAR2
+#define basename_CAVM_TIM_LF_SCHED_TIMER1 "TIM_LF_SCHED_TIMER1"
+#define device_bar_CAVM_TIM_LF_SCHED_TIMER1 0x2 /* RVU_BAR2 */
+#define busnum_CAVM_TIM_LF_SCHED_TIMER1 0
+#define arguments_CAVM_TIM_LF_SCHED_TIMER1 -1,-1,-1,-1
+
+/**
+ * Register (RVU_PFVF_BAR2) tim_lf_sso_fctl_int
+ *
+ * TIM LF SSO FLOW CTRL Interrupt Register
+ */
+union cavm_tim_lf_sso_fctl_int
+{
+    uint64_t u;
+    struct cavm_tim_lf_sso_fctl_int_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_3_63         : 61;
+        uint64_t max_space_crossed_negative : 1;/**< [  2:  2](R/W1C/H) Bucket Read poison flag. Set when a poisoned bucket read load response was
+                                                                 detected when Bucket read was done for WQE insertion. */
+        uint64_t max_space_crossed     : 1;  /**< [  1:  1](R/W1C/H) WQE poison flag. Set when a poisoned WQE response was detected. */
+        uint64_t flw_ctrl              : 1;  /**< [  0:  0](R/W1C/H) Load and atomic poison flag. Set when a poisoned non-WQE load or atomic response was detected. */
+#else /* Word 0 - Little Endian */
+        uint64_t flw_ctrl              : 1;  /**< [  0:  0](R/W1C/H) Load and atomic poison flag. Set when a poisoned non-WQE load or atomic response was detected. */
+        uint64_t max_space_crossed     : 1;  /**< [  1:  1](R/W1C/H) WQE poison flag. Set when a poisoned WQE response was detected. */
+        uint64_t max_space_crossed_negative : 1;/**< [  2:  2](R/W1C/H) Bucket Read poison flag. Set when a poisoned bucket read load response was
+                                                                 detected when Bucket read was done for WQE insertion. */
+        uint64_t reserved_3_63         : 61;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_lf_sso_fctl_int_s cn; */
+};
+typedef union cavm_tim_lf_sso_fctl_int cavm_tim_lf_sso_fctl_int_t;
+
+#define CAVM_TIM_LF_SSO_FCTL_INT CAVM_TIM_LF_SSO_FCTL_INT_FUNC()
+static inline uint64_t CAVM_TIM_LF_SSO_FCTL_INT_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_LF_SSO_FCTL_INT_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200900570ll;
+    __cavm_csr_fatal("TIM_LF_SSO_FCTL_INT", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TIM_LF_SSO_FCTL_INT cavm_tim_lf_sso_fctl_int_t
+#define bustype_CAVM_TIM_LF_SSO_FCTL_INT CSR_TYPE_RVU_PFVF_BAR2
+#define basename_CAVM_TIM_LF_SSO_FCTL_INT "TIM_LF_SSO_FCTL_INT"
+#define device_bar_CAVM_TIM_LF_SSO_FCTL_INT 0x2 /* RVU_BAR2 */
+#define busnum_CAVM_TIM_LF_SSO_FCTL_INT 0
+#define arguments_CAVM_TIM_LF_SSO_FCTL_INT -1,-1,-1,-1
+
+/**
+ * Register (RVU_PFVF_BAR2) tim_lf_sso_fctl_int_ena_w1c
+ *
+ * TIM LF SSO Flow Control Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+union cavm_tim_lf_sso_fctl_int_ena_w1c
+{
+    uint64_t u;
+    struct cavm_tim_lf_sso_fctl_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_3_63         : 61;
+        uint64_t max_space_crossed_negative : 1;/**< [  2:  2](R/W1C/H) Reads or clears enable for TIM_LF_SSO_FCTL_INT[MAX_SPACE_CROSSED_NEGATIVE]. */
+        uint64_t max_space_crossed     : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for TIM_LF_SSO_FCTL_INT[MAX_SPACE_CROSSED]. */
+        uint64_t flw_ctrl              : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for TIM_LF_SSO_FCTL_INT[FLW_CTRL]. */
+#else /* Word 0 - Little Endian */
+        uint64_t flw_ctrl              : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for TIM_LF_SSO_FCTL_INT[FLW_CTRL]. */
+        uint64_t max_space_crossed     : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for TIM_LF_SSO_FCTL_INT[MAX_SPACE_CROSSED]. */
+        uint64_t max_space_crossed_negative : 1;/**< [  2:  2](R/W1C/H) Reads or clears enable for TIM_LF_SSO_FCTL_INT[MAX_SPACE_CROSSED_NEGATIVE]. */
+        uint64_t reserved_3_63         : 61;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_lf_sso_fctl_int_ena_w1c_s cn; */
+};
+typedef union cavm_tim_lf_sso_fctl_int_ena_w1c cavm_tim_lf_sso_fctl_int_ena_w1c_t;
+
+#define CAVM_TIM_LF_SSO_FCTL_INT_ENA_W1C CAVM_TIM_LF_SSO_FCTL_INT_ENA_W1C_FUNC()
+static inline uint64_t CAVM_TIM_LF_SSO_FCTL_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_LF_SSO_FCTL_INT_ENA_W1C_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200900600ll;
+    __cavm_csr_fatal("TIM_LF_SSO_FCTL_INT_ENA_W1C", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TIM_LF_SSO_FCTL_INT_ENA_W1C cavm_tim_lf_sso_fctl_int_ena_w1c_t
+#define bustype_CAVM_TIM_LF_SSO_FCTL_INT_ENA_W1C CSR_TYPE_RVU_PFVF_BAR2
+#define basename_CAVM_TIM_LF_SSO_FCTL_INT_ENA_W1C "TIM_LF_SSO_FCTL_INT_ENA_W1C"
+#define device_bar_CAVM_TIM_LF_SSO_FCTL_INT_ENA_W1C 0x2 /* RVU_BAR2 */
+#define busnum_CAVM_TIM_LF_SSO_FCTL_INT_ENA_W1C 0
+#define arguments_CAVM_TIM_LF_SSO_FCTL_INT_ENA_W1C -1,-1,-1,-1
+
+/**
+ * Register (RVU_PFVF_BAR2) tim_lf_sso_fctl_int_ena_w1s
+ *
+ * TIM LF SSO Flow Control Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ */
+union cavm_tim_lf_sso_fctl_int_ena_w1s
+{
+    uint64_t u;
+    struct cavm_tim_lf_sso_fctl_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_3_63         : 61;
+        uint64_t max_space_crossed_negative : 1;/**< [  2:  2](R/W1S/H) Reads or sets enable for TIM_LF_SSO_FCTL_INT[MAX_SPACE_CROSSED_NEGATIVE]. */
+        uint64_t max_space_crossed     : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for TIM_LF_SSO_FCTL_INT[MAX_SPACE_CROSSED]. */
+        uint64_t flw_ctrl              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for TIM_LF_SSO_FCTL_INT[FLW_CTRL]. */
+#else /* Word 0 - Little Endian */
+        uint64_t flw_ctrl              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for TIM_LF_SSO_FCTL_INT[FLW_CTRL]. */
+        uint64_t max_space_crossed     : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for TIM_LF_SSO_FCTL_INT[MAX_SPACE_CROSSED]. */
+        uint64_t max_space_crossed_negative : 1;/**< [  2:  2](R/W1S/H) Reads or sets enable for TIM_LF_SSO_FCTL_INT[MAX_SPACE_CROSSED_NEGATIVE]. */
+        uint64_t reserved_3_63         : 61;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_lf_sso_fctl_int_ena_w1s_s cn; */
+};
+typedef union cavm_tim_lf_sso_fctl_int_ena_w1s cavm_tim_lf_sso_fctl_int_ena_w1s_t;
+
+#define CAVM_TIM_LF_SSO_FCTL_INT_ENA_W1S CAVM_TIM_LF_SSO_FCTL_INT_ENA_W1S_FUNC()
+static inline uint64_t CAVM_TIM_LF_SSO_FCTL_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_LF_SSO_FCTL_INT_ENA_W1S_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200900590ll;
+    __cavm_csr_fatal("TIM_LF_SSO_FCTL_INT_ENA_W1S", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TIM_LF_SSO_FCTL_INT_ENA_W1S cavm_tim_lf_sso_fctl_int_ena_w1s_t
+#define bustype_CAVM_TIM_LF_SSO_FCTL_INT_ENA_W1S CSR_TYPE_RVU_PFVF_BAR2
+#define basename_CAVM_TIM_LF_SSO_FCTL_INT_ENA_W1S "TIM_LF_SSO_FCTL_INT_ENA_W1S"
+#define device_bar_CAVM_TIM_LF_SSO_FCTL_INT_ENA_W1S 0x2 /* RVU_BAR2 */
+#define busnum_CAVM_TIM_LF_SSO_FCTL_INT_ENA_W1S 0
+#define arguments_CAVM_TIM_LF_SSO_FCTL_INT_ENA_W1S -1,-1,-1,-1
+
+/**
+ * Register (RVU_PFVF_BAR2) tim_lf_sso_fctl_int_w1s
+ *
+ * TIM LF SSO Flow Control Interrupt Set Register
+ * This register sets interrupt bits.
+ */
+union cavm_tim_lf_sso_fctl_int_w1s
+{
+    uint64_t u;
+    struct cavm_tim_lf_sso_fctl_int_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_3_63         : 61;
+        uint64_t max_space_crossed_negative : 1;/**< [  2:  2](R/W1S/H) Reads or sets TIM_LF_SSO_FCTL_INT[MAX_SPACE_CROSSED_NEGATIVE]. */
+        uint64_t max_space_crossed     : 1;  /**< [  1:  1](R/W1S/H) Reads or sets TIM_LF_SSO_FCTL_INT[MAX_SPACE_CROSSED]. */
+        uint64_t flw_ctrl              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets TIM_LF_SSO_FCTL_INT[FLW_CTRL]. */
+#else /* Word 0 - Little Endian */
+        uint64_t flw_ctrl              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets TIM_LF_SSO_FCTL_INT[FLW_CTRL]. */
+        uint64_t max_space_crossed     : 1;  /**< [  1:  1](R/W1S/H) Reads or sets TIM_LF_SSO_FCTL_INT[MAX_SPACE_CROSSED]. */
+        uint64_t max_space_crossed_negative : 1;/**< [  2:  2](R/W1S/H) Reads or sets TIM_LF_SSO_FCTL_INT[MAX_SPACE_CROSSED_NEGATIVE]. */
+        uint64_t reserved_3_63         : 61;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_lf_sso_fctl_int_w1s_s cn; */
+};
+typedef union cavm_tim_lf_sso_fctl_int_w1s cavm_tim_lf_sso_fctl_int_w1s_t;
+
+#define CAVM_TIM_LF_SSO_FCTL_INT_W1S CAVM_TIM_LF_SSO_FCTL_INT_W1S_FUNC()
+static inline uint64_t CAVM_TIM_LF_SSO_FCTL_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_LF_SSO_FCTL_INT_W1S_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200900580ll;
+    __cavm_csr_fatal("TIM_LF_SSO_FCTL_INT_W1S", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TIM_LF_SSO_FCTL_INT_W1S cavm_tim_lf_sso_fctl_int_w1s_t
+#define bustype_CAVM_TIM_LF_SSO_FCTL_INT_W1S CSR_TYPE_RVU_PFVF_BAR2
+#define basename_CAVM_TIM_LF_SSO_FCTL_INT_W1S "TIM_LF_SSO_FCTL_INT_W1S"
+#define device_bar_CAVM_TIM_LF_SSO_FCTL_INT_W1S 0x2 /* RVU_BAR2 */
+#define busnum_CAVM_TIM_LF_SSO_FCTL_INT_W1S 0
+#define arguments_CAVM_TIM_LF_SSO_FCTL_INT_W1S -1,-1,-1,-1
+
+/**
+ * Register (RVU_PFVF_BAR2) tim_lf_sso_incr_dcr_cnt
+ *
+ * TIM LF SSO Flow Control Increment Decrement Registers
+ */
+union cavm_tim_lf_sso_incr_dcr_cnt
+{
+    uint64_t u;
+    struct cavm_tim_lf_sso_incr_dcr_cnt_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t sso_qspace_incr_dcr_cnt : 32;/**< [ 31:  0](R/W) When SW writes any value to this register, TIM_SSO_QUEUE_SPACE[N] is increment
+                                                                 or decremented by that much count. It is a 2's complement number. */
+#else /* Word 0 - Little Endian */
+        uint64_t sso_qspace_incr_dcr_cnt : 32;/**< [ 31:  0](R/W) When SW writes any value to this register, TIM_SSO_QUEUE_SPACE[N] is increment
+                                                                 or decremented by that much count. It is a 2's complement number. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_lf_sso_incr_dcr_cnt_s cn; */
+};
+typedef union cavm_tim_lf_sso_incr_dcr_cnt cavm_tim_lf_sso_incr_dcr_cnt_t;
+
+#define CAVM_TIM_LF_SSO_INCR_DCR_CNT CAVM_TIM_LF_SSO_INCR_DCR_CNT_FUNC()
+static inline uint64_t CAVM_TIM_LF_SSO_INCR_DCR_CNT_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_LF_SSO_INCR_DCR_CNT_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200900550ll;
+    __cavm_csr_fatal("TIM_LF_SSO_INCR_DCR_CNT", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TIM_LF_SSO_INCR_DCR_CNT cavm_tim_lf_sso_incr_dcr_cnt_t
+#define bustype_CAVM_TIM_LF_SSO_INCR_DCR_CNT CSR_TYPE_RVU_PFVF_BAR2
+#define basename_CAVM_TIM_LF_SSO_INCR_DCR_CNT "TIM_LF_SSO_INCR_DCR_CNT"
+#define device_bar_CAVM_TIM_LF_SSO_INCR_DCR_CNT 0x2 /* RVU_BAR2 */
+#define busnum_CAVM_TIM_LF_SSO_INCR_DCR_CNT 0
+#define arguments_CAVM_TIM_LF_SSO_INCR_DCR_CNT -1,-1,-1,-1
+
+/**
+ * Register (RVU_PFVF_BAR2) tim_lf_sso_max_qspace
+ *
+ * TIM LF SSO Max Qspace Registers
+ */
+union cavm_tim_lf_sso_max_qspace
+{
+    uint64_t u;
+    struct cavm_tim_lf_sso_max_qspace_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t sso_max_qspace        : 32; /**< [ 31:  0](R/W) Maximum Qspace value for TIM_SSO_QUEUE_SPACE[N]. */
+#else /* Word 0 - Little Endian */
+        uint64_t sso_max_qspace        : 32; /**< [ 31:  0](R/W) Maximum Qspace value for TIM_SSO_QUEUE_SPACE[N]. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_lf_sso_max_qspace_s cn; */
+};
+typedef union cavm_tim_lf_sso_max_qspace cavm_tim_lf_sso_max_qspace_t;
+
+#define CAVM_TIM_LF_SSO_MAX_QSPACE CAVM_TIM_LF_SSO_MAX_QSPACE_FUNC()
+static inline uint64_t CAVM_TIM_LF_SSO_MAX_QSPACE_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_LF_SSO_MAX_QSPACE_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200900540ll;
+    __cavm_csr_fatal("TIM_LF_SSO_MAX_QSPACE", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TIM_LF_SSO_MAX_QSPACE cavm_tim_lf_sso_max_qspace_t
+#define bustype_CAVM_TIM_LF_SSO_MAX_QSPACE CSR_TYPE_RVU_PFVF_BAR2
+#define basename_CAVM_TIM_LF_SSO_MAX_QSPACE "TIM_LF_SSO_MAX_QSPACE"
+#define device_bar_CAVM_TIM_LF_SSO_MAX_QSPACE 0x2 /* RVU_BAR2 */
+#define busnum_CAVM_TIM_LF_SSO_MAX_QSPACE 0
+#define arguments_CAVM_TIM_LF_SSO_MAX_QSPACE -1,-1,-1,-1
+
+/**
+ * Register (RVU_PFVF_BAR2) tim_lf_sso_qspace
+ *
+ * TIM SSO Queue Space count Read only Registers
+ */
+union cavm_tim_lf_sso_qspace
+{
+    uint64_t u;
+    struct cavm_tim_lf_sso_qspace_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t sso_qspace            : 32; /**< [ 31:  0](RO/H) Initial Number of WQEs which can be pending in SSO for a particular ring. This
+                                                                 register shows the value of the internal register. Internal register is changed
+                                                                 based on write to the TIM_LF_SSO_INCR_DCR_CNT[N] and by TIM hardware. */
+#else /* Word 0 - Little Endian */
+        uint64_t sso_qspace            : 32; /**< [ 31:  0](RO/H) Initial Number of WQEs which can be pending in SSO for a particular ring. This
+                                                                 register shows the value of the internal register. Internal register is changed
+                                                                 based on write to the TIM_LF_SSO_INCR_DCR_CNT[N] and by TIM hardware. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_lf_sso_qspace_s cn; */
+};
+typedef union cavm_tim_lf_sso_qspace cavm_tim_lf_sso_qspace_t;
+
+#define CAVM_TIM_LF_SSO_QSPACE CAVM_TIM_LF_SSO_QSPACE_FUNC()
+static inline uint64_t CAVM_TIM_LF_SSO_QSPACE_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_LF_SSO_QSPACE_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH))
+        return 0x840200900530ll;
+    __cavm_csr_fatal("TIM_LF_SSO_QSPACE", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TIM_LF_SSO_QSPACE cavm_tim_lf_sso_qspace_t
+#define bustype_CAVM_TIM_LF_SSO_QSPACE CSR_TYPE_RVU_PFVF_BAR2
+#define basename_CAVM_TIM_LF_SSO_QSPACE "TIM_LF_SSO_QSPACE"
+#define device_bar_CAVM_TIM_LF_SSO_QSPACE 0x2 /* RVU_BAR2 */
+#define busnum_CAVM_TIM_LF_SSO_QSPACE 0
+#define arguments_CAVM_TIM_LF_SSO_QSPACE -1,-1,-1,-1
+
+/**
  * Register (RVU_PF_BAR0) tim_priv_af_int_cfg
  *
  * TIM Privileged AF Interrupt Configuration Registers
@@ -3066,8 +4442,8 @@ union cavm_tim_priv_af_int_cfg
     struct cavm_tim_priv_af_int_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_20_63        : 44;
-        uint64_t msix_size             : 8;  /**< [ 19: 12](RO) Number of interrupt vectors enumerated by TIM_AF_INT_VEC_E. */
+        uint64_t reserved_24_63        : 40;
+        uint64_t msix_size             : 12; /**< [ 23: 12](RO) Number of interrupt vectors enumerated by TIM_AF_INT_VEC_E. */
         uint64_t reserved_11           : 1;
         uint64_t msix_offset           : 11; /**< [ 10:  0](R/W) MSI-X offset. Offset of AF interrupt vectors enumerated by
                                                                  TIM_AF_INT_VEC_E in RVU PF(0)'s MSI-X table. This offset is added to each
@@ -3081,8 +4457,8 @@ union cavm_tim_priv_af_int_cfg
                                                                  highest enumerated value plus [MSIX_OFFSET] must be less than or equal to
                                                                  RVU_PRIV_PF(0)_MSIX_CFG[PF_MSIXT_SIZEM1]. */
         uint64_t reserved_11           : 1;
-        uint64_t msix_size             : 8;  /**< [ 19: 12](RO) Number of interrupt vectors enumerated by TIM_AF_INT_VEC_E. */
-        uint64_t reserved_20_63        : 44;
+        uint64_t msix_size             : 12; /**< [ 23: 12](RO) Number of interrupt vectors enumerated by TIM_AF_INT_VEC_E. */
+        uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tim_priv_af_int_cfg_s cn; */

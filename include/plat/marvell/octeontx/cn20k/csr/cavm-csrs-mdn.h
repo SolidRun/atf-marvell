@@ -436,106 +436,7 @@ union cavm_mdn_bist_config
         uint32_t reserved_19_31        : 13;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mdn_bist_config_s cheetah; */
-    /* struct cavm_mdn_bist_config_s cn20; */
-    struct cavm_mdn_bist_config_odinmp
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_18_31        : 14;
-        uint32_t drf_rdwr_disable      : 1;  /**< [ 17: 17](R/W) BIST DRF_SIM_RD_WR march disable. This March is only valid for DRFs
-                                                                 When this bit is cleared to zero, the simultaneous read-write march is enabled.
-                                                                 When this bit is set to one the simultaneous read write march is disabled.
-                                                                 If enabled, simultaneous read write march runs before marches 7 through 0
-                                                                 (controlled by [MARCH_DISABLE] vector). */
-        uint32_t march_broadcast_disable : 1;/**< [ 16: 16](R/W) March broadcast disable. When set, disables writing to
-                                                                 MDN_PROG_MARCH0 and MDN_PROG_MARCH1 through broadcast writes. */
-        uint32_t prog_march_disable    : 1;  /**< [ 15: 15](R/W) BIST programmable march disable.
-                                                                 When this bit is cleared to zero, the programmable march is enabled.
-                                                                 When this bit is set to one the programmable march is disabled.
-                                                                 If enabled, programmable march runs before all other marches, i.e.,
-                                                                 BIST DRF_SIM_RD_WR march (controlled by [DRF_RDWR_DISABLE]) and marches
-                                                                 7 through 0 (controlled by [MARCH_DISABLE] vector). */
-        uint32_t debug_kind            : 2;  /**< [ 14: 13](R/W) Selects row or column defect capture for debug according to the
-                                                                 MDN_DEBUG_KIND_E enumeration. */
-        uint32_t debug_algo            : 2;  /**< [ 12: 11](R/W) Selects the algorithm used to capture defects for debug according to the
-                                                                 MDN_DEBUG_ALGO_E enumeration. */
-        uint32_t continuous_enable     : 1;  /**< [ 10: 10](R/W) Run BIST continuously until turned off.  Use extreme caution when
-                                                                 running in this mode as BIST can draw significant power. */
-        uint32_t halt_enable           : 1;  /**< [  9:  9](R/W) BIST halt mode enable. When set, the BIST state machine will run until a defect
-                                                                 is detected; then it will halt. If no defect is detected, the BIST state machine
-                                                                 will run until it has finished and remove MDN_BIST_STATUS[STATUS] being
-                                                                 MDN_BIST_STATUS_E::ACTIVE if a defect is detected, it will assert set
-                                                                 MDN_BIST_STATUS[STATUS] to MDN_BIST_STATUS_E::HALTED and stop executing
-                                                                 BIST. The BIST state machine can be restarted at the next location in its march
-                                                                 by writing one to MDN_BIST_CONTROL[START]. */
-        uint32_t broadcast_disable     : 1;  /**< [  8:  8](R/W) Broadcast start BIST disable.  When set, disables the BIST state
-                                                                 machine performing BIST upon a broadcast write of one to
-                                                                 MDN_BIST_CONTROL[START].
-                                                                 Arbitrary sets of memories can be specified to run BIST by setting
-                                                                 or clearing this bit in all memories. */
-        uint32_t march_disable         : 8;  /**< [  7:  0](R/W) BIST march disable.  BIST can execute up to eight march patterns.  This
-                                                                 8-bit vector controls which marches are disabled.  When a bit in the
-                                                                 vector is cleared to zero, the associated march is enabled.  When a bit
-                                                                 in the vector is set to one the associated march is disabled.  Marches
-                                                                 7 through 4 are the retention patterns and are disabled by default.
-                                                                 The marches execute from 7 down to 0.  The marches include:
-                                                                   0x0 = Clear.
-                                                                   0x1 = Read-hammer, binary-CAM or ternary-CAM.
-                                                                   0x2 = MD2.
-                                                                   0x3 = Checkerboard.
-                                                                   0x4 = Inverse checkerboard read and compare.
-                                                                   0x5 = Inverse checkerboard write.
-                                                                   0x6 = Checkerboard read and compare.
-                                                                   0x7 = Checkerboard write. */
-#else /* Word 0 - Little Endian */
-        uint32_t march_disable         : 8;  /**< [  7:  0](R/W) BIST march disable.  BIST can execute up to eight march patterns.  This
-                                                                 8-bit vector controls which marches are disabled.  When a bit in the
-                                                                 vector is cleared to zero, the associated march is enabled.  When a bit
-                                                                 in the vector is set to one the associated march is disabled.  Marches
-                                                                 7 through 4 are the retention patterns and are disabled by default.
-                                                                 The marches execute from 7 down to 0.  The marches include:
-                                                                   0x0 = Clear.
-                                                                   0x1 = Read-hammer, binary-CAM or ternary-CAM.
-                                                                   0x2 = MD2.
-                                                                   0x3 = Checkerboard.
-                                                                   0x4 = Inverse checkerboard read and compare.
-                                                                   0x5 = Inverse checkerboard write.
-                                                                   0x6 = Checkerboard read and compare.
-                                                                   0x7 = Checkerboard write. */
-        uint32_t broadcast_disable     : 1;  /**< [  8:  8](R/W) Broadcast start BIST disable.  When set, disables the BIST state
-                                                                 machine performing BIST upon a broadcast write of one to
-                                                                 MDN_BIST_CONTROL[START].
-                                                                 Arbitrary sets of memories can be specified to run BIST by setting
-                                                                 or clearing this bit in all memories. */
-        uint32_t halt_enable           : 1;  /**< [  9:  9](R/W) BIST halt mode enable. When set, the BIST state machine will run until a defect
-                                                                 is detected; then it will halt. If no defect is detected, the BIST state machine
-                                                                 will run until it has finished and remove MDN_BIST_STATUS[STATUS] being
-                                                                 MDN_BIST_STATUS_E::ACTIVE if a defect is detected, it will assert set
-                                                                 MDN_BIST_STATUS[STATUS] to MDN_BIST_STATUS_E::HALTED and stop executing
-                                                                 BIST. The BIST state machine can be restarted at the next location in its march
-                                                                 by writing one to MDN_BIST_CONTROL[START]. */
-        uint32_t continuous_enable     : 1;  /**< [ 10: 10](R/W) Run BIST continuously until turned off.  Use extreme caution when
-                                                                 running in this mode as BIST can draw significant power. */
-        uint32_t debug_algo            : 2;  /**< [ 12: 11](R/W) Selects the algorithm used to capture defects for debug according to the
-                                                                 MDN_DEBUG_ALGO_E enumeration. */
-        uint32_t debug_kind            : 2;  /**< [ 14: 13](R/W) Selects row or column defect capture for debug according to the
-                                                                 MDN_DEBUG_KIND_E enumeration. */
-        uint32_t prog_march_disable    : 1;  /**< [ 15: 15](R/W) BIST programmable march disable.
-                                                                 When this bit is cleared to zero, the programmable march is enabled.
-                                                                 When this bit is set to one the programmable march is disabled.
-                                                                 If enabled, programmable march runs before all other marches, i.e.,
-                                                                 BIST DRF_SIM_RD_WR march (controlled by [DRF_RDWR_DISABLE]) and marches
-                                                                 7 through 0 (controlled by [MARCH_DISABLE] vector). */
-        uint32_t march_broadcast_disable : 1;/**< [ 16: 16](R/W) March broadcast disable. When set, disables writing to
-                                                                 MDN_PROG_MARCH0 and MDN_PROG_MARCH1 through broadcast writes. */
-        uint32_t drf_rdwr_disable      : 1;  /**< [ 17: 17](R/W) BIST DRF_SIM_RD_WR march disable. This March is only valid for DRFs
-                                                                 When this bit is cleared to zero, the simultaneous read-write march is enabled.
-                                                                 When this bit is set to one the simultaneous read write march is disabled.
-                                                                 If enabled, simultaneous read write march runs before marches 7 through 0
-                                                                 (controlled by [MARCH_DISABLE] vector). */
-        uint32_t reserved_18_31        : 14;
-#endif /* Word 0 - End */
-    } odinmp;
+    /* struct cavm_mdn_bist_config_s cn; */
 };
 typedef union cavm_mdn_bist_config cavm_mdn_bist_config_t;
 
@@ -606,9 +507,25 @@ union cavm_mdn_bist_control
                                                                  of REP can be used while halted; however, it must be set back to the
                                                                  value of MDN_DEBUG_MARCH[MARCH_REP] before restarting to continue the
                                                                  march. */
-        uint32_t reserved_0_13         : 14;
+        uint32_t func_dbg              : 1;  /**< [ 13: 13](R/W1) Starts or restarts the Functional Debug operation. Writing one will start one of
+                                                                 the Debug read or Debug write
+                                                                 according to the setting of the [READ] or [WRITE] along with [FUNC_DBG] */
+        uint32_t disable_scrub         : 1;  /**< [ 12: 12](R/W1) Disable scrubbing feature of the attached memory for this Node.
+                                                                 used to preserve the sw inserted errors from generating ecc errors and not
+                                                                 correcting them automatically. */
+        uint32_t disable_diag_rdwr     : 1;  /**< [ 11: 11](R/W1) Disable all the Diagnostic read and write access to the attached memory for this Node.
+                                                                 used to secure the memory from unwanted external access */
+        uint32_t reserved_0_10         : 11;
 #else /* Word 0 - Little Endian */
-        uint32_t reserved_0_13         : 14;
+        uint32_t reserved_0_10         : 11;
+        uint32_t disable_diag_rdwr     : 1;  /**< [ 11: 11](R/W1) Disable all the Diagnostic read and write access to the attached memory for this Node.
+                                                                 used to secure the memory from unwanted external access */
+        uint32_t disable_scrub         : 1;  /**< [ 12: 12](R/W1) Disable scrubbing feature of the attached memory for this Node.
+                                                                 used to preserve the sw inserted errors from generating ecc errors and not
+                                                                 correcting them automatically. */
+        uint32_t func_dbg              : 1;  /**< [ 13: 13](R/W1) Starts or restarts the Functional Debug operation. Writing one will start one of
+                                                                 the Debug read or Debug write
+                                                                 according to the setting of the [READ] or [WRITE] along with [FUNC_DBG] */
         uint32_t rep                   : 8;  /**< [ 21: 14](R/W1) When the READ/WRITE field above is asserted this specifies the repetition
                                                                  used for a debug read/write.  When the [START] field is asserted this
                                                                  specifies repetition that BIST will start with.  Note that any value
@@ -654,209 +571,7 @@ union cavm_mdn_bist_control
                                                                  or restarted. */
 #endif /* Word 0 - End */
     } s;
-    struct cavm_mdn_bist_control_cheetah
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t start                 : 1;  /**< [ 31: 31](R/W1) Starts or restarts the BIST state machine.  If the BIST state machine
-                                                                 is idle, writing one will start it executing the first enabled march
-                                                                 according to the MDN_BIST_CONFIG[PROG_MARCH_DISABLE] bit and
-                                                                 the MDN_BIST_CONFIG[MARCH_DISABLE] vector.  If the BIST
-                                                                 state machine is halted due to detecting a defect while
-                                                                 MDN_BIST_CONFIG[HALT_ENABLE] is asserted, then writing one will
-                                                                 restart it executing at the next enabled march element.   The values
-                                                                 captured in MDN_DEBUG_DEFECT are reset each time BIST is started
-                                                                 or restarted. */
-        uint32_t clear                 : 1;  /**< [ 30: 30](R/W1) When asserted with [START], the BIST SM will execute the clear BIST operation. */
-        uint32_t read                  : 1;  /**< [ 29: 29](R/W1) The BIST SM/SCD CTRL will perform a debug read using the specified [REP] and [ADDRESS]
-                                                                 when [START] and [READ] are asserted simultaneously. Asserting [READ] without
-                                                                 [START] has no effect. The BIST status will change to ACTIVE while the read
-                                                                 occurs and then change to DONE_* when the read data is available via
-                                                                 MDN_DEBUG_DATA(). Note that the BIST status may be any flavor of
-                                                                 DONE_\<FAIL,REPAIRABLE,PASS\> but it simply means that the debug read has
-                                                                 completed. */
-        uint32_t reset                 : 1;  /**< [ 28: 28](R/W1) Resets the BIST state machine and sets MDN_BIST_STATUS[STATUS] back to
-                                                                 MDN_BIST_STATUS_E::DONE_PASS_CLEAN. */
-        uint32_t write                 : 1;  /**< [ 27: 27](R/W1) The BIST state machine/SCD control will perform a debug write using the specified [REP] and
-                                                                 [ADDRESS] when [START] and [WRITE] are asserted simultaneously. Asserting
-                                                                 [WRITE] without [START] has no effect. The BIST status will change to ACTIVE
-                                                                 while the write occurs and then change to DONE_*. Note the write data needs to
-                                                                 be programmed in the MDN_DEBUG_DATA regrister prior to setting [WRITE]. BIST
-                                                                 status may be any flavor of DONE_\<FAIL,REPAIRABLE,PASS\> but it simply means that
-                                                                 the debug write has completed. */
-        uint32_t tcam_dsel             : 1;  /**< [ 26: 26](R/W1) DSEL value. To Read/write Data or Mask into the TCAM. When '1' Data is
-                                                                 presented, when '0' MASK value is presented. */
-        uint32_t read_sweep            : 3;  /**< [ 25: 23](R/W) This field is programed to select the debug read/write data storage for RAMs
-                                                                 with more than 1K Width.
-                                                                 0x0 = 0000 - 1023 data bits are stored in MDN_DEBUG_DATA().
-                                                                 0x1 = 1024 - 2047 data bits are stored in MDN_DEBUG_DATA().
-                                                                 0x2 = 2048 - 3071 data bits are stored in MDN_DEBUG_DATA().
-                                                                 0x8 = 3072 - 4095 data bits are stored in MDN_DEBUG_DATA(). */
-        uint32_t one_rep               : 1;  /**< [ 22: 22](R/W1) When set to one, the BIST state machine performs BIST only upon the REP
-                                                                 specified below.  When cleared to zero, the BIST state machine performs
-                                                                 BIST starting at the [REP] specified which may include multiple REPs. */
-        uint32_t rep                   : 8;  /**< [ 21: 14](R/W1) When the READ/WRITE field above is asserted this specifies the repetition
-                                                                 used for a debug read/write.  When the [START] field is asserted this
-                                                                 specifies repetition that BIST will start with.  Note that any value
-                                                                 of REP can be used while halted; however, it must be set back to the
-                                                                 value of MDN_DEBUG_MARCH[MARCH_REP] before restarting to continue the
-                                                                 march. */
-        uint32_t func_dbg              : 1;  /**< [ 13: 13](R/W1) Starts or restarts the Functional Debug operation. Writing one will start one of
-                                                                 the Debug read or Debug write
-                                                                 according to the setting of the [READ] or [WRITE] along with [FUNC_DBG] */
-        uint32_t disable_scrub         : 1;  /**< [ 12: 12](R/W1) Disable scrubbing feature of the attached memory for this Node.
-                                                                 used to preserve the sw inserted errors from generating ecc errors and not
-                                                                 correcting them automatically. */
-        uint32_t disable_diag_rdwr     : 1;  /**< [ 11: 11](R/W1) Disable all the Diagnostic read and write access to the attached memory for this Node.
-                                                                 used to secure the memory from unwanted external access */
-        uint32_t reserved_0_10         : 11;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_10         : 11;
-        uint32_t disable_diag_rdwr     : 1;  /**< [ 11: 11](R/W1) Disable all the Diagnostic read and write access to the attached memory for this Node.
-                                                                 used to secure the memory from unwanted external access */
-        uint32_t disable_scrub         : 1;  /**< [ 12: 12](R/W1) Disable scrubbing feature of the attached memory for this Node.
-                                                                 used to preserve the sw inserted errors from generating ecc errors and not
-                                                                 correcting them automatically. */
-        uint32_t func_dbg              : 1;  /**< [ 13: 13](R/W1) Starts or restarts the Functional Debug operation. Writing one will start one of
-                                                                 the Debug read or Debug write
-                                                                 according to the setting of the [READ] or [WRITE] along with [FUNC_DBG] */
-        uint32_t rep                   : 8;  /**< [ 21: 14](R/W1) When the READ/WRITE field above is asserted this specifies the repetition
-                                                                 used for a debug read/write.  When the [START] field is asserted this
-                                                                 specifies repetition that BIST will start with.  Note that any value
-                                                                 of REP can be used while halted; however, it must be set back to the
-                                                                 value of MDN_DEBUG_MARCH[MARCH_REP] before restarting to continue the
-                                                                 march. */
-        uint32_t one_rep               : 1;  /**< [ 22: 22](R/W1) When set to one, the BIST state machine performs BIST only upon the REP
-                                                                 specified below.  When cleared to zero, the BIST state machine performs
-                                                                 BIST starting at the [REP] specified which may include multiple REPs. */
-        uint32_t read_sweep            : 3;  /**< [ 25: 23](R/W) This field is programed to select the debug read/write data storage for RAMs
-                                                                 with more than 1K Width.
-                                                                 0x0 = 0000 - 1023 data bits are stored in MDN_DEBUG_DATA().
-                                                                 0x1 = 1024 - 2047 data bits are stored in MDN_DEBUG_DATA().
-                                                                 0x2 = 2048 - 3071 data bits are stored in MDN_DEBUG_DATA().
-                                                                 0x8 = 3072 - 4095 data bits are stored in MDN_DEBUG_DATA(). */
-        uint32_t tcam_dsel             : 1;  /**< [ 26: 26](R/W1) DSEL value. To Read/write Data or Mask into the TCAM. When '1' Data is
-                                                                 presented, when '0' MASK value is presented. */
-        uint32_t write                 : 1;  /**< [ 27: 27](R/W1) The BIST state machine/SCD control will perform a debug write using the specified [REP] and
-                                                                 [ADDRESS] when [START] and [WRITE] are asserted simultaneously. Asserting
-                                                                 [WRITE] without [START] has no effect. The BIST status will change to ACTIVE
-                                                                 while the write occurs and then change to DONE_*. Note the write data needs to
-                                                                 be programmed in the MDN_DEBUG_DATA regrister prior to setting [WRITE]. BIST
-                                                                 status may be any flavor of DONE_\<FAIL,REPAIRABLE,PASS\> but it simply means that
-                                                                 the debug write has completed. */
-        uint32_t reset                 : 1;  /**< [ 28: 28](R/W1) Resets the BIST state machine and sets MDN_BIST_STATUS[STATUS] back to
-                                                                 MDN_BIST_STATUS_E::DONE_PASS_CLEAN. */
-        uint32_t read                  : 1;  /**< [ 29: 29](R/W1) The BIST SM/SCD CTRL will perform a debug read using the specified [REP] and [ADDRESS]
-                                                                 when [START] and [READ] are asserted simultaneously. Asserting [READ] without
-                                                                 [START] has no effect. The BIST status will change to ACTIVE while the read
-                                                                 occurs and then change to DONE_* when the read data is available via
-                                                                 MDN_DEBUG_DATA(). Note that the BIST status may be any flavor of
-                                                                 DONE_\<FAIL,REPAIRABLE,PASS\> but it simply means that the debug read has
-                                                                 completed. */
-        uint32_t clear                 : 1;  /**< [ 30: 30](R/W1) When asserted with [START], the BIST SM will execute the clear BIST operation. */
-        uint32_t start                 : 1;  /**< [ 31: 31](R/W1) Starts or restarts the BIST state machine.  If the BIST state machine
-                                                                 is idle, writing one will start it executing the first enabled march
-                                                                 according to the MDN_BIST_CONFIG[PROG_MARCH_DISABLE] bit and
-                                                                 the MDN_BIST_CONFIG[MARCH_DISABLE] vector.  If the BIST
-                                                                 state machine is halted due to detecting a defect while
-                                                                 MDN_BIST_CONFIG[HALT_ENABLE] is asserted, then writing one will
-                                                                 restart it executing at the next enabled march element.   The values
-                                                                 captured in MDN_DEBUG_DEFECT are reset each time BIST is started
-                                                                 or restarted. */
-#endif /* Word 0 - End */
-    } cheetah;
-    /* struct cavm_mdn_bist_control_s cn20; */
-    struct cavm_mdn_bist_control_odinmp
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t start                 : 1;  /**< [ 31: 31](R/W1) Starts or restarts the BIST state machine.  If the BIST state machine
-                                                                 is idle, writing one will start it executing the first enabled march
-                                                                 according to the MDN_BIST_CONFIG[PROG_MARCH_DISABLE] bit and
-                                                                 the MDN_BIST_CONFIG[MARCH_DISABLE] vector.  If the BIST
-                                                                 state machine is halted due to detecting a defect while
-                                                                 MDN_BIST_CONFIG[HALT_ENABLE] is asserted, then writing one will
-                                                                 restart it executing at the next enabled march element.   The values
-                                                                 captured in MDN_DEBUG_DEFECT are reset each time BIST is started
-                                                                 or restarted. */
-        uint32_t clear                 : 1;  /**< [ 30: 30](R/W1) When asserted with [START], the BIST SM will execute the clear BIST operation. */
-        uint32_t read                  : 1;  /**< [ 29: 29](R/W1) The BIST SM will perform a debug read using the specified [REP] and [ADDRESS]
-                                                                 when [START] and [READ] are asserted simultaneously. Asserting [READ] without
-                                                                 [START] has no effect. The BIST status will change to ACTIVE while the read
-                                                                 occurs and then change to DONE_* when the read data is available via
-                                                                 MDN_DEBUG_DATA(). Note that the BIST status may be any flavor of
-                                                                 DONE_\<FAIL,REPAIRABLE,PASS\> but it simply means that the debug read has
-                                                                 completed. */
-        uint32_t reset                 : 1;  /**< [ 28: 28](R/W1) Resets the BIST state machine and sets MDN_BIST_STATUS[STATUS] back to
-                                                                 MDN_BIST_STATUS_E::DONE_PASS_CLEAN. */
-        uint32_t write                 : 1;  /**< [ 27: 27](R/W1) The BIST state machine will perform a debug write using the specified [REP] and
-                                                                 [ADDRESS] when [START] and [WRITE] are asserted simultaneously. Asserting
-                                                                 [WRITE] without [START] has no effect. The BIST status will change to ACTIVE
-                                                                 while the write occurs and then change to DONE_*. Note the write data needs to
-                                                                 be programmed in the MDN_DEBUG_DATA regrister prior to setting [WRITE]. BIST
-                                                                 status may be any flavor of DONE_\<FAIL,REPAIRABLE,PASS\> but it simply means that
-                                                                 the debug write has completed. */
-        uint32_t tcam_dsel             : 1;  /**< [ 26: 26](R/W1) DSEL value. To Read/write Data or Mask into the TCAM. When '1' Data is
-                                                                 presented, when '0' MASK value is presented. */
-        uint32_t read_sweep            : 3;  /**< [ 25: 23](R/W) This field is programed to select the debug read data storage for RAMs with more than 1K Width.
-                                                                 0x0 = 0000 - 1023 data bits are stored in MDN_DEBUG_DATA().
-                                                                 0x1 = 1024 - 2047 data bits are stored in MDN_DEBUG_DATA().
-                                                                 0x2 = 2048 - 3071 data bits are stored in MDN_DEBUG_DATA().
-                                                                 0x8 = 3072 - 4095 data bits are stored in MDN_DEBUG_DATA(). */
-        uint32_t one_rep               : 1;  /**< [ 22: 22](R/W1) When set to one, the BIST state machine performs BIST only upon the REP
-                                                                 specified below.  When cleared to zero, the BIST state machine performs
-                                                                 BIST starting at the [REP] specified which may include multiple REPs. */
-        uint32_t rep                   : 8;  /**< [ 21: 14](R/W1) When the READ/WRITE field above is asserted this specifies the repetition
-                                                                 used for a debug read.  When the [START] field is asserted this
-                                                                 specifies repetition that BIST will start with.  Note that any value
-                                                                 of REP can be used while halted; however, it must be set back to the
-                                                                 value of MDN_DEBUG_MARCH[MARCH_REP] before restarting to continue the
-                                                                 march. */
-        uint32_t address               : 14; /**< [ 13:  0](R/W) Address of Legacy Debug Write, now deprecated. use MDN_BIST_CONTROL_DBG_ADDR instead. */
-#else /* Word 0 - Little Endian */
-        uint32_t address               : 14; /**< [ 13:  0](R/W) Address of Legacy Debug Write, now deprecated. use MDN_BIST_CONTROL_DBG_ADDR instead. */
-        uint32_t rep                   : 8;  /**< [ 21: 14](R/W1) When the READ/WRITE field above is asserted this specifies the repetition
-                                                                 used for a debug read.  When the [START] field is asserted this
-                                                                 specifies repetition that BIST will start with.  Note that any value
-                                                                 of REP can be used while halted; however, it must be set back to the
-                                                                 value of MDN_DEBUG_MARCH[MARCH_REP] before restarting to continue the
-                                                                 march. */
-        uint32_t one_rep               : 1;  /**< [ 22: 22](R/W1) When set to one, the BIST state machine performs BIST only upon the REP
-                                                                 specified below.  When cleared to zero, the BIST state machine performs
-                                                                 BIST starting at the [REP] specified which may include multiple REPs. */
-        uint32_t read_sweep            : 3;  /**< [ 25: 23](R/W) This field is programed to select the debug read data storage for RAMs with more than 1K Width.
-                                                                 0x0 = 0000 - 1023 data bits are stored in MDN_DEBUG_DATA().
-                                                                 0x1 = 1024 - 2047 data bits are stored in MDN_DEBUG_DATA().
-                                                                 0x2 = 2048 - 3071 data bits are stored in MDN_DEBUG_DATA().
-                                                                 0x8 = 3072 - 4095 data bits are stored in MDN_DEBUG_DATA(). */
-        uint32_t tcam_dsel             : 1;  /**< [ 26: 26](R/W1) DSEL value. To Read/write Data or Mask into the TCAM. When '1' Data is
-                                                                 presented, when '0' MASK value is presented. */
-        uint32_t write                 : 1;  /**< [ 27: 27](R/W1) The BIST state machine will perform a debug write using the specified [REP] and
-                                                                 [ADDRESS] when [START] and [WRITE] are asserted simultaneously. Asserting
-                                                                 [WRITE] without [START] has no effect. The BIST status will change to ACTIVE
-                                                                 while the write occurs and then change to DONE_*. Note the write data needs to
-                                                                 be programmed in the MDN_DEBUG_DATA regrister prior to setting [WRITE]. BIST
-                                                                 status may be any flavor of DONE_\<FAIL,REPAIRABLE,PASS\> but it simply means that
-                                                                 the debug write has completed. */
-        uint32_t reset                 : 1;  /**< [ 28: 28](R/W1) Resets the BIST state machine and sets MDN_BIST_STATUS[STATUS] back to
-                                                                 MDN_BIST_STATUS_E::DONE_PASS_CLEAN. */
-        uint32_t read                  : 1;  /**< [ 29: 29](R/W1) The BIST SM will perform a debug read using the specified [REP] and [ADDRESS]
-                                                                 when [START] and [READ] are asserted simultaneously. Asserting [READ] without
-                                                                 [START] has no effect. The BIST status will change to ACTIVE while the read
-                                                                 occurs and then change to DONE_* when the read data is available via
-                                                                 MDN_DEBUG_DATA(). Note that the BIST status may be any flavor of
-                                                                 DONE_\<FAIL,REPAIRABLE,PASS\> but it simply means that the debug read has
-                                                                 completed. */
-        uint32_t clear                 : 1;  /**< [ 30: 30](R/W1) When asserted with [START], the BIST SM will execute the clear BIST operation. */
-        uint32_t start                 : 1;  /**< [ 31: 31](R/W1) Starts or restarts the BIST state machine.  If the BIST state machine
-                                                                 is idle, writing one will start it executing the first enabled march
-                                                                 according to the MDN_BIST_CONFIG[PROG_MARCH_DISABLE] bit and
-                                                                 the MDN_BIST_CONFIG[MARCH_DISABLE] vector.  If the BIST
-                                                                 state machine is halted due to detecting a defect while
-                                                                 MDN_BIST_CONFIG[HALT_ENABLE] is asserted, then writing one will
-                                                                 restart it executing at the next enabled march element.   The values
-                                                                 captured in MDN_DEBUG_DEFECT are reset each time BIST is started
-                                                                 or restarted. */
-#endif /* Word 0 - End */
-    } odinmp;
+    /* struct cavm_mdn_bist_control_s cn; */
 };
 typedef union cavm_mdn_bist_control cavm_mdn_bist_control_t;
 
@@ -931,44 +646,18 @@ union cavm_mdn_bist_status
     struct cavm_mdn_bist_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_15_31        : 17;
+        uint32_t hub_id                : 8;  /**< [ 31: 24](RO/H) Hub identifier. */
+        uint32_t node_id               : 9;  /**< [ 23: 15](RO/H) MDN identifier. */
         uint32_t repair                : 12; /**< [ 14:  3](RO/H) Asserted when BIST state machine detects a defective column. */
         uint32_t status                : 3;  /**< [  2:  0](RO/H) Reports the state of the BIST state machine. Enumerated by MDN_BIST_STATUS_E. */
 #else /* Word 0 - Little Endian */
         uint32_t status                : 3;  /**< [  2:  0](RO/H) Reports the state of the BIST state machine. Enumerated by MDN_BIST_STATUS_E. */
         uint32_t repair                : 12; /**< [ 14:  3](RO/H) Asserted when BIST state machine detects a defective column. */
-        uint32_t reserved_15_31        : 17;
+        uint32_t node_id               : 9;  /**< [ 23: 15](RO/H) MDN identifier. */
+        uint32_t hub_id                : 8;  /**< [ 31: 24](RO/H) Hub identifier. */
 #endif /* Word 0 - End */
     } s;
-    struct cavm_mdn_bist_status_cheetah
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t hub_id                : 8;  /**< [ 31: 24](RO/H) Hub identifier. */
-        uint32_t node_id               : 9;  /**< [ 23: 15](RO/H) MDN identifier. */
-        uint32_t repair                : 12; /**< [ 14:  3](RO/H) Asserted when BIST state machine detects a defective column. */
-        uint32_t status                : 3;  /**< [  2:  0](RO/H) Reports the state of the BIST state machine. Enumerated by MDN_BIST_STATUS_E. */
-#else /* Word 0 - Little Endian */
-        uint32_t status                : 3;  /**< [  2:  0](RO/H) Reports the state of the BIST state machine. Enumerated by MDN_BIST_STATUS_E. */
-        uint32_t repair                : 12; /**< [ 14:  3](RO/H) Asserted when BIST state machine detects a defective column. */
-        uint32_t node_id               : 9;  /**< [ 23: 15](RO/H) MDN identifier. */
-        uint32_t hub_id                : 8;  /**< [ 31: 24](RO/H) Hub identifier. */
-#endif /* Word 0 - End */
-    } cheetah;
-    /* struct cavm_mdn_bist_status_s cn20; */
-    struct cavm_mdn_bist_status_odinmp
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t hub_id                : 7;  /**< [ 31: 25](RO/H) Hub identifier. */
-        uint32_t node_id               : 10; /**< [ 24: 15](RO/H) MDN identifier. */
-        uint32_t repair                : 12; /**< [ 14:  3](RO/H) Asserted when BIST state machine detects a defective column. */
-        uint32_t status                : 3;  /**< [  2:  0](RO/H) Reports the state of the BIST state machine. Enumerated by MDN_BIST_STATUS_E. */
-#else /* Word 0 - Little Endian */
-        uint32_t status                : 3;  /**< [  2:  0](RO/H) Reports the state of the BIST state machine. Enumerated by MDN_BIST_STATUS_E. */
-        uint32_t repair                : 12; /**< [ 14:  3](RO/H) Asserted when BIST state machine detects a defective column. */
-        uint32_t node_id               : 10; /**< [ 24: 15](RO/H) MDN identifier. */
-        uint32_t hub_id                : 7;  /**< [ 31: 25](RO/H) Hub identifier. */
-#endif /* Word 0 - End */
-    } odinmp;
+    /* struct cavm_mdn_bist_status_s cn; */
 };
 typedef union cavm_mdn_bist_status cavm_mdn_bist_status_t;
 
@@ -1081,9 +770,9 @@ static inline uint64_t CAVM_MDN_CONST_FUNC(void)
  * Register (MDSB) mdn_const_row
  *
  * MDN Constants Row Register
- * This register has constants pertaining to this node for software discovery.
- * It captures the number of ROWs
- * See also MDC_RAS_ROM().
+ * THIS REGISTER HAS CONSTANTS PERTAINING TO THIS NODE FOR SOFTWARE DISCOVERY.
+ * IT CAPTURES THE NUMBER OF ROWS
+ * SEE ALSO MDC_RAS_ROM().
  */
 union cavm_mdn_const_row
 {
@@ -1098,18 +787,7 @@ union cavm_mdn_const_row
         uint32_t reserved_20_31        : 12;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mdn_const_row_s cheetah; */
-    /* struct cavm_mdn_const_row_s cn20; */
-    struct cavm_mdn_const_row_odinmp
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_20_31        : 12;
-        uint32_t rows                  : 20; /**< [ 19:  0](RO) Contains the number of entries in this MDN_ID. */
-#else /* Word 0 - Little Endian */
-        uint32_t rows                  : 20; /**< [ 19:  0](RO) Contains the number of entries in this MDN_ID. */
-        uint32_t reserved_20_31        : 12;
-#endif /* Word 0 - End */
-    } odinmp;
+    /* struct cavm_mdn_const_row_s cn; */
 };
 typedef union cavm_mdn_const_row cavm_mdn_const_row_t;
 
@@ -1144,18 +822,7 @@ union cavm_mdn_debug_datax
                                                                  MDN_BIST_CONTROL[READ, WRITE, REP and ADDRESS]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mdn_debug_datax_s cheetah; */
-    /* struct cavm_mdn_debug_datax_s cn20; */
-    struct cavm_mdn_debug_datax_odinmp
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](RO/H) Read data according associated with a debug read issued via
-                                                                 MDN_BIST_CONTROL[READ, REP and ADDRESS]. */
-#else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](RO/H) Read data according associated with a debug read issued via
-                                                                 MDN_BIST_CONTROL[READ, REP and ADDRESS]. */
-#endif /* Word 0 - End */
-    } odinmp;
+    /* struct cavm_mdn_debug_datax_s cn; */
 };
 typedef union cavm_mdn_debug_datax cavm_mdn_debug_datax_t;
 
@@ -1456,52 +1123,7 @@ union cavm_mdn_ecc_config
         uint32_t reserved_6_31         : 26;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mdn_ecc_config_s cheetah; */
-    /* struct cavm_mdn_ecc_config_s cn20; */
-    struct cavm_mdn_ecc_config_odinmp
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_5_31         : 27;
-        uint32_t disable_dbe           : 1;  /**< [  4:  4](R/W) Disables this node from responding to broadcast reads of
-                                                                 MDN_ECC_STATUS due to double-bit/uncorrectable error reporting.
-                                                                 Overridden when [CORRECTION_DISABLE] is asserted. */
-        uint32_t disable_sbe           : 1;  /**< [  3:  3](R/W) Disables this node from responding to broadcast reads of
-                                                                 MDN_ECC_STATUS due to single-bit/correctable error reporting.
-                                                                 Overridden when [CORRECTION_DISABLE] is asserted. */
-        uint32_t error_inject          : 2;  /**< [  2:  1](R/W) This 2-bit field provides diagnostic ECC error injection by flipping
-                                                                 the least significant two bits of the write path's ECC code.  This bit
-                                                                 flipping is done for all writes while the field is asserted.
-                                                                 Asserting a single bit causes a single bit ECC error and asserting
-                                                                 both bits causes a double-bit ECC error.
-                                                                 In this manner ECC errors are injected, triggering upstream events
-                                                                 like ECC error interrupts and status capture, without corrupting the
-                                                                 data. */
-        uint32_t correction_disable    : 1;  /**< [  0:  0](R/W) This field disables ECC error correction by ignoring the ECC code
-                                                                 associated with the data.  This also disables the reporting
-                                                                 of single and double-bit ECC errors and overrides the [DISABLE_SBE] and
-                                                                 [DISABLE_DBE] controls. */
-#else /* Word 0 - Little Endian */
-        uint32_t correction_disable    : 1;  /**< [  0:  0](R/W) This field disables ECC error correction by ignoring the ECC code
-                                                                 associated with the data.  This also disables the reporting
-                                                                 of single and double-bit ECC errors and overrides the [DISABLE_SBE] and
-                                                                 [DISABLE_DBE] controls. */
-        uint32_t error_inject          : 2;  /**< [  2:  1](R/W) This 2-bit field provides diagnostic ECC error injection by flipping
-                                                                 the least significant two bits of the write path's ECC code.  This bit
-                                                                 flipping is done for all writes while the field is asserted.
-                                                                 Asserting a single bit causes a single bit ECC error and asserting
-                                                                 both bits causes a double-bit ECC error.
-                                                                 In this manner ECC errors are injected, triggering upstream events
-                                                                 like ECC error interrupts and status capture, without corrupting the
-                                                                 data. */
-        uint32_t disable_sbe           : 1;  /**< [  3:  3](R/W) Disables this node from responding to broadcast reads of
-                                                                 MDN_ECC_STATUS due to single-bit/correctable error reporting.
-                                                                 Overridden when [CORRECTION_DISABLE] is asserted. */
-        uint32_t disable_dbe           : 1;  /**< [  4:  4](R/W) Disables this node from responding to broadcast reads of
-                                                                 MDN_ECC_STATUS due to double-bit/uncorrectable error reporting.
-                                                                 Overridden when [CORRECTION_DISABLE] is asserted. */
-        uint32_t reserved_5_31         : 27;
-#endif /* Word 0 - End */
-    } odinmp;
+    /* struct cavm_mdn_ecc_config_s cn; */
 };
 typedef union cavm_mdn_ecc_config cavm_mdn_ecc_config_t;
 
@@ -1530,40 +1152,18 @@ union cavm_mdn_ecc_irq
     struct cavm_mdn_ecc_irq_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_0_31         : 32;
+        uint32_t reserved_31           : 1;
+        uint32_t hub_id                : 8;  /**< [ 30: 23](RO/H) ECC hub identifier. */
+        uint32_t node_id               : 9;  /**< [ 22: 14](RO/H) ECC node identifier. */
+        uint32_t reserved_0_13         : 14;
 #else /* Word 0 - Little Endian */
-        uint32_t reserved_0_31         : 32;
+        uint32_t reserved_0_13         : 14;
+        uint32_t node_id               : 9;  /**< [ 22: 14](RO/H) ECC node identifier. */
+        uint32_t hub_id                : 8;  /**< [ 30: 23](RO/H) ECC hub identifier. */
+        uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } s;
-    struct cavm_mdn_ecc_irq_cheetah
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_31           : 1;
-        uint32_t hub_id                : 8;  /**< [ 30: 23](RO/H) ECC hub identifier. */
-        uint32_t node_id               : 9;  /**< [ 22: 14](RO/H) ECC node identifier. */
-        uint32_t reserved_0_13         : 14;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_13         : 14;
-        uint32_t node_id               : 9;  /**< [ 22: 14](RO/H) ECC node identifier. */
-        uint32_t hub_id                : 8;  /**< [ 30: 23](RO/H) ECC hub identifier. */
-        uint32_t reserved_31           : 1;
-#endif /* Word 0 - End */
-    } cheetah;
-    /* struct cavm_mdn_ecc_irq_s cn20; */
-    struct cavm_mdn_ecc_irq_odinmp
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_31           : 1;
-        uint32_t hub_id                : 7;  /**< [ 30: 24](RO/H) ECC hub identifier. */
-        uint32_t node_id               : 10; /**< [ 23: 14](RO/H) ECC node identifier. */
-        uint32_t reserved_0_13         : 14;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_13         : 14;
-        uint32_t node_id               : 10; /**< [ 23: 14](RO/H) ECC node identifier. */
-        uint32_t hub_id                : 7;  /**< [ 30: 24](RO/H) ECC hub identifier. */
-        uint32_t reserved_31           : 1;
-#endif /* Word 0 - End */
-    } odinmp;
+    /* struct cavm_mdn_ecc_irq_s cn; */
 };
 typedef union cavm_mdn_ecc_irq cavm_mdn_ecc_irq_t;
 
@@ -1591,7 +1191,12 @@ union cavm_mdn_ecc_status
     struct cavm_mdn_ecc_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_4_31         : 28;
+        uint32_t reserved_30_31        : 2;
+        uint32_t row                   : 16; /**< [ 29: 14](RO/H) SRAM row address of the most recent double-bit/uncorrectable error (DBE) if
+                                                                 [DBE] is asserted or the SRAM row address of the most recent
+                                                                 single-bit/correctable error (SBE), if [DBE] is deasserted and [SBE] is
+                                                                 asserted. */
+        uint32_t reserved_4_13         : 10;
         uint32_t dbe_plus              : 1;  /**< [  3:  3](RO/H) Asserted when ECC detects another double-bit error[DBE] before the
                                                                  first error was processed by the interrupt handler. Note that the error
                                                                  reporting prioritizes DBEs over SBEs. Thus prior to being read, a DBE will
@@ -1617,94 +1222,15 @@ union cavm_mdn_ecc_status
                                                                  reporting prioritizes DBEs over SBEs. Thus prior to being read, a DBE will
                                                                  overwrite MDN_ECC_IRQ[HUB_ID] and MDN_ECC_IRQ[NODE_ID] of a previous SBE.
                                                                  If [DBE] is set then [DBE_PLUS] indicates that there was a subsequent DBE. */
-        uint32_t reserved_4_31         : 28;
+        uint32_t reserved_4_13         : 10;
+        uint32_t row                   : 16; /**< [ 29: 14](RO/H) SRAM row address of the most recent double-bit/uncorrectable error (DBE) if
+                                                                 [DBE] is asserted or the SRAM row address of the most recent
+                                                                 single-bit/correctable error (SBE), if [DBE] is deasserted and [SBE] is
+                                                                 asserted. */
+        uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
     } s;
-    struct cavm_mdn_ecc_status_cheetah
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_30_31        : 2;
-        uint32_t row                   : 16; /**< [ 29: 14](RO/H) SRAM row address of the most recent double-bit/uncorrectable error (DBE) if
-                                                                 [DBE] is asserted or the SRAM row address of the most recent
-                                                                 single-bit/correctable error (SBE), if [DBE] is deasserted and [SBE] is
-                                                                 asserted. */
-        uint32_t reserved_4_13         : 10;
-        uint32_t dbe_plus              : 1;  /**< [  3:  3](RO/H) Asserted when ECC detects another double-bit error[DBE] before the
-                                                                 first error was processed by the interrupt handler. Note that the error
-                                                                 reporting prioritizes DBEs over SBEs. Thus prior to being read, a DBE will
-                                                                 overwrite MDN_ECC_IRQ[HUB_ID] and MDN_ECC_IRQ[NODE_ID] of a previous SBE.
-                                                                 If [DBE] is set then [DBE_PLUS] indicates that there was a subsequent DBE. */
-        uint32_t sbe_plus              : 1;  /**< [  2:  2](RO/H) Asserted when ECC detects another single-bit error [SBE] before the
-                                                                 first error was processed by the interrupt handler. If
-                                                                 [SBE] is set then PLUS indicates that additional SBEs have occurred beyond that
-                                                                 first captures. If [SBE] is set then [SBE_PLUS] indicates that there was a
-                                                                 subsequent SBE. */
-        uint32_t dbe                   : 1;  /**< [  1:  1](RO/H) Asserted when a double-bit/uncorrectable error is detected. */
-        uint32_t sbe                   : 1;  /**< [  0:  0](RO/H) Asserted when a single-bit/correctable error is detected. */
-#else /* Word 0 - Little Endian */
-        uint32_t sbe                   : 1;  /**< [  0:  0](RO/H) Asserted when a single-bit/correctable error is detected. */
-        uint32_t dbe                   : 1;  /**< [  1:  1](RO/H) Asserted when a double-bit/uncorrectable error is detected. */
-        uint32_t sbe_plus              : 1;  /**< [  2:  2](RO/H) Asserted when ECC detects another single-bit error [SBE] before the
-                                                                 first error was processed by the interrupt handler. If
-                                                                 [SBE] is set then PLUS indicates that additional SBEs have occurred beyond that
-                                                                 first captures. If [SBE] is set then [SBE_PLUS] indicates that there was a
-                                                                 subsequent SBE. */
-        uint32_t dbe_plus              : 1;  /**< [  3:  3](RO/H) Asserted when ECC detects another double-bit error[DBE] before the
-                                                                 first error was processed by the interrupt handler. Note that the error
-                                                                 reporting prioritizes DBEs over SBEs. Thus prior to being read, a DBE will
-                                                                 overwrite MDN_ECC_IRQ[HUB_ID] and MDN_ECC_IRQ[NODE_ID] of a previous SBE.
-                                                                 If [DBE] is set then [DBE_PLUS] indicates that there was a subsequent DBE. */
-        uint32_t reserved_4_13         : 10;
-        uint32_t row                   : 16; /**< [ 29: 14](RO/H) SRAM row address of the most recent double-bit/uncorrectable error (DBE) if
-                                                                 [DBE] is asserted or the SRAM row address of the most recent
-                                                                 single-bit/correctable error (SBE), if [DBE] is deasserted and [SBE] is
-                                                                 asserted. */
-        uint32_t reserved_30_31        : 2;
-#endif /* Word 0 - End */
-    } cheetah;
-    /* struct cavm_mdn_ecc_status_s cn20; */
-    struct cavm_mdn_ecc_status_odinmp
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_30_31        : 2;
-        uint32_t row                   : 14; /**< [ 29: 16](RO/H) SRAM row address of the most recent double-bit/uncorrectable error (DBE) if
-                                                                 [DBE] is asserted or the SRAM row address of the most recent
-                                                                 single-bit/correctable error (SBE), if [DBE] is deasserted and [SBE] is
-                                                                 asserted. */
-        uint32_t reserved_4_15         : 12;
-        uint32_t dbe_plus              : 1;  /**< [  3:  3](RO/H) Asserted when ECC detects another double-bit error[DBE] before the
-                                                                 first error was processed by the interrupt handler. Note that the error
-                                                                 reporting prioritizes DBEs over SBEs. Thus prior to being read, a DBE will
-                                                                 overwrite MDN_ECC_IRQ[HUB_ID] and MDN_ECC_IRQ[NODE_ID] of a previous SBE.
-                                                                 If [DBE] is set then [DBE_PLUS] indicates that there was a subsequent DBE. */
-        uint32_t sbe_plus              : 1;  /**< [  2:  2](RO/H) Asserted when ECC detects another single-bit error [SBE] before the
-                                                                 first error was processed by the interrupt handler. If
-                                                                 [SBE] is set then PLUS indicates that additional SBEs have occurred beyond that
-                                                                 first captures. If [SBE] is set then [SBE_PLUS] indicates that there was a
-                                                                 subsequent SBE. */
-        uint32_t dbe                   : 1;  /**< [  1:  1](RO/H) Asserted when a double-bit/uncorrectable error is detected. */
-        uint32_t sbe                   : 1;  /**< [  0:  0](RO/H) Asserted when a single-bit/correctable error is detected. */
-#else /* Word 0 - Little Endian */
-        uint32_t sbe                   : 1;  /**< [  0:  0](RO/H) Asserted when a single-bit/correctable error is detected. */
-        uint32_t dbe                   : 1;  /**< [  1:  1](RO/H) Asserted when a double-bit/uncorrectable error is detected. */
-        uint32_t sbe_plus              : 1;  /**< [  2:  2](RO/H) Asserted when ECC detects another single-bit error [SBE] before the
-                                                                 first error was processed by the interrupt handler. If
-                                                                 [SBE] is set then PLUS indicates that additional SBEs have occurred beyond that
-                                                                 first captures. If [SBE] is set then [SBE_PLUS] indicates that there was a
-                                                                 subsequent SBE. */
-        uint32_t dbe_plus              : 1;  /**< [  3:  3](RO/H) Asserted when ECC detects another double-bit error[DBE] before the
-                                                                 first error was processed by the interrupt handler. Note that the error
-                                                                 reporting prioritizes DBEs over SBEs. Thus prior to being read, a DBE will
-                                                                 overwrite MDN_ECC_IRQ[HUB_ID] and MDN_ECC_IRQ[NODE_ID] of a previous SBE.
-                                                                 If [DBE] is set then [DBE_PLUS] indicates that there was a subsequent DBE. */
-        uint32_t reserved_4_15         : 12;
-        uint32_t row                   : 14; /**< [ 29: 16](RO/H) SRAM row address of the most recent double-bit/uncorrectable error (DBE) if
-                                                                 [DBE] is asserted or the SRAM row address of the most recent
-                                                                 single-bit/correctable error (SBE), if [DBE] is deasserted and [SBE] is
-                                                                 asserted. */
-        uint32_t reserved_30_31        : 2;
-#endif /* Word 0 - End */
-    } odinmp;
+    /* struct cavm_mdn_ecc_status_s cn; */
 };
 typedef union cavm_mdn_ecc_status cavm_mdn_ecc_status_t;
 
@@ -1827,9 +1353,7 @@ typedef union cavm_mdn_scd_const cavm_mdn_scd_const_t;
 static inline uint64_t CAVM_MDN_SCD_CONST_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MDN_SCD_CONST_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
-        return 0x74;
-    __cavm_csr_fatal("MDN_SCD_CONST", 0, 0, 0, 0, 0, 0, 0);
+    return 0x74;
 }
 
 #define typedef_CAVM_MDN_SCD_CONST cavm_mdn_scd_const_t
@@ -1866,9 +1390,7 @@ typedef union cavm_mdn_scd_status cavm_mdn_scd_status_t;
 static inline uint64_t CAVM_MDN_SCD_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MDN_SCD_STATUS_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
-        return 0x70;
-    __cavm_csr_fatal("MDN_SCD_STATUS", 0, 0, 0, 0, 0, 0, 0);
+    return 0x70;
 }
 
 #define typedef_CAVM_MDN_SCD_STATUS cavm_mdn_scd_status_t

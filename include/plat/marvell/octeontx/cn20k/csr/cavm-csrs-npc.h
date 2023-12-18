@@ -780,9 +780,9 @@ union cavm_npc_af_const1
         uint64_t reserved_36_62        : 27;
         uint64_t cpi_size              : 16; /**< [ 35: 20](RO) Number CPI table entries in NPC_AF_CPI()_CFG. */
         uint64_t pkinds                : 8;  /**< [ 19: 12](RO) Number of port kinds. */
-        uint64_t kpu_entries           : 12; /**< [ 11:  0](RO) Number of entries per KPU. */
+        uint64_t kpu_entries           : 12; /**< [ 11:  0](RO) Number of entries per KPU pair. */
 #else /* Word 0 - Little Endian */
-        uint64_t kpu_entries           : 12; /**< [ 11:  0](RO) Number of entries per KPU. */
+        uint64_t kpu_entries           : 12; /**< [ 11:  0](RO) Number of entries per KPU pair. */
         uint64_t pkinds                : 8;  /**< [ 19: 12](RO) Number of port kinds. */
         uint64_t cpi_size              : 16; /**< [ 35: 20](RO) Number CPI table entries in NPC_AF_CPI()_CFG. */
         uint64_t reserved_36_62        : 27;
@@ -825,7 +825,7 @@ union cavm_npc_af_const2
         uint64_t have_ptype            : 1;  /**< [ 62: 62](RO) PTYPE functionality is present.  PTYPE will be visible in the following:
                                                                  - NPC_RESULT_S[PTYPE].
                                                                  - NPC_AF_PKIND()_TYPE.
-                                                                 - NPC_AF_KPU()_ENTRY()_CAM()[PTYPE]. */
+                                                                 - NPC_AF_KPM()_ENTRY()_CAM()[PTYPE]. */
         uint64_t have_ctype            : 1;  /**< [ 61: 61](RO) CTYPE functionality is present.  CTYPE will be visible in the following:
                                                                  - NPC_MCAM_KEY_X1_S[CTYPE].
                                                                  - NPC_MCAM_KEY_X2_S[CTYPE].
@@ -882,7 +882,7 @@ union cavm_npc_af_const2
         uint64_t have_ptype            : 1;  /**< [ 62: 62](RO) PTYPE functionality is present.  PTYPE will be visible in the following:
                                                                  - NPC_RESULT_S[PTYPE].
                                                                  - NPC_AF_PKIND()_TYPE.
-                                                                 - NPC_AF_KPU()_ENTRY()_CAM()[PTYPE]. */
+                                                                 - NPC_AF_KPM()_ENTRY()_CAM()[PTYPE]. */
         uint64_t have_const3           : 1;  /**< [ 63: 63](RO) NPC_AF_CONST3 is present. */
 #endif /* Word 0 - End */
     } s;
@@ -1371,91 +1371,6 @@ static inline uint64_t CAVM_NPC_AF_EXACT_WAYX_ENTRYX(uint64_t a, uint64_t b)
 #define arguments_CAVM_NPC_AF_EXACT_WAYX_ENTRYX(a,b) (a),(b),-1,-1
 
 /**
- * Register (RVU_PF_BAR0) npc_af_gbl_hash_ctl
- *
- * NPC AF Interface Field Hash No Match Value Register
- * This register value is returned as the hash result for either field hash unit
- * when there is no match for the LID or LTYPE as configured and there is no LDATA extracted.
- */
-union cavm_npc_af_gbl_hash_ctl
-{
-    uint64_t u;
-    struct cavm_npc_af_gbl_hash_ctl_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t nomatch               : 32; /**< [ 31:  0](R/W) No LID/LTYPE Match Hash return value. */
-#else /* Word 0 - Little Endian */
-        uint64_t nomatch               : 32; /**< [ 31:  0](R/W) No LID/LTYPE Match Hash return value. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_npc_af_gbl_hash_ctl_s cn; */
-};
-typedef union cavm_npc_af_gbl_hash_ctl cavm_npc_af_gbl_hash_ctl_t;
-
-#define CAVM_NPC_AF_GBL_HASH_CTL CAVM_NPC_AF_GBL_HASH_CTL_FUNC()
-static inline uint64_t CAVM_NPC_AF_GBL_HASH_CTL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NPC_AF_GBL_HASH_CTL_FUNC(void)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH))
-        return 0x840060000a40ll;
-    __cavm_csr_fatal("NPC_AF_GBL_HASH_CTL", 0, 0, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_NPC_AF_GBL_HASH_CTL cavm_npc_af_gbl_hash_ctl_t
-#define bustype_CAVM_NPC_AF_GBL_HASH_CTL CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_NPC_AF_GBL_HASH_CTL "NPC_AF_GBL_HASH_CTL"
-#define device_bar_CAVM_NPC_AF_GBL_HASH_CTL 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_NPC_AF_GBL_HASH_CTL 0
-#define arguments_CAVM_NPC_AF_GBL_HASH_CTL -1,-1,-1,-1
-
-/**
- * Register (RVU_PF_BAR0) npc_af_hash#_dbg
- *
- * NPC AF Interface Field Hash Debug Register
- * Capture the Field Hash result on a debug packet (NPC_AF_DBG_CTL[INTF_DBG or
- * LKUP_DBG]).
- */
-union cavm_npc_af_hashx_dbg
-{
-    uint64_t u;
-    struct cavm_npc_af_hashx_dbg_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t val                   : 1;  /**< [ 63: 63](R/W1C/H) Set by HW to indicate a valid contents. Cleared by S. */
-        uint64_t reserved_32_62        : 31;
-        uint64_t hash                  : 32; /**< [ 31:  0](RO/H) Computed Field Hash with any configured transformations applied.
-                                                                 Value frozen at capture time until VAL is cleared by SW.
-                                                                 Value will be 0 for a capture of a no-match header. */
-#else /* Word 0 - Little Endian */
-        uint64_t hash                  : 32; /**< [ 31:  0](RO/H) Computed Field Hash with any configured transformations applied.
-                                                                 Value frozen at capture time until VAL is cleared by SW.
-                                                                 Value will be 0 for a capture of a no-match header. */
-        uint64_t reserved_32_62        : 31;
-        uint64_t val                   : 1;  /**< [ 63: 63](R/W1C/H) Set by HW to indicate a valid contents. Cleared by S. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_npc_af_hashx_dbg_s cn; */
-};
-typedef union cavm_npc_af_hashx_dbg cavm_npc_af_hashx_dbg_t;
-
-static inline uint64_t CAVM_NPC_AF_HASHX_DBG(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NPC_AF_HASHX_DBG(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
-        return 0x840060000e90ll + 8ll * ((a) & 0x1);
-    __cavm_csr_fatal("NPC_AF_HASHX_DBG", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_NPC_AF_HASHX_DBG(a) cavm_npc_af_hashx_dbg_t
-#define bustype_CAVM_NPC_AF_HASHX_DBG(a) CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_NPC_AF_HASHX_DBG(a) "NPC_AF_HASHX_DBG"
-#define device_bar_CAVM_NPC_AF_HASHX_DBG(a) 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_NPC_AF_HASHX_DBG(a) (a)
-#define arguments_CAVM_NPC_AF_HASHX_DBG(a) (a),-1,-1,-1
-
-/**
  * Register (RVU_PF_BAR0) npc_af_ikpu_err_ctl
  *
  * NPC AF Initial KPU Error Control Registers
@@ -1473,11 +1388,11 @@ union cavm_npc_af_ikpu_err_ctl
         uint64_t reserved_28_63        : 36;
         uint64_t var_len_offset_errcode : 8; /**< [ 27: 20](R/W) Variable length offset error code. Value captured in NPC_RESULT_S[ERRCODE]
                                                                  when a required variable offset byte as defined by
-                                                                 NPC_AF_KPU()_ENTRY()_ACTION0[VAR_LEN_OFFSET], if any, is beyond the end of
+                                                                 NPC_AF_KPM()_ENTRY()_ACTION0[VAR_LEN_OFFSET], if any, is beyond the end of
                                                                  packet's header (smaller of 256 bytes or end of packet). */
         uint64_t ptr_advance_errcode   : 8;  /**< [ 19: 12](R/W) Pointer advance error code. Value captured in NPC_RESULT_S[ERRCODE] when
                                                                  the updated NPC_RESULT_S[EOH_PTR] value (see
-                                                                 NPC_AF_KPU()_ENTRY()_ACTION0[VAR_LEN_OFFSET]) is greater than the packet
+                                                                 NPC_AF_KPM()_ENTRY()_ACTION0[VAR_LEN_OFFSET]) is greater than the packet
                                                                  length or greater than 255. */
         uint64_t dp_offset_errcode     : 8;  /**< [ 11:  4](R/W) Decision point offset error code. Value captured in NPC_RESULT_S[ERRCODE]
                                                                  when at least one byte of a decision point from the previous
@@ -1487,12 +1402,12 @@ union cavm_npc_af_ikpu_err_ctl
                                                                  Note that this error is captured by the KPU which would have extracted the
                                                                  decision point data from the previous non-bypassed KPU, i.e. when the
                                                                  following conditions are true:
-                                                                 * NPC_AF_KPU()_ENTRY()_ACTION0[PARSE_DONE] is clear.
+                                                                 * NPC_AF_KPM()_ENTRY()_ACTION0[PARSE_DONE] is clear.
                                                                  * NPC_AF_KPU()_CFG[ENA] is set.
-                                                                 * Remaining NPC_AF_KPU()_ENTRY()_ACTION0[BYP_COUNT] after decrementing by the
+                                                                 * Remaining NPC_AF_KPM()_ENTRY()_ACTION0[BYP_COUNT] after decrementing by the
                                                                  number of bypassed KPUs is zero.
                                                                  * At least one decision point byte (specified by
-                                                                 NPC_AF_KPU()_ENTRY()_ACTION1[DP*_OFFSET] from the previous non-bypassed KPU)
+                                                                 NPC_AF_KPM()_ENTRY()_ACTION1[DP*_OFFSET] from the previous non-bypassed KPU)
                                                                  is beyond the end of packet's header. */
         uint64_t errlev                : 4;  /**< [  3:  0](R/W) Value captured in NPC_RESULT_S[ERRLEV] when an error specified by other
                                                                  fields in this register is detected. A capture for any of these errors
@@ -1517,20 +1432,20 @@ union cavm_npc_af_ikpu_err_ctl
                                                                  Note that this error is captured by the KPU which would have extracted the
                                                                  decision point data from the previous non-bypassed KPU, i.e. when the
                                                                  following conditions are true:
-                                                                 * NPC_AF_KPU()_ENTRY()_ACTION0[PARSE_DONE] is clear.
+                                                                 * NPC_AF_KPM()_ENTRY()_ACTION0[PARSE_DONE] is clear.
                                                                  * NPC_AF_KPU()_CFG[ENA] is set.
-                                                                 * Remaining NPC_AF_KPU()_ENTRY()_ACTION0[BYP_COUNT] after decrementing by the
+                                                                 * Remaining NPC_AF_KPM()_ENTRY()_ACTION0[BYP_COUNT] after decrementing by the
                                                                  number of bypassed KPUs is zero.
                                                                  * At least one decision point byte (specified by
-                                                                 NPC_AF_KPU()_ENTRY()_ACTION1[DP*_OFFSET] from the previous non-bypassed KPU)
+                                                                 NPC_AF_KPM()_ENTRY()_ACTION1[DP*_OFFSET] from the previous non-bypassed KPU)
                                                                  is beyond the end of packet's header. */
         uint64_t ptr_advance_errcode   : 8;  /**< [ 19: 12](R/W) Pointer advance error code. Value captured in NPC_RESULT_S[ERRCODE] when
                                                                  the updated NPC_RESULT_S[EOH_PTR] value (see
-                                                                 NPC_AF_KPU()_ENTRY()_ACTION0[VAR_LEN_OFFSET]) is greater than the packet
+                                                                 NPC_AF_KPM()_ENTRY()_ACTION0[VAR_LEN_OFFSET]) is greater than the packet
                                                                  length or greater than 255. */
         uint64_t var_len_offset_errcode : 8; /**< [ 27: 20](R/W) Variable length offset error code. Value captured in NPC_RESULT_S[ERRCODE]
                                                                  when a required variable offset byte as defined by
-                                                                 NPC_AF_KPU()_ENTRY()_ACTION0[VAR_LEN_OFFSET], if any, is beyond the end of
+                                                                 NPC_AF_KPM()_ENTRY()_ACTION0[VAR_LEN_OFFSET], if any, is beyond the end of
                                                                  packet's header (smaller of 256 bytes or end of packet). */
         uint64_t reserved_28_63        : 36;
 #endif /* Word 0 - End */
@@ -1739,171 +1654,6 @@ static inline uint64_t CAVM_NPC_AF_INTFX_EXACT_RESULT_CTL(uint64_t a)
 #define arguments_CAVM_NPC_AF_INTFX_EXACT_RESULT_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (RVU_PF_BAR0) npc_af_intf#_hash#_cfg
- *
- * NPC AF Interface Field Hash Configuration Registers
- * These registers control the extraction of layer data (LDATA) into a field that is
- * hashed and can be inserted into the MCAM key. See
- * NPC_AF_INTF()_LID()_LT()_LD()_CFG[USE_HASH]. The LDATA value up to 128b may be
- * extracted from the layer specified by LID or LTYPE.
- */
-union cavm_npc_af_intfx_hashx_cfg
-{
-    uint64_t u;
-    struct cavm_npc_af_intfx_hashx_cfg_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_40_63        : 24;
-        uint64_t hdr_offset            : 8;  /**< [ 39: 32](R/W) Starting byte offset for extracting LDATA relative to the start of the matching
-                                                                 later (NPC_LAYER_INFO_S[LPTR]).
-
-                                                                 If any LDATA byte specified by [HDR_OFFSET] and [BYTESM1] is beyond the end of
-                                                                 packet's header (smaller of 256 bytes or end of packet), a byte value of zero is
-                                                                 used. */
-        uint64_t reserved_20_31        : 12;
-        uint64_t bytesm1               : 4;  /**< [ 19: 16](R/W) LDATA size in bytes minus 1. 0=1 byte; 1=2 bytes, ..., 15=16 bytes. */
-        uint64_t reserved_13_15        : 3;
-        uint64_t lt_en                 : 1;  /**< [ 12: 12](R/W) If [LT_EN] = '1' enable selection of LDATA on [LTYPE_MATCH] and [LTYPE_MASK]. */
-        uint64_t lid_en                : 1;  /**< [ 11: 11](R/W) Enable selection of LDATA based on [LID]. If [LID_EN] is '1' and [LTYPE_MATCH]
-                                                                 is non-zero, the LID specified in [LID] must match the [LTYPE_MATCH]; if it does
-                                                                 not, no LDATA will be extracted. */
-        uint64_t lid                   : 3;  /**< [ 10:  8](R/W) Layer ID. Enumerated by NPC_LID_E. */
-        uint64_t ltype_match           : 4;  /**< [  7:  4](R/W) Layer type match value. Hardware detects a layer match when
-                                                                 \<pre\>
-                                                                 ([LTYPE_MATCH] & [LTYPE_MASK]) == (NPC_RESULT_S[LX[LTYPE]] & [LTYPE_MASK])
-                                                                 \</pre\>
-
-                                                                 where LX is one of LA, LB, ..., LH as selected by [LID]. */
-        uint64_t ltype_mask            : 4;  /**< [  3:  0](R/W) Layer type mask. See [LTYPE_MATCH]. */
-#else /* Word 0 - Little Endian */
-        uint64_t ltype_mask            : 4;  /**< [  3:  0](R/W) Layer type mask. See [LTYPE_MATCH]. */
-        uint64_t ltype_match           : 4;  /**< [  7:  4](R/W) Layer type match value. Hardware detects a layer match when
-                                                                 \<pre\>
-                                                                 ([LTYPE_MATCH] & [LTYPE_MASK]) == (NPC_RESULT_S[LX[LTYPE]] & [LTYPE_MASK])
-                                                                 \</pre\>
-
-                                                                 where LX is one of LA, LB, ..., LH as selected by [LID]. */
-        uint64_t lid                   : 3;  /**< [ 10:  8](R/W) Layer ID. Enumerated by NPC_LID_E. */
-        uint64_t lid_en                : 1;  /**< [ 11: 11](R/W) Enable selection of LDATA based on [LID]. If [LID_EN] is '1' and [LTYPE_MATCH]
-                                                                 is non-zero, the LID specified in [LID] must match the [LTYPE_MATCH]; if it does
-                                                                 not, no LDATA will be extracted. */
-        uint64_t lt_en                 : 1;  /**< [ 12: 12](R/W) If [LT_EN] = '1' enable selection of LDATA on [LTYPE_MATCH] and [LTYPE_MASK]. */
-        uint64_t reserved_13_15        : 3;
-        uint64_t bytesm1               : 4;  /**< [ 19: 16](R/W) LDATA size in bytes minus 1. 0=1 byte; 1=2 bytes, ..., 15=16 bytes. */
-        uint64_t reserved_20_31        : 12;
-        uint64_t hdr_offset            : 8;  /**< [ 39: 32](R/W) Starting byte offset for extracting LDATA relative to the start of the matching
-                                                                 later (NPC_LAYER_INFO_S[LPTR]).
-
-                                                                 If any LDATA byte specified by [HDR_OFFSET] and [BYTESM1] is beyond the end of
-                                                                 packet's header (smaller of 256 bytes or end of packet), a byte value of zero is
-                                                                 used. */
-        uint64_t reserved_40_63        : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_npc_af_intfx_hashx_cfg_s cn; */
-};
-typedef union cavm_npc_af_intfx_hashx_cfg cavm_npc_af_intfx_hashx_cfg_t;
-
-static inline uint64_t CAVM_NPC_AF_INTFX_HASHX_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NPC_AF_INTFX_HASHX_CFG(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=1)))
-        return 0x840060000b00ll + 0x40ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
-    __cavm_csr_fatal("NPC_AF_INTFX_HASHX_CFG", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_NPC_AF_INTFX_HASHX_CFG(a,b) cavm_npc_af_intfx_hashx_cfg_t
-#define bustype_CAVM_NPC_AF_INTFX_HASHX_CFG(a,b) CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_NPC_AF_INTFX_HASHX_CFG(a,b) "NPC_AF_INTFX_HASHX_CFG"
-#define device_bar_CAVM_NPC_AF_INTFX_HASHX_CFG(a,b) 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_NPC_AF_INTFX_HASHX_CFG(a,b) (a)
-#define arguments_CAVM_NPC_AF_INTFX_HASHX_CFG(a,b) (a),(b),-1,-1
-
-/**
- * Register (RVU_PF_BAR0) npc_af_intf#_hash#_mask#
- *
- * NPC AF INTF HASH Mask Registers
- * These registers allow for precise control over which bits are to be included in the
- * data hash operation. A value of zero in DATA indicate that the bit will be treated
- * as zero for the purposes of hashing. The value one indicates that the extracted
- * packet header data bit will included normally.
- */
-union cavm_npc_af_intfx_hashx_maskx
-{
-    uint64_t u;
-    struct cavm_npc_af_intfx_hashx_maskx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](R/W) Field to mask against information extracted from packet header as specified by
-                                                                 NPC_AF_INTF()_HASH_CFG. */
-#else /* Word 0 - Little Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](R/W) Field to mask against information extracted from packet header as specified by
-                                                                 NPC_AF_INTF()_HASH_CFG. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_npc_af_intfx_hashx_maskx_s cn; */
-};
-typedef union cavm_npc_af_intfx_hashx_maskx cavm_npc_af_intfx_hashx_maskx_t;
-
-static inline uint64_t CAVM_NPC_AF_INTFX_HASHX_MASKX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NPC_AF_INTFX_HASHX_MASKX(uint64_t a, uint64_t b, uint64_t c)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=1) && (c<=1)))
-        return 0x840060000700ll + 0x20ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1) + 8ll * ((c) & 0x1);
-    __cavm_csr_fatal("NPC_AF_INTFX_HASHX_MASKX", 3, a, b, c, 0, 0, 0);
-}
-
-#define typedef_CAVM_NPC_AF_INTFX_HASHX_MASKX(a,b,c) cavm_npc_af_intfx_hashx_maskx_t
-#define bustype_CAVM_NPC_AF_INTFX_HASHX_MASKX(a,b,c) CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_NPC_AF_INTFX_HASHX_MASKX(a,b,c) "NPC_AF_INTFX_HASHX_MASKX"
-#define device_bar_CAVM_NPC_AF_INTFX_HASHX_MASKX(a,b,c) 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_NPC_AF_INTFX_HASHX_MASKX(a,b,c) (a)
-#define arguments_CAVM_NPC_AF_INTFX_HASHX_MASKX(a,b,c) (a),(b),(c),-1
-
-/**
- * Register (RVU_PF_BAR0) npc_af_intf#_hash#_result_ctl
- *
- * NPC AF INTF Exact Match Result Control Registers
- * Provides the ability to adjust the resulting hash value to be inserted into the MCAM
- * key. See NPC_AF_INTF()_LID()_LT()_LD()_CFG[USE_HASH].
- */
-union cavm_npc_af_intfx_hashx_result_ctl
-{
-    uint64_t u;
-    struct cavm_npc_af_intfx_hashx_result_ctl_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t mask                  : 32; /**< [ 63: 32](R/W) Field to mask against the field hash result. The MASK typical value (0xffffffff) uses the
-                                                                 full data width. System can modify the value by setting the desired MASK bits to
-                                                                 zero. */
-        uint64_t offset                : 32; /**< [ 31:  0](R/W) Field to add to the post-masked field hash result. */
-#else /* Word 0 - Little Endian */
-        uint64_t offset                : 32; /**< [ 31:  0](R/W) Field to add to the post-masked field hash result. */
-        uint64_t mask                  : 32; /**< [ 63: 32](R/W) Field to mask against the field hash result. The MASK typical value (0xffffffff) uses the
-                                                                 full data width. System can modify the value by setting the desired MASK bits to
-                                                                 zero. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_npc_af_intfx_hashx_result_ctl_s cn; */
-};
-typedef union cavm_npc_af_intfx_hashx_result_ctl cavm_npc_af_intfx_hashx_result_ctl_t;
-
-static inline uint64_t CAVM_NPC_AF_INTFX_HASHX_RESULT_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NPC_AF_INTFX_HASHX_RESULT_CTL(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=1)))
-        return 0x8400600006c0ll + 0x10ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
-    __cavm_csr_fatal("NPC_AF_INTFX_HASHX_RESULT_CTL", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_NPC_AF_INTFX_HASHX_RESULT_CTL(a,b) cavm_npc_af_intfx_hashx_result_ctl_t
-#define bustype_CAVM_NPC_AF_INTFX_HASHX_RESULT_CTL(a,b) CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_NPC_AF_INTFX_HASHX_RESULT_CTL(a,b) "NPC_AF_INTFX_HASHX_RESULT_CTL"
-#define device_bar_CAVM_NPC_AF_INTFX_HASHX_RESULT_CTL(a,b) 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_NPC_AF_INTFX_HASHX_RESULT_CTL(a,b) (a)
-#define arguments_CAVM_NPC_AF_INTFX_HASHX_RESULT_CTL(a,b) (a),(b),-1,-1
-
-/**
  * Register (RVU_PF_BAR0) npc_af_intf#_kex_cfg
  *
  * NPC AF Interface Key Extract Configuration Registers
@@ -2069,12 +1819,8 @@ union cavm_npc_af_intfx_lidx_ltx_ldx_cfg
     struct cavm_npc_af_intfx_lidx_ltx_ldx_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_21_63        : 43;
-        uint64_t use_hash              : 1;  /**< [ 20: 20](R/W) When set, use the 4B output of the cooresponding field hash to insert into the
-                                                                 key instead of direct LDATA. LD(0) uses field hash(0) output as data. LD(1) uses
-                                                                 field hash(1) output as data. BYTESM1 must be set to 3. */
-        uint64_t bytesm1               : 4;  /**< [ 19: 16](R/W) LDATA size in bytes minus 1. 0=1 byte; 1=2 bytes, ..., 15=16 bytes. Must be set
-                                                                 to 3 when [USE_HASH] is set. */
+        uint64_t reserved_20_63        : 44;
+        uint64_t bytesm1               : 4;  /**< [ 19: 16](R/W) LDATA size in bytes minus 1. 0=1 byte; 1=2 bytes, ..., 15=16 bytes. */
         uint64_t hdr_offset            : 8;  /**< [ 15:  8](R/W) Header offset. Starting byte offset of LDATA relative to the start
                                                                  of the matching layer (NPC_LAYER_INFO_S[LPTR]).
 
@@ -2120,12 +1866,8 @@ union cavm_npc_af_intfx_lidx_ltx_ldx_cfg
                                                                  If any LDATA byte specified by [HDR_OFFSET] and [BYTESM1] is beyond the end
                                                                  of packet's header (smaller of 256 bytes or end of packet), a byte value of
                                                                  zero is used. */
-        uint64_t bytesm1               : 4;  /**< [ 19: 16](R/W) LDATA size in bytes minus 1. 0=1 byte; 1=2 bytes, ..., 15=16 bytes. Must be set
-                                                                 to 3 when [USE_HASH] is set. */
-        uint64_t use_hash              : 1;  /**< [ 20: 20](R/W) When set, use the 4B output of the cooresponding field hash to insert into the
-                                                                 key instead of direct LDATA. LD(0) uses field hash(0) output as data. LD(1) uses
-                                                                 field hash(1) output as data. BYTESM1 must be set to 3. */
-        uint64_t reserved_21_63        : 43;
+        uint64_t bytesm1               : 4;  /**< [ 19: 16](R/W) LDATA size in bytes minus 1. 0=1 byte; 1=2 bytes, ..., 15=16 bytes. */
+        uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_npc_af_intfx_lidx_ltx_ldx_cfg_s cn; */
@@ -2275,7 +2017,7 @@ static inline uint64_t CAVM_NPC_AF_INTFX_MISS_TAG_ACT(uint64_t a)
  * Register (RVU_PF_BAR0) npc_af_intf#_secret_key0
  *
  * NPC AF Interface Hash Key0 Registers
- * First 64 bits of key for the Toeplitz hash for both the exact and field hashes.
+ * First 64 bits of key for the Toeplitz hash for the exact hash.
  */
 union cavm_npc_af_intfx_secret_key0
 {
@@ -2283,7 +2025,7 @@ union cavm_npc_af_intfx_secret_key0
     struct cavm_npc_af_intfx_secret_key0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t key                   : 64; /**< [ 63:  0](R/W) First 64 bits of key for Toeplitz hash for exact and field match content. The
+        uint64_t key                   : 64; /**< [ 63:  0](R/W) First 64 bits of key for Toeplitz hash for exact match content. The
                                                                  exact match hash uses KEY2 and KEY0 for 95 bits of hash key. The field hashes use
                                                                  KEY2, KEY1 and KEY0 for 159 bits of key.
 
@@ -2294,7 +2036,7 @@ union cavm_npc_af_intfx_secret_key0
 
                                                                  The KEY should include a salt to make the hash externally unpredictable. */
 #else /* Word 0 - Little Endian */
-        uint64_t key                   : 64; /**< [ 63:  0](R/W) First 64 bits of key for Toeplitz hash for exact and field match content. The
+        uint64_t key                   : 64; /**< [ 63:  0](R/W) First 64 bits of key for Toeplitz hash for exact match content. The
                                                                  exact match hash uses KEY2 and KEY0 for 95 bits of hash key. The field hashes use
                                                                  KEY2, KEY1 and KEY0 for 159 bits of key.
 
@@ -2338,8 +2080,7 @@ union cavm_npc_af_intfx_secret_key1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t key                   : 64; /**< [ 63:  0](R/W) Second 64 bits of key for Toeplitz hash for the field hashes content. The exact
-                                                                 match hash uses KEY2 and KEY0 for 95 bits of hash key. The field hashes use KEY2,
-                                                                 KEY1 and KEY0 for 159 bits of key.
+                                                                 match hash uses KEY2 and KEY0 for 95 bits of hash key.
 
                                                                  Systems must set KEY to a non-zero value for correct operation. Suggested values
                                                                  KEY2=0x3d2bcad0
@@ -2349,8 +2090,7 @@ union cavm_npc_af_intfx_secret_key1
                                                                  The KEY should include a salt to make the hash externally unpredictable. */
 #else /* Word 0 - Little Endian */
         uint64_t key                   : 64; /**< [ 63:  0](R/W) Second 64 bits of key for Toeplitz hash for the field hashes content. The exact
-                                                                 match hash uses KEY2 and KEY0 for 95 bits of hash key. The field hashes use KEY2,
-                                                                 KEY1 and KEY0 for 159 bits of key.
+                                                                 match hash uses KEY2 and KEY0 for 95 bits of hash key.
 
                                                                  Systems must set KEY to a non-zero value for correct operation. Suggested values
                                                                  KEY2=0x3d2bcad0
@@ -2383,7 +2123,7 @@ static inline uint64_t CAVM_NPC_AF_INTFX_SECRET_KEY1(uint64_t a)
  * Register (RVU_PF_BAR0) npc_af_intf#_secret_key2
  *
  * NPC AF Interface Hash Key2 Registers
- * Last 31 bits of key for Toeplitz hash for exact and field hashes.
+ * Last 31 bits of key for Toeplitz hash for exact hashes.
  */
 union cavm_npc_af_intfx_secret_key2
 {
@@ -2392,9 +2132,8 @@ union cavm_npc_af_intfx_secret_key2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_31_63        : 33;
-        uint64_t key                   : 31; /**< [ 30:  0](R/W) Third set of key bits for Toeplitz hash for the exact and field hashes
-                                                                 content. The exact match hash uses KEY2 and KEY0 for 95 bits of hash key. The
-                                                                 field hashes use KEY2, KEY1 and KEY0 for 159 bits of key.
+        uint64_t key                   : 31; /**< [ 30:  0](R/W) Third set of key bits for Toeplitz hash for the exact hash
+                                                                 content. The exact match hash uses KEY2 and KEY0 for 95 bits of hash key.
 
                                                                  Systems must set KEY to a non-zero value for correct operation. Suggested values
                                                                  KEY2=0x3d2bcad0
@@ -2403,9 +2142,8 @@ union cavm_npc_af_intfx_secret_key2
 
                                                                  The KEY should include a salt to make the hash externally unpredictable. */
 #else /* Word 0 - Little Endian */
-        uint64_t key                   : 31; /**< [ 30:  0](R/W) Third set of key bits for Toeplitz hash for the exact and field hashes
-                                                                 content. The exact match hash uses KEY2 and KEY0 for 95 bits of hash key. The
-                                                                 field hashes use KEY2, KEY1 and KEY0 for 159 bits of key.
+        uint64_t key                   : 31; /**< [ 30:  0](R/W) Third set of key bits for Toeplitz hash for the exact hash
+                                                                 content. The exact match hash uses KEY2 and KEY0 for 95 bits of hash key.
 
                                                                  Systems must set KEY to a non-zero value for correct operation. Suggested values
                                                                  KEY2=0x3d2bcad0
@@ -2571,6 +2309,320 @@ static inline uint64_t CAVM_NPC_AF_KEX_LDATAX_FLAGS_CFG(uint64_t a)
 #define arguments_CAVM_NPC_AF_KEX_LDATAX_FLAGS_CFG(a) (a),-1,-1,-1
 
 /**
+ * Register (RVU_PF_BAR0) npc_af_kpm#_entry#_action0
+ *
+ * NPC AF KPU Entry Action Data 0 Registers
+ * When a KPU's search data matches a KPU CAM entry in
+ * NPC_AF_KPM()_ENTRY()_CAM(), the corresponding entry action in
+ * NPC_AF_KPM()_ENTRY()_ACTION0 and NPC_AF_KPM()_ENTRY()_ACTION1 specifies the
+ * next state and operations to perform before exiting the KPU.
+ */
+union cavm_npc_af_kpmx_entryx_action0
+{
+    uint64_t u;
+    struct cavm_npc_af_kpmx_entryx_action0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_57_63        : 7;
+        uint64_t byp_count             : 3;  /**< [ 56: 54](R/W) Bypass count. When nonzero, specifies the number of enabled KPUs to be
+                                                                 bypassed. For example, if the bypass count is two in the matching entry for
+                                                                 KPU 3, NPC_AF_KPU(4,6,7)_CFG[ENA] = 1 and NPC_AF_KPU(5)_CFG[ENA] = 0, then:
+                                                                 * KPUs 4 and 6 are bypassed.
+                                                                 * The matching entry's [NEXT_STATE] and
+                                                                 NPC_AF_KPM()_ENTRY()_ACTION1[DP*_OFFSET] in KPU 3 are used for the lookup in
+                                                                 KPU 7. */
+        uint64_t capture_ena           : 1;  /**< [ 53: 53](R/W) Layer capture enable. When set, layer information is captured in
+                                                                 NPC_RESULT_S. When clear, layer information is not captured by the KPU. */
+        uint64_t parse_done            : 1;  /**< [ 52: 52](R/W) Parse done. When set, terminate parse after this KPU and bypass subsequent KPUs. */
+        uint64_t next_state            : 8;  /**< [ 51: 44](R/W) Search value for ternary comparison with the next KPU's
+                                                                 NPC_AF_KPM()_ENTRY()_CAM()[STATE]. */
+        uint64_t reserved_43           : 1;
+        uint64_t capture_lid           : 3;  /**< [ 42: 40](R/W) Capture layer ID. Specifies the layer for which information is captured in
+                                                                 NPC_RESULT_S. Enumerated by NPC_LID_E. */
+        uint64_t capture_ltype         : 4;  /**< [ 39: 36](R/W) Capture layer type. When [CAPTURE_ENA] is set, specifies
+                                                                 NPC_LAYER_INFO_S[LTYPE] value captured in the appropriate layer within
+                                                                 NPC_RESULT_S. */
+        uint64_t capture_flags         : 8;  /**< [ 35: 28](R/W) Capture flags. When nonzero, specifies which NPC_LAYER_INFO_S[FLAGS] bits
+                                                                 to set in the appropriate layer within
+                                                                 NPC_RESULT_S, as follows:
+                                                                 _ NPC_LAYER_INFO_S[FLAGS] |= [CAPTURE_FLAGS]
+
+                                                                 Note that flags are captured irrespective of the [CAPTURE_ENA] value. */
+        uint64_t ptr_advance           : 8;  /**< [ 27: 20](R/W) Pointer advance. Fixed value added to NPC_RESULT_S[EOH_PTR]. Must be
+                                                                 even. See also [VAR_LEN_OFFSET]. */
+        uint64_t var_len_offset        : 8;  /**< [ 19: 12](R/W) Variable length byte offset. When [VAR_LEN_MASK] is nonzero, byte offset
+                                                                 from current header pointer of the packet byte that supplies a variable
+                                                                 pointer advance value.
+
+                                                                 Must be zero when [VAR_LEN_MASK] is zero.
+
+                                                                 The pointer advance algorithm is as follows:
+
+                                                                 \<pre\>
+                                                                 var_len_byte = packet byte at (NPC_RESULT_S[EOH_PTR] + [VAR_LEN_OFFSET]);
+                                                                 masked_var_len_byte = var_len_byte & [VAR_LEN_MASK];
+
+                                                                 if ([VAR_LEN_RIGHT])
+                                                                    var_len_advance = masked_var_len_byte \>\> [VAR_LEN_SHIFT];
+                                                                 else
+                                                                    var_len_advance = masked_var_len_byte \<\< [VAR_LEN_SHIFT];
+
+                                                                 NPC_RESULT_S[EOH_PTR] += ([PTR_ADVANCE] + var_len_advance);
+                                                                 \</pre\>
+
+                                                                 NPC_RESULT_S[EOH_PTR] must always be even. Therefore,
+                                                                 [VAR_LEN_SHIFT], [VAR_LEN_RIGHT] and [VAR_LEN_MASK] must produce an
+                                                                 even var_len_advance value. */
+        uint64_t var_len_mask          : 8;  /**< [ 11:  4](R/W) Variable length mask. See [VAR_LEN_OFFSET]. */
+        uint64_t var_len_right         : 1;  /**< [  3:  3](R/W) Variable length shift direction.
+                                                                 0 = Left shift.
+                                                                 1 = Right shift. */
+        uint64_t var_len_shift         : 3;  /**< [  2:  0](R/W) Variable length shift size in bits. See [VAR_LEN_OFFSET]. */
+#else /* Word 0 - Little Endian */
+        uint64_t var_len_shift         : 3;  /**< [  2:  0](R/W) Variable length shift size in bits. See [VAR_LEN_OFFSET]. */
+        uint64_t var_len_right         : 1;  /**< [  3:  3](R/W) Variable length shift direction.
+                                                                 0 = Left shift.
+                                                                 1 = Right shift. */
+        uint64_t var_len_mask          : 8;  /**< [ 11:  4](R/W) Variable length mask. See [VAR_LEN_OFFSET]. */
+        uint64_t var_len_offset        : 8;  /**< [ 19: 12](R/W) Variable length byte offset. When [VAR_LEN_MASK] is nonzero, byte offset
+                                                                 from current header pointer of the packet byte that supplies a variable
+                                                                 pointer advance value.
+
+                                                                 Must be zero when [VAR_LEN_MASK] is zero.
+
+                                                                 The pointer advance algorithm is as follows:
+
+                                                                 \<pre\>
+                                                                 var_len_byte = packet byte at (NPC_RESULT_S[EOH_PTR] + [VAR_LEN_OFFSET]);
+                                                                 masked_var_len_byte = var_len_byte & [VAR_LEN_MASK];
+
+                                                                 if ([VAR_LEN_RIGHT])
+                                                                    var_len_advance = masked_var_len_byte \>\> [VAR_LEN_SHIFT];
+                                                                 else
+                                                                    var_len_advance = masked_var_len_byte \<\< [VAR_LEN_SHIFT];
+
+                                                                 NPC_RESULT_S[EOH_PTR] += ([PTR_ADVANCE] + var_len_advance);
+                                                                 \</pre\>
+
+                                                                 NPC_RESULT_S[EOH_PTR] must always be even. Therefore,
+                                                                 [VAR_LEN_SHIFT], [VAR_LEN_RIGHT] and [VAR_LEN_MASK] must produce an
+                                                                 even var_len_advance value. */
+        uint64_t ptr_advance           : 8;  /**< [ 27: 20](R/W) Pointer advance. Fixed value added to NPC_RESULT_S[EOH_PTR]. Must be
+                                                                 even. See also [VAR_LEN_OFFSET]. */
+        uint64_t capture_flags         : 8;  /**< [ 35: 28](R/W) Capture flags. When nonzero, specifies which NPC_LAYER_INFO_S[FLAGS] bits
+                                                                 to set in the appropriate layer within
+                                                                 NPC_RESULT_S, as follows:
+                                                                 _ NPC_LAYER_INFO_S[FLAGS] |= [CAPTURE_FLAGS]
+
+                                                                 Note that flags are captured irrespective of the [CAPTURE_ENA] value. */
+        uint64_t capture_ltype         : 4;  /**< [ 39: 36](R/W) Capture layer type. When [CAPTURE_ENA] is set, specifies
+                                                                 NPC_LAYER_INFO_S[LTYPE] value captured in the appropriate layer within
+                                                                 NPC_RESULT_S. */
+        uint64_t capture_lid           : 3;  /**< [ 42: 40](R/W) Capture layer ID. Specifies the layer for which information is captured in
+                                                                 NPC_RESULT_S. Enumerated by NPC_LID_E. */
+        uint64_t reserved_43           : 1;
+        uint64_t next_state            : 8;  /**< [ 51: 44](R/W) Search value for ternary comparison with the next KPU's
+                                                                 NPC_AF_KPM()_ENTRY()_CAM()[STATE]. */
+        uint64_t parse_done            : 1;  /**< [ 52: 52](R/W) Parse done. When set, terminate parse after this KPU and bypass subsequent KPUs. */
+        uint64_t capture_ena           : 1;  /**< [ 53: 53](R/W) Layer capture enable. When set, layer information is captured in
+                                                                 NPC_RESULT_S. When clear, layer information is not captured by the KPU. */
+        uint64_t byp_count             : 3;  /**< [ 56: 54](R/W) Bypass count. When nonzero, specifies the number of enabled KPUs to be
+                                                                 bypassed. For example, if the bypass count is two in the matching entry for
+                                                                 KPU 3, NPC_AF_KPU(4,6,7)_CFG[ENA] = 1 and NPC_AF_KPU(5)_CFG[ENA] = 0, then:
+                                                                 * KPUs 4 and 6 are bypassed.
+                                                                 * The matching entry's [NEXT_STATE] and
+                                                                 NPC_AF_KPM()_ENTRY()_ACTION1[DP*_OFFSET] in KPU 3 are used for the lookup in
+                                                                 KPU 7. */
+        uint64_t reserved_57_63        : 7;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npc_af_kpmx_entryx_action0_s cn; */
+};
+typedef union cavm_npc_af_kpmx_entryx_action0 cavm_npc_af_kpmx_entryx_action0_t;
+
+static inline uint64_t CAVM_NPC_AF_KPMX_ENTRYX_ACTION0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NPC_AF_KPMX_ENTRYX_ACTION0(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=7) && (b<=255)))
+        return 0x840060100020ll + 0x4000ll * ((a) & 0x7) + 0x40ll * ((b) & 0xff);
+    __cavm_csr_fatal("NPC_AF_KPMX_ENTRYX_ACTION0", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NPC_AF_KPMX_ENTRYX_ACTION0(a,b) cavm_npc_af_kpmx_entryx_action0_t
+#define bustype_CAVM_NPC_AF_KPMX_ENTRYX_ACTION0(a,b) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NPC_AF_KPMX_ENTRYX_ACTION0(a,b) "NPC_AF_KPMX_ENTRYX_ACTION0"
+#define device_bar_CAVM_NPC_AF_KPMX_ENTRYX_ACTION0(a,b) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NPC_AF_KPMX_ENTRYX_ACTION0(a,b) (a)
+#define arguments_CAVM_NPC_AF_KPMX_ENTRYX_ACTION0(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) npc_af_kpm#_entry#_action1
+ *
+ * NPC AF KPU Entry Action Data 0 Registers
+ * See NPC_AF_KPM()_ENTRY()_ACTION0.
+ */
+union cavm_npc_af_kpmx_entryx_action1
+{
+    uint64_t u;
+    struct cavm_npc_af_kpmx_entryx_action1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t errlev                : 4;  /**< [ 35: 32](R/W) Error level. Ignored when [ERRCODE] is zero. Otherwise, value is captured
+                                                                 in NPC_RESULT_S[ERRLEV], indicating the protocol layer containing the
+                                                                 error.  Enumerated by NPC_ERRLEV_E. */
+        uint64_t errcode               : 8;  /**< [ 31: 24](R/W) Error code. Ignored when zero. When nonzero, [ERRCODE] is captured in
+                                                                 NPC_RESULT_S[ERRCODE] and [ERRLEV] is captured in NPC_RESULT_S[ERRLEV] */
+        uint64_t dp2_offset            : 8;  /**< [ 23: 16](R/W) Decision point 2 offset to next KPU. See [DP0_OFFSET]. */
+        uint64_t dp1_offset            : 8;  /**< [ 15:  8](R/W) Decision point 1 offset to next KPU. See [DP0_OFFSET]. */
+        uint64_t dp0_offset            : 8;  /**< [  7:  0](R/W) Decision point 0 offset to next KPU. Byte offset relative to the
+                                                                 updated NPC_RESULT_S[EOH_PTR] value of the two packet bytes used for
+                                                                 ternary comparison with the next KPU's
+                                                                 NPC_AF_KPM()_ENTRY()_CAM()[DP0_DATA]. */
+#else /* Word 0 - Little Endian */
+        uint64_t dp0_offset            : 8;  /**< [  7:  0](R/W) Decision point 0 offset to next KPU. Byte offset relative to the
+                                                                 updated NPC_RESULT_S[EOH_PTR] value of the two packet bytes used for
+                                                                 ternary comparison with the next KPU's
+                                                                 NPC_AF_KPM()_ENTRY()_CAM()[DP0_DATA]. */
+        uint64_t dp1_offset            : 8;  /**< [ 15:  8](R/W) Decision point 1 offset to next KPU. See [DP0_OFFSET]. */
+        uint64_t dp2_offset            : 8;  /**< [ 23: 16](R/W) Decision point 2 offset to next KPU. See [DP0_OFFSET]. */
+        uint64_t errcode               : 8;  /**< [ 31: 24](R/W) Error code. Ignored when zero. When nonzero, [ERRCODE] is captured in
+                                                                 NPC_RESULT_S[ERRCODE] and [ERRLEV] is captured in NPC_RESULT_S[ERRLEV] */
+        uint64_t errlev                : 4;  /**< [ 35: 32](R/W) Error level. Ignored when [ERRCODE] is zero. Otherwise, value is captured
+                                                                 in NPC_RESULT_S[ERRLEV], indicating the protocol layer containing the
+                                                                 error.  Enumerated by NPC_ERRLEV_E. */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npc_af_kpmx_entryx_action1_s cn; */
+};
+typedef union cavm_npc_af_kpmx_entryx_action1 cavm_npc_af_kpmx_entryx_action1_t;
+
+static inline uint64_t CAVM_NPC_AF_KPMX_ENTRYX_ACTION1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NPC_AF_KPMX_ENTRYX_ACTION1(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=7) && (b<=255)))
+        return 0x840060100028ll + 0x4000ll * ((a) & 0x7) + 0x40ll * ((b) & 0xff);
+    __cavm_csr_fatal("NPC_AF_KPMX_ENTRYX_ACTION1", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NPC_AF_KPMX_ENTRYX_ACTION1(a,b) cavm_npc_af_kpmx_entryx_action1_t
+#define bustype_CAVM_NPC_AF_KPMX_ENTRYX_ACTION1(a,b) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NPC_AF_KPMX_ENTRYX_ACTION1(a,b) "NPC_AF_KPMX_ENTRYX_ACTION1"
+#define device_bar_CAVM_NPC_AF_KPMX_ENTRYX_ACTION1(a,b) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NPC_AF_KPMX_ENTRYX_ACTION1(a,b) (a)
+#define arguments_CAVM_NPC_AF_KPMX_ENTRYX_ACTION1(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) npc_af_kpm#_entry#_cam#
+ *
+ * NPC AF KPU Entry CAM Registers
+ * KPU comparison ternary data. The field values in
+ * NPC_AF_KPM()_ENTRY()_CAM() are ternary, where  each data bit of the
+ * search key matches as follows:
+ * _ [CAM(1)]\<n\>=0, [CAM(0)]\<n\>=0: Always match; search key data\<n\> don't care.
+ * _ [CAM(1)]\<n\>=0, [CAM(0)]\<n\>=1: Match when search key data\<n\> == 0.
+ * _ [CAM(1)]\<n\>=1, [CAM(0)]\<n\>=0: Match when search key data\<n\> == 1.
+ * _ [CAM(1)]\<n\>=1, [CAM(0)]\<n\>=1: Reserved.
+ *
+ * The reserved combination is not allowed. Hardware suppresses any write to
+ * CAM(0) or CAM(1) that would result in the reserved combination for any CAM bit.
+ *
+ * The reset value for all non-reserved fields is all zeros for CAM(1) and all
+ * ones for CAM(0), matching a search key of all zeros.
+ *
+ * Software must program a default entry for each KPU stage, e.g. by programming each
+ * KPU stage's last entry {b} (NPC_AF_KPM()_ENTRY({b})_CAM()) to always match all
+ * bits. (Note for shared KCAM last entry for stages 0-7 is PASS2_OFFSET-1 of each KCAM
+ * and for 8-15 the last entry is 255)
+ */
+union cavm_npc_af_kpmx_entryx_camx
+{
+    uint64_t u;
+    struct cavm_npc_af_kpmx_entryx_camx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_58_63        : 6;
+        uint64_t ptype                 : 2;  /**< [ 57: 56](R/W) Current packet ptype . */
+        uint64_t state                 : 8;  /**< [ 55: 48](R/W) Current parse state. */
+        uint64_t dp2_data              : 16; /**< [ 47: 32](R/W) Decision point 2 data in network byte order. */
+        uint64_t dp1_data              : 16; /**< [ 31: 16](R/W) Decision point 1 data in network byte order. */
+        uint64_t dp0_data              : 16; /**< [ 15:  0](R/W) Decision point 0 data in network byte order. Bits \<15:8\> are compared with
+                                                                 packet byte at relative offset NPC_AF_KPM()_ENTRY()_ACTION1[DP0_OFFSET],
+                                                                 and bits \<7:0\> with the byte at NPC_AF_KPM()_ENTRY()_ACTION1[DP0_OFFSET]+1. */
+#else /* Word 0 - Little Endian */
+        uint64_t dp0_data              : 16; /**< [ 15:  0](R/W) Decision point 0 data in network byte order. Bits \<15:8\> are compared with
+                                                                 packet byte at relative offset NPC_AF_KPM()_ENTRY()_ACTION1[DP0_OFFSET],
+                                                                 and bits \<7:0\> with the byte at NPC_AF_KPM()_ENTRY()_ACTION1[DP0_OFFSET]+1. */
+        uint64_t dp1_data              : 16; /**< [ 31: 16](R/W) Decision point 1 data in network byte order. */
+        uint64_t dp2_data              : 16; /**< [ 47: 32](R/W) Decision point 2 data in network byte order. */
+        uint64_t state                 : 8;  /**< [ 55: 48](R/W) Current parse state. */
+        uint64_t ptype                 : 2;  /**< [ 57: 56](R/W) Current packet ptype . */
+        uint64_t reserved_58_63        : 6;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npc_af_kpmx_entryx_camx_s cn; */
+};
+typedef union cavm_npc_af_kpmx_entryx_camx cavm_npc_af_kpmx_entryx_camx_t;
+
+static inline uint64_t CAVM_NPC_AF_KPMX_ENTRYX_CAMX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NPC_AF_KPMX_ENTRYX_CAMX(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=7) && (b<=255) && (c<=1)))
+        return 0x840060100000ll + 0x4000ll * ((a) & 0x7) + 0x40ll * ((b) & 0xff) + 8ll * ((c) & 0x1);
+    __cavm_csr_fatal("NPC_AF_KPMX_ENTRYX_CAMX", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_NPC_AF_KPMX_ENTRYX_CAMX(a,b,c) cavm_npc_af_kpmx_entryx_camx_t
+#define bustype_CAVM_NPC_AF_KPMX_ENTRYX_CAMX(a,b,c) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NPC_AF_KPMX_ENTRYX_CAMX(a,b,c) "NPC_AF_KPMX_ENTRYX_CAMX"
+#define device_bar_CAVM_NPC_AF_KPMX_ENTRYX_CAMX(a,b,c) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NPC_AF_KPMX_ENTRYX_CAMX(a,b,c) (a)
+#define arguments_CAVM_NPC_AF_KPMX_ENTRYX_CAMX(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (RVU_PF_BAR0) npc_af_kpm#_entry_dis#
+ *
+ * NPC AF KPU Entry Disable Registers
+ * See NPC_AF_KPM()_ENTRY()_ACTION0.
+ */
+union cavm_npc_af_kpmx_entry_disx
+{
+    uint64_t u;
+    struct cavm_npc_af_kpmx_entry_disx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t dis                   : 64; /**< [ 63:  0](R/W) Entry disables. One bit per KPU entry; NPC_AF_KPM()_ENTRY_DIS(0)[DIS]\<63:0\> for
+                                                                 entries 63-0, NPC_AF_KPM()_ENTRY_DIS(3)[DIS]\<63:0\> for entries 255-192. Setting a
+                                                                 bit disables the corresponding KPU entry, and clearing the bit enables the
+                                                                 entry. */
+#else /* Word 0 - Little Endian */
+        uint64_t dis                   : 64; /**< [ 63:  0](R/W) Entry disables. One bit per KPU entry; NPC_AF_KPM()_ENTRY_DIS(0)[DIS]\<63:0\> for
+                                                                 entries 63-0, NPC_AF_KPM()_ENTRY_DIS(3)[DIS]\<63:0\> for entries 255-192. Setting a
+                                                                 bit disables the corresponding KPU entry, and clearing the bit enables the
+                                                                 entry. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npc_af_kpmx_entry_disx_s cn; */
+};
+typedef union cavm_npc_af_kpmx_entry_disx cavm_npc_af_kpmx_entry_disx_t;
+
+static inline uint64_t CAVM_NPC_AF_KPMX_ENTRY_DISX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NPC_AF_KPMX_ENTRY_DISX(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=7) && (b<=3)))
+        return 0x840060180000ll + 0x40ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
+    __cavm_csr_fatal("NPC_AF_KPMX_ENTRY_DISX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NPC_AF_KPMX_ENTRY_DISX(a,b) cavm_npc_af_kpmx_entry_disx_t
+#define bustype_CAVM_NPC_AF_KPMX_ENTRY_DISX(a,b) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NPC_AF_KPMX_ENTRY_DISX(a,b) "NPC_AF_KPMX_ENTRY_DISX"
+#define device_bar_CAVM_NPC_AF_KPMX_ENTRY_DISX(a,b) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NPC_AF_KPMX_ENTRY_DISX(a,b) (a)
+#define arguments_CAVM_NPC_AF_KPMX_ENTRY_DISX(a,b) (a),(b),-1,-1
+
+/**
  * Register (RVU_PF_BAR0) npc_af_kpm#_pass2_offset
  *
  * NPC AF KPM Entry Pass2 Offset Registers
@@ -2626,11 +2678,11 @@ union cavm_npc_af_kpux_cfg
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t ena                   : 1;  /**< [  0:  0](R/W) KPU enable. When clear, the KPU is bypassed, such that packet header data
+        uint64_t ena                   : 1;  /**< [  0:  0](R/W) KPU stage enable. When clear, the KPU stage is bypassed, such that packet header data
                                                                  and parse state are directly passed through to the next KPU, or in the case
                                                                  of KPU(15) to the key extract processing stage. */
 #else /* Word 0 - Little Endian */
-        uint64_t ena                   : 1;  /**< [  0:  0](R/W) KPU enable. When clear, the KPU is bypassed, such that packet header data
+        uint64_t ena                   : 1;  /**< [  0:  0](R/W) KPU stage enable. When clear, the KPU stage is bypassed, such that packet header data
                                                                  and parse state are directly passed through to the next KPU, or in the case
                                                                  of KPU(15) to the key extract processing stage. */
         uint64_t reserved_1_63         : 63;
@@ -2671,15 +2723,15 @@ union cavm_npc_af_kpux_dbg
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
-        uint64_t byp                   : 1;  /**< [  8:  8](RO/H) Set if KPU was bypassed due to NPC_AF_KPU()_ENTRY()_ACTION0[PARSE_DONE] set,
-                                                                 non-zero NPC_AF_KPU()_ENTRY()_ACTION0[BYP_COUNT] in a previous stage, or if
-                                                                 parsing was terminated by a prior KPU due to a header parse error. */
+        uint64_t byp                   : 1;  /**< [  8:  8](RO/H) Set if KPU was bypassed due to NPC_AF_KPM()_ENTRY()_ACTION0[PARSE_DONE] set,
+                                                                 non-zero NPC_AF_KPM()_ENTRY()_ACTION0[BYP_COUNT] in a previous stage, or if
+                                                                 parsing was terminated by a prior KPU stage due to a header parse error. */
         uint64_t hit_entry             : 8;  /**< [  7:  0](RO/H) KPU hit entry index. Valid when [BYP] is clear. */
 #else /* Word 0 - Little Endian */
         uint64_t hit_entry             : 8;  /**< [  7:  0](RO/H) KPU hit entry index. Valid when [BYP] is clear. */
-        uint64_t byp                   : 1;  /**< [  8:  8](RO/H) Set if KPU was bypassed due to NPC_AF_KPU()_ENTRY()_ACTION0[PARSE_DONE] set,
-                                                                 non-zero NPC_AF_KPU()_ENTRY()_ACTION0[BYP_COUNT] in a previous stage, or if
-                                                                 parsing was terminated by a prior KPU due to a header parse error. */
+        uint64_t byp                   : 1;  /**< [  8:  8](RO/H) Set if KPU was bypassed due to NPC_AF_KPM()_ENTRY()_ACTION0[PARSE_DONE] set,
+                                                                 non-zero NPC_AF_KPM()_ENTRY()_ACTION0[BYP_COUNT] in a previous stage, or if
+                                                                 parsing was terminated by a prior KPU stage due to a header parse error. */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } s;
@@ -2703,319 +2755,6 @@ static inline uint64_t CAVM_NPC_AF_KPUX_DBG(uint64_t a)
 #define arguments_CAVM_NPC_AF_KPUX_DBG(a) (a),-1,-1,-1
 
 /**
- * Register (RVU_PF_BAR0) npc_af_kpu#_entry#_action0
- *
- * NPC AF KPU Entry Action Data 0 Registers
- * When a KPU's search data matches a KPU CAM entry in
- * NPC_AF_KPU()_ENTRY()_CAM(), the corresponding entry action in
- * NPC_AF_KPU()_ENTRY()_ACTION0 and NPC_AF_KPU()_ENTRY()_ACTION1 specifies the
- * next state and operations to perform before exiting the KPU.
- */
-union cavm_npc_af_kpux_entryx_action0
-{
-    uint64_t u;
-    struct cavm_npc_af_kpux_entryx_action0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_57_63        : 7;
-        uint64_t byp_count             : 3;  /**< [ 56: 54](R/W) Bypass count. When nonzero, specifies the number of enabled KPUs to be
-                                                                 bypassed. For example, if the bypass count is two in the matching entry for
-                                                                 KPU 3, NPC_AF_KPU(4,6,7)_CFG[ENA] = 1 and NPC_AF_KPU(5)_CFG[ENA] = 0, then:
-                                                                 * KPUs 4 and 6 are bypassed.
-                                                                 * The matching entry's [NEXT_STATE] and
-                                                                 NPC_AF_KPU()_ENTRY()_ACTION1[DP*_OFFSET] in KPU 3 are used for the lookup in
-                                                                 KPU 7. */
-        uint64_t capture_ena           : 1;  /**< [ 53: 53](R/W) Layer capture enable. When set, layer information is captured in
-                                                                 NPC_RESULT_S. When clear, layer information is not captured by the KPU. */
-        uint64_t parse_done            : 1;  /**< [ 52: 52](R/W) Parse done. When set, terminate parse after this KPU and bypass subsequent KPUs. */
-        uint64_t next_state            : 8;  /**< [ 51: 44](R/W) Search value for ternary comparison with the next KPU's
-                                                                 NPC_AF_KPU()_ENTRY()_CAM()[STATE]. */
-        uint64_t reserved_43           : 1;
-        uint64_t capture_lid           : 3;  /**< [ 42: 40](R/W) Capture layer ID. Specifies the layer for which information is captured in
-                                                                 NPC_RESULT_S. Enumerated by NPC_LID_E. */
-        uint64_t capture_ltype         : 4;  /**< [ 39: 36](R/W) Capture layer type. When [CAPTURE_ENA] is set, specifies
-                                                                 NPC_LAYER_INFO_S[LTYPE] value captured in the appropriate layer within
-                                                                 NPC_RESULT_S. */
-        uint64_t capture_flags         : 8;  /**< [ 35: 28](R/W) Capture flags. When nonzero, specifies which NPC_LAYER_INFO_S[FLAGS] bits
-                                                                 to set in the appropriate layer within
-                                                                 NPC_RESULT_S, as follows:
-                                                                 _ NPC_LAYER_INFO_S[FLAGS] |= [CAPTURE_FLAGS]
-
-                                                                 Note that flags are captured irrespective of the [CAPTURE_ENA] value. */
-        uint64_t ptr_advance           : 8;  /**< [ 27: 20](R/W) Pointer advance. Fixed value added to NPC_RESULT_S[EOH_PTR]. Must be
-                                                                 even. See also [VAR_LEN_OFFSET]. */
-        uint64_t var_len_offset        : 8;  /**< [ 19: 12](R/W) Variable length byte offset. When [VAR_LEN_MASK] is nonzero, byte offset
-                                                                 from current header pointer of the packet byte that supplies a variable
-                                                                 pointer advance value.
-
-                                                                 Must be zero when [VAR_LEN_MASK] is zero.
-
-                                                                 The pointer advance algorithm is as follows:
-
-                                                                 \<pre\>
-                                                                 var_len_byte = packet byte at (NPC_RESULT_S[EOH_PTR] + [VAR_LEN_OFFSET]);
-                                                                 masked_var_len_byte = var_len_byte & [VAR_LEN_MASK];
-
-                                                                 if ([VAR_LEN_RIGHT])
-                                                                    var_len_advance = masked_var_len_byte \>\> [VAR_LEN_SHIFT];
-                                                                 else
-                                                                    var_len_advance = masked_var_len_byte \<\< [VAR_LEN_SHIFT];
-
-                                                                 NPC_RESULT_S[EOH_PTR] += ([PTR_ADVANCE] + var_len_advance);
-                                                                 \</pre\>
-
-                                                                 NPC_RESULT_S[EOH_PTR] must always be even. Therefore,
-                                                                 [VAR_LEN_SHIFT], [VAR_LEN_RIGHT] and [VAR_LEN_MASK] must produce an
-                                                                 even var_len_advance value. */
-        uint64_t var_len_mask          : 8;  /**< [ 11:  4](R/W) Variable length mask. See [VAR_LEN_OFFSET]. */
-        uint64_t var_len_right         : 1;  /**< [  3:  3](R/W) Variable length shift direction.
-                                                                 0 = Left shift.
-                                                                 1 = Right shift. */
-        uint64_t var_len_shift         : 3;  /**< [  2:  0](R/W) Variable length shift size in bits. See [VAR_LEN_OFFSET]. */
-#else /* Word 0 - Little Endian */
-        uint64_t var_len_shift         : 3;  /**< [  2:  0](R/W) Variable length shift size in bits. See [VAR_LEN_OFFSET]. */
-        uint64_t var_len_right         : 1;  /**< [  3:  3](R/W) Variable length shift direction.
-                                                                 0 = Left shift.
-                                                                 1 = Right shift. */
-        uint64_t var_len_mask          : 8;  /**< [ 11:  4](R/W) Variable length mask. See [VAR_LEN_OFFSET]. */
-        uint64_t var_len_offset        : 8;  /**< [ 19: 12](R/W) Variable length byte offset. When [VAR_LEN_MASK] is nonzero, byte offset
-                                                                 from current header pointer of the packet byte that supplies a variable
-                                                                 pointer advance value.
-
-                                                                 Must be zero when [VAR_LEN_MASK] is zero.
-
-                                                                 The pointer advance algorithm is as follows:
-
-                                                                 \<pre\>
-                                                                 var_len_byte = packet byte at (NPC_RESULT_S[EOH_PTR] + [VAR_LEN_OFFSET]);
-                                                                 masked_var_len_byte = var_len_byte & [VAR_LEN_MASK];
-
-                                                                 if ([VAR_LEN_RIGHT])
-                                                                    var_len_advance = masked_var_len_byte \>\> [VAR_LEN_SHIFT];
-                                                                 else
-                                                                    var_len_advance = masked_var_len_byte \<\< [VAR_LEN_SHIFT];
-
-                                                                 NPC_RESULT_S[EOH_PTR] += ([PTR_ADVANCE] + var_len_advance);
-                                                                 \</pre\>
-
-                                                                 NPC_RESULT_S[EOH_PTR] must always be even. Therefore,
-                                                                 [VAR_LEN_SHIFT], [VAR_LEN_RIGHT] and [VAR_LEN_MASK] must produce an
-                                                                 even var_len_advance value. */
-        uint64_t ptr_advance           : 8;  /**< [ 27: 20](R/W) Pointer advance. Fixed value added to NPC_RESULT_S[EOH_PTR]. Must be
-                                                                 even. See also [VAR_LEN_OFFSET]. */
-        uint64_t capture_flags         : 8;  /**< [ 35: 28](R/W) Capture flags. When nonzero, specifies which NPC_LAYER_INFO_S[FLAGS] bits
-                                                                 to set in the appropriate layer within
-                                                                 NPC_RESULT_S, as follows:
-                                                                 _ NPC_LAYER_INFO_S[FLAGS] |= [CAPTURE_FLAGS]
-
-                                                                 Note that flags are captured irrespective of the [CAPTURE_ENA] value. */
-        uint64_t capture_ltype         : 4;  /**< [ 39: 36](R/W) Capture layer type. When [CAPTURE_ENA] is set, specifies
-                                                                 NPC_LAYER_INFO_S[LTYPE] value captured in the appropriate layer within
-                                                                 NPC_RESULT_S. */
-        uint64_t capture_lid           : 3;  /**< [ 42: 40](R/W) Capture layer ID. Specifies the layer for which information is captured in
-                                                                 NPC_RESULT_S. Enumerated by NPC_LID_E. */
-        uint64_t reserved_43           : 1;
-        uint64_t next_state            : 8;  /**< [ 51: 44](R/W) Search value for ternary comparison with the next KPU's
-                                                                 NPC_AF_KPU()_ENTRY()_CAM()[STATE]. */
-        uint64_t parse_done            : 1;  /**< [ 52: 52](R/W) Parse done. When set, terminate parse after this KPU and bypass subsequent KPUs. */
-        uint64_t capture_ena           : 1;  /**< [ 53: 53](R/W) Layer capture enable. When set, layer information is captured in
-                                                                 NPC_RESULT_S. When clear, layer information is not captured by the KPU. */
-        uint64_t byp_count             : 3;  /**< [ 56: 54](R/W) Bypass count. When nonzero, specifies the number of enabled KPUs to be
-                                                                 bypassed. For example, if the bypass count is two in the matching entry for
-                                                                 KPU 3, NPC_AF_KPU(4,6,7)_CFG[ENA] = 1 and NPC_AF_KPU(5)_CFG[ENA] = 0, then:
-                                                                 * KPUs 4 and 6 are bypassed.
-                                                                 * The matching entry's [NEXT_STATE] and
-                                                                 NPC_AF_KPU()_ENTRY()_ACTION1[DP*_OFFSET] in KPU 3 are used for the lookup in
-                                                                 KPU 7. */
-        uint64_t reserved_57_63        : 7;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_npc_af_kpux_entryx_action0_s cn; */
-};
-typedef union cavm_npc_af_kpux_entryx_action0 cavm_npc_af_kpux_entryx_action0_t;
-
-static inline uint64_t CAVM_NPC_AF_KPUX_ENTRYX_ACTION0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NPC_AF_KPUX_ENTRYX_ACTION0(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=15) && (b<=127)))
-        return 0x840060100020ll + 0x4000ll * ((a) & 0xf) + 0x40ll * ((b) & 0x7f);
-    __cavm_csr_fatal("NPC_AF_KPUX_ENTRYX_ACTION0", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_NPC_AF_KPUX_ENTRYX_ACTION0(a,b) cavm_npc_af_kpux_entryx_action0_t
-#define bustype_CAVM_NPC_AF_KPUX_ENTRYX_ACTION0(a,b) CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_NPC_AF_KPUX_ENTRYX_ACTION0(a,b) "NPC_AF_KPUX_ENTRYX_ACTION0"
-#define device_bar_CAVM_NPC_AF_KPUX_ENTRYX_ACTION0(a,b) 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_NPC_AF_KPUX_ENTRYX_ACTION0(a,b) (a)
-#define arguments_CAVM_NPC_AF_KPUX_ENTRYX_ACTION0(a,b) (a),(b),-1,-1
-
-/**
- * Register (RVU_PF_BAR0) npc_af_kpu#_entry#_action1
- *
- * NPC AF KPU Entry Action Data 0 Registers
- * See NPC_AF_KPU()_ENTRY()_ACTION0.
- */
-union cavm_npc_af_kpux_entryx_action1
-{
-    uint64_t u;
-    struct cavm_npc_af_kpux_entryx_action1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_36_63        : 28;
-        uint64_t errlev                : 4;  /**< [ 35: 32](R/W) Error level. Ignored when [ERRCODE] is zero. Otherwise, value is captured
-                                                                 in NPC_RESULT_S[ERRLEV], indicating the protocol layer containing the
-                                                                 error.  Enumerated by NPC_ERRLEV_E. */
-        uint64_t errcode               : 8;  /**< [ 31: 24](R/W) Error code. Ignored when zero. When nonzero, [ERRCODE] is captured in
-                                                                 NPC_RESULT_S[ERRCODE] and [ERRLEV] is captured in NPC_RESULT_S[ERRLEV] */
-        uint64_t dp2_offset            : 8;  /**< [ 23: 16](R/W) Decision point 2 offset to next KPU. See [DP0_OFFSET]. */
-        uint64_t dp1_offset            : 8;  /**< [ 15:  8](R/W) Decision point 1 offset to next KPU. See [DP0_OFFSET]. */
-        uint64_t dp0_offset            : 8;  /**< [  7:  0](R/W) Decision point 0 offset to next KPU. Byte offset relative to the
-                                                                 updated NPC_RESULT_S[EOH_PTR] value of the two packet bytes used for
-                                                                 ternary comparison with the next KPU's
-                                                                 NPC_AF_KPU()_ENTRY()_CAM()[DP0_DATA]. */
-#else /* Word 0 - Little Endian */
-        uint64_t dp0_offset            : 8;  /**< [  7:  0](R/W) Decision point 0 offset to next KPU. Byte offset relative to the
-                                                                 updated NPC_RESULT_S[EOH_PTR] value of the two packet bytes used for
-                                                                 ternary comparison with the next KPU's
-                                                                 NPC_AF_KPU()_ENTRY()_CAM()[DP0_DATA]. */
-        uint64_t dp1_offset            : 8;  /**< [ 15:  8](R/W) Decision point 1 offset to next KPU. See [DP0_OFFSET]. */
-        uint64_t dp2_offset            : 8;  /**< [ 23: 16](R/W) Decision point 2 offset to next KPU. See [DP0_OFFSET]. */
-        uint64_t errcode               : 8;  /**< [ 31: 24](R/W) Error code. Ignored when zero. When nonzero, [ERRCODE] is captured in
-                                                                 NPC_RESULT_S[ERRCODE] and [ERRLEV] is captured in NPC_RESULT_S[ERRLEV] */
-        uint64_t errlev                : 4;  /**< [ 35: 32](R/W) Error level. Ignored when [ERRCODE] is zero. Otherwise, value is captured
-                                                                 in NPC_RESULT_S[ERRLEV], indicating the protocol layer containing the
-                                                                 error.  Enumerated by NPC_ERRLEV_E. */
-        uint64_t reserved_36_63        : 28;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_npc_af_kpux_entryx_action1_s cn; */
-};
-typedef union cavm_npc_af_kpux_entryx_action1 cavm_npc_af_kpux_entryx_action1_t;
-
-static inline uint64_t CAVM_NPC_AF_KPUX_ENTRYX_ACTION1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NPC_AF_KPUX_ENTRYX_ACTION1(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=15) && (b<=127)))
-        return 0x840060100028ll + 0x4000ll * ((a) & 0xf) + 0x40ll * ((b) & 0x7f);
-    __cavm_csr_fatal("NPC_AF_KPUX_ENTRYX_ACTION1", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_NPC_AF_KPUX_ENTRYX_ACTION1(a,b) cavm_npc_af_kpux_entryx_action1_t
-#define bustype_CAVM_NPC_AF_KPUX_ENTRYX_ACTION1(a,b) CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_NPC_AF_KPUX_ENTRYX_ACTION1(a,b) "NPC_AF_KPUX_ENTRYX_ACTION1"
-#define device_bar_CAVM_NPC_AF_KPUX_ENTRYX_ACTION1(a,b) 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_NPC_AF_KPUX_ENTRYX_ACTION1(a,b) (a)
-#define arguments_CAVM_NPC_AF_KPUX_ENTRYX_ACTION1(a,b) (a),(b),-1,-1
-
-/**
- * Register (RVU_PF_BAR0) npc_af_kpu#_entry#_cam#
- *
- * NPC AF KPU Entry CAM Registers
- * KPU comparison ternary data. The field values in
- * NPC_AF_KPU()_ENTRY()_CAM() are ternary, where  each data bit of the
- * search key matches as follows:
- * _ [CAM(1)]\<n\>=0, [CAM(0)]\<n\>=0: Always match; search key data\<n\> don't care.
- * _ [CAM(1)]\<n\>=0, [CAM(0)]\<n\>=1: Match when search key data\<n\> == 0.
- * _ [CAM(1)]\<n\>=1, [CAM(0)]\<n\>=0: Match when search key data\<n\> == 1.
- * _ [CAM(1)]\<n\>=1, [CAM(0)]\<n\>=1: Reserved.
- *
- * The reserved combination is not allowed. Hardware suppresses any write to
- * CAM(0) or CAM(1) that would result in the reserved combination for any CAM bit.
- *
- * The reset value for all non-reserved fields is all zeros for CAM(1) and all
- * ones for CAM(0), matching a search key of all zeros.
- *
- * Software must program a default entry for each KPU, e.g. by programming each
- * KPU's last entry {b} (NPC_AF_KPU()_ENTRY({b})_CAM()) to always match all
- * bits.
- */
-union cavm_npc_af_kpux_entryx_camx
-{
-    uint64_t u;
-    struct cavm_npc_af_kpux_entryx_camx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_58_63        : 6;
-        uint64_t ptype                 : 2;  /**< [ 57: 56](R/W) Current packet ptype . */
-        uint64_t state                 : 8;  /**< [ 55: 48](R/W) Current parse state. */
-        uint64_t dp2_data              : 16; /**< [ 47: 32](R/W) Decision point 2 data in network byte order. */
-        uint64_t dp1_data              : 16; /**< [ 31: 16](R/W) Decision point 1 data in network byte order. */
-        uint64_t dp0_data              : 16; /**< [ 15:  0](R/W) Decision point 0 data in network byte order. Bits \<15:8\> are compared with
-                                                                 packet byte at relative offset NPC_AF_KPU()_ENTRY()_ACTION1[DP0_OFFSET],
-                                                                 and bits \<7:0\> with the byte at NPC_AF_KPU()_ENTRY()_ACTION1[DP0_OFFSET]+1. */
-#else /* Word 0 - Little Endian */
-        uint64_t dp0_data              : 16; /**< [ 15:  0](R/W) Decision point 0 data in network byte order. Bits \<15:8\> are compared with
-                                                                 packet byte at relative offset NPC_AF_KPU()_ENTRY()_ACTION1[DP0_OFFSET],
-                                                                 and bits \<7:0\> with the byte at NPC_AF_KPU()_ENTRY()_ACTION1[DP0_OFFSET]+1. */
-        uint64_t dp1_data              : 16; /**< [ 31: 16](R/W) Decision point 1 data in network byte order. */
-        uint64_t dp2_data              : 16; /**< [ 47: 32](R/W) Decision point 2 data in network byte order. */
-        uint64_t state                 : 8;  /**< [ 55: 48](R/W) Current parse state. */
-        uint64_t ptype                 : 2;  /**< [ 57: 56](R/W) Current packet ptype . */
-        uint64_t reserved_58_63        : 6;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_npc_af_kpux_entryx_camx_s cn; */
-};
-typedef union cavm_npc_af_kpux_entryx_camx cavm_npc_af_kpux_entryx_camx_t;
-
-static inline uint64_t CAVM_NPC_AF_KPUX_ENTRYX_CAMX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NPC_AF_KPUX_ENTRYX_CAMX(uint64_t a, uint64_t b, uint64_t c)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=15) && (b<=127) && (c<=1)))
-        return 0x840060100000ll + 0x4000ll * ((a) & 0xf) + 0x40ll * ((b) & 0x7f) + 8ll * ((c) & 0x1);
-    __cavm_csr_fatal("NPC_AF_KPUX_ENTRYX_CAMX", 3, a, b, c, 0, 0, 0);
-}
-
-#define typedef_CAVM_NPC_AF_KPUX_ENTRYX_CAMX(a,b,c) cavm_npc_af_kpux_entryx_camx_t
-#define bustype_CAVM_NPC_AF_KPUX_ENTRYX_CAMX(a,b,c) CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_NPC_AF_KPUX_ENTRYX_CAMX(a,b,c) "NPC_AF_KPUX_ENTRYX_CAMX"
-#define device_bar_CAVM_NPC_AF_KPUX_ENTRYX_CAMX(a,b,c) 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_NPC_AF_KPUX_ENTRYX_CAMX(a,b,c) (a)
-#define arguments_CAVM_NPC_AF_KPUX_ENTRYX_CAMX(a,b,c) (a),(b),(c),-1
-
-/**
- * Register (RVU_PF_BAR0) npc_af_kpu#_entry_dis#
- *
- * NPC AF KPU Entry Disable Registers
- * See NPC_AF_KPU()_ENTRY()_ACTION0.
- */
-union cavm_npc_af_kpux_entry_disx
-{
-    uint64_t u;
-    struct cavm_npc_af_kpux_entry_disx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t dis                   : 64; /**< [ 63:  0](R/W) Entry disables. One bit per KPU entry; NPC_AF_KPU()_ENTRY_DIS(0)[DIS]\<63:0\> for
-                                                                 entries 63-0, NPC_AF_KPU()_ENTRY_DIS(1)[DIS]\<63:0\> for entries 127-64. Setting a
-                                                                 bit disables the corresponding KPU entry, and clearing the bit enables the
-                                                                 entry. */
-#else /* Word 0 - Little Endian */
-        uint64_t dis                   : 64; /**< [ 63:  0](R/W) Entry disables. One bit per KPU entry; NPC_AF_KPU()_ENTRY_DIS(0)[DIS]\<63:0\> for
-                                                                 entries 63-0, NPC_AF_KPU()_ENTRY_DIS(1)[DIS]\<63:0\> for entries 127-64. Setting a
-                                                                 bit disables the corresponding KPU entry, and clearing the bit enables the
-                                                                 entry. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_npc_af_kpux_entry_disx_s cn; */
-};
-typedef union cavm_npc_af_kpux_entry_disx cavm_npc_af_kpux_entry_disx_t;
-
-static inline uint64_t CAVM_NPC_AF_KPUX_ENTRY_DISX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NPC_AF_KPUX_ENTRY_DISX(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=15) && (b<=1)))
-        return 0x840060180000ll + 0x40ll * ((a) & 0xf) + 8ll * ((b) & 0x1);
-    __cavm_csr_fatal("NPC_AF_KPUX_ENTRY_DISX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_NPC_AF_KPUX_ENTRY_DISX(a,b) cavm_npc_af_kpux_entry_disx_t
-#define bustype_CAVM_NPC_AF_KPUX_ENTRY_DISX(a,b) CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_NPC_AF_KPUX_ENTRY_DISX(a,b) "NPC_AF_KPUX_ENTRY_DISX"
-#define device_bar_CAVM_NPC_AF_KPUX_ENTRY_DISX(a,b) 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_NPC_AF_KPUX_ENTRY_DISX(a,b) (a)
-#define arguments_CAVM_NPC_AF_KPUX_ENTRY_DISX(a,b) (a),(b),-1,-1
-
-/**
  * Register (RVU_PF_BAR0) npc_af_kpu#_err_ctl
  *
  * NPC AF KPU Error Control Registers
@@ -3031,11 +2770,11 @@ union cavm_npc_af_kpux_err_ctl
         uint64_t reserved_28_63        : 36;
         uint64_t var_len_offset_errcode : 8; /**< [ 27: 20](R/W) Variable length offset error code. Value captured in NPC_RESULT_S[ERRCODE]
                                                                  when a required variable offset byte as defined by
-                                                                 NPC_AF_KPU()_ENTRY()_ACTION0[VAR_LEN_OFFSET], if any, is beyond the end of
+                                                                 NPC_AF_KPM()_ENTRY()_ACTION0[VAR_LEN_OFFSET], if any, is beyond the end of
                                                                  packet's header (smaller of 256 bytes or end of packet). */
         uint64_t ptr_advance_errcode   : 8;  /**< [ 19: 12](R/W) Pointer advance error code. Value captured in NPC_RESULT_S[ERRCODE] when
                                                                  the updated NPC_RESULT_S[EOH_PTR] value (see
-                                                                 NPC_AF_KPU()_ENTRY()_ACTION0[VAR_LEN_OFFSET]) is greater than the packet
+                                                                 NPC_AF_KPM()_ENTRY()_ACTION0[VAR_LEN_OFFSET]) is greater than the packet
                                                                  length or greater than 255. */
         uint64_t dp_offset_errcode     : 8;  /**< [ 11:  4](R/W) Decision point offset error code. Value captured in NPC_RESULT_S[ERRCODE]
                                                                  when at least one byte of a decision point from the previous
@@ -3045,12 +2784,12 @@ union cavm_npc_af_kpux_err_ctl
                                                                  Note that this error is captured by the KPU which would have extracted the
                                                                  decision point data from the previous non-bypassed KPU, i.e. when the
                                                                  following conditions are true:
-                                                                 * NPC_AF_KPU()_ENTRY()_ACTION0[PARSE_DONE] is clear.
+                                                                 * NPC_AF_KPM()_ENTRY()_ACTION0[PARSE_DONE] is clear.
                                                                  * NPC_AF_KPU()_CFG[ENA] is set.
-                                                                 * Remaining NPC_AF_KPU()_ENTRY()_ACTION0[BYP_COUNT] after decrementing by the
+                                                                 * Remaining NPC_AF_KPM()_ENTRY()_ACTION0[BYP_COUNT] after decrementing by the
                                                                  number of bypassed KPUs is zero.
                                                                  * At least one decision point byte (specified by
-                                                                 NPC_AF_KPU()_ENTRY()_ACTION1[DP*_OFFSET] from the previous non-bypassed KPU)
+                                                                 NPC_AF_KPM()_ENTRY()_ACTION1[DP*_OFFSET] from the previous non-bypassed KPU)
                                                                  is beyond the end of packet's header. */
         uint64_t errlev                : 4;  /**< [  3:  0](R/W) Value captured in NPC_RESULT_S[ERRLEV] when an error specified by other
                                                                  fields in this register is detected. A capture for any of these errors
@@ -3075,20 +2814,20 @@ union cavm_npc_af_kpux_err_ctl
                                                                  Note that this error is captured by the KPU which would have extracted the
                                                                  decision point data from the previous non-bypassed KPU, i.e. when the
                                                                  following conditions are true:
-                                                                 * NPC_AF_KPU()_ENTRY()_ACTION0[PARSE_DONE] is clear.
+                                                                 * NPC_AF_KPM()_ENTRY()_ACTION0[PARSE_DONE] is clear.
                                                                  * NPC_AF_KPU()_CFG[ENA] is set.
-                                                                 * Remaining NPC_AF_KPU()_ENTRY()_ACTION0[BYP_COUNT] after decrementing by the
+                                                                 * Remaining NPC_AF_KPM()_ENTRY()_ACTION0[BYP_COUNT] after decrementing by the
                                                                  number of bypassed KPUs is zero.
                                                                  * At least one decision point byte (specified by
-                                                                 NPC_AF_KPU()_ENTRY()_ACTION1[DP*_OFFSET] from the previous non-bypassed KPU)
+                                                                 NPC_AF_KPM()_ENTRY()_ACTION1[DP*_OFFSET] from the previous non-bypassed KPU)
                                                                  is beyond the end of packet's header. */
         uint64_t ptr_advance_errcode   : 8;  /**< [ 19: 12](R/W) Pointer advance error code. Value captured in NPC_RESULT_S[ERRCODE] when
                                                                  the updated NPC_RESULT_S[EOH_PTR] value (see
-                                                                 NPC_AF_KPU()_ENTRY()_ACTION0[VAR_LEN_OFFSET]) is greater than the packet
+                                                                 NPC_AF_KPM()_ENTRY()_ACTION0[VAR_LEN_OFFSET]) is greater than the packet
                                                                  length or greater than 255. */
         uint64_t var_len_offset_errcode : 8; /**< [ 27: 20](R/W) Variable length offset error code. Value captured in NPC_RESULT_S[ERRCODE]
                                                                  when a required variable offset byte as defined by
-                                                                 NPC_AF_KPU()_ENTRY()_ACTION0[VAR_LEN_OFFSET], if any, is beyond the end of
+                                                                 NPC_AF_KPM()_ENTRY()_ACTION0[VAR_LEN_OFFSET], if any, is beyond the end of
                                                                  packet's header (smaller of 256 bytes or end of packet). */
         uint64_t reserved_28_63        : 36;
 #endif /* Word 0 - End */
@@ -4335,13 +4074,13 @@ union cavm_npc_af_pkindx_action0
                                                                  KPU 3, NPC_AF_KPU(4,6,7)_CFG[ENA] = 1 and NPC_AF_KPU(5)_CFG[ENA] = 0, then:
                                                                  * KPUs 4 and 6 are bypassed.
                                                                  * The matching entry's [NEXT_STATE] and
-                                                                 NPC_AF_KPU()_ENTRY()_ACTION1[DP*_OFFSET] in KPU 3 are used for the lookup in
+                                                                 NPC_AF_KPM()_ENTRY()_ACTION1[DP*_OFFSET] in KPU 3 are used for the lookup in
                                                                  KPU 7. */
         uint64_t capture_ena           : 1;  /**< [ 53: 53](R/W) Layer capture enable. When set, layer information is captured in
                                                                  NPC_RESULT_S. When clear, layer information is not captured by the KPU. */
         uint64_t parse_done            : 1;  /**< [ 52: 52](R/W) Parse done. When set, terminate parse after this KPU and bypass subsequent KPUs. */
         uint64_t next_state            : 8;  /**< [ 51: 44](R/W) Search value for ternary comparison with the next KPU's
-                                                                 NPC_AF_KPU()_ENTRY()_CAM()[STATE]. */
+                                                                 NPC_AF_KPM()_ENTRY()_CAM()[STATE]. */
         uint64_t reserved_43           : 1;
         uint64_t capture_lid           : 3;  /**< [ 42: 40](R/W) Capture layer ID. Specifies the layer for which information is captured in
                                                                  NPC_RESULT_S. Enumerated by NPC_LID_E. */
@@ -4428,7 +4167,7 @@ union cavm_npc_af_pkindx_action0
                                                                  NPC_RESULT_S. Enumerated by NPC_LID_E. */
         uint64_t reserved_43           : 1;
         uint64_t next_state            : 8;  /**< [ 51: 44](R/W) Search value for ternary comparison with the next KPU's
-                                                                 NPC_AF_KPU()_ENTRY()_CAM()[STATE]. */
+                                                                 NPC_AF_KPM()_ENTRY()_CAM()[STATE]. */
         uint64_t parse_done            : 1;  /**< [ 52: 52](R/W) Parse done. When set, terminate parse after this KPU and bypass subsequent KPUs. */
         uint64_t capture_ena           : 1;  /**< [ 53: 53](R/W) Layer capture enable. When set, layer information is captured in
                                                                  NPC_RESULT_S. When clear, layer information is not captured by the KPU. */
@@ -4437,7 +4176,7 @@ union cavm_npc_af_pkindx_action0
                                                                  KPU 3, NPC_AF_KPU(4,6,7)_CFG[ENA] = 1 and NPC_AF_KPU(5)_CFG[ENA] = 0, then:
                                                                  * KPUs 4 and 6 are bypassed.
                                                                  * The matching entry's [NEXT_STATE] and
-                                                                 NPC_AF_KPU()_ENTRY()_ACTION1[DP*_OFFSET] in KPU 3 are used for the lookup in
+                                                                 NPC_AF_KPM()_ENTRY()_ACTION1[DP*_OFFSET] in KPU 3 are used for the lookup in
                                                                  KPU 7. */
         uint64_t reserved_57_63        : 7;
 #endif /* Word 0 - End */
@@ -4485,12 +4224,12 @@ union cavm_npc_af_pkindx_action1
         uint64_t dp0_offset            : 8;  /**< [  7:  0](R/W) Decision point 0 offset to next KPU. Byte offset relative to the
                                                                  updated NPC_RESULT_S[EOH_PTR] value of the two packet bytes used for
                                                                  ternary comparison with the next KPU's
-                                                                 NPC_AF_KPU()_ENTRY()_CAM()[DP0_DATA]. */
+                                                                 NPC_AF_KPM()_ENTRY()_CAM()[DP0_DATA]. */
 #else /* Word 0 - Little Endian */
         uint64_t dp0_offset            : 8;  /**< [  7:  0](R/W) Decision point 0 offset to next KPU. Byte offset relative to the
                                                                  updated NPC_RESULT_S[EOH_PTR] value of the two packet bytes used for
                                                                  ternary comparison with the next KPU's
-                                                                 NPC_AF_KPU()_ENTRY()_CAM()[DP0_DATA]. */
+                                                                 NPC_AF_KPM()_ENTRY()_CAM()[DP0_DATA]. */
         uint64_t dp1_offset            : 8;  /**< [ 15:  8](R/W) Decision point 1 offset to next KPU. See [DP0_OFFSET]. */
         uint64_t dp2_offset            : 8;  /**< [ 23: 16](R/W) Decision point 2 offset to next KPU. See [DP0_OFFSET]. */
         uint64_t errcode               : 8;  /**< [ 31: 24](R/W) Error code. Ignored when zero. When nonzero, [ERRCODE] is captured in
@@ -4617,7 +4356,7 @@ static inline uint64_t CAVM_NPC_AF_PKINDX_CPI_DEFX(uint64_t a, uint64_t b)
  * Register (RVU_PF_BAR0) npc_af_pkind#_type
  *
  * NPC AF PKIND TYPE Data Registers
- * NPC_AF_PKIND_TYPE, NPC_AF_KPU()_ENTRY()_ACTION0 and NPC_AF_KPU()_ENTRY()_ACTION1
+ * NPC_AF_PKIND_TYPE, NPC_AF_KPM()_ENTRY()_ACTION0 and NPC_AF_KPM()_ENTRY()_ACTION1
  * specifies the next state and operations to perform before exiting the KPU.
  */
 union cavm_npc_af_pkindx_type
