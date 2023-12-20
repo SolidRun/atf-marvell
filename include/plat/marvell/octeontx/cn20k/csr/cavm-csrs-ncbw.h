@@ -77,7 +77,7 @@ typedef union cavm_ncbw_cfg cavm_ncbw_cfg_t;
 static inline uint64_t CAVM_NCBW_CFG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBW_CFG_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP))
+    if (cavm_is_model(OCTEONTX_CNF20KA))
         return 0x87e043020000ll;
     __cavm_csr_fatal("NCBW_CFG", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -129,7 +129,7 @@ typedef union cavm_ncbw_status cavm_ncbw_status_t;
 static inline uint64_t CAVM_NCBW_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBW_STATUS_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP))
+    if (cavm_is_model(OCTEONTX_CNF20KA))
         return 0x87e043020008ll;
     __cavm_csr_fatal("NCBW_STATUS", 0, 0, 0, 0, 0, 0, 0);
 }

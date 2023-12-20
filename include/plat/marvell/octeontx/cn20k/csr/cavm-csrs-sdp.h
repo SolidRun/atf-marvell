@@ -606,7 +606,7 @@ typedef union cavm_sdpx_const cavm_sdpx_const_t;
 static inline uint64_t CAVM_SDPX_CONST(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_CONST(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a==0))
         return 0xc01810080300ll + 0x100000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SDPX_CONST", 1, a, 0, 0, 0, 0, 0);
 }
@@ -642,7 +642,7 @@ typedef union cavm_sdpx_csclk_active_pc cavm_sdpx_csclk_active_pc_t;
 static inline uint64_t CAVM_SDPX_CSCLK_ACTIVE_PC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_CSCLK_ACTIVE_PC(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a==0))
         return 0xc01810080220ll + 0x100000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SDPX_CSCLK_ACTIVE_PC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -686,7 +686,7 @@ typedef union cavm_sdpx_diag cavm_sdpx_diag_t;
 static inline uint64_t CAVM_SDPX_DIAG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_DIAG(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a==0))
         return 0xc01810080140ll + 0x100000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SDPX_DIAG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -736,7 +736,7 @@ typedef union cavm_sdpx_epfx_dma_cntx cavm_sdpx_epfx_dma_cntx_t;
 static inline uint64_t CAVM_SDPX_EPFX_DMA_CNTX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_DMA_CNTX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15) && (c<=1)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=15) && (c<=1)))
         return 0xc01810000760ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf) + 0x10ll * ((c) & 0x1);
     __cavm_csr_fatal("SDPX_EPFX_DMA_CNTX", 3, a, b, c, 0, 0, 0);
 }
@@ -784,7 +784,7 @@ typedef union cavm_sdpx_epfx_dma_int_levelx cavm_sdpx_epfx_dma_int_levelx_t;
 static inline uint64_t CAVM_SDPX_EPFX_DMA_INT_LEVELX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_DMA_INT_LEVELX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15) && (c<=1)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=15) && (c<=1)))
         return 0xc01810000740ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf) + 0x10ll * ((c) & 0x1);
     __cavm_csr_fatal("SDPX_EPFX_DMA_INT_LEVELX", 3, a, b, c, 0, 0, 0);
 }
@@ -850,7 +850,7 @@ typedef union cavm_sdpx_epfx_dma_rint cavm_sdpx_epfx_dma_rint_t;
 static inline uint64_t CAVM_SDPX_EPFX_DMA_RINT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_DMA_RINT(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=15)))
         return 0xc01810000700ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_DMA_RINT", 2, a, b, 0, 0, 0, 0);
 }
@@ -892,7 +892,7 @@ typedef union cavm_sdpx_epfx_dma_rint_ena_w1c cavm_sdpx_epfx_dma_rint_ena_w1c_t;
 static inline uint64_t CAVM_SDPX_EPFX_DMA_RINT_ENA_W1C(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_DMA_RINT_ENA_W1C(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=15)))
         return 0xc01810000720ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_DMA_RINT_ENA_W1C", 2, a, b, 0, 0, 0, 0);
 }
@@ -934,7 +934,7 @@ typedef union cavm_sdpx_epfx_dma_rint_ena_w1s cavm_sdpx_epfx_dma_rint_ena_w1s_t;
 static inline uint64_t CAVM_SDPX_EPFX_DMA_RINT_ENA_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_DMA_RINT_ENA_W1S(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=15)))
         return 0xc01810000730ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_DMA_RINT_ENA_W1S", 2, a, b, 0, 0, 0, 0);
 }
@@ -976,7 +976,7 @@ typedef union cavm_sdpx_epfx_dma_rint_w1s cavm_sdpx_epfx_dma_rint_w1s_t;
 static inline uint64_t CAVM_SDPX_EPFX_DMA_RINT_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_DMA_RINT_W1S(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=15)))
         return 0xc01810000710ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_DMA_RINT_W1S", 2, a, b, 0, 0, 0, 0);
 }
@@ -1020,7 +1020,7 @@ typedef union cavm_sdpx_epfx_dma_timx cavm_sdpx_epfx_dma_timx_t;
 static inline uint64_t CAVM_SDPX_EPFX_DMA_TIMX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_DMA_TIMX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15) && (c<=1)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=15) && (c<=1)))
         return 0xc01810000780ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf) + 0x10ll * ((c) & 0x1);
     __cavm_csr_fatal("SDPX_EPFX_DMA_TIMX", 3, a, b, c, 0, 0, 0);
 }
@@ -1058,7 +1058,7 @@ typedef union cavm_sdpx_epfx_ire_rint cavm_sdpx_epfx_ire_rint_t;
 static inline uint64_t CAVM_SDPX_EPFX_IRE_RINT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_IRE_RINT(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=15)))
         return 0xc018100000c0ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_IRE_RINT", 2, a, b, 0, 0, 0, 0);
 }
@@ -1094,7 +1094,7 @@ typedef union cavm_sdpx_epfx_ire_rint_ena_w1c cavm_sdpx_epfx_ire_rint_ena_w1c_t;
 static inline uint64_t CAVM_SDPX_EPFX_IRE_RINT_ENA_W1C(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_IRE_RINT_ENA_W1C(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=15)))
         return 0xc018100000e0ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_IRE_RINT_ENA_W1C", 2, a, b, 0, 0, 0, 0);
 }
@@ -1130,7 +1130,7 @@ typedef union cavm_sdpx_epfx_ire_rint_ena_w1s cavm_sdpx_epfx_ire_rint_ena_w1s_t;
 static inline uint64_t CAVM_SDPX_EPFX_IRE_RINT_ENA_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_IRE_RINT_ENA_W1S(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=15)))
         return 0xc018100000f0ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_IRE_RINT_ENA_W1S", 2, a, b, 0, 0, 0, 0);
 }
@@ -1166,7 +1166,7 @@ typedef union cavm_sdpx_epfx_ire_rint_w1s cavm_sdpx_epfx_ire_rint_w1s_t;
 static inline uint64_t CAVM_SDPX_EPFX_IRE_RINT_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_IRE_RINT_W1S(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=15)))
         return 0xc018100000d0ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_IRE_RINT_W1S", 2, a, b, 0, 0, 0, 0);
 }
@@ -1210,7 +1210,7 @@ typedef union cavm_sdpx_epfx_ism_msix_recovery cavm_sdpx_epfx_ism_msix_recovery_
 static inline uint64_t CAVM_SDPX_EPFX_ISM_MSIX_RECOVERY(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_ISM_MSIX_RECOVERY(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=15)))
         return 0xc01810000a00ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_ISM_MSIX_RECOVERY", 2, a, b, 0, 0, 0, 0);
 }
@@ -1251,7 +1251,7 @@ typedef union cavm_sdpx_epfx_mbox_rint cavm_sdpx_epfx_mbox_rint_t;
 static inline uint64_t CAVM_SDPX_EPFX_MBOX_RINT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_MBOX_RINT(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=15)))
         return 0xc01810000000ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_MBOX_RINT", 2, a, b, 0, 0, 0, 0);
 }
@@ -1287,7 +1287,7 @@ typedef union cavm_sdpx_epfx_mbox_rint_ena_w1c cavm_sdpx_epfx_mbox_rint_ena_w1c_
 static inline uint64_t CAVM_SDPX_EPFX_MBOX_RINT_ENA_W1C(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_MBOX_RINT_ENA_W1C(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=15)))
         return 0xc01810000040ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_MBOX_RINT_ENA_W1C", 2, a, b, 0, 0, 0, 0);
 }
@@ -1323,7 +1323,7 @@ typedef union cavm_sdpx_epfx_mbox_rint_ena_w1s cavm_sdpx_epfx_mbox_rint_ena_w1s_
 static inline uint64_t CAVM_SDPX_EPFX_MBOX_RINT_ENA_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_MBOX_RINT_ENA_W1S(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=15)))
         return 0xc01810000060ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_MBOX_RINT_ENA_W1S", 2, a, b, 0, 0, 0, 0);
 }
@@ -1359,7 +1359,7 @@ typedef union cavm_sdpx_epfx_mbox_rint_w1s cavm_sdpx_epfx_mbox_rint_w1s_t;
 static inline uint64_t CAVM_SDPX_EPFX_MBOX_RINT_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_MBOX_RINT_W1S(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=15)))
         return 0xc01810000020ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_MBOX_RINT_W1S", 2, a, b, 0, 0, 0, 0);
 }
@@ -1423,7 +1423,7 @@ typedef union cavm_sdpx_epfx_misc_rint cavm_sdpx_epfx_misc_rint_t;
 static inline uint64_t CAVM_SDPX_EPFX_MISC_RINT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_MISC_RINT(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=15)))
         return 0xc018100007a0ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_MISC_RINT", 2, a, b, 0, 0, 0, 0);
 }
@@ -1471,7 +1471,7 @@ typedef union cavm_sdpx_epfx_misc_rint_ena_w1c cavm_sdpx_epfx_misc_rint_ena_w1c_
 static inline uint64_t CAVM_SDPX_EPFX_MISC_RINT_ENA_W1C(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_MISC_RINT_ENA_W1C(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=15)))
         return 0xc018100007c0ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_MISC_RINT_ENA_W1C", 2, a, b, 0, 0, 0, 0);
 }
@@ -1519,7 +1519,7 @@ typedef union cavm_sdpx_epfx_misc_rint_ena_w1s cavm_sdpx_epfx_misc_rint_ena_w1s_
 static inline uint64_t CAVM_SDPX_EPFX_MISC_RINT_ENA_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_MISC_RINT_ENA_W1S(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=15)))
         return 0xc018100007d0ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_MISC_RINT_ENA_W1S", 2, a, b, 0, 0, 0, 0);
 }
@@ -1567,7 +1567,7 @@ typedef union cavm_sdpx_epfx_misc_rint_w1s cavm_sdpx_epfx_misc_rint_w1s_t;
 static inline uint64_t CAVM_SDPX_EPFX_MISC_RINT_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_MISC_RINT_W1S(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=15)))
         return 0xc018100007b0ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_MISC_RINT_W1S", 2, a, b, 0, 0, 0, 0);
 }
@@ -1606,7 +1606,7 @@ typedef union cavm_sdpx_epfx_oei_rintx cavm_sdpx_epfx_oei_rintx_t;
 static inline uint64_t CAVM_SDPX_EPFX_OEI_RINTX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_OEI_RINTX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15) && (c<=15)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=15) && (c<=15)))
         return 0xc01810000300ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf) + 0x10ll * ((c) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_OEI_RINTX", 3, a, b, c, 0, 0, 0);
 }
@@ -1642,7 +1642,7 @@ typedef union cavm_sdpx_epfx_oei_rint_ena_w1cx cavm_sdpx_epfx_oei_rint_ena_w1cx_
 static inline uint64_t CAVM_SDPX_EPFX_OEI_RINT_ENA_W1CX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_OEI_RINT_ENA_W1CX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15) && (c<=15)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=15) && (c<=15)))
         return 0xc01810000500ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf) + 0x10ll * ((c) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_OEI_RINT_ENA_W1CX", 3, a, b, c, 0, 0, 0);
 }
@@ -1678,7 +1678,7 @@ typedef union cavm_sdpx_epfx_oei_rint_ena_w1sx cavm_sdpx_epfx_oei_rint_ena_w1sx_
 static inline uint64_t CAVM_SDPX_EPFX_OEI_RINT_ENA_W1SX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_OEI_RINT_ENA_W1SX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15) && (c<=15)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=15) && (c<=15)))
         return 0xc01810000600ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf) + 0x10ll * ((c) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_OEI_RINT_ENA_W1SX", 3, a, b, c, 0, 0, 0);
 }
@@ -1714,7 +1714,7 @@ typedef union cavm_sdpx_epfx_oei_rint_w1sx cavm_sdpx_epfx_oei_rint_w1sx_t;
 static inline uint64_t CAVM_SDPX_EPFX_OEI_RINT_W1SX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_OEI_RINT_W1SX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15) && (c<=15)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=15) && (c<=15)))
         return 0xc01810000400ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf) + 0x10ll * ((c) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_OEI_RINT_W1SX", 3, a, b, c, 0, 0, 0);
 }
@@ -1778,7 +1778,7 @@ typedef union cavm_sdpx_epfx_oei_trigx cavm_sdpx_epfx_oei_trigx_t;
 static inline uint64_t CAVM_SDPX_EPFX_OEI_TRIGX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_OEI_TRIGX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15) && (c<=15)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=15) && (c<=15)))
         return 0xc01810080000ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf) + 0x10ll * ((c) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_OEI_TRIGX", 3, a, b, c, 0, 0, 0);
 }
@@ -1818,7 +1818,7 @@ typedef union cavm_sdpx_epfx_ore_rint cavm_sdpx_epfx_ore_rint_t;
 static inline uint64_t CAVM_SDPX_EPFX_ORE_RINT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_ORE_RINT(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=15)))
         return 0xc01810000140ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_ORE_RINT", 2, a, b, 0, 0, 0, 0);
 }
@@ -1854,7 +1854,7 @@ typedef union cavm_sdpx_epfx_ore_rint_ena_w1c cavm_sdpx_epfx_ore_rint_ena_w1c_t;
 static inline uint64_t CAVM_SDPX_EPFX_ORE_RINT_ENA_W1C(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_ORE_RINT_ENA_W1C(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=15)))
         return 0xc01810000160ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_ORE_RINT_ENA_W1C", 2, a, b, 0, 0, 0, 0);
 }
@@ -1890,7 +1890,7 @@ typedef union cavm_sdpx_epfx_ore_rint_ena_w1s cavm_sdpx_epfx_ore_rint_ena_w1s_t;
 static inline uint64_t CAVM_SDPX_EPFX_ORE_RINT_ENA_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_ORE_RINT_ENA_W1S(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=15)))
         return 0xc01810000170ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_ORE_RINT_ENA_W1S", 2, a, b, 0, 0, 0, 0);
 }
@@ -1926,7 +1926,7 @@ typedef union cavm_sdpx_epfx_ore_rint_w1s cavm_sdpx_epfx_ore_rint_w1s_t;
 static inline uint64_t CAVM_SDPX_EPFX_ORE_RINT_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_ORE_RINT_W1S(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=15)))
         return 0xc01810000150ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_ORE_RINT_W1S", 2, a, b, 0, 0, 0, 0);
 }
@@ -2015,7 +2015,7 @@ typedef union cavm_sdpx_epfx_rinfo cavm_sdpx_epfx_rinfo_t;
 static inline uint64_t CAVM_SDPX_EPFX_RINFO(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_RINFO(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=15)))
         return 0xc018100007f0ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_RINFO", 2, a, b, 0, 0, 0, 0);
 }
@@ -2057,7 +2057,7 @@ typedef union cavm_sdpx_epfx_rmt_msix_pbax cavm_sdpx_epfx_rmt_msix_pbax_t;
 static inline uint64_t CAVM_SDPX_EPFX_RMT_MSIX_PBAX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_RMT_MSIX_PBAX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15) && (c<=1)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=15) && (c<=1)))
         return 0xc01800004000ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf) + 8ll * ((c) & 0x1);
     __cavm_csr_fatal("SDPX_EPFX_RMT_MSIX_PBAX", 3, a, b, c, 0, 0, 0);
 }
@@ -2101,7 +2101,7 @@ typedef union cavm_sdpx_epfx_rmt_msix_vecx_addr cavm_sdpx_epfx_rmt_msix_vecx_add
 static inline uint64_t CAVM_SDPX_EPFX_RMT_MSIX_VECX_ADDR(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_RMT_MSIX_VECX_ADDR(uint64_t a, uint64_t b, uint64_t c)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15) && (c<=95)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=15) && (c<=95)))
         return 0xc01800000000ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf) + 0x10ll * ((c) & 0x7f);
     __cavm_csr_fatal("SDPX_EPFX_RMT_MSIX_VECX_ADDR", 3, a, b, c, 0, 0, 0);
 }
@@ -2152,7 +2152,7 @@ typedef union cavm_sdpx_epfx_rmt_msix_vecx_ctl cavm_sdpx_epfx_rmt_msix_vecx_ctl_
 static inline uint64_t CAVM_SDPX_EPFX_RMT_MSIX_VECX_CTL(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_RMT_MSIX_VECX_CTL(uint64_t a, uint64_t b, uint64_t c)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15) && (c<=95)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=15) && (c<=95)))
         return 0xc01800000008ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf) + 0x10ll * ((c) & 0x7f);
     __cavm_csr_fatal("SDPX_EPFX_RMT_MSIX_VECX_CTL", 3, a, b, c, 0, 0, 0);
 }
@@ -2188,7 +2188,7 @@ typedef union cavm_sdpx_epfx_scratch cavm_sdpx_epfx_scratch_t;
 static inline uint64_t CAVM_SDPX_EPFX_SCRATCH(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_SCRATCH(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=15)))
         return 0xc018100007e0ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_SCRATCH", 2, a, b, 0, 0, 0, 0);
 }
@@ -2230,7 +2230,7 @@ typedef union cavm_sdpx_epfx_vfire_rint cavm_sdpx_epfx_vfire_rint_t;
 static inline uint64_t CAVM_SDPX_EPFX_VFIRE_RINT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_VFIRE_RINT(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=15)))
         return 0xc01810000080ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_VFIRE_RINT", 2, a, b, 0, 0, 0, 0);
 }
@@ -2266,7 +2266,7 @@ typedef union cavm_sdpx_epfx_vfire_rint_ena_w1c cavm_sdpx_epfx_vfire_rint_ena_w1
 static inline uint64_t CAVM_SDPX_EPFX_VFIRE_RINT_ENA_W1C(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_VFIRE_RINT_ENA_W1C(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=15)))
         return 0xc018100000a0ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_VFIRE_RINT_ENA_W1C", 2, a, b, 0, 0, 0, 0);
 }
@@ -2302,7 +2302,7 @@ typedef union cavm_sdpx_epfx_vfire_rint_ena_w1s cavm_sdpx_epfx_vfire_rint_ena_w1
 static inline uint64_t CAVM_SDPX_EPFX_VFIRE_RINT_ENA_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_VFIRE_RINT_ENA_W1S(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=15)))
         return 0xc018100000b0ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_VFIRE_RINT_ENA_W1S", 2, a, b, 0, 0, 0, 0);
 }
@@ -2338,7 +2338,7 @@ typedef union cavm_sdpx_epfx_vfire_rint_w1s cavm_sdpx_epfx_vfire_rint_w1s_t;
 static inline uint64_t CAVM_SDPX_EPFX_VFIRE_RINT_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_VFIRE_RINT_W1S(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=15)))
         return 0xc01810000090ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_VFIRE_RINT_W1S", 2, a, b, 0, 0, 0, 0);
 }
@@ -2380,7 +2380,7 @@ typedef union cavm_sdpx_epfx_vfore_rint cavm_sdpx_epfx_vfore_rint_t;
 static inline uint64_t CAVM_SDPX_EPFX_VFORE_RINT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_VFORE_RINT(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=15)))
         return 0xc01810000100ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_VFORE_RINT", 2, a, b, 0, 0, 0, 0);
 }
@@ -2416,7 +2416,7 @@ typedef union cavm_sdpx_epfx_vfore_rint_ena_w1c cavm_sdpx_epfx_vfore_rint_ena_w1
 static inline uint64_t CAVM_SDPX_EPFX_VFORE_RINT_ENA_W1C(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_VFORE_RINT_ENA_W1C(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=15)))
         return 0xc01810000120ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_VFORE_RINT_ENA_W1C", 2, a, b, 0, 0, 0, 0);
 }
@@ -2452,7 +2452,7 @@ typedef union cavm_sdpx_epfx_vfore_rint_ena_w1s cavm_sdpx_epfx_vfore_rint_ena_w1
 static inline uint64_t CAVM_SDPX_EPFX_VFORE_RINT_ENA_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_VFORE_RINT_ENA_W1S(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=15)))
         return 0xc01810000130ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_VFORE_RINT_ENA_W1S", 2, a, b, 0, 0, 0, 0);
 }
@@ -2488,7 +2488,7 @@ typedef union cavm_sdpx_epfx_vfore_rint_w1s cavm_sdpx_epfx_vfore_rint_w1s_t;
 static inline uint64_t CAVM_SDPX_EPFX_VFORE_RINT_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPFX_VFORE_RINT_W1S(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=15)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=15)))
         return 0xc01810000110ll + 0x100000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     __cavm_csr_fatal("SDPX_EPFX_VFORE_RINT_W1S", 2, a, b, 0, 0, 0, 0);
 }
@@ -2538,7 +2538,7 @@ typedef union cavm_sdpx_epvf_ringx cavm_sdpx_epvf_ringx_t;
 static inline uint64_t CAVM_SDPX_EPVF_RINGX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_EPVF_RINGX(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=127)))
         return 0xc01820000008ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_EPVF_RINGX", 2, a, b, 0, 0, 0, 0);
 }
@@ -2583,7 +2583,7 @@ typedef union cavm_sdpx_flr_ring_lintx cavm_sdpx_flr_ring_lintx_t;
 static inline uint64_t CAVM_SDPX_FLR_RING_LINTX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_FLR_RING_LINTX(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=1)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=1)))
         return 0xc01810081000ll + 0x100000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     __cavm_csr_fatal("SDPX_FLR_RING_LINTX", 2, a, b, 0, 0, 0, 0);
 }
@@ -2619,7 +2619,7 @@ typedef union cavm_sdpx_flr_ring_lint_ena_w1cx cavm_sdpx_flr_ring_lint_ena_w1cx_
 static inline uint64_t CAVM_SDPX_FLR_RING_LINT_ENA_W1CX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_FLR_RING_LINT_ENA_W1CX(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=1)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=1)))
         return 0xc01810081200ll + 0x100000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     __cavm_csr_fatal("SDPX_FLR_RING_LINT_ENA_W1CX", 2, a, b, 0, 0, 0, 0);
 }
@@ -2655,7 +2655,7 @@ typedef union cavm_sdpx_flr_ring_lint_ena_w1sx cavm_sdpx_flr_ring_lint_ena_w1sx_
 static inline uint64_t CAVM_SDPX_FLR_RING_LINT_ENA_W1SX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_FLR_RING_LINT_ENA_W1SX(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=1)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=1)))
         return 0xc01810081300ll + 0x100000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     __cavm_csr_fatal("SDPX_FLR_RING_LINT_ENA_W1SX", 2, a, b, 0, 0, 0, 0);
 }
@@ -2691,7 +2691,7 @@ typedef union cavm_sdpx_flr_ring_lint_w1sx cavm_sdpx_flr_ring_lint_w1sx_t;
 static inline uint64_t CAVM_SDPX_FLR_RING_LINT_W1SX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_FLR_RING_LINT_W1SX(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=1)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=1)))
         return 0xc01810081100ll + 0x100000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     __cavm_csr_fatal("SDPX_FLR_RING_LINT_W1SX", 2, a, b, 0, 0, 0, 0);
 }
@@ -2747,7 +2747,7 @@ typedef union cavm_sdpx_gbl_control cavm_sdpx_gbl_control_t;
 static inline uint64_t CAVM_SDPX_GBL_CONTROL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_GBL_CONTROL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a==0))
         return 0xc01810080200ll + 0x100000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SDPX_GBL_CONTROL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2803,7 +2803,7 @@ typedef union cavm_sdpx_in_rate_limitx cavm_sdpx_in_rate_limitx_t;
 static inline uint64_t CAVM_SDPX_IN_RATE_LIMITX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_IN_RATE_LIMITX(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=127)))
         return 0xc01820000028ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_IN_RATE_LIMITX", 2, a, b, 0, 0, 0, 0);
 }
@@ -2854,7 +2854,7 @@ typedef union cavm_sdpx_in_ring_tb_mapx cavm_sdpx_in_ring_tb_mapx_t;
 static inline uint64_t CAVM_SDPX_IN_RING_TB_MAPX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_IN_RING_TB_MAPX(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=127)))
         return 0xc01820000018ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_IN_RING_TB_MAPX", 2, a, b, 0, 0, 0, 0);
 }
@@ -2902,7 +2902,7 @@ typedef union cavm_sdpx_link_cfg cavm_sdpx_link_cfg_t;
 static inline uint64_t CAVM_SDPX_LINK_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_LINK_CFG(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a==0))
         return 0xc01810080180ll + 0x100000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SDPX_LINK_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2977,7 +2977,7 @@ typedef union cavm_sdpx_lmac_const0x cavm_sdpx_lmac_const0x_t;
 static inline uint64_t CAVM_SDPX_LMAC_CONST0X(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_LMAC_CONST0X(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=4)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=4)))
         return 0xc01810050000ll + 0x100000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7);
     __cavm_csr_fatal("SDPX_LMAC_CONST0X", 2, a, b, 0, 0, 0, 0);
 }
@@ -3059,7 +3059,7 @@ typedef union cavm_sdpx_lmac_const1x cavm_sdpx_lmac_const1x_t;
 static inline uint64_t CAVM_SDPX_LMAC_CONST1X(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_LMAC_CONST1X(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=4)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=4)))
         return 0xc01810051000ll + 0x100000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7);
     __cavm_csr_fatal("SDPX_LMAC_CONST1X", 2, a, b, 0, 0, 0, 0);
 }
@@ -3111,7 +3111,7 @@ typedef union cavm_sdpx_macx_pf_ring_ctl cavm_sdpx_macx_pf_ring_ctl_t;
 static inline uint64_t CAVM_SDPX_MACX_PF_RING_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_MACX_PF_RING_CTL(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=3)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=3)))
         return 0xc0181000c000ll + 0x100000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3);
     __cavm_csr_fatal("SDPX_MACX_PF_RING_CTL", 2, a, b, 0, 0, 0, 0);
 }
@@ -3157,7 +3157,7 @@ typedef union cavm_sdpx_mac_number cavm_sdpx_mac_number_t;
 static inline uint64_t CAVM_SDPX_MAC_NUMBER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_MAC_NUMBER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a==0))
         return 0xc0181000c100ll + 0x100000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SDPX_MAC_NUMBER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3204,7 +3204,7 @@ typedef union cavm_sdpx_mbox_pf_vf_datax cavm_sdpx_mbox_pf_vf_datax_t;
 static inline uint64_t CAVM_SDPX_MBOX_PF_VF_DATAX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_MBOX_PF_VF_DATAX(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=127)))
         return 0xc01810002000ll + 0x100000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_MBOX_PF_VF_DATAX", 2, a, b, 0, 0, 0, 0);
 }
@@ -3247,7 +3247,7 @@ typedef union cavm_sdpx_mbox_vf_pf_datax cavm_sdpx_mbox_vf_pf_datax_t;
 static inline uint64_t CAVM_SDPX_MBOX_VF_PF_DATAX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_MBOX_VF_PF_DATAX(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=127)))
         return 0xc01810004000ll + 0x100000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_MBOX_VF_PF_DATAX", 2, a, b, 0, 0, 0, 0);
 }
@@ -3292,7 +3292,7 @@ typedef union cavm_sdpx_mcast_tablex cavm_sdpx_mcast_tablex_t;
 static inline uint64_t CAVM_SDPX_MCAST_TABLEX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_MCAST_TABLEX(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=2047)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=2047)))
         return 0xc01810040000ll + 0x100000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7ff);
     __cavm_csr_fatal("SDPX_MCAST_TABLEX", 2, a, b, 0, 0, 0, 0);
 }
@@ -3333,7 +3333,7 @@ typedef union cavm_sdpx_ord_lintx cavm_sdpx_ord_lintx_t;
 static inline uint64_t CAVM_SDPX_ORD_LINTX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_ORD_LINTX(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=1)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=1)))
         return 0xc01810080c00ll + 0x100000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     __cavm_csr_fatal("SDPX_ORD_LINTX", 2, a, b, 0, 0, 0, 0);
 }
@@ -3369,7 +3369,7 @@ typedef union cavm_sdpx_ord_lint_ena_w1cx cavm_sdpx_ord_lint_ena_w1cx_t;
 static inline uint64_t CAVM_SDPX_ORD_LINT_ENA_W1CX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_ORD_LINT_ENA_W1CX(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=1)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=1)))
         return 0xc01810080e00ll + 0x100000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     __cavm_csr_fatal("SDPX_ORD_LINT_ENA_W1CX", 2, a, b, 0, 0, 0, 0);
 }
@@ -3405,7 +3405,7 @@ typedef union cavm_sdpx_ord_lint_ena_w1sx cavm_sdpx_ord_lint_ena_w1sx_t;
 static inline uint64_t CAVM_SDPX_ORD_LINT_ENA_W1SX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_ORD_LINT_ENA_W1SX(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=1)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=1)))
         return 0xc01810080f00ll + 0x100000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     __cavm_csr_fatal("SDPX_ORD_LINT_ENA_W1SX", 2, a, b, 0, 0, 0, 0);
 }
@@ -3441,7 +3441,7 @@ typedef union cavm_sdpx_ord_lint_w1sx cavm_sdpx_ord_lint_w1sx_t;
 static inline uint64_t CAVM_SDPX_ORD_LINT_W1SX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_ORD_LINT_W1SX(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=1)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=1)))
         return 0xc01810080d00ll + 0x100000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     __cavm_csr_fatal("SDPX_ORD_LINT_W1SX", 2, a, b, 0, 0, 0, 0);
 }
@@ -3485,7 +3485,7 @@ typedef union cavm_sdpx_out_bp_enx_w1c cavm_sdpx_out_bp_enx_w1c_t;
 static inline uint64_t CAVM_SDPX_OUT_BP_ENX_W1C(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_OUT_BP_ENX_W1C(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=1)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=1)))
         return 0xc01810080240ll + 0x100000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     __cavm_csr_fatal("SDPX_OUT_BP_ENX_W1C", 2, a, b, 0, 0, 0, 0);
 }
@@ -3521,7 +3521,7 @@ typedef union cavm_sdpx_out_bp_enx_w1s cavm_sdpx_out_bp_enx_w1s_t;
 static inline uint64_t CAVM_SDPX_OUT_BP_ENX_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_OUT_BP_ENX_W1S(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=1)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=1)))
         return 0xc01810080280ll + 0x100000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     __cavm_csr_fatal("SDPX_OUT_BP_ENX_W1S", 2, a, b, 0, 0, 0, 0);
 }
@@ -3569,7 +3569,7 @@ typedef union cavm_sdpx_out_bp_timerx cavm_sdpx_out_bp_timerx_t;
 static inline uint64_t CAVM_SDPX_OUT_BP_TIMERX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_OUT_BP_TIMERX(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=127)))
         return 0xc01810061000ll + 0x100000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_OUT_BP_TIMERX", 2, a, b, 0, 0, 0, 0);
 }
@@ -3619,7 +3619,7 @@ typedef union cavm_sdpx_out_bp_timer_ctl cavm_sdpx_out_bp_timer_ctl_t;
 static inline uint64_t CAVM_SDPX_OUT_BP_TIMER_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_OUT_BP_TIMER_CTL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a==0))
         return 0xc01810060010ll + 0x100000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SDPX_OUT_BP_TIMER_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3675,7 +3675,7 @@ typedef union cavm_sdpx_out_drop_statex cavm_sdpx_out_drop_statex_t;
 static inline uint64_t CAVM_SDPX_OUT_DROP_STATEX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_OUT_DROP_STATEX(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=1)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=1)))
         return 0xc01810060020ll + 0x100000000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("SDPX_OUT_DROP_STATEX", 2, a, b, 0, 0, 0, 0);
 }
@@ -3719,7 +3719,7 @@ typedef union cavm_sdpx_out_mcast_ctl cavm_sdpx_out_mcast_ctl_t;
 static inline uint64_t CAVM_SDPX_OUT_MCAST_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_OUT_MCAST_CTL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a==0))
         return 0xc01810060200ll + 0x100000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SDPX_OUT_MCAST_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3758,7 +3758,7 @@ typedef union cavm_sdpx_pf_msix_pbax cavm_sdpx_pf_msix_pbax_t;
 static inline uint64_t CAVM_SDPX_PF_MSIX_PBAX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_PF_MSIX_PBAX(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b==0)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b==0)))
         return 0xc018800f0000ll + 0x100000000ll * ((a) & 0x0) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("SDPX_PF_MSIX_PBAX", 2, a, b, 0, 0, 0, 0);
 }
@@ -3844,7 +3844,7 @@ typedef union cavm_sdpx_pf_msix_vecx_addr cavm_sdpx_pf_msix_vecx_addr_t;
 static inline uint64_t CAVM_SDPX_PF_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_PF_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=3)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=3)))
         return 0xc01880000000ll + 0x100000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3);
     __cavm_csr_fatal("SDPX_PF_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
@@ -3884,7 +3884,7 @@ typedef union cavm_sdpx_pf_msix_vecx_ctl cavm_sdpx_pf_msix_vecx_ctl_t;
 static inline uint64_t CAVM_SDPX_PF_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_PF_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=3)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=3)))
         return 0xc01880000008ll + 0x100000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3);
     __cavm_csr_fatal("SDPX_PF_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
@@ -3927,7 +3927,7 @@ typedef union cavm_sdpx_pkind_valid cavm_sdpx_pkind_valid_t;
 static inline uint64_t CAVM_SDPX_PKIND_VALID(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_PKIND_VALID(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a==0))
         return 0xc01810080210ll + 0x100000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SDPX_PKIND_VALID", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3975,7 +3975,7 @@ typedef union cavm_sdpx_rx_drop_byte_cnt cavm_sdpx_rx_drop_byte_cnt_t;
 static inline uint64_t CAVM_SDPX_RX_DROP_BYTE_CNT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_RX_DROP_BYTE_CNT(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=127)))
         return 0xc01820000250ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_DROP_BYTE_CNT", 2, a, b, 0, 0, 0, 0);
 }
@@ -4025,7 +4025,7 @@ typedef union cavm_sdpx_rx_drop_pkt_cnt cavm_sdpx_rx_drop_pkt_cnt_t;
 static inline uint64_t CAVM_SDPX_RX_DROP_PKT_CNT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_RX_DROP_PKT_CNT(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=127)))
         return 0xc01820000240ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_DROP_PKT_CNT", 2, a, b, 0, 0, 0, 0);
 }
@@ -4128,7 +4128,7 @@ typedef union cavm_sdpx_rx_err_type cavm_sdpx_rx_err_type_t;
 static inline uint64_t CAVM_SDPX_RX_ERR_TYPE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_RX_ERR_TYPE(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=127)))
         return 0xc01820000400ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_ERR_TYPE", 2, a, b, 0, 0, 0, 0);
 }
@@ -4176,7 +4176,7 @@ typedef union cavm_sdpx_rx_in_byte_cnt cavm_sdpx_rx_in_byte_cnt_t;
 static inline uint64_t CAVM_SDPX_RX_IN_BYTE_CNT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_RX_IN_BYTE_CNT(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=127)))
         return 0xc01820000090ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_IN_BYTE_CNT", 2, a, b, 0, 0, 0, 0);
 }
@@ -4328,7 +4328,7 @@ typedef union cavm_sdpx_rx_in_cnts cavm_sdpx_rx_in_cnts_t;
 static inline uint64_t CAVM_SDPX_RX_IN_CNTS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_RX_IN_CNTS(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=127)))
         return 0xc01820000050ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_IN_CNTS", 2, a, b, 0, 0, 0, 0);
 }
@@ -4386,7 +4386,7 @@ typedef union cavm_sdpx_rx_in_cnts_ism cavm_sdpx_rx_in_cnts_ism_t;
 static inline uint64_t CAVM_SDPX_RX_IN_CNTS_ISM(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_RX_IN_CNTS_ISM(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=127)))
         return 0xc01820000520ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_IN_CNTS_ISM", 2, a, b, 0, 0, 0, 0);
 }
@@ -4495,7 +4495,7 @@ typedef union cavm_sdpx_rx_in_control cavm_sdpx_rx_in_control_t;
 static inline uint64_t CAVM_SDPX_RX_IN_CONTROL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_RX_IN_CONTROL(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=127)))
         return 0xc01820000000ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_IN_CONTROL", 2, a, b, 0, 0, 0, 0);
 }
@@ -4543,7 +4543,7 @@ typedef union cavm_sdpx_rx_in_enable cavm_sdpx_rx_in_enable_t;
 static inline uint64_t CAVM_SDPX_RX_IN_ENABLE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_RX_IN_ENABLE(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=127)))
         return 0xc01820000010ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_IN_ENABLE", 2, a, b, 0, 0, 0, 0);
 }
@@ -4592,7 +4592,7 @@ typedef union cavm_sdpx_rx_in_instr_baddr cavm_sdpx_rx_in_instr_baddr_t;
 static inline uint64_t CAVM_SDPX_RX_IN_INSTR_BADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_RX_IN_INSTR_BADDR(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=127)))
         return 0xc01820000020ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_IN_INSTR_BADDR", 2, a, b, 0, 0, 0, 0);
 }
@@ -4648,7 +4648,7 @@ typedef union cavm_sdpx_rx_in_instr_dbell cavm_sdpx_rx_in_instr_dbell_t;
 static inline uint64_t CAVM_SDPX_RX_IN_INSTR_DBELL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_RX_IN_INSTR_DBELL(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=127)))
         return 0xc01820000040ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_IN_INSTR_DBELL", 2, a, b, 0, 0, 0, 0);
 }
@@ -4697,7 +4697,7 @@ typedef union cavm_sdpx_rx_in_instr_rsize cavm_sdpx_rx_in_instr_rsize_t;
 static inline uint64_t CAVM_SDPX_RX_IN_INSTR_RSIZE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_RX_IN_INSTR_RSIZE(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=127)))
         return 0xc01820000030ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_IN_INSTR_RSIZE", 2, a, b, 0, 0, 0, 0);
 }
@@ -4779,7 +4779,7 @@ typedef union cavm_sdpx_rx_in_int_levels cavm_sdpx_rx_in_int_levels_t;
 static inline uint64_t CAVM_SDPX_RX_IN_INT_LEVELS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_RX_IN_INT_LEVELS(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=127)))
         return 0xc01820000060ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_IN_INT_LEVELS", 2, a, b, 0, 0, 0, 0);
 }
@@ -4828,7 +4828,7 @@ typedef union cavm_sdpx_rx_in_int_mdrt_ctl0 cavm_sdpx_rx_in_int_mdrt_ctl0_t;
 static inline uint64_t CAVM_SDPX_RX_IN_INT_MDRT_CTL0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_RX_IN_INT_MDRT_CTL0(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=127)))
         return 0xc01820000280ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_IN_INT_MDRT_CTL0", 2, a, b, 0, 0, 0, 0);
 }
@@ -4918,7 +4918,7 @@ typedef union cavm_sdpx_rx_in_int_mdrt_ctl1 cavm_sdpx_rx_in_int_mdrt_ctl1_t;
 static inline uint64_t CAVM_SDPX_RX_IN_INT_MDRT_CTL1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_RX_IN_INT_MDRT_CTL1(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=127)))
         return 0xc018200002a0ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_IN_INT_MDRT_CTL1", 2, a, b, 0, 0, 0, 0);
 }
@@ -4963,7 +4963,7 @@ typedef union cavm_sdpx_rx_in_int_mdrt_dbg cavm_sdpx_rx_in_int_mdrt_dbg_t;
 static inline uint64_t CAVM_SDPX_RX_IN_INT_MDRT_DBG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_RX_IN_INT_MDRT_DBG(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=127)))
         return 0xc018200002c0ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_IN_INT_MDRT_DBG", 2, a, b, 0, 0, 0, 0);
 }
@@ -5013,7 +5013,7 @@ typedef union cavm_sdpx_rx_in_pkt_cnt cavm_sdpx_rx_in_pkt_cnt_t;
 static inline uint64_t CAVM_SDPX_RX_IN_PKT_CNT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_RX_IN_PKT_CNT(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=127)))
         return 0xc01820000080ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_IN_PKT_CNT", 2, a, b, 0, 0, 0, 0);
 }
@@ -5071,7 +5071,7 @@ typedef union cavm_sdpx_rx_mbox_ism cavm_sdpx_rx_mbox_ism_t;
 static inline uint64_t CAVM_SDPX_RX_MBOX_ISM(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_RX_MBOX_ISM(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=127)))
         return 0xc01820000500ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_MBOX_ISM", 2, a, b, 0, 0, 0, 0);
 }
@@ -5117,7 +5117,7 @@ typedef union cavm_sdpx_rx_mbox_pf_vf_data cavm_sdpx_rx_mbox_pf_vf_data_t;
 static inline uint64_t CAVM_SDPX_RX_MBOX_PF_VF_DATA(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_RX_MBOX_PF_VF_DATA(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=127)))
         return 0xc01820000210ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_MBOX_PF_VF_DATA", 2, a, b, 0, 0, 0, 0);
 }
@@ -5169,7 +5169,7 @@ typedef union cavm_sdpx_rx_mbox_pf_vf_int cavm_sdpx_rx_mbox_pf_vf_int_t;
 static inline uint64_t CAVM_SDPX_RX_MBOX_PF_VF_INT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_RX_MBOX_PF_VF_INT(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=127)))
         return 0xc01820000220ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_MBOX_PF_VF_INT", 2, a, b, 0, 0, 0, 0);
 }
@@ -5215,7 +5215,7 @@ typedef union cavm_sdpx_rx_mbox_vf_pf_data cavm_sdpx_rx_mbox_vf_pf_data_t;
 static inline uint64_t CAVM_SDPX_RX_MBOX_VF_PF_DATA(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_RX_MBOX_VF_PF_DATA(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=127)))
         return 0xc01820000230ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_MBOX_VF_PF_DATA", 2, a, b, 0, 0, 0, 0);
 }
@@ -5263,7 +5263,7 @@ typedef union cavm_sdpx_rx_out_byte_cnt cavm_sdpx_rx_out_byte_cnt_t;
 static inline uint64_t CAVM_SDPX_RX_OUT_BYTE_CNT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_RX_OUT_BYTE_CNT(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=127)))
         return 0xc01820000190ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_OUT_BYTE_CNT", 2, a, b, 0, 0, 0, 0);
 }
@@ -5421,7 +5421,7 @@ typedef union cavm_sdpx_rx_out_cnts cavm_sdpx_rx_out_cnts_t;
 static inline uint64_t CAVM_SDPX_RX_OUT_CNTS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_RX_OUT_CNTS(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=127)))
         return 0xc01820000100ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_OUT_CNTS", 2, a, b, 0, 0, 0, 0);
 }
@@ -5479,7 +5479,7 @@ typedef union cavm_sdpx_rx_out_cnts_ism cavm_sdpx_rx_out_cnts_ism_t;
 static inline uint64_t CAVM_SDPX_RX_OUT_CNTS_ISM(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_RX_OUT_CNTS_ISM(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=127)))
         return 0xc01820000510ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_OUT_CNTS_ISM", 2, a, b, 0, 0, 0, 0);
 }
@@ -5628,7 +5628,7 @@ typedef union cavm_sdpx_rx_out_control cavm_sdpx_rx_out_control_t;
 static inline uint64_t CAVM_SDPX_RX_OUT_CONTROL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_RX_OUT_CONTROL(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=127)))
         return 0xc01820000150ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_OUT_CONTROL", 2, a, b, 0, 0, 0, 0);
 }
@@ -5676,7 +5676,7 @@ typedef union cavm_sdpx_rx_out_enable cavm_sdpx_rx_out_enable_t;
 static inline uint64_t CAVM_SDPX_RX_OUT_ENABLE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_RX_OUT_ENABLE(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=127)))
         return 0xc01820000170ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_OUT_ENABLE", 2, a, b, 0, 0, 0, 0);
 }
@@ -5758,7 +5758,7 @@ typedef union cavm_sdpx_rx_out_int_levels cavm_sdpx_rx_out_int_levels_t;
 static inline uint64_t CAVM_SDPX_RX_OUT_INT_LEVELS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_RX_OUT_INT_LEVELS(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=127)))
         return 0xc01820000110ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_OUT_INT_LEVELS", 2, a, b, 0, 0, 0, 0);
 }
@@ -5799,7 +5799,7 @@ typedef union cavm_sdpx_rx_out_int_mdrt_ctl0 cavm_sdpx_rx_out_int_mdrt_ctl0_t;
 static inline uint64_t CAVM_SDPX_RX_OUT_INT_MDRT_CTL0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_RX_OUT_INT_MDRT_CTL0(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=127)))
         return 0xc01820000380ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_OUT_INT_MDRT_CTL0", 2, a, b, 0, 0, 0, 0);
 }
@@ -5866,7 +5866,7 @@ typedef union cavm_sdpx_rx_out_int_mdrt_ctl1 cavm_sdpx_rx_out_int_mdrt_ctl1_t;
 static inline uint64_t CAVM_SDPX_RX_OUT_INT_MDRT_CTL1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_RX_OUT_INT_MDRT_CTL1(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=127)))
         return 0xc018200003a0ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_OUT_INT_MDRT_CTL1", 2, a, b, 0, 0, 0, 0);
 }
@@ -5903,7 +5903,7 @@ typedef union cavm_sdpx_rx_out_int_mdrt_dbg cavm_sdpx_rx_out_int_mdrt_dbg_t;
 static inline uint64_t CAVM_SDPX_RX_OUT_INT_MDRT_DBG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_RX_OUT_INT_MDRT_DBG(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=127)))
         return 0xc018200003c0ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_OUT_INT_MDRT_DBG", 2, a, b, 0, 0, 0, 0);
 }
@@ -5953,7 +5953,7 @@ typedef union cavm_sdpx_rx_out_pkt_cnt cavm_sdpx_rx_out_pkt_cnt_t;
 static inline uint64_t CAVM_SDPX_RX_OUT_PKT_CNT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_RX_OUT_PKT_CNT(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=127)))
         return 0xc01820000180ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_OUT_PKT_CNT", 2, a, b, 0, 0, 0, 0);
 }
@@ -6012,7 +6012,7 @@ typedef union cavm_sdpx_rx_out_slist_baddr cavm_sdpx_rx_out_slist_baddr_t;
 static inline uint64_t CAVM_SDPX_RX_OUT_SLIST_BADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_RX_OUT_SLIST_BADDR(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=127)))
         return 0xc01820000120ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_OUT_SLIST_BADDR", 2, a, b, 0, 0, 0, 0);
 }
@@ -6070,7 +6070,7 @@ typedef union cavm_sdpx_rx_out_slist_dbell cavm_sdpx_rx_out_slist_dbell_t;
 static inline uint64_t CAVM_SDPX_RX_OUT_SLIST_DBELL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_RX_OUT_SLIST_DBELL(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=127)))
         return 0xc01820000140ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_OUT_SLIST_DBELL", 2, a, b, 0, 0, 0, 0);
 }
@@ -6123,7 +6123,7 @@ typedef union cavm_sdpx_rx_out_slist_rsize cavm_sdpx_rx_out_slist_rsize_t;
 static inline uint64_t CAVM_SDPX_RX_OUT_SLIST_RSIZE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_RX_OUT_SLIST_RSIZE(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=127)))
         return 0xc01820000130ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_OUT_SLIST_RSIZE", 2, a, b, 0, 0, 0, 0);
 }
@@ -6183,7 +6183,7 @@ typedef union cavm_sdpx_rx_out_wmark cavm_sdpx_rx_out_wmark_t;
 static inline uint64_t CAVM_SDPX_RX_OUT_WMARK(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_RX_OUT_WMARK(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=127)))
         return 0xc01820000160ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_OUT_WMARK", 2, a, b, 0, 0, 0, 0);
 }
@@ -6251,7 +6251,7 @@ typedef union cavm_sdpx_rx_tlp cavm_sdpx_rx_tlp_t;
 static inline uint64_t CAVM_SDPX_RX_TLP(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_RX_TLP(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a==0) && (b<=127)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a==0) && (b<=127)))
         return 0xc01820000038ll + 0x100000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x7f);
     __cavm_csr_fatal("SDPX_RX_TLP", 2, a, b, 0, 0, 0, 0);
 }
@@ -6304,7 +6304,7 @@ typedef union cavm_sdpx_sctl cavm_sdpx_sctl_t;
 static inline uint64_t CAVM_SDPX_SCTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SDPX_SCTL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a==0))
         return 0xc01810080310ll + 0x100000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SDPX_SCTL", 1, a, 0, 0, 0, 0, 0);
 }

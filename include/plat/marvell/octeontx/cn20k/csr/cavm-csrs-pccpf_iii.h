@@ -72,7 +72,7 @@ typedef union cavm_pccpf_xxx_vsec_permit cavm_pccpf_xxx_vsec_permit_t;
 static inline uint64_t CAVM_PCCPF_XXX_VSEC_PERMIT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCCPF_XXX_VSEC_PERMIT_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x114;
     __cavm_csr_fatal("PCCPF_XXX_VSEC_PERMIT", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -114,7 +114,7 @@ typedef union cavm_pccpf_xxx_vsec_streamid cavm_pccpf_xxx_vsec_streamid_t;
 static inline uint64_t CAVM_PCCPF_XXX_VSEC_STREAMID_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCCPF_XXX_VSEC_STREAMID_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x118;
     __cavm_csr_fatal("PCCPF_XXX_VSEC_STREAMID", 0, 0, 0, 0, 0, 0, 0);
 }

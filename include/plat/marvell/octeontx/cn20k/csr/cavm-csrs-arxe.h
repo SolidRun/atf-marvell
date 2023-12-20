@@ -610,7 +610,7 @@ typedef union cavm_arxex_abx_control cavm_arxex_abx_control_t;
 static inline uint64_t CAVM_ARXEX_ABX_CONTROL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ARXEX_ABX_CONTROL(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=1)))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && ((a<=3) && (b<=1)))
         return 0x87e041400000ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ARXEX_ABX_CONTROL", 2, a, b, 0, 0, 0, 0);
 }
@@ -712,7 +712,7 @@ typedef union cavm_arxex_abx_error_enable0 cavm_arxex_abx_error_enable0_t;
 static inline uint64_t CAVM_ARXEX_ABX_ERROR_ENABLE0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ARXEX_ABX_ERROR_ENABLE0(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=1)))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && ((a<=3) && (b<=1)))
         return 0x87e041400040ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ARXEX_ABX_ERROR_ENABLE0", 2, a, b, 0, 0, 0, 0);
 }
@@ -806,7 +806,7 @@ typedef union cavm_arxex_abx_error_source0 cavm_arxex_abx_error_source0_t;
 static inline uint64_t CAVM_ARXEX_ABX_ERROR_SOURCE0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ARXEX_ABX_ERROR_SOURCE0(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=1)))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && ((a<=3) && (b<=1)))
         return 0x87e041400030ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ARXEX_ABX_ERROR_SOURCE0", 2, a, b, 0, 0, 0, 0);
 }
@@ -842,7 +842,7 @@ typedef union cavm_arxex_abx_slotx_jcfgx cavm_arxex_abx_slotx_jcfgx_t;
 static inline uint64_t CAVM_ARXEX_ABX_SLOTX_JCFGX(uint64_t a, uint64_t b, uint64_t c, uint64_t d) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ARXEX_ABX_SLOTX_JCFGX(uint64_t a, uint64_t b, uint64_t c, uint64_t d)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=1) && (c<=1) && (d<=161)))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && ((a<=3) && (b<=1) && (c<=1) && (d<=161)))
         return 0x87e041402000ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1) + 0x2000ll * ((c) & 0x1) + 8ll * ((d) & 0xff);
     __cavm_csr_fatal("ARXEX_ABX_SLOTX_JCFGX", 4, a, b, c, d, 0, 0);
 }
@@ -886,7 +886,7 @@ typedef union cavm_arxex_abx_status cavm_arxex_abx_status_t;
 static inline uint64_t CAVM_ARXEX_ABX_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ARXEX_ABX_STATUS(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=3) && (b<=1)))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && ((a<=3) && (b<=1)))
         return 0x87e041400018ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ARXEX_ABX_STATUS", 2, a, b, 0, 0, 0, 0);
 }

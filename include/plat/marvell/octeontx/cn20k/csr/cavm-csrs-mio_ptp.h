@@ -573,7 +573,7 @@ typedef union cavm_mio_ptp_cur_rollover_capture cavm_mio_ptp_cur_rollover_captur
 static inline uint64_t CAVM_MIO_PTP_CUR_ROLLOVER_CAPTURE_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_CUR_ROLLOVER_CAPTURE_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x807000001018ll;
     __cavm_csr_fatal("MIO_PTP_CUR_ROLLOVER_CAPTURE", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1211,7 +1211,7 @@ typedef union cavm_mio_ptp_nxt_rollover_capture cavm_mio_ptp_nxt_rollover_captur
 static inline uint64_t CAVM_MIO_PTP_NXT_ROLLOVER_CAPTURE_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_NXT_ROLLOVER_CAPTURE_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x807000001010ll;
     __cavm_csr_fatal("MIO_PTP_NXT_ROLLOVER_CAPTURE", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1758,7 +1758,7 @@ typedef union cavm_mio_ptp_timestamp_2 cavm_mio_ptp_timestamp_2_t;
 static inline uint64_t CAVM_MIO_PTP_TIMESTAMP_2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_TIMESTAMP_2_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x807000001020ll;
     __cavm_csr_fatal("MIO_PTP_TIMESTAMP_2", 0, 0, 0, 0, 0, 0, 0);
 }

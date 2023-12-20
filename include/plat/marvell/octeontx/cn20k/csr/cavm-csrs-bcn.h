@@ -69,7 +69,7 @@ typedef union cavm_bcn_bclk_capture_cfg cavm_bcn_bclk_capture_cfg_t;
 static inline uint64_t CAVM_BCN_BCLK_CAPTURE_CFG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_BCLK_CAPTURE_CFG_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP))
+    if (cavm_is_model(OCTEONTX_CNF20KA))
         return 0x87e043040500ll;
     __cavm_csr_fatal("BCN_BCLK_CAPTURE_CFG", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -115,7 +115,7 @@ typedef union cavm_bcn_bclk_capture_ieee1914 cavm_bcn_bclk_capture_ieee1914_t;
 static inline uint64_t CAVM_BCN_BCLK_CAPTURE_IEEE1914_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_BCLK_CAPTURE_IEEE1914_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP))
+    if (cavm_is_model(OCTEONTX_CNF20KA))
         return 0x87e043040530ll;
     __cavm_csr_fatal("BCN_BCLK_CAPTURE_IEEE1914", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -155,7 +155,7 @@ typedef union cavm_bcn_bclk_capture_n1_n2 cavm_bcn_bclk_capture_n1_n2_t;
 static inline uint64_t CAVM_BCN_BCLK_CAPTURE_N1_N2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_BCLK_CAPTURE_N1_N2_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP))
+    if (cavm_is_model(OCTEONTX_CNF20KA))
         return 0x87e043040510ll;
     __cavm_csr_fatal("BCN_BCLK_CAPTURE_N1_N2", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -197,7 +197,7 @@ typedef union cavm_bcn_bclk_capture_psm cavm_bcn_bclk_capture_psm_t;
 static inline uint64_t CAVM_BCN_BCLK_CAPTURE_PSM_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_BCLK_CAPTURE_PSM_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP))
+    if (cavm_is_model(OCTEONTX_CNF20KA))
         return 0x87e043040520ll;
     __cavm_csr_fatal("BCN_BCLK_CAPTURE_PSM", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -235,7 +235,7 @@ typedef union cavm_bcn_bclk_capture_ptp cavm_bcn_bclk_capture_ptp_t;
 static inline uint64_t CAVM_BCN_BCLK_CAPTURE_PTP_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_BCLK_CAPTURE_PTP_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP))
+    if (cavm_is_model(OCTEONTX_CNF20KA))
         return 0x87e043040540ll;
     __cavm_csr_fatal("BCN_BCLK_CAPTURE_PTP", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -290,7 +290,7 @@ typedef union cavm_bcn_capture_cfg cavm_bcn_capture_cfg_t;
 static inline uint64_t CAVM_BCN_CAPTURE_CFG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_CAPTURE_CFG_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP))
+    if (cavm_is_model(OCTEONTX_CNF20KA))
         return 0x87e043041500ll;
     __cavm_csr_fatal("BCN_CAPTURE_CFG", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -336,7 +336,7 @@ typedef union cavm_bcn_capture_ieee1914 cavm_bcn_capture_ieee1914_t;
 static inline uint64_t CAVM_BCN_CAPTURE_IEEE1914_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_CAPTURE_IEEE1914_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP))
+    if (cavm_is_model(OCTEONTX_CNF20KA))
         return 0x87e043041530ll;
     __cavm_csr_fatal("BCN_CAPTURE_IEEE1914", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -376,7 +376,7 @@ typedef union cavm_bcn_capture_n1_n2 cavm_bcn_capture_n1_n2_t;
 static inline uint64_t CAVM_BCN_CAPTURE_N1_N2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_CAPTURE_N1_N2_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP))
+    if (cavm_is_model(OCTEONTX_CNF20KA))
         return 0x87e043041510ll;
     __cavm_csr_fatal("BCN_CAPTURE_N1_N2", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -418,7 +418,7 @@ typedef union cavm_bcn_capture_psm cavm_bcn_capture_psm_t;
 static inline uint64_t CAVM_BCN_CAPTURE_PSM_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_CAPTURE_PSM_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP))
+    if (cavm_is_model(OCTEONTX_CNF20KA))
         return 0x87e043041520ll;
     __cavm_csr_fatal("BCN_CAPTURE_PSM", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -456,7 +456,7 @@ typedef union cavm_bcn_capture_ptp cavm_bcn_capture_ptp_t;
 static inline uint64_t CAVM_BCN_CAPTURE_PTP_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_CAPTURE_PTP_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP))
+    if (cavm_is_model(OCTEONTX_CNF20KA))
         return 0x87e043041540ll;
     __cavm_csr_fatal("BCN_CAPTURE_PTP", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -562,7 +562,7 @@ typedef union cavm_bcn_cfg cavm_bcn_cfg_t;
 static inline uint64_t CAVM_BCN_CFG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_CFG_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP))
+    if (cavm_is_model(OCTEONTX_CNF20KA))
         return 0x87e043041000ll;
     __cavm_csr_fatal("BCN_CFG", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -652,7 +652,7 @@ typedef union cavm_bcn_cfg2 cavm_bcn_cfg2_t;
 static inline uint64_t CAVM_BCN_CFG2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_CFG2_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP))
+    if (cavm_is_model(OCTEONTX_CNF20KA))
         return 0x87e043043000ll;
     __cavm_csr_fatal("BCN_CFG2", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -725,7 +725,7 @@ typedef union cavm_bcn_ctrl cavm_bcn_ctrl_t;
 static inline uint64_t CAVM_BCN_CTRL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_CTRL_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP))
+    if (cavm_is_model(OCTEONTX_CNF20KA))
         return 0x87e043040100ll;
     __cavm_csr_fatal("BCN_CTRL", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -767,7 +767,7 @@ typedef union cavm_bcn_delta_val cavm_bcn_delta_val_t;
 static inline uint64_t CAVM_BCN_DELTA_VAL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_DELTA_VAL_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP))
+    if (cavm_is_model(OCTEONTX_CNF20KA))
         return 0x87e043041030ll;
     __cavm_csr_fatal("BCN_DELTA_VAL", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -825,7 +825,7 @@ typedef union cavm_bcn_hdlc_sel cavm_bcn_hdlc_sel_t;
 static inline uint64_t CAVM_BCN_HDLC_SEL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_HDLC_SEL_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP))
+    if (cavm_is_model(OCTEONTX_CNF20KA))
         return 0x87e043040400ll;
     __cavm_csr_fatal("BCN_HDLC_SEL", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -881,7 +881,7 @@ typedef union cavm_bcn_ieee1914_cfg cavm_bcn_ieee1914_cfg_t;
 static inline uint64_t CAVM_BCN_IEEE1914_CFG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_IEEE1914_CFG_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP))
+    if (cavm_is_model(OCTEONTX_CNF20KA))
         return 0x87e043041300ll;
     __cavm_csr_fatal("BCN_IEEE1914_CFG", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -927,7 +927,7 @@ typedef union cavm_bcn_ieee1914_val cavm_bcn_ieee1914_val_t;
 static inline uint64_t CAVM_BCN_IEEE1914_VAL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_IEEE1914_VAL_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP))
+    if (cavm_is_model(OCTEONTX_CNF20KA))
         return 0x87e043041310ll;
     __cavm_csr_fatal("BCN_IEEE1914_VAL", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -977,7 +977,7 @@ typedef union cavm_bcn_int_ieee1914_val cavm_bcn_int_ieee1914_val_t;
 static inline uint64_t CAVM_BCN_INT_IEEE1914_VAL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_INT_IEEE1914_VAL_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP))
+    if (cavm_is_model(OCTEONTX_CNF20KA))
         return 0x87e043040220ll;
     __cavm_csr_fatal("BCN_INT_IEEE1914_VAL", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1015,7 +1015,7 @@ typedef union cavm_bcn_int_n1n2_val cavm_bcn_int_n1n2_val_t;
 static inline uint64_t CAVM_BCN_INT_N1N2_VAL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_INT_N1N2_VAL_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP))
+    if (cavm_is_model(OCTEONTX_CNF20KA))
         return 0x87e043040230ll;
     __cavm_csr_fatal("BCN_INT_N1N2_VAL", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1065,7 +1065,7 @@ typedef union cavm_bcn_int_psm_val cavm_bcn_int_psm_val_t;
 static inline uint64_t CAVM_BCN_INT_PSM_VAL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_INT_PSM_VAL_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP))
+    if (cavm_is_model(OCTEONTX_CNF20KA))
         return 0x87e043040210ll;
     __cavm_csr_fatal("BCN_INT_PSM_VAL", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1157,7 +1157,7 @@ typedef union cavm_bcn_internal_timer_cfg cavm_bcn_internal_timer_cfg_t;
 static inline uint64_t CAVM_BCN_INTERNAL_TIMER_CFG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_INTERNAL_TIMER_CFG_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP))
+    if (cavm_is_model(OCTEONTX_CNF20KA))
         return 0x87e043040200ll;
     __cavm_csr_fatal("BCN_INTERNAL_TIMER_CFG", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1197,7 +1197,7 @@ typedef union cavm_bcn_n1_n2 cavm_bcn_n1_n2_t;
 static inline uint64_t CAVM_BCN_N1_N2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_N1_N2_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP))
+    if (cavm_is_model(OCTEONTX_CNF20KA))
         return 0x87e043041010ll;
     __cavm_csr_fatal("BCN_N1_N2", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1251,7 +1251,7 @@ typedef union cavm_bcn_psm_cfg cavm_bcn_psm_cfg_t;
 static inline uint64_t CAVM_BCN_PSM_CFG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_PSM_CFG_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP))
+    if (cavm_is_model(OCTEONTX_CNF20KA))
         return 0x87e043041200ll;
     __cavm_csr_fatal("BCN_PSM_CFG", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1293,7 +1293,7 @@ typedef union cavm_bcn_psm_val cavm_bcn_psm_val_t;
 static inline uint64_t CAVM_BCN_PSM_VAL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_PSM_VAL_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP))
+    if (cavm_is_model(OCTEONTX_CNF20KA))
         return 0x87e043041210ll;
     __cavm_csr_fatal("BCN_PSM_VAL", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1330,7 +1330,7 @@ typedef union cavm_bcn_ptp_val cavm_bcn_ptp_val_t;
 static inline uint64_t CAVM_BCN_PTP_VAL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_PTP_VAL_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP))
+    if (cavm_is_model(OCTEONTX_CNF20KA))
         return 0x87e043041410ll;
     __cavm_csr_fatal("BCN_PTP_VAL", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1453,7 +1453,7 @@ typedef union cavm_bcn_rec_clkx_ctrl cavm_bcn_rec_clkx_ctrl_t;
 static inline uint64_t CAVM_BCN_REC_CLKX_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_REC_CLKX_CTRL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=2))
         return 0x87e043040300ll + 0x10ll * ((a) & 0x3);
     __cavm_csr_fatal("BCN_REC_CLKX_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1505,7 +1505,7 @@ typedef union cavm_bcn_rec_clk_to_ptp cavm_bcn_rec_clk_to_ptp_t;
 static inline uint64_t CAVM_BCN_REC_CLK_TO_PTP_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_REC_CLK_TO_PTP_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP))
+    if (cavm_is_model(OCTEONTX_CNF20KA))
         return 0x87e043040380ll;
     __cavm_csr_fatal("BCN_REC_CLK_TO_PTP", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1582,7 +1582,7 @@ typedef union cavm_bcn_rp1_ctrl cavm_bcn_rp1_ctrl_t;
 static inline uint64_t CAVM_BCN_RP1_CTRL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_RP1_CTRL_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP))
+    if (cavm_is_model(OCTEONTX_CNF20KA))
         return 0x87e043041100ll;
     __cavm_csr_fatal("BCN_RP1_CTRL", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1619,7 +1619,7 @@ typedef union cavm_bcn_rp1_raw_0 cavm_bcn_rp1_raw_0_t;
 static inline uint64_t CAVM_BCN_RP1_RAW_0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_RP1_RAW_0_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP))
+    if (cavm_is_model(OCTEONTX_CNF20KA))
         return 0x87e043041110ll;
     __cavm_csr_fatal("BCN_RP1_RAW_0", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1664,7 +1664,7 @@ typedef union cavm_bcn_rp1_raw_1 cavm_bcn_rp1_raw_1_t;
 static inline uint64_t CAVM_BCN_RP1_RAW_1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_RP1_RAW_1_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP))
+    if (cavm_is_model(OCTEONTX_CNF20KA))
         return 0x87e043041120ll;
     __cavm_csr_fatal("BCN_RP1_RAW_1", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1720,7 +1720,7 @@ typedef union cavm_bcn_sync_ieee1914 cavm_bcn_sync_ieee1914_t;
 static inline uint64_t CAVM_BCN_SYNC_IEEE1914_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_SYNC_IEEE1914_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP))
+    if (cavm_is_model(OCTEONTX_CNF20KA))
         return 0x87e043041320ll;
     __cavm_csr_fatal("BCN_SYNC_IEEE1914", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1786,7 +1786,7 @@ typedef union cavm_bcn_sync_psm cavm_bcn_sync_psm_t;
 static inline uint64_t CAVM_BCN_SYNC_PSM_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_SYNC_PSM_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP))
+    if (cavm_is_model(OCTEONTX_CNF20KA))
         return 0x87e043041220ll;
     __cavm_csr_fatal("BCN_SYNC_PSM", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1826,7 +1826,7 @@ typedef union cavm_bcn_sync_val cavm_bcn_sync_val_t;
 static inline uint64_t CAVM_BCN_SYNC_VAL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_SYNC_VAL_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP))
+    if (cavm_is_model(OCTEONTX_CNF20KA))
         return 0x87e043041020ll;
     __cavm_csr_fatal("BCN_SYNC_VAL", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1879,7 +1879,7 @@ typedef union cavm_bcn_timerx_ctrl cavm_bcn_timerx_ctrl_t;
 static inline uint64_t CAVM_BCN_TIMERX_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_TIMERX_CTRL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=2))
         return 0x87e043042000ll + 0x100ll * ((a) & 0x3);
     __cavm_csr_fatal("BCN_TIMERX_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1921,7 +1921,7 @@ typedef union cavm_bcn_timerx_period cavm_bcn_timerx_period_t;
 static inline uint64_t CAVM_BCN_TIMERX_PERIOD(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_TIMERX_PERIOD(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=2))
         return 0x87e043042020ll + 0x100ll * ((a) & 0x3);
     __cavm_csr_fatal("BCN_TIMERX_PERIOD", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1960,7 +1960,7 @@ typedef union cavm_bcn_timerx_start cavm_bcn_timerx_start_t;
 static inline uint64_t CAVM_BCN_TIMERX_START(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_TIMERX_START(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=2))
         return 0x87e043042010ll + 0x100ll * ((a) & 0x3);
     __cavm_csr_fatal("BCN_TIMERX_START", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2002,7 +2002,7 @@ typedef union cavm_bcn_timerx_width cavm_bcn_timerx_width_t;
 static inline uint64_t CAVM_BCN_TIMERX_WIDTH(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BCN_TIMERX_WIDTH(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=2))
         return 0x87e043042030ll + 0x100ll * ((a) & 0x3);
     __cavm_csr_fatal("BCN_TIMERX_WIDTH", 1, a, 0, 0, 0, 0, 0);
 }

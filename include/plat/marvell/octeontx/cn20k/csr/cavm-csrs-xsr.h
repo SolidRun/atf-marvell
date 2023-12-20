@@ -70,7 +70,7 @@ typedef union cavm_xsrx_access_point_lane_registers_0 cavm_xsrx_access_point_lan
 static inline uint64_t CAVM_XSRX_ACCESS_POINT_LANE_REGISTERS_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_ACCESS_POINT_LANE_REGISTERS_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cd70ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_ACCESS_POINT_LANE_REGISTERS_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -114,7 +114,7 @@ typedef union cavm_xsrx_access_point_lane_registers_1 cavm_xsrx_access_point_lan
 static inline uint64_t CAVM_XSRX_ACCESS_POINT_LANE_REGISTERS_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_ACCESS_POINT_LANE_REGISTERS_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cd78ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_ACCESS_POINT_LANE_REGISTERS_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -156,7 +156,7 @@ typedef union cavm_xsrx_access_point_registers cavm_xsrx_access_point_registers_
 static inline uint64_t CAVM_XSRX_ACCESS_POINT_REGISTERS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_ACCESS_POINT_REGISTERS(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cd68ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_ACCESS_POINT_REGISTERS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -245,7 +245,7 @@ typedef union cavm_xsrx_ana_if_cmn_reg0 cavm_xsrx_ana_if_cmn_reg0_t;
 static inline uint64_t CAVM_XSRX_ANA_IF_CMN_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_ANA_IF_CMN_REG0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014470ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_ANA_IF_CMN_REG0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -310,7 +310,7 @@ typedef union cavm_xsrx_ana_if_cmn_reg1 cavm_xsrx_ana_if_cmn_reg1_t;
 static inline uint64_t CAVM_XSRX_ANA_IF_CMN_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_ANA_IF_CMN_REG1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014478ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_ANA_IF_CMN_REG1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -374,7 +374,7 @@ typedef union cavm_xsrx_ana_if_pll_ts_reg0 cavm_xsrx_ana_if_pll_ts_reg0_t;
 static inline uint64_t CAVM_XSRX_ANA_IF_PLL_TS_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_ANA_IF_PLL_TS_REG0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014480ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_ANA_IF_PLL_TS_REG0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -461,7 +461,7 @@ typedef union cavm_xsrx_ana_tsen_control cavm_xsrx_ana_tsen_control_t;
 static inline uint64_t CAVM_XSRX_ANA_TSEN_CONTROL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_ANA_TSEN_CONTROL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014658ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_ANA_TSEN_CONTROL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -880,7 +880,7 @@ typedef union cavm_xsrx_anagrp_ctl1 cavm_xsrx_anagrp_ctl1_t;
 static inline uint64_t CAVM_XSRX_ANAGRP_CTL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_ANAGRP_CTL1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000200c0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_ANAGRP_CTL1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1153,7 +1153,7 @@ typedef union cavm_xsrx_anagrp_ctl2 cavm_xsrx_anagrp_ctl2_t;
 static inline uint64_t CAVM_XSRX_ANAGRP_CTL2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_ANAGRP_CTL2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000200c8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_ANAGRP_CTL2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1197,7 +1197,7 @@ typedef union cavm_xsrx_cal_data1 cavm_xsrx_cal_data1_t;
 static inline uint64_t CAVM_XSRX_CAL_DATA1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CAL_DATA1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cca0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CAL_DATA1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1320,7 +1320,7 @@ typedef union cavm_xsrx_cal_time_out_and_dis cavm_xsrx_cal_time_out_and_dis_t;
 static inline uint64_t CAVM_XSRX_CAL_TIME_OUT_AND_DIS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CAL_TIME_OUT_AND_DIS(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cc90ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CAL_TIME_OUT_AND_DIS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1377,7 +1377,7 @@ typedef union cavm_xsrx_cd_ctrl_register cavm_xsrx_cd_ctrl_register_t;
 static inline uint64_t CAVM_XSRX_CD_CTRL_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CD_CTRL_REGISTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014780ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CD_CTRL_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1462,7 +1462,7 @@ typedef union cavm_xsrx_cd_pkdet_register cavm_xsrx_cd_pkdet_register_t;
 static inline uint64_t CAVM_XSRX_CD_PKDET_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CD_PKDET_REGISTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000147a0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CD_PKDET_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1523,7 +1523,7 @@ typedef union cavm_xsrx_cd_pll_register cavm_xsrx_cd_pll_register_t;
 static inline uint64_t CAVM_XSRX_CD_PLL_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CD_PLL_REGISTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014798ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CD_PLL_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1608,7 +1608,7 @@ typedef union cavm_xsrx_cd_rx_register cavm_xsrx_cd_rx_register_t;
 static inline uint64_t CAVM_XSRX_CD_RX_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CD_RX_REGISTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014790ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CD_RX_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1693,7 +1693,7 @@ typedef union cavm_xsrx_cd_tx_register cavm_xsrx_cd_tx_register_t;
 static inline uint64_t CAVM_XSRX_CD_TX_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CD_TX_REGISTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014788ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CD_TX_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1761,7 +1761,7 @@ typedef union cavm_xsrx_cid_reg0 cavm_xsrx_cid_reg0_t;
 static inline uint64_t CAVM_XSRX_CID_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CID_REG0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000147f0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CID_REG0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1815,7 +1815,7 @@ typedef union cavm_xsrx_cid_reg1 cavm_xsrx_cid_reg1_t;
 static inline uint64_t CAVM_XSRX_CID_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CID_REG1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000147f8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CID_REG1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1853,7 +1853,7 @@ typedef union cavm_xsrx_cli_arg_registers cavm_xsrx_cli_arg_registers_t;
 static inline uint64_t CAVM_XSRX_CLI_ARG_REGISTERS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CLI_ARG_REGISTERS(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cd60ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CLI_ARG_REGISTERS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1946,7 +1946,7 @@ typedef union cavm_xsrx_clkgen_cmn_reg1 cavm_xsrx_clkgen_cmn_reg1_t;
 static inline uint64_t CAVM_XSRX_CLKGEN_CMN_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CLKGEN_CMN_REG1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014670ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CLKGEN_CMN_REG1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2007,7 +2007,7 @@ typedef union cavm_xsrx_cmn_cache_debug0 cavm_xsrx_cmn_cache_debug0_t;
 static inline uint64_t CAVM_XSRX_CMN_CACHE_DEBUG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_CACHE_DEBUG0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014730ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_CACHE_DEBUG0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2074,7 +2074,7 @@ typedef union cavm_xsrx_cmn_cache_debug1 cavm_xsrx_cmn_cache_debug1_t;
 static inline uint64_t CAVM_XSRX_CMN_CACHE_DEBUG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_CACHE_DEBUG1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014738ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_CACHE_DEBUG1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2159,7 +2159,7 @@ typedef union cavm_xsrx_cmn_calibration cavm_xsrx_cmn_calibration_t;
 static inline uint64_t CAVM_XSRX_CMN_CALIBRATION(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_CALIBRATION(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014680ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_CALIBRATION", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2224,7 +2224,7 @@ typedef union cavm_xsrx_cmn_irq cavm_xsrx_cmn_irq_t;
 static inline uint64_t CAVM_XSRX_CMN_IRQ(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_IRQ(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000144a8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_IRQ", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2289,7 +2289,7 @@ typedef union cavm_xsrx_cmn_irq_clear cavm_xsrx_cmn_irq_clear_t;
 static inline uint64_t CAVM_XSRX_CMN_IRQ_CLEAR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_IRQ_CLEAR(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000144b8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_IRQ_CLEAR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2354,7 +2354,7 @@ typedef union cavm_xsrx_cmn_irq_mask cavm_xsrx_cmn_irq_mask_t;
 static inline uint64_t CAVM_XSRX_CMN_IRQ_MASK(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_IRQ_MASK(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000144b0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_IRQ_MASK", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2427,7 +2427,7 @@ typedef union cavm_xsrx_cmn_isr_2 cavm_xsrx_cmn_isr_2_t;
 static inline uint64_t CAVM_XSRX_CMN_ISR_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_ISR_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014760ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_ISR_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2500,7 +2500,7 @@ typedef union cavm_xsrx_cmn_isr_clear_2 cavm_xsrx_cmn_isr_clear_2_t;
 static inline uint64_t CAVM_XSRX_CMN_ISR_CLEAR_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_ISR_CLEAR_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014770ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_ISR_CLEAR_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2573,7 +2573,7 @@ typedef union cavm_xsrx_cmn_isr_mask_2 cavm_xsrx_cmn_isr_mask_2_t;
 static inline uint64_t CAVM_XSRX_CMN_ISR_MASK_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_ISR_MASK_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014768ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_ISR_MASK_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2640,7 +2640,7 @@ typedef union cavm_xsrx_cmn_mcu_gpio cavm_xsrx_cmn_mcu_gpio_t;
 static inline uint64_t CAVM_XSRX_CMN_MCU_GPIO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_MCU_GPIO(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014728ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_MCU_GPIO", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2727,7 +2727,7 @@ typedef union cavm_xsrx_cmn_mcu_int_reg0 cavm_xsrx_cmn_mcu_int_reg0_t;
 static inline uint64_t CAVM_XSRX_CMN_MCU_INT_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_MCU_INT_REG0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000144c8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_MCU_INT_REG0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2814,7 +2814,7 @@ typedef union cavm_xsrx_cmn_mcu_int_reg1 cavm_xsrx_cmn_mcu_int_reg1_t;
 static inline uint64_t CAVM_XSRX_CMN_MCU_INT_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_MCU_INT_REG1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000144d0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_MCU_INT_REG1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2901,7 +2901,7 @@ typedef union cavm_xsrx_cmn_mcu_int_reg10 cavm_xsrx_cmn_mcu_int_reg10_t;
 static inline uint64_t CAVM_XSRX_CMN_MCU_INT_REG10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_MCU_INT_REG10(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014518ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_MCU_INT_REG10", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2988,7 +2988,7 @@ typedef union cavm_xsrx_cmn_mcu_int_reg11 cavm_xsrx_cmn_mcu_int_reg11_t;
 static inline uint64_t CAVM_XSRX_CMN_MCU_INT_REG11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_MCU_INT_REG11(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014520ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_MCU_INT_REG11", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3075,7 +3075,7 @@ typedef union cavm_xsrx_cmn_mcu_int_reg12 cavm_xsrx_cmn_mcu_int_reg12_t;
 static inline uint64_t CAVM_XSRX_CMN_MCU_INT_REG12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_MCU_INT_REG12(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014528ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_MCU_INT_REG12", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3162,7 +3162,7 @@ typedef union cavm_xsrx_cmn_mcu_int_reg2 cavm_xsrx_cmn_mcu_int_reg2_t;
 static inline uint64_t CAVM_XSRX_CMN_MCU_INT_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_MCU_INT_REG2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000144d8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_MCU_INT_REG2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3249,7 +3249,7 @@ typedef union cavm_xsrx_cmn_mcu_int_reg3 cavm_xsrx_cmn_mcu_int_reg3_t;
 static inline uint64_t CAVM_XSRX_CMN_MCU_INT_REG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_MCU_INT_REG3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000144e0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_MCU_INT_REG3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3336,7 +3336,7 @@ typedef union cavm_xsrx_cmn_mcu_int_reg4 cavm_xsrx_cmn_mcu_int_reg4_t;
 static inline uint64_t CAVM_XSRX_CMN_MCU_INT_REG4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_MCU_INT_REG4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000144e8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_MCU_INT_REG4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3423,7 +3423,7 @@ typedef union cavm_xsrx_cmn_mcu_int_reg5 cavm_xsrx_cmn_mcu_int_reg5_t;
 static inline uint64_t CAVM_XSRX_CMN_MCU_INT_REG5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_MCU_INT_REG5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000144f0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_MCU_INT_REG5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3510,7 +3510,7 @@ typedef union cavm_xsrx_cmn_mcu_int_reg6 cavm_xsrx_cmn_mcu_int_reg6_t;
 static inline uint64_t CAVM_XSRX_CMN_MCU_INT_REG6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_MCU_INT_REG6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000144f8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_MCU_INT_REG6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3597,7 +3597,7 @@ typedef union cavm_xsrx_cmn_mcu_int_reg7 cavm_xsrx_cmn_mcu_int_reg7_t;
 static inline uint64_t CAVM_XSRX_CMN_MCU_INT_REG7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_MCU_INT_REG7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014500ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_MCU_INT_REG7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3684,7 +3684,7 @@ typedef union cavm_xsrx_cmn_mcu_int_reg8 cavm_xsrx_cmn_mcu_int_reg8_t;
 static inline uint64_t CAVM_XSRX_CMN_MCU_INT_REG8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_MCU_INT_REG8(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014508ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_MCU_INT_REG8", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3771,7 +3771,7 @@ typedef union cavm_xsrx_cmn_mcu_int_reg9 cavm_xsrx_cmn_mcu_int_reg9_t;
 static inline uint64_t CAVM_XSRX_CMN_MCU_INT_REG9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_MCU_INT_REG9(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014510ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_MCU_INT_REG9", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3809,7 +3809,7 @@ typedef union cavm_xsrx_cmn_mcu_status_reg0 cavm_xsrx_cmn_mcu_status_reg0_t;
 static inline uint64_t CAVM_XSRX_CMN_MCU_STATUS_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_MCU_STATUS_REG0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014538ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_MCU_STATUS_REG0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3847,7 +3847,7 @@ typedef union cavm_xsrx_cmn_mcu_status_reg1 cavm_xsrx_cmn_mcu_status_reg1_t;
 static inline uint64_t CAVM_XSRX_CMN_MCU_STATUS_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_MCU_STATUS_REG1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014540ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_MCU_STATUS_REG1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3885,7 +3885,7 @@ typedef union cavm_xsrx_cmn_mcu_status_reg2 cavm_xsrx_cmn_mcu_status_reg2_t;
 static inline uint64_t CAVM_XSRX_CMN_MCU_STATUS_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_MCU_STATUS_REG2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014548ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_MCU_STATUS_REG2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3923,7 +3923,7 @@ typedef union cavm_xsrx_cmn_mcu_status_reg3 cavm_xsrx_cmn_mcu_status_reg3_t;
 static inline uint64_t CAVM_XSRX_CMN_MCU_STATUS_REG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_MCU_STATUS_REG3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014550ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_MCU_STATUS_REG3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3963,7 +3963,7 @@ typedef union cavm_xsrx_cmn_mcu_timer0_control cavm_xsrx_cmn_mcu_timer0_control_
 static inline uint64_t CAVM_XSRX_CMN_MCU_TIMER0_CONTROL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_MCU_TIMER0_CONTROL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000146c8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_MCU_TIMER0_CONTROL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4003,7 +4003,7 @@ typedef union cavm_xsrx_cmn_mcu_timer1_control cavm_xsrx_cmn_mcu_timer1_control_
 static inline uint64_t CAVM_XSRX_CMN_MCU_TIMER1_CONTROL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_MCU_TIMER1_CONTROL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000146d0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_MCU_TIMER1_CONTROL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4043,7 +4043,7 @@ typedef union cavm_xsrx_cmn_mcu_timer2_control cavm_xsrx_cmn_mcu_timer2_control_
 static inline uint64_t CAVM_XSRX_CMN_MCU_TIMER2_CONTROL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_MCU_TIMER2_CONTROL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000146d8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_MCU_TIMER2_CONTROL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4083,7 +4083,7 @@ typedef union cavm_xsrx_cmn_mcu_timer3_control cavm_xsrx_cmn_mcu_timer3_control_
 static inline uint64_t CAVM_XSRX_CMN_MCU_TIMER3_CONTROL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_MCU_TIMER3_CONTROL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000146e0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_MCU_TIMER3_CONTROL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4223,7 +4223,7 @@ typedef union cavm_xsrx_cmn_mcu_timer_control cavm_xsrx_cmn_mcu_timer_control_t;
 static inline uint64_t CAVM_XSRX_CMN_MCU_TIMER_CONTROL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_MCU_TIMER_CONTROL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000146c0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_MCU_TIMER_CONTROL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4263,7 +4263,7 @@ typedef union cavm_xsrx_cmn_mcu_timer_ctrl_2_lane cavm_xsrx_cmn_mcu_timer_ctrl_2
 static inline uint64_t CAVM_XSRX_CMN_MCU_TIMER_CTRL_2_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_MCU_TIMER_CTRL_2_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000146e8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_MCU_TIMER_CTRL_2_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4303,7 +4303,7 @@ typedef union cavm_xsrx_cmn_mcu_timer_ctrl_3_lane cavm_xsrx_cmn_mcu_timer_ctrl_3
 static inline uint64_t CAVM_XSRX_CMN_MCU_TIMER_CTRL_3_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_MCU_TIMER_CTRL_3_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000146f0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_MCU_TIMER_CTRL_3_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4343,7 +4343,7 @@ typedef union cavm_xsrx_cmn_mcu_timer_ctrl_4_lane cavm_xsrx_cmn_mcu_timer_ctrl_4
 static inline uint64_t CAVM_XSRX_CMN_MCU_TIMER_CTRL_4_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_MCU_TIMER_CTRL_4_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000146f8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_MCU_TIMER_CTRL_4_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4383,7 +4383,7 @@ typedef union cavm_xsrx_cmn_mcu_timer_ctrl_5_lane cavm_xsrx_cmn_mcu_timer_ctrl_5
 static inline uint64_t CAVM_XSRX_CMN_MCU_TIMER_CTRL_5_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_MCU_TIMER_CTRL_5_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014700ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_MCU_TIMER_CTRL_5_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4440,7 +4440,7 @@ typedef union cavm_xsrx_cmn_reg1 cavm_xsrx_cmn_reg1_t;
 static inline uint64_t CAVM_XSRX_CMN_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014678ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4511,7 +4511,7 @@ typedef union cavm_xsrx_cmn_reg_1 cavm_xsrx_cmn_reg_1_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010000ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4566,7 +4566,7 @@ typedef union cavm_xsrx_cmn_reg_10 cavm_xsrx_cmn_reg_10_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_10(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010048ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_10", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4643,7 +4643,7 @@ typedef union cavm_xsrx_cmn_reg_100 cavm_xsrx_cmn_reg_100_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_100(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_100(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010318ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_100", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4832,7 +4832,7 @@ typedef union cavm_xsrx_cmn_reg_101 cavm_xsrx_cmn_reg_101_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_101(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_101(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010320ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_101", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4979,7 +4979,7 @@ typedef union cavm_xsrx_cmn_reg_102 cavm_xsrx_cmn_reg_102_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_102(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_102(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010328ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_102", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5108,7 +5108,7 @@ typedef union cavm_xsrx_cmn_reg_103 cavm_xsrx_cmn_reg_103_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_103(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_103(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010330ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_103", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5157,7 +5157,7 @@ typedef union cavm_xsrx_cmn_reg_104 cavm_xsrx_cmn_reg_104_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_104(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_104(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010338ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_104", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5240,7 +5240,7 @@ typedef union cavm_xsrx_cmn_reg_11 cavm_xsrx_cmn_reg_11_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_11(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010050ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_11", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5291,7 +5291,7 @@ typedef union cavm_xsrx_cmn_reg_12 cavm_xsrx_cmn_reg_12_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_12(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010058ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_12", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5342,7 +5342,7 @@ typedef union cavm_xsrx_cmn_reg_13 cavm_xsrx_cmn_reg_13_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_13(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_13(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010060ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_13", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5393,7 +5393,7 @@ typedef union cavm_xsrx_cmn_reg_14 cavm_xsrx_cmn_reg_14_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_14(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_14(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010068ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_14", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5444,7 +5444,7 @@ typedef union cavm_xsrx_cmn_reg_15 cavm_xsrx_cmn_reg_15_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_15(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_15(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010070ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_15", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5495,7 +5495,7 @@ typedef union cavm_xsrx_cmn_reg_16 cavm_xsrx_cmn_reg_16_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_16(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_16(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010078ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_16", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5546,7 +5546,7 @@ typedef union cavm_xsrx_cmn_reg_17 cavm_xsrx_cmn_reg_17_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_17(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_17(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010080ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_17", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5597,7 +5597,7 @@ typedef union cavm_xsrx_cmn_reg_18 cavm_xsrx_cmn_reg_18_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_18(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_18(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010088ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_18", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5648,7 +5648,7 @@ typedef union cavm_xsrx_cmn_reg_19 cavm_xsrx_cmn_reg_19_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_19(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_19(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010090ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_19", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5785,7 +5785,7 @@ typedef union cavm_xsrx_cmn_reg_2 cavm_xsrx_cmn_reg_2_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010008ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5836,7 +5836,7 @@ typedef union cavm_xsrx_cmn_reg_20 cavm_xsrx_cmn_reg_20_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_20(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_20(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010098ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_20", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5887,7 +5887,7 @@ typedef union cavm_xsrx_cmn_reg_21 cavm_xsrx_cmn_reg_21_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_21(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_21(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000100a0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_21", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5938,7 +5938,7 @@ typedef union cavm_xsrx_cmn_reg_22 cavm_xsrx_cmn_reg_22_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_22(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_22(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000100a8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_22", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5989,7 +5989,7 @@ typedef union cavm_xsrx_cmn_reg_23 cavm_xsrx_cmn_reg_23_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_23(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_23(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000100b0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_23", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6040,7 +6040,7 @@ typedef union cavm_xsrx_cmn_reg_24 cavm_xsrx_cmn_reg_24_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_24(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_24(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000100b8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_24", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6091,7 +6091,7 @@ typedef union cavm_xsrx_cmn_reg_25 cavm_xsrx_cmn_reg_25_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_25(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_25(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000100c0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_25", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6142,7 +6142,7 @@ typedef union cavm_xsrx_cmn_reg_26 cavm_xsrx_cmn_reg_26_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_26(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_26(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000100c8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_26", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6197,7 +6197,7 @@ typedef union cavm_xsrx_cmn_reg_27 cavm_xsrx_cmn_reg_27_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_27(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_27(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000100d0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_27", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6252,7 +6252,7 @@ typedef union cavm_xsrx_cmn_reg_28 cavm_xsrx_cmn_reg_28_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_28(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_28(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000100d8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_28", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6307,7 +6307,7 @@ typedef union cavm_xsrx_cmn_reg_29 cavm_xsrx_cmn_reg_29_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_29(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_29(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000100e0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_29", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6406,7 +6406,7 @@ typedef union cavm_xsrx_cmn_reg_3 cavm_xsrx_cmn_reg_3_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010010ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6461,7 +6461,7 @@ typedef union cavm_xsrx_cmn_reg_30 cavm_xsrx_cmn_reg_30_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_30(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_30(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000100e8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_30", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6552,7 +6552,7 @@ typedef union cavm_xsrx_cmn_reg_35 cavm_xsrx_cmn_reg_35_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_35(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_35(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010110ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_35", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6603,7 +6603,7 @@ typedef union cavm_xsrx_cmn_reg_36 cavm_xsrx_cmn_reg_36_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_36(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_36(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010118ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_36", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6654,7 +6654,7 @@ typedef union cavm_xsrx_cmn_reg_37 cavm_xsrx_cmn_reg_37_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_37(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_37(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010120ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_37", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6705,7 +6705,7 @@ typedef union cavm_xsrx_cmn_reg_38 cavm_xsrx_cmn_reg_38_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_38(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_38(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010128ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_38", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6970,7 +6970,7 @@ typedef union cavm_xsrx_cmn_reg_4 cavm_xsrx_cmn_reg_4_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010018ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -7021,7 +7021,7 @@ typedef union cavm_xsrx_cmn_reg_43 cavm_xsrx_cmn_reg_43_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_43(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_43(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010150ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_43", 1, a, 0, 0, 0, 0, 0);
 }
@@ -7072,7 +7072,7 @@ typedef union cavm_xsrx_cmn_reg_44 cavm_xsrx_cmn_reg_44_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_44(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_44(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010158ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_44", 1, a, 0, 0, 0, 0, 0);
 }
@@ -7123,7 +7123,7 @@ typedef union cavm_xsrx_cmn_reg_45 cavm_xsrx_cmn_reg_45_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_45(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_45(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010160ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_45", 1, a, 0, 0, 0, 0, 0);
 }
@@ -7174,7 +7174,7 @@ typedef union cavm_xsrx_cmn_reg_46 cavm_xsrx_cmn_reg_46_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_46(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_46(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010168ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_46", 1, a, 0, 0, 0, 0, 0);
 }
@@ -7227,7 +7227,7 @@ typedef union cavm_xsrx_cmn_reg_47 cavm_xsrx_cmn_reg_47_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_47(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_47(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010170ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_47", 1, a, 0, 0, 0, 0, 0);
 }
@@ -7280,7 +7280,7 @@ typedef union cavm_xsrx_cmn_reg_48 cavm_xsrx_cmn_reg_48_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_48(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_48(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010178ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_48", 1, a, 0, 0, 0, 0, 0);
 }
@@ -7381,7 +7381,7 @@ typedef union cavm_xsrx_cmn_reg_49 cavm_xsrx_cmn_reg_49_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_49(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_49(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010180ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_49", 1, a, 0, 0, 0, 0, 0);
 }
@@ -7462,7 +7462,7 @@ typedef union cavm_xsrx_cmn_reg_5 cavm_xsrx_cmn_reg_5_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010020ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -7515,7 +7515,7 @@ typedef union cavm_xsrx_cmn_reg_50 cavm_xsrx_cmn_reg_50_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_50(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_50(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010188ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_50", 1, a, 0, 0, 0, 0, 0);
 }
@@ -7570,7 +7570,7 @@ typedef union cavm_xsrx_cmn_reg_54 cavm_xsrx_cmn_reg_54_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_54(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_54(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000101a8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_54", 1, a, 0, 0, 0, 0, 0);
 }
@@ -7687,7 +7687,7 @@ typedef union cavm_xsrx_cmn_reg_55 cavm_xsrx_cmn_reg_55_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_55(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_55(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000101b0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_55", 1, a, 0, 0, 0, 0, 0);
 }
@@ -7738,7 +7738,7 @@ typedef union cavm_xsrx_cmn_reg_56 cavm_xsrx_cmn_reg_56_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_56(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_56(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000101b8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_56", 1, a, 0, 0, 0, 0, 0);
 }
@@ -7789,7 +7789,7 @@ typedef union cavm_xsrx_cmn_reg_57 cavm_xsrx_cmn_reg_57_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_57(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_57(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000101c0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_57", 1, a, 0, 0, 0, 0, 0);
 }
@@ -7840,7 +7840,7 @@ typedef union cavm_xsrx_cmn_reg_58 cavm_xsrx_cmn_reg_58_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_58(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_58(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000101c8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_58", 1, a, 0, 0, 0, 0, 0);
 }
@@ -7891,7 +7891,7 @@ typedef union cavm_xsrx_cmn_reg_59 cavm_xsrx_cmn_reg_59_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_59(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_59(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000101d0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_59", 1, a, 0, 0, 0, 0, 0);
 }
@@ -7988,7 +7988,7 @@ typedef union cavm_xsrx_cmn_reg_6 cavm_xsrx_cmn_reg_6_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010028ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -8039,7 +8039,7 @@ typedef union cavm_xsrx_cmn_reg_60 cavm_xsrx_cmn_reg_60_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_60(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_60(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000101d8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_60", 1, a, 0, 0, 0, 0, 0);
 }
@@ -8090,7 +8090,7 @@ typedef union cavm_xsrx_cmn_reg_61 cavm_xsrx_cmn_reg_61_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_61(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_61(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000101e0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_61", 1, a, 0, 0, 0, 0, 0);
 }
@@ -8141,7 +8141,7 @@ typedef union cavm_xsrx_cmn_reg_62 cavm_xsrx_cmn_reg_62_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_62(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_62(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000101e8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_62", 1, a, 0, 0, 0, 0, 0);
 }
@@ -8192,7 +8192,7 @@ typedef union cavm_xsrx_cmn_reg_63 cavm_xsrx_cmn_reg_63_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_63(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_63(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000101f0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_63", 1, a, 0, 0, 0, 0, 0);
 }
@@ -8243,7 +8243,7 @@ typedef union cavm_xsrx_cmn_reg_64 cavm_xsrx_cmn_reg_64_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_64(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_64(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000101f8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_64", 1, a, 0, 0, 0, 0, 0);
 }
@@ -8304,7 +8304,7 @@ typedef union cavm_xsrx_cmn_reg_65 cavm_xsrx_cmn_reg_65_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_65(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_65(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010200ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_65", 1, a, 0, 0, 0, 0, 0);
 }
@@ -8353,7 +8353,7 @@ typedef union cavm_xsrx_cmn_reg_66 cavm_xsrx_cmn_reg_66_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_66(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_66(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010208ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_66", 1, a, 0, 0, 0, 0, 0);
 }
@@ -8402,7 +8402,7 @@ typedef union cavm_xsrx_cmn_reg_67 cavm_xsrx_cmn_reg_67_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_67(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_67(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010210ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_67", 1, a, 0, 0, 0, 0, 0);
 }
@@ -8519,7 +8519,7 @@ typedef union cavm_xsrx_cmn_reg_68 cavm_xsrx_cmn_reg_68_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_68(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_68(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010218ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_68", 1, a, 0, 0, 0, 0, 0);
 }
@@ -8572,7 +8572,7 @@ typedef union cavm_xsrx_cmn_reg_69 cavm_xsrx_cmn_reg_69_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_69(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_69(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010220ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_69", 1, a, 0, 0, 0, 0, 0);
 }
@@ -8677,7 +8677,7 @@ typedef union cavm_xsrx_cmn_reg_7 cavm_xsrx_cmn_reg_7_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010030ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -8730,7 +8730,7 @@ typedef union cavm_xsrx_cmn_reg_70 cavm_xsrx_cmn_reg_70_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_70(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_70(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010228ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_70", 1, a, 0, 0, 0, 0, 0);
 }
@@ -8783,7 +8783,7 @@ typedef union cavm_xsrx_cmn_reg_71 cavm_xsrx_cmn_reg_71_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_71(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_71(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010230ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_71", 1, a, 0, 0, 0, 0, 0);
 }
@@ -8834,7 +8834,7 @@ typedef union cavm_xsrx_cmn_reg_72 cavm_xsrx_cmn_reg_72_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_72(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_72(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010238ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_72", 1, a, 0, 0, 0, 0, 0);
 }
@@ -8959,7 +8959,7 @@ typedef union cavm_xsrx_cmn_reg_73 cavm_xsrx_cmn_reg_73_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_73(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_73(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010240ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_73", 1, a, 0, 0, 0, 0, 0);
 }
@@ -9078,7 +9078,7 @@ typedef union cavm_xsrx_cmn_reg_75 cavm_xsrx_cmn_reg_75_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_75(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_75(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010250ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_75", 1, a, 0, 0, 0, 0, 0);
 }
@@ -9145,7 +9145,7 @@ typedef union cavm_xsrx_cmn_reg_76 cavm_xsrx_cmn_reg_76_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_76(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_76(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010258ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_76", 1, a, 0, 0, 0, 0, 0);
 }
@@ -9286,7 +9286,7 @@ typedef union cavm_xsrx_cmn_reg_77 cavm_xsrx_cmn_reg_77_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_77(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_77(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010260ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_77", 1, a, 0, 0, 0, 0, 0);
 }
@@ -9373,7 +9373,7 @@ typedef union cavm_xsrx_cmn_reg_78 cavm_xsrx_cmn_reg_78_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_78(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_78(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010268ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_78", 1, a, 0, 0, 0, 0, 0);
 }
@@ -9476,7 +9476,7 @@ typedef union cavm_xsrx_cmn_reg_79 cavm_xsrx_cmn_reg_79_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_79(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_79(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010270ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_79", 1, a, 0, 0, 0, 0, 0);
 }
@@ -9553,7 +9553,7 @@ typedef union cavm_xsrx_cmn_reg_80 cavm_xsrx_cmn_reg_80_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_80(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_80(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010278ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_80", 1, a, 0, 0, 0, 0, 0);
 }
@@ -9602,7 +9602,7 @@ typedef union cavm_xsrx_cmn_reg_81 cavm_xsrx_cmn_reg_81_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_81(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_81(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010280ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_81", 1, a, 0, 0, 0, 0, 0);
 }
@@ -9683,7 +9683,7 @@ typedef union cavm_xsrx_cmn_reg_82 cavm_xsrx_cmn_reg_82_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_82(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_82(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010288ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_82", 1, a, 0, 0, 0, 0, 0);
 }
@@ -9732,7 +9732,7 @@ typedef union cavm_xsrx_cmn_reg_83 cavm_xsrx_cmn_reg_83_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_83(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_83(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010290ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_83", 1, a, 0, 0, 0, 0, 0);
 }
@@ -9781,7 +9781,7 @@ typedef union cavm_xsrx_cmn_reg_84 cavm_xsrx_cmn_reg_84_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_84(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_84(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010298ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_84", 1, a, 0, 0, 0, 0, 0);
 }
@@ -9866,7 +9866,7 @@ typedef union cavm_xsrx_cmn_reg_85 cavm_xsrx_cmn_reg_85_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_85(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_85(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000102a0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_85", 1, a, 0, 0, 0, 0, 0);
 }
@@ -9937,7 +9937,7 @@ typedef union cavm_xsrx_cmn_reg_86 cavm_xsrx_cmn_reg_86_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_86(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_86(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000102a8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_86", 1, a, 0, 0, 0, 0, 0);
 }
@@ -10062,7 +10062,7 @@ typedef union cavm_xsrx_cmn_reg_87 cavm_xsrx_cmn_reg_87_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_87(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_87(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000102b0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_87", 1, a, 0, 0, 0, 0, 0);
 }
@@ -10155,7 +10155,7 @@ typedef union cavm_xsrx_cmn_reg_88 cavm_xsrx_cmn_reg_88_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_88(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_88(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000102b8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_88", 1, a, 0, 0, 0, 0, 0);
 }
@@ -10248,7 +10248,7 @@ typedef union cavm_xsrx_cmn_reg_89 cavm_xsrx_cmn_reg_89_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_89(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_89(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000102c0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_89", 1, a, 0, 0, 0, 0, 0);
 }
@@ -10367,7 +10367,7 @@ typedef union cavm_xsrx_cmn_reg_9 cavm_xsrx_cmn_reg_9_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_9(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010040ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_9", 1, a, 0, 0, 0, 0, 0);
 }
@@ -10442,7 +10442,7 @@ typedef union cavm_xsrx_cmn_reg_90 cavm_xsrx_cmn_reg_90_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_90(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_90(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000102c8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_90", 1, a, 0, 0, 0, 0, 0);
 }
@@ -10495,7 +10495,7 @@ typedef union cavm_xsrx_cmn_reg_91 cavm_xsrx_cmn_reg_91_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_91(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_91(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000102d0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_91", 1, a, 0, 0, 0, 0, 0);
 }
@@ -10558,7 +10558,7 @@ typedef union cavm_xsrx_cmn_reg_92 cavm_xsrx_cmn_reg_92_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_92(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_92(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000102d8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_92", 1, a, 0, 0, 0, 0, 0);
 }
@@ -10607,7 +10607,7 @@ typedef union cavm_xsrx_cmn_reg_93 cavm_xsrx_cmn_reg_93_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_93(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_93(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000102e0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_93", 1, a, 0, 0, 0, 0, 0);
 }
@@ -10672,7 +10672,7 @@ typedef union cavm_xsrx_cmn_reg_94 cavm_xsrx_cmn_reg_94_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_94(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_94(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000102e8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_94", 1, a, 0, 0, 0, 0, 0);
 }
@@ -10721,7 +10721,7 @@ typedef union cavm_xsrx_cmn_reg_95 cavm_xsrx_cmn_reg_95_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_95(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_95(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000102f0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_95", 1, a, 0, 0, 0, 0, 0);
 }
@@ -10770,7 +10770,7 @@ typedef union cavm_xsrx_cmn_reg_96 cavm_xsrx_cmn_reg_96_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_96(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_96(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000102f8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_96", 1, a, 0, 0, 0, 0, 0);
 }
@@ -10819,7 +10819,7 @@ typedef union cavm_xsrx_cmn_reg_97 cavm_xsrx_cmn_reg_97_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_97(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_97(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010300ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_97", 1, a, 0, 0, 0, 0, 0);
 }
@@ -10868,7 +10868,7 @@ typedef union cavm_xsrx_cmn_reg_98 cavm_xsrx_cmn_reg_98_t;
 static inline uint64_t CAVM_XSRX_CMN_REG_98(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_REG_98(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010308ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_REG_98", 1, a, 0, 0, 0, 0, 0);
 }
@@ -10908,7 +10908,7 @@ typedef union cavm_xsrx_cmn_reserved_reg1 cavm_xsrx_cmn_reserved_reg1_t;
 static inline uint64_t CAVM_XSRX_CMN_RESERVED_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_RESERVED_REG1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000146b0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_RESERVED_REG1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -10974,7 +10974,7 @@ typedef union cavm_xsrx_cmn_reserved_reg2 cavm_xsrx_cmn_reserved_reg2_t;
 static inline uint64_t CAVM_XSRX_CMN_RESERVED_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CMN_RESERVED_REG2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000146b8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CMN_RESERVED_REG2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -11033,7 +11033,7 @@ typedef union cavm_xsrx_common_phy_ctrl_bcfg cavm_xsrx_common_phy_ctrl_bcfg_t;
 static inline uint64_t CAVM_XSRX_COMMON_PHY_CTRL_BCFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_COMMON_PHY_CTRL_BCFG(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200020058ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_COMMON_PHY_CTRL_BCFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -11078,7 +11078,7 @@ typedef union cavm_xsrx_common_phy_ctrl_prot cavm_xsrx_common_phy_ctrl_prot_t;
 static inline uint64_t CAVM_XSRX_COMMON_PHY_CTRL_PROT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_COMMON_PHY_CTRL_PROT(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200020060ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_COMMON_PHY_CTRL_PROT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -11122,7 +11122,7 @@ typedef union cavm_xsrx_con_cal_step_size1 cavm_xsrx_con_cal_step_size1_t;
 static inline uint64_t CAVM_XSRX_CON_CAL_STEP_SIZE1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CON_CAL_STEP_SIZE1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cc68ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CON_CAL_STEP_SIZE1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -11166,7 +11166,7 @@ typedef union cavm_xsrx_con_cal_step_size2 cavm_xsrx_con_cal_step_size2_t;
 static inline uint64_t CAVM_XSRX_CON_CAL_STEP_SIZE2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CON_CAL_STEP_SIZE2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cc70ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CON_CAL_STEP_SIZE2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -11210,7 +11210,7 @@ typedef union cavm_xsrx_con_cal_step_size3 cavm_xsrx_con_cal_step_size3_t;
 static inline uint64_t CAVM_XSRX_CON_CAL_STEP_SIZE3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CON_CAL_STEP_SIZE3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cc78ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CON_CAL_STEP_SIZE3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -11254,7 +11254,7 @@ typedef union cavm_xsrx_con_cal_step_size4 cavm_xsrx_con_cal_step_size4_t;
 static inline uint64_t CAVM_XSRX_CON_CAL_STEP_SIZE4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CON_CAL_STEP_SIZE4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cc80ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CON_CAL_STEP_SIZE4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -11298,7 +11298,7 @@ typedef union cavm_xsrx_con_cal_step_size5 cavm_xsrx_con_cal_step_size5_t;
 static inline uint64_t CAVM_XSRX_CON_CAL_STEP_SIZE5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CON_CAL_STEP_SIZE5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cc88ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CON_CAL_STEP_SIZE5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -11335,7 +11335,7 @@ typedef union cavm_xsrx_const cavm_xsrx_const_t;
 static inline uint64_t CAVM_XSRX_CONST(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CONST(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200020050ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CONST", 1, a, 0, 0, 0, 0, 0);
 }
@@ -11524,7 +11524,7 @@ typedef union cavm_xsrx_control cavm_xsrx_control_t;
 static inline uint64_t CAVM_XSRX_CONTROL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CONTROL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200020090ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CONTROL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -11620,7 +11620,7 @@ typedef union cavm_xsrx_control_config0 cavm_xsrx_control_config0_t;
 static inline uint64_t CAVM_XSRX_CONTROL_CONFIG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CONTROL_CONFIG0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cc08ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CONTROL_CONFIG0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -11789,7 +11789,7 @@ typedef union cavm_xsrx_control_config1 cavm_xsrx_control_config1_t;
 static inline uint64_t CAVM_XSRX_CONTROL_CONFIG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CONTROL_CONFIG1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cc10ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CONTROL_CONFIG1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -11940,7 +11940,7 @@ typedef union cavm_xsrx_control_config2 cavm_xsrx_control_config2_t;
 static inline uint64_t CAVM_XSRX_CONTROL_CONFIG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CONTROL_CONFIG2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cc18ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CONTROL_CONFIG2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -12004,7 +12004,7 @@ typedef union cavm_xsrx_control_config3 cavm_xsrx_control_config3_t;
 static inline uint64_t CAVM_XSRX_CONTROL_CONFIG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CONTROL_CONFIG3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cc20ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CONTROL_CONFIG3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -12062,7 +12062,7 @@ typedef union cavm_xsrx_control_config5 cavm_xsrx_control_config5_t;
 static inline uint64_t CAVM_XSRX_CONTROL_CONFIG5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CONTROL_CONFIG5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cc30ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CONTROL_CONFIG5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -12162,7 +12162,7 @@ typedef union cavm_xsrx_control_config6 cavm_xsrx_control_config6_t;
 static inline uint64_t CAVM_XSRX_CONTROL_CONFIG6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CONTROL_CONFIG6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cc38ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CONTROL_CONFIG6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -12210,7 +12210,7 @@ typedef union cavm_xsrx_control_config7 cavm_xsrx_control_config7_t;
 static inline uint64_t CAVM_XSRX_CONTROL_CONFIG7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CONTROL_CONFIG7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cc40ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CONTROL_CONFIG7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -12276,7 +12276,7 @@ typedef union cavm_xsrx_control_config8 cavm_xsrx_control_config8_t;
 static inline uint64_t CAVM_XSRX_CONTROL_CONFIG8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CONTROL_CONFIG8(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cc58ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CONTROL_CONFIG8", 1, a, 0, 0, 0, 0, 0);
 }
@@ -12419,7 +12419,7 @@ typedef union cavm_xsrx_control_config9 cavm_xsrx_control_config9_t;
 static inline uint64_t CAVM_XSRX_CONTROL_CONFIG9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_CONTROL_CONFIG9(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cc60ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_CONTROL_CONFIG9", 1, a, 0, 0, 0, 0, 0);
 }
@@ -12528,7 +12528,7 @@ typedef union cavm_xsrx_debug cavm_xsrx_debug_t;
 static inline uint64_t CAVM_XSRX_DEBUG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_DEBUG(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200020068ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_DEBUG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -12641,7 +12641,7 @@ typedef union cavm_xsrx_disable_trx_lane cavm_xsrx_disable_trx_lane_t;
 static inline uint64_t CAVM_XSRX_DISABLE_TRX_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_DISABLE_TRX_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cd20ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_DISABLE_TRX_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -12736,7 +12736,7 @@ typedef union cavm_xsrx_ext_int_control0 cavm_xsrx_ext_int_control0_t;
 static inline uint64_t CAVM_XSRX_EXT_INT_CONTROL0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_EXT_INT_CONTROL0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014530ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_EXT_INT_CONTROL0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -12780,7 +12780,7 @@ typedef union cavm_xsrx_fw_rev cavm_xsrx_fw_rev_t;
 static inline uint64_t CAVM_XSRX_FW_REV(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_FW_REV(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cc00ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_FW_REV", 1, a, 0, 0, 0, 0, 0);
 }
@@ -12818,7 +12818,7 @@ typedef union cavm_xsrx_fw_spirx_pkt_registers cavm_xsrx_fw_spirx_pkt_registers_
 static inline uint64_t CAVM_XSRX_FW_SPIRX_PKT_REGISTERS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_FW_SPIRX_PKT_REGISTERS(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cd80ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_FW_SPIRX_PKT_REGISTERS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -12867,7 +12867,7 @@ typedef union cavm_xsrx_gclk_ctl cavm_xsrx_gclk_ctl_t;
 static inline uint64_t CAVM_XSRX_GCLK_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_GCLK_CTL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200020088ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_GCLK_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -12936,7 +12936,7 @@ typedef union cavm_xsrx_init_ctl cavm_xsrx_init_ctl_t;
 static inline uint64_t CAVM_XSRX_INIT_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_INIT_CTL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200020080ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_INIT_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13009,7 +13009,7 @@ typedef union cavm_xsrx_input_cmn_pin_reg1 cavm_xsrx_input_cmn_pin_reg1_t;
 static inline uint64_t CAVM_XSRX_INPUT_CMN_PIN_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_INPUT_CMN_PIN_REG1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014648ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_INPUT_CMN_PIN_REG1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13074,7 +13074,7 @@ typedef union cavm_xsrx_input_cmn_pin_reg2 cavm_xsrx_input_cmn_pin_reg2_t;
 static inline uint64_t CAVM_XSRX_INPUT_CMN_PIN_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_INPUT_CMN_PIN_REG2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014650ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_INPUT_CMN_PIN_REG2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13128,7 +13128,7 @@ typedef union cavm_xsrx_input_pin_debug_cmn_reg0 cavm_xsrx_input_pin_debug_cmn_r
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_CMN_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_CMN_REG0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014800ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_INPUT_PIN_DEBUG_CMN_REG0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13170,7 +13170,7 @@ typedef union cavm_xsrx_input_pin_debug_cmn_reg1 cavm_xsrx_input_pin_debug_cmn_r
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_CMN_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_CMN_REG1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014808ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_INPUT_PIN_DEBUG_CMN_REG1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13212,7 +13212,7 @@ typedef union cavm_xsrx_input_pin_debug_cmn_reg10 cavm_xsrx_input_pin_debug_cmn_
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_CMN_REG10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_CMN_REG10(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014850ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_INPUT_PIN_DEBUG_CMN_REG10", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13258,7 +13258,7 @@ typedef union cavm_xsrx_input_pin_debug_cmn_reg11 cavm_xsrx_input_pin_debug_cmn_
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_CMN_REG11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_CMN_REG11(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014858ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_INPUT_PIN_DEBUG_CMN_REG11", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13302,7 +13302,7 @@ typedef union cavm_xsrx_input_pin_debug_cmn_reg12 cavm_xsrx_input_pin_debug_cmn_
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_CMN_REG12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_CMN_REG12(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014860ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_INPUT_PIN_DEBUG_CMN_REG12", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13348,7 +13348,7 @@ typedef union cavm_xsrx_input_pin_debug_cmn_reg2 cavm_xsrx_input_pin_debug_cmn_r
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_CMN_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_CMN_REG2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014810ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_INPUT_PIN_DEBUG_CMN_REG2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13386,7 +13386,7 @@ typedef union cavm_xsrx_input_pin_debug_cmn_reg3 cavm_xsrx_input_pin_debug_cmn_r
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_CMN_REG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_CMN_REG3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014818ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_INPUT_PIN_DEBUG_CMN_REG3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13434,7 +13434,7 @@ typedef union cavm_xsrx_input_pin_debug_cmn_reg4 cavm_xsrx_input_pin_debug_cmn_r
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_CMN_REG4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_CMN_REG4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014820ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_INPUT_PIN_DEBUG_CMN_REG4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13472,7 +13472,7 @@ typedef union cavm_xsrx_input_pin_debug_cmn_reg5 cavm_xsrx_input_pin_debug_cmn_r
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_CMN_REG5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_CMN_REG5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014828ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_INPUT_PIN_DEBUG_CMN_REG5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13542,7 +13542,7 @@ typedef union cavm_xsrx_input_pin_debug_cmn_reg6 cavm_xsrx_input_pin_debug_cmn_r
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_CMN_REG6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_CMN_REG6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014830ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_INPUT_PIN_DEBUG_CMN_REG6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13588,7 +13588,7 @@ typedef union cavm_xsrx_input_pin_debug_cmn_reg7 cavm_xsrx_input_pin_debug_cmn_r
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_CMN_REG7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_CMN_REG7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014838ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_INPUT_PIN_DEBUG_CMN_REG7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13632,7 +13632,7 @@ typedef union cavm_xsrx_input_pin_debug_cmn_reg8 cavm_xsrx_input_pin_debug_cmn_r
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_CMN_REG8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_CMN_REG8(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014840ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_INPUT_PIN_DEBUG_CMN_REG8", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13672,7 +13672,7 @@ typedef union cavm_xsrx_input_pin_debug_cmn_reg9 cavm_xsrx_input_pin_debug_cmn_r
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_CMN_REG9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_CMN_REG9(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014848ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_INPUT_PIN_DEBUG_CMN_REG9", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13722,7 +13722,7 @@ typedef union cavm_xsrx_input_pin_debug_pll_ts_lane_reg0 cavm_xsrx_input_pin_deb
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_PLL_TS_LANE_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_PLL_TS_LANE_REG0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20000ae00ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_INPUT_PIN_DEBUG_PLL_TS_LANE_REG0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13768,7 +13768,7 @@ typedef union cavm_xsrx_input_pin_debug_pll_ts_lane_reg1 cavm_xsrx_input_pin_deb
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_PLL_TS_LANE_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_PLL_TS_LANE_REG1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20000ae08ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_INPUT_PIN_DEBUG_PLL_TS_LANE_REG1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13812,7 +13812,7 @@ typedef union cavm_xsrx_input_pin_debug_pll_ts_lane_reg2 cavm_xsrx_input_pin_deb
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_PLL_TS_LANE_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_PLL_TS_LANE_REG2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20000ae10ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_INPUT_PIN_DEBUG_PLL_TS_LANE_REG2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13868,7 +13868,7 @@ typedef union cavm_xsrx_input_pin_debug_rx_lane_reg0 cavm_xsrx_input_pin_debug_r
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_RX_LANE_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_RX_LANE_REG0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20000ac00ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_INPUT_PIN_DEBUG_RX_LANE_REG0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13906,7 +13906,7 @@ typedef union cavm_xsrx_input_pin_debug_rx_lane_reg1 cavm_xsrx_input_pin_debug_r
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_RX_LANE_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_RX_LANE_REG1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20000ac08ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_INPUT_PIN_DEBUG_RX_LANE_REG1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13944,7 +13944,7 @@ typedef union cavm_xsrx_input_pin_debug_rx_lane_reg2 cavm_xsrx_input_pin_debug_r
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_RX_LANE_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_RX_LANE_REG2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20000ac10ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_INPUT_PIN_DEBUG_RX_LANE_REG2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -13982,7 +13982,7 @@ typedef union cavm_xsrx_input_pin_debug_rx_lane_reg3 cavm_xsrx_input_pin_debug_r
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_RX_LANE_REG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_RX_LANE_REG3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20000ac18ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_INPUT_PIN_DEBUG_RX_LANE_REG3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -14020,7 +14020,7 @@ typedef union cavm_xsrx_input_pin_debug_rx_lane_reg4 cavm_xsrx_input_pin_debug_r
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_RX_LANE_REG4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_RX_LANE_REG4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20000ac20ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_INPUT_PIN_DEBUG_RX_LANE_REG4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -14058,7 +14058,7 @@ typedef union cavm_xsrx_input_pin_debug_rx_lane_reg5 cavm_xsrx_input_pin_debug_r
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_RX_LANE_REG5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_RX_LANE_REG5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20000ac28ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_INPUT_PIN_DEBUG_RX_LANE_REG5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -14108,7 +14108,7 @@ typedef union cavm_xsrx_input_pin_debug_rx_lane_reg6 cavm_xsrx_input_pin_debug_r
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_RX_LANE_REG6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_RX_LANE_REG6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20000ac30ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_INPUT_PIN_DEBUG_RX_LANE_REG6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -14148,7 +14148,7 @@ typedef union cavm_xsrx_input_pin_debug_rx_lane_reg7 cavm_xsrx_input_pin_debug_r
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_RX_LANE_REG7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_RX_LANE_REG7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20000ac38ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_INPUT_PIN_DEBUG_RX_LANE_REG7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -14194,7 +14194,7 @@ typedef union cavm_xsrx_input_pin_debug_tx_lane_reg0 cavm_xsrx_input_pin_debug_t
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_TX_LANE_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_TX_LANE_REG0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20000aa00ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_INPUT_PIN_DEBUG_TX_LANE_REG0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -14236,7 +14236,7 @@ typedef union cavm_xsrx_input_pin_debug_tx_lane_reg1 cavm_xsrx_input_pin_debug_t
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_TX_LANE_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_INPUT_PIN_DEBUG_TX_LANE_REG1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20000aa08ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_INPUT_PIN_DEBUG_TX_LANE_REG1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -14313,7 +14313,7 @@ typedef union cavm_xsrx_int_ena_w1c cavm_xsrx_int_ena_w1c_t;
 static inline uint64_t CAVM_XSRX_INT_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_INT_ENA_W1C(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000200b0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
@@ -14390,7 +14390,7 @@ typedef union cavm_xsrx_int_ena_w1s cavm_xsrx_int_ena_w1s_t;
 static inline uint64_t CAVM_XSRX_INT_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_INT_ENA_W1S(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000200b8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -14541,7 +14541,7 @@ typedef union cavm_xsrx_int_sum cavm_xsrx_int_sum_t;
 static inline uint64_t CAVM_XSRX_INT_SUM(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_INT_SUM(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000200a0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_INT_SUM", 1, a, 0, 0, 0, 0, 0);
 }
@@ -14618,7 +14618,7 @@ typedef union cavm_xsrx_int_sum_w1s cavm_xsrx_int_sum_w1s_t;
 static inline uint64_t CAVM_XSRX_INT_SUM_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_INT_SUM_W1S(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000200a8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_INT_SUM_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -14666,7 +14666,7 @@ typedef union cavm_xsrx_lane_ctrl_lane_a_0 cavm_xsrx_lane_ctrl_lane_a_0_t;
 static inline uint64_t CAVM_XSRX_LANE_CTRL_LANE_A_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_LANE_CTRL_LANE_A_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c4c0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_LANE_CTRL_LANE_A_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -14714,7 +14714,7 @@ typedef union cavm_xsrx_lane_ctrl_lane_b_0 cavm_xsrx_lane_ctrl_lane_b_0_t;
 static inline uint64_t CAVM_XSRX_LANE_CTRL_LANE_B_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_LANE_CTRL_LANE_B_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c5c0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_LANE_CTRL_LANE_B_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -14762,7 +14762,7 @@ typedef union cavm_xsrx_lane_ctrl_lane_c_0 cavm_xsrx_lane_ctrl_lane_c_0_t;
 static inline uint64_t CAVM_XSRX_LANE_CTRL_LANE_C_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_LANE_CTRL_LANE_C_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c6c0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_LANE_CTRL_LANE_C_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -14810,7 +14810,7 @@ typedef union cavm_xsrx_lane_ctrl_lane_d_0 cavm_xsrx_lane_ctrl_lane_d_0_t;
 static inline uint64_t CAVM_XSRX_LANE_CTRL_LANE_D_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_LANE_CTRL_LANE_D_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c7c0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_LANE_CTRL_LANE_D_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -14858,7 +14858,7 @@ typedef union cavm_xsrx_lane_ctrl_lane_e_0 cavm_xsrx_lane_ctrl_lane_e_0_t;
 static inline uint64_t CAVM_XSRX_LANE_CTRL_LANE_E_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_LANE_CTRL_LANE_E_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c8c0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_LANE_CTRL_LANE_E_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -14906,7 +14906,7 @@ typedef union cavm_xsrx_lane_ctrl_lane_f_0 cavm_xsrx_lane_ctrl_lane_f_0_t;
 static inline uint64_t CAVM_XSRX_LANE_CTRL_LANE_F_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_LANE_CTRL_LANE_F_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c9c0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_LANE_CTRL_LANE_F_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -14954,7 +14954,7 @@ typedef union cavm_xsrx_lane_ctrl_lane_g_0 cavm_xsrx_lane_ctrl_lane_g_0_t;
 static inline uint64_t CAVM_XSRX_LANE_CTRL_LANE_G_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_LANE_CTRL_LANE_G_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cac0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_LANE_CTRL_LANE_G_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -15002,7 +15002,7 @@ typedef union cavm_xsrx_lane_ctrl_lane_h_0 cavm_xsrx_lane_ctrl_lane_h_0_t;
 static inline uint64_t CAVM_XSRX_LANE_CTRL_LANE_H_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_LANE_CTRL_LANE_H_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cbc0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_LANE_CTRL_LANE_H_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -15051,7 +15051,7 @@ typedef union cavm_xsrx_loop_cnts cavm_xsrx_loop_cnts_t;
 static inline uint64_t CAVM_XSRX_LOOP_CNTS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_LOOP_CNTS(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001ccb0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_LOOP_CNTS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -15100,7 +15100,7 @@ typedef union cavm_xsrx_mcu_addr_reg cavm_xsrx_mcu_addr_reg_t;
 static inline uint64_t CAVM_XSRX_MCU_ADDR_REG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_MCU_ADDR_REG(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000144c0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_MCU_ADDR_REG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -15140,7 +15140,7 @@ typedef union cavm_xsrx_mcu_config cavm_xsrx_mcu_config_t;
 static inline uint64_t CAVM_XSRX_MCU_CONFIG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_MCU_CONFIG(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cc98ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_MCU_CONFIG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -15193,7 +15193,7 @@ typedef union cavm_xsrx_mcu_config1 cavm_xsrx_mcu_config1_t;
 static inline uint64_t CAVM_XSRX_MCU_CONFIG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_MCU_CONFIG1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001ccb8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_MCU_CONFIG1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -15282,7 +15282,7 @@ typedef union cavm_xsrx_mcu_control_0 cavm_xsrx_mcu_control_0_t;
 static inline uint64_t CAVM_XSRX_MCU_CONTROL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_MCU_CONTROL_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014400ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_MCU_CONTROL_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -15330,7 +15330,7 @@ typedef union cavm_xsrx_mcu_control_1 cavm_xsrx_mcu_control_1_t;
 static inline uint64_t CAVM_XSRX_MCU_CONTROL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_MCU_CONTROL_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014408ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_MCU_CONTROL_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -15374,7 +15374,7 @@ typedef union cavm_xsrx_mcu_data_payload_channel0 cavm_xsrx_mcu_data_payload_cha
 static inline uint64_t CAVM_XSRX_MCU_DATA_PAYLOAD_CHANNEL0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_MCU_DATA_PAYLOAD_CHANNEL0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cd10ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_MCU_DATA_PAYLOAD_CHANNEL0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -15418,7 +15418,7 @@ typedef union cavm_xsrx_mcu_data_payload_channel1 cavm_xsrx_mcu_data_payload_cha
 static inline uint64_t CAVM_XSRX_MCU_DATA_PAYLOAD_CHANNEL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_MCU_DATA_PAYLOAD_CHANNEL1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cd18ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_MCU_DATA_PAYLOAD_CHANNEL1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -15462,7 +15462,7 @@ typedef union cavm_xsrx_mcu_debug0 cavm_xsrx_mcu_debug0_t;
 static inline uint64_t CAVM_XSRX_MCU_DEBUG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_MCU_DEBUG0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014428ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_MCU_DEBUG0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -15506,7 +15506,7 @@ typedef union cavm_xsrx_mcu_debug1 cavm_xsrx_mcu_debug1_t;
 static inline uint64_t CAVM_XSRX_MCU_DEBUG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_MCU_DEBUG1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014430ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_MCU_DEBUG1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -15562,7 +15562,7 @@ typedef union cavm_xsrx_mcu_info_0 cavm_xsrx_mcu_info_0_t;
 static inline uint64_t CAVM_XSRX_MCU_INFO_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_MCU_INFO_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014448ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_MCU_INFO_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -15618,7 +15618,7 @@ typedef union cavm_xsrx_mcu_info_1 cavm_xsrx_mcu_info_1_t;
 static inline uint64_t CAVM_XSRX_MCU_INFO_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_MCU_INFO_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014450ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_MCU_INFO_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -15674,7 +15674,7 @@ typedef union cavm_xsrx_mcu_info_2 cavm_xsrx_mcu_info_2_t;
 static inline uint64_t CAVM_XSRX_MCU_INFO_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_MCU_INFO_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014458ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_MCU_INFO_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -15730,7 +15730,7 @@ typedef union cavm_xsrx_mcu_info_3 cavm_xsrx_mcu_info_3_t;
 static inline uint64_t CAVM_XSRX_MCU_INFO_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_MCU_INFO_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014460ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_MCU_INFO_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -15786,7 +15786,7 @@ typedef union cavm_xsrx_mcu_request_access_register cavm_xsrx_mcu_request_access
 static inline uint64_t CAVM_XSRX_MCU_REQUEST_ACCESS_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_MCU_REQUEST_ACCESS_REGISTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cd58ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_MCU_REQUEST_ACCESS_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -15830,7 +15830,7 @@ typedef union cavm_xsrx_mcu_sdt_cmn cavm_xsrx_mcu_sdt_cmn_t;
 static inline uint64_t CAVM_XSRX_MCU_SDT_CMN(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_MCU_SDT_CMN(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014740ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_MCU_SDT_CMN", 1, a, 0, 0, 0, 0, 0);
 }
@@ -15874,7 +15874,7 @@ typedef union cavm_xsrx_mem_cmn_ecc_err_address0 cavm_xsrx_mem_cmn_ecc_err_addre
 static inline uint64_t CAVM_XSRX_MEM_CMN_ECC_ERR_ADDRESS0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_MEM_CMN_ECC_ERR_ADDRESS0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014468ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_MEM_CMN_ECC_ERR_ADDRESS0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -15934,7 +15934,7 @@ typedef union cavm_xsrx_memory_control_1 cavm_xsrx_memory_control_1_t;
 static inline uint64_t CAVM_XSRX_MEMORY_CONTROL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_MEMORY_CONTROL_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014438ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_MEMORY_CONTROL_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -16082,7 +16082,7 @@ typedef union cavm_xsrx_memory_control_4 cavm_xsrx_memory_control_4_t;
 static inline uint64_t CAVM_XSRX_MEMORY_CONTROL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_MEMORY_CONTROL_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014440ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_MEMORY_CONTROL_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -16124,7 +16124,7 @@ typedef union cavm_xsrx_msix_pbax cavm_xsrx_msix_pbax_t;
 static inline uint64_t CAVM_XSRX_MSIX_PBAX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_MSIX_PBAX(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b==0)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=1) && (b==0)))
         return 0xc7e200ff0000ll + 0x100000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("XSRX_MSIX_PBAX", 2, a, b, 0, 0, 0, 0);
 }
@@ -16214,7 +16214,7 @@ typedef union cavm_xsrx_msix_vecx_addr cavm_xsrx_msix_vecx_addr_t;
 static inline uint64_t CAVM_XSRX_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b==0)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=1) && (b==0)))
         return 0xc7e200f00000ll + 0x100000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
     __cavm_csr_fatal("XSRX_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
@@ -16258,7 +16258,7 @@ typedef union cavm_xsrx_msix_vecx_ctl cavm_xsrx_msix_vecx_ctl_t;
 static inline uint64_t CAVM_XSRX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b==0)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=1) && (b==0)))
         return 0xc7e200f00008ll + 0x100000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
     __cavm_csr_fatal("XSRX_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
@@ -16294,7 +16294,7 @@ typedef union cavm_xsrx_phy_lane_rst_ctl_w1c cavm_xsrx_phy_lane_rst_ctl_w1c_t;
 static inline uint64_t CAVM_XSRX_PHY_LANE_RST_CTL_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PHY_LANE_RST_CTL_W1C(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000200e8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PHY_LANE_RST_CTL_W1C", 1, a, 0, 0, 0, 0, 0);
 }
@@ -16330,7 +16330,7 @@ typedef union cavm_xsrx_phy_lane_rst_ctl_w1s cavm_xsrx_phy_lane_rst_ctl_w1s_t;
 static inline uint64_t CAVM_XSRX_PHY_LANE_RST_CTL_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PHY_LANE_RST_CTL_W1S(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000200f0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PHY_LANE_RST_CTL_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -16399,7 +16399,7 @@ typedef union cavm_xsrx_pll_amp_ts_0 cavm_xsrx_pll_amp_ts_0_t;
 static inline uint64_t CAVM_XSRX_PLL_AMP_TS_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_AMP_TS_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004b68ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_AMP_TS_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -16456,7 +16456,7 @@ typedef union cavm_xsrx_pll_amp_ts_1 cavm_xsrx_pll_amp_ts_1_t;
 static inline uint64_t CAVM_XSRX_PLL_AMP_TS_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_AMP_TS_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004b70ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_AMP_TS_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -16674,7 +16674,7 @@ typedef union cavm_xsrx_pll_cfg cavm_xsrx_pll_cfg_t;
 static inline uint64_t CAVM_XSRX_PLL_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_CFG(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200020100ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -16735,7 +16735,7 @@ typedef union cavm_xsrx_pll_dcc_vdd_ts_0 cavm_xsrx_pll_dcc_vdd_ts_0_t;
 static inline uint64_t CAVM_XSRX_PLL_DCC_VDD_TS_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_DCC_VDD_TS_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004800ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_DCC_VDD_TS_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -16804,7 +16804,7 @@ typedef union cavm_xsrx_pll_dcc_vdd_ts_1 cavm_xsrx_pll_dcc_vdd_ts_1_t;
 static inline uint64_t CAVM_XSRX_PLL_DCC_VDD_TS_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_DCC_VDD_TS_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004808ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_DCC_VDD_TS_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -16853,7 +16853,7 @@ typedef union cavm_xsrx_pll_dig_scn_reg cavm_xsrx_pll_dig_scn_reg_t;
 static inline uint64_t CAVM_XSRX_PLL_DIG_SCN_REG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_DIG_SCN_REG(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004178ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_DIG_SCN_REG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -16895,7 +16895,7 @@ typedef union cavm_xsrx_pll_status cavm_xsrx_pll_status_t;
 static inline uint64_t CAVM_XSRX_PLL_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_STATUS(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200020108ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -16960,7 +16960,7 @@ typedef union cavm_xsrx_pll_ts_amp_cal_0 cavm_xsrx_pll_ts_amp_cal_0_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_AMP_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_AMP_CAL_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004b78ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_AMP_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -17021,7 +17021,7 @@ typedef union cavm_xsrx_pll_ts_amp_cal_1 cavm_xsrx_pll_ts_amp_cal_1_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_AMP_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_AMP_CAL_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004b80ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_AMP_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -17078,7 +17078,7 @@ typedef union cavm_xsrx_pll_ts_amp_cal_2 cavm_xsrx_pll_ts_amp_cal_2_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_AMP_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_AMP_CAL_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004b88ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_AMP_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -17127,7 +17127,7 @@ typedef union cavm_xsrx_pll_ts_amp_cal_3 cavm_xsrx_pll_ts_amp_cal_3_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_AMP_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_AMP_CAL_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004b90ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_AMP_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -17196,7 +17196,7 @@ typedef union cavm_xsrx_pll_ts_amp_cal_4 cavm_xsrx_pll_ts_amp_cal_4_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_AMP_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_AMP_CAL_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004b98ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_AMP_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -17245,7 +17245,7 @@ typedef union cavm_xsrx_pll_ts_amp_cal_5 cavm_xsrx_pll_ts_amp_cal_5_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_AMP_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_AMP_CAL_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004ba0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_AMP_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -17294,7 +17294,7 @@ typedef union cavm_xsrx_pll_ts_amp_cal_6 cavm_xsrx_pll_ts_amp_cal_6_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_AMP_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_AMP_CAL_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004ba8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_AMP_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -17343,7 +17343,7 @@ typedef union cavm_xsrx_pll_ts_amp_cal_7 cavm_xsrx_pll_ts_amp_cal_7_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_AMP_CAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_AMP_CAL_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004bb0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_AMP_CAL_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -17396,7 +17396,7 @@ typedef union cavm_xsrx_pll_ts_amp_cal_8 cavm_xsrx_pll_ts_amp_cal_8_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_AMP_CAL_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_AMP_CAL_8(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004bb8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_AMP_CAL_8", 1, a, 0, 0, 0, 0, 0);
 }
@@ -17445,7 +17445,7 @@ typedef union cavm_xsrx_pll_ts_amp_cal_9 cavm_xsrx_pll_ts_amp_cal_9_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_AMP_CAL_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_AMP_CAL_9(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004bc0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_AMP_CAL_9", 1, a, 0, 0, 0, 0, 0);
 }
@@ -17510,7 +17510,7 @@ typedef union cavm_xsrx_pll_ts_dcc_cal_0 cavm_xsrx_pll_ts_dcc_cal_0_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_DCC_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_DCC_CAL_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004810ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_DCC_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -17563,7 +17563,7 @@ typedef union cavm_xsrx_pll_ts_dcc_cal_1 cavm_xsrx_pll_ts_dcc_cal_1_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_DCC_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_DCC_CAL_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004818ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_DCC_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -17620,7 +17620,7 @@ typedef union cavm_xsrx_pll_ts_dcc_cal_2 cavm_xsrx_pll_ts_dcc_cal_2_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_DCC_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_DCC_CAL_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004820ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_DCC_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -17681,7 +17681,7 @@ typedef union cavm_xsrx_pll_ts_dcc_cal_3 cavm_xsrx_pll_ts_dcc_cal_3_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_DCC_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_DCC_CAL_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004828ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_DCC_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -17730,7 +17730,7 @@ typedef union cavm_xsrx_pll_ts_dcc_cal_4 cavm_xsrx_pll_ts_dcc_cal_4_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_DCC_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_DCC_CAL_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004830ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_DCC_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -17783,7 +17783,7 @@ typedef union cavm_xsrx_pll_ts_dcc_cal_5 cavm_xsrx_pll_ts_dcc_cal_5_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_DCC_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_DCC_CAL_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004838ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_DCC_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -17836,7 +17836,7 @@ typedef union cavm_xsrx_pll_ts_dcc_cal_6 cavm_xsrx_pll_ts_dcc_cal_6_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_DCC_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_DCC_CAL_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004840ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_DCC_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -17889,7 +17889,7 @@ typedef union cavm_xsrx_pll_ts_dcc_cal_7 cavm_xsrx_pll_ts_dcc_cal_7_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_DCC_CAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_DCC_CAL_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004848ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_DCC_CAL_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -17946,7 +17946,7 @@ typedef union cavm_xsrx_pll_ts_dcc_cal_8 cavm_xsrx_pll_ts_dcc_cal_8_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_DCC_CAL_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_DCC_CAL_8(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004850ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_DCC_CAL_8", 1, a, 0, 0, 0, 0, 0);
 }
@@ -17999,7 +17999,7 @@ typedef union cavm_xsrx_pll_ts_dcc_cal_9 cavm_xsrx_pll_ts_dcc_cal_9_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_DCC_CAL_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_DCC_CAL_9(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004858ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_DCC_CAL_9", 1, a, 0, 0, 0, 0, 0);
 }
@@ -18064,7 +18064,7 @@ typedef union cavm_xsrx_pll_ts_div_dcc_cal_0 cavm_xsrx_pll_ts_div_dcc_cal_0_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_DIV_DCC_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_DIV_DCC_CAL_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004860ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_DIV_DCC_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -18117,7 +18117,7 @@ typedef union cavm_xsrx_pll_ts_div_dcc_cal_1 cavm_xsrx_pll_ts_div_dcc_cal_1_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_DIV_DCC_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_DIV_DCC_CAL_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004868ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_DIV_DCC_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -18174,7 +18174,7 @@ typedef union cavm_xsrx_pll_ts_div_dcc_cal_2 cavm_xsrx_pll_ts_div_dcc_cal_2_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_DIV_DCC_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_DIV_DCC_CAL_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004870ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_DIV_DCC_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -18235,7 +18235,7 @@ typedef union cavm_xsrx_pll_ts_div_dcc_cal_3 cavm_xsrx_pll_ts_div_dcc_cal_3_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_DIV_DCC_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_DIV_DCC_CAL_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004878ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_DIV_DCC_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -18284,7 +18284,7 @@ typedef union cavm_xsrx_pll_ts_div_dcc_cal_4 cavm_xsrx_pll_ts_div_dcc_cal_4_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_DIV_DCC_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_DIV_DCC_CAL_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004880ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_DIV_DCC_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -18341,7 +18341,7 @@ typedef union cavm_xsrx_pll_ts_div_dcc_cal_5 cavm_xsrx_pll_ts_div_dcc_cal_5_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_DIV_DCC_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_DIV_DCC_CAL_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004888ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_DIV_DCC_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -18398,7 +18398,7 @@ typedef union cavm_xsrx_pll_ts_div_dcc_cal_6 cavm_xsrx_pll_ts_div_dcc_cal_6_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_DIV_DCC_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_DIV_DCC_CAL_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004890ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_DIV_DCC_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -18455,7 +18455,7 @@ typedef union cavm_xsrx_pll_ts_div_dcc_cal_7 cavm_xsrx_pll_ts_div_dcc_cal_7_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_DIV_DCC_CAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_DIV_DCC_CAL_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004898ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_DIV_DCC_CAL_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -18508,7 +18508,7 @@ typedef union cavm_xsrx_pll_ts_div_dcc_cal_8 cavm_xsrx_pll_ts_div_dcc_cal_8_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_DIV_DCC_CAL_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_DIV_DCC_CAL_8(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000048a0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_DIV_DCC_CAL_8", 1, a, 0, 0, 0, 0, 0);
 }
@@ -18558,7 +18558,7 @@ typedef union cavm_xsrx_pll_ts_dtx_phy_align_reg0 cavm_xsrx_pll_ts_dtx_phy_align
 static inline uint64_t CAVM_XSRX_PLL_TS_DTX_PHY_ALIGN_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_DTX_PHY_ALIGN_REG0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20000a470ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_DTX_PHY_ALIGN_REG0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -18727,7 +18727,7 @@ typedef union cavm_xsrx_pll_ts_dtx_reg0 cavm_xsrx_pll_ts_dtx_reg0_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_DTX_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_DTX_REG0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20000a430ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_DTX_REG0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -18792,7 +18792,7 @@ typedef union cavm_xsrx_pll_ts_dtx_reg1 cavm_xsrx_pll_ts_dtx_reg1_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_DTX_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_DTX_REG1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20000a438ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_DTX_REG1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -18873,7 +18873,7 @@ typedef union cavm_xsrx_pll_ts_dtx_reg2 cavm_xsrx_pll_ts_dtx_reg2_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_DTX_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_DTX_REG2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20000a448ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_DTX_REG2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -18921,7 +18921,7 @@ typedef union cavm_xsrx_pll_ts_lane_reg0 cavm_xsrx_pll_ts_lane_reg0_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_LANE_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_LANE_REG0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20000a400ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_LANE_REG0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -19056,7 +19056,7 @@ typedef union cavm_xsrx_pll_ts_lane_reg1 cavm_xsrx_pll_ts_lane_reg1_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_LANE_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_LANE_REG1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20000a408ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_LANE_REG1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -19145,7 +19145,7 @@ typedef union cavm_xsrx_pll_ts_lane_reg10 cavm_xsrx_pll_ts_lane_reg10_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_LANE_REG10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_LANE_REG10(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20000a460ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_LANE_REG10", 1, a, 0, 0, 0, 0, 0);
 }
@@ -19193,7 +19193,7 @@ typedef union cavm_xsrx_pll_ts_lane_reg11 cavm_xsrx_pll_ts_lane_reg11_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_LANE_REG11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_LANE_REG11(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20000a468ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_LANE_REG11", 1, a, 0, 0, 0, 0, 0);
 }
@@ -19244,7 +19244,7 @@ typedef union cavm_xsrx_pll_ts_lane_reg12 cavm_xsrx_pll_ts_lane_reg12_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_LANE_REG12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_LANE_REG12(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20000a480ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_LANE_REG12", 1, a, 0, 0, 0, 0, 0);
 }
@@ -19286,7 +19286,7 @@ typedef union cavm_xsrx_pll_ts_lane_reg13 cavm_xsrx_pll_ts_lane_reg13_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_LANE_REG13(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_LANE_REG13(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20000a488ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_LANE_REG13", 1, a, 0, 0, 0, 0, 0);
 }
@@ -19351,7 +19351,7 @@ typedef union cavm_xsrx_pll_ts_lane_reg14 cavm_xsrx_pll_ts_lane_reg14_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_LANE_REG14(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_LANE_REG14(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20000a490ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_LANE_REG14", 1, a, 0, 0, 0, 0, 0);
 }
@@ -19429,7 +19429,7 @@ typedef union cavm_xsrx_pll_ts_lane_reg2 cavm_xsrx_pll_ts_lane_reg2_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_LANE_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_LANE_REG2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20000a410ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_LANE_REG2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -19491,7 +19491,7 @@ typedef union cavm_xsrx_pll_ts_lane_reg3 cavm_xsrx_pll_ts_lane_reg3_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_LANE_REG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_LANE_REG3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20000a418ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_LANE_REG3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -19571,7 +19571,7 @@ typedef union cavm_xsrx_pll_ts_lane_reg4 cavm_xsrx_pll_ts_lane_reg4_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_LANE_REG4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_LANE_REG4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20000a420ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_LANE_REG4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -19625,7 +19625,7 @@ typedef union cavm_xsrx_pll_ts_lane_reg5 cavm_xsrx_pll_ts_lane_reg5_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_LANE_REG5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_LANE_REG5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20000a428ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_LANE_REG5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -19687,7 +19687,7 @@ typedef union cavm_xsrx_pll_ts_lane_reg6 cavm_xsrx_pll_ts_lane_reg6_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_LANE_REG6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_LANE_REG6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20000a458ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_LANE_REG6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -19741,7 +19741,7 @@ typedef union cavm_xsrx_pll_ts_lane_reg7 cavm_xsrx_pll_ts_lane_reg7_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_LANE_REG7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_LANE_REG7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20000a478ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_LANE_REG7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -19884,7 +19884,7 @@ typedef union cavm_xsrx_pll_ts_lane_reg8 cavm_xsrx_pll_ts_lane_reg8_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_LANE_REG8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_LANE_REG8(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20000a440ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_LANE_REG8", 1, a, 0, 0, 0, 0, 0);
 }
@@ -20033,7 +20033,7 @@ typedef union cavm_xsrx_pll_ts_lane_reg9 cavm_xsrx_pll_ts_lane_reg9_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_LANE_REG9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_LANE_REG9(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20000a450ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_LANE_REG9", 1, a, 0, 0, 0, 0, 0);
 }
@@ -20096,7 +20096,7 @@ typedef union cavm_xsrx_pll_ts_pll_cal_reg0 cavm_xsrx_pll_ts_pll_cal_reg0_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_PLL_CAL_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_PLL_CAL_REG0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004160ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_PLL_CAL_REG0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -20145,7 +20145,7 @@ typedef union cavm_xsrx_pll_ts_pll_cal_reg1 cavm_xsrx_pll_ts_pll_cal_reg1_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_PLL_CAL_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_PLL_CAL_REG1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004168ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_PLL_CAL_REG1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -20206,7 +20206,7 @@ typedef union cavm_xsrx_pll_ts_uphy14_cmn_anareg_top_000 cavm_xsrx_pll_ts_uphy14
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_000(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_000(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004000ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_000", 1, a, 0, 0, 0, 0, 0);
 }
@@ -20275,7 +20275,7 @@ typedef union cavm_xsrx_pll_ts_uphy14_cmn_anareg_top_001 cavm_xsrx_pll_ts_uphy14
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_001(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_001(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004008ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_001", 1, a, 0, 0, 0, 0, 0);
 }
@@ -20324,7 +20324,7 @@ typedef union cavm_xsrx_pll_ts_uphy14_cmn_anareg_top_002 cavm_xsrx_pll_ts_uphy14
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_002(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_002(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004010ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_002", 1, a, 0, 0, 0, 0, 0);
 }
@@ -20377,7 +20377,7 @@ typedef union cavm_xsrx_pll_ts_uphy14_cmn_anareg_top_003 cavm_xsrx_pll_ts_uphy14
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_003(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_003(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004018ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_003", 1, a, 0, 0, 0, 0, 0);
 }
@@ -20430,7 +20430,7 @@ typedef union cavm_xsrx_pll_ts_uphy14_cmn_anareg_top_004 cavm_xsrx_pll_ts_uphy14
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_004(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_004(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004020ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_004", 1, a, 0, 0, 0, 0, 0);
 }
@@ -20487,7 +20487,7 @@ typedef union cavm_xsrx_pll_ts_uphy14_cmn_anareg_top_005 cavm_xsrx_pll_ts_uphy14
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_005(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_005(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004028ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_005", 1, a, 0, 0, 0, 0, 0);
 }
@@ -20550,7 +20550,7 @@ typedef union cavm_xsrx_pll_ts_uphy14_cmn_anareg_top_006 cavm_xsrx_pll_ts_uphy14
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_006(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_006(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004030ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_006", 1, a, 0, 0, 0, 0, 0);
 }
@@ -20603,7 +20603,7 @@ typedef union cavm_xsrx_pll_ts_uphy14_cmn_anareg_top_007 cavm_xsrx_pll_ts_uphy14
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_007(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_007(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004038ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_007", 1, a, 0, 0, 0, 0, 0);
 }
@@ -20652,7 +20652,7 @@ typedef union cavm_xsrx_pll_ts_uphy14_cmn_anareg_top_008 cavm_xsrx_pll_ts_uphy14
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_008(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_008(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004040ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_008", 1, a, 0, 0, 0, 0, 0);
 }
@@ -20709,7 +20709,7 @@ typedef union cavm_xsrx_pll_ts_uphy14_cmn_anareg_top_009 cavm_xsrx_pll_ts_uphy14
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_009(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_009(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004048ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_009", 1, a, 0, 0, 0, 0, 0);
 }
@@ -20778,7 +20778,7 @@ typedef union cavm_xsrx_pll_ts_uphy14_cmn_anareg_top_010 cavm_xsrx_pll_ts_uphy14
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_010(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_010(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004050ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_010", 1, a, 0, 0, 0, 0, 0);
 }
@@ -20845,7 +20845,7 @@ typedef union cavm_xsrx_pll_ts_uphy14_cmn_anareg_top_011 cavm_xsrx_pll_ts_uphy14
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_011(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_011(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004058ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_011", 1, a, 0, 0, 0, 0, 0);
 }
@@ -20898,7 +20898,7 @@ typedef union cavm_xsrx_pll_ts_uphy14_cmn_anareg_top_012 cavm_xsrx_pll_ts_uphy14
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_012(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_012(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004060ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_012", 1, a, 0, 0, 0, 0, 0);
 }
@@ -20959,7 +20959,7 @@ typedef union cavm_xsrx_pll_ts_uphy14_cmn_anareg_top_013 cavm_xsrx_pll_ts_uphy14
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_013(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_013(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004068ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_013", 1, a, 0, 0, 0, 0, 0);
 }
@@ -21016,7 +21016,7 @@ typedef union cavm_xsrx_pll_ts_uphy14_cmn_anareg_top_014 cavm_xsrx_pll_ts_uphy14
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_014(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_014(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004070ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_014", 1, a, 0, 0, 0, 0, 0);
 }
@@ -21085,7 +21085,7 @@ typedef union cavm_xsrx_pll_ts_uphy14_cmn_anareg_top_015 cavm_xsrx_pll_ts_uphy14
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_015(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_015(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004078ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_015", 1, a, 0, 0, 0, 0, 0);
 }
@@ -21142,7 +21142,7 @@ typedef union cavm_xsrx_pll_ts_uphy14_cmn_anareg_top_016 cavm_xsrx_pll_ts_uphy14
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_016(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_016(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004080ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_016", 1, a, 0, 0, 0, 0, 0);
 }
@@ -21191,7 +21191,7 @@ typedef union cavm_xsrx_pll_ts_uphy14_cmn_anareg_top_017 cavm_xsrx_pll_ts_uphy14
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_017(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_017(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004088ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_017", 1, a, 0, 0, 0, 0, 0);
 }
@@ -21252,7 +21252,7 @@ typedef union cavm_xsrx_pll_ts_uphy14_cmn_anareg_top_018 cavm_xsrx_pll_ts_uphy14
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_018(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_018(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004090ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_018", 1, a, 0, 0, 0, 0, 0);
 }
@@ -21315,7 +21315,7 @@ typedef union cavm_xsrx_pll_ts_uphy14_cmn_anareg_top_019 cavm_xsrx_pll_ts_uphy14
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_019(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_019(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004098ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_019", 1, a, 0, 0, 0, 0, 0);
 }
@@ -21380,7 +21380,7 @@ typedef union cavm_xsrx_pll_ts_uphy14_cmn_anareg_top_020 cavm_xsrx_pll_ts_uphy14
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_020(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_020(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000040a0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_020", 1, a, 0, 0, 0, 0, 0);
 }
@@ -21445,7 +21445,7 @@ typedef union cavm_xsrx_pll_ts_uphy14_cmn_anareg_top_021 cavm_xsrx_pll_ts_uphy14
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_021(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_021(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000040a8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_021", 1, a, 0, 0, 0, 0, 0);
 }
@@ -21498,7 +21498,7 @@ typedef union cavm_xsrx_pll_ts_uphy14_cmn_anareg_top_022 cavm_xsrx_pll_ts_uphy14
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_022(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_022(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000040b0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_022", 1, a, 0, 0, 0, 0, 0);
 }
@@ -21555,7 +21555,7 @@ typedef union cavm_xsrx_pll_ts_uphy14_cmn_anareg_top_023 cavm_xsrx_pll_ts_uphy14
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_023(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_023(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000040b8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_023", 1, a, 0, 0, 0, 0, 0);
 }
@@ -21618,7 +21618,7 @@ typedef union cavm_xsrx_pll_ts_uphy14_cmn_anareg_top_024 cavm_xsrx_pll_ts_uphy14
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_024(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_024(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000040c0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_024", 1, a, 0, 0, 0, 0, 0);
 }
@@ -21679,7 +21679,7 @@ typedef union cavm_xsrx_pll_ts_uphy14_cmn_anareg_top_025 cavm_xsrx_pll_ts_uphy14
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_025(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_025(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000040c8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_025", 1, a, 0, 0, 0, 0, 0);
 }
@@ -21756,7 +21756,7 @@ typedef union cavm_xsrx_pll_ts_uphy14_cmn_anareg_top_026 cavm_xsrx_pll_ts_uphy14
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_026(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_026(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000040d0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_026", 1, a, 0, 0, 0, 0, 0);
 }
@@ -21813,7 +21813,7 @@ typedef union cavm_xsrx_pll_ts_uphy14_cmn_anareg_top_027 cavm_xsrx_pll_ts_uphy14
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_027(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_027(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000040d8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_027", 1, a, 0, 0, 0, 0, 0);
 }
@@ -21872,7 +21872,7 @@ typedef union cavm_xsrx_pll_ts_uphy14_cmn_anareg_top_028 cavm_xsrx_pll_ts_uphy14
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_028(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_028(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000040e0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_028", 1, a, 0, 0, 0, 0, 0);
 }
@@ -21929,7 +21929,7 @@ typedef union cavm_xsrx_pll_ts_uphy14_cmn_anareg_top_029 cavm_xsrx_pll_ts_uphy14
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_029(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_029(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000040e8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_029", 1, a, 0, 0, 0, 0, 0);
 }
@@ -21996,7 +21996,7 @@ typedef union cavm_xsrx_pll_ts_uphy14_cmn_anareg_top_030 cavm_xsrx_pll_ts_uphy14
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_030(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_030(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000040f0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_030", 1, a, 0, 0, 0, 0, 0);
 }
@@ -22057,7 +22057,7 @@ typedef union cavm_xsrx_pll_ts_uphy14_cmn_anareg_top_031 cavm_xsrx_pll_ts_uphy14
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_031(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_031(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000040f8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_031", 1, a, 0, 0, 0, 0, 0);
 }
@@ -22118,7 +22118,7 @@ typedef union cavm_xsrx_pll_ts_uphy14_cmn_anareg_top_032 cavm_xsrx_pll_ts_uphy14
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_032(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_032(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004100ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_032", 1, a, 0, 0, 0, 0, 0);
 }
@@ -22171,7 +22171,7 @@ typedef union cavm_xsrx_pll_ts_uphy14_cmn_anareg_top_033 cavm_xsrx_pll_ts_uphy14
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_033(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_033(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004108ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_033", 1, a, 0, 0, 0, 0, 0);
 }
@@ -22246,7 +22246,7 @@ typedef union cavm_xsrx_pll_ts_uphy14_cmn_anareg_top_034 cavm_xsrx_pll_ts_uphy14
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_034(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_034(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004110ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_034", 1, a, 0, 0, 0, 0, 0);
 }
@@ -22315,7 +22315,7 @@ typedef union cavm_xsrx_pll_ts_uphy14_cmn_anareg_top_037 cavm_xsrx_pll_ts_uphy14
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_037(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_037(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004128ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_037", 1, a, 0, 0, 0, 0, 0);
 }
@@ -22376,7 +22376,7 @@ typedef union cavm_xsrx_pll_ts_uphy14_cmn_anareg_top_038 cavm_xsrx_pll_ts_uphy14
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_038(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_038(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004130ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_038", 1, a, 0, 0, 0, 0, 0);
 }
@@ -22445,7 +22445,7 @@ typedef union cavm_xsrx_pll_ts_uphy14_cmn_anareg_top_039 cavm_xsrx_pll_ts_uphy14
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_039(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_039(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004138ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_039", 1, a, 0, 0, 0, 0, 0);
 }
@@ -22494,7 +22494,7 @@ typedef union cavm_xsrx_pll_ts_uphy14_cmn_anareg_top_040 cavm_xsrx_pll_ts_uphy14
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_040(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_040(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004140ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_040", 1, a, 0, 0, 0, 0, 0);
 }
@@ -22543,7 +22543,7 @@ typedef union cavm_xsrx_pll_ts_uphy14_cmn_anareg_top_041 cavm_xsrx_pll_ts_uphy14
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_041(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_041(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004148ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_041", 1, a, 0, 0, 0, 0, 0);
 }
@@ -22592,7 +22592,7 @@ typedef union cavm_xsrx_pll_ts_uphy14_cmn_anareg_top_042 cavm_xsrx_pll_ts_uphy14
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_042(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_042(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004150ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_042", 1, a, 0, 0, 0, 0, 0);
 }
@@ -22641,7 +22641,7 @@ typedef union cavm_xsrx_pll_ts_uphy14_cmn_anareg_top_043 cavm_xsrx_pll_ts_uphy14
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_043(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_043(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004158ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_043", 1, a, 0, 0, 0, 0, 0);
 }
@@ -22690,7 +22690,7 @@ typedef union cavm_xsrx_pll_ts_uphy14_cmn_anareg_top_044 cavm_xsrx_pll_ts_uphy14
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_044(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_044(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004170ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_UPHY14_CMN_ANAREG_TOP_044", 1, a, 0, 0, 0, 0, 0);
 }
@@ -22755,7 +22755,7 @@ typedef union cavm_xsrx_pll_ts_vdda_div1p5_cal_0 cavm_xsrx_pll_ts_vdda_div1p5_ca
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_DIV1P5_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_DIV1P5_CAL_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000049e8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDA_DIV1P5_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -22808,7 +22808,7 @@ typedef union cavm_xsrx_pll_ts_vdda_div1p5_cal_1 cavm_xsrx_pll_ts_vdda_div1p5_ca
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_DIV1P5_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_DIV1P5_CAL_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000049f0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDA_DIV1P5_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -22865,7 +22865,7 @@ typedef union cavm_xsrx_pll_ts_vdda_div1p5_cal_2 cavm_xsrx_pll_ts_vdda_div1p5_ca
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_DIV1P5_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_DIV1P5_CAL_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000049f8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDA_DIV1P5_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -22926,7 +22926,7 @@ typedef union cavm_xsrx_pll_ts_vdda_div1p5_cal_3 cavm_xsrx_pll_ts_vdda_div1p5_ca
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_DIV1P5_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_DIV1P5_CAL_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004a00ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDA_DIV1P5_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -22975,7 +22975,7 @@ typedef union cavm_xsrx_pll_ts_vdda_div1p5_cal_4 cavm_xsrx_pll_ts_vdda_div1p5_ca
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_DIV1P5_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_DIV1P5_CAL_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004a08ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDA_DIV1P5_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -23028,7 +23028,7 @@ typedef union cavm_xsrx_pll_ts_vdda_div1p5_cal_5 cavm_xsrx_pll_ts_vdda_div1p5_ca
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_DIV1P5_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_DIV1P5_CAL_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004a10ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDA_DIV1P5_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -23093,7 +23093,7 @@ typedef union cavm_xsrx_pll_ts_vdda_div1p5_cal_6 cavm_xsrx_pll_ts_vdda_div1p5_ca
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_DIV1P5_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_DIV1P5_CAL_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004a18ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDA_DIV1P5_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -23150,7 +23150,7 @@ typedef union cavm_xsrx_pll_ts_vdda_div1p5_cal_7 cavm_xsrx_pll_ts_vdda_div1p5_ca
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_DIV1P5_CAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_DIV1P5_CAL_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004a20ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDA_DIV1P5_CAL_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -23215,7 +23215,7 @@ typedef union cavm_xsrx_pll_ts_vdda_fbdiv_cal_0 cavm_xsrx_pll_ts_vdda_fbdiv_cal_
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_FBDIV_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_FBDIV_CAL_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004aa8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDA_FBDIV_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -23268,7 +23268,7 @@ typedef union cavm_xsrx_pll_ts_vdda_fbdiv_cal_1 cavm_xsrx_pll_ts_vdda_fbdiv_cal_
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_FBDIV_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_FBDIV_CAL_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004ab0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDA_FBDIV_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -23325,7 +23325,7 @@ typedef union cavm_xsrx_pll_ts_vdda_fbdiv_cal_2 cavm_xsrx_pll_ts_vdda_fbdiv_cal_
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_FBDIV_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_FBDIV_CAL_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004ab8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDA_FBDIV_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -23386,7 +23386,7 @@ typedef union cavm_xsrx_pll_ts_vdda_fbdiv_cal_3 cavm_xsrx_pll_ts_vdda_fbdiv_cal_
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_FBDIV_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_FBDIV_CAL_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004ac0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDA_FBDIV_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -23435,7 +23435,7 @@ typedef union cavm_xsrx_pll_ts_vdda_fbdiv_cal_4 cavm_xsrx_pll_ts_vdda_fbdiv_cal_
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_FBDIV_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_FBDIV_CAL_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004ac8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDA_FBDIV_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -23488,7 +23488,7 @@ typedef union cavm_xsrx_pll_ts_vdda_fbdiv_cal_5 cavm_xsrx_pll_ts_vdda_fbdiv_cal_
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_FBDIV_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_FBDIV_CAL_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004ad0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDA_FBDIV_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -23553,7 +23553,7 @@ typedef union cavm_xsrx_pll_ts_vdda_fbdiv_cal_6 cavm_xsrx_pll_ts_vdda_fbdiv_cal_
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_FBDIV_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_FBDIV_CAL_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004ad8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDA_FBDIV_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -23610,7 +23610,7 @@ typedef union cavm_xsrx_pll_ts_vdda_fbdiv_cal_7 cavm_xsrx_pll_ts_vdda_fbdiv_cal_
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_FBDIV_CAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_FBDIV_CAL_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004ae0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDA_FBDIV_CAL_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -23675,7 +23675,7 @@ typedef union cavm_xsrx_pll_ts_vdda_pfd_cal_0 cavm_xsrx_pll_ts_vdda_pfd_cal_0_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_PFD_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_PFD_CAL_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000049a8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDA_PFD_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -23728,7 +23728,7 @@ typedef union cavm_xsrx_pll_ts_vdda_pfd_cal_1 cavm_xsrx_pll_ts_vdda_pfd_cal_1_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_PFD_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_PFD_CAL_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000049b0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDA_PFD_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -23785,7 +23785,7 @@ typedef union cavm_xsrx_pll_ts_vdda_pfd_cal_2 cavm_xsrx_pll_ts_vdda_pfd_cal_2_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_PFD_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_PFD_CAL_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000049b8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDA_PFD_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -23846,7 +23846,7 @@ typedef union cavm_xsrx_pll_ts_vdda_pfd_cal_3 cavm_xsrx_pll_ts_vdda_pfd_cal_3_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_PFD_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_PFD_CAL_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000049c0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDA_PFD_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -23895,7 +23895,7 @@ typedef union cavm_xsrx_pll_ts_vdda_pfd_cal_4 cavm_xsrx_pll_ts_vdda_pfd_cal_4_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_PFD_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_PFD_CAL_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000049c8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDA_PFD_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -23948,7 +23948,7 @@ typedef union cavm_xsrx_pll_ts_vdda_pfd_cal_5 cavm_xsrx_pll_ts_vdda_pfd_cal_5_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_PFD_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_PFD_CAL_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000049d0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDA_PFD_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -24013,7 +24013,7 @@ typedef union cavm_xsrx_pll_ts_vdda_pfd_cal_6 cavm_xsrx_pll_ts_vdda_pfd_cal_6_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_PFD_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_PFD_CAL_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000049d8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDA_PFD_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -24070,7 +24070,7 @@ typedef union cavm_xsrx_pll_ts_vdda_pfd_cal_7 cavm_xsrx_pll_ts_vdda_pfd_cal_7_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_PFD_CAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDA_PFD_CAL_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000049e0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDA_PFD_CAL_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -24135,7 +24135,7 @@ typedef union cavm_xsrx_pll_ts_vddr_clkbuf_cal_0 cavm_xsrx_pll_ts_vddr_clkbuf_ca
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_CLKBUF_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_CLKBUF_CAL_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004a28ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_CLKBUF_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -24188,7 +24188,7 @@ typedef union cavm_xsrx_pll_ts_vddr_clkbuf_cal_1 cavm_xsrx_pll_ts_vddr_clkbuf_ca
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_CLKBUF_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_CLKBUF_CAL_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004a30ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_CLKBUF_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -24245,7 +24245,7 @@ typedef union cavm_xsrx_pll_ts_vddr_clkbuf_cal_2 cavm_xsrx_pll_ts_vddr_clkbuf_ca
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_CLKBUF_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_CLKBUF_CAL_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004a38ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_CLKBUF_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -24306,7 +24306,7 @@ typedef union cavm_xsrx_pll_ts_vddr_clkbuf_cal_3 cavm_xsrx_pll_ts_vddr_clkbuf_ca
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_CLKBUF_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_CLKBUF_CAL_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004a40ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_CLKBUF_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -24355,7 +24355,7 @@ typedef union cavm_xsrx_pll_ts_vddr_clkbuf_cal_4 cavm_xsrx_pll_ts_vddr_clkbuf_ca
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_CLKBUF_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_CLKBUF_CAL_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004a48ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_CLKBUF_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -24408,7 +24408,7 @@ typedef union cavm_xsrx_pll_ts_vddr_clkbuf_cal_5 cavm_xsrx_pll_ts_vddr_clkbuf_ca
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_CLKBUF_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_CLKBUF_CAL_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004a50ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_CLKBUF_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -24473,7 +24473,7 @@ typedef union cavm_xsrx_pll_ts_vddr_clkbuf_cal_6 cavm_xsrx_pll_ts_vddr_clkbuf_ca
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_CLKBUF_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_CLKBUF_CAL_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004a58ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_CLKBUF_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -24530,7 +24530,7 @@ typedef union cavm_xsrx_pll_ts_vddr_clkbuf_cal_7 cavm_xsrx_pll_ts_vddr_clkbuf_ca
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_CLKBUF_CAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_CLKBUF_CAL_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004a60ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_CLKBUF_CAL_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -24595,7 +24595,7 @@ typedef union cavm_xsrx_pll_ts_vddr_e2c_cal_0 cavm_xsrx_pll_ts_vddr_e2c_cal_0_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_E2C_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_E2C_CAL_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004a68ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_E2C_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -24648,7 +24648,7 @@ typedef union cavm_xsrx_pll_ts_vddr_e2c_cal_1 cavm_xsrx_pll_ts_vddr_e2c_cal_1_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_E2C_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_E2C_CAL_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004a70ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_E2C_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -24705,7 +24705,7 @@ typedef union cavm_xsrx_pll_ts_vddr_e2c_cal_2 cavm_xsrx_pll_ts_vddr_e2c_cal_2_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_E2C_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_E2C_CAL_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004a78ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_E2C_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -24766,7 +24766,7 @@ typedef union cavm_xsrx_pll_ts_vddr_e2c_cal_3 cavm_xsrx_pll_ts_vddr_e2c_cal_3_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_E2C_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_E2C_CAL_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004a80ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_E2C_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -24815,7 +24815,7 @@ typedef union cavm_xsrx_pll_ts_vddr_e2c_cal_4 cavm_xsrx_pll_ts_vddr_e2c_cal_4_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_E2C_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_E2C_CAL_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004a88ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_E2C_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -24868,7 +24868,7 @@ typedef union cavm_xsrx_pll_ts_vddr_e2c_cal_5 cavm_xsrx_pll_ts_vddr_e2c_cal_5_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_E2C_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_E2C_CAL_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004a90ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_E2C_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -24933,7 +24933,7 @@ typedef union cavm_xsrx_pll_ts_vddr_e2c_cal_6 cavm_xsrx_pll_ts_vddr_e2c_cal_6_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_E2C_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_E2C_CAL_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004a98ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_E2C_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -24990,7 +24990,7 @@ typedef union cavm_xsrx_pll_ts_vddr_e2c_cal_7 cavm_xsrx_pll_ts_vddr_e2c_cal_7_t;
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_E2C_CAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_E2C_CAL_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004aa0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_E2C_CAL_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -25055,7 +25055,7 @@ typedef union cavm_xsrx_pll_ts_vddr_fbdiv_dvdd_cal_0 cavm_xsrx_pll_ts_vddr_fbdiv
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_FBDIV_DVDD_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_FBDIV_DVDD_CAL_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004ae8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_FBDIV_DVDD_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -25108,7 +25108,7 @@ typedef union cavm_xsrx_pll_ts_vddr_fbdiv_dvdd_cal_1 cavm_xsrx_pll_ts_vddr_fbdiv
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_FBDIV_DVDD_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_FBDIV_DVDD_CAL_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004af0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_FBDIV_DVDD_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -25165,7 +25165,7 @@ typedef union cavm_xsrx_pll_ts_vddr_fbdiv_dvdd_cal_2 cavm_xsrx_pll_ts_vddr_fbdiv
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_FBDIV_DVDD_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_FBDIV_DVDD_CAL_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004af8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_FBDIV_DVDD_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -25226,7 +25226,7 @@ typedef union cavm_xsrx_pll_ts_vddr_fbdiv_dvdd_cal_3 cavm_xsrx_pll_ts_vddr_fbdiv
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_FBDIV_DVDD_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_FBDIV_DVDD_CAL_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004b00ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_FBDIV_DVDD_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -25275,7 +25275,7 @@ typedef union cavm_xsrx_pll_ts_vddr_fbdiv_dvdd_cal_4 cavm_xsrx_pll_ts_vddr_fbdiv
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_FBDIV_DVDD_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_FBDIV_DVDD_CAL_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004b08ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_FBDIV_DVDD_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -25328,7 +25328,7 @@ typedef union cavm_xsrx_pll_ts_vddr_fbdiv_dvdd_cal_5 cavm_xsrx_pll_ts_vddr_fbdiv
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_FBDIV_DVDD_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_FBDIV_DVDD_CAL_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004b10ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_FBDIV_DVDD_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -25393,7 +25393,7 @@ typedef union cavm_xsrx_pll_ts_vddr_fbdiv_dvdd_cal_6 cavm_xsrx_pll_ts_vddr_fbdiv
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_FBDIV_DVDD_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_FBDIV_DVDD_CAL_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004b18ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_FBDIV_DVDD_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -25450,7 +25450,7 @@ typedef union cavm_xsrx_pll_ts_vddr_fbdiv_dvdd_cal_7 cavm_xsrx_pll_ts_vddr_fbdiv
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_FBDIV_DVDD_CAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_FBDIV_DVDD_CAL_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004b20ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_FBDIV_DVDD_CAL_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -25515,7 +25515,7 @@ typedef union cavm_xsrx_pll_ts_vddr_refdiv_cal_0 cavm_xsrx_pll_ts_vddr_refdiv_ca
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_REFDIV_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_REFDIV_CAL_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000048a8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_REFDIV_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -25568,7 +25568,7 @@ typedef union cavm_xsrx_pll_ts_vddr_refdiv_cal_1 cavm_xsrx_pll_ts_vddr_refdiv_ca
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_REFDIV_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_REFDIV_CAL_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000048b0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_REFDIV_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -25625,7 +25625,7 @@ typedef union cavm_xsrx_pll_ts_vddr_refdiv_cal_2 cavm_xsrx_pll_ts_vddr_refdiv_ca
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_REFDIV_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_REFDIV_CAL_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000048b8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_REFDIV_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -25686,7 +25686,7 @@ typedef union cavm_xsrx_pll_ts_vddr_refdiv_cal_3 cavm_xsrx_pll_ts_vddr_refdiv_ca
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_REFDIV_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_REFDIV_CAL_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000048c0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_REFDIV_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -25735,7 +25735,7 @@ typedef union cavm_xsrx_pll_ts_vddr_refdiv_cal_4 cavm_xsrx_pll_ts_vddr_refdiv_ca
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_REFDIV_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_REFDIV_CAL_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000048c8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_REFDIV_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -25788,7 +25788,7 @@ typedef union cavm_xsrx_pll_ts_vddr_refdiv_cal_5 cavm_xsrx_pll_ts_vddr_refdiv_ca
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_REFDIV_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_REFDIV_CAL_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000048d0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_REFDIV_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -25853,7 +25853,7 @@ typedef union cavm_xsrx_pll_ts_vddr_refdiv_cal_6 cavm_xsrx_pll_ts_vddr_refdiv_ca
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_REFDIV_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_REFDIV_CAL_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000048d8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_REFDIV_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -25910,7 +25910,7 @@ typedef union cavm_xsrx_pll_ts_vddr_refdiv_cal_7 cavm_xsrx_pll_ts_vddr_refdiv_ca
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_REFDIV_CAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_REFDIV_CAL_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000048e0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_REFDIV_CAL_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -25975,7 +25975,7 @@ typedef union cavm_xsrx_pll_ts_vddr_tx_div_cal_0 cavm_xsrx_pll_ts_vddr_tx_div_ca
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_DIV_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_DIV_CAL_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004b28ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_TX_DIV_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -26028,7 +26028,7 @@ typedef union cavm_xsrx_pll_ts_vddr_tx_div_cal_1 cavm_xsrx_pll_ts_vddr_tx_div_ca
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_DIV_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_DIV_CAL_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004b30ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_TX_DIV_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -26085,7 +26085,7 @@ typedef union cavm_xsrx_pll_ts_vddr_tx_div_cal_2 cavm_xsrx_pll_ts_vddr_tx_div_ca
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_DIV_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_DIV_CAL_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004b38ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_TX_DIV_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -26146,7 +26146,7 @@ typedef union cavm_xsrx_pll_ts_vddr_tx_div_cal_3 cavm_xsrx_pll_ts_vddr_tx_div_ca
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_DIV_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_DIV_CAL_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004b40ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_TX_DIV_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -26195,7 +26195,7 @@ typedef union cavm_xsrx_pll_ts_vddr_tx_div_cal_4 cavm_xsrx_pll_ts_vddr_tx_div_ca
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_DIV_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_DIV_CAL_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004b48ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_TX_DIV_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -26248,7 +26248,7 @@ typedef union cavm_xsrx_pll_ts_vddr_tx_div_cal_5 cavm_xsrx_pll_ts_vddr_tx_div_ca
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_DIV_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_DIV_CAL_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004b50ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_TX_DIV_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -26313,7 +26313,7 @@ typedef union cavm_xsrx_pll_ts_vddr_tx_div_cal_6 cavm_xsrx_pll_ts_vddr_tx_div_ca
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_DIV_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_DIV_CAL_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004b58ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_TX_DIV_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -26370,7 +26370,7 @@ typedef union cavm_xsrx_pll_ts_vddr_tx_div_cal_7 cavm_xsrx_pll_ts_vddr_tx_div_ca
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_DIV_CAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_DIV_CAL_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004b60ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_TX_DIV_CAL_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -26435,7 +26435,7 @@ typedef union cavm_xsrx_pll_ts_vddr_tx_pi_clk_cal_0 cavm_xsrx_pll_ts_vddr_tx_pi_
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_CLK_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_CLK_CAL_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004968ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_TX_PI_CLK_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -26488,7 +26488,7 @@ typedef union cavm_xsrx_pll_ts_vddr_tx_pi_clk_cal_1 cavm_xsrx_pll_ts_vddr_tx_pi_
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_CLK_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_CLK_CAL_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004970ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_TX_PI_CLK_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -26545,7 +26545,7 @@ typedef union cavm_xsrx_pll_ts_vddr_tx_pi_clk_cal_2 cavm_xsrx_pll_ts_vddr_tx_pi_
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_CLK_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_CLK_CAL_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004978ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_TX_PI_CLK_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -26606,7 +26606,7 @@ typedef union cavm_xsrx_pll_ts_vddr_tx_pi_clk_cal_3 cavm_xsrx_pll_ts_vddr_tx_pi_
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_CLK_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_CLK_CAL_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004980ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_TX_PI_CLK_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -26655,7 +26655,7 @@ typedef union cavm_xsrx_pll_ts_vddr_tx_pi_clk_cal_4 cavm_xsrx_pll_ts_vddr_tx_pi_
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_CLK_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_CLK_CAL_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004988ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_TX_PI_CLK_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -26708,7 +26708,7 @@ typedef union cavm_xsrx_pll_ts_vddr_tx_pi_clk_cal_5 cavm_xsrx_pll_ts_vddr_tx_pi_
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_CLK_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_CLK_CAL_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004990ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_TX_PI_CLK_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -26773,7 +26773,7 @@ typedef union cavm_xsrx_pll_ts_vddr_tx_pi_clk_cal_6 cavm_xsrx_pll_ts_vddr_tx_pi_
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_CLK_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_CLK_CAL_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004998ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_TX_PI_CLK_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -26830,7 +26830,7 @@ typedef union cavm_xsrx_pll_ts_vddr_tx_pi_clk_cal_7 cavm_xsrx_pll_ts_vddr_tx_pi_
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_CLK_CAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_CLK_CAL_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000049a0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_TX_PI_CLK_CAL_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -26895,7 +26895,7 @@ typedef union cavm_xsrx_pll_ts_vddr_tx_pi_intp_cal_0 cavm_xsrx_pll_ts_vddr_tx_pi
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_INTP_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_INTP_CAL_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004928ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_TX_PI_INTP_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -26948,7 +26948,7 @@ typedef union cavm_xsrx_pll_ts_vddr_tx_pi_intp_cal_1 cavm_xsrx_pll_ts_vddr_tx_pi
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_INTP_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_INTP_CAL_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004930ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_TX_PI_INTP_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -27005,7 +27005,7 @@ typedef union cavm_xsrx_pll_ts_vddr_tx_pi_intp_cal_2 cavm_xsrx_pll_ts_vddr_tx_pi
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_INTP_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_INTP_CAL_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004938ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_TX_PI_INTP_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -27066,7 +27066,7 @@ typedef union cavm_xsrx_pll_ts_vddr_tx_pi_intp_cal_3 cavm_xsrx_pll_ts_vddr_tx_pi
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_INTP_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_INTP_CAL_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004940ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_TX_PI_INTP_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -27115,7 +27115,7 @@ typedef union cavm_xsrx_pll_ts_vddr_tx_pi_intp_cal_4 cavm_xsrx_pll_ts_vddr_tx_pi
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_INTP_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_INTP_CAL_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004948ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_TX_PI_INTP_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -27168,7 +27168,7 @@ typedef union cavm_xsrx_pll_ts_vddr_tx_pi_intp_cal_5 cavm_xsrx_pll_ts_vddr_tx_pi
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_INTP_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_INTP_CAL_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004950ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_TX_PI_INTP_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -27233,7 +27233,7 @@ typedef union cavm_xsrx_pll_ts_vddr_tx_pi_intp_cal_6 cavm_xsrx_pll_ts_vddr_tx_pi
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_INTP_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_INTP_CAL_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004958ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_TX_PI_INTP_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -27290,7 +27290,7 @@ typedef union cavm_xsrx_pll_ts_vddr_tx_pi_intp_cal_7 cavm_xsrx_pll_ts_vddr_tx_pi
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_INTP_CAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_INTP_CAL_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004960ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_TX_PI_INTP_CAL_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -27355,7 +27355,7 @@ typedef union cavm_xsrx_pll_ts_vddr_tx_pi_vco_cal_0 cavm_xsrx_pll_ts_vddr_tx_pi_
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_VCO_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_VCO_CAL_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000048e8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_TX_PI_VCO_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -27408,7 +27408,7 @@ typedef union cavm_xsrx_pll_ts_vddr_tx_pi_vco_cal_1 cavm_xsrx_pll_ts_vddr_tx_pi_
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_VCO_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_VCO_CAL_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000048f0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_TX_PI_VCO_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -27465,7 +27465,7 @@ typedef union cavm_xsrx_pll_ts_vddr_tx_pi_vco_cal_2 cavm_xsrx_pll_ts_vddr_tx_pi_
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_VCO_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_VCO_CAL_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000048f8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_TX_PI_VCO_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -27526,7 +27526,7 @@ typedef union cavm_xsrx_pll_ts_vddr_tx_pi_vco_cal_3 cavm_xsrx_pll_ts_vddr_tx_pi_
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_VCO_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_VCO_CAL_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004900ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_TX_PI_VCO_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -27575,7 +27575,7 @@ typedef union cavm_xsrx_pll_ts_vddr_tx_pi_vco_cal_4 cavm_xsrx_pll_ts_vddr_tx_pi_
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_VCO_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_VCO_CAL_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004908ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_TX_PI_VCO_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -27628,7 +27628,7 @@ typedef union cavm_xsrx_pll_ts_vddr_tx_pi_vco_cal_5 cavm_xsrx_pll_ts_vddr_tx_pi_
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_VCO_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_VCO_CAL_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004910ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_TX_PI_VCO_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -27693,7 +27693,7 @@ typedef union cavm_xsrx_pll_ts_vddr_tx_pi_vco_cal_6 cavm_xsrx_pll_ts_vddr_tx_pi_
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_VCO_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_VCO_CAL_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004918ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_TX_PI_VCO_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -27750,7 +27750,7 @@ typedef union cavm_xsrx_pll_ts_vddr_tx_pi_vco_cal_7 cavm_xsrx_pll_ts_vddr_tx_pi_
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_VCO_CAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PLL_TS_VDDR_TX_PI_VCO_CAL_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200004920ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PLL_TS_VDDR_TX_PI_VCO_CAL_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -27943,7 +27943,7 @@ typedef union cavm_xsrx_pm_cmn_reg1 cavm_xsrx_pm_cmn_reg1_t;
 static inline uint64_t CAVM_XSRX_PM_CMN_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PM_CMN_REG1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014640ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PM_CMN_REG1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -28070,7 +28070,7 @@ typedef union cavm_xsrx_pm_cmn_reg2 cavm_xsrx_pm_cmn_reg2_t;
 static inline uint64_t CAVM_XSRX_PM_CMN_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PM_CMN_REG2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014698ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PM_CMN_REG2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -28127,7 +28127,7 @@ typedef union cavm_xsrx_pm_ctrl_interrupt_isr_reg1_lane cavm_xsrx_pm_ctrl_interr
 static inline uint64_t CAVM_XSRX_PM_CTRL_INTERRUPT_ISR_REG1_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PM_CTRL_INTERRUPT_ISR_REG1_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006398ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PM_CTRL_INTERRUPT_ISR_REG1_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -28192,7 +28192,7 @@ typedef union cavm_xsrx_pm_ctrl_interrupt_isr_rx_reg1_lane cavm_xsrx_pm_ctrl_int
 static inline uint64_t CAVM_XSRX_PM_CTRL_INTERRUPT_ISR_RX_REG1_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PM_CTRL_INTERRUPT_ISR_RX_REG1_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000067c0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PM_CTRL_INTERRUPT_ISR_RX_REG1_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -28249,7 +28249,7 @@ typedef union cavm_xsrx_pm_ctrl_interrupt_reg1 cavm_xsrx_pm_ctrl_interrupt_reg1_
 static inline uint64_t CAVM_XSRX_PM_CTRL_INTERRUPT_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PM_CTRL_INTERRUPT_REG1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006388ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PM_CTRL_INTERRUPT_REG1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -28306,7 +28306,7 @@ typedef union cavm_xsrx_pm_ctrl_interrupt_reg2 cavm_xsrx_pm_ctrl_interrupt_reg2_
 static inline uint64_t CAVM_XSRX_PM_CTRL_INTERRUPT_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PM_CTRL_INTERRUPT_REG2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006390ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PM_CTRL_INTERRUPT_REG2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -28371,7 +28371,7 @@ typedef union cavm_xsrx_pm_ctrl_interrupt_rx_reg1 cavm_xsrx_pm_ctrl_interrupt_rx
 static inline uint64_t CAVM_XSRX_PM_CTRL_INTERRUPT_RX_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PM_CTRL_INTERRUPT_RX_REG1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000067b0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PM_CTRL_INTERRUPT_RX_REG1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -28436,7 +28436,7 @@ typedef union cavm_xsrx_pm_ctrl_interrupt_rx_reg2 cavm_xsrx_pm_ctrl_interrupt_rx
 static inline uint64_t CAVM_XSRX_PM_CTRL_INTERRUPT_RX_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PM_CTRL_INTERRUPT_RX_REG2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000067b8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PM_CTRL_INTERRUPT_RX_REG2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -28471,7 +28471,7 @@ typedef union cavm_xsrx_pmemx cavm_xsrx_pmemx_t;
 static inline uint64_t CAVM_XSRX_PMEMX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PMEMX(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=8191)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=1) && (b<=8191)))
         return 0xc7e200040000ll + 0x100000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1fff);
     __cavm_csr_fatal("XSRX_PMEMX", 2, a, b, 0, 0, 0, 0);
 }
@@ -28515,7 +28515,7 @@ typedef union cavm_xsrx_process_threshold1 cavm_xsrx_process_threshold1_t;
 static inline uint64_t CAVM_XSRX_PROCESS_THRESHOLD1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PROCESS_THRESHOLD1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001ccd0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PROCESS_THRESHOLD1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -28559,7 +28559,7 @@ typedef union cavm_xsrx_process_threshold2 cavm_xsrx_process_threshold2_t;
 static inline uint64_t CAVM_XSRX_PROCESS_THRESHOLD2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PROCESS_THRESHOLD2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001ccd8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PROCESS_THRESHOLD2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -28603,7 +28603,7 @@ typedef union cavm_xsrx_process_threshold3 cavm_xsrx_process_threshold3_t;
 static inline uint64_t CAVM_XSRX_PROCESS_THRESHOLD3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PROCESS_THRESHOLD3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cce0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PROCESS_THRESHOLD3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -28647,7 +28647,7 @@ typedef union cavm_xsrx_process_threshold4 cavm_xsrx_process_threshold4_t;
 static inline uint64_t CAVM_XSRX_PROCESS_THRESHOLD4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PROCESS_THRESHOLD4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cce8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PROCESS_THRESHOLD4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -28691,7 +28691,7 @@ typedef union cavm_xsrx_process_threshold5 cavm_xsrx_process_threshold5_t;
 static inline uint64_t CAVM_XSRX_PROCESS_THRESHOLD5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PROCESS_THRESHOLD5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001ccf0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PROCESS_THRESHOLD5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -28737,7 +28737,7 @@ typedef union cavm_xsrx_processmon_reg0 cavm_xsrx_processmon_reg0_t;
 static inline uint64_t CAVM_XSRX_PROCESSMON_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PROCESSMON_REG0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014660ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PROCESSMON_REG0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -28814,7 +28814,7 @@ typedef union cavm_xsrx_processmon_reg1 cavm_xsrx_processmon_reg1_t;
 static inline uint64_t CAVM_XSRX_PROCESSMON_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_PROCESSMON_REG1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014668ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_PROCESSMON_REG1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -28951,7 +28951,7 @@ typedef union cavm_xsrx_receiver_amin_ctrl cavm_xsrx_receiver_amin_ctrl_t;
 static inline uint64_t CAVM_XSRX_RECEIVER_AMIN_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_AMIN_CTRL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006478ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_AMIN_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -29182,7 +29182,7 @@ typedef union cavm_xsrx_receiver_amp_loop_status cavm_xsrx_receiver_amp_loop_sta
 static inline uint64_t CAVM_XSRX_RECEIVER_AMP_LOOP_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_AMP_LOOP_STATUS(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000064c0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_AMP_LOOP_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -29257,7 +29257,7 @@ typedef union cavm_xsrx_receiver_amp_samp_ctrl cavm_xsrx_receiver_amp_samp_ctrl_
 static inline uint64_t CAVM_XSRX_RECEIVER_AMP_SAMP_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_AMP_SAMP_CTRL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006440ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_AMP_SAMP_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -29320,7 +29320,7 @@ typedef union cavm_xsrx_receiver_ana_su_hd_dly_sel cavm_xsrx_receiver_ana_su_hd_
 static inline uint64_t CAVM_XSRX_RECEIVER_ANA_SU_HD_DLY_SEL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_ANA_SU_HD_DLY_SEL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006438ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_ANA_SU_HD_DLY_SEL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -29394,7 +29394,7 @@ typedef union cavm_xsrx_receiver_analog_interface_0 cavm_xsrx_receiver_analog_in
 static inline uint64_t CAVM_XSRX_RECEIVER_ANALOG_INTERFACE_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_ANALOG_INTERFACE_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006780ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_ANALOG_INTERFACE_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -29483,7 +29483,7 @@ typedef union cavm_xsrx_receiver_analog_interface_1 cavm_xsrx_receiver_analog_in
 static inline uint64_t CAVM_XSRX_RECEIVER_ANALOG_INTERFACE_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_ANALOG_INTERFACE_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006788ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_ANALOG_INTERFACE_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -29584,7 +29584,7 @@ typedef union cavm_xsrx_receiver_analog_interface_2 cavm_xsrx_receiver_analog_in
 static inline uint64_t CAVM_XSRX_RECEIVER_ANALOG_INTERFACE_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_ANALOG_INTERFACE_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006790ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_ANALOG_INTERFACE_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -29713,7 +29713,7 @@ typedef union cavm_xsrx_receiver_analog_interface_3 cavm_xsrx_receiver_analog_in
 static inline uint64_t CAVM_XSRX_RECEIVER_ANALOG_INTERFACE_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_ANALOG_INTERFACE_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006798ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_ANALOG_INTERFACE_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -29762,7 +29762,7 @@ typedef union cavm_xsrx_receiver_analog_interface_4 cavm_xsrx_receiver_analog_in
 static inline uint64_t CAVM_XSRX_RECEIVER_ANALOG_INTERFACE_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_ANALOG_INTERFACE_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000067a0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_ANALOG_INTERFACE_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -29839,7 +29839,7 @@ typedef union cavm_xsrx_receiver_analog_interface_5 cavm_xsrx_receiver_analog_in
 static inline uint64_t CAVM_XSRX_RECEIVER_ANALOG_INTERFACE_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_ANALOG_INTERFACE_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000067a8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_ANALOG_INTERFACE_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -29928,7 +29928,7 @@ typedef union cavm_xsrx_receiver_ber_count_data cavm_xsrx_receiver_ber_count_dat
 static inline uint64_t CAVM_XSRX_RECEIVER_BER_COUNT_DATA(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_BER_COUNT_DATA(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006488ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_BER_COUNT_DATA", 1, a, 0, 0, 0, 0, 0);
 }
@@ -30053,7 +30053,7 @@ typedef union cavm_xsrx_receiver_cdr_flywheel_ctrl cavm_xsrx_receiver_cdr_flywhe
 static inline uint64_t CAVM_XSRX_RECEIVER_CDR_FLYWHEEL_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_CDR_FLYWHEEL_CTRL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006410ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_CDR_FLYWHEEL_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -30322,7 +30322,7 @@ typedef union cavm_xsrx_receiver_cfg_ctrl cavm_xsrx_receiver_cfg_ctrl_t;
 static inline uint64_t CAVM_XSRX_RECEIVER_CFG_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_CFG_CTRL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006400ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_CFG_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -30419,7 +30419,7 @@ typedef union cavm_xsrx_receiver_empdf cavm_xsrx_receiver_empdf_t;
 static inline uint64_t CAVM_XSRX_RECEIVER_EMPDF(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_EMPDF(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006550ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_EMPDF", 1, a, 0, 0, 0, 0, 0);
 }
@@ -30536,7 +30536,7 @@ typedef union cavm_xsrx_receiver_emwvfrm_1 cavm_xsrx_receiver_emwvfrm_1_t;
 static inline uint64_t CAVM_XSRX_RECEIVER_EMWVFRM_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_EMWVFRM_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006558ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_EMWVFRM_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -30609,7 +30609,7 @@ typedef union cavm_xsrx_receiver_emwvfrm_2 cavm_xsrx_receiver_emwvfrm_2_t;
 static inline uint64_t CAVM_XSRX_RECEIVER_EMWVFRM_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_EMWVFRM_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006560ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_EMWVFRM_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -30720,7 +30720,7 @@ typedef union cavm_xsrx_receiver_fec_ber_metric cavm_xsrx_receiver_fec_ber_metri
 static inline uint64_t CAVM_XSRX_RECEIVER_FEC_BER_METRIC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_FEC_BER_METRIC(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006628ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_FEC_BER_METRIC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -30779,7 +30779,7 @@ typedef union cavm_xsrx_receiver_ffe_corr_cnt cavm_xsrx_receiver_ffe_corr_cnt_t;
 static inline uint64_t CAVM_XSRX_RECEIVER_FFE_CORR_CNT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_FFE_CORR_CNT(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006718ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_FFE_CORR_CNT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -30868,7 +30868,7 @@ typedef union cavm_xsrx_receiver_ffe_corr_cnt_sel cavm_xsrx_receiver_ffe_corr_cn
 static inline uint64_t CAVM_XSRX_RECEIVER_FFE_CORR_CNT_SEL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_FFE_CORR_CNT_SEL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006710ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_FFE_CORR_CNT_SEL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -31097,7 +31097,7 @@ typedef union cavm_xsrx_receiver_ffe_training_ctrl_0 cavm_xsrx_receiver_ffe_trai
 static inline uint64_t CAVM_XSRX_RECEIVER_FFE_TRAINING_CTRL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_FFE_TRAINING_CTRL_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006700ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_FFE_TRAINING_CTRL_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -31178,7 +31178,7 @@ typedef union cavm_xsrx_receiver_ffe_training_ctrl_1 cavm_xsrx_receiver_ffe_trai
 static inline uint64_t CAVM_XSRX_RECEIVER_FFE_TRAINING_CTRL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_FFE_TRAINING_CTRL_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006708ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_FFE_TRAINING_CTRL_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -31239,7 +31239,7 @@ typedef union cavm_xsrx_receiver_fsm_status_0 cavm_xsrx_receiver_fsm_status_0_t;
 static inline uint64_t CAVM_XSRX_RECEIVER_FSM_STATUS_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_FSM_STATUS_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006568ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_FSM_STATUS_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -31304,7 +31304,7 @@ typedef union cavm_xsrx_receiver_fsm_status_1 cavm_xsrx_receiver_fsm_status_1_t;
 static inline uint64_t CAVM_XSRX_RECEIVER_FSM_STATUS_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_FSM_STATUS_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006570ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_FSM_STATUS_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -31359,7 +31359,7 @@ typedef union cavm_xsrx_receiver_fsm_status_2 cavm_xsrx_receiver_fsm_status_2_t;
 static inline uint64_t CAVM_XSRX_RECEIVER_FSM_STATUS_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_FSM_STATUS_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006578ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_FSM_STATUS_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -31788,7 +31788,7 @@ typedef union cavm_xsrx_receiver_func_ctrl_1 cavm_xsrx_receiver_func_ctrl_1_t;
 static inline uint64_t CAVM_XSRX_RECEIVER_FUNC_CTRL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_FUNC_CTRL_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000064f8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_FUNC_CTRL_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -31828,7 +31828,7 @@ typedef union cavm_xsrx_receiver_fw_spirx_pkt cavm_xsrx_receiver_fw_spirx_pkt_t;
 static inline uint64_t CAVM_XSRX_RECEIVER_FW_SPIRX_PKT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_FW_SPIRX_PKT(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006770ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_FW_SPIRX_PKT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -31870,7 +31870,7 @@ typedef union cavm_xsrx_receiver_fw_spitx_pkt cavm_xsrx_receiver_fw_spitx_pkt_t;
 static inline uint64_t CAVM_XSRX_RECEIVER_FW_SPITX_PKT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_FW_SPITX_PKT(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006760ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_FW_SPITX_PKT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -31927,7 +31927,7 @@ typedef union cavm_xsrx_receiver_identification_register cavm_xsrx_receiver_iden
 static inline uint64_t CAVM_XSRX_RECEIVER_IDENTIFICATION_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_IDENTIFICATION_REGISTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000067e0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_IDENTIFICATION_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -32224,7 +32224,7 @@ typedef union cavm_xsrx_receiver_loff cavm_xsrx_receiver_loff_t;
 static inline uint64_t CAVM_XSRX_RECEIVER_LOFF(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_LOFF(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006530ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_LOFF", 1, a, 0, 0, 0, 0, 0);
 }
@@ -32457,7 +32457,7 @@ typedef union cavm_xsrx_receiver_loff_chan_sel cavm_xsrx_receiver_loff_chan_sel_
 static inline uint64_t CAVM_XSRX_RECEIVER_LOFF_CHAN_SEL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_LOFF_CHAN_SEL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006508ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_LOFF_CHAN_SEL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -32692,7 +32692,7 @@ typedef union cavm_xsrx_receiver_loff_channel_select_soc cavm_xsrx_receiver_loff
 static inline uint64_t CAVM_XSRX_RECEIVER_LOFF_CHANNEL_SELECT_SOC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_LOFF_CHANNEL_SELECT_SOC(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006518ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_LOFF_CHANNEL_SELECT_SOC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -32885,7 +32885,7 @@ typedef union cavm_xsrx_receiver_loff_offset cavm_xsrx_receiver_loff_offset_t;
 static inline uint64_t CAVM_XSRX_RECEIVER_LOFF_OFFSET(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_LOFF_OFFSET(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006510ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_LOFF_OFFSET", 1, a, 0, 0, 0, 0, 0);
 }
@@ -32988,7 +32988,7 @@ typedef union cavm_xsrx_receiver_loff_offset_soc cavm_xsrx_receiver_loff_offset_
 static inline uint64_t CAVM_XSRX_RECEIVER_LOFF_OFFSET_SOC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_LOFF_OFFSET_SOC(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006520ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_LOFF_OFFSET_SOC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -33079,7 +33079,7 @@ typedef union cavm_xsrx_receiver_macrotest_1 cavm_xsrx_receiver_macrotest_1_t;
 static inline uint64_t CAVM_XSRX_RECEIVER_MACROTEST_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_MACROTEST_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000065f8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_MACROTEST_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -33146,7 +33146,7 @@ typedef union cavm_xsrx_receiver_manual_func_ctrl cavm_xsrx_receiver_manual_func
 static inline uint64_t CAVM_XSRX_RECEIVER_MANUAL_FUNC_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_MANUAL_FUNC_CTRL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006500ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_MANUAL_FUNC_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -33415,7 +33415,7 @@ typedef union cavm_xsrx_receiver_prbs_ctrl cavm_xsrx_receiver_prbs_ctrl_t;
 static inline uint64_t CAVM_XSRX_RECEIVER_PRBS_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_PRBS_CTRL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006408ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_PRBS_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -33512,7 +33512,7 @@ typedef union cavm_xsrx_receiver_rot_boost cavm_xsrx_receiver_rot_boost_t;
 static inline uint64_t CAVM_XSRX_RECEIVER_ROT_BOOST(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_ROT_BOOST(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006428ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_ROT_BOOST", 1, a, 0, 0, 0, 0, 0);
 }
@@ -33624,7 +33624,7 @@ typedef union cavm_xsrx_receiver_rot_ctrl cavm_xsrx_receiver_rot_ctrl_t;
 static inline uint64_t CAVM_XSRX_RECEIVER_ROT_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_ROT_CTRL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006418ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_ROT_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -33691,7 +33691,7 @@ typedef union cavm_xsrx_receiver_rot_pos cavm_xsrx_receiver_rot_pos_t;
 static inline uint64_t CAVM_XSRX_RECEIVER_ROT_POS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_ROT_POS(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006420ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_ROT_POS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -33820,7 +33820,7 @@ typedef union cavm_xsrx_receiver_rxstart_ctrl cavm_xsrx_receiver_rxstart_ctrl_t;
 static inline uint64_t CAVM_XSRX_RECEIVER_RXSTART_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_RXSTART_CTRL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000064c8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_RXSTART_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -33872,7 +33872,7 @@ typedef union cavm_xsrx_receiver_snapshot_0 cavm_xsrx_receiver_snapshot_0_t;
 static inline uint64_t CAVM_XSRX_RECEIVER_SNAPSHOT_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_SNAPSHOT_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006590ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_SNAPSHOT_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -33916,7 +33916,7 @@ typedef union cavm_xsrx_receiver_snapshot_1 cavm_xsrx_receiver_snapshot_1_t;
 static inline uint64_t CAVM_XSRX_RECEIVER_SNAPSHOT_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_SNAPSHOT_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006598ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_SNAPSHOT_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -33985,7 +33985,7 @@ typedef union cavm_xsrx_receiver_snapshot_2 cavm_xsrx_receiver_snapshot_2_t;
 static inline uint64_t CAVM_XSRX_RECEIVER_SNAPSHOT_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_SNAPSHOT_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000065a0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_SNAPSHOT_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -34037,7 +34037,7 @@ typedef union cavm_xsrx_receiver_snapshot_3 cavm_xsrx_receiver_snapshot_3_t;
 static inline uint64_t CAVM_XSRX_RECEIVER_SNAPSHOT_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_SNAPSHOT_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000065a8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_SNAPSHOT_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -34087,7 +34087,7 @@ typedef union cavm_xsrx_receiver_snapshot_4 cavm_xsrx_receiver_snapshot_4_t;
 static inline uint64_t CAVM_XSRX_RECEIVER_SNAPSHOT_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_SNAPSHOT_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000065b0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_SNAPSHOT_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -34214,7 +34214,7 @@ typedef union cavm_xsrx_receiver_spi_add_ovrd cavm_xsrx_receiver_spi_add_ovrd_t;
 static inline uint64_t CAVM_XSRX_RECEIVER_SPI_ADD_OVRD(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_SPI_ADD_OVRD(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006430ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_SPI_ADD_OVRD", 1, a, 0, 0, 0, 0, 0);
 }
@@ -34287,7 +34287,7 @@ typedef union cavm_xsrx_receiver_status_1 cavm_xsrx_receiver_status_1_t;
 static inline uint64_t CAVM_XSRX_RECEIVER_STATUS_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_STATUS_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000064f0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_STATUS_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -34412,7 +34412,7 @@ typedef union cavm_xsrx_receiver_sw_ovrd_1 cavm_xsrx_receiver_sw_ovrd_1_t;
 static inline uint64_t CAVM_XSRX_RECEIVER_SW_OVRD_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_SW_OVRD_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006600ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_SW_OVRD_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -34466,7 +34466,7 @@ typedef union cavm_xsrx_receiver_sw_ovrd_2 cavm_xsrx_receiver_sw_ovrd_2_t;
 static inline uint64_t CAVM_XSRX_RECEIVER_SW_OVRD_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_SW_OVRD_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006608ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_SW_OVRD_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -34531,7 +34531,7 @@ typedef union cavm_xsrx_receiver_sw_ovrd_3 cavm_xsrx_receiver_sw_ovrd_3_t;
 static inline uint64_t CAVM_XSRX_RECEIVER_SW_OVRD_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_SW_OVRD_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006610ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_SW_OVRD_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -34596,7 +34596,7 @@ typedef union cavm_xsrx_receiver_sw_ovrd_4 cavm_xsrx_receiver_sw_ovrd_4_t;
 static inline uint64_t CAVM_XSRX_RECEIVER_SW_OVRD_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_SW_OVRD_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006618ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_SW_OVRD_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -34857,7 +34857,7 @@ typedef union cavm_xsrx_receiver_sw_ovrd_5 cavm_xsrx_receiver_sw_ovrd_5_t;
 static inline uint64_t CAVM_XSRX_RECEIVER_SW_OVRD_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_SW_OVRD_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006620ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_SW_OVRD_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -35046,7 +35046,7 @@ typedef union cavm_xsrx_receiver_vdac_settle_time cavm_xsrx_receiver_vdac_settle
 static inline uint64_t CAVM_XSRX_RECEIVER_VDAC_SETTLE_TIME(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_VDAC_SETTLE_TIME(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006538ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_VDAC_SETTLE_TIME", 1, a, 0, 0, 0, 0, 0);
 }
@@ -35171,7 +35171,7 @@ typedef union cavm_xsrx_receiver_vdac_status cavm_xsrx_receiver_vdac_status_t;
 static inline uint64_t CAVM_XSRX_RECEIVER_VDAC_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_VDAC_STATUS(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006640ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_VDAC_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -35270,7 +35270,7 @@ typedef union cavm_xsrx_receiver_write_strobes cavm_xsrx_receiver_write_strobes_
 static inline uint64_t CAVM_XSRX_RECEIVER_WRITE_STROBES(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RECEIVER_WRITE_STROBES(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000064b8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RECEIVER_WRITE_STROBES", 1, a, 0, 0, 0, 0, 0);
 }
@@ -35707,7 +35707,7 @@ typedef union cavm_xsrx_refclk_ctl1 cavm_xsrx_refclk_ctl1_t;
 static inline uint64_t CAVM_XSRX_REFCLK_CTL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_REFCLK_CTL1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000200d0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_REFCLK_CTL1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -35808,7 +35808,7 @@ typedef union cavm_xsrx_refclk_ctl2 cavm_xsrx_refclk_ctl2_t;
 static inline uint64_t CAVM_XSRX_REFCLK_CTL2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_REFCLK_CTL2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000200d8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_REFCLK_CTL2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -35857,7 +35857,7 @@ typedef union cavm_xsrx_refclk_status cavm_xsrx_refclk_status_t;
 static inline uint64_t CAVM_XSRX_REFCLK_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_REFCLK_STATUS(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000200e0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_REFCLK_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -35934,7 +35934,7 @@ typedef union cavm_xsrx_reg_sft_rst_ctl_cmn0 cavm_xsrx_reg_sft_rst_ctl_cmn0_t;
 static inline uint64_t CAVM_XSRX_REG_SFT_RST_CTL_CMN0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_REG_SFT_RST_CTL_CMN0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014410ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_REG_SFT_RST_CTL_CMN0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -36003,7 +36003,7 @@ typedef union cavm_xsrx_reg_sft_rst_ctl_pll_ts cavm_xsrx_reg_sft_rst_ctl_pll_ts_
 static inline uint64_t CAVM_XSRX_REG_SFT_RST_CTL_PLL_TS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_REG_SFT_RST_CTL_PLL_TS(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014578ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_REG_SFT_RST_CTL_PLL_TS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -36060,7 +36060,7 @@ typedef union cavm_xsrx_reg_sft_rst_ctl_rx_0 cavm_xsrx_reg_sft_rst_ctl_rx_0_t;
 static inline uint64_t CAVM_XSRX_REG_SFT_RST_CTL_RX_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_REG_SFT_RST_CTL_RX_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014568ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_REG_SFT_RST_CTL_RX_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -36113,7 +36113,7 @@ typedef union cavm_xsrx_reg_sft_rst_ctl_rx_1 cavm_xsrx_reg_sft_rst_ctl_rx_1_t;
 static inline uint64_t CAVM_XSRX_REG_SFT_RST_CTL_RX_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_REG_SFT_RST_CTL_RX_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014570ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_REG_SFT_RST_CTL_RX_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -36174,7 +36174,7 @@ typedef union cavm_xsrx_reg_sft_rst_ctl_rx_2 cavm_xsrx_reg_sft_rst_ctl_rx_2_t;
 static inline uint64_t CAVM_XSRX_REG_SFT_RST_CTL_RX_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_REG_SFT_RST_CTL_RX_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000067d0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_REG_SFT_RST_CTL_RX_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -36235,7 +36235,7 @@ typedef union cavm_xsrx_reg_sft_rst_ctl_rx_3 cavm_xsrx_reg_sft_rst_ctl_rx_3_t;
 static inline uint64_t CAVM_XSRX_REG_SFT_RST_CTL_RX_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_REG_SFT_RST_CTL_RX_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000067d8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_REG_SFT_RST_CTL_RX_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -36292,7 +36292,7 @@ typedef union cavm_xsrx_reg_sft_rst_ctl_tx_0 cavm_xsrx_reg_sft_rst_ctl_tx_0_t;
 static inline uint64_t CAVM_XSRX_REG_SFT_RST_CTL_TX_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_REG_SFT_RST_CTL_TX_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014558ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_REG_SFT_RST_CTL_TX_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -36345,7 +36345,7 @@ typedef union cavm_xsrx_reg_sft_rst_ctl_tx_1 cavm_xsrx_reg_sft_rst_ctl_tx_1_t;
 static inline uint64_t CAVM_XSRX_REG_SFT_RST_CTL_TX_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_REG_SFT_RST_CTL_TX_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014560ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_REG_SFT_RST_CTL_TX_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -36406,7 +36406,7 @@ typedef union cavm_xsrx_reg_sft_rst_ctl_tx_2 cavm_xsrx_reg_sft_rst_ctl_tx_2_t;
 static inline uint64_t CAVM_XSRX_REG_SFT_RST_CTL_TX_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_REG_SFT_RST_CTL_TX_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000063a8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_REG_SFT_RST_CTL_TX_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -36467,7 +36467,7 @@ typedef union cavm_xsrx_reg_sft_rst_ctl_tx_3 cavm_xsrx_reg_sft_rst_ctl_tx_3_t;
 static inline uint64_t CAVM_XSRX_REG_SFT_RST_CTL_TX_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_REG_SFT_RST_CTL_TX_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000063b0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_REG_SFT_RST_CTL_TX_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -36511,7 +36511,7 @@ typedef union cavm_xsrx_rx_cache_debug0 cavm_xsrx_rx_cache_debug0_t;
 static inline uint64_t CAVM_XSRX_RX_CACHE_DEBUG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CACHE_DEBUG0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000067c8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CACHE_DEBUG0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -36566,7 +36566,7 @@ typedef union cavm_xsrx_rx_cal_reg0 cavm_xsrx_rx_cal_reg0_t;
 static inline uint64_t CAVM_XSRX_RX_CAL_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CAL_REG0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003078ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CAL_REG0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -36615,7 +36615,7 @@ typedef union cavm_xsrx_rx_cal_reg1 cavm_xsrx_rx_cal_reg1_t;
 static inline uint64_t CAVM_XSRX_RX_CAL_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CAL_REG1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003080ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CAL_REG1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -36666,7 +36666,7 @@ typedef union cavm_xsrx_rx_cal_reg2 cavm_xsrx_rx_cal_reg2_t;
 static inline uint64_t CAVM_XSRX_RX_CAL_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CAL_REG2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003088ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CAL_REG2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -36727,7 +36727,7 @@ typedef union cavm_xsrx_rx_clktop_cal_0 cavm_xsrx_rx_clktop_cal_0_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_CAL_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003800ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -36776,7 +36776,7 @@ typedef union cavm_xsrx_rx_clktop_cal_1 cavm_xsrx_rx_clktop_cal_1_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_CAL_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003808ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -36853,7 +36853,7 @@ typedef union cavm_xsrx_rx_clktop_cal_2 cavm_xsrx_rx_clktop_cal_2_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_CAL_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003810ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -36906,7 +36906,7 @@ typedef union cavm_xsrx_rx_clktop_cal_3 cavm_xsrx_rx_clktop_cal_3_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_CAL_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003818ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -36971,7 +36971,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_0_0 cavm_xsrx_rx_clktop_dcc_cal_0_0_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_0_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_0_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003bd0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_0_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -37028,7 +37028,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_0_1 cavm_xsrx_rx_clktop_dcc_cal_0_1_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_0_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_0_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003bd8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_0_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -37081,7 +37081,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_0_10 cavm_xsrx_rx_clktop_dcc_cal_0_10_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_0_10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_0_10(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003c20ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_0_10", 1, a, 0, 0, 0, 0, 0);
 }
@@ -37138,7 +37138,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_0_2 cavm_xsrx_rx_clktop_dcc_cal_0_2_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_0_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_0_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003be0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_0_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -37199,7 +37199,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_0_3 cavm_xsrx_rx_clktop_dcc_cal_0_3_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_0_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_0_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003be8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_0_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -37248,7 +37248,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_0_4 cavm_xsrx_rx_clktop_dcc_cal_0_4_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_0_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_0_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003bf0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_0_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -37301,7 +37301,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_0_5 cavm_xsrx_rx_clktop_dcc_cal_0_5_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_0_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_0_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003bf8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_0_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -37350,7 +37350,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_0_6 cavm_xsrx_rx_clktop_dcc_cal_0_6_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_0_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_0_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003c00ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_0_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -37423,7 +37423,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_0_7 cavm_xsrx_rx_clktop_dcc_cal_0_7_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_0_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_0_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003c08ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_0_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -37476,7 +37476,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_0_8 cavm_xsrx_rx_clktop_dcc_cal_0_8_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_0_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_0_8(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003c10ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_0_8", 1, a, 0, 0, 0, 0, 0);
 }
@@ -37529,7 +37529,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_0_9 cavm_xsrx_rx_clktop_dcc_cal_0_9_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_0_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_0_9(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003c18ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_0_9", 1, a, 0, 0, 0, 0, 0);
 }
@@ -37594,7 +37594,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_1_0 cavm_xsrx_rx_clktop_dcc_cal_1_0_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_1_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_1_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003c28ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_1_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -37651,7 +37651,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_1_1 cavm_xsrx_rx_clktop_dcc_cal_1_1_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_1_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_1_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003c30ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_1_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -37704,7 +37704,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_1_10 cavm_xsrx_rx_clktop_dcc_cal_1_10_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_1_10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_1_10(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003c78ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_1_10", 1, a, 0, 0, 0, 0, 0);
 }
@@ -37761,7 +37761,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_1_2 cavm_xsrx_rx_clktop_dcc_cal_1_2_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_1_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_1_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003c38ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_1_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -37822,7 +37822,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_1_3 cavm_xsrx_rx_clktop_dcc_cal_1_3_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_1_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_1_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003c40ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_1_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -37871,7 +37871,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_1_4 cavm_xsrx_rx_clktop_dcc_cal_1_4_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_1_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_1_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003c48ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_1_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -37924,7 +37924,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_1_5 cavm_xsrx_rx_clktop_dcc_cal_1_5_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_1_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_1_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003c50ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_1_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -37973,7 +37973,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_1_6 cavm_xsrx_rx_clktop_dcc_cal_1_6_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_1_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_1_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003c58ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_1_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -38046,7 +38046,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_1_7 cavm_xsrx_rx_clktop_dcc_cal_1_7_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_1_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_1_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003c60ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_1_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -38099,7 +38099,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_1_8 cavm_xsrx_rx_clktop_dcc_cal_1_8_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_1_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_1_8(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003c68ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_1_8", 1, a, 0, 0, 0, 0, 0);
 }
@@ -38152,7 +38152,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_1_9 cavm_xsrx_rx_clktop_dcc_cal_1_9_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_1_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_1_9(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003c70ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_1_9", 1, a, 0, 0, 0, 0, 0);
 }
@@ -38217,7 +38217,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_2_0 cavm_xsrx_rx_clktop_dcc_cal_2_0_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_2_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_2_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003c80ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_2_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -38274,7 +38274,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_2_1 cavm_xsrx_rx_clktop_dcc_cal_2_1_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_2_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_2_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003c88ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_2_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -38327,7 +38327,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_2_10 cavm_xsrx_rx_clktop_dcc_cal_2_10_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_2_10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_2_10(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003cd0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_2_10", 1, a, 0, 0, 0, 0, 0);
 }
@@ -38384,7 +38384,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_2_2 cavm_xsrx_rx_clktop_dcc_cal_2_2_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_2_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_2_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003c90ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_2_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -38445,7 +38445,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_2_3 cavm_xsrx_rx_clktop_dcc_cal_2_3_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_2_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_2_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003c98ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_2_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -38494,7 +38494,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_2_4 cavm_xsrx_rx_clktop_dcc_cal_2_4_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_2_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_2_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003ca0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_2_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -38547,7 +38547,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_2_5 cavm_xsrx_rx_clktop_dcc_cal_2_5_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_2_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_2_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003ca8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_2_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -38596,7 +38596,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_2_6 cavm_xsrx_rx_clktop_dcc_cal_2_6_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_2_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_2_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003cb0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_2_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -38669,7 +38669,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_2_7 cavm_xsrx_rx_clktop_dcc_cal_2_7_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_2_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_2_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003cb8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_2_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -38722,7 +38722,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_2_8 cavm_xsrx_rx_clktop_dcc_cal_2_8_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_2_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_2_8(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003cc0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_2_8", 1, a, 0, 0, 0, 0, 0);
 }
@@ -38775,7 +38775,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_2_9 cavm_xsrx_rx_clktop_dcc_cal_2_9_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_2_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_2_9(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003cc8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_2_9", 1, a, 0, 0, 0, 0, 0);
 }
@@ -38840,7 +38840,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_3_0 cavm_xsrx_rx_clktop_dcc_cal_3_0_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_3_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_3_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003cd8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_3_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -38897,7 +38897,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_3_1 cavm_xsrx_rx_clktop_dcc_cal_3_1_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_3_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_3_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003ce0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_3_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -38950,7 +38950,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_3_10 cavm_xsrx_rx_clktop_dcc_cal_3_10_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_3_10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_3_10(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003d28ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_3_10", 1, a, 0, 0, 0, 0, 0);
 }
@@ -39007,7 +39007,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_3_2 cavm_xsrx_rx_clktop_dcc_cal_3_2_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_3_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_3_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003ce8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_3_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -39068,7 +39068,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_3_3 cavm_xsrx_rx_clktop_dcc_cal_3_3_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_3_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_3_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003cf0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_3_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -39117,7 +39117,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_3_4 cavm_xsrx_rx_clktop_dcc_cal_3_4_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_3_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_3_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003cf8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_3_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -39170,7 +39170,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_3_5 cavm_xsrx_rx_clktop_dcc_cal_3_5_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_3_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_3_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003d00ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_3_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -39219,7 +39219,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_3_6 cavm_xsrx_rx_clktop_dcc_cal_3_6_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_3_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_3_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003d08ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_3_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -39292,7 +39292,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_3_7 cavm_xsrx_rx_clktop_dcc_cal_3_7_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_3_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_3_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003d10ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_3_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -39345,7 +39345,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_3_8 cavm_xsrx_rx_clktop_dcc_cal_3_8_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_3_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_3_8(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003d18ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_3_8", 1, a, 0, 0, 0, 0, 0);
 }
@@ -39398,7 +39398,7 @@ typedef union cavm_xsrx_rx_clktop_dcc_cal_3_9 cavm_xsrx_rx_clktop_dcc_cal_3_9_t;
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_3_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DCC_CAL_3_9(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003d20ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DCC_CAL_3_9", 1, a, 0, 0, 0, 0, 0);
 }
@@ -39463,7 +39463,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_0_0 cavm_xsrx_rx_clktop_dll1_cal_0_0_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_0_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_0_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003820ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_0_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -39520,7 +39520,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_0_1 cavm_xsrx_rx_clktop_dll1_cal_0_1_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_0_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_0_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003828ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_0_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -39573,7 +39573,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_0_10 cavm_xsrx_rx_clktop_dll1_cal_0_1
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_0_10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_0_10(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003870ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_0_10", 1, a, 0, 0, 0, 0, 0);
 }
@@ -39630,7 +39630,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_0_11 cavm_xsrx_rx_clktop_dll1_cal_0_1
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_0_11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_0_11(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003878ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_0_11", 1, a, 0, 0, 0, 0, 0);
 }
@@ -39683,7 +39683,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_0_12 cavm_xsrx_rx_clktop_dll1_cal_0_1
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_0_12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_0_12(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003880ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_0_12", 1, a, 0, 0, 0, 0, 0);
 }
@@ -39740,7 +39740,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_0_2 cavm_xsrx_rx_clktop_dll1_cal_0_2_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_0_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_0_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003830ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_0_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -39801,7 +39801,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_0_3 cavm_xsrx_rx_clktop_dll1_cal_0_3_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_0_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_0_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003838ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_0_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -39850,7 +39850,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_0_4 cavm_xsrx_rx_clktop_dll1_cal_0_4_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_0_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_0_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003840ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_0_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -39903,7 +39903,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_0_5 cavm_xsrx_rx_clktop_dll1_cal_0_5_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_0_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_0_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003848ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_0_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -39956,7 +39956,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_0_6 cavm_xsrx_rx_clktop_dll1_cal_0_6_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_0_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_0_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003850ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_0_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -40005,7 +40005,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_0_7 cavm_xsrx_rx_clktop_dll1_cal_0_7_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_0_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_0_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003858ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_0_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -40070,7 +40070,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_0_8 cavm_xsrx_rx_clktop_dll1_cal_0_8_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_0_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_0_8(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003860ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_0_8", 1, a, 0, 0, 0, 0, 0);
 }
@@ -40123,7 +40123,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_0_9 cavm_xsrx_rx_clktop_dll1_cal_0_9_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_0_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_0_9(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003868ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_0_9", 1, a, 0, 0, 0, 0, 0);
 }
@@ -40188,7 +40188,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_1_0 cavm_xsrx_rx_clktop_dll1_cal_1_0_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_1_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_1_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003888ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_1_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -40245,7 +40245,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_1_1 cavm_xsrx_rx_clktop_dll1_cal_1_1_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_1_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_1_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003890ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_1_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -40298,7 +40298,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_1_10 cavm_xsrx_rx_clktop_dll1_cal_1_1
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_1_10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_1_10(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000038d8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_1_10", 1, a, 0, 0, 0, 0, 0);
 }
@@ -40355,7 +40355,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_1_11 cavm_xsrx_rx_clktop_dll1_cal_1_1
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_1_11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_1_11(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000038e0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_1_11", 1, a, 0, 0, 0, 0, 0);
 }
@@ -40408,7 +40408,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_1_12 cavm_xsrx_rx_clktop_dll1_cal_1_1
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_1_12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_1_12(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000038e8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_1_12", 1, a, 0, 0, 0, 0, 0);
 }
@@ -40465,7 +40465,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_1_2 cavm_xsrx_rx_clktop_dll1_cal_1_2_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_1_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_1_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003898ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_1_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -40526,7 +40526,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_1_3 cavm_xsrx_rx_clktop_dll1_cal_1_3_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_1_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_1_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000038a0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_1_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -40575,7 +40575,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_1_4 cavm_xsrx_rx_clktop_dll1_cal_1_4_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_1_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_1_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000038a8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_1_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -40628,7 +40628,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_1_5 cavm_xsrx_rx_clktop_dll1_cal_1_5_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_1_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_1_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000038b0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_1_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -40681,7 +40681,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_1_6 cavm_xsrx_rx_clktop_dll1_cal_1_6_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_1_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_1_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000038b8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_1_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -40730,7 +40730,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_1_7 cavm_xsrx_rx_clktop_dll1_cal_1_7_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_1_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_1_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000038c0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_1_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -40795,7 +40795,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_1_8 cavm_xsrx_rx_clktop_dll1_cal_1_8_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_1_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_1_8(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000038c8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_1_8", 1, a, 0, 0, 0, 0, 0);
 }
@@ -40848,7 +40848,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_1_9 cavm_xsrx_rx_clktop_dll1_cal_1_9_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_1_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_1_9(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000038d0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_1_9", 1, a, 0, 0, 0, 0, 0);
 }
@@ -40913,7 +40913,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_2_0 cavm_xsrx_rx_clktop_dll1_cal_2_0_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_2_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_2_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000038f0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_2_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -40970,7 +40970,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_2_1 cavm_xsrx_rx_clktop_dll1_cal_2_1_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_2_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_2_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000038f8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_2_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -41023,7 +41023,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_2_10 cavm_xsrx_rx_clktop_dll1_cal_2_1
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_2_10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_2_10(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003940ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_2_10", 1, a, 0, 0, 0, 0, 0);
 }
@@ -41080,7 +41080,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_2_11 cavm_xsrx_rx_clktop_dll1_cal_2_1
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_2_11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_2_11(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003948ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_2_11", 1, a, 0, 0, 0, 0, 0);
 }
@@ -41133,7 +41133,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_2_12 cavm_xsrx_rx_clktop_dll1_cal_2_1
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_2_12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_2_12(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003950ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_2_12", 1, a, 0, 0, 0, 0, 0);
 }
@@ -41190,7 +41190,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_2_2 cavm_xsrx_rx_clktop_dll1_cal_2_2_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_2_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_2_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003900ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_2_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -41251,7 +41251,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_2_3 cavm_xsrx_rx_clktop_dll1_cal_2_3_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_2_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_2_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003908ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_2_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -41300,7 +41300,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_2_4 cavm_xsrx_rx_clktop_dll1_cal_2_4_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_2_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_2_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003910ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_2_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -41353,7 +41353,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_2_5 cavm_xsrx_rx_clktop_dll1_cal_2_5_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_2_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_2_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003918ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_2_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -41406,7 +41406,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_2_6 cavm_xsrx_rx_clktop_dll1_cal_2_6_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_2_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_2_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003920ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_2_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -41455,7 +41455,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_2_7 cavm_xsrx_rx_clktop_dll1_cal_2_7_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_2_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_2_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003928ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_2_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -41520,7 +41520,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_2_8 cavm_xsrx_rx_clktop_dll1_cal_2_8_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_2_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_2_8(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003930ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_2_8", 1, a, 0, 0, 0, 0, 0);
 }
@@ -41573,7 +41573,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_2_9 cavm_xsrx_rx_clktop_dll1_cal_2_9_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_2_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_2_9(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003938ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_2_9", 1, a, 0, 0, 0, 0, 0);
 }
@@ -41638,7 +41638,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_3_0 cavm_xsrx_rx_clktop_dll1_cal_3_0_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_3_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_3_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003958ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_3_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -41695,7 +41695,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_3_1 cavm_xsrx_rx_clktop_dll1_cal_3_1_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_3_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_3_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003960ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_3_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -41748,7 +41748,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_3_10 cavm_xsrx_rx_clktop_dll1_cal_3_1
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_3_10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_3_10(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000039a8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_3_10", 1, a, 0, 0, 0, 0, 0);
 }
@@ -41809,7 +41809,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_3_11 cavm_xsrx_rx_clktop_dll1_cal_3_1
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_3_11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_3_11(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000039b0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_3_11", 1, a, 0, 0, 0, 0, 0);
 }
@@ -41862,7 +41862,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_3_12 cavm_xsrx_rx_clktop_dll1_cal_3_1
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_3_12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_3_12(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000039b8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_3_12", 1, a, 0, 0, 0, 0, 0);
 }
@@ -41919,7 +41919,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_3_2 cavm_xsrx_rx_clktop_dll1_cal_3_2_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_3_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_3_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003968ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_3_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -41980,7 +41980,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_3_3 cavm_xsrx_rx_clktop_dll1_cal_3_3_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_3_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_3_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003970ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_3_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -42029,7 +42029,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_3_4 cavm_xsrx_rx_clktop_dll1_cal_3_4_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_3_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_3_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003978ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_3_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -42082,7 +42082,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_3_5 cavm_xsrx_rx_clktop_dll1_cal_3_5_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_3_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_3_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003980ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_3_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -42135,7 +42135,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_3_6 cavm_xsrx_rx_clktop_dll1_cal_3_6_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_3_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_3_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003988ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_3_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -42184,7 +42184,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_3_7 cavm_xsrx_rx_clktop_dll1_cal_3_7_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_3_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_3_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003990ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_3_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -42249,7 +42249,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_3_8 cavm_xsrx_rx_clktop_dll1_cal_3_8_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_3_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_3_8(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003998ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_3_8", 1, a, 0, 0, 0, 0, 0);
 }
@@ -42302,7 +42302,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_3_9 cavm_xsrx_rx_clktop_dll1_cal_3_9_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_3_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_3_9(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000039a0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_3_9", 1, a, 0, 0, 0, 0, 0);
 }
@@ -42367,7 +42367,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_4_0 cavm_xsrx_rx_clktop_dll1_cal_4_0_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_4_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_4_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000039c0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_4_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -42424,7 +42424,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_4_1 cavm_xsrx_rx_clktop_dll1_cal_4_1_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_4_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_4_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000039c8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_4_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -42477,7 +42477,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_4_10 cavm_xsrx_rx_clktop_dll1_cal_4_1
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_4_10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_4_10(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003a10ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_4_10", 1, a, 0, 0, 0, 0, 0);
 }
@@ -42538,7 +42538,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_4_11 cavm_xsrx_rx_clktop_dll1_cal_4_1
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_4_11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_4_11(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003a18ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_4_11", 1, a, 0, 0, 0, 0, 0);
 }
@@ -42591,7 +42591,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_4_12 cavm_xsrx_rx_clktop_dll1_cal_4_1
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_4_12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_4_12(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003a20ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_4_12", 1, a, 0, 0, 0, 0, 0);
 }
@@ -42648,7 +42648,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_4_2 cavm_xsrx_rx_clktop_dll1_cal_4_2_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_4_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_4_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000039d0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_4_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -42709,7 +42709,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_4_3 cavm_xsrx_rx_clktop_dll1_cal_4_3_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_4_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_4_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000039d8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_4_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -42758,7 +42758,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_4_4 cavm_xsrx_rx_clktop_dll1_cal_4_4_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_4_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_4_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000039e0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_4_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -42811,7 +42811,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_4_5 cavm_xsrx_rx_clktop_dll1_cal_4_5_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_4_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_4_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000039e8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_4_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -42864,7 +42864,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_4_6 cavm_xsrx_rx_clktop_dll1_cal_4_6_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_4_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_4_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000039f0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_4_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -42913,7 +42913,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_4_7 cavm_xsrx_rx_clktop_dll1_cal_4_7_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_4_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_4_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000039f8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_4_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -42978,7 +42978,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_4_8 cavm_xsrx_rx_clktop_dll1_cal_4_8_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_4_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_4_8(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003a00ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_4_8", 1, a, 0, 0, 0, 0, 0);
 }
@@ -43031,7 +43031,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_4_9 cavm_xsrx_rx_clktop_dll1_cal_4_9_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_4_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_4_9(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003a08ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_4_9", 1, a, 0, 0, 0, 0, 0);
 }
@@ -43096,7 +43096,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_5_0 cavm_xsrx_rx_clktop_dll1_cal_5_0_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_5_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_5_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003a28ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_5_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -43153,7 +43153,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_5_1 cavm_xsrx_rx_clktop_dll1_cal_5_1_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_5_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_5_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003a30ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_5_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -43206,7 +43206,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_5_10 cavm_xsrx_rx_clktop_dll1_cal_5_1
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_5_10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_5_10(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003a78ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_5_10", 1, a, 0, 0, 0, 0, 0);
 }
@@ -43267,7 +43267,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_5_11 cavm_xsrx_rx_clktop_dll1_cal_5_1
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_5_11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_5_11(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003a80ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_5_11", 1, a, 0, 0, 0, 0, 0);
 }
@@ -43320,7 +43320,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_5_12 cavm_xsrx_rx_clktop_dll1_cal_5_1
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_5_12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_5_12(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003a88ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_5_12", 1, a, 0, 0, 0, 0, 0);
 }
@@ -43377,7 +43377,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_5_2 cavm_xsrx_rx_clktop_dll1_cal_5_2_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_5_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_5_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003a38ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_5_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -43438,7 +43438,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_5_3 cavm_xsrx_rx_clktop_dll1_cal_5_3_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_5_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_5_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003a40ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_5_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -43487,7 +43487,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_5_4 cavm_xsrx_rx_clktop_dll1_cal_5_4_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_5_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_5_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003a48ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_5_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -43540,7 +43540,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_5_5 cavm_xsrx_rx_clktop_dll1_cal_5_5_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_5_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_5_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003a50ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_5_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -43593,7 +43593,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_5_6 cavm_xsrx_rx_clktop_dll1_cal_5_6_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_5_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_5_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003a58ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_5_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -43642,7 +43642,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_5_7 cavm_xsrx_rx_clktop_dll1_cal_5_7_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_5_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_5_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003a60ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_5_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -43707,7 +43707,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_5_8 cavm_xsrx_rx_clktop_dll1_cal_5_8_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_5_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_5_8(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003a68ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_5_8", 1, a, 0, 0, 0, 0, 0);
 }
@@ -43760,7 +43760,7 @@ typedef union cavm_xsrx_rx_clktop_dll1_cal_5_9 cavm_xsrx_rx_clktop_dll1_cal_5_9_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_5_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL1_CAL_5_9(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003a70ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL1_CAL_5_9", 1, a, 0, 0, 0, 0, 0);
 }
@@ -43825,7 +43825,7 @@ typedef union cavm_xsrx_rx_clktop_dll2_cal_0_0 cavm_xsrx_rx_clktop_dll2_cal_0_0_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_0_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_0_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003a90ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL2_CAL_0_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -43882,7 +43882,7 @@ typedef union cavm_xsrx_rx_clktop_dll2_cal_0_1 cavm_xsrx_rx_clktop_dll2_cal_0_1_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_0_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_0_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003a98ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL2_CAL_0_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -43935,7 +43935,7 @@ typedef union cavm_xsrx_rx_clktop_dll2_cal_0_10 cavm_xsrx_rx_clktop_dll2_cal_0_1
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_0_10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_0_10(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003ae0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL2_CAL_0_10", 1, a, 0, 0, 0, 0, 0);
 }
@@ -43996,7 +43996,7 @@ typedef union cavm_xsrx_rx_clktop_dll2_cal_0_11 cavm_xsrx_rx_clktop_dll2_cal_0_1
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_0_11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_0_11(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003ae8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL2_CAL_0_11", 1, a, 0, 0, 0, 0, 0);
 }
@@ -44049,7 +44049,7 @@ typedef union cavm_xsrx_rx_clktop_dll2_cal_0_12 cavm_xsrx_rx_clktop_dll2_cal_0_1
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_0_12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_0_12(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003af0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL2_CAL_0_12", 1, a, 0, 0, 0, 0, 0);
 }
@@ -44106,7 +44106,7 @@ typedef union cavm_xsrx_rx_clktop_dll2_cal_0_2 cavm_xsrx_rx_clktop_dll2_cal_0_2_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_0_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_0_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003aa0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL2_CAL_0_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -44167,7 +44167,7 @@ typedef union cavm_xsrx_rx_clktop_dll2_cal_0_3 cavm_xsrx_rx_clktop_dll2_cal_0_3_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_0_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_0_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003aa8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL2_CAL_0_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -44216,7 +44216,7 @@ typedef union cavm_xsrx_rx_clktop_dll2_cal_0_4 cavm_xsrx_rx_clktop_dll2_cal_0_4_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_0_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_0_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003ab0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL2_CAL_0_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -44269,7 +44269,7 @@ typedef union cavm_xsrx_rx_clktop_dll2_cal_0_5 cavm_xsrx_rx_clktop_dll2_cal_0_5_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_0_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_0_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003ab8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL2_CAL_0_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -44322,7 +44322,7 @@ typedef union cavm_xsrx_rx_clktop_dll2_cal_0_6 cavm_xsrx_rx_clktop_dll2_cal_0_6_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_0_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_0_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003ac0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL2_CAL_0_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -44371,7 +44371,7 @@ typedef union cavm_xsrx_rx_clktop_dll2_cal_0_7 cavm_xsrx_rx_clktop_dll2_cal_0_7_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_0_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_0_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003ac8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL2_CAL_0_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -44436,7 +44436,7 @@ typedef union cavm_xsrx_rx_clktop_dll2_cal_0_8 cavm_xsrx_rx_clktop_dll2_cal_0_8_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_0_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_0_8(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003ad0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL2_CAL_0_8", 1, a, 0, 0, 0, 0, 0);
 }
@@ -44489,7 +44489,7 @@ typedef union cavm_xsrx_rx_clktop_dll2_cal_0_9 cavm_xsrx_rx_clktop_dll2_cal_0_9_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_0_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_0_9(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003ad8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL2_CAL_0_9", 1, a, 0, 0, 0, 0, 0);
 }
@@ -44554,7 +44554,7 @@ typedef union cavm_xsrx_rx_clktop_dll2_cal_1_0 cavm_xsrx_rx_clktop_dll2_cal_1_0_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_1_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_1_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003af8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL2_CAL_1_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -44611,7 +44611,7 @@ typedef union cavm_xsrx_rx_clktop_dll2_cal_1_1 cavm_xsrx_rx_clktop_dll2_cal_1_1_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_1_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_1_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003b00ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL2_CAL_1_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -44664,7 +44664,7 @@ typedef union cavm_xsrx_rx_clktop_dll2_cal_1_10 cavm_xsrx_rx_clktop_dll2_cal_1_1
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_1_10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_1_10(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003b48ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL2_CAL_1_10", 1, a, 0, 0, 0, 0, 0);
 }
@@ -44725,7 +44725,7 @@ typedef union cavm_xsrx_rx_clktop_dll2_cal_1_11 cavm_xsrx_rx_clktop_dll2_cal_1_1
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_1_11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_1_11(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003b50ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL2_CAL_1_11", 1, a, 0, 0, 0, 0, 0);
 }
@@ -44778,7 +44778,7 @@ typedef union cavm_xsrx_rx_clktop_dll2_cal_1_12 cavm_xsrx_rx_clktop_dll2_cal_1_1
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_1_12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_1_12(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003b58ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL2_CAL_1_12", 1, a, 0, 0, 0, 0, 0);
 }
@@ -44835,7 +44835,7 @@ typedef union cavm_xsrx_rx_clktop_dll2_cal_1_2 cavm_xsrx_rx_clktop_dll2_cal_1_2_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_1_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_1_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003b08ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL2_CAL_1_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -44896,7 +44896,7 @@ typedef union cavm_xsrx_rx_clktop_dll2_cal_1_3 cavm_xsrx_rx_clktop_dll2_cal_1_3_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_1_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_1_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003b10ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL2_CAL_1_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -44945,7 +44945,7 @@ typedef union cavm_xsrx_rx_clktop_dll2_cal_1_4 cavm_xsrx_rx_clktop_dll2_cal_1_4_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_1_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_1_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003b18ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL2_CAL_1_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -44998,7 +44998,7 @@ typedef union cavm_xsrx_rx_clktop_dll2_cal_1_5 cavm_xsrx_rx_clktop_dll2_cal_1_5_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_1_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_1_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003b20ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL2_CAL_1_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -45051,7 +45051,7 @@ typedef union cavm_xsrx_rx_clktop_dll2_cal_1_6 cavm_xsrx_rx_clktop_dll2_cal_1_6_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_1_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_1_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003b28ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL2_CAL_1_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -45100,7 +45100,7 @@ typedef union cavm_xsrx_rx_clktop_dll2_cal_1_7 cavm_xsrx_rx_clktop_dll2_cal_1_7_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_1_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_1_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003b30ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL2_CAL_1_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -45165,7 +45165,7 @@ typedef union cavm_xsrx_rx_clktop_dll2_cal_1_8 cavm_xsrx_rx_clktop_dll2_cal_1_8_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_1_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_1_8(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003b38ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL2_CAL_1_8", 1, a, 0, 0, 0, 0, 0);
 }
@@ -45218,7 +45218,7 @@ typedef union cavm_xsrx_rx_clktop_dll2_cal_1_9 cavm_xsrx_rx_clktop_dll2_cal_1_9_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_1_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_1_9(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003b40ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL2_CAL_1_9", 1, a, 0, 0, 0, 0, 0);
 }
@@ -45283,7 +45283,7 @@ typedef union cavm_xsrx_rx_clktop_dll2_cal_2_0 cavm_xsrx_rx_clktop_dll2_cal_2_0_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_2_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_2_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003b60ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL2_CAL_2_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -45340,7 +45340,7 @@ typedef union cavm_xsrx_rx_clktop_dll2_cal_2_1 cavm_xsrx_rx_clktop_dll2_cal_2_1_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_2_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_2_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003b68ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL2_CAL_2_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -45393,7 +45393,7 @@ typedef union cavm_xsrx_rx_clktop_dll2_cal_2_10 cavm_xsrx_rx_clktop_dll2_cal_2_1
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_2_10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_2_10(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003bb0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL2_CAL_2_10", 1, a, 0, 0, 0, 0, 0);
 }
@@ -45446,7 +45446,7 @@ typedef union cavm_xsrx_rx_clktop_dll2_cal_2_11 cavm_xsrx_rx_clktop_dll2_cal_2_1
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_2_11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_2_11(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003bb8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL2_CAL_2_11", 1, a, 0, 0, 0, 0, 0);
 }
@@ -45499,7 +45499,7 @@ typedef union cavm_xsrx_rx_clktop_dll2_cal_2_12 cavm_xsrx_rx_clktop_dll2_cal_2_1
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_2_12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_2_12(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003bc0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL2_CAL_2_12", 1, a, 0, 0, 0, 0, 0);
 }
@@ -45552,7 +45552,7 @@ typedef union cavm_xsrx_rx_clktop_dll2_cal_2_13 cavm_xsrx_rx_clktop_dll2_cal_2_1
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_2_13(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_2_13(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003bc8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL2_CAL_2_13", 1, a, 0, 0, 0, 0, 0);
 }
@@ -45609,7 +45609,7 @@ typedef union cavm_xsrx_rx_clktop_dll2_cal_2_2 cavm_xsrx_rx_clktop_dll2_cal_2_2_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_2_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_2_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003b70ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL2_CAL_2_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -45670,7 +45670,7 @@ typedef union cavm_xsrx_rx_clktop_dll2_cal_2_3 cavm_xsrx_rx_clktop_dll2_cal_2_3_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_2_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_2_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003b78ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL2_CAL_2_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -45719,7 +45719,7 @@ typedef union cavm_xsrx_rx_clktop_dll2_cal_2_4 cavm_xsrx_rx_clktop_dll2_cal_2_4_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_2_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_2_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003b80ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL2_CAL_2_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -45772,7 +45772,7 @@ typedef union cavm_xsrx_rx_clktop_dll2_cal_2_5 cavm_xsrx_rx_clktop_dll2_cal_2_5_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_2_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_2_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003b88ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL2_CAL_2_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -45821,7 +45821,7 @@ typedef union cavm_xsrx_rx_clktop_dll2_cal_2_6 cavm_xsrx_rx_clktop_dll2_cal_2_6_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_2_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_2_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003b90ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL2_CAL_2_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -45882,7 +45882,7 @@ typedef union cavm_xsrx_rx_clktop_dll2_cal_2_7 cavm_xsrx_rx_clktop_dll2_cal_2_7_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_2_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_2_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003b98ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL2_CAL_2_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -45943,7 +45943,7 @@ typedef union cavm_xsrx_rx_clktop_dll2_cal_2_8 cavm_xsrx_rx_clktop_dll2_cal_2_8_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_2_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_2_8(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003ba0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL2_CAL_2_8", 1, a, 0, 0, 0, 0, 0);
 }
@@ -45996,7 +45996,7 @@ typedef union cavm_xsrx_rx_clktop_dll2_cal_2_9 cavm_xsrx_rx_clktop_dll2_cal_2_9_
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_2_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CLKTOP_DLL2_CAL_2_9(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003ba8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CLKTOP_DLL2_CAL_2_9", 1, a, 0, 0, 0, 0, 0);
 }
@@ -46069,7 +46069,7 @@ typedef union cavm_xsrx_rx_ctle_c_value_lane_0_3 cavm_xsrx_rx_ctle_c_value_lane_
 static inline uint64_t CAVM_XSRX_RX_CTLE_C_VALUE_LANE_0_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CTLE_C_VALUE_LANE_0_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cd08ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CTLE_C_VALUE_LANE_0_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -46142,7 +46142,7 @@ typedef union cavm_xsrx_rx_ctle_c_value_lane_4_7 cavm_xsrx_rx_ctle_c_value_lane_
 static inline uint64_t CAVM_XSRX_RX_CTLE_C_VALUE_LANE_4_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CTLE_C_VALUE_LANE_4_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cd00ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CTLE_C_VALUE_LANE_4_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -46194,7 +46194,7 @@ typedef union cavm_xsrx_rx_ctle_r_value_lane_0_7 cavm_xsrx_rx_ctle_r_value_lane_
 static inline uint64_t CAVM_XSRX_RX_CTLE_R_VALUE_LANE_0_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_CTLE_R_VALUE_LANE_0_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001ccf8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_CTLE_R_VALUE_LANE_0_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -46263,7 +46263,7 @@ typedef union cavm_xsrx_rx_imp_0 cavm_xsrx_rx_imp_0_t;
 static inline uint64_t CAVM_XSRX_RX_IMP_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_IMP_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010800ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_IMP_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -46328,7 +46328,7 @@ typedef union cavm_xsrx_rx_imp_cal_0 cavm_xsrx_rx_imp_cal_0_t;
 static inline uint64_t CAVM_XSRX_RX_IMP_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_IMP_CAL_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010808ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_IMP_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -46389,7 +46389,7 @@ typedef union cavm_xsrx_rx_imp_cal_1 cavm_xsrx_rx_imp_cal_1_t;
 static inline uint64_t CAVM_XSRX_RX_IMP_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_IMP_CAL_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010810ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_IMP_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -46438,7 +46438,7 @@ typedef union cavm_xsrx_rx_imp_cal_2 cavm_xsrx_rx_imp_cal_2_t;
 static inline uint64_t CAVM_XSRX_RX_IMP_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_IMP_CAL_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010818ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_IMP_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -46491,7 +46491,7 @@ typedef union cavm_xsrx_rx_imp_cal_3 cavm_xsrx_rx_imp_cal_3_t;
 static inline uint64_t CAVM_XSRX_RX_IMP_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_IMP_CAL_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010820ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_IMP_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -46552,7 +46552,7 @@ typedef union cavm_xsrx_rx_imp_cal_4 cavm_xsrx_rx_imp_cal_4_t;
 static inline uint64_t CAVM_XSRX_RX_IMP_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_IMP_CAL_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010828ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_IMP_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -46613,7 +46613,7 @@ typedef union cavm_xsrx_rx_imp_cal_5 cavm_xsrx_rx_imp_cal_5_t;
 static inline uint64_t CAVM_XSRX_RX_IMP_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_IMP_CAL_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010830ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_IMP_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -46666,7 +46666,7 @@ typedef union cavm_xsrx_rx_imp_cal_6 cavm_xsrx_rx_imp_cal_6_t;
 static inline uint64_t CAVM_XSRX_RX_IMP_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_IMP_CAL_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200010838ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_IMP_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -46743,7 +46743,7 @@ typedef union cavm_xsrx_rx_mon_top cavm_xsrx_rx_mon_top_t;
 static inline uint64_t CAVM_XSRX_RX_MON_TOP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_MON_TOP(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000067e8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_MON_TOP", 1, a, 0, 0, 0, 0, 0);
 }
@@ -46844,7 +46844,7 @@ typedef union cavm_xsrx_rx_reg_0_lane cavm_xsrx_rx_reg_0_lane_t;
 static inline uint64_t CAVM_XSRX_RX_REG_0_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_REG_0_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003000ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_REG_0_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -46905,7 +46905,7 @@ typedef union cavm_xsrx_rx_reg_10_lane cavm_xsrx_rx_reg_10_lane_t;
 static inline uint64_t CAVM_XSRX_RX_REG_10_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_REG_10_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003050ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_REG_10_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -46970,7 +46970,7 @@ typedef union cavm_xsrx_rx_reg_11_lane cavm_xsrx_rx_reg_11_lane_t;
 static inline uint64_t CAVM_XSRX_RX_REG_11_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_REG_11_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003058ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_REG_11_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -47095,7 +47095,7 @@ typedef union cavm_xsrx_rx_reg_12_lane cavm_xsrx_rx_reg_12_lane_t;
 static inline uint64_t CAVM_XSRX_RX_REG_12_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_REG_12_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003060ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_REG_12_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -47156,7 +47156,7 @@ typedef union cavm_xsrx_rx_reg_13_lane cavm_xsrx_rx_reg_13_lane_t;
 static inline uint64_t CAVM_XSRX_RX_REG_13_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_REG_13_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003068ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_REG_13_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -47245,7 +47245,7 @@ typedef union cavm_xsrx_rx_reg_1_lane cavm_xsrx_rx_reg_1_lane_t;
 static inline uint64_t CAVM_XSRX_RX_REG_1_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_REG_1_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003008ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_REG_1_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -47294,7 +47294,7 @@ typedef union cavm_xsrx_rx_reg_2_lane cavm_xsrx_rx_reg_2_lane_t;
 static inline uint64_t CAVM_XSRX_RX_REG_2_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_REG_2_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003010ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_REG_2_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -47351,7 +47351,7 @@ typedef union cavm_xsrx_rx_reg_3_lane cavm_xsrx_rx_reg_3_lane_t;
 static inline uint64_t CAVM_XSRX_RX_REG_3_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_REG_3_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003018ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_REG_3_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -47436,7 +47436,7 @@ typedef union cavm_xsrx_rx_reg_4_lane cavm_xsrx_rx_reg_4_lane_t;
 static inline uint64_t CAVM_XSRX_RX_REG_4_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_REG_4_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003020ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_REG_4_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -47485,7 +47485,7 @@ typedef union cavm_xsrx_rx_reg_5_lane cavm_xsrx_rx_reg_5_lane_t;
 static inline uint64_t CAVM_XSRX_RX_REG_5_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_REG_5_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003028ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_REG_5_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -47614,7 +47614,7 @@ typedef union cavm_xsrx_rx_reg_6_lane cavm_xsrx_rx_reg_6_lane_t;
 static inline uint64_t CAVM_XSRX_RX_REG_6_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_REG_6_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003030ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_REG_6_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -47735,7 +47735,7 @@ typedef union cavm_xsrx_rx_reg_7_lane cavm_xsrx_rx_reg_7_lane_t;
 static inline uint64_t CAVM_XSRX_RX_REG_7_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_REG_7_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003038ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_REG_7_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -47852,7 +47852,7 @@ typedef union cavm_xsrx_rx_reg_8_lane cavm_xsrx_rx_reg_8_lane_t;
 static inline uint64_t CAVM_XSRX_RX_REG_8_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_REG_8_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003040ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_REG_8_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -47903,7 +47903,7 @@ typedef union cavm_xsrx_rx_reg_9_lane cavm_xsrx_rx_reg_9_lane_t;
 static inline uint64_t CAVM_XSRX_RX_REG_9_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_RX_REG_9_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200003048ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_RX_REG_9_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -47938,7 +47938,7 @@ typedef union cavm_xsrx_scratchx cavm_xsrx_scratchx_t;
 static inline uint64_t CAVM_XSRX_SCRATCHX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_SCRATCHX(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=7)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=1) && (b<=7)))
         return 0xc7e200020000ll + 0x100000000ll * ((a) & 0x1) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("XSRX_SCRATCHX", 2, a, b, 0, 0, 0, 0);
 }
@@ -47979,7 +47979,7 @@ typedef union cavm_xsrx_silicon cavm_xsrx_silicon_t;
 static inline uint64_t CAVM_XSRX_SILICON(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_SILICON(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200020048ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_SILICON", 1, a, 0, 0, 0, 0, 0);
 }
@@ -48037,7 +48037,7 @@ typedef union cavm_xsrx_soc_request_access_register cavm_xsrx_soc_request_access
 static inline uint64_t CAVM_XSRX_SOC_REQUEST_ACCESS_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_SOC_REQUEST_ACCESS_REGISTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cd50ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_SOC_REQUEST_ACCESS_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -48081,7 +48081,7 @@ typedef union cavm_xsrx_speed_rate_config1 cavm_xsrx_speed_rate_config1_t;
 static inline uint64_t CAVM_XSRX_SPEED_RATE_CONFIG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_SPEED_RATE_CONFIG1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cd28ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_SPEED_RATE_CONFIG1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -48125,7 +48125,7 @@ typedef union cavm_xsrx_speed_rate_config2 cavm_xsrx_speed_rate_config2_t;
 static inline uint64_t CAVM_XSRX_SPEED_RATE_CONFIG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_SPEED_RATE_CONFIG2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cd30ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_SPEED_RATE_CONFIG2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -48169,7 +48169,7 @@ typedef union cavm_xsrx_speed_rate_config3 cavm_xsrx_speed_rate_config3_t;
 static inline uint64_t CAVM_XSRX_SPEED_RATE_CONFIG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_SPEED_RATE_CONFIG3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cd38ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_SPEED_RATE_CONFIG3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -48213,7 +48213,7 @@ typedef union cavm_xsrx_speed_rate_config4 cavm_xsrx_speed_rate_config4_t;
 static inline uint64_t CAVM_XSRX_SPEED_RATE_CONFIG4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_SPEED_RATE_CONFIG4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cd40ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_SPEED_RATE_CONFIG4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -48388,7 +48388,7 @@ typedef union cavm_xsrx_spi_token_gen_ctrl cavm_xsrx_spi_token_gen_ctrl_t;
 static inline uint64_t CAVM_XSRX_SPI_TOKEN_GEN_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_SPI_TOKEN_GEN_CTRL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014688ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_SPI_TOKEN_GEN_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -48449,7 +48449,7 @@ typedef union cavm_xsrx_status cavm_xsrx_status_t;
 static inline uint64_t CAVM_XSRX_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_STATUS(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200020098ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -48608,7 +48608,7 @@ typedef union cavm_xsrx_system cavm_xsrx_system_t;
 static inline uint64_t CAVM_XSRX_SYSTEM(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_SYSTEM(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014630ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_SYSTEM", 1, a, 0, 0, 0, 0, 0);
 }
@@ -48709,7 +48709,7 @@ typedef union cavm_xsrx_system2 cavm_xsrx_system2_t;
 static inline uint64_t CAVM_XSRX_SYSTEM2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_SYSTEM2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014638ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_SYSTEM2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -48761,7 +48761,7 @@ typedef union cavm_xsrx_test0 cavm_xsrx_test0_t;
 static inline uint64_t CAVM_XSRX_TEST0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TEST0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014600ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TEST0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -48801,7 +48801,7 @@ typedef union cavm_xsrx_test1 cavm_xsrx_test1_t;
 static inline uint64_t CAVM_XSRX_TEST1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TEST1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014608ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TEST1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -48851,7 +48851,7 @@ typedef union cavm_xsrx_test2 cavm_xsrx_test2_t;
 static inline uint64_t CAVM_XSRX_TEST2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TEST2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014610ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TEST2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -48956,7 +48956,7 @@ typedef union cavm_xsrx_test3 cavm_xsrx_test3_t;
 static inline uint64_t CAVM_XSRX_TEST3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TEST3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014618ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TEST3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -49015,7 +49015,7 @@ typedef union cavm_xsrx_test4 cavm_xsrx_test4_t;
 static inline uint64_t CAVM_XSRX_TEST4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TEST4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014620ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TEST4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -49072,7 +49072,7 @@ typedef union cavm_xsrx_test5 cavm_xsrx_test5_t;
 static inline uint64_t CAVM_XSRX_TEST5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TEST5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014628ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TEST5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -49112,7 +49112,7 @@ typedef union cavm_xsrx_test6 cavm_xsrx_test6_t;
 static inline uint64_t CAVM_XSRX_TEST6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TEST6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000146a8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TEST6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -49178,7 +49178,7 @@ typedef union cavm_xsrx_train_cfg_lane_a_0 cavm_xsrx_train_cfg_lane_a_0_t;
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_A_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_A_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c400ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_CFG_LANE_A_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -49230,7 +49230,7 @@ typedef union cavm_xsrx_train_cfg_lane_a_1 cavm_xsrx_train_cfg_lane_a_1_t;
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_A_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_A_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c408ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_CFG_LANE_A_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -49274,7 +49274,7 @@ typedef union cavm_xsrx_train_cfg_lane_a_2 cavm_xsrx_train_cfg_lane_a_2_t;
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_A_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_A_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c410ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_CFG_LANE_A_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -49318,7 +49318,7 @@ typedef union cavm_xsrx_train_cfg_lane_a_3 cavm_xsrx_train_cfg_lane_a_3_t;
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_A_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_A_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c418ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_CFG_LANE_A_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -49384,7 +49384,7 @@ typedef union cavm_xsrx_train_cfg_lane_b_0 cavm_xsrx_train_cfg_lane_b_0_t;
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_B_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_B_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c500ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_CFG_LANE_B_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -49436,7 +49436,7 @@ typedef union cavm_xsrx_train_cfg_lane_b_1 cavm_xsrx_train_cfg_lane_b_1_t;
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_B_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_B_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c508ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_CFG_LANE_B_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -49480,7 +49480,7 @@ typedef union cavm_xsrx_train_cfg_lane_b_2 cavm_xsrx_train_cfg_lane_b_2_t;
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_B_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_B_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c510ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_CFG_LANE_B_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -49524,7 +49524,7 @@ typedef union cavm_xsrx_train_cfg_lane_b_3 cavm_xsrx_train_cfg_lane_b_3_t;
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_B_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_B_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c518ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_CFG_LANE_B_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -49590,7 +49590,7 @@ typedef union cavm_xsrx_train_cfg_lane_c_0 cavm_xsrx_train_cfg_lane_c_0_t;
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_C_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_C_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c600ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_CFG_LANE_C_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -49642,7 +49642,7 @@ typedef union cavm_xsrx_train_cfg_lane_c_1 cavm_xsrx_train_cfg_lane_c_1_t;
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_C_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_C_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c608ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_CFG_LANE_C_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -49686,7 +49686,7 @@ typedef union cavm_xsrx_train_cfg_lane_c_2 cavm_xsrx_train_cfg_lane_c_2_t;
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_C_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_C_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c610ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_CFG_LANE_C_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -49730,7 +49730,7 @@ typedef union cavm_xsrx_train_cfg_lane_c_3 cavm_xsrx_train_cfg_lane_c_3_t;
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_C_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_C_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c618ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_CFG_LANE_C_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -49796,7 +49796,7 @@ typedef union cavm_xsrx_train_cfg_lane_d_0 cavm_xsrx_train_cfg_lane_d_0_t;
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_D_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_D_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c700ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_CFG_LANE_D_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -49848,7 +49848,7 @@ typedef union cavm_xsrx_train_cfg_lane_d_1 cavm_xsrx_train_cfg_lane_d_1_t;
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_D_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_D_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c708ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_CFG_LANE_D_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -49892,7 +49892,7 @@ typedef union cavm_xsrx_train_cfg_lane_d_2 cavm_xsrx_train_cfg_lane_d_2_t;
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_D_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_D_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c710ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_CFG_LANE_D_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -49936,7 +49936,7 @@ typedef union cavm_xsrx_train_cfg_lane_d_3 cavm_xsrx_train_cfg_lane_d_3_t;
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_D_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_D_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c718ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_CFG_LANE_D_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -50002,7 +50002,7 @@ typedef union cavm_xsrx_train_cfg_lane_e_0 cavm_xsrx_train_cfg_lane_e_0_t;
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_E_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_E_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c800ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_CFG_LANE_E_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -50054,7 +50054,7 @@ typedef union cavm_xsrx_train_cfg_lane_e_1 cavm_xsrx_train_cfg_lane_e_1_t;
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_E_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_E_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c808ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_CFG_LANE_E_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -50098,7 +50098,7 @@ typedef union cavm_xsrx_train_cfg_lane_e_2 cavm_xsrx_train_cfg_lane_e_2_t;
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_E_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_E_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c810ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_CFG_LANE_E_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -50142,7 +50142,7 @@ typedef union cavm_xsrx_train_cfg_lane_e_3 cavm_xsrx_train_cfg_lane_e_3_t;
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_E_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_E_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c818ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_CFG_LANE_E_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -50208,7 +50208,7 @@ typedef union cavm_xsrx_train_cfg_lane_f_0 cavm_xsrx_train_cfg_lane_f_0_t;
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_F_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_F_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c900ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_CFG_LANE_F_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -50260,7 +50260,7 @@ typedef union cavm_xsrx_train_cfg_lane_f_1 cavm_xsrx_train_cfg_lane_f_1_t;
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_F_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_F_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c908ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_CFG_LANE_F_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -50304,7 +50304,7 @@ typedef union cavm_xsrx_train_cfg_lane_f_2 cavm_xsrx_train_cfg_lane_f_2_t;
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_F_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_F_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c910ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_CFG_LANE_F_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -50348,7 +50348,7 @@ typedef union cavm_xsrx_train_cfg_lane_f_3 cavm_xsrx_train_cfg_lane_f_3_t;
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_F_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_F_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c918ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_CFG_LANE_F_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -50414,7 +50414,7 @@ typedef union cavm_xsrx_train_cfg_lane_g_0 cavm_xsrx_train_cfg_lane_g_0_t;
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_G_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_G_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001ca00ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_CFG_LANE_G_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -50466,7 +50466,7 @@ typedef union cavm_xsrx_train_cfg_lane_g_1 cavm_xsrx_train_cfg_lane_g_1_t;
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_G_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_G_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001ca08ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_CFG_LANE_G_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -50510,7 +50510,7 @@ typedef union cavm_xsrx_train_cfg_lane_g_2 cavm_xsrx_train_cfg_lane_g_2_t;
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_G_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_G_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001ca10ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_CFG_LANE_G_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -50554,7 +50554,7 @@ typedef union cavm_xsrx_train_cfg_lane_g_3 cavm_xsrx_train_cfg_lane_g_3_t;
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_G_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_G_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001ca18ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_CFG_LANE_G_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -50620,7 +50620,7 @@ typedef union cavm_xsrx_train_cfg_lane_h_0 cavm_xsrx_train_cfg_lane_h_0_t;
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_H_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_H_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cb00ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_CFG_LANE_H_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -50672,7 +50672,7 @@ typedef union cavm_xsrx_train_cfg_lane_h_1 cavm_xsrx_train_cfg_lane_h_1_t;
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_H_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_H_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cb08ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_CFG_LANE_H_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -50716,7 +50716,7 @@ typedef union cavm_xsrx_train_cfg_lane_h_2 cavm_xsrx_train_cfg_lane_h_2_t;
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_H_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_H_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cb10ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_CFG_LANE_H_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -50760,7 +50760,7 @@ typedef union cavm_xsrx_train_cfg_lane_h_3 cavm_xsrx_train_cfg_lane_h_3_t;
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_H_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_CFG_LANE_H_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cb18ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_CFG_LANE_H_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -50809,7 +50809,7 @@ typedef union cavm_xsrx_train_if_config cavm_xsrx_train_if_config_t;
 static inline uint64_t CAVM_XSRX_TRAIN_IF_CONFIG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_IF_CONFIG(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cc50ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_IF_CONFIG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -50853,7 +50853,7 @@ typedef union cavm_xsrx_train_status_lane_a_0 cavm_xsrx_train_status_lane_a_0_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_A_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_A_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c420ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_A_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -50897,7 +50897,7 @@ typedef union cavm_xsrx_train_status_lane_a_1 cavm_xsrx_train_status_lane_a_1_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_A_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_A_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c428ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_A_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -50939,7 +50939,7 @@ typedef union cavm_xsrx_train_status_lane_a_10 cavm_xsrx_train_status_lane_a_10_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_A_10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_A_10(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c470ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_A_10", 1, a, 0, 0, 0, 0, 0);
 }
@@ -50983,7 +50983,7 @@ typedef union cavm_xsrx_train_status_lane_a_11 cavm_xsrx_train_status_lane_a_11_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_A_11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_A_11(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c478ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_A_11", 1, a, 0, 0, 0, 0, 0);
 }
@@ -51033,7 +51033,7 @@ typedef union cavm_xsrx_train_status_lane_a_12 cavm_xsrx_train_status_lane_a_12_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_A_12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_A_12(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c480ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_A_12", 1, a, 0, 0, 0, 0, 0);
 }
@@ -51115,7 +51115,7 @@ typedef union cavm_xsrx_train_status_lane_a_13 cavm_xsrx_train_status_lane_a_13_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_A_13(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_A_13(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c488ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_A_13", 1, a, 0, 0, 0, 0, 0);
 }
@@ -51167,7 +51167,7 @@ typedef union cavm_xsrx_train_status_lane_a_14 cavm_xsrx_train_status_lane_a_14_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_A_14(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_A_14(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c490ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_A_14", 1, a, 0, 0, 0, 0, 0);
 }
@@ -51223,7 +51223,7 @@ typedef union cavm_xsrx_train_status_lane_a_15 cavm_xsrx_train_status_lane_a_15_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_A_15(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_A_15(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c498ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_A_15", 1, a, 0, 0, 0, 0, 0);
 }
@@ -51279,7 +51279,7 @@ typedef union cavm_xsrx_train_status_lane_a_16 cavm_xsrx_train_status_lane_a_16_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_A_16(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_A_16(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c4a0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_A_16", 1, a, 0, 0, 0, 0, 0);
 }
@@ -51323,7 +51323,7 @@ typedef union cavm_xsrx_train_status_lane_a_17 cavm_xsrx_train_status_lane_a_17_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_A_17(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_A_17(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c4a8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_A_17", 1, a, 0, 0, 0, 0, 0);
 }
@@ -51367,7 +51367,7 @@ typedef union cavm_xsrx_train_status_lane_a_18 cavm_xsrx_train_status_lane_a_18_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_A_18(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_A_18(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c4b0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_A_18", 1, a, 0, 0, 0, 0, 0);
 }
@@ -51411,7 +51411,7 @@ typedef union cavm_xsrx_train_status_lane_a_19 cavm_xsrx_train_status_lane_a_19_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_A_19(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_A_19(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c4b8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_A_19", 1, a, 0, 0, 0, 0, 0);
 }
@@ -51455,7 +51455,7 @@ typedef union cavm_xsrx_train_status_lane_a_2 cavm_xsrx_train_status_lane_a_2_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_A_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_A_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c430ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_A_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -51499,7 +51499,7 @@ typedef union cavm_xsrx_train_status_lane_a_3 cavm_xsrx_train_status_lane_a_3_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_A_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_A_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c438ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_A_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -51543,7 +51543,7 @@ typedef union cavm_xsrx_train_status_lane_a_4 cavm_xsrx_train_status_lane_a_4_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_A_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_A_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c440ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_A_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -51587,7 +51587,7 @@ typedef union cavm_xsrx_train_status_lane_a_5 cavm_xsrx_train_status_lane_a_5_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_A_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_A_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c448ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_A_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -51631,7 +51631,7 @@ typedef union cavm_xsrx_train_status_lane_a_6 cavm_xsrx_train_status_lane_a_6_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_A_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_A_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c450ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_A_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -51675,7 +51675,7 @@ typedef union cavm_xsrx_train_status_lane_a_7 cavm_xsrx_train_status_lane_a_7_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_A_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_A_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c458ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_A_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -51719,7 +51719,7 @@ typedef union cavm_xsrx_train_status_lane_a_8 cavm_xsrx_train_status_lane_a_8_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_A_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_A_8(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c460ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_A_8", 1, a, 0, 0, 0, 0, 0);
 }
@@ -51763,7 +51763,7 @@ typedef union cavm_xsrx_train_status_lane_a_9 cavm_xsrx_train_status_lane_a_9_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_A_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_A_9(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c468ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_A_9", 1, a, 0, 0, 0, 0, 0);
 }
@@ -51807,7 +51807,7 @@ typedef union cavm_xsrx_train_status_lane_b_0 cavm_xsrx_train_status_lane_b_0_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_B_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_B_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c520ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_B_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -51851,7 +51851,7 @@ typedef union cavm_xsrx_train_status_lane_b_1 cavm_xsrx_train_status_lane_b_1_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_B_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_B_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c528ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_B_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -51893,7 +51893,7 @@ typedef union cavm_xsrx_train_status_lane_b_10 cavm_xsrx_train_status_lane_b_10_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_B_10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_B_10(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c570ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_B_10", 1, a, 0, 0, 0, 0, 0);
 }
@@ -51937,7 +51937,7 @@ typedef union cavm_xsrx_train_status_lane_b_11 cavm_xsrx_train_status_lane_b_11_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_B_11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_B_11(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c578ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_B_11", 1, a, 0, 0, 0, 0, 0);
 }
@@ -51987,7 +51987,7 @@ typedef union cavm_xsrx_train_status_lane_b_12 cavm_xsrx_train_status_lane_b_12_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_B_12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_B_12(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c580ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_B_12", 1, a, 0, 0, 0, 0, 0);
 }
@@ -52069,7 +52069,7 @@ typedef union cavm_xsrx_train_status_lane_b_13 cavm_xsrx_train_status_lane_b_13_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_B_13(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_B_13(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c588ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_B_13", 1, a, 0, 0, 0, 0, 0);
 }
@@ -52121,7 +52121,7 @@ typedef union cavm_xsrx_train_status_lane_b_14 cavm_xsrx_train_status_lane_b_14_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_B_14(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_B_14(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c590ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_B_14", 1, a, 0, 0, 0, 0, 0);
 }
@@ -52177,7 +52177,7 @@ typedef union cavm_xsrx_train_status_lane_b_15 cavm_xsrx_train_status_lane_b_15_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_B_15(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_B_15(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c598ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_B_15", 1, a, 0, 0, 0, 0, 0);
 }
@@ -52233,7 +52233,7 @@ typedef union cavm_xsrx_train_status_lane_b_16 cavm_xsrx_train_status_lane_b_16_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_B_16(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_B_16(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c5a0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_B_16", 1, a, 0, 0, 0, 0, 0);
 }
@@ -52277,7 +52277,7 @@ typedef union cavm_xsrx_train_status_lane_b_17 cavm_xsrx_train_status_lane_b_17_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_B_17(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_B_17(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c5a8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_B_17", 1, a, 0, 0, 0, 0, 0);
 }
@@ -52321,7 +52321,7 @@ typedef union cavm_xsrx_train_status_lane_b_18 cavm_xsrx_train_status_lane_b_18_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_B_18(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_B_18(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c5b0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_B_18", 1, a, 0, 0, 0, 0, 0);
 }
@@ -52365,7 +52365,7 @@ typedef union cavm_xsrx_train_status_lane_b_19 cavm_xsrx_train_status_lane_b_19_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_B_19(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_B_19(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c5b8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_B_19", 1, a, 0, 0, 0, 0, 0);
 }
@@ -52409,7 +52409,7 @@ typedef union cavm_xsrx_train_status_lane_b_2 cavm_xsrx_train_status_lane_b_2_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_B_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_B_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c530ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_B_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -52453,7 +52453,7 @@ typedef union cavm_xsrx_train_status_lane_b_3 cavm_xsrx_train_status_lane_b_3_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_B_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_B_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c538ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_B_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -52497,7 +52497,7 @@ typedef union cavm_xsrx_train_status_lane_b_4 cavm_xsrx_train_status_lane_b_4_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_B_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_B_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c540ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_B_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -52541,7 +52541,7 @@ typedef union cavm_xsrx_train_status_lane_b_5 cavm_xsrx_train_status_lane_b_5_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_B_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_B_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c548ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_B_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -52585,7 +52585,7 @@ typedef union cavm_xsrx_train_status_lane_b_6 cavm_xsrx_train_status_lane_b_6_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_B_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_B_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c550ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_B_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -52629,7 +52629,7 @@ typedef union cavm_xsrx_train_status_lane_b_7 cavm_xsrx_train_status_lane_b_7_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_B_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_B_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c558ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_B_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -52673,7 +52673,7 @@ typedef union cavm_xsrx_train_status_lane_b_8 cavm_xsrx_train_status_lane_b_8_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_B_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_B_8(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c560ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_B_8", 1, a, 0, 0, 0, 0, 0);
 }
@@ -52717,7 +52717,7 @@ typedef union cavm_xsrx_train_status_lane_b_9 cavm_xsrx_train_status_lane_b_9_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_B_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_B_9(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c568ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_B_9", 1, a, 0, 0, 0, 0, 0);
 }
@@ -52761,7 +52761,7 @@ typedef union cavm_xsrx_train_status_lane_c_0 cavm_xsrx_train_status_lane_c_0_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_C_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_C_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c620ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_C_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -52805,7 +52805,7 @@ typedef union cavm_xsrx_train_status_lane_c_1 cavm_xsrx_train_status_lane_c_1_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_C_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_C_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c628ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_C_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -52847,7 +52847,7 @@ typedef union cavm_xsrx_train_status_lane_c_10 cavm_xsrx_train_status_lane_c_10_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_C_10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_C_10(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c670ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_C_10", 1, a, 0, 0, 0, 0, 0);
 }
@@ -52891,7 +52891,7 @@ typedef union cavm_xsrx_train_status_lane_c_11 cavm_xsrx_train_status_lane_c_11_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_C_11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_C_11(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c678ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_C_11", 1, a, 0, 0, 0, 0, 0);
 }
@@ -52941,7 +52941,7 @@ typedef union cavm_xsrx_train_status_lane_c_12 cavm_xsrx_train_status_lane_c_12_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_C_12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_C_12(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c680ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_C_12", 1, a, 0, 0, 0, 0, 0);
 }
@@ -53023,7 +53023,7 @@ typedef union cavm_xsrx_train_status_lane_c_13 cavm_xsrx_train_status_lane_c_13_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_C_13(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_C_13(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c688ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_C_13", 1, a, 0, 0, 0, 0, 0);
 }
@@ -53075,7 +53075,7 @@ typedef union cavm_xsrx_train_status_lane_c_14 cavm_xsrx_train_status_lane_c_14_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_C_14(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_C_14(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c690ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_C_14", 1, a, 0, 0, 0, 0, 0);
 }
@@ -53131,7 +53131,7 @@ typedef union cavm_xsrx_train_status_lane_c_15 cavm_xsrx_train_status_lane_c_15_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_C_15(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_C_15(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c698ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_C_15", 1, a, 0, 0, 0, 0, 0);
 }
@@ -53187,7 +53187,7 @@ typedef union cavm_xsrx_train_status_lane_c_16 cavm_xsrx_train_status_lane_c_16_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_C_16(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_C_16(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c6a0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_C_16", 1, a, 0, 0, 0, 0, 0);
 }
@@ -53231,7 +53231,7 @@ typedef union cavm_xsrx_train_status_lane_c_17 cavm_xsrx_train_status_lane_c_17_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_C_17(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_C_17(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c6a8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_C_17", 1, a, 0, 0, 0, 0, 0);
 }
@@ -53275,7 +53275,7 @@ typedef union cavm_xsrx_train_status_lane_c_18 cavm_xsrx_train_status_lane_c_18_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_C_18(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_C_18(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c6b0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_C_18", 1, a, 0, 0, 0, 0, 0);
 }
@@ -53319,7 +53319,7 @@ typedef union cavm_xsrx_train_status_lane_c_19 cavm_xsrx_train_status_lane_c_19_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_C_19(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_C_19(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c6b8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_C_19", 1, a, 0, 0, 0, 0, 0);
 }
@@ -53363,7 +53363,7 @@ typedef union cavm_xsrx_train_status_lane_c_2 cavm_xsrx_train_status_lane_c_2_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_C_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_C_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c630ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_C_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -53407,7 +53407,7 @@ typedef union cavm_xsrx_train_status_lane_c_3 cavm_xsrx_train_status_lane_c_3_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_C_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_C_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c638ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_C_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -53451,7 +53451,7 @@ typedef union cavm_xsrx_train_status_lane_c_4 cavm_xsrx_train_status_lane_c_4_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_C_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_C_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c640ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_C_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -53495,7 +53495,7 @@ typedef union cavm_xsrx_train_status_lane_c_5 cavm_xsrx_train_status_lane_c_5_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_C_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_C_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c648ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_C_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -53539,7 +53539,7 @@ typedef union cavm_xsrx_train_status_lane_c_6 cavm_xsrx_train_status_lane_c_6_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_C_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_C_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c650ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_C_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -53583,7 +53583,7 @@ typedef union cavm_xsrx_train_status_lane_c_7 cavm_xsrx_train_status_lane_c_7_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_C_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_C_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c658ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_C_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -53627,7 +53627,7 @@ typedef union cavm_xsrx_train_status_lane_c_8 cavm_xsrx_train_status_lane_c_8_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_C_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_C_8(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c660ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_C_8", 1, a, 0, 0, 0, 0, 0);
 }
@@ -53671,7 +53671,7 @@ typedef union cavm_xsrx_train_status_lane_c_9 cavm_xsrx_train_status_lane_c_9_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_C_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_C_9(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c668ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_C_9", 1, a, 0, 0, 0, 0, 0);
 }
@@ -53715,7 +53715,7 @@ typedef union cavm_xsrx_train_status_lane_d_0 cavm_xsrx_train_status_lane_d_0_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_D_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_D_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c720ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_D_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -53759,7 +53759,7 @@ typedef union cavm_xsrx_train_status_lane_d_1 cavm_xsrx_train_status_lane_d_1_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_D_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_D_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c728ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_D_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -53801,7 +53801,7 @@ typedef union cavm_xsrx_train_status_lane_d_10 cavm_xsrx_train_status_lane_d_10_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_D_10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_D_10(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c770ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_D_10", 1, a, 0, 0, 0, 0, 0);
 }
@@ -53845,7 +53845,7 @@ typedef union cavm_xsrx_train_status_lane_d_11 cavm_xsrx_train_status_lane_d_11_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_D_11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_D_11(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c778ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_D_11", 1, a, 0, 0, 0, 0, 0);
 }
@@ -53895,7 +53895,7 @@ typedef union cavm_xsrx_train_status_lane_d_12 cavm_xsrx_train_status_lane_d_12_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_D_12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_D_12(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c780ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_D_12", 1, a, 0, 0, 0, 0, 0);
 }
@@ -53977,7 +53977,7 @@ typedef union cavm_xsrx_train_status_lane_d_13 cavm_xsrx_train_status_lane_d_13_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_D_13(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_D_13(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c788ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_D_13", 1, a, 0, 0, 0, 0, 0);
 }
@@ -54029,7 +54029,7 @@ typedef union cavm_xsrx_train_status_lane_d_14 cavm_xsrx_train_status_lane_d_14_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_D_14(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_D_14(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c790ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_D_14", 1, a, 0, 0, 0, 0, 0);
 }
@@ -54085,7 +54085,7 @@ typedef union cavm_xsrx_train_status_lane_d_15 cavm_xsrx_train_status_lane_d_15_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_D_15(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_D_15(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c798ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_D_15", 1, a, 0, 0, 0, 0, 0);
 }
@@ -54141,7 +54141,7 @@ typedef union cavm_xsrx_train_status_lane_d_16 cavm_xsrx_train_status_lane_d_16_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_D_16(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_D_16(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c7a0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_D_16", 1, a, 0, 0, 0, 0, 0);
 }
@@ -54185,7 +54185,7 @@ typedef union cavm_xsrx_train_status_lane_d_17 cavm_xsrx_train_status_lane_d_17_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_D_17(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_D_17(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c7a8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_D_17", 1, a, 0, 0, 0, 0, 0);
 }
@@ -54229,7 +54229,7 @@ typedef union cavm_xsrx_train_status_lane_d_18 cavm_xsrx_train_status_lane_d_18_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_D_18(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_D_18(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c7b0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_D_18", 1, a, 0, 0, 0, 0, 0);
 }
@@ -54273,7 +54273,7 @@ typedef union cavm_xsrx_train_status_lane_d_19 cavm_xsrx_train_status_lane_d_19_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_D_19(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_D_19(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c7b8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_D_19", 1, a, 0, 0, 0, 0, 0);
 }
@@ -54317,7 +54317,7 @@ typedef union cavm_xsrx_train_status_lane_d_2 cavm_xsrx_train_status_lane_d_2_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_D_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_D_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c730ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_D_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -54361,7 +54361,7 @@ typedef union cavm_xsrx_train_status_lane_d_3 cavm_xsrx_train_status_lane_d_3_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_D_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_D_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c738ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_D_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -54405,7 +54405,7 @@ typedef union cavm_xsrx_train_status_lane_d_4 cavm_xsrx_train_status_lane_d_4_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_D_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_D_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c740ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_D_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -54449,7 +54449,7 @@ typedef union cavm_xsrx_train_status_lane_d_5 cavm_xsrx_train_status_lane_d_5_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_D_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_D_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c748ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_D_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -54493,7 +54493,7 @@ typedef union cavm_xsrx_train_status_lane_d_6 cavm_xsrx_train_status_lane_d_6_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_D_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_D_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c750ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_D_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -54537,7 +54537,7 @@ typedef union cavm_xsrx_train_status_lane_d_7 cavm_xsrx_train_status_lane_d_7_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_D_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_D_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c758ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_D_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -54581,7 +54581,7 @@ typedef union cavm_xsrx_train_status_lane_d_8 cavm_xsrx_train_status_lane_d_8_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_D_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_D_8(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c760ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_D_8", 1, a, 0, 0, 0, 0, 0);
 }
@@ -54625,7 +54625,7 @@ typedef union cavm_xsrx_train_status_lane_d_9 cavm_xsrx_train_status_lane_d_9_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_D_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_D_9(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c768ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_D_9", 1, a, 0, 0, 0, 0, 0);
 }
@@ -54669,7 +54669,7 @@ typedef union cavm_xsrx_train_status_lane_e_0 cavm_xsrx_train_status_lane_e_0_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_E_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_E_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c820ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_E_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -54713,7 +54713,7 @@ typedef union cavm_xsrx_train_status_lane_e_1 cavm_xsrx_train_status_lane_e_1_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_E_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_E_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c828ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_E_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -54755,7 +54755,7 @@ typedef union cavm_xsrx_train_status_lane_e_10 cavm_xsrx_train_status_lane_e_10_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_E_10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_E_10(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c870ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_E_10", 1, a, 0, 0, 0, 0, 0);
 }
@@ -54799,7 +54799,7 @@ typedef union cavm_xsrx_train_status_lane_e_11 cavm_xsrx_train_status_lane_e_11_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_E_11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_E_11(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c878ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_E_11", 1, a, 0, 0, 0, 0, 0);
 }
@@ -54849,7 +54849,7 @@ typedef union cavm_xsrx_train_status_lane_e_12 cavm_xsrx_train_status_lane_e_12_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_E_12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_E_12(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c880ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_E_12", 1, a, 0, 0, 0, 0, 0);
 }
@@ -54931,7 +54931,7 @@ typedef union cavm_xsrx_train_status_lane_e_13 cavm_xsrx_train_status_lane_e_13_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_E_13(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_E_13(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c888ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_E_13", 1, a, 0, 0, 0, 0, 0);
 }
@@ -54983,7 +54983,7 @@ typedef union cavm_xsrx_train_status_lane_e_14 cavm_xsrx_train_status_lane_e_14_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_E_14(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_E_14(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c890ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_E_14", 1, a, 0, 0, 0, 0, 0);
 }
@@ -55039,7 +55039,7 @@ typedef union cavm_xsrx_train_status_lane_e_15 cavm_xsrx_train_status_lane_e_15_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_E_15(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_E_15(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c898ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_E_15", 1, a, 0, 0, 0, 0, 0);
 }
@@ -55095,7 +55095,7 @@ typedef union cavm_xsrx_train_status_lane_e_16 cavm_xsrx_train_status_lane_e_16_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_E_16(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_E_16(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c8a0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_E_16", 1, a, 0, 0, 0, 0, 0);
 }
@@ -55139,7 +55139,7 @@ typedef union cavm_xsrx_train_status_lane_e_17 cavm_xsrx_train_status_lane_e_17_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_E_17(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_E_17(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c8a8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_E_17", 1, a, 0, 0, 0, 0, 0);
 }
@@ -55183,7 +55183,7 @@ typedef union cavm_xsrx_train_status_lane_e_18 cavm_xsrx_train_status_lane_e_18_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_E_18(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_E_18(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c8b0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_E_18", 1, a, 0, 0, 0, 0, 0);
 }
@@ -55227,7 +55227,7 @@ typedef union cavm_xsrx_train_status_lane_e_19 cavm_xsrx_train_status_lane_e_19_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_E_19(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_E_19(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c8b8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_E_19", 1, a, 0, 0, 0, 0, 0);
 }
@@ -55271,7 +55271,7 @@ typedef union cavm_xsrx_train_status_lane_e_2 cavm_xsrx_train_status_lane_e_2_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_E_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_E_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c830ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_E_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -55315,7 +55315,7 @@ typedef union cavm_xsrx_train_status_lane_e_3 cavm_xsrx_train_status_lane_e_3_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_E_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_E_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c838ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_E_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -55359,7 +55359,7 @@ typedef union cavm_xsrx_train_status_lane_e_4 cavm_xsrx_train_status_lane_e_4_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_E_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_E_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c840ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_E_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -55403,7 +55403,7 @@ typedef union cavm_xsrx_train_status_lane_e_5 cavm_xsrx_train_status_lane_e_5_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_E_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_E_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c848ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_E_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -55447,7 +55447,7 @@ typedef union cavm_xsrx_train_status_lane_e_6 cavm_xsrx_train_status_lane_e_6_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_E_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_E_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c850ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_E_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -55491,7 +55491,7 @@ typedef union cavm_xsrx_train_status_lane_e_7 cavm_xsrx_train_status_lane_e_7_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_E_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_E_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c858ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_E_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -55535,7 +55535,7 @@ typedef union cavm_xsrx_train_status_lane_e_8 cavm_xsrx_train_status_lane_e_8_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_E_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_E_8(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c860ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_E_8", 1, a, 0, 0, 0, 0, 0);
 }
@@ -55579,7 +55579,7 @@ typedef union cavm_xsrx_train_status_lane_e_9 cavm_xsrx_train_status_lane_e_9_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_E_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_E_9(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c868ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_E_9", 1, a, 0, 0, 0, 0, 0);
 }
@@ -55623,7 +55623,7 @@ typedef union cavm_xsrx_train_status_lane_f_0 cavm_xsrx_train_status_lane_f_0_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_F_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_F_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c920ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_F_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -55667,7 +55667,7 @@ typedef union cavm_xsrx_train_status_lane_f_1 cavm_xsrx_train_status_lane_f_1_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_F_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_F_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c928ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_F_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -55709,7 +55709,7 @@ typedef union cavm_xsrx_train_status_lane_f_10 cavm_xsrx_train_status_lane_f_10_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_F_10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_F_10(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c970ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_F_10", 1, a, 0, 0, 0, 0, 0);
 }
@@ -55753,7 +55753,7 @@ typedef union cavm_xsrx_train_status_lane_f_11 cavm_xsrx_train_status_lane_f_11_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_F_11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_F_11(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c978ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_F_11", 1, a, 0, 0, 0, 0, 0);
 }
@@ -55803,7 +55803,7 @@ typedef union cavm_xsrx_train_status_lane_f_12 cavm_xsrx_train_status_lane_f_12_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_F_12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_F_12(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c980ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_F_12", 1, a, 0, 0, 0, 0, 0);
 }
@@ -55885,7 +55885,7 @@ typedef union cavm_xsrx_train_status_lane_f_13 cavm_xsrx_train_status_lane_f_13_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_F_13(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_F_13(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c988ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_F_13", 1, a, 0, 0, 0, 0, 0);
 }
@@ -55937,7 +55937,7 @@ typedef union cavm_xsrx_train_status_lane_f_14 cavm_xsrx_train_status_lane_f_14_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_F_14(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_F_14(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c990ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_F_14", 1, a, 0, 0, 0, 0, 0);
 }
@@ -55993,7 +55993,7 @@ typedef union cavm_xsrx_train_status_lane_f_15 cavm_xsrx_train_status_lane_f_15_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_F_15(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_F_15(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c998ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_F_15", 1, a, 0, 0, 0, 0, 0);
 }
@@ -56049,7 +56049,7 @@ typedef union cavm_xsrx_train_status_lane_f_16 cavm_xsrx_train_status_lane_f_16_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_F_16(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_F_16(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c9a0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_F_16", 1, a, 0, 0, 0, 0, 0);
 }
@@ -56093,7 +56093,7 @@ typedef union cavm_xsrx_train_status_lane_f_17 cavm_xsrx_train_status_lane_f_17_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_F_17(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_F_17(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c9a8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_F_17", 1, a, 0, 0, 0, 0, 0);
 }
@@ -56137,7 +56137,7 @@ typedef union cavm_xsrx_train_status_lane_f_18 cavm_xsrx_train_status_lane_f_18_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_F_18(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_F_18(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c9b0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_F_18", 1, a, 0, 0, 0, 0, 0);
 }
@@ -56181,7 +56181,7 @@ typedef union cavm_xsrx_train_status_lane_f_19 cavm_xsrx_train_status_lane_f_19_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_F_19(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_F_19(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c9b8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_F_19", 1, a, 0, 0, 0, 0, 0);
 }
@@ -56225,7 +56225,7 @@ typedef union cavm_xsrx_train_status_lane_f_2 cavm_xsrx_train_status_lane_f_2_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_F_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_F_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c930ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_F_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -56269,7 +56269,7 @@ typedef union cavm_xsrx_train_status_lane_f_3 cavm_xsrx_train_status_lane_f_3_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_F_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_F_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c938ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_F_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -56313,7 +56313,7 @@ typedef union cavm_xsrx_train_status_lane_f_4 cavm_xsrx_train_status_lane_f_4_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_F_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_F_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c940ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_F_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -56357,7 +56357,7 @@ typedef union cavm_xsrx_train_status_lane_f_5 cavm_xsrx_train_status_lane_f_5_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_F_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_F_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c948ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_F_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -56401,7 +56401,7 @@ typedef union cavm_xsrx_train_status_lane_f_6 cavm_xsrx_train_status_lane_f_6_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_F_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_F_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c950ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_F_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -56445,7 +56445,7 @@ typedef union cavm_xsrx_train_status_lane_f_7 cavm_xsrx_train_status_lane_f_7_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_F_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_F_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c958ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_F_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -56489,7 +56489,7 @@ typedef union cavm_xsrx_train_status_lane_f_8 cavm_xsrx_train_status_lane_f_8_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_F_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_F_8(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c960ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_F_8", 1, a, 0, 0, 0, 0, 0);
 }
@@ -56533,7 +56533,7 @@ typedef union cavm_xsrx_train_status_lane_f_9 cavm_xsrx_train_status_lane_f_9_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_F_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_F_9(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001c968ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_F_9", 1, a, 0, 0, 0, 0, 0);
 }
@@ -56577,7 +56577,7 @@ typedef union cavm_xsrx_train_status_lane_g_0 cavm_xsrx_train_status_lane_g_0_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_G_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_G_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001ca20ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_G_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -56621,7 +56621,7 @@ typedef union cavm_xsrx_train_status_lane_g_1 cavm_xsrx_train_status_lane_g_1_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_G_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_G_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001ca28ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_G_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -56663,7 +56663,7 @@ typedef union cavm_xsrx_train_status_lane_g_10 cavm_xsrx_train_status_lane_g_10_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_G_10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_G_10(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001ca70ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_G_10", 1, a, 0, 0, 0, 0, 0);
 }
@@ -56707,7 +56707,7 @@ typedef union cavm_xsrx_train_status_lane_g_11 cavm_xsrx_train_status_lane_g_11_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_G_11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_G_11(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001ca78ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_G_11", 1, a, 0, 0, 0, 0, 0);
 }
@@ -56757,7 +56757,7 @@ typedef union cavm_xsrx_train_status_lane_g_12 cavm_xsrx_train_status_lane_g_12_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_G_12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_G_12(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001ca80ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_G_12", 1, a, 0, 0, 0, 0, 0);
 }
@@ -56839,7 +56839,7 @@ typedef union cavm_xsrx_train_status_lane_g_13 cavm_xsrx_train_status_lane_g_13_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_G_13(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_G_13(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001ca88ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_G_13", 1, a, 0, 0, 0, 0, 0);
 }
@@ -56891,7 +56891,7 @@ typedef union cavm_xsrx_train_status_lane_g_14 cavm_xsrx_train_status_lane_g_14_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_G_14(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_G_14(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001ca90ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_G_14", 1, a, 0, 0, 0, 0, 0);
 }
@@ -56947,7 +56947,7 @@ typedef union cavm_xsrx_train_status_lane_g_15 cavm_xsrx_train_status_lane_g_15_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_G_15(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_G_15(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001ca98ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_G_15", 1, a, 0, 0, 0, 0, 0);
 }
@@ -57003,7 +57003,7 @@ typedef union cavm_xsrx_train_status_lane_g_16 cavm_xsrx_train_status_lane_g_16_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_G_16(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_G_16(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001caa0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_G_16", 1, a, 0, 0, 0, 0, 0);
 }
@@ -57047,7 +57047,7 @@ typedef union cavm_xsrx_train_status_lane_g_17 cavm_xsrx_train_status_lane_g_17_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_G_17(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_G_17(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001caa8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_G_17", 1, a, 0, 0, 0, 0, 0);
 }
@@ -57091,7 +57091,7 @@ typedef union cavm_xsrx_train_status_lane_g_18 cavm_xsrx_train_status_lane_g_18_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_G_18(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_G_18(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cab0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_G_18", 1, a, 0, 0, 0, 0, 0);
 }
@@ -57135,7 +57135,7 @@ typedef union cavm_xsrx_train_status_lane_g_19 cavm_xsrx_train_status_lane_g_19_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_G_19(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_G_19(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cab8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_G_19", 1, a, 0, 0, 0, 0, 0);
 }
@@ -57179,7 +57179,7 @@ typedef union cavm_xsrx_train_status_lane_g_2 cavm_xsrx_train_status_lane_g_2_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_G_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_G_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001ca30ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_G_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -57223,7 +57223,7 @@ typedef union cavm_xsrx_train_status_lane_g_3 cavm_xsrx_train_status_lane_g_3_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_G_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_G_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001ca38ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_G_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -57267,7 +57267,7 @@ typedef union cavm_xsrx_train_status_lane_g_4 cavm_xsrx_train_status_lane_g_4_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_G_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_G_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001ca40ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_G_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -57311,7 +57311,7 @@ typedef union cavm_xsrx_train_status_lane_g_5 cavm_xsrx_train_status_lane_g_5_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_G_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_G_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001ca48ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_G_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -57355,7 +57355,7 @@ typedef union cavm_xsrx_train_status_lane_g_6 cavm_xsrx_train_status_lane_g_6_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_G_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_G_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001ca50ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_G_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -57399,7 +57399,7 @@ typedef union cavm_xsrx_train_status_lane_g_7 cavm_xsrx_train_status_lane_g_7_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_G_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_G_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001ca58ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_G_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -57443,7 +57443,7 @@ typedef union cavm_xsrx_train_status_lane_g_8 cavm_xsrx_train_status_lane_g_8_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_G_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_G_8(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001ca60ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_G_8", 1, a, 0, 0, 0, 0, 0);
 }
@@ -57487,7 +57487,7 @@ typedef union cavm_xsrx_train_status_lane_g_9 cavm_xsrx_train_status_lane_g_9_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_G_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_G_9(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001ca68ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_G_9", 1, a, 0, 0, 0, 0, 0);
 }
@@ -57531,7 +57531,7 @@ typedef union cavm_xsrx_train_status_lane_h_0 cavm_xsrx_train_status_lane_h_0_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_H_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_H_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cb20ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_H_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -57575,7 +57575,7 @@ typedef union cavm_xsrx_train_status_lane_h_1 cavm_xsrx_train_status_lane_h_1_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_H_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_H_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cb28ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_H_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -57617,7 +57617,7 @@ typedef union cavm_xsrx_train_status_lane_h_10 cavm_xsrx_train_status_lane_h_10_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_H_10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_H_10(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cb70ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_H_10", 1, a, 0, 0, 0, 0, 0);
 }
@@ -57661,7 +57661,7 @@ typedef union cavm_xsrx_train_status_lane_h_11 cavm_xsrx_train_status_lane_h_11_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_H_11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_H_11(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cb78ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_H_11", 1, a, 0, 0, 0, 0, 0);
 }
@@ -57711,7 +57711,7 @@ typedef union cavm_xsrx_train_status_lane_h_12 cavm_xsrx_train_status_lane_h_12_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_H_12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_H_12(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cb80ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_H_12", 1, a, 0, 0, 0, 0, 0);
 }
@@ -57793,7 +57793,7 @@ typedef union cavm_xsrx_train_status_lane_h_13 cavm_xsrx_train_status_lane_h_13_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_H_13(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_H_13(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cb88ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_H_13", 1, a, 0, 0, 0, 0, 0);
 }
@@ -57845,7 +57845,7 @@ typedef union cavm_xsrx_train_status_lane_h_14 cavm_xsrx_train_status_lane_h_14_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_H_14(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_H_14(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cb90ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_H_14", 1, a, 0, 0, 0, 0, 0);
 }
@@ -57901,7 +57901,7 @@ typedef union cavm_xsrx_train_status_lane_h_15 cavm_xsrx_train_status_lane_h_15_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_H_15(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_H_15(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cb98ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_H_15", 1, a, 0, 0, 0, 0, 0);
 }
@@ -57957,7 +57957,7 @@ typedef union cavm_xsrx_train_status_lane_h_16 cavm_xsrx_train_status_lane_h_16_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_H_16(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_H_16(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cba0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_H_16", 1, a, 0, 0, 0, 0, 0);
 }
@@ -58001,7 +58001,7 @@ typedef union cavm_xsrx_train_status_lane_h_17 cavm_xsrx_train_status_lane_h_17_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_H_17(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_H_17(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cba8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_H_17", 1, a, 0, 0, 0, 0, 0);
 }
@@ -58045,7 +58045,7 @@ typedef union cavm_xsrx_train_status_lane_h_18 cavm_xsrx_train_status_lane_h_18_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_H_18(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_H_18(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cbb0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_H_18", 1, a, 0, 0, 0, 0, 0);
 }
@@ -58089,7 +58089,7 @@ typedef union cavm_xsrx_train_status_lane_h_19 cavm_xsrx_train_status_lane_h_19_
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_H_19(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_H_19(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cbb8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_H_19", 1, a, 0, 0, 0, 0, 0);
 }
@@ -58133,7 +58133,7 @@ typedef union cavm_xsrx_train_status_lane_h_2 cavm_xsrx_train_status_lane_h_2_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_H_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_H_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cb30ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_H_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -58177,7 +58177,7 @@ typedef union cavm_xsrx_train_status_lane_h_3 cavm_xsrx_train_status_lane_h_3_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_H_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_H_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cb38ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_H_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -58221,7 +58221,7 @@ typedef union cavm_xsrx_train_status_lane_h_4 cavm_xsrx_train_status_lane_h_4_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_H_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_H_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cb40ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_H_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -58265,7 +58265,7 @@ typedef union cavm_xsrx_train_status_lane_h_5 cavm_xsrx_train_status_lane_h_5_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_H_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_H_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cb48ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_H_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -58309,7 +58309,7 @@ typedef union cavm_xsrx_train_status_lane_h_6 cavm_xsrx_train_status_lane_h_6_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_H_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_H_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cb50ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_H_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -58353,7 +58353,7 @@ typedef union cavm_xsrx_train_status_lane_h_7 cavm_xsrx_train_status_lane_h_7_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_H_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_H_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cb58ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_H_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -58397,7 +58397,7 @@ typedef union cavm_xsrx_train_status_lane_h_8 cavm_xsrx_train_status_lane_h_8_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_H_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_H_8(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cb60ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_H_8", 1, a, 0, 0, 0, 0, 0);
 }
@@ -58441,7 +58441,7 @@ typedef union cavm_xsrx_train_status_lane_h_9 cavm_xsrx_train_status_lane_h_9_t;
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_H_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRAIN_STATUS_LANE_H_9(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cb68ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRAIN_STATUS_LANE_H_9", 1, a, 0, 0, 0, 0, 0);
 }
@@ -58505,7 +58505,7 @@ typedef union cavm_xsrx_transmit_analog_interface_register cavm_xsrx_transmit_an
 static inline uint64_t CAVM_XSRX_TRANSMIT_ANALOG_INTERFACE_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRANSMIT_ANALOG_INTERFACE_REGISTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006360ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRANSMIT_ANALOG_INTERFACE_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -58554,7 +58554,7 @@ typedef union cavm_xsrx_transmit_analog_interface_register_1 cavm_xsrx_transmit_
 static inline uint64_t CAVM_XSRX_TRANSMIT_ANALOG_INTERFACE_REGISTER_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRANSMIT_ANALOG_INTERFACE_REGISTER_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006368ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRANSMIT_ANALOG_INTERFACE_REGISTER_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -58663,7 +58663,7 @@ typedef union cavm_xsrx_transmit_cdr_flywheel_control_register cavm_xsrx_transmi
 static inline uint64_t CAVM_XSRX_TRANSMIT_CDR_FLYWHEEL_CONTROL_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRANSMIT_CDR_FLYWHEEL_CONTROL_REGISTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006110ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRANSMIT_CDR_FLYWHEEL_CONTROL_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -58818,7 +58818,7 @@ typedef union cavm_xsrx_transmit_configuration_register cavm_xsrx_transmit_confi
 static inline uint64_t CAVM_XSRX_TRANSMIT_CONFIGURATION_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRANSMIT_CONFIGURATION_REGISTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006000ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRANSMIT_CONFIGURATION_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -59081,7 +59081,7 @@ typedef union cavm_xsrx_transmit_control_register cavm_xsrx_transmit_control_reg
 static inline uint64_t CAVM_XSRX_TRANSMIT_CONTROL_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRANSMIT_CONTROL_REGISTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006010ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRANSMIT_CONTROL_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -59162,7 +59162,7 @@ typedef union cavm_xsrx_transmit_ffe_coefficient_sum_register cavm_xsrx_transmit
 static inline uint64_t CAVM_XSRX_TRANSMIT_FFE_COEFFICIENT_SUM_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRANSMIT_FFE_COEFFICIENT_SUM_REGISTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006248ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRANSMIT_FFE_COEFFICIENT_SUM_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -59251,7 +59251,7 @@ typedef union cavm_xsrx_transmit_ffe_command_register cavm_xsrx_transmit_ffe_com
 static inline uint64_t CAVM_XSRX_TRANSMIT_FFE_COMMAND_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRANSMIT_FFE_COMMAND_REGISTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006070ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRANSMIT_FFE_COMMAND_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -59318,7 +59318,7 @@ typedef union cavm_xsrx_transmit_ffe_control_register_1 cavm_xsrx_transmit_ffe_c
 static inline uint64_t CAVM_XSRX_TRANSMIT_FFE_CONTROL_REGISTER_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRANSMIT_FFE_CONTROL_REGISTER_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006300ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRANSMIT_FFE_CONTROL_REGISTER_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -59371,7 +59371,7 @@ typedef union cavm_xsrx_transmit_ffe_control_register_2 cavm_xsrx_transmit_ffe_c
 static inline uint64_t CAVM_XSRX_TRANSMIT_FFE_CONTROL_REGISTER_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRANSMIT_FFE_CONTROL_REGISTER_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006308ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRANSMIT_FFE_CONTROL_REGISTER_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -59424,7 +59424,7 @@ typedef union cavm_xsrx_transmit_ffe_control_register_3 cavm_xsrx_transmit_ffe_c
 static inline uint64_t CAVM_XSRX_TRANSMIT_FFE_CONTROL_REGISTER_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRANSMIT_FFE_CONTROL_REGISTER_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006310ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRANSMIT_FFE_CONTROL_REGISTER_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -59483,7 +59483,7 @@ typedef union cavm_xsrx_transmit_ffe_control_register_4 cavm_xsrx_transmit_ffe_c
 static inline uint64_t CAVM_XSRX_TRANSMIT_FFE_CONTROL_REGISTER_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRANSMIT_FFE_CONTROL_REGISTER_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006318ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRANSMIT_FFE_CONTROL_REGISTER_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -59542,7 +59542,7 @@ typedef union cavm_xsrx_transmit_ffe_control_register_5 cavm_xsrx_transmit_ffe_c
 static inline uint64_t CAVM_XSRX_TRANSMIT_FFE_CONTROL_REGISTER_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRANSMIT_FFE_CONTROL_REGISTER_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006320ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRANSMIT_FFE_CONTROL_REGISTER_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -59601,7 +59601,7 @@ typedef union cavm_xsrx_transmit_ffe_control_register_6 cavm_xsrx_transmit_ffe_c
 static inline uint64_t CAVM_XSRX_TRANSMIT_FFE_CONTROL_REGISTER_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRANSMIT_FFE_CONTROL_REGISTER_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006328ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRANSMIT_FFE_CONTROL_REGISTER_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -59686,7 +59686,7 @@ typedef union cavm_xsrx_transmit_ffe_control_register_7 cavm_xsrx_transmit_ffe_c
 static inline uint64_t CAVM_XSRX_TRANSMIT_FFE_CONTROL_REGISTER_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRANSMIT_FFE_CONTROL_REGISTER_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006330ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRANSMIT_FFE_CONTROL_REGISTER_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -59875,7 +59875,7 @@ typedef union cavm_xsrx_transmit_ffe_control_register_8 cavm_xsrx_transmit_ffe_c
 static inline uint64_t CAVM_XSRX_TRANSMIT_FFE_CONTROL_REGISTER_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRANSMIT_FFE_CONTROL_REGISTER_8(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006338ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRANSMIT_FFE_CONTROL_REGISTER_8", 1, a, 0, 0, 0, 0, 0);
 }
@@ -59985,7 +59985,7 @@ typedef union cavm_xsrx_transmit_ffe_training_response_register cavm_xsrx_transm
 static inline uint64_t CAVM_XSRX_TRANSMIT_FFE_TRAINING_RESPONSE_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRANSMIT_FFE_TRAINING_RESPONSE_REGISTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006240ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRANSMIT_FFE_TRAINING_RESPONSE_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -60042,7 +60042,7 @@ typedef union cavm_xsrx_transmit_identification_register cavm_xsrx_transmit_iden
 static inline uint64_t CAVM_XSRX_TRANSMIT_IDENTIFICATION_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRANSMIT_IDENTIFICATION_REGISTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000063b8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRANSMIT_IDENTIFICATION_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -60367,7 +60367,7 @@ typedef union cavm_xsrx_transmit_mode_register cavm_xsrx_transmit_mode_register_
 static inline uint64_t CAVM_XSRX_TRANSMIT_MODE_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRANSMIT_MODE_REGISTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006018ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRANSMIT_MODE_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -60420,7 +60420,7 @@ typedef union cavm_xsrx_transmit_pattern_buffer_bytes_11_10_register cavm_xsrx_t
 static inline uint64_t CAVM_XSRX_TRANSMIT_PATTERN_BUFFER_BYTES_11_10_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRANSMIT_PATTERN_BUFFER_BYTES_11_10_REGISTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000060a8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRANSMIT_PATTERN_BUFFER_BYTES_11_10_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -60473,7 +60473,7 @@ typedef union cavm_xsrx_transmit_pattern_buffer_bytes_13_12_register cavm_xsrx_t
 static inline uint64_t CAVM_XSRX_TRANSMIT_PATTERN_BUFFER_BYTES_13_12_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRANSMIT_PATTERN_BUFFER_BYTES_13_12_REGISTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000060b0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRANSMIT_PATTERN_BUFFER_BYTES_13_12_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -60526,7 +60526,7 @@ typedef union cavm_xsrx_transmit_pattern_buffer_bytes_15_14_register cavm_xsrx_t
 static inline uint64_t CAVM_XSRX_TRANSMIT_PATTERN_BUFFER_BYTES_15_14_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRANSMIT_PATTERN_BUFFER_BYTES_15_14_REGISTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000060b8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRANSMIT_PATTERN_BUFFER_BYTES_15_14_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -60579,7 +60579,7 @@ typedef union cavm_xsrx_transmit_pattern_buffer_bytes_1_0_register cavm_xsrx_tra
 static inline uint64_t CAVM_XSRX_TRANSMIT_PATTERN_BUFFER_BYTES_1_0_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRANSMIT_PATTERN_BUFFER_BYTES_1_0_REGISTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006080ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRANSMIT_PATTERN_BUFFER_BYTES_1_0_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -60632,7 +60632,7 @@ typedef union cavm_xsrx_transmit_pattern_buffer_bytes_3_2_register cavm_xsrx_tra
 static inline uint64_t CAVM_XSRX_TRANSMIT_PATTERN_BUFFER_BYTES_3_2_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRANSMIT_PATTERN_BUFFER_BYTES_3_2_REGISTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006088ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRANSMIT_PATTERN_BUFFER_BYTES_3_2_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -60685,7 +60685,7 @@ typedef union cavm_xsrx_transmit_pattern_buffer_bytes_5_4_register cavm_xsrx_tra
 static inline uint64_t CAVM_XSRX_TRANSMIT_PATTERN_BUFFER_BYTES_5_4_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRANSMIT_PATTERN_BUFFER_BYTES_5_4_REGISTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006090ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRANSMIT_PATTERN_BUFFER_BYTES_5_4_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -60738,7 +60738,7 @@ typedef union cavm_xsrx_transmit_pattern_buffer_bytes_7_6_register cavm_xsrx_tra
 static inline uint64_t CAVM_XSRX_TRANSMIT_PATTERN_BUFFER_BYTES_7_6_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRANSMIT_PATTERN_BUFFER_BYTES_7_6_REGISTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006098ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRANSMIT_PATTERN_BUFFER_BYTES_7_6_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -60791,7 +60791,7 @@ typedef union cavm_xsrx_transmit_pattern_buffer_bytes_9_8_register cavm_xsrx_tra
 static inline uint64_t CAVM_XSRX_TRANSMIT_PATTERN_BUFFER_BYTES_9_8_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRANSMIT_PATTERN_BUFFER_BYTES_9_8_REGISTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000060a0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRANSMIT_PATTERN_BUFFER_BYTES_9_8_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -60892,7 +60892,7 @@ typedef union cavm_xsrx_transmit_phase_rotator_control_register cavm_xsrx_transm
 static inline uint64_t CAVM_XSRX_TRANSMIT_PHASE_ROTATOR_CONTROL_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRANSMIT_PHASE_ROTATOR_CONTROL_REGISTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006100ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRANSMIT_PHASE_ROTATOR_CONTROL_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -60989,7 +60989,7 @@ typedef union cavm_xsrx_transmit_phase_rotator_count_extension_register cavm_xsr
 static inline uint64_t CAVM_XSRX_TRANSMIT_PHASE_ROTATOR_COUNT_EXTENSION_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRANSMIT_PHASE_ROTATOR_COUNT_EXTENSION_REGISTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000060f8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRANSMIT_PHASE_ROTATOR_COUNT_EXTENSION_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -61048,7 +61048,7 @@ typedef union cavm_xsrx_transmit_phase_rotator_position_register cavm_xsrx_trans
 static inline uint64_t CAVM_XSRX_TRANSMIT_PHASE_ROTATOR_POSITION_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRANSMIT_PHASE_ROTATOR_POSITION_REGISTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006108ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRANSMIT_PHASE_ROTATOR_POSITION_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -61151,7 +61151,7 @@ typedef union cavm_xsrx_transmit_serial_packet_interface_address_override_regist
 static inline uint64_t CAVM_XSRX_TRANSMIT_SERIAL_PACKET_INTERFACE_ADDRESS_OVERRIDE_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRANSMIT_SERIAL_PACKET_INTERFACE_ADDRESS_OVERRIDE_REGISTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006068ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRANSMIT_SERIAL_PACKET_INTERFACE_ADDRESS_OVERRIDE_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -61189,7 +61189,7 @@ typedef union cavm_xsrx_transmit_spi_command_packet_register cavm_xsrx_transmit_
 static inline uint64_t CAVM_XSRX_TRANSMIT_SPI_COMMAND_PACKET_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRANSMIT_SPI_COMMAND_PACKET_REGISTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006250ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRANSMIT_SPI_COMMAND_PACKET_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -61227,7 +61227,7 @@ typedef union cavm_xsrx_transmit_spi_response_packet_register cavm_xsrx_transmit
 static inline uint64_t CAVM_XSRX_TRANSMIT_SPI_RESPONSE_PACKET_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRANSMIT_SPI_RESPONSE_PACKET_REGISTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006258ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRANSMIT_SPI_RESPONSE_PACKET_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -61300,7 +61300,7 @@ typedef union cavm_xsrx_transmit_state_machine_status_0_register cavm_xsrx_trans
 static inline uint64_t CAVM_XSRX_TRANSMIT_STATE_MACHINE_STATUS_0_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRANSMIT_STATE_MACHINE_STATUS_0_REGISTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006380ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRANSMIT_STATE_MACHINE_STATUS_0_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -61463,7 +61463,7 @@ typedef union cavm_xsrx_transmit_status_register cavm_xsrx_transmit_status_regis
 static inline uint64_t CAVM_XSRX_TRANSMIT_STATUS_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRANSMIT_STATUS_REGISTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006028ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRANSMIT_STATUS_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -61505,7 +61505,7 @@ typedef union cavm_xsrx_transmit_sw_override_ffe_training_response_register cavm
 static inline uint64_t CAVM_XSRX_TRANSMIT_SW_OVERRIDE_FFE_TRAINING_RESPONSE_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRANSMIT_SW_OVERRIDE_FFE_TRAINING_RESPONSE_REGISTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000061b0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRANSMIT_SW_OVERRIDE_FFE_TRAINING_RESPONSE_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -61578,7 +61578,7 @@ typedef union cavm_xsrx_transmit_tap_01_applied_coefficient_register cavm_xsrx_t
 static inline uint64_t CAVM_XSRX_TRANSMIT_TAP_01_APPLIED_COEFFICIENT_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRANSMIT_TAP_01_APPLIED_COEFFICIENT_REGISTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006200ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRANSMIT_TAP_01_APPLIED_COEFFICIENT_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -61643,7 +61643,7 @@ typedef union cavm_xsrx_transmit_tap_01_coefficient_register cavm_xsrx_transmit_
 static inline uint64_t CAVM_XSRX_TRANSMIT_TAP_01_COEFFICIENT_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRANSMIT_TAP_01_COEFFICIENT_REGISTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006030ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRANSMIT_TAP_01_COEFFICIENT_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -61716,7 +61716,7 @@ typedef union cavm_xsrx_transmit_tap_23_applied_coefficient_register cavm_xsrx_t
 static inline uint64_t CAVM_XSRX_TRANSMIT_TAP_23_APPLIED_COEFFICIENT_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRANSMIT_TAP_23_APPLIED_COEFFICIENT_REGISTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006208ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRANSMIT_TAP_23_APPLIED_COEFFICIENT_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -61781,7 +61781,7 @@ typedef union cavm_xsrx_transmit_tap_23_coefficient_register cavm_xsrx_transmit_
 static inline uint64_t CAVM_XSRX_TRANSMIT_TAP_23_COEFFICIENT_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRANSMIT_TAP_23_COEFFICIENT_REGISTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006038ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRANSMIT_TAP_23_COEFFICIENT_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -61858,7 +61858,7 @@ typedef union cavm_xsrx_transmit_tap_45_applied_coefficient_register cavm_xsrx_t
 static inline uint64_t CAVM_XSRX_TRANSMIT_TAP_45_APPLIED_COEFFICIENT_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRANSMIT_TAP_45_APPLIED_COEFFICIENT_REGISTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006210ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRANSMIT_TAP_45_APPLIED_COEFFICIENT_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -61927,7 +61927,7 @@ typedef union cavm_xsrx_transmit_tap_45_coefficient_register cavm_xsrx_transmit_
 static inline uint64_t CAVM_XSRX_TRANSMIT_TAP_45_COEFFICIENT_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRANSMIT_TAP_45_COEFFICIENT_REGISTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006040ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRANSMIT_TAP_45_COEFFICIENT_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -62046,7 +62046,7 @@ typedef union cavm_xsrx_transmit_test_control_register cavm_xsrx_transmit_test_c
 static inline uint64_t CAVM_XSRX_TRANSMIT_TEST_CONTROL_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRANSMIT_TEST_CONTROL_REGISTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006008ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRANSMIT_TEST_CONTROL_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -62101,7 +62101,7 @@ typedef union cavm_xsrx_transmitter_ana_su_hd_dly_sel_register cavm_xsrx_transmi
 static inline uint64_t CAVM_XSRX_TRANSMITTER_ANA_SU_HD_DLY_SEL_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TRANSMITTER_ANA_SU_HD_DLY_SEL_REGISTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200006060ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TRANSMITTER_ANA_SU_HD_DLY_SEL_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -62143,7 +62143,7 @@ typedef union cavm_xsrx_tx_cache_debug0 cavm_xsrx_tx_cache_debug0_t;
 static inline uint64_t CAVM_XSRX_TX_CACHE_DEBUG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CACHE_DEBUG0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000063a0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CACHE_DEBUG0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -62198,7 +62198,7 @@ typedef union cavm_xsrx_tx_cal_reg0 cavm_xsrx_tx_cal_reg0_t;
 static inline uint64_t CAVM_XSRX_TX_CAL_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CAL_REG0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000020b8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CAL_REG0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -62247,7 +62247,7 @@ typedef union cavm_xsrx_tx_cal_reg1 cavm_xsrx_tx_cal_reg1_t;
 static inline uint64_t CAVM_XSRX_TX_CAL_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CAL_REG1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000020c0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CAL_REG1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -62298,7 +62298,7 @@ typedef union cavm_xsrx_tx_cal_reg2 cavm_xsrx_tx_cal_reg2_t;
 static inline uint64_t CAVM_XSRX_TX_CAL_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CAL_REG2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000020c8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CAL_REG2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -62359,7 +62359,7 @@ typedef union cavm_xsrx_tx_clktop_cal_0 cavm_xsrx_tx_clktop_cal_0_t;
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_CAL_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000028a0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -62408,7 +62408,7 @@ typedef union cavm_xsrx_tx_clktop_cal_1 cavm_xsrx_tx_clktop_cal_1_t;
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_CAL_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000028a8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -62485,7 +62485,7 @@ typedef union cavm_xsrx_tx_clktop_cal_2 cavm_xsrx_tx_clktop_cal_2_t;
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_CAL_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000028b0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -62538,7 +62538,7 @@ typedef union cavm_xsrx_tx_clktop_cal_3 cavm_xsrx_tx_clktop_cal_3_t;
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_CAL_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000028b8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -62603,7 +62603,7 @@ typedef union cavm_xsrx_tx_clktop_dcc_cal_0_0 cavm_xsrx_tx_clktop_dcc_cal_0_0_t;
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_0_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_0_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002b98ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DCC_CAL_0_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -62660,7 +62660,7 @@ typedef union cavm_xsrx_tx_clktop_dcc_cal_0_1 cavm_xsrx_tx_clktop_dcc_cal_0_1_t;
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_0_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_0_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002ba0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DCC_CAL_0_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -62713,7 +62713,7 @@ typedef union cavm_xsrx_tx_clktop_dcc_cal_0_10 cavm_xsrx_tx_clktop_dcc_cal_0_10_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_0_10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_0_10(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002be8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DCC_CAL_0_10", 1, a, 0, 0, 0, 0, 0);
 }
@@ -62770,7 +62770,7 @@ typedef union cavm_xsrx_tx_clktop_dcc_cal_0_2 cavm_xsrx_tx_clktop_dcc_cal_0_2_t;
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_0_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_0_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002ba8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DCC_CAL_0_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -62831,7 +62831,7 @@ typedef union cavm_xsrx_tx_clktop_dcc_cal_0_3 cavm_xsrx_tx_clktop_dcc_cal_0_3_t;
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_0_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_0_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002bb0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DCC_CAL_0_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -62880,7 +62880,7 @@ typedef union cavm_xsrx_tx_clktop_dcc_cal_0_4 cavm_xsrx_tx_clktop_dcc_cal_0_4_t;
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_0_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_0_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002bb8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DCC_CAL_0_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -62933,7 +62933,7 @@ typedef union cavm_xsrx_tx_clktop_dcc_cal_0_5 cavm_xsrx_tx_clktop_dcc_cal_0_5_t;
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_0_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_0_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002bc0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DCC_CAL_0_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -62982,7 +62982,7 @@ typedef union cavm_xsrx_tx_clktop_dcc_cal_0_6 cavm_xsrx_tx_clktop_dcc_cal_0_6_t;
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_0_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_0_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002bc8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DCC_CAL_0_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -63055,7 +63055,7 @@ typedef union cavm_xsrx_tx_clktop_dcc_cal_0_7 cavm_xsrx_tx_clktop_dcc_cal_0_7_t;
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_0_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_0_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002bd0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DCC_CAL_0_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -63108,7 +63108,7 @@ typedef union cavm_xsrx_tx_clktop_dcc_cal_0_8 cavm_xsrx_tx_clktop_dcc_cal_0_8_t;
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_0_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_0_8(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002bd8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DCC_CAL_0_8", 1, a, 0, 0, 0, 0, 0);
 }
@@ -63161,7 +63161,7 @@ typedef union cavm_xsrx_tx_clktop_dcc_cal_0_9 cavm_xsrx_tx_clktop_dcc_cal_0_9_t;
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_0_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_0_9(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002be0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DCC_CAL_0_9", 1, a, 0, 0, 0, 0, 0);
 }
@@ -63226,7 +63226,7 @@ typedef union cavm_xsrx_tx_clktop_dcc_cal_1_0 cavm_xsrx_tx_clktop_dcc_cal_1_0_t;
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_1_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_1_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002bf0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DCC_CAL_1_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -63283,7 +63283,7 @@ typedef union cavm_xsrx_tx_clktop_dcc_cal_1_1 cavm_xsrx_tx_clktop_dcc_cal_1_1_t;
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_1_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_1_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002bf8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DCC_CAL_1_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -63336,7 +63336,7 @@ typedef union cavm_xsrx_tx_clktop_dcc_cal_1_10 cavm_xsrx_tx_clktop_dcc_cal_1_10_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_1_10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_1_10(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002c40ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DCC_CAL_1_10", 1, a, 0, 0, 0, 0, 0);
 }
@@ -63393,7 +63393,7 @@ typedef union cavm_xsrx_tx_clktop_dcc_cal_1_2 cavm_xsrx_tx_clktop_dcc_cal_1_2_t;
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_1_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_1_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002c00ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DCC_CAL_1_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -63454,7 +63454,7 @@ typedef union cavm_xsrx_tx_clktop_dcc_cal_1_3 cavm_xsrx_tx_clktop_dcc_cal_1_3_t;
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_1_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_1_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002c08ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DCC_CAL_1_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -63503,7 +63503,7 @@ typedef union cavm_xsrx_tx_clktop_dcc_cal_1_4 cavm_xsrx_tx_clktop_dcc_cal_1_4_t;
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_1_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_1_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002c10ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DCC_CAL_1_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -63556,7 +63556,7 @@ typedef union cavm_xsrx_tx_clktop_dcc_cal_1_5 cavm_xsrx_tx_clktop_dcc_cal_1_5_t;
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_1_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_1_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002c18ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DCC_CAL_1_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -63605,7 +63605,7 @@ typedef union cavm_xsrx_tx_clktop_dcc_cal_1_6 cavm_xsrx_tx_clktop_dcc_cal_1_6_t;
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_1_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_1_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002c20ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DCC_CAL_1_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -63678,7 +63678,7 @@ typedef union cavm_xsrx_tx_clktop_dcc_cal_1_7 cavm_xsrx_tx_clktop_dcc_cal_1_7_t;
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_1_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_1_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002c28ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DCC_CAL_1_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -63731,7 +63731,7 @@ typedef union cavm_xsrx_tx_clktop_dcc_cal_1_8 cavm_xsrx_tx_clktop_dcc_cal_1_8_t;
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_1_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_1_8(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002c30ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DCC_CAL_1_8", 1, a, 0, 0, 0, 0, 0);
 }
@@ -63784,7 +63784,7 @@ typedef union cavm_xsrx_tx_clktop_dcc_cal_1_9 cavm_xsrx_tx_clktop_dcc_cal_1_9_t;
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_1_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DCC_CAL_1_9(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002c38ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DCC_CAL_1_9", 1, a, 0, 0, 0, 0, 0);
 }
@@ -63849,7 +63849,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_0_0 cavm_xsrx_tx_clktop_dll1_cal_0_0_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_0_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_0_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000028c0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_0_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -63906,7 +63906,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_0_1 cavm_xsrx_tx_clktop_dll1_cal_0_1_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_0_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_0_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000028c8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_0_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -63959,7 +63959,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_0_10 cavm_xsrx_tx_clktop_dll1_cal_0_1
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_0_10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_0_10(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002910ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_0_10", 1, a, 0, 0, 0, 0, 0);
 }
@@ -64016,7 +64016,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_0_11 cavm_xsrx_tx_clktop_dll1_cal_0_1
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_0_11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_0_11(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002918ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_0_11", 1, a, 0, 0, 0, 0, 0);
 }
@@ -64069,7 +64069,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_0_12 cavm_xsrx_tx_clktop_dll1_cal_0_1
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_0_12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_0_12(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002920ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_0_12", 1, a, 0, 0, 0, 0, 0);
 }
@@ -64126,7 +64126,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_0_2 cavm_xsrx_tx_clktop_dll1_cal_0_2_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_0_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_0_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000028d0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_0_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -64187,7 +64187,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_0_3 cavm_xsrx_tx_clktop_dll1_cal_0_3_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_0_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_0_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000028d8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_0_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -64236,7 +64236,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_0_4 cavm_xsrx_tx_clktop_dll1_cal_0_4_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_0_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_0_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000028e0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_0_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -64289,7 +64289,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_0_5 cavm_xsrx_tx_clktop_dll1_cal_0_5_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_0_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_0_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000028e8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_0_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -64342,7 +64342,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_0_6 cavm_xsrx_tx_clktop_dll1_cal_0_6_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_0_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_0_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000028f0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_0_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -64391,7 +64391,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_0_7 cavm_xsrx_tx_clktop_dll1_cal_0_7_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_0_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_0_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000028f8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_0_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -64456,7 +64456,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_0_8 cavm_xsrx_tx_clktop_dll1_cal_0_8_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_0_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_0_8(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002900ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_0_8", 1, a, 0, 0, 0, 0, 0);
 }
@@ -64509,7 +64509,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_0_9 cavm_xsrx_tx_clktop_dll1_cal_0_9_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_0_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_0_9(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002908ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_0_9", 1, a, 0, 0, 0, 0, 0);
 }
@@ -64574,7 +64574,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_1_0 cavm_xsrx_tx_clktop_dll1_cal_1_0_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_1_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_1_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002928ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_1_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -64631,7 +64631,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_1_1 cavm_xsrx_tx_clktop_dll1_cal_1_1_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_1_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_1_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002930ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_1_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -64684,7 +64684,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_1_10 cavm_xsrx_tx_clktop_dll1_cal_1_1
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_1_10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_1_10(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002978ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_1_10", 1, a, 0, 0, 0, 0, 0);
 }
@@ -64741,7 +64741,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_1_11 cavm_xsrx_tx_clktop_dll1_cal_1_1
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_1_11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_1_11(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002980ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_1_11", 1, a, 0, 0, 0, 0, 0);
 }
@@ -64794,7 +64794,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_1_12 cavm_xsrx_tx_clktop_dll1_cal_1_1
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_1_12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_1_12(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002988ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_1_12", 1, a, 0, 0, 0, 0, 0);
 }
@@ -64851,7 +64851,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_1_2 cavm_xsrx_tx_clktop_dll1_cal_1_2_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_1_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_1_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002938ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_1_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -64912,7 +64912,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_1_3 cavm_xsrx_tx_clktop_dll1_cal_1_3_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_1_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_1_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002940ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_1_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -64961,7 +64961,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_1_4 cavm_xsrx_tx_clktop_dll1_cal_1_4_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_1_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_1_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002948ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_1_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -65014,7 +65014,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_1_5 cavm_xsrx_tx_clktop_dll1_cal_1_5_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_1_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_1_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002950ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_1_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -65067,7 +65067,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_1_6 cavm_xsrx_tx_clktop_dll1_cal_1_6_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_1_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_1_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002958ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_1_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -65116,7 +65116,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_1_7 cavm_xsrx_tx_clktop_dll1_cal_1_7_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_1_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_1_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002960ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_1_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -65181,7 +65181,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_1_8 cavm_xsrx_tx_clktop_dll1_cal_1_8_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_1_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_1_8(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002968ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_1_8", 1, a, 0, 0, 0, 0, 0);
 }
@@ -65234,7 +65234,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_1_9 cavm_xsrx_tx_clktop_dll1_cal_1_9_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_1_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_1_9(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002970ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_1_9", 1, a, 0, 0, 0, 0, 0);
 }
@@ -65299,7 +65299,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_2_0 cavm_xsrx_tx_clktop_dll1_cal_2_0_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_2_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_2_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002990ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_2_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -65356,7 +65356,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_2_1 cavm_xsrx_tx_clktop_dll1_cal_2_1_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_2_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_2_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002998ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_2_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -65409,7 +65409,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_2_10 cavm_xsrx_tx_clktop_dll1_cal_2_1
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_2_10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_2_10(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000029e0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_2_10", 1, a, 0, 0, 0, 0, 0);
 }
@@ -65466,7 +65466,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_2_11 cavm_xsrx_tx_clktop_dll1_cal_2_1
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_2_11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_2_11(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000029e8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_2_11", 1, a, 0, 0, 0, 0, 0);
 }
@@ -65519,7 +65519,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_2_12 cavm_xsrx_tx_clktop_dll1_cal_2_1
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_2_12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_2_12(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000029f0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_2_12", 1, a, 0, 0, 0, 0, 0);
 }
@@ -65576,7 +65576,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_2_2 cavm_xsrx_tx_clktop_dll1_cal_2_2_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_2_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_2_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000029a0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_2_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -65637,7 +65637,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_2_3 cavm_xsrx_tx_clktop_dll1_cal_2_3_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_2_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_2_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000029a8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_2_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -65686,7 +65686,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_2_4 cavm_xsrx_tx_clktop_dll1_cal_2_4_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_2_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_2_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000029b0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_2_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -65739,7 +65739,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_2_5 cavm_xsrx_tx_clktop_dll1_cal_2_5_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_2_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_2_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000029b8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_2_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -65792,7 +65792,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_2_6 cavm_xsrx_tx_clktop_dll1_cal_2_6_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_2_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_2_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000029c0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_2_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -65841,7 +65841,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_2_7 cavm_xsrx_tx_clktop_dll1_cal_2_7_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_2_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_2_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000029c8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_2_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -65906,7 +65906,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_2_8 cavm_xsrx_tx_clktop_dll1_cal_2_8_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_2_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_2_8(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000029d0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_2_8", 1, a, 0, 0, 0, 0, 0);
 }
@@ -65959,7 +65959,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_2_9 cavm_xsrx_tx_clktop_dll1_cal_2_9_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_2_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_2_9(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000029d8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_2_9", 1, a, 0, 0, 0, 0, 0);
 }
@@ -66024,7 +66024,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_3_0 cavm_xsrx_tx_clktop_dll1_cal_3_0_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_3_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_3_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000029f8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_3_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -66081,7 +66081,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_3_1 cavm_xsrx_tx_clktop_dll1_cal_3_1_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_3_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_3_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002a00ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_3_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -66134,7 +66134,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_3_10 cavm_xsrx_tx_clktop_dll1_cal_3_1
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_3_10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_3_10(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002a48ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_3_10", 1, a, 0, 0, 0, 0, 0);
 }
@@ -66195,7 +66195,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_3_11 cavm_xsrx_tx_clktop_dll1_cal_3_1
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_3_11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_3_11(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002a50ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_3_11", 1, a, 0, 0, 0, 0, 0);
 }
@@ -66248,7 +66248,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_3_12 cavm_xsrx_tx_clktop_dll1_cal_3_1
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_3_12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_3_12(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002a58ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_3_12", 1, a, 0, 0, 0, 0, 0);
 }
@@ -66305,7 +66305,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_3_2 cavm_xsrx_tx_clktop_dll1_cal_3_2_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_3_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_3_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002a08ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_3_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -66366,7 +66366,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_3_3 cavm_xsrx_tx_clktop_dll1_cal_3_3_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_3_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_3_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002a10ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_3_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -66415,7 +66415,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_3_4 cavm_xsrx_tx_clktop_dll1_cal_3_4_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_3_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_3_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002a18ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_3_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -66468,7 +66468,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_3_5 cavm_xsrx_tx_clktop_dll1_cal_3_5_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_3_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_3_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002a20ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_3_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -66521,7 +66521,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_3_6 cavm_xsrx_tx_clktop_dll1_cal_3_6_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_3_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_3_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002a28ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_3_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -66570,7 +66570,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_3_7 cavm_xsrx_tx_clktop_dll1_cal_3_7_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_3_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_3_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002a30ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_3_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -66635,7 +66635,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_3_8 cavm_xsrx_tx_clktop_dll1_cal_3_8_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_3_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_3_8(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002a38ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_3_8", 1, a, 0, 0, 0, 0, 0);
 }
@@ -66688,7 +66688,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_3_9 cavm_xsrx_tx_clktop_dll1_cal_3_9_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_3_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_3_9(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002a40ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_3_9", 1, a, 0, 0, 0, 0, 0);
 }
@@ -66753,7 +66753,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_4_0 cavm_xsrx_tx_clktop_dll1_cal_4_0_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_4_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_4_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002a60ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_4_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -66810,7 +66810,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_4_1 cavm_xsrx_tx_clktop_dll1_cal_4_1_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_4_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_4_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002a68ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_4_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -66863,7 +66863,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_4_10 cavm_xsrx_tx_clktop_dll1_cal_4_1
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_4_10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_4_10(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002ab0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_4_10", 1, a, 0, 0, 0, 0, 0);
 }
@@ -66924,7 +66924,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_4_11 cavm_xsrx_tx_clktop_dll1_cal_4_1
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_4_11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_4_11(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002ab8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_4_11", 1, a, 0, 0, 0, 0, 0);
 }
@@ -66977,7 +66977,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_4_12 cavm_xsrx_tx_clktop_dll1_cal_4_1
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_4_12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_4_12(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002ac0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_4_12", 1, a, 0, 0, 0, 0, 0);
 }
@@ -67034,7 +67034,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_4_2 cavm_xsrx_tx_clktop_dll1_cal_4_2_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_4_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_4_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002a70ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_4_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -67095,7 +67095,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_4_3 cavm_xsrx_tx_clktop_dll1_cal_4_3_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_4_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_4_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002a78ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_4_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -67144,7 +67144,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_4_4 cavm_xsrx_tx_clktop_dll1_cal_4_4_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_4_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_4_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002a80ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_4_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -67197,7 +67197,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_4_5 cavm_xsrx_tx_clktop_dll1_cal_4_5_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_4_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_4_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002a88ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_4_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -67250,7 +67250,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_4_6 cavm_xsrx_tx_clktop_dll1_cal_4_6_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_4_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_4_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002a90ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_4_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -67299,7 +67299,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_4_7 cavm_xsrx_tx_clktop_dll1_cal_4_7_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_4_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_4_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002a98ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_4_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -67364,7 +67364,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_4_8 cavm_xsrx_tx_clktop_dll1_cal_4_8_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_4_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_4_8(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002aa0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_4_8", 1, a, 0, 0, 0, 0, 0);
 }
@@ -67417,7 +67417,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_4_9 cavm_xsrx_tx_clktop_dll1_cal_4_9_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_4_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_4_9(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002aa8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_4_9", 1, a, 0, 0, 0, 0, 0);
 }
@@ -67482,7 +67482,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_5_0 cavm_xsrx_tx_clktop_dll1_cal_5_0_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_5_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_5_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002ac8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_5_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -67539,7 +67539,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_5_1 cavm_xsrx_tx_clktop_dll1_cal_5_1_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_5_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_5_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002ad0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_5_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -67592,7 +67592,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_5_10 cavm_xsrx_tx_clktop_dll1_cal_5_1
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_5_10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_5_10(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002b18ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_5_10", 1, a, 0, 0, 0, 0, 0);
 }
@@ -67653,7 +67653,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_5_11 cavm_xsrx_tx_clktop_dll1_cal_5_1
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_5_11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_5_11(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002b20ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_5_11", 1, a, 0, 0, 0, 0, 0);
 }
@@ -67706,7 +67706,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_5_12 cavm_xsrx_tx_clktop_dll1_cal_5_1
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_5_12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_5_12(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002b28ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_5_12", 1, a, 0, 0, 0, 0, 0);
 }
@@ -67763,7 +67763,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_5_2 cavm_xsrx_tx_clktop_dll1_cal_5_2_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_5_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_5_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002ad8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_5_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -67824,7 +67824,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_5_3 cavm_xsrx_tx_clktop_dll1_cal_5_3_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_5_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_5_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002ae0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_5_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -67873,7 +67873,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_5_4 cavm_xsrx_tx_clktop_dll1_cal_5_4_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_5_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_5_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002ae8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_5_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -67926,7 +67926,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_5_5 cavm_xsrx_tx_clktop_dll1_cal_5_5_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_5_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_5_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002af0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_5_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -67979,7 +67979,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_5_6 cavm_xsrx_tx_clktop_dll1_cal_5_6_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_5_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_5_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002af8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_5_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -68028,7 +68028,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_5_7 cavm_xsrx_tx_clktop_dll1_cal_5_7_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_5_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_5_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002b00ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_5_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -68093,7 +68093,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_5_8 cavm_xsrx_tx_clktop_dll1_cal_5_8_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_5_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_5_8(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002b08ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_5_8", 1, a, 0, 0, 0, 0, 0);
 }
@@ -68146,7 +68146,7 @@ typedef union cavm_xsrx_tx_clktop_dll1_cal_5_9 cavm_xsrx_tx_clktop_dll1_cal_5_9_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_5_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL1_CAL_5_9(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002b10ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL1_CAL_5_9", 1, a, 0, 0, 0, 0, 0);
 }
@@ -68211,7 +68211,7 @@ typedef union cavm_xsrx_tx_clktop_dll2_cal_0_0 cavm_xsrx_tx_clktop_dll2_cal_0_0_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL2_CAL_0_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL2_CAL_0_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002b30ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL2_CAL_0_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -68268,7 +68268,7 @@ typedef union cavm_xsrx_tx_clktop_dll2_cal_0_1 cavm_xsrx_tx_clktop_dll2_cal_0_1_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL2_CAL_0_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL2_CAL_0_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002b38ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL2_CAL_0_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -68321,7 +68321,7 @@ typedef union cavm_xsrx_tx_clktop_dll2_cal_0_10 cavm_xsrx_tx_clktop_dll2_cal_0_1
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL2_CAL_0_10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL2_CAL_0_10(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002b80ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL2_CAL_0_10", 1, a, 0, 0, 0, 0, 0);
 }
@@ -68382,7 +68382,7 @@ typedef union cavm_xsrx_tx_clktop_dll2_cal_0_11 cavm_xsrx_tx_clktop_dll2_cal_0_1
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL2_CAL_0_11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL2_CAL_0_11(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002b88ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL2_CAL_0_11", 1, a, 0, 0, 0, 0, 0);
 }
@@ -68435,7 +68435,7 @@ typedef union cavm_xsrx_tx_clktop_dll2_cal_0_12 cavm_xsrx_tx_clktop_dll2_cal_0_1
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL2_CAL_0_12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL2_CAL_0_12(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002b90ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL2_CAL_0_12", 1, a, 0, 0, 0, 0, 0);
 }
@@ -68492,7 +68492,7 @@ typedef union cavm_xsrx_tx_clktop_dll2_cal_0_2 cavm_xsrx_tx_clktop_dll2_cal_0_2_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL2_CAL_0_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL2_CAL_0_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002b40ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL2_CAL_0_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -68553,7 +68553,7 @@ typedef union cavm_xsrx_tx_clktop_dll2_cal_0_3 cavm_xsrx_tx_clktop_dll2_cal_0_3_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL2_CAL_0_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL2_CAL_0_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002b48ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL2_CAL_0_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -68602,7 +68602,7 @@ typedef union cavm_xsrx_tx_clktop_dll2_cal_0_4 cavm_xsrx_tx_clktop_dll2_cal_0_4_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL2_CAL_0_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL2_CAL_0_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002b50ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL2_CAL_0_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -68655,7 +68655,7 @@ typedef union cavm_xsrx_tx_clktop_dll2_cal_0_5 cavm_xsrx_tx_clktop_dll2_cal_0_5_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL2_CAL_0_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL2_CAL_0_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002b58ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL2_CAL_0_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -68708,7 +68708,7 @@ typedef union cavm_xsrx_tx_clktop_dll2_cal_0_6 cavm_xsrx_tx_clktop_dll2_cal_0_6_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL2_CAL_0_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL2_CAL_0_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002b60ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL2_CAL_0_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -68757,7 +68757,7 @@ typedef union cavm_xsrx_tx_clktop_dll2_cal_0_7 cavm_xsrx_tx_clktop_dll2_cal_0_7_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL2_CAL_0_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL2_CAL_0_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002b68ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL2_CAL_0_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -68822,7 +68822,7 @@ typedef union cavm_xsrx_tx_clktop_dll2_cal_0_8 cavm_xsrx_tx_clktop_dll2_cal_0_8_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL2_CAL_0_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL2_CAL_0_8(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002b70ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL2_CAL_0_8", 1, a, 0, 0, 0, 0, 0);
 }
@@ -68875,7 +68875,7 @@ typedef union cavm_xsrx_tx_clktop_dll2_cal_0_9 cavm_xsrx_tx_clktop_dll2_cal_0_9_
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL2_CAL_0_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_CLKTOP_DLL2_CAL_0_9(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002b78ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_CLKTOP_DLL2_CAL_0_9", 1, a, 0, 0, 0, 0, 0);
 }
@@ -68948,7 +68948,7 @@ typedef union cavm_xsrx_tx_imp_0 cavm_xsrx_tx_imp_0_t;
 static inline uint64_t CAVM_XSRX_TX_IMP_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_IMP_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002800ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_IMP_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -69005,7 +69005,7 @@ typedef union cavm_xsrx_tx_imp_1 cavm_xsrx_tx_imp_1_t;
 static inline uint64_t CAVM_XSRX_TX_IMP_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_IMP_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002808ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_IMP_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -69070,7 +69070,7 @@ typedef union cavm_xsrx_tx_imp_nt_cal_0 cavm_xsrx_tx_imp_nt_cal_0_t;
 static inline uint64_t CAVM_XSRX_TX_IMP_NT_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_IMP_NT_CAL_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002810ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_IMP_NT_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -69127,7 +69127,7 @@ typedef union cavm_xsrx_tx_imp_nt_cal_1 cavm_xsrx_tx_imp_nt_cal_1_t;
 static inline uint64_t CAVM_XSRX_TX_IMP_NT_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_IMP_NT_CAL_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002818ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_IMP_NT_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -69192,7 +69192,7 @@ typedef union cavm_xsrx_tx_imp_nt_cal_2 cavm_xsrx_tx_imp_nt_cal_2_t;
 static inline uint64_t CAVM_XSRX_TX_IMP_NT_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_IMP_NT_CAL_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002820ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_IMP_NT_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -69241,7 +69241,7 @@ typedef union cavm_xsrx_tx_imp_nt_cal_3 cavm_xsrx_tx_imp_nt_cal_3_t;
 static inline uint64_t CAVM_XSRX_TX_IMP_NT_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_IMP_NT_CAL_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002828ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_IMP_NT_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -69302,7 +69302,7 @@ typedef union cavm_xsrx_tx_imp_nt_cal_4 cavm_xsrx_tx_imp_nt_cal_4_t;
 static inline uint64_t CAVM_XSRX_TX_IMP_NT_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_IMP_NT_CAL_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002830ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_IMP_NT_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -69359,7 +69359,7 @@ typedef union cavm_xsrx_tx_imp_nt_cal_5 cavm_xsrx_tx_imp_nt_cal_5_t;
 static inline uint64_t CAVM_XSRX_TX_IMP_NT_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_IMP_NT_CAL_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002838ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_IMP_NT_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -69416,7 +69416,7 @@ typedef union cavm_xsrx_tx_imp_nt_cal_6 cavm_xsrx_tx_imp_nt_cal_6_t;
 static inline uint64_t CAVM_XSRX_TX_IMP_NT_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_IMP_NT_CAL_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002840ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_IMP_NT_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -69469,7 +69469,7 @@ typedef union cavm_xsrx_tx_imp_nt_cal_7 cavm_xsrx_tx_imp_nt_cal_7_t;
 static inline uint64_t CAVM_XSRX_TX_IMP_NT_CAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_IMP_NT_CAL_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002848ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_IMP_NT_CAL_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -69522,7 +69522,7 @@ typedef union cavm_xsrx_tx_imp_nt_cal_8 cavm_xsrx_tx_imp_nt_cal_8_t;
 static inline uint64_t CAVM_XSRX_TX_IMP_NT_CAL_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_IMP_NT_CAL_8(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002850ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_IMP_NT_CAL_8", 1, a, 0, 0, 0, 0, 0);
 }
@@ -69587,7 +69587,7 @@ typedef union cavm_xsrx_tx_imp_ptune_cal_0 cavm_xsrx_tx_imp_ptune_cal_0_t;
 static inline uint64_t CAVM_XSRX_TX_IMP_PTUNE_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_IMP_PTUNE_CAL_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002858ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_IMP_PTUNE_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -69644,7 +69644,7 @@ typedef union cavm_xsrx_tx_imp_ptune_cal_1 cavm_xsrx_tx_imp_ptune_cal_1_t;
 static inline uint64_t CAVM_XSRX_TX_IMP_PTUNE_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_IMP_PTUNE_CAL_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002860ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_IMP_PTUNE_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -69709,7 +69709,7 @@ typedef union cavm_xsrx_tx_imp_ptune_cal_2 cavm_xsrx_tx_imp_ptune_cal_2_t;
 static inline uint64_t CAVM_XSRX_TX_IMP_PTUNE_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_IMP_PTUNE_CAL_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002868ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_IMP_PTUNE_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -69758,7 +69758,7 @@ typedef union cavm_xsrx_tx_imp_ptune_cal_3 cavm_xsrx_tx_imp_ptune_cal_3_t;
 static inline uint64_t CAVM_XSRX_TX_IMP_PTUNE_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_IMP_PTUNE_CAL_3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002870ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_IMP_PTUNE_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -69819,7 +69819,7 @@ typedef union cavm_xsrx_tx_imp_ptune_cal_4 cavm_xsrx_tx_imp_ptune_cal_4_t;
 static inline uint64_t CAVM_XSRX_TX_IMP_PTUNE_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_IMP_PTUNE_CAL_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002878ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_IMP_PTUNE_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -69872,7 +69872,7 @@ typedef union cavm_xsrx_tx_imp_ptune_cal_5 cavm_xsrx_tx_imp_ptune_cal_5_t;
 static inline uint64_t CAVM_XSRX_TX_IMP_PTUNE_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_IMP_PTUNE_CAL_5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002880ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_IMP_PTUNE_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -69925,7 +69925,7 @@ typedef union cavm_xsrx_tx_imp_ptune_cal_6 cavm_xsrx_tx_imp_ptune_cal_6_t;
 static inline uint64_t CAVM_XSRX_TX_IMP_PTUNE_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_IMP_PTUNE_CAL_6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002888ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_IMP_PTUNE_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -69978,7 +69978,7 @@ typedef union cavm_xsrx_tx_imp_ptune_cal_7 cavm_xsrx_tx_imp_ptune_cal_7_t;
 static inline uint64_t CAVM_XSRX_TX_IMP_PTUNE_CAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_IMP_PTUNE_CAL_7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002890ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_IMP_PTUNE_CAL_7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -70031,7 +70031,7 @@ typedef union cavm_xsrx_tx_imp_ptune_cal_8 cavm_xsrx_tx_imp_ptune_cal_8_t;
 static inline uint64_t CAVM_XSRX_TX_IMP_PTUNE_CAL_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_IMP_PTUNE_CAL_8(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002898ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_IMP_PTUNE_CAL_8", 1, a, 0, 0, 0, 0, 0);
 }
@@ -70100,7 +70100,7 @@ typedef union cavm_xsrx_tx_mon_top cavm_xsrx_tx_mon_top_t;
 static inline uint64_t CAVM_XSRX_TX_MON_TOP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_MON_TOP(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000063e0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_MON_TOP", 1, a, 0, 0, 0, 0, 0);
 }
@@ -70197,7 +70197,7 @@ typedef union cavm_xsrx_tx_reg_0_lane cavm_xsrx_tx_reg_0_lane_t;
 static inline uint64_t CAVM_XSRX_TX_REG_0_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_REG_0_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002000ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_REG_0_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -70246,7 +70246,7 @@ typedef union cavm_xsrx_tx_reg_10_lane cavm_xsrx_tx_reg_10_lane_t;
 static inline uint64_t CAVM_XSRX_TX_REG_10_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_REG_10_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002050ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_REG_10_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -70295,7 +70295,7 @@ typedef union cavm_xsrx_tx_reg_11_lane cavm_xsrx_tx_reg_11_lane_t;
 static inline uint64_t CAVM_XSRX_TX_REG_11_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_REG_11_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002058ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_REG_11_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -70344,7 +70344,7 @@ typedef union cavm_xsrx_tx_reg_12_lane cavm_xsrx_tx_reg_12_lane_t;
 static inline uint64_t CAVM_XSRX_TX_REG_12_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_REG_12_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002060ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_REG_12_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -70393,7 +70393,7 @@ typedef union cavm_xsrx_tx_reg_13_lane cavm_xsrx_tx_reg_13_lane_t;
 static inline uint64_t CAVM_XSRX_TX_REG_13_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_REG_13_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002068ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_REG_13_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -70498,7 +70498,7 @@ typedef union cavm_xsrx_tx_reg_14_lane cavm_xsrx_tx_reg_14_lane_t;
 static inline uint64_t CAVM_XSRX_TX_REG_14_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_REG_14_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002070ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_REG_14_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -70603,7 +70603,7 @@ typedef union cavm_xsrx_tx_reg_15_lane cavm_xsrx_tx_reg_15_lane_t;
 static inline uint64_t CAVM_XSRX_TX_REG_15_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_REG_15_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002078ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_REG_15_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -70692,7 +70692,7 @@ typedef union cavm_xsrx_tx_reg_16_lane cavm_xsrx_tx_reg_16_lane_t;
 static inline uint64_t CAVM_XSRX_TX_REG_16_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_REG_16_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002080ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_REG_16_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -70797,7 +70797,7 @@ typedef union cavm_xsrx_tx_reg_17_lane cavm_xsrx_tx_reg_17_lane_t;
 static inline uint64_t CAVM_XSRX_TX_REG_17_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_REG_17_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002088ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_REG_17_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -70878,7 +70878,7 @@ typedef union cavm_xsrx_tx_reg_18_lane cavm_xsrx_tx_reg_18_lane_t;
 static inline uint64_t CAVM_XSRX_TX_REG_18_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_REG_18_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002090ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_REG_18_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -70967,7 +70967,7 @@ typedef union cavm_xsrx_tx_reg_19_lane cavm_xsrx_tx_reg_19_lane_t;
 static inline uint64_t CAVM_XSRX_TX_REG_19_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_REG_19_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002098ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_REG_19_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -71056,7 +71056,7 @@ typedef union cavm_xsrx_tx_reg_1_lane cavm_xsrx_tx_reg_1_lane_t;
 static inline uint64_t CAVM_XSRX_TX_REG_1_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_REG_1_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002008ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_REG_1_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -71109,7 +71109,7 @@ typedef union cavm_xsrx_tx_reg_20_lane cavm_xsrx_tx_reg_20_lane_t;
 static inline uint64_t CAVM_XSRX_TX_REG_20_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_REG_20_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000020a0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_REG_20_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -71158,7 +71158,7 @@ typedef union cavm_xsrx_tx_reg_21_lane cavm_xsrx_tx_reg_21_lane_t;
 static inline uint64_t CAVM_XSRX_TX_REG_21_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_REG_21_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000020a8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_REG_21_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -71211,7 +71211,7 @@ typedef union cavm_xsrx_tx_reg_22_lane cavm_xsrx_tx_reg_22_lane_t;
 static inline uint64_t CAVM_XSRX_TX_REG_22_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_REG_22_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000020b0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_REG_22_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -71272,7 +71272,7 @@ typedef union cavm_xsrx_tx_reg_23_lane cavm_xsrx_tx_reg_23_lane_t;
 static inline uint64_t CAVM_XSRX_TX_REG_23_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_REG_23_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000020d0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_REG_23_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -71345,7 +71345,7 @@ typedef union cavm_xsrx_tx_reg_24_lane cavm_xsrx_tx_reg_24_lane_t;
 static inline uint64_t CAVM_XSRX_TX_REG_24_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_REG_24_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000020d8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_REG_24_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -71438,7 +71438,7 @@ typedef union cavm_xsrx_tx_reg_25_lane cavm_xsrx_tx_reg_25_lane_t;
 static inline uint64_t CAVM_XSRX_TX_REG_25_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_REG_25_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000020e0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_REG_25_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -71499,7 +71499,7 @@ typedef union cavm_xsrx_tx_reg_26_lane cavm_xsrx_tx_reg_26_lane_t;
 static inline uint64_t CAVM_XSRX_TX_REG_26_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_REG_26_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000020e8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_REG_26_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -71560,7 +71560,7 @@ typedef union cavm_xsrx_tx_reg_27_lane cavm_xsrx_tx_reg_27_lane_t;
 static inline uint64_t CAVM_XSRX_TX_REG_27_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_REG_27_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000020f0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_REG_27_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -71613,7 +71613,7 @@ typedef union cavm_xsrx_tx_reg_28_lane cavm_xsrx_tx_reg_28_lane_t;
 static inline uint64_t CAVM_XSRX_TX_REG_28_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_REG_28_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e2000020f8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_REG_28_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -71666,7 +71666,7 @@ typedef union cavm_xsrx_tx_reg_29_lane cavm_xsrx_tx_reg_29_lane_t;
 static inline uint64_t CAVM_XSRX_TX_REG_29_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_REG_29_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002100ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_REG_29_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -71715,7 +71715,7 @@ typedef union cavm_xsrx_tx_reg_2_lane cavm_xsrx_tx_reg_2_lane_t;
 static inline uint64_t CAVM_XSRX_TX_REG_2_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_REG_2_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002010ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_REG_2_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -71764,7 +71764,7 @@ typedef union cavm_xsrx_tx_reg_3_lane cavm_xsrx_tx_reg_3_lane_t;
 static inline uint64_t CAVM_XSRX_TX_REG_3_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_REG_3_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002018ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_REG_3_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -71849,7 +71849,7 @@ typedef union cavm_xsrx_tx_reg_4_lane cavm_xsrx_tx_reg_4_lane_t;
 static inline uint64_t CAVM_XSRX_TX_REG_4_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_REG_4_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002020ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_REG_4_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -71898,7 +71898,7 @@ typedef union cavm_xsrx_tx_reg_5_lane cavm_xsrx_tx_reg_5_lane_t;
 static inline uint64_t CAVM_XSRX_TX_REG_5_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_REG_5_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002028ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_REG_5_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -72011,7 +72011,7 @@ typedef union cavm_xsrx_tx_reg_6_lane cavm_xsrx_tx_reg_6_lane_t;
 static inline uint64_t CAVM_XSRX_TX_REG_6_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_REG_6_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002030ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_REG_6_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -72088,7 +72088,7 @@ typedef union cavm_xsrx_tx_reg_7_lane cavm_xsrx_tx_reg_7_lane_t;
 static inline uint64_t CAVM_XSRX_TX_REG_7_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_REG_7_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002038ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_REG_7_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -72165,7 +72165,7 @@ typedef union cavm_xsrx_tx_reg_8_lane cavm_xsrx_tx_reg_8_lane_t;
 static inline uint64_t CAVM_XSRX_TX_REG_8_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_REG_8_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002040ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_REG_8_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -72218,7 +72218,7 @@ typedef union cavm_xsrx_tx_reg_9_lane cavm_xsrx_tx_reg_9_lane_t;
 static inline uint64_t CAVM_XSRX_TX_REG_9_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_TX_REG_9_LANE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200002048ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_TX_REG_9_LANE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -72475,7 +72475,7 @@ typedef union cavm_xsrx_xcs_cm_control cavm_xsrx_xcs_cm_control_t;
 static inline uint64_t CAVM_XSRX_XCS_CM_CONTROL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_XCS_CM_CONTROL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200030200ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_XCS_CM_CONTROL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -72511,7 +72511,7 @@ typedef union cavm_xsrx_xcs_cm_status cavm_xsrx_xcs_cm_status_t;
 static inline uint64_t CAVM_XSRX_XCS_CM_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_XCS_CM_STATUS(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200030208ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_XCS_CM_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -72721,7 +72721,7 @@ typedef union cavm_xsrx_xcs_deskew_control cavm_xsrx_xcs_deskew_control_t;
 static inline uint64_t CAVM_XSRX_XCS_DESKEW_CONTROL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_XCS_DESKEW_CONTROL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200030210ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_XCS_DESKEW_CONTROL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -72777,7 +72777,7 @@ typedef union cavm_xsrx_xcs_deskew_status cavm_xsrx_xcs_deskew_status_t;
 static inline uint64_t CAVM_XSRX_XCS_DESKEW_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_XCS_DESKEW_STATUS(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200030230ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_XCS_DESKEW_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -72997,7 +72997,7 @@ typedef union cavm_xsrx_xcs_lnx_control cavm_xsrx_xcs_lnx_control_t;
 static inline uint64_t CAVM_XSRX_XCS_LNX_CONTROL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_XCS_LNX_CONTROL(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=7)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=1) && (b<=7)))
         return 0xc7e200030000ll + 0x100000000ll * ((a) & 0x1) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("XSRX_XCS_LNX_CONTROL", 2, a, b, 0, 0, 0, 0);
 }
@@ -73094,7 +73094,7 @@ typedef union cavm_xsrx_xcs_lnx_status cavm_xsrx_xcs_lnx_status_t;
 static inline uint64_t CAVM_XSRX_XCS_LNX_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_XCS_LNX_STATUS(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=1) && (b<=7)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=1) && (b<=7)))
         return 0xc7e200030100ll + 0x100000000ll * ((a) & 0x1) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("XSRX_XCS_LNX_STATUS", 2, a, b, 0, 0, 0, 0);
 }
@@ -73155,7 +73155,7 @@ typedef union cavm_xsrx_xdat_lane_pll_calibration_control_register cavm_xsrx_xda
 static inline uint64_t CAVM_XSRX_XDAT_LANE_PLL_CALIBRATION_CONTROL_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_XDAT_LANE_PLL_CALIBRATION_CONTROL_REGISTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e20001cd48ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_XDAT_LANE_PLL_CALIBRATION_CONTROL_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -73193,7 +73193,7 @@ typedef union cavm_xsrx_xdata_mem_checksum_cmn_0 cavm_xsrx_xdata_mem_checksum_cm
 static inline uint64_t CAVM_XSRX_XDATA_MEM_CHECKSUM_CMN_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_XDATA_MEM_CHECKSUM_CMN_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014748ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_XDATA_MEM_CHECKSUM_CMN_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -73231,7 +73231,7 @@ typedef union cavm_xsrx_xdata_mem_checksum_cmn_1 cavm_xsrx_xdata_mem_checksum_cm
 static inline uint64_t CAVM_XSRX_XDATA_MEM_CHECKSUM_CMN_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_XDATA_MEM_CHECKSUM_CMN_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014750ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_XDATA_MEM_CHECKSUM_CMN_1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -73284,7 +73284,7 @@ typedef union cavm_xsrx_xdata_mem_checksum_cmn_2 cavm_xsrx_xdata_mem_checksum_cm
 static inline uint64_t CAVM_XSRX_XDATA_MEM_CHECKSUM_CMN_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XSRX_XDATA_MEM_CHECKSUM_CMN_2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc7e200014758ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("XSRX_XDATA_MEM_CHECKSUM_CMN_2", 1, a, 0, 0, 0, 0, 0);
 }

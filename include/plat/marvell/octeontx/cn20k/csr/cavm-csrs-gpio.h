@@ -106,10 +106,10 @@
  * GPIO MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define CAVM_GPIO_INT_VEC_E_INTR_PINX_CHEETAH(a) (0x52 + 2 * (a))
-#define CAVM_GPIO_INT_VEC_E_INTR_PINX_ODINMP(a) (0x18 + 2 * (a))
-#define CAVM_GPIO_INT_VEC_E_INTR_PINX_CLEAR_CHEETAH(a) (0x53 + 2 * (a))
-#define CAVM_GPIO_INT_VEC_E_INTR_PINX_CLEAR_ODINMP(a) (0x19 + 2 * (a))
+#define CAVM_GPIO_INT_VEC_E_INTR_PINX_CN20KA(a) (0x52 + 2 * (a))
+#define CAVM_GPIO_INT_VEC_E_INTR_PINX_CNF20KA(a) (0x18 + 2 * (a))
+#define CAVM_GPIO_INT_VEC_E_INTR_PINX_CLEAR_CN20KA(a) (0x53 + 2 * (a))
+#define CAVM_GPIO_INT_VEC_E_INTR_PINX_CLEAR_CNF20KA(a) (0x19 + 2 * (a))
 #define CAVM_GPIO_INT_VEC_E_MC_INTR1_PPX(a) (0x40 + (a))
 #define CAVM_GPIO_INT_VEC_E_MC_INTR_PPX(a) (0 + (a))
 
@@ -175,26 +175,26 @@
 #define CAVM_GPIO_PIN_SEL_E_GSERMX_UART_RX_CMN(a) (0x6d1 + 2 * (a))
 #define CAVM_GPIO_PIN_SEL_E_GSERMX_UART_TX(a) (0x6a0 + 2 * (a))
 #define CAVM_GPIO_PIN_SEL_E_GSERMX_UART_TX_CMN(a) (0x6a1 + 2 * (a))
-#define CAVM_GPIO_PIN_SEL_E_GSERPX_DTESTX_CHEETAH(a,b) (0x5a0 + 0x10 * (a) + (b))
-#define CAVM_GPIO_PIN_SEL_E_GSERPX_DTESTX_ODINMP(a,b) (0x580 + 0x10 * (a) + (b))
-#define CAVM_GPIO_PIN_SEL_E_GSERPX_GPIX_CHEETAH(a,b) (0x670 + 8 * (a) + (b))
-#define CAVM_GPIO_PIN_SEL_E_GSERPX_GPIX_ODINMP(a,b) (0x5b0 + 8 * (a) + (b))
-#define CAVM_GPIO_PIN_SEL_E_GSERPX_GPOX_CHEETAH(a,b) (0x6e0 + 8 * (a) + (b))
-#define CAVM_GPIO_PIN_SEL_E_GSERPX_GPOX_ODINMP(a,b) (0x5d0 + 8 * (a) + (b))
-#define CAVM_GPIO_PIN_SEL_E_GSERPX_PHY_SIF_INX_CHEETAH(a,b) (0x520 + 3 * (a) + (b))
-#define CAVM_GPIO_PIN_SEL_E_GSERPX_PHY_SIF_INX_ODINMP(a,b) (0x550 + 5 * (a) + (b))
-#define CAVM_GPIO_PIN_SEL_E_GSERPX_PHY_SIF_OUT_CHEETAH(a) (0x580 + (a))
-#define CAVM_GPIO_PIN_SEL_E_GSERPX_PHY_SIF_OUT_ODINMP(a) (0x570 + (a))
-#define CAVM_GPIO_PIN_SEL_E_GSERPX_PRAM_SIF_INX_CHEETAH(a,b) (0x550 + 3 * (a) + (b))
-#define CAVM_GPIO_PIN_SEL_E_GSERPX_PRAM_SIF_INX_ODINMP(a,b) (0x560 + 5 * (a) + (b))
-#define CAVM_GPIO_PIN_SEL_E_GSERPX_PRAM_SIF_OUT_CHEETAH(a) (0x590 + (a))
-#define CAVM_GPIO_PIN_SEL_E_GSERPX_PRAM_SIF_OUT_ODINMP(a) (0x578 + (a))
-#define CAVM_GPIO_PIN_SEL_E_GSERPX_UART_RXX_CHEETAH(a,b) (0x7a0 + 5 * (a) + (b))
-#define CAVM_GPIO_PIN_SEL_E_GSERPX_UART_RXX_ODINMP(a,b) (0x620 + 5 * (a) + (b))
-#define CAVM_GPIO_PIN_SEL_E_GSERPX_UART_TXX_CHEETAH(a,b) (0x750 + 5 * (a) + (b))
-#define CAVM_GPIO_PIN_SEL_E_GSERPX_UART_TXX_ODINMP(a,b) (0x600 + 5 * (a) + (b))
-#define CAVM_GPIO_PIN_SEL_E_I3CX_SCL_CHEETAH(a) (0x28d + (a))
-#define CAVM_GPIO_PIN_SEL_E_I3CX_SCL_ODINMP(a) (0x290 + (a))
+#define CAVM_GPIO_PIN_SEL_E_GSERPX_DTESTX_CN20KA(a,b) (0x5a0 + 0x10 * (a) + (b))
+#define CAVM_GPIO_PIN_SEL_E_GSERPX_DTESTX_CNF20KA(a,b) (0x580 + 0x10 * (a) + (b))
+#define CAVM_GPIO_PIN_SEL_E_GSERPX_GPIX_CN20KA(a,b) (0x670 + 8 * (a) + (b))
+#define CAVM_GPIO_PIN_SEL_E_GSERPX_GPIX_CNF20KA(a,b) (0x5b0 + 8 * (a) + (b))
+#define CAVM_GPIO_PIN_SEL_E_GSERPX_GPOX_CN20KA(a,b) (0x6e0 + 8 * (a) + (b))
+#define CAVM_GPIO_PIN_SEL_E_GSERPX_GPOX_CNF20KA(a,b) (0x5d0 + 8 * (a) + (b))
+#define CAVM_GPIO_PIN_SEL_E_GSERPX_PHY_SIF_INX_CN20KA(a,b) (0x520 + 3 * (a) + (b))
+#define CAVM_GPIO_PIN_SEL_E_GSERPX_PHY_SIF_INX_CNF20KA(a,b) (0x550 + 5 * (a) + (b))
+#define CAVM_GPIO_PIN_SEL_E_GSERPX_PHY_SIF_OUT_CN20KA(a) (0x580 + (a))
+#define CAVM_GPIO_PIN_SEL_E_GSERPX_PHY_SIF_OUT_CNF20KA(a) (0x570 + (a))
+#define CAVM_GPIO_PIN_SEL_E_GSERPX_PRAM_SIF_INX_CN20KA(a,b) (0x550 + 3 * (a) + (b))
+#define CAVM_GPIO_PIN_SEL_E_GSERPX_PRAM_SIF_INX_CNF20KA(a,b) (0x560 + 5 * (a) + (b))
+#define CAVM_GPIO_PIN_SEL_E_GSERPX_PRAM_SIF_OUT_CN20KA(a) (0x590 + (a))
+#define CAVM_GPIO_PIN_SEL_E_GSERPX_PRAM_SIF_OUT_CNF20KA(a) (0x578 + (a))
+#define CAVM_GPIO_PIN_SEL_E_GSERPX_UART_RXX_CN20KA(a,b) (0x7a0 + 5 * (a) + (b))
+#define CAVM_GPIO_PIN_SEL_E_GSERPX_UART_RXX_CNF20KA(a,b) (0x620 + 5 * (a) + (b))
+#define CAVM_GPIO_PIN_SEL_E_GSERPX_UART_TXX_CN20KA(a,b) (0x750 + 5 * (a) + (b))
+#define CAVM_GPIO_PIN_SEL_E_GSERPX_UART_TXX_CNF20KA(a,b) (0x600 + 5 * (a) + (b))
+#define CAVM_GPIO_PIN_SEL_E_I3CX_SCL_CN20KA(a) (0x28d + (a))
+#define CAVM_GPIO_PIN_SEL_E_I3CX_SCL_CNF20KA(a) (0x290 + (a))
 #define CAVM_GPIO_PIN_SEL_E_I3CX_SDA(a) (0x291 + (a))
 #define CAVM_GPIO_PIN_SEL_E_MCDX_IN(a) (0x23f + (a))
 #define CAVM_GPIO_PIN_SEL_E_MCDX_OUT(a) (0x242 + (a))
@@ -237,10 +237,10 @@
 #define CAVM_GPIO_PIN_SEL_E_SPI1_RESET (0x282)
 #define CAVM_GPIO_PIN_SEL_E_TIMER (0x11c)
 #define CAVM_GPIO_PIN_SEL_E_TIM_GPIO_CLK (0x230)
-#define CAVM_GPIO_PIN_SEL_E_TWS_SCLX_CHEETAH(a) (0x298 + (a))
-#define CAVM_GPIO_PIN_SEL_E_TWS_SCLX_ODINMP(a) (0x294 + (a))
-#define CAVM_GPIO_PIN_SEL_E_TWS_SDAX_CHEETAH(a) (0x2a4 + (a))
-#define CAVM_GPIO_PIN_SEL_E_TWS_SDAX_ODINMP(a) (0x2a0 + (a))
+#define CAVM_GPIO_PIN_SEL_E_TWS_SCLX_CN20KA(a) (0x298 + (a))
+#define CAVM_GPIO_PIN_SEL_E_TWS_SCLX_CNF20KA(a) (0x294 + (a))
+#define CAVM_GPIO_PIN_SEL_E_TWS_SDAX_CN20KA(a) (0x2a4 + (a))
+#define CAVM_GPIO_PIN_SEL_E_TWS_SDAX_CNF20KA(a) (0x2a0 + (a))
 #define CAVM_GPIO_PIN_SEL_E_UARTX_CTS(a) (0x3c0 + (a))
 #define CAVM_GPIO_PIN_SEL_E_UARTX_DCD(a) (0x3b0 + (a))
 #define CAVM_GPIO_PIN_SEL_E_UARTX_DSR(a) (0x3b8 + (a))
@@ -398,9 +398,9 @@ typedef union cavm_gpio_bit_cfgx cavm_gpio_bit_cfgx_t;
 static inline uint64_t CAVM_GPIO_BIT_CFGX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GPIO_BIT_CFGX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=63))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
         return 0x803000000400ll + 8ll * ((a) & 0x3f);
-    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=75))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=75))
         return 0x803000000400ll + 8ll * ((a) & 0x7f);
     __cavm_csr_fatal("GPIO_BIT_CFGX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -456,9 +456,9 @@ typedef union cavm_gpio_bit_permitx cavm_gpio_bit_permitx_t;
 static inline uint64_t CAVM_GPIO_BIT_PERMITX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GPIO_BIT_PERMITX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=63))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
         return 0x803000002000ll + 8ll * ((a) & 0x3f);
-    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=75))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=75))
         return 0x803000002000ll + 8ll * ((a) & 0x7f);
     __cavm_csr_fatal("GPIO_BIT_PERMITX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -807,9 +807,9 @@ typedef union cavm_gpio_intrx cavm_gpio_intrx_t;
 static inline uint64_t CAVM_GPIO_INTRX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GPIO_INTRX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=63))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
         return 0x803000000800ll + 8ll * ((a) & 0x3f);
-    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=75))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=75))
         return 0x803000000800ll + 8ll * ((a) & 0x7f);
     __cavm_csr_fatal("GPIO_INTRX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -984,9 +984,9 @@ union cavm_gpio_io_ctl
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_gpio_io_ctl_s cheetah; */
     /* struct cavm_gpio_io_ctl_s cn20; */
-    struct cavm_gpio_io_ctl_odinmp
+    /* struct cavm_gpio_io_ctl_s cn20ka; */
+    struct cavm_gpio_io_ctl_cnf20ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
@@ -1137,7 +1137,7 @@ union cavm_gpio_io_ctl
                                                                  0x3 = 20 ohm. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
-    } odinmp;
+    } cnf20ka;
 };
 typedef union cavm_gpio_io_ctl cavm_gpio_io_ctl_t;
 
@@ -1182,9 +1182,9 @@ union cavm_gpio_mc_intrx
                                                                  corresponding bit in this register. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_gpio_mc_intrx_s cheetah; */
     /* struct cavm_gpio_mc_intrx_s cn20; */
-    struct cavm_gpio_mc_intrx_odinmp
+    /* struct cavm_gpio_mc_intrx_s cn20ka; */
+    struct cavm_gpio_mc_intrx_cnf20ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_24_63        : 40;
@@ -1199,7 +1199,7 @@ union cavm_gpio_mc_intrx
                                                                  corresponding bit in this register. */
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
-    } odinmp;
+    } cnf20ka;
 };
 typedef union cavm_gpio_mc_intrx cavm_gpio_mc_intrx_t;
 
@@ -1235,9 +1235,9 @@ union cavm_gpio_mc_intrx_ena_w1c
         uint64_t intr                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for GPIO_MC_INTR(4..7)[INTR]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_gpio_mc_intrx_ena_w1c_s cheetah; */
     /* struct cavm_gpio_mc_intrx_ena_w1c_s cn20; */
-    struct cavm_gpio_mc_intrx_ena_w1c_odinmp
+    /* struct cavm_gpio_mc_intrx_ena_w1c_s cn20ka; */
+    struct cavm_gpio_mc_intrx_ena_w1c_cnf20ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_24_63        : 40;
@@ -1246,7 +1246,7 @@ union cavm_gpio_mc_intrx_ena_w1c
         uint64_t intr                  : 24; /**< [ 23:  0](R/W1C/H) Reads or clears enable for GPIO_MC_INTR(4..7)[INTR]. */
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
-    } odinmp;
+    } cnf20ka;
 };
 typedef union cavm_gpio_mc_intrx_ena_w1c cavm_gpio_mc_intrx_ena_w1c_t;
 
@@ -1282,9 +1282,9 @@ union cavm_gpio_mc_intrx_ena_w1s
         uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for GPIO_MC_INTR(4..7)[INTR]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_gpio_mc_intrx_ena_w1s_s cheetah; */
     /* struct cavm_gpio_mc_intrx_ena_w1s_s cn20; */
-    struct cavm_gpio_mc_intrx_ena_w1s_odinmp
+    /* struct cavm_gpio_mc_intrx_ena_w1s_s cn20ka; */
+    struct cavm_gpio_mc_intrx_ena_w1s_cnf20ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_24_63        : 40;
@@ -1293,7 +1293,7 @@ union cavm_gpio_mc_intrx_ena_w1s
         uint64_t intr                  : 24; /**< [ 23:  0](R/W1S/H) Reads or sets enable for GPIO_MC_INTR(4..7)[INTR]. */
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
-    } odinmp;
+    } cnf20ka;
 };
 typedef union cavm_gpio_mc_intrx_ena_w1s cavm_gpio_mc_intrx_ena_w1s_t;
 
@@ -1329,9 +1329,9 @@ union cavm_gpio_mc_intrx_w1s
         uint64_t intr                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets GPIO_MC_INTR(4..7)[INTR]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_gpio_mc_intrx_w1s_s cheetah; */
     /* struct cavm_gpio_mc_intrx_w1s_s cn20; */
-    struct cavm_gpio_mc_intrx_w1s_odinmp
+    /* struct cavm_gpio_mc_intrx_w1s_s cn20ka; */
+    struct cavm_gpio_mc_intrx_w1s_cnf20ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_24_63        : 40;
@@ -1340,7 +1340,7 @@ union cavm_gpio_mc_intrx_w1s
         uint64_t intr                  : 24; /**< [ 23:  0](R/W1S/H) Reads or sets GPIO_MC_INTR(4..7)[INTR]. */
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
-    } odinmp;
+    } cnf20ka;
 };
 typedef union cavm_gpio_mc_intrx_w1s cavm_gpio_mc_intrx_w1s_t;
 
@@ -1395,7 +1395,7 @@ typedef union cavm_gpio_mc_intr1x cavm_gpio_mc_intr1x_t;
 static inline uint64_t CAVM_GPIO_MC_INTR1X(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GPIO_MC_INTR1X(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a>=4)&&(a<=7)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a>=4)&&(a<=7)))
         return 0x803000001040ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("GPIO_MC_INTR1X", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1433,7 +1433,7 @@ typedef union cavm_gpio_mc_intr1x_ena_w1c cavm_gpio_mc_intr1x_ena_w1c_t;
 static inline uint64_t CAVM_GPIO_MC_INTR1X_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GPIO_MC_INTR1X_ENA_W1C(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a>=4)&&(a<=7)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a>=4)&&(a<=7)))
         return 0x803000001240ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("GPIO_MC_INTR1X_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1471,7 +1471,7 @@ typedef union cavm_gpio_mc_intr1x_ena_w1s cavm_gpio_mc_intr1x_ena_w1s_t;
 static inline uint64_t CAVM_GPIO_MC_INTR1X_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GPIO_MC_INTR1X_ENA_W1S(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a>=4)&&(a<=7)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a>=4)&&(a<=7)))
         return 0x803000001340ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("GPIO_MC_INTR1X_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1509,7 +1509,7 @@ typedef union cavm_gpio_mc_intr1x_w1s cavm_gpio_mc_intr1x_w1s_t;
 static inline uint64_t CAVM_GPIO_MC_INTR1X_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GPIO_MC_INTR1X_W1S(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a>=4)&&(a<=7)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a>=4)&&(a<=7)))
         return 0x803000001140ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("GPIO_MC_INTR1X_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1638,9 +1638,9 @@ typedef union cavm_gpio_msix_pbax cavm_gpio_msix_pbax_t;
 static inline uint64_t CAVM_GPIO_MSIX_PBAX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GPIO_MSIX_PBAX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
         return 0x803000ff0000ll + 8ll * ((a) & 0x3);
-    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=2))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=2))
         return 0x803000ff0000ll + 8ll * ((a) & 0x3);
     __cavm_csr_fatal("GPIO_MSIX_PBAX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1726,9 +1726,9 @@ typedef union cavm_gpio_msix_vecx_addr cavm_gpio_msix_vecx_addr_t;
 static inline uint64_t CAVM_GPIO_MSIX_VECX_ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GPIO_MSIX_VECX_ADDR(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=209))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=209))
         return 0x803000f00000ll + 0x10ll * ((a) & 0xff);
-    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=175))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=175))
         return 0x803000f00000ll + 0x10ll * ((a) & 0xff);
     __cavm_csr_fatal("GPIO_MSIX_VECX_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1770,9 +1770,9 @@ typedef union cavm_gpio_msix_vecx_ctl cavm_gpio_msix_vecx_ctl_t;
 static inline uint64_t CAVM_GPIO_MSIX_VECX_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GPIO_MSIX_VECX_CTL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=209))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=209))
         return 0x803000f00008ll + 0x10ll * ((a) & 0xff);
-    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=175))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=175))
         return 0x803000f00008ll + 0x10ll * ((a) & 0xff);
     __cavm_csr_fatal("GPIO_MSIX_VECX_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1867,9 +1867,9 @@ union cavm_gpio_permit
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_gpio_permit_s cheetah; */
     /* struct cavm_gpio_permit_s cn20; */
-    struct cavm_gpio_permit_odinmp
+    /* struct cavm_gpio_permit_s cn20ka; */
+    struct cavm_gpio_permit_cnf20ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
@@ -1890,7 +1890,7 @@ union cavm_gpio_permit
                                                                    \<4\> = Disable XCP2 (ECP) from accessing GPIO global registers. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
-    } odinmp;
+    } cnf20ka;
 };
 typedef union cavm_gpio_permit cavm_gpio_permit_t;
 
@@ -1931,9 +1931,9 @@ union cavm_gpio_pkg_ver
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_gpio_pkg_ver_s cheetah; */
     /* struct cavm_gpio_pkg_ver_s cn20; */
-    struct cavm_gpio_pkg_ver_odinmp
+    /* struct cavm_gpio_pkg_ver_s cn20ka; */
+    struct cavm_gpio_pkg_ver_cnf20ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
@@ -1946,7 +1946,7 @@ union cavm_gpio_pkg_ver
                                                                  0x1 = SKU package A1, code TBD = TBD x TBD package, for CNF105XXN */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
-    } odinmp;
+    } cnf20ka;
 };
 typedef union cavm_gpio_pkg_ver cavm_gpio_pkg_ver_t;
 
@@ -1989,7 +1989,7 @@ typedef union cavm_gpio_pull_downx cavm_gpio_pull_downx_t;
 static inline uint64_t CAVM_GPIO_PULL_DOWNX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GPIO_PULL_DOWNX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0x803000001630ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("GPIO_PULL_DOWNX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2026,7 +2026,7 @@ typedef union cavm_gpio_pull_upx cavm_gpio_pull_upx_t;
 static inline uint64_t CAVM_GPIO_PULL_UPX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GPIO_PULL_UPX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0x803000001620ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("GPIO_PULL_UPX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2065,7 +2065,7 @@ typedef union cavm_gpio_rx1_dat cavm_gpio_rx1_dat_t;
 static inline uint64_t CAVM_GPIO_RX1_DAT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GPIO_RX1_DAT_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP))
+    if (cavm_is_model(OCTEONTX_CNF20KA))
         return 0x803000001400ll;
     __cavm_csr_fatal("GPIO_RX1_DAT", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -2148,7 +2148,7 @@ typedef union cavm_gpio_soft_reset cavm_gpio_soft_reset_t;
 static inline uint64_t CAVM_GPIO_SOFT_RESET_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GPIO_SOFT_RESET_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x803000002208ll;
     __cavm_csr_fatal("GPIO_SOFT_RESET", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -2229,7 +2229,7 @@ typedef union cavm_gpio_strap1 cavm_gpio_strap1_t;
 static inline uint64_t CAVM_GPIO_STRAP1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GPIO_STRAP1_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP))
+    if (cavm_is_model(OCTEONTX_CNF20KA))
         return 0x803000001418ll;
     __cavm_csr_fatal("GPIO_STRAP1", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -2319,7 +2319,7 @@ typedef union cavm_gpio_tie_off cavm_gpio_tie_off_t;
 static inline uint64_t CAVM_GPIO_TIE_OFF_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GPIO_TIE_OFF_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x803000002200ll;
     __cavm_csr_fatal("GPIO_TIE_OFF", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -2360,7 +2360,7 @@ typedef union cavm_gpio_tx1_clr cavm_gpio_tx1_clr_t;
 static inline uint64_t CAVM_GPIO_TX1_CLR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GPIO_TX1_CLR_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP))
+    if (cavm_is_model(OCTEONTX_CNF20KA))
         return 0x803000001410ll;
     __cavm_csr_fatal("GPIO_TX1_CLR", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -2401,7 +2401,7 @@ typedef union cavm_gpio_tx1_set cavm_gpio_tx1_set_t;
 static inline uint64_t CAVM_GPIO_TX1_SET_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GPIO_TX1_SET_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP))
+    if (cavm_is_model(OCTEONTX_CNF20KA))
         return 0x803000001408ll;
     __cavm_csr_fatal("GPIO_TX1_SET", 0, 0, 0, 0, 0, 0, 0);
 }

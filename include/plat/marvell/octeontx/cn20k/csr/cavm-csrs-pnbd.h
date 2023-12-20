@@ -57,7 +57,7 @@ typedef union cavm_pnbx_dmax_control cavm_pnbx_dmax_control_t;
 static inline uint64_t CAVM_PNBX_DMAX_CONTROL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PNBX_DMAX_CONTROL(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=1) && (b<=1)))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && ((a<=1) && (b<=1)))
         return 0x87e041800000ll + 0x80000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("PNBX_DMAX_CONTROL", 2, a, b, 0, 0, 0, 0);
 }
@@ -95,7 +95,7 @@ typedef union cavm_pnbx_dmax_err_enable0 cavm_pnbx_dmax_err_enable0_t;
 static inline uint64_t CAVM_PNBX_DMAX_ERR_ENABLE0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PNBX_DMAX_ERR_ENABLE0(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=1) && (b<=1)))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && ((a<=1) && (b<=1)))
         return 0x87e041800040ll + 0x80000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("PNBX_DMAX_ERR_ENABLE0", 2, a, b, 0, 0, 0, 0);
 }
@@ -141,7 +141,7 @@ typedef union cavm_pnbx_dmax_err_source0 cavm_pnbx_dmax_err_source0_t;
 static inline uint64_t CAVM_PNBX_DMAX_ERR_SOURCE0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PNBX_DMAX_ERR_SOURCE0(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=1) && (b<=1)))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && ((a<=1) && (b<=1)))
         return 0x87e041800030ll + 0x80000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("PNBX_DMAX_ERR_SOURCE0", 2, a, b, 0, 0, 0, 0);
 }
@@ -183,7 +183,7 @@ typedef union cavm_pnbx_dmax_jd_cfg0 cavm_pnbx_dmax_jd_cfg0_t;
 static inline uint64_t CAVM_PNBX_DMAX_JD_CFG0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PNBX_DMAX_JD_CFG0(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=1) && (b<=1)))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && ((a<=1) && (b<=1)))
         return 0x87e041802000ll + 0x80000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("PNBX_DMAX_JD_CFG0", 2, a, b, 0, 0, 0, 0);
 }
@@ -225,7 +225,7 @@ typedef union cavm_pnbx_dmax_status cavm_pnbx_dmax_status_t;
 static inline uint64_t CAVM_PNBX_DMAX_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PNBX_DMAX_STATUS(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=1) && (b<=1)))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && ((a<=1) && (b<=1)))
         return 0x87e041800018ll + 0x80000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("PNBX_DMAX_STATUS", 2, a, b, 0, 0, 0, 0);
 }

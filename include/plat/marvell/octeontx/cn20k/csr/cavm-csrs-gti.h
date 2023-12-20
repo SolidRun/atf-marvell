@@ -73,7 +73,7 @@ typedef union cavm_gti_active_pc cavm_gti_active_pc_t;
 static inline uint64_t CAVM_GTI_ACTIVE_PC_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_ACTIVE_PC_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000000108ll;
     __cavm_csr_fatal("GTI_ACTIVE_PC", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -111,7 +111,7 @@ typedef union cavm_gti_bz_cidr0 cavm_gti_bz_cidr0_t;
 static inline uint64_t CAVM_GTI_BZ_CIDR0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_BZ_CIDR0_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000030ff0ll;
     __cavm_csr_fatal("GTI_BZ_CIDR0", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -151,7 +151,7 @@ typedef union cavm_gti_bz_cidr1 cavm_gti_bz_cidr1_t;
 static inline uint64_t CAVM_GTI_BZ_CIDR1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_BZ_CIDR1_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000030ff4ll;
     __cavm_csr_fatal("GTI_BZ_CIDR1", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -189,7 +189,7 @@ typedef union cavm_gti_bz_cidr2 cavm_gti_bz_cidr2_t;
 static inline uint64_t CAVM_GTI_BZ_CIDR2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_BZ_CIDR2_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000030ff8ll;
     __cavm_csr_fatal("GTI_BZ_CIDR2", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -227,7 +227,7 @@ typedef union cavm_gti_bz_cidr3 cavm_gti_bz_cidr3_t;
 static inline uint64_t CAVM_GTI_BZ_CIDR3_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_BZ_CIDR3_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000030ffcll;
     __cavm_csr_fatal("GTI_BZ_CIDR3", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -269,7 +269,7 @@ typedef union cavm_gti_bz_cntp_ctl cavm_gti_bz_cntp_ctl_t;
 static inline uint64_t CAVM_GTI_BZ_CNTP_CTL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_BZ_CNTP_CTL_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x80200003002cll;
     __cavm_csr_fatal("GTI_BZ_CNTP_CTL", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -305,7 +305,7 @@ typedef union cavm_gti_bz_cntp_cval cavm_gti_bz_cntp_cval_t;
 static inline uint64_t CAVM_GTI_BZ_CNTP_CVAL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_BZ_CNTP_CVAL_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000030020ll;
     __cavm_csr_fatal("GTI_BZ_CNTP_CVAL", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -341,7 +341,7 @@ typedef union cavm_gti_bz_cntp_tval cavm_gti_bz_cntp_tval_t;
 static inline uint64_t CAVM_GTI_BZ_CNTP_TVAL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_BZ_CNTP_TVAL_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000030028ll;
     __cavm_csr_fatal("GTI_BZ_CNTP_TVAL", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -379,7 +379,7 @@ typedef union cavm_gti_bz_pidr0 cavm_gti_bz_pidr0_t;
 static inline uint64_t CAVM_GTI_BZ_PIDR0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_BZ_PIDR0_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000030fe0ll;
     __cavm_csr_fatal("GTI_BZ_PIDR0", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -419,7 +419,7 @@ typedef union cavm_gti_bz_pidr1 cavm_gti_bz_pidr1_t;
 static inline uint64_t CAVM_GTI_BZ_PIDR1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_BZ_PIDR1_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000030fe4ll;
     __cavm_csr_fatal("GTI_BZ_PIDR1", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -461,7 +461,7 @@ typedef union cavm_gti_bz_pidr2 cavm_gti_bz_pidr2_t;
 static inline uint64_t CAVM_GTI_BZ_PIDR2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_BZ_PIDR2_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000030fe8ll;
     __cavm_csr_fatal("GTI_BZ_PIDR2", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -503,7 +503,7 @@ typedef union cavm_gti_bz_pidr3 cavm_gti_bz_pidr3_t;
 static inline uint64_t CAVM_GTI_BZ_PIDR3_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_BZ_PIDR3_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000030fecll;
     __cavm_csr_fatal("GTI_BZ_PIDR3", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -543,7 +543,7 @@ typedef union cavm_gti_bz_pidr4 cavm_gti_bz_pidr4_t;
 static inline uint64_t CAVM_GTI_BZ_PIDR4_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_BZ_PIDR4_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000030fd0ll;
     __cavm_csr_fatal("GTI_BZ_PIDR4", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -579,7 +579,7 @@ typedef union cavm_gti_bz_pidr5 cavm_gti_bz_pidr5_t;
 static inline uint64_t CAVM_GTI_BZ_PIDR5_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_BZ_PIDR5_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000030fd4ll;
     __cavm_csr_fatal("GTI_BZ_PIDR5", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -615,7 +615,7 @@ typedef union cavm_gti_bz_pidr6 cavm_gti_bz_pidr6_t;
 static inline uint64_t CAVM_GTI_BZ_PIDR6_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_BZ_PIDR6_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000030fd8ll;
     __cavm_csr_fatal("GTI_BZ_PIDR6", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -651,7 +651,7 @@ typedef union cavm_gti_bz_pidr7 cavm_gti_bz_pidr7_t;
 static inline uint64_t CAVM_GTI_BZ_PIDR7_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_BZ_PIDR7_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000030fdcll;
     __cavm_csr_fatal("GTI_BZ_PIDR7", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -689,7 +689,7 @@ typedef union cavm_gti_cc_cidr0 cavm_gti_cc_cidr0_t;
 static inline uint64_t CAVM_GTI_CC_CIDR0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CC_CIDR0_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000000ff0ll;
     __cavm_csr_fatal("GTI_CC_CIDR0", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -729,7 +729,7 @@ typedef union cavm_gti_cc_cidr1 cavm_gti_cc_cidr1_t;
 static inline uint64_t CAVM_GTI_CC_CIDR1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CC_CIDR1_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000000ff4ll;
     __cavm_csr_fatal("GTI_CC_CIDR1", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -767,7 +767,7 @@ typedef union cavm_gti_cc_cidr2 cavm_gti_cc_cidr2_t;
 static inline uint64_t CAVM_GTI_CC_CIDR2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CC_CIDR2_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000000ff8ll;
     __cavm_csr_fatal("GTI_CC_CIDR2", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -805,7 +805,7 @@ typedef union cavm_gti_cc_cidr3 cavm_gti_cc_cidr3_t;
 static inline uint64_t CAVM_GTI_CC_CIDR3_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CC_CIDR3_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000000ffcll;
     __cavm_csr_fatal("GTI_CC_CIDR3", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -842,7 +842,7 @@ typedef union cavm_gti_cc_cntadd cavm_gti_cc_cntadd_t;
 static inline uint64_t CAVM_GTI_CC_CNTADD_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CC_CNTADD_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x8020000000c8ll;
     __cavm_csr_fatal("GTI_CC_CNTADD", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -904,7 +904,7 @@ typedef union cavm_gti_cc_cntcr cavm_gti_cc_cntcr_t;
 static inline uint64_t CAVM_GTI_CC_CNTCR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CC_CNTCR_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000000000ll;
     __cavm_csr_fatal("GTI_CC_CNTCR", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -942,7 +942,7 @@ typedef union cavm_gti_cc_cntcv cavm_gti_cc_cntcv_t;
 static inline uint64_t CAVM_GTI_CC_CNTCV_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CC_CNTCV_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000000008ll;
     __cavm_csr_fatal("GTI_CC_CNTCV", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -982,7 +982,7 @@ typedef union cavm_gti_cc_cntfid0 cavm_gti_cc_cntfid0_t;
 static inline uint64_t CAVM_GTI_CC_CNTFID0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CC_CNTFID0_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000000020ll;
     __cavm_csr_fatal("GTI_CC_CNTFID0", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1018,7 +1018,7 @@ typedef union cavm_gti_cc_cntfid1 cavm_gti_cc_cntfid1_t;
 static inline uint64_t CAVM_GTI_CC_CNTFID1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CC_CNTFID1_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000000024ll;
     __cavm_csr_fatal("GTI_CC_CNTFID1", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1058,7 +1058,7 @@ typedef union cavm_gti_cc_cntid cavm_gti_cc_cntid_t;
 static inline uint64_t CAVM_GTI_CC_CNTID_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CC_CNTID_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x80200000001cll;
     __cavm_csr_fatal("GTI_CC_CNTID", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1097,7 +1097,7 @@ typedef union cavm_gti_cc_cntracc cavm_gti_cc_cntracc_t;
 static inline uint64_t CAVM_GTI_CC_CNTRACC_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CC_CNTRACC_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x8020000000c4ll;
     __cavm_csr_fatal("GTI_CC_CNTRACC", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1134,7 +1134,7 @@ typedef union cavm_gti_cc_cntrate cavm_gti_cc_cntrate_t;
 static inline uint64_t CAVM_GTI_CC_CNTRATE_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CC_CNTRATE_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x8020000000c0ll;
     __cavm_csr_fatal("GTI_CC_CNTRATE", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1172,7 +1172,7 @@ typedef union cavm_gti_cc_cntscr cavm_gti_cc_cntscr_t;
 static inline uint64_t CAVM_GTI_CC_CNTSCR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CC_CNTSCR_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000000010ll;
     __cavm_csr_fatal("GTI_CC_CNTSCR", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1226,7 +1226,7 @@ typedef union cavm_gti_cc_cntsr cavm_gti_cc_cntsr_t;
 static inline uint64_t CAVM_GTI_CC_CNTSR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CC_CNTSR_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000000004ll;
     __cavm_csr_fatal("GTI_CC_CNTSR", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1269,7 +1269,7 @@ typedef union cavm_gti_cc_imp_ctl cavm_gti_cc_imp_ctl_t;
 static inline uint64_t CAVM_GTI_CC_IMP_CTL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CC_IMP_CTL_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000000100ll;
     __cavm_csr_fatal("GTI_CC_IMP_CTL", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1307,7 +1307,7 @@ typedef union cavm_gti_cc_pidr0 cavm_gti_cc_pidr0_t;
 static inline uint64_t CAVM_GTI_CC_PIDR0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CC_PIDR0_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000000fe0ll;
     __cavm_csr_fatal("GTI_CC_PIDR0", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1347,7 +1347,7 @@ typedef union cavm_gti_cc_pidr1 cavm_gti_cc_pidr1_t;
 static inline uint64_t CAVM_GTI_CC_PIDR1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CC_PIDR1_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000000fe4ll;
     __cavm_csr_fatal("GTI_CC_PIDR1", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1389,7 +1389,7 @@ typedef union cavm_gti_cc_pidr2 cavm_gti_cc_pidr2_t;
 static inline uint64_t CAVM_GTI_CC_PIDR2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CC_PIDR2_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000000fe8ll;
     __cavm_csr_fatal("GTI_CC_PIDR2", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1431,7 +1431,7 @@ typedef union cavm_gti_cc_pidr3 cavm_gti_cc_pidr3_t;
 static inline uint64_t CAVM_GTI_CC_PIDR3_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CC_PIDR3_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000000fecll;
     __cavm_csr_fatal("GTI_CC_PIDR3", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1471,7 +1471,7 @@ typedef union cavm_gti_cc_pidr4 cavm_gti_cc_pidr4_t;
 static inline uint64_t CAVM_GTI_CC_PIDR4_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CC_PIDR4_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000000fd0ll;
     __cavm_csr_fatal("GTI_CC_PIDR4", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1507,7 +1507,7 @@ typedef union cavm_gti_cc_pidr5 cavm_gti_cc_pidr5_t;
 static inline uint64_t CAVM_GTI_CC_PIDR5_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CC_PIDR5_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000000fd4ll;
     __cavm_csr_fatal("GTI_CC_PIDR5", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1543,7 +1543,7 @@ typedef union cavm_gti_cc_pidr6 cavm_gti_cc_pidr6_t;
 static inline uint64_t CAVM_GTI_CC_PIDR6_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CC_PIDR6_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000000fd8ll;
     __cavm_csr_fatal("GTI_CC_PIDR6", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1579,7 +1579,7 @@ typedef union cavm_gti_cc_pidr7 cavm_gti_cc_pidr7_t;
 static inline uint64_t CAVM_GTI_CC_PIDR7_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CC_PIDR7_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000000fdcll;
     __cavm_csr_fatal("GTI_CC_PIDR7", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1615,7 +1615,7 @@ typedef union cavm_gti_const cavm_gti_const_t;
 static inline uint64_t CAVM_GTI_CONST_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CONST_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x8020000e0004ll;
     __cavm_csr_fatal("GTI_CONST", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1653,7 +1653,7 @@ typedef union cavm_gti_ctl_cidr0 cavm_gti_ctl_cidr0_t;
 static inline uint64_t CAVM_GTI_CTL_CIDR0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CTL_CIDR0_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000020ff0ll;
     __cavm_csr_fatal("GTI_CTL_CIDR0", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1693,7 +1693,7 @@ typedef union cavm_gti_ctl_cidr1 cavm_gti_ctl_cidr1_t;
 static inline uint64_t CAVM_GTI_CTL_CIDR1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CTL_CIDR1_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000020ff4ll;
     __cavm_csr_fatal("GTI_CTL_CIDR1", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1731,7 +1731,7 @@ typedef union cavm_gti_ctl_cidr2 cavm_gti_ctl_cidr2_t;
 static inline uint64_t CAVM_GTI_CTL_CIDR2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CTL_CIDR2_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000020ff8ll;
     __cavm_csr_fatal("GTI_CTL_CIDR2", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1769,7 +1769,7 @@ typedef union cavm_gti_ctl_cidr3 cavm_gti_ctl_cidr3_t;
 static inline uint64_t CAVM_GTI_CTL_CIDR3_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CTL_CIDR3_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000020ffcll;
     __cavm_csr_fatal("GTI_CTL_CIDR3", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1805,7 +1805,7 @@ typedef union cavm_gti_ctl_cntacr0 cavm_gti_ctl_cntacr0_t;
 static inline uint64_t CAVM_GTI_CTL_CNTACR0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CTL_CNTACR0_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000020040ll;
     __cavm_csr_fatal("GTI_CTL_CNTACR0", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1843,7 +1843,7 @@ typedef union cavm_gti_ctl_cntfrq cavm_gti_ctl_cntfrq_t;
 static inline uint64_t CAVM_GTI_CTL_CNTFRQ_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CTL_CNTFRQ_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000020000ll;
     __cavm_csr_fatal("GTI_CTL_CNTFRQ", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1879,7 +1879,7 @@ typedef union cavm_gti_ctl_cntnsar cavm_gti_ctl_cntnsar_t;
 static inline uint64_t CAVM_GTI_CTL_CNTNSAR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CTL_CNTNSAR_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000020004ll;
     __cavm_csr_fatal("GTI_CTL_CNTNSAR", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1915,7 +1915,7 @@ typedef union cavm_gti_ctl_cnttidr cavm_gti_ctl_cnttidr_t;
 static inline uint64_t CAVM_GTI_CTL_CNTTIDR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CTL_CNTTIDR_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000020008ll;
     __cavm_csr_fatal("GTI_CTL_CNTTIDR", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1953,7 +1953,7 @@ typedef union cavm_gti_ctl_pidr0 cavm_gti_ctl_pidr0_t;
 static inline uint64_t CAVM_GTI_CTL_PIDR0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CTL_PIDR0_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000020fe0ll;
     __cavm_csr_fatal("GTI_CTL_PIDR0", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1993,7 +1993,7 @@ typedef union cavm_gti_ctl_pidr1 cavm_gti_ctl_pidr1_t;
 static inline uint64_t CAVM_GTI_CTL_PIDR1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CTL_PIDR1_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000020fe4ll;
     __cavm_csr_fatal("GTI_CTL_PIDR1", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -2035,7 +2035,7 @@ typedef union cavm_gti_ctl_pidr2 cavm_gti_ctl_pidr2_t;
 static inline uint64_t CAVM_GTI_CTL_PIDR2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CTL_PIDR2_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000020fe8ll;
     __cavm_csr_fatal("GTI_CTL_PIDR2", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -2077,7 +2077,7 @@ typedef union cavm_gti_ctl_pidr3 cavm_gti_ctl_pidr3_t;
 static inline uint64_t CAVM_GTI_CTL_PIDR3_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CTL_PIDR3_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000020fecll;
     __cavm_csr_fatal("GTI_CTL_PIDR3", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -2117,7 +2117,7 @@ typedef union cavm_gti_ctl_pidr4 cavm_gti_ctl_pidr4_t;
 static inline uint64_t CAVM_GTI_CTL_PIDR4_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CTL_PIDR4_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000020fd0ll;
     __cavm_csr_fatal("GTI_CTL_PIDR4", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -2153,7 +2153,7 @@ typedef union cavm_gti_ctl_pidr5 cavm_gti_ctl_pidr5_t;
 static inline uint64_t CAVM_GTI_CTL_PIDR5_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CTL_PIDR5_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000020fd4ll;
     __cavm_csr_fatal("GTI_CTL_PIDR5", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -2189,7 +2189,7 @@ typedef union cavm_gti_ctl_pidr6 cavm_gti_ctl_pidr6_t;
 static inline uint64_t CAVM_GTI_CTL_PIDR6_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CTL_PIDR6_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000020fd8ll;
     __cavm_csr_fatal("GTI_CTL_PIDR6", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -2225,7 +2225,7 @@ typedef union cavm_gti_ctl_pidr7 cavm_gti_ctl_pidr7_t;
 static inline uint64_t CAVM_GTI_CTL_PIDR7_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CTL_PIDR7_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000020fdcll;
     __cavm_csr_fatal("GTI_CTL_PIDR7", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -2262,7 +2262,7 @@ typedef union cavm_gti_cwd_del3t cavm_gti_cwd_del3t_t;
 static inline uint64_t CAVM_GTI_CWD_DEL3T_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CWD_DEL3T_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000040220ll;
     __cavm_csr_fatal("GTI_CWD_DEL3T", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -2299,7 +2299,7 @@ typedef union cavm_gti_cwd_del3t_ena_clr cavm_gti_cwd_del3t_ena_clr_t;
 static inline uint64_t CAVM_GTI_CWD_DEL3T_ENA_CLR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CWD_DEL3T_ENA_CLR_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000040230ll;
     __cavm_csr_fatal("GTI_CWD_DEL3T_ENA_CLR", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -2336,7 +2336,7 @@ typedef union cavm_gti_cwd_del3t_ena_set cavm_gti_cwd_del3t_ena_set_t;
 static inline uint64_t CAVM_GTI_CWD_DEL3T_ENA_SET_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CWD_DEL3T_ENA_SET_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000040238ll;
     __cavm_csr_fatal("GTI_CWD_DEL3T_ENA_SET", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -2373,7 +2373,7 @@ typedef union cavm_gti_cwd_del3t_set cavm_gti_cwd_del3t_set_t;
 static inline uint64_t CAVM_GTI_CWD_DEL3T_SET_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CWD_DEL3T_SET_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000040228ll;
     __cavm_csr_fatal("GTI_CWD_DEL3T_SET", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -2410,7 +2410,7 @@ typedef union cavm_gti_cwd_int cavm_gti_cwd_int_t;
 static inline uint64_t CAVM_GTI_CWD_INT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CWD_INT_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000040200ll;
     __cavm_csr_fatal("GTI_CWD_INT", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -2447,7 +2447,7 @@ typedef union cavm_gti_cwd_int_ena_clr cavm_gti_cwd_int_ena_clr_t;
 static inline uint64_t CAVM_GTI_CWD_INT_ENA_CLR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CWD_INT_ENA_CLR_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000040210ll;
     __cavm_csr_fatal("GTI_CWD_INT_ENA_CLR", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -2484,7 +2484,7 @@ typedef union cavm_gti_cwd_int_ena_set cavm_gti_cwd_int_ena_set_t;
 static inline uint64_t CAVM_GTI_CWD_INT_ENA_SET_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CWD_INT_ENA_SET_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000040218ll;
     __cavm_csr_fatal("GTI_CWD_INT_ENA_SET", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -2521,7 +2521,7 @@ typedef union cavm_gti_cwd_int_set cavm_gti_cwd_int_set_t;
 static inline uint64_t CAVM_GTI_CWD_INT_SET_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CWD_INT_SET_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000040208ll;
     __cavm_csr_fatal("GTI_CWD_INT_SET", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -2588,7 +2588,7 @@ typedef union cavm_gti_cwd_pokex cavm_gti_cwd_pokex_t;
 static inline uint64_t CAVM_GTI_CWD_POKEX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CWD_POKEX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=63))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
         return 0x802000050000ll + 8ll * ((a) & 0x3f);
     __cavm_csr_fatal("GTI_CWD_POKEX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2654,7 +2654,7 @@ typedef union cavm_gti_cwd_wdogx cavm_gti_cwd_wdogx_t;
 static inline uint64_t CAVM_GTI_CWD_WDOGX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_CWD_WDOGX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=63))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
         return 0x802000040000ll + 8ll * ((a) & 0x3f);
     __cavm_csr_fatal("GTI_CWD_WDOGX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2692,7 +2692,7 @@ typedef union cavm_gti_force_clken cavm_gti_force_clken_t;
 static inline uint64_t CAVM_GTI_FORCE_CLKEN_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_FORCE_CLKEN_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x8020000e0000ll;
     __cavm_csr_fatal("GTI_FORCE_CLKEN", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -2730,7 +2730,7 @@ typedef union cavm_gti_imp_const cavm_gti_imp_const_t;
 static inline uint64_t CAVM_GTI_IMP_CONST_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_IMP_CONST_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x8020000e0010ll;
     __cavm_csr_fatal("GTI_IMP_CONST", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -2768,7 +2768,7 @@ typedef union cavm_gti_msix_pbax cavm_gti_msix_pbax_t;
 static inline uint64_t CAVM_GTI_MSIX_PBAX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_MSIX_PBAX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=2))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=2))
         return 0x80200f0f0000ll + 8ll * ((a) & 0x3);
     __cavm_csr_fatal("GTI_MSIX_PBAX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2852,7 +2852,7 @@ typedef union cavm_gti_msix_vecx_addr cavm_gti_msix_vecx_addr_t;
 static inline uint64_t CAVM_GTI_MSIX_VECX_ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_MSIX_VECX_ADDR(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=137))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=137))
         return 0x80200f000000ll + 0x10ll * ((a) & 0xff);
     __cavm_csr_fatal("GTI_MSIX_VECX_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2892,7 +2892,7 @@ typedef union cavm_gti_msix_vecx_ctl cavm_gti_msix_vecx_ctl_t;
 static inline uint64_t CAVM_GTI_MSIX_VECX_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_MSIX_VECX_CTL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=137))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=137))
         return 0x80200f000008ll + 0x10ll * ((a) & 0xff);
     __cavm_csr_fatal("GTI_MSIX_VECX_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2930,7 +2930,7 @@ typedef union cavm_gti_rd_cidr0 cavm_gti_rd_cidr0_t;
 static inline uint64_t CAVM_GTI_RD_CIDR0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_RD_CIDR0_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000010ff0ll;
     __cavm_csr_fatal("GTI_RD_CIDR0", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -2970,7 +2970,7 @@ typedef union cavm_gti_rd_cidr1 cavm_gti_rd_cidr1_t;
 static inline uint64_t CAVM_GTI_RD_CIDR1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_RD_CIDR1_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000010ff4ll;
     __cavm_csr_fatal("GTI_RD_CIDR1", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -3008,7 +3008,7 @@ typedef union cavm_gti_rd_cidr2 cavm_gti_rd_cidr2_t;
 static inline uint64_t CAVM_GTI_RD_CIDR2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_RD_CIDR2_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000010ff8ll;
     __cavm_csr_fatal("GTI_RD_CIDR2", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -3046,7 +3046,7 @@ typedef union cavm_gti_rd_cidr3 cavm_gti_rd_cidr3_t;
 static inline uint64_t CAVM_GTI_RD_CIDR3_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_RD_CIDR3_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000010ffcll;
     __cavm_csr_fatal("GTI_RD_CIDR3", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -3082,7 +3082,7 @@ typedef union cavm_gti_rd_cntcv cavm_gti_rd_cntcv_t;
 static inline uint64_t CAVM_GTI_RD_CNTCV_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_RD_CNTCV_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000010000ll;
     __cavm_csr_fatal("GTI_RD_CNTCV", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -3120,7 +3120,7 @@ typedef union cavm_gti_rd_pidr0 cavm_gti_rd_pidr0_t;
 static inline uint64_t CAVM_GTI_RD_PIDR0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_RD_PIDR0_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000010fe0ll;
     __cavm_csr_fatal("GTI_RD_PIDR0", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -3160,7 +3160,7 @@ typedef union cavm_gti_rd_pidr1 cavm_gti_rd_pidr1_t;
 static inline uint64_t CAVM_GTI_RD_PIDR1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_RD_PIDR1_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000010fe4ll;
     __cavm_csr_fatal("GTI_RD_PIDR1", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -3202,7 +3202,7 @@ typedef union cavm_gti_rd_pidr2 cavm_gti_rd_pidr2_t;
 static inline uint64_t CAVM_GTI_RD_PIDR2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_RD_PIDR2_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000010fe8ll;
     __cavm_csr_fatal("GTI_RD_PIDR2", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -3244,7 +3244,7 @@ typedef union cavm_gti_rd_pidr3 cavm_gti_rd_pidr3_t;
 static inline uint64_t CAVM_GTI_RD_PIDR3_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_RD_PIDR3_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000010fecll;
     __cavm_csr_fatal("GTI_RD_PIDR3", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -3284,7 +3284,7 @@ typedef union cavm_gti_rd_pidr4 cavm_gti_rd_pidr4_t;
 static inline uint64_t CAVM_GTI_RD_PIDR4_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_RD_PIDR4_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000010fd0ll;
     __cavm_csr_fatal("GTI_RD_PIDR4", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -3320,7 +3320,7 @@ typedef union cavm_gti_rd_pidr5 cavm_gti_rd_pidr5_t;
 static inline uint64_t CAVM_GTI_RD_PIDR5_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_RD_PIDR5_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000010fd4ll;
     __cavm_csr_fatal("GTI_RD_PIDR5", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -3356,7 +3356,7 @@ typedef union cavm_gti_rd_pidr6 cavm_gti_rd_pidr6_t;
 static inline uint64_t CAVM_GTI_RD_PIDR6_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_RD_PIDR6_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000010fd8ll;
     __cavm_csr_fatal("GTI_RD_PIDR6", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -3392,7 +3392,7 @@ typedef union cavm_gti_rd_pidr7 cavm_gti_rd_pidr7_t;
 static inline uint64_t CAVM_GTI_RD_PIDR7_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_RD_PIDR7_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x802000010fdcll;
     __cavm_csr_fatal("GTI_RD_PIDR7", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -3429,7 +3429,7 @@ typedef union cavm_gti_wcx_cidr0 cavm_gti_wcx_cidr0_t;
 static inline uint64_t CAVM_GTI_WCX_CIDR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_WCX_CIDR0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0x802000080ff0ll + 0x20000ll * ((a) & 0x1);
     __cavm_csr_fatal("GTI_WCX_CIDR0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3468,7 +3468,7 @@ typedef union cavm_gti_wcx_cidr1 cavm_gti_wcx_cidr1_t;
 static inline uint64_t CAVM_GTI_WCX_CIDR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_WCX_CIDR1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0x802000080ff4ll + 0x20000ll * ((a) & 0x1);
     __cavm_csr_fatal("GTI_WCX_CIDR1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3505,7 +3505,7 @@ typedef union cavm_gti_wcx_cidr2 cavm_gti_wcx_cidr2_t;
 static inline uint64_t CAVM_GTI_WCX_CIDR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_WCX_CIDR2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0x802000080ff8ll + 0x20000ll * ((a) & 0x1);
     __cavm_csr_fatal("GTI_WCX_CIDR2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3542,7 +3542,7 @@ typedef union cavm_gti_wcx_cidr3 cavm_gti_wcx_cidr3_t;
 static inline uint64_t CAVM_GTI_WCX_CIDR3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_WCX_CIDR3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0x802000080ffcll + 0x20000ll * ((a) & 0x1);
     __cavm_csr_fatal("GTI_WCX_CIDR3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3581,7 +3581,7 @@ typedef union cavm_gti_wcx_pidr0 cavm_gti_wcx_pidr0_t;
 static inline uint64_t CAVM_GTI_WCX_PIDR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_WCX_PIDR0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0x802000080fe0ll + 0x20000ll * ((a) & 0x1);
     __cavm_csr_fatal("GTI_WCX_PIDR0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3622,7 +3622,7 @@ typedef union cavm_gti_wcx_pidr1 cavm_gti_wcx_pidr1_t;
 static inline uint64_t CAVM_GTI_WCX_PIDR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_WCX_PIDR1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0x802000080fe4ll + 0x20000ll * ((a) & 0x1);
     __cavm_csr_fatal("GTI_WCX_PIDR1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3665,7 +3665,7 @@ typedef union cavm_gti_wcx_pidr2 cavm_gti_wcx_pidr2_t;
 static inline uint64_t CAVM_GTI_WCX_PIDR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_WCX_PIDR2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0x802000080fe8ll + 0x20000ll * ((a) & 0x1);
     __cavm_csr_fatal("GTI_WCX_PIDR2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3708,7 +3708,7 @@ typedef union cavm_gti_wcx_pidr3 cavm_gti_wcx_pidr3_t;
 static inline uint64_t CAVM_GTI_WCX_PIDR3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_WCX_PIDR3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0x802000080fecll + 0x20000ll * ((a) & 0x1);
     __cavm_csr_fatal("GTI_WCX_PIDR3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3749,7 +3749,7 @@ typedef union cavm_gti_wcx_pidr4 cavm_gti_wcx_pidr4_t;
 static inline uint64_t CAVM_GTI_WCX_PIDR4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_WCX_PIDR4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0x802000080fd0ll + 0x20000ll * ((a) & 0x1);
     __cavm_csr_fatal("GTI_WCX_PIDR4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3784,7 +3784,7 @@ typedef union cavm_gti_wcx_pidr5 cavm_gti_wcx_pidr5_t;
 static inline uint64_t CAVM_GTI_WCX_PIDR5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_WCX_PIDR5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0x802000080fd4ll + 0x20000ll * ((a) & 0x1);
     __cavm_csr_fatal("GTI_WCX_PIDR5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3819,7 +3819,7 @@ typedef union cavm_gti_wcx_pidr6 cavm_gti_wcx_pidr6_t;
 static inline uint64_t CAVM_GTI_WCX_PIDR6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_WCX_PIDR6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0x802000080fd8ll + 0x20000ll * ((a) & 0x1);
     __cavm_csr_fatal("GTI_WCX_PIDR6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3854,7 +3854,7 @@ typedef union cavm_gti_wcx_pidr7 cavm_gti_wcx_pidr7_t;
 static inline uint64_t CAVM_GTI_WCX_PIDR7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_WCX_PIDR7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0x802000080fdcll + 0x20000ll * ((a) & 0x1);
     __cavm_csr_fatal("GTI_WCX_PIDR7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3907,7 +3907,7 @@ typedef union cavm_gti_wcx_w_iidr cavm_gti_wcx_w_iidr_t;
 static inline uint64_t CAVM_GTI_WCX_W_IIDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_WCX_W_IIDR(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0x802000080fccll + 0x20000ll * ((a) & 0x1);
     __cavm_csr_fatal("GTI_WCX_W_IIDR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3950,7 +3950,7 @@ typedef union cavm_gti_wcx_wcs cavm_gti_wcx_wcs_t;
 static inline uint64_t CAVM_GTI_WCX_WCS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_WCX_WCS(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0x802000080000ll + 0x20000ll * ((a) & 0x1);
     __cavm_csr_fatal("GTI_WCX_WCS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3987,7 +3987,7 @@ typedef union cavm_gti_wcx_wcv cavm_gti_wcx_wcv_t;
 static inline uint64_t CAVM_GTI_WCX_WCV(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_WCX_WCV(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0x802000080010ll + 0x20000ll * ((a) & 0x1);
     __cavm_csr_fatal("GTI_WCX_WCV", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4026,7 +4026,7 @@ typedef union cavm_gti_wcx_wor cavm_gti_wcx_wor_t;
 static inline uint64_t CAVM_GTI_WCX_WOR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_WCX_WOR(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0x802000080008ll + 0x20000ll * ((a) & 0x1);
     __cavm_csr_fatal("GTI_WCX_WOR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4063,7 +4063,7 @@ typedef union cavm_gti_wrx_cidr0 cavm_gti_wrx_cidr0_t;
 static inline uint64_t CAVM_GTI_WRX_CIDR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_WRX_CIDR0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0x802000090ff0ll + 0x20000ll * ((a) & 0x1);
     __cavm_csr_fatal("GTI_WRX_CIDR0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4102,7 +4102,7 @@ typedef union cavm_gti_wrx_cidr1 cavm_gti_wrx_cidr1_t;
 static inline uint64_t CAVM_GTI_WRX_CIDR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_WRX_CIDR1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0x802000090ff4ll + 0x20000ll * ((a) & 0x1);
     __cavm_csr_fatal("GTI_WRX_CIDR1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4139,7 +4139,7 @@ typedef union cavm_gti_wrx_cidr2 cavm_gti_wrx_cidr2_t;
 static inline uint64_t CAVM_GTI_WRX_CIDR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_WRX_CIDR2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0x802000090ff8ll + 0x20000ll * ((a) & 0x1);
     __cavm_csr_fatal("GTI_WRX_CIDR2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4176,7 +4176,7 @@ typedef union cavm_gti_wrx_cidr3 cavm_gti_wrx_cidr3_t;
 static inline uint64_t CAVM_GTI_WRX_CIDR3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_WRX_CIDR3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0x802000090ffcll + 0x20000ll * ((a) & 0x1);
     __cavm_csr_fatal("GTI_WRX_CIDR3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4213,7 +4213,7 @@ typedef union cavm_gti_wrx_pidr0 cavm_gti_wrx_pidr0_t;
 static inline uint64_t CAVM_GTI_WRX_PIDR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_WRX_PIDR0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0x802000090fe0ll + 0x20000ll * ((a) & 0x1);
     __cavm_csr_fatal("GTI_WRX_PIDR0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4252,7 +4252,7 @@ typedef union cavm_gti_wrx_pidr1 cavm_gti_wrx_pidr1_t;
 static inline uint64_t CAVM_GTI_WRX_PIDR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_WRX_PIDR1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0x802000090fe4ll + 0x20000ll * ((a) & 0x1);
     __cavm_csr_fatal("GTI_WRX_PIDR1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4293,7 +4293,7 @@ typedef union cavm_gti_wrx_pidr2 cavm_gti_wrx_pidr2_t;
 static inline uint64_t CAVM_GTI_WRX_PIDR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_WRX_PIDR2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0x802000090fe8ll + 0x20000ll * ((a) & 0x1);
     __cavm_csr_fatal("GTI_WRX_PIDR2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4334,7 +4334,7 @@ typedef union cavm_gti_wrx_pidr3 cavm_gti_wrx_pidr3_t;
 static inline uint64_t CAVM_GTI_WRX_PIDR3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_WRX_PIDR3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0x802000090fecll + 0x20000ll * ((a) & 0x1);
     __cavm_csr_fatal("GTI_WRX_PIDR3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4373,7 +4373,7 @@ typedef union cavm_gti_wrx_pidr4 cavm_gti_wrx_pidr4_t;
 static inline uint64_t CAVM_GTI_WRX_PIDR4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_WRX_PIDR4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0x802000090fd0ll + 0x20000ll * ((a) & 0x1);
     __cavm_csr_fatal("GTI_WRX_PIDR4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4408,7 +4408,7 @@ typedef union cavm_gti_wrx_pidr5 cavm_gti_wrx_pidr5_t;
 static inline uint64_t CAVM_GTI_WRX_PIDR5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_WRX_PIDR5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0x802000090fd4ll + 0x20000ll * ((a) & 0x1);
     __cavm_csr_fatal("GTI_WRX_PIDR5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4443,7 +4443,7 @@ typedef union cavm_gti_wrx_pidr6 cavm_gti_wrx_pidr6_t;
 static inline uint64_t CAVM_GTI_WRX_PIDR6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_WRX_PIDR6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0x802000090fd8ll + 0x20000ll * ((a) & 0x1);
     __cavm_csr_fatal("GTI_WRX_PIDR6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4478,7 +4478,7 @@ typedef union cavm_gti_wrx_pidr7 cavm_gti_wrx_pidr7_t;
 static inline uint64_t CAVM_GTI_WRX_PIDR7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_WRX_PIDR7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0x802000090fdcll + 0x20000ll * ((a) & 0x1);
     __cavm_csr_fatal("GTI_WRX_PIDR7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4531,7 +4531,7 @@ typedef union cavm_gti_wrx_w_iidr cavm_gti_wrx_w_iidr_t;
 static inline uint64_t CAVM_GTI_WRX_W_IIDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_WRX_W_IIDR(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0x802000090fccll + 0x20000ll * ((a) & 0x1);
     __cavm_csr_fatal("GTI_WRX_W_IIDR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4568,7 +4568,7 @@ typedef union cavm_gti_wrx_wrr cavm_gti_wrx_wrr_t;
 static inline uint64_t CAVM_GTI_WRX_WRR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GTI_WRX_WRR(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0x802000090000ll + 0x20000ll * ((a) & 0x1);
     __cavm_csr_fatal("GTI_WRX_WRR", 1, a, 0, 0, 0, 0, 0);
 }

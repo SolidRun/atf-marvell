@@ -61,9 +61,9 @@ union cavm_emmcx_clk_ctrl
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_emmcx_clk_ctrl_s cheetah; */
     /* struct cavm_emmcx_clk_ctrl_s cn20; */
-    struct cavm_emmcx_clk_ctrl_odinmp
+    /* struct cavm_emmcx_clk_ctrl_s cn20ka; */
+    struct cavm_emmcx_clk_ctrl_cnf20ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_3_63         : 61;
@@ -76,7 +76,7 @@ union cavm_emmcx_clk_ctrl
         uint64_t emmc_imsc_shadow      : 1;  /**< [  2:  2](R/W) EMMC interrupt mask. 1 = EMMC INTR IS UNMASKED. 0 = EMMC INTR IS MASKED. */
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
-    } odinmp;
+    } cnf20ka;
 };
 typedef union cavm_emmcx_clk_ctrl cavm_emmcx_clk_ctrl_t;
 
@@ -8216,7 +8216,7 @@ typedef union cavm_emmcx_soft_reset cavm_emmcx_soft_reset_t;
 static inline uint64_t CAVM_EMMCX_SOFT_RESET(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EMMCX_SOFT_RESET(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a==0))
         return 0x8240000020a0ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_SOFT_RESET", 1, a, 0, 0, 0, 0, 0);
 }
@@ -8253,7 +8253,7 @@ typedef union cavm_emmcx_srs_ctl0 cavm_emmcx_srs_ctl0_t;
 static inline uint64_t CAVM_EMMCX_SRS_CTL0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EMMCX_SRS_CTL0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a==0))
         return 0x824000000800ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_SRS_CTL0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -8290,7 +8290,7 @@ typedef union cavm_emmcx_srs_ctl1 cavm_emmcx_srs_ctl1_t;
 static inline uint64_t CAVM_EMMCX_SRS_CTL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EMMCX_SRS_CTL1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a==0))
         return 0x824000000808ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_SRS_CTL1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -8327,7 +8327,7 @@ typedef union cavm_emmcx_srs_ctl2 cavm_emmcx_srs_ctl2_t;
 static inline uint64_t CAVM_EMMCX_SRS_CTL2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EMMCX_SRS_CTL2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a==0))
         return 0x824000000810ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_SRS_CTL2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -8364,7 +8364,7 @@ typedef union cavm_emmcx_srs_ctl3 cavm_emmcx_srs_ctl3_t;
 static inline uint64_t CAVM_EMMCX_SRS_CTL3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EMMCX_SRS_CTL3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a==0))
         return 0x824000000818ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_SRS_CTL3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -8400,7 +8400,7 @@ typedef union cavm_emmcx_tie_off_0 cavm_emmcx_tie_off_0_t;
 static inline uint64_t CAVM_EMMCX_TIE_OFF_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EMMCX_TIE_OFF_0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a==0))
         return 0x824000002098ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_TIE_OFF_0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -8436,7 +8436,7 @@ typedef union cavm_emmcx_tie_off_1 cavm_emmcx_tie_off_1_t;
 static inline uint64_t CAVM_EMMCX_TIE_OFF_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EMMCX_TIE_OFF_1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a==0))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a==0))
         return 0x82400000209cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_TIE_OFF_1", 1, a, 0, 0, 0, 0, 0);
 }

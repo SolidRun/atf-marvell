@@ -64,7 +64,7 @@ typedef union cavm_mio_pwmx_cfg_param cavm_mio_pwmx_cfg_param_t;
 static inline uint64_t CAVM_MIO_PWMX_CFG_PARAM(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PWMX_CFG_PARAM(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
         return 0x87e118000000ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("MIO_PWMX_CFG_PARAM", 1, a, 0, 0, 0, 0, 0);
 }
@@ -108,7 +108,7 @@ typedef union cavm_mio_pwmx_ctl cavm_mio_pwmx_ctl_t;
 static inline uint64_t CAVM_MIO_PWMX_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PWMX_CTL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
         return 0x87e118000004ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("MIO_PWMX_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -152,7 +152,7 @@ typedef union cavm_mio_pwmx_frc cavm_mio_pwmx_frc_t;
 static inline uint64_t CAVM_MIO_PWMX_FRC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PWMX_FRC(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
         return 0x87e118000008ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("MIO_PWMX_FRC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -194,7 +194,7 @@ typedef union cavm_mio_pwmx_sense_counter cavm_mio_pwmx_sense_counter_t;
 static inline uint64_t CAVM_MIO_PWMX_SENSE_COUNTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PWMX_SENSE_COUNTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=3))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
         return 0x87e11800000cll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("MIO_PWMX_SENSE_COUNTER", 1, a, 0, 0, 0, 0, 0);
 }

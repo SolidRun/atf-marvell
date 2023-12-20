@@ -944,7 +944,7 @@ typedef union cavm_bts_man_pll cavm_bts_man_pll_t;
 static inline uint64_t CAVM_BTS_MAN_PLL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTS_MAN_PLL_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP))
+    if (cavm_is_model(OCTEONTX_CNF20KA))
         return 0x87e012000030ll;
     __cavm_csr_fatal("BTS_MAN_PLL", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1887,7 +1887,7 @@ typedef union cavm_bts_pll cavm_bts_pll_t;
 static inline uint64_t CAVM_BTS_PLL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTS_PLL_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP))
+    if (cavm_is_model(OCTEONTX_CNF20KA))
         return 0x87e012000028ll;
     __cavm_csr_fatal("BTS_PLL", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -2167,7 +2167,7 @@ typedef union cavm_bts_soft_reset cavm_bts_soft_reset_t;
 static inline uint64_t CAVM_BTS_SOFT_RESET_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTS_SOFT_RESET_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x87e012001160ll;
     __cavm_csr_fatal("BTS_SOFT_RESET", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -2243,7 +2243,7 @@ typedef union cavm_bts_test_pll cavm_bts_test_pll_t;
 static inline uint64_t CAVM_BTS_TEST_PLL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTS_TEST_PLL_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP))
+    if (cavm_is_model(OCTEONTX_CNF20KA))
         return 0x87e012000038ll;
     __cavm_csr_fatal("BTS_TEST_PLL", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -2282,7 +2282,7 @@ typedef union cavm_bts_tie_off cavm_bts_tie_off_t;
 static inline uint64_t CAVM_BTS_TIE_OFF_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTS_TIE_OFF_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x87e012001158ll;
     __cavm_csr_fatal("BTS_TIE_OFF", 0, 0, 0, 0, 0, 0, 0);
 }

@@ -272,7 +272,7 @@ typedef union cavm_dlfex_abx_acal_addr cavm_dlfex_abx_acal_addr_t;
 static inline uint64_t CAVM_DLFEX_ABX_ACAL_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DLFEX_ABX_ACAL_ADDR(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=1)))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && ((a==0) && (b<=1)))
         return 0x87e040200208ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("DLFEX_ABX_ACAL_ADDR", 2, a, b, 0, 0, 0, 0);
 }
@@ -314,7 +314,7 @@ typedef union cavm_dlfex_abx_acal_coef cavm_dlfex_abx_acal_coef_t;
 static inline uint64_t CAVM_DLFEX_ABX_ACAL_COEF(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DLFEX_ABX_ACAL_COEF(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=1)))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && ((a==0) && (b<=1)))
         return 0x87e040200200ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("DLFEX_ABX_ACAL_COEF", 2, a, b, 0, 0, 0, 0);
 }
@@ -380,7 +380,7 @@ typedef union cavm_dlfex_abx_ant_expx cavm_dlfex_abx_ant_expx_t;
 static inline uint64_t CAVM_DLFEX_ABX_ANT_EXPX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DLFEX_ABX_ANT_EXPX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=1) && (c<=15)))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && ((a==0) && (b<=1) && (c<=15)))
         return 0x87e040200300ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x1) + 8ll * ((c) & 0xf);
     __cavm_csr_fatal("DLFEX_ABX_ANT_EXPX", 3, a, b, c, 0, 0, 0);
 }
@@ -416,7 +416,7 @@ typedef union cavm_dlfex_abx_config0_datax cavm_dlfex_abx_config0_datax_t;
 static inline uint64_t CAVM_DLFEX_ABX_CONFIG0_DATAX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DLFEX_ABX_CONFIG0_DATAX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=1) && (c<=2)))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && ((a==0) && (b<=1) && (c<=2)))
         return 0x87e040202000ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x1) + 8ll * ((c) & 0x3);
     __cavm_csr_fatal("DLFEX_ABX_CONFIG0_DATAX", 3, a, b, c, 0, 0, 0);
 }
@@ -452,7 +452,7 @@ typedef union cavm_dlfex_abx_config1_datax cavm_dlfex_abx_config1_datax_t;
 static inline uint64_t CAVM_DLFEX_ABX_CONFIG1_DATAX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DLFEX_ABX_CONFIG1_DATAX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=1) && (c<=2)))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && ((a==0) && (b<=1) && (c<=2)))
         return 0x87e040204000ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x1) + 8ll * ((c) & 0x3);
     __cavm_csr_fatal("DLFEX_ABX_CONFIG1_DATAX", 3, a, b, c, 0, 0, 0);
 }
@@ -488,7 +488,7 @@ typedef union cavm_dlfex_abx_config2_datax cavm_dlfex_abx_config2_datax_t;
 static inline uint64_t CAVM_DLFEX_ABX_CONFIG2_DATAX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DLFEX_ABX_CONFIG2_DATAX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=1) && (c<=2)))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && ((a==0) && (b<=1) && (c<=2)))
         return 0x87e040206000ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x1) + 8ll * ((c) & 0x3);
     __cavm_csr_fatal("DLFEX_ABX_CONFIG2_DATAX", 3, a, b, c, 0, 0, 0);
 }
@@ -548,7 +548,7 @@ typedef union cavm_dlfex_abx_control cavm_dlfex_abx_control_t;
 static inline uint64_t CAVM_DLFEX_ABX_CONTROL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DLFEX_ABX_CONTROL(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=1)))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && ((a==0) && (b<=1)))
         return 0x87e040200000ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("DLFEX_ABX_CONTROL", 2, a, b, 0, 0, 0, 0);
 }
@@ -588,7 +588,7 @@ typedef union cavm_dlfex_abx_error_enable0 cavm_dlfex_abx_error_enable0_t;
 static inline uint64_t CAVM_DLFEX_ABX_ERROR_ENABLE0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DLFEX_ABX_ERROR_ENABLE0(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=1)))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && ((a==0) && (b<=1)))
         return 0x87e040200040ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("DLFEX_ABX_ERROR_ENABLE0", 2, a, b, 0, 0, 0, 0);
 }
@@ -634,7 +634,7 @@ typedef union cavm_dlfex_abx_error_source0 cavm_dlfex_abx_error_source0_t;
 static inline uint64_t CAVM_DLFEX_ABX_ERROR_SOURCE0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DLFEX_ABX_ERROR_SOURCE0(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=1)))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && ((a==0) && (b<=1)))
         return 0x87e040200030ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("DLFEX_ABX_ERROR_SOURCE0", 2, a, b, 0, 0, 0, 0);
 }
@@ -684,7 +684,7 @@ typedef union cavm_dlfex_abx_res_mapx cavm_dlfex_abx_res_mapx_t;
 static inline uint64_t CAVM_DLFEX_ABX_RES_MAPX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DLFEX_ABX_RES_MAPX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=1) && (c<=31)))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && ((a==0) && (b<=1) && (c<=31)))
         return 0x87e040200400ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x1) + 8ll * ((c) & 0x1f);
     __cavm_csr_fatal("DLFEX_ABX_RES_MAPX", 3, a, b, c, 0, 0, 0);
 }
@@ -730,7 +730,7 @@ typedef union cavm_dlfex_abx_status cavm_dlfex_abx_status_t;
 static inline uint64_t CAVM_DLFEX_ABX_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DLFEX_ABX_STATUS(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=1)))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && ((a==0) && (b<=1)))
         return 0x87e040200018ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("DLFEX_ABX_STATUS", 2, a, b, 0, 0, 0, 0);
 }
@@ -766,7 +766,7 @@ typedef union cavm_dlfex_abx_tssix cavm_dlfex_abx_tssix_t;
 static inline uint64_t CAVM_DLFEX_ABX_TSSIX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DLFEX_ABX_TSSIX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=1) && (c<=127)))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && ((a==0) && (b<=1) && (c<=127)))
         return 0x87e040200800ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x1) + 8ll * ((c) & 0x7f);
     __cavm_csr_fatal("DLFEX_ABX_TSSIX", 3, a, b, c, 0, 0, 0);
 }

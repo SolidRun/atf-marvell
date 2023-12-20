@@ -48,7 +48,7 @@ typedef union cavm_cmemx_arb_priority cavm_cmemx_arb_priority_t;
 static inline uint64_t CAVM_CMEMX_ARB_PRIORITY(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CMEMX_ARB_PRIORITY(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=7))
         return 0x87e042600140ll + 0x80000ll * ((a) & 0x7);
     __cavm_csr_fatal("CMEMX_ARB_PRIORITY", 1, a, 0, 0, 0, 0, 0);
 }
@@ -98,7 +98,7 @@ typedef union cavm_cmemx_ecc_signature cavm_cmemx_ecc_signature_t;
 static inline uint64_t CAVM_CMEMX_ECC_SIGNATURE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CMEMX_ECC_SIGNATURE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=7))
         return 0x87e042600120ll + 0x80000ll * ((a) & 0x7);
     __cavm_csr_fatal("CMEMX_ECC_SIGNATURE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -138,7 +138,7 @@ typedef union cavm_cmemx_main_cfg cavm_cmemx_main_cfg_t;
 static inline uint64_t CAVM_CMEMX_MAIN_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CMEMX_MAIN_CFG(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=7))
         return 0x87e042600080ll + 0x80000ll * ((a) & 0x7);
     __cavm_csr_fatal("CMEMX_MAIN_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -176,7 +176,7 @@ typedef union cavm_cmemx_mem_addr cavm_cmemx_mem_addr_t;
 static inline uint64_t CAVM_CMEMX_MEM_ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CMEMX_MEM_ADDR(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=7))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=7))
         return 0x87e04263fff8ll + 0x80000ll * ((a) & 0x7);
     __cavm_csr_fatal("CMEMX_MEM_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -210,7 +210,7 @@ typedef union cavm_cmemx_mem_windowx cavm_cmemx_mem_windowx_t;
 static inline uint64_t CAVM_CMEMX_MEM_WINDOWX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CMEMX_MEM_WINDOWX(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=7) && (b<=32767)))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && ((a<=7) && (b<=32767)))
         return 0x87e042640000ll + 0x80000ll * ((a) & 0x7) + 8ll * ((b) & 0x7fff);
     __cavm_csr_fatal("CMEMX_MEM_WINDOWX", 2, a, b, 0, 0, 0, 0);
 }

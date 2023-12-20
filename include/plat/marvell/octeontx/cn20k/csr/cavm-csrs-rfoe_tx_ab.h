@@ -79,7 +79,7 @@ typedef union cavm_rfoex_abx_control cavm_rfoex_abx_control_t;
 static inline uint64_t CAVM_RFOEX_ABX_CONTROL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_ABX_CONTROL(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=1)))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && ((a<=6) && (b<=1)))
         return 0x87e042c00000ll + 0x80000ll * ((a) & 0x7) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("RFOEX_ABX_CONTROL", 2, a, b, 0, 0, 0, 0);
 }
@@ -115,7 +115,7 @@ typedef union cavm_rfoex_abx_control1 cavm_rfoex_abx_control1_t;
 static inline uint64_t CAVM_RFOEX_ABX_CONTROL1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_ABX_CONTROL1(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=1)))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && ((a<=6) && (b<=1)))
         return 0x87e042c00008ll + 0x80000ll * ((a) & 0x7) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("RFOEX_ABX_CONTROL1", 2, a, b, 0, 0, 0, 0);
 }
@@ -331,7 +331,7 @@ typedef union cavm_rfoex_abx_slotx_configuration cavm_rfoex_abx_slotx_configurat
 static inline uint64_t CAVM_RFOEX_ABX_SLOTX_CONFIGURATION(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_ABX_SLOTX_CONFIGURATION(uint64_t a, uint64_t b, uint64_t c)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=1) && (c<=3)))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && ((a<=6) && (b<=1) && (c<=3)))
         return 0x87e042c02000ll + 0x80000ll * ((a) & 0x7) + 0x10000ll * ((b) & 0x1) + 0x2000ll * ((c) & 0x3);
     __cavm_csr_fatal("RFOEX_ABX_SLOTX_CONFIGURATION", 3, a, b, c, 0, 0, 0);
 }
@@ -435,7 +435,7 @@ typedef union cavm_rfoex_abx_slotx_configuration1 cavm_rfoex_abx_slotx_configura
 static inline uint64_t CAVM_RFOEX_ABX_SLOTX_CONFIGURATION1(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_ABX_SLOTX_CONFIGURATION1(uint64_t a, uint64_t b, uint64_t c)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=1) && (c<=3)))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && ((a<=6) && (b<=1) && (c<=3)))
         return 0x87e042c02008ll + 0x80000ll * ((a) & 0x7) + 0x10000ll * ((b) & 0x1) + 0x2000ll * ((c) & 0x3);
     __cavm_csr_fatal("RFOEX_ABX_SLOTX_CONFIGURATION1", 3, a, b, c, 0, 0, 0);
 }
@@ -567,7 +567,7 @@ typedef union cavm_rfoex_abx_slotx_configuration2 cavm_rfoex_abx_slotx_configura
 static inline uint64_t CAVM_RFOEX_ABX_SLOTX_CONFIGURATION2(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_ABX_SLOTX_CONFIGURATION2(uint64_t a, uint64_t b, uint64_t c)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=1) && (c<=3)))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && ((a<=6) && (b<=1) && (c<=3)))
         return 0x87e042c02010ll + 0x80000ll * ((a) & 0x7) + 0x10000ll * ((b) & 0x1) + 0x2000ll * ((c) & 0x3);
     __cavm_csr_fatal("RFOEX_ABX_SLOTX_CONFIGURATION2", 3, a, b, c, 0, 0, 0);
 }
@@ -645,7 +645,7 @@ typedef union cavm_rfoex_abx_slotx_configuration3 cavm_rfoex_abx_slotx_configura
 static inline uint64_t CAVM_RFOEX_ABX_SLOTX_CONFIGURATION3(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_ABX_SLOTX_CONFIGURATION3(uint64_t a, uint64_t b, uint64_t c)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=1) && (c<=3)))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && ((a<=6) && (b<=1) && (c<=3)))
         return 0x87e042c02018ll + 0x80000ll * ((a) & 0x7) + 0x10000ll * ((b) & 0x1) + 0x2000ll * ((c) & 0x3);
     __cavm_csr_fatal("RFOEX_ABX_SLOTX_CONFIGURATION3", 3, a, b, c, 0, 0, 0);
 }
@@ -773,7 +773,7 @@ typedef union cavm_rfoex_abx_slotx_configuration4 cavm_rfoex_abx_slotx_configura
 static inline uint64_t CAVM_RFOEX_ABX_SLOTX_CONFIGURATION4(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RFOEX_ABX_SLOTX_CONFIGURATION4(uint64_t a, uint64_t b, uint64_t c)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=6) && (b<=1) && (c<=3)))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && ((a<=6) && (b<=1) && (c<=3)))
         return 0x87e042c02020ll + 0x80000ll * ((a) & 0x7) + 0x10000ll * ((b) & 0x1) + 0x2000ll * ((c) & 0x3);
     __cavm_csr_fatal("RFOEX_ABX_SLOTX_CONFIGURATION4", 3, a, b, c, 0, 0, 0);
 }

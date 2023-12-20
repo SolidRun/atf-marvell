@@ -53,7 +53,7 @@ typedef union cavm_mdab_dspx_mem_arrayx cavm_mdab_dspx_mem_arrayx_t;
 static inline uint64_t CAVM_MDAB_DSPX_MEM_ARRAYX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MDAB_DSPX_MEM_ARRAYX(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=47) && (b<=32767)))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && ((a<=47) && (b<=32767)))
         return 0x87e044040000ll + 0x80000ll * ((a) & 0x3f) + 8ll * ((b) & 0x7fff);
     __cavm_csr_fatal("MDAB_DSPX_MEM_ARRAYX", 2, a, b, 0, 0, 0, 0);
 }

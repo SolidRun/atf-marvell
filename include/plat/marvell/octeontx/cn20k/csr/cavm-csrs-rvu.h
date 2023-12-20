@@ -1862,7 +1862,7 @@ typedef union cavm_rvu_af_smmu_addr_tln cavm_rvu_af_smmu_addr_tln_t;
 static inline uint64_t CAVM_RVU_AF_SMMU_ADDR_TLN_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_SMMU_ADDR_TLN_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP))
+    if (cavm_is_model(OCTEONTX_CNF20KA))
         return 0x840000006018ll;
     __cavm_csr_fatal("RVU_AF_SMMU_ADDR_TLN", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1898,7 +1898,7 @@ typedef union cavm_rvu_af_smmu_tln_flit0 cavm_rvu_af_smmu_tln_flit0_t;
 static inline uint64_t CAVM_RVU_AF_SMMU_TLN_FLIT0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_SMMU_TLN_FLIT0_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x840000006020ll;
     __cavm_csr_fatal("RVU_AF_SMMU_TLN_FLIT0", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -3391,7 +3391,7 @@ typedef union cavm_rvu_priv_hwvfx_dpix_cfg cavm_rvu_priv_hwvfx_dpix_cfg_t;
 static inline uint64_t CAVM_RVU_PRIV_HWVFX_DPIX_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_PRIV_HWVFX_DPIX_CFG(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=255) && (b<=1)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=255) && (b<=1)))
         return 0x840008001380ll + 0x10000ll * ((a) & 0xff) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("RVU_PRIV_HWVFX_DPIX_CFG", 2, a, b, 0, 0, 0, 0);
 }
@@ -3860,7 +3860,7 @@ typedef union cavm_rvu_priv_pfx_dpix_cfg cavm_rvu_priv_pfx_dpix_cfg_t;
 static inline uint64_t CAVM_RVU_PRIV_PFX_DPIX_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_PRIV_PFX_DPIX_CFG(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && ((a<=31) && (b<=1)))
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=31) && (b<=1)))
         return 0x840008000380ll + 0x10000ll * ((a) & 0x1f) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("RVU_PRIV_PFX_DPIX_CFG", 2, a, b, 0, 0, 0, 0);
 }
@@ -4153,7 +4153,7 @@ typedef union cavm_rvu_priv_pfx_pma_cfg cavm_rvu_priv_pfx_pma_cfg_t;
 static inline uint64_t CAVM_RVU_PRIV_PFX_PMA_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_PRIV_PFX_PMA_CFG(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=31))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=31))
         return 0x840008000370ll + 0x10000ll * ((a) & 0x1f);
     __cavm_csr_fatal("RVU_PRIV_PFX_PMA_CFG", 1, a, 0, 0, 0, 0, 0);
 }

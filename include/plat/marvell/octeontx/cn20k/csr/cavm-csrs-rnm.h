@@ -771,9 +771,9 @@ union cavm_rnm_pf_trng
         uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit true random number or 0x0 if entropy is unavailable. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rnm_pf_trng_s cheetah; */
     /* struct cavm_rnm_pf_trng_s cn20; */
-    struct cavm_rnm_pf_trng_odinmp
+    /* struct cavm_rnm_pf_trng_s cn20ka; */
+    struct cavm_rnm_pf_trng_cnf20ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit true random number.
@@ -782,7 +782,7 @@ union cavm_rnm_pf_trng
         uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit true random number.
                                                                  Must also read RNM_TRNG_RESULT for result status. */
 #endif /* Word 0 - End */
-    } odinmp;
+    } cnf20ka;
 };
 typedef union cavm_rnm_pf_trng cavm_rnm_pf_trng_t;
 
@@ -829,7 +829,7 @@ typedef union cavm_rnm_pf_trng_datx cavm_rnm_pf_trng_datx_t;
 static inline uint64_t CAVM_RNM_PF_TRNG_DATX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RNM_PF_TRNG_DATX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=127))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=127))
         return 0x87e00f001000ll + 0x10ll * ((a) & 0x7f);
     __cavm_csr_fatal("RNM_PF_TRNG_DATX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -870,7 +870,7 @@ typedef union cavm_rnm_pf_trng_resx cavm_rnm_pf_trng_resx_t;
 static inline uint64_t CAVM_RNM_PF_TRNG_RESX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RNM_PF_TRNG_RESX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=127))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=127))
         return 0x87e00f001008ll + 0x10ll * ((a) & 0x7f);
     __cavm_csr_fatal("RNM_PF_TRNG_RESX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -904,16 +904,16 @@ union cavm_rnm_pf_trng_result
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
-    struct cavm_rnm_pf_trng_result_cheetah
+    /* struct cavm_rnm_pf_trng_result_s cn20; */
+    struct cavm_rnm_pf_trng_result_cn20ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_0_63         : 64;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_63         : 64;
 #endif /* Word 0 - End */
-    } cheetah;
-    /* struct cavm_rnm_pf_trng_result_s cn20; */
-    /* struct cavm_rnm_pf_trng_result_s odinmp; */
+    } cn20ka;
+    /* struct cavm_rnm_pf_trng_result_s cnf20ka; */
 };
 typedef union cavm_rnm_pf_trng_result cavm_rnm_pf_trng_result_t;
 
@@ -955,7 +955,7 @@ typedef union cavm_rnm_random cavm_rnm_random_t;
 static inline uint64_t CAVM_RNM_RANDOM_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RNM_RANDOM_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP))
+    if (cavm_is_model(OCTEONTX_CNF20KA))
         return 0x80f000800000ll;
     __cavm_csr_fatal("RNM_RANDOM", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -983,9 +983,9 @@ union cavm_rnm_trng
         uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit true random number or 0x0 if entropy is unavailable. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rnm_trng_s cheetah; */
     /* struct cavm_rnm_trng_s cn20; */
-    struct cavm_rnm_trng_odinmp
+    /* struct cavm_rnm_trng_s cn20ka; */
+    struct cavm_rnm_trng_cnf20ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit true random number.
@@ -994,7 +994,7 @@ union cavm_rnm_trng
         uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit true random number.
                                                                  Must also read RNM_TRNG_RESULT for result status. */
 #endif /* Word 0 - End */
-    } odinmp;
+    } cnf20ka;
 };
 typedef union cavm_rnm_trng cavm_rnm_trng_t;
 
@@ -1034,16 +1034,16 @@ union cavm_rnm_trng_result
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
-    struct cavm_rnm_trng_result_cheetah
+    /* struct cavm_rnm_trng_result_s cn20; */
+    struct cavm_rnm_trng_result_cn20ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_0_63         : 64;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_63         : 64;
 #endif /* Word 0 - End */
-    } cheetah;
-    /* struct cavm_rnm_trng_result_s cn20; */
-    /* struct cavm_rnm_trng_result_s odinmp; */
+    } cn20ka;
+    /* struct cavm_rnm_trng_result_s cnf20ka; */
 };
 typedef union cavm_rnm_trng_result cavm_rnm_trng_result_t;
 
@@ -1238,7 +1238,7 @@ typedef union cavm_rnm_vf_trng_datx cavm_rnm_vf_trng_datx_t;
 static inline uint64_t CAVM_RNM_VF_TRNG_DATX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RNM_VF_TRNG_DATX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=127))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=127))
         return 0x80f000800800ll + 0x10ll * ((a) & 0x7f);
     __cavm_csr_fatal("RNM_VF_TRNG_DATX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1279,7 +1279,7 @@ typedef union cavm_rnm_vf_trng_resx cavm_rnm_vf_trng_resx_t;
 static inline uint64_t CAVM_RNM_VF_TRNG_RESX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RNM_VF_TRNG_RESX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=127))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=127))
         return 0x80f000800808ll + 0x10ll * ((a) & 0x7f);
     __cavm_csr_fatal("RNM_VF_TRNG_RESX", 1, a, 0, 0, 0, 0, 0);
 }

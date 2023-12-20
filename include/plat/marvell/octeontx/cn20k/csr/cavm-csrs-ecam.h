@@ -165,9 +165,9 @@ union cavm_ecamx_domx_busx_permit
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_ecamx_domx_busx_permit_s cheetah; */
     /* struct cavm_ecamx_domx_busx_permit_s cn20; */
-    struct cavm_ecamx_domx_busx_permit_odinmp
+    /* struct cavm_ecamx_domx_busx_permit_s cn20ka; */
+    struct cavm_ecamx_domx_busx_permit_cnf20ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
@@ -194,7 +194,7 @@ union cavm_ecamx_domx_busx_permit
                                                                  allowed by any initiator. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
-    } odinmp;
+    } cnf20ka;
 };
 typedef union cavm_ecamx_domx_busx_permit cavm_ecamx_domx_busx_permit_t;
 
@@ -240,9 +240,9 @@ union cavm_ecamx_domx_const
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_ecamx_domx_const_s cheetah; */
     /* struct cavm_ecamx_domx_const_s cn20; */
-    struct cavm_ecamx_domx_const_odinmp
+    /* struct cavm_ecamx_domx_const_s cn20ka; */
+    struct cavm_ecamx_domx_const_cnf20ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_6_63         : 58;
@@ -257,7 +257,7 @@ union cavm_ecamx_domx_const
         uint64_t pres                  : 1;  /**< [  5:  5](RO) If implemented. */
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
-    } odinmp;
+    } cnf20ka;
 };
 typedef union cavm_ecamx_domx_const cavm_ecamx_domx_const_t;
 
@@ -329,9 +329,9 @@ union cavm_ecamx_domx_devx_permit
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_ecamx_domx_devx_permit_s cheetah; */
     /* struct cavm_ecamx_domx_devx_permit_s cn20; */
-    struct cavm_ecamx_domx_devx_permit_odinmp
+    /* struct cavm_ecamx_domx_devx_permit_s cn20ka; */
+    struct cavm_ecamx_domx_devx_permit_cnf20ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
@@ -358,7 +358,7 @@ union cavm_ecamx_domx_devx_permit
                                                                  allowed by any initiator. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
-    } odinmp;
+    } cnf20ka;
 };
 typedef union cavm_ecamx_domx_devx_permit cavm_ecamx_domx_devx_permit_t;
 
@@ -442,7 +442,7 @@ typedef union cavm_ecamx_domx_rslx_permit cavm_ecamx_domx_rslx_permit_t;
 static inline uint64_t CAVM_ECAMX_DOMX_RSLX_PERMIT(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ECAMX_DOMX_RSLX_PERMIT(uint64_t a, uint64_t b, uint64_t c)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && ((b==0) || (b==1) || (b==2)) && (c<=1023)))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && ((a==0) && ((b==0) || (b==1) || (b==2)) && (c<=1023)))
         return 0x87e078060000ll + 0x1000000ll * ((a) & 0x0) + 0x2000ll * ((b) & 0x3) + 8ll * ((c) & 0x3ff);
     __cavm_csr_fatal("ECAMX_DOMX_RSLX_PERMIT", 3, a, b, c, 0, 0, 0);
 }

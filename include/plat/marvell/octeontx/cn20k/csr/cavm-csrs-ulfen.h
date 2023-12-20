@@ -591,7 +591,7 @@ typedef union cavm_ulfex_abx_config0_datax cavm_ulfex_abx_config0_datax_t;
 static inline uint64_t CAVM_ULFEX_ABX_CONFIG0_DATAX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ULFEX_ABX_CONFIG0_DATAX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=1) && (c<=1)))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && ((a==0) && (b<=1) && (c<=1)))
         return 0x87e040002000ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x1) + 8ll * ((c) & 0x1);
     __cavm_csr_fatal("ULFEX_ABX_CONFIG0_DATAX", 3, a, b, c, 0, 0, 0);
 }
@@ -629,7 +629,7 @@ typedef union cavm_ulfex_abx_config1_datax cavm_ulfex_abx_config1_datax_t;
 static inline uint64_t CAVM_ULFEX_ABX_CONFIG1_DATAX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ULFEX_ABX_CONFIG1_DATAX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=1) && (c<=1)))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && ((a==0) && (b<=1) && (c<=1)))
         return 0x87e040004000ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x1) + 8ll * ((c) & 0x1);
     __cavm_csr_fatal("ULFEX_ABX_CONFIG1_DATAX", 3, a, b, c, 0, 0, 0);
 }
@@ -667,7 +667,7 @@ typedef union cavm_ulfex_abx_config2_datax cavm_ulfex_abx_config2_datax_t;
 static inline uint64_t CAVM_ULFEX_ABX_CONFIG2_DATAX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ULFEX_ABX_CONFIG2_DATAX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=1) && (c<=1)))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && ((a==0) && (b<=1) && (c<=1)))
         return 0x87e040006000ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x1) + 8ll * ((c) & 0x1);
     __cavm_csr_fatal("ULFEX_ABX_CONFIG2_DATAX", 3, a, b, c, 0, 0, 0);
 }
@@ -727,7 +727,7 @@ typedef union cavm_ulfex_abx_control cavm_ulfex_abx_control_t;
 static inline uint64_t CAVM_ULFEX_ABX_CONTROL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ULFEX_ABX_CONTROL(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=1)))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && ((a==0) && (b<=1)))
         return 0x87e040000000ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ULFEX_ABX_CONTROL", 2, a, b, 0, 0, 0, 0);
 }
@@ -767,7 +767,7 @@ typedef union cavm_ulfex_abx_error_enable0 cavm_ulfex_abx_error_enable0_t;
 static inline uint64_t CAVM_ULFEX_ABX_ERROR_ENABLE0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ULFEX_ABX_ERROR_ENABLE0(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=1)))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && ((a==0) && (b<=1)))
         return 0x87e040000040ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ULFEX_ABX_ERROR_ENABLE0", 2, a, b, 0, 0, 0, 0);
 }
@@ -883,7 +883,7 @@ typedef union cavm_ulfex_abx_error_enable1 cavm_ulfex_abx_error_enable1_t;
 static inline uint64_t CAVM_ULFEX_ABX_ERROR_ENABLE1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ULFEX_ABX_ERROR_ENABLE1(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=1)))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && ((a==0) && (b<=1)))
         return 0x87e040000048ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ULFEX_ABX_ERROR_ENABLE1", 2, a, b, 0, 0, 0, 0);
 }
@@ -929,7 +929,7 @@ typedef union cavm_ulfex_abx_error_source0 cavm_ulfex_abx_error_source0_t;
 static inline uint64_t CAVM_ULFEX_ABX_ERROR_SOURCE0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ULFEX_ABX_ERROR_SOURCE0(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=1)))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && ((a==0) && (b<=1)))
         return 0x87e040000030ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ULFEX_ABX_ERROR_SOURCE0", 2, a, b, 0, 0, 0, 0);
 }
@@ -1047,7 +1047,7 @@ typedef union cavm_ulfex_abx_error_source1 cavm_ulfex_abx_error_source1_t;
 static inline uint64_t CAVM_ULFEX_ABX_ERROR_SOURCE1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ULFEX_ABX_ERROR_SOURCE1(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=1)))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && ((a==0) && (b<=1)))
         return 0x87e040000038ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ULFEX_ABX_ERROR_SOURCE1", 2, a, b, 0, 0, 0, 0);
 }
@@ -1093,7 +1093,7 @@ typedef union cavm_ulfex_abx_status cavm_ulfex_abx_status_t;
 static inline uint64_t CAVM_ULFEX_ABX_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ULFEX_ABX_STATUS(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && ((a==0) && (b<=1)))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && ((a==0) && (b<=1)))
         return 0x87e040000018ll + 0x80000ll * ((a) & 0x0) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ULFEX_ABX_STATUS", 2, a, b, 0, 0, 0, 0);
 }

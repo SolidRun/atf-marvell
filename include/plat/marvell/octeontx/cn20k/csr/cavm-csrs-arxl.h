@@ -171,7 +171,7 @@ typedef union cavm_arxlx_control cavm_arxlx_control_t;
 static inline uint64_t CAVM_ARXLX_CONTROL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ARXLX_CONTROL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=1))
         return 0x87e042200000ll + 0x80000ll * ((a) & 0x1);
     __cavm_csr_fatal("ARXLX_CONTROL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -255,7 +255,7 @@ typedef union cavm_arxlx_error_enable0 cavm_arxlx_error_enable0_t;
 static inline uint64_t CAVM_ARXLX_ERROR_ENABLE0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ARXLX_ERROR_ENABLE0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=1))
         return 0x87e042200040ll + 0x80000ll * ((a) & 0x1);
     __cavm_csr_fatal("ARXLX_ERROR_ENABLE0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -331,7 +331,7 @@ typedef union cavm_arxlx_error_source0 cavm_arxlx_error_source0_t;
 static inline uint64_t CAVM_ARXLX_ERROR_SOURCE0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ARXLX_ERROR_SOURCE0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=1))
         return 0x87e042200030ll + 0x80000ll * ((a) & 0x1);
     __cavm_csr_fatal("ARXLX_ERROR_SOURCE0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -367,7 +367,7 @@ typedef union cavm_arxlx_slotx_jcfgx cavm_arxlx_slotx_jcfgx_t;
 static inline uint64_t CAVM_ARXLX_SLOTX_JCFGX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ARXLX_SLOTX_JCFGX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && ((a<=1) && (b<=1) && (c<=60)))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && ((a<=1) && (b<=1) && (c<=60)))
         return 0x87e042202000ll + 0x80000ll * ((a) & 0x1) + 0x2000ll * ((b) & 0x1) + 8ll * ((c) & 0x3f);
     __cavm_csr_fatal("ARXLX_SLOTX_JCFGX", 3, a, b, c, 0, 0, 0);
 }
@@ -411,7 +411,7 @@ typedef union cavm_arxlx_status cavm_arxlx_status_t;
 static inline uint64_t CAVM_ARXLX_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ARXLX_STATUS(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=1))
         return 0x87e042200018ll + 0x80000ll * ((a) & 0x1);
     __cavm_csr_fatal("ARXLX_STATUS", 1, a, 0, 0, 0, 0, 0);
 }

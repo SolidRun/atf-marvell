@@ -280,7 +280,7 @@ typedef union cavm_pgc_debugger_command cavm_pgc_debugger_command_t;
 static inline uint64_t CAVM_PGC_DEBUGGER_COMMAND_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PGC_DEBUGGER_COMMAND_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x87e012c00108ll;
     __cavm_csr_fatal("PGC_DEBUGGER_COMMAND", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -338,7 +338,7 @@ typedef union cavm_pgc_power_domain_commandx cavm_pgc_power_domain_commandx_t;
 static inline uint64_t CAVM_PGC_POWER_DOMAIN_COMMANDX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PGC_POWER_DOMAIN_COMMANDX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=7))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=7))
         return 0x87e012c00080ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("PGC_POWER_DOMAIN_COMMANDX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -470,7 +470,7 @@ typedef union cavm_pgc_power_domain_controlx cavm_pgc_power_domain_controlx_t;
 static inline uint64_t CAVM_PGC_POWER_DOMAIN_CONTROLX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PGC_POWER_DOMAIN_CONTROLX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=7))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=7))
         return 0x87e012c00000ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("PGC_POWER_DOMAIN_CONTROLX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -512,7 +512,7 @@ typedef union cavm_pgc_power_domain_statisticsx cavm_pgc_power_domain_statistics
 static inline uint64_t CAVM_PGC_POWER_DOMAIN_STATISTICSX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PGC_POWER_DOMAIN_STATISTICSX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=7))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=7))
         return 0x87e012c000c0ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("PGC_POWER_DOMAIN_STATISTICSX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -620,7 +620,7 @@ typedef union cavm_pgc_power_domain_statusx cavm_pgc_power_domain_statusx_t;
 static inline uint64_t CAVM_PGC_POWER_DOMAIN_STATUSX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PGC_POWER_DOMAIN_STATUSX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=7))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=7))
         return 0x87e012c00040ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("PGC_POWER_DOMAIN_STATUSX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -656,7 +656,7 @@ typedef union cavm_pgc_power_statex cavm_pgc_power_statex_t;
 static inline uint64_t CAVM_PGC_POWER_STATEX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PGC_POWER_STATEX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH) && (a<=63))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
         return 0x87e012c00110ll + 8ll * ((a) & 0x3f);
     __cavm_csr_fatal("PGC_POWER_STATEX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -707,7 +707,7 @@ typedef union cavm_pgc_power_up_delay cavm_pgc_power_up_delay_t;
 static inline uint64_t CAVM_PGC_POWER_UP_DELAY_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PGC_POWER_UP_DELAY_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CHEETAH))
+    if (cavm_is_model(OCTEONTX_CN20KA))
         return 0x87e012c00100ll;
     __cavm_csr_fatal("PGC_POWER_UP_DELAY", 0, 0, 0, 0, 0, 0, 0);
 }
