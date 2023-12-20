@@ -51,6 +51,14 @@ int cn10k_ras_dss_probe(const struct err_record_info *info, int *probe_data)
 	for (ch = 0; ch < get_num_channels(); ch++) {
 		int_stat.u = CSR_READ(CAVM_DSSX_INT_W1C(ch));
 
+		if (cavm_is_model(OCTEONTX_CN10KB)) {
+			if (int_stat.s.rd_crc_err_max_reached_intr ||
+				int_stat.s.wr_crc_err_max_reached_intr) {
+				*probe_data = ch;
+				return 1;
+			}
+		}
+
 		if (int_stat.s.ecc_corrected_err_intr ||
 			int_stat.s.ecc_uncorrected_err_intr) {
 			*probe_data = ch;
@@ -92,9 +100,23 @@ extern int cn10k_get_ch_size(void);
 		/* TODO: Check only ECC errors to be enabled */
 		CSR_WRITE(CAVM_DSSX_INT_ENA_W1C(ch), ~0ULL);
 
+		bool crc_is_enabled = false;
+
+		if (cavm_is_model(OCTEONTX_CN10KB)) {
+			CSR_INIT(r, CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCPARCTL1(ch));
+			if (r.cn10kb.rd_crc_enable && r.cn10kb.wr_crc_enable)
+				crc_is_enabled = true;
+		}
+
 		int_enable.u = 0ULL;
-		int_enable.s.ecc_corrected_err_intr = 1;
-		int_enable.s.ecc_uncorrected_err_intr = 1;
+		if (crc_is_enabled) {
+			int_enable.s.rd_crc_err_max_reached_intr = 1;
+			int_enable.s.wr_crc_err_max_reached_intr = 1;
+		} else {
+			int_enable.s.ecc_corrected_err_intr = 1;
+			int_enable.s.ecc_uncorrected_err_intr = 1;
+		}
+
 		CSR_WRITE(CAVM_DSSX_INT_ENA_W1S(ch), int_enable.u);
 		VERBOSE("DSS Int ENA 0x%" PRIx64 " ECC CTL 0x%" PRIx64 "\n", CSR_READ(CAVM_DSSX_INT_ENA_W1S(ch)),
 			CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCTL(ch)));
@@ -253,9 +275,38 @@ int cn10k_ras_dss_isr(uint32_t id, uint32_t flags, void *cookie)
 		return 0;
 
 	for (ch = 0; ch < get_num_channels(); ch++) {
+		int_stat.u = CSR_READ(CAVM_DSSX_INT_W1C(ch));
+
+		if (cavm_is_model(OCTEONTX_CN10KB)) {
+			CSR_INIT(crcparctl0, CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCPARCTL0(ch));
+			cavm_dssx_int_w1c_t int_w1c;
+
+			int_w1c.u = 0;
+			if (int_stat.s.rd_crc_err_max_reached_intr) {
+				int_w1c.s.rd_crc_err_max_reached_intr = 1;
+				int_stat.s.rd_crc_err_max_reached_intr = 0;
+				crcparctl0.cn10kb.rd_crc_err_max_reached_int_clr = 1;
+				crcparctl0.cn10kb.rd_crc_err_cnt_clr = 1;
+			}
+			if (int_stat.s.wr_crc_err_max_reached_intr) {
+				int_w1c.s.wr_crc_err_max_reached_intr = 1;
+				int_stat.s.wr_crc_err_max_reached_intr = 0;
+				crcparctl0.cn10kb.wr_crc_err_max_reached_intr_clr = 1;
+				crcparctl0.cn10kb.wr_crc_err_cnt_clr = 1;
+			}
+			if (int_w1c.u) {
+				/* clear CRC error counters and crc_err_max_reached interrupts */
+				CSR_WRITE(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCPARCTL0(ch), crcparctl0.u);
+				CSR_WRITE(CAVM_DSSX_INT_W1C(ch), int_w1c.u);
+				if (int_w1c.s.rd_crc_err_max_reached_intr)
+					debug_ras("DMC%d: Read CRC error\n", ch);
+				if (int_w1c.s.wr_crc_err_max_reached_intr)
+					debug_ras("DMC%d: Write CRC error\n", ch);
+			}
+		}
+
 		/* Check DSS Errors */
 		dss_err_info.u = 0;
-		int_stat.u = CSR_READ(CAVM_DSSX_INT_W1C(ch));
 		eccstat.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCSTAT(ch));
 		eccctl.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCTL(ch));
 
