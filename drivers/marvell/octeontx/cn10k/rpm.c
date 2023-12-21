@@ -622,8 +622,12 @@ void rpm_gpio_led_handle(int rpm_id, int lmac_id, int portm_idx, uint64_t link_u
 	if (led_info->is_act_supported || led_info->is_combined_link_act) {
 		uint32_t cnt;
 
-		cur_rx_pkt_cnt = CSR_READ(CAVM_RPMX_CMRX_RX_STAT0(rpm_id, lmac_id));
-		cur_tx_pkt_cnt = CSR_READ(CAVM_RPMX_MTI_STAT_TX_STAT_PAGES_COUNTERX(rpm_id, ETHER_TX_STATS_PKTS_PAGE));
+		cur_rx_pkt_cnt = CSR_READ(CAVM_RPMX_MTI_STAT_RX_STAT_PAGES_COUNTERX(rpm_id,
+					lmac_id * ETHER_MAX_NUM_RX_STATS + ETHER_RX_STATS_PKTS_PAGE));
+		cnt = CSR_READ(CAVM_RPMX_MTI_STAT_DATA_HI_CDC(rpm_id));
+		cur_rx_pkt_cnt |= (((uint64_t)cnt) << 32);
+		cur_tx_pkt_cnt = CSR_READ(CAVM_RPMX_MTI_STAT_TX_STAT_PAGES_COUNTERX(rpm_id,
+					lmac_id * ETHER_MAX_NUM_TX_STATS + ETHER_TX_STATS_PKTS_PAGE));
 		cnt = CSR_READ(CAVM_RPMX_MTI_STAT_DATA_HI_CDC(rpm_id));
 		cur_tx_pkt_cnt |= (((uint64_t)cnt) << 32);
 

@@ -52,8 +52,13 @@
 #define ECP_TX_EQ_CHANGE_WAIT_MS	50		/* 50 ms */
 
 #define GPIO_ACTIVE_HIGH 1
-/* MAC Statistics page for TX packets */
-#define ETHER_TX_STATS_PKTS_PAGE 33
+
+/* MAC Statistics page for packets */
+#define ETHER_RX_STATS_PKTS_PAGE	14
+#define ETHER_MAX_NUM_RX_STATS		43
+
+#define ETHER_TX_STATS_PKTS_PAGE	33
+#define ETHER_MAX_NUM_TX_STATS		34
 
 typedef struct rpm_tsu_config {
 	int tsu_rx_mode;
