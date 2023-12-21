@@ -2130,6 +2130,7 @@ static void cn10k_rpm_lmacs_check_linux(void *fdt,
 		led_offset = cn10k_fdt_lookup_phandle(fdt, lmac_offset, "led-port");
 		if (led_offset > 0) {
 			led_gpio_info_t *led_info;
+			int print_link = 0;
 
 			led_info = &plat_octeontx_bcfg->led_info[portm_idx];
 			/* Update GPIO LED information in LMAC config */
@@ -2153,7 +2154,18 @@ static void cn10k_rpm_lmacs_check_linux(void *fdt,
 				&led_info->link, dbg_prefix) >= 0) {
 				led_info->link_status = 0;
 				led_info->is_link_supported = 1;
+				print_link = 1;
+			} else if (cn10k_fdt_gpio_get_info_by_phandle(fdt, led_offset, "link-act-gpios",
+									&led_info->link, dbg_prefix) >= 0) {
+				debug_dts("%s: combined link and activity LED\n", dbg_prefix);
+				memcpy(&led_info->activity, &led_info->link, sizeof(led_gpio_info_t));
 
+				led_info->link_status = 0;
+				led_info->is_combined_link_act = 1;
+				print_link = 1;
+			}
+
+			if (print_link == 1)
 				debug_dts("%s: link: pin: %02d - num_pins: %02d - i2c_addr: 0x%02x - i2c_bus: %d - dir_out: %d - dir_in: %d - type: %d - flags: 0x%x\n",
 					dbg_prefix,
 					led_info->link.pin,
@@ -2164,7 +2176,6 @@ static void cn10k_rpm_lmacs_check_linux(void *fdt,
 					led_info->link.dir_in,
 					led_info->link.type,
 					led_info->link.flags);
-			}
 		}
 
 		/* Check for sfp-slot info */

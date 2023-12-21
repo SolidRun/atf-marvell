@@ -89,7 +89,7 @@ void sfp_init_shmem(void)
 		}
 
 		led = &plat_octeontx_bcfg->led_info[portm_idx];
-		if (led->is_link_supported || led->is_act_supported) {
+		if (led->is_link_supported || led->is_act_supported || led->is_combined_link_act) {
 			debug_sfp_mgmt("%s: PORTM%d: copying LED INFO\n",
 				__func__, portm_idx);
 

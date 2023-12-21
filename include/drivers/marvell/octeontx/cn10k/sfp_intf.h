@@ -186,6 +186,12 @@ typedef struct sfp_slot_info {
 	uint32_t  qsfp_modsel_output;
 } sfp_slot_info_t;
 
+/* Data structure to hold LED information
+ * If is_combined_link_act is set, then the same gpio is referenced
+ * in both link and activity gpio_info_t structures.  LED will stay
+ * on if the link is active and no activity is detected.  LED will
+ * blink with activity
+ */
 typedef struct led_gpio_info {
 	gpio_info_t link;
 	gpio_info_t activity;
@@ -198,6 +204,7 @@ typedef struct led_gpio_info {
 	uint8_t  link_update:1;
 	uint8_t  act_update:1;
 	uint8_t  act_state:1;
+	uint8_t  is_combined_link_act:1;
 } led_gpio_info_t;
 
 /* Ownership of shared memory */

@@ -578,8 +578,7 @@ void rpm_gpio_led_handle(int rpm_id, int lmac_id, int portm_idx, uint64_t link_u
 
 	sh_data = sfp_get_sh_mem_ptr(portm_idx);
 	led_info = &sh_data->led_info;
-
-	if (led_info->is_link_supported) {
+	if (led_info->is_link_supported || led_info->is_combined_link_act) {
 		bool led_state = false;
 		bool update_led = false;
 
@@ -610,7 +609,7 @@ void rpm_gpio_led_handle(int rpm_id, int lmac_id, int portm_idx, uint64_t link_u
 		}
 	}
 
-	if (led_info->is_act_supported) {
+	if (led_info->is_act_supported || led_info->is_combined_link_act) {
 		uint32_t cnt;
 
 		cur_rx_pkt_cnt = CSR_READ(CAVM_RPMX_CMRX_RX_STAT0(rpm_id, lmac_id));
@@ -630,24 +629,39 @@ void rpm_gpio_led_handle(int rpm_id, int lmac_id, int portm_idx, uint64_t link_u
 		if (led_info->link.type == GPIO_PIN_DEFAULT) {
 			CSR_INIT(ledact, CAVM_GPIO_BIT_CFGX(
 				led_info->activity.pin));
-			if (!unblinked_pkts && (ledact.s.pin_sel != 0))
-				CSR_MODIFY(c, CAVM_GPIO_BIT_CFGX(
-					led_info->activity.pin),
-					c.s.tx_oe = 0; c.s.pin_sel = 0);
-			else if (unblinked_pkts && (ledact.s.pin_sel == 0))
+			if (!unblinked_pkts && (ledact.s.pin_sel != 0)) {
+				if (led_info->is_act_supported)
+					CSR_MODIFY(c, CAVM_GPIO_BIT_CFGX(
+						led_info->activity.pin),
+						c.s.tx_oe = 0; c.s.pin_sel = 0);
+				else  {
+					// Keep GPIO on - to indicate there is a link but no activity
+					cavm_gpio_tx_set_t gpio_tx_set;
+
+					CSR_MODIFY(c, CAVM_GPIO_BIT_CFGX(
+						led_info->activity.pin),
+						c.s.tx_oe = 1; c.s.pin_sel = 0);
+					gpio_tx_set.u = 0;
+					gpio_tx_set.s.set = (1ULL << led_info->activity.pin);
+					CSR_WRITE(CAVM_GPIO_TX_SET, gpio_tx_set.u);
+				}
+			} else if (unblinked_pkts && (ledact.s.pin_sel == 0))
 				CSR_MODIFY(c, CAVM_GPIO_BIT_CFGX(
 					led_info->activity.pin),
 					c.s.tx_oe = 1; c.s.pin_sel =
 					CAVM_GPIO_PIN_SEL_E_GPIO_CLKX(0));
 		} else {
 			if (unblinked_pkts && !led_info->act_state) {
+				led_info->act_state = 1;
 				led_info->act_status = 1;
 				led_info->act_update = 1;
-				led_info->act_state = 1;
 			} else if (!unblinked_pkts && led_info->act_state) {
-				led_info->act_status = 0;
-				led_info->act_update = 1;
 				led_info->act_state = 0;
+				if (led_info->is_act_supported || !link_up)
+					led_info->act_status = 0;
+				else
+					led_info->act_status = 1; // Leave LED on to signfy link
+				led_info->act_update = 1;
 			}
 		}
 

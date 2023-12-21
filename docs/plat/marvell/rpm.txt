@@ -451,6 +451,10 @@ will be removed from dts tree right after ATF is done with parsing.
            reg = <0>;
            led-port = <&led_port_00>;
        };
+       ethernetA9: sgmii@01 {
+           reg = <1>;
+           led-port = <&led_port_01>;
+       };
    };
    rpm@1 {
        ethernetB1: sgmii@10 {
@@ -466,12 +470,14 @@ will be removed from dts tree right after ATF is done with parsing.
    };
 
    led_port_00: led@00 {
-       act-gpios = <&gpio_exp_3_24 8 0>;
+       act-gpios = <&gpio_exp_3_24 8 0>;       // Flashes with link activity
    };
-
+   led_port_01: led@01 {
+       link-act-gpios = <&gpio_exp_3_24 9 0>;  // On with link, flashes with activity
+   };
    led_port_10: led@10 {
        act-gpios = <&gpio_exp_3_20 6 0>;
-       link-gpios = <&gpio_exp_3_20 7 0>;
+       link-gpios = <&gpio_exp_3_20 7 0>;      // On with link
    };
 
    led_port_20: led@20 {

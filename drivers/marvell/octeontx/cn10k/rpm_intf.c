@@ -2597,8 +2597,8 @@ static int rpm_poll_for_link_cb(int timer)
 					/* Release firmware internal lock */
 					rpm_release_csr_lock(rpm_id, lmac_id);
 				}
-				if (led_info->is_link_supported ||
-					led_info->is_act_supported) {
+				if (led_info->is_link_supported || led_info->is_act_supported
+					|| led_info->is_combined_link_act) {
 					/* Look at RPM link state but also look at RX_ENA/TX_ENA since this is what
 					 * Linux ethtool / ifconfig use for link status
 					 */
