@@ -25,10 +25,15 @@ PLAT_CSR_INCLUDE        ?=       include/plat/marvell/octeontx/csr
 
 # Check if xSPI or MPI should be build
 CN10K_PLATS = cn10ka cnf10ka cnf10kb cn10kb
+CN20K_PLATS = cn20ka
 ifeq (${PLAT},$(filter ${PLAT}, ${CN10K_PLATS}))
        BUILD_XSPI=1
 else
+ ifeq (${PLAT},$(filter ${PLAT}, ${CN20K_PLATS}))
+       BUILD_XSPI=1
+ else
        BUILD_XSPI=0
+ endif
 endif
 
 # Secure Access Flag :
@@ -122,8 +127,10 @@ BL31_SOURCES		+=	${MARVELL_GIC_SOURCES}		\
 ifeq (${BUILD_XSPI}, 1)
        BL31_SOURCES += drivers/marvell/octeontx/cn10k/cdns_xspi.c
        BL2_SOURCES += drivers/marvell/octeontx/cn10k/cdns_xspi.c
+ifneq (${PLAT},$(filter ${PLAT}, ${CN20K_PLATS}))
        BL31_SOURCES += drivers/marvell/octeontx/cn10k/async_spi_op.c
        BL2_SOURCES += drivers/marvell/octeontx/cn10k/async_spi_op.c
+endif
 else
        BL31_SOURCES += drivers/marvell/octeontx/spi.c
        BL2_SOURCES += drivers/marvell/octeontx/spi.c

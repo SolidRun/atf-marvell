@@ -1,0 +1,1 @@
+../cn10k/emmc_wrapper_funcs.h

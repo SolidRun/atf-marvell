@@ -14,7 +14,7 @@
 #include <gicv3_setup.h>
 #include <octeontx_utils.h>
 #include <platform_irqs_def.h>
-#if defined(PLAT_CN10K_FAMILY)
+#if (defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY))
 #include <drivers/arm/gicv3.h>
 #include <assert.h>
 #include <lib/mmio.h>
@@ -41,6 +41,11 @@
 
 #if defined(PLAT_CN10K_FAMILY)
 #include <plat_cn10k_configuration.h>
+#elif defined(PLAT_CN20K_FAMILY)
+#include <plat_cn20k_configuration.h>
+#endif
+
+#if (defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY))
 
 /* GIC600-specific register offsets */
 #define GICR_PWRR       0x24
@@ -208,7 +213,7 @@ static gicv3_driver_data_t octeontx_gic_data = {
 };
 #endif
 
-#if defined(PLAT_CN10K_FAMILY)
+#if (defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY))
 void octeontx_gic_redistif_probe(uintptr_t *rdistif_addrs,
 				unsigned int rdistif_num,
 				uintptr_t gicr_base)
@@ -271,7 +276,7 @@ void octeontx_gic_driver_init(void)
 	 * not need GIC interface base addresses to be configured.
 	 */
 #if IMAGE_BL31
-#if !(defined(PLAT_CN10K_FAMILY))
+#if !(defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY))
 	/* ERRATUM GIC-28835 */
 	if (IS_OCTEONTX_PASS(read_midr(), T83PARTNUM, 1, 0)) {
 	        union cavm_gic_cfg_ctlr cfg_ctlr;
@@ -284,7 +289,7 @@ void octeontx_gic_driver_init(void)
 	initialize_interrupt_array(interrupt_array);
 	octeontx_gic_data.interrupt_props = interrupt_array;
 
-#if defined(PLAT_CN10K_FAMILY)
+#if (defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY))
 	octeontx_gic_redistif_probe(octeontx_gic_data.rdistif_base_addrs,
 			octeontx_gic_data.rdistif_num,
 			GIC_PF_BAR4);

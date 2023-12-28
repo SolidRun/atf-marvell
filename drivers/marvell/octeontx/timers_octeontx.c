@@ -167,7 +167,11 @@ static uint32_t plat_get_timer_value(void)
 	 * counter. We apply bitwise NOT operator to the tick values in the
 	 * RST_REF_CNTR register to simulate the down counter.
 	 */
+#if defined(PLAT_CN20K_FAMILY)
+	volatile uint64_t count = ~CSR_READ(CAVM_RSTX_REF_CNTR(1));
+#else
 	volatile uint64_t count = ~CSR_READ(CAVM_RST_REF_CNTR);
+#endif
 
 	return count;
 }

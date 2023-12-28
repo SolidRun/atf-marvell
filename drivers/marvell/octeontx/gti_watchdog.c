@@ -212,21 +212,23 @@ static void gti_watchdog_set(uint64_t timeout_ms, uint64_t cores)
 {
 	if (timeout_ms > 0) {
 		uint64_t sclk;
-#if !(defined(PLAT_CN10K_FAMILY))
-		union cavm_rst_boot rst_boot;
-#else
+#if defined(PLAT_CN10K_FAMILY)
 		cavm_rst_pllx_t rst_pll;
+#elif !defined(PLAT_CN20K_FAMILY)
+		union cavm_rst_boot rst_boot;
 #endif
 		union cavm_gti_cwd_wdogx wdog;
 		cavm_gti_cwd_int_ena_set_t gti_cwd_ena;
 		static int intr_hndlrs_registered;
 		int i, rc;
-#if !(defined(PLAT_CN10K_FAMILY))
-		rst_boot.u = CSR_READ(CAVM_RST_BOOT);
-		sclk = PLL_REF_CLK * rst_boot.s.pnr_mul;
-#else
+#if defined(PLAT_CN10K_FAMILY)
 		rst_pll.u = CSR_READ(CAVM_RST_PLLX(CAVM_RST_PLL_E_MESHCLK));
 		sclk = rst_pll.s.cur_mul * PLL_REF_CLK;
+#elif defined(PLAT_CN20K_FAMILY)
+		sclk = 16 * PLL_REF_CLK; /* FIXME */
+#else
+		rst_boot.u = CSR_READ(CAVM_RST_BOOT);
+		sclk = PLL_REF_CLK * rst_boot.s.pnr_mul;
 #endif
 		uint64_t timeout_sclk = sclk * timeout_ms / 1000;
 

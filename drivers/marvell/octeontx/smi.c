@@ -16,7 +16,7 @@
 #include <drivers/delay_timer.h>
 #include <string.h>
 #include <plat_board_cfg.h>
-#if !defined(PLAT_OTX_FAMILY)
+#if defined(PLAT_OTX2_FAMILY) || defined(PLAT_CN10K_FAMILY)
 #include <sfp_intf.h>
 #include <phy_mgmt.h>
 #include <smi.h>

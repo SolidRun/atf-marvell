@@ -17,10 +17,10 @@
 #include <plat_board_cfg.h>
 #include <spi.h>
 
-#include "cavm-csrs-gpio.h"
+//#include "cavm-csrs-gpio.h"
 #include "cavm-csrs-spi.h"
-#include "cavm-csrs-rst.h"
-#include "cavm-csrs-cpc.h"
+//#include "cavm-csrs-rst.h"
+//#include "cavm-csrs-cpc.h"
 
 #define CDNS_XSPI_AUTO_PIO_VAL     0x01
 #define CDNS_XSPI_AUTO_PIO_OFFSET  30

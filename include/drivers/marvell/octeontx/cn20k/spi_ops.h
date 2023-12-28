@@ -1,0 +1,1 @@
+../cn10k/spi_ops.h

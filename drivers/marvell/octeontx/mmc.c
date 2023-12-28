@@ -26,7 +26,7 @@
 #include <mmc.h>
 
 #include "cavm-csrs-gpio.h"
-#if defined(PLAT_CN10K_FAMILY)
+#if (defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY))
 #include "cn10k/emmc_driver_calls.h"
 #else
 #include "cavm-csrs-mio_emm.h"
@@ -34,7 +34,7 @@
 #include "cavm-csrs-rst.h"
 
 static file_state_t mmc_current_file = { 0 };
-#if !(defined(PLAT_CN10K_FAMILY))
+#if !(defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY))
 static mio_emm_driver_t mmc_drv = { 0 };
 #endif
 
@@ -110,7 +110,7 @@ static int emmc_block_close(io_entity_t *entity)
 	return 0;
 }
 
-#if defined(PLAT_CN10K_FAMILY)
+#if (defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY))
 
 static int emmc_block_read(io_entity_t *entity, uintptr_t buffer,
 		size_t length, size_t *length_read)
@@ -144,7 +144,7 @@ out:
 	return ret;
 }
 
-#if defined(PLAT_CN10K_FAMILY)
+#if (defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY))
 static int emmc_block_write(io_entity_t *entity, uintptr_t buffer,
 			    size_t length, size_t *length_written)
 {
@@ -955,13 +955,13 @@ static const io_dev_funcs_t emmc_dev_funcs = {
 	.seek = emmc_block_seek,
 	.size = emmc_block_size,
 	.read = emmc_block_read,
-#if defined(PLAT_CN10K_FAMILY)
+#if (defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY))
 	.write = emmc_block_write,
 #else
 	.write = NULL,
 #endif
 	.close = emmc_block_close,
-#if defined(PLAT_CN10K_FAMILY)
+#if (defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY))
 	.dev_init = emmc_dev_init,
 #else
 	.dev_init = sdmmc_dev_init,

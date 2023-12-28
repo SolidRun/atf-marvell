@@ -231,23 +231,25 @@ void twsi_send_ack(unsigned int twsi_num)
 void twsi_set_speed(unsigned int twsi_num, unsigned int speed)
 {
 	cavm_mio_twsx_sw_twsi_t sw_twsi;
-#if !(defined(PLAT_CN10K_FAMILY))
-	cavm_rst_boot_t rst_boot;
-#else
+#if defined(PLAT_CN10K_FAMILY)
 	cavm_rst_pllx_t rst_pll;
+#elif !defined(PLAT_CN20K_FAMILY)
+	cavm_rst_boot_t rst_boot;
 #endif
 	uint8_t twsi_clkctl;
 	unsigned int div_n, div_m, div_d;
 	unsigned long pnr_clk, tclk;
 	unsigned long thp;
 
-#if !(defined(PLAT_CN10K_FAMILY))
+#if !(defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY))
 	rst_boot.u = CSR_READ(CAVM_RST_BOOT);
 
 	if (cavm_is_model(OCTEONTX_CN8XXX))
 		pnr_clk = rst_boot.s.pnr_mul * PLL_REF_CLK_CN8XXX;
 	else
 		pnr_clk = rst_boot.s.pnr_mul * PLL_REF_CLK_CN9XXX;
+#elif defined(PLAT_CN20K_FAMILY)
+	pnr_clk = 16 * PLL_REF_CLK_CN9XXX; /* FIXME */
 #else
 	rst_pll.u = CSR_READ(CAVM_RST_PLLX(CAVM_RST_PLL_E_SCLK));
 	pnr_clk = rst_pll.s.cur_mul * PLL_REF_CLK_CN9XXX;

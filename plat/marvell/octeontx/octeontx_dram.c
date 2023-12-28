@@ -17,7 +17,7 @@
 #include <plat_board_cfg.h>
 #include <octeontx_dram.h>
 
-#if !(PLAT_CN10K_FAMILY)
+#if !(PLAT_CN10K_FAMILY) && !(PLAT_CN20K_FAMILY)
 #include "cavm-csrs-lmc.h"
 #endif
 
@@ -43,12 +43,12 @@ static inline uint32_t popcnt(uint64_t val)
 
 uint64_t octeontx_dram_size()
 {
-#ifndef PLAT_CN10K_FAMILY
+#if !(PLAT_CN10K_FAMILY) && !(PLAT_CN20K_FAMILY)
 	uint64_t addr = 0;
 #endif
 	uint64_t size;
 
-#ifdef PLAT_CN10K_FAMILY
+#if (PLAT_CN10K_FAMILY) || (PLAT_CN20K_FAMILY)
 	size = plat_get_memory_size();
 #else
 	size = memory_region_get_info(NSECURE_NONPRESERVE, &addr);
@@ -59,7 +59,7 @@ uint64_t octeontx_dram_size()
 	return size;
 }
 
-#ifdef PLAT_CN10K_FAMILY
+#if (PLAT_CN10K_FAMILY) || (PLAT_CN20K_FAMILY)
 uint64_t octeontx_dram_reserve(uint64_t size, ccs_region_index_t index, int *new_index)
 {
 	uint64_t new_base = 0;

@@ -20,7 +20,7 @@
 #pragma GCC diagnostic pop
 
 #define MPIDR_MASK24	0xFFFFFF
-#if defined(PLAT_CN10K_FAMILY)
+#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY)
 #define CPU_ID_SHIFT	MPIDR_AFF2_SHIFT
 #else
 #define CPU_ID_SHIFT	MPIDR_AFF0_SHIFT
@@ -46,6 +46,8 @@
 #define CNF10KAPARTNUM	0xBA
 #define CNF10KBPARTNUM	0xBC
 #define CN10KBPARTNUM	0xBD
+#define CN20KAPARTNUM	0xC2
+#define CNF20KAPARTNUM	0xC3
 
 /* Boot type definitions */
 #define OCTEONTX_BOOT_UNSUPPORTED	1
@@ -70,7 +72,7 @@
 #define AP_CVM_ACCESS_EL2	S3_4_C11_C0_3
 #define AP_CVM_ACCESS_EL3	S3_6_C11_C0_3
 #define AP_CVM_NVBAR_EL3	S3_6_C11_C6_0
-#if defined(PLAT_CN10K_FAMILY)
+#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY)
 #define AP_CVM_CPURNDBR_EL3	S3_6_C15_C3_0
 #define AP_CVM_CPURNDPEID_EL3	S3_6_C15_C3_1
 #endif
@@ -85,7 +87,7 @@ DEFINE_RENAME_SYSREG_RW_FUNCS(cvm_access_el1, AP_CVM_ACCESS_EL1)
 DEFINE_RENAME_SYSREG_RW_FUNCS(cvm_access_el2, AP_CVM_ACCESS_EL2)
 DEFINE_RENAME_SYSREG_RW_FUNCS(cvm_access_el3, AP_CVM_ACCESS_EL3)
 DEFINE_RENAME_SYSREG_RW_FUNCS(cvmnvbar_el3, AP_CVM_NVBAR_EL3)
-#if defined(PLAT_CN10K_FAMILY)
+#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY)
 DEFINE_RENAME_SYSREG_RW_FUNCS(cvmcpurndbr_el3, AP_CVM_CPURNDBR_EL3)
 DEFINE_RENAME_SYSREG_RW_FUNCS(cvmcpurndpeid_el3, AP_CVM_CPURNDPEID_EL3)
 #endif
@@ -111,7 +113,7 @@ DEFINE_RENAME_SYSREG_RW_FUNCS(cvmcpurndpeid_el3, AP_CVM_CPURNDPEID_EL3)
 #define LIVELOCK_STALL_VALUE	ULL(0x8)
 
 /* In Mhz */
-#if defined(PLAT_CN10K_FAMILY)
+#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY)
 #define OCTEONTX_SYSCNT_FREQ	1000ull
 #else
 #define OCTEONTX_SYSCNT_FREQ	100ull
@@ -130,7 +132,7 @@ DEFINE_RENAME_SYSREG_RW_FUNCS(cvmcpurndpeid_el3, AP_CVM_CPURNDPEID_EL3)
 /* Defines for coresight preserve region support*/
 #define CORESIGHT_METADATA_SIZE			(1 * 1024 * 1024)
 #define CORESIGHT_REGISTER_SNAPSHOT_SIZE	64
-#if defined(PLAT_CN10K_FAMILY)
+#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY)
 	#define CS_ETF_SRAM_SIZE		0x4000 /* 16k */
 #endif
 
@@ -176,7 +178,7 @@ void plat_remove_ras_fdt_nodes(void);
 void plat_octeontx_set_nt_fw_config_size(uint64_t nt_fw_config_size);
 #endif
 
-#if !(defined(PLAT_CN10K_FAMILY))
+#if !(defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY))
 void l2c_flush(void);
 #else
 void llc_flush(void);
@@ -184,7 +186,7 @@ void llc_flush(void);
 
 void cavm_setup_platform(void);
 
-#if defined(PLAT_CN10K_FAMILY)
+#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY)
 void plat_cn10x_early_initialization(void);
 #elif defined(PLAT_OTX2_FAMILY)
 void plat_otx2_early_initialization(void);
@@ -199,7 +201,7 @@ uint32_t octeontx_fdt_get_next_strmid(void **prop, void **prop_end);
 int octeontx_fdt_get_strmid_ptrs(int pem, void **prop, void **prop_end);
 
 #if DBG_ALLOW_SYST_REG_AC
-#if defined(PLAT_CN10K_FAMILY)
+#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY)
 void adbg_init(void);
 void adbg_mmap_setup(void);
 uint64_t adbg_dram_region_base(void);

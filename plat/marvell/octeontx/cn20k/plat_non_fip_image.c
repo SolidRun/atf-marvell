@@ -1,0 +1,1 @@
+../cn10k/plat_non_fip_image.c

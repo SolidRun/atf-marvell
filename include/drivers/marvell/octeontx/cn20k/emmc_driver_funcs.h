@@ -1,0 +1,1 @@
+../cn10k/emmc_driver_funcs.h

@@ -17,7 +17,7 @@
 #include <lib/psci/psci.h>
 #include <octeontx_legacy_pwrc.h>
 #include <octeontx_common.h>
-#if defined(PLAT_CN10K_FAMILY)
+#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY)
 #include <octeontx_helpers.h>
 #endif
 #include <plat_board_cfg.h>
@@ -43,8 +43,11 @@
 extern void cn10k_per_cpu_ras_init(void);
 #endif
 extern void cn10k_power_down_core(void);
+#elif defined(PLAT_CN20K_FAMILY)
+extern void cn20k_power_down_core(void);
 #endif
 
+#if !defined(PLAT_CN20K_FAMILY)
 static void octeontx_odm_shutdown(int shutdown_gpio)
 {
 	volatile int loop;
@@ -77,10 +80,11 @@ static int octeontx_signal_mcu(uint8_t signal)
 
 	return 0;
 }
+#endif
 
 static void plat_disable_all_cores(void)
 {
-#if !(defined(PLAT_CN10K_FAMILY))
+#if !(defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY))
 	uint64_t cores;
 
 	cores = CSR_READ(CAVM_RST_PP_AVAILABLE);
@@ -90,6 +94,10 @@ static void plat_disable_all_cores(void)
 
 static void octeontx_signal_shutdown(void)
 {
+#if defined(PLAT_CN20K_FAMILY)
+	INFO("OcteonTX System Off: disable AP cores\n");
+	plat_disable_all_cores();
+#else
 	int rc;
 
 	/* Check for MCU structure */
@@ -113,6 +121,7 @@ static void octeontx_signal_shutdown(void)
 		INFO("OcteonTX System Off: disable AP cores\n");
 		plat_disable_all_cores();
 	}
+#endif
 
 	ERROR("OcteonTX System Off: Incorrect shutdown configuration\n");
 	panic();
@@ -153,12 +162,16 @@ static int octeontx_legacy_pwr_domain_on(u_register_t mpidr)
 	return rc;
 }
 
-#if defined(PLAT_CN10K_FAMILY)
+#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY)
 __dead2 static void octeontx_legacy_pwr_domain_off_wfi(const psci_power_state_t *target_state)
 {
 	int idx = (int) plat_my_core_pos();
 
+#if defined(PLAT_CN10K_FAMILY)
 	cn10k_power_down_core();
+#elif defined(PLAT_CN20K_FAMILY)
+	cn20k_power_down_core();
+#endif
 	octeontx_legacy_pwrc_cpu_off(idx);
 
 	isb();
@@ -234,7 +247,7 @@ static void octeontx_legacy_pwr_domain_on_finish(const psci_power_state_t *targe
 	/* Init FLR for secondary cores */
 	plat_flr_init();
 
-#if defined(PLAT_CN10K_FAMILY)
+#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY)
 #if RAS_EXTENSION
 	/* Per CPU RAS init */
 	cn10k_per_cpu_ras_init();
@@ -278,23 +291,23 @@ static void __dead2 octeontx_legacy_system_off(void)
 
 static void __dead2 octeontx_legacy_system_reset(void)
 {
-#if !(defined(PLAT_CN10K_FAMILY))
-	union cavm_rst_soft_rst rst_soft_rst;
-	union cavm_rst_ocx rst_ocx;
-#endif
-
 	udelay(10);
 
 	dcsw_op_all(DCCISW);
-#if !(defined(PLAT_CN10K_FAMILY))
-	l2c_flush();
-#else
+#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY)
 	llc_flush();
-#endif
+
 	__asm__ volatile("ic iallu\n"
 			 "isb\n");
 
-#if !(defined(PLAT_CN10K_FAMILY))
+#elif defined(PLAT_OTX_FAMILY) || defined(PLAT_OTX2_FAMILY)
+	union cavm_rst_soft_rst rst_soft_rst;
+	union cavm_rst_ocx rst_ocx;
+	l2c_flush();
+
+	__asm__ volatile("ic iallu\n"
+			 "isb\n");
+
 	rst_ocx.u = 0;
 	CSR_WRITE(CAVM_RST_OCX, rst_ocx.u);
 
@@ -378,7 +391,7 @@ plat_psci_ops_t plat_octeontx_legacy_psci_pm_ops = {
 	.cpu_standby = octeontx_legacy_cpu_standby,
 	.pwr_domain_on = octeontx_legacy_pwr_domain_on,
 	.pwr_domain_off = octeontx_legacy_pwr_domain_off,
-#if defined(PLAT_CN10K_FAMILY)
+#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY)
 	.pwr_domain_pwr_down_wfi = octeontx_legacy_pwr_domain_off_wfi,
 #endif
 	.pwr_domain_suspend = octeontx_legacy_pwr_domain_suspend,

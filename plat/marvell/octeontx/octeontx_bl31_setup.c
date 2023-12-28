@@ -135,7 +135,7 @@ void bl31_early_platform_setup(void *from_bl2,
 
 	console_switch_state(CONSOLE_FLAG_RUNTIME);
 
-#if !(defined(PLAT_CN10K_FAMILY))
+#if !(defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY))
 	/* Set secondary CPU entrypoint to somewhere in BL31 code, because
 	 * we should not relay on address that is inside of BL1 code.
 	 */
@@ -341,7 +341,7 @@ void bl31_plat_arch_setup()
 			MT_MEMORY | MT_RW | MT_SECURE);
 #endif
 
-#if !defined(PLAT_OTX_FAMILY)
+#if defined(PLAT_OTX2_FAMILY)
 	{
 		extern void otx2_map_ghes(ras_config_t *rc);
 		otx2_map_ghes(&plat_octeontx_bcfg->ras_config);

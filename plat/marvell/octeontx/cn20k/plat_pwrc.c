@@ -1,0 +1,1 @@
+../cn10k/plat_pwrc.c

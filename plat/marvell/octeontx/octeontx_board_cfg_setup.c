@@ -34,7 +34,7 @@ static void print_board_variables()
 {
 	board_info("======================\n");
 	board_info("BOARD MODEL = %s\n", plat_octeontx_bcfg->bcfg.board_model);
-#if !(defined(PLAT_CN10K_FAMILY))
+#if !(defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY))
 	board_info("QLM AUTO CONFIG = %d\n", plat_octeontx_bcfg->qlm_auto_config);
 #endif
 	board_info("BMC BOOT TWSI bus=0x%x, addr=0x%x\n",
@@ -129,7 +129,7 @@ int octeontx_fill_board_details(int info)
 			plat_octeontx_bcfg->bcfg.board_model[i] = tolower(plat_octeontx_bcfg->bcfg.board_model[i]);
 	}
 
-#if !(defined(PLAT_CN10K_FAMILY))
+#if !(defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY))
 	config = octeontx_fdt_get(fdt, offset, "QLM-AUTO-CONFIG", 0);
 	if (config != -1) {
 		plat_octeontx_bcfg->qlm_auto_config = config;
@@ -355,7 +355,7 @@ void octeontx_fill_ras_hest_details(const void *fdt, const char *path,
 	c->nr_ghes = cnt;
 }
 
-#ifndef PLAT_CN10K_FAMILY
+#if !(defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY))
 void octeontx_fill_ras_bert_details(const void *fdt, const char *path,
 		const char *compatible)
 {

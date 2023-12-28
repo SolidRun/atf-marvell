@@ -23,6 +23,8 @@
 #  include <plat_otx_configuration.h>
 #elif defined(PLAT_CN10K_FAMILY)
 #  include <plat_cn10k_configuration.h>
+#elif defined(PLAT_CN20K_FAMILY)
+#  include <plat_cn20k_configuration.h>
 #endif
 
 #include "cavm-csrs-ecam.h"
@@ -200,7 +202,7 @@ static inline int smmu_get_irq(int smmunr, int vectornr)
 #endif
 }
 
-#if !(defined(PLAT_CN10K_FAMILY))
+#if !(defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY))
 static void init_smmu(uint64_t config_base, uint64_t config_size)
 {
 	struct pcie_config *pconfig = (struct pcie_config *)config_base;
@@ -310,6 +312,7 @@ static void init_uaa(uint64_t config_base, uint64_t config_size)
 	}
 }
 
+#if !defined(PLAT_CN20K_FAMILY)
 static void init_pem(uint64_t config_base, uint64_t config_size)
 {
 	struct pcie_config *pconfig = (struct pcie_config *)config_base;
@@ -413,7 +416,9 @@ static void init_pem(uint64_t config_base, uint64_t config_size)
 	vsec_sctl.s.msix_sec_phys = is_pem_in_rc_mode(vsec_ctl.s.inst_num);
 	octeontx_write32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL, vsec_sctl.u);
 }
+#endif
 
+#if !defined(PLAT_CN20K_FAMILY)
 static void init_gti(uint64_t config_base, uint64_t config_size)
 {
 	struct pcie_config *pconfig = (struct pcie_config *)config_base;
@@ -468,6 +473,7 @@ static void init_gti(uint64_t config_base, uint64_t config_size)
 
 	*sctl |= 0x1;
 }
+#endif
 
 static void init_iobn(uint64_t config_base, uint64_t config_size)
 {
@@ -492,13 +498,17 @@ static void init_iobn(uint64_t config_base, uint64_t config_size)
  * different devices.
  */
 struct ecam_init_callback init_callbacks[] = {
-#if !(defined(PLAT_CN10K_FAMILY))
+#if !(defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY))
 	{0xa008, 0x177d, init_smmu},
 #endif
+#if !defined(PLAT_CN20K_FAMILY)
 	{0xa020, 0x177d, init_pem},
 	{0xa06c, 0x177d, init_pem},
+#endif
 	{0xa00f, 0x177d, init_uaa},
+#if !defined(PLAT_CN20K_FAMILY)
 	{0xa017, 0x177d, init_gti},
+#endif
 	{0xa027, 0x177d, init_iobn},
 	{0xa06b, 0x177d, init_iobn},
 	{0xa094, 0x177d, init_iobn},
@@ -507,7 +517,7 @@ struct ecam_init_callback init_callbacks[] = {
 
 static inline int octeontx_bus_is_rsl(struct ecam_device *device)
 {
-#if defined(PLAT_CN10K_FAMILY)
+#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY)
 	return (device->ecam == 0 && device->domain == 0 &&
 		(device->bus > 0 && device->bus < 5));
 #else

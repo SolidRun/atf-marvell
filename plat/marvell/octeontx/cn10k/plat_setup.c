@@ -93,7 +93,7 @@ extern console_t fwlog_buf;
 int crashdump_init(void *fdt);
 #endif
 
-volatile int8_t enable_hotplug[24] __aligned(CACHE_WRITEBACK_GRANULE);
+volatile int8_t enable_hotplug[PLATFORM_CORE_COUNT] __aligned(CACHE_WRITEBACK_GRANULE);
 
 static void plat_set_emmc_msix_vectors(void)
 {

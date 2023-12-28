@@ -77,7 +77,7 @@ enum direct_mode_operation {
 	CDNS_DIRECT_READ,
 };
 
-#if (defined(PLAT_CN10K_FAMILY))
+#if (defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY))
 /* Params for delayed SPI operations */
 #define SPI_OP_COUNT 2048
 #define BLOCK_OP_COUNT 64
@@ -173,7 +173,7 @@ int cdns_xspi_auto_erase(uint64_t spi_addr, uint32_t block_erase_cnt,
 
 int spi_nor_erase(uint32_t addr, int addr_len, int spi_con, int cs);
 
-#if (defined(PLAT_CN10K_FAMILY))
+#if (defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY))
 int spi_nor_write(const uint8_t *buf, int buf_size, uint32_t addr,
 			int addr_len, int spi_con, int cs);
 #else
@@ -188,7 +188,9 @@ uint32_t spi_dev_lock(int spi_con);
 uint32_t spi_dev_unlock(int spi_con);
 
 /* Async operations are avalible only in CN10K*/
-#if (defined(PLAT_CN10K_FAMILY))
+#if defined(PLAT_CN20K_FAMILY)
+int spi_block_config(uintptr_t handle, uint32_t spi_con, uint32_t cs);
+#elif (defined(PLAT_CN10K_FAMILY))
 /**
  * Set the SPI controller and chip select for an open handle
  */

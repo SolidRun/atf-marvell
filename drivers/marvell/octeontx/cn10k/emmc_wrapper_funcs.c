@@ -7,6 +7,8 @@
 #include <string.h>
 #include "emmc_wrapper_funcs.h"
 #include "emmc_driver_funcs.h"
+#include "cavm-csrs-cpc.h"
+#include "cavm-csrs-emmc.h"
 
 /****************************************************************
  *   Description:

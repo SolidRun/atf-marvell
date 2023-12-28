@@ -11,6 +11,8 @@
 #include <plat/common/platform.h>
 #if defined(PLAT_CN10K_FAMILY)
 #include <plat_cn10k_configuration.h>
+#elif defined(PLAT_CN20K_FAMILY)
+#include <plat_cn20k_configuration.h>
 #endif
 #include <context.h>
 #include <platform_def.h>
@@ -25,13 +27,13 @@
 #include <octeontx_legacy_pwrc.h>
 
 #include "cavm-csrs-rst.h"
-#if defined(PLAT_CN10K_FAMILY)
+#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY)
 #include "cavm-csrs-dsuub.h"
 #endif
 
 #define CORE_ONFINISH_WAIT_LOOPS 1000000
 
-#if !(defined(PLAT_CN10K_FAMILY))
+#if !(defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY))
 static int wait_for_core()
 {
 
@@ -68,7 +70,7 @@ static int wait_for_core()
 }
 #endif
 
-#if defined(PLAT_CN10K_FAMILY)
+#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY)
 static void octeontx_dsu_core_cluster_on(int octeontx_core_id)
 {
 	cavm_dsuubx_cluster_ppu_pwpr_t cluster_pwpr;
@@ -90,7 +92,7 @@ static void octeontx_dsu_core_cluster_on(int octeontx_core_id)
 void octeontx_legacy_pwrc_write_pponr(unsigned long mpidr)
 {
 	unsigned long octeontx_core_id = (unsigned long)(plat_core_pos_by_mpidr((u_register_t)mpidr));
-#if defined(PLAT_CN10K_FAMILY)
+#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY)
 	int loop = CORE_ONFINISH_WAIT_LOOPS;
 	int pwr_on = 0;
 	int cur_state = enable_hotplug[octeontx_core_id];
@@ -110,8 +112,13 @@ void octeontx_legacy_pwrc_write_pponr(unsigned long mpidr)
 	}
 
 	/* Set RVBARADDR with entry point */
+#if defined(PLAT_CN10K_FAMILY)
 	plat_cn10k_set_secondary_cpu_jump_addr(octeontx_core_id, 
 		(uint64_t)plat_secondary_cold_boot_setup);
+#elif defined(PLAT_CN20K_FAMILY)
+	plat_cn20k_set_secondary_cpu_jump_addr(octeontx_core_id, 
+		(uint64_t)plat_secondary_cold_boot_setup);
+#endif
 	enable_hotplug[octeontx_core_id] = CN10K_CORE_CLEAR_RESET;
 
 	if (pwr_on)
@@ -165,7 +172,7 @@ void octeontx_legacy_pwrc_write_pponr(unsigned long mpidr)
 
 void octeontx_legacy_pwrc_cpu_off(int octeontx_core_id)
 {
-#if defined(PLAT_CN10K_FAMILY)
+#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY)
 	int cur_state = enable_hotplug[octeontx_core_id];
 
 	switch(cur_state) {
@@ -177,8 +184,13 @@ void octeontx_legacy_pwrc_cpu_off(int octeontx_core_id)
 	default:
 		{
 			/* Set RVBARADDR with entry point */
+#if defined(PLAT_CN10K_FAMILY)
 			plat_cn10k_set_secondary_cpu_jump_addr(octeontx_core_id,
 					(uint64_t)plat_secondary_cold_boot_setup);
+#elif defined(PLAT_CN20K_FAMILY)
+			plat_cn20k_set_secondary_cpu_jump_addr(octeontx_core_id,
+					(uint64_t)plat_secondary_cold_boot_setup);
+#endif
 			enable_hotplug[octeontx_core_id] = CN10K_CORE_RESET;
 			dsb();
 		}

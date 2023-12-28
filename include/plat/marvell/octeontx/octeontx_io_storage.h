@@ -8,7 +8,7 @@
 #ifndef __OCTEONTX_IO_STORAGE_H__
 #define __OCTEONTX_IO_STORAGE_H__
 
-#if defined(PLAT_CN10K_FAMILY)
+#if (defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY))
 #include <libtim.h>
 #include <drivers/io/io_storage.h>
 
@@ -51,7 +51,7 @@ typedef struct {
 
 void octeontx_io_setup(void);
 
-#if defined(PLAT_CN10K_FAMILY)
+#if (defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY))
 int plat_read_tim(int boot_type, unsigned int image_id,
 				uintptr_t dev_handle, uintptr_t *image_spec);
 

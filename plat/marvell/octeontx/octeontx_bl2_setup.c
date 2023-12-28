@@ -49,12 +49,14 @@
 #include <octeontx_dram.h>
 #include <octeontx_io_storage.h>
 #include <timers_octeontx.h>
-#if defined(PLAT_CN10K_FAMILY)
+#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY)
 #include <plat_tim.h>
 #include <ehsm-drv.h>
 #include <libtim.h>
 #include <plat_board_cfg.h>
+#if !defined(PLAT_CN20K_FAMILY)
 #include <gserm.h>
+#endif
 #include <plat_mem_alloc.h>
 #endif
 
@@ -95,7 +97,7 @@ static meminfo_t bl2_tzram_layout __aligned(CACHE_WRITEBACK_GRANULE)
 static console_t console;
 
 #if defined(ENABLE_RECORD_FWLOG)
-#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_OTX2_FAMILY)
+#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_OTX2_FAMILY) || defined(PLAT_CN20K_FAMILY)
 console_t fwlog_buf;
 int console_mem_register(uintptr_t baseaddr, uint32_t clock, uint32_t baud,
 			console_t *console);
@@ -372,7 +374,7 @@ int bl2_plat_handle_post_image_load(unsigned int image_id)
 #ifdef NT_FW_CONFIG
 	uint64_t nt_fw_config_size;
 #endif
-#if defined(PLAT_CN10K_FAMILY)
+#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY)
 	const tim_spec_info_t *tspec;
 #endif
 
@@ -423,7 +425,7 @@ int bl2_plat_handle_post_image_load(unsigned int image_id)
 
 		memcpy((void *)bl33_fdt_address, fdt_ptr, fdt_totalsize(fdt_ptr));
 
-#ifdef PLAT_CN10K_FAMILY
+#if defined(PLAT_CN10K_FAMILY)
 		cn10k_check_fdt_trims((void *)bl33_fdt_address);
 #endif
 		/*
@@ -461,7 +463,7 @@ int bl2_plat_handle_post_image_load(unsigned int image_id)
 #endif
 	}
 
-#if defined(PLAT_CN10K_FAMILY)
+#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY)
 
 	bl_mem_params = get_bl_mem_params_node(image_id);
 	assert(bl_mem_params);
@@ -508,7 +510,7 @@ int bl2_plat_handle_post_image_load(unsigned int image_id)
 
 static void bl2_platform_print_chip_id(void)
 {
-#if defined(PLAT_CN10K_FAMILY)
+#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY)
 	/* For CN10K, just return as chip ID is not relevant */
 	return;
 #endif
@@ -665,7 +667,7 @@ void bl2_el3_plat_arch_setup(void)
 
 	enable_mmu_el3(0);
 
-#if !(defined(PLAT_CN10K_FAMILY))
+#if !(defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY))
 	plat_octeontx_set_secondary_cpu_jump_addr(
 				(uint64_t)plat_secondary_cold_boot_setup);
 #endif

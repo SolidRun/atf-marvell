@@ -22,6 +22,7 @@ extern void cavm_warn(const char *format, ...) __attribute__ ((format(printf, 1,
 extern void __cavm_trace_printf(const char *format, ...) __attribute__ ((format(printf, 1, 2)));
 #define cavm_warn_if(expression, format, ...) if (cavm_unlikely(expression)) cavm_warn(format, ##__VA_ARGS__)
 
+#if 0
 /* The following defines control detailed tracing of various parts of the
    CAVM. Each one can be enabled(1) or disabled(0) independently. These
    should be disabled unless you are trying to debug something specific */
@@ -70,5 +71,6 @@ extern uint64_t cavm_trace_enables;
     if (cavm_trace_enables & (1ull << TRACE_ENABLE_##area))  \
         __cavm_trace_printf(#area ": " format, ##__VA_ARGS__);   \
 } while (0)
+#endif
 
 /** @} */

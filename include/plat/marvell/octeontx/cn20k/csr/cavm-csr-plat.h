@@ -1,0 +1,1 @@
+../../cn10k/csr/cavm-csr-plat.h

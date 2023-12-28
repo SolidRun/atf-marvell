@@ -19,7 +19,7 @@
 #include <services/arm_arch_svc.h>
 #include <assert.h>
 
-#if defined(PLAT_CN10K_FAMILY)
+#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY)
 # include "cavm-csrs-fuse.h"
 # include "cavm-csrs-fus.h"
 #endif
@@ -32,12 +32,12 @@
 #pragma weak plat_remove_ras_fdt_nodes
 extern void plat_add_mmio();
 
-#if !defined(PLAT_CN10K_FAMILY)
+#if !(defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY))
 static void plat_adjust_fdt(void);
 #endif
 
 #ifdef ENABLE_RECORD_FWLOG
-#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_OTX2_FAMILY)
+#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_OTX2_FAMILY) || defined(PLAT_CN20K_FAMILY)
 static void plat_add_fwlog(void);
 #endif
 #endif
@@ -52,7 +52,7 @@ unsigned long plat_get_ns_image_entrypoint(void)
 	return NS_IMAGE_BASE;
 }
 
-#if defined(PLAT_CN10K_FAMILY) && defined(INCLUDE_OPTEE)
+#if (defined(PLAT_CN10K_FAMILY)  || defined(PLAT_CN20K_FAMILY)) && defined(INCLUDE_OPTEE)
 unsigned long plat_get_ext_secure_base(uint64_t *start)
 {
 	uint64_t size;
@@ -112,7 +112,7 @@ static void plat_add_mmio_common(void)
 #endif
 
 #if DBG_ALLOW_SYST_REG_AC
-#if defined(IMAGE_BL31) && defined(PLAT_CN10K_FAMILY)
+#if defined(IMAGE_BL31) && (defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY))
 	/* Setting up the adbg memory mapping */
 	adbg_mmap_setup();
 #endif
@@ -126,7 +126,7 @@ void plat_add_mmio_map()
 
 	plat_add_mmio();
 
-#if !defined(PLAT_CN10K_FAMILY)
+#if !(defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY))
 	/*
 	 * If appropriate, adjust any Device Tree settings here,
 	 * before enabling mmu.  Once mmu has been enabled, the Device Tree is
@@ -136,7 +136,7 @@ void plat_add_mmio_map()
 #endif
 
 #ifdef ENABLE_RECORD_FWLOG
-#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_OTX2_FAMILY)
+#if !defined(PLAT_OTX_FAMILY)
 	plat_add_fwlog();
 #endif
 #endif
@@ -148,7 +148,7 @@ void plat_add_mmio_map()
  * mmap RECORD_FWLOG related regions
  */
 #ifdef ENABLE_RECORD_FWLOG
-#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_OTX2_FAMILY)
+#if !defined(PLAT_OTX_FAMILY)
 static void plat_add_fwlog(void)
 {
 #ifdef IMAGE_BL31
@@ -312,7 +312,7 @@ uint64_t cavm_fuse_read_range(cavm_node_t node, int fuse, int width)
 	int last;
 	uint64_t dat;
 
-#if !(defined(PLAT_CN10K_FAMILY) || defined(PLAT_OTX2_FAMILY))
+#if defined(PLAT_OTX_FAMILY)
 	if (cavm_is_model(OCTEONTX_CN8XXX)) {
 		WARN("%s: Not implemented for CN8XXX\n", __func__);
 		return 0xff;
@@ -337,7 +337,7 @@ uint64_t cavm_fuse_read_range(cavm_node_t node, int fuse, int width)
 /* Return platform type by reading fuses */
 void cavm_setup_platform(void)
 {
-#if !(defined(PLAT_CN10K_FAMILY))
+#if !(defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY))
 	if (cavm_is_model(OCTEONTX_CN8XXX)) {
 		cavm_mio_fus_dat2_t fus_dat;
 
@@ -387,7 +387,7 @@ int32_t plat_get_soc_version(void)
 {
 	uint32_t version;
 	uint64_t chip_id;
-#if !(defined(PLAT_CN10K_FAMILY) || defined(PLAT_OTX2_FAMILY))
+#if defined(PLAT_OTX_FAMILY)
 	uint64_t midr = read_midr();
 
 	chip_id = MIDR_PARTNUM(midr);
@@ -406,7 +406,7 @@ int32_t plat_get_soc_version(void)
 int32_t plat_get_soc_revision(void)
 {
 	uint32_t rev;
-#if !(defined(PLAT_CN10K_FAMILY) || defined(PLAT_OTX2_FAMILY))
+#if !(defined(PLAT_CN10K_FAMILY) || defined(PLAT_OTX2_FAMILY) || defined(PLAT_CN20K_FAMILY))
 	uint64_t midr = read_midr();
 
 	/* program minor pass */

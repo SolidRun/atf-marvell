@@ -5,7 +5,7 @@
  **********************license end**************************************/
 
 #include "emmc_driver_funcs.h"
-#include "cavm-csrs.h"
+//#include "cavm-csrs.h"
 
 uint32_t card_init(void);
 uint32_t get_response(uint32_t cmd, uint32_t response_type);
