@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2021-2023 Marvell.
+* Copyright (C) 2021-2024 Marvell.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -465,8 +465,7 @@ union cavm_psm_cmd_djcnt_s
         uint64_t incr                  : 1;  /**< [ 41: 41] If set to 1, then PSM_CMD_DJCNT_S[DJCNT_ID] will be incremented. */
         uint64_t decr                  : 1;  /**< [ 40: 40] If set to 1, and if INCR is not 1, then PSM_CMD_DJCNT_S[DJCNT_ID]
                                                                  will be decremented. */
-        uint64_t reserved_39           : 1;
-        uint64_t djcnt_id              : 7;  /**< [ 38: 32] Selects which DJCNT to modify. */
+        uint64_t djcnt_id              : 8;  /**< [ 39: 32] Selects which DJCNT to modify. */
         uint64_t reserved_24_31        : 8;
         uint64_t waitcond              : 8;  /**< [ 23: 16] Specifies the conditions that must be satisfied before
                                                                  executing this command:
@@ -502,8 +501,7 @@ union cavm_psm_cmd_djcnt_s
 
                                                                  _ 0xFF = Wait for all previous commands in this queue to complete. */
         uint64_t reserved_24_31        : 8;
-        uint64_t djcnt_id              : 7;  /**< [ 38: 32] Selects which DJCNT to modify. */
-        uint64_t reserved_39           : 1;
+        uint64_t djcnt_id              : 8;  /**< [ 39: 32] Selects which DJCNT to modify. */
         uint64_t decr                  : 1;  /**< [ 40: 40] If set to 1, and if INCR is not 1, then PSM_CMD_DJCNT_S[DJCNT_ID]
                                                                  will be decremented. */
         uint64_t incr                  : 1;  /**< [ 41: 41] If set to 1, then PSM_CMD_DJCNT_S[DJCNT_ID] will be incremented. */
@@ -968,8 +966,7 @@ union cavm_psm_cmd_wait_s
         uint64_t djcnt_val             : 16; /**< [ 63: 48] Specifies the DJCNT value for the comparison.  The comparison
                                                                  will succeed when the counter selected by [DJCNT_ID] is equal-to
                                                                  or less-than the value in [DJCNT_VAL]. */
-        uint64_t reserved_47           : 1;
-        uint64_t djcnt_id              : 7;  /**< [ 46: 40] Selects the DJCNT to be used when [WAITMODE] = 1.  Permitted values
+        uint64_t djcnt_id              : 8;  /**< [ 47: 40] Selects the DJCNT to be used when [WAITMODE] = 1.  Permitted values
                                                                  are [0x0, 0x7F]. */
         uint64_t reserved_34_39        : 6;
         uint64_t exact_match           : 1;  /**< [ 33: 33] When set to 1, the timer or DJCNT comparison will succeed only upon an exact match
@@ -1032,9 +1029,8 @@ union cavm_psm_cmd_wait_s
         uint64_t exact_match           : 1;  /**< [ 33: 33] When set to 1, the timer or DJCNT comparison will succeed only upon an exact match
                                                                  with the values in [FRAME], [SF], [TICK], and [DJCNT_VAL]. */
         uint64_t reserved_34_39        : 6;
-        uint64_t djcnt_id              : 7;  /**< [ 46: 40] Selects the DJCNT to be used when [WAITMODE] = 1.  Permitted values
+        uint64_t djcnt_id              : 8;  /**< [ 47: 40] Selects the DJCNT to be used when [WAITMODE] = 1.  Permitted values
                                                                  are [0x0, 0x7F]. */
-        uint64_t reserved_47           : 1;
         uint64_t djcnt_val             : 16; /**< [ 63: 48] Specifies the DJCNT value for the comparison.  The comparison
                                                                  will succeed when the counter selected by [DJCNT_ID] is equal-to
                                                                  or less-than the value in [DJCNT_VAL]. */
@@ -1888,8 +1884,8 @@ typedef union cavm_psm_djcntx_cfg cavm_psm_djcntx_cfg_t;
 static inline uint64_t CAVM_PSM_DJCNTX_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_DJCNTX_CFG(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=127))
-        return 0x8600010f2000ll + 0x10ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=255))
+        return 0x8600010f2000ll + 0x10ll * ((a) & 0xff);
     __cavm_csr_fatal("PSM_DJCNTX_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1912,71 +1908,55 @@ union cavm_psm_djcnt_extdecr
     struct cavm_psm_djcnt_extdecr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_63           : 1;
-        uint64_t djcnt_decr_id_7       : 7;  /**< [ 62: 56](R/W) Reserved. */
-        uint64_t reserved_55           : 1;
-        uint64_t djcnt_decr_id_6       : 7;  /**< [ 54: 48](R/W) Reserved. */
-        uint64_t reserved_47           : 1;
-        uint64_t djcnt_decr_id_5       : 7;  /**< [ 46: 40](R/W) Reserved. */
-        uint64_t reserved_39           : 1;
-        uint64_t djcnt_decr_id_4       : 7;  /**< [ 38: 32](R/W) Reserved. */
-        uint64_t reserved_31           : 1;
-        uint64_t cest3_decr_id         : 7;  /**< [ 30: 24](R/W) Selects the DJCNT counter that will be decremented by the PSM when it
+        uint64_t djcnt_decr_id_7       : 8;  /**< [ 63: 56](R/W) Reserved. */
+        uint64_t djcnt_decr_id_6       : 8;  /**< [ 55: 48](R/W) Reserved. */
+        uint64_t djcnt_decr_id_5       : 8;  /**< [ 47: 40](R/W) Reserved. */
+        uint64_t djcnt_decr_id_4       : 8;  /**< [ 39: 32](R/W) Reserved. */
+        uint64_t cest3_decr_id         : 8;  /**< [ 31: 24](R/W) Selects the DJCNT counter that will be decremented by the PSM when it
                                                                  receives a write completion signal from CEST3.  Values 1-127 will
                                                                  select a DJCNT, while 0 will cause the event signal to have no effect
                                                                  on any counter.  This field may not select the same counter
                                                                  as [CEST2_DECR_ID], [CEST1_DECR_ID], or [CEST0_DECR_ID]. */
-        uint64_t reserved_23           : 1;
-        uint64_t cest2_decr_id         : 7;  /**< [ 22: 16](R/W) Selects the DJCNT counter that will be decremented by the PSM when it
+        uint64_t cest2_decr_id         : 8;  /**< [ 23: 16](R/W) Selects the DJCNT counter that will be decremented by the PSM when it
                                                                  receives a write completion signal from CEST2.  Values 1-127 will
                                                                  select a DJCNT, while 0 will cause the event signal to have no effect
                                                                  on any counter.  This field may not select the same counter
                                                                  as [CEST3_DECR_ID], [CEST1_DECR_ID], or [CEST0_DECR_ID]. */
-        uint64_t reserved_15           : 1;
-        uint64_t cest1_decr_id         : 7;  /**< [ 14:  8](R/W) Selects the DJCNT counter that will be decremented by the PSM when it
+        uint64_t cest1_decr_id         : 8;  /**< [ 15:  8](R/W) Selects the DJCNT counter that will be decremented by the PSM when it
                                                                  receives a write completion signal from CEST1.  Values 1-127 will
                                                                  select a DJCNT, while 0 will cause the event signal to have no effect
                                                                  on any counter.  This field may not select the same counter
                                                                  as [CEST3_DECR_ID], [CEST2_DECR_ID], or [CEST0_DECR_ID]. */
-        uint64_t reserved_7            : 1;
-        uint64_t cest0_decr_id         : 7;  /**< [  6:  0](R/W) Selects the DJCNT counter that will be decremented by the PSM when it
+        uint64_t cest0_decr_id         : 8;  /**< [  7:  0](R/W) Selects the DJCNT counter that will be decremented by the PSM when it
                                                                  receives a write completion signal from CEST0.  Values 1-127 will
                                                                  select a DJCNT, while 0 will cause the event signal to have no effect
                                                                  on any counter.  This field may not select the same counter
                                                                  as [CEST3_DECR_ID], [CEST2_DECR_ID], or [CEST1_DECR_ID]. */
 #else /* Word 0 - Little Endian */
-        uint64_t cest0_decr_id         : 7;  /**< [  6:  0](R/W) Selects the DJCNT counter that will be decremented by the PSM when it
+        uint64_t cest0_decr_id         : 8;  /**< [  7:  0](R/W) Selects the DJCNT counter that will be decremented by the PSM when it
                                                                  receives a write completion signal from CEST0.  Values 1-127 will
                                                                  select a DJCNT, while 0 will cause the event signal to have no effect
                                                                  on any counter.  This field may not select the same counter
                                                                  as [CEST3_DECR_ID], [CEST2_DECR_ID], or [CEST1_DECR_ID]. */
-        uint64_t reserved_7            : 1;
-        uint64_t cest1_decr_id         : 7;  /**< [ 14:  8](R/W) Selects the DJCNT counter that will be decremented by the PSM when it
+        uint64_t cest1_decr_id         : 8;  /**< [ 15:  8](R/W) Selects the DJCNT counter that will be decremented by the PSM when it
                                                                  receives a write completion signal from CEST1.  Values 1-127 will
                                                                  select a DJCNT, while 0 will cause the event signal to have no effect
                                                                  on any counter.  This field may not select the same counter
                                                                  as [CEST3_DECR_ID], [CEST2_DECR_ID], or [CEST0_DECR_ID]. */
-        uint64_t reserved_15           : 1;
-        uint64_t cest2_decr_id         : 7;  /**< [ 22: 16](R/W) Selects the DJCNT counter that will be decremented by the PSM when it
+        uint64_t cest2_decr_id         : 8;  /**< [ 23: 16](R/W) Selects the DJCNT counter that will be decremented by the PSM when it
                                                                  receives a write completion signal from CEST2.  Values 1-127 will
                                                                  select a DJCNT, while 0 will cause the event signal to have no effect
                                                                  on any counter.  This field may not select the same counter
                                                                  as [CEST3_DECR_ID], [CEST1_DECR_ID], or [CEST0_DECR_ID]. */
-        uint64_t reserved_23           : 1;
-        uint64_t cest3_decr_id         : 7;  /**< [ 30: 24](R/W) Selects the DJCNT counter that will be decremented by the PSM when it
+        uint64_t cest3_decr_id         : 8;  /**< [ 31: 24](R/W) Selects the DJCNT counter that will be decremented by the PSM when it
                                                                  receives a write completion signal from CEST3.  Values 1-127 will
                                                                  select a DJCNT, while 0 will cause the event signal to have no effect
                                                                  on any counter.  This field may not select the same counter
                                                                  as [CEST2_DECR_ID], [CEST1_DECR_ID], or [CEST0_DECR_ID]. */
-        uint64_t reserved_31           : 1;
-        uint64_t djcnt_decr_id_4       : 7;  /**< [ 38: 32](R/W) Reserved. */
-        uint64_t reserved_39           : 1;
-        uint64_t djcnt_decr_id_5       : 7;  /**< [ 46: 40](R/W) Reserved. */
-        uint64_t reserved_47           : 1;
-        uint64_t djcnt_decr_id_6       : 7;  /**< [ 54: 48](R/W) Reserved. */
-        uint64_t reserved_55           : 1;
-        uint64_t djcnt_decr_id_7       : 7;  /**< [ 62: 56](R/W) Reserved. */
-        uint64_t reserved_63           : 1;
+        uint64_t djcnt_decr_id_4       : 8;  /**< [ 39: 32](R/W) Reserved. */
+        uint64_t djcnt_decr_id_5       : 8;  /**< [ 47: 40](R/W) Reserved. */
+        uint64_t djcnt_decr_id_6       : 8;  /**< [ 55: 48](R/W) Reserved. */
+        uint64_t djcnt_decr_id_7       : 8;  /**< [ 63: 56](R/W) Reserved. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_psm_djcnt_extdecr_s cn; */

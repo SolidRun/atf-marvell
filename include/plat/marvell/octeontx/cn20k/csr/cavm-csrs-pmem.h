@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2021-2023 Marvell.
+* Copyright (C) 2021-2024 Marvell.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -30,31 +30,39 @@ union cavm_pmemx_arb_priority
     struct cavm_pmemx_arb_priority_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_25_63        : 39;
+        uint64_t reserved_36_63        : 28;
+        uint64_t rd512                 : 4;  /**< [ 35: 32](R/W) High-priority bits for each norm client from RD512 ports. */
+        uint64_t reserved_25_31        : 7;
         uint64_t rd256                 : 9;  /**< [ 24: 16](R/W) High-priority bits for each norm client from RD256 ports. */
-        uint64_t reserved_2_15         : 14;
-        uint64_t wr256                 : 2;  /**< [  1:  0](R/W) High-priority bits for each norm client from WR256 ports. */
+        uint64_t reserved_6_15         : 10;
+        uint64_t wr256                 : 6;  /**< [  5:  0](R/W) High-priority bits for each norm client from WR256 ports. */
 #else /* Word 0 - Little Endian */
-        uint64_t wr256                 : 2;  /**< [  1:  0](R/W) High-priority bits for each norm client from WR256 ports. */
-        uint64_t reserved_2_15         : 14;
+        uint64_t wr256                 : 6;  /**< [  5:  0](R/W) High-priority bits for each norm client from WR256 ports. */
+        uint64_t reserved_6_15         : 10;
         uint64_t rd256                 : 9;  /**< [ 24: 16](R/W) High-priority bits for each norm client from RD256 ports. */
-        uint64_t reserved_25_63        : 39;
+        uint64_t reserved_25_31        : 7;
+        uint64_t rd512                 : 4;  /**< [ 35: 32](R/W) High-priority bits for each norm client from RD512 ports. */
+        uint64_t reserved_36_63        : 28;
 #endif /* Word 0 - End */
     } s;
     struct cavm_pmemx_arb_priority_cn
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
+        uint64_t reserved_48_63        : 16;
+        uint64_t reserved_36_47        : 12;
+        uint64_t rd512                 : 4;  /**< [ 35: 32](R/W) High-priority bits for each norm client from RD512 ports. */
         uint64_t reserved_25_31        : 7;
         uint64_t rd256                 : 9;  /**< [ 24: 16](R/W) High-priority bits for each norm client from RD256 ports. */
-        uint64_t reserved_2_15         : 14;
-        uint64_t wr256                 : 2;  /**< [  1:  0](R/W) High-priority bits for each norm client from WR256 ports. */
+        uint64_t reserved_6_15         : 10;
+        uint64_t wr256                 : 6;  /**< [  5:  0](R/W) High-priority bits for each norm client from WR256 ports. */
 #else /* Word 0 - Little Endian */
-        uint64_t wr256                 : 2;  /**< [  1:  0](R/W) High-priority bits for each norm client from WR256 ports. */
-        uint64_t reserved_2_15         : 14;
+        uint64_t wr256                 : 6;  /**< [  5:  0](R/W) High-priority bits for each norm client from WR256 ports. */
+        uint64_t reserved_6_15         : 10;
         uint64_t rd256                 : 9;  /**< [ 24: 16](R/W) High-priority bits for each norm client from RD256 ports. */
         uint64_t reserved_25_31        : 7;
-        uint64_t reserved_32_63        : 32;
+        uint64_t rd512                 : 4;  /**< [ 35: 32](R/W) High-priority bits for each norm client from RD512 ports. */
+        uint64_t reserved_36_47        : 12;
+        uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } cn;
 };
@@ -85,23 +93,29 @@ union cavm_pmemx_ecc_signature
     struct cavm_pmemx_ecc_signature_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t wr256                 : 2;  /**< [ 63: 62](RO/H) If ECC event was for this port, a bit will be asserted here. */
-        uint64_t reserved_57_61        : 5;
-        uint64_t rd256                 : 9;  /**< [ 56: 48](RO/H) If ECC event was for this port, a bit will be asserted here. */
-        uint64_t reserved_34_47        : 14;
-        uint64_t dbe                   : 1;  /**< [ 33: 33](R/W1C/H) Uncorrectable double bit error(s) */
-        uint64_t sbe                   : 1;  /**< [ 32: 32](R/W1C/H) Correctable single bit error(s) */
+        uint64_t reserved_62_63        : 2;
+        uint64_t wr256                 : 6;  /**< [ 61: 56](RO/H) If ECC event was for this port, a bit will be asserted here. */
+        uint64_t reserved_53_55        : 3;
+        uint64_t rd256                 : 9;  /**< [ 52: 44](RO/H) If ECC event was for this port, a bit will be asserted here. */
+        uint64_t rd512                 : 4;  /**< [ 43: 40](RO/H) If ECC event was for this port, a bit will be asserted here. */
+        uint64_t reserved_38_39        : 2;
+        uint64_t dbe                   : 2;  /**< [ 37: 36](R/W1C/H) Uncorrectable double bit error per ECC protected SRAM */
+        uint64_t reserved_34_35        : 2;
+        uint64_t sbe                   : 2;  /**< [ 33: 32](R/W1C/H) Correctable single bit error per ECC protected SRAM */
         uint64_t reserved_25_31        : 7;
         uint64_t byte_addr             : 25; /**< [ 24:  0](RO/H) Byte-aligned address of ECC event. */
 #else /* Word 0 - Little Endian */
         uint64_t byte_addr             : 25; /**< [ 24:  0](RO/H) Byte-aligned address of ECC event. */
         uint64_t reserved_25_31        : 7;
-        uint64_t sbe                   : 1;  /**< [ 32: 32](R/W1C/H) Correctable single bit error(s) */
-        uint64_t dbe                   : 1;  /**< [ 33: 33](R/W1C/H) Uncorrectable double bit error(s) */
-        uint64_t reserved_34_47        : 14;
-        uint64_t rd256                 : 9;  /**< [ 56: 48](RO/H) If ECC event was for this port, a bit will be asserted here. */
-        uint64_t reserved_57_61        : 5;
-        uint64_t wr256                 : 2;  /**< [ 63: 62](RO/H) If ECC event was for this port, a bit will be asserted here. */
+        uint64_t sbe                   : 2;  /**< [ 33: 32](R/W1C/H) Correctable single bit error per ECC protected SRAM */
+        uint64_t reserved_34_35        : 2;
+        uint64_t dbe                   : 2;  /**< [ 37: 36](R/W1C/H) Uncorrectable double bit error per ECC protected SRAM */
+        uint64_t reserved_38_39        : 2;
+        uint64_t rd512                 : 4;  /**< [ 43: 40](RO/H) If ECC event was for this port, a bit will be asserted here. */
+        uint64_t rd256                 : 9;  /**< [ 52: 44](RO/H) If ECC event was for this port, a bit will be asserted here. */
+        uint64_t reserved_53_55        : 3;
+        uint64_t wr256                 : 6;  /**< [ 61: 56](RO/H) If ECC event was for this port, a bit will be asserted here. */
+        uint64_t reserved_62_63        : 2;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pmemx_ecc_signature_s cn; */

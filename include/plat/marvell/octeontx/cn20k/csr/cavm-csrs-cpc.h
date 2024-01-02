@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2021-2023 Marvell.
+* Copyright (C) 2021-2024 Marvell.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -532,8 +532,8 @@ typedef union cavm_cpc_ram_memx cavm_cpc_ram_memx_t;
 static inline uint64_t CAVM_CPC_RAM_MEMX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CPC_RAM_MEMX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=524287))
-        return 0x86d000400000ll + 8ll * ((a) & 0x7ffff);
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=32679))
+        return 0x86d000400000ll + 8ll * ((a) & 0x7fff);
     __cavm_csr_fatal("CPC_RAM_MEMX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -624,7 +624,7 @@ typedef union cavm_cpc_ram_permitx cavm_cpc_ram_permitx_t;
 static inline uint64_t CAVM_CPC_RAM_PERMITX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CPC_RAM_PERMITX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=39))
         return 0x86d000008000ll + 8ll * ((a) & 0x3f);
     __cavm_csr_fatal("CPC_RAM_PERMITX", 1, a, 0, 0, 0, 0, 0);
 }

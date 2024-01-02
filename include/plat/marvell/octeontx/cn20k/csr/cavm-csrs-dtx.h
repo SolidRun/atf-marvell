@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2021-2023 Marvell.
+* Copyright (C) 2021-2024 Marvell.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -55,7 +55,11 @@ typedef union cavm_dtx_broadcast_ctl cavm_dtx_broadcast_ctl_t;
 static inline uint64_t CAVM_DTX_BROADCAST_CTL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_BROADCAST_CTL_FUNC(void)
 {
-    return 0x87e0fe1fc060ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0xc10f00000060ll;
+    if (cavm_is_model(OCTEONTX_CNF20KA))
+        return 0x87e0fe1fc060ll;
+    __cavm_csr_fatal("DTX_BROADCAST_CTL", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_DTX_BROADCAST_CTL cavm_dtx_broadcast_ctl_t
@@ -91,7 +95,9 @@ typedef union cavm_dtx_broadcast_enax cavm_dtx_broadcast_enax_t;
 static inline uint64_t CAVM_DTX_BROADCAST_ENAX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_BROADCAST_ENAX(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
+        return 0xc10f00000020ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=1))
         return 0x87e0fe1fc020ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_BROADCAST_ENAX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -127,7 +133,9 @@ typedef union cavm_dtx_broadcast_selx cavm_dtx_broadcast_selx_t;
 static inline uint64_t CAVM_DTX_BROADCAST_SELX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DTX_BROADCAST_SELX(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
+        return 0xc10f00000000ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=1))
         return 0x87e0fe1fc000ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_BROADCAST_SELX", 1, a, 0, 0, 0, 0, 0);
 }

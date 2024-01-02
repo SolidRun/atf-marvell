@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2021-2023 Marvell.
+* Copyright (C) 2021-2024 Marvell.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -34,11 +34,13 @@
 #define CAVM_PCC_DEV_CON_E_AVSX(a) (0x169 + (a))
 #define CAVM_PCC_DEV_CON_E_BPHY (0x700)
 #define CAVM_PCC_DEV_CON_E_BTS (0x168)
-#define CAVM_PCC_DEV_CON_E_CPC (0xd0)
+#define CAVM_PCC_DEV_CON_E_CPC_CN20KA (0xc0)
+#define CAVM_PCC_DEV_CON_E_CPC_CNF20KA (0xd0)
 #define CAVM_PCC_DEV_CON_E_CST (0xe0)
 #define CAVM_PCC_DEV_CON_E_DPI0 (0x600)
 #define CAVM_PCC_DEV_CON_E_DSSX(a) (0x2c0 + (a))
-#define CAVM_PCC_DEV_CON_E_EHSM (0xd8)
+#define CAVM_PCC_DEV_CON_E_EHSM_CN20KA (0xc8)
+#define CAVM_PCC_DEV_CON_E_EHSM_CNF20KA (0xd8)
 #define CAVM_PCC_DEV_CON_E_EMMCX(a) (0x58 + (a))
 #define CAVM_PCC_DEV_CON_E_FUS_CN20KA (0x108)
 #define CAVM_PCC_DEV_CON_E_FUS_CNF20KA (0x103)
@@ -108,7 +110,8 @@
 #define CAVM_PCC_DEV_CON_E_UAAX_CN20KA(a) (0x1d0 + (a))
 #define CAVM_PCC_DEV_CON_E_UAAX_CNF20KA(a) (0x1d8 + (a))
 #define CAVM_PCC_DEV_CON_E_USBHX(a) (0x10060 + 8 * (a))
-#define CAVM_PCC_DEV_CON_E_XCPX(a) (0xe0 + 8 * (a))
+#define CAVM_PCC_DEV_CON_E_XCPX_CN20KA(a) (0xd0 + (a))
+#define CAVM_PCC_DEV_CON_E_XCPX_CNF20KA(a) (0xe0 + 8 * (a))
 #define CAVM_PCC_DEV_CON_E_XSRX(a) (0x130 + (a))
 
 /**

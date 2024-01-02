@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2021-2023 Marvell.
+* Copyright (C) 2021-2024 Marvell.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -74,17 +74,19 @@ union cavm_cmemx_ecc_signature
         uint64_t wr256                 : 1;  /**< [ 56: 56](RO/H) If ECC event was for this port, a bit will be asserted here. */
         uint64_t reserved_49_55        : 7;
         uint64_t rd256                 : 1;  /**< [ 48: 48](RO/H) If ECC event was for this port, a bit will be asserted here. */
-        uint64_t reserved_34_47        : 14;
-        uint64_t dbe                   : 1;  /**< [ 33: 33](R/W1C/H) Uncorrectable double bit error(s) */
-        uint64_t sbe                   : 1;  /**< [ 32: 32](R/W1C/H) Correctable single bit error(s) */
+        uint64_t reserved_38_47        : 10;
+        uint64_t dbe                   : 2;  /**< [ 37: 36](R/W1C/H) Uncorrectable double bit error per ECC protected SRAM */
+        uint64_t reserved_34_35        : 2;
+        uint64_t sbe                   : 2;  /**< [ 33: 32](R/W1C/H) Correctable single bit error per ECC protected SRAM */
         uint64_t reserved_25_31        : 7;
         uint64_t byte_addr             : 25; /**< [ 24:  0](RO/H) Byte-aligned address of ECC event. */
 #else /* Word 0 - Little Endian */
         uint64_t byte_addr             : 25; /**< [ 24:  0](RO/H) Byte-aligned address of ECC event. */
         uint64_t reserved_25_31        : 7;
-        uint64_t sbe                   : 1;  /**< [ 32: 32](R/W1C/H) Correctable single bit error(s) */
-        uint64_t dbe                   : 1;  /**< [ 33: 33](R/W1C/H) Uncorrectable double bit error(s) */
-        uint64_t reserved_34_47        : 14;
+        uint64_t sbe                   : 2;  /**< [ 33: 32](R/W1C/H) Correctable single bit error per ECC protected SRAM */
+        uint64_t reserved_34_35        : 2;
+        uint64_t dbe                   : 2;  /**< [ 37: 36](R/W1C/H) Uncorrectable double bit error per ECC protected SRAM */
+        uint64_t reserved_38_47        : 10;
         uint64_t rd256                 : 1;  /**< [ 48: 48](RO/H) If ECC event was for this port, a bit will be asserted here. */
         uint64_t reserved_49_55        : 7;
         uint64_t wr256                 : 1;  /**< [ 56: 56](RO/H) If ECC event was for this port, a bit will be asserted here. */

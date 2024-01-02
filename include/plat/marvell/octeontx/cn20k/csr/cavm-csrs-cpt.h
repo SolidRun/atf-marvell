@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2021-2023 Marvell.
+* Copyright (C) 2021-2024 Marvell.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -4126,15 +4126,15 @@ union cavm_cptx_af_lfx_rxc_active_sts
         uint64_t reserved_61_63        : 3;
         uint64_t count                 : 13; /**< [ 60: 48](RO/H) Number of active reassembly entries. */
         uint64_t head_age              : 16; /**< [ 47: 32](RO/H) Age of the oldest active reassembly entry. */
-        uint64_t reserved_28_31        : 4;
-        uint64_t head_hash             : 12; /**< [ 27: 16](RO/H) Hash of key of oldest active reassembly entry. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t head_entry            : 12; /**< [ 11:  0](RO/H) Oldest active reassembly entry. */
+        uint64_t reserved_29_31        : 3;
+        uint64_t head_hash             : 13; /**< [ 28: 16](RO/H) Hash of key of oldest active reassembly entry. */
+        uint64_t reserved_13_15        : 3;
+        uint64_t head_entry            : 13; /**< [ 12:  0](RO/H) Oldest active reassembly entry. */
 #else /* Word 0 - Little Endian */
-        uint64_t head_entry            : 12; /**< [ 11:  0](RO/H) Oldest active reassembly entry. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t head_hash             : 12; /**< [ 27: 16](RO/H) Hash of key of oldest active reassembly entry. */
-        uint64_t reserved_28_31        : 4;
+        uint64_t head_entry            : 13; /**< [ 12:  0](RO/H) Oldest active reassembly entry. */
+        uint64_t reserved_13_15        : 3;
+        uint64_t head_hash             : 13; /**< [ 28: 16](RO/H) Hash of key of oldest active reassembly entry. */
+        uint64_t reserved_29_31        : 3;
         uint64_t head_age              : 16; /**< [ 47: 32](RO/H) Age of the oldest active reassembly entry. */
         uint64_t count                 : 13; /**< [ 60: 48](RO/H) Number of active reassembly entries. */
         uint64_t reserved_61_63        : 3;
@@ -4256,15 +4256,15 @@ union cavm_cptx_af_lfx_rxc_zombie_sts
         uint64_t reserved_61_63        : 3;
         uint64_t count                 : 13; /**< [ 60: 48](RO/H) Number of zombie reassembly entries. */
         uint64_t head_age              : 16; /**< [ 47: 32](RO/H) Age of the oldest zombie reassembly entry. */
-        uint64_t reserved_28_31        : 4;
-        uint64_t head_hash             : 12; /**< [ 27: 16](RO/H) Hash of key of oldest zombie reassembly entry. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t head_entry            : 12; /**< [ 11:  0](RO/H) Oldest zombie reassembly entry. */
+        uint64_t reserved_29_31        : 3;
+        uint64_t head_hash             : 13; /**< [ 28: 16](RO/H) Hash of key of oldest zombie reassembly entry. */
+        uint64_t reserved_13_15        : 3;
+        uint64_t head_entry            : 13; /**< [ 12:  0](RO/H) Oldest zombie reassembly entry. */
 #else /* Word 0 - Little Endian */
-        uint64_t head_entry            : 12; /**< [ 11:  0](RO/H) Oldest zombie reassembly entry. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t head_hash             : 12; /**< [ 27: 16](RO/H) Hash of key of oldest zombie reassembly entry. */
-        uint64_t reserved_28_31        : 4;
+        uint64_t head_entry            : 13; /**< [ 12:  0](RO/H) Oldest zombie reassembly entry. */
+        uint64_t reserved_13_15        : 3;
+        uint64_t head_hash             : 13; /**< [ 28: 16](RO/H) Hash of key of oldest zombie reassembly entry. */
+        uint64_t reserved_29_31        : 3;
         uint64_t head_age              : 16; /**< [ 47: 32](RO/H) Age of the oldest zombie reassembly entry. */
         uint64_t count                 : 13; /**< [ 60: 48](RO/H) Number of zombie reassembly entries. */
         uint64_t reserved_61_63        : 3;

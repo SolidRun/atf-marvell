@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2021-2023 Marvell.
+* Copyright (C) 2021-2024 Marvell.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -23,7 +23,7 @@
  * Enumeration xcp_addr_prt_e
  *
  * XCP Address Partition Enumeration
- * Enumerates the partitions in MIPS address space, as recorded in XCP()_PRECISE_BUS_ERR_STATUS[PART].
+ * Enumerates the partitions in CM7 address space, as recorded in XCP()_PRECISE_BUS_ERR_STATUS[PART].
  */
 #define CAVM_XCP_ADDR_PRT_E_CSR_CPC (3)
 #define CAVM_XCP_ADDR_PRT_E_CSR_PSBM (4)
@@ -39,10 +39,27 @@
  * XCP Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define CAVM_XCP_BAR_E_XCPX_PF_BAR0(a) (0x82c000000000ll + 0x1000000000ll * (a))
+#define CAVM_XCP_BAR_E_XCPX_PF_BAR0(a) (0x820000000000ll + 0x1000000000ll * (a))
 #define CAVM_XCP_BAR_E_XCPX_PF_BAR0_SIZE 0x100000ull
-#define CAVM_XCP_BAR_E_XCPX_PF_BAR4(a) (0x82c000100000ll + 0x1000000000ll * (a))
+#define CAVM_XCP_BAR_E_XCPX_PF_BAR4(a) (0x820000100000ll + 0x1000000000ll * (a))
 #define CAVM_XCP_BAR_E_XCPX_PF_BAR4_SIZE 0x100000ull
+
+/**
+ * Enumeration xcp_cm7_vec_int_e
+ *
+ * XCP CM7 Vectored Interrupt Enumeration
+ * Enumerates the vectored interrupt inputs to the CM7 core.
+ */
+#define CAVM_XCP_CM7_VEC_INT_E_BUS_ERR (0)
+#define CAVM_XCP_CM7_VEC_INT_E_CTIIRQ0 (6)
+#define CAVM_XCP_CM7_VEC_INT_E_CTIIRQ1 (7)
+#define CAVM_XCP_CM7_VEC_INT_E_EXT_INTX(a) (0x40 + (a))
+#define CAVM_XCP_CM7_VEC_INT_E_GIB0 (2)
+#define CAVM_XCP_CM7_VEC_INT_E_GIB1 (3)
+#define CAVM_XCP_CM7_VEC_INT_E_GIB2 (4)
+#define CAVM_XCP_CM7_VEC_INT_E_MBOX (5)
+#define CAVM_XCP_CM7_VEC_INT_E_RESERVEDX(a) (8 + (a))
+#define CAVM_XCP_CM7_VEC_INT_E_WDOG (1)
 
 /**
  * Enumeration xcp_dintf_err_type_e
@@ -51,13 +68,12 @@
  * Enumerates the precise error types, as recorded in XCP()_PRECISE_BUS_ERR_STATUS[ERR_TYPE].
  */
 #define CAVM_XCP_DINTF_ERR_TYPE_E_ACCESS_ERR (3)
-#define CAVM_XCP_DINTF_ERR_TYPE_E_ERR_NCB_CORE_RESET (7)
+#define CAVM_XCP_DINTF_ERR_TYPE_E_FETCH_ERR_NCB_FETCH_DIS (4)
 #define CAVM_XCP_DINTF_ERR_TYPE_E_INV_ADDR (2)
 #define CAVM_XCP_DINTF_ERR_TYPE_E_NO_ERR (0)
-#define CAVM_XCP_DINTF_ERR_TYPE_E_RD_ERR_NCB_BUS_FLT (4)
-#define CAVM_XCP_DINTF_ERR_TYPE_E_RD_ERR_NCB_BUS_PSN (5)
-#define CAVM_XCP_DINTF_ERR_TYPE_E_RD_ERR_NCB_TIMEOUT (6)
+#define CAVM_XCP_DINTF_ERR_TYPE_E_RD_ERR_NCB (6)
 #define CAVM_XCP_DINTF_ERR_TYPE_E_UMPD_ADDR (1)
+#define CAVM_XCP_DINTF_ERR_TYPE_E_WR_ERR_NCB (7)
 
 /**
  * Enumeration xcp_int_vec_e
@@ -73,75 +89,70 @@
  * XCP Mailbox Device ID Enumeration
  * Enumerates the device ID for MBOX registers.
  */
-#define CAVM_XCP_MBOX_DEV_E_AP_NONSECURE0 (2)
-#define CAVM_XCP_MBOX_DEV_E_AP_NONSECURE1 (3)
+#define CAVM_XCP_MBOX_DEV_E_AP_NONSECURE0 (0x20)
+#define CAVM_XCP_MBOX_DEV_E_AP_NONSECURE1 (0x21)
+#define CAVM_XCP_MBOX_DEV_E_AP_NONSECURE10 (0x2a)
+#define CAVM_XCP_MBOX_DEV_E_AP_NONSECURE11 (0x2b)
+#define CAVM_XCP_MBOX_DEV_E_AP_NONSECURE12 (0x2c)
+#define CAVM_XCP_MBOX_DEV_E_AP_NONSECURE13 (0x2d)
+#define CAVM_XCP_MBOX_DEV_E_AP_NONSECURE14 (0x2e)
+#define CAVM_XCP_MBOX_DEV_E_AP_NONSECURE15 (0x2f)
+#define CAVM_XCP_MBOX_DEV_E_AP_NONSECURE16 (0x30)
+#define CAVM_XCP_MBOX_DEV_E_AP_NONSECURE17 (0x31)
+#define CAVM_XCP_MBOX_DEV_E_AP_NONSECURE18 (0x32)
+#define CAVM_XCP_MBOX_DEV_E_AP_NONSECURE19 (0x33)
+#define CAVM_XCP_MBOX_DEV_E_AP_NONSECURE2 (0x22)
+#define CAVM_XCP_MBOX_DEV_E_AP_NONSECURE20 (0x34)
+#define CAVM_XCP_MBOX_DEV_E_AP_NONSECURE21 (0x35)
+#define CAVM_XCP_MBOX_DEV_E_AP_NONSECURE22 (0x36)
+#define CAVM_XCP_MBOX_DEV_E_AP_NONSECURE23 (0x37)
+#define CAVM_XCP_MBOX_DEV_E_AP_NONSECURE3 (0x23)
+#define CAVM_XCP_MBOX_DEV_E_AP_NONSECURE4 (0x24)
+#define CAVM_XCP_MBOX_DEV_E_AP_NONSECURE5 (0x25)
+#define CAVM_XCP_MBOX_DEV_E_AP_NONSECURE6 (0x26)
+#define CAVM_XCP_MBOX_DEV_E_AP_NONSECURE7 (0x27)
+#define CAVM_XCP_MBOX_DEV_E_AP_NONSECURE8 (0x28)
+#define CAVM_XCP_MBOX_DEV_E_AP_NONSECURE9 (0x29)
 #define CAVM_XCP_MBOX_DEV_E_AP_SECURE0 (0)
 #define CAVM_XCP_MBOX_DEV_E_AP_SECURE1 (1)
-#define CAVM_XCP_MBOX_DEV_E_ECP_LOCAL (8)
-#define CAVM_XCP_MBOX_DEV_E_ECP_REMOTE (9)
-#define CAVM_XCP_MBOX_DEV_E_MCP_LOCAL (5)
-#define CAVM_XCP_MBOX_DEV_E_MCP_REMOTE (7)
-#define CAVM_XCP_MBOX_DEV_E_SCP_LOCAL (4)
-#define CAVM_XCP_MBOX_DEV_E_SCP_REMOTE (6)
-
-/**
- * Enumeration xcp_mips_vec_int_e
- *
- * XCP MIPS Vectored Interrupt Enumeration
- * Enumerates the 8-bit vectored maskable interrupt input to the MIPS core.
- */
-#define CAVM_XCP_MIPS_VEC_INT_E_BUS_ERR (7)
-#define CAVM_XCP_MIPS_VEC_INT_E_GIB0 (1)
-#define CAVM_XCP_MIPS_VEC_INT_E_GIB1 (2)
-#define CAVM_XCP_MIPS_VEC_INT_E_GIB2 (3)
-#define CAVM_XCP_MIPS_VEC_INT_E_MBOX (0)
-#define CAVM_XCP_MIPS_VEC_INT_E_RESERVED (4)
-#define CAVM_XCP_MIPS_VEC_INT_E_TIMER (5)
-#define CAVM_XCP_MIPS_VEC_INT_E_WDOG (6)
-
-/**
- * Register (NCB32b) xcp#_accum_empty
- *
- * XCP Write Accumulator Empty Register
- * This register is only accessible to the requestor(s) permitted with CPC_XCP()_PERMIT.
- *
- * This register is reset on XCP domain reset.
- */
-union cavm_xcpx_accum_empty
-{
-    uint32_t u;
-    struct cavm_xcpx_accum_empty_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_1_31         : 31;
-        uint32_t empty                 : 1;  /**< [  0:  0](WO/H) Writing a one will cause any write data that is buffered in the write accumulator
-                                                                 to be flushed to the downstream logic, preventing subsequent writes from merging
-                                                                 with any writes accumulated before this register was written. */
-#else /* Word 0 - Little Endian */
-        uint32_t empty                 : 1;  /**< [  0:  0](WO/H) Writing a one will cause any write data that is buffered in the write accumulator
-                                                                 to be flushed to the downstream logic, preventing subsequent writes from merging
-                                                                 with any writes accumulated before this register was written. */
-        uint32_t reserved_1_31         : 31;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_xcpx_accum_empty_s cn; */
-};
-typedef union cavm_xcpx_accum_empty cavm_xcpx_accum_empty_t;
-
-static inline uint64_t CAVM_XCPX_ACCUM_EMPTY(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_XCPX_ACCUM_EMPTY(uint64_t a)
-{
-    if (a<=2)
-        return 0x82c000000a00ll + 0x1000000000ll * ((a) & 0x3);
-    __cavm_csr_fatal("XCPX_ACCUM_EMPTY", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_XCPX_ACCUM_EMPTY(a) cavm_xcpx_accum_empty_t
-#define bustype_CAVM_XCPX_ACCUM_EMPTY(a) CSR_TYPE_NCB32b
-#define basename_CAVM_XCPX_ACCUM_EMPTY(a) "XCPX_ACCUM_EMPTY"
-#define device_bar_CAVM_XCPX_ACCUM_EMPTY(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_XCPX_ACCUM_EMPTY(a) (a)
-#define arguments_CAVM_XCPX_ACCUM_EMPTY(a) (a),-1,-1,-1
+#define CAVM_XCP_MBOX_DEV_E_AP_SECURE10 (0xa)
+#define CAVM_XCP_MBOX_DEV_E_AP_SECURE11 (0xb)
+#define CAVM_XCP_MBOX_DEV_E_AP_SECURE12 (0xc)
+#define CAVM_XCP_MBOX_DEV_E_AP_SECURE13 (0xd)
+#define CAVM_XCP_MBOX_DEV_E_AP_SECURE14 (0xe)
+#define CAVM_XCP_MBOX_DEV_E_AP_SECURE15 (0xf)
+#define CAVM_XCP_MBOX_DEV_E_AP_SECURE16 (0x10)
+#define CAVM_XCP_MBOX_DEV_E_AP_SECURE17 (0x11)
+#define CAVM_XCP_MBOX_DEV_E_AP_SECURE18 (0x12)
+#define CAVM_XCP_MBOX_DEV_E_AP_SECURE19 (0x13)
+#define CAVM_XCP_MBOX_DEV_E_AP_SECURE2 (2)
+#define CAVM_XCP_MBOX_DEV_E_AP_SECURE20 (0x14)
+#define CAVM_XCP_MBOX_DEV_E_AP_SECURE21 (0x15)
+#define CAVM_XCP_MBOX_DEV_E_AP_SECURE22 (0x16)
+#define CAVM_XCP_MBOX_DEV_E_AP_SECURE23 (0x17)
+#define CAVM_XCP_MBOX_DEV_E_AP_SECURE24 (0x18)
+#define CAVM_XCP_MBOX_DEV_E_AP_SECURE25 (0x19)
+#define CAVM_XCP_MBOX_DEV_E_AP_SECURE26 (0x1a)
+#define CAVM_XCP_MBOX_DEV_E_AP_SECURE27 (0x1b)
+#define CAVM_XCP_MBOX_DEV_E_AP_SECURE28 (0x1c)
+#define CAVM_XCP_MBOX_DEV_E_AP_SECURE29 (0x1d)
+#define CAVM_XCP_MBOX_DEV_E_AP_SECURE3 (3)
+#define CAVM_XCP_MBOX_DEV_E_AP_SECURE30 (0x1e)
+#define CAVM_XCP_MBOX_DEV_E_AP_SECURE31 (0x1f)
+#define CAVM_XCP_MBOX_DEV_E_AP_SECURE4 (4)
+#define CAVM_XCP_MBOX_DEV_E_AP_SECURE5 (5)
+#define CAVM_XCP_MBOX_DEV_E_AP_SECURE6 (6)
+#define CAVM_XCP_MBOX_DEV_E_AP_SECURE7 (7)
+#define CAVM_XCP_MBOX_DEV_E_AP_SECURE8 (8)
+#define CAVM_XCP_MBOX_DEV_E_AP_SECURE9 (9)
+#define CAVM_XCP_MBOX_DEV_E_CCP_LOCAL (0x3a)
+#define CAVM_XCP_MBOX_DEV_E_CCP_REMOTE (0x3e)
+#define CAVM_XCP_MBOX_DEV_E_MCP_LOCAL (0x39)
+#define CAVM_XCP_MBOX_DEV_E_MCP_REMOTE (0x3d)
+#define CAVM_XCP_MBOX_DEV_E_PCP_LOCAL (0x3b)
+#define CAVM_XCP_MBOX_DEV_E_PCP_REMOTE (0x3f)
+#define CAVM_XCP_MBOX_DEV_E_SCP_LOCAL (0x38)
+#define CAVM_XCP_MBOX_DEV_E_SCP_REMOTE (0x3c)
 
 /**
  * Register (NCB32b) xcp#_boot_jump
@@ -171,8 +182,8 @@ typedef union cavm_xcpx_boot_jump cavm_xcpx_boot_jump_t;
 static inline uint64_t CAVM_XCPX_BOOT_JUMP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_BOOT_JUMP(uint64_t a)
 {
-    if (a<=2)
-        return 0x82c000000130ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+        return 0x820000000130ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_BOOT_JUMP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -187,7 +198,7 @@ static inline uint64_t CAVM_XCPX_BOOT_JUMP(uint64_t a)
  * Register (NCB32b) xcp#_bus_err_lint
  *
  * XCP Bus error Interrupt Register
- * This register contains imprecise NCB bus error interrupt for XCP.
+ * This register assert error interrupt for XCP.
  *
  * This register is only accessible to the requestor(s) permitted with CPC_XCP()_PERMIT.
  *
@@ -199,27 +210,11 @@ union cavm_xcpx_bus_err_lint
     struct cavm_xcpx_bus_err_lint_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_10_31        : 22;
-        uint32_t core_rst_int          : 1;  /**< [  9:  9](R/W1C/H) Write timeout. */
-        uint32_t reserved_8            : 1;
-        uint32_t wr_to_int             : 1;  /**< [  7:  7](R/W1C/H) Write timeout. */
-        uint32_t wr_flt_int            : 1;  /**< [  6:  6](R/W1C/H) Write fault. */
-        uint32_t wr_psn_int            : 1;  /**< [  5:  5](R/W1C/H) Write poison. Write poison is typically deferred, and thus this interrupt is typically ignored. */
-        uint32_t reserved_3_4          : 2;
-        uint32_t rd_to_int             : 1;  /**< [  2:  2](R/W1C/H) Read timeout. */
-        uint32_t rd_flt_int            : 1;  /**< [  1:  1](R/W1C/H) Read fault. */
-        uint32_t rd_psn_int            : 1;  /**< [  0:  0](R/W1C/H) Read poison. */
+        uint32_t reserved_1_31         : 31;
+        uint32_t sw_bus_err            : 1;  /**< [  0:  0](R/W1C/H) SW can indicate bus error for XCP. */
 #else /* Word 0 - Little Endian */
-        uint32_t rd_psn_int            : 1;  /**< [  0:  0](R/W1C/H) Read poison. */
-        uint32_t rd_flt_int            : 1;  /**< [  1:  1](R/W1C/H) Read fault. */
-        uint32_t rd_to_int             : 1;  /**< [  2:  2](R/W1C/H) Read timeout. */
-        uint32_t reserved_3_4          : 2;
-        uint32_t wr_psn_int            : 1;  /**< [  5:  5](R/W1C/H) Write poison. Write poison is typically deferred, and thus this interrupt is typically ignored. */
-        uint32_t wr_flt_int            : 1;  /**< [  6:  6](R/W1C/H) Write fault. */
-        uint32_t wr_to_int             : 1;  /**< [  7:  7](R/W1C/H) Write timeout. */
-        uint32_t reserved_8            : 1;
-        uint32_t core_rst_int          : 1;  /**< [  9:  9](R/W1C/H) Write timeout. */
-        uint32_t reserved_10_31        : 22;
+        uint32_t sw_bus_err            : 1;  /**< [  0:  0](R/W1C/H) SW can indicate bus error for XCP. */
+        uint32_t reserved_1_31         : 31;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_xcpx_bus_err_lint_s cn; */
@@ -229,8 +224,8 @@ typedef union cavm_xcpx_bus_err_lint cavm_xcpx_bus_err_lint_t;
 static inline uint64_t CAVM_XCPX_BUS_ERR_LINT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_BUS_ERR_LINT(uint64_t a)
 {
-    if (a<=2)
-        return 0x82c000001c00ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+        return 0x820000001c00ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_BUS_ERR_LINT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -253,27 +248,11 @@ union cavm_xcpx_bus_err_lint_ena_w1c
     struct cavm_xcpx_bus_err_lint_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_10_31        : 22;
-        uint32_t core_rst_int          : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for XCP(0..2)_BUS_ERR_LINT[CORE_RST_INT]. */
-        uint32_t reserved_8            : 1;
-        uint32_t wr_to_int             : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for XCP(0..2)_BUS_ERR_LINT[WR_TO_INT]. */
-        uint32_t wr_flt_int            : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for XCP(0..2)_BUS_ERR_LINT[WR_FLT_INT]. */
-        uint32_t wr_psn_int            : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for XCP(0..2)_BUS_ERR_LINT[WR_PSN_INT]. */
-        uint32_t reserved_3_4          : 2;
-        uint32_t rd_to_int             : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for XCP(0..2)_BUS_ERR_LINT[RD_TO_INT]. */
-        uint32_t rd_flt_int            : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for XCP(0..2)_BUS_ERR_LINT[RD_FLT_INT]. */
-        uint32_t rd_psn_int            : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for XCP(0..2)_BUS_ERR_LINT[RD_PSN_INT]. */
+        uint32_t reserved_1_31         : 31;
+        uint32_t sw_bus_err            : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for XCP(0..3)_BUS_ERR_LINT[SW_BUS_ERR]. */
 #else /* Word 0 - Little Endian */
-        uint32_t rd_psn_int            : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for XCP(0..2)_BUS_ERR_LINT[RD_PSN_INT]. */
-        uint32_t rd_flt_int            : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for XCP(0..2)_BUS_ERR_LINT[RD_FLT_INT]. */
-        uint32_t rd_to_int             : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for XCP(0..2)_BUS_ERR_LINT[RD_TO_INT]. */
-        uint32_t reserved_3_4          : 2;
-        uint32_t wr_psn_int            : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for XCP(0..2)_BUS_ERR_LINT[WR_PSN_INT]. */
-        uint32_t wr_flt_int            : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for XCP(0..2)_BUS_ERR_LINT[WR_FLT_INT]. */
-        uint32_t wr_to_int             : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for XCP(0..2)_BUS_ERR_LINT[WR_TO_INT]. */
-        uint32_t reserved_8            : 1;
-        uint32_t core_rst_int          : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for XCP(0..2)_BUS_ERR_LINT[CORE_RST_INT]. */
-        uint32_t reserved_10_31        : 22;
+        uint32_t sw_bus_err            : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for XCP(0..3)_BUS_ERR_LINT[SW_BUS_ERR]. */
+        uint32_t reserved_1_31         : 31;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_xcpx_bus_err_lint_ena_w1c_s cn; */
@@ -283,8 +262,8 @@ typedef union cavm_xcpx_bus_err_lint_ena_w1c cavm_xcpx_bus_err_lint_ena_w1c_t;
 static inline uint64_t CAVM_XCPX_BUS_ERR_LINT_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_BUS_ERR_LINT_ENA_W1C(uint64_t a)
 {
-    if (a<=2)
-        return 0x82c000001cc0ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+        return 0x820000001cc0ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_BUS_ERR_LINT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -307,27 +286,11 @@ union cavm_xcpx_bus_err_lint_ena_w1s
     struct cavm_xcpx_bus_err_lint_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_10_31        : 22;
-        uint32_t core_rst_int          : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for XCP(0..2)_BUS_ERR_LINT[CORE_RST_INT]. */
-        uint32_t reserved_8            : 1;
-        uint32_t wr_to_int             : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for XCP(0..2)_BUS_ERR_LINT[WR_TO_INT]. */
-        uint32_t wr_flt_int            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for XCP(0..2)_BUS_ERR_LINT[WR_FLT_INT]. */
-        uint32_t wr_psn_int            : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for XCP(0..2)_BUS_ERR_LINT[WR_PSN_INT]. */
-        uint32_t reserved_3_4          : 2;
-        uint32_t rd_to_int             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for XCP(0..2)_BUS_ERR_LINT[RD_TO_INT]. */
-        uint32_t rd_flt_int            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for XCP(0..2)_BUS_ERR_LINT[RD_FLT_INT]. */
-        uint32_t rd_psn_int            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for XCP(0..2)_BUS_ERR_LINT[RD_PSN_INT]. */
+        uint32_t reserved_1_31         : 31;
+        uint32_t sw_bus_err            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for XCP(0..3)_BUS_ERR_LINT[SW_BUS_ERR]. */
 #else /* Word 0 - Little Endian */
-        uint32_t rd_psn_int            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for XCP(0..2)_BUS_ERR_LINT[RD_PSN_INT]. */
-        uint32_t rd_flt_int            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for XCP(0..2)_BUS_ERR_LINT[RD_FLT_INT]. */
-        uint32_t rd_to_int             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for XCP(0..2)_BUS_ERR_LINT[RD_TO_INT]. */
-        uint32_t reserved_3_4          : 2;
-        uint32_t wr_psn_int            : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for XCP(0..2)_BUS_ERR_LINT[WR_PSN_INT]. */
-        uint32_t wr_flt_int            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for XCP(0..2)_BUS_ERR_LINT[WR_FLT_INT]. */
-        uint32_t wr_to_int             : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for XCP(0..2)_BUS_ERR_LINT[WR_TO_INT]. */
-        uint32_t reserved_8            : 1;
-        uint32_t core_rst_int          : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for XCP(0..2)_BUS_ERR_LINT[CORE_RST_INT]. */
-        uint32_t reserved_10_31        : 22;
+        uint32_t sw_bus_err            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for XCP(0..3)_BUS_ERR_LINT[SW_BUS_ERR]. */
+        uint32_t reserved_1_31         : 31;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_xcpx_bus_err_lint_ena_w1s_s cn; */
@@ -337,8 +300,8 @@ typedef union cavm_xcpx_bus_err_lint_ena_w1s cavm_xcpx_bus_err_lint_ena_w1s_t;
 static inline uint64_t CAVM_XCPX_BUS_ERR_LINT_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_BUS_ERR_LINT_ENA_W1S(uint64_t a)
 {
-    if (a<=2)
-        return 0x82c000001ce0ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+        return 0x820000001ce0ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_BUS_ERR_LINT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -361,27 +324,11 @@ union cavm_xcpx_bus_err_lint_w1s
     struct cavm_xcpx_bus_err_lint_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_10_31        : 22;
-        uint32_t core_rst_int          : 1;  /**< [  9:  9](R/W1S/H) Reads or sets XCP(0..2)_BUS_ERR_LINT[CORE_RST_INT]. */
-        uint32_t reserved_8            : 1;
-        uint32_t wr_to_int             : 1;  /**< [  7:  7](R/W1S/H) Reads or sets XCP(0..2)_BUS_ERR_LINT[WR_TO_INT]. */
-        uint32_t wr_flt_int            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets XCP(0..2)_BUS_ERR_LINT[WR_FLT_INT]. */
-        uint32_t wr_psn_int            : 1;  /**< [  5:  5](R/W1S/H) Reads or sets XCP(0..2)_BUS_ERR_LINT[WR_PSN_INT]. */
-        uint32_t reserved_3_4          : 2;
-        uint32_t rd_to_int             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets XCP(0..2)_BUS_ERR_LINT[RD_TO_INT]. */
-        uint32_t rd_flt_int            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets XCP(0..2)_BUS_ERR_LINT[RD_FLT_INT]. */
-        uint32_t rd_psn_int            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCP(0..2)_BUS_ERR_LINT[RD_PSN_INT]. */
+        uint32_t reserved_1_31         : 31;
+        uint32_t sw_bus_err            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCP(0..3)_BUS_ERR_LINT[SW_BUS_ERR]. */
 #else /* Word 0 - Little Endian */
-        uint32_t rd_psn_int            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCP(0..2)_BUS_ERR_LINT[RD_PSN_INT]. */
-        uint32_t rd_flt_int            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets XCP(0..2)_BUS_ERR_LINT[RD_FLT_INT]. */
-        uint32_t rd_to_int             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets XCP(0..2)_BUS_ERR_LINT[RD_TO_INT]. */
-        uint32_t reserved_3_4          : 2;
-        uint32_t wr_psn_int            : 1;  /**< [  5:  5](R/W1S/H) Reads or sets XCP(0..2)_BUS_ERR_LINT[WR_PSN_INT]. */
-        uint32_t wr_flt_int            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets XCP(0..2)_BUS_ERR_LINT[WR_FLT_INT]. */
-        uint32_t wr_to_int             : 1;  /**< [  7:  7](R/W1S/H) Reads or sets XCP(0..2)_BUS_ERR_LINT[WR_TO_INT]. */
-        uint32_t reserved_8            : 1;
-        uint32_t core_rst_int          : 1;  /**< [  9:  9](R/W1S/H) Reads or sets XCP(0..2)_BUS_ERR_LINT[CORE_RST_INT]. */
-        uint32_t reserved_10_31        : 22;
+        uint32_t sw_bus_err            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCP(0..3)_BUS_ERR_LINT[SW_BUS_ERR]. */
+        uint32_t reserved_1_31         : 31;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_xcpx_bus_err_lint_w1s_s cn; */
@@ -391,8 +338,8 @@ typedef union cavm_xcpx_bus_err_lint_w1s cavm_xcpx_bus_err_lint_w1s_t;
 static inline uint64_t CAVM_XCPX_BUS_ERR_LINT_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_BUS_ERR_LINT_W1S(uint64_t a)
 {
-    if (a<=2)
-        return 0x82c000001c80ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+        return 0x820000001c80ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_BUS_ERR_LINT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -408,8 +355,8 @@ static inline uint64_t CAVM_XCPX_BUS_ERR_LINT_W1S(uint64_t a)
  *
  * XCP Configuration Register
  * This register contains the configuration bits for XCP.
+ *
  * This register is only accessible to the requestor(s) permitted with CPC_XCP()_PERMIT.
- * Software must do a flush then sync before changing values in this register.
  *
  * This register is reset on XCP domain reset.
  */
@@ -419,59 +366,23 @@ union cavm_xcpx_cfg
     struct cavm_xcpx_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
-        uint32_t ld_type               : 1;  /**< [  7:  7](R/W) Load type for stores out of XCP to IOB via NCBI.
-                                                                 0 = LDD (allocates in LLC).
-                                                                 1 = LDT (noallocate in LLC). */
-        uint32_t st_type               : 1;  /**< [  6:  6](R/W) Store type for stores out of XCP to IOB via NCBI.
-                                                                 0 = STP (allocate in LLC).
-                                                                 1 = STT (noallocate in LLC). */
-        uint32_t node_id               : 2;  /**< [  5:  4](RO/H) Dode ID associated with the chip. */
-        uint32_t prefetch_dis          : 1;  /**< [  3:  3](R/W) Disable instruction prefetching.  For diagnostic use only.
-                                                                 To disable prefecthing XCP needs to be in reset. */
-        uint32_t accum_dis             : 1;  /**< [  2:  2](R/W) Accumulation disable.
-
-                                                                 0 = Window will accumulate writes.  When multiple writes are accumulated then
-                                                                 sent out this may result in "holes" in the byte enables within a cache line. Not
-                                                                 all I/O devices can handle this, for example PEM will ignore the hole and write
-                                                                 all intermediate bytes (which were not marked as supposed to be written.) Thus
-                                                                 [ACCUM_DIS] should be one for I/O devices, or MIPS SYNC operations must be used
-                                                                 to flush between non-mergable stores.
-
-                                                                 1 = Writes are not accumulated, every individual write is sent to NCB.
-
-                                                                 Ignored and acts as if set when XCP()_WIN()_CFG[RSL_NCB_N] = 1 (RSL).
-
-                                                                 Software must do a sync before setting [ACCUM_DIS] or write data may be dropped. */
-        uint32_t sync_inv_rdc          : 1;  /**< [  1:  1](R/W) If set, invalidate all windows read caches on a sync operation. */
-        uint32_t ro_dis                : 1;  /**< [  0:  0](R/W) Disable for XCP NCB relaxed ordering (RO) bit on NCBI transactions. */
+        uint32_t reserved_13_31        : 19;
+        uint32_t chicken_ncb_b64       : 1;  /**< [ 12: 12](R/W) When XCP_NCB_WIN()_CFG.B64 is set, load to lower bits will cause de-asserting of
+                                                                 ARREADY, to hold additional transaction till loaddata return.
+                                                                 This bit will prevent ARREADY de-assertion. */
+        uint32_t ctlppblock            : 4;  /**< [ 11:  8](R/W) CM7 CTLPPBLOCK[3:0] input configuration. */
+        uint32_t reserved_2_7          : 6;
+        uint32_t ext_fetch_dis         : 1;  /**< [  1:  1](R/W) Disable the option to fetch instructions from external memory (DDR). */
+        uint32_t cfgbigend             : 1;  /**< [  0:  0](R/W) Static endianess settings. For diagnostic use only. */
 #else /* Word 0 - Little Endian */
-        uint32_t ro_dis                : 1;  /**< [  0:  0](R/W) Disable for XCP NCB relaxed ordering (RO) bit on NCBI transactions. */
-        uint32_t sync_inv_rdc          : 1;  /**< [  1:  1](R/W) If set, invalidate all windows read caches on a sync operation. */
-        uint32_t accum_dis             : 1;  /**< [  2:  2](R/W) Accumulation disable.
-
-                                                                 0 = Window will accumulate writes.  When multiple writes are accumulated then
-                                                                 sent out this may result in "holes" in the byte enables within a cache line. Not
-                                                                 all I/O devices can handle this, for example PEM will ignore the hole and write
-                                                                 all intermediate bytes (which were not marked as supposed to be written.) Thus
-                                                                 [ACCUM_DIS] should be one for I/O devices, or MIPS SYNC operations must be used
-                                                                 to flush between non-mergable stores.
-
-                                                                 1 = Writes are not accumulated, every individual write is sent to NCB.
-
-                                                                 Ignored and acts as if set when XCP()_WIN()_CFG[RSL_NCB_N] = 1 (RSL).
-
-                                                                 Software must do a sync before setting [ACCUM_DIS] or write data may be dropped. */
-        uint32_t prefetch_dis          : 1;  /**< [  3:  3](R/W) Disable instruction prefetching.  For diagnostic use only.
-                                                                 To disable prefecthing XCP needs to be in reset. */
-        uint32_t node_id               : 2;  /**< [  5:  4](RO/H) Dode ID associated with the chip. */
-        uint32_t st_type               : 1;  /**< [  6:  6](R/W) Store type for stores out of XCP to IOB via NCBI.
-                                                                 0 = STP (allocate in LLC).
-                                                                 1 = STT (noallocate in LLC). */
-        uint32_t ld_type               : 1;  /**< [  7:  7](R/W) Load type for stores out of XCP to IOB via NCBI.
-                                                                 0 = LDD (allocates in LLC).
-                                                                 1 = LDT (noallocate in LLC). */
-        uint32_t reserved_8_31         : 24;
+        uint32_t cfgbigend             : 1;  /**< [  0:  0](R/W) Static endianess settings. For diagnostic use only. */
+        uint32_t ext_fetch_dis         : 1;  /**< [  1:  1](R/W) Disable the option to fetch instructions from external memory (DDR). */
+        uint32_t reserved_2_7          : 6;
+        uint32_t ctlppblock            : 4;  /**< [ 11:  8](R/W) CM7 CTLPPBLOCK[3:0] input configuration. */
+        uint32_t chicken_ncb_b64       : 1;  /**< [ 12: 12](R/W) When XCP_NCB_WIN()_CFG.B64 is set, load to lower bits will cause de-asserting of
+                                                                 ARREADY, to hold additional transaction till loaddata return.
+                                                                 This bit will prevent ARREADY de-assertion. */
+        uint32_t reserved_13_31        : 19;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_xcpx_cfg_s cn; */
@@ -481,8 +392,8 @@ typedef union cavm_xcpx_cfg cavm_xcpx_cfg_t;
 static inline uint64_t CAVM_XCPX_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_CFG(uint64_t a)
 {
-    if (a<=2)
-        return 0x82c000000200ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+        return 0x820000000200ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -521,8 +432,8 @@ typedef union cavm_xcpx_clken cavm_xcpx_clken_t;
 static inline uint64_t CAVM_XCPX_CLKEN(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_CLKEN(uint64_t a)
 {
-    if (a<=2)
-        return 0x82c000000010ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+        return 0x820000000010ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_CLKEN", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -550,18 +461,18 @@ union cavm_xcpx_cold_data
     struct cavm_xcpx_cold_data_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t force_secondary       : 1;  /**< [ 31: 31](R/W) Force SCP_BL0 code to only attempt boots from the secondary boot device. SCP_BL1
-                                                                 code may set this if an AP or MCP cannot be loaded from the primary, so that a
-                                                                 reboot will load all of SCP_BL1, MCP_BL1, and AP_BL1 from the secondary devices
+        uint32_t force_secondary       : 1;  /**< [ 31: 31](R/W) Force CCP_BL0 code to only attempt boots from the secondary boot device. CCP_BL1
+                                                                 code may set this if an SCP, MCP, PCP or AP cannot be loaded from the primary, so that a
+                                                                 reboot will load all of CCP_BL1, SCP_BL1, MCP_BL1, PCP_BL1 and AP_BL1 from the secondary devices
                                                                  so all the images match. */
         uint32_t data                  : 31; /**< [ 30:  0](R/W) Opaque data preserved through XCP and warm resets.   This register is not reset on trusted-mode
                                                                  changes, so must not contain keys/secrets. */
 #else /* Word 0 - Little Endian */
         uint32_t data                  : 31; /**< [ 30:  0](R/W) Opaque data preserved through XCP and warm resets.   This register is not reset on trusted-mode
                                                                  changes, so must not contain keys/secrets. */
-        uint32_t force_secondary       : 1;  /**< [ 31: 31](R/W) Force SCP_BL0 code to only attempt boots from the secondary boot device. SCP_BL1
-                                                                 code may set this if an AP or MCP cannot be loaded from the primary, so that a
-                                                                 reboot will load all of SCP_BL1, MCP_BL1, and AP_BL1 from the secondary devices
+        uint32_t force_secondary       : 1;  /**< [ 31: 31](R/W) Force CCP_BL0 code to only attempt boots from the secondary boot device. CCP_BL1
+                                                                 code may set this if an SCP, MCP, PCP or AP cannot be loaded from the primary, so that a
+                                                                 reboot will load all of CCP_BL1, SCP_BL1, MCP_BL1, PCP_BL1 and AP_BL1 from the secondary devices
                                                                  so all the images match. */
 #endif /* Word 0 - End */
     } s;
@@ -572,8 +483,8 @@ typedef union cavm_xcpx_cold_data cavm_xcpx_cold_data_t;
 static inline uint64_t CAVM_XCPX_COLD_DATA(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_COLD_DATA(uint64_t a)
 {
-    if (a<=2)
-        return 0x82c0000da000ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+        return 0x8200000da000ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_COLD_DATA", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -607,21 +518,21 @@ union cavm_xcpx_cold_sticky_w1s
         uint32_t boot_nsec             : 1;  /**< [ 30: 30](R/W1S/H) BL1 has booted in nonsecure mode since last cold reset.  If both [BOOT_SEC] and
                                                                  [BOOT_NSEC] are set, then these bits are not trustworthy. */
         uint32_t boot_rsvd             : 2;  /**< [ 29: 28](R/W1S/H) Reserved. */
-        uint32_t data                  : 23; /**< [ 27:  5](R/W1S/H) Data. Opaque data preserved through XCP and warm resets. Writes of one stay as one until
+        uint32_t data                  : 22; /**< [ 27:  6](R/W1S/H) Data. Opaque data preserved through XCP and warm resets. Writes of one stay as one until
                                                                  next cold reset; cannot write zeros.  This register is not reset on trusted-mode
                                                                  changes, so must not contain keys/secrets. */
-        uint32_t bl1_sz_inv            : 5;  /**< [  4:  0](R/W1S/H) BL1 size (inverted). Indicates the number of regions used by MCP code.
-                                                                 0x00 = BL1 can be as big as cpc_ram_size - 16KB. (First boot.)
-                                                                 0x01 = BL1 can be as big a cpc_ram_size - 32KB.
-                                                                 0x1E = BL1 can be as big as cpc_ram_size - 496KB.
-                                                                 0x1F = BL1 can be as big as cpc_ram_size - 512KB. */
+        uint32_t bl1_sz_inv            : 6;  /**< [  5:  0](R/W1S/H) BL1 size (inverted). Indicates the number of regions used by MCP code.
+                                                                 0x00 = BL1 can be as big as 63 regions (63 * 64KB). (First boot.)
+                                                                 0x01 = BL1 can be as big as 62 regions (62 * 64KB).
+                                                                 0x3E = BL1 can be as big as 1 region (1 * 64KB).
+                                                                 0x3F = BL1 can be as big as 0 region (0 * 64KB). */
 #else /* Word 0 - Little Endian */
-        uint32_t bl1_sz_inv            : 5;  /**< [  4:  0](R/W1S/H) BL1 size (inverted). Indicates the number of regions used by MCP code.
-                                                                 0x00 = BL1 can be as big as cpc_ram_size - 16KB. (First boot.)
-                                                                 0x01 = BL1 can be as big a cpc_ram_size - 32KB.
-                                                                 0x1E = BL1 can be as big as cpc_ram_size - 496KB.
-                                                                 0x1F = BL1 can be as big as cpc_ram_size - 512KB. */
-        uint32_t data                  : 23; /**< [ 27:  5](R/W1S/H) Data. Opaque data preserved through XCP and warm resets. Writes of one stay as one until
+        uint32_t bl1_sz_inv            : 6;  /**< [  5:  0](R/W1S/H) BL1 size (inverted). Indicates the number of regions used by MCP code.
+                                                                 0x00 = BL1 can be as big as 63 regions (63 * 64KB). (First boot.)
+                                                                 0x01 = BL1 can be as big as 62 regions (62 * 64KB).
+                                                                 0x3E = BL1 can be as big as 1 region (1 * 64KB).
+                                                                 0x3F = BL1 can be as big as 0 region (0 * 64KB). */
+        uint32_t data                  : 22; /**< [ 27:  6](R/W1S/H) Data. Opaque data preserved through XCP and warm resets. Writes of one stay as one until
                                                                  next cold reset; cannot write zeros.  This register is not reset on trusted-mode
                                                                  changes, so must not contain keys/secrets. */
         uint32_t boot_rsvd             : 2;  /**< [ 29: 28](R/W1S/H) Reserved. */
@@ -638,8 +549,8 @@ typedef union cavm_xcpx_cold_sticky_w1s cavm_xcpx_cold_sticky_w1s_t;
 static inline uint64_t CAVM_XCPX_COLD_STICKY_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_COLD_STICKY_W1S(uint64_t a)
 {
-    if (a<=2)
-        return 0x82c0000da040ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+        return 0x8200000da040ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_COLD_STICKY_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -663,9 +574,11 @@ union cavm_xcpx_const
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t wins                  : 8;  /**< [  7:  0](RO) Number of windows supported. */
+        uint32_t mrml_wins             : 4;  /**< [  7:  4](RO) Number of MRML windows supported. */
+        uint32_t ncb_wins              : 4;  /**< [  3:  0](RO) Number of NCB windows supported. */
 #else /* Word 0 - Little Endian */
-        uint32_t wins                  : 8;  /**< [  7:  0](RO) Number of windows supported. */
+        uint32_t ncb_wins              : 4;  /**< [  3:  0](RO) Number of NCB windows supported. */
+        uint32_t mrml_wins             : 4;  /**< [  7:  4](RO) Number of MRML windows supported. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -676,8 +589,8 @@ typedef union cavm_xcpx_const cavm_xcpx_const_t;
 static inline uint64_t CAVM_XCPX_CONST(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_CONST(uint64_t a)
 {
-    if (a<=2)
-        return 0x82c000000000ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+        return 0x820000000000ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_CONST", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -687,6 +600,98 @@ static inline uint64_t CAVM_XCPX_CONST(uint64_t a)
 #define device_bar_CAVM_XCPX_CONST(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_XCPX_CONST(a) (a)
 #define arguments_CAVM_XCPX_CONST(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) xcp#_core_dcache_status
+ *
+ * XCP Core Data Cache Status Register
+ * This register contains sticky bits of XCP data cache error signaling.
+ *
+ * This register is only accessible to the requestor(s) permitted with CPC_XCP()_PERMIT.
+ *
+ * This register is reset on XCP domain reset.
+ */
+union cavm_xcpx_core_dcache_status
+{
+    uint32_t u;
+    struct cavm_xcpx_core_dcache_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_28_31        : 4;
+        uint32_t dcdet                 : 4;  /**< [ 27: 24](R/W/H) CM7 Data cache error detection signaling. */
+        uint32_t reserved_22_23        : 2;
+        uint32_t dcerr                 : 22; /**< [ 21:  0](R/W/H) CM7 Data cache error bank signaling. */
+#else /* Word 0 - Little Endian */
+        uint32_t dcerr                 : 22; /**< [ 21:  0](R/W/H) CM7 Data cache error bank signaling. */
+        uint32_t reserved_22_23        : 2;
+        uint32_t dcdet                 : 4;  /**< [ 27: 24](R/W/H) CM7 Data cache error detection signaling. */
+        uint32_t reserved_28_31        : 4;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_xcpx_core_dcache_status_s cn; */
+};
+typedef union cavm_xcpx_core_dcache_status cavm_xcpx_core_dcache_status_t;
+
+static inline uint64_t CAVM_XCPX_CORE_DCACHE_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_XCPX_CORE_DCACHE_STATUS(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+        return 0x820000000180ll + 0x1000000000ll * ((a) & 0x3);
+    __cavm_csr_fatal("XCPX_CORE_DCACHE_STATUS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_XCPX_CORE_DCACHE_STATUS(a) cavm_xcpx_core_dcache_status_t
+#define bustype_CAVM_XCPX_CORE_DCACHE_STATUS(a) CSR_TYPE_NCB32b
+#define basename_CAVM_XCPX_CORE_DCACHE_STATUS(a) "XCPX_CORE_DCACHE_STATUS"
+#define device_bar_CAVM_XCPX_CORE_DCACHE_STATUS(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_XCPX_CORE_DCACHE_STATUS(a) (a)
+#define arguments_CAVM_XCPX_CORE_DCACHE_STATUS(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) xcp#_core_icache_status
+ *
+ * XCP Core Instruction Cache Status Register
+ * This register contains sticky bits of XCP instruction cache error signaling.
+ *
+ * This register is only accessible to the requestor(s) permitted with CPC_XCP()_PERMIT.
+ *
+ * This register is reset on XCP domain reset.
+ */
+union cavm_xcpx_core_icache_status
+{
+    uint32_t u;
+    struct cavm_xcpx_core_icache_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_28_31        : 4;
+        uint32_t icdet                 : 4;  /**< [ 27: 24](R/W/H) CM7 Instuction cache error detection signaling. */
+        uint32_t reserved_22_23        : 2;
+        uint32_t icerr                 : 22; /**< [ 21:  0](R/W/H) CM7 Instruction cache error bank signaling. */
+#else /* Word 0 - Little Endian */
+        uint32_t icerr                 : 22; /**< [ 21:  0](R/W/H) CM7 Instruction cache error bank signaling. */
+        uint32_t reserved_22_23        : 2;
+        uint32_t icdet                 : 4;  /**< [ 27: 24](R/W/H) CM7 Instuction cache error detection signaling. */
+        uint32_t reserved_28_31        : 4;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_xcpx_core_icache_status_s cn; */
+};
+typedef union cavm_xcpx_core_icache_status cavm_xcpx_core_icache_status_t;
+
+static inline uint64_t CAVM_XCPX_CORE_ICACHE_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_XCPX_CORE_ICACHE_STATUS(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+        return 0x820000000190ll + 0x1000000000ll * ((a) & 0x3);
+    __cavm_csr_fatal("XCPX_CORE_ICACHE_STATUS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_XCPX_CORE_ICACHE_STATUS(a) cavm_xcpx_core_icache_status_t
+#define bustype_CAVM_XCPX_CORE_ICACHE_STATUS(a) CSR_TYPE_NCB32b
+#define basename_CAVM_XCPX_CORE_ICACHE_STATUS(a) "XCPX_CORE_ICACHE_STATUS"
+#define device_bar_CAVM_XCPX_CORE_ICACHE_STATUS(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_XCPX_CORE_ICACHE_STATUS(a) (a)
+#define arguments_CAVM_XCPX_CORE_ICACHE_STATUS(a) (a),-1,-1,-1
 
 /**
  * Register (NCB32b) xcp#_cwd_lint
@@ -718,8 +723,8 @@ typedef union cavm_xcpx_cwd_lint cavm_xcpx_cwd_lint_t;
 static inline uint64_t CAVM_XCPX_CWD_LINT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_CWD_LINT(uint64_t a)
 {
-    if (a<=2)
-        return 0x82c000040200ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+        return 0x820000040200ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_CWD_LINT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -743,9 +748,9 @@ union cavm_xcpx_cwd_lint_ena_w1c
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_1_31         : 31;
-        uint32_t wdog_int              : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for XCP(0..2)_CWD_LINT[WDOG_INT]. */
+        uint32_t wdog_int              : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for XCP(0..3)_CWD_LINT[WDOG_INT]. */
 #else /* Word 0 - Little Endian */
-        uint32_t wdog_int              : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for XCP(0..2)_CWD_LINT[WDOG_INT]. */
+        uint32_t wdog_int              : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for XCP(0..3)_CWD_LINT[WDOG_INT]. */
         uint32_t reserved_1_31         : 31;
 #endif /* Word 0 - End */
     } s;
@@ -756,8 +761,8 @@ typedef union cavm_xcpx_cwd_lint_ena_w1c cavm_xcpx_cwd_lint_ena_w1c_t;
 static inline uint64_t CAVM_XCPX_CWD_LINT_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_CWD_LINT_ENA_W1C(uint64_t a)
 {
-    if (a<=2)
-        return 0x82c000040210ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+        return 0x820000040210ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_CWD_LINT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -781,9 +786,9 @@ union cavm_xcpx_cwd_lint_ena_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_1_31         : 31;
-        uint32_t wdog_int              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for XCP(0..2)_CWD_LINT[WDOG_INT]. */
+        uint32_t wdog_int              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for XCP(0..3)_CWD_LINT[WDOG_INT]. */
 #else /* Word 0 - Little Endian */
-        uint32_t wdog_int              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for XCP(0..2)_CWD_LINT[WDOG_INT]. */
+        uint32_t wdog_int              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for XCP(0..3)_CWD_LINT[WDOG_INT]. */
         uint32_t reserved_1_31         : 31;
 #endif /* Word 0 - End */
     } s;
@@ -794,8 +799,8 @@ typedef union cavm_xcpx_cwd_lint_ena_w1s cavm_xcpx_cwd_lint_ena_w1s_t;
 static inline uint64_t CAVM_XCPX_CWD_LINT_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_CWD_LINT_ENA_W1S(uint64_t a)
 {
-    if (a<=2)
-        return 0x82c000040218ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+        return 0x820000040218ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_CWD_LINT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -819,9 +824,9 @@ union cavm_xcpx_cwd_lint_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_1_31         : 31;
-        uint32_t wdog_int              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCP(0..2)_CWD_LINT[WDOG_INT]. */
+        uint32_t wdog_int              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCP(0..3)_CWD_LINT[WDOG_INT]. */
 #else /* Word 0 - Little Endian */
-        uint32_t wdog_int              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCP(0..2)_CWD_LINT[WDOG_INT]. */
+        uint32_t wdog_int              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCP(0..3)_CWD_LINT[WDOG_INT]. */
         uint32_t reserved_1_31         : 31;
 #endif /* Word 0 - End */
     } s;
@@ -832,8 +837,8 @@ typedef union cavm_xcpx_cwd_lint_w1s cavm_xcpx_cwd_lint_w1s_t;
 static inline uint64_t CAVM_XCPX_CWD_LINT_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_CWD_LINT_W1S(uint64_t a)
 {
-    if (a<=2)
-        return 0x82c000040208ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+        return 0x820000040208ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_CWD_LINT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -874,8 +879,8 @@ typedef union cavm_xcpx_cwd_nm_lint cavm_xcpx_cwd_nm_lint_t;
 static inline uint64_t CAVM_XCPX_CWD_NM_LINT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_CWD_NM_LINT(uint64_t a)
 {
-    if (a<=2)
-        return 0x82c000041200ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+        return 0x820000041200ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_CWD_NM_LINT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -899,9 +904,9 @@ union cavm_xcpx_cwd_nm_lint_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_1_31         : 31;
-        uint32_t wdog_int              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCP(0..2)_CWD_NM_LINT[WDOG_INT]. */
+        uint32_t wdog_int              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCP(0..3)_CWD_NM_LINT[WDOG_INT]. */
 #else /* Word 0 - Little Endian */
-        uint32_t wdog_int              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCP(0..2)_CWD_NM_LINT[WDOG_INT]. */
+        uint32_t wdog_int              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCP(0..3)_CWD_NM_LINT[WDOG_INT]. */
         uint32_t reserved_1_31         : 31;
 #endif /* Word 0 - End */
     } s;
@@ -912,8 +917,8 @@ typedef union cavm_xcpx_cwd_nm_lint_w1s cavm_xcpx_cwd_nm_lint_w1s_t;
 static inline uint64_t CAVM_XCPX_CWD_NM_LINT_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_CWD_NM_LINT_W1S(uint64_t a)
 {
-    if (a<=2)
-        return 0x82c000041208ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+        return 0x820000041208ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_CWD_NM_LINT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -957,8 +962,8 @@ typedef union cavm_xcpx_cwd_poke cavm_xcpx_cwd_poke_t;
 static inline uint64_t CAVM_XCPX_CWD_POKE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_CWD_POKE(uint64_t a)
 {
-    if (a<=2)
-        return 0x82c00000ee00ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+        return 0x82000000ee00ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_CWD_POKE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -983,8 +988,7 @@ union cavm_xcpx_cwd_wdog
     struct cavm_xcpx_cwd_wdog_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t gstop                 : 1;  /**< [ 31: 31](R/W) Global-stop enable. Global stop is asserted if the other XCP or any of the Arm
-                                                                 cores are in debug mode. */
+        uint32_t gstop                 : 1;  /**< [ 31: 31](R/W) Reserved. */
         uint32_t dstop                 : 1;  /**< [ 30: 30](R/W) Debug-stop enable. Debug stop is asserted if the local XCP is in debug mode. */
         uint32_t cnt                   : 17; /**< [ 29: 13](R/W/H) Number of 10.24 us intervals until next watchdog expiration. Set on write to
                                                                  associated XCP()_CWD_POKE.
@@ -1014,8 +1018,7 @@ union cavm_xcpx_cwd_wdog
 
                                                                  Typically on each write to XCP()_CWD_WDOG, [CNT] should be set to [LEN] * 0x100. */
         uint32_t dstop                 : 1;  /**< [ 30: 30](R/W) Debug-stop enable. Debug stop is asserted if the local XCP is in debug mode. */
-        uint32_t gstop                 : 1;  /**< [ 31: 31](R/W) Global-stop enable. Global stop is asserted if the other XCP or any of the Arm
-                                                                 cores are in debug mode. */
+        uint32_t gstop                 : 1;  /**< [ 31: 31](R/W) Reserved. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_xcpx_cwd_wdog_s cn; */
@@ -1025,8 +1028,8 @@ typedef union cavm_xcpx_cwd_wdog cavm_xcpx_cwd_wdog_t;
 static inline uint64_t CAVM_XCPX_CWD_WDOG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_CWD_WDOG(uint64_t a)
 {
-    if (a<=2)
-        return 0x82c00000ee80ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+        return 0x82000000ee80ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_CWD_WDOG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1068,8 +1071,8 @@ typedef union cavm_xcpx_devx_xcp_mbox cavm_xcpx_devx_xcp_mbox_t;
 static inline uint64_t CAVM_XCPX_DEVX_XCP_MBOX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_DEVX_XCP_MBOX(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=9))
-        return 0x82c0000e1000ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0xf);
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=3) && (b<=61)))
+        return 0x8200000e1000ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3f);
     __cavm_csr_fatal("XCPX_DEVX_XCP_MBOX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1110,8 +1113,8 @@ typedef union cavm_xcpx_devx_xcp_mbox_lint cavm_xcpx_devx_xcp_mbox_lint_t;
 static inline uint64_t CAVM_XCPX_DEVX_XCP_MBOX_LINT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_DEVX_XCP_MBOX_LINT(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=9))
-        return 0x82c0000e1c00ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0xf);
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=3) && (b<=61)))
+        return 0x8200000e2000ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3f);
     __cavm_csr_fatal("XCPX_DEVX_XCP_MBOX_LINT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1135,9 +1138,9 @@ union cavm_xcpx_devx_xcp_mbox_lint_ena_w1c
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_1_31         : 31;
-        uint32_t intr                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for XCP(0..2)_DEV(0..9)_XCP_MBOX_LINT[INTR]. */
+        uint32_t intr                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for XCP(0..3)_DEV(0..61)_XCP_MBOX_LINT[INTR]. */
 #else /* Word 0 - Little Endian */
-        uint32_t intr                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for XCP(0..2)_DEV(0..9)_XCP_MBOX_LINT[INTR]. */
+        uint32_t intr                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for XCP(0..3)_DEV(0..61)_XCP_MBOX_LINT[INTR]. */
         uint32_t reserved_1_31         : 31;
 #endif /* Word 0 - End */
     } s;
@@ -1148,8 +1151,8 @@ typedef union cavm_xcpx_devx_xcp_mbox_lint_ena_w1c cavm_xcpx_devx_xcp_mbox_lint_
 static inline uint64_t CAVM_XCPX_DEVX_XCP_MBOX_LINT_ENA_W1C(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_DEVX_XCP_MBOX_LINT_ENA_W1C(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=9))
-        return 0x82c0000e1f00ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0xf);
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=3) && (b<=61)))
+        return 0x8200000e2c00ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3f);
     __cavm_csr_fatal("XCPX_DEVX_XCP_MBOX_LINT_ENA_W1C", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1173,9 +1176,9 @@ union cavm_xcpx_devx_xcp_mbox_lint_ena_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_1_31         : 31;
-        uint32_t intr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for XCP(0..2)_DEV(0..9)_XCP_MBOX_LINT[INTR]. */
+        uint32_t intr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for XCP(0..3)_DEV(0..61)_XCP_MBOX_LINT[INTR]. */
 #else /* Word 0 - Little Endian */
-        uint32_t intr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for XCP(0..2)_DEV(0..9)_XCP_MBOX_LINT[INTR]. */
+        uint32_t intr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for XCP(0..3)_DEV(0..61)_XCP_MBOX_LINT[INTR]. */
         uint32_t reserved_1_31         : 31;
 #endif /* Word 0 - End */
     } s;
@@ -1186,8 +1189,8 @@ typedef union cavm_xcpx_devx_xcp_mbox_lint_ena_w1s cavm_xcpx_devx_xcp_mbox_lint_
 static inline uint64_t CAVM_XCPX_DEVX_XCP_MBOX_LINT_ENA_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_DEVX_XCP_MBOX_LINT_ENA_W1S(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=9))
-        return 0x82c0000e1e00ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0xf);
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=3) && (b<=61)))
+        return 0x8200000e2800ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3f);
     __cavm_csr_fatal("XCPX_DEVX_XCP_MBOX_LINT_ENA_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1211,9 +1214,9 @@ union cavm_xcpx_devx_xcp_mbox_lint_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_1_31         : 31;
-        uint32_t intr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCP(0..2)_DEV(0..9)_XCP_MBOX_LINT[INTR]. */
+        uint32_t intr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCP(0..3)_DEV(0..61)_XCP_MBOX_LINT[INTR]. */
 #else /* Word 0 - Little Endian */
-        uint32_t intr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCP(0..2)_DEV(0..9)_XCP_MBOX_LINT[INTR]. */
+        uint32_t intr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCP(0..3)_DEV(0..61)_XCP_MBOX_LINT[INTR]. */
         uint32_t reserved_1_31         : 31;
 #endif /* Word 0 - End */
     } s;
@@ -1224,8 +1227,8 @@ typedef union cavm_xcpx_devx_xcp_mbox_lint_w1s cavm_xcpx_devx_xcp_mbox_lint_w1s_
 static inline uint64_t CAVM_XCPX_DEVX_XCP_MBOX_LINT_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_DEVX_XCP_MBOX_LINT_W1S(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=9))
-        return 0x82c0000e1d00ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0xf);
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=3) && (b<=61)))
+        return 0x8200000e2400ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3f);
     __cavm_csr_fatal("XCPX_DEVX_XCP_MBOX_LINT_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1243,7 +1246,7 @@ static inline uint64_t CAVM_XCPX_DEVX_XCP_MBOX_LINT_W1S(uint64_t a, uint64_t b)
  * This register contains GIB interrupt for XCP.
  *
  * This register and XCP()_GIB()_LINT_W1S are only accessible to the requestor(s)
- * permitted with CPC_XCP()_PERMIT, or by a MSI-X/GIB interrupt message write.
+ * permitted with CPC_XCP()_GIB()_LINT_PERMIT, or by a MSI-X/GIB interrupt message write.
  *
  * This register is reset on XCP domain reset.
  */
@@ -1271,8 +1274,8 @@ typedef union cavm_xcpx_gibx_lint cavm_xcpx_gibx_lint_t;
 static inline uint64_t CAVM_XCPX_GIBX_LINT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_GIBX_LINT(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=2))
-        return 0x82c000000c00ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=3) && (b<=2)))
+        return 0x820000000c00ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
     __cavm_csr_fatal("XCPX_GIBX_LINT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1327,8 +1330,8 @@ typedef union cavm_xcpx_gibx_lint_devid cavm_xcpx_gibx_lint_devid_t;
 static inline uint64_t CAVM_XCPX_GIBX_LINT_DEVID(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_GIBX_LINT_DEVID(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=2))
-        return 0x82c000000dc0ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=3) && (b<=2)))
+        return 0x820000000dc0ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
     __cavm_csr_fatal("XCPX_GIBX_LINT_DEVID", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1351,9 +1354,9 @@ union cavm_xcpx_gibx_lint_ena_w1c
     struct cavm_xcpx_gibx_lint_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t gib_int               : 32; /**< [ 31:  0](R/W1C/H) Reads or clears enable for XCP(0..2)_GIB(0..2)_LINT[GIB_INT]. */
+        uint32_t gib_int               : 32; /**< [ 31:  0](R/W1C/H) Reads or clears enable for XCP(0..3)_GIB(0..2)_LINT[GIB_INT]. */
 #else /* Word 0 - Little Endian */
-        uint32_t gib_int               : 32; /**< [ 31:  0](R/W1C/H) Reads or clears enable for XCP(0..2)_GIB(0..2)_LINT[GIB_INT]. */
+        uint32_t gib_int               : 32; /**< [ 31:  0](R/W1C/H) Reads or clears enable for XCP(0..3)_GIB(0..2)_LINT[GIB_INT]. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_xcpx_gibx_lint_ena_w1c_s cn; */
@@ -1363,8 +1366,8 @@ typedef union cavm_xcpx_gibx_lint_ena_w1c cavm_xcpx_gibx_lint_ena_w1c_t;
 static inline uint64_t CAVM_XCPX_GIBX_LINT_ENA_W1C(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_GIBX_LINT_ENA_W1C(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=2))
-        return 0x82c000000cc0ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=3) && (b<=2)))
+        return 0x820000000cc0ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
     __cavm_csr_fatal("XCPX_GIBX_LINT_ENA_W1C", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1387,9 +1390,9 @@ union cavm_xcpx_gibx_lint_ena_w1s
     struct cavm_xcpx_gibx_lint_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t gib_int               : 32; /**< [ 31:  0](R/W1S/H) Reads or sets enable for XCP(0..2)_GIB(0..2)_LINT[GIB_INT]. */
+        uint32_t gib_int               : 32; /**< [ 31:  0](R/W1S/H) Reads or sets enable for XCP(0..3)_GIB(0..2)_LINT[GIB_INT]. */
 #else /* Word 0 - Little Endian */
-        uint32_t gib_int               : 32; /**< [ 31:  0](R/W1S/H) Reads or sets enable for XCP(0..2)_GIB(0..2)_LINT[GIB_INT]. */
+        uint32_t gib_int               : 32; /**< [ 31:  0](R/W1S/H) Reads or sets enable for XCP(0..3)_GIB(0..2)_LINT[GIB_INT]. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_xcpx_gibx_lint_ena_w1s_s cn; */
@@ -1399,8 +1402,8 @@ typedef union cavm_xcpx_gibx_lint_ena_w1s cavm_xcpx_gibx_lint_ena_w1s_t;
 static inline uint64_t CAVM_XCPX_GIBX_LINT_ENA_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_GIBX_LINT_ENA_W1S(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=2))
-        return 0x82c000000c40ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=3) && (b<=2)))
+        return 0x820000000c40ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
     __cavm_csr_fatal("XCPX_GIBX_LINT_ENA_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1423,9 +1426,9 @@ union cavm_xcpx_gibx_lint_w1s
     struct cavm_xcpx_gibx_lint_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t gib_int               : 32; /**< [ 31:  0](R/W1S/H) Reads or sets XCP(0..2)_GIB(0..2)_LINT[GIB_INT]. */
+        uint32_t gib_int               : 32; /**< [ 31:  0](R/W1S/H) Reads or sets XCP(0..3)_GIB(0..2)_LINT[GIB_INT]. */
 #else /* Word 0 - Little Endian */
-        uint32_t gib_int               : 32; /**< [ 31:  0](R/W1S/H) Reads or sets XCP(0..2)_GIB(0..2)_LINT[GIB_INT]. */
+        uint32_t gib_int               : 32; /**< [ 31:  0](R/W1S/H) Reads or sets XCP(0..3)_GIB(0..2)_LINT[GIB_INT]. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_xcpx_gibx_lint_w1s_s cn; */
@@ -1435,8 +1438,8 @@ typedef union cavm_xcpx_gibx_lint_w1s cavm_xcpx_gibx_lint_w1s_t;
 static inline uint64_t CAVM_XCPX_GIBX_LINT_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_GIBX_LINT_W1S(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=2))
-        return 0x82c000000c80ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=3) && (b<=2)))
+        return 0x820000000c80ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
     __cavm_csr_fatal("XCPX_GIBX_LINT_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1448,60 +1451,188 @@ static inline uint64_t CAVM_XCPX_GIBX_LINT_W1S(uint64_t a, uint64_t b)
 #define arguments_CAVM_XCPX_GIBX_LINT_W1S(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB32b) xcp#_lint_summary
+ * Register (NCB32b) xcp#_id
  *
- * XCP Interrupt Summary Registers
- * This register is the local interrupt summary register for the MIPS core.
+ * XCP Identefication Register
+ * This register is only accessible to the requestor(s) permitted with CPC_XCP()_PERMIT.
+ *
+ * This register is reset on XCP domain reset.
+ */
+union cavm_xcpx_id
+{
+    uint32_t u;
+    struct cavm_xcpx_id_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_2_31         : 30;
+        uint32_t id                    : 2;  /**< [  1:  0](RO/H) Status of the ID of the XCP.
+                                                                 0: SCP.
+                                                                 1: MCP.
+                                                                 2: CCP.
+                                                                 3: PCP. */
+#else /* Word 0 - Little Endian */
+        uint32_t id                    : 2;  /**< [  1:  0](RO/H) Status of the ID of the XCP.
+                                                                 0: SCP.
+                                                                 1: MCP.
+                                                                 2: CCP.
+                                                                 3: PCP. */
+        uint32_t reserved_2_31         : 30;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_xcpx_id_s cn; */
+};
+typedef union cavm_xcpx_id cavm_xcpx_id_t;
+
+static inline uint64_t CAVM_XCPX_ID(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_XCPX_ID(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+        return 0x820000000020ll + 0x1000000000ll * ((a) & 0x3);
+    __cavm_csr_fatal("XCPX_ID", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_XCPX_ID(a) cavm_xcpx_id_t
+#define bustype_CAVM_XCPX_ID(a) CSR_TYPE_NCB32b
+#define basename_CAVM_XCPX_ID(a) "XCPX_ID"
+#define device_bar_CAVM_XCPX_ID(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_XCPX_ID(a) (a)
+#define arguments_CAVM_XCPX_ID(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) xcp#_initvtor
+ *
+ * XCP CM7 Init Vector Table Offeset Register
+ * This register contains the configuration bits for the CM7 INITVTOR input port.
+ *
+ * This register is only accessible to the requestor(s) permitted with CPC_XCP()_PERMIT.
+ *
+ * This register is reset on chip reset.
+ */
+union cavm_xcpx_initvtor
+{
+    uint32_t u;
+    struct cavm_xcpx_initvtor_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t initvtor              : 25; /**< [ 31:  7](R/W) CM7 Init Vector Table Offset. */
+        uint32_t reserved_0_6          : 7;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_6          : 7;
+        uint32_t initvtor              : 25; /**< [ 31:  7](R/W) CM7 Init Vector Table Offset. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_xcpx_initvtor_s cn; */
+};
+typedef union cavm_xcpx_initvtor cavm_xcpx_initvtor_t;
+
+static inline uint64_t CAVM_XCPX_INITVTOR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_XCPX_INITVTOR(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+        return 0x820000000230ll + 0x1000000000ll * ((a) & 0x3);
+    __cavm_csr_fatal("XCPX_INITVTOR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_XCPX_INITVTOR(a) cavm_xcpx_initvtor_t
+#define bustype_CAVM_XCPX_INITVTOR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_XCPX_INITVTOR(a) "XCPX_INITVTOR"
+#define device_bar_CAVM_XCPX_INITVTOR(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_XCPX_INITVTOR(a) (a)
+#define arguments_CAVM_XCPX_INITVTOR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) xcp#_lint0_summary
+ *
+ * XCP Interrupt Summary Register 0
+ * This register is the local interrupt summary register 0 for the XCP CPU core.
  *
  * This register is only accessible to the requestor(s) permitted with CPC_XCP()_PERMIT.
  *
  * This register is reset on XCP domain reset.
  */
-union cavm_xcpx_lint_summary
+union cavm_xcpx_lint0_summary
 {
-    uint32_t u;
-    struct cavm_xcpx_lint_summary_s
+    uint64_t u;
+    struct cavm_xcpx_lint0_summary_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_20_31        : 12;
-        uint32_t wdog_nmi              : 1;  /**< [ 19: 19](RO/H) WDOG non-maskable interrupt, XCP()_CWD_NM_LINT[WDOG_INT]. */
-        uint32_t wdog_mi               : 1;  /**< [ 18: 18](RO/H) WDOG maskable interrupt, XCP()_CWD_LINT[WDOG_INT]. */
-        uint32_t reserved_16_17        : 2;
-        uint32_t bus_err               : 1;  /**< [ 15: 15](RO/H) Logical OR of bus error interrupt bits, XCP()_BUS_ERR_LINT. */
-        uint32_t wakeup                : 1;  /**< [ 14: 14](RO/H) Reserved. */
-        uint32_t mbox                  : 10; /**< [ 13:  4](RO/H) Mailbox interrupt bits, XCP()_DEV()_XCP_MBOX_LINT[INTR]. */
-        uint32_t reserved_3            : 1;
-        uint32_t gib                   : 3;  /**< [  2:  0](RO/H) Logical OR of each set of 32 GIB interrupt bits XCP()_GIB()_LINT\<31:0\>. */
+        uint64_t reserved_20_63        : 44;
+        uint64_t wdog_nmi              : 1;  /**< [ 19: 19](RO/H) WDOG non-maskable interrupt, XCP()_CWD_NM_LINT[WDOG_INT]. */
+        uint64_t wdog_mi               : 1;  /**< [ 18: 18](RO/H) WDOG maskable interrupt, XCP()_CWD_LINT[WDOG_INT]. */
+        uint64_t reserved_16_17        : 2;
+        uint64_t bus_err               : 1;  /**< [ 15: 15](RO/H) Logical OR of bus error interrupt bits, XCP()_BUS_ERR_LINT. */
+        uint64_t reserved_3_14         : 12;
+        uint64_t gib                   : 3;  /**< [  2:  0](RO/H) Logical OR of each set of 32 GIB interrupt bits XCP()_GIB()_LINT\<31:0\>. */
 #else /* Word 0 - Little Endian */
-        uint32_t gib                   : 3;  /**< [  2:  0](RO/H) Logical OR of each set of 32 GIB interrupt bits XCP()_GIB()_LINT\<31:0\>. */
-        uint32_t reserved_3            : 1;
-        uint32_t mbox                  : 10; /**< [ 13:  4](RO/H) Mailbox interrupt bits, XCP()_DEV()_XCP_MBOX_LINT[INTR]. */
-        uint32_t wakeup                : 1;  /**< [ 14: 14](RO/H) Reserved. */
-        uint32_t bus_err               : 1;  /**< [ 15: 15](RO/H) Logical OR of bus error interrupt bits, XCP()_BUS_ERR_LINT. */
-        uint32_t reserved_16_17        : 2;
-        uint32_t wdog_mi               : 1;  /**< [ 18: 18](RO/H) WDOG maskable interrupt, XCP()_CWD_LINT[WDOG_INT]. */
-        uint32_t wdog_nmi              : 1;  /**< [ 19: 19](RO/H) WDOG non-maskable interrupt, XCP()_CWD_NM_LINT[WDOG_INT]. */
-        uint32_t reserved_20_31        : 12;
+        uint64_t gib                   : 3;  /**< [  2:  0](RO/H) Logical OR of each set of 32 GIB interrupt bits XCP()_GIB()_LINT\<31:0\>. */
+        uint64_t reserved_3_14         : 12;
+        uint64_t bus_err               : 1;  /**< [ 15: 15](RO/H) Logical OR of bus error interrupt bits, XCP()_BUS_ERR_LINT. */
+        uint64_t reserved_16_17        : 2;
+        uint64_t wdog_mi               : 1;  /**< [ 18: 18](RO/H) WDOG maskable interrupt, XCP()_CWD_LINT[WDOG_INT]. */
+        uint64_t wdog_nmi              : 1;  /**< [ 19: 19](RO/H) WDOG non-maskable interrupt, XCP()_CWD_NM_LINT[WDOG_INT]. */
+        uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_xcpx_lint_summary_s cn; */
+    /* struct cavm_xcpx_lint0_summary_s cn; */
 };
-typedef union cavm_xcpx_lint_summary cavm_xcpx_lint_summary_t;
+typedef union cavm_xcpx_lint0_summary cavm_xcpx_lint0_summary_t;
 
-static inline uint64_t CAVM_XCPX_LINT_SUMMARY(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_XCPX_LINT_SUMMARY(uint64_t a)
+static inline uint64_t CAVM_XCPX_LINT0_SUMMARY(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_XCPX_LINT0_SUMMARY(uint64_t a)
 {
-    if (a<=2)
-        return 0x82c0000e0000ll + 0x1000000000ll * ((a) & 0x3);
-    __cavm_csr_fatal("XCPX_LINT_SUMMARY", 1, a, 0, 0, 0, 0, 0);
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+        return 0x8200000e0000ll + 0x1000000000ll * ((a) & 0x3);
+    __cavm_csr_fatal("XCPX_LINT0_SUMMARY", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_XCPX_LINT_SUMMARY(a) cavm_xcpx_lint_summary_t
-#define bustype_CAVM_XCPX_LINT_SUMMARY(a) CSR_TYPE_NCB32b
-#define basename_CAVM_XCPX_LINT_SUMMARY(a) "XCPX_LINT_SUMMARY"
-#define device_bar_CAVM_XCPX_LINT_SUMMARY(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_XCPX_LINT_SUMMARY(a) (a)
-#define arguments_CAVM_XCPX_LINT_SUMMARY(a) (a),-1,-1,-1
+#define typedef_CAVM_XCPX_LINT0_SUMMARY(a) cavm_xcpx_lint0_summary_t
+#define bustype_CAVM_XCPX_LINT0_SUMMARY(a) CSR_TYPE_NCB
+#define basename_CAVM_XCPX_LINT0_SUMMARY(a) "XCPX_LINT0_SUMMARY"
+#define device_bar_CAVM_XCPX_LINT0_SUMMARY(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_XCPX_LINT0_SUMMARY(a) (a)
+#define arguments_CAVM_XCPX_LINT0_SUMMARY(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) xcp#_lint1_summary
+ *
+ * XCP Interrupt Summary Register 1
+ * This register is the local interrupt summary register 1 for the XCP CPU core.
+ *
+ * This register is only accessible to the requestor(s) permitted with CPC_XCP()_PERMIT.
+ *
+ * This register is reset on XCP domain reset.
+ */
+union cavm_xcpx_lint1_summary
+{
+    uint64_t u;
+    struct cavm_xcpx_lint1_summary_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_62_63        : 2;
+        uint64_t mbox                  : 62; /**< [ 61:  0](RO/H) Mailbox interrupt bits, XCP()_DEV()_XCP_MBOX_LINT[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t mbox                  : 62; /**< [ 61:  0](RO/H) Mailbox interrupt bits, XCP()_DEV()_XCP_MBOX_LINT[INTR]. */
+        uint64_t reserved_62_63        : 2;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_xcpx_lint1_summary_s cn; */
+};
+typedef union cavm_xcpx_lint1_summary cavm_xcpx_lint1_summary_t;
+
+static inline uint64_t CAVM_XCPX_LINT1_SUMMARY(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_XCPX_LINT1_SUMMARY(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+        return 0x8200000e0008ll + 0x1000000000ll * ((a) & 0x3);
+    __cavm_csr_fatal("XCPX_LINT1_SUMMARY", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_XCPX_LINT1_SUMMARY(a) cavm_xcpx_lint1_summary_t
+#define bustype_CAVM_XCPX_LINT1_SUMMARY(a) CSR_TYPE_NCB
+#define basename_CAVM_XCPX_LINT1_SUMMARY(a) "XCPX_LINT1_SUMMARY"
+#define device_bar_CAVM_XCPX_LINT1_SUMMARY(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_XCPX_LINT1_SUMMARY(a) (a)
+#define arguments_CAVM_XCPX_LINT1_SUMMARY(a) (a),-1,-1,-1
 
 /**
  * Register (NCB32b) xcp#_mrml_64rd
@@ -1509,7 +1640,7 @@ static inline uint64_t CAVM_XCPX_LINT_SUMMARY(uint64_t a)
  * XCP MRML 64-bit Read Save/Restore Register
  * This register is only accessible to the requestor(s) permitted with CPC_XCP()_PERMIT.
  *
- * This register is reset on XCP domain reset.
+ * This register is reset on XCP domain reset, and cannot be accessed during XCP domain reset.
  */
 union cavm_xcpx_mrml_64rd
 {
@@ -1533,8 +1664,8 @@ typedef union cavm_xcpx_mrml_64rd cavm_xcpx_mrml_64rd_t;
 static inline uint64_t CAVM_XCPX_MRML_64RD(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_MRML_64RD(uint64_t a)
 {
-    if (a<=2)
-        return 0x82c000000110ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+        return 0x820000000110ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_MRML_64RD", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1551,7 +1682,7 @@ static inline uint64_t CAVM_XCPX_MRML_64RD(uint64_t a)
  * XCP MRML 64-bit Write Save/Restore Register
  * This register is only accessible to the requestor(s) permitted with CPC_XCP()_PERMIT.
  *
- * This register is reset on XCP domain reset.
+ * This register is reset on XCP domain reset, and cannot be accessed during XCP domain reset.
  */
 union cavm_xcpx_mrml_64wr
 {
@@ -1575,8 +1706,8 @@ typedef union cavm_xcpx_mrml_64wr cavm_xcpx_mrml_64wr_t;
 static inline uint64_t CAVM_XCPX_MRML_64WR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_MRML_64WR(uint64_t a)
 {
-    if (a<=2)
-        return 0x82c000000120ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+        return 0x820000000120ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_MRML_64WR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1586,6 +1717,112 @@ static inline uint64_t CAVM_XCPX_MRML_64WR(uint64_t a)
 #define device_bar_CAVM_XCPX_MRML_64WR(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_XCPX_MRML_64WR(a) (a)
 #define arguments_CAVM_XCPX_MRML_64WR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) xcp#_mrml_win#_addr
+ *
+ * XCP RML Window Address Register
+ * This register contains the upper address bits for the XCP core RML access windows.
+ *
+ * This register is only accessible to the requestor(s) permitted with CPC_XCP()_PERMIT.
+ *
+ * This register is reset on XCP domain reset.
+ */
+union cavm_xcpx_mrml_winx_addr
+{
+    uint32_t u;
+    struct cavm_xcpx_mrml_winx_addr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t addr                  : 24; /**< [ 23:  0](R/W) Address bits 47:24 (as a physical address). */
+#else /* Word 0 - Little Endian */
+        uint32_t addr                  : 24; /**< [ 23:  0](R/W) Address bits 47:24 (as a physical address). */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_xcpx_mrml_winx_addr_s cn; */
+};
+typedef union cavm_xcpx_mrml_winx_addr cavm_xcpx_mrml_winx_addr_t;
+
+static inline uint64_t CAVM_XCPX_MRML_WINX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_XCPX_MRML_WINX_ADDR(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=3) && (b<=7)))
+        return 0x820000000800ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x7);
+    __cavm_csr_fatal("XCPX_MRML_WINX_ADDR", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_XCPX_MRML_WINX_ADDR(a,b) cavm_xcpx_mrml_winx_addr_t
+#define bustype_CAVM_XCPX_MRML_WINX_ADDR(a,b) CSR_TYPE_NCB32b
+#define basename_CAVM_XCPX_MRML_WINX_ADDR(a,b) "XCPX_MRML_WINX_ADDR"
+#define device_bar_CAVM_XCPX_MRML_WINX_ADDR(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_XCPX_MRML_WINX_ADDR(a,b) (a)
+#define arguments_CAVM_XCPX_MRML_WINX_ADDR(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB32b) xcp#_mrml_win#_cfg
+ *
+ * XCP RML Window Configuration Register
+ * This register contains the control bits for the XCP core RML access windows.
+ *
+ * This register is only accessible to the requestor(s) permitted with CPC_XCP()_PERMIT.
+ *
+ * This register is reset on XCP domain reset.
+ */
+union cavm_xcpx_mrml_winx_cfg
+{
+    uint32_t u;
+    struct cavm_xcpx_mrml_winx_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_6_31         : 26;
+        uint32_t b64                   : 1;  /**< [  5:  5](R/W) 64-bit window. Specifies if the window access size.
+                                                                 0 = 32 bit.
+                                                                 1 = 64 bit.
+                                                                 When using this mode to make a 64-bit access, the first 32-bit request must
+                                                                 be aligned to the 64-bit boundary
+                                                                 (PA\<2\>=0), followed by the odd word access (PA\<2\>=1) */
+        uint32_t secure                : 2;  /**< [  4:  3](R/W) Secure-world transaction.
+                                                                 0 = Nonsecure world for RML transactions.
+                                                                 1 = Secure world for RML transactions.
+                                                                 2 = Keep Security world for RML transactions - same as driven by CM7 CPU.
+                                                                 3 = Reserved. */
+        uint32_t reserved_0_2          : 3;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_2          : 3;
+        uint32_t secure                : 2;  /**< [  4:  3](R/W) Secure-world transaction.
+                                                                 0 = Nonsecure world for RML transactions.
+                                                                 1 = Secure world for RML transactions.
+                                                                 2 = Keep Security world for RML transactions - same as driven by CM7 CPU.
+                                                                 3 = Reserved. */
+        uint32_t b64                   : 1;  /**< [  5:  5](R/W) 64-bit window. Specifies if the window access size.
+                                                                 0 = 32 bit.
+                                                                 1 = 64 bit.
+                                                                 When using this mode to make a 64-bit access, the first 32-bit request must
+                                                                 be aligned to the 64-bit boundary
+                                                                 (PA\<2\>=0), followed by the odd word access (PA\<2\>=1) */
+        uint32_t reserved_6_31         : 26;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_xcpx_mrml_winx_cfg_s cn; */
+};
+typedef union cavm_xcpx_mrml_winx_cfg cavm_xcpx_mrml_winx_cfg_t;
+
+static inline uint64_t CAVM_XCPX_MRML_WINX_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_XCPX_MRML_WINX_CFG(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=3) && (b<=7)))
+        return 0x820000000700ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x7);
+    __cavm_csr_fatal("XCPX_MRML_WINX_CFG", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_XCPX_MRML_WINX_CFG(a,b) cavm_xcpx_mrml_winx_cfg_t
+#define bustype_CAVM_XCPX_MRML_WINX_CFG(a,b) CSR_TYPE_NCB32b
+#define basename_CAVM_XCPX_MRML_WINX_CFG(a,b) "XCPX_MRML_WINX_CFG"
+#define device_bar_CAVM_XCPX_MRML_WINX_CFG(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_XCPX_MRML_WINX_CFG(a,b) (a)
+#define arguments_CAVM_XCPX_MRML_WINX_CFG(a,b) (a),(b),-1,-1
 
 /**
  * Register (NCB) xcp#_msix_pba#
@@ -1615,8 +1852,8 @@ typedef union cavm_xcpx_msix_pbax cavm_xcpx_msix_pbax_t;
 static inline uint64_t CAVM_XCPX_MSIX_PBAX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_MSIX_PBAX(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b==0))
-        return 0x82c0001f0000ll + 0x1000000000ll * ((a) & 0x3) + 8ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=3) && (b==0)))
+        return 0x8200001f0000ll + 0x1000000000ll * ((a) & 0x3) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("XCPX_MSIX_PBAX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1701,8 +1938,8 @@ typedef union cavm_xcpx_msix_vecx_addr cavm_xcpx_msix_vecx_addr_t;
 static inline uint64_t CAVM_XCPX_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=3))
-        return 0x82c000100000ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=3) && (b<=55)))
+        return 0x820000100000ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3f);
     __cavm_csr_fatal("XCPX_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1743,8 +1980,8 @@ typedef union cavm_xcpx_msix_vecx_ctl cavm_xcpx_msix_vecx_ctl_t;
 static inline uint64_t CAVM_XCPX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=3))
-        return 0x82c000100008ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=3) && (b<=55)))
+        return 0x820000100008ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3f);
     __cavm_csr_fatal("XCPX_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1756,44 +1993,172 @@ static inline uint64_t CAVM_XCPX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 #define arguments_CAVM_XCPX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB32b) xcp#_ncb_timeout
+ * Register (NCB32b) xcp#_ncb_64rd
  *
- * XCP NCB Timeout Count Configuration Register
- * This register configures the NCB timeout counters.
+ * XCP NCB 64-bit Read Save/Restore Register
+ * This register is only accessible to the requestor(s) permitted with CPC_XCP()_PERMIT.
+ *
+ * This register is reset on XCP domain reset.
+ */
+union cavm_xcpx_ncb_64rd
+{
+    uint32_t u;
+    struct cavm_xcpx_ncb_64rd_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t rd_data               : 32; /**< [ 31:  0](R/W/H) On a read, will return the saved upper 32-bits for the last 64-bit MRML read request.
+                                                                 Writing this register will overwrite the value used by the NCB on a read to the upper
+                                                                 32-bits in a 64-bit NCB window. Used to save/restore this value. */
+#else /* Word 0 - Little Endian */
+        uint32_t rd_data               : 32; /**< [ 31:  0](R/W/H) On a read, will return the saved upper 32-bits for the last 64-bit MRML read request.
+                                                                 Writing this register will overwrite the value used by the NCB on a read to the upper
+                                                                 32-bits in a 64-bit NCB window. Used to save/restore this value. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_xcpx_ncb_64rd_s cn; */
+};
+typedef union cavm_xcpx_ncb_64rd cavm_xcpx_ncb_64rd_t;
+
+static inline uint64_t CAVM_XCPX_NCB_64RD(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_XCPX_NCB_64RD(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+        return 0x820000000140ll + 0x1000000000ll * ((a) & 0x3);
+    __cavm_csr_fatal("XCPX_NCB_64RD", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_XCPX_NCB_64RD(a) cavm_xcpx_ncb_64rd_t
+#define bustype_CAVM_XCPX_NCB_64RD(a) CSR_TYPE_NCB32b
+#define basename_CAVM_XCPX_NCB_64RD(a) "XCPX_NCB_64RD"
+#define device_bar_CAVM_XCPX_NCB_64RD(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_XCPX_NCB_64RD(a) (a)
+#define arguments_CAVM_XCPX_NCB_64RD(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) xcp#_ncb_win#_addr
+ *
+ * XCP NCB Window Address Register
+ * This register contains the upper address bits for the XCP core NCB access windows.
+ *
+ * This register is only accessible to the requestor(s) permitted with CPC_XCP()_PERMIT.
+ *
+ * This register is reset on XCP domain reset.
+ *
+ * The windows should not have overlapping address spaces if caching is enabled.
+ */
+union cavm_xcpx_ncb_winx_addr
+{
+    uint32_t u;
+    struct cavm_xcpx_ncb_winx_addr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_29_31        : 3;
+        uint32_t addr                  : 29; /**< [ 28:  0](R/W) IOVA bits 52:24. */
+#else /* Word 0 - Little Endian */
+        uint32_t addr                  : 29; /**< [ 28:  0](R/W) IOVA bits 52:24. */
+        uint32_t reserved_29_31        : 3;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_xcpx_ncb_winx_addr_s cn; */
+};
+typedef union cavm_xcpx_ncb_winx_addr cavm_xcpx_ncb_winx_addr_t;
+
+static inline uint64_t CAVM_XCPX_NCB_WINX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_XCPX_NCB_WINX_ADDR(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=3) && (b<=7)))
+        return 0x820000000400ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x7);
+    __cavm_csr_fatal("XCPX_NCB_WINX_ADDR", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_XCPX_NCB_WINX_ADDR(a,b) cavm_xcpx_ncb_winx_addr_t
+#define bustype_CAVM_XCPX_NCB_WINX_ADDR(a,b) CSR_TYPE_NCB32b
+#define basename_CAVM_XCPX_NCB_WINX_ADDR(a,b) "XCPX_NCB_WINX_ADDR"
+#define device_bar_CAVM_XCPX_NCB_WINX_ADDR(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_XCPX_NCB_WINX_ADDR(a,b) (a)
+#define arguments_CAVM_XCPX_NCB_WINX_ADDR(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB32b) xcp#_ncb_win#_cfg
+ *
+ * XCP NCB Window Configuration Register
+ * This register contains the control bits for the XCP core NCB access windows.
  *
  * This register is only accessible to the requestor(s) permitted with CPC_XCP()_PERMIT.
  *
  * This register is reset on XCP domain reset.
  */
-union cavm_xcpx_ncb_timeout
+union cavm_xcpx_ncb_winx_cfg
 {
     uint32_t u;
-    struct cavm_xcpx_ncb_timeout_s
+    struct cavm_xcpx_ncb_winx_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t cnt                   : 32; /**< [ 31:  0](R/W) Number of coprocessor-clocks to wait on responses from IOBN. Value of 0x0 disables. */
+        uint32_t reserved_6_31         : 26;
+        uint32_t b64                   : 1;  /**< [  5:  5](R/W) 64-bit window. Specifies if the window access size.
+                                                                 64-bit supported only for address region that configured as Device or Strongly-
+                                                                 Order memory type in CM7's MPU.
+                                                                 0 = 32 bit.
+                                                                 1 = 64 bit.
+                                                                 When using this mode to make a 64-bit access, the first 32-bit request must
+                                                                 be aligned to the 64-bit boundary
+                                                                 (PA\<2\>=0), followed by the odd word access (PA\<2\>=1) */
+        uint32_t secure                : 2;  /**< [  4:  3](R/W) Secure-world transaction.
+                                                                 0 = Nonsecure world for NCB transactions.
+                                                                 1 = Secure world for NCB transactions.
+                                                                 2 = Keep Security world for NCB transactions - same as driven by CM7 CPU.
+                                                                 3 = Reserved. */
+        uint32_t phys                  : 1;  /**< [  2:  2](R/W) Physical address.
+                                                                 0 = Virtual address. NCB IOVAs will be translated by the SMMU.
+                                                                 1 = Physical address. NCB IOVAs bypass SMMU translation, and IOVA \<52\> is ignored. */
+        uint32_t cacheable             : 2;  /**< [  1:  0](R/W) Cacheable.
+                                                                   0 = Not cachable.
+                                                                   1 = Cachable.
+                                                                   2 = Keep same as driven by CM7 CPU.
+                                                                   3 = Reserved. */
 #else /* Word 0 - Little Endian */
-        uint32_t cnt                   : 32; /**< [ 31:  0](R/W) Number of coprocessor-clocks to wait on responses from IOBN. Value of 0x0 disables. */
+        uint32_t cacheable             : 2;  /**< [  1:  0](R/W) Cacheable.
+                                                                   0 = Not cachable.
+                                                                   1 = Cachable.
+                                                                   2 = Keep same as driven by CM7 CPU.
+                                                                   3 = Reserved. */
+        uint32_t phys                  : 1;  /**< [  2:  2](R/W) Physical address.
+                                                                 0 = Virtual address. NCB IOVAs will be translated by the SMMU.
+                                                                 1 = Physical address. NCB IOVAs bypass SMMU translation, and IOVA \<52\> is ignored. */
+        uint32_t secure                : 2;  /**< [  4:  3](R/W) Secure-world transaction.
+                                                                 0 = Nonsecure world for NCB transactions.
+                                                                 1 = Secure world for NCB transactions.
+                                                                 2 = Keep Security world for NCB transactions - same as driven by CM7 CPU.
+                                                                 3 = Reserved. */
+        uint32_t b64                   : 1;  /**< [  5:  5](R/W) 64-bit window. Specifies if the window access size.
+                                                                 64-bit supported only for address region that configured as Device or Strongly-
+                                                                 Order memory type in CM7's MPU.
+                                                                 0 = 32 bit.
+                                                                 1 = 64 bit.
+                                                                 When using this mode to make a 64-bit access, the first 32-bit request must
+                                                                 be aligned to the 64-bit boundary
+                                                                 (PA\<2\>=0), followed by the odd word access (PA\<2\>=1) */
+        uint32_t reserved_6_31         : 26;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_xcpx_ncb_timeout_s cn; */
+    /* struct cavm_xcpx_ncb_winx_cfg_s cn; */
 };
-typedef union cavm_xcpx_ncb_timeout cavm_xcpx_ncb_timeout_t;
+typedef union cavm_xcpx_ncb_winx_cfg cavm_xcpx_ncb_winx_cfg_t;
 
-static inline uint64_t CAVM_XCPX_NCB_TIMEOUT(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_XCPX_NCB_TIMEOUT(uint64_t a)
+static inline uint64_t CAVM_XCPX_NCB_WINX_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_XCPX_NCB_WINX_CFG(uint64_t a, uint64_t b)
 {
-    if (a<=2)
-        return 0x82c000000220ll + 0x1000000000ll * ((a) & 0x3);
-    __cavm_csr_fatal("XCPX_NCB_TIMEOUT", 1, a, 0, 0, 0, 0, 0);
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=3) && (b<=7)))
+        return 0x820000000300ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x7);
+    __cavm_csr_fatal("XCPX_NCB_WINX_CFG", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_XCPX_NCB_TIMEOUT(a) cavm_xcpx_ncb_timeout_t
-#define bustype_CAVM_XCPX_NCB_TIMEOUT(a) CSR_TYPE_NCB32b
-#define basename_CAVM_XCPX_NCB_TIMEOUT(a) "XCPX_NCB_TIMEOUT"
-#define device_bar_CAVM_XCPX_NCB_TIMEOUT(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_XCPX_NCB_TIMEOUT(a) (a)
-#define arguments_CAVM_XCPX_NCB_TIMEOUT(a) (a),-1,-1,-1
+#define typedef_CAVM_XCPX_NCB_WINX_CFG(a,b) cavm_xcpx_ncb_winx_cfg_t
+#define bustype_CAVM_XCPX_NCB_WINX_CFG(a,b) CSR_TYPE_NCB32b
+#define basename_CAVM_XCPX_NCB_WINX_CFG(a,b) "XCPX_NCB_WINX_CFG"
+#define device_bar_CAVM_XCPX_NCB_WINX_CFG(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_XCPX_NCB_WINX_CFG(a,b) (a)
+#define arguments_CAVM_XCPX_NCB_WINX_CFG(a,b) (a),(b),-1,-1
 
 /**
  * Register (NCB32b) xcp#_precise_bus_err_addr
@@ -1821,8 +2186,8 @@ typedef union cavm_xcpx_precise_bus_err_addr cavm_xcpx_precise_bus_err_addr_t;
 static inline uint64_t CAVM_XCPX_PRECISE_BUS_ERR_ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_PRECISE_BUS_ERR_ADDR(uint64_t a)
 {
-    if (a<=2)
-        return 0x82c000001d00ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+        return 0x820000001d00ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_PRECISE_BUS_ERR_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1867,8 +2232,8 @@ typedef union cavm_xcpx_precise_bus_err_status cavm_xcpx_precise_bus_err_status_
 static inline uint64_t CAVM_XCPX_PRECISE_BUS_ERR_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_PRECISE_BUS_ERR_STATUS(uint64_t a)
 {
-    if (a<=2)
-        return 0x82c000001d08ll + 0x1000000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+        return 0x820000001d08ll + 0x1000000000ll * ((a) & 0x3);
     __cavm_csr_fatal("XCPX_PRECISE_BUS_ERR_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1880,264 +2245,138 @@ static inline uint64_t CAVM_XCPX_PRECISE_BUS_ERR_STATUS(uint64_t a)
 #define arguments_CAVM_XCPX_PRECISE_BUS_ERR_STATUS(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) xcp#_seg#_map_reg
+ * Register (NCB32b) xcp#_ram_win#
  *
- * XCP Segment Mapping Register
- * This register contains the segment mapping from the MIPS core addresses
- * to sections of the CPC RAM.
- * * SEG0 corresponds to kuseg.
- * * SEG1 corresponds to kseg0/kseg1.
- * * SEG2 corresponds to kseg2.
- * * SEG3 corresponds to kseg3.
+ * XCP RAM Window Register
+ * This register contains the base address and size for the XCP core access windows to CPC RAM.
  *
  * This register is only accessible to the requestor(s) permitted with CPC_XCP()_PERMIT.
  *
  * This register is reset on XCP domain reset.
  */
-union cavm_xcpx_segx_map_reg
+union cavm_xcpx_ram_winx
 {
     uint32_t u;
-    struct cavm_xcpx_segx_map_reg_s
+    struct cavm_xcpx_ram_winx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_13_31        : 19;
-        uint32_t size                  : 7;  /**< [ 12:  6](R/W) Size of segment in number of 16 KB blocks. */
-        uint32_t base                  : 6;  /**< [  5:  0](R/W) CPC RAM base address for this segment. */
+        uint32_t reserved_14_31        : 18;
+        uint32_t size                  : 6;  /**< [ 13:  8](R/W) Size of segment in number of 64 KB blocks. */
+        uint32_t reserved_6_7          : 2;
+        uint32_t base                  : 6;  /**< [  5:  0](R/W) CPC RAM base address for this window. */
 #else /* Word 0 - Little Endian */
-        uint32_t base                  : 6;  /**< [  5:  0](R/W) CPC RAM base address for this segment. */
-        uint32_t size                  : 7;  /**< [ 12:  6](R/W) Size of segment in number of 16 KB blocks. */
-        uint32_t reserved_13_31        : 19;
+        uint32_t base                  : 6;  /**< [  5:  0](R/W) CPC RAM base address for this window. */
+        uint32_t reserved_6_7          : 2;
+        uint32_t size                  : 6;  /**< [ 13:  8](R/W) Size of segment in number of 64 KB blocks. */
+        uint32_t reserved_14_31        : 18;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_xcpx_segx_map_reg_s cn; */
+    /* struct cavm_xcpx_ram_winx_s cn; */
 };
-typedef union cavm_xcpx_segx_map_reg cavm_xcpx_segx_map_reg_t;
+typedef union cavm_xcpx_ram_winx cavm_xcpx_ram_winx_t;
 
-static inline uint64_t CAVM_XCPX_SEGX_MAP_REG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_XCPX_SEGX_MAP_REG(uint64_t a, uint64_t b)
+static inline uint64_t CAVM_XCPX_RAM_WINX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_XCPX_RAM_WINX(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=3))
-        return 0x82c000000600ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
-    __cavm_csr_fatal("XCPX_SEGX_MAP_REG", 2, a, b, 0, 0, 0, 0);
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=3) && (b<=3)))
+        return 0x820000000600ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
+    __cavm_csr_fatal("XCPX_RAM_WINX", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_XCPX_SEGX_MAP_REG(a,b) cavm_xcpx_segx_map_reg_t
-#define bustype_CAVM_XCPX_SEGX_MAP_REG(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_XCPX_SEGX_MAP_REG(a,b) "XCPX_SEGX_MAP_REG"
-#define device_bar_CAVM_XCPX_SEGX_MAP_REG(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_XCPX_SEGX_MAP_REG(a,b) (a)
-#define arguments_CAVM_XCPX_SEGX_MAP_REG(a,b) (a),(b),-1,-1
+#define typedef_CAVM_XCPX_RAM_WINX(a,b) cavm_xcpx_ram_winx_t
+#define bustype_CAVM_XCPX_RAM_WINX(a,b) CSR_TYPE_NCB32b
+#define basename_CAVM_XCPX_RAM_WINX(a,b) "XCPX_RAM_WINX"
+#define device_bar_CAVM_XCPX_RAM_WINX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_XCPX_RAM_WINX(a,b) (a)
+#define arguments_CAVM_XCPX_RAM_WINX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB32b) xcp#_win#_addr
+ * Register (NCB32b) xcp#_status
  *
- * XCP Window Address Register
- * This register contains the upper address bits for the XCP core RSL/NCB access windows.
+ * XCP Status Register
+ * This register contains the status bits for XCP.
  *
  * This register is only accessible to the requestor(s) permitted with CPC_XCP()_PERMIT.
  *
  * This register is reset on XCP domain reset.
- *
- * The windows should not have overlapping address spaces if caching is enabled.
  */
-union cavm_xcpx_winx_addr
+union cavm_xcpx_status
 {
     uint32_t u;
-    struct cavm_xcpx_winx_addr_s
+    struct cavm_xcpx_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_29_31        : 3;
-        uint32_t addr                  : 29; /**< [ 28:  0](R/W) IOVA bits 52:24. If XCP()_WIN()_CFG[RSL_NCB_N] = 1 (RSL), only IOVA 47:24 are
-                                                                 used (as a physical address). */
+        uint32_t reserved_2_31         : 30;
+        uint32_t wrap_err              : 1;  /**< [  1:  1](RO/H) Indicaiton of wrapper handler error.
+                                                                 More than 1 outstanding per ID, or internal FIFO overflow. */
+        uint32_t lock_up               : 1;  /**< [  0:  0](RO/H) CM7 indication of Lockup state. */
 #else /* Word 0 - Little Endian */
-        uint32_t addr                  : 29; /**< [ 28:  0](R/W) IOVA bits 52:24. If XCP()_WIN()_CFG[RSL_NCB_N] = 1 (RSL), only IOVA 47:24 are
-                                                                 used (as a physical address). */
-        uint32_t reserved_29_31        : 3;
+        uint32_t lock_up               : 1;  /**< [  0:  0](RO/H) CM7 indication of Lockup state. */
+        uint32_t wrap_err              : 1;  /**< [  1:  1](RO/H) Indicaiton of wrapper handler error.
+                                                                 More than 1 outstanding per ID, or internal FIFO overflow. */
+        uint32_t reserved_2_31         : 30;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_xcpx_winx_addr_s cn; */
+    /* struct cavm_xcpx_status_s cn; */
 };
-typedef union cavm_xcpx_winx_addr cavm_xcpx_winx_addr_t;
+typedef union cavm_xcpx_status cavm_xcpx_status_t;
 
-static inline uint64_t CAVM_XCPX_WINX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_XCPX_WINX_ADDR(uint64_t a, uint64_t b)
+static inline uint64_t CAVM_XCPX_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_XCPX_STATUS(uint64_t a)
 {
-    if ((a<=2) && (b<=3))
-        return 0x82c000000400ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
-    __cavm_csr_fatal("XCPX_WINX_ADDR", 2, a, b, 0, 0, 0, 0);
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+        return 0x820000000210ll + 0x1000000000ll * ((a) & 0x3);
+    __cavm_csr_fatal("XCPX_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_XCPX_WINX_ADDR(a,b) cavm_xcpx_winx_addr_t
-#define bustype_CAVM_XCPX_WINX_ADDR(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_XCPX_WINX_ADDR(a,b) "XCPX_WINX_ADDR"
-#define device_bar_CAVM_XCPX_WINX_ADDR(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_XCPX_WINX_ADDR(a,b) (a)
-#define arguments_CAVM_XCPX_WINX_ADDR(a,b) (a),(b),-1,-1
+#define typedef_CAVM_XCPX_STATUS(a) cavm_xcpx_status_t
+#define bustype_CAVM_XCPX_STATUS(a) CSR_TYPE_NCB32b
+#define basename_CAVM_XCPX_STATUS(a) "XCPX_STATUS"
+#define device_bar_CAVM_XCPX_STATUS(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_XCPX_STATUS(a) (a)
+#define arguments_CAVM_XCPX_STATUS(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) xcp#_win#_cfg
+ * Register (NCB32b) xcp#_stcalib
  *
- * XCP Window Configuration Register
- * This register contains the control bits for the XCP core RSL/NCB access windows.
- *
- * This register is only accessible to the requestor(s) permitted with CPC_XCP()_PERMIT.
- *
- * This register is reset on XCP domain reset.
- */
-union cavm_xcpx_winx_cfg
-{
-    uint32_t u;
-    struct cavm_xcpx_winx_cfg_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_6_31         : 26;
-        uint32_t b64                   : 1;  /**< [  5:  5](R/W) 64-bit window. If [RSL_NCB_N] is set, specifies if the window access size.
-                                                                 0 = 32 bit.
-                                                                 1 = 64 bit. */
-        uint32_t rsl_ncb_n             : 1;  /**< [  4:  4](R/W) RSL or NCB window type.
-                                                                 0 = NCB.  Accesses may be cached, based on [CACHEABLE] and XCP()_CFG[ACCUM_DIS].
-                                                                 1 = RSL.  Accesses will never be cached. */
-        uint32_t secure                : 1;  /**< [  3:  3](R/W) Secure-world transaction.
-                                                                 0 = Nonsecure world for RSL or NCB transactions.
-                                                                 1 = Secure world for RSL or NCB transactions. */
-        uint32_t phys                  : 1;  /**< [  2:  2](R/W) Physical address.
-                                                                 0 = Virtual address. NCB IOVAs will be translated by the SMMU.
-                                                                 1 = Physical address. NCB IOVAs bypass SMMU translation, and IOVA \<52\> is ignored.
-
-                                                                 Ignored and acts as if set when [RSL_NCB_N] = 1 (RSL). */
-        uint32_t reserved_1            : 1;
-        uint32_t cacheable             : 1;  /**< [  0:  0](R/W) Cacheable.
-                                                                   0 = Not cachable.
-                                                                   1 = Cachable.
-
-                                                                 Ignored and acts as if clear when [RSL_NCB_N] = 1 (RSL). */
-#else /* Word 0 - Little Endian */
-        uint32_t cacheable             : 1;  /**< [  0:  0](R/W) Cacheable.
-                                                                   0 = Not cachable.
-                                                                   1 = Cachable.
-
-                                                                 Ignored and acts as if clear when [RSL_NCB_N] = 1 (RSL). */
-        uint32_t reserved_1            : 1;
-        uint32_t phys                  : 1;  /**< [  2:  2](R/W) Physical address.
-                                                                 0 = Virtual address. NCB IOVAs will be translated by the SMMU.
-                                                                 1 = Physical address. NCB IOVAs bypass SMMU translation, and IOVA \<52\> is ignored.
-
-                                                                 Ignored and acts as if set when [RSL_NCB_N] = 1 (RSL). */
-        uint32_t secure                : 1;  /**< [  3:  3](R/W) Secure-world transaction.
-                                                                 0 = Nonsecure world for RSL or NCB transactions.
-                                                                 1 = Secure world for RSL or NCB transactions. */
-        uint32_t rsl_ncb_n             : 1;  /**< [  4:  4](R/W) RSL or NCB window type.
-                                                                 0 = NCB.  Accesses may be cached, based on [CACHEABLE] and XCP()_CFG[ACCUM_DIS].
-                                                                 1 = RSL.  Accesses will never be cached. */
-        uint32_t b64                   : 1;  /**< [  5:  5](R/W) 64-bit window. If [RSL_NCB_N] is set, specifies if the window access size.
-                                                                 0 = 32 bit.
-                                                                 1 = 64 bit. */
-        uint32_t reserved_6_31         : 26;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_xcpx_winx_cfg_s cn; */
-};
-typedef union cavm_xcpx_winx_cfg cavm_xcpx_winx_cfg_t;
-
-static inline uint64_t CAVM_XCPX_WINX_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_XCPX_WINX_CFG(uint64_t a, uint64_t b)
-{
-    if ((a<=2) && (b<=3))
-        return 0x82c000000300ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
-    __cavm_csr_fatal("XCPX_WINX_CFG", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_XCPX_WINX_CFG(a,b) cavm_xcpx_winx_cfg_t
-#define bustype_CAVM_XCPX_WINX_CFG(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_XCPX_WINX_CFG(a,b) "XCPX_WINX_CFG"
-#define device_bar_CAVM_XCPX_WINX_CFG(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_XCPX_WINX_CFG(a,b) (a)
-#define arguments_CAVM_XCPX_WINX_CFG(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) xcp#_win#_inv
- *
- * XCP Window Invalidate Register
- * This register contains the invalidate bits for the RSL/NCB window 0-3 for the MIPS core to
- * read/write from/to to reach Thunder memory.
+ * XCP CM7 STCALIB Configuration Register
+ * This register contains the configuration bits for the CM7 STCALIB input port.
  *
  * This register is only accessible to the requestor(s) permitted with CPC_XCP()_PERMIT.
  *
  * This register is reset on XCP domain reset.
  */
-union cavm_xcpx_winx_inv
+union cavm_xcpx_stcalib
 {
     uint32_t u;
-    struct cavm_xcpx_winx_inv_s
+    struct cavm_xcpx_stcalib_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_1_31         : 31;
-        uint32_t invalidate            : 1;  /**< [  0:  0](WO/H) Writing a one will invalidate this window's read cache and flush the write cache. */
+        uint32_t reserved_26_31        : 6;
+        uint32_t stcalib               : 26; /**< [ 25:  0](R/W) CM7 SysTick timer STCALIB[25:0] input configuration. */
 #else /* Word 0 - Little Endian */
-        uint32_t invalidate            : 1;  /**< [  0:  0](WO/H) Writing a one will invalidate this window's read cache and flush the write cache. */
-        uint32_t reserved_1_31         : 31;
+        uint32_t stcalib               : 26; /**< [ 25:  0](R/W) CM7 SysTick timer STCALIB[25:0] input configuration. */
+        uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_xcpx_winx_inv_s cn; */
+    /* struct cavm_xcpx_stcalib_s cn; */
 };
-typedef union cavm_xcpx_winx_inv cavm_xcpx_winx_inv_t;
+typedef union cavm_xcpx_stcalib cavm_xcpx_stcalib_t;
 
-static inline uint64_t CAVM_XCPX_WINX_INV(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_XCPX_WINX_INV(uint64_t a, uint64_t b)
+static inline uint64_t CAVM_XCPX_STCALIB(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_XCPX_STCALIB(uint64_t a)
 {
-    if ((a<=2) && (b<=3))
-        return 0x82c000000500ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
-    __cavm_csr_fatal("XCPX_WINX_INV", 2, a, b, 0, 0, 0, 0);
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+        return 0x820000000240ll + 0x1000000000ll * ((a) & 0x3);
+    __cavm_csr_fatal("XCPX_STCALIB", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_XCPX_WINX_INV(a,b) cavm_xcpx_winx_inv_t
-#define bustype_CAVM_XCPX_WINX_INV(a,b) CSR_TYPE_NCB32b
-#define basename_CAVM_XCPX_WINX_INV(a,b) "XCPX_WINX_INV"
-#define device_bar_CAVM_XCPX_WINX_INV(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_XCPX_WINX_INV(a,b) (a)
-#define arguments_CAVM_XCPX_WINX_INV(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB32b) xcp#_wr_accum_flsh_cnt
- *
- * XCP Write Accumulator Flush Count Configuration Register
- * This register configures the write accumulator.
- *
- * This register is only accessible to the requestor(s) permitted with CPC_XCP()_PERMIT.
- *
- * This register is reset on XCP domain reset.
- */
-union cavm_xcpx_wr_accum_flsh_cnt
-{
-    uint32_t u;
-    struct cavm_xcpx_wr_accum_flsh_cnt_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_24_31        : 8;
-        uint32_t cnt                   : 24; /**< [ 23:  0](R/W) Number of coprocessor-clocks to wait before emptying the write accumulator. */
-#else /* Word 0 - Little Endian */
-        uint32_t cnt                   : 24; /**< [ 23:  0](R/W) Number of coprocessor-clocks to wait before emptying the write accumulator. */
-        uint32_t reserved_24_31        : 8;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_xcpx_wr_accum_flsh_cnt_s cn; */
-};
-typedef union cavm_xcpx_wr_accum_flsh_cnt cavm_xcpx_wr_accum_flsh_cnt_t;
-
-static inline uint64_t CAVM_XCPX_WR_ACCUM_FLSH_CNT(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_XCPX_WR_ACCUM_FLSH_CNT(uint64_t a)
-{
-    if (a<=2)
-        return 0x82c000000210ll + 0x1000000000ll * ((a) & 0x3);
-    __cavm_csr_fatal("XCPX_WR_ACCUM_FLSH_CNT", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_XCPX_WR_ACCUM_FLSH_CNT(a) cavm_xcpx_wr_accum_flsh_cnt_t
-#define bustype_CAVM_XCPX_WR_ACCUM_FLSH_CNT(a) CSR_TYPE_NCB32b
-#define basename_CAVM_XCPX_WR_ACCUM_FLSH_CNT(a) "XCPX_WR_ACCUM_FLSH_CNT"
-#define device_bar_CAVM_XCPX_WR_ACCUM_FLSH_CNT(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_XCPX_WR_ACCUM_FLSH_CNT(a) (a)
-#define arguments_CAVM_XCPX_WR_ACCUM_FLSH_CNT(a) (a),-1,-1,-1
+#define typedef_CAVM_XCPX_STCALIB(a) cavm_xcpx_stcalib_t
+#define bustype_CAVM_XCPX_STCALIB(a) CSR_TYPE_NCB32b
+#define basename_CAVM_XCPX_STCALIB(a) "XCPX_STCALIB"
+#define device_bar_CAVM_XCPX_STCALIB(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_XCPX_STCALIB(a) (a)
+#define arguments_CAVM_XCPX_STCALIB(a) (a),-1,-1,-1
 
 /**
  * Register (NCB32b) xcp#_xcp_dev#_mbox
@@ -2155,9 +2394,9 @@ union cavm_xcpx_xcp_devx_mbox
     struct cavm_xcpx_xcp_devx_mbox_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) Communication data from AP to XCP. When written sets XCP()_XCP_DEV()_MBOX_RINT[INTR]. */
+        uint32_t data                  : 32; /**< [ 31:  0](R/W) Communication data from XCP to AP. When written sets XCP()_XCP_DEV()_MBOX_RINT[INTR]. */
 #else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) Communication data from AP to XCP. When written sets XCP()_XCP_DEV()_MBOX_RINT[INTR]. */
+        uint32_t data                  : 32; /**< [ 31:  0](R/W) Communication data from XCP to AP. When written sets XCP()_XCP_DEV()_MBOX_RINT[INTR]. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_xcpx_xcp_devx_mbox_s cn; */
@@ -2167,8 +2406,8 @@ typedef union cavm_xcpx_xcp_devx_mbox cavm_xcpx_xcp_devx_mbox_t;
 static inline uint64_t CAVM_XCPX_XCP_DEVX_MBOX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_XCP_DEVX_MBOX(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=3))
-        return 0x82c0000d1000ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=3) && (b<=55)))
+        return 0x8200000d2000ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3f);
     __cavm_csr_fatal("XCPX_XCP_DEVX_MBOX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2210,8 +2449,8 @@ typedef union cavm_xcpx_xcp_devx_mbox_rint cavm_xcpx_xcp_devx_mbox_rint_t;
 static inline uint64_t CAVM_XCPX_XCP_DEVX_MBOX_RINT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_XCP_DEVX_MBOX_RINT(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=3))
-        return 0x82c0000d1c00ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=3) && (b<=55)))
+        return 0x8200000d3000ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3f);
     __cavm_csr_fatal("XCPX_XCP_DEVX_MBOX_RINT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2235,9 +2474,9 @@ union cavm_xcpx_xcp_devx_mbox_rint_ena_w1c
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t intr                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for XCP(0..2)_XCP_DEV(0..3)_MBOX_RINT[INTR]. */
+        uint64_t intr                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for XCP(0..3)_XCP_DEV(0..55)_MBOX_RINT[INTR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t intr                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for XCP(0..2)_XCP_DEV(0..3)_MBOX_RINT[INTR]. */
+        uint64_t intr                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for XCP(0..3)_XCP_DEV(0..55)_MBOX_RINT[INTR]. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -2248,8 +2487,8 @@ typedef union cavm_xcpx_xcp_devx_mbox_rint_ena_w1c cavm_xcpx_xcp_devx_mbox_rint_
 static inline uint64_t CAVM_XCPX_XCP_DEVX_MBOX_RINT_ENA_W1C(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_XCP_DEVX_MBOX_RINT_ENA_W1C(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=3))
-        return 0x82c0000d1cc0ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=3) && (b<=55)))
+        return 0x8200000d3c00ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3f);
     __cavm_csr_fatal("XCPX_XCP_DEVX_MBOX_RINT_ENA_W1C", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2273,9 +2512,9 @@ union cavm_xcpx_xcp_devx_mbox_rint_ena_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t intr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for XCP(0..2)_XCP_DEV(0..3)_MBOX_RINT[INTR]. */
+        uint64_t intr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for XCP(0..3)_XCP_DEV(0..55)_MBOX_RINT[INTR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t intr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for XCP(0..2)_XCP_DEV(0..3)_MBOX_RINT[INTR]. */
+        uint64_t intr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for XCP(0..3)_XCP_DEV(0..55)_MBOX_RINT[INTR]. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -2286,8 +2525,8 @@ typedef union cavm_xcpx_xcp_devx_mbox_rint_ena_w1s cavm_xcpx_xcp_devx_mbox_rint_
 static inline uint64_t CAVM_XCPX_XCP_DEVX_MBOX_RINT_ENA_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_XCP_DEVX_MBOX_RINT_ENA_W1S(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=3))
-        return 0x82c0000d1c40ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=3) && (b<=55)))
+        return 0x8200000d3400ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3f);
     __cavm_csr_fatal("XCPX_XCP_DEVX_MBOX_RINT_ENA_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2311,9 +2550,9 @@ union cavm_xcpx_xcp_devx_mbox_rint_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t intr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCP(0..2)_XCP_DEV(0..3)_MBOX_RINT[INTR]. */
+        uint64_t intr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCP(0..3)_XCP_DEV(0..55)_MBOX_RINT[INTR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t intr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCP(0..2)_XCP_DEV(0..3)_MBOX_RINT[INTR]. */
+        uint64_t intr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCP(0..3)_XCP_DEV(0..55)_MBOX_RINT[INTR]. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -2324,8 +2563,8 @@ typedef union cavm_xcpx_xcp_devx_mbox_rint_w1s cavm_xcpx_xcp_devx_mbox_rint_w1s_
 static inline uint64_t CAVM_XCPX_XCP_DEVX_MBOX_RINT_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_XCPX_XCP_DEVX_MBOX_RINT_W1S(uint64_t a, uint64_t b)
 {
-    if ((a<=2) && (b<=3))
-        return 0x82c0000d1c80ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=3) && (b<=55)))
+        return 0x8200000d3800ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3f);
     __cavm_csr_fatal("XCPX_XCP_DEVX_MBOX_RINT_W1S", 2, a, b, 0, 0, 0, 0);
 }
 

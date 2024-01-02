@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2021-2023 Marvell.
+* Copyright (C) 2021-2024 Marvell.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -67,7 +67,9 @@ typedef union cavm_btn_bclk_capture_cfg cavm_btn_bclk_capture_cfg_t;
 static inline uint64_t CAVM_BTN_BCLK_CAPTURE_CFG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTN_BCLK_CAPTURE_CFG_FUNC(void)
 {
-    return 0x87e043048800ll;
+    if (cavm_is_model(OCTEONTX_CNF20KA))
+        return 0x87e043048800ll;
+    __cavm_csr_fatal("BTN_BCLK_CAPTURE_CFG", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BTN_BCLK_CAPTURE_CFG cavm_btn_bclk_capture_cfg_t
@@ -110,7 +112,9 @@ typedef union cavm_btn_bclk_capture_ieee1914 cavm_btn_bclk_capture_ieee1914_t;
 static inline uint64_t CAVM_BTN_BCLK_CAPTURE_IEEE1914_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTN_BCLK_CAPTURE_IEEE1914_FUNC(void)
 {
-    return 0x87e043048830ll;
+    if (cavm_is_model(OCTEONTX_CNF20KA))
+        return 0x87e043048830ll;
+    __cavm_csr_fatal("BTN_BCLK_CAPTURE_IEEE1914", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BTN_BCLK_CAPTURE_IEEE1914 cavm_btn_bclk_capture_ieee1914_t
@@ -151,7 +155,9 @@ typedef union cavm_btn_bclk_capture_psm cavm_btn_bclk_capture_psm_t;
 static inline uint64_t CAVM_BTN_BCLK_CAPTURE_PSM_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTN_BCLK_CAPTURE_PSM_FUNC(void)
 {
-    return 0x87e043048810ll;
+    if (cavm_is_model(OCTEONTX_CNF20KA))
+        return 0x87e043048810ll;
+    __cavm_csr_fatal("BTN_BCLK_CAPTURE_PSM", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BTN_BCLK_CAPTURE_PSM cavm_btn_bclk_capture_psm_t
@@ -186,7 +192,9 @@ typedef union cavm_btn_bclk_capture_ptp cavm_btn_bclk_capture_ptp_t;
 static inline uint64_t CAVM_BTN_BCLK_CAPTURE_PTP_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTN_BCLK_CAPTURE_PTP_FUNC(void)
 {
-    return 0x87e043048820ll;
+    if (cavm_is_model(OCTEONTX_CNF20KA))
+        return 0x87e043048820ll;
+    __cavm_csr_fatal("BTN_BCLK_CAPTURE_PTP", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BTN_BCLK_CAPTURE_PTP cavm_btn_bclk_capture_ptp_t
@@ -222,7 +230,9 @@ typedef union cavm_btn_bfn_err_count cavm_btn_bfn_err_count_t;
 static inline uint64_t CAVM_BTN_BFN_ERR_COUNT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTN_BFN_ERR_COUNT_FUNC(void)
 {
-    return 0x87e04304e030ll;
+    if (cavm_is_model(OCTEONTX_CNF20KA))
+        return 0x87e04304e030ll;
+    __cavm_csr_fatal("BTN_BFN_ERR_COUNT", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BTN_BFN_ERR_COUNT cavm_btn_bfn_err_count_t
@@ -278,7 +288,9 @@ typedef union cavm_btn_capture_cfg cavm_btn_capture_cfg_t;
 static inline uint64_t CAVM_BTN_CAPTURE_CFG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTN_CAPTURE_CFG_FUNC(void)
 {
-    return 0x87e04304c000ll;
+    if (cavm_is_model(OCTEONTX_CNF20KA))
+        return 0x87e04304c000ll;
+    __cavm_csr_fatal("BTN_CAPTURE_CFG", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BTN_CAPTURE_CFG cavm_btn_capture_cfg_t
@@ -321,7 +333,9 @@ typedef union cavm_btn_capture_ieee1914 cavm_btn_capture_ieee1914_t;
 static inline uint64_t CAVM_BTN_CAPTURE_IEEE1914_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTN_CAPTURE_IEEE1914_FUNC(void)
 {
-    return 0x87e04304c300ll;
+    if (cavm_is_model(OCTEONTX_CNF20KA))
+        return 0x87e04304c300ll;
+    __cavm_csr_fatal("BTN_CAPTURE_IEEE1914", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BTN_CAPTURE_IEEE1914 cavm_btn_capture_ieee1914_t
@@ -362,7 +376,9 @@ typedef union cavm_btn_capture_psm cavm_btn_capture_psm_t;
 static inline uint64_t CAVM_BTN_CAPTURE_PSM_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTN_CAPTURE_PSM_FUNC(void)
 {
-    return 0x87e04304c100ll;
+    if (cavm_is_model(OCTEONTX_CNF20KA))
+        return 0x87e04304c100ll;
+    __cavm_csr_fatal("BTN_CAPTURE_PSM", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BTN_CAPTURE_PSM cavm_btn_capture_psm_t
@@ -403,7 +419,9 @@ typedef union cavm_btn_capture_psm_cnt cavm_btn_capture_psm_cnt_t;
 static inline uint64_t CAVM_BTN_CAPTURE_PSM_CNT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTN_CAPTURE_PSM_CNT_FUNC(void)
 {
-    return 0x87e04304c110ll;
+    if (cavm_is_model(OCTEONTX_CNF20KA))
+        return 0x87e04304c110ll;
+    __cavm_csr_fatal("BTN_CAPTURE_PSM_CNT", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BTN_CAPTURE_PSM_CNT cavm_btn_capture_psm_cnt_t
@@ -438,7 +456,9 @@ typedef union cavm_btn_capture_ptp cavm_btn_capture_ptp_t;
 static inline uint64_t CAVM_BTN_CAPTURE_PTP_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTN_CAPTURE_PTP_FUNC(void)
 {
-    return 0x87e04304c200ll;
+    if (cavm_is_model(OCTEONTX_CNF20KA))
+        return 0x87e04304c200ll;
+    __cavm_csr_fatal("BTN_CAPTURE_PTP", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BTN_CAPTURE_PTP cavm_btn_capture_ptp_t
@@ -506,7 +526,9 @@ typedef union cavm_btn_cfg cavm_btn_cfg_t;
 static inline uint64_t CAVM_BTN_CFG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTN_CFG_FUNC(void)
 {
-    return 0x87e043049000ll;
+    if (cavm_is_model(OCTEONTX_CNF20KA))
+        return 0x87e043049000ll;
+    __cavm_csr_fatal("BTN_CFG", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BTN_CFG cavm_btn_cfg_t
@@ -539,7 +561,9 @@ typedef union cavm_btn_cfg2 cavm_btn_cfg2_t;
 static inline uint64_t CAVM_BTN_CFG2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTN_CFG2_FUNC(void)
 {
-    return 0x87e04304f000ll;
+    if (cavm_is_model(OCTEONTX_CNF20KA))
+        return 0x87e04304f000ll;
+    __cavm_csr_fatal("BTN_CFG2", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BTN_CFG2 cavm_btn_cfg2_t
@@ -607,7 +631,9 @@ typedef union cavm_btn_ctrl cavm_btn_ctrl_t;
 static inline uint64_t CAVM_BTN_CTRL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTN_CTRL_FUNC(void)
 {
-    return 0x87e043048000ll;
+    if (cavm_is_model(OCTEONTX_CNF20KA))
+        return 0x87e043048000ll;
+    __cavm_csr_fatal("BTN_CTRL", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BTN_CTRL cavm_btn_ctrl_t
@@ -654,7 +680,9 @@ typedef union cavm_btn_ieee1914_cfg cavm_btn_ieee1914_cfg_t;
 static inline uint64_t CAVM_BTN_IEEE1914_CFG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTN_IEEE1914_CFG_FUNC(void)
 {
-    return 0x87e043049300ll;
+    if (cavm_is_model(OCTEONTX_CNF20KA))
+        return 0x87e043049300ll;
+    __cavm_csr_fatal("BTN_IEEE1914_CFG", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BTN_IEEE1914_CFG cavm_btn_ieee1914_cfg_t
@@ -697,7 +725,9 @@ typedef union cavm_btn_ieee1914_val cavm_btn_ieee1914_val_t;
 static inline uint64_t CAVM_BTN_IEEE1914_VAL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTN_IEEE1914_VAL_FUNC(void)
 {
-    return 0x87e043049310ll;
+    if (cavm_is_model(OCTEONTX_CNF20KA))
+        return 0x87e043049310ll;
+    __cavm_csr_fatal("BTN_IEEE1914_VAL", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BTN_IEEE1914_VAL cavm_btn_ieee1914_val_t
@@ -756,7 +786,9 @@ typedef union cavm_btn_match_cfg cavm_btn_match_cfg_t;
 static inline uint64_t CAVM_BTN_MATCH_CFG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTN_MATCH_CFG_FUNC(void)
 {
-    return 0x87e04304a000ll;
+    if (cavm_is_model(OCTEONTX_CNF20KA))
+        return 0x87e04304a000ll;
+    __cavm_csr_fatal("BTN_MATCH_CFG", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BTN_MATCH_CFG cavm_btn_match_cfg_t
@@ -792,7 +824,9 @@ typedef union cavm_btn_match_value cavm_btn_match_value_t;
 static inline uint64_t CAVM_BTN_MATCH_VALUE_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTN_MATCH_VALUE_FUNC(void)
 {
-    return 0x87e04304a010ll;
+    if (cavm_is_model(OCTEONTX_CNF20KA))
+        return 0x87e04304a010ll;
+    __cavm_csr_fatal("BTN_MATCH_VALUE", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BTN_MATCH_VALUE cavm_btn_match_value_t
@@ -845,7 +879,9 @@ typedef union cavm_btn_psm_cfg cavm_btn_psm_cfg_t;
 static inline uint64_t CAVM_BTN_PSM_CFG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTN_PSM_CFG_FUNC(void)
 {
-    return 0x87e043049200ll;
+    if (cavm_is_model(OCTEONTX_CNF20KA))
+        return 0x87e043049200ll;
+    __cavm_csr_fatal("BTN_PSM_CFG", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BTN_PSM_CFG cavm_btn_psm_cfg_t
@@ -890,7 +926,9 @@ typedef union cavm_btn_psm_cnt_val cavm_btn_psm_cnt_val_t;
 static inline uint64_t CAVM_BTN_PSM_CNT_VAL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTN_PSM_CNT_VAL_FUNC(void)
 {
-    return 0x87e043049220ll;
+    if (cavm_is_model(OCTEONTX_CNF20KA))
+        return 0x87e043049220ll;
+    __cavm_csr_fatal("BTN_PSM_CNT_VAL", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BTN_PSM_CNT_VAL cavm_btn_psm_cnt_val_t
@@ -931,7 +969,9 @@ typedef union cavm_btn_psm_val cavm_btn_psm_val_t;
 static inline uint64_t CAVM_BTN_PSM_VAL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTN_PSM_VAL_FUNC(void)
 {
-    return 0x87e043049210ll;
+    if (cavm_is_model(OCTEONTX_CNF20KA))
+        return 0x87e043049210ll;
+    __cavm_csr_fatal("BTN_PSM_VAL", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BTN_PSM_VAL cavm_btn_psm_val_t
@@ -973,7 +1013,9 @@ typedef union cavm_btn_ptp_cfg cavm_btn_ptp_cfg_t;
 static inline uint64_t CAVM_BTN_PTP_CFG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTN_PTP_CFG_FUNC(void)
 {
-    return 0x87e043049400ll;
+    if (cavm_is_model(OCTEONTX_CNF20KA))
+        return 0x87e043049400ll;
+    __cavm_csr_fatal("BTN_PTP_CFG", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BTN_PTP_CFG cavm_btn_ptp_cfg_t
@@ -1007,7 +1049,9 @@ typedef union cavm_btn_ptp_val cavm_btn_ptp_val_t;
 static inline uint64_t CAVM_BTN_PTP_VAL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTN_PTP_VAL_FUNC(void)
 {
-    return 0x87e043049410ll;
+    if (cavm_is_model(OCTEONTX_CNF20KA))
+        return 0x87e043049410ll;
+    __cavm_csr_fatal("BTN_PTP_VAL", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BTN_PTP_VAL cavm_btn_ptp_val_t
@@ -1045,7 +1089,9 @@ typedef union cavm_btn_rfp_bad_count cavm_btn_rfp_bad_count_t;
 static inline uint64_t CAVM_BTN_RFP_BAD_COUNT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTN_RFP_BAD_COUNT_FUNC(void)
 {
-    return 0x87e04304e010ll;
+    if (cavm_is_model(OCTEONTX_CNF20KA))
+        return 0x87e04304e010ll;
+    __cavm_csr_fatal("BTN_RFP_BAD_COUNT", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BTN_RFP_BAD_COUNT cavm_btn_rfp_bad_count_t
@@ -1082,7 +1128,9 @@ typedef union cavm_btn_rfp_cyc_count cavm_btn_rfp_cyc_count_t;
 static inline uint64_t CAVM_BTN_RFP_CYC_COUNT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTN_RFP_CYC_COUNT_FUNC(void)
 {
-    return 0x87e04304e020ll;
+    if (cavm_is_model(OCTEONTX_CNF20KA))
+        return 0x87e04304e020ll;
+    __cavm_csr_fatal("BTN_RFP_CYC_COUNT", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BTN_RFP_CYC_COUNT cavm_btn_rfp_cyc_count_t
@@ -1120,7 +1168,9 @@ typedef union cavm_btn_rfp_good_count cavm_btn_rfp_good_count_t;
 static inline uint64_t CAVM_BTN_RFP_GOOD_COUNT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTN_RFP_GOOD_COUNT_FUNC(void)
 {
-    return 0x87e04304e000ll;
+    if (cavm_is_model(OCTEONTX_CNF20KA))
+        return 0x87e04304e000ll;
+    __cavm_csr_fatal("BTN_RFP_GOOD_COUNT", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BTN_RFP_GOOD_COUNT cavm_btn_rfp_good_count_t
@@ -1182,7 +1232,9 @@ typedef union cavm_btn_sync_cfg cavm_btn_sync_cfg_t;
 static inline uint64_t CAVM_BTN_SYNC_CFG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTN_SYNC_CFG_FUNC(void)
 {
-    return 0x87e04304b000ll;
+    if (cavm_is_model(OCTEONTX_CNF20KA))
+        return 0x87e04304b000ll;
+    __cavm_csr_fatal("BTN_SYNC_CFG", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BTN_SYNC_CFG cavm_btn_sync_cfg_t
@@ -1221,7 +1273,9 @@ typedef union cavm_btn_sync_ieee1914 cavm_btn_sync_ieee1914_t;
 static inline uint64_t CAVM_BTN_SYNC_IEEE1914_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTN_SYNC_IEEE1914_FUNC(void)
 {
-    return 0x87e04304b200ll;
+    if (cavm_is_model(OCTEONTX_CNF20KA))
+        return 0x87e04304b200ll;
+    __cavm_csr_fatal("BTN_SYNC_IEEE1914", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BTN_SYNC_IEEE1914 cavm_btn_sync_ieee1914_t
@@ -1262,7 +1316,9 @@ typedef union cavm_btn_sync_psm cavm_btn_sync_psm_t;
 static inline uint64_t CAVM_BTN_SYNC_PSM_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTN_SYNC_PSM_FUNC(void)
 {
-    return 0x87e04304b100ll;
+    if (cavm_is_model(OCTEONTX_CNF20KA))
+        return 0x87e04304b100ll;
+    __cavm_csr_fatal("BTN_SYNC_PSM", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BTN_SYNC_PSM cavm_btn_sync_psm_t
@@ -1319,7 +1375,9 @@ typedef union cavm_btn_sync_psm_cnt cavm_btn_sync_psm_cnt_t;
 static inline uint64_t CAVM_BTN_SYNC_PSM_CNT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTN_SYNC_PSM_CNT_FUNC(void)
 {
-    return 0x87e04304b110ll;
+    if (cavm_is_model(OCTEONTX_CNF20KA))
+        return 0x87e04304b110ll;
+    __cavm_csr_fatal("BTN_SYNC_PSM_CNT", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_BTN_SYNC_PSM_CNT cavm_btn_sync_psm_cnt_t

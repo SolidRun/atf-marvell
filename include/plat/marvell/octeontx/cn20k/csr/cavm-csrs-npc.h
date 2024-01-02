@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2021-2023 Marvell.
+* Copyright (C) 2021-2024 Marvell.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -2665,6 +2665,115 @@ static inline uint64_t CAVM_NPC_AF_KPMX_PASS2_OFFSET(uint64_t a)
 #define device_bar_CAVM_NPC_AF_KPMX_PASS2_OFFSET(a) 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_NPC_AF_KPMX_PASS2_OFFSET(a) (a)
 #define arguments_CAVM_NPC_AF_KPMX_PASS2_OFFSET(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) npc_af_kpm_pass2_cfg
+ *
+ * NPC AF KPM Pass2 Configuration Register
+ */
+union cavm_npc_af_kpm_pass2_cfg
+{
+    uint64_t u;
+    struct cavm_npc_af_kpm_pass2_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_31_63        : 33;
+        uint64_t stage15               : 3;  /**< [ 30: 28](R/W) KPU stage 15 KPM mapping 0-7. Must be a unique value as no two stages can share the same PASS2 KPM. */
+        uint64_t reserved_27           : 1;
+        uint64_t stage14               : 3;  /**< [ 26: 24](R/W) KPU stage 14 KPM mapping 0-7. Must be a unique value as no two stages can share the same PASS2 KPM. */
+        uint64_t reserved_23           : 1;
+        uint64_t stage13               : 3;  /**< [ 22: 20](R/W) KPU stage 13 KPM mapping 0-7. Must be a unique value as no two stages can share the same PASS2 KPM. */
+        uint64_t reserved_19           : 1;
+        uint64_t stage12               : 3;  /**< [ 18: 16](R/W) KPU stage 12 KPM mapping 0-7. Must be a unique value as no two stages can share the same PASS2 KPM. */
+        uint64_t reserved_15           : 1;
+        uint64_t stage11               : 3;  /**< [ 14: 12](R/W) KPU stage 11 KPM mapping 0-7. Must be a unique value as no two stages can share the same PASS2 KPM. */
+        uint64_t reserved_11           : 1;
+        uint64_t stage10               : 3;  /**< [ 10:  8](R/W) KPU stage 10 KPM mapping 0-7. Must be a unique value as no two stages can share the same PASS2 KPM. */
+        uint64_t reserved_7            : 1;
+        uint64_t stage9                : 3;  /**< [  6:  4](R/W) KPU stage 9 KPM mapping 0-7. Must be a unique value as no two stages can share the same PASS2 KPM. */
+        uint64_t reserved_3            : 1;
+        uint64_t stage8                : 3;  /**< [  2:  0](R/W) KPU stage 8 KPM mapping 0-7. Must be a unique value as no two stages can share the same PASS2 KPM.
+                                                                 New values of the mapping will only be updated to the logic when all KMSM engines are IDLE. */
+#else /* Word 0 - Little Endian */
+        uint64_t stage8                : 3;  /**< [  2:  0](R/W) KPU stage 8 KPM mapping 0-7. Must be a unique value as no two stages can share the same PASS2 KPM.
+                                                                 New values of the mapping will only be updated to the logic when all KMSM engines are IDLE. */
+        uint64_t reserved_3            : 1;
+        uint64_t stage9                : 3;  /**< [  6:  4](R/W) KPU stage 9 KPM mapping 0-7. Must be a unique value as no two stages can share the same PASS2 KPM. */
+        uint64_t reserved_7            : 1;
+        uint64_t stage10               : 3;  /**< [ 10:  8](R/W) KPU stage 10 KPM mapping 0-7. Must be a unique value as no two stages can share the same PASS2 KPM. */
+        uint64_t reserved_11           : 1;
+        uint64_t stage11               : 3;  /**< [ 14: 12](R/W) KPU stage 11 KPM mapping 0-7. Must be a unique value as no two stages can share the same PASS2 KPM. */
+        uint64_t reserved_15           : 1;
+        uint64_t stage12               : 3;  /**< [ 18: 16](R/W) KPU stage 12 KPM mapping 0-7. Must be a unique value as no two stages can share the same PASS2 KPM. */
+        uint64_t reserved_19           : 1;
+        uint64_t stage13               : 3;  /**< [ 22: 20](R/W) KPU stage 13 KPM mapping 0-7. Must be a unique value as no two stages can share the same PASS2 KPM. */
+        uint64_t reserved_23           : 1;
+        uint64_t stage14               : 3;  /**< [ 26: 24](R/W) KPU stage 14 KPM mapping 0-7. Must be a unique value as no two stages can share the same PASS2 KPM. */
+        uint64_t reserved_27           : 1;
+        uint64_t stage15               : 3;  /**< [ 30: 28](R/W) KPU stage 15 KPM mapping 0-7. Must be a unique value as no two stages can share the same PASS2 KPM. */
+        uint64_t reserved_31_63        : 33;
+#endif /* Word 0 - End */
+    } s;
+    struct cavm_npc_af_kpm_pass2_cfg_cn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t reserved_31           : 1;
+        uint64_t stage15               : 3;  /**< [ 30: 28](R/W) KPU stage 15 KPM mapping 0-7. Must be a unique value as no two stages can share the same PASS2 KPM. */
+        uint64_t reserved_27           : 1;
+        uint64_t stage14               : 3;  /**< [ 26: 24](R/W) KPU stage 14 KPM mapping 0-7. Must be a unique value as no two stages can share the same PASS2 KPM. */
+        uint64_t reserved_23           : 1;
+        uint64_t stage13               : 3;  /**< [ 22: 20](R/W) KPU stage 13 KPM mapping 0-7. Must be a unique value as no two stages can share the same PASS2 KPM. */
+        uint64_t reserved_19           : 1;
+        uint64_t stage12               : 3;  /**< [ 18: 16](R/W) KPU stage 12 KPM mapping 0-7. Must be a unique value as no two stages can share the same PASS2 KPM. */
+        uint64_t reserved_15           : 1;
+        uint64_t stage11               : 3;  /**< [ 14: 12](R/W) KPU stage 11 KPM mapping 0-7. Must be a unique value as no two stages can share the same PASS2 KPM. */
+        uint64_t reserved_11           : 1;
+        uint64_t stage10               : 3;  /**< [ 10:  8](R/W) KPU stage 10 KPM mapping 0-7. Must be a unique value as no two stages can share the same PASS2 KPM. */
+        uint64_t reserved_7            : 1;
+        uint64_t stage9                : 3;  /**< [  6:  4](R/W) KPU stage 9 KPM mapping 0-7. Must be a unique value as no two stages can share the same PASS2 KPM. */
+        uint64_t reserved_3            : 1;
+        uint64_t stage8                : 3;  /**< [  2:  0](R/W) KPU stage 8 KPM mapping 0-7. Must be a unique value as no two stages can share the same PASS2 KPM.
+                                                                 New values of the mapping will only be updated to the logic when all KMSM engines are IDLE. */
+#else /* Word 0 - Little Endian */
+        uint64_t stage8                : 3;  /**< [  2:  0](R/W) KPU stage 8 KPM mapping 0-7. Must be a unique value as no two stages can share the same PASS2 KPM.
+                                                                 New values of the mapping will only be updated to the logic when all KMSM engines are IDLE. */
+        uint64_t reserved_3            : 1;
+        uint64_t stage9                : 3;  /**< [  6:  4](R/W) KPU stage 9 KPM mapping 0-7. Must be a unique value as no two stages can share the same PASS2 KPM. */
+        uint64_t reserved_7            : 1;
+        uint64_t stage10               : 3;  /**< [ 10:  8](R/W) KPU stage 10 KPM mapping 0-7. Must be a unique value as no two stages can share the same PASS2 KPM. */
+        uint64_t reserved_11           : 1;
+        uint64_t stage11               : 3;  /**< [ 14: 12](R/W) KPU stage 11 KPM mapping 0-7. Must be a unique value as no two stages can share the same PASS2 KPM. */
+        uint64_t reserved_15           : 1;
+        uint64_t stage12               : 3;  /**< [ 18: 16](R/W) KPU stage 12 KPM mapping 0-7. Must be a unique value as no two stages can share the same PASS2 KPM. */
+        uint64_t reserved_19           : 1;
+        uint64_t stage13               : 3;  /**< [ 22: 20](R/W) KPU stage 13 KPM mapping 0-7. Must be a unique value as no two stages can share the same PASS2 KPM. */
+        uint64_t reserved_23           : 1;
+        uint64_t stage14               : 3;  /**< [ 26: 24](R/W) KPU stage 14 KPM mapping 0-7. Must be a unique value as no two stages can share the same PASS2 KPM. */
+        uint64_t reserved_27           : 1;
+        uint64_t stage15               : 3;  /**< [ 30: 28](R/W) KPU stage 15 KPM mapping 0-7. Must be a unique value as no two stages can share the same PASS2 KPM. */
+        uint64_t reserved_31           : 1;
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } cn;
+};
+typedef union cavm_npc_af_kpm_pass2_cfg cavm_npc_af_kpm_pass2_cfg_t;
+
+#define CAVM_NPC_AF_KPM_PASS2_CFG CAVM_NPC_AF_KPM_PASS2_CFG_FUNC()
+static inline uint64_t CAVM_NPC_AF_KPM_PASS2_CFG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NPC_AF_KPM_PASS2_CFG_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x840060000580ll;
+    __cavm_csr_fatal("NPC_AF_KPM_PASS2_CFG", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NPC_AF_KPM_PASS2_CFG cavm_npc_af_kpm_pass2_cfg_t
+#define bustype_CAVM_NPC_AF_KPM_PASS2_CFG CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NPC_AF_KPM_PASS2_CFG "NPC_AF_KPM_PASS2_CFG"
+#define device_bar_CAVM_NPC_AF_KPM_PASS2_CFG 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NPC_AF_KPM_PASS2_CFG 0
+#define arguments_CAVM_NPC_AF_KPM_PASS2_CFG -1,-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) npc_af_kpu#_cfg
