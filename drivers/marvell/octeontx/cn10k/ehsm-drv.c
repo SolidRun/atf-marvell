@@ -65,7 +65,7 @@ void ehsm_free(void *ptr)
 	octeontx_free(ptr);
 }
 
-static void print_buffer(const uint8_t *buffer, size_t size)
+static void ehsm_print_buffer(const uint8_t *buffer, size_t size)
 {
 	size_t offset;
 
@@ -262,11 +262,11 @@ int ehsm_verify_image(const void *image, const struct tim_load_info *li,
 		     li->image_length);
 		INFO("PTR: %p\n", nonsecure ? ehsm_buffer : image);
 		if (nonsecure)
-			print_buffer(ehsm_buffer,
+			ehsm_print_buffer(ehsm_buffer,
 			     size <= sizeof(ehsm_buffer) ?
 			     size : sizeof(ehsm_buffer));
 		else
-			print_buffer(image, li->image_length);
+			ehsm_print_buffer(image, li->image_length);
 		return -EAUTH;
 	}
 
@@ -408,7 +408,7 @@ int ehsm_verify_final(struct ehsm_handle *ehandle,
 			WARN("TIM:        %s\n", hash_str);
 			WARN("Image size: 0x%lx, ehsm size: 0x%x\n", size,
 			     li->image_length);
-			print_buffer(nonsecure ? ehsm_buffer : ptr,
+			ehsm_print_buffer(nonsecure ? ehsm_buffer : ptr,
 				     size <= sizeof(ehsm_buffer) ?
 				     size : sizeof(ehsm_buffer));
 		}
