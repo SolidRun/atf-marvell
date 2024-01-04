@@ -87,6 +87,8 @@ ifeq (${MSS_SUPPORT}, 1)
 include $(MARVELL_PLAT_BASE)/common/mss/mss_common.mk
 endif
 
+fip: mrvl_flash
+
 $(BUILD_PLAT)/$(BOOT_IMAGE): $(BUILD_PLAT)/bl1.bin $(BUILD_PLAT)/$(FIP_NAME)
 	$(if $(shell find $(BUILD_PLAT)/bl1.bin -type f -size +128k),$(error "Image '$(BUILD_PLAT)/bl1.bin' is bigger than 128kB"))
 	@cp $(BUILD_PLAT)/bl1.bin $(BUILD_PLAT)/$(BOOT_IMAGE) || { rm -f $(BUILD_PLAT)/$(BOOT_IMAGE); false; }
