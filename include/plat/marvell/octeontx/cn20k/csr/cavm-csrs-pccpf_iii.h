@@ -98,9 +98,11 @@ union cavm_pccpf_xxx_vsec_streamid
         uint32_t reserved_22_31        : 10;
         uint32_t dmn                   : 6;  /**< [ 21: 16](SR/W) Domain value of the GIB StreamId. */
         uint32_t bus                   : 8;  /**< [ 15:  8](SR/W) Bus value of the GIB StreamId. */
-        uint32_t func                  : 8;  /**< [  7:  0](SR/W) Function value of the GIB StreamId. This value is only used for single function PCC devices. */
+        uint32_t func                  : 8;  /**< [  7:  0](SR/W) Function value of the GIB StreamId. This field is only R/W for blocks that do
+                                                                 not support VFs. If VFs are enabled, this field is RO. */
 #else /* Word 0 - Little Endian */
-        uint32_t func                  : 8;  /**< [  7:  0](SR/W) Function value of the GIB StreamId. This value is only used for single function PCC devices. */
+        uint32_t func                  : 8;  /**< [  7:  0](SR/W) Function value of the GIB StreamId. This field is only R/W for blocks that do
+                                                                 not support VFs. If VFs are enabled, this field is RO. */
         uint32_t bus                   : 8;  /**< [ 15:  8](SR/W) Bus value of the GIB StreamId. */
         uint32_t dmn                   : 6;  /**< [ 21: 16](SR/W) Domain value of the GIB StreamId. */
         uint32_t reserved_22_31        : 10;
