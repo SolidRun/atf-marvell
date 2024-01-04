@@ -12,7 +12,7 @@
 
 uint64_t octeontx_dram_size();
 uint64_t memory_region_get_info(int index, uint64_t *start);
-#if (PLAT_CN10K_FAMILY | PLAT_CN20K_FAMILY)
+#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY)
 uint64_t octeontx_dram_reserve(uint64_t size, ccs_region_index_t index, int *new_index);
 int adjust_asc_region(ccs_region_index_t index, uint64_t size, int *new_index);
 int adjust_asc_region_next_avail(uint64_t size, int *new_index, uint64_t *new_base);

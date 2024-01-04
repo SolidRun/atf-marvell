@@ -406,7 +406,7 @@ int32_t plat_get_soc_version(void)
 int32_t plat_get_soc_revision(void)
 {
 	uint32_t rev;
-#if !(defined(PLAT_CN10K_FAMILY) || defined(PLAT_OTX2_FAMILY) || defined(PLAT_CN20K_FAMILY))
+#if defined(PLAT_OTX_FAMILY)
 	uint64_t midr = read_midr();
 
 	/* program minor pass */

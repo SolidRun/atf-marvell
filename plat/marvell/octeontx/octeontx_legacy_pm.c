@@ -300,7 +300,7 @@ static void __dead2 octeontx_legacy_system_reset(void)
 	__asm__ volatile("ic iallu\n"
 			 "isb\n");
 
-#elif defined(PLAT_OTX_FAMILY) || defined(PLAT_OTX2_FAMILY)
+#else
 	union cavm_rst_soft_rst rst_soft_rst;
 	union cavm_rst_ocx rst_ocx;
 	l2c_flush();

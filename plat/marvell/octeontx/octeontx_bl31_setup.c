@@ -341,7 +341,7 @@ void bl31_plat_arch_setup()
 			MT_MEMORY | MT_RW | MT_SECURE);
 #endif
 
-#if defined(PLAT_OTX2_FAMILY)
+#if defined(PLAT_OTX2_FAMILY) || defined(PLAT_CN10K_FAMILY)
 	{
 		extern void otx2_map_ghes(ras_config_t *rc);
 		otx2_map_ghes(&plat_octeontx_bcfg->ras_config);
