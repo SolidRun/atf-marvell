@@ -107,7 +107,7 @@ typedef enum link_state {
 	ETH_LINK_STATE_LINK_BRINGDOWN = 3,          /* Bring link down */
 	ETH_LINK_STATE_LINK_FEC_CHANGE = 4,         /* Change FEC */
 	ETH_LINK_STATE_MODE_CHANGE = 5,             /* Change MODE */
-	ETH_LINK_STATE_RST_PU_PLL = 6,
+	ETH_LINK_STATE_RESTORE_PLL = 6,
 	ETH_LINK_STATE_PLL_RDY_FIRST_LOOP = 7,      /* States for PLL_READY_TX/RX */
 	ETH_LINK_STATE_PLL_RDY = 8,
 	ETH_LINK_STATE_SPEED_CHANGE_FINAL = 9,
@@ -168,6 +168,8 @@ typedef enum link_state {
 	ETH_LINK_STATE_CDR_LOCK_READ_DONE = 64,
 	ETH_LINK_STATE_CDR_LOCKED = 65,
 	ETH_LINK_STATE_CDR_LOCK_WAIT = 66,
+	ETH_LINK_STATE_RST_CORE_FIRST_LOOP = 67,
+	ETH_LINK_STATE_RST_CORE = 68,
 } ecp_link_state_enum_t;
 
 typedef enum ecp_aneg_state {

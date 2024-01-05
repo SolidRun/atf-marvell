@@ -841,7 +841,7 @@ const char *cn10k_eth_link_state_to_str(ecp_link_state_enum_t link_state)
 	break;
 	ETH_LINK_STATE_CASE(ETH_LINK_STATE_MODE_CHANGE);
 	break;
-	ETH_LINK_STATE_CASE(ETH_LINK_STATE_RST_PU_PLL);
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_RESTORE_PLL);
 	break;
 	ETH_LINK_STATE_CASE(ETH_LINK_STATE_PLL_RDY_FIRST_LOOP);
 	break;
@@ -962,6 +962,10 @@ const char *cn10k_eth_link_state_to_str(ecp_link_state_enum_t link_state)
 	ETH_LINK_STATE_CASE(ETH_LINK_STATE_CDR_LOCKED);
 	break;
 	ETH_LINK_STATE_CASE(ETH_LINK_STATE_CDR_LOCK_WAIT);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_RST_CORE_FIRST_LOOP);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_RST_CORE);
 	break;
 
 	default:
