@@ -75,7 +75,7 @@ void octeontx_init_iobn(uint64_t config_base, uint64_t config_size)
 		/* To get secure interrupts for GPIO, PHYS_NSEC must == 0 */
 		{ CAVM_PCC_DEV_CON_E_GPIO, 1, 1 /* strm */, 0 /* phys */ },
 		/* eHSM requires access to secure memory */
-		{ CAVM_PCC_DEV_CON_E_EHSM, 1, 0 /* strm */, 0 /* phys */ },
+		{ CAVM_PCC_DEV_CON_E_EHSM_CN20KA, 1, 0 /* strm */, 0 /* phys */ },
 	};
 	/* These settings are platform-specific */
 	struct cn20k_stream_security_setting *plat_streams;
