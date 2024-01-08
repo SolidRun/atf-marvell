@@ -14792,45 +14792,6 @@ static inline uint64_t CAVM_RPMX_CMR_P2X_NIX0_NXC_ADR(uint64_t a)
 #define arguments_CAVM_RPMX_CMR_P2X_NIX0_NXC_ADR(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) rpm#_cmr_p2x_nix1_nxc_adr
- *
- * RPM CMR NIX1 NXC Exception Registers
- */
-union cavm_rpmx_cmr_p2x_nix1_nxc_adr
-{
-    uint64_t u;
-    struct cavm_rpmx_cmr_p2x_nix1_nxc_adr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_15_63        : 49;
-        uint64_t lmac_id               : 3;  /**< [ 14: 12](RO/H) Logged LMAC ID for NXC exceptions associated with NIX1 (see P2X_NIX1_NXC) */
-        uint64_t channel               : 12; /**< [ 11:  0](RO/H) Logged channel for NXC exceptions associated with NIX1 (see P2X_NIX1_NXC) */
-#else /* Word 0 - Little Endian */
-        uint64_t channel               : 12; /**< [ 11:  0](RO/H) Logged channel for NXC exceptions associated with NIX1 (see P2X_NIX1_NXC) */
-        uint64_t lmac_id               : 3;  /**< [ 14: 12](RO/H) Logged LMAC ID for NXC exceptions associated with NIX1 (see P2X_NIX1_NXC) */
-        uint64_t reserved_15_63        : 49;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_cmr_p2x_nix1_nxc_adr_s cn; */
-};
-typedef union cavm_rpmx_cmr_p2x_nix1_nxc_adr cavm_rpmx_cmr_p2x_nix1_nxc_adr_t;
-
-static inline uint64_t CAVM_RPMX_CMR_P2X_NIX1_NXC_ADR(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RPMX_CMR_P2X_NIX1_NXC_ADR(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=2))
-        return 0x87e0e0001030ll + 0x1000000ll * ((a) & 0x3);
-    __cavm_csr_fatal("RPMX_CMR_P2X_NIX1_NXC_ADR", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RPMX_CMR_P2X_NIX1_NXC_ADR(a) cavm_rpmx_cmr_p2x_nix1_nxc_adr_t
-#define bustype_CAVM_RPMX_CMR_P2X_NIX1_NXC_ADR(a) CSR_TYPE_RSL
-#define basename_CAVM_RPMX_CMR_P2X_NIX1_NXC_ADR(a) "RPMX_CMR_P2X_NIX1_NXC_ADR"
-#define device_bar_CAVM_RPMX_CMR_P2X_NIX1_NXC_ADR(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RPMX_CMR_P2X_NIX1_NXC_ADR(a) (a)
-#define arguments_CAVM_RPMX_CMR_P2X_NIX1_NXC_ADR(a) (a),-1,-1,-1
-
-/**
  * Register (RSL) rpm#_cmr_rsl_nxc_lmac_synd
  *
  * RPM CMR Bad RSL Address Interrupt Syndrome Register

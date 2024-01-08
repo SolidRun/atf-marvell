@@ -872,7 +872,9 @@ union cavm_tad_cmn_mpamcfg_part_sel_ns
                                                                  Enumerated by TAD_CMN_MPAM_RIS_E.
 
                                                                  Two bits of RIS are implemented. */
-        uint64_t reserved_16_23        : 8;
+        uint64_t reserved_17_23        : 7;
+        uint64_t internal              : 1;  /**< [ 16: 16](RO) Internal PARTID. This MSC does not support PartID narrowing so this field
+                                                                 is reserved. */
         uint64_t partid_sel            : 16; /**< [ 15:  0](R/W) Selects the partition ID to configure.
                                                                  Reads and writes to other TAD_CMN_MPAMCFG registers are indexed by [PARTID_SEL]
                                                                  and by the NS bit used
@@ -886,7 +888,9 @@ union cavm_tad_cmn_mpamcfg_part_sel_ns
                                                                  to access TAD_CMN_MPAMCFG_PART_SEL to access the configuration for a single partition.
 
                                                                  Eight bits of non-secure PARTID_SEL are implemented. */
-        uint64_t reserved_16_23        : 8;
+        uint64_t internal              : 1;  /**< [ 16: 16](RO) Internal PARTID. This MSC does not support PartID narrowing so this field
+                                                                 is reserved. */
+        uint64_t reserved_17_23        : 7;
         uint64_t ris                   : 4;  /**< [ 27: 24](R/W) Resource Instance Selector. RIS selects one resource to configure through
                                                                  TAD_CMN_MPAMCFG registers and describe with TAD_CMN_MPAMF ID registers.
                                                                  Enumerated by TAD_CMN_MPAM_RIS_E.
@@ -895,40 +899,7 @@ union cavm_tad_cmn_mpamcfg_part_sel_ns
         uint64_t reserved_28_63        : 36;
 #endif /* Word 0 - End */
     } s;
-    struct cavm_tad_cmn_mpamcfg_part_sel_ns_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_28_63        : 36;
-        uint64_t ris                   : 4;  /**< [ 27: 24](R/W) Resource Instance Selector. RIS selects one resource to configure through
-                                                                 TAD_CMN_MPAMCFG registers and describe with TAD_CMN_MPAMF ID registers.
-                                                                 Enumerated by TAD_CMN_MPAM_RIS_E.
-
-                                                                 Two bits of RIS are implemented. */
-        uint64_t reserved_17_23        : 7;
-        uint64_t reserved_16           : 1;
-        uint64_t partid_sel            : 16; /**< [ 15:  0](R/W) Selects the partition ID to configure.
-                                                                 Reads and writes to other TAD_CMN_MPAMCFG registers are indexed by [PARTID_SEL]
-                                                                 and by the NS bit used
-                                                                 to access TAD_CMN_MPAMCFG_PART_SEL to access the configuration for a single partition.
-
-                                                                 Eight bits of non-secure PARTID_SEL are implemented. */
-#else /* Word 0 - Little Endian */
-        uint64_t partid_sel            : 16; /**< [ 15:  0](R/W) Selects the partition ID to configure.
-                                                                 Reads and writes to other TAD_CMN_MPAMCFG registers are indexed by [PARTID_SEL]
-                                                                 and by the NS bit used
-                                                                 to access TAD_CMN_MPAMCFG_PART_SEL to access the configuration for a single partition.
-
-                                                                 Eight bits of non-secure PARTID_SEL are implemented. */
-        uint64_t reserved_16           : 1;
-        uint64_t reserved_17_23        : 7;
-        uint64_t ris                   : 4;  /**< [ 27: 24](R/W) Resource Instance Selector. RIS selects one resource to configure through
-                                                                 TAD_CMN_MPAMCFG registers and describe with TAD_CMN_MPAMF ID registers.
-                                                                 Enumerated by TAD_CMN_MPAM_RIS_E.
-
-                                                                 Two bits of RIS are implemented. */
-        uint64_t reserved_28_63        : 36;
-#endif /* Word 0 - End */
-    } cn;
+    /* struct cavm_tad_cmn_mpamcfg_part_sel_ns_s cn; */
 };
 typedef union cavm_tad_cmn_mpamcfg_part_sel_ns cavm_tad_cmn_mpamcfg_part_sel_ns_t;
 
@@ -971,7 +942,9 @@ union cavm_tad_cmn_mpamcfg_part_sel_s
                                                                  Enumerated by TAD_CMN_MPAM_RIS_E.
 
                                                                  Two bits of RIS are implemented. */
-        uint64_t reserved_16_23        : 8;
+        uint64_t reserved_17_23        : 7;
+        uint64_t internal              : 1;  /**< [ 16: 16](SRO) Internal PARTID. This MSC does not support PartID narrowing so this field
+                                                                 is reserved. */
         uint64_t partid_sel            : 16; /**< [ 15:  0](SR/W) Selects the partition ID to configure.
                                                                  Reads and writes to other TAD_CMN_MPAMCFG registers are indexed by [PARTID_SEL]
                                                                  and by the NS bit used
@@ -985,7 +958,9 @@ union cavm_tad_cmn_mpamcfg_part_sel_s
                                                                  to access TAD_CMN_MPAMCFG_PART_SEL to access the configuration for a single partition.
 
                                                                  Four bits of secure PARTID_SEL are implemented. */
-        uint64_t reserved_16_23        : 8;
+        uint64_t internal              : 1;  /**< [ 16: 16](SRO) Internal PARTID. This MSC does not support PartID narrowing so this field
+                                                                 is reserved. */
+        uint64_t reserved_17_23        : 7;
         uint64_t ris                   : 4;  /**< [ 27: 24](SR/W) Resource Instance Selector. RIS selects one resource to configure through
                                                                  TAD_CMN_MPAMCFG registers and describe with TAD_CMN_MPAMF ID registers.
                                                                  Enumerated by TAD_CMN_MPAM_RIS_E.
@@ -994,40 +969,7 @@ union cavm_tad_cmn_mpamcfg_part_sel_s
         uint64_t reserved_28_63        : 36;
 #endif /* Word 0 - End */
     } s;
-    struct cavm_tad_cmn_mpamcfg_part_sel_s_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_28_63        : 36;
-        uint64_t ris                   : 4;  /**< [ 27: 24](SR/W) Resource Instance Selector. RIS selects one resource to configure through
-                                                                 TAD_CMN_MPAMCFG registers and describe with TAD_CMN_MPAMF ID registers.
-                                                                 Enumerated by TAD_CMN_MPAM_RIS_E.
-
-                                                                 Two bits of RIS are implemented. */
-        uint64_t reserved_17_23        : 7;
-        uint64_t reserved_16           : 1;
-        uint64_t partid_sel            : 16; /**< [ 15:  0](SR/W) Selects the partition ID to configure.
-                                                                 Reads and writes to other TAD_CMN_MPAMCFG registers are indexed by [PARTID_SEL]
-                                                                 and by the NS bit used
-                                                                 to access TAD_CMN_MPAMCFG_PART_SEL to access the configuration for a single partition.
-
-                                                                 Four bits of secure PARTID_SEL are implemented. */
-#else /* Word 0 - Little Endian */
-        uint64_t partid_sel            : 16; /**< [ 15:  0](SR/W) Selects the partition ID to configure.
-                                                                 Reads and writes to other TAD_CMN_MPAMCFG registers are indexed by [PARTID_SEL]
-                                                                 and by the NS bit used
-                                                                 to access TAD_CMN_MPAMCFG_PART_SEL to access the configuration for a single partition.
-
-                                                                 Four bits of secure PARTID_SEL are implemented. */
-        uint64_t reserved_16           : 1;
-        uint64_t reserved_17_23        : 7;
-        uint64_t ris                   : 4;  /**< [ 27: 24](SR/W) Resource Instance Selector. RIS selects one resource to configure through
-                                                                 TAD_CMN_MPAMCFG registers and describe with TAD_CMN_MPAMF ID registers.
-                                                                 Enumerated by TAD_CMN_MPAM_RIS_E.
-
-                                                                 Two bits of RIS are implemented. */
-        uint64_t reserved_28_63        : 36;
-#endif /* Word 0 - End */
-    } cn;
+    /* struct cavm_tad_cmn_mpamcfg_part_sel_s_s cn; */
 };
 typedef union cavm_tad_cmn_mpamcfg_part_sel_s cavm_tad_cmn_mpamcfg_part_sel_s_t;
 

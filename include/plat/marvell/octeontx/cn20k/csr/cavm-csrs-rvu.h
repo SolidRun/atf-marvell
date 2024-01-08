@@ -1862,9 +1862,7 @@ typedef union cavm_rvu_af_smmu_addr_tln cavm_rvu_af_smmu_addr_tln_t;
 static inline uint64_t CAVM_RVU_AF_SMMU_ADDR_TLN_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_SMMU_ADDR_TLN_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CNF20KA))
-        return 0x840000006018ll;
-    __cavm_csr_fatal("RVU_AF_SMMU_ADDR_TLN", 0, 0, 0, 0, 0, 0, 0);
+    return 0x840000006018ll;
 }
 
 #define typedef_CAVM_RVU_AF_SMMU_ADDR_TLN cavm_rvu_af_smmu_addr_tln_t
@@ -1873,42 +1871,6 @@ static inline uint64_t CAVM_RVU_AF_SMMU_ADDR_TLN_FUNC(void)
 #define device_bar_CAVM_RVU_AF_SMMU_ADDR_TLN 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_RVU_AF_SMMU_ADDR_TLN 0
 #define arguments_CAVM_RVU_AF_SMMU_ADDR_TLN -1,-1,-1,-1
-
-/**
- * Register (RVU_PF_BAR0) rvu_af_smmu_tln_flit0
- *
- * RVU Admin Function SMMU Translation FLIT0 Register
- */
-union cavm_rvu_af_smmu_tln_flit0
-{
-    uint64_t u;
-    struct cavm_rvu_af_smmu_tln_flit0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](RO/H) Translation returned FLIT0[63:0] from SMMU. */
-#else /* Word 0 - Little Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](RO/H) Translation returned FLIT0[63:0] from SMMU. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rvu_af_smmu_tln_flit0_s cn; */
-};
-typedef union cavm_rvu_af_smmu_tln_flit0 cavm_rvu_af_smmu_tln_flit0_t;
-
-#define CAVM_RVU_AF_SMMU_TLN_FLIT0 CAVM_RVU_AF_SMMU_TLN_FLIT0_FUNC()
-static inline uint64_t CAVM_RVU_AF_SMMU_TLN_FLIT0_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RVU_AF_SMMU_TLN_FLIT0_FUNC(void)
-{
-    if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840000006020ll;
-    __cavm_csr_fatal("RVU_AF_SMMU_TLN_FLIT0", 0, 0, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_RVU_AF_SMMU_TLN_FLIT0 cavm_rvu_af_smmu_tln_flit0_t
-#define bustype_CAVM_RVU_AF_SMMU_TLN_FLIT0 CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_RVU_AF_SMMU_TLN_FLIT0 "RVU_AF_SMMU_TLN_FLIT0"
-#define device_bar_CAVM_RVU_AF_SMMU_TLN_FLIT0 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_RVU_AF_SMMU_TLN_FLIT0 0
-#define arguments_CAVM_RVU_AF_SMMU_TLN_FLIT0 -1,-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) rvu_af_smmu_txn_req

@@ -91,11 +91,13 @@ union cavm_mio_pwmx_ctl
         uint32_t reserved_14_31        : 18;
         uint32_t set_threshold         : 13; /**< [ 13:  1](R/W) Software programmable set threshold value. This let's software program when should
                                                                  hardware set PWM output to 1 and keep it one till the counter rolls over. */
-        uint32_t pwm_en                : 1;  /**< [  0:  0](R/W) Software Programmable 5-bits used to match Overflow. When Free-running counter
-                                                                 upper5-bits match Overflow_config hardware would reset the counter and resume counting */
+        uint32_t pwm_en                : 1;  /**< [  0:  0](R/W) This bit enables the pwm_output and increments free running counter.
+                                                                 Once PWM_EN is set FREQ_POW2_DIV and OVERFLOW_CONFIG cannot be updated.
+                                                                 SET_THRESHOLD can be changed which controls the duty cycle. */
 #else /* Word 0 - Little Endian */
-        uint32_t pwm_en                : 1;  /**< [  0:  0](R/W) Software Programmable 5-bits used to match Overflow. When Free-running counter
-                                                                 upper5-bits match Overflow_config hardware would reset the counter and resume counting */
+        uint32_t pwm_en                : 1;  /**< [  0:  0](R/W) This bit enables the pwm_output and increments free running counter.
+                                                                 Once PWM_EN is set FREQ_POW2_DIV and OVERFLOW_CONFIG cannot be updated.
+                                                                 SET_THRESHOLD can be changed which controls the duty cycle. */
         uint32_t set_threshold         : 13; /**< [ 13:  1](R/W) Software programmable set threshold value. This let's software program when should
                                                                  hardware set PWM output to 1 and keep it one till the counter rolls over. */
         uint32_t reserved_14_31        : 18;

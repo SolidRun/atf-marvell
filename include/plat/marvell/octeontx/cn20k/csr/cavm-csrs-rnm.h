@@ -955,9 +955,7 @@ typedef union cavm_rnm_random cavm_rnm_random_t;
 static inline uint64_t CAVM_RNM_RANDOM_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RNM_RANDOM_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CNF20KA))
-        return 0x80f000800000ll;
-    __cavm_csr_fatal("RNM_RANDOM", 0, 0, 0, 0, 0, 0, 0);
+    return 0x80f000800000ll;
 }
 
 #define typedef_CAVM_RNM_RANDOM cavm_rnm_random_t

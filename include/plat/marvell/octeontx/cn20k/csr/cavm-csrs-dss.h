@@ -3847,7 +3847,13 @@ union cavm_dssx_ddrctl_regb_chb_mpam_ns_mpamcfg_part_sel
     struct cavm_dssx_ddrctl_regb_chb_mpam_ns_mpamcfg_part_sel_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_16_31        : 16;
+        uint32_t reserved_17_31        : 15;
+        uint32_t internal              : 1;  /**< [ 16: 16](RO) If MPAMF_IDR.HAS_PARTID_NRW =0, this field is RAZ/WI. If
+                                                                 MPAMF_IDR.HAS_PARTID_NRW = 1:  0: PARTID_SEL is interpreted as a reqPARTID and
+                                                                 ignored except for use with MPAMCFG_INTPARTID register access.  1: PARTID_SEL is
+                                                                 interpreted as an intPARTID and used for access to MPAMCFG_* control settings
+                                                                 except for MPAMCFG_INTPARTID.
+                                                                 Programming Mode: Static */
         uint32_t partid_sel            : 16; /**< [ 15:  0](R/W) Selects the partition ID to configure. The PARTID_SEL partition is selected to
                                                                  configure by subsequent writes to    MPAMCFG_MBW_MAX and MPAMCFG_MBW_MIN
                                                                  registers and reads from MPAMCFG_MBW_MAX, MPAMCFG_MBW_MIN and MPAMF_CUST_MBWC
@@ -3859,29 +3865,16 @@ union cavm_dssx_ddrctl_regb_chb_mpam_ns_mpamcfg_part_sel
                                                                  registers and reads from MPAMCFG_MBW_MAX, MPAMCFG_MBW_MIN and MPAMF_CUST_MBWC
                                                                  registers.
                                                                  Programming Mode: Dynamic */
-        uint32_t reserved_16_31        : 16;
+        uint32_t internal              : 1;  /**< [ 16: 16](RO) If MPAMF_IDR.HAS_PARTID_NRW =0, this field is RAZ/WI. If
+                                                                 MPAMF_IDR.HAS_PARTID_NRW = 1:  0: PARTID_SEL is interpreted as a reqPARTID and
+                                                                 ignored except for use with MPAMCFG_INTPARTID register access.  1: PARTID_SEL is
+                                                                 interpreted as an intPARTID and used for access to MPAMCFG_* control settings
+                                                                 except for MPAMCFG_INTPARTID.
+                                                                 Programming Mode: Static */
+        uint32_t reserved_17_31        : 15;
 #endif /* Word 0 - End */
     } s;
-    struct cavm_dssx_ddrctl_regb_chb_mpam_ns_mpamcfg_part_sel_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_17_31        : 15;
-        uint32_t reserved_16           : 1;
-        uint32_t partid_sel            : 16; /**< [ 15:  0](R/W) Selects the partition ID to configure. The PARTID_SEL partition is selected to
-                                                                 configure by subsequent writes to    MPAMCFG_MBW_MAX and MPAMCFG_MBW_MIN
-                                                                 registers and reads from MPAMCFG_MBW_MAX, MPAMCFG_MBW_MIN and MPAMF_CUST_MBWC
-                                                                 registers.
-                                                                 Programming Mode: Dynamic */
-#else /* Word 0 - Little Endian */
-        uint32_t partid_sel            : 16; /**< [ 15:  0](R/W) Selects the partition ID to configure. The PARTID_SEL partition is selected to
-                                                                 configure by subsequent writes to    MPAMCFG_MBW_MAX and MPAMCFG_MBW_MIN
-                                                                 registers and reads from MPAMCFG_MBW_MAX, MPAMCFG_MBW_MIN and MPAMF_CUST_MBWC
-                                                                 registers.
-                                                                 Programming Mode: Dynamic */
-        uint32_t reserved_16           : 1;
-        uint32_t reserved_17_31        : 15;
-#endif /* Word 0 - End */
-    } cn;
+    /* struct cavm_dssx_ddrctl_regb_chb_mpam_ns_mpamcfg_part_sel_s cn; */
 };
 typedef union cavm_dssx_ddrctl_regb_chb_mpam_ns_mpamcfg_part_sel cavm_dssx_ddrctl_regb_chb_mpam_ns_mpamcfg_part_sel_t;
 
@@ -5451,7 +5444,13 @@ union cavm_dssx_ddrctl_regb_chb_mpam_s_mpamcfg_part_sel
     struct cavm_dssx_ddrctl_regb_chb_mpam_s_mpamcfg_part_sel_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_16_31        : 16;
+        uint32_t reserved_17_31        : 15;
+        uint32_t internal              : 1;  /**< [ 16: 16](SRO) If MPAMF_IDR.HAS_PARTID_NRW =0, this field is RAZ/WI. If
+                                                                 MPAMF_IDR.HAS_PARTID_NRW = 1:  0: PARTID_SEL is interpreted as a reqPARTID and
+                                                                 ignored except for use with MPAMCFG_INTPARTID register access.  1: PARTID_SEL is
+                                                                 interpreted as an intPARTID and used for access to MPAMCFG_* control settings
+                                                                 except for MPAMCFG_INTPARTID.
+                                                                 Programming Mode: Static */
         uint32_t partid_sel            : 16; /**< [ 15:  0](SR/W) Selects the partition ID to configure. The PARTID_SEL partition is selected to
                                                                  configure by subsequent writes to    MPAMCFG_MBW_MAX and MPAMCFG_MBW_MIN
                                                                  registers and reads from MPAMCFG_MBW_MAX, MPAMCFG_MBW_MIN and MPAMF_CUST_MBWC
@@ -5463,29 +5462,16 @@ union cavm_dssx_ddrctl_regb_chb_mpam_s_mpamcfg_part_sel
                                                                  registers and reads from MPAMCFG_MBW_MAX, MPAMCFG_MBW_MIN and MPAMF_CUST_MBWC
                                                                  registers.
                                                                  Programming Mode: Dynamic */
-        uint32_t reserved_16_31        : 16;
+        uint32_t internal              : 1;  /**< [ 16: 16](SRO) If MPAMF_IDR.HAS_PARTID_NRW =0, this field is RAZ/WI. If
+                                                                 MPAMF_IDR.HAS_PARTID_NRW = 1:  0: PARTID_SEL is interpreted as a reqPARTID and
+                                                                 ignored except for use with MPAMCFG_INTPARTID register access.  1: PARTID_SEL is
+                                                                 interpreted as an intPARTID and used for access to MPAMCFG_* control settings
+                                                                 except for MPAMCFG_INTPARTID.
+                                                                 Programming Mode: Static */
+        uint32_t reserved_17_31        : 15;
 #endif /* Word 0 - End */
     } s;
-    struct cavm_dssx_ddrctl_regb_chb_mpam_s_mpamcfg_part_sel_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_17_31        : 15;
-        uint32_t reserved_16           : 1;
-        uint32_t partid_sel            : 16; /**< [ 15:  0](SR/W) Selects the partition ID to configure. The PARTID_SEL partition is selected to
-                                                                 configure by subsequent writes to    MPAMCFG_MBW_MAX and MPAMCFG_MBW_MIN
-                                                                 registers and reads from MPAMCFG_MBW_MAX, MPAMCFG_MBW_MIN and MPAMF_CUST_MBWC
-                                                                 registers.
-                                                                 Programming Mode: Dynamic */
-#else /* Word 0 - Little Endian */
-        uint32_t partid_sel            : 16; /**< [ 15:  0](SR/W) Selects the partition ID to configure. The PARTID_SEL partition is selected to
-                                                                 configure by subsequent writes to    MPAMCFG_MBW_MAX and MPAMCFG_MBW_MIN
-                                                                 registers and reads from MPAMCFG_MBW_MAX, MPAMCFG_MBW_MIN and MPAMF_CUST_MBWC
-                                                                 registers.
-                                                                 Programming Mode: Dynamic */
-        uint32_t reserved_16           : 1;
-        uint32_t reserved_17_31        : 15;
-#endif /* Word 0 - End */
-    } cn;
+    /* struct cavm_dssx_ddrctl_regb_chb_mpam_s_mpamcfg_part_sel_s cn; */
 };
 typedef union cavm_dssx_ddrctl_regb_chb_mpam_s_mpamcfg_part_sel cavm_dssx_ddrctl_regb_chb_mpam_s_mpamcfg_part_sel_t;
 
