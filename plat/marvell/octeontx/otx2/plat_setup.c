@@ -394,11 +394,18 @@ void plat_octeontx_cpu_setup(void)
 	/* Errata AP-36933, cvmctl_el1[54] = DISABLE_LDP_STP_FISS */
 	set_bit(cvmctl_el1, 54);
 
+#if WORKAROUND_CVE_2018_3639
+	/*
+	 * Enable v8.5 ssbs feature
+	 */
+	unset_bit(cvmctl_el1, 61);
+#else
 	/*
 	 * Disable v8.5 store barrier for better performance on all models.
 	 * cvmctl_el1[61] = DISABLE_STORE_BARRIER_FUNC
 	 */
 	set_bit(cvmctl_el1, 61);
+#endif
 
 	/* Errata AP-38511 : Disable/Enable WFE */
 	if (plat_get_wfe_status() & (1UL << core))
