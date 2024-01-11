@@ -110,7 +110,11 @@ int octeontx_fill_board_details(int info)
 		return -1;
 	}
 
+#if defined(PLAT_CN20K_FAMILY)
+	offset = fdt_path_offset(fdt, "/marvell,ebf");
+#else
 	offset = fdt_path_offset(fdt, "/cavium,bdk");
+#endif
 	if (offset < 0) {
 		printf("WARNING: FDT node not found\n");
 		return offset;

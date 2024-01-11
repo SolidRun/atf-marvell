@@ -437,7 +437,11 @@ void initialize_tf_logging(void)
 	int fdt_off, len;
 	int32_t val32, internal_mods;
 
+#if defined(PLAT_CN20K_FAMILY)
+	fdt_off = fdt_path_offset(fdt, "/marvell,ebf");
+#else
 	fdt_off = fdt_path_offset(fdt, "/cavium,bdk");
+#endif
 	if (fdt_off < 0) {
 		printf("WARNING: FDT node not found\n");
 		return;

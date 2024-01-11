@@ -161,7 +161,7 @@ int parse_fw_address_size(const char *name, uint32_t *addr, uint32_t *size)
 		return ret;
 	}
 	r_offset = fdt_path_offset(fdt,
-				   "/cavium,bdk/firmware-layout");
+				   "/marvell,ebf/firmware-layout");
 	if (r_offset < 0) {
 		DBG("Could not find firmware-layout in device tree!\n");
 		return r_offset;

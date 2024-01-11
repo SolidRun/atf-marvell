@@ -278,7 +278,7 @@ static void cn20k_parse_timestamp(void)
 		return;
 	}
 
-	offset = fdt_path_offset(fdt, "/cavium,bdk");
+	offset = fdt_path_offset(fdt, "/marvell,ebf");
 	if (offset < 0) {
 		WARN("FDT node not found\n");
 		return;

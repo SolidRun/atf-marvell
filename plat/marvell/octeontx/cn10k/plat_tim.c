@@ -34,8 +34,13 @@ int cn10k_get_firmware_layout_root(const void *fdt_addr)
 	static int offset = -1;
 
 	if (offset < 0)
+#if defined(PLAT_CN10K_FAMILY)
 		offset = fdt_path_offset(fdt_addr,
 					 "/cavium,bdk/firmware-layout");
+#else
+		offset = fdt_path_offset(fdt_addr,
+					 "/marvell,ebf/firmware-layout");
+#endif
 	return offset;
 }
 

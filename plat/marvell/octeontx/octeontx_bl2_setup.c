@@ -252,8 +252,13 @@ static void populate_platform_args_for_bl31(void)
 	/* locate board name property & save board name in local buffer */
 	board_dt[0] = board_linux_dt[0] = 0;
 	prop = NULL;
+#if defined(PLAT_CN20K_FAMILY)
+	const char *ebf_node = "/marvell,ebf";
+#else
+	const char *ebf_node = "/cavium,bdk";
+#endif
 	if (fdt_check_header(fdt) == 0) {
-		fdt_off = fdt_path_offset(fdt, "/cavium,bdk");
+		fdt_off = fdt_path_offset(fdt, ebf_node);
 		if (fdt_off > 0)
 			prop = fdt_getprop(fdt, fdt_off, "BOARD-MODEL",
 					   &prop_len);
@@ -268,7 +273,7 @@ static void populate_platform_args_for_bl31(void)
 	/* locate property containing list of images and their IDs */
 	prop = NULL;
 	if (fdt_check_header(fdt) == 0) {
-		fdt_off = fdt_path_offset(fdt, "/cavium,bdk");
+		fdt_off = fdt_path_offset(fdt, ebf_node);
 		if (fdt_off > 0)
 			prop = fdt_getprop(fdt, fdt_off,
 					   "ATTESTATION-IMAGE-LIST",
