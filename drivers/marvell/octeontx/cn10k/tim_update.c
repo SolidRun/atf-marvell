@@ -44,6 +44,9 @@
 #include <drivers/io/io_storage.h>
 #include <drivers/io/io_block.h>
 
+#include <octeontx_semaphore.h>
+#include <platform_dt.h>
+
 #undef DEBUG_ATF_FW_UPDATE
 #define DEBUG_ATF_FW_UPDATE 1
 
@@ -90,6 +93,9 @@ static const char *TRAILER = "TRAILER!!!";
 static const uint32_t EBF_CONFIG_OFFSET_CNF10KB = 0x00FD0000;
 static const uint32_t EBF_CONFIG_OFFSET = 0x01FD0000;
 static const uint32_t EBF_CONFIG_SIZE = 0x20000;
+
+/* Software lock */
+extern octeontx_ctr_sem_t octeontx_smc_spi_lock[MAX_SPI_BUS];
 
 /*
  * NOTE: There are TWO handles for SPI and eMMC.  The first handle is a
@@ -3970,6 +3976,11 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	io_handle.io_handle = &media_handle;
 	io_handle.spec = &media_spec;
 
+	if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock[bus])) {
+		*uret = SPI_ALREADY_IN_PROGRESS;
+		err = -1;
+		goto error;
+	}
 	if (spi_dev_lock(bus)) {
 		UERROR("%s: SPI_%d: Lock failed\n", __func__, bus);
 		*uret = UPDATE_INVALID_MEDIA;
@@ -4023,6 +4034,9 @@ error:
 		if (async_operation) {
 			update_desc_async_ptr->retcode = *uret;
 			done_callback(&uParams);
+			if (spi_unlock)
+				spi_dev_unlock(bus);
+			octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[bus]);
 			return *uret;
 		}
 
@@ -4042,6 +4056,7 @@ error:
 
 	if (spi_unlock)
 		spi_dev_unlock(bus);
+	octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[bus]);
 
 	return err;
 }
@@ -4088,6 +4103,7 @@ int spi_smc_read_flash(uintptr_t desc_buf, uint64_t desc_size)
 	bool async_operation = false;
 	uintptr_t console_base_addr = 0;
 	size_t console_map_size = 0;
+	int spi_unlock = 0, spi_unlock_sw = 0;
 
 	debug_fw_update("desc: 0x%lx, desc size: 0x%lx\n",
 			desc_buf, desc_size);
@@ -4151,6 +4167,18 @@ int spi_smc_read_flash(uintptr_t desc_buf, uint64_t desc_size)
 		goto error;
 	}
 
+	if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock[bus])) {
+		UERROR("%s: SPI_%d: SW Lock failed\n", __func__, bus);
+		goto error;
+	}
+	spi_unlock_sw = 1;
+	if (spi_dev_lock(bus)) {
+		UERROR("%s: SPI_%d: Lock failed\n", __func__, bus);
+		goto error;
+	}
+	spi_unlock = 1;
+
+
 	/* Round up to page size */
 	ns_map_size = (size + PAGE_SIZE - 1) & -PAGE_SIZE;
 	/* Make sure address is page aligned */
@@ -4165,6 +4193,10 @@ int spi_smc_read_flash(uintptr_t desc_buf, uint64_t desc_size)
 							 MT_RW | MT_NS);
 	if (err) {
 		UERROR("Read Flash: Image mmap failed (%d)\n", err);
+		if (spi_unlock)
+			spi_dev_unlock(bus);
+		if (spi_unlock_sw)
+			octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[bus]);
 		return -SPI_MMAP_ERR;
 	}
 
@@ -4226,6 +4258,11 @@ error:
 		log_info.log_bytes_used = 0;
 		log_info.log_size_bytes = 0;
 	}
+
+	if (spi_unlock)
+		spi_dev_unlock(bus);
+	if (spi_unlock_sw)
+		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[bus]);
 
 	return err;
 }
@@ -5613,6 +5650,11 @@ int smc_check_versions(uint64_t desc_buf, uint64_t desc_size,
 		goto error;
 	}
 
+	if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock[vinfo->bus])) {
+		*uret = SPI_BAD_PARAMETER;
+		err = -EINVAL;
+		goto error;
+	}
 	if (spi_dev_lock(vinfo->bus)) {
 		UERROR("%s: SPI_%d: Lock failed\n", __func__, vinfo->bus);
 		*uret = -SPI_BAD_PARAMETER;
@@ -5673,6 +5715,7 @@ int smc_check_versions(uint64_t desc_buf, uint64_t desc_size,
 		}
 	}
 error:
+	octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[vinfo->bus]);
 	if (vinfo != NULL)
 		spi_dev_unlock(vinfo->bus);
 

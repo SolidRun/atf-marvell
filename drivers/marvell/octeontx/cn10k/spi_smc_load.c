@@ -23,6 +23,7 @@
 #include <spi_ops.h>
 #include <plat_mem_alloc.h>
 #include <octeontx_semaphore.h>
+#include <platform_dt.h>
 
 #undef DEBUG_SPI_NOR
 
@@ -84,7 +85,7 @@
 #define MAX_EFI_VAR_SIZE	0x4000
 #define MAX_EFI_STORAGE		0x10000
 
-extern octeontx_ctr_sem_t octeontx_smc_spi_lock;
+extern octeontx_ctr_sem_t octeontx_smc_spi_lock[MAX_SPI_BUS];
 static struct tim_handle tim_handle;
 static struct tim_header_info tim_header_info;
 static struct tim_load_info tim_load_info;
@@ -113,7 +114,7 @@ static inline int get_spi_mode(uint64_t offset)
 				SPI_ADDRESSING_32BIT : SPI_ADDRESSING_24BIT;
 }
 
-static void *cn10k_persistent_data_base(void)
+void *cn10k_persistent_data_base(void)
 {
 	if (!plat_octeontx_bcfg->persist_cfg.valid)
 		return NULL;
@@ -743,14 +744,14 @@ static int _spi_update_persistent_data(uintptr_t buffer, uint64_t sz, size_t pda
 {
 	persist_data_cfg_t *cfg = cn10k_persistent_data_base();
 	uint64_t offset;
-	int ret;
+	int ret = -1;
 
 	if (cfg == NULL)
 		return -1;
 
 	offset = cfg->offset + pdata_offset;
 
-	if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock) != 0) {
+	if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock[cfg->bus]) != 0) {
 		ERROR("%s: SPI_%d: Sem Lock failed\n", __func__, cfg->bus);
 		ret = -1;
 		goto err;
@@ -773,7 +774,7 @@ static int _spi_update_persistent_data(uintptr_t buffer, uint64_t sz, size_t pda
 	}
 
 err:
-	octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
+	octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[cfg->bus]);
 
 	return ret;
 }
@@ -789,7 +790,7 @@ static int _spi_read_persistent_data(uintptr_t buffer, uint64_t *sz, size_t pdat
 
 	offset = cfg->offset + pdata_offset;
 
-	if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock) != 0) {
+	if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock[cfg->bus]) != 0) {
 		ERROR("%s: SPI_%d: Sem Lock failed\n", __func__, cfg->bus);
 		ret = -1;
 		goto err;
@@ -809,7 +810,7 @@ static int _spi_read_persistent_data(uintptr_t buffer, uint64_t *sz, size_t pdat
 	}
 
 err:
-	octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
+	octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[cfg->bus]);
 
 	return ret;
 }
@@ -830,16 +831,23 @@ int spi_update_mac_addr_persistent_data(uintptr_t log_entry, size_t sz)
 {
 	persist_data_cfg_t *cfg = cn10k_persistent_data_base();
 	uint64_t offset;
-	int ret;
+	int ret = -1;
 
 	if (cfg == NULL)
 		return -1;
 
 	offset = PERSIST_MAC_ADDRESS_OFFSET + cfg->offset;
 
+	if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock[cfg->bus]) != 0) {
+		ERROR("%s: SPI_%d: Sem Lock failed\n", __func__, cfg->bus);
+		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[cfg->bus]);
+		return -1;
+	}
+
 	if (spi_dev_lock(cfg->bus)) {
 		ERROR("%s: SPI_%d: Lock failed\n", __func__, cfg->bus);
-		return -1;
+		ret = -1;
+		goto err;
 	}
 
 	ret = cn10k_spi_dev_erase(offset, sz, cfg->bus, cfg->cs);
@@ -849,9 +857,11 @@ int spi_update_mac_addr_persistent_data(uintptr_t log_entry, size_t sz)
 
 	if (spi_dev_unlock(cfg->bus)) {
 		WARN("%s: SPI_%d: Unlock failed\n", __func__, cfg->bus);
-		return -1;
+		ret = -1;
 	}
 
+err:
+	octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[cfg->bus]);
 	return ret;
 }
 
@@ -866,18 +876,27 @@ int spi_read_mac_addr_persistent_data(uintptr_t log_entry, size_t *sz)
 
 	offset = PERSIST_MAC_ADDRESS_OFFSET + cfg->offset;
 
+	if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock[cfg->bus]) != 0) {
+		ERROR("%s: SPI_%d: Sem Lock failed\n", __func__, cfg->bus);
+		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[cfg->bus]);
+		return -1;
+	}
+
 	if (spi_dev_lock(cfg->bus)) {
 		ERROR("%s: SPI_%d: Lock failed\n", __func__, cfg->bus);
-		return -1;
+		ret = -1;
+		goto err;
 	}
 
 	ret = cn10k_spi_dev_read(log_entry, (uint64_t *)sz, offset, cfg->bus, cfg->cs);
 
 	if (spi_dev_unlock(cfg->bus)) {
 		WARN("%s: SPI_%d: Unlock failed\n", __func__, cfg->bus);
-		return -1;
+		ret = -1;
 	}
 
+err:
+	octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[cfg->bus]);
 	return ret;
 }
 

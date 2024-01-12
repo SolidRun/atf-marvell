@@ -28,6 +28,7 @@
 #include <rnm.h>
 #include <ehsm-drv.h>
 #include <ehsm-pie.h>
+#include <platform_dt.h>
 
 #include "cavm-csrs-gpio.h"
 
@@ -49,7 +50,7 @@ typedef struct {
 		uint64_t bits);
 #endif
 
-octeontx_ctr_sem_t octeontx_smc_spi_lock;
+octeontx_ctr_sem_t octeontx_smc_spi_lock[MAX_SPI_BUS];
 static spinlock_t octeontx_smc_rvu_lock;
 static spinlock_t mdio_lock;
 static spinlock_t serdes_lock;
@@ -79,6 +80,29 @@ WEAK uintptr_t cn10k_svc_smc_handler(uint32_t smc_fid,
 	WARN("Unimplemented OcteonTX Service Call: 0x%x\n", smc_fid);
 	SMC_RET1(handle, SMC_UNK);
 }
+
+int get_efivar_spi_bus(void)
+{
+	int found = 0, bus, i, j;
+
+	for (i = 0; i < MAX_SPI_BUS; i++) {
+		for (j = 0; j < MAX_SPI_CS; j++) {
+			if (plat_octeontx_bcfg->spi_cfg[i].has_efivar &&
+			    plat_octeontx_bcfg->spi_cfg[i].cs[j]) {
+				found = 1;
+				bus = i;
+				break;
+			}
+		}
+	}
+
+	if (found)
+		return bus;
+
+	return -1;
+}
+
+extern void *cn10k_persistent_data_base(void);
 
 /*
  * SMC handler to update user defined preserve memory size.
@@ -378,8 +402,10 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 		break;
 
 	case PLAT_OCTEONTX_LOAD_EFI_APP:
+	{
+		int spi_bus = plat_octeontx_bcfg->bcfg.boot_dev.controller;
 		user_buf = x1;
-		if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock) != 0) {
+		if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock[spi_bus]) != 0) {
 			ret = -2;
 		} else {
 			/* Check if NS user_buf is a valid DRAM address */
@@ -391,15 +417,24 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 						     1, NSEC_BUF);
 			}
 		}
-		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
+		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[spi_bus]);
 		SMC_RET2(handle, ret, img_size);
 		break;
-
+	}
 	case PLAT_OCTEONTX_WRITE_EFI_VAR:
+	{
 		user_buf = x1;
 		img_size = x2;
 
-		if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock) != 0) {
+		int bus = get_efivar_spi_bus();
+
+		if (bus < 0) {
+			WARN("%s: EFI variable flash unknown, check device tree\n",
+		     __func__);
+		     SMC_RET1(handle, -1);
+		}
+
+		if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock[bus]) != 0) {
 			ret = -2;
 		} else {
 			/* Check if NS user_buf is a valid DRAM address */
@@ -410,15 +445,25 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 				ret = spi_write_efi_var(user_buf, img_size);
 			}
 		}
-		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
+		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[bus]);
 		SMC_RET1(handle, ret);
 		break;
+	}
 
 	case PLAT_OCTEONTX_READ_EFI_VAR:
+	{
 		user_buf = x1;
 		img_size = x2;
 
-		if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock) != 0) {
+		int bus = get_efivar_spi_bus();
+
+		if (bus < 0) {
+			WARN("%s: EFI variable flash unknown, check device tree\n",
+		     __func__);
+		     SMC_RET1(handle, -1);
+		}
+
+		if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock[bus]) != 0) {
 			ret = -2;
 		} else {
 			/* Check if NS user_buf is a valid DRAM address */
@@ -429,15 +474,19 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 				ret = spi_read_efi_var(user_buf, &img_size);
 			}
 		}
-		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
+		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[bus]);
 		SMC_RET2(handle, ret, img_size);
 		break;
+	}
 
 	case PLAT_OCTEONTX_LOAD_SWITCH_FW:
+	{
 		user_buf = x1;
 		user_buf1 = x2;
 
-		if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock) != 0) {
+		int spi_bus = plat_octeontx_bcfg->bcfg.boot_dev.controller;
+
+		if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock[spi_bus]) != 0) {
 			ret = -2;
 		} else {
 			/* Check if NS user_buf is a valid DRAM address */
@@ -451,16 +500,19 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 			ret = load_switch_fw(user_buf, user_buf1, &img_size, NSEC_BUF);
 		}
 err1:
-		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
+		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[spi_bus]);
 		SMC_RET2(handle, ret, img_size);
 		break;
+	}
 
 	case PLAT_OCTEONTX_SPI_SECURE_UPDATE:
+	{
 		user_buf = x1;
 		size = x2;
 		enum update_ret uret = SPI_BAD_PARAMETER;
 
-		if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock) != 0) {
+		int spi_bus = plat_octeontx_bcfg->bcfg.boot_dev.controller;
+		if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock[spi_bus]) != 0) {
 			uret = SPI_ALREADY_IN_PROGRESS;
 			ret = -1;
 		} else {
@@ -479,10 +531,10 @@ err1:
 			ret = spi_smc_update(user_buf, size, dram_end, &uret);
 		}
 err:
-		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
+		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[spi_bus]);
 		SMC_RET2(handle, ret, uret);
 		break;
-
+	}
 #ifdef PLAT_cnf10kb
 #define RETIMER_MAX 4
 	case PLAT_OCTEONTX_CONFIG_RETIMER:
@@ -981,12 +1033,7 @@ err3:
 #endif /* DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS */
 
 	case PLAT_OCTEONTX_MAC_MGMT_SET_ADDR:
-		if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock) != 0) {
-			ret = -2;
-		} else {
-			ret = mac_mgmt_update(x1, x2);
-		}
-		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
+		ret = mac_mgmt_update(x1, x2);
 		SMC_RET1(handle, ret);
 		break;
 
@@ -997,19 +1044,21 @@ err3:
 	case PLAT_OCTEONTX_SEC_SPI_OP:
 		/* Perform an operation on secure SPI */
 		img_size = x3;
-		if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock) != 0) {
+		if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock[x4 & 0xF]) != 0) {
 			ret = -2;
 		} else {
 			ret = sec_spi_operation(x1, x2, &img_size, x4);
 		}
-		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
+		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[x4 & 0xF]);
 		SMC_RET2(handle, ret, img_size);
 		break;
 
 	case PLAT_OCTEONTX_VERIFY_FIRMWARE:
+	{
 		user_buf = x1;
 		size = x2;
 
+		enum update_ret uret = SPI_BAD_PARAMETER;
 		ret = check_dram_boundary(user_buf, size);
 		if (ret || (user_buf % 8)) {
 			ERROR("Error: invalid descriptor address 0x%lx, size: 0x%lx\n",
@@ -1017,21 +1066,21 @@ err3:
 			SMC_RET2(handle, -1, 0);
 		}
 
-		if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock) != 0) {
-			uret = SPI_ALREADY_IN_PROGRESS;
-			ret = -2;
-			goto err4;
-		}
 		dram_end = octeontx_dram_size();
 		ret = smc_check_versions(user_buf, size, dram_end, &uret);
-err4:
-		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
 		SMC_RET2(handle, ret, uret);
 		break;
+	}
 
 	case PLAT_OCTEONTX_PERSIST_DATA_COMMAND:
 	{
-		if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock) != 0) {
+		persist_data_cfg_t *cfg = cn10k_persistent_data_base();
+
+		if (!cfg) {
+			ERROR("Failed to get persistent data\n");
+			SMC_RET1(handle, -1);
+		}
+		if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock[cfg->bus]) != 0) {
 			ret = -2;
 		} else {
 			if (x1 == UPDATE_USERDEF_PRESERVE_MEMSZ) {
@@ -1040,7 +1089,7 @@ err4:
 				ret = -1;
 			}
 		}
-		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
+		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[cfg->bus]);
 		SMC_RET1(handle, ret);
 	}
 	break;
@@ -1077,26 +1126,21 @@ err4:
 		user_buf = x1;
 		size = x2;
 
-		if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock) != 0) {
+		/* Check if NS user_buf is a valid DRAM address */
+		if (NULL == (void *)user_buf) {
 			ret = -1;
-		} else {
-			/* Check if NS user_buf is a valid DRAM address */
-			if (NULL == (void *)user_buf) {
-				ret = -1;
-				goto err5;
-			}
-
-			if ((user_buf < NS_IMAGE_BASE) ||
-			    ((size != sizeof(struct smc_read_flash_descriptor)) &&
-			    (size != sizeof(struct smc_read_flash_descriptor_prev)))) {
-				ERROR("Invalid descriptor address or size\n");
-				ret = -1;
-				goto err5;
-			}
-			ret = spi_smc_read_flash(user_buf, size);
+			goto err5;
 		}
+
+		if ((user_buf < NS_IMAGE_BASE) ||
+		    ((size != sizeof(struct smc_read_flash_descriptor)) &&
+		    (size != sizeof(struct smc_read_flash_descriptor_prev)))) {
+			ERROR("Invalid descriptor address or size\n");
+			ret = -1;
+			goto err5;
+		}
+		ret = spi_smc_read_flash(user_buf, size);
 err5:
-		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
 		SMC_RET1(handle, ret);
 	}
 	break;
@@ -1158,12 +1202,19 @@ err5:
 	{
 		uint32_t next, power_on, reboot_mem_len, poweron_mem_len;
 		uint64_t ret_x3 = 0;
+		persist_data_cfg_t *cfg = cn10k_persistent_data_base();
 
 		next = 0;
 		power_on = 0;
 		reboot_mem_len = 0;
 		poweron_mem_len = 0;
-		if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock) != 0) {
+
+		if (!cfg) {
+			ERROR("Failed to get persistent data\n");
+			SMC_RET1(handle, -16);
+		}
+
+		if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock[cfg->bus]) != 0) {
 			ret = -16; /* Set result to busy */
 		} else {
 			/* Perform actual work */
@@ -1176,7 +1227,7 @@ err5:
 		ret_x3 <<= 32;
 		ret_x3 |= reboot_mem_len;
 
-		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
+		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[cfg->bus]);
 		SMC_RET4(handle, ret, next, power_on, ret_x3);
 	}
 	break;

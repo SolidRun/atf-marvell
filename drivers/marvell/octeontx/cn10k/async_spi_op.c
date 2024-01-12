@@ -11,6 +11,8 @@
 #include <octeontx_semaphore.h>
 #include <tim_log.h>
 
+#include <platform_dt.h>
+
 
 #define SPI_PAGE_ALIGN (0x111ll)
 #define SPI_ERASE_SIZE (0x1000)
@@ -20,7 +22,7 @@
 #define SPI_OP_MAX_DURATION_US 20000
 
 extern uint64_t get_usecs(void);
-extern octeontx_ctr_sem_t octeontx_smc_spi_lock;
+extern octeontx_ctr_sem_t octeontx_smc_spi_lock[MAX_SPI_BUS];
 
 struct async_perf_counter {
 	uint64_t time_min;
@@ -240,9 +242,9 @@ static int async_tim_handler(int tim)
 	enum delayed_spi_op_type type_saved = spi_ops[spi_op_cnt].type;
 
 	//Try lock SW lock
-	if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock) != 0) {
+	if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock[bus]) != 0) {
 		UERROR("%s: SPI_%d: Sem Lock failed\n", __func__, bus);
-		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
+		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[bus]);
 		timer_start(timer_hd);
 		return 0;
 	}
@@ -250,7 +252,7 @@ static int async_tim_handler(int tim)
 	//Try lock HW lock
 	if (spi_dev_lock(bus)) {
 		UERROR("%s: SPI_%d: Lock failed\n", __func__, bus);
-		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
+		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[bus]);
 		timer_start(timer_hd);
 		return 0;
 	}
@@ -322,7 +324,7 @@ static int async_tim_handler(int tim)
 	spi_async_update_time_stats(async_handler_time_total);
 
 	spi_dev_unlock(bus);
-	octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
+	octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[bus]);
 
 	return 0;
 }
