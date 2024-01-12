@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2021-2023 Marvell.
+* Copyright (C) 2021-2024 Marvell.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -52,7 +52,7 @@ typedef union cavm_dlwg_abx_ab_err_src cavm_dlwg_abx_ab_err_src_t;
 static inline uint64_t CAVM_DLWG_ABX_AB_ERR_SRC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DLWG_ABX_AB_ERR_SRC(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0x87e042480030ll + 0x10000ll * ((a) & 0x1);
     __cavm_csr_fatal("DLWG_ABX_AB_ERR_SRC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -93,7 +93,7 @@ typedef union cavm_dlwg_abx_control cavm_dlwg_abx_control_t;
 static inline uint64_t CAVM_DLWG_ABX_CONTROL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DLWG_ABX_CONTROL(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0x87e042480000ll + 0x10000ll * ((a) & 0x1);
     __cavm_csr_fatal("DLWG_ABX_CONTROL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -134,7 +134,7 @@ typedef union cavm_dlwg_abx_hab_status cavm_dlwg_abx_hab_status_t;
 static inline uint64_t CAVM_DLWG_ABX_HAB_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DLWG_ABX_HAB_STATUS(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0x87e042480018ll + 0x10000ll * ((a) & 0x1);
     __cavm_csr_fatal("DLWG_ABX_HAB_STATUS", 1, a, 0, 0, 0, 0, 0);
 }

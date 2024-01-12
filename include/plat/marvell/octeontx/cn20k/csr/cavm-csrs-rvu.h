@@ -37,11 +37,11 @@
  * RVU Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define CAVM_RVU_BAR_E_RVU_PFX_BAR0(a) (0x840000000000ll + 0x1000000000ll * (a))
+#define CAVM_RVU_BAR_E_RVU_PFX_BAR0(a) (0xce0000000000ll + 0x1000000000ll * (a))
 #define CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE 0x10000000ull
-#define CAVM_RVU_BAR_E_RVU_PFX_FUNCX_BAR2(a,b) (0x840200000000ll + 0x1000000000ll * (a) + 0x2000000ll * (b))
+#define CAVM_RVU_BAR_E_RVU_PFX_FUNCX_BAR2(a,b) (0xce0000000000ll + 0x1000000000ll * (a) + 0x2000000ll * (b))
 #define CAVM_RVU_BAR_E_RVU_PFX_FUNCX_BAR2_SIZE 0x100000ull
-#define CAVM_RVU_BAR_E_RVU_PFX_FUNCX_BAR4(a,b) (0x840400000000ll + 0x1000000000ll * (a) + 0x2000000ll * (b))
+#define CAVM_RVU_BAR_E_RVU_PFX_FUNCX_BAR4(a,b) (0xce0000000000ll + 0x1000000000ll * (a) + 0x2000000ll * (b))
 #define CAVM_RVU_BAR_E_RVU_PFX_FUNCX_BAR4_SIZE 0x10000ull
 
 /**
@@ -101,7 +101,7 @@
  * RVU PF/VF MBOX Address Range Enumeration
  * Enumerates VF BAR2 address range for accessing PF/VF mailbox memory region.
  */
-#define CAVM_RVU_MBOX_E_RVU_PFX_FUNCX_MBOX(a,b) (0x8402000c0000ll + 0x1000000000ll * (a) + 0x2000000ll * (b))
+#define CAVM_RVU_MBOX_E_RVU_PFX_FUNCX_MBOX(a,b) (0xce00000c0000ll + 0x1000000000ll * (a) + 0x2000000ll * (b))
 
 /**
  * Enumeration rvu_pf_int_vec_e
@@ -315,7 +315,7 @@ static inline uint64_t CAVM_RVU_AF_AFPFX_MBOXX(uint64_t a, uint64_t b) __attribu
 static inline uint64_t CAVM_RVU_AF_AFPFX_MBOXX(uint64_t a, uint64_t b)
 {
     if ((a<=31) && (b<=1))
-        return 0x840000002000ll + 0x10ll * ((a) & 0x1f) + 8ll * ((b) & 0x1);
+        return 0xce0000002000ll + 0x10ll * ((a) & 0x1f) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("RVU_AF_AFPFX_MBOXX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -352,7 +352,7 @@ static inline uint64_t CAVM_RVU_AF_BAR2_ALIASX(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_RVU_AF_BAR2_ALIASX(uint64_t a)
 {
     if (a<=131071)
-        return 0x840009100000ll + 8ll * ((a) & 0x1ffff);
+        return 0xce0009100000ll + 8ll * ((a) & 0x1ffff);
     __cavm_csr_fatal("RVU_AF_BAR2_ALIASX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -394,7 +394,7 @@ typedef union cavm_rvu_af_bar2_sel cavm_rvu_af_bar2_sel_t;
 static inline uint64_t CAVM_RVU_AF_BAR2_SEL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_BAR2_SEL_FUNC(void)
 {
-    return 0x840009000000ll;
+    return 0xce0009000000ll;
 }
 
 #define typedef_CAVM_RVU_AF_BAR2_SEL cavm_rvu_af_bar2_sel_t
@@ -436,7 +436,7 @@ typedef union cavm_rvu_af_blk_rst cavm_rvu_af_blk_rst_t;
 static inline uint64_t CAVM_RVU_AF_BLK_RST_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_BLK_RST_FUNC(void)
 {
-    return 0x840000000030ll;
+    return 0xce0000000030ll;
 }
 
 #define typedef_CAVM_RVU_AF_BLK_RST cavm_rvu_af_blk_rst_t
@@ -491,7 +491,7 @@ typedef union cavm_rvu_af_gen_int cavm_rvu_af_gen_int_t;
 static inline uint64_t CAVM_RVU_AF_GEN_INT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_GEN_INT_FUNC(void)
 {
-    return 0x840000000120ll;
+    return 0xce0000000120ll;
 }
 
 #define typedef_CAVM_RVU_AF_GEN_INT cavm_rvu_af_gen_int_t
@@ -532,7 +532,7 @@ typedef union cavm_rvu_af_gen_int_ena_w1c cavm_rvu_af_gen_int_ena_w1c_t;
 static inline uint64_t CAVM_RVU_AF_GEN_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_GEN_INT_ENA_W1C_FUNC(void)
 {
-    return 0x840000000138ll;
+    return 0xce0000000138ll;
 }
 
 #define typedef_CAVM_RVU_AF_GEN_INT_ENA_W1C cavm_rvu_af_gen_int_ena_w1c_t
@@ -573,7 +573,7 @@ typedef union cavm_rvu_af_gen_int_ena_w1s cavm_rvu_af_gen_int_ena_w1s_t;
 static inline uint64_t CAVM_RVU_AF_GEN_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_GEN_INT_ENA_W1S_FUNC(void)
 {
-    return 0x840000000130ll;
+    return 0xce0000000130ll;
 }
 
 #define typedef_CAVM_RVU_AF_GEN_INT_ENA_W1S cavm_rvu_af_gen_int_ena_w1s_t
@@ -614,7 +614,7 @@ typedef union cavm_rvu_af_gen_int_w1s cavm_rvu_af_gen_int_w1s_t;
 static inline uint64_t CAVM_RVU_AF_GEN_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_GEN_INT_W1S_FUNC(void)
 {
-    return 0x840000000128ll;
+    return 0xce0000000128ll;
 }
 
 #define typedef_CAVM_RVU_AF_GEN_INT_W1S cavm_rvu_af_gen_int_w1s_t
@@ -676,7 +676,7 @@ typedef union cavm_rvu_af_hwvf_rst cavm_rvu_af_hwvf_rst_t;
 static inline uint64_t CAVM_RVU_AF_HWVF_RST_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_HWVF_RST_FUNC(void)
 {
-    return 0x840000002850ll;
+    return 0xce0000002850ll;
 }
 
 #define typedef_CAVM_RVU_AF_HWVF_RST cavm_rvu_af_hwvf_rst_t
@@ -716,7 +716,7 @@ typedef union cavm_rvu_af_msixtr_base cavm_rvu_af_msixtr_base_t;
 static inline uint64_t CAVM_RVU_AF_MSIXTR_BASE_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_MSIXTR_BASE_FUNC(void)
 {
-    return 0x840000000010ll;
+    return 0xce0000000010ll;
 }
 
 #define typedef_CAVM_RVU_AF_MSIXTR_BASE cavm_rvu_af_msixtr_base_t
@@ -754,7 +754,7 @@ static inline uint64_t CAVM_RVU_AF_PFX_BAR4_ADDR(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_RVU_AF_PFX_BAR4_ADDR(uint64_t a)
 {
     if (a<=31)
-        return 0x840000005000ll + 0x10ll * ((a) & 0x1f);
+        return 0xce0000005000ll + 0x10ll * ((a) & 0x1f);
     __cavm_csr_fatal("RVU_AF_PFX_BAR4_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -795,7 +795,7 @@ static inline uint64_t CAVM_RVU_AF_PFX_BAR4_CFG(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_RVU_AF_PFX_BAR4_CFG(uint64_t a)
 {
     if (a<=31)
-        return 0x840000005200ll + 0x10ll * ((a) & 0x1f);
+        return 0xce0000005200ll + 0x10ll * ((a) & 0x1f);
     __cavm_csr_fatal("RVU_AF_PFX_BAR4_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -834,7 +834,7 @@ static inline uint64_t CAVM_RVU_AF_PFX_LMTLINE_ADDR(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_RVU_AF_PFX_LMTLINE_ADDR(uint64_t a)
 {
     if (a<=31)
-        return 0x840000005800ll + 0x10ll * ((a) & 0x1f);
+        return 0xce0000005800ll + 0x10ll * ((a) & 0x1f);
     __cavm_csr_fatal("RVU_AF_PFX_LMTLINE_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -873,7 +873,7 @@ static inline uint64_t CAVM_RVU_AF_PFX_VF_BAR4_ADDR(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_RVU_AF_PFX_VF_BAR4_ADDR(uint64_t a)
 {
     if (a<=31)
-        return 0x840000005400ll + 0x10ll * ((a) & 0x1f);
+        return 0xce0000005400ll + 0x10ll * ((a) & 0x1f);
     __cavm_csr_fatal("RVU_AF_PFX_VF_BAR4_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -910,7 +910,7 @@ static inline uint64_t CAVM_RVU_AF_PFX_VF_BAR4_CFG(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_RVU_AF_PFX_VF_BAR4_CFG(uint64_t a)
 {
     if (a<=31)
-        return 0x840000005600ll + 0x10ll * ((a) & 0x1f);
+        return 0xce0000005600ll + 0x10ll * ((a) & 0x1f);
     __cavm_csr_fatal("RVU_AF_PFX_VF_BAR4_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -973,7 +973,7 @@ typedef union cavm_rvu_af_pf_rst cavm_rvu_af_pf_rst_t;
 static inline uint64_t CAVM_RVU_AF_PF_RST_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_PF_RST_FUNC(void)
 {
-    return 0x840000002840ll;
+    return 0xce0000002840ll;
 }
 
 #define typedef_CAVM_RVU_AF_PF_RST cavm_rvu_af_pf_rst_t
@@ -1013,7 +1013,7 @@ typedef union cavm_rvu_af_pfaf_mbox_int cavm_rvu_af_pfaf_mbox_int_t;
 static inline uint64_t CAVM_RVU_AF_PFAF_MBOX_INT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_PFAF_MBOX_INT_FUNC(void)
 {
-    return 0x840000002880ll;
+    return 0xce0000002880ll;
 }
 
 #define typedef_CAVM_RVU_AF_PFAF_MBOX_INT cavm_rvu_af_pfaf_mbox_int_t
@@ -1050,7 +1050,7 @@ typedef union cavm_rvu_af_pfaf_mbox_int_ena_w1c cavm_rvu_af_pfaf_mbox_int_ena_w1
 static inline uint64_t CAVM_RVU_AF_PFAF_MBOX_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_PFAF_MBOX_INT_ENA_W1C_FUNC(void)
 {
-    return 0x840000002898ll;
+    return 0xce0000002898ll;
 }
 
 #define typedef_CAVM_RVU_AF_PFAF_MBOX_INT_ENA_W1C cavm_rvu_af_pfaf_mbox_int_ena_w1c_t
@@ -1087,7 +1087,7 @@ typedef union cavm_rvu_af_pfaf_mbox_int_ena_w1s cavm_rvu_af_pfaf_mbox_int_ena_w1
 static inline uint64_t CAVM_RVU_AF_PFAF_MBOX_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_PFAF_MBOX_INT_ENA_W1S_FUNC(void)
 {
-    return 0x840000002890ll;
+    return 0xce0000002890ll;
 }
 
 #define typedef_CAVM_RVU_AF_PFAF_MBOX_INT_ENA_W1S cavm_rvu_af_pfaf_mbox_int_ena_w1s_t
@@ -1124,7 +1124,7 @@ typedef union cavm_rvu_af_pfaf_mbox_int_w1s cavm_rvu_af_pfaf_mbox_int_w1s_t;
 static inline uint64_t CAVM_RVU_AF_PFAF_MBOX_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_PFAF_MBOX_INT_W1S_FUNC(void)
 {
-    return 0x840000002888ll;
+    return 0xce0000002888ll;
 }
 
 #define typedef_CAVM_RVU_AF_PFAF_MBOX_INT_W1S cavm_rvu_af_pfaf_mbox_int_w1s_t
@@ -1170,7 +1170,7 @@ typedef union cavm_rvu_af_pfflr_int cavm_rvu_af_pfflr_int_t;
 static inline uint64_t CAVM_RVU_AF_PFFLR_INT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_PFFLR_INT_FUNC(void)
 {
-    return 0x8400000028a0ll;
+    return 0xce00000028a0ll;
 }
 
 #define typedef_CAVM_RVU_AF_PFFLR_INT cavm_rvu_af_pfflr_int_t
@@ -1207,7 +1207,7 @@ typedef union cavm_rvu_af_pfflr_int_ena_w1c cavm_rvu_af_pfflr_int_ena_w1c_t;
 static inline uint64_t CAVM_RVU_AF_PFFLR_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_PFFLR_INT_ENA_W1C_FUNC(void)
 {
-    return 0x8400000028b8ll;
+    return 0xce00000028b8ll;
 }
 
 #define typedef_CAVM_RVU_AF_PFFLR_INT_ENA_W1C cavm_rvu_af_pfflr_int_ena_w1c_t
@@ -1244,7 +1244,7 @@ typedef union cavm_rvu_af_pfflr_int_ena_w1s cavm_rvu_af_pfflr_int_ena_w1s_t;
 static inline uint64_t CAVM_RVU_AF_PFFLR_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_PFFLR_INT_ENA_W1S_FUNC(void)
 {
-    return 0x8400000028b0ll;
+    return 0xce00000028b0ll;
 }
 
 #define typedef_CAVM_RVU_AF_PFFLR_INT_ENA_W1S cavm_rvu_af_pfflr_int_ena_w1s_t
@@ -1281,7 +1281,7 @@ typedef union cavm_rvu_af_pfflr_int_w1s cavm_rvu_af_pfflr_int_w1s_t;
 static inline uint64_t CAVM_RVU_AF_PFFLR_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_PFFLR_INT_W1S_FUNC(void)
 {
-    return 0x8400000028a8ll;
+    return 0xce00000028a8ll;
 }
 
 #define typedef_CAVM_RVU_AF_PFFLR_INT_W1S cavm_rvu_af_pfflr_int_w1s_t
@@ -1341,7 +1341,7 @@ typedef union cavm_rvu_af_pfme_int cavm_rvu_af_pfme_int_t;
 static inline uint64_t CAVM_RVU_AF_PFME_INT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_PFME_INT_FUNC(void)
 {
-    return 0x8400000028c0ll;
+    return 0xce00000028c0ll;
 }
 
 #define typedef_CAVM_RVU_AF_PFME_INT cavm_rvu_af_pfme_int_t
@@ -1378,7 +1378,7 @@ typedef union cavm_rvu_af_pfme_int_ena_w1c cavm_rvu_af_pfme_int_ena_w1c_t;
 static inline uint64_t CAVM_RVU_AF_PFME_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_PFME_INT_ENA_W1C_FUNC(void)
 {
-    return 0x8400000028d8ll;
+    return 0xce00000028d8ll;
 }
 
 #define typedef_CAVM_RVU_AF_PFME_INT_ENA_W1C cavm_rvu_af_pfme_int_ena_w1c_t
@@ -1415,7 +1415,7 @@ typedef union cavm_rvu_af_pfme_int_ena_w1s cavm_rvu_af_pfme_int_ena_w1s_t;
 static inline uint64_t CAVM_RVU_AF_PFME_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_PFME_INT_ENA_W1S_FUNC(void)
 {
-    return 0x8400000028d0ll;
+    return 0xce00000028d0ll;
 }
 
 #define typedef_CAVM_RVU_AF_PFME_INT_ENA_W1S cavm_rvu_af_pfme_int_ena_w1s_t
@@ -1452,7 +1452,7 @@ typedef union cavm_rvu_af_pfme_int_w1s cavm_rvu_af_pfme_int_w1s_t;
 static inline uint64_t CAVM_RVU_AF_PFME_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_PFME_INT_W1S_FUNC(void)
 {
-    return 0x8400000028c8ll;
+    return 0xce00000028c8ll;
 }
 
 #define typedef_CAVM_RVU_AF_PFME_INT_W1S cavm_rvu_af_pfme_int_w1s_t
@@ -1490,7 +1490,7 @@ typedef union cavm_rvu_af_pfme_status cavm_rvu_af_pfme_status_t;
 static inline uint64_t CAVM_RVU_AF_PFME_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_PFME_STATUS_FUNC(void)
 {
-    return 0x840000002800ll;
+    return 0xce0000002800ll;
 }
 
 #define typedef_CAVM_RVU_AF_PFME_STATUS cavm_rvu_af_pfme_status_t
@@ -1546,7 +1546,7 @@ typedef union cavm_rvu_af_pftrpend cavm_rvu_af_pftrpend_t;
 static inline uint64_t CAVM_RVU_AF_PFTRPEND_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_PFTRPEND_FUNC(void)
 {
-    return 0x840000002810ll;
+    return 0xce0000002810ll;
 }
 
 #define typedef_CAVM_RVU_AF_PFTRPEND cavm_rvu_af_pftrpend_t
@@ -1583,7 +1583,7 @@ typedef union cavm_rvu_af_pftrpend_w1s cavm_rvu_af_pftrpend_w1s_t;
 static inline uint64_t CAVM_RVU_AF_PFTRPEND_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_PFTRPEND_W1S_FUNC(void)
 {
-    return 0x840000002820ll;
+    return 0xce0000002820ll;
 }
 
 #define typedef_CAVM_RVU_AF_PFTRPEND_W1S cavm_rvu_af_pftrpend_w1s_t
@@ -1627,7 +1627,7 @@ typedef union cavm_rvu_af_ras cavm_rvu_af_ras_t;
 static inline uint64_t CAVM_RVU_AF_RAS_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_RAS_FUNC(void)
 {
-    return 0x840000000100ll;
+    return 0xce0000000100ll;
 }
 
 #define typedef_CAVM_RVU_AF_RAS cavm_rvu_af_ras_t
@@ -1666,7 +1666,7 @@ typedef union cavm_rvu_af_ras_ena_w1c cavm_rvu_af_ras_ena_w1c_t;
 static inline uint64_t CAVM_RVU_AF_RAS_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_RAS_ENA_W1C_FUNC(void)
 {
-    return 0x840000000118ll;
+    return 0xce0000000118ll;
 }
 
 #define typedef_CAVM_RVU_AF_RAS_ENA_W1C cavm_rvu_af_ras_ena_w1c_t
@@ -1705,7 +1705,7 @@ typedef union cavm_rvu_af_ras_ena_w1s cavm_rvu_af_ras_ena_w1s_t;
 static inline uint64_t CAVM_RVU_AF_RAS_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_RAS_ENA_W1S_FUNC(void)
 {
-    return 0x840000000110ll;
+    return 0xce0000000110ll;
 }
 
 #define typedef_CAVM_RVU_AF_RAS_ENA_W1S cavm_rvu_af_ras_ena_w1s_t
@@ -1744,7 +1744,7 @@ typedef union cavm_rvu_af_ras_w1s cavm_rvu_af_ras_w1s_t;
 static inline uint64_t CAVM_RVU_AF_RAS_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_RAS_W1S_FUNC(void)
 {
-    return 0x840000000108ll;
+    return 0xce0000000108ll;
 }
 
 #define typedef_CAVM_RVU_AF_RAS_W1S cavm_rvu_af_ras_w1s_t
@@ -1780,7 +1780,7 @@ typedef union cavm_rvu_af_smmu_addr_req cavm_rvu_af_smmu_addr_req_t;
 static inline uint64_t CAVM_RVU_AF_SMMU_ADDR_REQ_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_SMMU_ADDR_REQ_FUNC(void)
 {
-    return 0x840000006000ll;
+    return 0xce0000006000ll;
 }
 
 #define typedef_CAVM_RVU_AF_SMMU_ADDR_REQ cavm_rvu_af_smmu_addr_req_t
@@ -1826,7 +1826,7 @@ typedef union cavm_rvu_af_smmu_addr_rsp_sts cavm_rvu_af_smmu_addr_rsp_sts_t;
 static inline uint64_t CAVM_RVU_AF_SMMU_ADDR_RSP_STS_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_SMMU_ADDR_RSP_STS_FUNC(void)
 {
-    return 0x840000006010ll;
+    return 0xce0000006010ll;
 }
 
 #define typedef_CAVM_RVU_AF_SMMU_ADDR_RSP_STS cavm_rvu_af_smmu_addr_rsp_sts_t
@@ -1862,7 +1862,7 @@ typedef union cavm_rvu_af_smmu_addr_tln cavm_rvu_af_smmu_addr_tln_t;
 static inline uint64_t CAVM_RVU_AF_SMMU_ADDR_TLN_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_SMMU_ADDR_TLN_FUNC(void)
 {
-    return 0x840000006018ll;
+    return 0xce0000006018ll;
 }
 
 #define typedef_CAVM_RVU_AF_SMMU_ADDR_TLN cavm_rvu_af_smmu_addr_tln_t
@@ -1906,7 +1906,7 @@ typedef union cavm_rvu_af_smmu_txn_req cavm_rvu_af_smmu_txn_req_t;
 static inline uint64_t CAVM_RVU_AF_SMMU_TXN_REQ_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_AF_SMMU_TXN_REQ_FUNC(void)
 {
-    return 0x840000006008ll;
+    return 0xce0000006008ll;
 }
 
 #define typedef_CAVM_RVU_AF_SMMU_TXN_REQ cavm_rvu_af_smmu_txn_req_t
@@ -1965,7 +1965,7 @@ static inline uint64_t CAVM_RVU_PF_BLOCK_ADDRX_DISC(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_RVU_PF_BLOCK_ADDRX_DISC(uint64_t a)
 {
     if (a<=31)
-        return 0x840200000200ll + 8ll * ((a) & 0x1f);
+        return 0xce0000000200ll + 8ll * ((a) & 0x1f);
     __cavm_csr_fatal("RVU_PF_BLOCK_ADDRX_DISC", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2002,7 +2002,7 @@ typedef union cavm_rvu_pf_int cavm_rvu_pf_int_t;
 static inline uint64_t CAVM_RVU_PF_INT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_PF_INT_FUNC(void)
 {
-    return 0x840200000c20ll;
+    return 0xce0000000c20ll;
 }
 
 #define typedef_CAVM_RVU_PF_INT cavm_rvu_pf_int_t
@@ -2039,7 +2039,7 @@ typedef union cavm_rvu_pf_int_ena_w1c cavm_rvu_pf_int_ena_w1c_t;
 static inline uint64_t CAVM_RVU_PF_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_PF_INT_ENA_W1C_FUNC(void)
 {
-    return 0x840200000c38ll;
+    return 0xce0000000c38ll;
 }
 
 #define typedef_CAVM_RVU_PF_INT_ENA_W1C cavm_rvu_pf_int_ena_w1c_t
@@ -2076,7 +2076,7 @@ typedef union cavm_rvu_pf_int_ena_w1s cavm_rvu_pf_int_ena_w1s_t;
 static inline uint64_t CAVM_RVU_PF_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_PF_INT_ENA_W1S_FUNC(void)
 {
-    return 0x840200000c30ll;
+    return 0xce0000000c30ll;
 }
 
 #define typedef_CAVM_RVU_PF_INT_ENA_W1S cavm_rvu_pf_int_ena_w1s_t
@@ -2113,7 +2113,7 @@ typedef union cavm_rvu_pf_int_w1s cavm_rvu_pf_int_w1s_t;
 static inline uint64_t CAVM_RVU_PF_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_PF_INT_W1S_FUNC(void)
 {
-    return 0x840200000c28ll;
+    return 0xce0000000c28ll;
 }
 
 #define typedef_CAVM_RVU_PF_INT_W1S cavm_rvu_pf_int_w1s_t
@@ -2147,7 +2147,7 @@ typedef union cavm_rvu_pf_lmtline_addr cavm_rvu_pf_lmtline_addr_t;
 static inline uint64_t CAVM_RVU_PF_LMTLINE_ADDR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_PF_LMTLINE_ADDR_FUNC(void)
 {
-    return 0x840200000c48ll;
+    return 0xce0000000c48ll;
 }
 
 #define typedef_CAVM_RVU_PF_LMTLINE_ADDR cavm_rvu_pf_lmtline_addr_t
@@ -2190,7 +2190,7 @@ static inline uint64_t CAVM_RVU_PF_MSIX_PBAX(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_RVU_PF_MSIX_PBAX(uint64_t a)
 {
     if (a==0)
-        return 0x8402000f0000ll + 8ll * ((a) & 0x0);
+        return 0xce00000f0000ll + 8ll * ((a) & 0x0);
     __cavm_csr_fatal("RVU_PF_MSIX_PBAX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2280,7 +2280,7 @@ static inline uint64_t CAVM_RVU_PF_MSIX_VECX_ADDR(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_RVU_PF_MSIX_VECX_ADDR(uint64_t a)
 {
     if (a==0)
-        return 0x840200080000ll + 0x10ll * ((a) & 0x0);
+        return 0xce0000080000ll + 0x10ll * ((a) & 0x0);
     __cavm_csr_fatal("RVU_PF_MSIX_VECX_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2320,7 +2320,7 @@ static inline uint64_t CAVM_RVU_PF_MSIX_VECX_CTL(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_RVU_PF_MSIX_VECX_CTL(uint64_t a)
 {
     if (a==0)
-        return 0x840200080008ll + 0x10ll * ((a) & 0x0);
+        return 0xce0000080008ll + 0x10ll * ((a) & 0x0);
     __cavm_csr_fatal("RVU_PF_MSIX_VECX_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2367,7 +2367,7 @@ static inline uint64_t CAVM_RVU_PF_PFAF_MBOXX(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_RVU_PF_PFAF_MBOXX(uint64_t a)
 {
     if (a<=1)
-        return 0x840200000c00ll + 8ll * ((a) & 0x1);
+        return 0xce0000000c00ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("RVU_PF_PFAF_MBOXX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2414,7 +2414,7 @@ static inline uint64_t CAVM_RVU_PF_VFX_PFVF_MBOXX(uint64_t a, uint64_t b) __attr
 static inline uint64_t CAVM_RVU_PF_VFX_PFVF_MBOXX(uint64_t a, uint64_t b)
 {
     if ((a<=127) && (b<=1))
-        return 0x840200000000ll + 0x1000ll * ((a) & 0x7f) + 8ll * ((b) & 0x1);
+        return 0xce0000000000ll + 0x1000ll * ((a) & 0x7f) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("RVU_PF_VFX_PFVF_MBOXX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2459,7 +2459,7 @@ typedef union cavm_rvu_pf_vf_mbox_addr cavm_rvu_pf_vf_mbox_addr_t;
 static inline uint64_t CAVM_RVU_PF_VF_MBOX_ADDR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_PF_VF_MBOX_ADDR_FUNC(void)
 {
-    return 0x840200000c40ll;
+    return 0xce0000000c40ll;
 }
 
 #define typedef_CAVM_RVU_PF_VF_MBOX_ADDR cavm_rvu_pf_vf_mbox_addr_t
@@ -2503,7 +2503,7 @@ static inline uint64_t CAVM_RVU_PF_VFFLR_INTX(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_RVU_PF_VFFLR_INTX(uint64_t a)
 {
     if (a<=1)
-        return 0x840200000900ll + 8ll * ((a) & 0x1);
+        return 0xce0000000900ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("RVU_PF_VFFLR_INTX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2539,7 +2539,7 @@ static inline uint64_t CAVM_RVU_PF_VFFLR_INT_ENA_W1CX(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_RVU_PF_VFFLR_INT_ENA_W1CX(uint64_t a)
 {
     if (a<=1)
-        return 0x840200000960ll + 8ll * ((a) & 0x1);
+        return 0xce0000000960ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("RVU_PF_VFFLR_INT_ENA_W1CX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2575,7 +2575,7 @@ static inline uint64_t CAVM_RVU_PF_VFFLR_INT_ENA_W1SX(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_RVU_PF_VFFLR_INT_ENA_W1SX(uint64_t a)
 {
     if (a<=1)
-        return 0x840200000940ll + 8ll * ((a) & 0x1);
+        return 0xce0000000940ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("RVU_PF_VFFLR_INT_ENA_W1SX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2611,7 +2611,7 @@ static inline uint64_t CAVM_RVU_PF_VFFLR_INT_W1SX(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_RVU_PF_VFFLR_INT_W1SX(uint64_t a)
 {
     if (a<=1)
-        return 0x840200000920ll + 8ll * ((a) & 0x1);
+        return 0xce0000000920ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("RVU_PF_VFFLR_INT_W1SX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2672,7 +2672,7 @@ static inline uint64_t CAVM_RVU_PF_VFME_INTX(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_RVU_PF_VFME_INTX(uint64_t a)
 {
     if (a<=1)
-        return 0x840200000980ll + 8ll * ((a) & 0x1);
+        return 0xce0000000980ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("RVU_PF_VFME_INTX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2708,7 +2708,7 @@ static inline uint64_t CAVM_RVU_PF_VFME_INT_ENA_W1CX(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_RVU_PF_VFME_INT_ENA_W1CX(uint64_t a)
 {
     if (a<=1)
-        return 0x8402000009e0ll + 8ll * ((a) & 0x1);
+        return 0xce00000009e0ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("RVU_PF_VFME_INT_ENA_W1CX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2744,7 +2744,7 @@ static inline uint64_t CAVM_RVU_PF_VFME_INT_ENA_W1SX(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_RVU_PF_VFME_INT_ENA_W1SX(uint64_t a)
 {
     if (a<=1)
-        return 0x8402000009c0ll + 8ll * ((a) & 0x1);
+        return 0xce00000009c0ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("RVU_PF_VFME_INT_ENA_W1SX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2780,7 +2780,7 @@ static inline uint64_t CAVM_RVU_PF_VFME_INT_W1SX(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_RVU_PF_VFME_INT_W1SX(uint64_t a)
 {
     if (a<=1)
-        return 0x8402000009a0ll + 8ll * ((a) & 0x1);
+        return 0xce00000009a0ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("RVU_PF_VFME_INT_W1SX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2819,7 +2819,7 @@ static inline uint64_t CAVM_RVU_PF_VFME_STATUSX(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_RVU_PF_VFME_STATUSX(uint64_t a)
 {
     if (a<=1)
-        return 0x840200000800ll + 8ll * ((a) & 0x1);
+        return 0xce0000000800ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("RVU_PF_VFME_STATUSX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2860,7 +2860,7 @@ static inline uint64_t CAVM_RVU_PF_VFPF_MBOX_INTX(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_RVU_PF_VFPF_MBOX_INTX(uint64_t a)
 {
     if (a<=1)
-        return 0x840200000880ll + 8ll * ((a) & 0x1);
+        return 0xce0000000880ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("RVU_PF_VFPF_MBOX_INTX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2896,7 +2896,7 @@ static inline uint64_t CAVM_RVU_PF_VFPF_MBOX_INT_ENA_W1CX(uint64_t a) __attribut
 static inline uint64_t CAVM_RVU_PF_VFPF_MBOX_INT_ENA_W1CX(uint64_t a)
 {
     if (a<=1)
-        return 0x8402000008e0ll + 8ll * ((a) & 0x1);
+        return 0xce00000008e0ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("RVU_PF_VFPF_MBOX_INT_ENA_W1CX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2932,7 +2932,7 @@ static inline uint64_t CAVM_RVU_PF_VFPF_MBOX_INT_ENA_W1SX(uint64_t a) __attribut
 static inline uint64_t CAVM_RVU_PF_VFPF_MBOX_INT_ENA_W1SX(uint64_t a)
 {
     if (a<=1)
-        return 0x8402000008c0ll + 8ll * ((a) & 0x1);
+        return 0xce00000008c0ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("RVU_PF_VFPF_MBOX_INT_ENA_W1SX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2968,7 +2968,7 @@ static inline uint64_t CAVM_RVU_PF_VFPF_MBOX_INT_W1SX(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_RVU_PF_VFPF_MBOX_INT_W1SX(uint64_t a)
 {
     if (a<=1)
-        return 0x8402000008a0ll + 8ll * ((a) & 0x1);
+        return 0xce00000008a0ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("RVU_PF_VFPF_MBOX_INT_W1SX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3025,7 +3025,7 @@ static inline uint64_t CAVM_RVU_PF_VFTRPENDX(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_RVU_PF_VFTRPENDX(uint64_t a)
 {
     if (a<=1)
-        return 0x840200000820ll + 8ll * ((a) & 0x1);
+        return 0xce0000000820ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("RVU_PF_VFTRPENDX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3061,7 +3061,7 @@ static inline uint64_t CAVM_RVU_PF_VFTRPEND_W1SX(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_RVU_PF_VFTRPEND_W1SX(uint64_t a)
 {
     if (a<=1)
-        return 0x840200000840ll + 8ll * ((a) & 0x1);
+        return 0xce0000000840ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("RVU_PF_VFTRPEND_W1SX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3098,7 +3098,7 @@ typedef union cavm_rvu_priv_active_pc cavm_rvu_priv_active_pc_t;
 static inline uint64_t CAVM_RVU_PRIV_ACTIVE_PC_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_PRIV_ACTIVE_PC_FUNC(void)
 {
-    return 0x840008000030ll;
+    return 0xce0008000030ll;
 }
 
 #define typedef_CAVM_RVU_PRIV_ACTIVE_PC cavm_rvu_priv_active_pc_t
@@ -3139,7 +3139,7 @@ static inline uint64_t CAVM_RVU_PRIV_BLOCK_TYPEX_REV(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_RVU_PRIV_BLOCK_TYPEX_REV(uint64_t a)
 {
     if (a<=15)
-        return 0x840008000400ll + 8ll * ((a) & 0xf);
+        return 0xce0008000400ll + 8ll * ((a) & 0xf);
     __cavm_csr_fatal("RVU_PRIV_BLOCK_TYPEX_REV", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3180,7 +3180,7 @@ typedef union cavm_rvu_priv_clk_cfg cavm_rvu_priv_clk_cfg_t;
 static inline uint64_t CAVM_RVU_PRIV_CLK_CFG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_PRIV_CLK_CFG_FUNC(void)
 {
-    return 0x840008000020ll;
+    return 0xce0008000020ll;
 }
 
 #define typedef_CAVM_RVU_PRIV_CLK_CFG cavm_rvu_priv_clk_cfg_t
@@ -3235,7 +3235,7 @@ typedef union cavm_rvu_priv_const cavm_rvu_priv_const_t;
 static inline uint64_t CAVM_RVU_PRIV_CONST_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_PRIV_CONST_FUNC(void)
 {
-    return 0x840008000000ll;
+    return 0xce0008000000ll;
 }
 
 #define typedef_CAVM_RVU_PRIV_CONST cavm_rvu_priv_const_t
@@ -3275,7 +3275,7 @@ typedef union cavm_rvu_priv_gen_cfg cavm_rvu_priv_gen_cfg_t;
 static inline uint64_t CAVM_RVU_PRIV_GEN_CFG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_PRIV_GEN_CFG_FUNC(void)
 {
-    return 0x840008000010ll;
+    return 0xce0008000010ll;
 }
 
 #define typedef_CAVM_RVU_PRIV_GEN_CFG cavm_rvu_priv_gen_cfg_t
@@ -3314,7 +3314,7 @@ static inline uint64_t CAVM_RVU_PRIV_HWVFX_CPTX_CFG(uint64_t a, uint64_t b) __at
 static inline uint64_t CAVM_RVU_PRIV_HWVFX_CPTX_CFG(uint64_t a, uint64_t b)
 {
     if ((a<=255) && (b<=1))
-        return 0x840008001350ll + 0x10000ll * ((a) & 0xff) + 8ll * ((b) & 0x1);
+        return 0xce0008001350ll + 0x10000ll * ((a) & 0xff) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("RVU_PRIV_HWVFX_CPTX_CFG", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -3354,7 +3354,7 @@ static inline uint64_t CAVM_RVU_PRIV_HWVFX_DPIX_CFG(uint64_t a, uint64_t b) __at
 static inline uint64_t CAVM_RVU_PRIV_HWVFX_DPIX_CFG(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=255) && (b<=1)))
-        return 0x840008001380ll + 0x10000ll * ((a) & 0xff) + 8ll * ((b) & 0x1);
+        return 0xce0008001380ll + 0x10000ll * ((a) & 0xff) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("RVU_PRIV_HWVFX_DPIX_CFG", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -3403,7 +3403,7 @@ static inline uint64_t CAVM_RVU_PRIV_HWVFX_INT_CFG(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_RVU_PRIV_HWVFX_INT_CFG(uint64_t a)
 {
     if (a<=255)
-        return 0x840008001280ll + 0x10000ll * ((a) & 0xff);
+        return 0xce0008001280ll + 0x10000ll * ((a) & 0xff);
     __cavm_csr_fatal("RVU_PRIV_HWVFX_INT_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3444,7 +3444,7 @@ static inline uint64_t CAVM_RVU_PRIV_HWVFX_NIXX_CFG(uint64_t a, uint64_t b) __at
 static inline uint64_t CAVM_RVU_PRIV_HWVFX_NIXX_CFG(uint64_t a, uint64_t b)
 {
     if ((a<=255) && (b<=1))
-        return 0x840008001300ll + 0x10000ll * ((a) & 0xff) + 8ll * ((b) & 0x1);
+        return 0xce0008001300ll + 0x10000ll * ((a) & 0xff) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("RVU_PRIV_HWVFX_NIXX_CFG", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -3482,7 +3482,7 @@ static inline uint64_t CAVM_RVU_PRIV_HWVFX_NPA_CFG(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_RVU_PRIV_HWVFX_NPA_CFG(uint64_t a)
 {
     if (a<=255)
-        return 0x840008001310ll + 0x10000ll * ((a) & 0xff);
+        return 0xce0008001310ll + 0x10000ll * ((a) & 0xff);
     __cavm_csr_fatal("RVU_PRIV_HWVFX_NPA_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3522,7 +3522,7 @@ static inline uint64_t CAVM_RVU_PRIV_HWVFX_REEX_CFG(uint64_t a, uint64_t b) __at
 static inline uint64_t CAVM_RVU_PRIV_HWVFX_REEX_CFG(uint64_t a, uint64_t b)
 {
     if ((a<=255) && (b<=1))
-        return 0x840008001360ll + 0x10000ll * ((a) & 0xff) + 8ll * ((b) & 0x1);
+        return 0xce0008001360ll + 0x10000ll * ((a) & 0xff) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("RVU_PRIV_HWVFX_REEX_CFG", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -3562,7 +3562,7 @@ static inline uint64_t CAVM_RVU_PRIV_HWVFX_SSO_CFG(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_RVU_PRIV_HWVFX_SSO_CFG(uint64_t a)
 {
     if (a<=255)
-        return 0x840008001320ll + 0x10000ll * ((a) & 0xff);
+        return 0xce0008001320ll + 0x10000ll * ((a) & 0xff);
     __cavm_csr_fatal("RVU_PRIV_HWVFX_SSO_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3602,7 +3602,7 @@ static inline uint64_t CAVM_RVU_PRIV_HWVFX_SSOW_CFG(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_RVU_PRIV_HWVFX_SSOW_CFG(uint64_t a)
 {
     if (a<=255)
-        return 0x840008001330ll + 0x10000ll * ((a) & 0xff);
+        return 0xce0008001330ll + 0x10000ll * ((a) & 0xff);
     __cavm_csr_fatal("RVU_PRIV_HWVFX_SSOW_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3642,7 +3642,7 @@ static inline uint64_t CAVM_RVU_PRIV_HWVFX_TIM_CFG(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_RVU_PRIV_HWVFX_TIM_CFG(uint64_t a)
 {
     if (a<=255)
-        return 0x840008001340ll + 0x10000ll * ((a) & 0xff);
+        return 0xce0008001340ll + 0x10000ll * ((a) & 0xff);
     __cavm_csr_fatal("RVU_PRIV_HWVFX_TIM_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3743,7 +3743,7 @@ static inline uint64_t CAVM_RVU_PRIV_PFX_CFG(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_RVU_PRIV_PFX_CFG(uint64_t a)
 {
     if (a<=31)
-        return 0x840008000100ll + 0x10000ll * ((a) & 0x1f);
+        return 0xce0008000100ll + 0x10000ll * ((a) & 0x1f);
     __cavm_csr_fatal("RVU_PRIV_PFX_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3783,7 +3783,7 @@ static inline uint64_t CAVM_RVU_PRIV_PFX_CPTX_CFG(uint64_t a, uint64_t b) __attr
 static inline uint64_t CAVM_RVU_PRIV_PFX_CPTX_CFG(uint64_t a, uint64_t b)
 {
     if ((a<=31) && (b<=1))
-        return 0x840008000350ll + 0x10000ll * ((a) & 0x1f) + 8ll * ((b) & 0x1);
+        return 0xce0008000350ll + 0x10000ll * ((a) & 0x1f) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("RVU_PRIV_PFX_CPTX_CFG", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -3823,7 +3823,7 @@ static inline uint64_t CAVM_RVU_PRIV_PFX_DPIX_CFG(uint64_t a, uint64_t b) __attr
 static inline uint64_t CAVM_RVU_PRIV_PFX_DPIX_CFG(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=31) && (b<=1)))
-        return 0x840008000380ll + 0x10000ll * ((a) & 0x1f) + 8ll * ((b) & 0x1);
+        return 0xce0008000380ll + 0x10000ll * ((a) & 0x1f) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("RVU_PRIV_PFX_DPIX_CFG", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -3874,7 +3874,7 @@ static inline uint64_t CAVM_RVU_PRIV_PFX_ID_CFG(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_RVU_PRIV_PFX_ID_CFG(uint64_t a)
 {
     if (a<=31)
-        return 0x840008000120ll + 0x10000ll * ((a) & 0x1f);
+        return 0xce0008000120ll + 0x10000ll * ((a) & 0x1f);
     __cavm_csr_fatal("RVU_PRIV_PFX_ID_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3931,7 +3931,7 @@ static inline uint64_t CAVM_RVU_PRIV_PFX_INT_CFG(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_RVU_PRIV_PFX_INT_CFG(uint64_t a)
 {
     if (a<=31)
-        return 0x840008000200ll + 0x10000ll * ((a) & 0x1f);
+        return 0xce0008000200ll + 0x10000ll * ((a) & 0x1f);
     __cavm_csr_fatal("RVU_PRIV_PFX_INT_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3997,7 +3997,7 @@ static inline uint64_t CAVM_RVU_PRIV_PFX_MSIX_CFG(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_RVU_PRIV_PFX_MSIX_CFG(uint64_t a)
 {
     if (a<=31)
-        return 0x840008000110ll + 0x10000ll * ((a) & 0x1f);
+        return 0xce0008000110ll + 0x10000ll * ((a) & 0x1f);
     __cavm_csr_fatal("RVU_PRIV_PFX_MSIX_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4038,7 +4038,7 @@ static inline uint64_t CAVM_RVU_PRIV_PFX_NIXX_CFG(uint64_t a, uint64_t b) __attr
 static inline uint64_t CAVM_RVU_PRIV_PFX_NIXX_CFG(uint64_t a, uint64_t b)
 {
     if ((a<=31) && (b<=1))
-        return 0x840008000300ll + 0x10000ll * ((a) & 0x1f) + 8ll * ((b) & 0x1);
+        return 0xce0008000300ll + 0x10000ll * ((a) & 0x1f) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("RVU_PRIV_PFX_NIXX_CFG", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -4076,7 +4076,7 @@ static inline uint64_t CAVM_RVU_PRIV_PFX_NPA_CFG(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_RVU_PRIV_PFX_NPA_CFG(uint64_t a)
 {
     if (a<=31)
-        return 0x840008000310ll + 0x10000ll * ((a) & 0x1f);
+        return 0xce0008000310ll + 0x10000ll * ((a) & 0x1f);
     __cavm_csr_fatal("RVU_PRIV_PFX_NPA_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4116,7 +4116,7 @@ static inline uint64_t CAVM_RVU_PRIV_PFX_PMA_CFG(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_RVU_PRIV_PFX_PMA_CFG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=31))
-        return 0x840008000370ll + 0x10000ll * ((a) & 0x1f);
+        return 0xce0008000370ll + 0x10000ll * ((a) & 0x1f);
     __cavm_csr_fatal("RVU_PRIV_PFX_PMA_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4156,7 +4156,7 @@ static inline uint64_t CAVM_RVU_PRIV_PFX_REEX_CFG(uint64_t a, uint64_t b) __attr
 static inline uint64_t CAVM_RVU_PRIV_PFX_REEX_CFG(uint64_t a, uint64_t b)
 {
     if ((a<=31) && (b<=1))
-        return 0x840008000360ll + 0x10000ll * ((a) & 0x1f) + 8ll * ((b) & 0x1);
+        return 0xce0008000360ll + 0x10000ll * ((a) & 0x1f) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("RVU_PRIV_PFX_REEX_CFG", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -4196,7 +4196,7 @@ static inline uint64_t CAVM_RVU_PRIV_PFX_SSO_CFG(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_RVU_PRIV_PFX_SSO_CFG(uint64_t a)
 {
     if (a<=31)
-        return 0x840008000320ll + 0x10000ll * ((a) & 0x1f);
+        return 0xce0008000320ll + 0x10000ll * ((a) & 0x1f);
     __cavm_csr_fatal("RVU_PRIV_PFX_SSO_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4236,7 +4236,7 @@ static inline uint64_t CAVM_RVU_PRIV_PFX_SSOW_CFG(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_RVU_PRIV_PFX_SSOW_CFG(uint64_t a)
 {
     if (a<=31)
-        return 0x840008000330ll + 0x10000ll * ((a) & 0x1f);
+        return 0xce0008000330ll + 0x10000ll * ((a) & 0x1f);
     __cavm_csr_fatal("RVU_PRIV_PFX_SSOW_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4276,7 +4276,7 @@ static inline uint64_t CAVM_RVU_PRIV_PFX_TIM_CFG(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_RVU_PRIV_PFX_TIM_CFG(uint64_t a)
 {
     if (a<=31)
-        return 0x840008000340ll + 0x10000ll * ((a) & 0x1f);
+        return 0xce0008000340ll + 0x10000ll * ((a) & 0x1f);
     __cavm_csr_fatal("RVU_PRIV_PFX_TIM_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4336,7 +4336,7 @@ static inline uint64_t CAVM_RVU_VF_BLOCK_ADDRX_DISC(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_RVU_VF_BLOCK_ADDRX_DISC(uint64_t a)
 {
     if (a<=31)
-        return 0x840200000200ll + 8ll * ((a) & 0x1f);
+        return 0xce0000000200ll + 8ll * ((a) & 0x1f);
     __cavm_csr_fatal("RVU_VF_BLOCK_ADDRX_DISC", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4373,7 +4373,7 @@ typedef union cavm_rvu_vf_int cavm_rvu_vf_int_t;
 static inline uint64_t CAVM_RVU_VF_INT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_VF_INT_FUNC(void)
 {
-    return 0x840200000020ll;
+    return 0xce0000000020ll;
 }
 
 #define typedef_CAVM_RVU_VF_INT cavm_rvu_vf_int_t
@@ -4410,7 +4410,7 @@ typedef union cavm_rvu_vf_int_ena_w1c cavm_rvu_vf_int_ena_w1c_t;
 static inline uint64_t CAVM_RVU_VF_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_VF_INT_ENA_W1C_FUNC(void)
 {
-    return 0x840200000038ll;
+    return 0xce0000000038ll;
 }
 
 #define typedef_CAVM_RVU_VF_INT_ENA_W1C cavm_rvu_vf_int_ena_w1c_t
@@ -4447,7 +4447,7 @@ typedef union cavm_rvu_vf_int_ena_w1s cavm_rvu_vf_int_ena_w1s_t;
 static inline uint64_t CAVM_RVU_VF_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_VF_INT_ENA_W1S_FUNC(void)
 {
-    return 0x840200000030ll;
+    return 0xce0000000030ll;
 }
 
 #define typedef_CAVM_RVU_VF_INT_ENA_W1S cavm_rvu_vf_int_ena_w1s_t
@@ -4484,7 +4484,7 @@ typedef union cavm_rvu_vf_int_w1s cavm_rvu_vf_int_w1s_t;
 static inline uint64_t CAVM_RVU_VF_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RVU_VF_INT_W1S_FUNC(void)
 {
-    return 0x840200000028ll;
+    return 0xce0000000028ll;
 }
 
 #define typedef_CAVM_RVU_VF_INT_W1S cavm_rvu_vf_int_w1s_t
@@ -4527,7 +4527,7 @@ static inline uint64_t CAVM_RVU_VF_MSIX_PBAX(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_RVU_VF_MSIX_PBAX(uint64_t a)
 {
     if (a==0)
-        return 0x8402000f0000ll + 8ll * ((a) & 0x0);
+        return 0xce00000f0000ll + 8ll * ((a) & 0x0);
     __cavm_csr_fatal("RVU_VF_MSIX_PBAX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4619,7 +4619,7 @@ static inline uint64_t CAVM_RVU_VF_MSIX_VECX_ADDR(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_RVU_VF_MSIX_VECX_ADDR(uint64_t a)
 {
     if (a==0)
-        return 0x840200080000ll + 0x10ll * ((a) & 0x0);
+        return 0xce0000080000ll + 0x10ll * ((a) & 0x0);
     __cavm_csr_fatal("RVU_VF_MSIX_VECX_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4659,7 +4659,7 @@ static inline uint64_t CAVM_RVU_VF_MSIX_VECX_CTL(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_RVU_VF_MSIX_VECX_CTL(uint64_t a)
 {
     if (a==0)
-        return 0x840200080008ll + 0x10ll * ((a) & 0x0);
+        return 0xce0000080008ll + 0x10ll * ((a) & 0x0);
     __cavm_csr_fatal("RVU_VF_MSIX_VECX_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4704,7 +4704,7 @@ static inline uint64_t CAVM_RVU_VF_VFPF_MBOXX(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_RVU_VF_VFPF_MBOXX(uint64_t a)
 {
     if (a<=1)
-        return 0x840200000000ll + 8ll * ((a) & 0x1);
+        return 0xce0000000000ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("RVU_VF_VFPF_MBOXX", 1, a, 0, 0, 0, 0, 0);
 }
 

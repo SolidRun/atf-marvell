@@ -25,7 +25,7 @@
  * TAD Common Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define CAVM_TAD_CMN_BAR_E_TAD_CMN_PF_BAR0 (0x87e053000000ll)
+#define CAVM_TAD_CMN_BAR_E_TAD_CMN_PF_BAR0 (0xc11053000000ll)
 #define CAVM_TAD_CMN_BAR_E_TAD_CMN_PF_BAR0_SIZE 0x100000ull
 
 /**
@@ -125,7 +125,7 @@ static inline uint64_t CAVM_TAD_CMN_CACHE_FLUSH_FUNC(void) __attribute__ ((pure,
 static inline uint64_t CAVM_TAD_CMN_CACHE_FLUSH_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e053000010ll;
+        return 0xc11053000010ll;
     __cavm_csr_fatal("TAD_CMN_CACHE_FLUSH", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -190,7 +190,7 @@ static inline uint64_t CAVM_TAD_CMN_CBUSY_FUNC(void) __attribute__ ((pure, alway
 static inline uint64_t CAVM_TAD_CMN_CBUSY_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e053000020ll;
+        return 0xc11053000020ll;
     __cavm_csr_fatal("TAD_CMN_CBUSY", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -241,7 +241,7 @@ static inline uint64_t CAVM_TAD_CMN_CONST_FUNC(void) __attribute__ ((pure, alway
 static inline uint64_t CAVM_TAD_CMN_CONST_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e053000028ll;
+        return 0xc11053000028ll;
     __cavm_csr_fatal("TAD_CMN_CONST", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -519,7 +519,7 @@ static inline uint64_t CAVM_TAD_CMN_CTL_FUNC(void) __attribute__ ((pure, always_
 static inline uint64_t CAVM_TAD_CMN_CTL_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e053000008ll;
+        return 0xc11053000008ll;
     __cavm_csr_fatal("TAD_CMN_CTL", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -566,7 +566,7 @@ static inline uint64_t CAVM_TAD_CMN_MN_CTL_FUNC(void) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_TAD_CMN_MN_CTL_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e053000030ll;
+        return 0xc11053000030ll;
     __cavm_csr_fatal("TAD_CMN_MN_CTL", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -638,7 +638,7 @@ static inline uint64_t CAVM_TAD_CMN_MPAMCFG_CPBM_NS_FUNC(void) __attribute__ ((p
 static inline uint64_t CAVM_TAD_CMN_MPAMCFG_CPBM_NS_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e053011000ll;
+        return 0xc11053011000ll;
     __cavm_csr_fatal("TAD_CMN_MPAMCFG_CPBM_NS", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -710,7 +710,7 @@ static inline uint64_t CAVM_TAD_CMN_MPAMCFG_CPBM_S_FUNC(void) __attribute__ ((pu
 static inline uint64_t CAVM_TAD_CMN_MPAMCFG_CPBM_S_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e053021000ll;
+        return 0xc11053021000ll;
     __cavm_csr_fatal("TAD_CMN_MPAMCFG_CPBM_S", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -775,7 +775,7 @@ static inline uint64_t CAVM_TAD_CMN_MPAMCFG_IMPL_PRI_NS_FUNC(void) __attribute__
 static inline uint64_t CAVM_TAD_CMN_MPAMCFG_IMPL_PRI_NS_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e053013000ll;
+        return 0xc11053013000ll;
     __cavm_csr_fatal("TAD_CMN_MPAMCFG_IMPL_PRI_NS", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -838,7 +838,7 @@ static inline uint64_t CAVM_TAD_CMN_MPAMCFG_IMPL_PRI_S_FUNC(void) __attribute__ 
 static inline uint64_t CAVM_TAD_CMN_MPAMCFG_IMPL_PRI_S_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e053023000ll;
+        return 0xc11053023000ll;
     __cavm_csr_fatal("TAD_CMN_MPAMCFG_IMPL_PRI_S", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -908,7 +908,7 @@ static inline uint64_t CAVM_TAD_CMN_MPAMCFG_PART_SEL_NS_FUNC(void) __attribute__
 static inline uint64_t CAVM_TAD_CMN_MPAMCFG_PART_SEL_NS_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e053010100ll;
+        return 0xc11053010100ll;
     __cavm_csr_fatal("TAD_CMN_MPAMCFG_PART_SEL_NS", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -978,7 +978,7 @@ static inline uint64_t CAVM_TAD_CMN_MPAMCFG_PART_SEL_S_FUNC(void) __attribute__ 
 static inline uint64_t CAVM_TAD_CMN_MPAMCFG_PART_SEL_S_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e053020100ll;
+        return 0xc11053020100ll;
     __cavm_csr_fatal("TAD_CMN_MPAMCFG_PART_SEL_S", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1058,7 +1058,7 @@ static inline uint64_t CAVM_TAD_CMN_MPAMCFG_PRI_NS_FUNC(void) __attribute__ ((pu
 static inline uint64_t CAVM_TAD_CMN_MPAMCFG_PRI_NS_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e053010400ll;
+        return 0xc11053010400ll;
     __cavm_csr_fatal("TAD_CMN_MPAMCFG_PRI_NS", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1138,7 +1138,7 @@ static inline uint64_t CAVM_TAD_CMN_MPAMCFG_PRI_S_FUNC(void) __attribute__ ((pur
 static inline uint64_t CAVM_TAD_CMN_MPAMCFG_PRI_S_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e053020400ll;
+        return 0xc11053020400ll;
     __cavm_csr_fatal("TAD_CMN_MPAMCFG_PRI_S", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1188,7 +1188,7 @@ static inline uint64_t CAVM_TAD_CMN_MPAMF_AIDR_NS_FUNC(void) __attribute__ ((pur
 static inline uint64_t CAVM_TAD_CMN_MPAMF_AIDR_NS_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e053010020ll;
+        return 0xc11053010020ll;
     __cavm_csr_fatal("TAD_CMN_MPAMF_AIDR_NS", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1238,7 +1238,7 @@ static inline uint64_t CAVM_TAD_CMN_MPAMF_AIDR_S_FUNC(void) __attribute__ ((pure
 static inline uint64_t CAVM_TAD_CMN_MPAMF_AIDR_S_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e053020020ll;
+        return 0xc11053020020ll;
     __cavm_csr_fatal("TAD_CMN_MPAMF_AIDR_S", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1293,7 +1293,7 @@ static inline uint64_t CAVM_TAD_CMN_MPAMF_CPOR_IDR_NS_FUNC(void) __attribute__ (
 static inline uint64_t CAVM_TAD_CMN_MPAMF_CPOR_IDR_NS_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e053010030ll;
+        return 0xc11053010030ll;
     __cavm_csr_fatal("TAD_CMN_MPAMF_CPOR_IDR_NS", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1347,7 +1347,7 @@ static inline uint64_t CAVM_TAD_CMN_MPAMF_CPOR_IDR_S_FUNC(void) __attribute__ ((
 static inline uint64_t CAVM_TAD_CMN_MPAMF_CPOR_IDR_S_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e053020030ll;
+        return 0xc11053020030ll;
     __cavm_csr_fatal("TAD_CMN_MPAMF_CPOR_IDR_S", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1407,7 +1407,7 @@ static inline uint64_t CAVM_TAD_CMN_MPAMF_CSUMON_IDR_NS_FUNC(void) __attribute__
 static inline uint64_t CAVM_TAD_CMN_MPAMF_CSUMON_IDR_NS_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e053010088ll;
+        return 0xc11053010088ll;
     __cavm_csr_fatal("TAD_CMN_MPAMF_CSUMON_IDR_NS", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1467,7 +1467,7 @@ static inline uint64_t CAVM_TAD_CMN_MPAMF_CSUMON_IDR_S_FUNC(void) __attribute__ 
 static inline uint64_t CAVM_TAD_CMN_MPAMF_CSUMON_IDR_S_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e053020088ll;
+        return 0xc11053020088ll;
     __cavm_csr_fatal("TAD_CMN_MPAMF_CSUMON_IDR_S", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1629,7 +1629,7 @@ static inline uint64_t CAVM_TAD_CMN_MPAMF_IDR_NS_FUNC(void) __attribute__ ((pure
 static inline uint64_t CAVM_TAD_CMN_MPAMF_IDR_NS_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e053010000ll;
+        return 0xc11053010000ll;
     __cavm_csr_fatal("TAD_CMN_MPAMF_IDR_NS", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1791,7 +1791,7 @@ static inline uint64_t CAVM_TAD_CMN_MPAMF_IDR_S_FUNC(void) __attribute__ ((pure,
 static inline uint64_t CAVM_TAD_CMN_MPAMF_IDR_S_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e053020000ll;
+        return 0xc11053020000ll;
     __cavm_csr_fatal("TAD_CMN_MPAMF_IDR_S", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1851,7 +1851,7 @@ static inline uint64_t CAVM_TAD_CMN_MPAMF_IIDR_NS_FUNC(void) __attribute__ ((pur
 static inline uint64_t CAVM_TAD_CMN_MPAMF_IIDR_NS_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e053010018ll;
+        return 0xc11053010018ll;
     __cavm_csr_fatal("TAD_CMN_MPAMF_IIDR_NS", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1911,7 +1911,7 @@ static inline uint64_t CAVM_TAD_CMN_MPAMF_IIDR_S_FUNC(void) __attribute__ ((pure
 static inline uint64_t CAVM_TAD_CMN_MPAMF_IIDR_S_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e053020018ll;
+        return 0xc11053020018ll;
     __cavm_csr_fatal("TAD_CMN_MPAMF_IIDR_S", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1973,7 +1973,7 @@ static inline uint64_t CAVM_TAD_CMN_MPAMF_IMPL_IDR_NS_FUNC(void) __attribute__ (
 static inline uint64_t CAVM_TAD_CMN_MPAMF_IMPL_IDR_NS_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e053010028ll;
+        return 0xc11053010028ll;
     __cavm_csr_fatal("TAD_CMN_MPAMF_IMPL_IDR_NS", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2035,7 +2035,7 @@ static inline uint64_t CAVM_TAD_CMN_MPAMF_IMPL_IDR_S_FUNC(void) __attribute__ ((
 static inline uint64_t CAVM_TAD_CMN_MPAMF_IMPL_IDR_S_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e053020028ll;
+        return 0xc11053020028ll;
     __cavm_csr_fatal("TAD_CMN_MPAMF_IMPL_IDR_S", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2101,7 +2101,7 @@ static inline uint64_t CAVM_TAD_CMN_MPAMF_MSMON_IDR_NS_FUNC(void) __attribute__ 
 static inline uint64_t CAVM_TAD_CMN_MPAMF_MSMON_IDR_NS_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e053010080ll;
+        return 0xc11053010080ll;
     __cavm_csr_fatal("TAD_CMN_MPAMF_MSMON_IDR_NS", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2167,7 +2167,7 @@ static inline uint64_t CAVM_TAD_CMN_MPAMF_MSMON_IDR_S_FUNC(void) __attribute__ (
 static inline uint64_t CAVM_TAD_CMN_MPAMF_MSMON_IDR_S_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e053020080ll;
+        return 0xc11053020080ll;
     __cavm_csr_fatal("TAD_CMN_MPAMF_MSMON_IDR_S", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2276,7 +2276,7 @@ static inline uint64_t CAVM_TAD_CMN_MPAMF_PRI_IDR_NS_FUNC(void) __attribute__ ((
 static inline uint64_t CAVM_TAD_CMN_MPAMF_PRI_IDR_NS_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e053010048ll;
+        return 0xc11053010048ll;
     __cavm_csr_fatal("TAD_CMN_MPAMF_PRI_IDR_NS", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2385,7 +2385,7 @@ static inline uint64_t CAVM_TAD_CMN_MPAMF_PRI_IDR_S_FUNC(void) __attribute__ ((p
 static inline uint64_t CAVM_TAD_CMN_MPAMF_PRI_IDR_S_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e053020048ll;
+        return 0xc11053020048ll;
     __cavm_csr_fatal("TAD_CMN_MPAMF_PRI_IDR_S", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2427,7 +2427,7 @@ static inline uint64_t CAVM_TAD_CMN_MPAMF_SIDR_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t CAVM_TAD_CMN_MPAMF_SIDR_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e053020008ll;
+        return 0xc11053020008ll;
     __cavm_csr_fatal("TAD_CMN_MPAMF_SIDR", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2586,7 +2586,7 @@ static inline uint64_t CAVM_TAD_CMN_MSMON_CFG_CSU_CTL_NS_FUNC(void) __attribute_
 static inline uint64_t CAVM_TAD_CMN_MSMON_CFG_CSU_CTL_NS_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e053010818ll;
+        return 0xc11053010818ll;
     __cavm_csr_fatal("TAD_CMN_MSMON_CFG_CSU_CTL_NS", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2745,7 +2745,7 @@ static inline uint64_t CAVM_TAD_CMN_MSMON_CFG_CSU_CTL_S_FUNC(void) __attribute__
 static inline uint64_t CAVM_TAD_CMN_MSMON_CFG_CSU_CTL_S_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e053020818ll;
+        return 0xc11053020818ll;
     __cavm_csr_fatal("TAD_CMN_MSMON_CFG_CSU_CTL_S", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2888,7 +2888,7 @@ static inline uint64_t CAVM_TAD_CMN_MSMON_CFG_CSU_FLT_NS_FUNC(void) __attribute_
 static inline uint64_t CAVM_TAD_CMN_MSMON_CFG_CSU_FLT_NS_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e053010810ll;
+        return 0xc11053010810ll;
     __cavm_csr_fatal("TAD_CMN_MSMON_CFG_CSU_FLT_NS", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -3021,7 +3021,7 @@ static inline uint64_t CAVM_TAD_CMN_MSMON_CFG_CSU_FLT_S_FUNC(void) __attribute__
 static inline uint64_t CAVM_TAD_CMN_MSMON_CFG_CSU_FLT_S_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e053020810ll;
+        return 0xc11053020810ll;
     __cavm_csr_fatal("TAD_CMN_MSMON_CFG_CSU_FLT_S", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -3081,7 +3081,7 @@ static inline uint64_t CAVM_TAD_CMN_MSMON_CFG_MON_SEL_NS_FUNC(void) __attribute_
 static inline uint64_t CAVM_TAD_CMN_MSMON_CFG_MON_SEL_NS_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e053010800ll;
+        return 0xc11053010800ll;
     __cavm_csr_fatal("TAD_CMN_MSMON_CFG_MON_SEL_NS", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -3141,7 +3141,7 @@ static inline uint64_t CAVM_TAD_CMN_MSMON_CFG_MON_SEL_S_FUNC(void) __attribute__
 static inline uint64_t CAVM_TAD_CMN_MSMON_CFG_MON_SEL_S_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e053020800ll;
+        return 0xc11053020800ll;
     __cavm_csr_fatal("TAD_CMN_MSMON_CFG_MON_SEL_S", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -3224,7 +3224,7 @@ static inline uint64_t CAVM_TAD_CMN_MSMON_CSU_NS_FUNC(void) __attribute__ ((pure
 static inline uint64_t CAVM_TAD_CMN_MSMON_CSU_NS_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e053010840ll;
+        return 0xc11053010840ll;
     __cavm_csr_fatal("TAD_CMN_MSMON_CSU_NS", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -3307,7 +3307,7 @@ static inline uint64_t CAVM_TAD_CMN_MSMON_CSU_S_FUNC(void) __attribute__ ((pure,
 static inline uint64_t CAVM_TAD_CMN_MSMON_CSU_S_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e053020840ll;
+        return 0xc11053020840ll;
     __cavm_csr_fatal("TAD_CMN_MSMON_CSU_S", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -3380,7 +3380,7 @@ static inline uint64_t CAVM_TAD_CMN_REQ_RETRY_FUNC(void) __attribute__ ((pure, a
 static inline uint64_t CAVM_TAD_CMN_REQ_RETRY_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e053000018ll;
+        return 0xc11053000018ll;
     __cavm_csr_fatal("TAD_CMN_REQ_RETRY", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -3437,7 +3437,7 @@ static inline uint64_t CAVM_TAD_CMN_SCR_CTL_FUNC(void) __attribute__ ((pure, alw
 static inline uint64_t CAVM_TAD_CMN_SCR_CTL_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e053000038ll;
+        return 0xc11053000038ll;
     __cavm_csr_fatal("TAD_CMN_SCR_CTL", 0, 0, 0, 0, 0, 0, 0);
 }
 

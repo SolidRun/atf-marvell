@@ -25,11 +25,11 @@
  * PBUS Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define CAVM_PBUS_BAR_E_PBUS_PF_BAR0 (0x87e001000000ll)
+#define CAVM_PBUS_BAR_E_PBUS_PF_BAR0 (0xc00101000000ll)
 #define CAVM_PBUS_BAR_E_PBUS_PF_BAR0_SIZE 0x100000ull
-#define CAVM_PBUS_BAR_E_PBUS_PF_BAR2 (0x800000000000ll)
+#define CAVM_PBUS_BAR_E_PBUS_PF_BAR2 (0xcf0000000000ll)
 #define CAVM_PBUS_BAR_E_PBUS_PF_BAR2_SIZE 0x100000000ull
-#define CAVM_PBUS_BAR_E_PBUS_PF_BAR4 (0x87e001f00000ll)
+#define CAVM_PBUS_BAR_E_PBUS_PF_BAR4 (0xc00101f00000ll)
 #define CAVM_PBUS_BAR_E_PBUS_PF_BAR4_SIZE 0x100000ull
 
 /**
@@ -89,7 +89,7 @@ static inline uint64_t CAVM_PBUS_DEBUG_FUNC(void) __attribute__ ((pure, always_i
 static inline uint64_t CAVM_PBUS_DEBUG_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CNF20KA))
-        return 0x87e0010001f0ll;
+        return 0xc001010001f0ll;
     __cavm_csr_fatal("PBUS_DEBUG", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -129,7 +129,7 @@ static inline uint64_t CAVM_PBUS_DMA_ADRX(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_PBUS_DMA_ADRX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=1))
-        return 0x87e001000110ll + 8ll * ((a) & 0x1);
+        return 0xc00101000110ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("PBUS_DMA_ADRX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -237,7 +237,7 @@ static inline uint64_t CAVM_PBUS_DMA_CFGX(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_PBUS_DMA_CFGX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=1))
-        return 0x87e001000100ll + 8ll * ((a) & 0x1);
+        return 0xc00101000100ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("PBUS_DMA_CFGX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -325,7 +325,7 @@ static inline uint64_t CAVM_PBUS_DMA_TIMX(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_PBUS_DMA_TIMX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=1))
-        return 0x87e001000120ll + 8ll * ((a) & 0x1);
+        return 0xc00101000120ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("PBUS_DMA_TIMX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -384,7 +384,7 @@ static inline uint64_t CAVM_PBUS_INT_FUNC(void) __attribute__ ((pure, always_inl
 static inline uint64_t CAVM_PBUS_INT_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CNF20KA))
-        return 0x87e001000080ll;
+        return 0xc00101000080ll;
     __cavm_csr_fatal("PBUS_INT", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -435,7 +435,7 @@ static inline uint64_t CAVM_PBUS_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, al
 static inline uint64_t CAVM_PBUS_INT_ENA_W1C_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CNF20KA))
-        return 0x87e001000090ll;
+        return 0xc00101000090ll;
     __cavm_csr_fatal("PBUS_INT_ENA_W1C", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -486,7 +486,7 @@ static inline uint64_t CAVM_PBUS_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, al
 static inline uint64_t CAVM_PBUS_INT_ENA_W1S_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CNF20KA))
-        return 0x87e001000098ll;
+        return 0xc00101000098ll;
     __cavm_csr_fatal("PBUS_INT_ENA_W1S", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -537,7 +537,7 @@ static inline uint64_t CAVM_PBUS_INT_W1S_FUNC(void) __attribute__ ((pure, always
 static inline uint64_t CAVM_PBUS_INT_W1S_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CNF20KA))
-        return 0x87e001000088ll;
+        return 0xc00101000088ll;
     __cavm_csr_fatal("PBUS_INT_W1S", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -576,7 +576,7 @@ static inline uint64_t CAVM_PBUS_MSIX_PBAX(uint64_t a) __attribute__ ((pure, alw
 static inline uint64_t CAVM_PBUS_MSIX_PBAX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF20KA) && (a==0))
-        return 0x87e001ff0000ll + 8ll * ((a) & 0x0);
+        return 0xc00101ff0000ll + 8ll * ((a) & 0x0);
     __cavm_csr_fatal("PBUS_MSIX_PBAX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -662,7 +662,7 @@ static inline uint64_t CAVM_PBUS_MSIX_VECX_ADDR(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_PBUS_MSIX_VECX_ADDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=5))
-        return 0x87e001f00000ll + 0x10ll * ((a) & 0x7);
+        return 0xc00101f00000ll + 0x10ll * ((a) & 0x7);
     __cavm_csr_fatal("PBUS_MSIX_VECX_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -702,7 +702,7 @@ static inline uint64_t CAVM_PBUS_MSIX_VECX_CTL(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_PBUS_MSIX_VECX_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=5))
-        return 0x87e001f00008ll + 0x10ll * ((a) & 0x7);
+        return 0xc00101f00008ll + 0x10ll * ((a) & 0x7);
     __cavm_csr_fatal("PBUS_MSIX_VECX_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -936,7 +936,7 @@ static inline uint64_t CAVM_PBUS_REGX_CFG(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_PBUS_REGX_CFG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=7))
-        return 0x87e001000000ll + 8ll * ((a) & 0x7);
+        return 0xc00101000000ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("PBUS_REGX_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1038,7 +1038,7 @@ static inline uint64_t CAVM_PBUS_REGX_TIM(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_PBUS_REGX_TIM(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=7))
-        return 0x87e001000040ll + 8ll * ((a) & 0x7);
+        return 0xc00101000040ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("PBUS_REGX_TIM", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1093,7 +1093,7 @@ static inline uint64_t CAVM_PBUS_THR_FUNC(void) __attribute__ ((pure, always_inl
 static inline uint64_t CAVM_PBUS_THR_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CNF20KA))
-        return 0x87e0010000b0ll;
+        return 0xc001010000b0ll;
     __cavm_csr_fatal("PBUS_THR", 0, 0, 0, 0, 0, 0, 0);
 }
 

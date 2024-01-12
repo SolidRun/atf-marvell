@@ -25,9 +25,9 @@
  * RNM Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define CAVM_RNM_BAR_E_RNM_PF_BAR0 (0x87e00f000000ll)
+#define CAVM_RNM_BAR_E_RNM_PF_BAR0 (0xc0e00f000000ll)
 #define CAVM_RNM_BAR_E_RNM_PF_BAR0_SIZE 0x100000ull
-#define CAVM_RNM_BAR_E_RNM_VF_BAR0 (0x80f000800000ll)
+#define CAVM_RNM_BAR_E_RNM_VF_BAR0 (0xcf5000800000ll)
 #define CAVM_RNM_BAR_E_RNM_VF_BAR0_SIZE 0x100000ull
 
 /**
@@ -54,7 +54,7 @@ typedef union cavm_rnm_active_pc cavm_rnm_active_pc_t;
 static inline uint64_t CAVM_RNM_ACTIVE_PC_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RNM_ACTIVE_PC_FUNC(void)
 {
-    return 0x87e00f000010ll;
+    return 0xc0e00f000010ll;
 }
 
 #define typedef_CAVM_RNM_ACTIVE_PC cavm_rnm_active_pc_t
@@ -115,7 +115,7 @@ typedef union cavm_rnm_ctl_status cavm_rnm_ctl_status_t;
 static inline uint64_t CAVM_RNM_CTL_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RNM_CTL_STATUS_FUNC(void)
 {
-    return 0x87e00f000000ll;
+    return 0xc0e00f000000ll;
 }
 
 #define typedef_CAVM_RNM_CTL_STATUS cavm_rnm_ctl_status_t
@@ -156,7 +156,7 @@ static inline uint64_t CAVM_RNM_DRBG_ENT_FORCEX(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_RNM_DRBG_ENT_FORCEX(uint64_t a)
 {
     if (a<=3)
-        return 0x87e00f000300ll + 8ll * ((a) & 0x3);
+        return 0xc0e00f000300ll + 8ll * ((a) & 0x3);
     __cavm_csr_fatal("RNM_DRBG_ENT_FORCEX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -195,7 +195,7 @@ typedef union cavm_rnm_drbg_rndr cavm_rnm_drbg_rndr_t;
 static inline uint64_t CAVM_RNM_DRBG_RNDR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RNM_DRBG_RNDR_FUNC(void)
 {
-    return 0x80f000800020ll;
+    return 0xcf5000800020ll;
 }
 
 #define typedef_CAVM_RNM_DRBG_RNDR cavm_rnm_drbg_rndr_t
@@ -235,7 +235,7 @@ typedef union cavm_rnm_drbg_rndr_result cavm_rnm_drbg_rndr_result_t;
 static inline uint64_t CAVM_RNM_DRBG_RNDR_RESULT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RNM_DRBG_RNDR_RESULT_FUNC(void)
 {
-    return 0x80f000800028ll;
+    return 0xcf5000800028ll;
 }
 
 #define typedef_CAVM_RNM_DRBG_RNDR_RESULT cavm_rnm_drbg_rndr_result_t
@@ -275,7 +275,7 @@ typedef union cavm_rnm_drbg_rndrrs cavm_rnm_drbg_rndrrs_t;
 static inline uint64_t CAVM_RNM_DRBG_RNDRRS_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RNM_DRBG_RNDRRS_FUNC(void)
 {
-    return 0x80f000800030ll;
+    return 0xcf5000800030ll;
 }
 
 #define typedef_CAVM_RNM_DRBG_RNDRRS cavm_rnm_drbg_rndrrs_t
@@ -315,7 +315,7 @@ typedef union cavm_rnm_drbg_rndrrs_result cavm_rnm_drbg_rndrrs_result_t;
 static inline uint64_t CAVM_RNM_DRBG_RNDRRS_RESULT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RNM_DRBG_RNDRRS_RESULT_FUNC(void)
 {
-    return 0x80f000800038ll;
+    return 0xcf5000800038ll;
 }
 
 #define typedef_CAVM_RNM_DRBG_RNDRRS_RESULT cavm_rnm_drbg_rndrrs_result_t
@@ -469,7 +469,7 @@ typedef union cavm_rnm_ebg_ctl cavm_rnm_ebg_ctl_t;
 static inline uint64_t CAVM_RNM_EBG_CTL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RNM_EBG_CTL_FUNC(void)
 {
-    return 0x87e00f000040ll;
+    return 0xc0e00f000040ll;
 }
 
 #define typedef_CAVM_RNM_EBG_CTL cavm_rnm_ebg_ctl_t
@@ -507,7 +507,7 @@ typedef union cavm_rnm_ebg_ent cavm_rnm_ebg_ent_t;
 static inline uint64_t CAVM_RNM_EBG_ENT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RNM_EBG_ENT_FUNC(void)
 {
-    return 0x87e00f000048ll;
+    return 0xc0e00f000048ll;
 }
 
 #define typedef_CAVM_RNM_EBG_ENT cavm_rnm_ebg_ent_t
@@ -548,7 +548,7 @@ typedef union cavm_rnm_entropy_rate cavm_rnm_entropy_rate_t;
 static inline uint64_t CAVM_RNM_ENTROPY_RATE_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RNM_ENTROPY_RATE_FUNC(void)
 {
-    return 0x87e00f000f10ll;
+    return 0xc0e00f000f10ll;
 }
 
 #define typedef_CAVM_RNM_ENTROPY_RATE cavm_rnm_entropy_rate_t
@@ -591,7 +591,7 @@ typedef union cavm_rnm_entropy_status cavm_rnm_entropy_status_t;
 static inline uint64_t CAVM_RNM_ENTROPY_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RNM_ENTROPY_STATUS_FUNC(void)
 {
-    return 0x87e00f000008ll;
+    return 0xc0e00f000008ll;
 }
 
 #define typedef_CAVM_RNM_ENTROPY_STATUS cavm_rnm_entropy_status_t
@@ -631,7 +631,7 @@ typedef union cavm_rnm_pf_drbg_reseed_ctr cavm_rnm_pf_drbg_reseed_ctr_t;
 static inline uint64_t CAVM_RNM_PF_DRBG_RESEED_CTR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RNM_PF_DRBG_RESEED_CTR_FUNC(void)
 {
-    return 0x87e00f000f08ll;
+    return 0xc0e00f000f08ll;
 }
 
 #define typedef_CAVM_RNM_PF_DRBG_RESEED_CTR cavm_rnm_pf_drbg_reseed_ctr_t
@@ -671,7 +671,7 @@ typedef union cavm_rnm_pf_drbg_reseed_interval cavm_rnm_pf_drbg_reseed_interval_
 static inline uint64_t CAVM_RNM_PF_DRBG_RESEED_INTERVAL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RNM_PF_DRBG_RESEED_INTERVAL_FUNC(void)
 {
-    return 0x87e00f000f00ll;
+    return 0xc0e00f000f00ll;
 }
 
 #define typedef_CAVM_RNM_PF_DRBG_RESEED_INTERVAL cavm_rnm_pf_drbg_reseed_interval_t
@@ -745,7 +745,7 @@ typedef union cavm_rnm_pf_ebg_health cavm_rnm_pf_ebg_health_t;
 static inline uint64_t CAVM_RNM_PF_EBG_HEALTH_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RNM_PF_EBG_HEALTH_FUNC(void)
 {
-    return 0x87e00f000050ll;
+    return 0xc0e00f000050ll;
 }
 
 #define typedef_CAVM_RNM_PF_EBG_HEALTH cavm_rnm_pf_ebg_health_t
@@ -790,7 +790,7 @@ typedef union cavm_rnm_pf_trng cavm_rnm_pf_trng_t;
 static inline uint64_t CAVM_RNM_PF_TRNG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RNM_PF_TRNG_FUNC(void)
 {
-    return 0x87e00f000400ll;
+    return 0xc0e00f000400ll;
 }
 
 #define typedef_CAVM_RNM_PF_TRNG cavm_rnm_pf_trng_t
@@ -830,7 +830,7 @@ static inline uint64_t CAVM_RNM_PF_TRNG_DATX(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_RNM_PF_TRNG_DATX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=127))
-        return 0x87e00f001000ll + 0x10ll * ((a) & 0x7f);
+        return 0xc0e00f001000ll + 0x10ll * ((a) & 0x7f);
     __cavm_csr_fatal("RNM_PF_TRNG_DATX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -871,7 +871,7 @@ static inline uint64_t CAVM_RNM_PF_TRNG_RESX(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_RNM_PF_TRNG_RESX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=127))
-        return 0x87e00f001008ll + 0x10ll * ((a) & 0x7f);
+        return 0xc0e00f001008ll + 0x10ll * ((a) & 0x7f);
     __cavm_csr_fatal("RNM_PF_TRNG_RESX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -921,7 +921,7 @@ typedef union cavm_rnm_pf_trng_result cavm_rnm_pf_trng_result_t;
 static inline uint64_t CAVM_RNM_PF_TRNG_RESULT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RNM_PF_TRNG_RESULT_FUNC(void)
 {
-    return 0x87e00f000408ll;
+    return 0xc0e00f000408ll;
 }
 
 #define typedef_CAVM_RNM_PF_TRNG_RESULT cavm_rnm_pf_trng_result_t
@@ -955,7 +955,7 @@ typedef union cavm_rnm_random cavm_rnm_random_t;
 static inline uint64_t CAVM_RNM_RANDOM_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RNM_RANDOM_FUNC(void)
 {
-    return 0x80f000800000ll;
+    return 0xcf5000800000ll;
 }
 
 #define typedef_CAVM_RNM_RANDOM cavm_rnm_random_t
@@ -1000,7 +1000,7 @@ typedef union cavm_rnm_trng cavm_rnm_trng_t;
 static inline uint64_t CAVM_RNM_TRNG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RNM_TRNG_FUNC(void)
 {
-    return 0x80f000800010ll;
+    return 0xcf5000800010ll;
 }
 
 #define typedef_CAVM_RNM_TRNG cavm_rnm_trng_t
@@ -1049,7 +1049,7 @@ typedef union cavm_rnm_trng_result cavm_rnm_trng_result_t;
 static inline uint64_t CAVM_RNM_TRNG_RESULT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RNM_TRNG_RESULT_FUNC(void)
 {
-    return 0x80f000800018ll;
+    return 0xcf5000800018ll;
 }
 
 #define typedef_CAVM_RNM_TRNG_RESULT cavm_rnm_trng_result_t
@@ -1089,7 +1089,7 @@ typedef union cavm_rnm_vf_drbg_reseed_ctr cavm_rnm_vf_drbg_reseed_ctr_t;
 static inline uint64_t CAVM_RNM_VF_DRBG_RESEED_CTR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RNM_VF_DRBG_RESEED_CTR_FUNC(void)
 {
-    return 0x80f000800058ll;
+    return 0xcf5000800058ll;
 }
 
 #define typedef_CAVM_RNM_VF_DRBG_RESEED_CTR cavm_rnm_vf_drbg_reseed_ctr_t
@@ -1129,7 +1129,7 @@ typedef union cavm_rnm_vf_drbg_reseed_interval cavm_rnm_vf_drbg_reseed_interval_
 static inline uint64_t CAVM_RNM_VF_DRBG_RESEED_INTERVAL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RNM_VF_DRBG_RESEED_INTERVAL_FUNC(void)
 {
-    return 0x80f000800050ll;
+    return 0xcf5000800050ll;
 }
 
 #define typedef_CAVM_RNM_VF_DRBG_RESEED_INTERVAL cavm_rnm_vf_drbg_reseed_interval_t
@@ -1197,7 +1197,7 @@ typedef union cavm_rnm_vf_ebg_health cavm_rnm_vf_ebg_health_t;
 static inline uint64_t CAVM_RNM_VF_EBG_HEALTH_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RNM_VF_EBG_HEALTH_FUNC(void)
 {
-    return 0x80f000800048ll;
+    return 0xcf5000800048ll;
 }
 
 #define typedef_CAVM_RNM_VF_EBG_HEALTH cavm_rnm_vf_ebg_health_t
@@ -1237,7 +1237,7 @@ static inline uint64_t CAVM_RNM_VF_TRNG_DATX(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_RNM_VF_TRNG_DATX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=127))
-        return 0x80f000800800ll + 0x10ll * ((a) & 0x7f);
+        return 0xcf5000800800ll + 0x100000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("RNM_VF_TRNG_DATX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1278,7 +1278,7 @@ static inline uint64_t CAVM_RNM_VF_TRNG_RESX(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_RNM_VF_TRNG_RESX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=127))
-        return 0x80f000800808ll + 0x10ll * ((a) & 0x7f);
+        return 0xcf5000800808ll + 0x100000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("RNM_VF_TRNG_RESX", 1, a, 0, 0, 0, 0, 0);
 }
 

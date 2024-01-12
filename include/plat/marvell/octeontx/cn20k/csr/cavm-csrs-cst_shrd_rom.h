@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2021-2023 Marvell.
+* Copyright (C) 2021-2024 Marvell.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -56,7 +56,9 @@ typedef union cavm_cst_shrd_rom_authstatus cavm_cst_shrd_rom_authstatus_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_AUTHSTATUS_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_AUTHSTATUS_FUNC(void)
 {
-    return 0x87a100000fb8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000fb8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_AUTHSTATUS", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_AUTHSTATUS cavm_cst_shrd_rom_authstatus_t
@@ -92,7 +94,9 @@ typedef union cavm_cst_shrd_rom_cidr0 cavm_cst_shrd_rom_cidr0_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_CIDR0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_CIDR0_FUNC(void)
 {
-    return 0x87a100000ff0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000ff0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_CIDR0", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_CIDR0 cavm_cst_shrd_rom_cidr0_t
@@ -130,7 +134,9 @@ typedef union cavm_cst_shrd_rom_cidr1 cavm_cst_shrd_rom_cidr1_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_CIDR1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_CIDR1_FUNC(void)
 {
-    return 0x87a100000ff4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000ff4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_CIDR1", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_CIDR1 cavm_cst_shrd_rom_cidr1_t
@@ -166,7 +172,9 @@ typedef union cavm_cst_shrd_rom_cidr2 cavm_cst_shrd_rom_cidr2_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_CIDR2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_CIDR2_FUNC(void)
 {
-    return 0x87a100000ff8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000ff8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_CIDR2", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_CIDR2 cavm_cst_shrd_rom_cidr2_t
@@ -202,7 +210,9 @@ typedef union cavm_cst_shrd_rom_cidr3 cavm_cst_shrd_rom_cidr3_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_CIDR3_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_CIDR3_FUNC(void)
 {
-    return 0x87a100000ffcll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000ffcll;
+    __cavm_csr_fatal("CST_SHRD_ROM_CIDR3", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_CIDR3 cavm_cst_shrd_rom_cidr3_t
@@ -244,7 +254,9 @@ typedef union cavm_cst_shrd_rom_devarch cavm_cst_shrd_rom_devarch_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_DEVARCH_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_DEVARCH_FUNC(void)
 {
-    return 0x87a100000fbcll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000fbcll;
+    __cavm_csr_fatal("CST_SHRD_ROM_DEVARCH", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_DEVARCH cavm_cst_shrd_rom_devarch_t
@@ -287,7 +299,9 @@ typedef union cavm_cst_shrd_rom_devid cavm_cst_shrd_rom_devid_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_DEVID_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_DEVID_FUNC(void)
 {
-    return 0x87a100000fc8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000fc8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_DEVID", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_DEVID cavm_cst_shrd_rom_devid_t
@@ -323,7 +337,9 @@ typedef union cavm_cst_shrd_rom_pidr0 cavm_cst_shrd_rom_pidr0_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_PIDR0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_PIDR0_FUNC(void)
 {
-    return 0x87a100000fe0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000fe0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_PIDR0", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_PIDR0 cavm_cst_shrd_rom_pidr0_t
@@ -367,7 +383,9 @@ typedef union cavm_cst_shrd_rom_pidr1 cavm_cst_shrd_rom_pidr1_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_PIDR1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_PIDR1_FUNC(void)
 {
-    return 0x87a100000fe4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000fe4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_PIDR1", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_PIDR1 cavm_cst_shrd_rom_pidr1_t
@@ -413,7 +431,9 @@ typedef union cavm_cst_shrd_rom_pidr2 cavm_cst_shrd_rom_pidr2_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_PIDR2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_PIDR2_FUNC(void)
 {
-    return 0x87a100000fe8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000fe8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_PIDR2", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_PIDR2 cavm_cst_shrd_rom_pidr2_t
@@ -457,7 +477,9 @@ typedef union cavm_cst_shrd_rom_pidr3 cavm_cst_shrd_rom_pidr3_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_PIDR3_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_PIDR3_FUNC(void)
 {
-    return 0x87a100000fecll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000fecll;
+    __cavm_csr_fatal("CST_SHRD_ROM_PIDR3", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_PIDR3 cavm_cst_shrd_rom_pidr3_t
@@ -503,7 +525,9 @@ typedef union cavm_cst_shrd_rom_pidr4 cavm_cst_shrd_rom_pidr4_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_PIDR4_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_PIDR4_FUNC(void)
 {
-    return 0x87a100000fd0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000fd0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_PIDR4", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_PIDR4 cavm_cst_shrd_rom_pidr4_t
@@ -539,7 +563,9 @@ typedef union cavm_cst_shrd_rom_pidr5 cavm_cst_shrd_rom_pidr5_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_PIDR5_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_PIDR5_FUNC(void)
 {
-    return 0x87a100000fd4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000fd4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_PIDR5", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_PIDR5 cavm_cst_shrd_rom_pidr5_t
@@ -575,7 +601,9 @@ typedef union cavm_cst_shrd_rom_pidr6 cavm_cst_shrd_rom_pidr6_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_PIDR6_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_PIDR6_FUNC(void)
 {
-    return 0x87a100000fd8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000fd8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_PIDR6", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_PIDR6 cavm_cst_shrd_rom_pidr6_t
@@ -611,7 +639,9 @@ typedef union cavm_cst_shrd_rom_pidr7 cavm_cst_shrd_rom_pidr7_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_PIDR7_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_PIDR7_FUNC(void)
 {
-    return 0x87a100000fdcll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000fdcll;
+    __cavm_csr_fatal("CST_SHRD_ROM_PIDR7", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_PIDR7 cavm_cst_shrd_rom_pidr7_t
@@ -660,7 +690,9 @@ typedef union cavm_cst_shrd_rom_romentry0 cavm_cst_shrd_rom_romentry0_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY0_FUNC(void)
 {
-    return 0x87a100000000ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000000ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY0", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY0 cavm_cst_shrd_rom_romentry0_t
@@ -709,7 +741,9 @@ typedef union cavm_cst_shrd_rom_romentry1 cavm_cst_shrd_rom_romentry1_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY1_FUNC(void)
 {
-    return 0x87a100000004ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000004ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY1", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY1 cavm_cst_shrd_rom_romentry1_t
@@ -758,7 +792,9 @@ typedef union cavm_cst_shrd_rom_romentry10 cavm_cst_shrd_rom_romentry10_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY10_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY10_FUNC(void)
 {
-    return 0x87a100000028ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000028ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY10", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY10 cavm_cst_shrd_rom_romentry10_t
@@ -807,7 +843,9 @@ typedef union cavm_cst_shrd_rom_romentry100 cavm_cst_shrd_rom_romentry100_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY100_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY100_FUNC(void)
 {
-    return 0x87a100000190ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000190ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY100", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY100 cavm_cst_shrd_rom_romentry100_t
@@ -856,7 +894,9 @@ typedef union cavm_cst_shrd_rom_romentry101 cavm_cst_shrd_rom_romentry101_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY101_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY101_FUNC(void)
 {
-    return 0x87a100000194ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000194ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY101", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY101 cavm_cst_shrd_rom_romentry101_t
@@ -905,7 +945,9 @@ typedef union cavm_cst_shrd_rom_romentry102 cavm_cst_shrd_rom_romentry102_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY102_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY102_FUNC(void)
 {
-    return 0x87a100000198ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000198ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY102", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY102 cavm_cst_shrd_rom_romentry102_t
@@ -954,7 +996,9 @@ typedef union cavm_cst_shrd_rom_romentry103 cavm_cst_shrd_rom_romentry103_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY103_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY103_FUNC(void)
 {
-    return 0x87a10000019cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000019cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY103", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY103 cavm_cst_shrd_rom_romentry103_t
@@ -1003,7 +1047,9 @@ typedef union cavm_cst_shrd_rom_romentry104 cavm_cst_shrd_rom_romentry104_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY104_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY104_FUNC(void)
 {
-    return 0x87a1000001a0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000001a0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY104", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY104 cavm_cst_shrd_rom_romentry104_t
@@ -1052,7 +1098,9 @@ typedef union cavm_cst_shrd_rom_romentry105 cavm_cst_shrd_rom_romentry105_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY105_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY105_FUNC(void)
 {
-    return 0x87a1000001a4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000001a4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY105", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY105 cavm_cst_shrd_rom_romentry105_t
@@ -1101,7 +1149,9 @@ typedef union cavm_cst_shrd_rom_romentry106 cavm_cst_shrd_rom_romentry106_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY106_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY106_FUNC(void)
 {
-    return 0x87a1000001a8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000001a8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY106", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY106 cavm_cst_shrd_rom_romentry106_t
@@ -1150,7 +1200,9 @@ typedef union cavm_cst_shrd_rom_romentry107 cavm_cst_shrd_rom_romentry107_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY107_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY107_FUNC(void)
 {
-    return 0x87a1000001acll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000001acll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY107", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY107 cavm_cst_shrd_rom_romentry107_t
@@ -1199,7 +1251,9 @@ typedef union cavm_cst_shrd_rom_romentry108 cavm_cst_shrd_rom_romentry108_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY108_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY108_FUNC(void)
 {
-    return 0x87a1000001b0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000001b0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY108", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY108 cavm_cst_shrd_rom_romentry108_t
@@ -1248,7 +1302,9 @@ typedef union cavm_cst_shrd_rom_romentry109 cavm_cst_shrd_rom_romentry109_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY109_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY109_FUNC(void)
 {
-    return 0x87a1000001b4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000001b4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY109", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY109 cavm_cst_shrd_rom_romentry109_t
@@ -1297,7 +1353,9 @@ typedef union cavm_cst_shrd_rom_romentry11 cavm_cst_shrd_rom_romentry11_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY11_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY11_FUNC(void)
 {
-    return 0x87a10000002cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000002cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY11", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY11 cavm_cst_shrd_rom_romentry11_t
@@ -1346,7 +1404,9 @@ typedef union cavm_cst_shrd_rom_romentry110 cavm_cst_shrd_rom_romentry110_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY110_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY110_FUNC(void)
 {
-    return 0x87a1000001b8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000001b8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY110", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY110 cavm_cst_shrd_rom_romentry110_t
@@ -1395,7 +1455,9 @@ typedef union cavm_cst_shrd_rom_romentry111 cavm_cst_shrd_rom_romentry111_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY111_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY111_FUNC(void)
 {
-    return 0x87a1000001bcll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000001bcll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY111", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY111 cavm_cst_shrd_rom_romentry111_t
@@ -1444,7 +1506,9 @@ typedef union cavm_cst_shrd_rom_romentry112 cavm_cst_shrd_rom_romentry112_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY112_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY112_FUNC(void)
 {
-    return 0x87a1000001c0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000001c0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY112", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY112 cavm_cst_shrd_rom_romentry112_t
@@ -1493,7 +1557,9 @@ typedef union cavm_cst_shrd_rom_romentry113 cavm_cst_shrd_rom_romentry113_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY113_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY113_FUNC(void)
 {
-    return 0x87a1000001c4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000001c4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY113", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY113 cavm_cst_shrd_rom_romentry113_t
@@ -1542,7 +1608,9 @@ typedef union cavm_cst_shrd_rom_romentry114 cavm_cst_shrd_rom_romentry114_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY114_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY114_FUNC(void)
 {
-    return 0x87a1000001c8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000001c8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY114", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY114 cavm_cst_shrd_rom_romentry114_t
@@ -1591,7 +1659,9 @@ typedef union cavm_cst_shrd_rom_romentry115 cavm_cst_shrd_rom_romentry115_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY115_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY115_FUNC(void)
 {
-    return 0x87a1000001ccll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000001ccll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY115", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY115 cavm_cst_shrd_rom_romentry115_t
@@ -1640,7 +1710,9 @@ typedef union cavm_cst_shrd_rom_romentry116 cavm_cst_shrd_rom_romentry116_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY116_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY116_FUNC(void)
 {
-    return 0x87a1000001d0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000001d0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY116", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY116 cavm_cst_shrd_rom_romentry116_t
@@ -1689,7 +1761,9 @@ typedef union cavm_cst_shrd_rom_romentry117 cavm_cst_shrd_rom_romentry117_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY117_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY117_FUNC(void)
 {
-    return 0x87a1000001d4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000001d4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY117", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY117 cavm_cst_shrd_rom_romentry117_t
@@ -1738,7 +1812,9 @@ typedef union cavm_cst_shrd_rom_romentry118 cavm_cst_shrd_rom_romentry118_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY118_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY118_FUNC(void)
 {
-    return 0x87a1000001d8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000001d8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY118", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY118 cavm_cst_shrd_rom_romentry118_t
@@ -1787,7 +1863,9 @@ typedef union cavm_cst_shrd_rom_romentry119 cavm_cst_shrd_rom_romentry119_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY119_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY119_FUNC(void)
 {
-    return 0x87a1000001dcll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000001dcll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY119", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY119 cavm_cst_shrd_rom_romentry119_t
@@ -1836,7 +1914,9 @@ typedef union cavm_cst_shrd_rom_romentry12 cavm_cst_shrd_rom_romentry12_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY12_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY12_FUNC(void)
 {
-    return 0x87a100000030ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000030ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY12", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY12 cavm_cst_shrd_rom_romentry12_t
@@ -1885,7 +1965,9 @@ typedef union cavm_cst_shrd_rom_romentry120 cavm_cst_shrd_rom_romentry120_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY120_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY120_FUNC(void)
 {
-    return 0x87a1000001e0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000001e0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY120", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY120 cavm_cst_shrd_rom_romentry120_t
@@ -1934,7 +2016,9 @@ typedef union cavm_cst_shrd_rom_romentry121 cavm_cst_shrd_rom_romentry121_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY121_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY121_FUNC(void)
 {
-    return 0x87a1000001e4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000001e4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY121", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY121 cavm_cst_shrd_rom_romentry121_t
@@ -1983,7 +2067,9 @@ typedef union cavm_cst_shrd_rom_romentry122 cavm_cst_shrd_rom_romentry122_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY122_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY122_FUNC(void)
 {
-    return 0x87a1000001e8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000001e8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY122", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY122 cavm_cst_shrd_rom_romentry122_t
@@ -2032,7 +2118,9 @@ typedef union cavm_cst_shrd_rom_romentry123 cavm_cst_shrd_rom_romentry123_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY123_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY123_FUNC(void)
 {
-    return 0x87a1000001ecll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000001ecll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY123", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY123 cavm_cst_shrd_rom_romentry123_t
@@ -2081,7 +2169,9 @@ typedef union cavm_cst_shrd_rom_romentry124 cavm_cst_shrd_rom_romentry124_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY124_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY124_FUNC(void)
 {
-    return 0x87a1000001f0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000001f0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY124", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY124 cavm_cst_shrd_rom_romentry124_t
@@ -2130,7 +2220,9 @@ typedef union cavm_cst_shrd_rom_romentry125 cavm_cst_shrd_rom_romentry125_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY125_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY125_FUNC(void)
 {
-    return 0x87a1000001f4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000001f4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY125", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY125 cavm_cst_shrd_rom_romentry125_t
@@ -2179,7 +2271,9 @@ typedef union cavm_cst_shrd_rom_romentry126 cavm_cst_shrd_rom_romentry126_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY126_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY126_FUNC(void)
 {
-    return 0x87a1000001f8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000001f8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY126", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY126 cavm_cst_shrd_rom_romentry126_t
@@ -2228,7 +2322,9 @@ typedef union cavm_cst_shrd_rom_romentry127 cavm_cst_shrd_rom_romentry127_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY127_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY127_FUNC(void)
 {
-    return 0x87a1000001fcll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000001fcll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY127", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY127 cavm_cst_shrd_rom_romentry127_t
@@ -2277,7 +2373,9 @@ typedef union cavm_cst_shrd_rom_romentry128 cavm_cst_shrd_rom_romentry128_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY128_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY128_FUNC(void)
 {
-    return 0x87a100000200ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000200ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY128", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY128 cavm_cst_shrd_rom_romentry128_t
@@ -2326,7 +2424,9 @@ typedef union cavm_cst_shrd_rom_romentry129 cavm_cst_shrd_rom_romentry129_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY129_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY129_FUNC(void)
 {
-    return 0x87a100000204ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000204ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY129", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY129 cavm_cst_shrd_rom_romentry129_t
@@ -2375,7 +2475,9 @@ typedef union cavm_cst_shrd_rom_romentry13 cavm_cst_shrd_rom_romentry13_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY13_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY13_FUNC(void)
 {
-    return 0x87a100000034ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000034ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY13", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY13 cavm_cst_shrd_rom_romentry13_t
@@ -2424,7 +2526,9 @@ typedef union cavm_cst_shrd_rom_romentry130 cavm_cst_shrd_rom_romentry130_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY130_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY130_FUNC(void)
 {
-    return 0x87a100000208ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000208ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY130", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY130 cavm_cst_shrd_rom_romentry130_t
@@ -2473,7 +2577,9 @@ typedef union cavm_cst_shrd_rom_romentry131 cavm_cst_shrd_rom_romentry131_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY131_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY131_FUNC(void)
 {
-    return 0x87a10000020cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000020cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY131", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY131 cavm_cst_shrd_rom_romentry131_t
@@ -2522,7 +2628,9 @@ typedef union cavm_cst_shrd_rom_romentry132 cavm_cst_shrd_rom_romentry132_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY132_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY132_FUNC(void)
 {
-    return 0x87a100000210ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000210ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY132", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY132 cavm_cst_shrd_rom_romentry132_t
@@ -2571,7 +2679,9 @@ typedef union cavm_cst_shrd_rom_romentry133 cavm_cst_shrd_rom_romentry133_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY133_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY133_FUNC(void)
 {
-    return 0x87a100000214ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000214ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY133", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY133 cavm_cst_shrd_rom_romentry133_t
@@ -2620,7 +2730,9 @@ typedef union cavm_cst_shrd_rom_romentry134 cavm_cst_shrd_rom_romentry134_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY134_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY134_FUNC(void)
 {
-    return 0x87a100000218ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000218ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY134", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY134 cavm_cst_shrd_rom_romentry134_t
@@ -2669,7 +2781,9 @@ typedef union cavm_cst_shrd_rom_romentry135 cavm_cst_shrd_rom_romentry135_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY135_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY135_FUNC(void)
 {
-    return 0x87a10000021cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000021cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY135", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY135 cavm_cst_shrd_rom_romentry135_t
@@ -2718,7 +2832,9 @@ typedef union cavm_cst_shrd_rom_romentry136 cavm_cst_shrd_rom_romentry136_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY136_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY136_FUNC(void)
 {
-    return 0x87a100000220ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000220ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY136", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY136 cavm_cst_shrd_rom_romentry136_t
@@ -2767,7 +2883,9 @@ typedef union cavm_cst_shrd_rom_romentry137 cavm_cst_shrd_rom_romentry137_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY137_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY137_FUNC(void)
 {
-    return 0x87a100000224ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000224ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY137", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY137 cavm_cst_shrd_rom_romentry137_t
@@ -2816,7 +2934,9 @@ typedef union cavm_cst_shrd_rom_romentry138 cavm_cst_shrd_rom_romentry138_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY138_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY138_FUNC(void)
 {
-    return 0x87a100000228ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000228ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY138", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY138 cavm_cst_shrd_rom_romentry138_t
@@ -2865,7 +2985,9 @@ typedef union cavm_cst_shrd_rom_romentry139 cavm_cst_shrd_rom_romentry139_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY139_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY139_FUNC(void)
 {
-    return 0x87a10000022cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000022cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY139", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY139 cavm_cst_shrd_rom_romentry139_t
@@ -2914,7 +3036,9 @@ typedef union cavm_cst_shrd_rom_romentry14 cavm_cst_shrd_rom_romentry14_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY14_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY14_FUNC(void)
 {
-    return 0x87a100000038ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000038ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY14", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY14 cavm_cst_shrd_rom_romentry14_t
@@ -2963,7 +3087,9 @@ typedef union cavm_cst_shrd_rom_romentry140 cavm_cst_shrd_rom_romentry140_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY140_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY140_FUNC(void)
 {
-    return 0x87a100000230ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000230ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY140", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY140 cavm_cst_shrd_rom_romentry140_t
@@ -3012,7 +3138,9 @@ typedef union cavm_cst_shrd_rom_romentry141 cavm_cst_shrd_rom_romentry141_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY141_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY141_FUNC(void)
 {
-    return 0x87a100000234ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000234ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY141", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY141 cavm_cst_shrd_rom_romentry141_t
@@ -3061,7 +3189,9 @@ typedef union cavm_cst_shrd_rom_romentry142 cavm_cst_shrd_rom_romentry142_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY142_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY142_FUNC(void)
 {
-    return 0x87a100000238ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000238ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY142", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY142 cavm_cst_shrd_rom_romentry142_t
@@ -3110,7 +3240,9 @@ typedef union cavm_cst_shrd_rom_romentry143 cavm_cst_shrd_rom_romentry143_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY143_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY143_FUNC(void)
 {
-    return 0x87a10000023cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000023cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY143", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY143 cavm_cst_shrd_rom_romentry143_t
@@ -3159,7 +3291,9 @@ typedef union cavm_cst_shrd_rom_romentry144 cavm_cst_shrd_rom_romentry144_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY144_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY144_FUNC(void)
 {
-    return 0x87a100000240ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000240ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY144", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY144 cavm_cst_shrd_rom_romentry144_t
@@ -3208,7 +3342,9 @@ typedef union cavm_cst_shrd_rom_romentry145 cavm_cst_shrd_rom_romentry145_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY145_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY145_FUNC(void)
 {
-    return 0x87a100000244ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000244ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY145", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY145 cavm_cst_shrd_rom_romentry145_t
@@ -3257,7 +3393,9 @@ typedef union cavm_cst_shrd_rom_romentry146 cavm_cst_shrd_rom_romentry146_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY146_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY146_FUNC(void)
 {
-    return 0x87a100000248ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000248ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY146", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY146 cavm_cst_shrd_rom_romentry146_t
@@ -3306,7 +3444,9 @@ typedef union cavm_cst_shrd_rom_romentry147 cavm_cst_shrd_rom_romentry147_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY147_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY147_FUNC(void)
 {
-    return 0x87a10000024cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000024cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY147", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY147 cavm_cst_shrd_rom_romentry147_t
@@ -3355,7 +3495,9 @@ typedef union cavm_cst_shrd_rom_romentry148 cavm_cst_shrd_rom_romentry148_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY148_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY148_FUNC(void)
 {
-    return 0x87a100000250ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000250ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY148", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY148 cavm_cst_shrd_rom_romentry148_t
@@ -3404,7 +3546,9 @@ typedef union cavm_cst_shrd_rom_romentry149 cavm_cst_shrd_rom_romentry149_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY149_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY149_FUNC(void)
 {
-    return 0x87a100000254ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000254ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY149", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY149 cavm_cst_shrd_rom_romentry149_t
@@ -3453,7 +3597,9 @@ typedef union cavm_cst_shrd_rom_romentry15 cavm_cst_shrd_rom_romentry15_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY15_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY15_FUNC(void)
 {
-    return 0x87a10000003cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000003cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY15", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY15 cavm_cst_shrd_rom_romentry15_t
@@ -3502,7 +3648,9 @@ typedef union cavm_cst_shrd_rom_romentry150 cavm_cst_shrd_rom_romentry150_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY150_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY150_FUNC(void)
 {
-    return 0x87a100000258ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000258ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY150", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY150 cavm_cst_shrd_rom_romentry150_t
@@ -3551,7 +3699,9 @@ typedef union cavm_cst_shrd_rom_romentry151 cavm_cst_shrd_rom_romentry151_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY151_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY151_FUNC(void)
 {
-    return 0x87a10000025cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000025cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY151", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY151 cavm_cst_shrd_rom_romentry151_t
@@ -3600,7 +3750,9 @@ typedef union cavm_cst_shrd_rom_romentry152 cavm_cst_shrd_rom_romentry152_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY152_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY152_FUNC(void)
 {
-    return 0x87a100000260ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000260ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY152", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY152 cavm_cst_shrd_rom_romentry152_t
@@ -3649,7 +3801,9 @@ typedef union cavm_cst_shrd_rom_romentry153 cavm_cst_shrd_rom_romentry153_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY153_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY153_FUNC(void)
 {
-    return 0x87a100000264ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000264ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY153", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY153 cavm_cst_shrd_rom_romentry153_t
@@ -3698,7 +3852,9 @@ typedef union cavm_cst_shrd_rom_romentry154 cavm_cst_shrd_rom_romentry154_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY154_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY154_FUNC(void)
 {
-    return 0x87a100000268ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000268ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY154", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY154 cavm_cst_shrd_rom_romentry154_t
@@ -3747,7 +3903,9 @@ typedef union cavm_cst_shrd_rom_romentry155 cavm_cst_shrd_rom_romentry155_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY155_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY155_FUNC(void)
 {
-    return 0x87a10000026cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000026cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY155", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY155 cavm_cst_shrd_rom_romentry155_t
@@ -3796,7 +3954,9 @@ typedef union cavm_cst_shrd_rom_romentry156 cavm_cst_shrd_rom_romentry156_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY156_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY156_FUNC(void)
 {
-    return 0x87a100000270ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000270ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY156", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY156 cavm_cst_shrd_rom_romentry156_t
@@ -3845,7 +4005,9 @@ typedef union cavm_cst_shrd_rom_romentry157 cavm_cst_shrd_rom_romentry157_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY157_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY157_FUNC(void)
 {
-    return 0x87a100000274ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000274ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY157", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY157 cavm_cst_shrd_rom_romentry157_t
@@ -3894,7 +4056,9 @@ typedef union cavm_cst_shrd_rom_romentry158 cavm_cst_shrd_rom_romentry158_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY158_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY158_FUNC(void)
 {
-    return 0x87a100000278ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000278ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY158", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY158 cavm_cst_shrd_rom_romentry158_t
@@ -3943,7 +4107,9 @@ typedef union cavm_cst_shrd_rom_romentry159 cavm_cst_shrd_rom_romentry159_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY159_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY159_FUNC(void)
 {
-    return 0x87a10000027cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000027cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY159", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY159 cavm_cst_shrd_rom_romentry159_t
@@ -3992,7 +4158,9 @@ typedef union cavm_cst_shrd_rom_romentry16 cavm_cst_shrd_rom_romentry16_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY16_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY16_FUNC(void)
 {
-    return 0x87a100000040ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000040ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY16", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY16 cavm_cst_shrd_rom_romentry16_t
@@ -4041,7 +4209,9 @@ typedef union cavm_cst_shrd_rom_romentry160 cavm_cst_shrd_rom_romentry160_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY160_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY160_FUNC(void)
 {
-    return 0x87a100000280ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000280ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY160", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY160 cavm_cst_shrd_rom_romentry160_t
@@ -4090,7 +4260,9 @@ typedef union cavm_cst_shrd_rom_romentry161 cavm_cst_shrd_rom_romentry161_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY161_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY161_FUNC(void)
 {
-    return 0x87a100000284ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000284ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY161", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY161 cavm_cst_shrd_rom_romentry161_t
@@ -4139,7 +4311,9 @@ typedef union cavm_cst_shrd_rom_romentry162 cavm_cst_shrd_rom_romentry162_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY162_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY162_FUNC(void)
 {
-    return 0x87a100000288ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000288ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY162", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY162 cavm_cst_shrd_rom_romentry162_t
@@ -4188,7 +4362,9 @@ typedef union cavm_cst_shrd_rom_romentry163 cavm_cst_shrd_rom_romentry163_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY163_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY163_FUNC(void)
 {
-    return 0x87a10000028cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000028cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY163", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY163 cavm_cst_shrd_rom_romentry163_t
@@ -4237,7 +4413,9 @@ typedef union cavm_cst_shrd_rom_romentry164 cavm_cst_shrd_rom_romentry164_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY164_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY164_FUNC(void)
 {
-    return 0x87a100000290ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000290ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY164", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY164 cavm_cst_shrd_rom_romentry164_t
@@ -4286,7 +4464,9 @@ typedef union cavm_cst_shrd_rom_romentry165 cavm_cst_shrd_rom_romentry165_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY165_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY165_FUNC(void)
 {
-    return 0x87a100000294ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000294ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY165", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY165 cavm_cst_shrd_rom_romentry165_t
@@ -4335,7 +4515,9 @@ typedef union cavm_cst_shrd_rom_romentry166 cavm_cst_shrd_rom_romentry166_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY166_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY166_FUNC(void)
 {
-    return 0x87a100000298ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000298ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY166", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY166 cavm_cst_shrd_rom_romentry166_t
@@ -4384,7 +4566,9 @@ typedef union cavm_cst_shrd_rom_romentry167 cavm_cst_shrd_rom_romentry167_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY167_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY167_FUNC(void)
 {
-    return 0x87a10000029cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000029cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY167", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY167 cavm_cst_shrd_rom_romentry167_t
@@ -4433,7 +4617,9 @@ typedef union cavm_cst_shrd_rom_romentry168 cavm_cst_shrd_rom_romentry168_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY168_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY168_FUNC(void)
 {
-    return 0x87a1000002a0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000002a0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY168", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY168 cavm_cst_shrd_rom_romentry168_t
@@ -4482,7 +4668,9 @@ typedef union cavm_cst_shrd_rom_romentry169 cavm_cst_shrd_rom_romentry169_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY169_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY169_FUNC(void)
 {
-    return 0x87a1000002a4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000002a4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY169", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY169 cavm_cst_shrd_rom_romentry169_t
@@ -4531,7 +4719,9 @@ typedef union cavm_cst_shrd_rom_romentry17 cavm_cst_shrd_rom_romentry17_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY17_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY17_FUNC(void)
 {
-    return 0x87a100000044ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000044ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY17", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY17 cavm_cst_shrd_rom_romentry17_t
@@ -4580,7 +4770,9 @@ typedef union cavm_cst_shrd_rom_romentry170 cavm_cst_shrd_rom_romentry170_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY170_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY170_FUNC(void)
 {
-    return 0x87a1000002a8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000002a8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY170", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY170 cavm_cst_shrd_rom_romentry170_t
@@ -4629,7 +4821,9 @@ typedef union cavm_cst_shrd_rom_romentry171 cavm_cst_shrd_rom_romentry171_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY171_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY171_FUNC(void)
 {
-    return 0x87a1000002acll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000002acll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY171", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY171 cavm_cst_shrd_rom_romentry171_t
@@ -4678,7 +4872,9 @@ typedef union cavm_cst_shrd_rom_romentry172 cavm_cst_shrd_rom_romentry172_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY172_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY172_FUNC(void)
 {
-    return 0x87a1000002b0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000002b0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY172", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY172 cavm_cst_shrd_rom_romentry172_t
@@ -4727,7 +4923,9 @@ typedef union cavm_cst_shrd_rom_romentry173 cavm_cst_shrd_rom_romentry173_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY173_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY173_FUNC(void)
 {
-    return 0x87a1000002b4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000002b4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY173", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY173 cavm_cst_shrd_rom_romentry173_t
@@ -4776,7 +4974,9 @@ typedef union cavm_cst_shrd_rom_romentry174 cavm_cst_shrd_rom_romentry174_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY174_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY174_FUNC(void)
 {
-    return 0x87a1000002b8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000002b8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY174", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY174 cavm_cst_shrd_rom_romentry174_t
@@ -4825,7 +5025,9 @@ typedef union cavm_cst_shrd_rom_romentry175 cavm_cst_shrd_rom_romentry175_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY175_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY175_FUNC(void)
 {
-    return 0x87a1000002bcll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000002bcll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY175", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY175 cavm_cst_shrd_rom_romentry175_t
@@ -4874,7 +5076,9 @@ typedef union cavm_cst_shrd_rom_romentry176 cavm_cst_shrd_rom_romentry176_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY176_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY176_FUNC(void)
 {
-    return 0x87a1000002c0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000002c0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY176", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY176 cavm_cst_shrd_rom_romentry176_t
@@ -4923,7 +5127,9 @@ typedef union cavm_cst_shrd_rom_romentry177 cavm_cst_shrd_rom_romentry177_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY177_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY177_FUNC(void)
 {
-    return 0x87a1000002c4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000002c4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY177", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY177 cavm_cst_shrd_rom_romentry177_t
@@ -4972,7 +5178,9 @@ typedef union cavm_cst_shrd_rom_romentry178 cavm_cst_shrd_rom_romentry178_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY178_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY178_FUNC(void)
 {
-    return 0x87a1000002c8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000002c8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY178", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY178 cavm_cst_shrd_rom_romentry178_t
@@ -5021,7 +5229,9 @@ typedef union cavm_cst_shrd_rom_romentry179 cavm_cst_shrd_rom_romentry179_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY179_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY179_FUNC(void)
 {
-    return 0x87a1000002ccll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000002ccll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY179", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY179 cavm_cst_shrd_rom_romentry179_t
@@ -5070,7 +5280,9 @@ typedef union cavm_cst_shrd_rom_romentry18 cavm_cst_shrd_rom_romentry18_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY18_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY18_FUNC(void)
 {
-    return 0x87a100000048ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000048ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY18", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY18 cavm_cst_shrd_rom_romentry18_t
@@ -5119,7 +5331,9 @@ typedef union cavm_cst_shrd_rom_romentry180 cavm_cst_shrd_rom_romentry180_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY180_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY180_FUNC(void)
 {
-    return 0x87a1000002d0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000002d0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY180", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY180 cavm_cst_shrd_rom_romentry180_t
@@ -5168,7 +5382,9 @@ typedef union cavm_cst_shrd_rom_romentry181 cavm_cst_shrd_rom_romentry181_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY181_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY181_FUNC(void)
 {
-    return 0x87a1000002d4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000002d4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY181", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY181 cavm_cst_shrd_rom_romentry181_t
@@ -5217,7 +5433,9 @@ typedef union cavm_cst_shrd_rom_romentry182 cavm_cst_shrd_rom_romentry182_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY182_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY182_FUNC(void)
 {
-    return 0x87a1000002d8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000002d8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY182", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY182 cavm_cst_shrd_rom_romentry182_t
@@ -5266,7 +5484,9 @@ typedef union cavm_cst_shrd_rom_romentry183 cavm_cst_shrd_rom_romentry183_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY183_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY183_FUNC(void)
 {
-    return 0x87a1000002dcll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000002dcll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY183", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY183 cavm_cst_shrd_rom_romentry183_t
@@ -5315,7 +5535,9 @@ typedef union cavm_cst_shrd_rom_romentry184 cavm_cst_shrd_rom_romentry184_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY184_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY184_FUNC(void)
 {
-    return 0x87a1000002e0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000002e0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY184", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY184 cavm_cst_shrd_rom_romentry184_t
@@ -5364,7 +5586,9 @@ typedef union cavm_cst_shrd_rom_romentry185 cavm_cst_shrd_rom_romentry185_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY185_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY185_FUNC(void)
 {
-    return 0x87a1000002e4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000002e4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY185", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY185 cavm_cst_shrd_rom_romentry185_t
@@ -5413,7 +5637,9 @@ typedef union cavm_cst_shrd_rom_romentry186 cavm_cst_shrd_rom_romentry186_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY186_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY186_FUNC(void)
 {
-    return 0x87a1000002e8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000002e8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY186", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY186 cavm_cst_shrd_rom_romentry186_t
@@ -5462,7 +5688,9 @@ typedef union cavm_cst_shrd_rom_romentry187 cavm_cst_shrd_rom_romentry187_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY187_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY187_FUNC(void)
 {
-    return 0x87a1000002ecll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000002ecll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY187", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY187 cavm_cst_shrd_rom_romentry187_t
@@ -5511,7 +5739,9 @@ typedef union cavm_cst_shrd_rom_romentry188 cavm_cst_shrd_rom_romentry188_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY188_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY188_FUNC(void)
 {
-    return 0x87a1000002f0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000002f0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY188", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY188 cavm_cst_shrd_rom_romentry188_t
@@ -5560,7 +5790,9 @@ typedef union cavm_cst_shrd_rom_romentry189 cavm_cst_shrd_rom_romentry189_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY189_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY189_FUNC(void)
 {
-    return 0x87a1000002f4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000002f4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY189", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY189 cavm_cst_shrd_rom_romentry189_t
@@ -5609,7 +5841,9 @@ typedef union cavm_cst_shrd_rom_romentry19 cavm_cst_shrd_rom_romentry19_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY19_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY19_FUNC(void)
 {
-    return 0x87a10000004cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000004cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY19", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY19 cavm_cst_shrd_rom_romentry19_t
@@ -5658,7 +5892,9 @@ typedef union cavm_cst_shrd_rom_romentry190 cavm_cst_shrd_rom_romentry190_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY190_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY190_FUNC(void)
 {
-    return 0x87a1000002f8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000002f8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY190", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY190 cavm_cst_shrd_rom_romentry190_t
@@ -5707,7 +5943,9 @@ typedef union cavm_cst_shrd_rom_romentry191 cavm_cst_shrd_rom_romentry191_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY191_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY191_FUNC(void)
 {
-    return 0x87a1000002fcll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000002fcll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY191", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY191 cavm_cst_shrd_rom_romentry191_t
@@ -5756,7 +5994,9 @@ typedef union cavm_cst_shrd_rom_romentry192 cavm_cst_shrd_rom_romentry192_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY192_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY192_FUNC(void)
 {
-    return 0x87a100000300ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000300ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY192", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY192 cavm_cst_shrd_rom_romentry192_t
@@ -5805,7 +6045,9 @@ typedef union cavm_cst_shrd_rom_romentry193 cavm_cst_shrd_rom_romentry193_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY193_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY193_FUNC(void)
 {
-    return 0x87a100000304ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000304ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY193", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY193 cavm_cst_shrd_rom_romentry193_t
@@ -5854,7 +6096,9 @@ typedef union cavm_cst_shrd_rom_romentry194 cavm_cst_shrd_rom_romentry194_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY194_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY194_FUNC(void)
 {
-    return 0x87a100000308ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000308ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY194", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY194 cavm_cst_shrd_rom_romentry194_t
@@ -5903,7 +6147,9 @@ typedef union cavm_cst_shrd_rom_romentry195 cavm_cst_shrd_rom_romentry195_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY195_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY195_FUNC(void)
 {
-    return 0x87a10000030cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000030cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY195", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY195 cavm_cst_shrd_rom_romentry195_t
@@ -5952,7 +6198,9 @@ typedef union cavm_cst_shrd_rom_romentry196 cavm_cst_shrd_rom_romentry196_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY196_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY196_FUNC(void)
 {
-    return 0x87a100000310ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000310ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY196", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY196 cavm_cst_shrd_rom_romentry196_t
@@ -6001,7 +6249,9 @@ typedef union cavm_cst_shrd_rom_romentry197 cavm_cst_shrd_rom_romentry197_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY197_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY197_FUNC(void)
 {
-    return 0x87a100000314ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000314ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY197", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY197 cavm_cst_shrd_rom_romentry197_t
@@ -6050,7 +6300,9 @@ typedef union cavm_cst_shrd_rom_romentry198 cavm_cst_shrd_rom_romentry198_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY198_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY198_FUNC(void)
 {
-    return 0x87a100000318ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000318ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY198", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY198 cavm_cst_shrd_rom_romentry198_t
@@ -6099,7 +6351,9 @@ typedef union cavm_cst_shrd_rom_romentry199 cavm_cst_shrd_rom_romentry199_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY199_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY199_FUNC(void)
 {
-    return 0x87a10000031cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000031cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY199", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY199 cavm_cst_shrd_rom_romentry199_t
@@ -6148,7 +6402,9 @@ typedef union cavm_cst_shrd_rom_romentry2 cavm_cst_shrd_rom_romentry2_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY2_FUNC(void)
 {
-    return 0x87a100000008ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000008ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY2", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY2 cavm_cst_shrd_rom_romentry2_t
@@ -6197,7 +6453,9 @@ typedef union cavm_cst_shrd_rom_romentry20 cavm_cst_shrd_rom_romentry20_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY20_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY20_FUNC(void)
 {
-    return 0x87a100000050ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000050ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY20", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY20 cavm_cst_shrd_rom_romentry20_t
@@ -6246,7 +6504,9 @@ typedef union cavm_cst_shrd_rom_romentry200 cavm_cst_shrd_rom_romentry200_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY200_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY200_FUNC(void)
 {
-    return 0x87a100000320ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000320ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY200", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY200 cavm_cst_shrd_rom_romentry200_t
@@ -6295,7 +6555,9 @@ typedef union cavm_cst_shrd_rom_romentry201 cavm_cst_shrd_rom_romentry201_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY201_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY201_FUNC(void)
 {
-    return 0x87a100000324ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000324ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY201", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY201 cavm_cst_shrd_rom_romentry201_t
@@ -6344,7 +6606,9 @@ typedef union cavm_cst_shrd_rom_romentry202 cavm_cst_shrd_rom_romentry202_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY202_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY202_FUNC(void)
 {
-    return 0x87a100000328ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000328ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY202", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY202 cavm_cst_shrd_rom_romentry202_t
@@ -6393,7 +6657,9 @@ typedef union cavm_cst_shrd_rom_romentry203 cavm_cst_shrd_rom_romentry203_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY203_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY203_FUNC(void)
 {
-    return 0x87a10000032cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000032cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY203", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY203 cavm_cst_shrd_rom_romentry203_t
@@ -6442,7 +6708,9 @@ typedef union cavm_cst_shrd_rom_romentry204 cavm_cst_shrd_rom_romentry204_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY204_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY204_FUNC(void)
 {
-    return 0x87a100000330ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000330ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY204", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY204 cavm_cst_shrd_rom_romentry204_t
@@ -6491,7 +6759,9 @@ typedef union cavm_cst_shrd_rom_romentry205 cavm_cst_shrd_rom_romentry205_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY205_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY205_FUNC(void)
 {
-    return 0x87a100000334ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000334ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY205", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY205 cavm_cst_shrd_rom_romentry205_t
@@ -6540,7 +6810,9 @@ typedef union cavm_cst_shrd_rom_romentry206 cavm_cst_shrd_rom_romentry206_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY206_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY206_FUNC(void)
 {
-    return 0x87a100000338ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000338ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY206", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY206 cavm_cst_shrd_rom_romentry206_t
@@ -6589,7 +6861,9 @@ typedef union cavm_cst_shrd_rom_romentry207 cavm_cst_shrd_rom_romentry207_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY207_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY207_FUNC(void)
 {
-    return 0x87a10000033cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000033cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY207", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY207 cavm_cst_shrd_rom_romentry207_t
@@ -6638,7 +6912,9 @@ typedef union cavm_cst_shrd_rom_romentry208 cavm_cst_shrd_rom_romentry208_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY208_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY208_FUNC(void)
 {
-    return 0x87a100000340ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000340ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY208", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY208 cavm_cst_shrd_rom_romentry208_t
@@ -6687,7 +6963,9 @@ typedef union cavm_cst_shrd_rom_romentry209 cavm_cst_shrd_rom_romentry209_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY209_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY209_FUNC(void)
 {
-    return 0x87a100000344ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000344ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY209", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY209 cavm_cst_shrd_rom_romentry209_t
@@ -6736,7 +7014,9 @@ typedef union cavm_cst_shrd_rom_romentry21 cavm_cst_shrd_rom_romentry21_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY21_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY21_FUNC(void)
 {
-    return 0x87a100000054ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000054ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY21", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY21 cavm_cst_shrd_rom_romentry21_t
@@ -6785,7 +7065,9 @@ typedef union cavm_cst_shrd_rom_romentry210 cavm_cst_shrd_rom_romentry210_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY210_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY210_FUNC(void)
 {
-    return 0x87a100000348ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000348ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY210", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY210 cavm_cst_shrd_rom_romentry210_t
@@ -6834,7 +7116,9 @@ typedef union cavm_cst_shrd_rom_romentry211 cavm_cst_shrd_rom_romentry211_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY211_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY211_FUNC(void)
 {
-    return 0x87a10000034cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000034cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY211", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY211 cavm_cst_shrd_rom_romentry211_t
@@ -6883,7 +7167,9 @@ typedef union cavm_cst_shrd_rom_romentry212 cavm_cst_shrd_rom_romentry212_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY212_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY212_FUNC(void)
 {
-    return 0x87a100000350ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000350ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY212", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY212 cavm_cst_shrd_rom_romentry212_t
@@ -6932,7 +7218,9 @@ typedef union cavm_cst_shrd_rom_romentry213 cavm_cst_shrd_rom_romentry213_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY213_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY213_FUNC(void)
 {
-    return 0x87a100000354ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000354ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY213", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY213 cavm_cst_shrd_rom_romentry213_t
@@ -6981,7 +7269,9 @@ typedef union cavm_cst_shrd_rom_romentry214 cavm_cst_shrd_rom_romentry214_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY214_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY214_FUNC(void)
 {
-    return 0x87a100000358ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000358ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY214", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY214 cavm_cst_shrd_rom_romentry214_t
@@ -7030,7 +7320,9 @@ typedef union cavm_cst_shrd_rom_romentry215 cavm_cst_shrd_rom_romentry215_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY215_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY215_FUNC(void)
 {
-    return 0x87a10000035cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000035cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY215", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY215 cavm_cst_shrd_rom_romentry215_t
@@ -7079,7 +7371,9 @@ typedef union cavm_cst_shrd_rom_romentry216 cavm_cst_shrd_rom_romentry216_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY216_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY216_FUNC(void)
 {
-    return 0x87a100000360ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000360ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY216", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY216 cavm_cst_shrd_rom_romentry216_t
@@ -7128,7 +7422,9 @@ typedef union cavm_cst_shrd_rom_romentry217 cavm_cst_shrd_rom_romentry217_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY217_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY217_FUNC(void)
 {
-    return 0x87a100000364ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000364ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY217", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY217 cavm_cst_shrd_rom_romentry217_t
@@ -7177,7 +7473,9 @@ typedef union cavm_cst_shrd_rom_romentry218 cavm_cst_shrd_rom_romentry218_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY218_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY218_FUNC(void)
 {
-    return 0x87a100000368ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000368ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY218", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY218 cavm_cst_shrd_rom_romentry218_t
@@ -7226,7 +7524,9 @@ typedef union cavm_cst_shrd_rom_romentry219 cavm_cst_shrd_rom_romentry219_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY219_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY219_FUNC(void)
 {
-    return 0x87a10000036cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000036cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY219", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY219 cavm_cst_shrd_rom_romentry219_t
@@ -7275,7 +7575,9 @@ typedef union cavm_cst_shrd_rom_romentry22 cavm_cst_shrd_rom_romentry22_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY22_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY22_FUNC(void)
 {
-    return 0x87a100000058ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000058ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY22", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY22 cavm_cst_shrd_rom_romentry22_t
@@ -7324,7 +7626,9 @@ typedef union cavm_cst_shrd_rom_romentry220 cavm_cst_shrd_rom_romentry220_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY220_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY220_FUNC(void)
 {
-    return 0x87a100000370ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000370ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY220", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY220 cavm_cst_shrd_rom_romentry220_t
@@ -7373,7 +7677,9 @@ typedef union cavm_cst_shrd_rom_romentry221 cavm_cst_shrd_rom_romentry221_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY221_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY221_FUNC(void)
 {
-    return 0x87a100000374ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000374ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY221", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY221 cavm_cst_shrd_rom_romentry221_t
@@ -7422,7 +7728,9 @@ typedef union cavm_cst_shrd_rom_romentry222 cavm_cst_shrd_rom_romentry222_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY222_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY222_FUNC(void)
 {
-    return 0x87a100000378ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000378ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY222", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY222 cavm_cst_shrd_rom_romentry222_t
@@ -7471,7 +7779,9 @@ typedef union cavm_cst_shrd_rom_romentry223 cavm_cst_shrd_rom_romentry223_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY223_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY223_FUNC(void)
 {
-    return 0x87a10000037cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000037cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY223", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY223 cavm_cst_shrd_rom_romentry223_t
@@ -7520,7 +7830,9 @@ typedef union cavm_cst_shrd_rom_romentry224 cavm_cst_shrd_rom_romentry224_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY224_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY224_FUNC(void)
 {
-    return 0x87a100000380ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000380ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY224", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY224 cavm_cst_shrd_rom_romentry224_t
@@ -7569,7 +7881,9 @@ typedef union cavm_cst_shrd_rom_romentry225 cavm_cst_shrd_rom_romentry225_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY225_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY225_FUNC(void)
 {
-    return 0x87a100000384ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000384ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY225", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY225 cavm_cst_shrd_rom_romentry225_t
@@ -7618,7 +7932,9 @@ typedef union cavm_cst_shrd_rom_romentry226 cavm_cst_shrd_rom_romentry226_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY226_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY226_FUNC(void)
 {
-    return 0x87a100000388ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000388ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY226", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY226 cavm_cst_shrd_rom_romentry226_t
@@ -7667,7 +7983,9 @@ typedef union cavm_cst_shrd_rom_romentry227 cavm_cst_shrd_rom_romentry227_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY227_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY227_FUNC(void)
 {
-    return 0x87a10000038cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000038cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY227", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY227 cavm_cst_shrd_rom_romentry227_t
@@ -7716,7 +8034,9 @@ typedef union cavm_cst_shrd_rom_romentry228 cavm_cst_shrd_rom_romentry228_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY228_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY228_FUNC(void)
 {
-    return 0x87a100000390ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000390ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY228", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY228 cavm_cst_shrd_rom_romentry228_t
@@ -7765,7 +8085,9 @@ typedef union cavm_cst_shrd_rom_romentry229 cavm_cst_shrd_rom_romentry229_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY229_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY229_FUNC(void)
 {
-    return 0x87a100000394ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000394ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY229", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY229 cavm_cst_shrd_rom_romentry229_t
@@ -7814,7 +8136,9 @@ typedef union cavm_cst_shrd_rom_romentry23 cavm_cst_shrd_rom_romentry23_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY23_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY23_FUNC(void)
 {
-    return 0x87a10000005cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000005cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY23", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY23 cavm_cst_shrd_rom_romentry23_t
@@ -7863,7 +8187,9 @@ typedef union cavm_cst_shrd_rom_romentry230 cavm_cst_shrd_rom_romentry230_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY230_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY230_FUNC(void)
 {
-    return 0x87a100000398ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000398ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY230", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY230 cavm_cst_shrd_rom_romentry230_t
@@ -7912,7 +8238,9 @@ typedef union cavm_cst_shrd_rom_romentry231 cavm_cst_shrd_rom_romentry231_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY231_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY231_FUNC(void)
 {
-    return 0x87a10000039cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000039cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY231", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY231 cavm_cst_shrd_rom_romentry231_t
@@ -7961,7 +8289,9 @@ typedef union cavm_cst_shrd_rom_romentry232 cavm_cst_shrd_rom_romentry232_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY232_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY232_FUNC(void)
 {
-    return 0x87a1000003a0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000003a0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY232", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY232 cavm_cst_shrd_rom_romentry232_t
@@ -8010,7 +8340,9 @@ typedef union cavm_cst_shrd_rom_romentry233 cavm_cst_shrd_rom_romentry233_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY233_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY233_FUNC(void)
 {
-    return 0x87a1000003a4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000003a4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY233", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY233 cavm_cst_shrd_rom_romentry233_t
@@ -8059,7 +8391,9 @@ typedef union cavm_cst_shrd_rom_romentry234 cavm_cst_shrd_rom_romentry234_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY234_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY234_FUNC(void)
 {
-    return 0x87a1000003a8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000003a8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY234", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY234 cavm_cst_shrd_rom_romentry234_t
@@ -8108,7 +8442,9 @@ typedef union cavm_cst_shrd_rom_romentry235 cavm_cst_shrd_rom_romentry235_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY235_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY235_FUNC(void)
 {
-    return 0x87a1000003acll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000003acll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY235", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY235 cavm_cst_shrd_rom_romentry235_t
@@ -8157,7 +8493,9 @@ typedef union cavm_cst_shrd_rom_romentry236 cavm_cst_shrd_rom_romentry236_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY236_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY236_FUNC(void)
 {
-    return 0x87a1000003b0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000003b0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY236", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY236 cavm_cst_shrd_rom_romentry236_t
@@ -8206,7 +8544,9 @@ typedef union cavm_cst_shrd_rom_romentry237 cavm_cst_shrd_rom_romentry237_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY237_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY237_FUNC(void)
 {
-    return 0x87a1000003b4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000003b4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY237", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY237 cavm_cst_shrd_rom_romentry237_t
@@ -8255,7 +8595,9 @@ typedef union cavm_cst_shrd_rom_romentry238 cavm_cst_shrd_rom_romentry238_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY238_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY238_FUNC(void)
 {
-    return 0x87a1000003b8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000003b8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY238", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY238 cavm_cst_shrd_rom_romentry238_t
@@ -8304,7 +8646,9 @@ typedef union cavm_cst_shrd_rom_romentry239 cavm_cst_shrd_rom_romentry239_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY239_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY239_FUNC(void)
 {
-    return 0x87a1000003bcll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000003bcll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY239", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY239 cavm_cst_shrd_rom_romentry239_t
@@ -8353,7 +8697,9 @@ typedef union cavm_cst_shrd_rom_romentry24 cavm_cst_shrd_rom_romentry24_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY24_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY24_FUNC(void)
 {
-    return 0x87a100000060ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000060ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY24", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY24 cavm_cst_shrd_rom_romentry24_t
@@ -8402,7 +8748,9 @@ typedef union cavm_cst_shrd_rom_romentry240 cavm_cst_shrd_rom_romentry240_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY240_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY240_FUNC(void)
 {
-    return 0x87a1000003c0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000003c0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY240", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY240 cavm_cst_shrd_rom_romentry240_t
@@ -8451,7 +8799,9 @@ typedef union cavm_cst_shrd_rom_romentry241 cavm_cst_shrd_rom_romentry241_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY241_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY241_FUNC(void)
 {
-    return 0x87a1000003c4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000003c4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY241", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY241 cavm_cst_shrd_rom_romentry241_t
@@ -8500,7 +8850,9 @@ typedef union cavm_cst_shrd_rom_romentry242 cavm_cst_shrd_rom_romentry242_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY242_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY242_FUNC(void)
 {
-    return 0x87a1000003c8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000003c8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY242", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY242 cavm_cst_shrd_rom_romentry242_t
@@ -8549,7 +8901,9 @@ typedef union cavm_cst_shrd_rom_romentry243 cavm_cst_shrd_rom_romentry243_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY243_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY243_FUNC(void)
 {
-    return 0x87a1000003ccll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000003ccll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY243", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY243 cavm_cst_shrd_rom_romentry243_t
@@ -8598,7 +8952,9 @@ typedef union cavm_cst_shrd_rom_romentry244 cavm_cst_shrd_rom_romentry244_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY244_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY244_FUNC(void)
 {
-    return 0x87a1000003d0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000003d0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY244", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY244 cavm_cst_shrd_rom_romentry244_t
@@ -8647,7 +9003,9 @@ typedef union cavm_cst_shrd_rom_romentry245 cavm_cst_shrd_rom_romentry245_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY245_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY245_FUNC(void)
 {
-    return 0x87a1000003d4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000003d4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY245", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY245 cavm_cst_shrd_rom_romentry245_t
@@ -8696,7 +9054,9 @@ typedef union cavm_cst_shrd_rom_romentry246 cavm_cst_shrd_rom_romentry246_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY246_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY246_FUNC(void)
 {
-    return 0x87a1000003d8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000003d8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY246", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY246 cavm_cst_shrd_rom_romentry246_t
@@ -8745,7 +9105,9 @@ typedef union cavm_cst_shrd_rom_romentry247 cavm_cst_shrd_rom_romentry247_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY247_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY247_FUNC(void)
 {
-    return 0x87a1000003dcll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000003dcll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY247", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY247 cavm_cst_shrd_rom_romentry247_t
@@ -8794,7 +9156,9 @@ typedef union cavm_cst_shrd_rom_romentry248 cavm_cst_shrd_rom_romentry248_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY248_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY248_FUNC(void)
 {
-    return 0x87a1000003e0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000003e0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY248", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY248 cavm_cst_shrd_rom_romentry248_t
@@ -8843,7 +9207,9 @@ typedef union cavm_cst_shrd_rom_romentry249 cavm_cst_shrd_rom_romentry249_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY249_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY249_FUNC(void)
 {
-    return 0x87a1000003e4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000003e4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY249", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY249 cavm_cst_shrd_rom_romentry249_t
@@ -8892,7 +9258,9 @@ typedef union cavm_cst_shrd_rom_romentry25 cavm_cst_shrd_rom_romentry25_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY25_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY25_FUNC(void)
 {
-    return 0x87a100000064ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000064ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY25", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY25 cavm_cst_shrd_rom_romentry25_t
@@ -8941,7 +9309,9 @@ typedef union cavm_cst_shrd_rom_romentry250 cavm_cst_shrd_rom_romentry250_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY250_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY250_FUNC(void)
 {
-    return 0x87a1000003e8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000003e8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY250", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY250 cavm_cst_shrd_rom_romentry250_t
@@ -8990,7 +9360,9 @@ typedef union cavm_cst_shrd_rom_romentry251 cavm_cst_shrd_rom_romentry251_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY251_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY251_FUNC(void)
 {
-    return 0x87a1000003ecll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000003ecll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY251", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY251 cavm_cst_shrd_rom_romentry251_t
@@ -9039,7 +9411,9 @@ typedef union cavm_cst_shrd_rom_romentry252 cavm_cst_shrd_rom_romentry252_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY252_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY252_FUNC(void)
 {
-    return 0x87a1000003f0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000003f0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY252", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY252 cavm_cst_shrd_rom_romentry252_t
@@ -9088,7 +9462,9 @@ typedef union cavm_cst_shrd_rom_romentry253 cavm_cst_shrd_rom_romentry253_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY253_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY253_FUNC(void)
 {
-    return 0x87a1000003f4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000003f4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY253", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY253 cavm_cst_shrd_rom_romentry253_t
@@ -9137,7 +9513,9 @@ typedef union cavm_cst_shrd_rom_romentry254 cavm_cst_shrd_rom_romentry254_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY254_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY254_FUNC(void)
 {
-    return 0x87a1000003f8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000003f8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY254", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY254 cavm_cst_shrd_rom_romentry254_t
@@ -9186,7 +9564,9 @@ typedef union cavm_cst_shrd_rom_romentry255 cavm_cst_shrd_rom_romentry255_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY255_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY255_FUNC(void)
 {
-    return 0x87a1000003fcll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000003fcll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY255", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY255 cavm_cst_shrd_rom_romentry255_t
@@ -9235,7 +9615,9 @@ typedef union cavm_cst_shrd_rom_romentry256 cavm_cst_shrd_rom_romentry256_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY256_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY256_FUNC(void)
 {
-    return 0x87a100000400ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000400ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY256", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY256 cavm_cst_shrd_rom_romentry256_t
@@ -9284,7 +9666,9 @@ typedef union cavm_cst_shrd_rom_romentry257 cavm_cst_shrd_rom_romentry257_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY257_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY257_FUNC(void)
 {
-    return 0x87a100000404ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000404ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY257", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY257 cavm_cst_shrd_rom_romentry257_t
@@ -9333,7 +9717,9 @@ typedef union cavm_cst_shrd_rom_romentry258 cavm_cst_shrd_rom_romentry258_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY258_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY258_FUNC(void)
 {
-    return 0x87a100000408ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000408ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY258", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY258 cavm_cst_shrd_rom_romentry258_t
@@ -9382,7 +9768,9 @@ typedef union cavm_cst_shrd_rom_romentry259 cavm_cst_shrd_rom_romentry259_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY259_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY259_FUNC(void)
 {
-    return 0x87a10000040cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000040cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY259", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY259 cavm_cst_shrd_rom_romentry259_t
@@ -9431,7 +9819,9 @@ typedef union cavm_cst_shrd_rom_romentry26 cavm_cst_shrd_rom_romentry26_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY26_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY26_FUNC(void)
 {
-    return 0x87a100000068ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000068ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY26", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY26 cavm_cst_shrd_rom_romentry26_t
@@ -9480,7 +9870,9 @@ typedef union cavm_cst_shrd_rom_romentry260 cavm_cst_shrd_rom_romentry260_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY260_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY260_FUNC(void)
 {
-    return 0x87a100000410ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000410ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY260", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY260 cavm_cst_shrd_rom_romentry260_t
@@ -9529,7 +9921,9 @@ typedef union cavm_cst_shrd_rom_romentry261 cavm_cst_shrd_rom_romentry261_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY261_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY261_FUNC(void)
 {
-    return 0x87a100000414ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000414ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY261", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY261 cavm_cst_shrd_rom_romentry261_t
@@ -9578,7 +9972,9 @@ typedef union cavm_cst_shrd_rom_romentry262 cavm_cst_shrd_rom_romentry262_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY262_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY262_FUNC(void)
 {
-    return 0x87a100000418ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000418ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY262", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY262 cavm_cst_shrd_rom_romentry262_t
@@ -9627,7 +10023,9 @@ typedef union cavm_cst_shrd_rom_romentry263 cavm_cst_shrd_rom_romentry263_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY263_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY263_FUNC(void)
 {
-    return 0x87a10000041cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000041cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY263", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY263 cavm_cst_shrd_rom_romentry263_t
@@ -9676,7 +10074,9 @@ typedef union cavm_cst_shrd_rom_romentry264 cavm_cst_shrd_rom_romentry264_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY264_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY264_FUNC(void)
 {
-    return 0x87a100000420ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000420ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY264", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY264 cavm_cst_shrd_rom_romentry264_t
@@ -9725,7 +10125,9 @@ typedef union cavm_cst_shrd_rom_romentry265 cavm_cst_shrd_rom_romentry265_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY265_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY265_FUNC(void)
 {
-    return 0x87a100000424ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000424ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY265", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY265 cavm_cst_shrd_rom_romentry265_t
@@ -9774,7 +10176,9 @@ typedef union cavm_cst_shrd_rom_romentry266 cavm_cst_shrd_rom_romentry266_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY266_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY266_FUNC(void)
 {
-    return 0x87a100000428ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000428ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY266", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY266 cavm_cst_shrd_rom_romentry266_t
@@ -9823,7 +10227,9 @@ typedef union cavm_cst_shrd_rom_romentry267 cavm_cst_shrd_rom_romentry267_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY267_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY267_FUNC(void)
 {
-    return 0x87a10000042cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000042cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY267", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY267 cavm_cst_shrd_rom_romentry267_t
@@ -9872,7 +10278,9 @@ typedef union cavm_cst_shrd_rom_romentry268 cavm_cst_shrd_rom_romentry268_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY268_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY268_FUNC(void)
 {
-    return 0x87a100000430ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000430ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY268", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY268 cavm_cst_shrd_rom_romentry268_t
@@ -9921,7 +10329,9 @@ typedef union cavm_cst_shrd_rom_romentry269 cavm_cst_shrd_rom_romentry269_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY269_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY269_FUNC(void)
 {
-    return 0x87a100000434ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000434ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY269", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY269 cavm_cst_shrd_rom_romentry269_t
@@ -9970,7 +10380,9 @@ typedef union cavm_cst_shrd_rom_romentry27 cavm_cst_shrd_rom_romentry27_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY27_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY27_FUNC(void)
 {
-    return 0x87a10000006cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000006cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY27", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY27 cavm_cst_shrd_rom_romentry27_t
@@ -10019,7 +10431,9 @@ typedef union cavm_cst_shrd_rom_romentry270 cavm_cst_shrd_rom_romentry270_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY270_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY270_FUNC(void)
 {
-    return 0x87a100000438ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000438ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY270", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY270 cavm_cst_shrd_rom_romentry270_t
@@ -10068,7 +10482,9 @@ typedef union cavm_cst_shrd_rom_romentry271 cavm_cst_shrd_rom_romentry271_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY271_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY271_FUNC(void)
 {
-    return 0x87a10000043cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000043cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY271", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY271 cavm_cst_shrd_rom_romentry271_t
@@ -10117,7 +10533,9 @@ typedef union cavm_cst_shrd_rom_romentry272 cavm_cst_shrd_rom_romentry272_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY272_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY272_FUNC(void)
 {
-    return 0x87a100000440ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000440ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY272", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY272 cavm_cst_shrd_rom_romentry272_t
@@ -10166,7 +10584,9 @@ typedef union cavm_cst_shrd_rom_romentry273 cavm_cst_shrd_rom_romentry273_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY273_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY273_FUNC(void)
 {
-    return 0x87a100000444ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000444ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY273", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY273 cavm_cst_shrd_rom_romentry273_t
@@ -10215,7 +10635,9 @@ typedef union cavm_cst_shrd_rom_romentry274 cavm_cst_shrd_rom_romentry274_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY274_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY274_FUNC(void)
 {
-    return 0x87a100000448ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000448ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY274", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY274 cavm_cst_shrd_rom_romentry274_t
@@ -10264,7 +10686,9 @@ typedef union cavm_cst_shrd_rom_romentry275 cavm_cst_shrd_rom_romentry275_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY275_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY275_FUNC(void)
 {
-    return 0x87a10000044cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000044cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY275", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY275 cavm_cst_shrd_rom_romentry275_t
@@ -10313,7 +10737,9 @@ typedef union cavm_cst_shrd_rom_romentry276 cavm_cst_shrd_rom_romentry276_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY276_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY276_FUNC(void)
 {
-    return 0x87a100000450ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000450ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY276", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY276 cavm_cst_shrd_rom_romentry276_t
@@ -10362,7 +10788,9 @@ typedef union cavm_cst_shrd_rom_romentry277 cavm_cst_shrd_rom_romentry277_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY277_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY277_FUNC(void)
 {
-    return 0x87a100000454ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000454ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY277", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY277 cavm_cst_shrd_rom_romentry277_t
@@ -10411,7 +10839,9 @@ typedef union cavm_cst_shrd_rom_romentry278 cavm_cst_shrd_rom_romentry278_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY278_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY278_FUNC(void)
 {
-    return 0x87a100000458ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000458ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY278", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY278 cavm_cst_shrd_rom_romentry278_t
@@ -10460,7 +10890,9 @@ typedef union cavm_cst_shrd_rom_romentry279 cavm_cst_shrd_rom_romentry279_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY279_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY279_FUNC(void)
 {
-    return 0x87a10000045cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000045cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY279", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY279 cavm_cst_shrd_rom_romentry279_t
@@ -10509,7 +10941,9 @@ typedef union cavm_cst_shrd_rom_romentry28 cavm_cst_shrd_rom_romentry28_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY28_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY28_FUNC(void)
 {
-    return 0x87a100000070ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000070ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY28", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY28 cavm_cst_shrd_rom_romentry28_t
@@ -10558,7 +10992,9 @@ typedef union cavm_cst_shrd_rom_romentry280 cavm_cst_shrd_rom_romentry280_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY280_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY280_FUNC(void)
 {
-    return 0x87a100000460ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000460ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY280", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY280 cavm_cst_shrd_rom_romentry280_t
@@ -10607,7 +11043,9 @@ typedef union cavm_cst_shrd_rom_romentry281 cavm_cst_shrd_rom_romentry281_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY281_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY281_FUNC(void)
 {
-    return 0x87a100000464ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000464ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY281", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY281 cavm_cst_shrd_rom_romentry281_t
@@ -10656,7 +11094,9 @@ typedef union cavm_cst_shrd_rom_romentry282 cavm_cst_shrd_rom_romentry282_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY282_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY282_FUNC(void)
 {
-    return 0x87a100000468ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000468ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY282", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY282 cavm_cst_shrd_rom_romentry282_t
@@ -10705,7 +11145,9 @@ typedef union cavm_cst_shrd_rom_romentry283 cavm_cst_shrd_rom_romentry283_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY283_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY283_FUNC(void)
 {
-    return 0x87a10000046cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000046cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY283", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY283 cavm_cst_shrd_rom_romentry283_t
@@ -10754,7 +11196,9 @@ typedef union cavm_cst_shrd_rom_romentry284 cavm_cst_shrd_rom_romentry284_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY284_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY284_FUNC(void)
 {
-    return 0x87a100000470ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000470ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY284", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY284 cavm_cst_shrd_rom_romentry284_t
@@ -10803,7 +11247,9 @@ typedef union cavm_cst_shrd_rom_romentry285 cavm_cst_shrd_rom_romentry285_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY285_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY285_FUNC(void)
 {
-    return 0x87a100000474ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000474ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY285", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY285 cavm_cst_shrd_rom_romentry285_t
@@ -10852,7 +11298,9 @@ typedef union cavm_cst_shrd_rom_romentry286 cavm_cst_shrd_rom_romentry286_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY286_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY286_FUNC(void)
 {
-    return 0x87a100000478ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000478ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY286", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY286 cavm_cst_shrd_rom_romentry286_t
@@ -10901,7 +11349,9 @@ typedef union cavm_cst_shrd_rom_romentry287 cavm_cst_shrd_rom_romentry287_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY287_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY287_FUNC(void)
 {
-    return 0x87a10000047cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000047cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY287", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY287 cavm_cst_shrd_rom_romentry287_t
@@ -10950,7 +11400,9 @@ typedef union cavm_cst_shrd_rom_romentry288 cavm_cst_shrd_rom_romentry288_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY288_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY288_FUNC(void)
 {
-    return 0x87a100000480ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000480ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY288", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY288 cavm_cst_shrd_rom_romentry288_t
@@ -10999,7 +11451,9 @@ typedef union cavm_cst_shrd_rom_romentry289 cavm_cst_shrd_rom_romentry289_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY289_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY289_FUNC(void)
 {
-    return 0x87a100000484ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000484ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY289", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY289 cavm_cst_shrd_rom_romentry289_t
@@ -11048,7 +11502,9 @@ typedef union cavm_cst_shrd_rom_romentry29 cavm_cst_shrd_rom_romentry29_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY29_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY29_FUNC(void)
 {
-    return 0x87a100000074ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000074ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY29", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY29 cavm_cst_shrd_rom_romentry29_t
@@ -11097,7 +11553,9 @@ typedef union cavm_cst_shrd_rom_romentry290 cavm_cst_shrd_rom_romentry290_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY290_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY290_FUNC(void)
 {
-    return 0x87a100000488ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000488ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY290", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY290 cavm_cst_shrd_rom_romentry290_t
@@ -11146,7 +11604,9 @@ typedef union cavm_cst_shrd_rom_romentry291 cavm_cst_shrd_rom_romentry291_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY291_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY291_FUNC(void)
 {
-    return 0x87a10000048cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000048cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY291", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY291 cavm_cst_shrd_rom_romentry291_t
@@ -11195,7 +11655,9 @@ typedef union cavm_cst_shrd_rom_romentry292 cavm_cst_shrd_rom_romentry292_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY292_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY292_FUNC(void)
 {
-    return 0x87a100000490ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000490ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY292", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY292 cavm_cst_shrd_rom_romentry292_t
@@ -11244,7 +11706,9 @@ typedef union cavm_cst_shrd_rom_romentry293 cavm_cst_shrd_rom_romentry293_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY293_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY293_FUNC(void)
 {
-    return 0x87a100000494ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000494ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY293", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY293 cavm_cst_shrd_rom_romentry293_t
@@ -11293,7 +11757,9 @@ typedef union cavm_cst_shrd_rom_romentry294 cavm_cst_shrd_rom_romentry294_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY294_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY294_FUNC(void)
 {
-    return 0x87a100000498ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000498ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY294", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY294 cavm_cst_shrd_rom_romentry294_t
@@ -11342,7 +11808,9 @@ typedef union cavm_cst_shrd_rom_romentry295 cavm_cst_shrd_rom_romentry295_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY295_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY295_FUNC(void)
 {
-    return 0x87a10000049cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000049cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY295", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY295 cavm_cst_shrd_rom_romentry295_t
@@ -11391,7 +11859,9 @@ typedef union cavm_cst_shrd_rom_romentry296 cavm_cst_shrd_rom_romentry296_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY296_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY296_FUNC(void)
 {
-    return 0x87a1000004a0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000004a0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY296", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY296 cavm_cst_shrd_rom_romentry296_t
@@ -11440,7 +11910,9 @@ typedef union cavm_cst_shrd_rom_romentry297 cavm_cst_shrd_rom_romentry297_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY297_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY297_FUNC(void)
 {
-    return 0x87a1000004a4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000004a4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY297", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY297 cavm_cst_shrd_rom_romentry297_t
@@ -11489,7 +11961,9 @@ typedef union cavm_cst_shrd_rom_romentry298 cavm_cst_shrd_rom_romentry298_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY298_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY298_FUNC(void)
 {
-    return 0x87a1000004a8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000004a8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY298", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY298 cavm_cst_shrd_rom_romentry298_t
@@ -11538,7 +12012,9 @@ typedef union cavm_cst_shrd_rom_romentry299 cavm_cst_shrd_rom_romentry299_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY299_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY299_FUNC(void)
 {
-    return 0x87a1000004acll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000004acll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY299", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY299 cavm_cst_shrd_rom_romentry299_t
@@ -11587,7 +12063,9 @@ typedef union cavm_cst_shrd_rom_romentry3 cavm_cst_shrd_rom_romentry3_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY3_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY3_FUNC(void)
 {
-    return 0x87a10000000cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000000cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY3", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY3 cavm_cst_shrd_rom_romentry3_t
@@ -11636,7 +12114,9 @@ typedef union cavm_cst_shrd_rom_romentry30 cavm_cst_shrd_rom_romentry30_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY30_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY30_FUNC(void)
 {
-    return 0x87a100000078ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000078ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY30", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY30 cavm_cst_shrd_rom_romentry30_t
@@ -11685,7 +12165,9 @@ typedef union cavm_cst_shrd_rom_romentry300 cavm_cst_shrd_rom_romentry300_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY300_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY300_FUNC(void)
 {
-    return 0x87a1000004b0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000004b0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY300", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY300 cavm_cst_shrd_rom_romentry300_t
@@ -11734,7 +12216,9 @@ typedef union cavm_cst_shrd_rom_romentry301 cavm_cst_shrd_rom_romentry301_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY301_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY301_FUNC(void)
 {
-    return 0x87a1000004b4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000004b4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY301", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY301 cavm_cst_shrd_rom_romentry301_t
@@ -11783,7 +12267,9 @@ typedef union cavm_cst_shrd_rom_romentry302 cavm_cst_shrd_rom_romentry302_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY302_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY302_FUNC(void)
 {
-    return 0x87a1000004b8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000004b8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY302", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY302 cavm_cst_shrd_rom_romentry302_t
@@ -11832,7 +12318,9 @@ typedef union cavm_cst_shrd_rom_romentry303 cavm_cst_shrd_rom_romentry303_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY303_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY303_FUNC(void)
 {
-    return 0x87a1000004bcll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000004bcll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY303", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY303 cavm_cst_shrd_rom_romentry303_t
@@ -11881,7 +12369,9 @@ typedef union cavm_cst_shrd_rom_romentry304 cavm_cst_shrd_rom_romentry304_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY304_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY304_FUNC(void)
 {
-    return 0x87a1000004c0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000004c0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY304", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY304 cavm_cst_shrd_rom_romentry304_t
@@ -11930,7 +12420,9 @@ typedef union cavm_cst_shrd_rom_romentry305 cavm_cst_shrd_rom_romentry305_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY305_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY305_FUNC(void)
 {
-    return 0x87a1000004c4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000004c4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY305", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY305 cavm_cst_shrd_rom_romentry305_t
@@ -11979,7 +12471,9 @@ typedef union cavm_cst_shrd_rom_romentry306 cavm_cst_shrd_rom_romentry306_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY306_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY306_FUNC(void)
 {
-    return 0x87a1000004c8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000004c8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY306", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY306 cavm_cst_shrd_rom_romentry306_t
@@ -12028,7 +12522,9 @@ typedef union cavm_cst_shrd_rom_romentry307 cavm_cst_shrd_rom_romentry307_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY307_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY307_FUNC(void)
 {
-    return 0x87a1000004ccll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000004ccll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY307", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY307 cavm_cst_shrd_rom_romentry307_t
@@ -12077,7 +12573,9 @@ typedef union cavm_cst_shrd_rom_romentry308 cavm_cst_shrd_rom_romentry308_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY308_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY308_FUNC(void)
 {
-    return 0x87a1000004d0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000004d0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY308", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY308 cavm_cst_shrd_rom_romentry308_t
@@ -12126,7 +12624,9 @@ typedef union cavm_cst_shrd_rom_romentry309 cavm_cst_shrd_rom_romentry309_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY309_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY309_FUNC(void)
 {
-    return 0x87a1000004d4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000004d4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY309", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY309 cavm_cst_shrd_rom_romentry309_t
@@ -12175,7 +12675,9 @@ typedef union cavm_cst_shrd_rom_romentry31 cavm_cst_shrd_rom_romentry31_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY31_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY31_FUNC(void)
 {
-    return 0x87a10000007cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000007cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY31", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY31 cavm_cst_shrd_rom_romentry31_t
@@ -12224,7 +12726,9 @@ typedef union cavm_cst_shrd_rom_romentry310 cavm_cst_shrd_rom_romentry310_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY310_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY310_FUNC(void)
 {
-    return 0x87a1000004d8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000004d8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY310", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY310 cavm_cst_shrd_rom_romentry310_t
@@ -12273,7 +12777,9 @@ typedef union cavm_cst_shrd_rom_romentry311 cavm_cst_shrd_rom_romentry311_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY311_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY311_FUNC(void)
 {
-    return 0x87a1000004dcll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000004dcll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY311", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY311 cavm_cst_shrd_rom_romentry311_t
@@ -12322,7 +12828,9 @@ typedef union cavm_cst_shrd_rom_romentry312 cavm_cst_shrd_rom_romentry312_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY312_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY312_FUNC(void)
 {
-    return 0x87a1000004e0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000004e0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY312", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY312 cavm_cst_shrd_rom_romentry312_t
@@ -12371,7 +12879,9 @@ typedef union cavm_cst_shrd_rom_romentry313 cavm_cst_shrd_rom_romentry313_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY313_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY313_FUNC(void)
 {
-    return 0x87a1000004e4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000004e4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY313", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY313 cavm_cst_shrd_rom_romentry313_t
@@ -12420,7 +12930,9 @@ typedef union cavm_cst_shrd_rom_romentry314 cavm_cst_shrd_rom_romentry314_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY314_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY314_FUNC(void)
 {
-    return 0x87a1000004e8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000004e8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY314", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY314 cavm_cst_shrd_rom_romentry314_t
@@ -12469,7 +12981,9 @@ typedef union cavm_cst_shrd_rom_romentry315 cavm_cst_shrd_rom_romentry315_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY315_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY315_FUNC(void)
 {
-    return 0x87a1000004ecll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000004ecll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY315", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY315 cavm_cst_shrd_rom_romentry315_t
@@ -12518,7 +13032,9 @@ typedef union cavm_cst_shrd_rom_romentry316 cavm_cst_shrd_rom_romentry316_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY316_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY316_FUNC(void)
 {
-    return 0x87a1000004f0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000004f0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY316", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY316 cavm_cst_shrd_rom_romentry316_t
@@ -12567,7 +13083,9 @@ typedef union cavm_cst_shrd_rom_romentry317 cavm_cst_shrd_rom_romentry317_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY317_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY317_FUNC(void)
 {
-    return 0x87a1000004f4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000004f4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY317", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY317 cavm_cst_shrd_rom_romentry317_t
@@ -12616,7 +13134,9 @@ typedef union cavm_cst_shrd_rom_romentry318 cavm_cst_shrd_rom_romentry318_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY318_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY318_FUNC(void)
 {
-    return 0x87a1000004f8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000004f8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY318", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY318 cavm_cst_shrd_rom_romentry318_t
@@ -12665,7 +13185,9 @@ typedef union cavm_cst_shrd_rom_romentry319 cavm_cst_shrd_rom_romentry319_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY319_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY319_FUNC(void)
 {
-    return 0x87a1000004fcll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000004fcll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY319", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY319 cavm_cst_shrd_rom_romentry319_t
@@ -12714,7 +13236,9 @@ typedef union cavm_cst_shrd_rom_romentry32 cavm_cst_shrd_rom_romentry32_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY32_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY32_FUNC(void)
 {
-    return 0x87a100000080ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000080ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY32", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY32 cavm_cst_shrd_rom_romentry32_t
@@ -12763,7 +13287,9 @@ typedef union cavm_cst_shrd_rom_romentry320 cavm_cst_shrd_rom_romentry320_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY320_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY320_FUNC(void)
 {
-    return 0x87a100000500ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000500ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY320", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY320 cavm_cst_shrd_rom_romentry320_t
@@ -12812,7 +13338,9 @@ typedef union cavm_cst_shrd_rom_romentry321 cavm_cst_shrd_rom_romentry321_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY321_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY321_FUNC(void)
 {
-    return 0x87a100000504ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000504ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY321", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY321 cavm_cst_shrd_rom_romentry321_t
@@ -12861,7 +13389,9 @@ typedef union cavm_cst_shrd_rom_romentry322 cavm_cst_shrd_rom_romentry322_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY322_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY322_FUNC(void)
 {
-    return 0x87a100000508ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000508ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY322", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY322 cavm_cst_shrd_rom_romentry322_t
@@ -12910,7 +13440,9 @@ typedef union cavm_cst_shrd_rom_romentry323 cavm_cst_shrd_rom_romentry323_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY323_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY323_FUNC(void)
 {
-    return 0x87a10000050cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000050cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY323", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY323 cavm_cst_shrd_rom_romentry323_t
@@ -12959,7 +13491,9 @@ typedef union cavm_cst_shrd_rom_romentry324 cavm_cst_shrd_rom_romentry324_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY324_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY324_FUNC(void)
 {
-    return 0x87a100000510ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000510ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY324", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY324 cavm_cst_shrd_rom_romentry324_t
@@ -13008,7 +13542,9 @@ typedef union cavm_cst_shrd_rom_romentry325 cavm_cst_shrd_rom_romentry325_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY325_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY325_FUNC(void)
 {
-    return 0x87a100000514ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000514ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY325", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY325 cavm_cst_shrd_rom_romentry325_t
@@ -13057,7 +13593,9 @@ typedef union cavm_cst_shrd_rom_romentry326 cavm_cst_shrd_rom_romentry326_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY326_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY326_FUNC(void)
 {
-    return 0x87a100000518ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000518ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY326", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY326 cavm_cst_shrd_rom_romentry326_t
@@ -13106,7 +13644,9 @@ typedef union cavm_cst_shrd_rom_romentry327 cavm_cst_shrd_rom_romentry327_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY327_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY327_FUNC(void)
 {
-    return 0x87a10000051cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000051cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY327", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY327 cavm_cst_shrd_rom_romentry327_t
@@ -13155,7 +13695,9 @@ typedef union cavm_cst_shrd_rom_romentry328 cavm_cst_shrd_rom_romentry328_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY328_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY328_FUNC(void)
 {
-    return 0x87a100000520ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000520ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY328", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY328 cavm_cst_shrd_rom_romentry328_t
@@ -13204,7 +13746,9 @@ typedef union cavm_cst_shrd_rom_romentry329 cavm_cst_shrd_rom_romentry329_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY329_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY329_FUNC(void)
 {
-    return 0x87a100000524ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000524ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY329", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY329 cavm_cst_shrd_rom_romentry329_t
@@ -13253,7 +13797,9 @@ typedef union cavm_cst_shrd_rom_romentry33 cavm_cst_shrd_rom_romentry33_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY33_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY33_FUNC(void)
 {
-    return 0x87a100000084ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000084ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY33", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY33 cavm_cst_shrd_rom_romentry33_t
@@ -13302,7 +13848,9 @@ typedef union cavm_cst_shrd_rom_romentry330 cavm_cst_shrd_rom_romentry330_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY330_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY330_FUNC(void)
 {
-    return 0x87a100000528ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000528ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY330", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY330 cavm_cst_shrd_rom_romentry330_t
@@ -13351,7 +13899,9 @@ typedef union cavm_cst_shrd_rom_romentry331 cavm_cst_shrd_rom_romentry331_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY331_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY331_FUNC(void)
 {
-    return 0x87a10000052cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000052cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY331", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY331 cavm_cst_shrd_rom_romentry331_t
@@ -13400,7 +13950,9 @@ typedef union cavm_cst_shrd_rom_romentry332 cavm_cst_shrd_rom_romentry332_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY332_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY332_FUNC(void)
 {
-    return 0x87a100000530ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000530ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY332", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY332 cavm_cst_shrd_rom_romentry332_t
@@ -13449,7 +14001,9 @@ typedef union cavm_cst_shrd_rom_romentry333 cavm_cst_shrd_rom_romentry333_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY333_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY333_FUNC(void)
 {
-    return 0x87a100000534ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000534ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY333", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY333 cavm_cst_shrd_rom_romentry333_t
@@ -13498,7 +14052,9 @@ typedef union cavm_cst_shrd_rom_romentry334 cavm_cst_shrd_rom_romentry334_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY334_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY334_FUNC(void)
 {
-    return 0x87a100000538ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000538ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY334", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY334 cavm_cst_shrd_rom_romentry334_t
@@ -13547,7 +14103,9 @@ typedef union cavm_cst_shrd_rom_romentry335 cavm_cst_shrd_rom_romentry335_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY335_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY335_FUNC(void)
 {
-    return 0x87a10000053cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000053cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY335", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY335 cavm_cst_shrd_rom_romentry335_t
@@ -13596,7 +14154,9 @@ typedef union cavm_cst_shrd_rom_romentry336 cavm_cst_shrd_rom_romentry336_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY336_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY336_FUNC(void)
 {
-    return 0x87a100000540ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000540ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY336", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY336 cavm_cst_shrd_rom_romentry336_t
@@ -13645,7 +14205,9 @@ typedef union cavm_cst_shrd_rom_romentry337 cavm_cst_shrd_rom_romentry337_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY337_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY337_FUNC(void)
 {
-    return 0x87a100000544ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000544ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY337", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY337 cavm_cst_shrd_rom_romentry337_t
@@ -13694,7 +14256,9 @@ typedef union cavm_cst_shrd_rom_romentry338 cavm_cst_shrd_rom_romentry338_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY338_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY338_FUNC(void)
 {
-    return 0x87a100000548ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000548ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY338", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY338 cavm_cst_shrd_rom_romentry338_t
@@ -13743,7 +14307,9 @@ typedef union cavm_cst_shrd_rom_romentry339 cavm_cst_shrd_rom_romentry339_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY339_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY339_FUNC(void)
 {
-    return 0x87a10000054cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000054cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY339", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY339 cavm_cst_shrd_rom_romentry339_t
@@ -13792,7 +14358,9 @@ typedef union cavm_cst_shrd_rom_romentry34 cavm_cst_shrd_rom_romentry34_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY34_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY34_FUNC(void)
 {
-    return 0x87a100000088ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000088ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY34", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY34 cavm_cst_shrd_rom_romentry34_t
@@ -13841,7 +14409,9 @@ typedef union cavm_cst_shrd_rom_romentry340 cavm_cst_shrd_rom_romentry340_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY340_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY340_FUNC(void)
 {
-    return 0x87a100000550ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000550ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY340", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY340 cavm_cst_shrd_rom_romentry340_t
@@ -13890,7 +14460,9 @@ typedef union cavm_cst_shrd_rom_romentry341 cavm_cst_shrd_rom_romentry341_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY341_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY341_FUNC(void)
 {
-    return 0x87a100000554ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000554ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY341", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY341 cavm_cst_shrd_rom_romentry341_t
@@ -13939,7 +14511,9 @@ typedef union cavm_cst_shrd_rom_romentry342 cavm_cst_shrd_rom_romentry342_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY342_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY342_FUNC(void)
 {
-    return 0x87a100000558ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000558ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY342", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY342 cavm_cst_shrd_rom_romentry342_t
@@ -13988,7 +14562,9 @@ typedef union cavm_cst_shrd_rom_romentry343 cavm_cst_shrd_rom_romentry343_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY343_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY343_FUNC(void)
 {
-    return 0x87a10000055cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000055cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY343", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY343 cavm_cst_shrd_rom_romentry343_t
@@ -14037,7 +14613,9 @@ typedef union cavm_cst_shrd_rom_romentry344 cavm_cst_shrd_rom_romentry344_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY344_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY344_FUNC(void)
 {
-    return 0x87a100000560ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000560ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY344", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY344 cavm_cst_shrd_rom_romentry344_t
@@ -14086,7 +14664,9 @@ typedef union cavm_cst_shrd_rom_romentry345 cavm_cst_shrd_rom_romentry345_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY345_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY345_FUNC(void)
 {
-    return 0x87a100000564ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000564ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY345", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY345 cavm_cst_shrd_rom_romentry345_t
@@ -14135,7 +14715,9 @@ typedef union cavm_cst_shrd_rom_romentry346 cavm_cst_shrd_rom_romentry346_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY346_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY346_FUNC(void)
 {
-    return 0x87a100000568ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000568ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY346", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY346 cavm_cst_shrd_rom_romentry346_t
@@ -14184,7 +14766,9 @@ typedef union cavm_cst_shrd_rom_romentry347 cavm_cst_shrd_rom_romentry347_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY347_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY347_FUNC(void)
 {
-    return 0x87a10000056cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000056cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY347", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY347 cavm_cst_shrd_rom_romentry347_t
@@ -14233,7 +14817,9 @@ typedef union cavm_cst_shrd_rom_romentry348 cavm_cst_shrd_rom_romentry348_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY348_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY348_FUNC(void)
 {
-    return 0x87a100000570ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000570ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY348", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY348 cavm_cst_shrd_rom_romentry348_t
@@ -14282,7 +14868,9 @@ typedef union cavm_cst_shrd_rom_romentry349 cavm_cst_shrd_rom_romentry349_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY349_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY349_FUNC(void)
 {
-    return 0x87a100000574ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000574ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY349", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY349 cavm_cst_shrd_rom_romentry349_t
@@ -14331,7 +14919,9 @@ typedef union cavm_cst_shrd_rom_romentry35 cavm_cst_shrd_rom_romentry35_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY35_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY35_FUNC(void)
 {
-    return 0x87a10000008cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000008cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY35", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY35 cavm_cst_shrd_rom_romentry35_t
@@ -14380,7 +14970,9 @@ typedef union cavm_cst_shrd_rom_romentry350 cavm_cst_shrd_rom_romentry350_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY350_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY350_FUNC(void)
 {
-    return 0x87a100000578ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000578ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY350", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY350 cavm_cst_shrd_rom_romentry350_t
@@ -14429,7 +15021,9 @@ typedef union cavm_cst_shrd_rom_romentry351 cavm_cst_shrd_rom_romentry351_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY351_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY351_FUNC(void)
 {
-    return 0x87a10000057cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000057cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY351", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY351 cavm_cst_shrd_rom_romentry351_t
@@ -14478,7 +15072,9 @@ typedef union cavm_cst_shrd_rom_romentry352 cavm_cst_shrd_rom_romentry352_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY352_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY352_FUNC(void)
 {
-    return 0x87a100000580ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000580ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY352", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY352 cavm_cst_shrd_rom_romentry352_t
@@ -14527,7 +15123,9 @@ typedef union cavm_cst_shrd_rom_romentry353 cavm_cst_shrd_rom_romentry353_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY353_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY353_FUNC(void)
 {
-    return 0x87a100000584ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000584ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY353", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY353 cavm_cst_shrd_rom_romentry353_t
@@ -14576,7 +15174,9 @@ typedef union cavm_cst_shrd_rom_romentry354 cavm_cst_shrd_rom_romentry354_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY354_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY354_FUNC(void)
 {
-    return 0x87a100000588ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000588ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY354", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY354 cavm_cst_shrd_rom_romentry354_t
@@ -14625,7 +15225,9 @@ typedef union cavm_cst_shrd_rom_romentry355 cavm_cst_shrd_rom_romentry355_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY355_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY355_FUNC(void)
 {
-    return 0x87a10000058cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000058cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY355", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY355 cavm_cst_shrd_rom_romentry355_t
@@ -14674,7 +15276,9 @@ typedef union cavm_cst_shrd_rom_romentry356 cavm_cst_shrd_rom_romentry356_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY356_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY356_FUNC(void)
 {
-    return 0x87a100000590ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000590ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY356", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY356 cavm_cst_shrd_rom_romentry356_t
@@ -14723,7 +15327,9 @@ typedef union cavm_cst_shrd_rom_romentry357 cavm_cst_shrd_rom_romentry357_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY357_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY357_FUNC(void)
 {
-    return 0x87a100000594ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000594ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY357", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY357 cavm_cst_shrd_rom_romentry357_t
@@ -14772,7 +15378,9 @@ typedef union cavm_cst_shrd_rom_romentry358 cavm_cst_shrd_rom_romentry358_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY358_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY358_FUNC(void)
 {
-    return 0x87a100000598ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000598ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY358", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY358 cavm_cst_shrd_rom_romentry358_t
@@ -14821,7 +15429,9 @@ typedef union cavm_cst_shrd_rom_romentry359 cavm_cst_shrd_rom_romentry359_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY359_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY359_FUNC(void)
 {
-    return 0x87a10000059cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000059cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY359", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY359 cavm_cst_shrd_rom_romentry359_t
@@ -14870,7 +15480,9 @@ typedef union cavm_cst_shrd_rom_romentry36 cavm_cst_shrd_rom_romentry36_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY36_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY36_FUNC(void)
 {
-    return 0x87a100000090ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000090ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY36", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY36 cavm_cst_shrd_rom_romentry36_t
@@ -14919,7 +15531,9 @@ typedef union cavm_cst_shrd_rom_romentry360 cavm_cst_shrd_rom_romentry360_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY360_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY360_FUNC(void)
 {
-    return 0x87a1000005a0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000005a0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY360", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY360 cavm_cst_shrd_rom_romentry360_t
@@ -14968,7 +15582,9 @@ typedef union cavm_cst_shrd_rom_romentry361 cavm_cst_shrd_rom_romentry361_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY361_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY361_FUNC(void)
 {
-    return 0x87a1000005a4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000005a4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY361", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY361 cavm_cst_shrd_rom_romentry361_t
@@ -15017,7 +15633,9 @@ typedef union cavm_cst_shrd_rom_romentry362 cavm_cst_shrd_rom_romentry362_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY362_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY362_FUNC(void)
 {
-    return 0x87a1000005a8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000005a8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY362", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY362 cavm_cst_shrd_rom_romentry362_t
@@ -15066,7 +15684,9 @@ typedef union cavm_cst_shrd_rom_romentry363 cavm_cst_shrd_rom_romentry363_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY363_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY363_FUNC(void)
 {
-    return 0x87a1000005acll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000005acll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY363", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY363 cavm_cst_shrd_rom_romentry363_t
@@ -15115,7 +15735,9 @@ typedef union cavm_cst_shrd_rom_romentry364 cavm_cst_shrd_rom_romentry364_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY364_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY364_FUNC(void)
 {
-    return 0x87a1000005b0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000005b0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY364", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY364 cavm_cst_shrd_rom_romentry364_t
@@ -15164,7 +15786,9 @@ typedef union cavm_cst_shrd_rom_romentry365 cavm_cst_shrd_rom_romentry365_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY365_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY365_FUNC(void)
 {
-    return 0x87a1000005b4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000005b4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY365", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY365 cavm_cst_shrd_rom_romentry365_t
@@ -15213,7 +15837,9 @@ typedef union cavm_cst_shrd_rom_romentry366 cavm_cst_shrd_rom_romentry366_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY366_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY366_FUNC(void)
 {
-    return 0x87a1000005b8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000005b8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY366", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY366 cavm_cst_shrd_rom_romentry366_t
@@ -15262,7 +15888,9 @@ typedef union cavm_cst_shrd_rom_romentry367 cavm_cst_shrd_rom_romentry367_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY367_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY367_FUNC(void)
 {
-    return 0x87a1000005bcll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000005bcll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY367", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY367 cavm_cst_shrd_rom_romentry367_t
@@ -15311,7 +15939,9 @@ typedef union cavm_cst_shrd_rom_romentry368 cavm_cst_shrd_rom_romentry368_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY368_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY368_FUNC(void)
 {
-    return 0x87a1000005c0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000005c0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY368", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY368 cavm_cst_shrd_rom_romentry368_t
@@ -15360,7 +15990,9 @@ typedef union cavm_cst_shrd_rom_romentry369 cavm_cst_shrd_rom_romentry369_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY369_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY369_FUNC(void)
 {
-    return 0x87a1000005c4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000005c4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY369", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY369 cavm_cst_shrd_rom_romentry369_t
@@ -15409,7 +16041,9 @@ typedef union cavm_cst_shrd_rom_romentry37 cavm_cst_shrd_rom_romentry37_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY37_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY37_FUNC(void)
 {
-    return 0x87a100000094ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000094ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY37", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY37 cavm_cst_shrd_rom_romentry37_t
@@ -15458,7 +16092,9 @@ typedef union cavm_cst_shrd_rom_romentry370 cavm_cst_shrd_rom_romentry370_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY370_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY370_FUNC(void)
 {
-    return 0x87a1000005c8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000005c8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY370", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY370 cavm_cst_shrd_rom_romentry370_t
@@ -15507,7 +16143,9 @@ typedef union cavm_cst_shrd_rom_romentry371 cavm_cst_shrd_rom_romentry371_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY371_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY371_FUNC(void)
 {
-    return 0x87a1000005ccll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000005ccll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY371", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY371 cavm_cst_shrd_rom_romentry371_t
@@ -15556,7 +16194,9 @@ typedef union cavm_cst_shrd_rom_romentry372 cavm_cst_shrd_rom_romentry372_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY372_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY372_FUNC(void)
 {
-    return 0x87a1000005d0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000005d0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY372", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY372 cavm_cst_shrd_rom_romentry372_t
@@ -15605,7 +16245,9 @@ typedef union cavm_cst_shrd_rom_romentry373 cavm_cst_shrd_rom_romentry373_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY373_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY373_FUNC(void)
 {
-    return 0x87a1000005d4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000005d4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY373", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY373 cavm_cst_shrd_rom_romentry373_t
@@ -15654,7 +16296,9 @@ typedef union cavm_cst_shrd_rom_romentry374 cavm_cst_shrd_rom_romentry374_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY374_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY374_FUNC(void)
 {
-    return 0x87a1000005d8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000005d8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY374", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY374 cavm_cst_shrd_rom_romentry374_t
@@ -15703,7 +16347,9 @@ typedef union cavm_cst_shrd_rom_romentry375 cavm_cst_shrd_rom_romentry375_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY375_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY375_FUNC(void)
 {
-    return 0x87a1000005dcll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000005dcll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY375", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY375 cavm_cst_shrd_rom_romentry375_t
@@ -15752,7 +16398,9 @@ typedef union cavm_cst_shrd_rom_romentry376 cavm_cst_shrd_rom_romentry376_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY376_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY376_FUNC(void)
 {
-    return 0x87a1000005e0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000005e0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY376", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY376 cavm_cst_shrd_rom_romentry376_t
@@ -15801,7 +16449,9 @@ typedef union cavm_cst_shrd_rom_romentry377 cavm_cst_shrd_rom_romentry377_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY377_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY377_FUNC(void)
 {
-    return 0x87a1000005e4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000005e4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY377", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY377 cavm_cst_shrd_rom_romentry377_t
@@ -15850,7 +16500,9 @@ typedef union cavm_cst_shrd_rom_romentry378 cavm_cst_shrd_rom_romentry378_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY378_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY378_FUNC(void)
 {
-    return 0x87a1000005e8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000005e8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY378", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY378 cavm_cst_shrd_rom_romentry378_t
@@ -15899,7 +16551,9 @@ typedef union cavm_cst_shrd_rom_romentry379 cavm_cst_shrd_rom_romentry379_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY379_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY379_FUNC(void)
 {
-    return 0x87a1000005ecll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000005ecll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY379", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY379 cavm_cst_shrd_rom_romentry379_t
@@ -15948,7 +16602,9 @@ typedef union cavm_cst_shrd_rom_romentry38 cavm_cst_shrd_rom_romentry38_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY38_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY38_FUNC(void)
 {
-    return 0x87a100000098ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000098ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY38", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY38 cavm_cst_shrd_rom_romentry38_t
@@ -15997,7 +16653,9 @@ typedef union cavm_cst_shrd_rom_romentry380 cavm_cst_shrd_rom_romentry380_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY380_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY380_FUNC(void)
 {
-    return 0x87a1000005f0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000005f0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY380", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY380 cavm_cst_shrd_rom_romentry380_t
@@ -16046,7 +16704,9 @@ typedef union cavm_cst_shrd_rom_romentry381 cavm_cst_shrd_rom_romentry381_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY381_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY381_FUNC(void)
 {
-    return 0x87a1000005f4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000005f4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY381", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY381 cavm_cst_shrd_rom_romentry381_t
@@ -16095,7 +16755,9 @@ typedef union cavm_cst_shrd_rom_romentry382 cavm_cst_shrd_rom_romentry382_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY382_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY382_FUNC(void)
 {
-    return 0x87a1000005f8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000005f8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY382", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY382 cavm_cst_shrd_rom_romentry382_t
@@ -16144,7 +16806,9 @@ typedef union cavm_cst_shrd_rom_romentry383 cavm_cst_shrd_rom_romentry383_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY383_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY383_FUNC(void)
 {
-    return 0x87a1000005fcll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000005fcll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY383", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY383 cavm_cst_shrd_rom_romentry383_t
@@ -16193,7 +16857,9 @@ typedef union cavm_cst_shrd_rom_romentry384 cavm_cst_shrd_rom_romentry384_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY384_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY384_FUNC(void)
 {
-    return 0x87a100000600ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000600ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY384", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY384 cavm_cst_shrd_rom_romentry384_t
@@ -16242,7 +16908,9 @@ typedef union cavm_cst_shrd_rom_romentry385 cavm_cst_shrd_rom_romentry385_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY385_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY385_FUNC(void)
 {
-    return 0x87a100000604ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000604ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY385", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY385 cavm_cst_shrd_rom_romentry385_t
@@ -16291,7 +16959,9 @@ typedef union cavm_cst_shrd_rom_romentry386 cavm_cst_shrd_rom_romentry386_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY386_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY386_FUNC(void)
 {
-    return 0x87a100000608ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000608ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY386", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY386 cavm_cst_shrd_rom_romentry386_t
@@ -16340,7 +17010,9 @@ typedef union cavm_cst_shrd_rom_romentry387 cavm_cst_shrd_rom_romentry387_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY387_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY387_FUNC(void)
 {
-    return 0x87a10000060cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000060cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY387", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY387 cavm_cst_shrd_rom_romentry387_t
@@ -16389,7 +17061,9 @@ typedef union cavm_cst_shrd_rom_romentry388 cavm_cst_shrd_rom_romentry388_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY388_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY388_FUNC(void)
 {
-    return 0x87a100000610ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000610ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY388", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY388 cavm_cst_shrd_rom_romentry388_t
@@ -16438,7 +17112,9 @@ typedef union cavm_cst_shrd_rom_romentry389 cavm_cst_shrd_rom_romentry389_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY389_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY389_FUNC(void)
 {
-    return 0x87a100000614ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000614ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY389", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY389 cavm_cst_shrd_rom_romentry389_t
@@ -16487,7 +17163,9 @@ typedef union cavm_cst_shrd_rom_romentry39 cavm_cst_shrd_rom_romentry39_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY39_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY39_FUNC(void)
 {
-    return 0x87a10000009cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000009cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY39", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY39 cavm_cst_shrd_rom_romentry39_t
@@ -16536,7 +17214,9 @@ typedef union cavm_cst_shrd_rom_romentry390 cavm_cst_shrd_rom_romentry390_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY390_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY390_FUNC(void)
 {
-    return 0x87a100000618ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000618ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY390", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY390 cavm_cst_shrd_rom_romentry390_t
@@ -16585,7 +17265,9 @@ typedef union cavm_cst_shrd_rom_romentry391 cavm_cst_shrd_rom_romentry391_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY391_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY391_FUNC(void)
 {
-    return 0x87a10000061cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000061cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY391", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY391 cavm_cst_shrd_rom_romentry391_t
@@ -16634,7 +17316,9 @@ typedef union cavm_cst_shrd_rom_romentry392 cavm_cst_shrd_rom_romentry392_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY392_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY392_FUNC(void)
 {
-    return 0x87a100000620ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000620ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY392", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY392 cavm_cst_shrd_rom_romentry392_t
@@ -16683,7 +17367,9 @@ typedef union cavm_cst_shrd_rom_romentry393 cavm_cst_shrd_rom_romentry393_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY393_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY393_FUNC(void)
 {
-    return 0x87a100000624ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000624ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY393", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY393 cavm_cst_shrd_rom_romentry393_t
@@ -16732,7 +17418,9 @@ typedef union cavm_cst_shrd_rom_romentry394 cavm_cst_shrd_rom_romentry394_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY394_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY394_FUNC(void)
 {
-    return 0x87a100000628ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000628ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY394", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY394 cavm_cst_shrd_rom_romentry394_t
@@ -16781,7 +17469,9 @@ typedef union cavm_cst_shrd_rom_romentry395 cavm_cst_shrd_rom_romentry395_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY395_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY395_FUNC(void)
 {
-    return 0x87a10000062cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000062cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY395", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY395 cavm_cst_shrd_rom_romentry395_t
@@ -16830,7 +17520,9 @@ typedef union cavm_cst_shrd_rom_romentry396 cavm_cst_shrd_rom_romentry396_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY396_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY396_FUNC(void)
 {
-    return 0x87a100000630ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000630ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY396", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY396 cavm_cst_shrd_rom_romentry396_t
@@ -16879,7 +17571,9 @@ typedef union cavm_cst_shrd_rom_romentry397 cavm_cst_shrd_rom_romentry397_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY397_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY397_FUNC(void)
 {
-    return 0x87a100000634ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000634ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY397", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY397 cavm_cst_shrd_rom_romentry397_t
@@ -16928,7 +17622,9 @@ typedef union cavm_cst_shrd_rom_romentry398 cavm_cst_shrd_rom_romentry398_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY398_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY398_FUNC(void)
 {
-    return 0x87a100000638ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000638ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY398", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY398 cavm_cst_shrd_rom_romentry398_t
@@ -16977,7 +17673,9 @@ typedef union cavm_cst_shrd_rom_romentry399 cavm_cst_shrd_rom_romentry399_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY399_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY399_FUNC(void)
 {
-    return 0x87a10000063cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000063cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY399", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY399 cavm_cst_shrd_rom_romentry399_t
@@ -17026,7 +17724,9 @@ typedef union cavm_cst_shrd_rom_romentry4 cavm_cst_shrd_rom_romentry4_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY4_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY4_FUNC(void)
 {
-    return 0x87a100000010ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000010ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY4", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY4 cavm_cst_shrd_rom_romentry4_t
@@ -17075,7 +17775,9 @@ typedef union cavm_cst_shrd_rom_romentry40 cavm_cst_shrd_rom_romentry40_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY40_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY40_FUNC(void)
 {
-    return 0x87a1000000a0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000000a0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY40", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY40 cavm_cst_shrd_rom_romentry40_t
@@ -17124,7 +17826,9 @@ typedef union cavm_cst_shrd_rom_romentry400 cavm_cst_shrd_rom_romentry400_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY400_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY400_FUNC(void)
 {
-    return 0x87a100000640ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000640ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY400", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY400 cavm_cst_shrd_rom_romentry400_t
@@ -17173,7 +17877,9 @@ typedef union cavm_cst_shrd_rom_romentry401 cavm_cst_shrd_rom_romentry401_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY401_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY401_FUNC(void)
 {
-    return 0x87a100000644ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000644ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY401", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY401 cavm_cst_shrd_rom_romentry401_t
@@ -17222,7 +17928,9 @@ typedef union cavm_cst_shrd_rom_romentry402 cavm_cst_shrd_rom_romentry402_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY402_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY402_FUNC(void)
 {
-    return 0x87a100000648ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000648ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY402", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY402 cavm_cst_shrd_rom_romentry402_t
@@ -17271,7 +17979,9 @@ typedef union cavm_cst_shrd_rom_romentry403 cavm_cst_shrd_rom_romentry403_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY403_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY403_FUNC(void)
 {
-    return 0x87a10000064cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000064cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY403", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY403 cavm_cst_shrd_rom_romentry403_t
@@ -17320,7 +18030,9 @@ typedef union cavm_cst_shrd_rom_romentry404 cavm_cst_shrd_rom_romentry404_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY404_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY404_FUNC(void)
 {
-    return 0x87a100000650ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000650ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY404", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY404 cavm_cst_shrd_rom_romentry404_t
@@ -17369,7 +18081,9 @@ typedef union cavm_cst_shrd_rom_romentry405 cavm_cst_shrd_rom_romentry405_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY405_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY405_FUNC(void)
 {
-    return 0x87a100000654ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000654ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY405", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY405 cavm_cst_shrd_rom_romentry405_t
@@ -17418,7 +18132,9 @@ typedef union cavm_cst_shrd_rom_romentry406 cavm_cst_shrd_rom_romentry406_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY406_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY406_FUNC(void)
 {
-    return 0x87a100000658ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000658ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY406", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY406 cavm_cst_shrd_rom_romentry406_t
@@ -17467,7 +18183,9 @@ typedef union cavm_cst_shrd_rom_romentry407 cavm_cst_shrd_rom_romentry407_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY407_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY407_FUNC(void)
 {
-    return 0x87a10000065cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000065cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY407", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY407 cavm_cst_shrd_rom_romentry407_t
@@ -17516,7 +18234,9 @@ typedef union cavm_cst_shrd_rom_romentry408 cavm_cst_shrd_rom_romentry408_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY408_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY408_FUNC(void)
 {
-    return 0x87a100000660ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000660ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY408", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY408 cavm_cst_shrd_rom_romentry408_t
@@ -17565,7 +18285,9 @@ typedef union cavm_cst_shrd_rom_romentry409 cavm_cst_shrd_rom_romentry409_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY409_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY409_FUNC(void)
 {
-    return 0x87a100000664ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000664ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY409", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY409 cavm_cst_shrd_rom_romentry409_t
@@ -17614,7 +18336,9 @@ typedef union cavm_cst_shrd_rom_romentry41 cavm_cst_shrd_rom_romentry41_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY41_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY41_FUNC(void)
 {
-    return 0x87a1000000a4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000000a4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY41", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY41 cavm_cst_shrd_rom_romentry41_t
@@ -17663,7 +18387,9 @@ typedef union cavm_cst_shrd_rom_romentry410 cavm_cst_shrd_rom_romentry410_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY410_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY410_FUNC(void)
 {
-    return 0x87a100000668ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000668ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY410", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY410 cavm_cst_shrd_rom_romentry410_t
@@ -17712,7 +18438,9 @@ typedef union cavm_cst_shrd_rom_romentry411 cavm_cst_shrd_rom_romentry411_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY411_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY411_FUNC(void)
 {
-    return 0x87a10000066cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000066cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY411", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY411 cavm_cst_shrd_rom_romentry411_t
@@ -17761,7 +18489,9 @@ typedef union cavm_cst_shrd_rom_romentry412 cavm_cst_shrd_rom_romentry412_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY412_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY412_FUNC(void)
 {
-    return 0x87a100000670ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000670ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY412", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY412 cavm_cst_shrd_rom_romentry412_t
@@ -17810,7 +18540,9 @@ typedef union cavm_cst_shrd_rom_romentry413 cavm_cst_shrd_rom_romentry413_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY413_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY413_FUNC(void)
 {
-    return 0x87a100000674ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000674ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY413", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY413 cavm_cst_shrd_rom_romentry413_t
@@ -17859,7 +18591,9 @@ typedef union cavm_cst_shrd_rom_romentry414 cavm_cst_shrd_rom_romentry414_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY414_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY414_FUNC(void)
 {
-    return 0x87a100000678ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000678ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY414", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY414 cavm_cst_shrd_rom_romentry414_t
@@ -17908,7 +18642,9 @@ typedef union cavm_cst_shrd_rom_romentry415 cavm_cst_shrd_rom_romentry415_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY415_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY415_FUNC(void)
 {
-    return 0x87a10000067cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000067cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY415", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY415 cavm_cst_shrd_rom_romentry415_t
@@ -17957,7 +18693,9 @@ typedef union cavm_cst_shrd_rom_romentry416 cavm_cst_shrd_rom_romentry416_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY416_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY416_FUNC(void)
 {
-    return 0x87a100000680ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000680ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY416", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY416 cavm_cst_shrd_rom_romentry416_t
@@ -18006,7 +18744,9 @@ typedef union cavm_cst_shrd_rom_romentry417 cavm_cst_shrd_rom_romentry417_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY417_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY417_FUNC(void)
 {
-    return 0x87a100000684ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000684ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY417", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY417 cavm_cst_shrd_rom_romentry417_t
@@ -18055,7 +18795,9 @@ typedef union cavm_cst_shrd_rom_romentry418 cavm_cst_shrd_rom_romentry418_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY418_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY418_FUNC(void)
 {
-    return 0x87a100000688ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000688ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY418", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY418 cavm_cst_shrd_rom_romentry418_t
@@ -18104,7 +18846,9 @@ typedef union cavm_cst_shrd_rom_romentry419 cavm_cst_shrd_rom_romentry419_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY419_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY419_FUNC(void)
 {
-    return 0x87a10000068cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000068cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY419", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY419 cavm_cst_shrd_rom_romentry419_t
@@ -18153,7 +18897,9 @@ typedef union cavm_cst_shrd_rom_romentry42 cavm_cst_shrd_rom_romentry42_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY42_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY42_FUNC(void)
 {
-    return 0x87a1000000a8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000000a8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY42", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY42 cavm_cst_shrd_rom_romentry42_t
@@ -18202,7 +18948,9 @@ typedef union cavm_cst_shrd_rom_romentry420 cavm_cst_shrd_rom_romentry420_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY420_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY420_FUNC(void)
 {
-    return 0x87a100000690ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000690ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY420", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY420 cavm_cst_shrd_rom_romentry420_t
@@ -18251,7 +18999,9 @@ typedef union cavm_cst_shrd_rom_romentry421 cavm_cst_shrd_rom_romentry421_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY421_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY421_FUNC(void)
 {
-    return 0x87a100000694ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000694ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY421", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY421 cavm_cst_shrd_rom_romentry421_t
@@ -18300,7 +19050,9 @@ typedef union cavm_cst_shrd_rom_romentry422 cavm_cst_shrd_rom_romentry422_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY422_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY422_FUNC(void)
 {
-    return 0x87a100000698ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000698ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY422", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY422 cavm_cst_shrd_rom_romentry422_t
@@ -18349,7 +19101,9 @@ typedef union cavm_cst_shrd_rom_romentry423 cavm_cst_shrd_rom_romentry423_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY423_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY423_FUNC(void)
 {
-    return 0x87a10000069cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000069cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY423", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY423 cavm_cst_shrd_rom_romentry423_t
@@ -18398,7 +19152,9 @@ typedef union cavm_cst_shrd_rom_romentry424 cavm_cst_shrd_rom_romentry424_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY424_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY424_FUNC(void)
 {
-    return 0x87a1000006a0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000006a0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY424", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY424 cavm_cst_shrd_rom_romentry424_t
@@ -18447,7 +19203,9 @@ typedef union cavm_cst_shrd_rom_romentry425 cavm_cst_shrd_rom_romentry425_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY425_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY425_FUNC(void)
 {
-    return 0x87a1000006a4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000006a4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY425", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY425 cavm_cst_shrd_rom_romentry425_t
@@ -18496,7 +19254,9 @@ typedef union cavm_cst_shrd_rom_romentry426 cavm_cst_shrd_rom_romentry426_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY426_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY426_FUNC(void)
 {
-    return 0x87a1000006a8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000006a8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY426", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY426 cavm_cst_shrd_rom_romentry426_t
@@ -18545,7 +19305,9 @@ typedef union cavm_cst_shrd_rom_romentry427 cavm_cst_shrd_rom_romentry427_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY427_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY427_FUNC(void)
 {
-    return 0x87a1000006acll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000006acll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY427", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY427 cavm_cst_shrd_rom_romentry427_t
@@ -18594,7 +19356,9 @@ typedef union cavm_cst_shrd_rom_romentry428 cavm_cst_shrd_rom_romentry428_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY428_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY428_FUNC(void)
 {
-    return 0x87a1000006b0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000006b0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY428", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY428 cavm_cst_shrd_rom_romentry428_t
@@ -18643,7 +19407,9 @@ typedef union cavm_cst_shrd_rom_romentry429 cavm_cst_shrd_rom_romentry429_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY429_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY429_FUNC(void)
 {
-    return 0x87a1000006b4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000006b4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY429", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY429 cavm_cst_shrd_rom_romentry429_t
@@ -18692,7 +19458,9 @@ typedef union cavm_cst_shrd_rom_romentry43 cavm_cst_shrd_rom_romentry43_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY43_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY43_FUNC(void)
 {
-    return 0x87a1000000acll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000000acll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY43", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY43 cavm_cst_shrd_rom_romentry43_t
@@ -18741,7 +19509,9 @@ typedef union cavm_cst_shrd_rom_romentry430 cavm_cst_shrd_rom_romentry430_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY430_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY430_FUNC(void)
 {
-    return 0x87a1000006b8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000006b8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY430", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY430 cavm_cst_shrd_rom_romentry430_t
@@ -18790,7 +19560,9 @@ typedef union cavm_cst_shrd_rom_romentry431 cavm_cst_shrd_rom_romentry431_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY431_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY431_FUNC(void)
 {
-    return 0x87a1000006bcll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000006bcll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY431", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY431 cavm_cst_shrd_rom_romentry431_t
@@ -18839,7 +19611,9 @@ typedef union cavm_cst_shrd_rom_romentry432 cavm_cst_shrd_rom_romentry432_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY432_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY432_FUNC(void)
 {
-    return 0x87a1000006c0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000006c0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY432", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY432 cavm_cst_shrd_rom_romentry432_t
@@ -18888,7 +19662,9 @@ typedef union cavm_cst_shrd_rom_romentry433 cavm_cst_shrd_rom_romentry433_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY433_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY433_FUNC(void)
 {
-    return 0x87a1000006c4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000006c4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY433", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY433 cavm_cst_shrd_rom_romentry433_t
@@ -18937,7 +19713,9 @@ typedef union cavm_cst_shrd_rom_romentry434 cavm_cst_shrd_rom_romentry434_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY434_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY434_FUNC(void)
 {
-    return 0x87a1000006c8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000006c8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY434", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY434 cavm_cst_shrd_rom_romentry434_t
@@ -18986,7 +19764,9 @@ typedef union cavm_cst_shrd_rom_romentry435 cavm_cst_shrd_rom_romentry435_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY435_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY435_FUNC(void)
 {
-    return 0x87a1000006ccll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000006ccll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY435", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY435 cavm_cst_shrd_rom_romentry435_t
@@ -19035,7 +19815,9 @@ typedef union cavm_cst_shrd_rom_romentry436 cavm_cst_shrd_rom_romentry436_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY436_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY436_FUNC(void)
 {
-    return 0x87a1000006d0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000006d0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY436", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY436 cavm_cst_shrd_rom_romentry436_t
@@ -19084,7 +19866,9 @@ typedef union cavm_cst_shrd_rom_romentry437 cavm_cst_shrd_rom_romentry437_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY437_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY437_FUNC(void)
 {
-    return 0x87a1000006d4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000006d4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY437", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY437 cavm_cst_shrd_rom_romentry437_t
@@ -19133,7 +19917,9 @@ typedef union cavm_cst_shrd_rom_romentry438 cavm_cst_shrd_rom_romentry438_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY438_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY438_FUNC(void)
 {
-    return 0x87a1000006d8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000006d8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY438", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY438 cavm_cst_shrd_rom_romentry438_t
@@ -19182,7 +19968,9 @@ typedef union cavm_cst_shrd_rom_romentry439 cavm_cst_shrd_rom_romentry439_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY439_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY439_FUNC(void)
 {
-    return 0x87a1000006dcll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000006dcll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY439", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY439 cavm_cst_shrd_rom_romentry439_t
@@ -19231,7 +20019,9 @@ typedef union cavm_cst_shrd_rom_romentry44 cavm_cst_shrd_rom_romentry44_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY44_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY44_FUNC(void)
 {
-    return 0x87a1000000b0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000000b0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY44", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY44 cavm_cst_shrd_rom_romentry44_t
@@ -19280,7 +20070,9 @@ typedef union cavm_cst_shrd_rom_romentry440 cavm_cst_shrd_rom_romentry440_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY440_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY440_FUNC(void)
 {
-    return 0x87a1000006e0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000006e0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY440", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY440 cavm_cst_shrd_rom_romentry440_t
@@ -19329,7 +20121,9 @@ typedef union cavm_cst_shrd_rom_romentry441 cavm_cst_shrd_rom_romentry441_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY441_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY441_FUNC(void)
 {
-    return 0x87a1000006e4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000006e4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY441", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY441 cavm_cst_shrd_rom_romentry441_t
@@ -19378,7 +20172,9 @@ typedef union cavm_cst_shrd_rom_romentry442 cavm_cst_shrd_rom_romentry442_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY442_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY442_FUNC(void)
 {
-    return 0x87a1000006e8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000006e8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY442", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY442 cavm_cst_shrd_rom_romentry442_t
@@ -19427,7 +20223,9 @@ typedef union cavm_cst_shrd_rom_romentry443 cavm_cst_shrd_rom_romentry443_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY443_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY443_FUNC(void)
 {
-    return 0x87a1000006ecll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000006ecll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY443", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY443 cavm_cst_shrd_rom_romentry443_t
@@ -19476,7 +20274,9 @@ typedef union cavm_cst_shrd_rom_romentry444 cavm_cst_shrd_rom_romentry444_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY444_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY444_FUNC(void)
 {
-    return 0x87a1000006f0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000006f0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY444", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY444 cavm_cst_shrd_rom_romentry444_t
@@ -19525,7 +20325,9 @@ typedef union cavm_cst_shrd_rom_romentry445 cavm_cst_shrd_rom_romentry445_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY445_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY445_FUNC(void)
 {
-    return 0x87a1000006f4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000006f4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY445", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY445 cavm_cst_shrd_rom_romentry445_t
@@ -19574,7 +20376,9 @@ typedef union cavm_cst_shrd_rom_romentry446 cavm_cst_shrd_rom_romentry446_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY446_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY446_FUNC(void)
 {
-    return 0x87a1000006f8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000006f8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY446", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY446 cavm_cst_shrd_rom_romentry446_t
@@ -19623,7 +20427,9 @@ typedef union cavm_cst_shrd_rom_romentry447 cavm_cst_shrd_rom_romentry447_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY447_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY447_FUNC(void)
 {
-    return 0x87a1000006fcll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000006fcll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY447", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY447 cavm_cst_shrd_rom_romentry447_t
@@ -19672,7 +20478,9 @@ typedef union cavm_cst_shrd_rom_romentry448 cavm_cst_shrd_rom_romentry448_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY448_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY448_FUNC(void)
 {
-    return 0x87a100000700ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000700ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY448", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY448 cavm_cst_shrd_rom_romentry448_t
@@ -19721,7 +20529,9 @@ typedef union cavm_cst_shrd_rom_romentry449 cavm_cst_shrd_rom_romentry449_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY449_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY449_FUNC(void)
 {
-    return 0x87a100000704ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000704ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY449", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY449 cavm_cst_shrd_rom_romentry449_t
@@ -19770,7 +20580,9 @@ typedef union cavm_cst_shrd_rom_romentry45 cavm_cst_shrd_rom_romentry45_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY45_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY45_FUNC(void)
 {
-    return 0x87a1000000b4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000000b4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY45", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY45 cavm_cst_shrd_rom_romentry45_t
@@ -19819,7 +20631,9 @@ typedef union cavm_cst_shrd_rom_romentry450 cavm_cst_shrd_rom_romentry450_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY450_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY450_FUNC(void)
 {
-    return 0x87a100000708ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000708ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY450", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY450 cavm_cst_shrd_rom_romentry450_t
@@ -19868,7 +20682,9 @@ typedef union cavm_cst_shrd_rom_romentry451 cavm_cst_shrd_rom_romentry451_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY451_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY451_FUNC(void)
 {
-    return 0x87a10000070cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000070cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY451", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY451 cavm_cst_shrd_rom_romentry451_t
@@ -19917,7 +20733,9 @@ typedef union cavm_cst_shrd_rom_romentry452 cavm_cst_shrd_rom_romentry452_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY452_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY452_FUNC(void)
 {
-    return 0x87a100000710ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000710ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY452", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY452 cavm_cst_shrd_rom_romentry452_t
@@ -19966,7 +20784,9 @@ typedef union cavm_cst_shrd_rom_romentry453 cavm_cst_shrd_rom_romentry453_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY453_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY453_FUNC(void)
 {
-    return 0x87a100000714ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000714ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY453", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY453 cavm_cst_shrd_rom_romentry453_t
@@ -20015,7 +20835,9 @@ typedef union cavm_cst_shrd_rom_romentry454 cavm_cst_shrd_rom_romentry454_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY454_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY454_FUNC(void)
 {
-    return 0x87a100000718ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000718ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY454", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY454 cavm_cst_shrd_rom_romentry454_t
@@ -20064,7 +20886,9 @@ typedef union cavm_cst_shrd_rom_romentry455 cavm_cst_shrd_rom_romentry455_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY455_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY455_FUNC(void)
 {
-    return 0x87a10000071cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000071cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY455", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY455 cavm_cst_shrd_rom_romentry455_t
@@ -20113,7 +20937,9 @@ typedef union cavm_cst_shrd_rom_romentry456 cavm_cst_shrd_rom_romentry456_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY456_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY456_FUNC(void)
 {
-    return 0x87a100000720ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000720ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY456", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY456 cavm_cst_shrd_rom_romentry456_t
@@ -20162,7 +20988,9 @@ typedef union cavm_cst_shrd_rom_romentry457 cavm_cst_shrd_rom_romentry457_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY457_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY457_FUNC(void)
 {
-    return 0x87a100000724ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000724ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY457", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY457 cavm_cst_shrd_rom_romentry457_t
@@ -20211,7 +21039,9 @@ typedef union cavm_cst_shrd_rom_romentry458 cavm_cst_shrd_rom_romentry458_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY458_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY458_FUNC(void)
 {
-    return 0x87a100000728ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000728ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY458", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY458 cavm_cst_shrd_rom_romentry458_t
@@ -20260,7 +21090,9 @@ typedef union cavm_cst_shrd_rom_romentry459 cavm_cst_shrd_rom_romentry459_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY459_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY459_FUNC(void)
 {
-    return 0x87a10000072cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000072cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY459", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY459 cavm_cst_shrd_rom_romentry459_t
@@ -20309,7 +21141,9 @@ typedef union cavm_cst_shrd_rom_romentry46 cavm_cst_shrd_rom_romentry46_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY46_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY46_FUNC(void)
 {
-    return 0x87a1000000b8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000000b8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY46", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY46 cavm_cst_shrd_rom_romentry46_t
@@ -20358,7 +21192,9 @@ typedef union cavm_cst_shrd_rom_romentry460 cavm_cst_shrd_rom_romentry460_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY460_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY460_FUNC(void)
 {
-    return 0x87a100000730ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000730ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY460", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY460 cavm_cst_shrd_rom_romentry460_t
@@ -20407,7 +21243,9 @@ typedef union cavm_cst_shrd_rom_romentry461 cavm_cst_shrd_rom_romentry461_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY461_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY461_FUNC(void)
 {
-    return 0x87a100000734ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000734ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY461", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY461 cavm_cst_shrd_rom_romentry461_t
@@ -20456,7 +21294,9 @@ typedef union cavm_cst_shrd_rom_romentry462 cavm_cst_shrd_rom_romentry462_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY462_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY462_FUNC(void)
 {
-    return 0x87a100000738ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000738ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY462", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY462 cavm_cst_shrd_rom_romentry462_t
@@ -20505,7 +21345,9 @@ typedef union cavm_cst_shrd_rom_romentry463 cavm_cst_shrd_rom_romentry463_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY463_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY463_FUNC(void)
 {
-    return 0x87a10000073cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000073cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY463", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY463 cavm_cst_shrd_rom_romentry463_t
@@ -20554,7 +21396,9 @@ typedef union cavm_cst_shrd_rom_romentry464 cavm_cst_shrd_rom_romentry464_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY464_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY464_FUNC(void)
 {
-    return 0x87a100000740ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000740ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY464", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY464 cavm_cst_shrd_rom_romentry464_t
@@ -20603,7 +21447,9 @@ typedef union cavm_cst_shrd_rom_romentry465 cavm_cst_shrd_rom_romentry465_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY465_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY465_FUNC(void)
 {
-    return 0x87a100000744ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000744ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY465", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY465 cavm_cst_shrd_rom_romentry465_t
@@ -20652,7 +21498,9 @@ typedef union cavm_cst_shrd_rom_romentry466 cavm_cst_shrd_rom_romentry466_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY466_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY466_FUNC(void)
 {
-    return 0x87a100000748ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000748ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY466", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY466 cavm_cst_shrd_rom_romentry466_t
@@ -20701,7 +21549,9 @@ typedef union cavm_cst_shrd_rom_romentry467 cavm_cst_shrd_rom_romentry467_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY467_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY467_FUNC(void)
 {
-    return 0x87a10000074cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000074cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY467", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY467 cavm_cst_shrd_rom_romentry467_t
@@ -20750,7 +21600,9 @@ typedef union cavm_cst_shrd_rom_romentry468 cavm_cst_shrd_rom_romentry468_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY468_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY468_FUNC(void)
 {
-    return 0x87a100000750ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000750ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY468", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY468 cavm_cst_shrd_rom_romentry468_t
@@ -20799,7 +21651,9 @@ typedef union cavm_cst_shrd_rom_romentry469 cavm_cst_shrd_rom_romentry469_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY469_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY469_FUNC(void)
 {
-    return 0x87a100000754ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000754ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY469", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY469 cavm_cst_shrd_rom_romentry469_t
@@ -20848,7 +21702,9 @@ typedef union cavm_cst_shrd_rom_romentry47 cavm_cst_shrd_rom_romentry47_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY47_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY47_FUNC(void)
 {
-    return 0x87a1000000bcll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000000bcll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY47", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY47 cavm_cst_shrd_rom_romentry47_t
@@ -20897,7 +21753,9 @@ typedef union cavm_cst_shrd_rom_romentry470 cavm_cst_shrd_rom_romentry470_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY470_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY470_FUNC(void)
 {
-    return 0x87a100000758ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000758ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY470", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY470 cavm_cst_shrd_rom_romentry470_t
@@ -20946,7 +21804,9 @@ typedef union cavm_cst_shrd_rom_romentry471 cavm_cst_shrd_rom_romentry471_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY471_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY471_FUNC(void)
 {
-    return 0x87a10000075cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000075cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY471", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY471 cavm_cst_shrd_rom_romentry471_t
@@ -20995,7 +21855,9 @@ typedef union cavm_cst_shrd_rom_romentry472 cavm_cst_shrd_rom_romentry472_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY472_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY472_FUNC(void)
 {
-    return 0x87a100000760ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000760ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY472", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY472 cavm_cst_shrd_rom_romentry472_t
@@ -21044,7 +21906,9 @@ typedef union cavm_cst_shrd_rom_romentry473 cavm_cst_shrd_rom_romentry473_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY473_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY473_FUNC(void)
 {
-    return 0x87a100000764ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000764ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY473", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY473 cavm_cst_shrd_rom_romentry473_t
@@ -21093,7 +21957,9 @@ typedef union cavm_cst_shrd_rom_romentry474 cavm_cst_shrd_rom_romentry474_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY474_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY474_FUNC(void)
 {
-    return 0x87a100000768ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000768ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY474", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY474 cavm_cst_shrd_rom_romentry474_t
@@ -21142,7 +22008,9 @@ typedef union cavm_cst_shrd_rom_romentry475 cavm_cst_shrd_rom_romentry475_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY475_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY475_FUNC(void)
 {
-    return 0x87a10000076cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000076cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY475", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY475 cavm_cst_shrd_rom_romentry475_t
@@ -21191,7 +22059,9 @@ typedef union cavm_cst_shrd_rom_romentry476 cavm_cst_shrd_rom_romentry476_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY476_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY476_FUNC(void)
 {
-    return 0x87a100000770ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000770ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY476", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY476 cavm_cst_shrd_rom_romentry476_t
@@ -21240,7 +22110,9 @@ typedef union cavm_cst_shrd_rom_romentry477 cavm_cst_shrd_rom_romentry477_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY477_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY477_FUNC(void)
 {
-    return 0x87a100000774ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000774ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY477", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY477 cavm_cst_shrd_rom_romentry477_t
@@ -21289,7 +22161,9 @@ typedef union cavm_cst_shrd_rom_romentry478 cavm_cst_shrd_rom_romentry478_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY478_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY478_FUNC(void)
 {
-    return 0x87a100000778ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000778ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY478", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY478 cavm_cst_shrd_rom_romentry478_t
@@ -21338,7 +22212,9 @@ typedef union cavm_cst_shrd_rom_romentry479 cavm_cst_shrd_rom_romentry479_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY479_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY479_FUNC(void)
 {
-    return 0x87a10000077cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000077cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY479", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY479 cavm_cst_shrd_rom_romentry479_t
@@ -21387,7 +22263,9 @@ typedef union cavm_cst_shrd_rom_romentry48 cavm_cst_shrd_rom_romentry48_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY48_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY48_FUNC(void)
 {
-    return 0x87a1000000c0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000000c0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY48", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY48 cavm_cst_shrd_rom_romentry48_t
@@ -21436,7 +22314,9 @@ typedef union cavm_cst_shrd_rom_romentry480 cavm_cst_shrd_rom_romentry480_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY480_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY480_FUNC(void)
 {
-    return 0x87a100000780ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000780ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY480", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY480 cavm_cst_shrd_rom_romentry480_t
@@ -21485,7 +22365,9 @@ typedef union cavm_cst_shrd_rom_romentry481 cavm_cst_shrd_rom_romentry481_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY481_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY481_FUNC(void)
 {
-    return 0x87a100000784ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000784ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY481", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY481 cavm_cst_shrd_rom_romentry481_t
@@ -21534,7 +22416,9 @@ typedef union cavm_cst_shrd_rom_romentry482 cavm_cst_shrd_rom_romentry482_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY482_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY482_FUNC(void)
 {
-    return 0x87a100000788ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000788ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY482", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY482 cavm_cst_shrd_rom_romentry482_t
@@ -21583,7 +22467,9 @@ typedef union cavm_cst_shrd_rom_romentry483 cavm_cst_shrd_rom_romentry483_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY483_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY483_FUNC(void)
 {
-    return 0x87a10000078cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000078cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY483", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY483 cavm_cst_shrd_rom_romentry483_t
@@ -21632,7 +22518,9 @@ typedef union cavm_cst_shrd_rom_romentry484 cavm_cst_shrd_rom_romentry484_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY484_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY484_FUNC(void)
 {
-    return 0x87a100000790ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000790ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY484", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY484 cavm_cst_shrd_rom_romentry484_t
@@ -21681,7 +22569,9 @@ typedef union cavm_cst_shrd_rom_romentry485 cavm_cst_shrd_rom_romentry485_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY485_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY485_FUNC(void)
 {
-    return 0x87a100000794ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000794ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY485", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY485 cavm_cst_shrd_rom_romentry485_t
@@ -21730,7 +22620,9 @@ typedef union cavm_cst_shrd_rom_romentry486 cavm_cst_shrd_rom_romentry486_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY486_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY486_FUNC(void)
 {
-    return 0x87a100000798ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000798ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY486", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY486 cavm_cst_shrd_rom_romentry486_t
@@ -21779,7 +22671,9 @@ typedef union cavm_cst_shrd_rom_romentry487 cavm_cst_shrd_rom_romentry487_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY487_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY487_FUNC(void)
 {
-    return 0x87a10000079cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000079cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY487", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY487 cavm_cst_shrd_rom_romentry487_t
@@ -21828,7 +22722,9 @@ typedef union cavm_cst_shrd_rom_romentry488 cavm_cst_shrd_rom_romentry488_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY488_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY488_FUNC(void)
 {
-    return 0x87a1000007a0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000007a0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY488", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY488 cavm_cst_shrd_rom_romentry488_t
@@ -21877,7 +22773,9 @@ typedef union cavm_cst_shrd_rom_romentry489 cavm_cst_shrd_rom_romentry489_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY489_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY489_FUNC(void)
 {
-    return 0x87a1000007a4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000007a4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY489", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY489 cavm_cst_shrd_rom_romentry489_t
@@ -21926,7 +22824,9 @@ typedef union cavm_cst_shrd_rom_romentry49 cavm_cst_shrd_rom_romentry49_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY49_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY49_FUNC(void)
 {
-    return 0x87a1000000c4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000000c4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY49", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY49 cavm_cst_shrd_rom_romentry49_t
@@ -21975,7 +22875,9 @@ typedef union cavm_cst_shrd_rom_romentry490 cavm_cst_shrd_rom_romentry490_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY490_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY490_FUNC(void)
 {
-    return 0x87a1000007a8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000007a8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY490", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY490 cavm_cst_shrd_rom_romentry490_t
@@ -22024,7 +22926,9 @@ typedef union cavm_cst_shrd_rom_romentry491 cavm_cst_shrd_rom_romentry491_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY491_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY491_FUNC(void)
 {
-    return 0x87a1000007acll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000007acll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY491", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY491 cavm_cst_shrd_rom_romentry491_t
@@ -22073,7 +22977,9 @@ typedef union cavm_cst_shrd_rom_romentry492 cavm_cst_shrd_rom_romentry492_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY492_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY492_FUNC(void)
 {
-    return 0x87a1000007b0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000007b0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY492", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY492 cavm_cst_shrd_rom_romentry492_t
@@ -22122,7 +23028,9 @@ typedef union cavm_cst_shrd_rom_romentry493 cavm_cst_shrd_rom_romentry493_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY493_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY493_FUNC(void)
 {
-    return 0x87a1000007b4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000007b4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY493", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY493 cavm_cst_shrd_rom_romentry493_t
@@ -22171,7 +23079,9 @@ typedef union cavm_cst_shrd_rom_romentry494 cavm_cst_shrd_rom_romentry494_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY494_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY494_FUNC(void)
 {
-    return 0x87a1000007b8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000007b8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY494", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY494 cavm_cst_shrd_rom_romentry494_t
@@ -22220,7 +23130,9 @@ typedef union cavm_cst_shrd_rom_romentry495 cavm_cst_shrd_rom_romentry495_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY495_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY495_FUNC(void)
 {
-    return 0x87a1000007bcll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000007bcll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY495", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY495 cavm_cst_shrd_rom_romentry495_t
@@ -22269,7 +23181,9 @@ typedef union cavm_cst_shrd_rom_romentry496 cavm_cst_shrd_rom_romentry496_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY496_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY496_FUNC(void)
 {
-    return 0x87a1000007c0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000007c0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY496", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY496 cavm_cst_shrd_rom_romentry496_t
@@ -22318,7 +23232,9 @@ typedef union cavm_cst_shrd_rom_romentry497 cavm_cst_shrd_rom_romentry497_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY497_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY497_FUNC(void)
 {
-    return 0x87a1000007c4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000007c4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY497", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY497 cavm_cst_shrd_rom_romentry497_t
@@ -22367,7 +23283,9 @@ typedef union cavm_cst_shrd_rom_romentry498 cavm_cst_shrd_rom_romentry498_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY498_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY498_FUNC(void)
 {
-    return 0x87a1000007c8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000007c8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY498", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY498 cavm_cst_shrd_rom_romentry498_t
@@ -22416,7 +23334,9 @@ typedef union cavm_cst_shrd_rom_romentry499 cavm_cst_shrd_rom_romentry499_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY499_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY499_FUNC(void)
 {
-    return 0x87a1000007ccll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000007ccll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY499", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY499 cavm_cst_shrd_rom_romentry499_t
@@ -22465,7 +23385,9 @@ typedef union cavm_cst_shrd_rom_romentry5 cavm_cst_shrd_rom_romentry5_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY5_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY5_FUNC(void)
 {
-    return 0x87a100000014ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000014ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY5", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY5 cavm_cst_shrd_rom_romentry5_t
@@ -22514,7 +23436,9 @@ typedef union cavm_cst_shrd_rom_romentry50 cavm_cst_shrd_rom_romentry50_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY50_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY50_FUNC(void)
 {
-    return 0x87a1000000c8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000000c8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY50", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY50 cavm_cst_shrd_rom_romentry50_t
@@ -22563,7 +23487,9 @@ typedef union cavm_cst_shrd_rom_romentry500 cavm_cst_shrd_rom_romentry500_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY500_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY500_FUNC(void)
 {
-    return 0x87a1000007d0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000007d0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY500", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY500 cavm_cst_shrd_rom_romentry500_t
@@ -22612,7 +23538,9 @@ typedef union cavm_cst_shrd_rom_romentry501 cavm_cst_shrd_rom_romentry501_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY501_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY501_FUNC(void)
 {
-    return 0x87a1000007d4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000007d4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY501", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY501 cavm_cst_shrd_rom_romentry501_t
@@ -22661,7 +23589,9 @@ typedef union cavm_cst_shrd_rom_romentry502 cavm_cst_shrd_rom_romentry502_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY502_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY502_FUNC(void)
 {
-    return 0x87a1000007d8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000007d8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY502", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY502 cavm_cst_shrd_rom_romentry502_t
@@ -22710,7 +23640,9 @@ typedef union cavm_cst_shrd_rom_romentry503 cavm_cst_shrd_rom_romentry503_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY503_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY503_FUNC(void)
 {
-    return 0x87a1000007dcll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000007dcll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY503", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY503 cavm_cst_shrd_rom_romentry503_t
@@ -22759,7 +23691,9 @@ typedef union cavm_cst_shrd_rom_romentry504 cavm_cst_shrd_rom_romentry504_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY504_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY504_FUNC(void)
 {
-    return 0x87a1000007e0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000007e0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY504", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY504 cavm_cst_shrd_rom_romentry504_t
@@ -22808,7 +23742,9 @@ typedef union cavm_cst_shrd_rom_romentry505 cavm_cst_shrd_rom_romentry505_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY505_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY505_FUNC(void)
 {
-    return 0x87a1000007e4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000007e4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY505", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY505 cavm_cst_shrd_rom_romentry505_t
@@ -22857,7 +23793,9 @@ typedef union cavm_cst_shrd_rom_romentry506 cavm_cst_shrd_rom_romentry506_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY506_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY506_FUNC(void)
 {
-    return 0x87a1000007e8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000007e8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY506", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY506 cavm_cst_shrd_rom_romentry506_t
@@ -22906,7 +23844,9 @@ typedef union cavm_cst_shrd_rom_romentry507 cavm_cst_shrd_rom_romentry507_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY507_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY507_FUNC(void)
 {
-    return 0x87a1000007ecll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000007ecll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY507", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY507 cavm_cst_shrd_rom_romentry507_t
@@ -22955,7 +23895,9 @@ typedef union cavm_cst_shrd_rom_romentry508 cavm_cst_shrd_rom_romentry508_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY508_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY508_FUNC(void)
 {
-    return 0x87a1000007f0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000007f0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY508", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY508 cavm_cst_shrd_rom_romentry508_t
@@ -23004,7 +23946,9 @@ typedef union cavm_cst_shrd_rom_romentry509 cavm_cst_shrd_rom_romentry509_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY509_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY509_FUNC(void)
 {
-    return 0x87a1000007f4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000007f4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY509", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY509 cavm_cst_shrd_rom_romentry509_t
@@ -23053,7 +23997,9 @@ typedef union cavm_cst_shrd_rom_romentry51 cavm_cst_shrd_rom_romentry51_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY51_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY51_FUNC(void)
 {
-    return 0x87a1000000ccll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000000ccll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY51", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY51 cavm_cst_shrd_rom_romentry51_t
@@ -23102,7 +24048,9 @@ typedef union cavm_cst_shrd_rom_romentry510 cavm_cst_shrd_rom_romentry510_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY510_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY510_FUNC(void)
 {
-    return 0x87a1000007f8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000007f8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY510", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY510 cavm_cst_shrd_rom_romentry510_t
@@ -23151,7 +24099,9 @@ typedef union cavm_cst_shrd_rom_romentry511 cavm_cst_shrd_rom_romentry511_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY511_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY511_FUNC(void)
 {
-    return 0x87a1000007fcll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000007fcll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY511", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY511 cavm_cst_shrd_rom_romentry511_t
@@ -23200,7 +24150,9 @@ typedef union cavm_cst_shrd_rom_romentry52 cavm_cst_shrd_rom_romentry52_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY52_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY52_FUNC(void)
 {
-    return 0x87a1000000d0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000000d0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY52", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY52 cavm_cst_shrd_rom_romentry52_t
@@ -23249,7 +24201,9 @@ typedef union cavm_cst_shrd_rom_romentry53 cavm_cst_shrd_rom_romentry53_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY53_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY53_FUNC(void)
 {
-    return 0x87a1000000d4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000000d4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY53", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY53 cavm_cst_shrd_rom_romentry53_t
@@ -23298,7 +24252,9 @@ typedef union cavm_cst_shrd_rom_romentry54 cavm_cst_shrd_rom_romentry54_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY54_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY54_FUNC(void)
 {
-    return 0x87a1000000d8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000000d8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY54", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY54 cavm_cst_shrd_rom_romentry54_t
@@ -23347,7 +24303,9 @@ typedef union cavm_cst_shrd_rom_romentry55 cavm_cst_shrd_rom_romentry55_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY55_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY55_FUNC(void)
 {
-    return 0x87a1000000dcll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000000dcll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY55", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY55 cavm_cst_shrd_rom_romentry55_t
@@ -23396,7 +24354,9 @@ typedef union cavm_cst_shrd_rom_romentry56 cavm_cst_shrd_rom_romentry56_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY56_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY56_FUNC(void)
 {
-    return 0x87a1000000e0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000000e0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY56", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY56 cavm_cst_shrd_rom_romentry56_t
@@ -23445,7 +24405,9 @@ typedef union cavm_cst_shrd_rom_romentry57 cavm_cst_shrd_rom_romentry57_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY57_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY57_FUNC(void)
 {
-    return 0x87a1000000e4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000000e4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY57", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY57 cavm_cst_shrd_rom_romentry57_t
@@ -23494,7 +24456,9 @@ typedef union cavm_cst_shrd_rom_romentry58 cavm_cst_shrd_rom_romentry58_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY58_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY58_FUNC(void)
 {
-    return 0x87a1000000e8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000000e8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY58", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY58 cavm_cst_shrd_rom_romentry58_t
@@ -23543,7 +24507,9 @@ typedef union cavm_cst_shrd_rom_romentry59 cavm_cst_shrd_rom_romentry59_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY59_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY59_FUNC(void)
 {
-    return 0x87a1000000ecll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000000ecll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY59", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY59 cavm_cst_shrd_rom_romentry59_t
@@ -23592,7 +24558,9 @@ typedef union cavm_cst_shrd_rom_romentry6 cavm_cst_shrd_rom_romentry6_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY6_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY6_FUNC(void)
 {
-    return 0x87a100000018ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000018ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY6", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY6 cavm_cst_shrd_rom_romentry6_t
@@ -23641,7 +24609,9 @@ typedef union cavm_cst_shrd_rom_romentry60 cavm_cst_shrd_rom_romentry60_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY60_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY60_FUNC(void)
 {
-    return 0x87a1000000f0ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000000f0ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY60", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY60 cavm_cst_shrd_rom_romentry60_t
@@ -23690,7 +24660,9 @@ typedef union cavm_cst_shrd_rom_romentry61 cavm_cst_shrd_rom_romentry61_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY61_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY61_FUNC(void)
 {
-    return 0x87a1000000f4ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000000f4ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY61", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY61 cavm_cst_shrd_rom_romentry61_t
@@ -23739,7 +24711,9 @@ typedef union cavm_cst_shrd_rom_romentry62 cavm_cst_shrd_rom_romentry62_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY62_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY62_FUNC(void)
 {
-    return 0x87a1000000f8ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000000f8ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY62", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY62 cavm_cst_shrd_rom_romentry62_t
@@ -23788,7 +24762,9 @@ typedef union cavm_cst_shrd_rom_romentry63 cavm_cst_shrd_rom_romentry63_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY63_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY63_FUNC(void)
 {
-    return 0x87a1000000fcll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a1000000fcll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY63", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY63 cavm_cst_shrd_rom_romentry63_t
@@ -23837,7 +24813,9 @@ typedef union cavm_cst_shrd_rom_romentry64 cavm_cst_shrd_rom_romentry64_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY64_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY64_FUNC(void)
 {
-    return 0x87a100000100ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000100ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY64", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY64 cavm_cst_shrd_rom_romentry64_t
@@ -23886,7 +24864,9 @@ typedef union cavm_cst_shrd_rom_romentry65 cavm_cst_shrd_rom_romentry65_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY65_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY65_FUNC(void)
 {
-    return 0x87a100000104ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000104ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY65", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY65 cavm_cst_shrd_rom_romentry65_t
@@ -23935,7 +24915,9 @@ typedef union cavm_cst_shrd_rom_romentry66 cavm_cst_shrd_rom_romentry66_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY66_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY66_FUNC(void)
 {
-    return 0x87a100000108ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000108ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY66", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY66 cavm_cst_shrd_rom_romentry66_t
@@ -23984,7 +24966,9 @@ typedef union cavm_cst_shrd_rom_romentry67 cavm_cst_shrd_rom_romentry67_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY67_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY67_FUNC(void)
 {
-    return 0x87a10000010cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000010cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY67", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY67 cavm_cst_shrd_rom_romentry67_t
@@ -24033,7 +25017,9 @@ typedef union cavm_cst_shrd_rom_romentry68 cavm_cst_shrd_rom_romentry68_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY68_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY68_FUNC(void)
 {
-    return 0x87a100000110ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000110ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY68", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY68 cavm_cst_shrd_rom_romentry68_t
@@ -24082,7 +25068,9 @@ typedef union cavm_cst_shrd_rom_romentry69 cavm_cst_shrd_rom_romentry69_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY69_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY69_FUNC(void)
 {
-    return 0x87a100000114ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000114ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY69", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY69 cavm_cst_shrd_rom_romentry69_t
@@ -24131,7 +25119,9 @@ typedef union cavm_cst_shrd_rom_romentry7 cavm_cst_shrd_rom_romentry7_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY7_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY7_FUNC(void)
 {
-    return 0x87a10000001cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000001cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY7", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY7 cavm_cst_shrd_rom_romentry7_t
@@ -24180,7 +25170,9 @@ typedef union cavm_cst_shrd_rom_romentry70 cavm_cst_shrd_rom_romentry70_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY70_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY70_FUNC(void)
 {
-    return 0x87a100000118ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000118ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY70", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY70 cavm_cst_shrd_rom_romentry70_t
@@ -24229,7 +25221,9 @@ typedef union cavm_cst_shrd_rom_romentry71 cavm_cst_shrd_rom_romentry71_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY71_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY71_FUNC(void)
 {
-    return 0x87a10000011cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000011cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY71", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY71 cavm_cst_shrd_rom_romentry71_t
@@ -24278,7 +25272,9 @@ typedef union cavm_cst_shrd_rom_romentry72 cavm_cst_shrd_rom_romentry72_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY72_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY72_FUNC(void)
 {
-    return 0x87a100000120ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000120ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY72", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY72 cavm_cst_shrd_rom_romentry72_t
@@ -24327,7 +25323,9 @@ typedef union cavm_cst_shrd_rom_romentry73 cavm_cst_shrd_rom_romentry73_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY73_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY73_FUNC(void)
 {
-    return 0x87a100000124ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000124ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY73", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY73 cavm_cst_shrd_rom_romentry73_t
@@ -24376,7 +25374,9 @@ typedef union cavm_cst_shrd_rom_romentry74 cavm_cst_shrd_rom_romentry74_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY74_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY74_FUNC(void)
 {
-    return 0x87a100000128ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000128ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY74", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY74 cavm_cst_shrd_rom_romentry74_t
@@ -24425,7 +25425,9 @@ typedef union cavm_cst_shrd_rom_romentry75 cavm_cst_shrd_rom_romentry75_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY75_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY75_FUNC(void)
 {
-    return 0x87a10000012cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000012cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY75", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY75 cavm_cst_shrd_rom_romentry75_t
@@ -24474,7 +25476,9 @@ typedef union cavm_cst_shrd_rom_romentry76 cavm_cst_shrd_rom_romentry76_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY76_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY76_FUNC(void)
 {
-    return 0x87a100000130ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000130ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY76", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY76 cavm_cst_shrd_rom_romentry76_t
@@ -24523,7 +25527,9 @@ typedef union cavm_cst_shrd_rom_romentry77 cavm_cst_shrd_rom_romentry77_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY77_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY77_FUNC(void)
 {
-    return 0x87a100000134ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000134ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY77", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY77 cavm_cst_shrd_rom_romentry77_t
@@ -24572,7 +25578,9 @@ typedef union cavm_cst_shrd_rom_romentry78 cavm_cst_shrd_rom_romentry78_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY78_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY78_FUNC(void)
 {
-    return 0x87a100000138ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000138ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY78", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY78 cavm_cst_shrd_rom_romentry78_t
@@ -24621,7 +25629,9 @@ typedef union cavm_cst_shrd_rom_romentry79 cavm_cst_shrd_rom_romentry79_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY79_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY79_FUNC(void)
 {
-    return 0x87a10000013cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000013cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY79", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY79 cavm_cst_shrd_rom_romentry79_t
@@ -24670,7 +25680,9 @@ typedef union cavm_cst_shrd_rom_romentry8 cavm_cst_shrd_rom_romentry8_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY8_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY8_FUNC(void)
 {
-    return 0x87a100000020ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000020ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY8", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY8 cavm_cst_shrd_rom_romentry8_t
@@ -24719,7 +25731,9 @@ typedef union cavm_cst_shrd_rom_romentry80 cavm_cst_shrd_rom_romentry80_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY80_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY80_FUNC(void)
 {
-    return 0x87a100000140ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000140ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY80", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY80 cavm_cst_shrd_rom_romentry80_t
@@ -24768,7 +25782,9 @@ typedef union cavm_cst_shrd_rom_romentry81 cavm_cst_shrd_rom_romentry81_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY81_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY81_FUNC(void)
 {
-    return 0x87a100000144ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000144ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY81", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY81 cavm_cst_shrd_rom_romentry81_t
@@ -24817,7 +25833,9 @@ typedef union cavm_cst_shrd_rom_romentry82 cavm_cst_shrd_rom_romentry82_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY82_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY82_FUNC(void)
 {
-    return 0x87a100000148ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000148ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY82", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY82 cavm_cst_shrd_rom_romentry82_t
@@ -24866,7 +25884,9 @@ typedef union cavm_cst_shrd_rom_romentry83 cavm_cst_shrd_rom_romentry83_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY83_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY83_FUNC(void)
 {
-    return 0x87a10000014cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000014cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY83", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY83 cavm_cst_shrd_rom_romentry83_t
@@ -24915,7 +25935,9 @@ typedef union cavm_cst_shrd_rom_romentry84 cavm_cst_shrd_rom_romentry84_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY84_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY84_FUNC(void)
 {
-    return 0x87a100000150ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000150ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY84", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY84 cavm_cst_shrd_rom_romentry84_t
@@ -24964,7 +25986,9 @@ typedef union cavm_cst_shrd_rom_romentry85 cavm_cst_shrd_rom_romentry85_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY85_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY85_FUNC(void)
 {
-    return 0x87a100000154ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000154ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY85", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY85 cavm_cst_shrd_rom_romentry85_t
@@ -25013,7 +26037,9 @@ typedef union cavm_cst_shrd_rom_romentry86 cavm_cst_shrd_rom_romentry86_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY86_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY86_FUNC(void)
 {
-    return 0x87a100000158ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000158ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY86", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY86 cavm_cst_shrd_rom_romentry86_t
@@ -25062,7 +26088,9 @@ typedef union cavm_cst_shrd_rom_romentry87 cavm_cst_shrd_rom_romentry87_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY87_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY87_FUNC(void)
 {
-    return 0x87a10000015cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000015cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY87", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY87 cavm_cst_shrd_rom_romentry87_t
@@ -25111,7 +26139,9 @@ typedef union cavm_cst_shrd_rom_romentry88 cavm_cst_shrd_rom_romentry88_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY88_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY88_FUNC(void)
 {
-    return 0x87a100000160ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000160ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY88", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY88 cavm_cst_shrd_rom_romentry88_t
@@ -25160,7 +26190,9 @@ typedef union cavm_cst_shrd_rom_romentry89 cavm_cst_shrd_rom_romentry89_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY89_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY89_FUNC(void)
 {
-    return 0x87a100000164ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000164ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY89", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY89 cavm_cst_shrd_rom_romentry89_t
@@ -25209,7 +26241,9 @@ typedef union cavm_cst_shrd_rom_romentry9 cavm_cst_shrd_rom_romentry9_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY9_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY9_FUNC(void)
 {
-    return 0x87a100000024ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000024ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY9", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY9 cavm_cst_shrd_rom_romentry9_t
@@ -25258,7 +26292,9 @@ typedef union cavm_cst_shrd_rom_romentry90 cavm_cst_shrd_rom_romentry90_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY90_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY90_FUNC(void)
 {
-    return 0x87a100000168ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000168ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY90", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY90 cavm_cst_shrd_rom_romentry90_t
@@ -25307,7 +26343,9 @@ typedef union cavm_cst_shrd_rom_romentry91 cavm_cst_shrd_rom_romentry91_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY91_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY91_FUNC(void)
 {
-    return 0x87a10000016cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000016cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY91", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY91 cavm_cst_shrd_rom_romentry91_t
@@ -25356,7 +26394,9 @@ typedef union cavm_cst_shrd_rom_romentry92 cavm_cst_shrd_rom_romentry92_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY92_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY92_FUNC(void)
 {
-    return 0x87a100000170ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000170ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY92", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY92 cavm_cst_shrd_rom_romentry92_t
@@ -25405,7 +26445,9 @@ typedef union cavm_cst_shrd_rom_romentry93 cavm_cst_shrd_rom_romentry93_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY93_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY93_FUNC(void)
 {
-    return 0x87a100000174ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000174ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY93", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY93 cavm_cst_shrd_rom_romentry93_t
@@ -25454,7 +26496,9 @@ typedef union cavm_cst_shrd_rom_romentry94 cavm_cst_shrd_rom_romentry94_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY94_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY94_FUNC(void)
 {
-    return 0x87a100000178ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000178ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY94", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY94 cavm_cst_shrd_rom_romentry94_t
@@ -25503,7 +26547,9 @@ typedef union cavm_cst_shrd_rom_romentry95 cavm_cst_shrd_rom_romentry95_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY95_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY95_FUNC(void)
 {
-    return 0x87a10000017cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000017cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY95", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY95 cavm_cst_shrd_rom_romentry95_t
@@ -25552,7 +26598,9 @@ typedef union cavm_cst_shrd_rom_romentry96 cavm_cst_shrd_rom_romentry96_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY96_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY96_FUNC(void)
 {
-    return 0x87a100000180ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000180ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY96", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY96 cavm_cst_shrd_rom_romentry96_t
@@ -25601,7 +26649,9 @@ typedef union cavm_cst_shrd_rom_romentry97 cavm_cst_shrd_rom_romentry97_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY97_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY97_FUNC(void)
 {
-    return 0x87a100000184ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000184ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY97", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY97 cavm_cst_shrd_rom_romentry97_t
@@ -25650,7 +26700,9 @@ typedef union cavm_cst_shrd_rom_romentry98 cavm_cst_shrd_rom_romentry98_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY98_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY98_FUNC(void)
 {
-    return 0x87a100000188ll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a100000188ll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY98", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY98 cavm_cst_shrd_rom_romentry98_t
@@ -25699,7 +26751,9 @@ typedef union cavm_cst_shrd_rom_romentry99 cavm_cst_shrd_rom_romentry99_t;
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY99_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_ROM_ROMENTRY99_FUNC(void)
 {
-    return 0x87a10000018cll;
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0x87a10000018cll;
+    __cavm_csr_fatal("CST_SHRD_ROM_ROMENTRY99", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_CST_SHRD_ROM_ROMENTRY99 cavm_cst_shrd_rom_romentry99_t

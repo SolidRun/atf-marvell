@@ -25,11 +25,11 @@
  * DSS Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define CAVM_DSS_BAR_E_DSSX_PF_BAR0(a) (0x87e1b0000000ll + 0x1000000ll * (a))
+#define CAVM_DSS_BAR_E_DSSX_PF_BAR0(a) (0xc200b0000000ll + 0x100000000ll * (a))
 #define CAVM_DSS_BAR_E_DSSX_PF_BAR0_SIZE 0x400000ull
-#define CAVM_DSS_BAR_E_DSSX_PF_BAR2(a) (0x87e1b0800000ll + 0x1000000ll * (a))
+#define CAVM_DSS_BAR_E_DSSX_PF_BAR2(a) (0xc200b0800000ll + 0x100000000ll * (a))
 #define CAVM_DSS_BAR_E_DSSX_PF_BAR2_SIZE 0x800000ull
-#define CAVM_DSS_BAR_E_DSSX_PF_BAR4(a) (0x87e1b0700000ll + 0x1000000ll * (a))
+#define CAVM_DSS_BAR_E_DSSX_PF_BAR4(a) (0xc200b0700000ll + 0x100000000ll * (a))
 #define CAVM_DSS_BAR_E_DSSX_PF_BAR4_SIZE 0x100000ull
 
 /**
@@ -102,7 +102,7 @@ static inline uint64_t CAVM_DSSX_CBUSY_CNT_CLRX(uint64_t a, uint64_t b) __attrib
 static inline uint64_t CAVM_DSSX_CBUSY_CNT_CLRX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=5) && (b<=3)))
-        return 0x87e1b0020320ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
+        return 0xc200b0020320ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("DSSX_CBUSY_CNT_CLRX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -174,7 +174,7 @@ static inline uint64_t CAVM_DSSX_CBUSY_CNT_CTRLX(uint64_t a, uint64_t b) __attri
 static inline uint64_t CAVM_DSSX_CBUSY_CNT_CTRLX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=5) && (b<=3)))
-        return 0x87e1b0020300ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
+        return 0xc200b0020300ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("DSSX_CBUSY_CNT_CTRLX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -226,7 +226,7 @@ static inline uint64_t CAVM_DSSX_CBUSY_CNT_VALX(uint64_t a, uint64_t b) __attrib
 static inline uint64_t CAVM_DSSX_CBUSY_CNT_VALX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=5) && (b<=3)))
-        return 0x87e1b0020340ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
+        return 0xc200b0020340ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("DSSX_CBUSY_CNT_VALX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -272,7 +272,7 @@ static inline uint64_t CAVM_DSSX_CLK_EN(uint64_t a) __attribute__ ((pure, always
 static inline uint64_t CAVM_DSSX_CLK_EN(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0000020ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0000020ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_CLK_EN", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -318,7 +318,7 @@ static inline uint64_t CAVM_DSSX_CTRL(uint64_t a) __attribute__ ((pure, always_i
 static inline uint64_t CAVM_DSSX_CTRL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0000030ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0000030ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -356,7 +356,7 @@ static inline uint64_t CAVM_DSSX_DBG_STATUS_0(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_DSSX_DBG_STATUS_0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0000120ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0000120ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DBG_STATUS_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -396,7 +396,7 @@ static inline uint64_t CAVM_DSSX_DBG_STATUS_1(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_DSSX_DBG_STATUS_1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0000128ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0000128ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DBG_STATUS_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -452,7 +452,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP1(uint64_t a) __at
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0230004ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0230004ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -566,7 +566,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP10(uint64_t a) __a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP10(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0230028ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0230028ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -640,7 +640,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP11(uint64_t a) __a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP11(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b023002cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b023002cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP11", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -704,7 +704,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP12(uint64_t a) __a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP12(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0230030ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0230030ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP12", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -782,7 +782,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP3(uint64_t a) __at
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP3(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b023000cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b023000cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -896,7 +896,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP4(uint64_t a) __at
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP4(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0230010ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0230010ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1130,7 +1130,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP5(uint64_t a) __at
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP5(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0230014ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0230014ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1268,7 +1268,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP6(uint64_t a) __at
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP6(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0230018ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0230018ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1390,7 +1390,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP7(uint64_t a) __at
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP7(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b023001cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b023001cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1508,7 +1508,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP8(uint64_t a) __at
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP8(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0230020ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0230020ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1622,7 +1622,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP9(uint64_t a) __at
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP9(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0230024ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0230024ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1668,7 +1668,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCFGQOS0(uint64_t a) __at
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCFGQOS0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0220094ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0220094ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_PCFGQOS0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1710,7 +1710,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCFGQOS1(uint64_t a) __at
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCFGQOS1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0220098ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0220098ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_PCFGQOS1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1824,7 +1824,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCFGWQOS0(uint64_t a) __a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCFGWQOS0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b022009cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b022009cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_PCFGWQOS0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1870,7 +1870,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCFGWQOS1(uint64_t a) __a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCFGWQOS1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b02200a0ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b02200a0ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_PCFGWQOS1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1922,7 +1922,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBCBUSYH(uint64_t a) __
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBCBUSYH(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0220920ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0220920ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_PCHBCBUSYH", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1974,7 +1974,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBCBUSYL(uint64_t a) __
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBCBUSYL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0220924ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0220924ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_PCHBCBUSYL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2026,7 +2026,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBCBUSYW(uint64_t a) __
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBCBUSYW(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0220928ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0220928ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_PCHBCBUSYW", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2066,7 +2066,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBLCTRL(uint64_t a) __a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBLCTRL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0220900ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0220900ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_PCHBLCTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2126,7 +2126,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBLSTAT0(uint64_t a) __
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBLSTAT0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0220980ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0220980ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_PCHBLSTAT0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2196,7 +2196,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBPRCTMR(uint64_t a) __
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBPRCTMR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0220908ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0220908ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_PCHBPRCTMR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2274,7 +2274,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBPROTQCTL(uint64_t a) 
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBPROTQCTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b022090cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b022090cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_PCHBPROTQCTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2370,7 +2370,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBRLSTAT(uint64_t a) __
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBRLSTAT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0220990ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0220990ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_PCHBRLSTAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2482,7 +2482,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBRQOS0(uint64_t a) __a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBRQOS0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0220910ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0220910ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_PCHBRQOS0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2542,7 +2542,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBRQOS1(uint64_t a) __a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBRQOS1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0220914ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0220914ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_PCHBRQOS1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2606,7 +2606,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBTCTRL(uint64_t a) __a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBTCTRL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0220904ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0220904ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_PCHBTCTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2714,7 +2714,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBWQOS0(uint64_t a) __a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBWQOS0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0220918ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0220918ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_PCHBWQOS0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2774,7 +2774,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBWQOS1(uint64_t a) __a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBWQOS1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b022091cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b022091cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_PCHBWQOS1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2814,7 +2814,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCTRL(uint64_t a) __attri
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCTRL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0220090ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0220090ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_PCTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2860,7 +2860,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PSTAT(uint64_t a) __attri
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PSTAT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0220114ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0220114ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_PSTAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2898,7 +2898,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRADDRLOG0(uint64_t a) _
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRADDRLOG0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b022011cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b022011cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_SBRADDRLOG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2938,7 +2938,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRADDRLOG1(uint64_t a) _
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRADDRLOG1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0220120ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0220120ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_SBRADDRLOG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2976,7 +2976,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRADDRRESTORE0(uint64_t 
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRADDRRESTORE0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0220124ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0220124ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_SBRADDRRESTORE0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3016,7 +3016,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRADDRRESTORE1(uint64_t 
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRADDRRESTORE1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0220128ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0220128ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_SBRADDRRESTORE1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3302,7 +3302,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRCTL(uint64_t a) __attr
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRCTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b02200e0ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b02200e0ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_SBRCTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3368,7 +3368,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRLPCTL(uint64_t a) __at
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRLPCTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0220118ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0220118ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_SBRLPCTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3418,7 +3418,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRRANGE0(uint64_t a) __a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRRANGE0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b02200f8ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b02200f8ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_SBRRANGE0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3470,7 +3470,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRRANGE1(uint64_t a) __a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRRANGE1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b02200fcll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b02200fcll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_SBRRANGE1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3518,7 +3518,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRSTART0(uint64_t a) __a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRSTART0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b02200f0ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b02200f0ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_SBRSTART0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3568,7 +3568,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRSTART1(uint64_t a) __a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRSTART1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b02200f4ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b02200f4ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_SBRSTART1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3646,7 +3646,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRSTAT(uint64_t a) __att
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRSTAT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b02200e4ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b02200e4ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_SBRSTAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3684,7 +3684,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRWDATA0(uint64_t a) __a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRWDATA0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b02200e8ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b02200e8ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_SBRWDATA0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3736,7 +3736,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMCFG_MBW_MAX(uint64_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMCFG_MBW_MAX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0240208ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0240208ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMCFG_MBW_MAX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3780,7 +3780,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMCFG_MBW_MIN(uint64_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMCFG_MBW_MIN(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0240200ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0240200ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMCFG_MBW_MIN", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3824,7 +3824,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMCFG_MBW_WINWD(uint6
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMCFG_MBW_WINWD(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0240220ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0240220ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMCFG_MBW_WINWD", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3882,7 +3882,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMCFG_PART_SEL(uint64
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMCFG_PART_SEL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0240100ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0240100ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMCFG_PART_SEL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3926,7 +3926,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMF_AIDR(uint64_t a) 
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMF_AIDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0240020ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0240020ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMF_AIDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3964,7 +3964,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMF_CUST_CFG(uint64_t
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMF_CUST_CFG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0240a10ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0240a10ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMF_CUST_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4002,7 +4002,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMF_CUST_MBWC(uint64_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMF_CUST_MBWC(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0240a08ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0240a08ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMF_CUST_MBWC", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4040,7 +4040,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMF_CUST_WINDW(uint64
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMF_CUST_WINDW(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0240a0cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0240a0cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMF_CUST_WINDW", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4080,7 +4080,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMF_ECR(uint64_t a) _
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMF_ECR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b02400f0ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b02400f0ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMF_ECR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4140,7 +4140,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMF_ESR(uint64_t a) _
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMF_ESR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b02400f8ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b02400f8ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMF_ESR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4230,7 +4230,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMF_IDR(uint64_t a) _
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMF_IDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0240000ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0240000ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMF_IDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4309,7 +4309,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMF_IDR_32(uint64_t a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMF_IDR_32(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0240004ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0240004ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMF_IDR_32", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4359,7 +4359,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMF_IIDR(uint64_t a) 
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMF_IIDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0240018ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0240018ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMF_IIDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4397,7 +4397,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMF_IMPL_IDR(uint64_t
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMF_IMPL_IDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0240028ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0240028ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMF_IMPL_IDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4491,7 +4491,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMF_MBW_IDR(uint64_t 
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMF_MBW_IDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0240040ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0240040ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMF_MBW_IDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4577,7 +4577,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMF_MBWUMON_IDR(uint6
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMF_MBWUMON_IDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0240090ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0240090ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMF_MBWUMON_IDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4651,7 +4651,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMF_MSMON_IDR(uint64_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMF_MSMON_IDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0240080ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0240080ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_NS_MPAMF_MSMON_IDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4713,7 +4713,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MSMON_CAPT_EVNT(uint64_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MSMON_CAPT_EVNT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0240808ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0240808ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_NS_MSMON_CAPT_EVNT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4863,7 +4863,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MSMON_CFG_MBWU_CTL(uint
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MSMON_CFG_MBWU_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0240828ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0240828ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_NS_MSMON_CFG_MBWU_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4939,7 +4939,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MSMON_CFG_MBWU_FLT(uint
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MSMON_CFG_MBWU_FLT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0240820ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0240820ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_NS_MSMON_CFG_MBWU_FLT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4983,7 +4983,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MSMON_CFG_MON_SEL(uint6
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MSMON_CFG_MON_SEL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0240800ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0240800ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_NS_MSMON_CFG_MON_SEL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5023,7 +5023,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MSMON_MBWU_L(uint64_t a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MSMON_MBWU_L(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0240880ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0240880ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_NS_MSMON_MBWU_L", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5075,7 +5075,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MSMON_MBWU_L_32(uint64_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MSMON_MBWU_L_32(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0240884ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0240884ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_NS_MSMON_MBWU_L_32", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5121,7 +5121,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MSMON_MBWU_L_CAPTURE(ui
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MSMON_MBWU_L_CAPTURE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0240890ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0240890ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_NS_MSMON_MBWU_L_CAPTURE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5181,7 +5181,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MSMON_MBWU_L_CAPTURE_32
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MSMON_MBWU_L_CAPTURE_32(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0240894ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0240894ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_NS_MSMON_MBWU_L_CAPTURE_32", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5227,7 +5227,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MSMON_MBWU_OFSR(uint64_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MSMON_MBWU_OFSR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0240898ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0240898ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_NS_MSMON_MBWU_OFSR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5281,7 +5281,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MSMON_OFLOW_SR(uint64_t
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_NS_MSMON_OFLOW_SR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b02408f0ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b02408f0ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_NS_MSMON_OFLOW_SR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5333,7 +5333,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMCFG_MBW_MAX(uint64_t
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMCFG_MBW_MAX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0250208ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0250208ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMCFG_MBW_MAX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5377,7 +5377,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMCFG_MBW_MIN(uint64_t
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMCFG_MBW_MIN(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0250200ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0250200ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMCFG_MBW_MIN", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5421,7 +5421,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMCFG_MBW_WINWD(uint64
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMCFG_MBW_WINWD(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0250220ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0250220ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMCFG_MBW_WINWD", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5479,7 +5479,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMCFG_PART_SEL(uint64_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMCFG_PART_SEL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0250100ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0250100ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMCFG_PART_SEL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5523,7 +5523,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMF_AIDR(uint64_t a) _
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMF_AIDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0250020ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0250020ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMF_AIDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5561,7 +5561,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMF_CUST_CFG(uint64_t 
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMF_CUST_CFG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0250a10ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0250a10ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMF_CUST_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5599,7 +5599,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMF_CUST_MBWC(uint64_t
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMF_CUST_MBWC(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0250a08ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0250a08ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMF_CUST_MBWC", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5637,7 +5637,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMF_CUST_WINDW(uint64_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMF_CUST_WINDW(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0250a0cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0250a0cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMF_CUST_WINDW", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5677,7 +5677,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMF_ECR(uint64_t a) __
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMF_ECR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b02500f0ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b02500f0ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMF_ECR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5733,7 +5733,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMF_ESR(uint64_t a) __
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMF_ESR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b02500f8ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b02500f8ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMF_ESR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5823,7 +5823,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMF_IDR(uint64_t a) __
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMF_IDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0250000ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0250000ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMF_IDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5902,7 +5902,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMF_IDR_32(uint64_t a)
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMF_IDR_32(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0250004ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0250004ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMF_IDR_32", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5952,7 +5952,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMF_IIDR(uint64_t a) _
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMF_IIDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0250018ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0250018ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMF_IIDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5990,7 +5990,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMF_IMPL_IDR(uint64_t 
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMF_IMPL_IDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0250028ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0250028ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMF_IMPL_IDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6084,7 +6084,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMF_MBW_IDR(uint64_t a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMF_MBW_IDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0250040ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0250040ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMF_MBW_IDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6170,7 +6170,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMF_MBWUMON_IDR(uint64
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMF_MBWUMON_IDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0250090ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0250090ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMF_MBWUMON_IDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6244,7 +6244,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMF_MSMON_IDR(uint64_t
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMF_MSMON_IDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0250080ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0250080ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMF_MSMON_IDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6288,7 +6288,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMF_SIDR(uint64_t a) _
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMF_SIDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0250008ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0250008ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_S_MPAMF_SIDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6350,7 +6350,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MSMON_CAPT_EVNT(uint64_t
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MSMON_CAPT_EVNT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0250808ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0250808ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_S_MSMON_CAPT_EVNT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6500,7 +6500,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MSMON_CFG_MBWU_CTL(uint6
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MSMON_CFG_MBWU_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0250828ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0250828ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_S_MSMON_CFG_MBWU_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6576,7 +6576,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MSMON_CFG_MBWU_FLT(uint6
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MSMON_CFG_MBWU_FLT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0250820ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0250820ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_S_MSMON_CFG_MBWU_FLT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6620,7 +6620,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MSMON_CFG_MON_SEL(uint64
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MSMON_CFG_MON_SEL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0250800ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0250800ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_S_MSMON_CFG_MON_SEL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6660,7 +6660,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MSMON_MBWU_L(uint64_t a)
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MSMON_MBWU_L(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0250880ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0250880ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_S_MSMON_MBWU_L", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6712,7 +6712,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MSMON_MBWU_L_32(uint64_t
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MSMON_MBWU_L_32(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0250884ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0250884ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_S_MSMON_MBWU_L_32", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6758,7 +6758,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MSMON_MBWU_L_CAPTURE(uin
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MSMON_MBWU_L_CAPTURE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0250890ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0250890ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_S_MSMON_MBWU_L_CAPTURE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6818,7 +6818,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MSMON_MBWU_L_CAPTURE_32(
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MSMON_MBWU_L_CAPTURE_32(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0250894ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0250894ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_S_MSMON_MBWU_L_CAPTURE_32", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6864,7 +6864,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MSMON_MBWU_OFSR(uint64_t
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MSMON_MBWU_OFSR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0250898ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0250898ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_S_MSMON_MBWU_OFSR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6918,7 +6918,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MSMON_OFLOW_SR(uint64_t 
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_S_MSMON_OFLOW_SR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b02508f0ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b02508f0ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_S_MSMON_OFLOW_SR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7000,7 +7000,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ADVECCINDEX(uint64_t a) __
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ADVECCINDEX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210650ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210650ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ADVECCINDEX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7192,7 +7192,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ADVECCSTAT(uint64_t a) __a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ADVECCSTAT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210654ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210654ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ADVECCSTAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7258,7 +7258,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CAPAR_CMDBUF_CTRL(uint64_t
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CAPAR_CMDBUF_CTRL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210b50ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210b50ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CAPAR_CMDBUF_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7298,7 +7298,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CAPAR_CMDBUF_STAT(uint64_t
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CAPAR_CMDBUF_STAT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210b54ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210b54ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CAPAR_CMDBUF_STAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7348,7 +7348,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CAPAR_CMDFIFO_CTRL(uint64_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CAPAR_CMDFIFO_CTRL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210dc0ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210dc0ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CAPAR_CMDFIFO_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7400,7 +7400,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CAPAR_CMDFIFO_LOG(uint64_t
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CAPAR_CMDFIFO_LOG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210dc8ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210dc8ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CAPAR_CMDFIFO_LOG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7442,7 +7442,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CAPAR_CMDFIFO_STAT(uint64_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CAPAR_CMDFIFO_STAT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210dc4ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210dc4ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CAPAR_CMDFIFO_STAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7486,7 +7486,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CAPAR_DBG_STAT0(uint64_t a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CAPAR_DBG_STAT0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210db8ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210db8ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CAPAR_DBG_STAT0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7538,7 +7538,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CAPAR_DBG_STAT1(uint64_t a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CAPAR_DBG_STAT1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210dbcll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210dbcll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CAPAR_DBG_STAT1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7640,7 +7640,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CAPARPOISONCTL(uint64_t a)
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CAPARPOISONCTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210810ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210810ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CAPARPOISONCTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7684,7 +7684,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CAPARPOISONSTAT(uint64_t a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CAPARPOISONSTAT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210814ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210814ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CAPARPOISONSTAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7732,7 +7732,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CHCTL(uint64_t a) __attrib
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CHCTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210c8cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210c8cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CHCTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7866,7 +7866,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CMDCFG(uint64_t a) __attri
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CMDCFG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210b00ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210b00ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CMDCFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7974,7 +7974,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CMDCTL(uint64_t a) __attri
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CMDCTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210b04ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210b04ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CMDCTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8026,7 +8026,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CMDEXTCTL(uint64_t a) __at
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CMDEXTCTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210b08ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210b08ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CMDEXTCTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8068,7 +8068,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CMDMRRDATA(uint64_t a) __a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CMDMRRDATA(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210b14ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210b14ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CMDMRRDATA", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8228,7 +8228,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CMDSTAT(uint64_t a) __attr
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CMDSTAT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210b0cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210b0cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CMDSTAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8482,7 +8482,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCPARCTL0(uint64_t a) __a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCPARCTL0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210800ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210800ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CRCPARCTL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8626,7 +8626,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCPARCTL1(uint64_t a) __a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCPARCTL1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210804ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210804ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CRCPARCTL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8684,7 +8684,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCPARCTL2(uint64_t a) __a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCPARCTL2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210808ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210808ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CRCPARCTL2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8802,7 +8802,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCPARSTAT(uint64_t a) __a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCPARSTAT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b021080cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b021080cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CRCPARSTAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8882,7 +8882,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCPOISONCTL0(uint64_t a) 
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCPOISONCTL0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210820ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210820ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CRCPOISONCTL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8926,7 +8926,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCPOISONSTAT(uint64_t a) 
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCPOISONSTAT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b021082cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b021082cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CRCPOISONSTAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8988,7 +8988,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCSTAT0(uint64_t a) __att
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCSTAT0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210848ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210848ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CRCSTAT0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9050,7 +9050,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCSTAT1(uint64_t a) __att
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCSTAT1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b021084cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b021084cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CRCSTAT1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9106,7 +9106,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCSTAT10(uint64_t a) __at
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCSTAT10(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210870ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210870ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CRCSTAT10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9168,7 +9168,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCSTAT2(uint64_t a) __att
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCSTAT2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210850ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210850ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CRCSTAT2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9230,7 +9230,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCSTAT3(uint64_t a) __att
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCSTAT3(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210854ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210854ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CRCSTAT3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9292,7 +9292,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCSTAT4(uint64_t a) __att
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCSTAT4(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210858ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210858ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CRCSTAT4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9350,7 +9350,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DBICTL(uint64_t a) __attri
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DBICTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210c94ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210c94ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DBICTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9390,7 +9390,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DDRCTL_VER_NUMBER(uint64_t
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DDRCTL_VER_NUMBER(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210ff8ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210ff8ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DDRCTL_VER_NUMBER", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9430,7 +9430,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DDRCTL_VER_TYPE(uint64_t a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DDRCTL_VER_TYPE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210ffcll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210ffcll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DDRCTL_VER_TYPE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9510,7 +9510,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DERATECTL1(uint64_t a) __a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DERATECTL1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210104ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210104ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DERATECTL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9586,7 +9586,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DERATECTL2(uint64_t a) __a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DERATECTL2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210108ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210108ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DERATECTL2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9646,7 +9646,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DERATECTL5(uint64_t a) __a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DERATECTL5(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210114ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210114ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DERATECTL5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9748,7 +9748,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DERATECTL6(uint64_t a) __a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DERATECTL6(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210118ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210118ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DERATECTL6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9794,7 +9794,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DERATEDBGCTL(uint64_t a) _
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DERATEDBGCTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210124ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210124ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DERATEDBGCTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9868,7 +9868,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DERATEDBGSTAT(uint64_t a) 
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DERATEDBGSTAT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210128ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210128ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DERATEDBGSTAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9930,7 +9930,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DERATESTAT0(uint64_t a) __
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DERATESTAT0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b021011cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b021011cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DERATESTAT0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9976,7 +9976,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DERATESTAT1(uint64_t a) __
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DERATESTAT1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210120ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210120ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DERATESTAT1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10052,7 +10052,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DFILPCFG0(uint64_t a) __at
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DFILPCFG0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210500ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210500ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DFILPCFG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10116,7 +10116,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DFIMISC(uint64_t a) __attr
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DFIMISC(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210510ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210510ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DFIMISC", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10168,7 +10168,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DFISTAT(uint64_t a) __attr
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DFISTAT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210514ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210514ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DFISTAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10228,7 +10228,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DFIUPD0(uint64_t a) __attr
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DFIUPD0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210508ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210508ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DFIUPD0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10328,7 +10328,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DIMMCTL(uint64_t a) __attr
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DIMMCTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210c88ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210c88ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DIMMCTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10372,7 +10372,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DQSOSCCFG0(uint64_t a) __a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DQSOSCCFG0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210308ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210308ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DQSOSCCFG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10420,7 +10420,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DQSOSCTMG0(uint64_t a) __a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DQSOSCTMG0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b021030cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b021030cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DQSOSCTMG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10462,7 +10462,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DS_DBG_CTRL0(uint64_t a) _
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DS_DBG_CTRL0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210d80ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210d80ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DS_DBG_CTRL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10500,7 +10500,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DS_DBG_STAT0(uint64_t a) _
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DS_DBG_STAT0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210d84ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210d84ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DS_DBG_STAT0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10538,7 +10538,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DS_DBG_STAT1(uint64_t a) _
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DS_DBG_STAT1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210d88ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210d88ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DS_DBG_STAT1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10576,7 +10576,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DS_DBG_STAT2(uint64_t a) _
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DS_DBG_STAT2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210d8cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210d8cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DS_DBG_STAT2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10614,7 +10614,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DS_DBG_STAT3(uint64_t a) _
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DS_DBG_STAT3(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210d90ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210d90ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DS_DBG_STAT3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10694,7 +10694,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DU_CFGBUF_CTRL(uint64_t a)
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DU_CFGBUF_CTRL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210b24ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210b24ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DU_CFGBUF_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10734,7 +10734,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DU_CFGBUF_STAT(uint64_t a)
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DU_CFGBUF_STAT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210b28ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210b28ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DU_CFGBUF_STAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10808,7 +10808,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DU_CMDBUF_CTRL(uint64_t a)
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DU_CMDBUF_CTRL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210b2cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210b2cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DU_CMDBUF_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10848,7 +10848,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DU_CMDBUF_STAT(uint64_t a)
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DU_CMDBUF_STAT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210b30ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210b30ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DU_CMDBUF_STAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10904,7 +10904,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DU_DBG_STAT0(uint64_t a) _
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DU_DBG_STAT0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210d94ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210d94ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DU_DBG_STAT0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10956,7 +10956,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DU_DBG_STAT1(uint64_t a) _
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DU_DBG_STAT1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210d98ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210d98ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DU_DBG_STAT1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11006,7 +11006,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCBITMASK0(uint64_t a) __
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCBITMASK0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210628ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210628ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCBITMASK0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11060,7 +11060,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCBITMASK1(uint64_t a) __
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCBITMASK1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b021062cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b021062cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCBITMASK1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11124,7 +11124,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCBITMASK2(uint64_t a) __
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCBITMASK2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210630ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210630ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCBITMASK2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11178,7 +11178,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCADDR0(uint64_t a) __at
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCADDR0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210614ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210614ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCCADDR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11236,7 +11236,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCADDR1(uint64_t a) __at
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCADDR1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210618ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210618ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCCADDR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11282,7 +11282,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCDATA0(uint64_t a) __at
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCDATA0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b021066cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b021066cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCCDATA0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11392,7 +11392,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCFG0(uint64_t a) __attr
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCFG0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210600ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210600ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCCFG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11498,7 +11498,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCFG1(uint64_t a) __attr
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCFG1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210604ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210604ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCCFG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11588,7 +11588,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCFG2(uint64_t a) __attr
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCFG2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210668ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210668ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCCFG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11638,7 +11638,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCSYN0(uint64_t a) __att
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCSYN0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b021061cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b021061cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCCSYN0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11692,7 +11692,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCSYN1(uint64_t a) __att
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCSYN1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210620ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210620ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCCSYN1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11768,7 +11768,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCSYN2(uint64_t a) __att
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCSYN2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210624ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210624ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCCSYN2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11938,7 +11938,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCTL(uint64_t a) __attri
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b021060cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b021060cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCCTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11988,7 +11988,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCERRCNT(uint64_t a) __at
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCERRCNT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210610ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210610ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCERRCNT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12042,7 +12042,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCPOISONADDR0(uint64_t a)
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCPOISONADDR0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210648ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210648ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCPOISONADDR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12096,7 +12096,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCPOISONADDR1(uint64_t a)
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCPOISONADDR1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b021064cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b021064cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCPOISONADDR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12140,7 +12140,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCPOISONPAT0(uint64_t a) 
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCPOISONPAT0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210658ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210658ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCPOISONPAT0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12188,7 +12188,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCPOISONPAT2(uint64_t a) 
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCPOISONPAT2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210660ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210660ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCPOISONPAT2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12294,7 +12294,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCSTAT(uint64_t a) __attr
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCSTAT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210608ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210608ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCSTAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12364,7 +12364,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCSYMBOL(uint64_t a) __at
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCSYMBOL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b021067cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b021067cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCSYMBOL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12418,7 +12418,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCUADDR0(uint64_t a) __at
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCUADDR0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210634ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210634ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCUADDR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12476,7 +12476,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCUADDR1(uint64_t a) __at
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCUADDR1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210638ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210638ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCUADDR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12520,7 +12520,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCUDATA0(uint64_t a) __at
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCUDATA0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210674ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210674ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCUDATA0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12568,7 +12568,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCUSYN0(uint64_t a) __att
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCUSYN0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b021063cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b021063cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCUSYN0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12620,7 +12620,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCUSYN1(uint64_t a) __att
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCUSYN1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210640ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210640ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCUSYN1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12692,7 +12692,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCUSYN2(uint64_t a) __att
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCUSYN2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210644ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210644ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCUSYN2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12734,7 +12734,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECS_STAT_DEV_SEL(uint64_t 
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECS_STAT_DEV_SEL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210af4ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210af4ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECS_STAT_DEV_SEL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12784,7 +12784,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECS_STAT_MR0(uint64_t a) _
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECS_STAT_MR0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210af8ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210af8ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECS_STAT_MR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12824,7 +12824,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECS_STAT_MR1(uint64_t a) _
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECS_STAT_MR1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210afcll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210afcll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECS_STAT_MR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12868,7 +12868,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECSCTL(uint64_t a) __attri
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECSCTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210af0ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210af0ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECSCTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12940,7 +12940,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_HWLPCTL(uint64_t a) __attr
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_HWLPCTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210184ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210184ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_HWLPCTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13018,7 +13018,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_HWLPCTL2(uint64_t a) __att
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_HWLPCTL2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210188ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210188ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_HWLPCTL2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13070,7 +13070,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_INITTMG0(uint64_t a) __att
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_INITTMG0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210d00ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210d00ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_INITTMG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13114,7 +13114,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_LC_DBG_STAT0(uint64_t a) _
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_LC_DBG_STAT0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210d9cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210d9cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_LC_DBG_STAT0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13158,7 +13158,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_LC_DBG_STAT1(uint64_t a) _
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_LC_DBG_STAT1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210da0ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210da0ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_LC_DBG_STAT1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13228,7 +13228,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_LC_DBG_STAT4(uint64_t a) _
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_LC_DBG_STAT4(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210dacll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210dacll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_LC_DBG_STAT4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13284,7 +13284,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_LC_DBG_STAT6(uint64_t a) _
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_LC_DBG_STAT6(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210db4ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210db4ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_LC_DBG_STAT6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13350,7 +13350,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_LP_CMDBUF_CTRL(uint64_t a)
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_LP_CMDBUF_CTRL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210b34ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210b34ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_LP_CMDBUF_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13390,7 +13390,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_LP_CMDBUF_STAT(uint64_t a)
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_LP_CMDBUF_STAT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210b38ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210b38ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_LP_CMDBUF_STAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13636,7 +13636,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_MSTR0(uint64_t a) __attrib
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_MSTR0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210000ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210000ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_MSTR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13758,7 +13758,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ODTMAP(uint64_t a) __attri
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ODTMAP(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210c9cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210c9cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ODTMAP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13802,7 +13802,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_OPCTRL0(uint64_t a) __attr
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_OPCTRL0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210b80ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210b80ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_OPCTRL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13850,7 +13850,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_OPCTRL1(uint64_t a) __attr
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_OPCTRL1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210b84ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210b84ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_OPCTRL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13984,7 +13984,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_OPCTRLCAM(uint64_t a) __at
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_OPCTRLCAM(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210b88ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210b88ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_OPCTRLCAM", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14056,7 +14056,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_OPREFCTRL0(uint64_t a) __a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_OPREFCTRL0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210b98ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210b98ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_OPREFCTRL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14124,7 +14124,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_OPREFSTAT0(uint64_t a) __a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_OPREFSTAT0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210ba0ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210ba0ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_OPREFSTAT0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14174,7 +14174,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL0(uint64_t a) __attr
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210a00ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210a00ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14360,7 +14360,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL1(uint64_t a) __attr
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210a04ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210a04ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14556,7 +14556,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL10(uint64_t a) __att
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL10(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210a28ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210a28ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14610,7 +14610,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL11(uint64_t a) __att
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL11(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210a2cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210a2cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL11", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14664,7 +14664,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL12(uint64_t a) __att
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL12(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210a30ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210a30ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL12", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14718,7 +14718,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL13(uint64_t a) __att
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL13(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210a34ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210a34ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL13", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14772,7 +14772,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL14(uint64_t a) __att
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL14(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210a38ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210a38ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL14", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14872,7 +14872,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL19(uint64_t a) __att
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL19(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210a4cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210a4cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL19", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14972,7 +14972,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL2(uint64_t a) __attr
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210a08ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210a08ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15026,7 +15026,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL20(uint64_t a) __att
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL20(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210a50ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210a50ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL20", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15084,7 +15084,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL21(uint64_t a) __att
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL21(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210a54ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210a54ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL21", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15146,7 +15146,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL22(uint64_t a) __att
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL22(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210a58ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210a58ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL22", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15204,7 +15204,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL23(uint64_t a) __att
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL23(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210a5cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210a5cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL23", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15284,7 +15284,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL24(uint64_t a) __att
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL24(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210a60ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210a60ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL24", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15334,7 +15334,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL25(uint64_t a) __att
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL25(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210a64ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210a64ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL25", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15388,7 +15388,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL26(uint64_t a) __att
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL26(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210a68ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210a68ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL26", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15450,7 +15450,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL3(uint64_t a) __attr
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL3(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210a0cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210a0cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15514,7 +15514,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL36(uint64_t a) __att
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL36(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210a90ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210a90ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL36", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15640,7 +15640,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL37(uint64_t a) __att
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL37(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210a94ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210a94ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL37", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15706,7 +15706,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL38(uint64_t a) __att
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL38(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210a98ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210a98ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL38", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15848,7 +15848,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL4(uint64_t a) __attr
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL4(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210a10ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210a10ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15892,7 +15892,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL5(uint64_t a) __attr
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL5(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210a14ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210a14ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15942,7 +15942,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL6(uint64_t a) __attr
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL6(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210a18ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210a18ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -16074,7 +16074,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL7(uint64_t a) __attr
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL7(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210a1cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210a1cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -16302,7 +16302,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL8(uint64_t a) __attr
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL8(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210a20ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210a20ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -16418,7 +16418,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL9(uint64_t a) __attr
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL9(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210a24ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210a24ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -16516,7 +16516,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASERRSTS(uint64_t a) __at
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASERRSTS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210b20ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210b20ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASERRSTS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -16646,7 +16646,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASINT(uint64_t a) __attri
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASINT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210b18ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210b18ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASINT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -16764,7 +16764,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASINTCTL(uint64_t a) __at
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASINTCTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210b1cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210b1cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASINTCTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -16950,7 +16950,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PWRCTL(uint64_t a) __attri
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PWRCTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210180ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210180ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PWRCTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -17100,7 +17100,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RANKCTL(uint64_t a) __attr
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RANKCTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210c90ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210c90ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_RANKCTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -17148,7 +17148,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RDCRCERRADDR0(uint64_t a) 
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RDCRCERRADDR0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210830ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210830ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_RDCRCERRADDR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -17200,7 +17200,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RDCRCERRADDR1(uint64_t a) 
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RDCRCERRADDR1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210834ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210834ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_RDCRCERRADDR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -17256,7 +17256,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RDCRCERRSTAT0(uint64_t a) 
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RDCRCERRSTAT0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210840ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210840ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_RDCRCERRSTAT0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -17446,7 +17446,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RETRYCTL0(uint64_t a) __at
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RETRYCTL0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210890ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210890ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_RETRYCTL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -17504,7 +17504,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RETRYCTL1(uint64_t a) __at
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RETRYCTL1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210894ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210894ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_RETRYCTL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -17672,7 +17672,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RETRYSTAT0(uint64_t a) __a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RETRYSTAT0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b02108a0ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b02108a0ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_RETRYSTAT0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -17762,7 +17762,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RFSHCTL0(uint64_t a) __att
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RFSHCTL0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210208ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210208ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_RFSHCTL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -17880,7 +17880,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RFSHMOD0(uint64_t a) __att
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RFSHMOD0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210200ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210200ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_RFSHMOD0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -18018,7 +18018,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RFSHMOD1(uint64_t a) __att
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RFSHMOD1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210204ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210204ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_RFSHMOD1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -18146,7 +18146,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RW_CMD_CTRL(uint64_t a) __
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RW_CMD_CTRL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210b3cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210b3cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_RW_CMD_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -18192,7 +18192,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RW_RD_DATA0(uint64_t a) __
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RW_RD_DATA0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210b48ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210b48ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_RW_RD_DATA0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -18236,7 +18236,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RW_RD_DATA1(uint64_t a) __
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RW_RD_DATA1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210b4cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210b4cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_RW_RD_DATA1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -18278,7 +18278,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RW_WR_DATA0(uint64_t a) __
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RW_WR_DATA0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210b40ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210b40ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_RW_WR_DATA0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -18322,7 +18322,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RW_WR_DATA1(uint64_t a) __
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RW_WR_DATA1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210b44ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210b44ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_RW_WR_DATA1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -18536,7 +18536,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_SCHED0(uint64_t a) __attri
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_SCHED0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210380ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210380ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_SCHED0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -18776,7 +18776,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_SCHED1(uint64_t a) __attri
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_SCHED1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210384ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210384ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_SCHED1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -18886,7 +18886,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_SCHED3(uint64_t a) __attri
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_SCHED3(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b021038cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b021038cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_SCHED3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -18984,7 +18984,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_SCHED4(uint64_t a) __attri
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_SCHED4(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210390ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210390ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_SCHED4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -19162,7 +19162,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_STAT(uint64_t a) __attribu
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_STAT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210014ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210014ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_STAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -19256,7 +19256,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_STAT2(uint64_t a) __attrib
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_STAT2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210018ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210018ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_STAT2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -19318,7 +19318,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_STAT3(uint64_t a) __attrib
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_STAT3(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b021001cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b021001cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_STAT3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -19362,7 +19362,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_SWCTL(uint64_t a) __attrib
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_SWCTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210c80ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210c80ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_SWCTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -19416,7 +19416,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_SWCTLSTATIC(uint64_t a) __
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_SWCTLSTATIC(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210ca4ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210ca4ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_SWCTLSTATIC", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -19462,7 +19462,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_SWSTAT(uint64_t a) __attri
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_SWSTAT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210c84ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210c84ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_SWSTAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -19518,7 +19518,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ZQCTL0(uint64_t a) __attri
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ZQCTL0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210280ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210280ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ZQCTL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -19562,7 +19562,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ZQCTL2(uint64_t a) __attri
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ZQCTL2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0210288ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0210288ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ZQCTL2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -19658,7 +19658,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_CRCPARTMG0(uint64_t a) __
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_CRCPARTMG0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0200d14ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0200d14ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_CRCPARTMG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -19706,7 +19706,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_CRCPARTMG1(uint64_t a) __
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_CRCPARTMG1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0200d18ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0200d18ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_CRCPARTMG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -19856,7 +19856,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DFILPTMG0(uint64_t a) __a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DFILPTMG0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b02005a0ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b02005a0ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DFILPTMG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -19912,7 +19912,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DFILPTMG1(uint64_t a) __a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DFILPTMG1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b02005a4ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b02005a4ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DFILPTMG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -20044,7 +20044,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DFITMG0(uint64_t a) __att
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DFITMG0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0200580ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0200580ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DFITMG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -20168,7 +20168,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DFITMG1(uint64_t a) __att
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DFITMG1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0200584ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0200584ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DFITMG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -20238,7 +20238,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DFITMG2(uint64_t a) __att
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DFITMG2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0200588ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0200588ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DFITMG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -20296,7 +20296,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DFITMG7(uint64_t a) __att
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DFITMG7(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b020059cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b020059cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DFITMG7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -20358,7 +20358,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DFIUPDTMG0(uint64_t a) __
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DFIUPDTMG0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b02005a8ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b02005a8ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DFIUPDTMG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -20450,7 +20450,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG0(uint64_t a) 
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0200000ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0200000ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -20542,7 +20542,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG1(uint64_t a) 
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0200004ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0200004ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -20606,7 +20606,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG13(uint64_t a)
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG13(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0200034ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0200034ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG13", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -20688,7 +20688,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG15(uint64_t a)
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG15(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b020003cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b020003cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG15", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -20748,7 +20748,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG18(uint64_t a)
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG18(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0200048ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0200048ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG18", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -20936,7 +20936,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG2(uint64_t a) 
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0200008ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0200008ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -21018,7 +21018,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG20(uint64_t a)
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG20(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0200050ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0200050ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG20", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -21086,7 +21086,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG21(uint64_t a)
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG21(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0200054ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0200054ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG21", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -21156,7 +21156,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG22(uint64_t a)
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG22(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0200058ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0200058ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG22", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -21222,7 +21222,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG26(uint64_t a)
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG26(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0200068ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0200068ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG26", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -21284,7 +21284,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG27(uint64_t a)
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG27(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b020006cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b020006cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG27", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -21372,7 +21372,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG28(uint64_t a)
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG28(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0200070ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0200070ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG28", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -21436,7 +21436,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG29(uint64_t a)
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG29(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0200074ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0200074ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG29", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -21500,7 +21500,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG3(uint64_t a) 
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG3(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b020000cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b020000cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -21574,7 +21574,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG31(uint64_t a)
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG31(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b020007cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b020007cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG31", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -21660,7 +21660,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG4(uint64_t a) 
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG4(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0200010ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0200010ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -21744,7 +21744,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG5(uint64_t a) 
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG5(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0200014ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0200014ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -21822,7 +21822,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG8(uint64_t a) 
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG8(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0200020ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0200020ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -21934,7 +21934,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG9(uint64_t a) 
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG9(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0200024ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0200024ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -21992,7 +21992,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_ECSSET1TMG0(uint64_t a) _
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_ECSSET1TMG0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0200640ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0200640ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_ECSSET1TMG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22058,7 +22058,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_HWLPTMG0(uint64_t a) __at
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_HWLPTMG0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0200b80ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0200b80ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_HWLPTMG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22126,7 +22126,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_PERFHPR1(uint64_t a) __at
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_PERFHPR1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0200c80ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0200c80ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_PERFHPR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22194,7 +22194,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_PERFLPR1(uint64_t a) __at
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_PERFLPR1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0200c84ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0200c84ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_PERFLPR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22262,7 +22262,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_PERFWR1(uint64_t a) __att
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_PERFWR1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0200c88ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0200c88ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_PERFWR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22372,7 +22372,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_PWRTMG(uint64_t a) __attr
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_PWRTMG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0200d0cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0200d0cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_PWRTMG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22566,7 +22566,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RANK_SWITCH_TIMING_CONTRO
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RANK_SWITCH_TIMING_CONTROL0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0200400ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0200400ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_RANK_SWITCH_TIMING_CONTROL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22632,7 +22632,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RETRYTMG0(uint64_t a) __a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RETRYTMG0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0200d20ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0200d20ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_RETRYTMG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22752,7 +22752,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RETRYTMG1(uint64_t a) __a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RETRYTMG1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0200d24ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0200d24ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_RETRYTMG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22964,7 +22964,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RFSHSET1TMG0(uint64_t a) 
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RFSHSET1TMG0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0200600ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0200600ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_RFSHSET1TMG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23028,7 +23028,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RFSHSET1TMG1(uint64_t a) 
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RFSHSET1TMG1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0200604ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0200604ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_RFSHSET1TMG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23078,7 +23078,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RFSHSET1TMG10(uint64_t a)
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RFSHSET1TMG10(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0200628ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0200628ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_RFSHSET1TMG10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23140,7 +23140,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RFSHSET1TMG3(uint64_t a) 
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RFSHSET1TMG3(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b020060cll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b020060cll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_RFSHSET1TMG3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23226,7 +23226,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RFSHSET1TMG4(uint64_t a) 
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RFSHSET1TMG4(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0200610ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0200610ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_RFSHSET1TMG4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23304,7 +23304,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RFSHSET1TMG9(uint64_t a) 
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RFSHSET1TMG9(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0200624ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0200624ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_RFSHSET1TMG9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23406,7 +23406,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_SCHEDTMG0(uint64_t a) __a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_SCHEDTMG0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0200c00ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0200c00ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_SCHEDTMG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23460,7 +23460,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_TMGCFG(uint64_t a) __attr
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_TMGCFG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0200d00ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0200d00ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_TMGCFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23524,7 +23524,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_ZQSET1TMG0(uint64_t a) __
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_ZQSET1TMG0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0200800ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0200800ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_ZQSET1TMG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23564,7 +23564,7 @@ static inline uint64_t CAVM_DSSX_EARLY_RESET_N(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_DSSX_EARLY_RESET_N(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0000068ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0000068ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_EARLY_RESET_N", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23659,7 +23659,7 @@ static inline uint64_t CAVM_DSSX_FILL_LVL_CNT_CFGX(uint64_t a, uint64_t b) __att
 static inline uint64_t CAVM_DSSX_FILL_LVL_CNT_CFGX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=5) && (b<=2)))
-        return 0x87e1b0008418ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
+        return 0xc200b0008418ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("DSSX_FILL_LVL_CNT_CFGX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -23711,7 +23711,7 @@ static inline uint64_t CAVM_DSSX_FILL_LVL_CNT_CLR(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_DSSX_FILL_LVL_CNT_CLR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b00086c8ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b00086c8ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_FILL_LVL_CNT_CLR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23753,7 +23753,7 @@ static inline uint64_t CAVM_DSSX_FILL_LVL_CNT_OVRFLWX(uint64_t a, uint64_t b) __
 static inline uint64_t CAVM_DSSX_FILL_LVL_CNT_OVRFLWX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=5) && (b<=2)))
-        return 0x87e1b0008600ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
+        return 0xc200b0008600ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("DSSX_FILL_LVL_CNT_OVRFLWX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -23791,7 +23791,7 @@ static inline uint64_t CAVM_DSSX_FILL_LVL_CNT_VALX(uint64_t a, uint64_t b) __att
 static inline uint64_t CAVM_DSSX_FILL_LVL_CNT_VALX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=5) && (b<=2)))
-        return 0x87e1b0008500ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
+        return 0xc200b0008500ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("DSSX_FILL_LVL_CNT_VALX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -23895,7 +23895,7 @@ static inline uint64_t CAVM_DSSX_INT_ENA_W1C(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_DSSX_INT_ENA_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0008010ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0008010ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23999,7 +23999,7 @@ static inline uint64_t CAVM_DSSX_INT_ENA_W1S(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_DSSX_INT_ENA_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0008018ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0008018ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24141,7 +24141,7 @@ static inline uint64_t CAVM_DSSX_INT_W1C(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_DSSX_INT_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0008000ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0008000ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_INT_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24245,7 +24245,7 @@ static inline uint64_t CAVM_DSSX_INT_W1S(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_DSSX_INT_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0008008ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0008008ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24295,7 +24295,7 @@ static inline uint64_t CAVM_DSSX_LAT_CALC_CTRL(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_DSSX_LAT_CALC_CTRL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0008300ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0008300ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_LAT_CALC_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24334,7 +24334,7 @@ static inline uint64_t CAVM_DSSX_LAT_NUM_RD_REQ_HI(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_DSSX_LAT_NUM_RD_REQ_HI(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0008310ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0008310ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_LAT_NUM_RD_REQ_HI", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24373,7 +24373,7 @@ static inline uint64_t CAVM_DSSX_LAT_NUM_RD_REQ_LO(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_DSSX_LAT_NUM_RD_REQ_LO(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0008308ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0008308ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_LAT_NUM_RD_REQ_LO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24412,7 +24412,7 @@ static inline uint64_t CAVM_DSSX_LAT_NUM_WR_REQ_HI(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_DSSX_LAT_NUM_WR_REQ_HI(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0008320ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0008320ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_LAT_NUM_WR_REQ_HI", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24451,7 +24451,7 @@ static inline uint64_t CAVM_DSSX_LAT_NUM_WR_REQ_LO(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_DSSX_LAT_NUM_WR_REQ_LO(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0008318ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0008318ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_LAT_NUM_WR_REQ_LO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24495,7 +24495,7 @@ static inline uint64_t CAVM_DSSX_LAT_OUTSTAND_RD_WR_REQ(uint64_t a) __attribute_
 static inline uint64_t CAVM_DSSX_LAT_OUTSTAND_RD_WR_REQ(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0008328ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0008328ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_LAT_OUTSTAND_RD_WR_REQ", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24538,7 +24538,7 @@ static inline uint64_t CAVM_DSSX_LAT_TOTAL_RD_LATENCY_HI(uint64_t a) __attribute
 static inline uint64_t CAVM_DSSX_LAT_TOTAL_RD_LATENCY_HI(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0008338ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0008338ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_LAT_TOTAL_RD_LATENCY_HI", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24581,7 +24581,7 @@ static inline uint64_t CAVM_DSSX_LAT_TOTAL_RD_LATENCY_LO(uint64_t a) __attribute
 static inline uint64_t CAVM_DSSX_LAT_TOTAL_RD_LATENCY_LO(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0008330ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0008330ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_LAT_TOTAL_RD_LATENCY_LO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24624,7 +24624,7 @@ static inline uint64_t CAVM_DSSX_LAT_TOTAL_WR_LATENCY_HI(uint64_t a) __attribute
 static inline uint64_t CAVM_DSSX_LAT_TOTAL_WR_LATENCY_HI(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0008348ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0008348ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_LAT_TOTAL_WR_LATENCY_HI", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24667,7 +24667,7 @@ static inline uint64_t CAVM_DSSX_LAT_TOTAL_WR_LATENCY_LO(uint64_t a) __attribute
 static inline uint64_t CAVM_DSSX_LAT_TOTAL_WR_LATENCY_LO(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0008340ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0008340ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_LAT_TOTAL_WR_LATENCY_LO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24723,7 +24723,7 @@ static inline uint64_t CAVM_DSSX_LP_CFG(uint64_t a) __attribute__ ((pure, always
 static inline uint64_t CAVM_DSSX_LP_CFG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0000078ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0000078ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_LP_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24777,7 +24777,7 @@ static inline uint64_t CAVM_DSSX_LP_CTRL(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_DSSX_LP_CTRL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0000070ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0000070ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_LP_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24845,7 +24845,7 @@ static inline uint64_t CAVM_DSSX_LP_STATUS(uint64_t a) __attribute__ ((pure, alw
 static inline uint64_t CAVM_DSSX_LP_STATUS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0000080ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0000080ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_LP_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24883,7 +24883,7 @@ static inline uint64_t CAVM_DSSX_MC_CORE_RESET_N(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_DSSX_MC_CORE_RESET_N(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0000000ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0000000ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_MC_CORE_RESET_N", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24925,7 +24925,7 @@ static inline uint64_t CAVM_DSSX_MC_CTRL(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_DSSX_MC_CTRL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0000050ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0000050ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_MC_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24972,7 +24972,7 @@ static inline uint64_t CAVM_DSSX_MCT_CRC_CTRL(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_DSSX_MCT_CRC_CTRL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0010010ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0010010ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_MCT_CRC_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -25055,7 +25055,7 @@ static inline uint64_t CAVM_DSSX_MCT_CTRL(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_DSSX_MCT_CTRL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0010008ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0010008ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_MCT_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -25095,7 +25095,7 @@ static inline uint64_t CAVM_DSSX_MCT_CURRENT_KEY_127_64X(uint64_t a, uint64_t b)
 static inline uint64_t CAVM_DSSX_MCT_CURRENT_KEY_127_64X(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=5) && (b<=3)))
-        return 0x87e1b00100c0ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
+        return 0xc200b00100c0ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("DSSX_MCT_CURRENT_KEY_127_64X", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -25135,7 +25135,7 @@ static inline uint64_t CAVM_DSSX_MCT_CURRENT_KEY_63_0X(uint64_t a, uint64_t b) _
 static inline uint64_t CAVM_DSSX_MCT_CURRENT_KEY_63_0X(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=5) && (b<=3)))
-        return 0x87e1b00110a0ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
+        return 0xc200b00110a0ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("DSSX_MCT_CURRENT_KEY_63_0X", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -25174,7 +25174,7 @@ static inline uint64_t CAVM_DSSX_MCT_DBG_SW_DATA_HIGH(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_DSSX_MCT_DBG_SW_DATA_HIGH(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b00103f8ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b00103f8ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_MCT_DBG_SW_DATA_HIGH", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -25213,7 +25213,7 @@ static inline uint64_t CAVM_DSSX_MCT_DBG_SW_DATA_LOW(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_DSSX_MCT_DBG_SW_DATA_LOW(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b00103f0ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b00103f0ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_MCT_DBG_SW_DATA_LOW", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -25252,7 +25252,7 @@ static inline uint64_t CAVM_DSSX_MCT_DBG_SW_KEY_127_64(uint64_t a) __attribute__
 static inline uint64_t CAVM_DSSX_MCT_DBG_SW_KEY_127_64(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b00103d8ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b00103d8ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_MCT_DBG_SW_KEY_127_64", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -25291,7 +25291,7 @@ static inline uint64_t CAVM_DSSX_MCT_DBG_SW_KEY_63_0(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_DSSX_MCT_DBG_SW_KEY_63_0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b00103d0ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b00103d0ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_MCT_DBG_SW_KEY_63_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -25358,7 +25358,7 @@ static inline uint64_t CAVM_DSSX_MCT_DBG_SW_OP_CMD_CTRL(uint64_t a) __attribute_
 static inline uint64_t CAVM_DSSX_MCT_DBG_SW_OP_CMD_CTRL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b00103c8ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b00103c8ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_MCT_DBG_SW_OP_CMD_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -25407,7 +25407,7 @@ static inline uint64_t CAVM_DSSX_MCT_DBG_SW_OP_CTRL(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_DSSX_MCT_DBG_SW_OP_CTRL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b00103c0ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b00103c0ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_MCT_DBG_SW_OP_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -25446,7 +25446,7 @@ static inline uint64_t CAVM_DSSX_MCT_DBG_SW_RESP_HIGH(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_DSSX_MCT_DBG_SW_RESP_HIGH(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0010408ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0010408ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_MCT_DBG_SW_RESP_HIGH", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -25485,7 +25485,7 @@ static inline uint64_t CAVM_DSSX_MCT_DBG_SW_RESP_LOW(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_DSSX_MCT_DBG_SW_RESP_LOW(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0010400ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0010400ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_MCT_DBG_SW_RESP_LOW", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -25536,7 +25536,7 @@ static inline uint64_t CAVM_DSSX_MCT_DEFAULT_WIN_CFG(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_DSSX_MCT_DEFAULT_WIN_CFG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0010228ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0010228ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_MCT_DEFAULT_WIN_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -25580,7 +25580,7 @@ static inline uint64_t CAVM_DSSX_MCT_ENABLE(uint64_t a) __attribute__ ((pure, al
 static inline uint64_t CAVM_DSSX_MCT_ENABLE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0010000ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0010000ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_MCT_ENABLE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -25640,7 +25640,7 @@ static inline uint64_t CAVM_DSSX_MCT_GLOBAL_CLOCK_ENABLE(uint64_t a) __attribute
 static inline uint64_t CAVM_DSSX_MCT_GLOBAL_CLOCK_ENABLE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0010410ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0010410ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_MCT_GLOBAL_CLOCK_ENABLE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -25694,7 +25694,7 @@ static inline uint64_t CAVM_DSSX_MCT_HIDE_CRYPTO_STATUS(uint64_t a) __attribute_
 static inline uint64_t CAVM_DSSX_MCT_HIDE_CRYPTO_STATUS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0010128ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0010128ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_MCT_HIDE_CRYPTO_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -25742,7 +25742,7 @@ static inline uint64_t CAVM_DSSX_MCT_INT_ENA_W1C(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_DSSX_MCT_INT_ENA_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0018010ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0018010ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_MCT_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -25790,7 +25790,7 @@ static inline uint64_t CAVM_DSSX_MCT_INT_ENA_W1S(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_DSSX_MCT_INT_ENA_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0018018ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0018018ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_MCT_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -25838,7 +25838,7 @@ static inline uint64_t CAVM_DSSX_MCT_INT_W1C(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_DSSX_MCT_INT_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0018000ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0018000ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_MCT_INT_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -25886,7 +25886,7 @@ static inline uint64_t CAVM_DSSX_MCT_INT_W1S(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_DSSX_MCT_INT_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0018008ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0018008ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_MCT_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -25926,7 +25926,7 @@ static inline uint64_t CAVM_DSSX_MCT_NEXT_KEY_127_64X(uint64_t a, uint64_t b) __
 static inline uint64_t CAVM_DSSX_MCT_NEXT_KEY_127_64X(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=5) && (b<=3)))
-        return 0x87e1b0010060ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
+        return 0xc200b0010060ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("DSSX_MCT_NEXT_KEY_127_64X", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -25966,7 +25966,7 @@ static inline uint64_t CAVM_DSSX_MCT_NEXT_KEY_63_0X(uint64_t a, uint64_t b) __at
 static inline uint64_t CAVM_DSSX_MCT_NEXT_KEY_63_0X(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=5) && (b<=3)))
-        return 0x87e1b0010040ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
+        return 0xc200b0010040ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("DSSX_MCT_NEXT_KEY_63_0X", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -26017,7 +26017,7 @@ static inline uint64_t CAVM_DSSX_MCT_NEXT_KEY_READYX(uint64_t a, uint64_t b) __a
 static inline uint64_t CAVM_DSSX_MCT_NEXT_KEY_READYX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=5) && (b<=3)))
-        return 0x87e1b0010020ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
+        return 0xc200b0010020ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("DSSX_MCT_NEXT_KEY_READYX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -26057,7 +26057,7 @@ static inline uint64_t CAVM_DSSX_MCT_PREVIOUS_KEY_127_64X(uint64_t a, uint64_t b
 static inline uint64_t CAVM_DSSX_MCT_PREVIOUS_KEY_127_64X(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=5) && (b<=3)))
-        return 0x87e1b0010100ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
+        return 0xc200b0010100ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("DSSX_MCT_PREVIOUS_KEY_127_64X", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -26097,7 +26097,7 @@ static inline uint64_t CAVM_DSSX_MCT_PREVIOUS_KEY_63_0X(uint64_t a, uint64_t b) 
 static inline uint64_t CAVM_DSSX_MCT_PREVIOUS_KEY_63_0X(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=5) && (b<=3)))
-        return 0x87e1b00100e0ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
+        return 0xc200b00100e0ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("DSSX_MCT_PREVIOUS_KEY_63_0X", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -26135,7 +26135,7 @@ static inline uint64_t CAVM_DSSX_MCT_RESET_N(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_DSSX_MCT_RESET_N(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0000010ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0000010ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_MCT_RESET_N", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -26181,7 +26181,7 @@ static inline uint64_t CAVM_DSSX_MCT_SCRUB_POINTER(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_DSSX_MCT_SCRUB_POINTER(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0010120ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0010120ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_MCT_SCRUB_POINTER", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -26256,7 +26256,7 @@ static inline uint64_t CAVM_DSSX_MCT_TMG_PARAM_MC_SIDE(uint64_t a) __attribute__
 static inline uint64_t CAVM_DSSX_MCT_TMG_PARAM_MC_SIDE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b00103b0ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b00103b0ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_MCT_TMG_PARAM_MC_SIDE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -26331,7 +26331,7 @@ static inline uint64_t CAVM_DSSX_MCT_TMG_PARAM_PHY_SIDE(uint64_t a) __attribute_
 static inline uint64_t CAVM_DSSX_MCT_TMG_PARAM_PHY_SIDE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b00103b8ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b00103b8ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_MCT_TMG_PARAM_PHY_SIDE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -26370,7 +26370,7 @@ static inline uint64_t CAVM_DSSX_MCT_WIN_ADDR_HIX(uint64_t a, uint64_t b) __attr
 static inline uint64_t CAVM_DSSX_MCT_WIN_ADDR_HIX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=5) && (b<=15)))
-        return 0x87e1b0010330ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0xf);
+        return 0xc200b0010330ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0xf);
     __cavm_csr_fatal("DSSX_MCT_WIN_ADDR_HIX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -26409,7 +26409,7 @@ static inline uint64_t CAVM_DSSX_MCT_WIN_ADDR_LOX(uint64_t a, uint64_t b) __attr
 static inline uint64_t CAVM_DSSX_MCT_WIN_ADDR_LOX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=5) && (b<=15)))
-        return 0x87e1b00102b0ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0xf);
+        return 0xc200b00102b0ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0xf);
     __cavm_csr_fatal("DSSX_MCT_WIN_ADDR_LOX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -26466,7 +26466,7 @@ static inline uint64_t CAVM_DSSX_MCT_WIN_CTRLX(uint64_t a, uint64_t b) __attribu
 static inline uint64_t CAVM_DSSX_MCT_WIN_CTRLX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=5) && (b<=15)))
-        return 0x87e1b0010230ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0xf);
+        return 0xc200b0010230ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0xf);
     __cavm_csr_fatal("DSSX_MCT_WIN_CTRLX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -26510,7 +26510,7 @@ static inline uint64_t CAVM_DSSX_MPAM_CAP_MON_EVENT(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_DSSX_MPAM_CAP_MON_EVENT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0000110ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0000110ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_MPAM_CAP_MON_EVENT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -26547,7 +26547,7 @@ static inline uint64_t CAVM_DSSX_MSIX_PBAX(uint64_t a, uint64_t b) __attribute__
 static inline uint64_t CAVM_DSSX_MSIX_PBAX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=5) && (b==0)))
-        return 0x87e1b0708000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+        return 0xc200b0708000ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("DSSX_MSIX_PBAX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -26633,7 +26633,7 @@ static inline uint64_t CAVM_DSSX_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attrib
 static inline uint64_t CAVM_DSSX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=5) && (b<=4)))
-        return 0x87e1b0700000ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x7);
+        return 0xc200b0700000ll + 0x100000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x7);
     __cavm_csr_fatal("DSSX_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -26673,7 +26673,7 @@ static inline uint64_t CAVM_DSSX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribu
 static inline uint64_t CAVM_DSSX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=5) && (b<=4)))
-        return 0x87e1b0700008ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x7);
+        return 0xc200b0700008ll + 0x100000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x7);
     __cavm_csr_fatal("DSSX_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -26720,7 +26720,7 @@ static inline uint64_t CAVM_DSSX_NDERR_ADDR(uint64_t a) __attribute__ ((pure, al
 static inline uint64_t CAVM_DSSX_NDERR_ADDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0000090ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0000090ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_NDERR_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -26775,7 +26775,7 @@ static inline uint64_t CAVM_DSSX_NDERR_INFO(uint64_t a) __attribute__ ((pure, al
 static inline uint64_t CAVM_DSSX_NDERR_INFO(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0000088ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0000088ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_NDERR_INFO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -26967,7 +26967,7 @@ static inline uint64_t CAVM_DSSX_PERF_CNT_CFGX(uint64_t a, uint64_t b) __attribu
 static inline uint64_t CAVM_DSSX_PERF_CNT_CFGX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=5) && (b<=7)))
-        return 0x87e1b0020160ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7);
+        return 0xc200b0020160ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("DSSX_PERF_CNT_CFGX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -27007,7 +27007,7 @@ static inline uint64_t CAVM_DSSX_PERF_CNT_CURRENT_TMR_VALX(uint64_t a, uint64_t 
 static inline uint64_t CAVM_DSSX_PERF_CNT_CURRENT_TMR_VALX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=5) && (b<=7)))
-        return 0x87e1b00202c0ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7);
+        return 0xc200b00202c0ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("DSSX_PERF_CNT_CURRENT_TMR_VALX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -27058,7 +27058,7 @@ static inline uint64_t CAVM_DSSX_PERF_CNT_DBG_CNT_SEL(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_DSSX_PERF_CNT_DBG_CNT_SEL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0020268ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0020268ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_PERF_CNT_DBG_CNT_SEL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -27102,7 +27102,7 @@ static inline uint64_t CAVM_DSSX_PERF_CNT_DBG_INIT_VAL(uint64_t a) __attribute__
 static inline uint64_t CAVM_DSSX_PERF_CNT_DBG_INIT_VAL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0020270ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0020270ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_PERF_CNT_DBG_INIT_VAL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -27236,7 +27236,7 @@ static inline uint64_t CAVM_DSSX_PERF_CNT_DMD_RD_HIT_CFGX(uint64_t a, uint64_t b
 static inline uint64_t CAVM_DSSX_PERF_CNT_DMD_RD_HIT_CFGX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=5) && (b<=7)))
-        return 0x87e1b0008350ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7);
+        return 0xc200b0008350ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("DSSX_PERF_CNT_DMD_RD_HIT_CFGX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -27278,7 +27278,7 @@ static inline uint64_t CAVM_DSSX_PERF_CNT_END_OP_CTRLX(uint64_t a, uint64_t b) _
 static inline uint64_t CAVM_DSSX_PERF_CNT_END_OP_CTRLX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=5) && (b<=7)))
-        return 0x87e1b00200e0ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7);
+        return 0xc200b00200e0ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("DSSX_PERF_CNT_END_OP_CTRLX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -27319,7 +27319,7 @@ static inline uint64_t CAVM_DSSX_PERF_CNT_END_STATUSX(uint64_t a, uint64_t b) __
 static inline uint64_t CAVM_DSSX_PERF_CNT_END_STATUSX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=5) && (b<=7)))
-        return 0x87e1b0020120ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7);
+        return 0xc200b0020120ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("DSSX_PERF_CNT_END_STATUSX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -27375,7 +27375,7 @@ static inline uint64_t CAVM_DSSX_PERF_CNT_FREERUN_CLR(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_DSSX_PERF_CNT_FREERUN_CLR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0020248ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0020248ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_PERF_CNT_FREERUN_CLR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -27439,7 +27439,7 @@ static inline uint64_t CAVM_DSSX_PERF_CNT_FREERUN_CTRL(uint64_t a) __attribute__
 static inline uint64_t CAVM_DSSX_PERF_CNT_FREERUN_CTRL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0020240ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0020240ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_PERF_CNT_FREERUN_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -27499,7 +27499,7 @@ static inline uint64_t CAVM_DSSX_PERF_CNT_FREERUN_OVRFLOW(uint64_t a) __attribut
 static inline uint64_t CAVM_DSSX_PERF_CNT_FREERUN_OVRFLOW(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0020260ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0020260ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_PERF_CNT_FREERUN_OVRFLOW", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -27551,7 +27551,7 @@ static inline uint64_t CAVM_DSSX_PERF_CNT_INT_ENA_W1C(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_DSSX_PERF_CNT_INT_ENA_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0028010ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0028010ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_PERF_CNT_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -27603,7 +27603,7 @@ static inline uint64_t CAVM_DSSX_PERF_CNT_INT_ENA_W1S(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_DSSX_PERF_CNT_INT_ENA_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0028018ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0028018ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_PERF_CNT_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -27655,7 +27655,7 @@ static inline uint64_t CAVM_DSSX_PERF_CNT_INT_W1C(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_DSSX_PERF_CNT_INT_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0028000ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0028000ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_PERF_CNT_INT_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -27707,7 +27707,7 @@ static inline uint64_t CAVM_DSSX_PERF_CNT_INT_W1S(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_DSSX_PERF_CNT_INT_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0028008ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0028008ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_PERF_CNT_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -27750,7 +27750,7 @@ static inline uint64_t CAVM_DSSX_PERF_CNT_OP_MODE_CTRLX(uint64_t a, uint64_t b) 
 static inline uint64_t CAVM_DSSX_PERF_CNT_OP_MODE_CTRLX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=5) && (b<=7)))
-        return 0x87e1b0020020ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7);
+        return 0xc200b0020020ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("DSSX_PERF_CNT_OP_MODE_CTRLX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -27794,7 +27794,7 @@ static inline uint64_t CAVM_DSSX_PERF_CNT_OVERFLOWX(uint64_t a, uint64_t b) __at
 static inline uint64_t CAVM_DSSX_PERF_CNT_OVERFLOWX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=5) && (b<=7)))
-        return 0x87e1b0020200ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7);
+        return 0xc200b0020200ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("DSSX_PERF_CNT_OVERFLOWX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -27932,7 +27932,7 @@ static inline uint64_t CAVM_DSSX_PERF_CNT_RD_CMD_CFGX(uint64_t a, uint64_t b) __
 static inline uint64_t CAVM_DSSX_PERF_CNT_RD_CMD_CFGX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=5) && (b<=7)))
-        return 0x87e1b0008390ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7);
+        return 0xc200b0008390ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("DSSX_PERF_CNT_RD_CMD_CFGX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -27972,7 +27972,7 @@ static inline uint64_t CAVM_DSSX_PERF_CNT_SECURITY_CFG(uint64_t a) __attribute__
 static inline uint64_t CAVM_DSSX_PERF_CNT_SECURITY_CFG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0008410ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0008410ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_PERF_CNT_SECURITY_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -28015,7 +28015,7 @@ static inline uint64_t CAVM_DSSX_PERF_CNT_START_OP_CTRLX(uint64_t a, uint64_t b)
 static inline uint64_t CAVM_DSSX_PERF_CNT_START_OP_CTRLX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=5) && (b<=7)))
-        return 0x87e1b00200a0ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7);
+        return 0xc200b00200a0ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("DSSX_PERF_CNT_START_OP_CTRLX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -28056,7 +28056,7 @@ static inline uint64_t CAVM_DSSX_PERF_CNT_TARGET_TMR_VALX(uint64_t a, uint64_t b
 static inline uint64_t CAVM_DSSX_PERF_CNT_TARGET_TMR_VALX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=5) && (b<=7)))
-        return 0x87e1b0020060ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7);
+        return 0xc200b0020060ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("DSSX_PERF_CNT_TARGET_TMR_VALX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -28092,7 +28092,7 @@ static inline uint64_t CAVM_DSSX_PERF_CNT_VALUEX(uint64_t a, uint64_t b) __attri
 static inline uint64_t CAVM_DSSX_PERF_CNT_VALUEX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=5) && (b<=7)))
-        return 0x87e1b00201c0ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7);
+        return 0xc200b00201c0ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("DSSX_PERF_CNT_VALUEX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -28130,7 +28130,7 @@ static inline uint64_t CAVM_DSSX_PERF_CNT_VALUE_RD_OP(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_DSSX_PERF_CNT_VALUE_RD_OP(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0020258ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0020258ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_PERF_CNT_VALUE_RD_OP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -28168,7 +28168,7 @@ static inline uint64_t CAVM_DSSX_PERF_CNT_VALUE_WR_OP(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_DSSX_PERF_CNT_VALUE_WR_OP(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0020250ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0020250ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_PERF_CNT_VALUE_WR_OP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -28328,7 +28328,7 @@ static inline uint64_t CAVM_DSSX_PERF_CNT_WR_CMD_CFGX(uint64_t a, uint64_t b) __
 static inline uint64_t CAVM_DSSX_PERF_CNT_WR_CMD_CFGX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=5) && (b<=7)))
-        return 0x87e1b00083d0ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7);
+        return 0xc200b00083d0ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("DSSX_PERF_CNT_WR_CMD_CFGX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -28366,7 +28366,7 @@ static inline uint64_t CAVM_DSSX_PHY_APB_RESET_N(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_DSSX_PHY_APB_RESET_N(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0000018ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0000018ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_PHY_APB_RESET_N", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -28410,7 +28410,7 @@ static inline uint64_t CAVM_DSSX_PHY_CTRL(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_DSSX_PHY_CTRL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0000040ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0000040ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_PHY_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -28448,7 +28448,7 @@ static inline uint64_t CAVM_DSSX_PHY_REF_RESET_N(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_DSSX_PHY_REF_RESET_N(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0000008ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0000008ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_PHY_REF_RESET_N", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -28501,7 +28501,7 @@ static inline uint64_t CAVM_DSSX_RSL_DDRCTL_PERMIT(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_DSSX_RSL_DDRCTL_PERMIT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0000208ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0000208ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_RSL_DDRCTL_PERMIT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -28553,7 +28553,7 @@ static inline uint64_t CAVM_DSSX_RSL_MCT_PERMIT(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_DSSX_RSL_MCT_PERMIT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0000200ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0000200ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_RSL_MCT_PERMIT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -28591,7 +28591,7 @@ static inline uint64_t CAVM_DSSX_TOP_GLOBAL_CLOCK_ENABLE(uint64_t a) __attribute
 static inline uint64_t CAVM_DSSX_TOP_GLOBAL_CLOCK_ENABLE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b0000108ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b0000108ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_TOP_GLOBAL_CLOCK_ENABLE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -28638,7 +28638,7 @@ static inline uint64_t CAVM_DSSX_TXRSP_FILL_LVL_CNT_CFG(uint64_t a) __attribute_
 static inline uint64_t CAVM_DSSX_TXRSP_FILL_LVL_CNT_CFG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b00084d8ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b00084d8ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_TXRSP_FILL_LVL_CNT_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -28676,7 +28676,7 @@ static inline uint64_t CAVM_DSSX_TXRSP_FILL_LVL_CNT_VAL(uint64_t a) __attribute_
 static inline uint64_t CAVM_DSSX_TXRSP_FILL_LVL_CNT_VAL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b00085c0ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b00085c0ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_TXRSP_FILL_LVL_CNT_VAL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -28720,7 +28720,7 @@ static inline uint64_t CAVM_DSSX_TXRSP_FILLLVL_CNT_OVRFLW(uint64_t a) __attribut
 static inline uint64_t CAVM_DSSX_TXRSP_FILLLVL_CNT_OVRFLW(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0x87e1b00086c0ll + 0x1000000ll * ((a) & 0x7);
+        return 0xc200b00086c0ll + 0x100000000ll * ((a) & 0x7);
     __cavm_csr_fatal("DSSX_TXRSP_FILLLVL_CNT_OVRFLW", 1, a, 0, 0, 0, 0, 0);
 }
 

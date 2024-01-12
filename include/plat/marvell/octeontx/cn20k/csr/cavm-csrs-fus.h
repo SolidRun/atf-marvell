@@ -25,7 +25,7 @@
  * Fuse Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define CAVM_FUS_BAR_E_FUS_PF_BAR0 (0x87e003000000ll)
+#define CAVM_FUS_BAR_E_FUS_PF_BAR0 (0xc00303000000ll)
 #define CAVM_FUS_BAR_E_FUS_PF_BAR0_SIZE 0x10000ull
 
 /**
@@ -56,7 +56,7 @@ static inline uint64_t CAVM_FUS_BNK_DATX(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_FUS_BNK_DATX(uint64_t a)
 {
     if (a<=1)
-        return 0x87e003001520ll + 8ll * ((a) & 0x1);
+        return 0xc00303001520ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("FUS_BNK_DATX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -97,7 +97,7 @@ static inline uint64_t CAVM_FUS_CACHEX(uint64_t a) __attribute__ ((pure, always_
 static inline uint64_t CAVM_FUS_CACHEX(uint64_t a)
 {
     if (a<=63)
-        return 0x87e003001000ll + 8ll * ((a) & 0x3f);
+        return 0xc00303001000ll + 8ll * ((a) & 0x3f);
     __cavm_csr_fatal("FUS_CACHEX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -138,7 +138,7 @@ typedef union cavm_fus_const cavm_fus_const_t;
 static inline uint64_t CAVM_FUS_CONST_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_FUS_CONST_FUNC(void)
 {
-    return 0x87e003001578ll;
+    return 0xc00303001578ll;
 }
 
 #define typedef_CAVM_FUS_CONST cavm_fus_const_t
@@ -222,7 +222,7 @@ typedef union cavm_fus_prog cavm_fus_prog_t;
 static inline uint64_t CAVM_FUS_PROG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_FUS_PROG_FUNC(void)
 {
-    return 0x87e003001510ll;
+    return 0xc00303001510ll;
 }
 
 #define typedef_CAVM_FUS_PROG cavm_fus_prog_t
@@ -293,7 +293,7 @@ typedef union cavm_fus_rcmd cavm_fus_rcmd_t;
 static inline uint64_t CAVM_FUS_RCMD_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_FUS_RCMD_FUNC(void)
 {
-    return 0x87e003001500ll;
+    return 0xc00303001500ll;
 }
 
 #define typedef_CAVM_FUS_RCMD cavm_fus_rcmd_t
@@ -376,7 +376,7 @@ typedef union cavm_fus_read_times cavm_fus_read_times_t;
 static inline uint64_t CAVM_FUS_READ_TIMES_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_FUS_READ_TIMES_FUNC(void)
 {
-    return 0x87e003001570ll;
+    return 0xc00303001570ll;
 }
 
 #define typedef_CAVM_FUS_READ_TIMES cavm_fus_read_times_t

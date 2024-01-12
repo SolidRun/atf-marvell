@@ -25,9 +25,9 @@
  * EMMC Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define CAVM_EMMC_BAR_E_EMMCX_PF_BAR0(a) (0x824000000000ll + 0x1000000ll * (a))
+#define CAVM_EMMC_BAR_E_EMMCX_PF_BAR0(a) (0xcf6000000000ll + 0x1000000ll * (a))
 #define CAVM_EMMC_BAR_E_EMMCX_PF_BAR0_SIZE 0x10000ull
-#define CAVM_EMMC_BAR_E_EMMCX_PF_BAR4(a) (0x824009f00000ll + 0x1000000ll * (a))
+#define CAVM_EMMC_BAR_E_EMMCX_PF_BAR4(a) (0xcf6009f00000ll + 0x1000000ll * (a))
 #define CAVM_EMMC_BAR_E_EMMCX_PF_BAR4_SIZE 0x100000ull
 
 /**
@@ -84,7 +84,7 @@ static inline uint64_t CAVM_EMMCX_CLK_CTRL(uint64_t a) __attribute__ ((pure, alw
 static inline uint64_t CAVM_EMMCX_CLK_CTRL(uint64_t a)
 {
     if (a==0)
-        return 0x824000000738ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000738ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_CLK_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -119,7 +119,7 @@ static inline uint64_t CAVM_EMMCX_CONST(uint64_t a) __attribute__ ((pure, always
 static inline uint64_t CAVM_EMMCX_CONST(uint64_t a)
 {
     if (a==0)
-        return 0x824000000708ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000708ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_CONST", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -160,7 +160,7 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS00(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS00(uint64_t a)
 {
     if (a==0)
-        return 0x824000000400ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000400ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS00", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -217,7 +217,7 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS01(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS01(uint64_t a)
 {
     if (a==0)
-        return 0x824000000404ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000404ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS01", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -270,7 +270,7 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS02(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS02(uint64_t a)
 {
     if (a==0)
-        return 0x824000000408ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000408ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS02", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -325,7 +325,7 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS03(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS03(uint64_t a)
 {
     if (a==0)
-        return 0x82400000040cll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf600000040cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS03", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -383,7 +383,7 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS04(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS04(uint64_t a)
 {
     if (a==0)
-        return 0x824000000410ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000410ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS04", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -429,7 +429,7 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS05(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS05(uint64_t a)
 {
     if (a==0)
-        return 0x824000000414ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000414ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS05", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -478,7 +478,7 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS06(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS06(uint64_t a)
 {
     if (a==0)
-        return 0x824000000418ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000418ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS06", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -553,7 +553,7 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS07(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS07(uint64_t a)
 {
     if (a==0)
-        return 0x82400000041cll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf600000041cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS07", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -592,7 +592,7 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS08(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS08(uint64_t a)
 {
     if (a==0)
-        return 0x824000000420ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000420ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS08", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -633,7 +633,7 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS09(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS09(uint64_t a)
 {
     if (a==0)
-        return 0x824000000424ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000424ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS09", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -749,7 +749,7 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS10(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS10(uint64_t a)
 {
     if (a==0)
-        return 0x824000000428ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000428ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -848,7 +848,7 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS11(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS11(uint64_t a)
 {
     if (a==0)
-        return 0x82400000042cll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf600000042cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS11", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -887,7 +887,7 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS12(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS12(uint64_t a)
 {
     if (a==0)
-        return 0x824000000430ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000430ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS12", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -987,7 +987,7 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS13(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS13(uint64_t a)
 {
     if (a==0)
-        return 0x824000000434ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000434ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS13", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1092,7 +1092,7 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS14(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS14(uint64_t a)
 {
     if (a==0)
-        return 0x824000000438ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000438ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS14", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1145,7 +1145,7 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS16(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS16(uint64_t a)
 {
     if (a==0)
-        return 0x824000000440ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000440ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS16", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1184,7 +1184,7 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS17(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS17(uint64_t a)
 {
     if (a==0)
-        return 0x824000000444ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000444ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS17", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1219,7 +1219,7 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS18(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS18(uint64_t a)
 {
     if (a==0)
-        return 0x824000000448ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000448ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS18", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1264,7 +1264,7 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS20(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS20(uint64_t a)
 {
     if (a==0)
-        return 0x824000000450ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000450ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS20", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1331,7 +1331,7 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS21(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS21(uint64_t a)
 {
     if (a==0)
-        return 0x824000000454ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000454ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS21", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1368,7 +1368,7 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS22(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS22(uint64_t a)
 {
     if (a==0)
-        return 0x824000000458ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000458ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS22", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1405,7 +1405,7 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS23(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS23(uint64_t a)
 {
     if (a==0)
-        return 0x82400000045cll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf600000045cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CQRS_CQRS23", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1460,7 +1460,7 @@ static inline uint64_t CAVM_EMMCX_HOST_CRS_CRS63(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_CRS_CRS63(uint64_t a)
 {
     if (a==0)
-        return 0x8240000002fcll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf60000002fcll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_CRS_CRS63", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1509,7 +1509,7 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS00(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS00(uint64_t a)
 {
     if (a==0)
-        return 0x824000000000ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000000ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS00", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1556,7 +1556,7 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS01(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS01(uint64_t a)
 {
     if (a==0)
-        return 0x824000000004ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000004ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS01", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1615,7 +1615,7 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS02(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS02(uint64_t a)
 {
     if (a==0)
-        return 0x824000000008ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000008ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS02", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1726,7 +1726,7 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS03(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS03(uint64_t a)
 {
     if (a==0)
-        return 0x82400000000cll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf600000000cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS03", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1765,7 +1765,7 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS04(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS04(uint64_t a)
 {
     if (a==0)
-        return 0x824000000010ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000010ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS04", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1812,7 +1812,7 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS05(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS05(uint64_t a)
 {
     if (a==0)
-        return 0x824000000014ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000014ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS05", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1865,7 +1865,7 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS06(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS06(uint64_t a)
 {
     if (a==0)
-        return 0x824000000018ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000018ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS06", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1924,7 +1924,7 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS07(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS07(uint64_t a)
 {
     if (a==0)
-        return 0x82400000001cll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf600000001cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS07", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1963,7 +1963,7 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS08(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS08(uint64_t a)
 {
     if (a==0)
-        return 0x824000000020ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000020ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS08", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2032,7 +2032,7 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS09(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS09(uint64_t a)
 {
     if (a==0)
-        return 0x824000000024ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000024ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS09", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2079,7 +2079,7 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS10(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS10(uint64_t a)
 {
     if (a==0)
-        return 0x824000000028ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000028ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2116,7 +2116,7 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS11(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS11(uint64_t a)
 {
     if (a==0)
-        return 0x82400000002cll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf600000002cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS11", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2159,7 +2159,7 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS12(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS12(uint64_t a)
 {
     if (a==0)
-        return 0x824000000030ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000030ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS12", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2218,7 +2218,7 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS13(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS13(uint64_t a)
 {
     if (a==0)
-        return 0x824000000034ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000034ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS13", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2277,7 +2277,7 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS14(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS14(uint64_t a)
 {
     if (a==0)
-        return 0x824000000038ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000038ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS14", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2338,7 +2338,7 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS16(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS16(uint64_t a)
 {
     if (a==0)
-        return 0x824000000040ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000040ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS16", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2373,7 +2373,7 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS29(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS29(uint64_t a)
 {
     if (a==0)
-        return 0x824000000074ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000074ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS29", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2424,7 +2424,7 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS30(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS30(uint64_t a)
 {
     if (a==0)
-        return 0x824000000078ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000078ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS30", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2466,7 +2466,7 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS31(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS31(uint64_t a)
 {
     if (a==0)
-        return 0x82400000007cll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf600000007cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS31", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2513,7 +2513,7 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS32(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS32(uint64_t a)
 {
     if (a==0)
-        return 0x824000000080ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000080ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS32", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2554,7 +2554,7 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS33(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS33(uint64_t a)
 {
     if (a==0)
-        return 0x824000000084ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000084ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS33", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2593,7 +2593,7 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS34(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS34(uint64_t a)
 {
     if (a==0)
-        return 0x824000000088ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000088ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS34", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2644,7 +2644,7 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS36(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS36(uint64_t a)
 {
     if (a==0)
-        return 0x824000000090ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000090ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS36", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2681,7 +2681,7 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS40(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS40(uint64_t a)
 {
     if (a==0)
-        return 0x8240000000a0ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf60000000a0ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS40", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2718,7 +2718,7 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS41(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS41(uint64_t a)
 {
     if (a==0)
-        return 0x8240000000a4ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf60000000a4ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS41", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2777,7 +2777,7 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS42(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS42(uint64_t a)
 {
     if (a==0)
-        return 0x8240000000a8ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf60000000a8ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS42", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2830,7 +2830,7 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS43(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS43(uint64_t a)
 {
     if (a==0)
-        return 0x8240000000acll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf60000000acll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_HRS_HRS43", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2901,7 +2901,7 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS00(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS00(uint64_t a)
 {
     if (a==0)
-        return 0x824000000200ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000200ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS00", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3016,7 +3016,7 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS01(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS01(uint64_t a)
 {
     if (a==0)
-        return 0x824000000204ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000204ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS01", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3053,7 +3053,7 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS02(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS02(uint64_t a)
 {
     if (a==0)
-        return 0x824000000208ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000208ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS02", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3358,7 +3358,7 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS03(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS03(uint64_t a)
 {
     if (a==0)
-        return 0x82400000020cll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf600000020cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS03", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3411,7 +3411,7 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS04(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS04(uint64_t a)
 {
     if (a==0)
-        return 0x824000000210ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000210ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS04", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3446,7 +3446,7 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS05(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS05(uint64_t a)
 {
     if (a==0)
-        return 0x824000000214ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000214ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS05", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3482,7 +3482,7 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS06(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS06(uint64_t a)
 {
     if (a==0)
-        return 0x824000000218ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000218ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS06", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3518,7 +3518,7 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS07(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS07(uint64_t a)
 {
     if (a==0)
-        return 0x82400000021cll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf600000021cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS07", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3593,7 +3593,7 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS08(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS08(uint64_t a)
 {
     if (a==0)
-        return 0x824000000220ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000220ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS08", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3850,7 +3850,7 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS09(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS09(uint64_t a)
 {
     if (a==0)
-        return 0x824000000224ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000224ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS09", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4043,7 +4043,7 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS10(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS10(uint64_t a)
 {
     if (a==0)
-        return 0x824000000228ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000228ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4228,7 +4228,7 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS11(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS11(uint64_t a)
 {
     if (a==0)
-        return 0x82400000022cll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf600000022cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS11", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4439,7 +4439,7 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS12(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS12(uint64_t a)
 {
     if (a==0)
-        return 0x824000000230ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000230ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS12", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4612,7 +4612,7 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS13(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS13(uint64_t a)
 {
     if (a==0)
-        return 0x824000000234ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000234ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS13", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4785,7 +4785,7 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS14(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS14(uint64_t a)
 {
     if (a==0)
-        return 0x824000000238ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000238ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS14", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4982,7 +4982,7 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS15(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS15(uint64_t a)
 {
     if (a==0)
-        return 0x82400000023cll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf600000023cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS15", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5147,7 +5147,7 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS16(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS16(uint64_t a)
 {
     if (a==0)
-        return 0x824000000240ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000240ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS16", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5296,7 +5296,7 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS17(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS17(uint64_t a)
 {
     if (a==0)
-        return 0x824000000244ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000244ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS17", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5373,7 +5373,7 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS18(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS18(uint64_t a)
 {
     if (a==0)
-        return 0x824000000248ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000248ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS18", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5422,7 +5422,7 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS19(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS19(uint64_t a)
 {
     if (a==0)
-        return 0x82400000024cll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf600000024cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS19", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5500,7 +5500,7 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS20(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS20(uint64_t a)
 {
     if (a==0)
-        return 0x824000000250ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000250ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS20", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5557,7 +5557,7 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS21(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS21(uint64_t a)
 {
     if (a==0)
-        return 0x824000000254ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000254ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS21", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5624,7 +5624,7 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS22(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS22(uint64_t a)
 {
     if (a==0)
-        return 0x824000000258ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000258ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS22", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5667,7 +5667,7 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS23(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS23(uint64_t a)
 {
     if (a==0)
-        return 0x82400000025cll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf600000025cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS23", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5715,7 +5715,7 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS24(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS24(uint64_t a)
 {
     if (a==0)
-        return 0x824000000260ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000260ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS24", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5773,7 +5773,7 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS25(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS25(uint64_t a)
 {
     if (a==0)
-        return 0x824000000264ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000264ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS25", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5834,7 +5834,7 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS26(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS26(uint64_t a)
 {
     if (a==0)
-        return 0x824000000268ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000268ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS26", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5892,7 +5892,7 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS27(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS27(uint64_t a)
 {
     if (a==0)
-        return 0x82400000026cll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf600000026cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS27", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5941,7 +5941,7 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS30(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS30(uint64_t a)
 {
     if (a==0)
-        return 0x824000000278ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000278ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS30", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5982,7 +5982,7 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS31(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS31(uint64_t a)
 {
     if (a==0)
-        return 0x82400000027cll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf600000027cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_HOST_SRS_SRS31", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6020,7 +6020,7 @@ static inline uint64_t CAVM_EMMCX_MSIX_PBAX(uint64_t a, uint64_t b) __attribute_
 static inline uint64_t CAVM_EMMCX_MSIX_PBAX(uint64_t a, uint64_t b)
 {
     if ((a==0) && (b==0))
-        return 0x824009ff0000ll + 0x1000000ll * ((a) & 0x0) + 8ll * ((b) & 0x0);
+        return 0xcf6009ff0000ll + 0x1000000ll * ((a) & 0x0) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("EMMCX_MSIX_PBAX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -6076,7 +6076,7 @@ static inline uint64_t CAVM_EMMCX_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attri
 static inline uint64_t CAVM_EMMCX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
     if ((a==0) && (b<=1))
-        return 0x824009f00000ll + 0x1000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
+        return 0xcf6009f00000ll + 0x1000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     __cavm_csr_fatal("EMMCX_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -6116,7 +6116,7 @@ static inline uint64_t CAVM_EMMCX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attrib
 static inline uint64_t CAVM_EMMCX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
     if ((a==0) && (b<=1))
-        return 0x824009f00008ll + 0x1000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
+        return 0xcf6009f00008ll + 0x1000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     __cavm_csr_fatal("EMMCX_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -6188,7 +6188,7 @@ static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_CTRL(uint64_t a) __attribute
 static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_CTRL(uint64_t a)
 {
     if (a==0)
-        return 0x824000002080ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000002080ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_CTB_RFILE_PHY_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6266,7 +6266,7 @@ static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_CTRL_0(uint64_t a) __at
 static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_CTRL_0(uint64_t a)
 {
     if (a==0)
-        return 0x824000002088ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000002088ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_CTB_RFILE_PHY_GPIO_CTRL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6306,7 +6306,7 @@ static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1(uint64_t a) __at
 static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1(uint64_t a)
 {
     if (a==0)
-        return 0x82400000208cll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf600000208cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6345,7 +6345,7 @@ static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_STATUS_0(uint64_t a) __
 static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_STATUS_0(uint64_t a)
 {
     if (a==0)
-        return 0x824000002090ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000002090ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_CTB_RFILE_PHY_GPIO_STATUS_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6384,7 +6384,7 @@ static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_STATUS_1(uint64_t a) __
 static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_STATUS_1(uint64_t a)
 {
     if (a==0)
-        return 0x824000002094ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000002094ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_CTB_RFILE_PHY_GPIO_STATUS_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6431,7 +6431,7 @@ static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_TSEL(uint64_t a) __attribute
 static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_TSEL(uint64_t a)
 {
     if (a==0)
-        return 0x824000002084ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000002084ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_CTB_RFILE_PHY_TSEL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6533,7 +6533,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_MASTER_CTRL(uint64
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_MASTER_CTRL(uint64_t a)
 {
     if (a==0)
-        return 0x82400000200cll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf600000200cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_MASTER_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6631,7 +6631,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_0(uint64_t
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_0(uint64_t a)
 {
     if (a==0)
-        return 0x82400000201cll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf600000201cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6673,7 +6673,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_1(uint64_t
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_1(uint64_t a)
 {
     if (a==0)
-        return 0x824000002020ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000002020ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6711,7 +6711,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_2(uint64_t
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_2(uint64_t a)
 {
     if (a==0)
-        return 0x824000002024ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000002024ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6765,7 +6765,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_SLAVE_CTRL(uint64_
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_SLAVE_CTRL(uint64_t a)
 {
     if (a==0)
-        return 0x824000002010ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000002010ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_SLAVE_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6847,7 +6847,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DQ_TIMING(uint64_t a) 
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DQ_TIMING(uint64_t a)
 {
     if (a==0)
-        return 0x824000002000ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000002000ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_DQ_TIMING", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6949,7 +6949,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DQS_TIMING(uint64_t a)
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DQS_TIMING(uint64_t a)
 {
     if (a==0)
-        return 0x824000002004ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000002004ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_DQS_TIMING", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7027,7 +7027,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_FEATURES(uint64_t a) _
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_FEATURES(uint64_t a)
 {
     if (a==0)
-        return 0x824000002074ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000002074ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_FEATURES", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7207,7 +7207,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_GATE_LPBK_CTRL(uint64_
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_GATE_LPBK_CTRL(uint64_t a)
 {
     if (a==0)
-        return 0x824000002008ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000002008ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_GATE_LPBK_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7269,7 +7269,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_IE_TIMING(uint64_t a) 
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_IE_TIMING(uint64_t a)
 {
     if (a==0)
-        return 0x824000002014ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000002014ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_IE_TIMING", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7357,7 +7357,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_OBS_REG_0(uint64_t a) 
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_OBS_REG_0(uint64_t a)
 {
     if (a==0)
-        return 0x824000002018ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000002018ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_OBS_REG_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7407,7 +7407,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_RD_DESKEW(uint64_t a) 
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_RD_DESKEW(uint64_t a)
 {
     if (a==0)
-        return 0x82400000203cll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf600000203cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_RD_DESKEW", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7469,7 +7469,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_STATIC_TOGG(uint64_t a
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_STATIC_TOGG(uint64_t a)
 {
     if (a==0)
-        return 0x824000002028ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000002028ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_STATIC_TOGG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7509,7 +7509,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_VERSION(uint64_t a) __
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_VERSION(uint64_t a)
 {
     if (a==0)
-        return 0x824000002070ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000002070ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_VERSION", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7559,7 +7559,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW(uint64_t a) 
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW(uint64_t a)
 {
     if (a==0)
-        return 0x82400000202cll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf600000202cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7817,7 +7817,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_0(ui
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_0(uint64_t a)
 {
     if (a==0)
-        return 0x824000002034ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000002034ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8075,7 +8075,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_1(ui
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_1(uint64_t a)
 {
     if (a==0)
-        return 0x824000002038ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000002038ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8179,7 +8179,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_RD_DESKEW_CMD(uint6
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_RD_DESKEW_CMD(uint64_t a)
 {
     if (a==0)
-        return 0x824000002030ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000002030ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_WR_RD_DESKEW_CMD", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8217,7 +8217,7 @@ static inline uint64_t CAVM_EMMCX_SOFT_RESET(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_EMMCX_SOFT_RESET(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a==0))
-        return 0x8240000020a0ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf60000020a0ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_SOFT_RESET", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8254,7 +8254,7 @@ static inline uint64_t CAVM_EMMCX_SRS_CTL0(uint64_t a) __attribute__ ((pure, alw
 static inline uint64_t CAVM_EMMCX_SRS_CTL0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a==0))
-        return 0x824000000800ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000800ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_SRS_CTL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8291,7 +8291,7 @@ static inline uint64_t CAVM_EMMCX_SRS_CTL1(uint64_t a) __attribute__ ((pure, alw
 static inline uint64_t CAVM_EMMCX_SRS_CTL1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a==0))
-        return 0x824000000808ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000808ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_SRS_CTL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8328,7 +8328,7 @@ static inline uint64_t CAVM_EMMCX_SRS_CTL2(uint64_t a) __attribute__ ((pure, alw
 static inline uint64_t CAVM_EMMCX_SRS_CTL2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a==0))
-        return 0x824000000810ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000810ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_SRS_CTL2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8365,7 +8365,7 @@ static inline uint64_t CAVM_EMMCX_SRS_CTL3(uint64_t a) __attribute__ ((pure, alw
 static inline uint64_t CAVM_EMMCX_SRS_CTL3(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a==0))
-        return 0x824000000818ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000000818ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_SRS_CTL3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8401,7 +8401,7 @@ static inline uint64_t CAVM_EMMCX_TIE_OFF_0(uint64_t a) __attribute__ ((pure, al
 static inline uint64_t CAVM_EMMCX_TIE_OFF_0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a==0))
-        return 0x824000002098ll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf6000002098ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_TIE_OFF_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8437,7 +8437,7 @@ static inline uint64_t CAVM_EMMCX_TIE_OFF_1(uint64_t a) __attribute__ ((pure, al
 static inline uint64_t CAVM_EMMCX_TIE_OFF_1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a==0))
-        return 0x82400000209cll + 0x1000000ll * ((a) & 0x0);
+        return 0xcf600000209cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_TIE_OFF_1", 1, a, 0, 0, 0, 0, 0);
 }
 

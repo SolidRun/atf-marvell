@@ -25,7 +25,7 @@
  * PWMI Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define CAVM_MIO_PWM_BAR_E_MIO_PWMX_PF_BAR0(a) (0x87e118000000ll + 0x1000000ll * (a))
+#define CAVM_MIO_PWM_BAR_E_MIO_PWMX_PF_BAR0(a) (0xc05018000000ll + 0x100000000ll * (a))
 #define CAVM_MIO_PWM_BAR_E_MIO_PWMX_PF_BAR0_SIZE 0x10000ull
 
 /**
@@ -65,7 +65,7 @@ static inline uint64_t CAVM_MIO_PWMX_CFG_PARAM(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_MIO_PWMX_CFG_PARAM(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
-        return 0x87e118000000ll + 0x1000000ll * ((a) & 0x3);
+        return 0xc05018000000ll + 0x100000000ll * ((a) & 0x3);
     __cavm_csr_fatal("MIO_PWMX_CFG_PARAM", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -111,7 +111,7 @@ static inline uint64_t CAVM_MIO_PWMX_CTL(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_MIO_PWMX_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
-        return 0x87e118000004ll + 0x1000000ll * ((a) & 0x3);
+        return 0xc05018000004ll + 0x100000000ll * ((a) & 0x3);
     __cavm_csr_fatal("MIO_PWMX_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -155,7 +155,7 @@ static inline uint64_t CAVM_MIO_PWMX_FRC(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_MIO_PWMX_FRC(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
-        return 0x87e118000008ll + 0x1000000ll * ((a) & 0x3);
+        return 0xc05018000008ll + 0x100000000ll * ((a) & 0x3);
     __cavm_csr_fatal("MIO_PWMX_FRC", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -197,7 +197,7 @@ static inline uint64_t CAVM_MIO_PWMX_SENSE_COUNTER(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_MIO_PWMX_SENSE_COUNTER(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
-        return 0x87e11800000cll + 0x1000000ll * ((a) & 0x3);
+        return 0xc0501800000cll + 0x100000000ll * ((a) & 0x3);
     __cavm_csr_fatal("MIO_PWMX_SENSE_COUNTER", 1, a, 0, 0, 0, 0, 0);
 }
 

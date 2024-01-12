@@ -73,7 +73,7 @@
  * IOBPC Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define CAVM_IOBPC_BAR_E_IOBPCX_PF_BAR0(a) (0x87e128000000ll + 0x1000000ll * (a))
+#define CAVM_IOBPC_BAR_E_IOBPCX_PF_BAR0(a) (0xc12028000000ll + 0x100000000ll * (a))
 #define CAVM_IOBPC_BAR_E_IOBPCX_PF_BAR0_SIZE 0x100000ull
 
 /**
@@ -669,7 +669,7 @@ static inline uint64_t CAVM_IOBNX_RPERF_CNTRX(uint64_t a, uint64_t b) __attribut
 static inline uint64_t CAVM_IOBNX_RPERF_CNTRX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=7) && (b<=3)))
-        return 0x87e1280b0080ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
+        return 0xc120280b0080ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("IOBNX_RPERF_CNTRX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -749,7 +749,7 @@ static inline uint64_t CAVM_IOBNX_RPERF_CTRLX(uint64_t a, uint64_t b) __attribut
 static inline uint64_t CAVM_IOBNX_RPERF_CTRLX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=7) && (b<=3)))
-        return 0x87e1280b0000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
+        return 0xc120280b0000ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("IOBNX_RPERF_CTRLX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -789,7 +789,7 @@ static inline uint64_t CAVM_IOBNX_RPERF_INRFX(uint64_t a, uint64_t b) __attribut
 static inline uint64_t CAVM_IOBNX_RPERF_INRFX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=7) && (b==0)))
-        return 0x87e1280b0180ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+        return 0xc120280b0180ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("IOBNX_RPERF_INRFX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -847,7 +847,7 @@ static inline uint64_t CAVM_IOBNX_RPERF_INRMX(uint64_t a, uint64_t b) __attribut
 static inline uint64_t CAVM_IOBNX_RPERF_INRMX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=7) && (b==0)))
-        return 0x87e1280b0100ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+        return 0xc120280b0100ll + 0x100000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("IOBNX_RPERF_INRMX", 2, a, b, 0, 0, 0, 0);
 }
 

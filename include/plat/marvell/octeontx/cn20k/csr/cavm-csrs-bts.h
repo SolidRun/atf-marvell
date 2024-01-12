@@ -25,9 +25,9 @@
  * BTS Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define CAVM_BTS_BAR_E_BTS_PF_BAR0 (0x87e012000000ll)
+#define CAVM_BTS_BAR_E_BTS_PF_BAR0 (0xc01112000000ll)
 #define CAVM_BTS_BAR_E_BTS_PF_BAR0_SIZE 0x10000ull
-#define CAVM_BTS_BAR_E_BTS_PF_BAR4 (0x87e012f00000ll)
+#define CAVM_BTS_BAR_E_BTS_PF_BAR4 (0xc01112f00000ll)
 #define CAVM_BTS_BAR_E_BTS_PF_BAR4_SIZE 0x100000ull
 
 /**
@@ -139,7 +139,7 @@ typedef union cavm_bts_cg_1pps_cfg cavm_bts_cg_1pps_cfg_t;
 static inline uint64_t CAVM_BTS_CG_1PPS_CFG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTS_CG_1PPS_CFG_FUNC(void)
 {
-    return 0x87e012000260ll;
+    return 0xc01112000260ll;
 }
 
 #define typedef_CAVM_BTS_CG_1PPS_CFG cavm_bts_cg_1pps_cfg_t
@@ -187,7 +187,7 @@ typedef union cavm_bts_cg_cfg cavm_bts_cg_cfg_t;
 static inline uint64_t CAVM_BTS_CG_CFG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTS_CG_CFG_FUNC(void)
 {
-    return 0x87e012000408ll;
+    return 0xc01112000408ll;
 }
 
 #define typedef_CAVM_BTS_CG_CFG cavm_bts_cg_cfg_t
@@ -252,7 +252,7 @@ typedef union cavm_bts_cg_ctl cavm_bts_cg_ctl_t;
 static inline uint64_t CAVM_BTS_CG_CTL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTS_CG_CTL_FUNC(void)
 {
-    return 0x87e012000400ll;
+    return 0xc01112000400ll;
 }
 
 #define typedef_CAVM_BTS_CG_CTL cavm_bts_cg_ctl_t
@@ -289,7 +289,7 @@ typedef union cavm_bts_csclk_active_pc cavm_bts_csclk_active_pc_t;
 static inline uint64_t CAVM_BTS_CSCLK_ACTIVE_PC_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTS_CSCLK_ACTIVE_PC_FUNC(void)
 {
-    return 0x87e012000020ll;
+    return 0xc01112000020ll;
 }
 
 #define typedef_CAVM_BTS_CSCLK_ACTIVE_PC cavm_bts_csclk_active_pc_t
@@ -331,7 +331,7 @@ typedef union cavm_bts_dac_clk_ctl cavm_bts_dac_clk_ctl_t;
 static inline uint64_t CAVM_BTS_DAC_CLK_CTL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTS_DAC_CLK_CTL_FUNC(void)
 {
-    return 0x87e012000880ll;
+    return 0xc01112000880ll;
 }
 
 #define typedef_CAVM_BTS_DAC_CLK_CTL cavm_bts_dac_clk_ctl_t
@@ -382,7 +382,7 @@ static inline uint64_t CAVM_BTS_EXT_REFX_DIV_CFG0(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_BTS_EXT_REFX_DIV_CFG0(uint64_t a)
 {
     if (a<=2)
-        return 0x87e012000700ll + 0x10ll * ((a) & 0x3);
+        return 0xc01112000700ll + 0x10ll * ((a) & 0x3);
     __cavm_csr_fatal("BTS_EXT_REFX_DIV_CFG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -454,7 +454,7 @@ static inline uint64_t CAVM_BTS_EXT_REFX_DIV_CFG1(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_BTS_EXT_REFX_DIV_CFG1(uint64_t a)
 {
     if (a<=2)
-        return 0x87e012000708ll + 0x10ll * ((a) & 0x3);
+        return 0xc01112000708ll + 0x10ll * ((a) & 0x3);
     __cavm_csr_fatal("BTS_EXT_REFX_DIV_CFG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -509,7 +509,7 @@ typedef union cavm_bts_global_ctl cavm_bts_global_ctl_t;
 static inline uint64_t CAVM_BTS_GLOBAL_CTL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTS_GLOBAL_CTL_FUNC(void)
 {
-    return 0x87e012000010ll;
+    return 0xc01112000010ll;
 }
 
 #define typedef_CAVM_BTS_GLOBAL_CTL cavm_bts_global_ctl_t
@@ -545,7 +545,7 @@ typedef union cavm_bts_global_status cavm_bts_global_status_t;
 static inline uint64_t CAVM_BTS_GLOBAL_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTS_GLOBAL_STATUS_FUNC(void)
 {
-    return 0x87e012000018ll;
+    return 0xc01112000018ll;
 }
 
 #define typedef_CAVM_BTS_GLOBAL_STATUS cavm_bts_global_status_t
@@ -582,7 +582,7 @@ typedef union cavm_bts_int_sum_ena_w1c cavm_bts_int_sum_ena_w1c_t;
 static inline uint64_t CAVM_BTS_INT_SUM_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTS_INT_SUM_ENA_W1C_FUNC(void)
 {
-    return 0x87e012001148ll;
+    return 0xc01112001148ll;
 }
 
 #define typedef_CAVM_BTS_INT_SUM_ENA_W1C cavm_bts_int_sum_ena_w1c_t
@@ -619,7 +619,7 @@ typedef union cavm_bts_int_sum_ena_w1s cavm_bts_int_sum_ena_w1s_t;
 static inline uint64_t CAVM_BTS_INT_SUM_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTS_INT_SUM_ENA_W1S_FUNC(void)
 {
-    return 0x87e012001150ll;
+    return 0xc01112001150ll;
 }
 
 #define typedef_CAVM_BTS_INT_SUM_ENA_W1S cavm_bts_int_sum_ena_w1s_t
@@ -656,7 +656,7 @@ typedef union cavm_bts_int_sum_w1c cavm_bts_int_sum_w1c_t;
 static inline uint64_t CAVM_BTS_INT_SUM_W1C_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTS_INT_SUM_W1C_FUNC(void)
 {
-    return 0x87e012001138ll;
+    return 0xc01112001138ll;
 }
 
 #define typedef_CAVM_BTS_INT_SUM_W1C cavm_bts_int_sum_w1c_t
@@ -693,7 +693,7 @@ typedef union cavm_bts_int_sum_w1s cavm_bts_int_sum_w1s_t;
 static inline uint64_t CAVM_BTS_INT_SUM_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTS_INT_SUM_W1S_FUNC(void)
 {
-    return 0x87e012001140ll;
+    return 0xc01112001140ll;
 }
 
 #define typedef_CAVM_BTS_INT_SUM_W1S cavm_bts_int_sum_w1s_t
@@ -945,7 +945,7 @@ static inline uint64_t CAVM_BTS_MAN_PLL_FUNC(void) __attribute__ ((pure, always_
 static inline uint64_t CAVM_BTS_MAN_PLL_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CNF20KA))
-        return 0x87e012000030ll;
+        return 0xc01112000030ll;
     __cavm_csr_fatal("BTS_MAN_PLL", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -983,7 +983,7 @@ static inline uint64_t CAVM_BTS_MSIX_PBAX(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_BTS_MSIX_PBAX(uint64_t a)
 {
     if (a==0)
-        return 0x87e012ff0000ll + 8ll * ((a) & 0x0);
+        return 0xc01112ff0000ll + 8ll * ((a) & 0x0);
     __cavm_csr_fatal("BTS_MSIX_PBAX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1067,7 +1067,7 @@ static inline uint64_t CAVM_BTS_MSIX_VECX_ADDR(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_BTS_MSIX_VECX_ADDR(uint64_t a)
 {
     if (a==0)
-        return 0x87e012f00000ll + 0x10ll * ((a) & 0x0);
+        return 0xc01112f00000ll + 0x10ll * ((a) & 0x0);
     __cavm_csr_fatal("BTS_MSIX_VECX_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1107,7 +1107,7 @@ static inline uint64_t CAVM_BTS_MSIX_VECX_CTL(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_BTS_MSIX_VECX_CTL(uint64_t a)
 {
     if (a==0)
-        return 0x87e012f00008ll + 0x10ll * ((a) & 0x0);
+        return 0xc01112f00008ll + 0x10ll * ((a) & 0x0);
     __cavm_csr_fatal("BTS_MSIX_VECX_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1180,7 +1180,7 @@ typedef union cavm_bts_pd1pps_div_cfg0 cavm_bts_pd1pps_div_cfg0_t;
 static inline uint64_t CAVM_BTS_PD1PPS_DIV_CFG0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTS_PD1PPS_DIV_CFG0_FUNC(void)
 {
-    return 0x87e012000240ll;
+    return 0xc01112000240ll;
 }
 
 #define typedef_CAVM_BTS_PD1PPS_DIV_CFG0 cavm_bts_pd1pps_div_cfg0_t
@@ -1260,7 +1260,7 @@ typedef union cavm_bts_pd1pps_div_cfg1 cavm_bts_pd1pps_div_cfg1_t;
 static inline uint64_t CAVM_BTS_PD1PPS_DIV_CFG1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTS_PD1PPS_DIV_CFG1_FUNC(void)
 {
-    return 0x87e012000248ll;
+    return 0xc01112000248ll;
 }
 
 #define typedef_CAVM_BTS_PD1PPS_DIV_CFG1 cavm_bts_pd1pps_div_cfg1_t
@@ -1296,7 +1296,7 @@ typedef union cavm_bts_pd_history cavm_bts_pd_history_t;
 static inline uint64_t CAVM_BTS_PD_HISTORY_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTS_PD_HISTORY_FUNC(void)
 {
-    return 0x87e012000380ll;
+    return 0xc01112000380ll;
 }
 
 #define typedef_CAVM_BTS_PD_HISTORY cavm_bts_pd_history_t
@@ -1367,7 +1367,7 @@ static inline uint64_t CAVM_BTS_PD_SLICEX_CTL(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_BTS_PD_SLICEX_CTL(uint64_t a)
 {
     if (a<=5)
-        return 0x87e012000300ll + 8ll * ((a) & 0x7);
+        return 0xc01112000300ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("BTS_PD_SLICEX_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1411,7 +1411,7 @@ static inline uint64_t CAVM_BTS_PD_SLICEX_ONESHOT_RES(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_BTS_PD_SLICEX_ONESHOT_RES(uint64_t a)
 {
     if (a<=5)
-        return 0x87e012000500ll + 8ll * ((a) & 0x7);
+        return 0xc01112000500ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("BTS_PD_SLICEX_ONESHOT_RES", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1460,7 +1460,7 @@ static inline uint64_t CAVM_BTS_PD_SLICEX_STATUS(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_BTS_PD_SLICEX_STATUS(uint64_t a)
 {
     if (a<=5)
-        return 0x87e012000340ll + 8ll * ((a) & 0x7);
+        return 0xc01112000340ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("BTS_PD_SLICEX_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1519,7 +1519,7 @@ typedef union cavm_bts_pd_slice_oneshot_mode cavm_bts_pd_slice_oneshot_mode_t;
 static inline uint64_t CAVM_BTS_PD_SLICE_ONESHOT_MODE_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTS_PD_SLICE_ONESHOT_MODE_FUNC(void)
 {
-    return 0x87e012000540ll;
+    return 0xc01112000540ll;
 }
 
 #define typedef_CAVM_BTS_PD_SLICE_ONESHOT_MODE cavm_bts_pd_slice_oneshot_mode_t
@@ -1591,7 +1591,7 @@ typedef union cavm_bts_pdbfn_div_cfg0 cavm_bts_pdbfn_div_cfg0_t;
 static inline uint64_t CAVM_BTS_PDBFN_DIV_CFG0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTS_PDBFN_DIV_CFG0_FUNC(void)
 {
-    return 0x87e012000230ll;
+    return 0xc01112000230ll;
 }
 
 #define typedef_CAVM_BTS_PDBFN_DIV_CFG0 cavm_bts_pdbfn_div_cfg0_t
@@ -1670,7 +1670,7 @@ typedef union cavm_bts_pdbfn_div_cfg1 cavm_bts_pdbfn_div_cfg1_t;
 static inline uint64_t CAVM_BTS_PDBFN_DIV_CFG1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTS_PDBFN_DIV_CFG1_FUNC(void)
 {
-    return 0x87e012000238ll;
+    return 0xc01112000238ll;
 }
 
 #define typedef_CAVM_BTS_PDBFN_DIV_CFG1 cavm_bts_pdbfn_div_cfg1_t
@@ -1888,7 +1888,7 @@ static inline uint64_t CAVM_BTS_PLL_FUNC(void) __attribute__ ((pure, always_inli
 static inline uint64_t CAVM_BTS_PLL_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CNF20KA))
-        return 0x87e012000028ll;
+        return 0xc01112000028ll;
     __cavm_csr_fatal("BTS_PLL", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1998,7 +1998,7 @@ typedef union cavm_bts_pll_ctl cavm_bts_pll_ctl_t;
 static inline uint64_t CAVM_BTS_PLL_CTL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTS_PLL_CTL_FUNC(void)
 {
-    return 0x87e012000000ll;
+    return 0xc01112000000ll;
 }
 
 #define typedef_CAVM_BTS_PLL_CTL cavm_bts_pll_ctl_t
@@ -2032,7 +2032,7 @@ typedef union cavm_bts_pll_pc cavm_bts_pll_pc_t;
 static inline uint64_t CAVM_BTS_PLL_PC_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTS_PLL_PC_FUNC(void)
 {
-    return 0x87e0120000a0ll;
+    return 0xc011120000a0ll;
 }
 
 #define typedef_CAVM_BTS_PLL_PC cavm_bts_pll_pc_t
@@ -2068,7 +2068,7 @@ typedef union cavm_bts_ptp_1pps_cfg cavm_bts_ptp_1pps_cfg_t;
 static inline uint64_t CAVM_BTS_PTP_1PPS_CFG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTS_PTP_1PPS_CFG_FUNC(void)
 {
-    return 0x87e012000258ll;
+    return 0xc01112000258ll;
 }
 
 #define typedef_CAVM_BTS_PTP_1PPS_CFG cavm_bts_ptp_1pps_cfg_t
@@ -2130,7 +2130,7 @@ typedef union cavm_bts_pwm_ctl cavm_bts_pwm_ctl_t;
 static inline uint64_t CAVM_BTS_PWM_CTL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTS_PWM_CTL_FUNC(void)
 {
-    return 0x87e012000440ll;
+    return 0xc01112000440ll;
 }
 
 #define typedef_CAVM_BTS_PWM_CTL cavm_bts_pwm_ctl_t
@@ -2168,7 +2168,7 @@ static inline uint64_t CAVM_BTS_SOFT_RESET_FUNC(void) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_BTS_SOFT_RESET_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e012001160ll;
+        return 0xc01112001160ll;
     __cavm_csr_fatal("BTS_SOFT_RESET", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2244,7 +2244,7 @@ static inline uint64_t CAVM_BTS_TEST_PLL_FUNC(void) __attribute__ ((pure, always
 static inline uint64_t CAVM_BTS_TEST_PLL_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CNF20KA))
-        return 0x87e012000038ll;
+        return 0xc01112000038ll;
     __cavm_csr_fatal("BTS_TEST_PLL", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2283,7 +2283,7 @@ static inline uint64_t CAVM_BTS_TIE_OFF_FUNC(void) __attribute__ ((pure, always_
 static inline uint64_t CAVM_BTS_TIE_OFF_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e012001158ll;
+        return 0xc01112001158ll;
     __cavm_csr_fatal("BTS_TIE_OFF", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2424,7 +2424,7 @@ typedef union cavm_bts_tp_mux_sel cavm_bts_tp_mux_sel_t;
 static inline uint64_t CAVM_BTS_TP_MUX_SEL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BTS_TP_MUX_SEL_FUNC(void)
 {
-    return 0x87e012000480ll;
+    return 0xc01112000480ll;
 }
 
 #define typedef_CAVM_BTS_TP_MUX_SEL cavm_bts_tp_mux_sel_t

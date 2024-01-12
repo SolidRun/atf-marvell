@@ -22,7 +22,7 @@
 /**
  * Enumeration ecmp_bar_e
  */
-#define CAVM_ECMP_BAR_E_ECMPX_PF_BAR2(a) (0x87e040600000ll + 0x80000ll * (a))
+#define CAVM_ECMP_BAR_E_ECMPX_PF_BAR2(a) (0xc00840600000ll + 0x100000000ll * (a))
 #define CAVM_ECMP_BAR_E_ECMPX_PF_BAR2_SIZE 0x40000ull
 
 /**
@@ -486,7 +486,7 @@ static inline uint64_t CAVM_ECMPX_ABX_BFP_USER_EXP_HIGH(uint64_t a, uint64_t b) 
 static inline uint64_t CAVM_ECMPX_ABX_BFP_USER_EXP_HIGH(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CNF20KA) && ((a<=2) && (b<=1)))
-        return 0x87e040600118ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
+        return 0xc00840600118ll + 0x100000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ECMPX_ABX_BFP_USER_EXP_HIGH", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -551,7 +551,7 @@ static inline uint64_t CAVM_ECMPX_ABX_BFP_USER_EXP_LOW(uint64_t a, uint64_t b) _
 static inline uint64_t CAVM_ECMPX_ABX_BFP_USER_EXP_LOW(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CNF20KA) && ((a<=2) && (b<=1)))
-        return 0x87e040600110ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
+        return 0xc00840600110ll + 0x100000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ECMPX_ABX_BFP_USER_EXP_LOW", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -586,7 +586,7 @@ static inline uint64_t CAVM_ECMPX_ABX_BYTES_PC(uint64_t a, uint64_t b) __attribu
 static inline uint64_t CAVM_ECMPX_ABX_BYTES_PC(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CNF20KA) && ((a<=2) && (b<=1)))
-        return 0x87e0406000f0ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
+        return 0xc008406000f0ll + 0x100000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ECMPX_ABX_BYTES_PC", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -689,7 +689,7 @@ static inline uint64_t CAVM_ECMPX_ABX_CONFIG(uint64_t a, uint64_t b) __attribute
 static inline uint64_t CAVM_ECMPX_ABX_CONFIG(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CNF20KA) && ((a<=2) && (b<=1)))
-        return 0x87e040600020ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
+        return 0xc00840600020ll + 0x100000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ECMPX_ABX_CONFIG", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -738,7 +738,7 @@ static inline uint64_t CAVM_ECMPX_ABX_CONTROL0(uint64_t a, uint64_t b) __attribu
 static inline uint64_t CAVM_ECMPX_ABX_CONTROL0(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CNF20KA) && ((a<=2) && (b<=1)))
-        return 0x87e040600000ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
+        return 0xc00840600000ll + 0x100000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ECMPX_ABX_CONTROL0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -775,7 +775,7 @@ static inline uint64_t CAVM_ECMPX_ABX_CONTROL1(uint64_t a, uint64_t b) __attribu
 static inline uint64_t CAVM_ECMPX_ABX_CONTROL1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CNF20KA) && ((a<=2) && (b<=1)))
-        return 0x87e040600008ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
+        return 0xc00840600008ll + 0x100000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ECMPX_ABX_CONTROL1", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -847,7 +847,7 @@ static inline uint64_t CAVM_ECMPX_ABX_ERROR_ENA_W1C(uint64_t a, uint64_t b) __at
 static inline uint64_t CAVM_ECMPX_ABX_ERROR_ENA_W1C(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CNF20KA) && ((a<=2) && (b<=1)))
-        return 0x87e0406000c0ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
+        return 0xc008406000c0ll + 0x100000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ECMPX_ABX_ERROR_ENA_W1C", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -919,7 +919,7 @@ static inline uint64_t CAVM_ECMPX_ABX_ERROR_ENA_W1S(uint64_t a, uint64_t b) __at
 static inline uint64_t CAVM_ECMPX_ABX_ERROR_ENA_W1S(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CNF20KA) && ((a<=2) && (b<=1)))
-        return 0x87e0406000b8ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
+        return 0xc008406000b8ll + 0x100000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ECMPX_ABX_ERROR_ENA_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -965,7 +965,7 @@ static inline uint64_t CAVM_ECMPX_ABX_ERROR_ENABLE0(uint64_t a, uint64_t b) __at
 static inline uint64_t CAVM_ECMPX_ABX_ERROR_ENABLE0(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CNF20KA) && ((a<=2) && (b<=1)))
-        return 0x87e040600040ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
+        return 0xc00840600040ll + 0x100000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ECMPX_ABX_ERROR_ENABLE0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1124,7 +1124,7 @@ static inline uint64_t CAVM_ECMPX_ABX_ERROR_FATAL(uint64_t a, uint64_t b) __attr
 static inline uint64_t CAVM_ECMPX_ABX_ERROR_FATAL(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CNF20KA) && ((a<=2) && (b<=1)))
-        return 0x87e0406000c8ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
+        return 0xc008406000c8ll + 0x100000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ECMPX_ABX_ERROR_FATAL", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1176,7 +1176,7 @@ static inline uint64_t CAVM_ECMPX_ABX_ERROR_SOURCE0(uint64_t a, uint64_t b) __at
 static inline uint64_t CAVM_ECMPX_ABX_ERROR_SOURCE0(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CNF20KA) && ((a<=2) && (b<=1)))
-        return 0x87e040600030ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
+        return 0xc00840600030ll + 0x100000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ECMPX_ABX_ERROR_SOURCE0", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1293,7 +1293,7 @@ static inline uint64_t CAVM_ECMPX_ABX_ERROR_STATUS(uint64_t a, uint64_t b) __att
 static inline uint64_t CAVM_ECMPX_ABX_ERROR_STATUS(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CNF20KA) && ((a<=2) && (b<=1)))
-        return 0x87e0406000b0ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
+        return 0xc008406000b0ll + 0x100000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ECMPX_ABX_ERROR_STATUS", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1415,7 +1415,7 @@ static inline uint64_t CAVM_ECMPX_ABX_JDXX_CFG(uint64_t a, uint64_t b, uint64_t 
 static inline uint64_t CAVM_ECMPX_ABX_JDXX_CFG(uint64_t a, uint64_t b, uint64_t c)
 {
     if (cavm_is_model(OCTEONTX_CNF20KA) && ((a<=2) && (b<=1) && (c<=3)))
-        return 0x87e040602000ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1) + 0x2000ll * ((c) & 0x3);
+        return 0xc00840602000ll + 0x100000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1) + 0x2000ll * ((c) & 0x3);
     __cavm_csr_fatal("ECMPX_ABX_JDXX_CFG", 3, a, b, c, 0, 0, 0);
 }
 
@@ -1480,7 +1480,7 @@ static inline uint64_t CAVM_ECMPX_ABX_NOCOMP_USER_EXP_HIGH(uint64_t a, uint64_t 
 static inline uint64_t CAVM_ECMPX_ABX_NOCOMP_USER_EXP_HIGH(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CNF20KA) && ((a<=2) && (b<=1)))
-        return 0x87e040600108ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
+        return 0xc00840600108ll + 0x100000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ECMPX_ABX_NOCOMP_USER_EXP_HIGH", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1545,7 +1545,7 @@ static inline uint64_t CAVM_ECMPX_ABX_NOCOMP_USER_EXP_LOW(uint64_t a, uint64_t b
 static inline uint64_t CAVM_ECMPX_ABX_NOCOMP_USER_EXP_LOW(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CNF20KA) && ((a<=2) && (b<=1)))
-        return 0x87e040600100ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
+        return 0xc00840600100ll + 0x100000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ECMPX_ABX_NOCOMP_USER_EXP_LOW", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1580,7 +1580,7 @@ static inline uint64_t CAVM_ECMPX_ABX_PACKETS_PC(uint64_t a, uint64_t b) __attri
 static inline uint64_t CAVM_ECMPX_ABX_PACKETS_PC(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CNF20KA) && ((a<=2) && (b<=1)))
-        return 0x87e0406000f8ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
+        return 0xc008406000f8ll + 0x100000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ECMPX_ABX_PACKETS_PC", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1625,7 +1625,7 @@ static inline uint64_t CAVM_ECMPX_ABX_STATUS(uint64_t a, uint64_t b) __attribute
 static inline uint64_t CAVM_ECMPX_ABX_STATUS(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CNF20KA) && ((a<=2) && (b<=1)))
-        return 0x87e040600018ll + 0x80000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
+        return 0xc00840600018ll + 0x100000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x1);
     __cavm_csr_fatal("ECMPX_ABX_STATUS", 2, a, b, 0, 0, 0, 0);
 }
 

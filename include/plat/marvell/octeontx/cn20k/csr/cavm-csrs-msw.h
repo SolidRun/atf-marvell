@@ -25,7 +25,7 @@
  * MSW Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define CAVM_MSW_BAR_E_MSWX_PF_BAR0(a) (0x87e300000000ll + 0x1000000ll * (a))
+#define CAVM_MSW_BAR_E_MSWX_PF_BAR0(a) (0xc60000000000ll + 0x1000000ll * (a))
 #define CAVM_MSW_BAR_E_MSWX_PF_BAR0_SIZE 0x1000000ull
 
 /**
@@ -71,7 +71,7 @@ static inline uint64_t CAVM_MSWX_MSHX_LCRDV_STRV_PFC_DIRX(uint64_t a, uint64_t b
 static inline uint64_t CAVM_MSWX_MSHX_LCRDV_STRV_PFC_DIRX(uint64_t a, uint64_t b, uint64_t c)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=23) && (b<=3) && (c<=5)))
-        return 0x87e300010080ll + 0x1000000ll * ((a) & 0x1f) + 0x4000ll * ((b) & 0x3) + 8ll * ((c) & 0x7);
+        return 0xc60000010080ll + 0x1000000ll * ((a) & 0x1f) + 0x4000ll * ((b) & 0x3) + 8ll * ((c) & 0x7);
     __cavm_csr_fatal("MSWX_MSHX_LCRDV_STRV_PFC_DIRX", 3, a, b, c, 0, 0, 0);
 }
 
@@ -106,7 +106,7 @@ static inline uint64_t CAVM_MSWX_MSHX_PFCX(uint64_t a, uint64_t b, uint64_t c) _
 static inline uint64_t CAVM_MSWX_MSHX_PFCX(uint64_t a, uint64_t b, uint64_t c)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=23) && (b<=3) && (c<=4)))
-        return 0x87e300010000ll + 0x1000000ll * ((a) & 0x1f) + 0x4000ll * ((b) & 0x3) + 8ll * ((c) & 0x7);
+        return 0xc60000010000ll + 0x1000000ll * ((a) & 0x1f) + 0x4000ll * ((b) & 0x3) + 8ll * ((c) & 0x7);
     __cavm_csr_fatal("MSWX_MSHX_PFCX", 3, a, b, c, 0, 0, 0);
 }
 
@@ -176,7 +176,7 @@ static inline uint64_t CAVM_MSWX_MSHX_PRF(uint64_t a, uint64_t b) __attribute__ 
 static inline uint64_t CAVM_MSWX_MSHX_PRF(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=23) && (b<=3)))
-        return 0x87e300000058ll + 0x1000000ll * ((a) & 0x1f) + 0x4000ll * ((b) & 0x3);
+        return 0xc60000000058ll + 0x1000000ll * ((a) & 0x1f) + 0x4000ll * ((b) & 0x3);
     __cavm_csr_fatal("MSWX_MSHX_PRF", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -211,7 +211,7 @@ static inline uint64_t CAVM_MSWX_MSHX_RX_PFCX(uint64_t a, uint64_t b, uint64_t c
 static inline uint64_t CAVM_MSWX_MSHX_RX_PFCX(uint64_t a, uint64_t b, uint64_t c)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=23) && (b<=3) && (c<=4)))
-        return 0x87e300010040ll + 0x1000000ll * ((a) & 0x1f) + 0x4000ll * ((b) & 0x3) + 8ll * ((c) & 0x7);
+        return 0xc60000010040ll + 0x1000000ll * ((a) & 0x1f) + 0x4000ll * ((b) & 0x3) + 8ll * ((c) & 0x7);
     __cavm_csr_fatal("MSWX_MSHX_RX_PFCX", 3, a, b, c, 0, 0, 0);
 }
 
@@ -269,7 +269,7 @@ static inline uint64_t CAVM_MSWX_MTXX_CHNX_ARB(uint64_t a, uint64_t b, uint64_t 
 static inline uint64_t CAVM_MSWX_MTXX_CHNX_ARB(uint64_t a, uint64_t b, uint64_t c)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=23) && (b<=3) && (c<=4)))
-        return 0x87e3000000c0ll + 0x1000000ll * ((a) & 0x1f) + 0x4000ll * ((b) & 0x3) + 8ll * ((c) & 0x7);
+        return 0xc600000000c0ll + 0x1000000ll * ((a) & 0x1f) + 0x4000ll * ((b) & 0x3) + 8ll * ((c) & 0x7);
     __cavm_csr_fatal("MSWX_MTXX_CHNX_ARB", 3, a, b, c, 0, 0, 0);
 }
 

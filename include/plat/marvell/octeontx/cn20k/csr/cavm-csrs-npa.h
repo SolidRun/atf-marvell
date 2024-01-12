@@ -136,20 +136,6 @@
 #define CAVM_NPA_LF_INT_VEC_E_QINTX(a) (0 + (a))
 
 /**
- * Enumeration npa_ndc0_port_e
- *
- * NPA NDC0 Port Enumeration
- * Enumerates NPA NDC0 (NDC_IDX_E::NPA_U(0)) ports and the PORT index of
- * NDC_AF_PORT()_RT()_RW()_REQ_PC and NDC_AF_PORT()_RT()_RW()_LAT_PC.
- */
-#define CAVM_NPA_NDC0_PORT_E_AURA0 (0)
-#define CAVM_NPA_NDC0_PORT_E_AURA1 (1)
-#define CAVM_NPA_NDC0_PORT_E_POOL0 (2)
-#define CAVM_NPA_NDC0_PORT_E_POOL1 (3)
-#define CAVM_NPA_NDC0_PORT_E_STACK0 (4)
-#define CAVM_NPA_NDC0_PORT_E_STACK1 (5)
-
-/**
  * Enumeration npa_pool_err_int_e
  *
  * NPA Pool Error Interrupt Enumeration
@@ -168,13 +154,11 @@
  *
  * Hardware reads of NPA_AQ_INST_S do not allocate into LLC.
  *
- * Hardware reads and writes of the context structure selected by [CTYPE], [LF]
- * and [CINDEX] use the NDC and LLC caching style configured for that context,
+ * Hardware reads and writes of the context structure selected by [CTYPE],
+ * [LF] and [CINDEX] use the LLC caching style configured for that context,
  * i.e.:
- * * NPA_AURA_HW_S reads and writes use NPA_AF_LF()_AURAS_CFG[CACHING] and
- * NPA_AF_LF()_AURAS_CFG[WAY_MASK].
- * * NPA_POOL_HW_S reads and writes use NPA_AURA_HW_S[POOL_CACHING] and
- * NPA_AURA_HW_S[POOL_WAY_MASK].
+ * * NPA_AURA_HW_S reads and writes use NPA_AF_LF()_AURAS_CFG[CACHING].
+ * * NPA_POOL_HW_S reads and writes use NPA_AURA_HW_S[POOL_CACHING].
  */
 union cavm_npa_aq_inst_s
 {
@@ -352,15 +336,15 @@ union cavm_npa_aura_s
     struct cavm_npa_aura_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t pool_addr             : 64; /**< [ 63:  0] AF IOVA of the associated pool's NPA_POOL_HW_S structure in NDC/LLC/DRAM. The
-                                                                 size of the structure is 1 \<\< NPA_AF_CONST1[POOL_LOG2BYTES] bytes.
+        uint64_t pool_addr             : 64; /**< [ 63:  0] AF IOVA of the associated pool's NPA_POOL_HW_S structure in NPA-cache/LLC/DRAM.
+                                                                 The size of the structure is 1 \<\< NPA_AF_CONST1[POOL_LOG2BYTES] bytes.
 
                                                                  Bits \<5:0\> must be zero; address must be 64-byte aligned. Bits \<63:53\> are
                                                                  ignored by hardware; software should use a sign-extended bit \<52\> for forward
                                                                  compatibility. */
 #else /* Word 0 - Little Endian */
-        uint64_t pool_addr             : 64; /**< [ 63:  0] AF IOVA of the associated pool's NPA_POOL_HW_S structure in NDC/LLC/DRAM. The
-                                                                 size of the structure is 1 \<\< NPA_AF_CONST1[POOL_LOG2BYTES] bytes.
+        uint64_t pool_addr             : 64; /**< [ 63:  0] AF IOVA of the associated pool's NPA_POOL_HW_S structure in NPA-cache/LLC/DRAM.
+                                                                 The size of the structure is 1 \<\< NPA_AF_CONST1[POOL_LOG2BYTES] bytes.
 
                                                                  Bits \<5:0\> must be zero; address must be 64-byte aligned. Bits \<63:53\> are
                                                                  ignored by hardware; software should use a sign-extended bit \<52\> for forward
@@ -423,7 +407,7 @@ union cavm_npa_aura_s
                                                                  0x0 = NPA_POOL_HW_S reads will not allocate into the LLC.
                                                                  0x1 = NPA_POOL_HW_S reads are allocated into the LLC.
 
-                                                                 NPA_POOL_HW_S writes that are not allocated in NDC will always allocate
+                                                                 NPA_POOL_HW_S writes that are not allocated in NPA will always allocate
                                                                  into LLC.
 
                                                                  [POOL_CACHING] must have the same value for two consecutive NPA_POOL_HW_S
@@ -437,7 +421,7 @@ union cavm_npa_aura_s
                                                                  0x0 = NPA_POOL_HW_S reads will not allocate into the LLC.
                                                                  0x1 = NPA_POOL_HW_S reads are allocated into the LLC.
 
-                                                                 NPA_POOL_HW_S writes that are not allocated in NDC will always allocate
+                                                                 NPA_POOL_HW_S writes that are not allocated in NPA will always allocate
                                                                  into LLC.
 
                                                                  [POOL_CACHING] must have the same value for two consecutive NPA_POOL_HW_S
@@ -835,13 +819,15 @@ union cavm_npa_pool_s
     struct cavm_npa_pool_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t stack_base            : 64; /**< [ 63:  0] Pool stack base LF IOVA in NDC/LLC/DRAM. This is the lowest address used by the stack.
+        uint64_t stack_base            : 64; /**< [ 63:  0] Pool stack base LF IOVA in NPA-cache/LLC/DRAM. This is the lowest address used by the
+                                                                 stack.
 
                                                                  Bits \<6:0\> must be zero; address must be 128-byte aligned.
                                                                  Bits \<63:53\> are ignored by hardware; software should use a sign-extended bit \<52\> for
                                                                  forward compatibility. */
 #else /* Word 0 - Little Endian */
-        uint64_t stack_base            : 64; /**< [ 63:  0] Pool stack base LF IOVA in NDC/LLC/DRAM. This is the lowest address used by the stack.
+        uint64_t stack_base            : 64; /**< [ 63:  0] Pool stack base LF IOVA in NPA-cache/LLC/DRAM. This is the lowest address used by the
+                                                                 stack.
 
                                                                  Bits \<6:0\> must be zero; address must be 128-byte aligned.
                                                                  Bits \<63:53\> are ignored by hardware; software should use a sign-extended bit \<52\> for
@@ -868,7 +854,7 @@ union cavm_npa_pool_s
                                                                  0x0 = NPA_STACK_PAGE_S reads will not allocate into the LLC.
                                                                  0x1 = NPA_STACK_PAGE_S reads are allocated into the LLC.
 
-                                                                 NPA_STACK_PAGE_S writes that are not allocated in NDC will always allocate
+                                                                 NPA_STACK_PAGE_S writes that are not allocated in NPA will always allocate
                                                                  into LLC. */
         uint64_t reserved_66_67        : 2;
         uint64_t nat_align             : 1;  /**< [ 65: 65] Returning buffers should be rounded to the nearest natural alignment specified with
@@ -887,7 +873,7 @@ union cavm_npa_pool_s
                                                                  0x0 = NPA_STACK_PAGE_S reads will not allocate into the LLC.
                                                                  0x1 = NPA_STACK_PAGE_S reads are allocated into the LLC.
 
-                                                                 NPA_STACK_PAGE_S writes that are not allocated in NDC will always allocate
+                                                                 NPA_STACK_PAGE_S writes that are not allocated in NPA will always allocate
                                                                  into LLC. */
         uint64_t reserved_69_71        : 3;
         uint64_t stack_way_mask        : 16; /**< [ 87: 72] Way partitioning mask for allocating stack pages in NDC (1 means do not use). */
@@ -1229,8 +1215,8 @@ union cavm_npa_pool_s
  *
  * NPA Queue Interrupt Context Hardware Structure
  * This structure contains context state maintained by hardware for each queue
- * interrupt (QINT) in NDC/LLC/DRAM. Software accesses this structure with the
- * NPA_LF_QINT()_* registers.
+ * interrupt (QINT) in NPA-cache/LLC/DRAM. Software accesses this structure with
+ * the NPA_LF_QINT()_* registers.
  * Hardware maintains a table of NPA_AF_CONST[QINTS] contiguous NPA_QINT_HW_S
  * structures per LF starting at IOVA NPA_AF_LF()_QINTS_BASE.
  */
@@ -1279,7 +1265,7 @@ static inline uint64_t CAVM_NPA_AF_ACTIVE_CYCLES_PC_FUNC(void) __attribute__ ((p
 static inline uint64_t CAVM_NPA_AF_ACTIVE_CYCLES_PC_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x8400300000f0ll;
+        return 0xce00300000f0ll;
     __cavm_csr_fatal("NPA_AF_ACTIVE_CYCLES_PC", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1319,7 +1305,7 @@ static inline uint64_t CAVM_NPA_AF_AQ_BASE_FUNC(void) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_NPA_AF_AQ_BASE_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840030000610ll;
+        return 0xce0030000610ll;
     __cavm_csr_fatal("NPA_AF_AQ_BASE", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1373,7 +1359,7 @@ static inline uint64_t CAVM_NPA_AF_AQ_CFG_FUNC(void) __attribute__ ((pure, alway
 static inline uint64_t CAVM_NPA_AF_AQ_CFG_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840030000600ll;
+        return 0xce0030000600ll;
     __cavm_csr_fatal("NPA_AF_AQ_CFG", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1473,7 +1459,7 @@ static inline uint64_t CAVM_NPA_AF_AQ_DONE_FUNC(void) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_NPA_AF_AQ_DONE_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840030000650ll;
+        return 0xce0030000650ll;
     __cavm_csr_fatal("NPA_AF_AQ_DONE", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1520,7 +1506,7 @@ static inline uint64_t CAVM_NPA_AF_AQ_DONE_ACK_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t CAVM_NPA_AF_AQ_DONE_ACK_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840030000660ll;
+        return 0xce0030000660ll;
     __cavm_csr_fatal("NPA_AF_AQ_DONE_ACK", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1559,7 +1545,7 @@ static inline uint64_t CAVM_NPA_AF_AQ_DONE_ENA_W1C_FUNC(void) __attribute__ ((pu
 static inline uint64_t CAVM_NPA_AF_AQ_DONE_ENA_W1C_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840030000698ll;
+        return 0xce0030000698ll;
     __cavm_csr_fatal("NPA_AF_AQ_DONE_ENA_W1C", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1598,7 +1584,7 @@ static inline uint64_t CAVM_NPA_AF_AQ_DONE_ENA_W1S_FUNC(void) __attribute__ ((pu
 static inline uint64_t CAVM_NPA_AF_AQ_DONE_ENA_W1S_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840030000690ll;
+        return 0xce0030000690ll;
     __cavm_csr_fatal("NPA_AF_AQ_DONE_ENA_W1S", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1640,7 +1626,7 @@ static inline uint64_t CAVM_NPA_AF_AQ_DONE_INT_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t CAVM_NPA_AF_AQ_DONE_INT_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840030000680ll;
+        return 0xce0030000680ll;
     __cavm_csr_fatal("NPA_AF_AQ_DONE_INT", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1685,7 +1671,7 @@ static inline uint64_t CAVM_NPA_AF_AQ_DONE_TIMER_FUNC(void) __attribute__ ((pure
 static inline uint64_t CAVM_NPA_AF_AQ_DONE_TIMER_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840030000670ll;
+        return 0xce0030000670ll;
     __cavm_csr_fatal("NPA_AF_AQ_DONE_TIMER", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1742,7 +1728,7 @@ static inline uint64_t CAVM_NPA_AF_AQ_DONE_WAIT_FUNC(void) __attribute__ ((pure,
 static inline uint64_t CAVM_NPA_AF_AQ_DONE_WAIT_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840030000640ll;
+        return 0xce0030000640ll;
     __cavm_csr_fatal("NPA_AF_AQ_DONE_WAIT", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1789,7 +1775,7 @@ static inline uint64_t CAVM_NPA_AF_AQ_DOOR_FUNC(void) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_NPA_AF_AQ_DOOR_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840030000630ll;
+        return 0xce0030000630ll;
     __cavm_csr_fatal("NPA_AF_AQ_DOOR", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1930,7 +1916,7 @@ static inline uint64_t CAVM_NPA_AF_AQ_STATUS_FUNC(void) __attribute__ ((pure, al
 static inline uint64_t CAVM_NPA_AF_AQ_STATUS_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840030000620ll;
+        return 0xce0030000620ll;
     __cavm_csr_fatal("NPA_AF_AQ_STATUS", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1992,7 +1978,7 @@ static inline uint64_t CAVM_NPA_AF_AVG_DELAY_FUNC(void) __attribute__ ((pure, al
 static inline uint64_t CAVM_NPA_AF_AVG_DELAY_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840030000100ll;
+        return 0xce0030000100ll;
     __cavm_csr_fatal("NPA_AF_AVG_DELAY", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2029,7 +2015,7 @@ static inline uint64_t CAVM_NPA_AF_BAR2_ALIASX(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_NPA_AF_BAR2_ALIASX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=131071))
-        return 0x840039100000ll + 8ll * ((a) & 0x1ffff);
+        return 0xce0039100000ll + 8ll * ((a) & 0x1ffff);
     __cavm_csr_fatal("NPA_AF_BAR2_ALIASX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2072,7 +2058,7 @@ static inline uint64_t CAVM_NPA_AF_BAR2_SEL_FUNC(void) __attribute__ ((pure, alw
 static inline uint64_t CAVM_NPA_AF_BAR2_SEL_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840039000000ll;
+        return 0xce0039000000ll;
     __cavm_csr_fatal("NPA_AF_BAR2_SEL", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2127,7 +2113,7 @@ static inline uint64_t CAVM_NPA_AF_BATCH_ACCEPT_CTL_FUNC(void) __attribute__ ((p
 static inline uint64_t CAVM_NPA_AF_BATCH_ACCEPT_CTL_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x8400300006a8ll;
+        return 0xce00300006a8ll;
     __cavm_csr_fatal("NPA_AF_BATCH_ACCEPT_CTL", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2170,7 +2156,7 @@ static inline uint64_t CAVM_NPA_AF_BATCH_CTL_FUNC(void) __attribute__ ((pure, al
 static inline uint64_t CAVM_NPA_AF_BATCH_CTL_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x8400300006a0ll;
+        return 0xce00300006a0ll;
     __cavm_csr_fatal("NPA_AF_BATCH_CTL", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2216,7 +2202,7 @@ static inline uint64_t CAVM_NPA_AF_BATCH_ERR_DATA0_FUNC(void) __attribute__ ((pu
 static inline uint64_t CAVM_NPA_AF_BATCH_ERR_DATA0_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x8400300006c0ll;
+        return 0xce00300006c0ll;
     __cavm_csr_fatal("NPA_AF_BATCH_ERR_DATA0", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2252,7 +2238,7 @@ static inline uint64_t CAVM_NPA_AF_BATCH_ERR_DATA1_FUNC(void) __attribute__ ((pu
 static inline uint64_t CAVM_NPA_AF_BATCH_ERR_DATA1_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x8400300006c8ll;
+        return 0xce00300006c8ll;
     __cavm_csr_fatal("NPA_AF_BATCH_ERR_DATA1", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2298,7 +2284,7 @@ static inline uint64_t CAVM_NPA_AF_BLK_RST_FUNC(void) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_NPA_AF_BLK_RST_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840030000000ll;
+        return 0xce0030000000ll;
     __cavm_csr_fatal("NPA_AF_BLK_RST", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2308,6 +2294,53 @@ static inline uint64_t CAVM_NPA_AF_BLK_RST_FUNC(void)
 #define device_bar_CAVM_NPA_AF_BLK_RST 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_NPA_AF_BLK_RST 0
 #define arguments_CAVM_NPA_AF_BLK_RST -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) npa_af_cache_sync
+ *
+ * NPA AF CACHE Sync Register
+ * Used to synchronize the NPA Caches.
+ */
+union cavm_npa_af_cache_sync
+{
+    uint64_t u;
+    struct cavm_npa_af_cache_sync_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_13_63        : 51;
+        uint64_t exec                  : 1;  /**< [ 12: 12](R/W1S/H) Execute sync. When software writes a one to set this bit, NPA writes back
+                                                                 to LLC/DRAM all dirty lines associated with the local function selected by
+                                                                 [LF]. Hardware clears this bit when done. */
+        uint64_t reserved_8_11         : 4;
+        uint64_t lf                    : 8;  /**< [  7:  0](R/W) Local function whose data is synced when [EXEC] is set. */
+#else /* Word 0 - Little Endian */
+        uint64_t lf                    : 8;  /**< [  7:  0](R/W) Local function whose data is synced when [EXEC] is set. */
+        uint64_t reserved_8_11         : 4;
+        uint64_t exec                  : 1;  /**< [ 12: 12](R/W1S/H) Execute sync. When software writes a one to set this bit, NPA writes back
+                                                                 to LLC/DRAM all dirty lines associated with the local function selected by
+                                                                 [LF]. Hardware clears this bit when done. */
+        uint64_t reserved_13_63        : 51;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npa_af_cache_sync_s cn; */
+};
+typedef union cavm_npa_af_cache_sync cavm_npa_af_cache_sync_t;
+
+#define CAVM_NPA_AF_CACHE_SYNC CAVM_NPA_AF_CACHE_SYNC_FUNC()
+static inline uint64_t CAVM_NPA_AF_CACHE_SYNC_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NPA_AF_CACHE_SYNC_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CN20KA))
+        return 0xce0030000050ll;
+    __cavm_csr_fatal("NPA_AF_CACHE_SYNC", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NPA_AF_CACHE_SYNC cavm_npa_af_cache_sync_t
+#define bustype_CAVM_NPA_AF_CACHE_SYNC CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NPA_AF_CACHE_SYNC "NPA_AF_CACHE_SYNC"
+#define device_bar_CAVM_NPA_AF_CACHE_SYNC 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NPA_AF_CACHE_SYNC 0
+#define arguments_CAVM_NPA_AF_CACHE_SYNC -1,-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) npa_af_const
@@ -2321,8 +2354,7 @@ union cavm_npa_af_const
     struct cavm_npa_af_const_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_43_63        : 21;
-        uint64_t num_ndc               : 3;  /**< [ 42: 40](RO) Number of NDCs enumerated by NDC_IDX_E::NPA_U(). */
+        uint64_t reserved_40_63        : 24;
         uint64_t qints                 : 12; /**< [ 39: 28](RO) Number of queue interrupts per VF/PF. */
         uint64_t lfs                   : 12; /**< [ 27: 16](RO) Number of NPA Local Functions. */
         uint64_t stack_page_ptrs       : 8;  /**< [ 15:  8](RO) Number of pointers stored in a stack page. */
@@ -2332,8 +2364,7 @@ union cavm_npa_af_const
         uint64_t stack_page_ptrs       : 8;  /**< [ 15:  8](RO) Number of pointers stored in a stack page. */
         uint64_t lfs                   : 12; /**< [ 27: 16](RO) Number of NPA Local Functions. */
         uint64_t qints                 : 12; /**< [ 39: 28](RO) Number of queue interrupts per VF/PF. */
-        uint64_t num_ndc               : 3;  /**< [ 42: 40](RO) Number of NDCs enumerated by NDC_IDX_E::NPA_U(). */
-        uint64_t reserved_43_63        : 21;
+        uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_npa_af_const_s cn; */
@@ -2345,7 +2376,7 @@ static inline uint64_t CAVM_NPA_AF_CONST_FUNC(void) __attribute__ ((pure, always
 static inline uint64_t CAVM_NPA_AF_CONST_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840030000010ll;
+        return 0xce0030000010ll;
     __cavm_csr_fatal("NPA_AF_CONST", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2370,22 +2401,22 @@ union cavm_npa_af_const1
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_12_63        : 52;
         uint64_t qint_log2bytes        : 4;  /**< [ 11:  8](RO) Queue interrupt context size as log2(bytes). Size of each NPA_QINT_HW_S
-                                                                 structure in a local function's queue interrupt context table NDC/LLC/DRAM.
-                                                                 See NPA_AF_LF()_QINTS_BASE and NPA_AF_LF()_QINTS_CFG. */
+                                                                 structure in a local function's queue interrupt context table
+                                                                 NPA-cache/LLC/DRAM. See NPA_AF_LF()_QINTS_BASE and NPA_AF_LF()_QINTS_CFG. */
         uint64_t pool_log2bytes        : 4;  /**< [  7:  4](RO) Pool context size as log2(bytes). Size of each NPA_POOL_HW_S structure at
                                                                  IOVA NPA_AURA_S[POOL_ADDR]. */
         uint64_t aura_log2bytes        : 4;  /**< [  3:  0](RO) Aura context size as log2(bytes). Size of each NPA_AURA_HW_S structure in a
-                                                                 local function's aura context table in NDC/LLC/DRAM. See
+                                                                 local function's aura context table in NPA-cache/LLC/DRAM. See
                                                                  NPA_AF_LF()_LOC_AURAS_BASE and NPA_AF_LF()_AURAS_CFG. */
 #else /* Word 0 - Little Endian */
         uint64_t aura_log2bytes        : 4;  /**< [  3:  0](RO) Aura context size as log2(bytes). Size of each NPA_AURA_HW_S structure in a
-                                                                 local function's aura context table in NDC/LLC/DRAM. See
+                                                                 local function's aura context table in NPA-cache/LLC/DRAM. See
                                                                  NPA_AF_LF()_LOC_AURAS_BASE and NPA_AF_LF()_AURAS_CFG. */
         uint64_t pool_log2bytes        : 4;  /**< [  7:  4](RO) Pool context size as log2(bytes). Size of each NPA_POOL_HW_S structure at
                                                                  IOVA NPA_AURA_S[POOL_ADDR]. */
         uint64_t qint_log2bytes        : 4;  /**< [ 11:  8](RO) Queue interrupt context size as log2(bytes). Size of each NPA_QINT_HW_S
-                                                                 structure in a local function's queue interrupt context table NDC/LLC/DRAM.
-                                                                 See NPA_AF_LF()_QINTS_BASE and NPA_AF_LF()_QINTS_CFG. */
+                                                                 structure in a local function's queue interrupt context table
+                                                                 NPA-cache/LLC/DRAM. See NPA_AF_LF()_QINTS_BASE and NPA_AF_LF()_QINTS_CFG. */
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } s;
@@ -2398,7 +2429,7 @@ static inline uint64_t CAVM_NPA_AF_CONST1_FUNC(void) __attribute__ ((pure, alway
 static inline uint64_t CAVM_NPA_AF_CONST1_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840030000018ll;
+        return 0xce0030000018ll;
     __cavm_csr_fatal("NPA_AF_CONST1", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2442,7 +2473,7 @@ static inline uint64_t CAVM_NPA_AF_DTX_FILTER_CTL_FUNC(void) __attribute__ ((pur
 static inline uint64_t CAVM_NPA_AF_DTX_FILTER_CTL_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840030010040ll;
+        return 0xce0030010040ll;
     __cavm_csr_fatal("NPA_AF_DTX_FILTER_CTL", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2492,7 +2523,7 @@ static inline uint64_t CAVM_NPA_AF_ERR_INT_FUNC(void) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_NPA_AF_ERR_INT_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840030000180ll;
+        return 0xce0030000180ll;
     __cavm_csr_fatal("NPA_AF_ERR_INT", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2537,7 +2568,7 @@ static inline uint64_t CAVM_NPA_AF_ERR_INT_ENA_W1C_FUNC(void) __attribute__ ((pu
 static inline uint64_t CAVM_NPA_AF_ERR_INT_ENA_W1C_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840030000198ll;
+        return 0xce0030000198ll;
     __cavm_csr_fatal("NPA_AF_ERR_INT_ENA_W1C", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2582,7 +2613,7 @@ static inline uint64_t CAVM_NPA_AF_ERR_INT_ENA_W1S_FUNC(void) __attribute__ ((pu
 static inline uint64_t CAVM_NPA_AF_ERR_INT_ENA_W1S_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840030000190ll;
+        return 0xce0030000190ll;
     __cavm_csr_fatal("NPA_AF_ERR_INT_ENA_W1S", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2627,7 +2658,7 @@ static inline uint64_t CAVM_NPA_AF_ERR_INT_W1S_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t CAVM_NPA_AF_ERR_INT_W1S_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840030000188ll;
+        return 0xce0030000188ll;
     __cavm_csr_fatal("NPA_AF_ERR_INT_W1S", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2658,13 +2689,13 @@ union cavm_npa_af_gen_cfg
         uint64_t reserved_5_9          : 5;
         uint64_t force_intf_clk_en     : 1;  /**< [  4:  4](R/W) Force clock enables on interface buses between blocks. For diagnostic use only. */
         uint64_t force_cond_clk_en     : 1;  /**< [  3:  3](R/W) Force clock enables within block. For diagnostic use only. */
-        uint64_t reserved_2            : 1;
+        uint64_t af_ign_pois           : 1;  /**< [  2:  2](R/W) Ignore poison responses from NCB. */
         uint64_t af_be                 : 1;  /**< [  1:  1](R/W) Reserved. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
         uint64_t af_be                 : 1;  /**< [  1:  1](R/W) Reserved. */
-        uint64_t reserved_2            : 1;
+        uint64_t af_ign_pois           : 1;  /**< [  2:  2](R/W) Ignore poison responses from NCB. */
         uint64_t force_cond_clk_en     : 1;  /**< [  3:  3](R/W) Force clock enables within block. For diagnostic use only. */
         uint64_t force_intf_clk_en     : 1;  /**< [  4:  4](R/W) Force clock enables on interface buses between blocks. For diagnostic use only. */
         uint64_t reserved_5_9          : 5;
@@ -2684,7 +2715,7 @@ static inline uint64_t CAVM_NPA_AF_GEN_CFG_FUNC(void) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_NPA_AF_GEN_CFG_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840030000030ll;
+        return 0xce0030000030ll;
     __cavm_csr_fatal("NPA_AF_GEN_CFG", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2741,7 +2772,7 @@ static inline uint64_t CAVM_NPA_AF_GEN_INT_FUNC(void) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_NPA_AF_GEN_INT_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840030000140ll;
+        return 0xce0030000140ll;
     __cavm_csr_fatal("NPA_AF_GEN_INT", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2784,7 +2815,7 @@ static inline uint64_t CAVM_NPA_AF_GEN_INT_ENA_W1C_FUNC(void) __attribute__ ((pu
 static inline uint64_t CAVM_NPA_AF_GEN_INT_ENA_W1C_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840030000158ll;
+        return 0xce0030000158ll;
     __cavm_csr_fatal("NPA_AF_GEN_INT_ENA_W1C", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2827,7 +2858,7 @@ static inline uint64_t CAVM_NPA_AF_GEN_INT_ENA_W1S_FUNC(void) __attribute__ ((pu
 static inline uint64_t CAVM_NPA_AF_GEN_INT_ENA_W1S_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840030000150ll;
+        return 0xce0030000150ll;
     __cavm_csr_fatal("NPA_AF_GEN_INT_ENA_W1S", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2870,7 +2901,7 @@ static inline uint64_t CAVM_NPA_AF_GEN_INT_W1S_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t CAVM_NPA_AF_GEN_INT_W1S_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840030000148ll;
+        return 0xce0030000148ll;
     __cavm_csr_fatal("NPA_AF_GEN_INT_W1S", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2922,7 +2953,7 @@ static inline uint64_t CAVM_NPA_AF_INP_CTL_FUNC(void) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_NPA_AF_INP_CTL_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x8400300000d0ll;
+        return 0xce00300000d0ll;
     __cavm_csr_fatal("NPA_AF_INP_CTL", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2953,7 +2984,7 @@ union cavm_npa_af_lfx_auras_cfg
                                                                  0x0 = NPA_AURA_HW_S reads will not allocate into the LLC.
                                                                  0x1 = NPA_AURA_HW_S reads are allocated into the LLC.
 
-                                                                 NPA_AURA_HW_S writes that are not allocated in NDC will always allocate
+                                                                 NPA_AURA_HW_S writes that are not allocated in NPA will always allocate
                                                                  into LLC. */
         uint64_t loc_aura_offset       : 14; /**< [ 33: 20](R/W) Local aura offset. Minimum aura number managed by this NPA divided by 64
                                                                  when [LOC_AURA_SIZE] is nonzero.
@@ -3022,7 +3053,7 @@ union cavm_npa_af_lfx_auras_cfg
                                                                  0x0 = NPA_AURA_HW_S reads will not allocate into the LLC.
                                                                  0x1 = NPA_AURA_HW_S reads are allocated into the LLC.
 
-                                                                 NPA_AURA_HW_S writes that are not allocated in NDC will always allocate
+                                                                 NPA_AURA_HW_S writes that are not allocated in NPA will always allocate
                                                                  into LLC. */
         uint64_t reserved_35           : 1;
         uint64_t rmt_aura_size         : 4;  /**< [ 39: 36](R/W) Reserved. Must be zero. */
@@ -3039,7 +3070,7 @@ static inline uint64_t CAVM_NPA_AF_LFX_AURAS_CFG(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_NPA_AF_LFX_AURAS_CFG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=127))
-        return 0x840030004000ll + 0x40000ll * ((a) & 0x7f);
+        return 0xce0030004000ll + 0x40000ll * ((a) & 0x7f);
     __cavm_csr_fatal("NPA_AF_LFX_AURAS_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3062,7 +3093,7 @@ union cavm_npa_af_lfx_loc_auras_base
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_53_63        : 11;
-        uint64_t addr                  : 46; /**< [ 52:  7](R/W) AF IOVA\<52:7\> of local aura context table in NDC/LLC/DRAM.
+        uint64_t addr                  : 46; /**< [ 52:  7](R/W) AF IOVA\<52:7\> of local aura context table in NPA-cache/LLC/DRAM.
                                                                  The table consists of 1 \<\< (NPA_AF_LF()_AURAS_CFG[LOC_AURA_SIZE] + 6)
                                                                  contiguous NPA_AURA_HW_S structures, where the size of each structure is
                                                                  1 \<\< NPA_AF_CONST1[AURA_LOG2BYTES] bytes.
@@ -3071,7 +3102,7 @@ union cavm_npa_af_lfx_loc_auras_base
         uint64_t reserved_0_6          : 7;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_6          : 7;
-        uint64_t addr                  : 46; /**< [ 52:  7](R/W) AF IOVA\<52:7\> of local aura context table in NDC/LLC/DRAM.
+        uint64_t addr                  : 46; /**< [ 52:  7](R/W) AF IOVA\<52:7\> of local aura context table in NPA-cache/LLC/DRAM.
                                                                  The table consists of 1 \<\< (NPA_AF_LF()_AURAS_CFG[LOC_AURA_SIZE] + 6)
                                                                  contiguous NPA_AURA_HW_S structures, where the size of each structure is
                                                                  1 \<\< NPA_AF_CONST1[AURA_LOG2BYTES] bytes.
@@ -3088,7 +3119,7 @@ static inline uint64_t CAVM_NPA_AF_LFX_LOC_AURAS_BASE(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_NPA_AF_LFX_LOC_AURAS_BASE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=127))
-        return 0x840030004010ll + 0x40000ll * ((a) & 0x7f);
+        return 0xce0030004010ll + 0x40000ll * ((a) & 0x7f);
     __cavm_csr_fatal("NPA_AF_LFX_LOC_AURAS_BASE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3131,7 +3162,7 @@ static inline uint64_t CAVM_NPA_AF_LFX_QINTS_BASE(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_NPA_AF_LFX_QINTS_BASE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=127))
-        return 0x840030004110ll + 0x40000ll * ((a) & 0x7f);
+        return 0xce0030004110ll + 0x40000ll * ((a) & 0x7f);
     __cavm_csr_fatal("NPA_AF_LFX_QINTS_BASE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3164,7 +3195,7 @@ union cavm_npa_af_lfx_qints_cfg
                                                                  0x2 = Reserved.
                                                                  0x3 = Reserved.
 
-                                                                 NPA_QINT_HW_S writes that are not allocated in NDC will always allocate
+                                                                 NPA_QINT_HW_S writes that are not allocated in NPA will always allocate
                                                                  into LLC. */
         uint64_t way_mask              : 16; /**< [ 35: 20](R/W) Way partitioning mask for allocating context structures in NDC (1 means do
                                                                  not use). All ones disables allocation in NDC. */
@@ -3179,7 +3210,7 @@ union cavm_npa_af_lfx_qints_cfg
                                                                  0x2 = Reserved.
                                                                  0x3 = Reserved.
 
-                                                                 NPA_QINT_HW_S writes that are not allocated in NDC will always allocate
+                                                                 NPA_QINT_HW_S writes that are not allocated in NPA will always allocate
                                                                  into LLC. */
         uint64_t reserved_38_63        : 26;
 #endif /* Word 0 - End */
@@ -3192,7 +3223,7 @@ static inline uint64_t CAVM_NPA_AF_LFX_QINTS_CFG(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_NPA_AF_LFX_QINTS_CFG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=127))
-        return 0x840030004100ll + 0x40000ll * ((a) & 0x7f);
+        return 0xce0030004100ll + 0x40000ll * ((a) & 0x7f);
     __cavm_csr_fatal("NPA_AF_LFX_QINTS_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3238,7 +3269,7 @@ static inline uint64_t CAVM_NPA_AF_LF_RST_FUNC(void) __attribute__ ((pure, alway
 static inline uint64_t CAVM_NPA_AF_LF_RST_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840030000020ll;
+        return 0xce0030000020ll;
     __cavm_csr_fatal("NPA_AF_LF_RST", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -3248,102 +3279,6 @@ static inline uint64_t CAVM_NPA_AF_LF_RST_FUNC(void)
 #define device_bar_CAVM_NPA_AF_LF_RST 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_NPA_AF_LF_RST 0
 #define arguments_CAVM_NPA_AF_LF_RST -1,-1,-1,-1
-
-/**
- * Register (RVU_PF_BAR0) npa_af_ndc_cfg
- *
- * NDC AF General Configuration Register
- * This register provides NDC control.
- */
-union cavm_npa_af_ndc_cfg
-{
-    uint64_t u;
-    struct cavm_npa_af_ndc_cfg_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
-        uint64_t byp_qint              : 1;  /**< [  5:  5](R/W) Force all NPA_QINT_HW_S transactions to bypass NDC. */
-        uint64_t byp_stack             : 1;  /**< [  4:  4](R/W) Force all NPA_STACK_PAGE_S transactions to bypass NDC. */
-        uint64_t byp_pool              : 1;  /**< [  3:  3](R/W) Force all NPA_POOL_HW_S transactions to bypass NDC. */
-        uint64_t byp_aura              : 1;  /**< [  2:  2](R/W) Force all NPA_AURA_HW_S transactions to bypass NDC. */
-        uint64_t ndc_ign_pois          : 1;  /**< [  1:  1](R/W) Ignore poison responses from NDC. */
-        uint64_t ndc_bypass            : 1;  /**< [  0:  0](R/W) Forces all NDC transactions to bypass the NDC cache. */
-#else /* Word 0 - Little Endian */
-        uint64_t ndc_bypass            : 1;  /**< [  0:  0](R/W) Forces all NDC transactions to bypass the NDC cache. */
-        uint64_t ndc_ign_pois          : 1;  /**< [  1:  1](R/W) Ignore poison responses from NDC. */
-        uint64_t byp_aura              : 1;  /**< [  2:  2](R/W) Force all NPA_AURA_HW_S transactions to bypass NDC. */
-        uint64_t byp_pool              : 1;  /**< [  3:  3](R/W) Force all NPA_POOL_HW_S transactions to bypass NDC. */
-        uint64_t byp_stack             : 1;  /**< [  4:  4](R/W) Force all NPA_STACK_PAGE_S transactions to bypass NDC. */
-        uint64_t byp_qint              : 1;  /**< [  5:  5](R/W) Force all NPA_QINT_HW_S transactions to bypass NDC. */
-        uint64_t reserved_6_63         : 58;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_npa_af_ndc_cfg_s cn; */
-};
-typedef union cavm_npa_af_ndc_cfg cavm_npa_af_ndc_cfg_t;
-
-#define CAVM_NPA_AF_NDC_CFG CAVM_NPA_AF_NDC_CFG_FUNC()
-static inline uint64_t CAVM_NPA_AF_NDC_CFG_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NPA_AF_NDC_CFG_FUNC(void)
-{
-    if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840030000040ll;
-    __cavm_csr_fatal("NPA_AF_NDC_CFG", 0, 0, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_NPA_AF_NDC_CFG cavm_npa_af_ndc_cfg_t
-#define bustype_CAVM_NPA_AF_NDC_CFG CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_NPA_AF_NDC_CFG "NPA_AF_NDC_CFG"
-#define device_bar_CAVM_NPA_AF_NDC_CFG 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_NPA_AF_NDC_CFG 0
-#define arguments_CAVM_NPA_AF_NDC_CFG -1,-1,-1,-1
-
-/**
- * Register (RVU_PF_BAR0) npa_af_ndc_sync
- *
- * NPA AF NDC Sync Register
- * Used to synchronize the NPA NDC.
- */
-union cavm_npa_af_ndc_sync
-{
-    uint64_t u;
-    struct cavm_npa_af_ndc_sync_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_13_63        : 51;
-        uint64_t exec                  : 1;  /**< [ 12: 12](R/W1S/H) Execute sync. When software writes a one to set this bit, NDC writes back
-                                                                 to LLC/DRAM all dirty lines associated with the local function selected by
-                                                                 [LF]. Hardware clears this bit when done. */
-        uint64_t reserved_8_11         : 4;
-        uint64_t lf                    : 8;  /**< [  7:  0](R/W) Local function whose data is synced when [EXEC] is set. */
-#else /* Word 0 - Little Endian */
-        uint64_t lf                    : 8;  /**< [  7:  0](R/W) Local function whose data is synced when [EXEC] is set. */
-        uint64_t reserved_8_11         : 4;
-        uint64_t exec                  : 1;  /**< [ 12: 12](R/W1S/H) Execute sync. When software writes a one to set this bit, NDC writes back
-                                                                 to LLC/DRAM all dirty lines associated with the local function selected by
-                                                                 [LF]. Hardware clears this bit when done. */
-        uint64_t reserved_13_63        : 51;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_npa_af_ndc_sync_s cn; */
-};
-typedef union cavm_npa_af_ndc_sync cavm_npa_af_ndc_sync_t;
-
-#define CAVM_NPA_AF_NDC_SYNC CAVM_NPA_AF_NDC_SYNC_FUNC()
-static inline uint64_t CAVM_NPA_AF_NDC_SYNC_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NPA_AF_NDC_SYNC_FUNC(void)
-{
-    if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840030000050ll;
-    __cavm_csr_fatal("NPA_AF_NDC_SYNC", 0, 0, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_NPA_AF_NDC_SYNC cavm_npa_af_ndc_sync_t
-#define bustype_CAVM_NPA_AF_NDC_SYNC CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_NPA_AF_NDC_SYNC "NPA_AF_NDC_SYNC"
-#define device_bar_CAVM_NPA_AF_NDC_SYNC 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_NPA_AF_NDC_SYNC 0
-#define arguments_CAVM_NPA_AF_NDC_SYNC -1,-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) npa_af_ras
@@ -3360,25 +3295,25 @@ union cavm_npa_af_ras
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_35_63        : 29;
         uint64_t aq_inst_poison        : 1;  /**< [ 34: 34](R/W1C/H) Poisoned data returned on NPA_AQ_INST_S read. If
-                                                                 NPA_AF_NDC_CFG[NDC_IGN_POIS]=0, hardware also sets
+                                                                 NPA_AF_GEN_CFG[AF_IGN_POIS]=0, hardware also sets
                                                                  NPA_AF_AQ_STATUS[AQ_ERR]. */
         uint64_t aq_res_poison         : 1;  /**< [ 33: 33](R/W1C/H) Poisoned read data returned following NPA_AQ_RES_S. If
-                                                                 NPA_AF_NDC_CFG[NDC_IGN_POIS]=0, hardware also sets
+                                                                 NPA_AF_GEN_CFG[AF_IGN_POIS]=0, hardware also sets
                                                                  NPA_AF_AQ_STATUS[AQ_ERR]. */
         uint64_t aq_ctx_poison         : 1;  /**< [ 32: 32](R/W1C/H) Poisoned data returned on read of hardware context data selected by
-                                                                 NPA_AQ_INST_S[LF,CTYPE,AURA]. If NPA_AF_NDC_CFG[NDC_IGN_POIS]=0, hardware
+                                                                 NPA_AQ_INST_S[LF,CTYPE,AURA]. If NPA_AF_GEN_CFG[AF_IGN_POIS]=0, hardware
                                                                  also returns NPA_AQ_RES_S[COMPCODE] = NPA_AQ_COMP_E::CTX_POISON. */
         uint64_t reserved_0_31         : 32;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_31         : 32;
         uint64_t aq_ctx_poison         : 1;  /**< [ 32: 32](R/W1C/H) Poisoned data returned on read of hardware context data selected by
-                                                                 NPA_AQ_INST_S[LF,CTYPE,AURA]. If NPA_AF_NDC_CFG[NDC_IGN_POIS]=0, hardware
+                                                                 NPA_AQ_INST_S[LF,CTYPE,AURA]. If NPA_AF_GEN_CFG[AF_IGN_POIS]=0, hardware
                                                                  also returns NPA_AQ_RES_S[COMPCODE] = NPA_AQ_COMP_E::CTX_POISON. */
         uint64_t aq_res_poison         : 1;  /**< [ 33: 33](R/W1C/H) Poisoned read data returned following NPA_AQ_RES_S. If
-                                                                 NPA_AF_NDC_CFG[NDC_IGN_POIS]=0, hardware also sets
+                                                                 NPA_AF_GEN_CFG[AF_IGN_POIS]=0, hardware also sets
                                                                  NPA_AF_AQ_STATUS[AQ_ERR]. */
         uint64_t aq_inst_poison        : 1;  /**< [ 34: 34](R/W1C/H) Poisoned data returned on NPA_AQ_INST_S read. If
-                                                                 NPA_AF_NDC_CFG[NDC_IGN_POIS]=0, hardware also sets
+                                                                 NPA_AF_GEN_CFG[AF_IGN_POIS]=0, hardware also sets
                                                                  NPA_AF_AQ_STATUS[AQ_ERR]. */
         uint64_t reserved_35_63        : 29;
 #endif /* Word 0 - End */
@@ -3392,7 +3327,7 @@ static inline uint64_t CAVM_NPA_AF_RAS_FUNC(void) __attribute__ ((pure, always_i
 static inline uint64_t CAVM_NPA_AF_RAS_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x8400300001a0ll;
+        return 0xce00300001a0ll;
     __cavm_csr_fatal("NPA_AF_RAS", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -3437,7 +3372,7 @@ static inline uint64_t CAVM_NPA_AF_RAS_ENA_W1C_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t CAVM_NPA_AF_RAS_ENA_W1C_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x8400300001b8ll;
+        return 0xce00300001b8ll;
     __cavm_csr_fatal("NPA_AF_RAS_ENA_W1C", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -3482,7 +3417,7 @@ static inline uint64_t CAVM_NPA_AF_RAS_ENA_W1S_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t CAVM_NPA_AF_RAS_ENA_W1S_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x8400300001b0ll;
+        return 0xce00300001b0ll;
     __cavm_csr_fatal("NPA_AF_RAS_ENA_W1S", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -3527,7 +3462,7 @@ static inline uint64_t CAVM_NPA_AF_RAS_W1S_FUNC(void) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_NPA_AF_RAS_W1S_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x8400300001a8ll;
+        return 0xce00300001a8ll;
     __cavm_csr_fatal("NPA_AF_RAS_W1S", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -3568,7 +3503,7 @@ static inline uint64_t CAVM_NPA_AF_RVU_INT_FUNC(void) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_NPA_AF_RVU_INT_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840030000160ll;
+        return 0xce0030000160ll;
     __cavm_csr_fatal("NPA_AF_RVU_INT", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -3607,7 +3542,7 @@ static inline uint64_t CAVM_NPA_AF_RVU_INT_ENA_W1C_FUNC(void) __attribute__ ((pu
 static inline uint64_t CAVM_NPA_AF_RVU_INT_ENA_W1C_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840030000178ll;
+        return 0xce0030000178ll;
     __cavm_csr_fatal("NPA_AF_RVU_INT_ENA_W1C", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -3646,7 +3581,7 @@ static inline uint64_t CAVM_NPA_AF_RVU_INT_ENA_W1S_FUNC(void) __attribute__ ((pu
 static inline uint64_t CAVM_NPA_AF_RVU_INT_ENA_W1S_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840030000170ll;
+        return 0xce0030000170ll;
     __cavm_csr_fatal("NPA_AF_RVU_INT_ENA_W1S", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -3685,7 +3620,7 @@ static inline uint64_t CAVM_NPA_AF_RVU_INT_W1S_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t CAVM_NPA_AF_RVU_INT_W1S_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840030000168ll;
+        return 0xce0030000168ll;
     __cavm_csr_fatal("NPA_AF_RVU_INT_W1S", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -3745,7 +3680,7 @@ static inline uint64_t CAVM_NPA_AF_RVU_LF_CFG_DEBUG_FUNC(void) __attribute__ ((p
 static inline uint64_t CAVM_NPA_AF_RVU_LF_CFG_DEBUG_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840030010030ll;
+        return 0xce0030010030ll;
     __cavm_csr_fatal("NPA_AF_RVU_LF_CFG_DEBUG", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -3795,7 +3730,7 @@ static inline uint64_t CAVM_NPA_LF_AURA_BATCH_ALLOC_FUNC(void) __attribute__ ((p
 static inline uint64_t CAVM_NPA_LF_AURA_BATCH_ALLOC_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200300340ll;
+        return 0xce0000300340ll;
     __cavm_csr_fatal("NPA_LF_AURA_BATCH_ALLOC", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -3834,7 +3769,7 @@ static inline uint64_t CAVM_NPA_LF_AURA_BATCH_FREEX(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_NPA_LF_AURA_BATCH_FREEX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a>=1)&&(a<=15)))
-        return 0x840200300400ll + 8ll * ((a) & 0xf);
+        return 0xce0000300400ll + 8ll * ((a) & 0xf);
     __cavm_csr_fatal("NPA_LF_AURA_BATCH_FREEX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3915,7 +3850,7 @@ static inline uint64_t CAVM_NPA_LF_AURA_BATCH_FREE0_FUNC(void) __attribute__ ((p
 static inline uint64_t CAVM_NPA_LF_AURA_BATCH_FREE0_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200300400ll;
+        return 0xce0000300400ll;
     __cavm_csr_fatal("NPA_LF_AURA_BATCH_FREE0", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -3967,7 +3902,7 @@ static inline uint64_t CAVM_NPA_LF_AURA_OP_ALLOCX(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_NPA_LF_AURA_OP_ALLOCX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
-        return 0x840200300010ll + 8ll * ((a) & 0x1);
+        return 0xce0000300010ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("NPA_LF_AURA_OP_ALLOCX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4039,7 +3974,7 @@ static inline uint64_t CAVM_NPA_LF_AURA_OP_CNT_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t CAVM_NPA_LF_AURA_OP_CNT_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200300030ll;
+        return 0xce0000300030ll;
     __cavm_csr_fatal("NPA_LF_AURA_OP_CNT", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -4081,7 +4016,7 @@ static inline uint64_t CAVM_NPA_LF_AURA_OP_FREE0_FUNC(void) __attribute__ ((pure
 static inline uint64_t CAVM_NPA_LF_AURA_OP_FREE0_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200300020ll;
+        return 0xce0000300020ll;
     __cavm_csr_fatal("NPA_LF_AURA_OP_FREE0", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -4128,7 +4063,7 @@ static inline uint64_t CAVM_NPA_LF_AURA_OP_FREE1_FUNC(void) __attribute__ ((pure
 static inline uint64_t CAVM_NPA_LF_AURA_OP_FREE1_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200300028ll;
+        return 0xce0000300028ll;
     __cavm_csr_fatal("NPA_LF_AURA_OP_FREE1", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -4203,7 +4138,7 @@ static inline uint64_t CAVM_NPA_LF_AURA_OP_INT_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t CAVM_NPA_LF_AURA_OP_INT_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200300060ll;
+        return 0xce0000300060ll;
     __cavm_csr_fatal("NPA_LF_AURA_OP_INT", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -4253,7 +4188,7 @@ static inline uint64_t CAVM_NPA_LF_AURA_OP_LIMIT_FUNC(void) __attribute__ ((pure
 static inline uint64_t CAVM_NPA_LF_AURA_OP_LIMIT_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200300050ll;
+        return 0xce0000300050ll;
     __cavm_csr_fatal("NPA_LF_AURA_OP_LIMIT", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -4309,7 +4244,7 @@ static inline uint64_t CAVM_NPA_LF_AURA_OP_THRESH_FUNC(void) __attribute__ ((pur
 static inline uint64_t CAVM_NPA_LF_AURA_OP_THRESH_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200300070ll;
+        return 0xce0000300070ll;
     __cavm_csr_fatal("NPA_LF_AURA_OP_THRESH", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -4383,7 +4318,7 @@ static inline uint64_t CAVM_NPA_LF_ERR_INT_FUNC(void) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_NPA_LF_ERR_INT_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200300200ll;
+        return 0xce0000300200ll;
     __cavm_csr_fatal("NPA_LF_ERR_INT", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -4440,7 +4375,7 @@ static inline uint64_t CAVM_NPA_LF_ERR_INT_ENA_W1C_FUNC(void) __attribute__ ((pu
 static inline uint64_t CAVM_NPA_LF_ERR_INT_ENA_W1C_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200300210ll;
+        return 0xce0000300210ll;
     __cavm_csr_fatal("NPA_LF_ERR_INT_ENA_W1C", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -4497,7 +4432,7 @@ static inline uint64_t CAVM_NPA_LF_ERR_INT_ENA_W1S_FUNC(void) __attribute__ ((pu
 static inline uint64_t CAVM_NPA_LF_ERR_INT_ENA_W1S_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200300218ll;
+        return 0xce0000300218ll;
     __cavm_csr_fatal("NPA_LF_ERR_INT_ENA_W1S", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -4554,7 +4489,7 @@ static inline uint64_t CAVM_NPA_LF_ERR_INT_W1S_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t CAVM_NPA_LF_ERR_INT_W1S_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200300208ll;
+        return 0xce0000300208ll;
     __cavm_csr_fatal("NPA_LF_ERR_INT_W1S", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -4614,7 +4549,7 @@ static inline uint64_t CAVM_NPA_LF_POOL_OP_AVAILABLE_FUNC(void) __attribute__ ((
 static inline uint64_t CAVM_NPA_LF_POOL_OP_AVAILABLE_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200300110ll;
+        return 0xce0000300110ll;
     __cavm_csr_fatal("NPA_LF_POOL_OP_AVAILABLE", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -4689,7 +4624,7 @@ static inline uint64_t CAVM_NPA_LF_POOL_OP_INT_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t CAVM_NPA_LF_POOL_OP_INT_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200300160ll;
+        return 0xce0000300160ll;
     __cavm_csr_fatal("NPA_LF_POOL_OP_INT", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -4734,7 +4669,7 @@ static inline uint64_t CAVM_NPA_LF_POOL_OP_PC_FUNC(void) __attribute__ ((pure, a
 static inline uint64_t CAVM_NPA_LF_POOL_OP_PC_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200300100ll;
+        return 0xce0000300100ll;
     __cavm_csr_fatal("NPA_LF_POOL_OP_PC", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -4776,7 +4711,7 @@ static inline uint64_t CAVM_NPA_LF_POOL_OP_PTR_END0_FUNC(void) __attribute__ ((p
 static inline uint64_t CAVM_NPA_LF_POOL_OP_PTR_END0_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200300130ll;
+        return 0xce0000300130ll;
     __cavm_csr_fatal("NPA_LF_POOL_OP_PTR_END0", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -4817,7 +4752,7 @@ static inline uint64_t CAVM_NPA_LF_POOL_OP_PTR_END1_FUNC(void) __attribute__ ((p
 static inline uint64_t CAVM_NPA_LF_POOL_OP_PTR_END1_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200300138ll;
+        return 0xce0000300138ll;
     __cavm_csr_fatal("NPA_LF_POOL_OP_PTR_END1", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -4859,7 +4794,7 @@ static inline uint64_t CAVM_NPA_LF_POOL_OP_PTR_START0_FUNC(void) __attribute__ (
 static inline uint64_t CAVM_NPA_LF_POOL_OP_PTR_START0_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200300120ll;
+        return 0xce0000300120ll;
     __cavm_csr_fatal("NPA_LF_POOL_OP_PTR_START0", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -4900,7 +4835,7 @@ static inline uint64_t CAVM_NPA_LF_POOL_OP_PTR_START1_FUNC(void) __attribute__ (
 static inline uint64_t CAVM_NPA_LF_POOL_OP_PTR_START1_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200300128ll;
+        return 0xce0000300128ll;
     __cavm_csr_fatal("NPA_LF_POOL_OP_PTR_START1", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -4955,7 +4890,7 @@ static inline uint64_t CAVM_NPA_LF_POOL_OP_THRESH_FUNC(void) __attribute__ ((pur
 static inline uint64_t CAVM_NPA_LF_POOL_OP_THRESH_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200300170ll;
+        return 0xce0000300170ll;
     __cavm_csr_fatal("NPA_LF_POOL_OP_THRESH", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -5006,7 +4941,7 @@ static inline uint64_t CAVM_NPA_LF_QINTX_CNT(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_NPA_LF_QINTX_CNT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
-        return 0x840200300300ll + 0x1000ll * ((a) & 0x3f);
+        return 0xce0000300300ll + 0x1000ll * ((a) & 0x3f);
     __cavm_csr_fatal("NPA_LF_QINTX_CNT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5044,7 +4979,7 @@ static inline uint64_t CAVM_NPA_LF_QINTX_ENA_W1C(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_NPA_LF_QINTX_ENA_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
-        return 0x840200300330ll + 0x1000ll * ((a) & 0x3f);
+        return 0xce0000300330ll + 0x1000ll * ((a) & 0x3f);
     __cavm_csr_fatal("NPA_LF_QINTX_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5082,7 +5017,7 @@ static inline uint64_t CAVM_NPA_LF_QINTX_ENA_W1S(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_NPA_LF_QINTX_ENA_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
-        return 0x840200300320ll + 0x1000ll * ((a) & 0x3f);
+        return 0xce0000300320ll + 0x1000ll * ((a) & 0x3f);
     __cavm_csr_fatal("NPA_LF_QINTX_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5119,7 +5054,7 @@ static inline uint64_t CAVM_NPA_LF_QINTX_INT(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_NPA_LF_QINTX_INT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
-        return 0x840200300310ll + 0x1000ll * ((a) & 0x3f);
+        return 0xce0000300310ll + 0x1000ll * ((a) & 0x3f);
     __cavm_csr_fatal("NPA_LF_QINTX_INT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5163,7 +5098,7 @@ static inline uint64_t CAVM_NPA_LF_RAS_FUNC(void) __attribute__ ((pure, always_i
 static inline uint64_t CAVM_NPA_LF_RAS_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200300220ll;
+        return 0xce0000300220ll;
     __cavm_csr_fatal("NPA_LF_RAS", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -5208,7 +5143,7 @@ static inline uint64_t CAVM_NPA_LF_RAS_ENA_W1C_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t CAVM_NPA_LF_RAS_ENA_W1C_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200300230ll;
+        return 0xce0000300230ll;
     __cavm_csr_fatal("NPA_LF_RAS_ENA_W1C", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -5253,7 +5188,7 @@ static inline uint64_t CAVM_NPA_LF_RAS_ENA_W1S_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t CAVM_NPA_LF_RAS_ENA_W1S_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200300238ll;
+        return 0xce0000300238ll;
     __cavm_csr_fatal("NPA_LF_RAS_ENA_W1S", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -5298,7 +5233,7 @@ static inline uint64_t CAVM_NPA_LF_RAS_W1S_FUNC(void) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_NPA_LF_RAS_W1S_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200300228ll;
+        return 0xce0000300228ll;
     __cavm_csr_fatal("NPA_LF_RAS_W1S", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -5348,7 +5283,7 @@ static inline uint64_t CAVM_NPA_PRIV_AF_INT_CFG_FUNC(void) __attribute__ ((pure,
 static inline uint64_t CAVM_NPA_PRIV_AF_INT_CFG_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840030010000ll;
+        return 0xce0030010000ll;
     __cavm_csr_fatal("NPA_PRIV_AF_INT_CFG", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -5408,7 +5343,7 @@ static inline uint64_t CAVM_NPA_PRIV_LFX_CFG(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_NPA_PRIV_LFX_CFG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=127))
-        return 0x840030010010ll + 0x100ll * ((a) & 0x7f);
+        return 0xce0030010010ll + 0x100ll * ((a) & 0x7f);
     __cavm_csr_fatal("NPA_PRIV_LFX_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5459,7 +5394,7 @@ static inline uint64_t CAVM_NPA_PRIV_LFX_INT_CFG(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_NPA_PRIV_LFX_INT_CFG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=127))
-        return 0x840030010020ll + 0x100ll * ((a) & 0x7f);
+        return 0xce0030010020ll + 0x100ll * ((a) & 0x7f);
     __cavm_csr_fatal("NPA_PRIV_LFX_INT_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 

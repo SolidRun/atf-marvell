@@ -25,9 +25,9 @@
  * RST Base Address Register Enumeration
  * Enumeration of RST BAR.
  */
-#define CAVM_RST_BAR_E_RSTX_PF_BAR0(a) (0x87e006000000ll + 0x1000000ll * (a))
+#define CAVM_RST_BAR_E_RSTX_PF_BAR0(a) (0xc00606000000ll + 0x100000000ll * (a))
 #define CAVM_RST_BAR_E_RSTX_PF_BAR0_SIZE 0x10000ull
-#define CAVM_RST_BAR_E_RSTX_PF_BAR4(a) (0x87e006f00000ll + 0x1000000ll * (a))
+#define CAVM_RST_BAR_E_RSTX_PF_BAR4(a) (0xc00606f00000ll + 0x100000000ll * (a))
 #define CAVM_RST_BAR_E_RSTX_PF_BAR4_SIZE 0x100000ull
 
 /**
@@ -209,7 +209,7 @@ static inline uint64_t CAVM_RSTX_AP_AVAILABLEX(uint64_t a, uint64_t b) __attribu
 static inline uint64_t CAVM_RSTX_AP_AVAILABLEX(uint64_t a, uint64_t b)
 {
     if ((a<=1) && (b<=3))
-        return 0x87e006001730ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x3);
+        return 0xc00606001730ll + 0x100000000ll * ((a) & 0x1) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("RSTX_AP_AVAILABLEX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -255,7 +255,7 @@ static inline uint64_t CAVM_RSTX_BOOT(uint64_t a) __attribute__ ((pure, always_i
 static inline uint64_t CAVM_RSTX_BOOT(uint64_t a)
 {
     if (a<=1)
-        return 0x87e006001600ll + 0x1000000ll * ((a) & 0x1);
+        return 0xc00606001600ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("RSTX_BOOT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -313,7 +313,7 @@ static inline uint64_t CAVM_RSTX_BOOT_STATUS(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_RSTX_BOOT_STATUS(uint64_t a)
 {
     if (a<=1)
-        return 0x87e006001800ll + 0x1000000ll * ((a) & 0x1);
+        return 0xc00606001800ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("RSTX_BOOT_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -323,6 +323,88 @@ static inline uint64_t CAVM_RSTX_BOOT_STATUS(uint64_t a)
 #define device_bar_CAVM_RSTX_BOOT_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RSTX_BOOT_STATUS(a) (a)
 #define arguments_CAVM_RSTX_BOOT_STATUS(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rst#_bus_enable_w1c
+ *
+ * RST Global Bus Enable W1C Register
+ */
+union cavm_rstx_bus_enable_w1c
+{
+    uint64_t u;
+    struct cavm_rstx_bus_enable_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t enable                : 1;  /**< [  0:  0](R/W1C/H) Software-initiated de-assertion of Global Bus Enable.
+                                                                 Bus Enable is de-asserted by either Chip Reset, BUS_DISABLE_REQ_N
+                                                                 or by writting to this register. */
+#else /* Word 0 - Little Endian */
+        uint64_t enable                : 1;  /**< [  0:  0](R/W1C/H) Software-initiated de-assertion of Global Bus Enable.
+                                                                 Bus Enable is de-asserted by either Chip Reset, BUS_DISABLE_REQ_N
+                                                                 or by writting to this register. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rstx_bus_enable_w1c_s cn; */
+};
+typedef union cavm_rstx_bus_enable_w1c cavm_rstx_bus_enable_w1c_t;
+
+static inline uint64_t CAVM_RSTX_BUS_ENABLE_W1C(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RSTX_BUS_ENABLE_W1C(uint64_t a)
+{
+    if (a<=1)
+        return 0xc006060019f0ll + 0x100000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("RSTX_BUS_ENABLE_W1C", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RSTX_BUS_ENABLE_W1C(a) cavm_rstx_bus_enable_w1c_t
+#define bustype_CAVM_RSTX_BUS_ENABLE_W1C(a) CSR_TYPE_RSL
+#define basename_CAVM_RSTX_BUS_ENABLE_W1C(a) "RSTX_BUS_ENABLE_W1C"
+#define device_bar_CAVM_RSTX_BUS_ENABLE_W1C(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RSTX_BUS_ENABLE_W1C(a) (a)
+#define arguments_CAVM_RSTX_BUS_ENABLE_W1C(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rst#_bus_enable_w1s
+ *
+ * RST Global Bus Enable W1S Register
+ */
+union cavm_rstx_bus_enable_w1s
+{
+    uint64_t u;
+    struct cavm_rstx_bus_enable_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t enable                : 1;  /**< [  0:  0](R/W1S/H) Software-initiated assertion of Global Bus Enable.
+                                                                 Bus Enable is de-asserted with Chip Reset and must be
+                                                                 set by writing to this register. */
+#else /* Word 0 - Little Endian */
+        uint64_t enable                : 1;  /**< [  0:  0](R/W1S/H) Software-initiated assertion of Global Bus Enable.
+                                                                 Bus Enable is de-asserted with Chip Reset and must be
+                                                                 set by writing to this register. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rstx_bus_enable_w1s_s cn; */
+};
+typedef union cavm_rstx_bus_enable_w1s cavm_rstx_bus_enable_w1s_t;
+
+static inline uint64_t CAVM_RSTX_BUS_ENABLE_W1S(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RSTX_BUS_ENABLE_W1S(uint64_t a)
+{
+    if (a<=1)
+        return 0xc006060018f0ll + 0x100000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("RSTX_BUS_ENABLE_W1S", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RSTX_BUS_ENABLE_W1S(a) cavm_rstx_bus_enable_w1s_t
+#define bustype_CAVM_RSTX_BUS_ENABLE_W1S(a) CSR_TYPE_RSL
+#define basename_CAVM_RSTX_BUS_ENABLE_W1S(a) "RSTX_BUS_ENABLE_W1S"
+#define device_bar_CAVM_RSTX_BUS_ENABLE_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RSTX_BUS_ENABLE_W1S(a) (a)
+#define arguments_CAVM_RSTX_BUS_ENABLE_W1S(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) rst#_cold_data#
@@ -351,7 +433,7 @@ static inline uint64_t CAVM_RSTX_COLD_DATAX(uint64_t a, uint64_t b) __attribute_
 static inline uint64_t CAVM_RSTX_COLD_DATAX(uint64_t a, uint64_t b)
 {
     if ((a<=1) && (b<=5))
-        return 0x87e0060017c0ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x7);
+        return 0xc006060017c0ll + 0x100000000ll * ((a) & 0x1) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("RSTX_COLD_DATAX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -397,7 +479,7 @@ static inline uint64_t CAVM_RSTX_CONST(uint64_t a) __attribute__ ((pure, always_
 static inline uint64_t CAVM_RSTX_CONST(uint64_t a)
 {
     if (a<=1)
-        return 0x87e0060019f8ll + 0x1000000ll * ((a) & 0x1);
+        return 0xc006060019f8ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("RSTX_CONST", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -449,7 +531,7 @@ static inline uint64_t CAVM_RSTX_DEBUG(uint64_t a) __attribute__ ((pure, always_
 static inline uint64_t CAVM_RSTX_DEBUG(uint64_t a)
 {
     if (a<=1)
-        return 0x87e0060016c0ll + 0x1000000ll * ((a) & 0x1);
+        return 0xc006060016c0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("RSTX_DEBUG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -495,7 +577,7 @@ static inline uint64_t CAVM_RSTX_DELAY(uint64_t a) __attribute__ ((pure, always_
 static inline uint64_t CAVM_RSTX_DELAY(uint64_t a)
 {
     if (a<=1)
-        return 0x87e006001608ll + 0x1000000ll * ((a) & 0x1);
+        return 0xc00606001608ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("RSTX_DELAY", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -550,7 +632,7 @@ static inline uint64_t CAVM_RSTX_DOMAIN_W1CX(uint64_t a, uint64_t b) __attribute
 static inline uint64_t CAVM_RSTX_DOMAIN_W1CX(uint64_t a, uint64_t b)
 {
     if ((a<=1) && (b<=7))
-        return 0x87e006001940ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x7);
+        return 0xc00606001940ll + 0x100000000ll * ((a) & 0x1) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("RSTX_DOMAIN_W1CX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -595,7 +677,7 @@ static inline uint64_t CAVM_RSTX_DOMAIN_W1SX(uint64_t a, uint64_t b) __attribute
 static inline uint64_t CAVM_RSTX_DOMAIN_W1SX(uint64_t a, uint64_t b)
 {
     if ((a<=1) && (b<=7))
-        return 0x87e006001840ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x7);
+        return 0xc00606001840ll + 0x100000000ll * ((a) & 0x1) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("RSTX_DOMAIN_W1SX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -641,7 +723,7 @@ static inline uint64_t CAVM_RSTX_GBL_CHIP_W1S(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_RSTX_GBL_CHIP_W1S(uint64_t a)
 {
     if (a<=1)
-        return 0x87e006001820ll + 0x1000000ll * ((a) & 0x1);
+        return 0xc00606001820ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("RSTX_GBL_CHIP_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -689,7 +771,7 @@ static inline uint64_t CAVM_RSTX_GBL_COLD_W1S(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_RSTX_GBL_COLD_W1S(uint64_t a)
 {
     if (a<=1)
-        return 0x87e006001810ll + 0x1000000ll * ((a) & 0x1);
+        return 0xc00606001810ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("RSTX_GBL_COLD_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -727,7 +809,7 @@ static inline uint64_t CAVM_RSTX_IN(uint64_t a) __attribute__ ((pure, always_inl
 static inline uint64_t CAVM_RSTX_IN(uint64_t a)
 {
     if (a<=1)
-        return 0x87e006001920ll + 0x1000000ll * ((a) & 0x1);
+        return 0xc00606001920ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("RSTX_IN", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -777,7 +859,7 @@ static inline uint64_t CAVM_RSTX_INT(uint64_t a) __attribute__ ((pure, always_in
 static inline uint64_t CAVM_RSTX_INT(uint64_t a)
 {
     if (a<=1)
-        return 0x87e006001628ll + 0x1000000ll * ((a) & 0x1);
+        return 0xc00606001628ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("RSTX_INT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -825,7 +907,7 @@ static inline uint64_t CAVM_RSTX_INT_ENA_W1C(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_RSTX_INT_ENA_W1C(uint64_t a)
 {
     if (a<=1)
-        return 0x87e006001648ll + 0x1000000ll * ((a) & 0x1);
+        return 0xc00606001648ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("RSTX_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -873,7 +955,7 @@ static inline uint64_t CAVM_RSTX_INT_ENA_W1S(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_RSTX_INT_ENA_W1S(uint64_t a)
 {
     if (a<=1)
-        return 0x87e006001640ll + 0x1000000ll * ((a) & 0x1);
+        return 0xc00606001640ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("RSTX_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -921,7 +1003,7 @@ static inline uint64_t CAVM_RSTX_INT_W1S(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_RSTX_INT_W1S(uint64_t a)
 {
     if (a<=1)
-        return 0x87e006001630ll + 0x1000000ll * ((a) & 0x1);
+        return 0xc00606001630ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("RSTX_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -969,7 +1051,7 @@ static inline uint64_t CAVM_RSTX_LBOOT(uint64_t a) __attribute__ ((pure, always_
 static inline uint64_t CAVM_RSTX_LBOOT(uint64_t a)
 {
     if (a<=1)
-        return 0x87e006001620ll + 0x1000000ll * ((a) & 0x1);
+        return 0xc00606001620ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("RSTX_LBOOT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1015,7 +1097,7 @@ static inline uint64_t CAVM_RSTX_LOCAL_CHIP_W1S(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_RSTX_LOCAL_CHIP_W1S(uint64_t a)
 {
     if (a<=1)
-        return 0x87e006001828ll + 0x1000000ll * ((a) & 0x1);
+        return 0xc00606001828ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("RSTX_LOCAL_CHIP_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1063,7 +1145,7 @@ static inline uint64_t CAVM_RSTX_LOCAL_COLD_W1S(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_RSTX_LOCAL_COLD_W1S(uint64_t a)
 {
     if (a<=1)
-        return 0x87e006001818ll + 0x1000000ll * ((a) & 0x1);
+        return 0xc00606001818ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("RSTX_LOCAL_COLD_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1098,7 +1180,7 @@ static inline uint64_t CAVM_RSTX_MSIX_PBAX(uint64_t a, uint64_t b) __attribute__
 static inline uint64_t CAVM_RSTX_MSIX_PBAX(uint64_t a, uint64_t b)
 {
     if ((a<=1) && (b==0))
-        return 0x87e006ff0000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
+        return 0xc00606ff0000ll + 0x100000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("RSTX_MSIX_PBAX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1139,7 +1221,7 @@ static inline uint64_t CAVM_RSTX_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attrib
 static inline uint64_t CAVM_RSTX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
     if ((a<=1) && (b==0))
-        return 0x87e006f00000ll + 0x1000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
+        return 0xc00606f00000ll + 0x100000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
     __cavm_csr_fatal("RSTX_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1178,7 +1260,7 @@ static inline uint64_t CAVM_RSTX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribu
 static inline uint64_t CAVM_RSTX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
     if ((a<=1) && (b==0))
-        return 0x87e006f00008ll + 0x1000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
+        return 0xc00606f00008ll + 0x100000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
     __cavm_csr_fatal("RSTX_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1218,7 +1300,7 @@ static inline uint64_t CAVM_RSTX_OUT(uint64_t a) __attribute__ ((pure, always_in
 static inline uint64_t CAVM_RSTX_OUT(uint64_t a)
 {
     if (a<=1)
-        return 0x87e006001928ll + 0x1000000ll * ((a) & 0x1);
+        return 0xc00606001928ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("RSTX_OUT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1256,7 +1338,7 @@ static inline uint64_t CAVM_RSTX_REF_CNTR(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_RSTX_REF_CNTR(uint64_t a)
 {
     if (a<=1)
-        return 0x87e0060016b0ll + 0x1000000ll * ((a) & 0x1);
+        return 0xc006060016b0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("RSTX_REF_CNTR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1266,6 +1348,50 @@ static inline uint64_t CAVM_RSTX_REF_CNTR(uint64_t a)
 #define device_bar_CAVM_RSTX_REF_CNTR(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RSTX_REF_CNTR(a) (a)
 #define arguments_CAVM_RSTX_REF_CNTR(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rst#_sw_bist_w1s
+ *
+ * RST Software Initiated Memory BIST W1S Register
+ * Generic RST Block Input signals
+ */
+union cavm_rstx_sw_bist_w1s
+{
+    uint64_t u;
+    struct cavm_rstx_sw_bist_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t clear                 : 1;  /**< [  1:  1](R/W1S/H) Initiate Clear Memory BIST.
+                                                                 Setting this bit will request BIST and it will clear when completed. */
+        uint64_t full                  : 1;  /**< [  0:  0](R/W1S/H) Initiate Full Memory BIST.
+                                                                 Setting this bit will request BIST and it will clear when completed. */
+#else /* Word 0 - Little Endian */
+        uint64_t full                  : 1;  /**< [  0:  0](R/W1S/H) Initiate Full Memory BIST.
+                                                                 Setting this bit will request BIST and it will clear when completed. */
+        uint64_t clear                 : 1;  /**< [  1:  1](R/W1S/H) Initiate Clear Memory BIST.
+                                                                 Setting this bit will request BIST and it will clear when completed. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rstx_sw_bist_w1s_s cn; */
+};
+typedef union cavm_rstx_sw_bist_w1s cavm_rstx_sw_bist_w1s_t;
+
+static inline uint64_t CAVM_RSTX_SW_BIST_W1S(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RSTX_SW_BIST_W1S(uint64_t a)
+{
+    if (a<=1)
+        return 0xc00606001900ll + 0x100000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("RSTX_SW_BIST_W1S", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RSTX_SW_BIST_W1S(a) cavm_rstx_sw_bist_w1s_t
+#define bustype_CAVM_RSTX_SW_BIST_W1S(a) CSR_TYPE_RSL
+#define basename_CAVM_RSTX_SW_BIST_W1S(a) "RSTX_SW_BIST_W1S"
+#define device_bar_CAVM_RSTX_SW_BIST_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RSTX_SW_BIST_W1S(a) (a)
+#define arguments_CAVM_RSTX_SW_BIST_W1S(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) rst#_sw_w1s
@@ -1294,7 +1420,7 @@ static inline uint64_t CAVM_RSTX_SW_W1S(uint64_t a) __attribute__ ((pure, always
 static inline uint64_t CAVM_RSTX_SW_W1S(uint64_t a)
 {
     if (a<=1)
-        return 0x87e0060017f0ll + 0x1000000ll * ((a) & 0x1);
+        return 0xc006060017f0ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("RSTX_SW_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1344,7 +1470,7 @@ static inline uint64_t CAVM_RSTX_THERMAL_ALERT(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_RSTX_THERMAL_ALERT(uint64_t a)
 {
     if (a<=1)
-        return 0x87e006001688ll + 0x1000000ll * ((a) & 0x1);
+        return 0xc00606001688ll + 0x100000000ll * ((a) & 0x1);
     __cavm_csr_fatal("RSTX_THERMAL_ALERT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1387,7 +1513,7 @@ static inline uint64_t CAVM_RSTX_XCP_W1CX(uint64_t a, uint64_t b) __attribute__ 
 static inline uint64_t CAVM_RSTX_XCP_W1CX(uint64_t a, uint64_t b)
 {
     if ((a<=1) && (b<=3))
-        return 0x87e006001980ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x3);
+        return 0xc00606001980ll + 0x100000000ll * ((a) & 0x1) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("RSTX_XCP_W1CX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1440,7 +1566,7 @@ static inline uint64_t CAVM_RSTX_XCP_W1SX(uint64_t a, uint64_t b) __attribute__ 
 static inline uint64_t CAVM_RSTX_XCP_W1SX(uint64_t a, uint64_t b)
 {
     if ((a<=1) && (b<=3))
-        return 0x87e006001880ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x3);
+        return 0xc00606001880ll + 0x100000000ll * ((a) & 0x1) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("RSTX_XCP_W1SX", 2, a, b, 0, 0, 0, 0);
 }
 

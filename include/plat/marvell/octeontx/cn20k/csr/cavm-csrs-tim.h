@@ -200,7 +200,7 @@ static inline uint64_t CAVM_TIM_AF_ACTIVE_PC_FUNC(void) __attribute__ ((pure, al
 static inline uint64_t CAVM_TIM_AF_ACTIVE_PC_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840090030070ll;
+        return 0xce0090030070ll;
     __cavm_csr_fatal("TIM_AF_ACTIVE_PC", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -236,7 +236,7 @@ static inline uint64_t CAVM_TIM_AF_ADJUST_BTS_FUNC(void) __attribute__ ((pure, a
 static inline uint64_t CAVM_TIM_AF_ADJUST_BTS_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x8400900001b0ll;
+        return 0xce00900001b0ll;
     __cavm_csr_fatal("TIM_AF_ADJUST_BTS", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -272,7 +272,7 @@ static inline uint64_t CAVM_TIM_AF_ADJUST_GPIOS_FUNC(void) __attribute__ ((pure,
 static inline uint64_t CAVM_TIM_AF_ADJUST_GPIOS_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840090000170ll;
+        return 0xce0090000170ll;
     __cavm_csr_fatal("TIM_AF_ADJUST_GPIOS", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -308,7 +308,7 @@ static inline uint64_t CAVM_TIM_AF_ADJUST_TENNS_FUNC(void) __attribute__ ((pure,
 static inline uint64_t CAVM_TIM_AF_ADJUST_TENNS_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840090000160ll;
+        return 0xce0090000160ll;
     __cavm_csr_fatal("TIM_AF_ADJUST_TENNS", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -350,7 +350,7 @@ static inline uint64_t CAVM_TIM_AF_ADJUST_TIMERS_FUNC(void) __attribute__ ((pure
 static inline uint64_t CAVM_TIM_AF_ADJUST_TIMERS_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x8400900001c0ll;
+        return 0xce00900001c0ll;
     __cavm_csr_fatal("TIM_AF_ADJUST_TIMERS", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -387,7 +387,7 @@ static inline uint64_t CAVM_TIM_AF_BAR2_ALIASX(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_TIM_AF_BAR2_ALIASX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=131071))
-        return 0x840099100000ll + 8ll * ((a) & 0x1ffff);
+        return 0xce0099100000ll + 8ll * ((a) & 0x1ffff);
     __cavm_csr_fatal("TIM_AF_BAR2_ALIASX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -430,7 +430,7 @@ static inline uint64_t CAVM_TIM_AF_BAR2_SEL_FUNC(void) __attribute__ ((pure, alw
 static inline uint64_t CAVM_TIM_AF_BAR2_SEL_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840099000000ll;
+        return 0xce0099000000ll;
     __cavm_csr_fatal("TIM_AF_BAR2_SEL", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -469,7 +469,7 @@ static inline uint64_t CAVM_TIM_AF_BKT_SKIPX_INT_STATUS(uint64_t a) __attribute_
 static inline uint64_t CAVM_TIM_AF_BKT_SKIPX_INT_STATUS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=255))
-        return 0x840090044000ll + 8ll * ((a) & 0xff);
+        return 0xce0090044000ll + 8ll * ((a) & 0xff);
     __cavm_csr_fatal("TIM_AF_BKT_SKIPX_INT_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -510,7 +510,7 @@ static inline uint64_t CAVM_TIM_AF_BKT_SKIP_INTX(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_TIM_AF_BKT_SKIP_INTX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
-        return 0x840090010000ll + 0x20ll * ((a) & 0x3);
+        return 0xce0090010000ll + 0x20ll * ((a) & 0x3);
     __cavm_csr_fatal("TIM_AF_BKT_SKIP_INTX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -546,7 +546,7 @@ static inline uint64_t CAVM_TIM_AF_BKT_SKIP_INT_ENA_W1CX(uint64_t a) __attribute
 static inline uint64_t CAVM_TIM_AF_BKT_SKIP_INT_ENA_W1CX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
-        return 0x840090010018ll + 0x20ll * ((a) & 0x3);
+        return 0xce0090010018ll + 0x20ll * ((a) & 0x3);
     __cavm_csr_fatal("TIM_AF_BKT_SKIP_INT_ENA_W1CX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -582,7 +582,7 @@ static inline uint64_t CAVM_TIM_AF_BKT_SKIP_INT_ENA_W1SX(uint64_t a) __attribute
 static inline uint64_t CAVM_TIM_AF_BKT_SKIP_INT_ENA_W1SX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
-        return 0x840090010010ll + 0x20ll * ((a) & 0x3);
+        return 0xce0090010010ll + 0x20ll * ((a) & 0x3);
     __cavm_csr_fatal("TIM_AF_BKT_SKIP_INT_ENA_W1SX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -618,7 +618,7 @@ static inline uint64_t CAVM_TIM_AF_BKT_SKIP_INT_W1SX(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_TIM_AF_BKT_SKIP_INT_W1SX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
-        return 0x840090010008ll + 0x20ll * ((a) & 0x3);
+        return 0xce0090010008ll + 0x20ll * ((a) & 0x3);
     __cavm_csr_fatal("TIM_AF_BKT_SKIP_INT_W1SX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -664,7 +664,7 @@ static inline uint64_t CAVM_TIM_AF_BLK_RST_FUNC(void) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_TIM_AF_BLK_RST_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840090000010ll;
+        return 0xce0090000010ll;
     __cavm_csr_fatal("TIM_AF_BLK_RST", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -706,7 +706,7 @@ static inline uint64_t CAVM_TIM_AF_CAPTURE_BTS_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t CAVM_TIM_AF_CAPTURE_BTS_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840090000220ll;
+        return 0xce0090000220ll;
     __cavm_csr_fatal("TIM_AF_CAPTURE_BTS", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -748,7 +748,7 @@ static inline uint64_t CAVM_TIM_AF_CAPTURE_EXT_GTI_FUNC(void) __attribute__ ((pu
 static inline uint64_t CAVM_TIM_AF_CAPTURE_EXT_GTI_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840090000240ll;
+        return 0xce0090000240ll;
     __cavm_csr_fatal("TIM_AF_CAPTURE_EXT_GTI", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -790,7 +790,7 @@ static inline uint64_t CAVM_TIM_AF_CAPTURE_GPIOS_FUNC(void) __attribute__ ((pure
 static inline uint64_t CAVM_TIM_AF_CAPTURE_GPIOS_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x8400900001e0ll;
+        return 0xce00900001e0ll;
     __cavm_csr_fatal("TIM_AF_CAPTURE_GPIOS", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -840,7 +840,7 @@ static inline uint64_t CAVM_TIM_AF_CAPTURE_GTI_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t CAVM_TIM_AF_CAPTURE_GTI_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x8400900001f0ll;
+        return 0xce00900001f0ll;
     __cavm_csr_fatal("TIM_AF_CAPTURE_GTI", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -882,7 +882,7 @@ static inline uint64_t CAVM_TIM_AF_CAPTURE_PTP_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t CAVM_TIM_AF_CAPTURE_PTP_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840090000200ll;
+        return 0xce0090000200ll;
     __cavm_csr_fatal("TIM_AF_CAPTURE_PTP", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -924,7 +924,7 @@ static inline uint64_t CAVM_TIM_AF_CAPTURE_TENNS_FUNC(void) __attribute__ ((pure
 static inline uint64_t CAVM_TIM_AF_CAPTURE_TENNS_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x8400900001d0ll;
+        return 0xce00900001d0ll;
     __cavm_csr_fatal("TIM_AF_CAPTURE_TENNS", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -976,7 +976,7 @@ static inline uint64_t CAVM_TIM_AF_CAPTURE_TIMERS_FUNC(void) __attribute__ ((pur
 static inline uint64_t CAVM_TIM_AF_CAPTURE_TIMERS_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840090000250ll;
+        return 0xce0090000250ll;
     __cavm_csr_fatal("TIM_AF_CAPTURE_TIMERS", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1016,7 +1016,7 @@ static inline uint64_t CAVM_TIM_AF_CONST_FUNC(void) __attribute__ ((pure, always
 static inline uint64_t CAVM_TIM_AF_CONST_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840090000090ll;
+        return 0xce0090000090ll;
     __cavm_csr_fatal("TIM_AF_CONST", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1062,7 +1062,7 @@ static inline uint64_t CAVM_TIM_AF_DBG_FUNC(void) __attribute__ ((pure, always_i
 static inline uint64_t CAVM_TIM_AF_DBG_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840090030010ll;
+        return 0xce0090030010ll;
     __cavm_csr_fatal("TIM_AF_DBG", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1107,7 +1107,7 @@ static inline uint64_t CAVM_TIM_AF_ENGX_ACTIVE(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_TIM_AF_ENGX_ACTIVE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=15))
-        return 0x840090038000ll + 8ll * ((a) & 0xf);
+        return 0xce0090038000ll + 8ll * ((a) & 0xf);
     __cavm_csr_fatal("TIM_AF_ENGX_ACTIVE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1149,7 +1149,7 @@ static inline uint64_t CAVM_TIM_AF_FR_RN_BTS_FUNC(void) __attribute__ ((pure, al
 static inline uint64_t CAVM_TIM_AF_FR_RN_BTS_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840090000150ll;
+        return 0xce0090000150ll;
     __cavm_csr_fatal("TIM_AF_FR_RN_BTS", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1187,7 +1187,7 @@ static inline uint64_t CAVM_TIM_AF_FR_RN_CYCLES_FUNC(void) __attribute__ ((pure,
 static inline uint64_t CAVM_TIM_AF_FR_RN_CYCLES_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840090000030ll;
+        return 0xce0090000030ll;
     __cavm_csr_fatal("TIM_AF_FR_RN_CYCLES", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1229,7 +1229,7 @@ static inline uint64_t CAVM_TIM_AF_FR_RN_GPIOS_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t CAVM_TIM_AF_FR_RN_GPIOS_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840090000040ll;
+        return 0xce0090000040ll;
     __cavm_csr_fatal("TIM_AF_FR_RN_GPIOS", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1271,7 +1271,7 @@ static inline uint64_t CAVM_TIM_AF_FR_RN_GTI_FUNC(void) __attribute__ ((pure, al
 static inline uint64_t CAVM_TIM_AF_FR_RN_GTI_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840090000050ll;
+        return 0xce0090000050ll;
     __cavm_csr_fatal("TIM_AF_FR_RN_GTI", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1307,7 +1307,7 @@ static inline uint64_t CAVM_TIM_AF_FR_RN_PTP_FUNC(void) __attribute__ ((pure, al
 static inline uint64_t CAVM_TIM_AF_FR_RN_PTP_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840090000060ll;
+        return 0xce0090000060ll;
     __cavm_csr_fatal("TIM_AF_FR_RN_PTP", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1349,7 +1349,7 @@ static inline uint64_t CAVM_TIM_AF_FR_RN_TENNS_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t CAVM_TIM_AF_FR_RN_TENNS_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840090000070ll;
+        return 0xce0090000070ll;
     __cavm_csr_fatal("TIM_AF_FR_RN_TENNS", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1389,7 +1389,7 @@ static inline uint64_t CAVM_TIM_AF_GEN_CFG_FUNC(void) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_TIM_AF_GEN_CFG_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840090000270ll;
+        return 0xce0090000270ll;
     __cavm_csr_fatal("TIM_AF_GEN_CFG", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1436,7 +1436,7 @@ static inline uint64_t CAVM_TIM_AF_HWWQE_DEBUG_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t CAVM_TIM_AF_HWWQE_DEBUG_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840090078000ll;
+        return 0xce0090078000ll;
     __cavm_csr_fatal("TIM_AF_HWWQE_DEBUG", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1483,7 +1483,7 @@ static inline uint64_t CAVM_TIM_AF_HWWQE_DEBUG_BRS_FUNC(void) __attribute__ ((pu
 static inline uint64_t CAVM_TIM_AF_HWWQE_DEBUG_BRS_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840090076000ll;
+        return 0xce0090076000ll;
     __cavm_csr_fatal("TIM_AF_HWWQE_DEBUG_BRS", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1530,7 +1530,7 @@ static inline uint64_t CAVM_TIM_AF_HWWQE_DEBUG_BWS_FUNC(void) __attribute__ ((pu
 static inline uint64_t CAVM_TIM_AF_HWWQE_DEBUG_BWS_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840090074000ll;
+        return 0xce0090074000ll;
     __cavm_csr_fatal("TIM_AF_HWWQE_DEBUG_BWS", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1577,7 +1577,7 @@ static inline uint64_t CAVM_TIM_AF_HWWQE_DEBUG_IS_FUNC(void) __attribute__ ((pur
 static inline uint64_t CAVM_TIM_AF_HWWQE_DEBUG_IS_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840090072000ll;
+        return 0xce0090072000ll;
     __cavm_csr_fatal("TIM_AF_HWWQE_DEBUG_IS", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1624,7 +1624,7 @@ static inline uint64_t CAVM_TIM_AF_HWWQE_DEBUG_NPA_FUNC(void) __attribute__ ((pu
 static inline uint64_t CAVM_TIM_AF_HWWQE_DEBUG_NPA_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840090070000ll;
+        return 0xce0090070000ll;
     __cavm_csr_fatal("TIM_AF_HWWQE_DEBUG_NPA", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1676,7 +1676,7 @@ static inline uint64_t CAVM_TIM_AF_HWWQE_GEN_CFG_FUNC(void) __attribute__ ((pure
 static inline uint64_t CAVM_TIM_AF_HWWQE_GEN_CFG_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840090000280ll;
+        return 0xce0090000280ll;
     __cavm_csr_fatal("TIM_AF_HWWQE_GEN_CFG", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1713,7 +1713,7 @@ static inline uint64_t CAVM_TIM_AF_HWWQE_NPA_CA_FLUSHX(uint64_t a) __attribute__
 static inline uint64_t CAVM_TIM_AF_HWWQE_NPA_CA_FLUSHX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
-        return 0x840090068000ll + 0x20ll * ((a) & 0x3);
+        return 0xce0090068000ll + 0x20ll * ((a) & 0x3);
     __cavm_csr_fatal("TIM_AF_HWWQE_NPA_CA_FLUSHX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1760,7 +1760,7 @@ static inline uint64_t CAVM_TIM_AF_LF_RST_FUNC(void) __attribute__ ((pure, alway
 static inline uint64_t CAVM_TIM_AF_LF_RST_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840090000020ll;
+        return 0xce0090000020ll;
     __cavm_csr_fatal("TIM_AF_LF_RST", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1800,7 +1800,7 @@ static inline uint64_t CAVM_TIM_AF_OFFSET_GTI_FUNC(void) __attribute__ ((pure, a
 static inline uint64_t CAVM_TIM_AF_OFFSET_GTI_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840090000260ll;
+        return 0xce0090000260ll;
     __cavm_csr_fatal("TIM_AF_OFFSET_GTI", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1840,7 +1840,7 @@ static inline uint64_t CAVM_TIM_AF_OFFSET_PTP_FUNC(void) __attribute__ ((pure, a
 static inline uint64_t CAVM_TIM_AF_OFFSET_PTP_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840090000190ll;
+        return 0xce0090000190ll;
     __cavm_csr_fatal("TIM_AF_OFFSET_PTP", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1913,7 +1913,7 @@ static inline uint64_t CAVM_TIM_AF_REG_FLAGS_FUNC(void) __attribute__ ((pure, al
 static inline uint64_t CAVM_TIM_AF_REG_FLAGS_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840090000080ll;
+        return 0xce0090000080ll;
     __cavm_csr_fatal("TIM_AF_REG_FLAGS", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1998,7 +1998,7 @@ static inline uint64_t CAVM_TIM_AF_RINGX_CTL0(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_TIM_AF_RINGX_CTL0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=255))
-        return 0x840090004000ll + 8ll * ((a) & 0xff);
+        return 0xce0090004000ll + 8ll * ((a) & 0xff);
     __cavm_csr_fatal("TIM_AF_RINGX_CTL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2105,7 +2105,7 @@ static inline uint64_t CAVM_TIM_AF_RINGX_CTL1(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_TIM_AF_RINGX_CTL1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=255))
-        return 0x840090006000ll + 8ll * ((a) & 0xff);
+        return 0xce0090006000ll + 8ll * ((a) & 0xff);
     __cavm_csr_fatal("TIM_AF_RINGX_CTL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2146,7 +2146,7 @@ static inline uint64_t CAVM_TIM_AF_RINGX_CTL2(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_TIM_AF_RINGX_CTL2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=255))
-        return 0x840090008000ll + 8ll * ((a) & 0xff);
+        return 0xce0090008000ll + 8ll * ((a) & 0xff);
     __cavm_csr_fatal("TIM_AF_RINGX_CTL2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2215,7 +2215,7 @@ static inline uint64_t CAVM_TIM_AF_RINGX_CTL3(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_TIM_AF_RINGX_CTL3(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=255))
-        return 0x840090048000ll + 8ll * ((a) & 0xff);
+        return 0xce0090048000ll + 8ll * ((a) & 0xff);
     __cavm_csr_fatal("TIM_AF_RINGX_CTL3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2252,7 +2252,7 @@ static inline uint64_t CAVM_TIM_AF_RINGX_EXP_OFF(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_TIM_AF_RINGX_EXP_OFF(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=255))
-        return 0x840090050000ll + 8ll * ((a) & 0xff);
+        return 0xce0090050000ll + 8ll * ((a) & 0xff);
     __cavm_csr_fatal("TIM_AF_RINGX_EXP_OFF", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2295,7 +2295,7 @@ static inline uint64_t CAVM_TIM_AF_RINGX_GMCTL(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_TIM_AF_RINGX_GMCTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=255))
-        return 0x840090002000ll + 8ll * ((a) & 0xff);
+        return 0xce0090002000ll + 8ll * ((a) & 0xff);
     __cavm_csr_fatal("TIM_AF_RINGX_GMCTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2334,7 +2334,7 @@ static inline uint64_t CAVM_TIM_AF_RINGX_HWWQE_RES_EC_OFF(uint64_t a) __attribut
 static inline uint64_t CAVM_TIM_AF_RINGX_HWWQE_RES_EC_OFF(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=255))
-        return 0x840090054000ll + 8ll * ((a) & 0xff);
+        return 0xce0090054000ll + 8ll * ((a) & 0xff);
     __cavm_csr_fatal("TIM_AF_RINGX_HWWQE_RES_EC_OFF", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2371,7 +2371,7 @@ static inline uint64_t CAVM_TIM_AF_RINGX_INTRVL(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_TIM_AF_RINGX_INTRVL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=255))
-        return 0x840090052000ll + 8ll * ((a) & 0xff);
+        return 0xce0090052000ll + 8ll * ((a) & 0xff);
     __cavm_csr_fatal("TIM_AF_RINGX_INTRVL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2428,7 +2428,7 @@ static inline uint64_t CAVM_TIM_AF_RINGX_LATE(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_TIM_AF_RINGX_LATE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=255))
-        return 0x840090046000ll + 8ll * ((a) & 0xff);
+        return 0xce0090046000ll + 8ll * ((a) & 0xff);
     __cavm_csr_fatal("TIM_AF_RINGX_LATE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2465,7 +2465,7 @@ static inline uint64_t CAVM_TIM_AF_RING_ACTIVE_VECX(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_TIM_AF_RING_ACTIVE_VECX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
-        return 0x840090040000ll + 8ll * ((a) & 0x3);
+        return 0xce0090040000ll + 8ll * ((a) & 0x3);
     __cavm_csr_fatal("TIM_AF_RING_ACTIVE_VECX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2504,7 +2504,7 @@ static inline uint64_t CAVM_TIM_AF_RING_PENDING_VECX(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_TIM_AF_RING_PENDING_VECX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
-        return 0x840090042000ll + 8ll * ((a) & 0x3);
+        return 0xce0090042000ll + 8ll * ((a) & 0x3);
     __cavm_csr_fatal("TIM_AF_RING_PENDING_VECX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2545,7 +2545,7 @@ static inline uint64_t CAVM_TIM_AF_RVU_INT_FUNC(void) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_TIM_AF_RVU_INT_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840090010200ll;
+        return 0xce0090010200ll;
     __cavm_csr_fatal("TIM_AF_RVU_INT", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2584,7 +2584,7 @@ static inline uint64_t CAVM_TIM_AF_RVU_INT_ENA_W1C_FUNC(void) __attribute__ ((pu
 static inline uint64_t CAVM_TIM_AF_RVU_INT_ENA_W1C_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840090010218ll;
+        return 0xce0090010218ll;
     __cavm_csr_fatal("TIM_AF_RVU_INT_ENA_W1C", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2623,7 +2623,7 @@ static inline uint64_t CAVM_TIM_AF_RVU_INT_ENA_W1S_FUNC(void) __attribute__ ((pu
 static inline uint64_t CAVM_TIM_AF_RVU_INT_ENA_W1S_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840090010210ll;
+        return 0xce0090010210ll;
     __cavm_csr_fatal("TIM_AF_RVU_INT_ENA_W1S", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2662,7 +2662,7 @@ static inline uint64_t CAVM_TIM_AF_RVU_INT_W1S_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t CAVM_TIM_AF_RVU_INT_W1S_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840090010208ll;
+        return 0xce0090010208ll;
     __cavm_csr_fatal("TIM_AF_RVU_INT_W1S", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2722,7 +2722,7 @@ static inline uint64_t CAVM_TIM_AF_RVU_LF_CFG_DEBUG_FUNC(void) __attribute__ ((p
 static inline uint64_t CAVM_TIM_AF_RVU_LF_CFG_DEBUG_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840090030000ll;
+        return 0xce0090030000ll;
     __cavm_csr_fatal("TIM_AF_RVU_LF_CFG_DEBUG", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2759,7 +2759,7 @@ static inline uint64_t CAVM_TIM_LF_FR_RN_BTS_FUNC(void) __attribute__ ((pure, al
 static inline uint64_t CAVM_TIM_LF_FR_RN_BTS_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200900070ll;
+        return 0xce0000900070ll;
     __cavm_csr_fatal("TIM_LF_FR_RN_BTS", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2796,7 +2796,7 @@ static inline uint64_t CAVM_TIM_LF_FR_RN_CYCLES_FUNC(void) __attribute__ ((pure,
 static inline uint64_t CAVM_TIM_LF_FR_RN_CYCLES_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200900010ll;
+        return 0xce0000900010ll;
     __cavm_csr_fatal("TIM_LF_FR_RN_CYCLES", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2833,7 +2833,7 @@ static inline uint64_t CAVM_TIM_LF_FR_RN_GPIOS_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t CAVM_TIM_LF_FR_RN_GPIOS_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200900020ll;
+        return 0xce0000900020ll;
     __cavm_csr_fatal("TIM_LF_FR_RN_GPIOS", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2870,7 +2870,7 @@ static inline uint64_t CAVM_TIM_LF_FR_RN_GTI_FUNC(void) __attribute__ ((pure, al
 static inline uint64_t CAVM_TIM_LF_FR_RN_GTI_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200900030ll;
+        return 0xce0000900030ll;
     __cavm_csr_fatal("TIM_LF_FR_RN_GTI", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2907,7 +2907,7 @@ static inline uint64_t CAVM_TIM_LF_FR_RN_PTP_FUNC(void) __attribute__ ((pure, al
 static inline uint64_t CAVM_TIM_LF_FR_RN_PTP_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200900040ll;
+        return 0xce0000900040ll;
     __cavm_csr_fatal("TIM_LF_FR_RN_PTP", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2944,7 +2944,7 @@ static inline uint64_t CAVM_TIM_LF_FR_RN_TENNS_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t CAVM_TIM_LF_FR_RN_TENNS_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200900050ll;
+        return 0xce0000900050ll;
     __cavm_csr_fatal("TIM_LF_FR_RN_TENNS", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2991,7 +2991,7 @@ static inline uint64_t CAVM_TIM_LF_HWWQE_DEBUG_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t CAVM_TIM_LF_HWWQE_DEBUG_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200900560ll;
+        return 0xce0000900560ll;
     __cavm_csr_fatal("TIM_LF_HWWQE_DEBUG", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -3032,7 +3032,7 @@ static inline uint64_t CAVM_TIM_LF_HWWQE_RES_EC_OFF_FUNC(void) __attribute__ ((p
 static inline uint64_t CAVM_TIM_LF_HWWQE_RES_EC_OFF_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200900510ll;
+        return 0xce0000900510ll;
     __cavm_csr_fatal("TIM_LF_HWWQE_RES_EC_OFF", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -3108,7 +3108,7 @@ static inline uint64_t CAVM_TIM_LF_NRSPERR_INT_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t CAVM_TIM_LF_NRSPERR_INT_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200900200ll;
+        return 0xce0000900200ll;
     __cavm_csr_fatal("TIM_LF_NRSPERR_INT", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -3169,7 +3169,7 @@ static inline uint64_t CAVM_TIM_LF_NRSPERR_INT_ENA_W1C_FUNC(void) __attribute__ 
 static inline uint64_t CAVM_TIM_LF_NRSPERR_INT_ENA_W1C_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200900218ll;
+        return 0xce0000900218ll;
     __cavm_csr_fatal("TIM_LF_NRSPERR_INT_ENA_W1C", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -3230,7 +3230,7 @@ static inline uint64_t CAVM_TIM_LF_NRSPERR_INT_ENA_W1S_FUNC(void) __attribute__ 
 static inline uint64_t CAVM_TIM_LF_NRSPERR_INT_ENA_W1S_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200900210ll;
+        return 0xce0000900210ll;
     __cavm_csr_fatal("TIM_LF_NRSPERR_INT_ENA_W1S", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -3291,7 +3291,7 @@ static inline uint64_t CAVM_TIM_LF_NRSPERR_INT_W1S_FUNC(void) __attribute__ ((pu
 static inline uint64_t CAVM_TIM_LF_NRSPERR_INT_W1S_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200900208ll;
+        return 0xce0000900208ll;
     __cavm_csr_fatal("TIM_LF_NRSPERR_INT_W1S", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -3335,7 +3335,7 @@ static inline uint64_t CAVM_TIM_LF_RAS_INT_FUNC(void) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_TIM_LF_RAS_INT_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200900300ll;
+        return 0xce0000900300ll;
     __cavm_csr_fatal("TIM_LF_RAS_INT", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -3378,7 +3378,7 @@ static inline uint64_t CAVM_TIM_LF_RAS_INT_ENA_W1C_FUNC(void) __attribute__ ((pu
 static inline uint64_t CAVM_TIM_LF_RAS_INT_ENA_W1C_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200900318ll;
+        return 0xce0000900318ll;
     __cavm_csr_fatal("TIM_LF_RAS_INT_ENA_W1C", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -3421,7 +3421,7 @@ static inline uint64_t CAVM_TIM_LF_RAS_INT_ENA_W1S_FUNC(void) __attribute__ ((pu
 static inline uint64_t CAVM_TIM_LF_RAS_INT_ENA_W1S_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200900310ll;
+        return 0xce0000900310ll;
     __cavm_csr_fatal("TIM_LF_RAS_INT_ENA_W1S", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -3464,7 +3464,7 @@ static inline uint64_t CAVM_TIM_LF_RAS_INT_W1S_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t CAVM_TIM_LF_RAS_INT_W1S_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200900308ll;
+        return 0xce0000900308ll;
     __cavm_csr_fatal("TIM_LF_RAS_INT_W1S", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -3502,7 +3502,7 @@ static inline uint64_t CAVM_TIM_LF_RING_AURA_FUNC(void) __attribute__ ((pure, al
 static inline uint64_t CAVM_TIM_LF_RING_AURA_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200900000ll;
+        return 0xce0000900000ll;
     __cavm_csr_fatal("TIM_LF_RING_AURA", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -3542,7 +3542,7 @@ static inline uint64_t CAVM_TIM_LF_RING_BASE_FUNC(void) __attribute__ ((pure, al
 static inline uint64_t CAVM_TIM_LF_RING_BASE_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200900130ll;
+        return 0xce0000900130ll;
     __cavm_csr_fatal("TIM_LF_RING_BASE", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -3581,7 +3581,7 @@ static inline uint64_t CAVM_TIM_LF_RING_CTL0_FUNC(void) __attribute__ ((pure, al
 static inline uint64_t CAVM_TIM_LF_RING_CTL0_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200900100ll;
+        return 0xce0000900100ll;
     __cavm_csr_fatal("TIM_LF_RING_CTL0", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -3644,7 +3644,7 @@ static inline uint64_t CAVM_TIM_LF_RING_CTL1_FUNC(void) __attribute__ ((pure, al
 static inline uint64_t CAVM_TIM_LF_RING_CTL1_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200900110ll;
+        return 0xce0000900110ll;
     __cavm_csr_fatal("TIM_LF_RING_CTL1", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -3685,7 +3685,7 @@ static inline uint64_t CAVM_TIM_LF_RING_CTL2_FUNC(void) __attribute__ ((pure, al
 static inline uint64_t CAVM_TIM_LF_RING_CTL2_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200900120ll;
+        return 0xce0000900120ll;
     __cavm_csr_fatal("TIM_LF_RING_CTL2", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -3740,7 +3740,7 @@ static inline uint64_t CAVM_TIM_LF_RING_CTL3_FUNC(void) __attribute__ ((pure, al
 static inline uint64_t CAVM_TIM_LF_RING_CTL3_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200900410ll;
+        return 0xce0000900410ll;
     __cavm_csr_fatal("TIM_LF_RING_CTL3", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -3778,7 +3778,7 @@ static inline uint64_t CAVM_TIM_LF_RING_CURR_ITR_REG_FUNC(void) __attribute__ ((
 static inline uint64_t CAVM_TIM_LF_RING_CURR_ITR_REG_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200900500ll;
+        return 0xce0000900500ll;
     __cavm_csr_fatal("TIM_LF_RING_CURR_ITR_REG", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -3817,7 +3817,7 @@ static inline uint64_t CAVM_TIM_LF_RING_EXP_OFF_FUNC(void) __attribute__ ((pure,
 static inline uint64_t CAVM_TIM_LF_RING_EXP_OFF_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200900420ll;
+        return 0xce0000900420ll;
     __cavm_csr_fatal("TIM_LF_RING_EXP_OFF", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -3856,7 +3856,7 @@ static inline uint64_t CAVM_TIM_LF_RING_INTRVL_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t CAVM_TIM_LF_RING_INTRVL_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200900430ll;
+        return 0xce0000900430ll;
     __cavm_csr_fatal("TIM_LF_RING_INTRVL", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -3932,7 +3932,7 @@ static inline uint64_t CAVM_TIM_LF_RING_REL_FUNC(void) __attribute__ ((pure, alw
 static inline uint64_t CAVM_TIM_LF_RING_REL_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200900400ll;
+        return 0xce0000900400ll;
     __cavm_csr_fatal("TIM_LF_RING_REL", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -3994,7 +3994,7 @@ static inline uint64_t CAVM_TIM_LF_RING_REL_TIMER_CNT_FUNC(void) __attribute__ (
 static inline uint64_t CAVM_TIM_LF_RING_REL_TIMER_CNT_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200900610ll;
+        return 0xce0000900610ll;
     __cavm_csr_fatal("TIM_LF_RING_REL_TIMER_CNT", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -4051,7 +4051,7 @@ static inline uint64_t CAVM_TIM_LF_SCHED_TIMERX(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_TIM_LF_SCHED_TIMERX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a>=2)&&(a<=15)))
-        return 0x840200900480ll + 8ll * ((a) & 0xf);
+        return 0xce0000900480ll + 8ll * ((a) & 0xf);
     __cavm_csr_fatal("TIM_LF_SCHED_TIMERX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4089,7 +4089,7 @@ static inline uint64_t CAVM_TIM_LF_SCHED_TIMER0_FUNC(void) __attribute__ ((pure,
 static inline uint64_t CAVM_TIM_LF_SCHED_TIMER0_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200900480ll;
+        return 0xce0000900480ll;
     __cavm_csr_fatal("TIM_LF_SCHED_TIMER0", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -4127,7 +4127,7 @@ static inline uint64_t CAVM_TIM_LF_SCHED_TIMER1_FUNC(void) __attribute__ ((pure,
 static inline uint64_t CAVM_TIM_LF_SCHED_TIMER1_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200900488ll;
+        return 0xce0000900488ll;
     __cavm_csr_fatal("TIM_LF_SCHED_TIMER1", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -4171,7 +4171,7 @@ static inline uint64_t CAVM_TIM_LF_SSO_FCTL_INT_FUNC(void) __attribute__ ((pure,
 static inline uint64_t CAVM_TIM_LF_SSO_FCTL_INT_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200900570ll;
+        return 0xce0000900570ll;
     __cavm_csr_fatal("TIM_LF_SSO_FCTL_INT", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -4214,7 +4214,7 @@ static inline uint64_t CAVM_TIM_LF_SSO_FCTL_INT_ENA_W1C_FUNC(void) __attribute__
 static inline uint64_t CAVM_TIM_LF_SSO_FCTL_INT_ENA_W1C_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200900600ll;
+        return 0xce0000900600ll;
     __cavm_csr_fatal("TIM_LF_SSO_FCTL_INT_ENA_W1C", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -4257,7 +4257,7 @@ static inline uint64_t CAVM_TIM_LF_SSO_FCTL_INT_ENA_W1S_FUNC(void) __attribute__
 static inline uint64_t CAVM_TIM_LF_SSO_FCTL_INT_ENA_W1S_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200900590ll;
+        return 0xce0000900590ll;
     __cavm_csr_fatal("TIM_LF_SSO_FCTL_INT_ENA_W1S", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -4300,7 +4300,7 @@ static inline uint64_t CAVM_TIM_LF_SSO_FCTL_INT_W1S_FUNC(void) __attribute__ ((p
 static inline uint64_t CAVM_TIM_LF_SSO_FCTL_INT_W1S_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200900580ll;
+        return 0xce0000900580ll;
     __cavm_csr_fatal("TIM_LF_SSO_FCTL_INT_W1S", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -4340,7 +4340,7 @@ static inline uint64_t CAVM_TIM_LF_SSO_INCR_DCR_CNT_FUNC(void) __attribute__ ((p
 static inline uint64_t CAVM_TIM_LF_SSO_INCR_DCR_CNT_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200900550ll;
+        return 0xce0000900550ll;
     __cavm_csr_fatal("TIM_LF_SSO_INCR_DCR_CNT", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -4378,7 +4378,7 @@ static inline uint64_t CAVM_TIM_LF_SSO_MAX_QSPACE_FUNC(void) __attribute__ ((pur
 static inline uint64_t CAVM_TIM_LF_SSO_MAX_QSPACE_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200900540ll;
+        return 0xce0000900540ll;
     __cavm_csr_fatal("TIM_LF_SSO_MAX_QSPACE", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -4420,7 +4420,7 @@ static inline uint64_t CAVM_TIM_LF_SSO_QSPACE_FUNC(void) __attribute__ ((pure, a
 static inline uint64_t CAVM_TIM_LF_SSO_QSPACE_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840200900530ll;
+        return 0xce0000900530ll;
     __cavm_csr_fatal("TIM_LF_SSO_QSPACE", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -4470,7 +4470,7 @@ static inline uint64_t CAVM_TIM_PRIV_AF_INT_CFG_FUNC(void) __attribute__ ((pure,
 static inline uint64_t CAVM_TIM_PRIV_AF_INT_CFG_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x840090022000ll;
+        return 0xce0090022000ll;
     __cavm_csr_fatal("TIM_PRIV_AF_INT_CFG", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -4525,7 +4525,7 @@ static inline uint64_t CAVM_TIM_PRIV_LFX_CFG(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_TIM_PRIV_LFX_CFG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=255))
-        return 0x840090020000ll + 8ll * ((a) & 0xff);
+        return 0xce0090020000ll + 8ll * ((a) & 0xff);
     __cavm_csr_fatal("TIM_PRIV_LFX_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4576,7 +4576,7 @@ static inline uint64_t CAVM_TIM_PRIV_LFX_INT_CFG(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_TIM_PRIV_LFX_INT_CFG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=255))
-        return 0x840090024000ll + 8ll * ((a) & 0xff);
+        return 0xce0090024000ll + 8ll * ((a) & 0xff);
     __cavm_csr_fatal("TIM_PRIV_LFX_INT_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
