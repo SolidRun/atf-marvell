@@ -30,6 +30,7 @@
 
 #include "cavm-csrs-rpm.h"
 #include "cavm-csrs-gpio.h"
+#include "cavm-csrs-rst.h"
 
 /* define DEBUG_ATF_RPM to enable debug logs */
 #undef DEBUG_ATF_RPM
@@ -366,6 +367,8 @@ void rpm_lmac_init(int rpm_id, int lmac_id)
 	cavm_rpmx_cmrx_rx_bp_on_t rx_bp_on;
 	cavm_rpmx_const_t rpm_const;
 	rpm_config_t *rpm;
+	rpm_lmac_config_t *lmac_cfg;
+	led_gpio_info_t *led_info;
 
 	/* Do one time initialization of RPM
 	 * This function will be called
@@ -395,6 +398,32 @@ void rpm_lmac_init(int rpm_id, int lmac_id)
 	if (rpm->is_rfoe)
 		CSR_WRITE(CAVM_RPMX_CMRX_LINK_CFG(rpm_id, lmac_id),
 			(0x40a00 | lmac_id << 4));
+
+	lmac_cfg = &rpm->lmac_cfg[lmac_id];
+	led_info = &plat_octeontx_bcfg->led_info[lmac_cfg->portm_idx];
+	if (led_info->is_act_supported || led_info->is_combined_link_act) {
+		uint32_t gpio_clk_divisor, sclk;
+		cavm_rst_pllx_t rst_pll;
+
+		/* Using constant frequency for the Activity LED blinks.
+		 * Maximum number of GPIO clock generators is limited in
+		 * HW, so we cannot assign it per port. Using only one GPIO
+		 * clock generator to all the ports with a constant blink
+		 * frequency. LED blink frequency is configured at 4Hz so that
+		 * the blinks can be more or less same for less or high packet
+		 * rates.
+		 * When there is TX/RX activity in the last second then that
+		 * port's GPIO LED will be attached to this GPIO_CLK_GEN(0).
+		 * This will make the acitivity LED to blink at 4Hz.
+		 * And if there is no TX/RX activity in the last second then
+		 * GPIO LED attachment will be removed if it is already
+		 * congigured.
+		 */
+		rst_pll.u = CSR_READ(CAVM_RST_PLLX(CAVM_RST_PLL_E_SCLK));
+		sclk = rst_pll.s.cur_mul * 50 * MHZ_TICKS_PER_SEC;
+		gpio_clk_divisor = GPIO_LED_ACTVITY_FREQ_HZ * UINT_MAX / sclk;
+		CSR_MODIFY(c, CAVM_GPIO_CLK_GENX(0), c.s.n = gpio_clk_divisor);
+	}
 }
 
 int rpm_lmac_port_disable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx)

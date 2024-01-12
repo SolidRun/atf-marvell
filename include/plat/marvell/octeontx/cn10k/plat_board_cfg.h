@@ -268,6 +268,8 @@ typedef struct plat_octeontx_board_cfg {
 	int mgmt_port;
 } plat_octeontx_board_cfg_t;
 
+/* Frequency in Hz for GPIO activity LED */
+#define GPIO_LED_ACTVITY_FREQ_HZ 0x4ULL
 extern plat_octeontx_board_cfg_t * const plat_octeontx_bcfg;
 uint64_t ccs_region_get_info(ccs_region_index_t index, uint64_t *start);
 int cn10k_fdt_update_mailbox_memory_range(uint64_t address, uint64_t size);
