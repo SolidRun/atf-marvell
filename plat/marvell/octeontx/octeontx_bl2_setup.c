@@ -590,6 +590,10 @@ void bl2_el3_early_platform_setup(u_register_t arg0, u_register_t arg1,
 
 #endif
 
+#if defined(PLAT_CN20K_FAMILY)
+	plat_cn20x_early_initialization();
+#endif
+
 #if defined(PLAT_OTX2_FAMILY)
 	plat_otx2_early_initialization();
 #endif

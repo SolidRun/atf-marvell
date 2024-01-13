@@ -186,8 +186,10 @@ void llc_flush(void);
 
 void cavm_setup_platform(void);
 
-#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY)
+#if defined(PLAT_CN10K_FAMILY)
 void plat_cn10x_early_initialization(void);
+#elif defined(PLAT_CN20K_FAMILY)
+void plat_cn20x_early_initialization(void);
 #elif defined(PLAT_OTX2_FAMILY)
 void plat_otx2_early_initialization(void);
 #endif
