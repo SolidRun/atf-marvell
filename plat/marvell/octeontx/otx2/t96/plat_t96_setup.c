@@ -22,6 +22,7 @@
 
 /* This file map memory for different blocks so it needs all csrs definitions */
 #include "cavm-csrs.h"
+#include "cavm-csrs-mrml.h"
 
 static uint64_t msix_addr_save;
 
@@ -269,6 +270,8 @@ void plat_add_mmio(void)
 	add_map_record(CAVM_RST_BAR_E_RST_PF_BAR2, CAVM_RST_BAR_E_RST_PF_BAR2_SIZE, attr);
 	add_map_record(CAVM_RST_BAR_E_RST_PF_BAR4, CAVM_RST_BAR_E_RST_PF_BAR4_SIZE, attr);
 
+	add_map_record(CAVM_MRML_BAR_E_MRML_PF_BAR0_CN9,
+			CAVM_MRML_BAR_E_MRML_PF_BAR0_CN9_SIZE, attr);
 	add_map_record(CAVM_CCS_BAR_E_CCS_PF_BAR0, CAVM_CCS_BAR_E_CCS_PF_BAR0_SIZE, attr);
 
 	add_map_record(CAVM_MIO_EMM_BAR_E_MIO_EMM_PF_BAR0_CN9, CAVM_MIO_EMM_BAR_E_MIO_EMM_PF_BAR0_CN9_SIZE, attr);
