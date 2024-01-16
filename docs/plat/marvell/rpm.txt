@@ -484,6 +484,11 @@ will be removed from dts tree right after ATF is done with parsing.
        act-gpios = <&gpio_17_0 14 0>;
        link-gpios = <&gpio_17_0 15 0>;
    };
+   led_blink_rate_0: led-blink-rate@0 {
+       reg = <4000>;				// 4Hz blink rate for direct connect GPIO
+						// Supported range is 250-30,000 milliHertz
+   };
+
 
 ----
 

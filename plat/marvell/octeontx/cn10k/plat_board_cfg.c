@@ -2354,6 +2354,28 @@ static void cn10k_rpm_check_linux(void *fdt)
 		fdt_nop_node(fdt, portm_offset);
 	}
 
+	/* Parse LED blink rate */
+	offset = fdt_path_offset(fdt, "/led-blink-rate@0");
+
+	// Set default value for blink rate in milli-hertz
+	plat_octeontx_bcfg->led_blink_rate = GPIO_LED_ACTVITY_FREQ_HZ * 1000;
+	if (offset > 0) {
+		int rate;
+
+		// Parse out reg value and store in led_blink_rate
+		rate = cn10k_fdt_get_int32(fdt, "reg", offset);
+		if (rate == -1) {
+			WARN("led_blink_rate: couldn't find reg property - using default value\n");
+		} else {
+			if (rate >= GPIO_LED_ACTIVITY_MIN_RATE && rate <= GPIO_LED_ACTIVITY_MAX_RATE) {
+				INFO("Setting led blink rate to %d\n", rate);
+				plat_octeontx_bcfg->led_blink_rate = rate;
+			} else {
+				WARN("led-blink-rate: %d outside of supported range %d-%d\n", rate, GPIO_LED_ACTIVITY_MIN_RATE, GPIO_LED_ACTIVITY_MAX_RATE);
+			}
+		}
+	}
+
 	/* As all the ATF-managed sfp/qsfps are parsed, we can proceed to
 	 * trim associated twsi buses from Linux dts
 	 */
