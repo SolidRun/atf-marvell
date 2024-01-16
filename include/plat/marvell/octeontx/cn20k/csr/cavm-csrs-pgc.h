@@ -22,7 +22,7 @@
 /**
  * Enumeration pgc_bar_e
  */
-#define CAVM_PGC_BAR_E_PGC_PF_BAR2 (0xc01112c00000ll)
+#define CAVM_PGC_BAR_E_PGC_PF_BAR2 (0x87e012c00000ll)
 #define CAVM_PGC_BAR_E_PGC_PF_BAR2_SIZE 0x40000ull
 
 /**
@@ -281,7 +281,7 @@ static inline uint64_t CAVM_PGC_DEBUGGER_COMMAND_FUNC(void) __attribute__ ((pure
 static inline uint64_t CAVM_PGC_DEBUGGER_COMMAND_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0xc01112c00108ll;
+        return 0x87e012c00108ll;
     __cavm_csr_fatal("PGC_DEBUGGER_COMMAND", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -339,7 +339,7 @@ static inline uint64_t CAVM_PGC_POWER_DOMAIN_COMMANDX(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_PGC_POWER_DOMAIN_COMMANDX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=7))
-        return 0xc01112c00080ll + 8ll * ((a) & 0x7);
+        return 0x87e012c00080ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("PGC_POWER_DOMAIN_COMMANDX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -471,7 +471,7 @@ static inline uint64_t CAVM_PGC_POWER_DOMAIN_CONTROLX(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_PGC_POWER_DOMAIN_CONTROLX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=7))
-        return 0xc01112c00000ll + 8ll * ((a) & 0x7);
+        return 0x87e012c00000ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("PGC_POWER_DOMAIN_CONTROLX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -513,7 +513,7 @@ static inline uint64_t CAVM_PGC_POWER_DOMAIN_STATISTICSX(uint64_t a) __attribute
 static inline uint64_t CAVM_PGC_POWER_DOMAIN_STATISTICSX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=7))
-        return 0xc01112c000c0ll + 8ll * ((a) & 0x7);
+        return 0x87e012c000c0ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("PGC_POWER_DOMAIN_STATISTICSX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -621,7 +621,7 @@ static inline uint64_t CAVM_PGC_POWER_DOMAIN_STATUSX(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_PGC_POWER_DOMAIN_STATUSX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=7))
-        return 0xc01112c00040ll + 8ll * ((a) & 0x7);
+        return 0x87e012c00040ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("PGC_POWER_DOMAIN_STATUSX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -657,7 +657,7 @@ static inline uint64_t CAVM_PGC_POWER_STATEX(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PGC_POWER_STATEX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
-        return 0xc01112c00110ll + 8ll * ((a) & 0x3f);
+        return 0x87e012c00110ll + 8ll * ((a) & 0x3f);
     __cavm_csr_fatal("PGC_POWER_STATEX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -708,7 +708,7 @@ static inline uint64_t CAVM_PGC_POWER_UP_DELAY_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t CAVM_PGC_POWER_UP_DELAY_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0xc01112c00100ll;
+        return 0x87e012c00100ll;
     __cavm_csr_fatal("PGC_POWER_UP_DELAY", 0, 0, 0, 0, 0, 0, 0);
 }
 

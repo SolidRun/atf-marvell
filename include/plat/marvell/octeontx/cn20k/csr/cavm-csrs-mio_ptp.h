@@ -25,9 +25,9 @@
  * PTP Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define CAVM_MIO_PTP_BAR_E_MIO_PTP_PF_BAR0 (0xcf0300000000ll)
+#define CAVM_MIO_PTP_BAR_E_MIO_PTP_PF_BAR0 (0x807000000000ll)
 #define CAVM_MIO_PTP_BAR_E_MIO_PTP_PF_BAR0_SIZE 0x10000ull
-#define CAVM_MIO_PTP_BAR_E_MIO_PTP_PF_BAR4 (0xcf0300f00000ll)
+#define CAVM_MIO_PTP_BAR_E_MIO_PTP_PF_BAR4 (0x807000f00000ll)
 #define CAVM_MIO_PTP_BAR_E_MIO_PTP_PF_BAR4_SIZE 0x100000ull
 
 /**
@@ -79,7 +79,7 @@ typedef union cavm_mio_ptp_ckout_hi_incr cavm_mio_ptp_ckout_hi_incr_t;
 static inline uint64_t CAVM_MIO_PTP_CKOUT_HI_INCR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_CKOUT_HI_INCR_FUNC(void)
 {
-    return 0xcf0300000f40ll;
+    return 0x807000000f40ll;
 }
 
 #define typedef_CAVM_MIO_PTP_CKOUT_HI_INCR cavm_mio_ptp_ckout_hi_incr_t
@@ -117,7 +117,7 @@ typedef union cavm_mio_ptp_ckout_lo_incr cavm_mio_ptp_ckout_lo_incr_t;
 static inline uint64_t CAVM_MIO_PTP_CKOUT_LO_INCR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_CKOUT_LO_INCR_FUNC(void)
 {
-    return 0xcf0300000f48ll;
+    return 0x807000000f48ll;
 }
 
 #define typedef_CAVM_MIO_PTP_CKOUT_LO_INCR cavm_mio_ptp_ckout_lo_incr_t
@@ -162,7 +162,7 @@ typedef union cavm_mio_ptp_ckout_thresh_hi cavm_mio_ptp_ckout_thresh_hi_t;
 static inline uint64_t CAVM_MIO_PTP_CKOUT_THRESH_HI_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_CKOUT_THRESH_HI_FUNC(void)
 {
-    return 0xcf0300000f38ll;
+    return 0x807000000f38ll;
 }
 
 #define typedef_CAVM_MIO_PTP_CKOUT_THRESH_HI cavm_mio_ptp_ckout_thresh_hi_t
@@ -200,7 +200,7 @@ typedef union cavm_mio_ptp_ckout_thresh_lo cavm_mio_ptp_ckout_thresh_lo_t;
 static inline uint64_t CAVM_MIO_PTP_CKOUT_THRESH_LO_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_CKOUT_THRESH_LO_FUNC(void)
 {
-    return 0xcf0300000f30ll;
+    return 0x807000000f30ll;
 }
 
 #define typedef_CAVM_MIO_PTP_CKOUT_THRESH_LO cavm_mio_ptp_ckout_thresh_lo_t
@@ -243,7 +243,7 @@ typedef union cavm_mio_ptp_clken cavm_mio_ptp_clken_t;
 static inline uint64_t CAVM_MIO_PTP_CLKEN_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_CLKEN_FUNC(void)
 {
-    return 0xcf0300002080ll;
+    return 0x807000002080ll;
 }
 
 #define typedef_CAVM_MIO_PTP_CLKEN cavm_mio_ptp_clken_t
@@ -386,7 +386,7 @@ typedef union cavm_mio_ptp_clock_cfg cavm_mio_ptp_clock_cfg_t;
 static inline uint64_t CAVM_MIO_PTP_CLOCK_CFG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_CLOCK_CFG_FUNC(void)
 {
-    return 0xcf0300000f00ll;
+    return 0x807000000f00ll;
 }
 
 #define typedef_CAVM_MIO_PTP_CLOCK_CFG cavm_mio_ptp_clock_cfg_t
@@ -426,7 +426,7 @@ typedef union cavm_mio_ptp_clock_comp cavm_mio_ptp_clock_comp_t;
 static inline uint64_t CAVM_MIO_PTP_CLOCK_COMP_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_CLOCK_COMP_FUNC(void)
 {
-    return 0xcf0300000f18ll;
+    return 0x807000000f18ll;
 }
 
 #define typedef_CAVM_MIO_PTP_CLOCK_COMP cavm_mio_ptp_clock_comp_t
@@ -463,7 +463,7 @@ typedef union cavm_mio_ptp_clock_hi cavm_mio_ptp_clock_hi_t;
 static inline uint64_t CAVM_MIO_PTP_CLOCK_HI_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_CLOCK_HI_FUNC(void)
 {
-    return 0xcf0300000f10ll;
+    return 0x807000000f10ll;
 }
 
 #define typedef_CAVM_MIO_PTP_CLOCK_HI cavm_mio_ptp_clock_hi_t
@@ -501,7 +501,7 @@ typedef union cavm_mio_ptp_clock_lo cavm_mio_ptp_clock_lo_t;
 static inline uint64_t CAVM_MIO_PTP_CLOCK_LO_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_CLOCK_LO_FUNC(void)
 {
-    return 0xcf0300000f08ll;
+    return 0x807000000f08ll;
 }
 
 #define typedef_CAVM_MIO_PTP_CLOCK_LO cavm_mio_ptp_clock_lo_t
@@ -538,7 +538,7 @@ typedef union cavm_mio_ptp_clock_sec cavm_mio_ptp_clock_sec_t;
 static inline uint64_t CAVM_MIO_PTP_CLOCK_SEC_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_CLOCK_SEC_FUNC(void)
 {
-    return 0xcf0300000fd0ll;
+    return 0x807000000fd0ll;
 }
 
 #define typedef_CAVM_MIO_PTP_CLOCK_SEC cavm_mio_ptp_clock_sec_t
@@ -574,7 +574,7 @@ static inline uint64_t CAVM_MIO_PTP_CUR_ROLLOVER_CAPTURE_FUNC(void) __attribute_
 static inline uint64_t CAVM_MIO_PTP_CUR_ROLLOVER_CAPTURE_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0xcf0300001018ll;
+        return 0x807000001018ll;
     __cavm_csr_fatal("MIO_PTP_CUR_ROLLOVER_CAPTURE", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -612,7 +612,7 @@ typedef union cavm_mio_ptp_curr_rollover_set cavm_mio_ptp_curr_rollover_set_t;
 static inline uint64_t CAVM_MIO_PTP_CURR_ROLLOVER_SET_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_CURR_ROLLOVER_SET_FUNC(void)
 {
-    return 0xcf0300000ff0ll;
+    return 0x807000000ff0ll;
 }
 
 #define typedef_CAVM_MIO_PTP_CURR_ROLLOVER_SET cavm_mio_ptp_curr_rollover_set_t
@@ -651,7 +651,7 @@ typedef union cavm_mio_ptp_dpll_err_int cavm_mio_ptp_dpll_err_int_t;
 static inline uint64_t CAVM_MIO_PTP_DPLL_ERR_INT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_DPLL_ERR_INT_FUNC(void)
 {
-    return 0xcf0300000f90ll;
+    return 0x807000000f90ll;
 }
 
 #define typedef_CAVM_MIO_PTP_DPLL_ERR_INT cavm_mio_ptp_dpll_err_int_t
@@ -692,7 +692,7 @@ typedef union cavm_mio_ptp_dpll_err_thresh cavm_mio_ptp_dpll_err_thresh_t;
 static inline uint64_t CAVM_MIO_PTP_DPLL_ERR_THRESH_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_DPLL_ERR_THRESH_FUNC(void)
 {
-    return 0xcf0300000f88ll;
+    return 0x807000000f88ll;
 }
 
 #define typedef_CAVM_MIO_PTP_DPLL_ERR_THRESH cavm_mio_ptp_dpll_err_thresh_t
@@ -730,7 +730,7 @@ typedef union cavm_mio_ptp_dpll_incr cavm_mio_ptp_dpll_incr_t;
 static inline uint64_t CAVM_MIO_PTP_DPLL_INCR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_DPLL_INCR_FUNC(void)
 {
-    return 0xcf0300000f80ll;
+    return 0x807000000f80ll;
 }
 
 #define typedef_CAVM_MIO_PTP_DPLL_INCR cavm_mio_ptp_dpll_incr_t
@@ -775,7 +775,7 @@ typedef union cavm_mio_ptp_evt_cnt cavm_mio_ptp_evt_cnt_t;
 static inline uint64_t CAVM_MIO_PTP_EVT_CNT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_EVT_CNT_FUNC(void)
 {
-    return 0xcf0300000f28ll;
+    return 0x807000000f28ll;
 }
 
 #define typedef_CAVM_MIO_PTP_EVT_CNT cavm_mio_ptp_evt_cnt_t
@@ -814,7 +814,7 @@ typedef union cavm_mio_ptp_frns_timestamp cavm_mio_ptp_frns_timestamp_t;
 static inline uint64_t CAVM_MIO_PTP_FRNS_TIMESTAMP_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_FRNS_TIMESTAMP_FUNC(void)
 {
-    return 0xcf0300000fe0ll;
+    return 0x807000000fe0ll;
 }
 
 #define typedef_CAVM_MIO_PTP_FRNS_TIMESTAMP cavm_mio_ptp_frns_timestamp_t
@@ -853,7 +853,7 @@ typedef union cavm_mio_ptp_int cavm_mio_ptp_int_t;
 static inline uint64_t CAVM_MIO_PTP_INT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_INT_FUNC(void)
 {
-    return 0xcf0300000f70ll;
+    return 0x807000000f70ll;
 }
 
 #define typedef_CAVM_MIO_PTP_INT cavm_mio_ptp_int_t
@@ -892,7 +892,7 @@ typedef union cavm_mio_ptp_int_ena_w1c cavm_mio_ptp_int_ena_w1c_t;
 static inline uint64_t CAVM_MIO_PTP_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_INT_ENA_W1C_FUNC(void)
 {
-    return 0xcf0300000fa0ll;
+    return 0x807000000fa0ll;
 }
 
 #define typedef_CAVM_MIO_PTP_INT_ENA_W1C cavm_mio_ptp_int_ena_w1c_t
@@ -931,7 +931,7 @@ typedef union cavm_mio_ptp_int_ena_w1s cavm_mio_ptp_int_ena_w1s_t;
 static inline uint64_t CAVM_MIO_PTP_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_INT_ENA_W1S_FUNC(void)
 {
-    return 0xcf0300000fa8ll;
+    return 0x807000000fa8ll;
 }
 
 #define typedef_CAVM_MIO_PTP_INT_ENA_W1S cavm_mio_ptp_int_ena_w1s_t
@@ -970,7 +970,7 @@ typedef union cavm_mio_ptp_int_w1s cavm_mio_ptp_int_w1s_t;
 static inline uint64_t CAVM_MIO_PTP_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_INT_W1S_FUNC(void)
 {
-    return 0xcf0300000f78ll;
+    return 0x807000000f78ll;
 }
 
 #define typedef_CAVM_MIO_PTP_INT_W1S cavm_mio_ptp_int_w1s_t
@@ -1010,7 +1010,7 @@ static inline uint64_t CAVM_MIO_PTP_MSIX_PBAX(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_MIO_PTP_MSIX_PBAX(uint64_t a)
 {
     if (a==0)
-        return 0xcf0300ff0000ll + 8ll * ((a) & 0x0);
+        return 0x807000ff0000ll + 8ll * ((a) & 0x0);
     __cavm_csr_fatal("MIO_PTP_MSIX_PBAX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1098,7 +1098,7 @@ static inline uint64_t CAVM_MIO_PTP_MSIX_VECX_ADDR(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_MIO_PTP_MSIX_VECX_ADDR(uint64_t a)
 {
     if (a<=1)
-        return 0xcf0300f00000ll + 0x10ll * ((a) & 0x1);
+        return 0x807000f00000ll + 0x10ll * ((a) & 0x1);
     __cavm_csr_fatal("MIO_PTP_MSIX_VECX_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1138,7 +1138,7 @@ static inline uint64_t CAVM_MIO_PTP_MSIX_VECX_CTL(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_MIO_PTP_MSIX_VECX_CTL(uint64_t a)
 {
     if (a<=1)
-        return 0xcf0300f00008ll + 0x10ll * ((a) & 0x1);
+        return 0x807000f00008ll + 0x10ll * ((a) & 0x1);
     __cavm_csr_fatal("MIO_PTP_MSIX_VECX_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1176,7 +1176,7 @@ typedef union cavm_mio_ptp_nano_timestamp cavm_mio_ptp_nano_timestamp_t;
 static inline uint64_t CAVM_MIO_PTP_NANO_TIMESTAMP_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_NANO_TIMESTAMP_FUNC(void)
 {
-    return 0xcf0300000ff8ll;
+    return 0x807000000ff8ll;
 }
 
 #define typedef_CAVM_MIO_PTP_NANO_TIMESTAMP cavm_mio_ptp_nano_timestamp_t
@@ -1212,7 +1212,7 @@ static inline uint64_t CAVM_MIO_PTP_NXT_ROLLOVER_CAPTURE_FUNC(void) __attribute_
 static inline uint64_t CAVM_MIO_PTP_NXT_ROLLOVER_CAPTURE_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0xcf0300001010ll;
+        return 0x807000001010ll;
     __cavm_csr_fatal("MIO_PTP_NXT_ROLLOVER_CAPTURE", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1250,7 +1250,7 @@ typedef union cavm_mio_ptp_nxt_rollover_set cavm_mio_ptp_nxt_rollover_set_t;
 static inline uint64_t CAVM_MIO_PTP_NXT_ROLLOVER_SET_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_NXT_ROLLOVER_SET_FUNC(void)
 {
-    return 0xcf0300000fe8ll;
+    return 0x807000000fe8ll;
 }
 
 #define typedef_CAVM_MIO_PTP_NXT_ROLLOVER_SET cavm_mio_ptp_nxt_rollover_set_t
@@ -1288,7 +1288,7 @@ typedef union cavm_mio_ptp_pps_hi_incr cavm_mio_ptp_pps_hi_incr_t;
 static inline uint64_t CAVM_MIO_PTP_PPS_HI_INCR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_PPS_HI_INCR_FUNC(void)
 {
-    return 0xcf0300000f60ll;
+    return 0x807000000f60ll;
 }
 
 #define typedef_CAVM_MIO_PTP_PPS_HI_INCR cavm_mio_ptp_pps_hi_incr_t
@@ -1326,7 +1326,7 @@ typedef union cavm_mio_ptp_pps_lo_incr cavm_mio_ptp_pps_lo_incr_t;
 static inline uint64_t CAVM_MIO_PTP_PPS_LO_INCR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_PPS_LO_INCR_FUNC(void)
 {
-    return 0xcf0300000f68ll;
+    return 0x807000000f68ll;
 }
 
 #define typedef_CAVM_MIO_PTP_PPS_LO_INCR cavm_mio_ptp_pps_lo_incr_t
@@ -1371,7 +1371,7 @@ typedef union cavm_mio_ptp_pps_thresh_hi cavm_mio_ptp_pps_thresh_hi_t;
 static inline uint64_t CAVM_MIO_PTP_PPS_THRESH_HI_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_PPS_THRESH_HI_FUNC(void)
 {
-    return 0xcf0300000f58ll;
+    return 0x807000000f58ll;
 }
 
 #define typedef_CAVM_MIO_PTP_PPS_THRESH_HI cavm_mio_ptp_pps_thresh_hi_t
@@ -1409,7 +1409,7 @@ typedef union cavm_mio_ptp_pps_thresh_lo cavm_mio_ptp_pps_thresh_lo_t;
 static inline uint64_t CAVM_MIO_PTP_PPS_THRESH_LO_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_PPS_THRESH_LO_FUNC(void)
 {
-    return 0xcf0300000f50ll;
+    return 0x807000000f50ll;
 }
 
 #define typedef_CAVM_MIO_PTP_PPS_THRESH_LO cavm_mio_ptp_pps_thresh_lo_t
@@ -1447,7 +1447,7 @@ typedef union cavm_mio_ptp_sec_nano_timestamp cavm_mio_ptp_sec_nano_timestamp_t;
 static inline uint64_t CAVM_MIO_PTP_SEC_NANO_TIMESTAMP_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_SEC_NANO_TIMESTAMP_FUNC(void)
 {
-    return 0xcf0300001008ll;
+    return 0x807000001008ll;
 }
 
 #define typedef_CAVM_MIO_PTP_SEC_NANO_TIMESTAMP cavm_mio_ptp_sec_nano_timestamp_t
@@ -1484,7 +1484,7 @@ typedef union cavm_mio_ptp_sec_rollover cavm_mio_ptp_sec_rollover_t;
 static inline uint64_t CAVM_MIO_PTP_SEC_ROLLOVER_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_SEC_ROLLOVER_FUNC(void)
 {
-    return 0xcf0300000fd8ll;
+    return 0x807000000fd8ll;
 }
 
 #define typedef_CAVM_MIO_PTP_SEC_ROLLOVER cavm_mio_ptp_sec_rollover_t
@@ -1521,7 +1521,7 @@ typedef union cavm_mio_ptp_sec_timestamp cavm_mio_ptp_sec_timestamp_t;
 static inline uint64_t CAVM_MIO_PTP_SEC_TIMESTAMP_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_SEC_TIMESTAMP_FUNC(void)
 {
-    return 0xcf0300001000ll;
+    return 0x807000001000ll;
 }
 
 #define typedef_CAVM_MIO_PTP_SEC_TIMESTAMP cavm_mio_ptp_sec_timestamp_t
@@ -1560,7 +1560,7 @@ typedef union cavm_mio_ptp_sysck_hi_incr cavm_mio_ptp_sysck_hi_incr_t;
 static inline uint64_t CAVM_MIO_PTP_SYSCK_HI_INCR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_SYSCK_HI_INCR_FUNC(void)
 {
-    return 0xcf0300000fc0ll;
+    return 0x807000000fc0ll;
 }
 
 #define typedef_CAVM_MIO_PTP_SYSCK_HI_INCR cavm_mio_ptp_sysck_hi_incr_t
@@ -1599,7 +1599,7 @@ typedef union cavm_mio_ptp_sysck_lo_incr cavm_mio_ptp_sysck_lo_incr_t;
 static inline uint64_t CAVM_MIO_PTP_SYSCK_LO_INCR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_SYSCK_LO_INCR_FUNC(void)
 {
-    return 0xcf0300000fc8ll;
+    return 0x807000000fc8ll;
 }
 
 #define typedef_CAVM_MIO_PTP_SYSCK_LO_INCR cavm_mio_ptp_sysck_lo_incr_t
@@ -1645,7 +1645,7 @@ typedef union cavm_mio_ptp_sysck_thresh_hi cavm_mio_ptp_sysck_thresh_hi_t;
 static inline uint64_t CAVM_MIO_PTP_SYSCK_THRESH_HI_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_SYSCK_THRESH_HI_FUNC(void)
 {
-    return 0xcf0300000fb8ll;
+    return 0x807000000fb8ll;
 }
 
 #define typedef_CAVM_MIO_PTP_SYSCK_THRESH_HI cavm_mio_ptp_sysck_thresh_hi_t
@@ -1683,7 +1683,7 @@ typedef union cavm_mio_ptp_sysck_thresh_lo cavm_mio_ptp_sysck_thresh_lo_t;
 static inline uint64_t CAVM_MIO_PTP_SYSCK_THRESH_LO_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_SYSCK_THRESH_LO_FUNC(void)
 {
-    return 0xcf0300000fb0ll;
+    return 0x807000000fb0ll;
 }
 
 #define typedef_CAVM_MIO_PTP_SYSCK_THRESH_LO cavm_mio_ptp_sysck_thresh_lo_t
@@ -1720,7 +1720,7 @@ typedef union cavm_mio_ptp_timestamp cavm_mio_ptp_timestamp_t;
 static inline uint64_t CAVM_MIO_PTP_TIMESTAMP_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_TIMESTAMP_FUNC(void)
 {
-    return 0xcf0300000f20ll;
+    return 0x807000000f20ll;
 }
 
 #define typedef_CAVM_MIO_PTP_TIMESTAMP cavm_mio_ptp_timestamp_t
@@ -1759,7 +1759,7 @@ static inline uint64_t CAVM_MIO_PTP_TIMESTAMP_2_FUNC(void) __attribute__ ((pure,
 static inline uint64_t CAVM_MIO_PTP_TIMESTAMP_2_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0xcf0300001020ll;
+        return 0x807000001020ll;
     __cavm_csr_fatal("MIO_PTP_TIMESTAMP_2", 0, 0, 0, 0, 0, 0, 0);
 }
 

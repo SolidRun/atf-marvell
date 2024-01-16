@@ -58,7 +58,7 @@ static inline uint64_t CAVM_DTX_BROADCAST_CTL_FUNC(void)
     if (cavm_is_model(OCTEONTX_CN20KA))
         return 0xc10f00000060ll;
     if (cavm_is_model(OCTEONTX_CNF20KA))
-        return 0xc10efe1fc060ll;
+        return 0x87e0fe1fc060ll;
     __cavm_csr_fatal("DTX_BROADCAST_CTL", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -98,7 +98,7 @@ static inline uint64_t CAVM_DTX_BROADCAST_ENAX(uint64_t a)
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc10f00000020ll + 8ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=1))
-        return 0xc10efe1fc020ll + 8ll * ((a) & 0x1);
+        return 0x87e0fe1fc020ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_BROADCAST_ENAX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -136,7 +136,7 @@ static inline uint64_t CAVM_DTX_BROADCAST_SELX(uint64_t a)
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
         return 0xc10f00000000ll + 8ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=1))
-        return 0xc10efe1fc000ll + 8ll * ((a) & 0x1);
+        return 0x87e0fe1fc000ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("DTX_BROADCAST_SELX", 1, a, 0, 0, 0, 0, 0);
 }
 

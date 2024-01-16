@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2021-2024 Marvell.
+* Copyright (C) 2021-2023 Marvell.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -48,7 +48,7 @@ typedef union cavm_bmulx_bf_bundle_offset cavm_bmulx_bf_bundle_offset_t;
 static inline uint64_t CAVM_BMULX_BF_BUNDLE_OFFSET(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BMULX_BF_BUNDLE_OFFSET(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041602038ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("BMULX_BF_BUNDLE_OFFSET", 1, a, 0, 0, 0, 0, 0);
 }
@@ -84,7 +84,7 @@ typedef union cavm_bmulx_bypass cavm_bmulx_bypass_t;
 static inline uint64_t CAVM_BMULX_BYPASS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BMULX_BYPASS(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041602030ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("BMULX_BYPASS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -133,7 +133,7 @@ typedef union cavm_bmulx_cfg_fatal_job_form1 cavm_bmulx_cfg_fatal_job_form1_t;
 static inline uint64_t CAVM_BMULX_CFG_FATAL_JOB_FORM1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BMULX_CFG_FATAL_JOB_FORM1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e0416000c8ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("BMULX_CFG_FATAL_JOB_FORM1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -201,7 +201,7 @@ typedef union cavm_bmulx_cfg_fatal_job_form2_4 cavm_bmulx_cfg_fatal_job_form2_4_
 static inline uint64_t CAVM_BMULX_CFG_FATAL_JOB_FORM2_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BMULX_CFG_FATAL_JOB_FORM2_4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e0416000d0ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("BMULX_CFG_FATAL_JOB_FORM2_4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -249,7 +249,7 @@ typedef union cavm_bmulx_cfg_fatal_job_form4 cavm_bmulx_cfg_fatal_job_form4_t;
 static inline uint64_t CAVM_BMULX_CFG_FATAL_JOB_FORM4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BMULX_CFG_FATAL_JOB_FORM4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e0416000d8ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("BMULX_CFG_FATAL_JOB_FORM4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -287,7 +287,7 @@ typedef union cavm_bmulx_clr_job_form_counter cavm_bmulx_clr_job_form_counter_t;
 static inline uint64_t CAVM_BMULX_CLR_JOB_FORM_COUNTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BMULX_CLR_JOB_FORM_COUNTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041600100ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("BMULX_CLR_JOB_FORM_COUNTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -343,7 +343,7 @@ typedef union cavm_bmulx_err_enable_bits cavm_bmulx_err_enable_bits_t;
 static inline uint64_t CAVM_BMULX_ERR_ENABLE_BITS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BMULX_ERR_ENABLE_BITS(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e0416000b8ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("BMULX_ERR_ENABLE_BITS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -400,7 +400,7 @@ typedef union cavm_bmulx_err_set_bits cavm_bmulx_err_set_bits_t;
 static inline uint64_t CAVM_BMULX_ERR_SET_BITS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BMULX_ERR_SET_BITS(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e0416000c0ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("BMULX_ERR_SET_BITS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -461,7 +461,7 @@ typedef union cavm_bmulx_error_src0 cavm_bmulx_error_src0_t;
 static inline uint64_t CAVM_BMULX_ERROR_SRC0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BMULX_ERROR_SRC0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041600030ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("BMULX_ERROR_SRC0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -526,7 +526,7 @@ typedef union cavm_bmulx_fatal_status cavm_bmulx_fatal_status_t;
 static inline uint64_t CAVM_BMULX_FATAL_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BMULX_FATAL_STATUS(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e0416000b0ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("BMULX_FATAL_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -568,7 +568,7 @@ typedef union cavm_bmulx_hab_ctrl0 cavm_bmulx_hab_ctrl0_t;
 static inline uint64_t CAVM_BMULX_HAB_CTRL0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BMULX_HAB_CTRL0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041600000ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("BMULX_HAB_CTRL0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -613,7 +613,7 @@ typedef union cavm_bmulx_hab_status cavm_bmulx_hab_status_t;
 static inline uint64_t CAVM_BMULX_HAB_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BMULX_HAB_STATUS(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041600018ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("BMULX_HAB_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -667,7 +667,7 @@ typedef union cavm_bmulx_id cavm_bmulx_id_t;
 static inline uint64_t CAVM_BMULX_ID(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BMULX_ID(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e0416000a0ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("BMULX_ID", 1, a, 0, 0, 0, 0, 0);
 }
@@ -722,7 +722,7 @@ typedef union cavm_bmulx_inrob_ctrl cavm_bmulx_inrob_ctrl_t;
 static inline uint64_t CAVM_BMULX_INROB_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BMULX_INROB_CTRL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041602040ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("BMULX_INROB_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -737,6 +737,9 @@ static inline uint64_t CAVM_BMULX_INROB_CTRL(uint64_t a)
  * Register (RSL) bmul#_job_form
  *
  * BMUL Job Form Register
+ * Defines BMUL job configuration format.
+ * Hardware loads the job configuration in this register. Software should
+ * never directly write to this register.
  */
 union cavm_bmulx_job_form
 {
@@ -766,7 +769,7 @@ typedef union cavm_bmulx_job_form cavm_bmulx_job_form_t;
 static inline uint64_t CAVM_BMULX_JOB_FORM(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BMULX_JOB_FORM(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041602000ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("BMULX_JOB_FORM", 1, a, 0, 0, 0, 0, 0);
 }
@@ -806,7 +809,7 @@ typedef union cavm_bmulx_job_form_counter cavm_bmulx_job_form_counter_t;
 static inline uint64_t CAVM_BMULX_JOB_FORM_COUNTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BMULX_JOB_FORM_COUNTER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041600108ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("BMULX_JOB_FORM_COUNTER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -858,7 +861,7 @@ typedef union cavm_bmulx_multiplication_size cavm_bmulx_multiplication_size_t;
 static inline uint64_t CAVM_BMULX_MULTIPLICATION_SIZE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BMULX_MULTIPLICATION_SIZE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041602020ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("BMULX_MULTIPLICATION_SIZE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -917,7 +920,7 @@ typedef union cavm_bmulx_nfatal_status cavm_bmulx_nfatal_status_t;
 static inline uint64_t CAVM_BMULX_NFATAL_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BMULX_NFATAL_STATUS(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e0416000a8ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("BMULX_NFATAL_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -975,7 +978,7 @@ typedef union cavm_bmulx_non_fatal_modec cavm_bmulx_non_fatal_modec_t;
 static inline uint64_t CAVM_BMULX_NON_FATAL_MODEC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BMULX_NON_FATAL_MODEC(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e0416000e0ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("BMULX_NON_FATAL_MODEC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1025,7 +1028,7 @@ typedef union cavm_bmulx_non_fatal_prec cavm_bmulx_non_fatal_prec_t;
 static inline uint64_t CAVM_BMULX_NON_FATAL_PREC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BMULX_NON_FATAL_PREC(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e0416000f0ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("BMULX_NON_FATAL_PREC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1069,7 +1072,7 @@ typedef union cavm_bmulx_non_fatal_scaler cavm_bmulx_non_fatal_scaler_t;
 static inline uint64_t CAVM_BMULX_NON_FATAL_SCALER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BMULX_NON_FATAL_SCALER(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e0416000f8ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("BMULX_NON_FATAL_SCALER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1115,7 +1118,7 @@ typedef union cavm_bmulx_non_fatal_txd cavm_bmulx_non_fatal_txd_t;
 static inline uint64_t CAVM_BMULX_NON_FATAL_TXD(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BMULX_NON_FATAL_TXD(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e0416000e8ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("BMULX_NON_FATAL_TXD", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1170,7 +1173,7 @@ typedef union cavm_bmulx_outacc_ctrl cavm_bmulx_outacc_ctrl_t;
 static inline uint64_t CAVM_BMULX_OUTACC_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BMULX_OUTACC_CTRL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041602048ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("BMULX_OUTACC_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1225,7 +1228,7 @@ typedef union cavm_bmulx_outrob_ctrl cavm_bmulx_outrob_ctrl_t;
 static inline uint64_t CAVM_BMULX_OUTROB_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BMULX_OUTROB_CTRL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041602050ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("BMULX_OUTROB_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1264,7 +1267,7 @@ typedef union cavm_bmulx_re_value cavm_bmulx_re_value_t;
 static inline uint64_t CAVM_BMULX_RE_VALUE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BMULX_RE_VALUE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041602058ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("BMULX_RE_VALUE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1302,7 +1305,7 @@ typedef union cavm_bmulx_scaling cavm_bmulx_scaling_t;
 static inline uint64_t CAVM_BMULX_SCALING(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BMULX_SCALING(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041602028ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("BMULX_SCALING", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1343,7 +1346,7 @@ typedef union cavm_bmulx_starting cavm_bmulx_starting_t;
 static inline uint64_t CAVM_BMULX_STARTING(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BMULX_STARTING(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041602008ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("BMULX_STARTING", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1401,7 +1404,7 @@ typedef union cavm_bmulx_symbol cavm_bmulx_symbol_t;
 static inline uint64_t CAVM_BMULX_SYMBOL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BMULX_SYMBOL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041602010ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("BMULX_SYMBOL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1465,7 +1468,7 @@ typedef union cavm_bmulx_symbol_exponent cavm_bmulx_symbol_exponent_t;
 static inline uint64_t CAVM_BMULX_SYMBOL_EXPONENT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_BMULX_SYMBOL_EXPONENT(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+    if (cavm_is_model(OCTEONTX_ODINMP) && (a<=3))
         return 0x87e041602018ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("BMULX_SYMBOL_EXPONENT", 1, a, 0, 0, 0, 0, 0);
 }

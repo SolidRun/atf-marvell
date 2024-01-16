@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2021-2024 Marvell.
+* Copyright (C) 2021-2023 Marvell.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -56,9 +56,7 @@ typedef union cavm_cst_shrd_funnel_authstatus cavm_cst_shrd_funnel_authstatus_t;
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_AUTHSTATUS_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_AUTHSTATUS_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87a100040fb8ll;
-    __cavm_csr_fatal("CST_SHRD_FUNNEL_AUTHSTATUS", 0, 0, 0, 0, 0, 0, 0);
+    return 0x87a100040fb8ll;
 }
 
 #define typedef_CAVM_CST_SHRD_FUNNEL_AUTHSTATUS cavm_cst_shrd_funnel_authstatus_t
@@ -94,9 +92,7 @@ typedef union cavm_cst_shrd_funnel_cidr0 cavm_cst_shrd_funnel_cidr0_t;
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_CIDR0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_CIDR0_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87a100040ff0ll;
-    __cavm_csr_fatal("CST_SHRD_FUNNEL_CIDR0", 0, 0, 0, 0, 0, 0, 0);
+    return 0x87a100040ff0ll;
 }
 
 #define typedef_CAVM_CST_SHRD_FUNNEL_CIDR0 cavm_cst_shrd_funnel_cidr0_t
@@ -134,9 +130,7 @@ typedef union cavm_cst_shrd_funnel_cidr1 cavm_cst_shrd_funnel_cidr1_t;
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_CIDR1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_CIDR1_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87a100040ff4ll;
-    __cavm_csr_fatal("CST_SHRD_FUNNEL_CIDR1", 0, 0, 0, 0, 0, 0, 0);
+    return 0x87a100040ff4ll;
 }
 
 #define typedef_CAVM_CST_SHRD_FUNNEL_CIDR1 cavm_cst_shrd_funnel_cidr1_t
@@ -172,9 +166,7 @@ typedef union cavm_cst_shrd_funnel_cidr2 cavm_cst_shrd_funnel_cidr2_t;
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_CIDR2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_CIDR2_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87a100040ff8ll;
-    __cavm_csr_fatal("CST_SHRD_FUNNEL_CIDR2", 0, 0, 0, 0, 0, 0, 0);
+    return 0x87a100040ff8ll;
 }
 
 #define typedef_CAVM_CST_SHRD_FUNNEL_CIDR2 cavm_cst_shrd_funnel_cidr2_t
@@ -210,9 +202,7 @@ typedef union cavm_cst_shrd_funnel_cidr3 cavm_cst_shrd_funnel_cidr3_t;
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_CIDR3_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_CIDR3_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87a100040ffcll;
-    __cavm_csr_fatal("CST_SHRD_FUNNEL_CIDR3", 0, 0, 0, 0, 0, 0, 0);
+    return 0x87a100040ffcll;
 }
 
 #define typedef_CAVM_CST_SHRD_FUNNEL_CIDR3 cavm_cst_shrd_funnel_cidr3_t
@@ -254,9 +244,7 @@ typedef union cavm_cst_shrd_funnel_claimclr cavm_cst_shrd_funnel_claimclr_t;
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_CLAIMCLR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_CLAIMCLR_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87a100040fa4ll;
-    __cavm_csr_fatal("CST_SHRD_FUNNEL_CLAIMCLR", 0, 0, 0, 0, 0, 0, 0);
+    return 0x87a100040fa4ll;
 }
 
 #define typedef_CAVM_CST_SHRD_FUNNEL_CLAIMCLR cavm_cst_shrd_funnel_claimclr_t
@@ -296,9 +284,7 @@ typedef union cavm_cst_shrd_funnel_claimset cavm_cst_shrd_funnel_claimset_t;
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_CLAIMSET_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_CLAIMSET_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87a100040fa0ll;
-    __cavm_csr_fatal("CST_SHRD_FUNNEL_CLAIMSET", 0, 0, 0, 0, 0, 0, 0);
+    return 0x87a100040fa0ll;
 }
 
 #define typedef_CAVM_CST_SHRD_FUNNEL_CLAIMSET cavm_cst_shrd_funnel_claimset_t
@@ -332,9 +318,7 @@ typedef union cavm_cst_shrd_funnel_devaff0 cavm_cst_shrd_funnel_devaff0_t;
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_DEVAFF0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_DEVAFF0_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87a100040fa8ll;
-    __cavm_csr_fatal("CST_SHRD_FUNNEL_DEVAFF0", 0, 0, 0, 0, 0, 0, 0);
+    return 0x87a100040fa8ll;
 }
 
 #define typedef_CAVM_CST_SHRD_FUNNEL_DEVAFF0 cavm_cst_shrd_funnel_devaff0_t
@@ -368,9 +352,7 @@ typedef union cavm_cst_shrd_funnel_devaff1 cavm_cst_shrd_funnel_devaff1_t;
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_DEVAFF1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_DEVAFF1_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87a100040facll;
-    __cavm_csr_fatal("CST_SHRD_FUNNEL_DEVAFF1", 0, 0, 0, 0, 0, 0, 0);
+    return 0x87a100040facll;
 }
 
 #define typedef_CAVM_CST_SHRD_FUNNEL_DEVAFF1 cavm_cst_shrd_funnel_devaff1_t
@@ -412,9 +394,7 @@ typedef union cavm_cst_shrd_funnel_devarch cavm_cst_shrd_funnel_devarch_t;
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_DEVARCH_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_DEVARCH_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87a100040fbcll;
-    __cavm_csr_fatal("CST_SHRD_FUNNEL_DEVARCH", 0, 0, 0, 0, 0, 0, 0);
+    return 0x87a100040fbcll;
 }
 
 #define typedef_CAVM_CST_SHRD_FUNNEL_DEVARCH cavm_cst_shrd_funnel_devarch_t
@@ -455,9 +435,7 @@ typedef union cavm_cst_shrd_funnel_devid cavm_cst_shrd_funnel_devid_t;
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_DEVID_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_DEVID_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87a100040fc8ll;
-    __cavm_csr_fatal("CST_SHRD_FUNNEL_DEVID", 0, 0, 0, 0, 0, 0, 0);
+    return 0x87a100040fc8ll;
 }
 
 #define typedef_CAVM_CST_SHRD_FUNNEL_DEVID cavm_cst_shrd_funnel_devid_t
@@ -491,9 +469,7 @@ typedef union cavm_cst_shrd_funnel_devid1 cavm_cst_shrd_funnel_devid1_t;
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_DEVID1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_DEVID1_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87a100040fc4ll;
-    __cavm_csr_fatal("CST_SHRD_FUNNEL_DEVID1", 0, 0, 0, 0, 0, 0, 0);
+    return 0x87a100040fc4ll;
 }
 
 #define typedef_CAVM_CST_SHRD_FUNNEL_DEVID1 cavm_cst_shrd_funnel_devid1_t
@@ -527,9 +503,7 @@ typedef union cavm_cst_shrd_funnel_devid2 cavm_cst_shrd_funnel_devid2_t;
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_DEVID2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_DEVID2_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87a100040fc0ll;
-    __cavm_csr_fatal("CST_SHRD_FUNNEL_DEVID2", 0, 0, 0, 0, 0, 0, 0);
+    return 0x87a100040fc0ll;
 }
 
 #define typedef_CAVM_CST_SHRD_FUNNEL_DEVID2 cavm_cst_shrd_funnel_devid2_t
@@ -568,9 +542,7 @@ typedef union cavm_cst_shrd_funnel_devtype cavm_cst_shrd_funnel_devtype_t;
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_DEVTYPE_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_DEVTYPE_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87a100040fccll;
-    __cavm_csr_fatal("CST_SHRD_FUNNEL_DEVTYPE", 0, 0, 0, 0, 0, 0, 0);
+    return 0x87a100040fccll;
 }
 
 #define typedef_CAVM_CST_SHRD_FUNNEL_DEVTYPE cavm_cst_shrd_funnel_devtype_t
@@ -633,9 +605,7 @@ typedef union cavm_cst_shrd_funnel_funnelcontrol cavm_cst_shrd_funnel_funnelcont
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_FUNNELCONTROL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_FUNNELCONTROL_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87a100040000ll;
-    __cavm_csr_fatal("CST_SHRD_FUNNEL_FUNNELCONTROL", 0, 0, 0, 0, 0, 0, 0);
+    return 0x87a100040000ll;
 }
 
 #define typedef_CAVM_CST_SHRD_FUNNEL_FUNNELCONTROL cavm_cst_shrd_funnel_funnelcontrol_t
@@ -680,9 +650,7 @@ typedef union cavm_cst_shrd_funnel_itatbctr0 cavm_cst_shrd_funnel_itatbctr0_t;
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_ITATBCTR0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_ITATBCTR0_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87a100040efcll;
-    __cavm_csr_fatal("CST_SHRD_FUNNEL_ITATBCTR0", 0, 0, 0, 0, 0, 0, 0);
+    return 0x87a100040efcll;
 }
 
 #define typedef_CAVM_CST_SHRD_FUNNEL_ITATBCTR0 cavm_cst_shrd_funnel_itatbctr0_t
@@ -721,9 +689,7 @@ typedef union cavm_cst_shrd_funnel_itatbctr1 cavm_cst_shrd_funnel_itatbctr1_t;
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_ITATBCTR1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_ITATBCTR1_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87a100040ef8ll;
-    __cavm_csr_fatal("CST_SHRD_FUNNEL_ITATBCTR1", 0, 0, 0, 0, 0, 0, 0);
+    return 0x87a100040ef8ll;
 }
 
 #define typedef_CAVM_CST_SHRD_FUNNEL_ITATBCTR1 cavm_cst_shrd_funnel_itatbctr1_t
@@ -764,9 +730,7 @@ typedef union cavm_cst_shrd_funnel_itatbctr2 cavm_cst_shrd_funnel_itatbctr2_t;
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_ITATBCTR2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_ITATBCTR2_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87a100040ef4ll;
-    __cavm_csr_fatal("CST_SHRD_FUNNEL_ITATBCTR2", 0, 0, 0, 0, 0, 0, 0);
+    return 0x87a100040ef4ll;
 }
 
 #define typedef_CAVM_CST_SHRD_FUNNEL_ITATBCTR2 cavm_cst_shrd_funnel_itatbctr2_t
@@ -809,9 +773,7 @@ typedef union cavm_cst_shrd_funnel_itatbctr3 cavm_cst_shrd_funnel_itatbctr3_t;
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_ITATBCTR3_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_ITATBCTR3_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87a100040ef0ll;
-    __cavm_csr_fatal("CST_SHRD_FUNNEL_ITATBCTR3", 0, 0, 0, 0, 0, 0, 0);
+    return 0x87a100040ef0ll;
 }
 
 #define typedef_CAVM_CST_SHRD_FUNNEL_ITATBCTR3 cavm_cst_shrd_funnel_itatbctr3_t
@@ -882,9 +844,7 @@ typedef union cavm_cst_shrd_funnel_itatbdata0 cavm_cst_shrd_funnel_itatbdata0_t;
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_ITATBDATA0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_ITATBDATA0_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87a100040eecll;
-    __cavm_csr_fatal("CST_SHRD_FUNNEL_ITATBDATA0", 0, 0, 0, 0, 0, 0, 0);
+    return 0x87a100040eecll;
 }
 
 #define typedef_CAVM_CST_SHRD_FUNNEL_ITATBDATA0 cavm_cst_shrd_funnel_itatbdata0_t
@@ -922,9 +882,7 @@ typedef union cavm_cst_shrd_funnel_itctrl cavm_cst_shrd_funnel_itctrl_t;
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_ITCTRL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_ITCTRL_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87a100040f00ll;
-    __cavm_csr_fatal("CST_SHRD_FUNNEL_ITCTRL", 0, 0, 0, 0, 0, 0, 0);
+    return 0x87a100040f00ll;
 }
 
 #define typedef_CAVM_CST_SHRD_FUNNEL_ITCTRL cavm_cst_shrd_funnel_itctrl_t
@@ -962,9 +920,7 @@ typedef union cavm_cst_shrd_funnel_pidr0 cavm_cst_shrd_funnel_pidr0_t;
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_PIDR0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_PIDR0_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87a100040fe0ll;
-    __cavm_csr_fatal("CST_SHRD_FUNNEL_PIDR0", 0, 0, 0, 0, 0, 0, 0);
+    return 0x87a100040fe0ll;
 }
 
 #define typedef_CAVM_CST_SHRD_FUNNEL_PIDR0 cavm_cst_shrd_funnel_pidr0_t
@@ -1008,9 +964,7 @@ typedef union cavm_cst_shrd_funnel_pidr1 cavm_cst_shrd_funnel_pidr1_t;
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_PIDR1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_PIDR1_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87a100040fe4ll;
-    __cavm_csr_fatal("CST_SHRD_FUNNEL_PIDR1", 0, 0, 0, 0, 0, 0, 0);
+    return 0x87a100040fe4ll;
 }
 
 #define typedef_CAVM_CST_SHRD_FUNNEL_PIDR1 cavm_cst_shrd_funnel_pidr1_t
@@ -1058,9 +1012,7 @@ typedef union cavm_cst_shrd_funnel_pidr2 cavm_cst_shrd_funnel_pidr2_t;
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_PIDR2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_PIDR2_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87a100040fe8ll;
-    __cavm_csr_fatal("CST_SHRD_FUNNEL_PIDR2", 0, 0, 0, 0, 0, 0, 0);
+    return 0x87a100040fe8ll;
 }
 
 #define typedef_CAVM_CST_SHRD_FUNNEL_PIDR2 cavm_cst_shrd_funnel_pidr2_t
@@ -1104,9 +1056,7 @@ typedef union cavm_cst_shrd_funnel_pidr3 cavm_cst_shrd_funnel_pidr3_t;
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_PIDR3_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_PIDR3_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87a100040fecll;
-    __cavm_csr_fatal("CST_SHRD_FUNNEL_PIDR3", 0, 0, 0, 0, 0, 0, 0);
+    return 0x87a100040fecll;
 }
 
 #define typedef_CAVM_CST_SHRD_FUNNEL_PIDR3 cavm_cst_shrd_funnel_pidr3_t
@@ -1152,9 +1102,7 @@ typedef union cavm_cst_shrd_funnel_pidr4 cavm_cst_shrd_funnel_pidr4_t;
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_PIDR4_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_PIDR4_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87a100040fd0ll;
-    __cavm_csr_fatal("CST_SHRD_FUNNEL_PIDR4", 0, 0, 0, 0, 0, 0, 0);
+    return 0x87a100040fd0ll;
 }
 
 #define typedef_CAVM_CST_SHRD_FUNNEL_PIDR4 cavm_cst_shrd_funnel_pidr4_t
@@ -1190,9 +1138,7 @@ typedef union cavm_cst_shrd_funnel_pidr5 cavm_cst_shrd_funnel_pidr5_t;
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_PIDR5_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_PIDR5_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87a100040fd4ll;
-    __cavm_csr_fatal("CST_SHRD_FUNNEL_PIDR5", 0, 0, 0, 0, 0, 0, 0);
+    return 0x87a100040fd4ll;
 }
 
 #define typedef_CAVM_CST_SHRD_FUNNEL_PIDR5 cavm_cst_shrd_funnel_pidr5_t
@@ -1228,9 +1174,7 @@ typedef union cavm_cst_shrd_funnel_pidr6 cavm_cst_shrd_funnel_pidr6_t;
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_PIDR6_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_PIDR6_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87a100040fd8ll;
-    __cavm_csr_fatal("CST_SHRD_FUNNEL_PIDR6", 0, 0, 0, 0, 0, 0, 0);
+    return 0x87a100040fd8ll;
 }
 
 #define typedef_CAVM_CST_SHRD_FUNNEL_PIDR6 cavm_cst_shrd_funnel_pidr6_t
@@ -1266,9 +1210,7 @@ typedef union cavm_cst_shrd_funnel_pidr7 cavm_cst_shrd_funnel_pidr7_t;
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_PIDR7_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_PIDR7_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87a100040fdcll;
-    __cavm_csr_fatal("CST_SHRD_FUNNEL_PIDR7", 0, 0, 0, 0, 0, 0, 0);
+    return 0x87a100040fdcll;
 }
 
 #define typedef_CAVM_CST_SHRD_FUNNEL_PIDR7 cavm_cst_shrd_funnel_pidr7_t
@@ -1326,9 +1268,7 @@ typedef union cavm_cst_shrd_funnel_prioritycontrol cavm_cst_shrd_funnel_priority
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_PRIORITYCONTROL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_SHRD_FUNNEL_PRIORITYCONTROL_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87a100040004ll;
-    __cavm_csr_fatal("CST_SHRD_FUNNEL_PRIORITYCONTROL", 0, 0, 0, 0, 0, 0, 0);
+    return 0x87a100040004ll;
 }
 
 #define typedef_CAVM_CST_SHRD_FUNNEL_PRIORITYCONTROL cavm_cst_shrd_funnel_prioritycontrol_t

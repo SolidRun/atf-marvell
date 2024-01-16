@@ -25,11 +25,11 @@
  * MDC Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define CAVM_MDC_BAR_E_MDC_PF_BAR0 (0xc01010000000ll)
+#define CAVM_MDC_BAR_E_MDC_PF_BAR0 (0x87e010000000ll)
 #define CAVM_MDC_BAR_E_MDC_PF_BAR0_SIZE 0x100000ull
-#define CAVM_MDC_BAR_E_MDC_PF_BAR2 (0xc01008000000ll)
+#define CAVM_MDC_BAR_E_MDC_PF_BAR2 (0x87e008000000ll)
 #define CAVM_MDC_BAR_E_MDC_PF_BAR2_SIZE 0x1000000ull
-#define CAVM_MDC_BAR_E_MDC_PF_BAR4 (0xc01010100000ll)
+#define CAVM_MDC_BAR_E_MDC_PF_BAR4 (0x87e010100000ll)
 #define CAVM_MDC_BAR_E_MDC_PF_BAR4_SIZE 0x100000ull
 
 /**
@@ -171,7 +171,7 @@ typedef union cavm_mdc_active_pc cavm_mdc_active_pc_t;
 static inline uint64_t CAVM_MDC_ACTIVE_PC_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MDC_ACTIVE_PC_FUNC(void)
 {
-    return 0xc010100000e8ll;
+    return 0x87e0100000e8ll;
 }
 
 #define typedef_CAVM_MDC_ACTIVE_PC cavm_mdc_active_pc_t
@@ -311,7 +311,7 @@ typedef union cavm_mdc_bist_config cavm_mdc_bist_config_t;
 static inline uint64_t CAVM_MDC_BIST_CONFIG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MDC_BIST_CONFIG_FUNC(void)
 {
-    return 0xc01010000008ll;
+    return 0x87e010000008ll;
 }
 
 #define typedef_CAVM_MDC_BIST_CONFIG cavm_mdc_bist_config_t
@@ -361,7 +361,7 @@ typedef union cavm_mdc_bist_control cavm_mdc_bist_control_t;
 static inline uint64_t CAVM_MDC_BIST_CONTROL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MDC_BIST_CONTROL_FUNC(void)
 {
-    return 0xc01010000028ll;
+    return 0x87e010000028ll;
 }
 
 #define typedef_CAVM_MDC_BIST_CONTROL cavm_mdc_bist_control_t
@@ -405,7 +405,7 @@ typedef union cavm_mdc_bist_debug_mode cavm_mdc_bist_debug_mode_t;
 static inline uint64_t CAVM_MDC_BIST_DEBUG_MODE_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MDC_BIST_DEBUG_MODE_FUNC(void)
 {
-    return 0xc01010000000ll;
+    return 0x87e010000000ll;
 }
 
 #define typedef_CAVM_MDC_BIST_DEBUG_MODE cavm_mdc_bist_debug_mode_t
@@ -450,7 +450,7 @@ static inline uint64_t CAVM_MDC_BIST_FAILX(uint64_t a) __attribute__ ((pure, alw
 static inline uint64_t CAVM_MDC_BIST_FAILX(uint64_t a)
 {
     if (a<=31)
-        return 0xc01010000100ll + 8ll * ((a) & 0x1f);
+        return 0x87e010000100ll + 8ll * ((a) & 0x1f);
     __cavm_csr_fatal("MDC_BIST_FAILX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -515,7 +515,7 @@ typedef union cavm_mdc_bist_status cavm_mdc_bist_status_t;
 static inline uint64_t CAVM_MDC_BIST_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MDC_BIST_STATUS_FUNC(void)
 {
-    return 0xc01010000030ll;
+    return 0x87e010000030ll;
 }
 
 #define typedef_CAVM_MDC_BIST_STATUS cavm_mdc_bist_status_t
@@ -557,7 +557,7 @@ typedef union cavm_mdc_const cavm_mdc_const_t;
 static inline uint64_t CAVM_MDC_CONST_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MDC_CONST_FUNC(void)
 {
-    return 0xc01010000068ll;
+    return 0x87e010000068ll;
 }
 
 #define typedef_CAVM_MDC_CONST cavm_mdc_const_t
@@ -601,7 +601,7 @@ typedef union cavm_mdc_ecc_config cavm_mdc_ecc_config_t;
 static inline uint64_t CAVM_MDC_ECC_CONFIG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MDC_ECC_CONFIG_FUNC(void)
 {
-    return 0xc01010000038ll;
+    return 0x87e010000038ll;
 }
 
 #define typedef_CAVM_MDC_ECC_CONFIG cavm_mdc_ecc_config_t
@@ -665,7 +665,7 @@ typedef union cavm_mdc_ecc_status cavm_mdc_ecc_status_t;
 static inline uint64_t CAVM_MDC_ECC_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MDC_ECC_STATUS_FUNC(void)
 {
-    return 0xc01010000040ll;
+    return 0x87e010000040ll;
 }
 
 #define typedef_CAVM_MDC_ECC_STATUS cavm_mdc_ecc_status_t
@@ -701,7 +701,7 @@ static inline uint64_t CAVM_MDC_GLB_DBE_COUNTX(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_MDC_GLB_DBE_COUNTX(uint64_t a)
 {
     if (a<=7)
-        return 0xc01010000300ll + 8ll * ((a) & 0x7);
+        return 0x87e010000300ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("MDC_GLB_DBE_COUNTX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -738,7 +738,7 @@ static inline uint64_t CAVM_MDC_GLB_SBE_COUNTX(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_MDC_GLB_SBE_COUNTX(uint64_t a)
 {
     if (a<=7)
-        return 0xc01010000200ll + 8ll * ((a) & 0x7);
+        return 0x87e010000200ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("MDC_GLB_SBE_COUNTX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -776,7 +776,7 @@ typedef union cavm_mdc_int_ena_w1c cavm_mdc_int_ena_w1c_t;
 static inline uint64_t CAVM_MDC_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MDC_INT_ENA_W1C_FUNC(void)
 {
-    return 0xc01010000058ll;
+    return 0x87e010000058ll;
 }
 
 #define typedef_CAVM_MDC_INT_ENA_W1C cavm_mdc_int_ena_w1c_t
@@ -813,7 +813,7 @@ typedef union cavm_mdc_int_ena_w1s cavm_mdc_int_ena_w1s_t;
 static inline uint64_t CAVM_MDC_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MDC_INT_ENA_W1S_FUNC(void)
 {
-    return 0xc01010000060ll;
+    return 0x87e010000060ll;
 }
 
 #define typedef_CAVM_MDC_INT_ENA_W1S cavm_mdc_int_ena_w1s_t
@@ -849,7 +849,7 @@ typedef union cavm_mdc_int_w1c cavm_mdc_int_w1c_t;
 static inline uint64_t CAVM_MDC_INT_W1C_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MDC_INT_W1C_FUNC(void)
 {
-    return 0xc01010000048ll;
+    return 0x87e010000048ll;
 }
 
 #define typedef_CAVM_MDC_INT_W1C cavm_mdc_int_w1c_t
@@ -886,7 +886,7 @@ typedef union cavm_mdc_int_w1s cavm_mdc_int_w1s_t;
 static inline uint64_t CAVM_MDC_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MDC_INT_W1S_FUNC(void)
 {
-    return 0xc01010000050ll;
+    return 0x87e010000050ll;
 }
 
 #define typedef_CAVM_MDC_INT_W1S cavm_mdc_int_w1s_t
@@ -924,7 +924,7 @@ static inline uint64_t CAVM_MDC_PF_MSIX_PBAX(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_MDC_PF_MSIX_PBAX(uint64_t a)
 {
     if (a==0)
-        return 0xc010101f0000ll + 8ll * ((a) & 0x0);
+        return 0x87e0101f0000ll + 8ll * ((a) & 0x0);
     __cavm_csr_fatal("MDC_PF_MSIX_PBAX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1010,7 +1010,7 @@ static inline uint64_t CAVM_MDC_PF_MSIX_VECX_ADDR(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_MDC_PF_MSIX_VECX_ADDR(uint64_t a)
 {
     if (a==0)
-        return 0xc01010100000ll + 0x10ll * ((a) & 0x0);
+        return 0x87e010100000ll + 0x10ll * ((a) & 0x0);
     __cavm_csr_fatal("MDC_PF_MSIX_VECX_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1050,7 +1050,7 @@ static inline uint64_t CAVM_MDC_PF_MSIX_VECX_CTL(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_MDC_PF_MSIX_VECX_CTL(uint64_t a)
 {
     if (a==0)
-        return 0xc01010100008ll + 0x10ll * ((a) & 0x0);
+        return 0x87e010100008ll + 0x10ll * ((a) & 0x0);
     __cavm_csr_fatal("MDC_PF_MSIX_VECX_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1097,7 +1097,7 @@ static inline uint64_t CAVM_MDC_RAS_ROMX(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_MDC_RAS_ROMX(uint64_t a)
 {
     if (a<=16383)
-        return 0xc01010010000ll + 8ll * ((a) & 0x3fff);
+        return 0x87e010010000ll + 8ll * ((a) & 0x3fff);
     __cavm_csr_fatal("MDC_RAS_ROMX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1142,7 +1142,7 @@ typedef union cavm_mdc_timeouts cavm_mdc_timeouts_t;
 static inline uint64_t CAVM_MDC_TIMEOUTS_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MDC_TIMEOUTS_FUNC(void)
 {
-    return 0xc01010000070ll;
+    return 0x87e010000070ll;
 }
 
 #define typedef_CAVM_MDC_TIMEOUTS cavm_mdc_timeouts_t
@@ -1213,7 +1213,7 @@ typedef union cavm_mdc_win_cmd cavm_mdc_win_cmd_t;
 static inline uint64_t CAVM_MDC_WIN_CMD_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MDC_WIN_CMD_FUNC(void)
 {
-    return 0xc01010000010ll;
+    return 0x87e010000010ll;
 }
 
 #define typedef_CAVM_MDC_WIN_CMD cavm_mdc_win_cmd_t
@@ -1269,7 +1269,7 @@ typedef union cavm_mdc_win_dat cavm_mdc_win_dat_t;
 static inline uint64_t CAVM_MDC_WIN_DAT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MDC_WIN_DAT_FUNC(void)
 {
-    return 0xc01010000018ll;
+    return 0x87e010000018ll;
 }
 
 #define typedef_CAVM_MDC_WIN_DAT cavm_mdc_win_dat_t
@@ -1337,7 +1337,7 @@ typedef union cavm_mdc_win_tdr cavm_mdc_win_tdr_t;
 static inline uint64_t CAVM_MDC_WIN_TDR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MDC_WIN_TDR_FUNC(void)
 {
-    return 0xc01010000020ll;
+    return 0x87e010000020ll;
 }
 
 #define typedef_CAVM_MDC_WIN_TDR cavm_mdc_win_tdr_t

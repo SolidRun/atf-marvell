@@ -25,7 +25,7 @@
  * NCB Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define CAVM_NCB_BAR_E_NCBX_PF_BAR0(a) (0xc14040000000ll + 0x100000000ll * (a))
+#define CAVM_NCB_BAR_E_NCBX_PF_BAR0(a) (0x87e140000000ll + 0x1000000ll * (a))
 #define CAVM_NCB_BAR_E_NCBX_PF_BAR0_SIZE 0x100000ull
 
 /**
@@ -156,7 +156,7 @@ static inline uint64_t CAVM_NCBX_ARBX_CRDS(uint64_t a, uint64_t b) __attribute__
 static inline uint64_t CAVM_NCBX_ARBX_CRDS(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=15) && (b<=15)))
-        return 0xc140400f0000ll + 0x100000000ll * ((a) & 0xf) + 8ll * ((b) & 0xf);
+        return 0x87e1400f0000ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0xf);
     __cavm_csr_fatal("NCBX_ARBX_CRDS", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -196,7 +196,7 @@ static inline uint64_t CAVM_NCBX_ARB_IUT_DIS(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_NCBX_ARB_IUT_DIS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=15))
-        return 0xc14040008080ll + 0x100000000ll * ((a) & 0xf);
+        return 0x87e140008080ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("NCBX_ARB_IUT_DIS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -330,7 +330,7 @@ static inline uint64_t CAVM_NCBX_ARBIDX_CTL(uint64_t a, uint64_t b) __attribute_
 static inline uint64_t CAVM_NCBX_ARBIDX_CTL(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=15) && (b<=15)))
-        return 0xc14040006100ll + 0x100000000ll * ((a) & 0xf) + 8ll * ((b) & 0xf);
+        return 0x87e140006100ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0xf);
     __cavm_csr_fatal("NCBX_ARBIDX_CTL", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -373,7 +373,7 @@ static inline uint64_t CAVM_NCBX_ARBIDX_RR_CTL(uint64_t a, uint64_t b) __attribu
 static inline uint64_t CAVM_NCBX_ARBIDX_RR_CTL(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=15) && (b<=15)))
-        return 0xc140400f7000ll + 0x100000000ll * ((a) & 0xf) + 8ll * ((b) & 0xf);
+        return 0x87e1400f7000ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0xf);
     __cavm_csr_fatal("NCBX_ARBIDX_RR_CTL", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -414,7 +414,7 @@ static inline uint64_t CAVM_NCBX_CTL(uint64_t a) __attribute__ ((pure, always_in
 static inline uint64_t CAVM_NCBX_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=15))
-        return 0xc140400f6000ll + 0x100000000ll * ((a) & 0xf);
+        return 0x87e1400f6000ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("NCBX_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -451,7 +451,7 @@ static inline uint64_t CAVM_NCBX_READY(uint64_t a) __attribute__ ((pure, always_
 static inline uint64_t CAVM_NCBX_READY(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=15))
-        return 0xc14040008100ll + 0x100000000ll * ((a) & 0xf);
+        return 0x87e140008100ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("NCBX_READY", 1, a, 0, 0, 0, 0, 0);
 }
 

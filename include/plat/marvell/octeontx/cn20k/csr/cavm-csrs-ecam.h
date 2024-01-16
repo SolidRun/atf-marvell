@@ -25,9 +25,9 @@
  * ECAM Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define CAVM_ECAM_BAR_E_ECAMX_PF_BAR0(a) (0xc10078000000ll + 0x100000000ll * (a))
+#define CAVM_ECAM_BAR_E_ECAMX_PF_BAR0(a) (0x87e078000000ll + 0x1000000ll * (a))
 #define CAVM_ECAM_BAR_E_ECAMX_PF_BAR0_SIZE 0x100000ull
-#define CAVM_ECAM_BAR_E_ECAMX_PF_BAR2(a) (0xc10000000000ll + 0x100000000ll * (a))
+#define CAVM_ECAM_BAR_E_ECAMX_PF_BAR2(a) (0x878000000000ll + 0x1000000000ll * (a))
 #define CAVM_ECAM_BAR_E_ECAMX_PF_BAR2_SIZE 0x1000000000ull
 
 /**
@@ -102,7 +102,7 @@ static inline uint64_t CAVM_ECAMX_CONST(uint64_t a) __attribute__ ((pure, always
 static inline uint64_t CAVM_ECAMX_CONST(uint64_t a)
 {
     if (a==0)
-        return 0xc10078000200ll + 0x100000000ll * ((a) & 0x0);
+        return 0x87e078000200ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("ECAMX_CONST", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -202,7 +202,7 @@ static inline uint64_t CAVM_ECAMX_DOMX_BUSX_PERMIT(uint64_t a, uint64_t b, uint6
 static inline uint64_t CAVM_ECAMX_DOMX_BUSX_PERMIT(uint64_t a, uint64_t b, uint64_t c)
 {
     if ((a==0) && ((b==0) || (b==1) || (b==2)) && (c<=255))
-        return 0xc10078020000ll + 0x100000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x3) + 8ll * ((c) & 0xff);
+        return 0x87e078020000ll + 0x1000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x3) + 8ll * ((c) & 0xff);
     __cavm_csr_fatal("ECAMX_DOMX_BUSX_PERMIT", 3, a, b, c, 0, 0, 0);
 }
 
@@ -265,7 +265,7 @@ static inline uint64_t CAVM_ECAMX_DOMX_CONST(uint64_t a, uint64_t b) __attribute
 static inline uint64_t CAVM_ECAMX_DOMX_CONST(uint64_t a, uint64_t b)
 {
     if ((a==0) && (b<=63))
-        return 0xc10078000400ll + 0x100000000ll * ((a) & 0x0) + 8ll * ((b) & 0x3f);
+        return 0x87e078000400ll + 0x1000000ll * ((a) & 0x0) + 8ll * ((b) & 0x3f);
     __cavm_csr_fatal("ECAMX_DOMX_CONST", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -366,7 +366,7 @@ static inline uint64_t CAVM_ECAMX_DOMX_DEVX_PERMIT(uint64_t a, uint64_t b, uint6
 static inline uint64_t CAVM_ECAMX_DOMX_DEVX_PERMIT(uint64_t a, uint64_t b, uint64_t c)
 {
     if ((a==0) && ((b==0) || (b==1) || (b==2)) && (c<=31))
-        return 0xc10078040000ll + 0x100000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x3) + 8ll * ((c) & 0x1f);
+        return 0x87e078040000ll + 0x1000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x3) + 8ll * ((c) & 0x1f);
     __cavm_csr_fatal("ECAMX_DOMX_DEVX_PERMIT", 3, a, b, c, 0, 0, 0);
 }
 
@@ -443,7 +443,7 @@ static inline uint64_t CAVM_ECAMX_DOMX_RSLX_PERMIT(uint64_t a, uint64_t b, uint6
 static inline uint64_t CAVM_ECAMX_DOMX_RSLX_PERMIT(uint64_t a, uint64_t b, uint64_t c)
 {
     if (cavm_is_model(OCTEONTX_CNF20KA) && ((a==0) && ((b==0) || (b==1) || (b==2)) && (c<=1023)))
-        return 0xc10078060000ll + 0x100000000ll * ((a) & 0x0) + 0x2000ll * ((b) & 0x3) + 8ll * ((c) & 0x3ff);
+        return 0x87e078060000ll + 0x1000000ll * ((a) & 0x0) + 0x2000ll * ((b) & 0x3) + 8ll * ((c) & 0x3ff);
     __cavm_csr_fatal("ECAMX_DOMX_RSLX_PERMIT", 3, a, b, c, 0, 0, 0);
 }
 

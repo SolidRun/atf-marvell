@@ -25,7 +25,7 @@
  * NCBPC Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define CAVM_NCBPC_BAR_E_NCBPCX_PF_BAR0(a) (0xc14030000000ll + 0x100000000ll * (a))
+#define CAVM_NCBPC_BAR_E_NCBPCX_PF_BAR0(a) (0x87e130000000ll + 0x1000000ll * (a))
 #define CAVM_NCBPC_BAR_E_NCBPCX_PF_BAR0_SIZE 0x100000ull
 
 /**
@@ -74,7 +74,7 @@ static inline uint64_t CAVM_NCBX_ARBX_RWX_LAT_PC(uint64_t a, uint64_t b, uint64_
 static inline uint64_t CAVM_NCBX_ARBX_RWX_LAT_PC(uint64_t a, uint64_t b, uint64_t c)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=15) && (b<=15) && (c<=1)))
-        return 0xc140300f4000ll + 0x100000000ll * ((a) & 0xf) + 0x20ll * ((b) & 0xf) + 8ll * ((c) & 0x1);
+        return 0x87e1300f4000ll + 0x1000000ll * ((a) & 0xf) + 0x20ll * ((b) & 0xf) + 8ll * ((c) & 0x1);
     __cavm_csr_fatal("NCBX_ARBX_RWX_LAT_PC", 3, a, b, c, 0, 0, 0);
 }
 
@@ -119,7 +119,7 @@ static inline uint64_t CAVM_NCBX_ARBX_RWX_REQ_PC(uint64_t a, uint64_t b, uint64_
 static inline uint64_t CAVM_NCBX_ARBX_RWX_REQ_PC(uint64_t a, uint64_t b, uint64_t c)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=15) && (b<=15) && (c<=1)))
-        return 0xc140300f2000ll + 0x100000000ll * ((a) & 0xf) + 0x20ll * ((b) & 0xf) + 8ll * ((c) & 0x1);
+        return 0x87e1300f2000ll + 0x1000000ll * ((a) & 0xf) + 0x20ll * ((b) & 0xf) + 8ll * ((c) & 0x1);
     __cavm_csr_fatal("NCBX_ARBX_RWX_REQ_PC", 3, a, b, c, 0, 0, 0);
 }
 
@@ -178,7 +178,7 @@ static inline uint64_t CAVM_NCBX_RWX_LAT_PC(uint64_t a, uint64_t b) __attribute_
 static inline uint64_t CAVM_NCBX_RWX_LAT_PC(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=15) && (b<=1)))
-        return 0xc14030005000ll + 0x100000000ll * ((a) & 0xf) + 8ll * ((b) & 0x1);
+        return 0x87e130005000ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("NCBX_RWX_LAT_PC", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -221,7 +221,7 @@ static inline uint64_t CAVM_NCBX_RWX_REQ_PC(uint64_t a, uint64_t b) __attribute_
 static inline uint64_t CAVM_NCBX_RWX_REQ_PC(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=15) && (b<=1)))
-        return 0xc14030004000ll + 0x100000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x1);
+        return 0x87e130004000ll + 0x1000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x1);
     __cavm_csr_fatal("NCBX_RWX_REQ_PC", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -280,7 +280,7 @@ static inline uint64_t CAVM_NCBX_RWX_SMMU_LAT_PC(uint64_t a, uint64_t b) __attri
 static inline uint64_t CAVM_NCBX_RWX_SMMU_LAT_PC(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=15) && (b<=1)))
-        return 0xc14030006000ll + 0x100000000ll * ((a) & 0xf) + 8ll * ((b) & 0x1);
+        return 0x87e130006000ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("NCBX_RWX_SMMU_LAT_PC", 2, a, b, 0, 0, 0, 0);
 }
 

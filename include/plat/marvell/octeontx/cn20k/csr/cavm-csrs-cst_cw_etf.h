@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2021-2024 Marvell.
+* Copyright (C) 2021-2023 Marvell.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -55,7 +55,7 @@ typedef union cavm_cst_cwx_etf_authstatus cavm_cst_cwx_etf_authstatus_t;
 static inline uint64_t CAVM_CST_CWX_ETF_AUTHSTATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_AUTHSTATUS(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a004010fb8ll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_AUTHSTATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -106,7 +106,7 @@ typedef union cavm_cst_cwx_etf_bufwm cavm_cst_cwx_etf_bufwm_t;
 static inline uint64_t CAVM_CST_CWX_ETF_BUFWM(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_BUFWM(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a004010034ll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_BUFWM", 1, a, 0, 0, 0, 0, 0);
 }
@@ -151,7 +151,7 @@ typedef union cavm_cst_cwx_etf_cbuflevel cavm_cst_cwx_etf_cbuflevel_t;
 static inline uint64_t CAVM_CST_CWX_ETF_CBUFLEVEL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_CBUFLEVEL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a004010030ll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_CBUFLEVEL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -188,7 +188,7 @@ typedef union cavm_cst_cwx_etf_cidr0 cavm_cst_cwx_etf_cidr0_t;
 static inline uint64_t CAVM_CST_CWX_ETF_CIDR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_CIDR0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a004010ff0ll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_CIDR0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -227,7 +227,7 @@ typedef union cavm_cst_cwx_etf_cidr1 cavm_cst_cwx_etf_cidr1_t;
 static inline uint64_t CAVM_CST_CWX_ETF_CIDR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_CIDR1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a004010ff4ll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_CIDR1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -264,7 +264,7 @@ typedef union cavm_cst_cwx_etf_cidr2 cavm_cst_cwx_etf_cidr2_t;
 static inline uint64_t CAVM_CST_CWX_ETF_CIDR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_CIDR2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a004010ff8ll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_CIDR2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -301,7 +301,7 @@ typedef union cavm_cst_cwx_etf_cidr3 cavm_cst_cwx_etf_cidr3_t;
 static inline uint64_t CAVM_CST_CWX_ETF_CIDR3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_CIDR3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a004010ffcll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_CIDR3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -344,7 +344,7 @@ typedef union cavm_cst_cwx_etf_claimclr cavm_cst_cwx_etf_claimclr_t;
 static inline uint64_t CAVM_CST_CWX_ETF_CLAIMCLR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_CLAIMCLR(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a004010fa4ll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_CLAIMCLR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -385,7 +385,7 @@ typedef union cavm_cst_cwx_etf_claimset cavm_cst_cwx_etf_claimset_t;
 static inline uint64_t CAVM_CST_CWX_ETF_CLAIMSET(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_CLAIMSET(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a004010fa0ll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_CLAIMSET", 1, a, 0, 0, 0, 0, 0);
 }
@@ -424,7 +424,7 @@ typedef union cavm_cst_cwx_etf_ctl cavm_cst_cwx_etf_ctl_t;
 static inline uint64_t CAVM_CST_CWX_ETF_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_CTL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a004010020ll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -476,7 +476,7 @@ typedef union cavm_cst_cwx_etf_devid cavm_cst_cwx_etf_devid_t;
 static inline uint64_t CAVM_CST_CWX_ETF_DEVID(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_DEVID(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a004010fc8ll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_DEVID", 1, a, 0, 0, 0, 0, 0);
 }
@@ -513,7 +513,7 @@ typedef union cavm_cst_cwx_etf_devid1 cavm_cst_cwx_etf_devid1_t;
 static inline uint64_t CAVM_CST_CWX_ETF_DEVID1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_DEVID1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a004010fc4ll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_DEVID1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -553,7 +553,7 @@ typedef union cavm_cst_cwx_etf_devtype cavm_cst_cwx_etf_devtype_t;
 static inline uint64_t CAVM_CST_CWX_ETF_DEVTYPE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_DEVTYPE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a004010fccll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_DEVTYPE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -759,7 +759,7 @@ typedef union cavm_cst_cwx_etf_ffcr cavm_cst_cwx_etf_ffcr_t;
 static inline uint64_t CAVM_CST_CWX_ETF_FFCR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_FFCR(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a004010304ll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_FFCR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -812,7 +812,7 @@ typedef union cavm_cst_cwx_etf_ffsr cavm_cst_cwx_etf_ffsr_t;
 static inline uint64_t CAVM_CST_CWX_ETF_FFSR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_FFSR(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a004010300ll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_FFSR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -861,7 +861,7 @@ typedef union cavm_cst_cwx_etf_itatbctr0 cavm_cst_cwx_etf_itatbctr0_t;
 static inline uint64_t CAVM_CST_CWX_ETF_ITATBCTR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_ITATBCTR0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a004010ef8ll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_ITATBCTR0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -900,7 +900,7 @@ typedef union cavm_cst_cwx_etf_itatbctr1 cavm_cst_cwx_etf_itatbctr1_t;
 static inline uint64_t CAVM_CST_CWX_ETF_ITATBCTR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_ITATBCTR1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a004010ef4ll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_ITATBCTR1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -944,7 +944,7 @@ typedef union cavm_cst_cwx_etf_itatbctr2 cavm_cst_cwx_etf_itatbctr2_t;
 static inline uint64_t CAVM_CST_CWX_ETF_ITATBCTR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_ITATBCTR2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a004010ef0ll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_ITATBCTR2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -992,7 +992,7 @@ typedef union cavm_cst_cwx_etf_itatbdata0 cavm_cst_cwx_etf_itatbdata0_t;
 static inline uint64_t CAVM_CST_CWX_ETF_ITATBDATA0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_ITATBDATA0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a004010eecll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_ITATBDATA0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1043,7 +1043,7 @@ typedef union cavm_cst_cwx_etf_itatbmctr0 cavm_cst_cwx_etf_itatbmctr0_t;
 static inline uint64_t CAVM_CST_CWX_ETF_ITATBMCTR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_ITATBMCTR0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a004010edcll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_ITATBMCTR0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1083,7 +1083,7 @@ typedef union cavm_cst_cwx_etf_itatbmctr1 cavm_cst_cwx_etf_itatbmctr1_t;
 static inline uint64_t CAVM_CST_CWX_ETF_ITATBMCTR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_ITATBMCTR1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a004010ed8ll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_ITATBMCTR1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1133,7 +1133,7 @@ typedef union cavm_cst_cwx_etf_itatbmctr2 cavm_cst_cwx_etf_itatbmctr2_t;
 static inline uint64_t CAVM_CST_CWX_ETF_ITATBMCTR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_ITATBMCTR2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a004010ed4ll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_ITATBMCTR2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1182,7 +1182,7 @@ typedef union cavm_cst_cwx_etf_itatbmdata0 cavm_cst_cwx_etf_itatbmdata0_t;
 static inline uint64_t CAVM_CST_CWX_ETF_ITATBMDATA0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_ITATBMDATA0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a004010ed0ll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_ITATBMDATA0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1221,7 +1221,7 @@ typedef union cavm_cst_cwx_etf_itctrl cavm_cst_cwx_etf_itctrl_t;
 static inline uint64_t CAVM_CST_CWX_ETF_ITCTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_ITCTRL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a004010f00ll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_ITCTRL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1265,7 +1265,7 @@ typedef union cavm_cst_cwx_etf_itevtintr cavm_cst_cwx_etf_itevtintr_t;
 static inline uint64_t CAVM_CST_CWX_ETF_ITEVTINTR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_ITEVTINTR(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a004010ee0ll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_ITEVTINTR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1313,7 +1313,7 @@ typedef union cavm_cst_cwx_etf_ittrflin cavm_cst_cwx_etf_ittrflin_t;
 static inline uint64_t CAVM_CST_CWX_ETF_ITTRFLIN(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_ITTRFLIN(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a004010ee8ll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_ITTRFLIN", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1359,7 +1359,7 @@ typedef union cavm_cst_cwx_etf_lbuflevel cavm_cst_cwx_etf_lbuflevel_t;
 static inline uint64_t CAVM_CST_CWX_ETF_LBUFLEVEL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_LBUFLEVEL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a00401002cll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_LBUFLEVEL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1415,7 +1415,7 @@ typedef union cavm_cst_cwx_etf_mode cavm_cst_cwx_etf_mode_t;
 static inline uint64_t CAVM_CST_CWX_ETF_MODE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_MODE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a004010028ll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_MODE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1452,7 +1452,7 @@ typedef union cavm_cst_cwx_etf_pidr0 cavm_cst_cwx_etf_pidr0_t;
 static inline uint64_t CAVM_CST_CWX_ETF_PIDR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_PIDR0(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a004010fe0ll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_PIDR0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1497,7 +1497,7 @@ typedef union cavm_cst_cwx_etf_pidr1 cavm_cst_cwx_etf_pidr1_t;
 static inline uint64_t CAVM_CST_CWX_ETF_PIDR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_PIDR1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a004010fe4ll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_PIDR1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1546,7 +1546,7 @@ typedef union cavm_cst_cwx_etf_pidr2 cavm_cst_cwx_etf_pidr2_t;
 static inline uint64_t CAVM_CST_CWX_ETF_PIDR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_PIDR2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a004010fe8ll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_PIDR2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1591,7 +1591,7 @@ typedef union cavm_cst_cwx_etf_pidr3 cavm_cst_cwx_etf_pidr3_t;
 static inline uint64_t CAVM_CST_CWX_ETF_PIDR3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_PIDR3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a004010fecll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_PIDR3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1638,7 +1638,7 @@ typedef union cavm_cst_cwx_etf_pidr4 cavm_cst_cwx_etf_pidr4_t;
 static inline uint64_t CAVM_CST_CWX_ETF_PIDR4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_PIDR4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a004010fd0ll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_PIDR4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1675,7 +1675,7 @@ typedef union cavm_cst_cwx_etf_pidr5 cavm_cst_cwx_etf_pidr5_t;
 static inline uint64_t CAVM_CST_CWX_ETF_PIDR5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_PIDR5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a004010fd4ll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_PIDR5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1712,7 +1712,7 @@ typedef union cavm_cst_cwx_etf_pidr6 cavm_cst_cwx_etf_pidr6_t;
 static inline uint64_t CAVM_CST_CWX_ETF_PIDR6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_PIDR6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a004010fd8ll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_PIDR6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1749,7 +1749,7 @@ typedef union cavm_cst_cwx_etf_pidr7 cavm_cst_cwx_etf_pidr7_t;
 static inline uint64_t CAVM_CST_CWX_ETF_PIDR7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_PIDR7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a004010fdcll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_PIDR7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1819,7 +1819,7 @@ typedef union cavm_cst_cwx_etf_pscr cavm_cst_cwx_etf_pscr_t;
 static inline uint64_t CAVM_CST_CWX_ETF_PSCR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_PSCR(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a004010308ll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_PSCR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1864,7 +1864,7 @@ typedef union cavm_cst_cwx_etf_rrd cavm_cst_cwx_etf_rrd_t;
 static inline uint64_t CAVM_CST_CWX_ETF_RRD(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_RRD(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a004010010ll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_RRD", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1922,7 +1922,7 @@ typedef union cavm_cst_cwx_etf_rrp cavm_cst_cwx_etf_rrp_t;
 static inline uint64_t CAVM_CST_CWX_ETF_RRP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_RRP(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a004010014ll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_RRP", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1963,7 +1963,7 @@ typedef union cavm_cst_cwx_etf_rsz cavm_cst_cwx_etf_rsz_t;
 static inline uint64_t CAVM_CST_CWX_ETF_RSZ(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_RSZ(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a004010004ll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_RSZ", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2005,7 +2005,7 @@ typedef union cavm_cst_cwx_etf_rwd cavm_cst_cwx_etf_rwd_t;
 static inline uint64_t CAVM_CST_CWX_ETF_RWD(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_RWD(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a004010024ll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_RWD", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2061,7 +2061,7 @@ typedef union cavm_cst_cwx_etf_rwp cavm_cst_cwx_etf_rwp_t;
 static inline uint64_t CAVM_CST_CWX_ETF_RWP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_RWP(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a004010018ll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_RWP", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2157,7 +2157,7 @@ typedef union cavm_cst_cwx_etf_sts cavm_cst_cwx_etf_sts_t;
 static inline uint64_t CAVM_CST_CWX_ETF_STS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_STS(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a00401000cll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_STS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2202,7 +2202,7 @@ typedef union cavm_cst_cwx_etf_trg cavm_cst_cwx_etf_trg_t;
 static inline uint64_t CAVM_CST_CWX_ETF_TRG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CST_CWX_ETF_TRG(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=63))
+    if (a<=63)
         return 0x87a00401001cll + 0x100000ll * ((a) & 0x3f);
     __cavm_csr_fatal("CST_CWX_ETF_TRG", 1, a, 0, 0, 0, 0, 0);
 }

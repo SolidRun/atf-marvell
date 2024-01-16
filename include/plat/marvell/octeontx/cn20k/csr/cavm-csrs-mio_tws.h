@@ -25,9 +25,9 @@
  * TWSI Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define CAVM_MIO_TWS_BAR_E_MIO_TWSX_PF_BAR0(a) (0xc08000000000ll + 0x100000000ll * (a))
+#define CAVM_MIO_TWS_BAR_E_MIO_TWSX_PF_BAR0(a) (0x87e100000000ll + 0x1000000ll * (a))
 #define CAVM_MIO_TWS_BAR_E_MIO_TWSX_PF_BAR0_SIZE 0x10000ull
-#define CAVM_MIO_TWS_BAR_E_MIO_TWSX_PF_BAR4(a) (0xc08000f00000ll + 0x100000000ll * (a))
+#define CAVM_MIO_TWS_BAR_E_MIO_TWSX_PF_BAR4(a) (0x87e100f00000ll + 0x1000000ll * (a))
 #define CAVM_MIO_TWS_BAR_E_MIO_TWSX_PF_BAR4_SIZE 0x100000ull
 
 /**
@@ -75,9 +75,9 @@ static inline uint64_t CAVM_MIO_TWSX_ACCESS_WDOG(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_MIO_TWSX_ACCESS_WDOG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=15))
-        return 0xc08000001040ll + 0x100000000ll * ((a) & 0xf);
+        return 0x87e100001040ll + 0x1000000ll * ((a) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=11))
-        return 0xc08000001040ll + 0x100000000ll * ((a) & 0xf);
+        return 0x87e100001040ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("MIO_TWSX_ACCESS_WDOG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -115,9 +115,9 @@ static inline uint64_t CAVM_MIO_TWSX_CLKEN(uint64_t a) __attribute__ ((pure, alw
 static inline uint64_t CAVM_MIO_TWSX_CLKEN(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=15))
-        return 0xc08000001078ll + 0x100000000ll * ((a) & 0xf);
+        return 0x87e100001078ll + 0x1000000ll * ((a) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=11))
-        return 0xc08000001078ll + 0x100000000ll * ((a) & 0xf);
+        return 0x87e100001078ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("MIO_TWSX_CLKEN", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -155,9 +155,9 @@ static inline uint64_t CAVM_MIO_TWSX_CONST(uint64_t a) __attribute__ ((pure, alw
 static inline uint64_t CAVM_MIO_TWSX_CONST(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=15))
-        return 0xc08000000000ll + 0x100000000ll * ((a) & 0xf);
+        return 0x87e100000000ll + 0x1000000ll * ((a) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=11))
-        return 0xc08000000000ll + 0x100000000ll * ((a) & 0xf);
+        return 0x87e100000000ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("MIO_TWSX_CONST", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -229,9 +229,9 @@ static inline uint64_t CAVM_MIO_TWSX_INT(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_MIO_TWSX_INT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=15))
-        return 0xc08000001010ll + 0x100000000ll * ((a) & 0xf);
+        return 0x87e100001010ll + 0x1000000ll * ((a) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=11))
-        return 0xc08000001010ll + 0x100000000ll * ((a) & 0xf);
+        return 0x87e100001010ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("MIO_TWSX_INT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -274,9 +274,9 @@ static inline uint64_t CAVM_MIO_TWSX_INT_ENA_W1C(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_MIO_TWSX_INT_ENA_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=15))
-        return 0xc08000001028ll + 0x100000000ll * ((a) & 0xf);
+        return 0x87e100001028ll + 0x1000000ll * ((a) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=11))
-        return 0xc08000001028ll + 0x100000000ll * ((a) & 0xf);
+        return 0x87e100001028ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("MIO_TWSX_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -319,9 +319,9 @@ static inline uint64_t CAVM_MIO_TWSX_INT_ENA_W1S(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_MIO_TWSX_INT_ENA_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=15))
-        return 0xc08000001030ll + 0x100000000ll * ((a) & 0xf);
+        return 0x87e100001030ll + 0x1000000ll * ((a) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=11))
-        return 0xc08000001030ll + 0x100000000ll * ((a) & 0xf);
+        return 0x87e100001030ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("MIO_TWSX_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -364,9 +364,9 @@ static inline uint64_t CAVM_MIO_TWSX_INT_W1S(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_MIO_TWSX_INT_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=15))
-        return 0xc08000001020ll + 0x100000000ll * ((a) & 0xf);
+        return 0x87e100001020ll + 0x1000000ll * ((a) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=11))
-        return 0xc08000001020ll + 0x100000000ll * ((a) & 0xf);
+        return 0x87e100001020ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("MIO_TWSX_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -423,9 +423,9 @@ static inline uint64_t CAVM_MIO_TWSX_IO_CTL(uint64_t a) __attribute__ ((pure, al
 static inline uint64_t CAVM_MIO_TWSX_IO_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=15))
-        return 0xc08000001070ll + 0x100000000ll * ((a) & 0xf);
+        return 0x87e100001070ll + 0x1000000ll * ((a) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=11))
-        return 0xc08000001070ll + 0x100000000ll * ((a) & 0xf);
+        return 0x87e100001070ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("MIO_TWSX_IO_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -583,9 +583,9 @@ static inline uint64_t CAVM_MIO_TWSX_MODE(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_MIO_TWSX_MODE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=15))
-        return 0xc08000001038ll + 0x100000000ll * ((a) & 0xf);
+        return 0x87e100001038ll + 0x1000000ll * ((a) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=11))
-        return 0xc08000001038ll + 0x100000000ll * ((a) & 0xf);
+        return 0x87e100001038ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("MIO_TWSX_MODE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -624,9 +624,9 @@ static inline uint64_t CAVM_MIO_TWSX_MSIX_PBAX(uint64_t a, uint64_t b) __attribu
 static inline uint64_t CAVM_MIO_TWSX_MSIX_PBAX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=15) && (b==0)))
-        return 0xc08000ff0000ll + 0x100000000ll * ((a) & 0xf) + 8ll * ((b) & 0x0);
+        return 0x87e100ff0000ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x0);
     if (cavm_is_model(OCTEONTX_CNF20KA) && ((a<=11) && (b==0)))
-        return 0xc08000ff0000ll + 0x100000000ll * ((a) & 0xf) + 8ll * ((b) & 0x0);
+        return 0x87e100ff0000ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("MIO_TWSX_MSIX_PBAX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -712,9 +712,9 @@ static inline uint64_t CAVM_MIO_TWSX_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __at
 static inline uint64_t CAVM_MIO_TWSX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=15) && (b==0)))
-        return 0xc08000f00000ll + 0x100000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x0);
+        return 0x87e100f00000ll + 0x1000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x0);
     if (cavm_is_model(OCTEONTX_CNF20KA) && ((a<=11) && (b==0)))
-        return 0xc08000f00000ll + 0x100000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x0);
+        return 0x87e100f00000ll + 0x1000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x0);
     __cavm_csr_fatal("MIO_TWSX_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -754,9 +754,9 @@ static inline uint64_t CAVM_MIO_TWSX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __att
 static inline uint64_t CAVM_MIO_TWSX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=15) && (b==0)))
-        return 0xc08000f00008ll + 0x100000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x0);
+        return 0x87e100f00008ll + 0x1000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x0);
     if (cavm_is_model(OCTEONTX_CNF20KA) && ((a<=11) && (b==0)))
-        return 0xc08000f00008ll + 0x100000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x0);
+        return 0x87e100f00008ll + 0x1000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x0);
     __cavm_csr_fatal("MIO_TWSX_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -794,7 +794,7 @@ static inline uint64_t CAVM_MIO_TWSX_SOFT_RESET(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_MIO_TWSX_SOFT_RESET(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=15))
-        return 0xc08000001088ll + 0x100000000ll * ((a) & 0xf);
+        return 0x87e100001088ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("MIO_TWSX_SOFT_RESET", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -974,9 +974,9 @@ static inline uint64_t CAVM_MIO_TWSX_SW_TWSI(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_MIO_TWSX_SW_TWSI(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=15))
-        return 0xc08000001000ll + 0x100000000ll * ((a) & 0xf);
+        return 0x87e100001000ll + 0x1000000ll * ((a) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=11))
-        return 0xc08000001000ll + 0x100000000ll * ((a) & 0xf);
+        return 0x87e100001000ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("MIO_TWSX_SW_TWSI", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1028,9 +1028,9 @@ static inline uint64_t CAVM_MIO_TWSX_SW_TWSI_EXT(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_MIO_TWSX_SW_TWSI_EXT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=15))
-        return 0xc08000001018ll + 0x100000000ll * ((a) & 0xf);
+        return 0x87e100001018ll + 0x1000000ll * ((a) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=11))
-        return 0xc08000001018ll + 0x100000000ll * ((a) & 0xf);
+        return 0x87e100001018ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("MIO_TWSX_SW_TWSI_EXT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1068,7 +1068,7 @@ static inline uint64_t CAVM_MIO_TWSX_TIE_OFF(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_MIO_TWSX_TIE_OFF(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=15))
-        return 0xc08000001080ll + 0x100000000ll * ((a) & 0xf);
+        return 0x87e100001080ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("MIO_TWSX_TIE_OFF", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1105,9 +1105,9 @@ static inline uint64_t CAVM_MIO_TWSX_TSTAMP_RX(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_MIO_TWSX_TSTAMP_RX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=15))
-        return 0xc08000001068ll + 0x100000000ll * ((a) & 0xf);
+        return 0x87e100001068ll + 0x1000000ll * ((a) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=11))
-        return 0xc08000001068ll + 0x100000000ll * ((a) & 0xf);
+        return 0x87e100001068ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("MIO_TWSX_TSTAMP_RX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1144,9 +1144,9 @@ static inline uint64_t CAVM_MIO_TWSX_TSTAMP_TX(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_MIO_TWSX_TSTAMP_TX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=15))
-        return 0xc08000001060ll + 0x100000000ll * ((a) & 0xf);
+        return 0x87e100001060ll + 0x1000000ll * ((a) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=11))
-        return 0xc08000001060ll + 0x100000000ll * ((a) & 0xf);
+        return 0x87e100001060ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("MIO_TWSX_TSTAMP_TX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1203,9 +1203,9 @@ static inline uint64_t CAVM_MIO_TWSX_TWSI_BLOCK_CTL(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_MIO_TWSX_TWSI_BLOCK_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=15))
-        return 0xc08000001048ll + 0x100000000ll * ((a) & 0xf);
+        return 0x87e100001048ll + 0x1000000ll * ((a) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=11))
-        return 0xc08000001048ll + 0x100000000ll * ((a) & 0xf);
+        return 0x87e100001048ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("MIO_TWSX_TWSI_BLOCK_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1263,9 +1263,9 @@ static inline uint64_t CAVM_MIO_TWSX_TWSI_BLOCK_FIFO(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_MIO_TWSX_TWSI_BLOCK_FIFO(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=15))
-        return 0xc08000001058ll + 0x100000000ll * ((a) & 0xf);
+        return 0x87e100001058ll + 0x1000000ll * ((a) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=11))
-        return 0xc08000001058ll + 0x100000000ll * ((a) & 0xf);
+        return 0x87e100001058ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("MIO_TWSX_TWSI_BLOCK_FIFO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1323,9 +1323,9 @@ static inline uint64_t CAVM_MIO_TWSX_TWSI_BLOCK_STS(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_MIO_TWSX_TWSI_BLOCK_STS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=15))
-        return 0xc08000001050ll + 0x100000000ll * ((a) & 0xf);
+        return 0x87e100001050ll + 0x1000000ll * ((a) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=11))
-        return 0xc08000001050ll + 0x100000000ll * ((a) & 0xf);
+        return 0x87e100001050ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("MIO_TWSX_TWSI_BLOCK_STS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1371,9 +1371,9 @@ static inline uint64_t CAVM_MIO_TWSX_TWSI_SW(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_MIO_TWSX_TWSI_SW(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=15))
-        return 0xc08000001008ll + 0x100000000ll * ((a) & 0xf);
+        return 0x87e100001008ll + 0x1000000ll * ((a) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=11))
-        return 0xc08000001008ll + 0x100000000ll * ((a) & 0xf);
+        return 0x87e100001008ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("MIO_TWSX_TWSI_SW", 1, a, 0, 0, 0, 0, 0);
 }
 

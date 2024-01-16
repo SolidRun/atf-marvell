@@ -25,7 +25,7 @@
  * CPC Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define CAVM_CPC_BAR_E_CPC_PF_BAR0 (0xcf8000000000ll)
+#define CAVM_CPC_BAR_E_CPC_PF_BAR0 (0x86d000000000ll)
 #define CAVM_CPC_BAR_E_CPC_PF_BAR0_SIZE 0x800000ull
 
 /**
@@ -95,7 +95,7 @@ static inline uint64_t CAVM_CPC_BOOT_OWNERX(uint64_t a) __attribute__ ((pure, al
 static inline uint64_t CAVM_CPC_BOOT_OWNERX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=5))
-        return 0xcf80000001c0ll + 8ll * ((a) & 0x7);
+        return 0x86d0000001c0ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("CPC_BOOT_OWNERX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -149,7 +149,7 @@ static inline uint64_t CAVM_CPC_BOOT_ROM_LIMIT_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t CAVM_CPC_BOOT_ROM_LIMIT_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0xcf8000000158ll;
+        return 0x86d000000158ll;
     __cavm_csr_fatal("CPC_BOOT_ROM_LIMIT", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -202,7 +202,7 @@ static inline uint64_t CAVM_CPC_CCP_BOOT_ROM_LIMIT_FUNC(void) __attribute__ ((pu
 static inline uint64_t CAVM_CPC_CCP_BOOT_ROM_LIMIT_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0xcf8000000168ll;
+        return 0x86d000000168ll;
     __cavm_csr_fatal("CPC_CCP_BOOT_ROM_LIMIT", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -245,7 +245,7 @@ static inline uint64_t CAVM_CPC_CLKEN_FUNC(void) __attribute__ ((pure, always_in
 static inline uint64_t CAVM_CPC_CLKEN_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0xcf8000000118ll;
+        return 0x86d000000118ll;
     __cavm_csr_fatal("CPC_CLKEN", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -286,7 +286,7 @@ static inline uint64_t CAVM_CPC_CONST_FUNC(void) __attribute__ ((pure, always_in
 static inline uint64_t CAVM_CPC_CONST_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0xcf8000000000ll;
+        return 0x86d000000000ll;
     __cavm_csr_fatal("CPC_CONST", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -327,7 +327,7 @@ static inline uint64_t CAVM_CPC_CSCLK_ACTIVE_PC_FUNC(void) __attribute__ ((pure,
 static inline uint64_t CAVM_CPC_CSCLK_ACTIVE_PC_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0xcf8000000010ll;
+        return 0x86d000000010ll;
     __cavm_csr_fatal("CPC_CSCLK_ACTIVE_PC", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -380,7 +380,7 @@ static inline uint64_t CAVM_CPC_MCP_BOOT_ROM_LIMIT_FUNC(void) __attribute__ ((pu
 static inline uint64_t CAVM_CPC_MCP_BOOT_ROM_LIMIT_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0xcf8000000160ll;
+        return 0x86d000000160ll;
     __cavm_csr_fatal("CPC_MCP_BOOT_ROM_LIMIT", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -433,7 +433,7 @@ static inline uint64_t CAVM_CPC_PCP_BOOT_ROM_LIMIT_FUNC(void) __attribute__ ((pu
 static inline uint64_t CAVM_CPC_PCP_BOOT_ROM_LIMIT_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0xcf8000000170ll;
+        return 0x86d000000170ll;
     __cavm_csr_fatal("CPC_PCP_BOOT_ROM_LIMIT", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -492,7 +492,7 @@ static inline uint64_t CAVM_CPC_PERMIT_FUNC(void) __attribute__ ((pure, always_i
 static inline uint64_t CAVM_CPC_PERMIT_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0xcf8000000120ll;
+        return 0x86d000000120ll;
     __cavm_csr_fatal("CPC_PERMIT", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -533,7 +533,7 @@ static inline uint64_t CAVM_CPC_RAM_MEMX(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_CPC_RAM_MEMX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=32679))
-        return 0xcf8000400000ll + 8ll * ((a) & 0x7fff);
+        return 0x86d000400000ll + 8ll * ((a) & 0x7fff);
     __cavm_csr_fatal("CPC_RAM_MEMX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -625,7 +625,7 @@ static inline uint64_t CAVM_CPC_RAM_PERMITX(uint64_t a) __attribute__ ((pure, al
 static inline uint64_t CAVM_CPC_RAM_PERMITX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=39))
-        return 0xcf8000008000ll + 8ll * ((a) & 0x3f);
+        return 0x86d000008000ll + 8ll * ((a) & 0x3f);
     __cavm_csr_fatal("CPC_RAM_PERMITX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -665,7 +665,7 @@ static inline uint64_t CAVM_CPC_ROM_MEMX(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_CPC_ROM_MEMX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=8191))
-        return 0xcf8000010000ll + 8ll * ((a) & 0x1fff);
+        return 0x86d000010000ll + 8ll * ((a) & 0x1fff);
     __cavm_csr_fatal("CPC_ROM_MEMX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -718,7 +718,7 @@ static inline uint64_t CAVM_CPC_SCP_BOOT_ROM_LIMIT_FUNC(void) __attribute__ ((pu
 static inline uint64_t CAVM_CPC_SCP_BOOT_ROM_LIMIT_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0xcf8000000150ll;
+        return 0x86d000000150ll;
     __cavm_csr_fatal("CPC_SCP_BOOT_ROM_LIMIT", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -766,7 +766,7 @@ static inline uint64_t CAVM_CPC_TIMER100_FUNC(void) __attribute__ ((pure, always
 static inline uint64_t CAVM_CPC_TIMER100_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0xcf8000000110ll;
+        return 0x86d000000110ll;
     __cavm_csr_fatal("CPC_TIMER100", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -824,7 +824,7 @@ static inline uint64_t CAVM_CPC_XCPX_GIBX_LINT_PERMIT(uint64_t a, uint64_t b) __
 static inline uint64_t CAVM_CPC_XCPX_GIBX_LINT_PERMIT(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=3) && (b<=2)))
-        return 0xcf8000000200ll + 0x20ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
+        return 0x86d000000200ll + 0x20ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("CPC_XCPX_GIBX_LINT_PERMIT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -882,7 +882,7 @@ static inline uint64_t CAVM_CPC_XCPX_PERMIT(uint64_t a) __attribute__ ((pure, al
 static inline uint64_t CAVM_CPC_XCPX_PERMIT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
-        return 0xcf80000001a0ll + 8ll * ((a) & 0x3);
+        return 0x86d0000001a0ll + 8ll * ((a) & 0x3);
     __cavm_csr_fatal("CPC_XCPX_PERMIT", 1, a, 0, 0, 0, 0, 0);
 }
 

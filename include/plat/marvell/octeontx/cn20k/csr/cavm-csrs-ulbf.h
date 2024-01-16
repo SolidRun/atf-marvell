@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2021-2024 Marvell.
+* Copyright (C) 2021-2023 Marvell.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -55,7 +55,7 @@ typedef union cavm_ulbfx_ab_control cavm_ulbfx_ab_control_t;
 static inline uint64_t CAVM_ULBFX_AB_CONTROL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ULBFX_AB_CONTROL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+    if (a<=3)
         return 0x87e041600000ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("ULBFX_AB_CONTROL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -130,7 +130,7 @@ typedef union cavm_ulbfx_ab_err_src cavm_ulbfx_ab_err_src_t;
 static inline uint64_t CAVM_ULBFX_AB_ERR_SRC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ULBFX_AB_ERR_SRC(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+    if (a<=3)
         return 0x87e041600030ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("ULBFX_AB_ERR_SRC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -170,7 +170,7 @@ typedef union cavm_ulbfx_ab_status cavm_ulbfx_ab_status_t;
 static inline uint64_t CAVM_ULBFX_AB_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_ULBFX_AB_STATUS(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA) && (a<=3))
+    if (a<=3)
         return 0x87e041600018ll + 0x80000ll * ((a) & 0x3);
     __cavm_csr_fatal("ULBFX_AB_STATUS", 1, a, 0, 0, 0, 0, 0);
 }

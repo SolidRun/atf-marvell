@@ -25,7 +25,7 @@
  * CLKGEN Base Address Register Enumeration
  * Normalized Description.
  */
-#define CAVM_CLKGEN_BAR_E_CLKGEN_PF_BAR0 (0xc01c04000000ll)
+#define CAVM_CLKGEN_BAR_E_CLKGEN_PF_BAR0 (0x87e004000000ll)
 #define CAVM_CLKGEN_BAR_E_CLKGEN_PF_BAR0_SIZE 0x10000ull
 
 /**
@@ -162,7 +162,7 @@ typedef union cavm_clkgen_aro_cfg cavm_clkgen_aro_cfg_t;
 static inline uint64_t CAVM_CLKGEN_ARO_CFG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CLKGEN_ARO_CFG_FUNC(void)
 {
-    return 0xc01c04000028ll;
+    return 0x87e004000028ll;
 }
 
 #define typedef_CAVM_CLKGEN_ARO_CFG cavm_clkgen_aro_cfg_t
@@ -234,7 +234,7 @@ typedef union cavm_clkgen_aro_settings cavm_clkgen_aro_settings_t;
 static inline uint64_t CAVM_CLKGEN_ARO_SETTINGS_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CLKGEN_ARO_SETTINGS_FUNC(void)
 {
-    return 0xc01c04000038ll;
+    return 0x87e004000038ll;
 }
 
 #define typedef_CAVM_CLKGEN_ARO_SETTINGS cavm_clkgen_aro_settings_t
@@ -279,7 +279,7 @@ typedef union cavm_clkgen_aro_status cavm_clkgen_aro_status_t;
 static inline uint64_t CAVM_CLKGEN_ARO_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CLKGEN_ARO_STATUS_FUNC(void)
 {
-    return 0xc01c04000020ll;
+    return 0x87e004000020ll;
 }
 
 #define typedef_CAVM_CLKGEN_ARO_STATUS cavm_clkgen_aro_status_t
@@ -374,7 +374,7 @@ typedef union cavm_clkgen_aro_trgt cavm_clkgen_aro_trgt_t;
 static inline uint64_t CAVM_CLKGEN_ARO_TRGT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CLKGEN_ARO_TRGT_FUNC(void)
 {
-    return 0xc01c04000030ll;
+    return 0x87e004000030ll;
 }
 
 #define typedef_CAVM_CLKGEN_ARO_TRGT cavm_clkgen_aro_trgt_t
@@ -487,7 +487,7 @@ typedef union cavm_clkgen_const cavm_clkgen_const_t;
 static inline uint64_t CAVM_CLKGEN_CONST_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CLKGEN_CONST_FUNC(void)
 {
-    return 0xc01c04000078ll;
+    return 0x87e004000078ll;
 }
 
 #define typedef_CAVM_CLKGEN_CONST cavm_clkgen_const_t
@@ -548,7 +548,7 @@ typedef union cavm_clkgen_freq_chk cavm_clkgen_freq_chk_t;
 static inline uint64_t CAVM_CLKGEN_FREQ_CHK_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CLKGEN_FREQ_CHK_FUNC(void)
 {
-    return 0xc01c04000068ll;
+    return 0x87e004000050ll;
 }
 
 #define typedef_CAVM_CLKGEN_FREQ_CHK cavm_clkgen_freq_chk_t
@@ -602,7 +602,7 @@ static inline uint64_t CAVM_CLKGEN_GROUPX(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_CLKGEN_GROUPX(uint64_t a)
 {
     if (a<=7)
-        return 0xc01c04000080ll + 8ll * ((a) & 0x7);
+        return 0x87e004000080ll + 8ll * ((a) & 0x7);
     __cavm_csr_fatal("CLKGEN_GROUPX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -819,7 +819,7 @@ typedef union cavm_clkgen_man cavm_clkgen_man_t;
 static inline uint64_t CAVM_CLKGEN_MAN_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CLKGEN_MAN_FUNC(void)
 {
-    return 0xc01c04000008ll;
+    return 0x87e004000008ll;
 }
 
 #define typedef_CAVM_CLKGEN_MAN cavm_clkgen_man_t
@@ -1031,7 +1031,7 @@ typedef union cavm_clkgen_pgm cavm_clkgen_pgm_t;
 static inline uint64_t CAVM_CLKGEN_PGM_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CLKGEN_PGM_FUNC(void)
 {
-    return 0xc01c04000000ll;
+    return 0x87e004000000ll;
 }
 
 #define typedef_CAVM_CLKGEN_PGM cavm_clkgen_pgm_t
@@ -1176,7 +1176,7 @@ static inline uint64_t CAVM_CLKGEN_PLL_SETTINGSX(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_CLKGEN_PLL_SETTINGSX(uint64_t a)
 {
     if (a<=1)
-        return 0xc01c04000040ll + 8ll * ((a) & 0x1);
+        return 0x87e004000040ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("CLKGEN_PLL_SETTINGSX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1406,7 +1406,7 @@ typedef union cavm_clkgen_power cavm_clkgen_power_t;
 static inline uint64_t CAVM_CLKGEN_POWER_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CLKGEN_POWER_FUNC(void)
 {
-    return 0xc01c04000018ll;
+    return 0x87e004000018ll;
 }
 
 #define typedef_CAVM_CLKGEN_POWER cavm_clkgen_power_t
@@ -1415,61 +1415,6 @@ static inline uint64_t CAVM_CLKGEN_POWER_FUNC(void)
 #define device_bar_CAVM_CLKGEN_POWER 0x0 /* PF_BAR0 */
 #define busnum_CAVM_CLKGEN_POWER 0
 #define arguments_CAVM_CLKGEN_POWER -1,-1,-1,-1
-
-/**
- * Register (RSL) clkgen_ssc
- *
- * CLKGEN Spead Spectrum Control Register
- * Spread Spectrun Control for Analog PLL Only
- */
-union cavm_clkgen_ssc
-{
-    uint64_t u;
-    struct cavm_clkgen_ssc_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ssc_en                : 1;  /**< [ 63: 63](R/W) 0 = Spread Spectrum Disabled
-                                                                 1 = Spread Spectrum Enabled */
-        uint64_t reserved_62           : 1;
-        uint64_t ssc_step              : 16; /**< [ 61: 46](R/W) Spread Spectrum Step.
-                                                                 Unsigned 16 bit fraction specifing amount of change. */
-        uint64_t ssc_ub                : 23; /**< [ 45: 23](R/W) Spread Spectrum Upper Bound.
-                                                                 Upper seven bits integer
-                                                                 Lower 16 bits fraction */
-        uint64_t ssc_lb                : 23; /**< [ 22:  0](R/W) Spread Spectrum Lower Bound.
-                                                                 Upper seven bits integer
-                                                                 Lower 16 bits fraction */
-#else /* Word 0 - Little Endian */
-        uint64_t ssc_lb                : 23; /**< [ 22:  0](R/W) Spread Spectrum Lower Bound.
-                                                                 Upper seven bits integer
-                                                                 Lower 16 bits fraction */
-        uint64_t ssc_ub                : 23; /**< [ 45: 23](R/W) Spread Spectrum Upper Bound.
-                                                                 Upper seven bits integer
-                                                                 Lower 16 bits fraction */
-        uint64_t ssc_step              : 16; /**< [ 61: 46](R/W) Spread Spectrum Step.
-                                                                 Unsigned 16 bit fraction specifing amount of change. */
-        uint64_t reserved_62           : 1;
-        uint64_t ssc_en                : 1;  /**< [ 63: 63](R/W) 0 = Spread Spectrum Disabled
-                                                                 1 = Spread Spectrum Enabled */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_clkgen_ssc_s cn; */
-};
-typedef union cavm_clkgen_ssc cavm_clkgen_ssc_t;
-
-#define CAVM_CLKGEN_SSC CAVM_CLKGEN_SSC_FUNC()
-static inline uint64_t CAVM_CLKGEN_SSC_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_CLKGEN_SSC_FUNC(void)
-{
-    return 0xc01c04000050ll;
-}
-
-#define typedef_CAVM_CLKGEN_SSC cavm_clkgen_ssc_t
-#define bustype_CAVM_CLKGEN_SSC CSR_TYPE_RSL
-#define basename_CAVM_CLKGEN_SSC "CLKGEN_SSC"
-#define device_bar_CAVM_CLKGEN_SSC 0x0 /* PF_BAR0 */
-#define busnum_CAVM_CLKGEN_SSC 0
-#define arguments_CAVM_CLKGEN_SSC -1,-1,-1,-1
 
 /**
  * Register (RSL) clkgen_test
@@ -1562,7 +1507,7 @@ typedef union cavm_clkgen_test cavm_clkgen_test_t;
 static inline uint64_t CAVM_CLKGEN_TEST_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_CLKGEN_TEST_FUNC(void)
 {
-    return 0xc01c04000010ll;
+    return 0x87e004000010ll;
 }
 
 #define typedef_CAVM_CLKGEN_TEST cavm_clkgen_test_t

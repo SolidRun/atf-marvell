@@ -25,9 +25,9 @@
  * SPI Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define CAVM_SPI_BAR_E_SPIX_PF_BAR0(a) (0xcf1000000000ll + 0x100000000ll * (a))
+#define CAVM_SPI_BAR_E_SPIX_PF_BAR0(a) (0x804000000000ll + 0x1000000000ll * (a))
 #define CAVM_SPI_BAR_E_SPIX_PF_BAR0_SIZE 0x40000000ull
-#define CAVM_SPI_BAR_E_SPIX_PF_BAR4(a) (0xcf1000000000ll + 0x100000000ll * (a))
+#define CAVM_SPI_BAR_E_SPIX_PF_BAR4(a) (0x804100000000ll + 0x1000000000ll * (a))
 #define CAVM_SPI_BAR_E_SPIX_PF_BAR4_SIZE 0x100000ull
 
 /**
@@ -151,7 +151,7 @@ static inline uint64_t CAVM_SPIX_CLK_CTRL(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_SPIX_CLK_CTRL(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000004020ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000004020ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_CLK_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -217,7 +217,7 @@ static inline uint64_t CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_CFG(uint64_t a) __at
 static inline uint64_t CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_CFG(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000398ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000398ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -257,7 +257,7 @@ static inline uint64_t CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_RMP(uint64_t a) __at
 static inline uint64_t CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_RMP(uint64_t a)
 {
     if (a<=1)
-        return 0xcf100000039cll + 0x100000000ll * ((a) & 0x1);
+        return 0x80400000039cll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_RMP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -297,7 +297,7 @@ static inline uint64_t CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_RMP_1(uint64_t a) __
 static inline uint64_t CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_RMP_1(uint64_t a)
 {
     if (a<=1)
-        return 0xcf10000003a0ll + 0x100000000ll * ((a) & 0x1);
+        return 0x8040000003a0ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_RMP_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -509,7 +509,7 @@ static inline uint64_t CAVM_SPIX_CMN_SEQ_REGS_GLOBAL_SEQ_CFG(uint64_t a) __attri
 static inline uint64_t CAVM_SPIX_CMN_SEQ_REGS_GLOBAL_SEQ_CFG(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000390ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000390ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_CMN_SEQ_REGS_GLOBAL_SEQ_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -587,7 +587,7 @@ static inline uint64_t CAVM_SPIX_CMN_SEQ_REGS_GLOBAL_SEQ_CFG_1(uint64_t a) __att
 static inline uint64_t CAVM_SPIX_CMN_SEQ_REGS_GLOBAL_SEQ_CFG_1(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000394ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000394ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_CMN_SEQ_REGS_GLOBAL_SEQ_CFG_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -633,7 +633,7 @@ static inline uint64_t CAVM_SPIX_CMN_SEQ_REGS_XIP_MODE_CFG(uint64_t a) __attribu
 static inline uint64_t CAVM_SPIX_CMN_SEQ_REGS_XIP_MODE_CFG(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000388ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000388ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_CMN_SEQ_REGS_XIP_MODE_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -668,7 +668,7 @@ static inline uint64_t CAVM_SPIX_CONST(uint64_t a) __attribute__ ((pure, always_
 static inline uint64_t CAVM_SPIX_CONST(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000001058ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000001058ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_CONST", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -724,7 +724,7 @@ static inline uint64_t CAVM_SPIX_CTRL_CFG_COMMON_CTRL_CONFIG(uint64_t a) __attri
 static inline uint64_t CAVM_SPIX_CTRL_CFG_COMMON_CTRL_CONFIG(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000230ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000230ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_CTRL_CFG_COMMON_CTRL_CONFIG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -860,7 +860,7 @@ static inline uint64_t CAVM_SPIX_CTRL_CFG_COMMON_DISCOVERY_CONTROL(uint64_t a) _
 static inline uint64_t CAVM_SPIX_CTRL_CFG_COMMON_DISCOVERY_CONTROL(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000260ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000260ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_CTRL_CFG_COMMON_DISCOVERY_CONTROL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -920,7 +920,7 @@ static inline uint64_t CAVM_SPIX_CTRL_CFG_COMMON_DMA_SETTINGS(uint64_t a) __attr
 static inline uint64_t CAVM_SPIX_CTRL_CFG_COMMON_DMA_SETTINGS(uint64_t a)
 {
     if (a<=1)
-        return 0xcf100000023cll + 0x100000000ll * ((a) & 0x1);
+        return 0x80400000023cll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_CTRL_CFG_COMMON_DMA_SETTINGS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -964,7 +964,7 @@ static inline uint64_t CAVM_SPIX_CTRL_CFG_COMMON_LONG_POLLING(uint64_t a) __attr
 static inline uint64_t CAVM_SPIX_CTRL_CFG_COMMON_LONG_POLLING(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000208ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000208ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_CTRL_CFG_COMMON_LONG_POLLING", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1006,7 +1006,7 @@ static inline uint64_t CAVM_SPIX_CTRL_CFG_COMMON_SDMA_ADDR0(uint64_t a) __attrib
 static inline uint64_t CAVM_SPIX_CTRL_CFG_COMMON_SDMA_ADDR0(uint64_t a)
 {
     if (a<=1)
-        return 0xcf100000024cll + 0x100000000ll * ((a) & 0x1);
+        return 0x80400000024cll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_CTRL_CFG_COMMON_SDMA_ADDR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1048,7 +1048,7 @@ static inline uint64_t CAVM_SPIX_CTRL_CFG_COMMON_SDMA_ADDR1(uint64_t a) __attrib
 static inline uint64_t CAVM_SPIX_CTRL_CFG_COMMON_SDMA_ADDR1(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000250ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000250ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_CTRL_CFG_COMMON_SDMA_ADDR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1086,7 +1086,7 @@ static inline uint64_t CAVM_SPIX_CTRL_CFG_COMMON_SDMA_SIZE(uint64_t a) __attribu
 static inline uint64_t CAVM_SPIX_CTRL_CFG_COMMON_SDMA_SIZE(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000240ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000240ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_CTRL_CFG_COMMON_SDMA_SIZE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1128,7 +1128,7 @@ static inline uint64_t CAVM_SPIX_CTRL_CFG_COMMON_SDMA_TRD_INFO(uint64_t a) __att
 static inline uint64_t CAVM_SPIX_CTRL_CFG_COMMON_SDMA_TRD_INFO(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000244ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000244ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_CTRL_CFG_COMMON_SDMA_TRD_INFO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1170,7 +1170,7 @@ static inline uint64_t CAVM_SPIX_CTRL_CFG_COMMON_SHORT_POLLING(uint64_t a) __att
 static inline uint64_t CAVM_SPIX_CTRL_CFG_COMMON_SHORT_POLLING(uint64_t a)
 {
     if (a<=1)
-        return 0xcf100000020cll + 0x100000000ll * ((a) & 0x1);
+        return 0x80400000020cll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_CTRL_CFG_COMMON_SHORT_POLLING", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1236,7 +1236,7 @@ static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_BOOT_STATUS(uint64_t a) __attribu
 static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_BOOT_STATUS(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000158ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000158ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_CTRL_CMD_STAT_BOOT_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1275,7 +1275,7 @@ static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_CMD_REG0(uint64_t a) __attribute_
 static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_CMD_REG0(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000000ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000000ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_CTRL_CMD_STAT_CMD_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1311,7 +1311,7 @@ static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_CMD_REG1(uint64_t a) __attribute_
 static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_CMD_REG1(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000004ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000004ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_CTRL_CMD_STAT_CMD_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1347,7 +1347,7 @@ static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_CMD_REG2(uint64_t a) __attribute_
 static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_CMD_REG2(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000008ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000008ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_CTRL_CMD_STAT_CMD_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1383,7 +1383,7 @@ static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_CMD_REG3(uint64_t a) __attribute_
 static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_CMD_REG3(uint64_t a)
 {
     if (a<=1)
-        return 0xcf100000000cll + 0x100000000ll * ((a) & 0x1);
+        return 0x80400000000cll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_CTRL_CMD_STAT_CMD_REG3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1419,7 +1419,7 @@ static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_CMD_REG4(uint64_t a) __attribute_
 static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_CMD_REG4(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000010ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000010ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_CTRL_CMD_STAT_CMD_REG4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1455,7 +1455,7 @@ static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_CMD_REG5(uint64_t a) __attribute_
 static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_CMD_REG5(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000014ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000014ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_CTRL_CMD_STAT_CMD_REG5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1497,7 +1497,7 @@ static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_CMD_STATUS(uint64_t a) __attribut
 static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_CMD_STATUS(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000044ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000044ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_CTRL_CMD_STAT_CMD_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1537,7 +1537,7 @@ static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_CMD_STATUS_PTR(uint64_t a) __attr
 static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_CMD_STATUS_PTR(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000040ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000040ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_CTRL_CMD_STAT_CMD_STATUS_PTR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1621,7 +1621,7 @@ static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_CTRL_STATUS(uint64_t a) __attribu
 static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_CTRL_STATUS(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000100ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000100ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_CTRL_CMD_STAT_CTRL_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1660,7 +1660,7 @@ static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_DMA_TARGET_ERROR_H(uint64_t a) __
 static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_DMA_TARGET_ERROR_H(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000154ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000154ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_CTRL_CMD_STAT_DMA_TARGET_ERROR_H", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1699,7 +1699,7 @@ static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_DMA_TARGET_ERROR_L(uint64_t a) __
 static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_DMA_TARGET_ERROR_L(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000150ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000150ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_CTRL_CMD_STAT_DMA_TARGET_ERROR_L", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1787,7 +1787,7 @@ static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_INTR_ENABLE(uint64_t a) __attribu
 static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_INTR_ENABLE(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000114ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000114ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_CTRL_CMD_STAT_INTR_ENABLE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1879,7 +1879,7 @@ static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_INTR_STATUS(uint64_t a) __attribu
 static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_INTR_STATUS(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000110ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000110ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_CTRL_CMD_STAT_INTR_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1933,7 +1933,7 @@ static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_TRD_COMP_INTR_STATUS(uint64_t a) 
 static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_TRD_COMP_INTR_STATUS(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000120ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000120ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_CTRL_CMD_STAT_TRD_COMP_INTR_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1973,7 +1973,7 @@ static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_TRD_ERROR_INTR_EN(uint64_t a) __a
 static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_TRD_ERROR_INTR_EN(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000134ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000134ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_CTRL_CMD_STAT_TRD_ERROR_INTR_EN", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2028,7 +2028,7 @@ static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_TRD_ERROR_INTR_STATUS(uint64_t a)
 static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_TRD_ERROR_INTR_STATUS(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000130ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000130ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_CTRL_CMD_STAT_TRD_ERROR_INTR_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2066,7 +2066,7 @@ static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_TRD_STATUS(uint64_t a) __attribut
 static inline uint64_t CAVM_SPIX_CTRL_CMD_STAT_TRD_STATUS(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000104ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000104ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_CTRL_CMD_STAT_TRD_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2150,7 +2150,7 @@ static inline uint64_t CAVM_SPIX_CTRL_CONSTS_CTRL_FEATURES_REG(uint64_t a) __att
 static inline uint64_t CAVM_SPIX_CTRL_CONSTS_CTRL_FEATURES_REG(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000f04ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000f04ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_CTRL_CONSTS_CTRL_FEATURES_REG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2190,7 +2190,7 @@ static inline uint64_t CAVM_SPIX_CTRL_CONSTS_SPI_CTRL_VERSION(uint64_t a) __attr
 static inline uint64_t CAVM_SPIX_CTRL_CONSTS_SPI_CTRL_VERSION(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000f00ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000f00ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_CTRL_CONSTS_SPI_CTRL_VERSION", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2246,7 +2246,7 @@ static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_0(uint64_t a) __attrib
 static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_0(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000410ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000410ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2300,7 +2300,7 @@ static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_1(uint64_t a) __attrib
 static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_1(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000414ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000414ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2350,7 +2350,7 @@ static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_2(uint64_t a) __attrib
 static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_2(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000418ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000418ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2412,7 +2412,7 @@ static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_0(uint64_t a) __attri
 static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_0(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000420ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000420ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2454,7 +2454,7 @@ static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_1(uint64_t a) __attri
 static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_1(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000424ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000424ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2522,7 +2522,7 @@ static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_2(uint64_t a) __attri
 static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_2(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000428ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000428ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2586,7 +2586,7 @@ static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_0(uint64_t a) __attri
 static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_0(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000430ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000430ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2644,7 +2644,7 @@ static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_1(uint64_t a) __attri
 static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_1(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000434ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000434ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2720,7 +2720,7 @@ static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_2(uint64_t a) __attri
 static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_2(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000438ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000438ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2780,7 +2780,7 @@ static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_RST_SEQ_CFG_0(uint64_t a) __attrib
 static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_RST_SEQ_CFG_0(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000400ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000400ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_RST_SEQ_CFG_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2826,7 +2826,7 @@ static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_RST_SEQ_CFG_1(uint64_t a) __attrib
 static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_RST_SEQ_CFG_1(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000404ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000404ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_RST_SEQ_CFG_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2895,7 +2895,7 @@ static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_0(uint64_t a) __attri
 static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_0(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000450ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000450ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2956,7 +2956,7 @@ static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_1(uint64_t a) __attri
 static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_1(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000454ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000454ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3018,7 +3018,7 @@ static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_10(uint64_t a) __attr
 static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_10(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000478ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000478ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3065,7 +3065,7 @@ static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_2(uint64_t a) __attri
 static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_2(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000458ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000458ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3112,7 +3112,7 @@ static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_3(uint64_t a) __attri
 static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_3(uint64_t a)
 {
     if (a<=1)
-        return 0xcf100000045cll + 0x100000000ll * ((a) & 0x1);
+        return 0x80400000045cll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3162,7 +3162,7 @@ static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_4(uint64_t a) __attri
 static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_4(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000460ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000460ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3240,7 +3240,7 @@ static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_5(uint64_t a) __attri
 static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_5(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000464ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000464ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3280,7 +3280,7 @@ static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_7(uint64_t a) __attri
 static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_7(uint64_t a)
 {
     if (a<=1)
-        return 0xcf100000046cll + 0x100000000ll * ((a) & 0x1);
+        return 0x80400000046cll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3318,7 +3318,7 @@ static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_8(uint64_t a) __attri
 static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_8(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000470ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000470ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3356,7 +3356,7 @@ static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_9(uint64_t a) __attri
 static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_9(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000474ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000474ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_STAT_SEQ_CFG_9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3410,7 +3410,7 @@ static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_WE_SEQ_CFG_0(uint64_t a) __attribu
 static inline uint64_t CAVM_SPIX_DEV_SEQ_REGS_WE_SEQ_CFG_0(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000000440ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000000440ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_DEV_SEQ_REGS_WE_SEQ_CFG_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3447,7 +3447,7 @@ static inline uint64_t CAVM_SPIX_DIRECT_ACCESSX(uint64_t a, uint64_t b) __attrib
 static inline uint64_t CAVM_SPIX_DIRECT_ACCESSX(uint64_t a, uint64_t b)
 {
     if ((a<=1) && (b<=65535))
-        return 0xcf1010000000ll + 0x100000000ll * ((a) & 0x1) + 8ll * ((b) & 0xffff);
+        return 0x804010000000ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0xffff);
     __cavm_csr_fatal("SPIX_DIRECT_ACCESSX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -3489,7 +3489,7 @@ static inline uint64_t CAVM_SPIX_INTR(uint64_t a) __attribute__ ((pure, always_i
 static inline uint64_t CAVM_SPIX_INTR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=1))
-        return 0xcf1000004000ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000004000ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_INTR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3527,7 +3527,7 @@ static inline uint64_t CAVM_SPIX_INTR_ENA_W1C(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_SPIX_INTR_ENA_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=1))
-        return 0xcf1000004010ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000004010ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_INTR_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3565,7 +3565,7 @@ static inline uint64_t CAVM_SPIX_INTR_ENA_W1S(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_SPIX_INTR_ENA_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=1))
-        return 0xcf1000004018ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000004018ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_INTR_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3603,7 +3603,7 @@ static inline uint64_t CAVM_SPIX_INTR_W1S(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_SPIX_INTR_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF20KA) && (a<=1))
-        return 0xcf1000004008ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000004008ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_INTR_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3641,7 +3641,7 @@ static inline uint64_t CAVM_SPIX_MSIX_PBAX(uint64_t a, uint64_t b) __attribute__
 static inline uint64_t CAVM_SPIX_MSIX_PBAX(uint64_t a, uint64_t b)
 {
     if ((a<=1) && (b==0))
-        return 0xcf10000f0000ll + 0x100000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
+        return 0x8041000f0000ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("SPIX_MSIX_PBAX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -3697,7 +3697,7 @@ static inline uint64_t CAVM_SPIX_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attrib
 static inline uint64_t CAVM_SPIX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
     if ((a<=1) && (b==0))
-        return 0xcf1000000000ll + 0x100000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
+        return 0x804100000000ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
     __cavm_csr_fatal("SPIX_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -3737,7 +3737,7 @@ static inline uint64_t CAVM_SPIX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribu
 static inline uint64_t CAVM_SPIX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
     if ((a<=1) && (b==0))
-        return 0xcf1000000008ll + 0x100000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
+        return 0x804100000008ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
     __cavm_csr_fatal("SPIX_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -3809,7 +3809,7 @@ static inline uint64_t CAVM_SPIX_PHY_CTB_RFILE_PHY_CTRL(uint64_t a) __attribute_
 static inline uint64_t CAVM_SPIX_PHY_CTB_RFILE_PHY_CTRL(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000002080ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000002080ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_CTB_RFILE_PHY_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3849,7 +3849,7 @@ static inline uint64_t CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_0(uint64_t a) __att
 static inline uint64_t CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_0(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000002088ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000002088ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3889,7 +3889,7 @@ static inline uint64_t CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1(uint64_t a) __att
 static inline uint64_t CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1(uint64_t a)
 {
     if (a<=1)
-        return 0xcf100000208cll + 0x100000000ll * ((a) & 0x1);
+        return 0x80400000208cll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3928,7 +3928,7 @@ static inline uint64_t CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_STATUS_0(uint64_t a) __a
 static inline uint64_t CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_STATUS_0(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000002090ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000002090ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_CTB_RFILE_PHY_GPIO_STATUS_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3967,7 +3967,7 @@ static inline uint64_t CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_STATUS_1(uint64_t a) __a
 static inline uint64_t CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_STATUS_1(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000002094ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000002094ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_CTB_RFILE_PHY_GPIO_STATUS_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4014,7 +4014,7 @@ static inline uint64_t CAVM_SPIX_PHY_CTB_RFILE_PHY_TSEL(uint64_t a) __attribute_
 static inline uint64_t CAVM_SPIX_PHY_CTB_RFILE_PHY_TSEL(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000002084ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000002084ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_CTB_RFILE_PHY_TSEL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4122,7 +4122,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_MASTER_CTRL(uint64_
 static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_MASTER_CTRL(uint64_t a)
 {
     if (a<=1)
-        return 0xcf100000200cll + 0x100000000ll * ((a) & 0x1);
+        return 0x80400000200cll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_DLL_MASTER_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4220,7 +4220,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_0(uint64_t 
 static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_0(uint64_t a)
 {
     if (a<=1)
-        return 0xcf100000201cll + 0x100000000ll * ((a) & 0x1);
+        return 0x80400000201cll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4262,7 +4262,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_1(uint64_t 
 static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_1(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000002020ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000002020ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4300,7 +4300,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_2(uint64_t 
 static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_2(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000002024ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000002024ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4354,7 +4354,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_SLAVE_CTRL(uint64_t
 static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_SLAVE_CTRL(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000002010ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000002010ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_DLL_SLAVE_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4436,7 +4436,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DQ_TIMING(uint64_t a) _
 static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DQ_TIMING(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000002000ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000002000ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_DQ_TIMING", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4538,7 +4538,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DQS_TIMING(uint64_t a) 
 static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DQS_TIMING(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000002004ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000002004ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_DQS_TIMING", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4616,7 +4616,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_FEATURES(uint64_t a) __
 static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_FEATURES(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000002074ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000002074ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_FEATURES", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4796,7 +4796,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_GATE_LPBK_CTRL(uint64_t
 static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_GATE_LPBK_CTRL(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000002008ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000002008ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_GATE_LPBK_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4858,7 +4858,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_IE_TIMING(uint64_t a) _
 static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_IE_TIMING(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000002014ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000002014ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_IE_TIMING", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4946,7 +4946,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_OBS_REG_0(uint64_t a) _
 static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_OBS_REG_0(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000002018ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000002018ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_OBS_REG_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4996,7 +4996,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_RD_DESKEW(uint64_t a) _
 static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_RD_DESKEW(uint64_t a)
 {
     if (a<=1)
-        return 0xcf100000203cll + 0x100000000ll * ((a) & 0x1);
+        return 0x80400000203cll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_RD_DESKEW", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5058,7 +5058,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_STATIC_TOGG(uint64_t a)
 static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_STATIC_TOGG(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000002028ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000002028ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_STATIC_TOGG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5098,7 +5098,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_VERSION(uint64_t a) __a
 static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_VERSION(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000002070ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000002070ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_VERSION", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5148,7 +5148,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW(uint64_t a) _
 static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW(uint64_t a)
 {
     if (a<=1)
-        return 0xcf100000202cll + 0x100000000ll * ((a) & 0x1);
+        return 0x80400000202cll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5406,7 +5406,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_0(uin
 static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_0(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000002034ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000002034ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5664,7 +5664,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_1(uin
 static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_1(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000002038ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000002038ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5770,7 +5770,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_RD_DESKEW_CMD(uint64
 static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_RD_DESKEW_CMD(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000002030ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000002030ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_WR_RD_DESKEW_CMD", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5814,7 +5814,7 @@ static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_CLOCK_MODE_SETTINGS(uint64_t a
 static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_CLOCK_MODE_SETTINGS(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000001008ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000001008ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_RF_MINICTRL_REGS_CLOCK_MODE_SETTINGS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5878,7 +5878,7 @@ static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_DEV_ACTIVE_MAX_REG(uint64_t a)
 static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_DEV_ACTIVE_MAX_REG(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000001018ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000001018ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_RF_MINICTRL_REGS_DEV_ACTIVE_MAX_REG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5925,7 +5925,7 @@ static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_DEV_DELAY_REG(uint64_t a) __at
 static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_DEV_DELAY_REG(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000001010ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000001010ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_RF_MINICTRL_REGS_DEV_DELAY_REG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6010,7 +6010,7 @@ static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_DLL_PHY_CTRL(uint64_t a) __att
 static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_DLL_PHY_CTRL(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000001034ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000001034ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_RF_MINICTRL_REGS_DLL_PHY_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6060,7 +6060,7 @@ static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_DLL_PHY_UPDATE_CNT(uint64_t a)
 static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_DLL_PHY_UPDATE_CNT(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000001030ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000001030ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_RF_MINICTRL_REGS_DLL_PHY_UPDATE_CNT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6104,7 +6104,7 @@ static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_HF_OFFSET_REG(uint64_t a) __at
 static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_HF_OFFSET_REG(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000001020ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000001020ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_RF_MINICTRL_REGS_HF_OFFSET_REG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6145,7 +6145,7 @@ static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_JEDEC_RST_TIMING_REG(uint64_t 
 static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_JEDEC_RST_TIMING_REG(uint64_t a)
 {
     if (a<=1)
-        return 0xcf100000100cll + 0x100000000ll * ((a) & 0x1);
+        return 0x80400000100cll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_RF_MINICTRL_REGS_JEDEC_RST_TIMING_REG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6277,7 +6277,7 @@ static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_RESET_PIN_SETTINGS(uint64_t a)
 static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_RESET_PIN_SETTINGS(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000001004ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000001004ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_RF_MINICTRL_REGS_RESET_PIN_SETTINGS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6315,7 +6315,7 @@ static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_RST_RECOVERY_REG(uint64_t a) _
 static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_RST_RECOVERY_REG(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000001014ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000001014ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_RF_MINICTRL_REGS_RST_RECOVERY_REG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6367,7 +6367,7 @@ static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_WP_SETTINGS(uint64_t a) __attr
 static inline uint64_t CAVM_SPIX_RF_MINICTRL_REGS_WP_SETTINGS(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000001000ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000001000ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_RF_MINICTRL_REGS_WP_SETTINGS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6446,7 +6446,7 @@ static inline uint64_t CAVM_SPIX_SHIM_CFG(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_SPIX_SHIM_CFG(uint64_t a)
 {
     if (a<=1)
-        return 0xcf1000001050ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000001050ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_SHIM_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6484,7 +6484,7 @@ static inline uint64_t CAVM_SPIX_SOFT_RESET(uint64_t a) __attribute__ ((pure, al
 static inline uint64_t CAVM_SPIX_SOFT_RESET(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
-        return 0xcf101032a9b8ll + 0x100000000ll * ((a) & 0x1);
+        return 0x80401032a9b8ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_SOFT_RESET", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6520,7 +6520,7 @@ static inline uint64_t CAVM_SPIX_SPARE_REGX(uint64_t a, uint64_t b) __attribute_
 static inline uint64_t CAVM_SPIX_SPARE_REGX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=1) && (b<=1)))
-        return 0xcf1000008220ll + 0x100000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+        return 0x804000008220ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("SPIX_SPARE_REGX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -6558,7 +6558,7 @@ static inline uint64_t CAVM_SPIX_TIE_OFF(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_SPIX_TIE_OFF(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
-        return 0xcf101032a9b0ll + 0x100000000ll * ((a) & 0x1);
+        return 0x80401032a9b0ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_TIE_OFF", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6605,7 +6605,7 @@ static inline uint64_t CAVM_SPIX_XFER_CONST(uint64_t a) __attribute__ ((pure, al
 static inline uint64_t CAVM_SPIX_XFER_CONST(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
-        return 0xcf1000008230ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000008230ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_XFER_CONST", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6652,7 +6652,7 @@ static inline uint64_t CAVM_SPIX_XFER_FUNC_CMD(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_SPIX_XFER_FUNC_CMD(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
-        return 0xcf1000008200ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000008200ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_XFER_FUNC_CMD", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6732,7 +6732,7 @@ static inline uint64_t CAVM_SPIX_XFER_FUNC_CTRL(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_SPIX_XFER_FUNC_CTRL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
-        return 0xcf1000008210ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000008210ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_XFER_FUNC_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6770,7 +6770,7 @@ static inline uint64_t CAVM_SPIX_XFER_FUNC_CTRL_READ_DATAX(uint64_t a, uint64_t 
 static inline uint64_t CAVM_SPIX_XFER_FUNC_CTRL_READ_DATAX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && ((a<=1) && (b<=31)))
-        return 0xcf1000008000ll + 0x100000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1f);
+        return 0x804000008000ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1f);
     __cavm_csr_fatal("SPIX_XFER_FUNC_CTRL_READ_DATAX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -6870,7 +6870,7 @@ static inline uint64_t CAVM_SPIX_XFER_FUNC_STS(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_SPIX_XFER_FUNC_STS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
-        return 0xcf1000008218ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000008218ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_XFER_FUNC_STS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6909,7 +6909,7 @@ static inline uint64_t CAVM_SPIX_XFER_FUNC_WDATA(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_SPIX_XFER_FUNC_WDATA(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN20KA) && (a<=1))
-        return 0xcf1000008208ll + 0x100000000ll * ((a) & 0x1);
+        return 0x804000008208ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_XFER_FUNC_WDATA", 1, a, 0, 0, 0, 0, 0);
 }
 

@@ -25,7 +25,7 @@
  * LBK Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define CAVM_LBK_BAR_E_LBKX_PF_BAR0(a) (0xc10818000000ll + 0x1000000ll * (a))
+#define CAVM_LBK_BAR_E_LBKX_PF_BAR0(a) (0x87e018000000ll + 0x1000000ll * (a))
 #define CAVM_LBK_BAR_E_LBKX_PF_BAR0_SIZE 0x10000ull
 
 /**
@@ -62,7 +62,7 @@ static inline uint64_t CAVM_LBKX_CHX_PKIND(uint64_t a, uint64_t b) __attribute__
 static inline uint64_t CAVM_LBKX_CHX_PKIND(uint64_t a, uint64_t b)
 {
     if ((a==0) && (b<=63))
-        return 0xc10818000200ll + 0x1000000ll * ((a) & 0x0) + 8ll * ((b) & 0x3f);
+        return 0x87e018000200ll + 0x1000000ll * ((a) & 0x0) + 8ll * ((b) & 0x3f);
     __cavm_csr_fatal("LBKX_CHX_PKIND", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -102,7 +102,7 @@ static inline uint64_t CAVM_LBKX_CLK_GATE_CTL(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_LBKX_CLK_GATE_CTL(uint64_t a)
 {
     if (a==0)
-        return 0xc10818000008ll + 0x1000000ll * ((a) & 0x0);
+        return 0x87e018000008ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("LBKX_CLK_GATE_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -146,7 +146,7 @@ static inline uint64_t CAVM_LBKX_CONST(uint64_t a) __attribute__ ((pure, always_
 static inline uint64_t CAVM_LBKX_CONST(uint64_t a)
 {
     if (a==0)
-        return 0xc10818000010ll + 0x1000000ll * ((a) & 0x0);
+        return 0x87e018000010ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("LBKX_CONST", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -182,7 +182,7 @@ static inline uint64_t CAVM_LBKX_CONST1(uint64_t a) __attribute__ ((pure, always
 static inline uint64_t CAVM_LBKX_CONST1(uint64_t a)
 {
     if (a==0)
-        return 0xc10818000018ll + 0x1000000ll * ((a) & 0x0);
+        return 0x87e018000018ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("LBKX_CONST1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -222,7 +222,7 @@ static inline uint64_t CAVM_LBKX_CREDITS_CFG(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_LBKX_CREDITS_CFG(uint64_t a)
 {
     if (a==0)
-        return 0xc10818000410ll + 0x1000000ll * ((a) & 0x0);
+        return 0x87e018000410ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("LBKX_CREDITS_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -258,7 +258,7 @@ static inline uint64_t CAVM_LBKX_CSCLK_ACTIVE_PC(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_LBKX_CSCLK_ACTIVE_PC(uint64_t a)
 {
     if (a==0)
-        return 0xc10818000030ll + 0x1000000ll * ((a) & 0x0);
+        return 0x87e018000030ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("LBKX_CSCLK_ACTIVE_PC", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -308,7 +308,7 @@ static inline uint64_t CAVM_LBKX_IDLE_STATUS(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_LBKX_IDLE_STATUS(uint64_t a)
 {
     if (a==0)
-        return 0xc10818000418ll + 0x1000000ll * ((a) & 0x0);
+        return 0x87e018000418ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("LBKX_IDLE_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -358,7 +358,7 @@ static inline uint64_t CAVM_LBKX_IDLE_STATUS_2(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_LBKX_IDLE_STATUS_2(uint64_t a)
 {
     if (a==0)
-        return 0xc10818000420ll + 0x1000000ll * ((a) & 0x0);
+        return 0x87e018000420ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("LBKX_IDLE_STATUS_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -409,7 +409,7 @@ static inline uint64_t CAVM_LBKX_LINK_CFG_P2X(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_LBKX_LINK_CFG_P2X(uint64_t a)
 {
     if (a==0)
-        return 0xc10818000400ll + 0x1000000ll * ((a) & 0x0);
+        return 0x87e018000400ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("LBKX_LINK_CFG_P2X", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -460,7 +460,7 @@ static inline uint64_t CAVM_LBKX_LINK_CFG_X2P(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_LBKX_LINK_CFG_X2P(uint64_t a)
 {
     if (a==0)
-        return 0xc10818000408ll + 0x1000000ll * ((a) & 0x0);
+        return 0x87e018000408ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("LBKX_LINK_CFG_X2P", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -497,7 +497,7 @@ static inline uint64_t CAVM_LBKX_SFT_RST(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_LBKX_SFT_RST(uint64_t a)
 {
     if (a==0)
-        return 0xc10818000000ll + 0x1000000ll * ((a) & 0x0);
+        return 0x87e018000000ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("LBKX_SFT_RST", 1, a, 0, 0, 0, 0, 0);
 }
 

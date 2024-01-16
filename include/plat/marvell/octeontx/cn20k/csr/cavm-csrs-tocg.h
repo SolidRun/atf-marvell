@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2021-2024 Marvell.
+* Copyright (C) 2021-2023 Marvell.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -56,9 +56,7 @@ typedef union cavm_tocg_ab_control cavm_tocg_ab_control_t;
 static inline uint64_t CAVM_TOCG_AB_CONTROL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TOCG_AB_CONTROL_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e042400000ll;
-    __cavm_csr_fatal("TOCG_AB_CONTROL", 0, 0, 0, 0, 0, 0, 0);
+    return 0x87e042400000ll;
 }
 
 #define typedef_CAVM_TOCG_AB_CONTROL cavm_tocg_ab_control_t
@@ -103,9 +101,7 @@ typedef union cavm_tocg_ab_err_src cavm_tocg_ab_err_src_t;
 static inline uint64_t CAVM_TOCG_AB_ERR_SRC_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TOCG_AB_ERR_SRC_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e042400030ll;
-    __cavm_csr_fatal("TOCG_AB_ERR_SRC", 0, 0, 0, 0, 0, 0, 0);
+    return 0x87e042400030ll;
 }
 
 #define typedef_CAVM_TOCG_AB_ERR_SRC cavm_tocg_ab_err_src_t
@@ -145,9 +141,7 @@ typedef union cavm_tocg_ab_hab_status cavm_tocg_ab_hab_status_t;
 static inline uint64_t CAVM_TOCG_AB_HAB_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TOCG_AB_HAB_STATUS_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN20KA))
-        return 0x87e042400008ll;
-    __cavm_csr_fatal("TOCG_AB_HAB_STATUS", 0, 0, 0, 0, 0, 0, 0);
+    return 0x87e042400008ll;
 }
 
 #define typedef_CAVM_TOCG_AB_HAB_STATUS cavm_tocg_ab_hab_status_t
