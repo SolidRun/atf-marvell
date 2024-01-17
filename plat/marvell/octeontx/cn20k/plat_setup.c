@@ -48,7 +48,6 @@
 #include "cavm-csrs-rnm.h"
 #include "cavm-csrs-iobn.h"
 #include "cavm-csrs-mrml.h"
-#include "cavm-csrs-cst_shrd_funnel.h"
 #include "cavm-csrs-rst.h"
 #include "cavm-sw-csrs.h"
 #include "cavm-csrs-ncb.h"
@@ -199,7 +198,7 @@ void plat_pwrc_setup(void)
 {
 	int rc;
 
-	if (cavm_is_platform(PLATFORM_EMULATOR))
+	if (cavm_is_platform(PLATFORM_EMULATOR) || cavm_is_platform(PLATFORM_ASIM))
 		return;
 
 #ifdef SCMI_WITH_LEGACY_PM
