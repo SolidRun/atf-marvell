@@ -626,6 +626,10 @@ void bl2_platform_setup(void)
 	/* Initialise the IO layer and register platform IO devices */
 	octeontx_io_setup();
 
+#if defined(PLAT_CN20K_FAMILY)
+	octeontx_init_heap();
+#endif
+
 #if defined(PLAT_CN10K_FAMILY)
 	octeontx_init_heap();
 	gserm_reset_init();
