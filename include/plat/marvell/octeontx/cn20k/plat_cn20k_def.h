@@ -79,8 +79,6 @@
 
 #define NS_DMA_MEMORY_SIZE		0x100000
 
-#define MAX_XLAT_TABLES			130
-
 /* Location of trusted dram on the base cn20k */
 /* Secure Memory */
 #define TZDRAM_BASE			0x00000000
