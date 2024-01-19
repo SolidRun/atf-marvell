@@ -296,6 +296,25 @@
 #define PLAT_OCTEONTX_PORTM_MODE_BOOT_CFG	0xc2000d0e
 
 /*
+ * x1: cmd
+ *	1 - GET_LED_BLINK_RATE
+ *	2 - SET_LED_BLINK_RATE
+ *
+ * x2: (SET_LED_BLINK_RATE only)
+ *	New blink rate - supported range is 250-30,000
+ *
+ * Return
+ *	x0: (All SUBCMD_*)
+ *		0x0 -- Success
+ *		other -- Fail
+ *
+ *	x1: (GET_LED_BLINK_RATE only)
+ *		current blink rate in milli-hertz
+ *
+ */
+#define PLAT_OCTEONTX_LED_BLINK_RATE		0xc2000d0f
+
+/*
  * x1 - cmd
  *	1 - PHY_PRBS_START_CMD - start phy prbs with config (x2)
  *					for phy @eth(x3),lmac(x4)

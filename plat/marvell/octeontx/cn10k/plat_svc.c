@@ -881,6 +881,25 @@ err3:
 	}
 	break;
 
+	case PLAT_OCTEONTX_LED_BLINK_RATE:
+		enum {
+			GET_LED_BLINK_RATE = 1,
+			SET_LED_BLINK_RATE
+		};
+
+		ret = -1;
+		if (x1 == GET_LED_BLINK_RATE) {
+			uint32_t rate;
+
+			ret = rpm_get_gpio_led_blink_rate(&rate);
+			SMC_RET2(handle, ret, rate);
+		} else if (x1 == SET_LED_BLINK_RATE) {
+			ret = rpm_set_gpio_led_blink_rate(x2);
+		}
+
+		SMC_RET1(handle, ret);
+		break;
+
 #endif /* DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS */
 
 #ifdef DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS

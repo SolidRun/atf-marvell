@@ -403,35 +403,7 @@ void rpm_lmac_init(int rpm_id, int lmac_id)
 	led_info = &plat_octeontx_bcfg->led_info[lmac_cfg->portm_idx];
 	if ((led_info->activity.type == GPIO_PIN_DEFAULT) &&
 	    (led_info->is_act_supported || led_info->is_combined_link_act)) {
-		uint32_t gpio_clk_divisor;
-		cavm_rst_pllx_t rst_pll;
-
-		/* Using constant frequency for the Activity LED blinks.
-		 * Maximum number of GPIO clock generators is limited in
-		 * HW, so we cannot assign it per port. Using only one GPIO
-		 * clock generator to all the ports with a constant blink
-		 * frequency. LED blink frequency defaults to 4Hz so that
-		 * the blinks can be more or less same for less or high packet
-		 * rates.
-		 * When there is TX/RX activity in the last second then that
-		 * port's GPIO LED will be attached to this GPIO_CLK_GEN(0).
-		 * This will make the activity LED to blink at the specified rate.
-		 * And if there is no TX/RX activity in the last second then
-		 * GPIO LED attachment will be removed if it is already
-		 * configured.
-		 *
-		 * Original equation for the gpio_clk_divisor was:
-		 *  sclk = rst_pll.s.cur_mul * 50 * MHZ_TICKS_PER_SEC;
-		 *  gpio_clk_divisor = GPIO_LED_ACTVITY_FREQ_HZ * UINT_MAX / sclk;
-		 *
-		 * Now using DTS entry in milliHertz so simplified the equation
-		 * to prevent overflow to be 43 * blink_rate / 500 * PLL_cur_mul
-		 */
-		rst_pll.u = CSR_READ(CAVM_RST_PLLX(CAVM_RST_PLL_E_SCLK));
-		gpio_clk_divisor = 43 * plat_octeontx_bcfg->led_blink_rate  / (500 * rst_pll.s.cur_mul);
-		CSR_MODIFY(c, CAVM_GPIO_CLK_GENX(0), c.s.n = gpio_clk_divisor);
-		debug_rpm("%d:%d - led_blink_rate: %d - cur_mul: %d - divisor: %d\n",
-			rpm_id, lmac_id, plat_octeontx_bcfg->led_blink_rate, rst_pll.s.cur_mul, gpio_clk_divisor);
+		rpm_set_gpio_led_blink_rate(plat_octeontx_bcfg->led_blink_rate);
 	}
 }
 
@@ -706,4 +678,52 @@ void rpm_gpio_led_handle(int rpm_id, int lmac_id, int portm_idx, uint64_t link_u
 		led_info->prev_tx_pkt_cnt = cur_tx_pkt_cnt;
 		led_info->prev_rx_pkt_cnt = cur_rx_pkt_cnt;
 	}
+}
+
+uint32_t rpm_get_gpio_led_blink_rate(uint32_t *rate)
+{
+	*rate = plat_octeontx_bcfg->led_blink_rate;
+	return 0;
+}
+
+uint32_t rpm_set_gpio_led_blink_rate(uint32_t rate)
+{
+	uint32_t gpio_clk_divisor;
+	cavm_rst_pllx_t rst_pll;
+
+	if (rate < GPIO_LED_ACTIVITY_MIN_RATE || rate > GPIO_LED_ACTIVITY_MAX_RATE) {
+		debug_rpm("led-blink-rate: %d outside of supported range %d-%d\n", rate, GPIO_LED_ACTIVITY_MIN_RATE, GPIO_LED_ACTIVITY_MAX_RATE);
+		return -1;
+	}
+	debug_rpm("Setting led blink rate to %d\n", rate);
+	plat_octeontx_bcfg->led_blink_rate = rate;
+
+	/* Using constant frequency for the Activity LED blinks.
+	 * Maximum number of GPIO clock generators is limited in
+	 * HW, so we cannot assign it per port. Using only one GPIO
+	 * clock generator to all the ports with a constant blink
+	 * frequency. LED blink frequency defaults to 4Hz so that
+	 * the blinks can be more or less same for less or high packet
+	 * rates.
+	 * When there is TX/RX activity in the last second then that
+	 * port's GPIO LED will be attached to this GPIO_CLK_GEN(0).
+	 * This will make the activity LED to blink at the specified rate.
+	 * And if there is no TX/RX activity in the last second then
+	 * GPIO LED attachment will be removed if it is already
+	 * configured.
+	 *
+	 * Original equation for the gpio_clk_divisor was:
+	 *  sclk = rst_pll.s.cur_mul * 50 * MHZ_TICKS_PER_SEC;
+	 *  gpio_clk_divisor = GPIO_LED_ACTVITY_FREQ_HZ * UINT_MAX / sclk;
+	 *
+	 * Now using DTS entry in milliHertz so simplified the equation
+	 * to prevent overflow to be 43 * blink_rate / 500 * PLL_cur_mul
+	 */
+	rst_pll.u = CSR_READ(CAVM_RST_PLLX(CAVM_RST_PLL_E_SCLK));
+	gpio_clk_divisor = 43 * plat_octeontx_bcfg->led_blink_rate  / (500 * rst_pll.s.cur_mul);
+	CSR_MODIFY(c, CAVM_GPIO_CLK_GENX(0), c.s.n = gpio_clk_divisor);
+	debug_rpm("led_blink_rate: %d - cur_mul: %d - divisor: %d\n",
+		plat_octeontx_bcfg->led_blink_rate, rst_pll.s.cur_mul, gpio_clk_divisor);
+
+	return 0;
 }

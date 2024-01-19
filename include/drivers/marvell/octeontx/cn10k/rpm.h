@@ -247,5 +247,7 @@ int rpm_debug_log_state(void);
 int rpm_set_ptp_mode(int rpm_id, int lmac_id, int enable);
 
 void rpm_gpio_led_handle(int rpm_id, int lmac_id, int portm_idx, uint64_t link_up);
+uint32_t rpm_get_gpio_led_blink_rate(uint32_t *rate);
+uint32_t rpm_set_gpio_led_blink_rate(uint32_t rate);
 
 #endif
