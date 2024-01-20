@@ -1,1 +1,0 @@
-../../cn10k/csr/cavm-swap.h

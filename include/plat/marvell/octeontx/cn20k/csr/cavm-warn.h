@@ -1,1 +1,0 @@
-../../cn10k/csr/cavm-warn.h
