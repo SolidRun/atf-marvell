@@ -13,6 +13,12 @@
 #include <drivers/arm/pl011.h>
 #include <octeontx_helpers.h>
 
+#if defined(PLAT_CN20K_FAMILY)
+#define UAA_ADDR 0xc02080000000
+#else
+#define UAA_ADDR 0x87E028000000
+#endif
+
 	/* Global functions */
 	.globl	plat_is_my_cpu_primary
 	.globl	plat_get_my_entrypoint
@@ -117,7 +123,7 @@ endfunc plat_secondary_cold_boot_setup
 	 */
 func plat_crash_console_init
 	/* Register UAA0 as pl011 console */
-	mov_imm	x0, 0x87E028000000
+	mov_imm	x0, UAA_ADDR
 	mov_imm	x1, 7273800
 	mov_imm	x2, 115200
 	b	console_pl011_core_init
@@ -169,7 +175,7 @@ func plat_crash_console_putc
 
 	isb
 #endif
-	mov_imm	x1, 0x87E028000000
+	mov_imm	x1, UAA_ADDR
 	/* ---------------------------------------------
 	 * Link register (x30) is not altered, ret from
 	 * console_putc will return from this function
@@ -187,7 +193,7 @@ endfunc plat_crash_console_putc
 	 * ---------------------------------------------
 	 */
 func plat_crash_console_flush
-	mov_imm	x0, 0x87E028000000
+	mov_imm	x0, UAA_ADDR
 	b	console_pl011_core_flush
 endfunc plat_crash_console_flush
 
