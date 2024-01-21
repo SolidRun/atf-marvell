@@ -84,7 +84,7 @@ extern plat_octeontx_board_cfg_t * const plat_octeontx_bcfg;
 uint64_t ccs_region_get_info(ccs_region_index_t index, uint64_t *start);
 void cn10k_check_fdt_trims(void *fdt);
 
-#define SPI_CTRL0_ADDR	U(0x8040)
-#define SPI_CTRL1_ADDR	U(0x8050)
+#define SPI_CTRL0_ADDR	U(0xcf10)
+#define SPI_CTRL1_ADDR	U(0xcf11)
 
 #endif /* __PLAT_BOARD_CFG_H__ */
