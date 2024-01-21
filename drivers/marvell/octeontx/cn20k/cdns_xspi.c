@@ -1,1 +1,0 @@
-../cn10k/cdns_xspi.c
