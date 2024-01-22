@@ -645,15 +645,10 @@ void rpm_gpio_led_handle(int rpm_id, int lmac_id, int portm_idx, uint64_t link_u
 						led_info->activity.pin),
 						c.s.tx_oe = 0; c.s.pin_sel = 0);
 				else  {
-					// Keep GPIO on - to indicate there is a link but no activity
-					cavm_gpio_tx_set_t gpio_tx_set;
-
+					// switch to SW control, and it will show link status
 					CSR_MODIFY(c, CAVM_GPIO_BIT_CFGX(
 						led_info->activity.pin),
 						c.s.tx_oe = 1; c.s.pin_sel = 0);
-					gpio_tx_set.u = 0;
-					gpio_tx_set.s.set = (1ULL << led_info->activity.pin);
-					CSR_WRITE(CAVM_GPIO_TX_SET, gpio_tx_set.u);
 				}
 			} else if (unblinked_pkts && (ledact.s.pin_sel == 0))
 				CSR_MODIFY(c, CAVM_GPIO_BIT_CFGX(
