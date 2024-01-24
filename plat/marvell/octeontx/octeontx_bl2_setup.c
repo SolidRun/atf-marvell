@@ -646,6 +646,10 @@ void bl2_platform_setup(void)
 	/* Reserve memory for adbg just above RAS memory */
 	adbg_init();
 #endif
+
+	/* Reserve memory for PEM0 BAR4 and configure index registers */
+	plat_initialize_pem0_bar4();
+
 	dump_ccs_region_config();
 
 	/* Update metadata memory region for coresight DT nodes */
