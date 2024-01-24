@@ -201,7 +201,7 @@ struct acpi_hest_generic_status {
 	uint32_t raw_data_length;
 	uint32_t data_length;
 	uint32_t error_severity;
-};
+} __packed;
 
 /* Generic Error Data entry */
 
@@ -214,7 +214,7 @@ struct acpi_hest_generic_data {
 	uint32_t error_data_length;
 	uint8_t fru_id[16];
 	uint8_t fru_text[20];
-};
+} __packed;
 #endif // LINUX_CPER_H
 
 #define OTX2_GHES_ERR_RING_SIG ((int)'M' << 24 | 'R' << 16 | 'V' << 8 | 'L')
@@ -282,7 +282,7 @@ struct octeontx_estatus_record {
 		struct processor_error core_cper;
 		struct cper_sec_platform_err gic;
 	} u;
-};
+} __packed;
 
 struct otx2_ghes_err_record {
 	union {
