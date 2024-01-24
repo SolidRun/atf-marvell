@@ -25,6 +25,7 @@
 #include "cavm-csrs-gic.h"
 #include "cavm-csrs-emmc.h"
 #include "cavm-csrs-spi.h"
+#include "cavm-csrs-pccpf_iii.h"
 
 /* for LEGACY logging, define DEBUG_ATF_PLAT_ECAM to enable debug logs */
 #undef DEBUG_ATF_PLAT_ECAM
@@ -40,8 +41,7 @@
 #define debug_plat_ecam(...) ((void) (0))
 #endif
 
-extern int disable_devmem_ns_access(struct ecam_device *dev);
-extern uint64_t get_dev_config(struct ecam_device *dev);
+extern uint64_t get_iodid_dev_config(struct ecam_device *dev);
 
 struct ecam_probe_callback probe_callbacks[] = {
 	{ECAM_INVALID_DEV_ID, 0, 0, 0}
@@ -272,166 +272,14 @@ struct secure_devices secure_scp_devs[] = {
 	{ECAM_INVALID_PROD_ID, ECAM_INVALID_PCC_IDL_ID, ECAM_ALL_INSTANCES},
 };
 
-static int is_bus_disabled(struct ecam_device *dev)
-{
-	int rc = 0;
-
-	if (((dev->domain == 0) && (dev->bus > 12)) ||
-	    ((dev->domain == 1) && ((dev->bus > 1) && (dev->bus != 4)))  ||
-	    ((dev->domain == 2) && (dev->bus > 32)))
-		rc = 1;
-
-	return rc;
-}
-
 static int skip_bus(struct ecam_device *dev)
 {
 	return 0;
 }
 
-static inline void enable_bus(struct ecam_device *dev)
-{
-	cavm_ecamx_domx_busx_permit_t bus_permit;
-
-	/* enable bus */
-	bus_permit.u = CSR_READ(CAVM_ECAMX_DOMX_BUSX_PERMIT(dev->ecam,
-				   dev->domain, dev->bus));
-	bus_permit.s.sec_dis = 0;
-	bus_permit.s.nsec_dis = 0;
-	bus_permit.s.xcp0_dis = 0;
-	bus_permit.s.xcp1_dis = 0;
-	CSR_WRITE(CAVM_ECAMX_DOMX_BUSX_PERMIT(dev->ecam, dev->domain,
-		     dev->bus), bus_permit.u);
-	debug_plat_ecam("enable_bus E%d:DOM%d:B%d\n", dev->ecam, dev->domain, dev->bus);
-}
-
-static inline void disable_bus(struct ecam_device *dev)
-{
-	cavm_ecamx_domx_busx_permit_t bus_permit;
-
-	/* disable bus */
-	bus_permit.u = CSR_READ(CAVM_ECAMX_DOMX_BUSX_PERMIT(dev->ecam,
-				   dev->domain, dev->bus));
-	bus_permit.s.sec_dis = 0;
-	bus_permit.s.nsec_dis = 1;
-	bus_permit.s.xcp0_dis = 0;
-	bus_permit.s.xcp1_dis = 0;
-	CSR_WRITE(CAVM_ECAMX_DOMX_BUSX_PERMIT(dev->ecam, dev->domain,
-		     dev->bus), bus_permit.u);
-	debug_plat_ecam("disable_bus E%d:DOM%d:B%d\n", dev->ecam, dev->domain, dev->bus);
-}
-
-static inline void enable_dev(struct ecam_device *dev)
-{
-	cavm_ecamx_domx_devx_permit_t dev_permit;
-
-	/* enable dev */
-	dev_permit.u = CSR_READ(CAVM_ECAMX_DOMX_DEVX_PERMIT(dev->ecam,
-				   dev->domain, dev->dev));
-	dev_permit.s.sec_dis = 0;
-	dev_permit.s.nsec_dis = 0;
-	dev_permit.s.xcp0_dis = dev->config.s.is_scp_secure;
-	dev_permit.s.xcp1_dis = dev->config.s.is_mcp_secure;
-	dev_permit.s.xcp2_dis = dev->config.s.is_ecp_secure;
-	CSR_WRITE(CAVM_ECAMX_DOMX_DEVX_PERMIT(dev->ecam, dev->domain,
-		     dev->dev), dev_permit.u);
-
-	if (dev->config.s.is_sec_devpa)
-		disable_devmem_ns_access(dev);
-
-	debug_plat_ecam("enable_dev E%d:DOM%d:D%d\n", dev->ecam, dev->domain, dev->dev);
-}
-
-static inline void disable_dev(struct ecam_device *dev)
-{
-	cavm_ecamx_domx_devx_permit_t dev_permit;
-
-	/* enable dev */
-	dev_permit.u = CSR_READ(CAVM_ECAMX_DOMX_DEVX_PERMIT(dev->ecam,
-				   dev->domain, dev->dev));
-	dev_permit.s.sec_dis = 0;
-	dev_permit.s.nsec_dis = 1;
-	dev_permit.s.xcp0_dis = dev->config.s.is_scp_secure;
-	dev_permit.s.xcp1_dis = dev->config.s.is_mcp_secure;
-	dev_permit.s.xcp2_dis = dev->config.s.is_ecp_secure;
-	CSR_WRITE(CAVM_ECAMX_DOMX_DEVX_PERMIT(dev->ecam, dev->domain,
-		     dev->dev), dev_permit.u);
-
-	if (dev->config.s.is_sec_devpa)
-		disable_devmem_ns_access(dev);
-
-	debug_plat_ecam("disable_dev E%d:DOM%d:D%d\n", dev->ecam, dev->domain, dev->dev);
-}
-
-static inline void enable_func(struct ecam_device *dev)
-{
-	cavm_ecamx_domx_rslx_permit_t rsl_permit;
-
-	/* enable func */
-	rsl_permit.u = CSR_READ(CAVM_ECAMX_DOMX_RSLX_PERMIT(dev->ecam,
-				   dev->domain, dev->func + ((dev->bus - 1) * 256)));
-	rsl_permit.s.sec_dis = 0;
-	rsl_permit.s.nsec_dis = 0;
-	rsl_permit.s.xcp0_dis = dev->config.s.is_scp_secure;
-	rsl_permit.s.xcp1_dis = dev->config.s.is_mcp_secure;
-	rsl_permit.s.xcp2_dis = dev->config.s.is_ecp_secure;
-	CSR_WRITE(CAVM_ECAMX_DOMX_RSLX_PERMIT(dev->ecam, dev->domain,
-		     dev->func + ((dev->bus - 1) * 256)), rsl_permit.u);
-
-	if (dev->config.s.is_sec_devpa)
-		disable_devmem_ns_access(dev);
-
-	debug_plat_ecam("enable_func E%d:DOM%d:F%d:B%d\n", dev->ecam, dev->domain,
-			((dev->bus - 1) * 256) + dev->func, dev->bus);
-}
-
-static inline void disable_func(struct ecam_device *dev)
-{
-	cavm_ecamx_domx_rslx_permit_t rsl_permit;
-
-	/* disable func */
-	rsl_permit.u = CSR_READ(CAVM_ECAMX_DOMX_RSLX_PERMIT(dev->ecam,
-				   dev->domain, dev->func + ((dev->bus - 1) * 256)));
-	rsl_permit.s.sec_dis = 0;
-	rsl_permit.s.nsec_dis = 1;
-	rsl_permit.s.xcp0_dis = dev->config.s.is_scp_secure;
-	rsl_permit.s.xcp1_dis = dev->config.s.is_mcp_secure;
-	rsl_permit.s.xcp2_dis = dev->config.s.is_ecp_secure;
-	CSR_WRITE(CAVM_ECAMX_DOMX_RSLX_PERMIT(dev->ecam, dev->domain,
-		     dev->func + ((dev->bus - 1) * 256)), rsl_permit.u);
-	debug_plat_ecam("disable_func E%d:DOM%d:F%d:B%d\n", dev->ecam, dev->domain,
-			((dev->bus - 1) * 256) + dev->func, dev->bus);
-
-	if (dev->config.s.is_sec_devpa)
-		disable_devmem_ns_access(dev);
-}
-
 static int get_ecam_count(void)
 {
-	cavm_ecamx_const_t ecam_const;
-
-	ecam_const.u = CSR_READ(CAVM_ECAMX_CONST(0));
-
-	return ecam_const.s.ecams;
-}
-
-static int get_domain_count(struct ecam_device *dev)
-{
-	cavm_ecamx_const_t ecam_const;
-
-	ecam_const.u = CSR_READ(CAVM_ECAMX_CONST(dev->ecam));
-
-	return ecam_const.s.domains;
-}
-
-static inline int is_domain_present(struct ecam_device *dev)
-{
-	cavm_ecamx_domx_const_t dom_const;
-
-	dom_const.u = CSR_READ(CAVM_ECAMX_DOMX_CONST(dev->ecam,
-				  dev->domain));
-
-	return (dom_const.s.pres && dom_const.s.permit);
+	return 1;
 }
 
 static int matched_twsi(int instance)
@@ -479,6 +327,42 @@ static int matched_dev(struct secure_devices *dev,
 	}
 
 	return 0;
+}
+
+static inline void enable_iodid_dev(struct ecam_device *dev, uint64_t pconfig)
+{
+	cavm_pccpf_xxx_vsec_permit_t pccpf_permit;
+
+	/* enable dev */
+	pccpf_permit.u = octeontx_read32(pconfig + CAVM_PCCPF_XXX_VSEC_PERMIT);
+	pccpf_permit.s.sec_dis = 0;
+	pccpf_permit.s.nsec_dis = 0;
+	pccpf_permit.s.xcp0_dis = dev->config.s.is_scp_secure;
+	pccpf_permit.s.xcp1_dis = dev->config.s.is_mcp_secure;
+	pccpf_permit.s.xcp2_dis = dev->config.s.is_ecp_secure;
+	pccpf_permit.s.xcp3_dis = dev->config.s.is_pcp_secure;
+	octeontx_write32(pconfig + CAVM_PCCPF_XXX_VSEC_PERMIT, pccpf_permit.u);
+
+	debug_plat_ecam("%s E%d:IODID%u\n",
+			__func__, dev->ecam, dev->iodid);
+}
+
+static inline void disable_iodid_dev(struct ecam_device *dev, uint64_t pconfig)
+{
+	cavm_pccpf_xxx_vsec_permit_t pccpf_permit;
+
+	/* enable dev */
+	pccpf_permit.u = octeontx_read32(pconfig + CAVM_PCCPF_XXX_VSEC_PERMIT);
+	pccpf_permit.s.sec_dis = 0;
+	pccpf_permit.s.nsec_dis = 1;
+	pccpf_permit.s.xcp0_dis = dev->config.s.is_scp_secure;
+	pccpf_permit.s.xcp1_dis = dev->config.s.is_mcp_secure;
+	pccpf_permit.s.xcp2_dis = dev->config.s.is_ecp_secure;
+	pccpf_permit.s.xcp3_dis = dev->config.s.is_pcp_secure;
+	octeontx_write32(pconfig + CAVM_PCCPF_XXX_VSEC_PERMIT, pccpf_permit.u);
+
+	debug_plat_ecam("%s E%d:IODID%u\n",
+			__func__, dev->ecam, dev->iodid);
 }
 
 static int get_secure_settings(struct ecam_device *dev, uint64_t pconfig)
@@ -540,11 +424,6 @@ static int get_secure_settings(struct ecam_device *dev, uint64_t pconfig)
 		sdev++;
 	}
 
-#if 0
-	if ((pccpf_id.s.devid & 0xff) == CAVM_PCC_DEV_IDL_E_PEM5)
-		dev->config.s.is_secure = !is_pem_hotplug(vsec_ctl.s.inst_num);
-#endif
-
 	return 1;
 }
 
@@ -580,19 +459,12 @@ struct ecam_init_callback *get_init_callbacks(void)
 const struct ecam_platform_defs plat_ops = {
 	.soc_type = CN20KAPARTNUM,
 	.get_ecam_count = get_ecam_count,
-	.get_domain_count = get_domain_count,
-	.is_domain_present = is_domain_present,
 	.get_secure_settings = get_secure_settings,
-	.get_dev_config = get_dev_config,
+	.get_iodid_dev_config = get_iodid_dev_config,
 	.get_probes = get_probe_callbacks,
 	.get_plat_inits = get_init_callbacks,
-	.is_bus_disabled = is_bus_disabled,
 	.skip_bus = skip_bus,
-	.enable_bus = enable_bus,
-	.disable_bus = disable_bus,
-	.enable_dev = enable_dev,
-	.disable_dev = disable_dev,
-	.enable_func = enable_func,
-	.disable_func = disable_func,
 	.program_ssid = program_ssid,
+	.enable_iodid_dev = enable_iodid_dev,
+	.disable_iodid_dev = disable_iodid_dev,
 };

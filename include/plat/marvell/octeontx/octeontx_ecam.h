@@ -27,6 +27,7 @@
 //#define OCTEONTX_ECAM_MAX_BUS	1024
 #define OCTEONTX_ECAM_MAX_DEV	32
 #define OCTEONTX_ECAM_MAX_FUNC	256
+#define OCTEONTX_ECAM_MAX_IODID	0x1000
 
 #define ECAM_DOM_MASK		0x3F0000000
 #define ECAM_DOM_SHIFT		28
@@ -37,6 +38,9 @@
 #define ECAM_DEV_SHIFT		15
 #define ECAM_FUNC_MASK		0xFF000
 #define ECAM_FUNC_SHIFT		12
+
+#define ECAM_IODID_SHIFT	20
+#define ECAM_IODID_MASK		ULL(0xFFF00000)
 
 #define ECAM_INVALID_PROD_ID	0xFF
 #define ECAM_INVALID_PCC_IDL_ID	ECAM_INVALID_PROD_ID
@@ -128,7 +132,7 @@ union ecam_config {
 	uint8_t u;
 	struct ecam_config_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint8_t reserved	: 3; /* For future use */
+		uint8_t reserved	: 2; /* For future use */
 		uint8_t is_sec_devpa	: 1;
 		uint8_t is_secure	: 1; /*
 					      * Flag to indicate if given device
@@ -150,13 +154,19 @@ union ecam_config {
 					      * is visible only to ECP.
 					      * Used only on cn10K, default: 0
 					      */
+		uint8_t is_pcp_secure	: 1; /*
+					      * Flag to indicate if given device
+					      * is visible only to PCP.
+					      * Used only on cn20K, default: 0
+					      */
 #else
+		uint8_t is_pcp_secure	: 1;
 		uint8_t is_ecp_secure	: 1;
 		uint8_t is_mcp_secure	: 1;
 		uint8_t is_scp_secure	: 1;
 		uint8_t is_secure	: 1;
 		uint8_t is_sec_devpa	: 1;
-		uint8_t reserved	: 3;
+		uint8_t reserved	: 2;
 #endif
 	} s;
 };
@@ -166,6 +176,9 @@ typedef union ecam_config ecam_config_t;
 /* Structure describing ECAM device */
 struct ecam_device {
 	uint64_t base_addr;
+#if defined(PLAT_CN20K_FAMILY)
+	unsigned int iodid;
+#endif
 	unsigned ecam;
 	unsigned domain;
 	unsigned bus;
@@ -186,6 +199,7 @@ struct ecam_platform_defs {
 	int (*is_domain_present)(struct ecam_device *dev);
 	int (*get_secure_settings)(struct ecam_device *dev, uint64_t pconfig);
 	uint64_t (*get_dev_config)(struct ecam_device *dev);
+	uint64_t (*get_iodid_dev_config)(struct ecam_device *dev);
 	struct ecam_probe_callback *(*get_probes)(void);
 	struct ecam_init_callback *(*get_plat_inits)(void);
 	int (*is_bus_disabled)(struct ecam_device *dev);
@@ -197,6 +211,8 @@ struct ecam_platform_defs {
 	void (*enable_func)(struct ecam_device *dev);
 	void (*disable_func)(struct ecam_device *dev);
 	void (*program_ssid)(struct ecam_device *dev, uint64_t pconfig);
+	void (*enable_iodid_dev)(struct ecam_device *dev, uint64_t pconfig);
+	void (*disable_iodid_dev)(struct ecam_device *dev, uint64_t pconfig);
 };
 
 /*

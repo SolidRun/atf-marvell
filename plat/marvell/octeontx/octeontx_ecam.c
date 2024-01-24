@@ -528,9 +528,13 @@ static inline int octeontx_bus_is_rsl(struct ecam_device *device)
 /*
  * Initialize ECAM device structure
  */
-static void octeontx_ecam_dev_init(struct ecam_device *device, unsigned ecam)
+void octeontx_ecam_dev_init(struct ecam_device *device, unsigned int ecam)
 {
+#if defined(PLAT_CN20K_FAMILY)
+	device->base_addr = ECAM_PF_BAR0(ecam);
+#else
 	device->base_addr = ECAM_PF_BAR2(ecam);
+#endif
 	device->ecam = ecam;
 }
 
@@ -539,7 +543,7 @@ static void octeontx_ecam_dev_init(struct ecam_device *device, unsigned ecam)
  * SoC-specific ECAM files to determine if given device should
  * be hidden from non-secure world.
  */
-static int octeontx_call_probe(uint64_t pconfig)
+int octeontx_call_probe(uint64_t pconfig)
 {
 	cavm_pccpf_xxx_id_t pccpf_id;
 	struct ecam_probe_callback *probe_callbacks;
@@ -568,7 +572,7 @@ static int octeontx_call_probe(uint64_t pconfig)
 /*
  * Method to initialize given device if matched in init_callbacks definition. 
  */
-static void octeontx_call_init(uint64_t pconfig)
+void octeontx_call_init(uint64_t pconfig)
 {
 	struct ecam_init_callback *plat_init_callbacks;
 	cavm_pccpf_xxx_id_t pccpf_id;
@@ -819,7 +823,7 @@ static void octeontx_domain_setup(struct ecam_device *device)
 	}
 }
 
-static void octeontx_ecam_setup(unsigned ecam)
+WEAK void plat_ecam_setup(unsigned int ecam)
 {
 	struct ecam_device *device = &ecam_dev;
 	unsigned domain_count;
@@ -842,5 +846,5 @@ void octeontx_pci_init(void)
 
 	ecam_count = plat_ops.get_ecam_count();
 	for (ecam = 0; ecam < ecam_count; ecam++)
-		octeontx_ecam_setup(ecam);
+		plat_ecam_setup(ecam);
 }
