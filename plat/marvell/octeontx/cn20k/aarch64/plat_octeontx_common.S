@@ -1,1 +1,0 @@
-../../cn10k/aarch64/plat_octeontx_common.S
