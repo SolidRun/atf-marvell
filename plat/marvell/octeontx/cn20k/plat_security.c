@@ -30,7 +30,7 @@
 #include "cavm-csrs-tad.h"
 #include "cavm-csrs-pem.h"
 
-#define MAX_ASC_REGIONS 32
+#define MAX_ASC_REGIONS 24
 
 #define CCS_ATTR_SEC_BIT_POS		0
 #define CCS_ATTR_MAND_BIT_POS		1
