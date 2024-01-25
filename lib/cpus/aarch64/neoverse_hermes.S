@@ -49,7 +49,25 @@ func neoverse_hermes_core_pwr_dwn
 	ret
 endfunc neoverse_hermes_core_pwr_dwn
 
-errata_report_shim neoverse_hermes
+
+#if REPORT_ERRATA
+/*
+ * Errata printing function for Neoverse Hermes. Must follow AAPCS.
+ */
+func neoverse_hermes_errata_report
+	stp	x8, x30, [sp, #-16]!
+
+	bl	cpu_get_rev_var
+	mov	x8, x0
+
+	/*
+	 * Report all errata
+	 */
+
+	ldp	x8, x30, [sp], #16
+	ret
+endfunc neoverse_hermes_errata_report
+#endif
 
 	/* ---------------------------------------------
 	 * This function provides Neoverse Hermes specific
