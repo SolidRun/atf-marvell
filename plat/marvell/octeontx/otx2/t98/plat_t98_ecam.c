@@ -25,6 +25,7 @@
 
 #include "cavm-csrs-ecam.h"
 #include "cavm-csrs-pccpf.h"
+#include "cavm-csrs-mrml.h"
 
 /* for LEGACY logging, define DEBUG_ATF_PLAT_ECAM to enable debug logs */
 #undef DEBUG_ATF_PLAT_ECAM
@@ -39,6 +40,8 @@
 #else
 #define debug_plat_ecam(...) ((void) (0))
 #endif
+
+extern int disable_devmem_ns_access(struct ecam_device *dev);
 
 /* Probe GSERNX_LANE_SCRATCHX[] for CGX config */
 static int is_qlm_configured_as_cgx(int qlm)
@@ -249,26 +252,26 @@ struct ecam_init_callback plat_init_callbacks[] = {
  * if all the instances are hidden
  */
 struct secure_devices secure_devs[] = {
-	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_GIC5, ECAM_ALL_INSTANCES},
-	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_MIO_TWS, ECAM_CUSTOM_INSTANCE},
-	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_UAA, ECAM_ALL_INSTANCES},
-	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_LMC, ECAM_ALL_INSTANCES},
-	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_OCLA, ECAM_ALL_INSTANCES},
-	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_GSERN, ECAM_ALL_INSTANCES},
-	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_DAP, ECAM_ALL_INSTANCES},
-	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_FUSF, ECAM_ALL_INSTANCES},
-	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_AVS, ECAM_ALL_INSTANCES},
-	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_TSN, ECAM_ALL_INSTANCES},
-	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_CCS, ECAM_ALL_INSTANCES},
-	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_CCU, ECAM_ALL_INSTANCES},
-	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_FUS5, ECAM_ALL_INSTANCES},
-	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_BTS, ECAM_ALL_INSTANCES},
-	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_NDF, ECAM_ALL_INSTANCES},
-	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_PEM5, ECAM_ALL_INSTANCES},
-	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_BCH, ECAM_ALL_INSTANCES},
-	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_PSBM, ECAM_ALL_INSTANCES},
-	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_XCP, ECAM_ALL_INSTANCES},
-	{ECAM_INVALID_PROD_ID, ECAM_INVALID_PCC_IDL_ID, ECAM_ALL_INSTANCES}
+	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_GIC5, ECAM_ALL_INSTANCES, NSEC_DEVPA},
+	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_MIO_TWS, ECAM_CUSTOM_INSTANCE, NSEC_DEVPA},
+	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_UAA, ECAM_ALL_INSTANCES, NSEC_DEVPA},
+	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_LMC, ECAM_ALL_INSTANCES, SEC_DEVPA},
+	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_OCLA, ECAM_ALL_INSTANCES, NSEC_DEVPA},
+	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_GSERN, ECAM_ALL_INSTANCES, NSEC_DEVPA},
+	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_DAP, ECAM_ALL_INSTANCES, NSEC_DEVPA},
+	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_FUSF, ECAM_ALL_INSTANCES, SEC_DEVPA},
+	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_AVS, ECAM_ALL_INSTANCES, SEC_DEVPA},
+	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_TSN, ECAM_ALL_INSTANCES, SEC_DEVPA},
+	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_CCS, ECAM_ALL_INSTANCES, SEC_DEVPA},
+	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_CCU, ECAM_ALL_INSTANCES, SEC_DEVPA},
+	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_FUS5, ECAM_ALL_INSTANCES, SEC_DEVPA},
+	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_BTS, ECAM_ALL_INSTANCES, NSEC_DEVPA},
+	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_NDF, ECAM_ALL_INSTANCES, NSEC_DEVPA},
+	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_PEM5, ECAM_ALL_INSTANCES, NSEC_DEVPA},
+	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_BCH, ECAM_ALL_INSTANCES, NSEC_DEVPA},
+	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_PSBM, ECAM_ALL_INSTANCES, SEC_DEVPA},
+	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_XCP, ECAM_ALL_INSTANCES, NSEC_DEVPA},
+	{ECAM_INVALID_PROD_ID, ECAM_INVALID_PCC_IDL_ID, ECAM_ALL_INSTANCES, NSEC_DEVPA}
 };
 
 struct secure_devices secure_mcp_devs[] = {
@@ -381,6 +384,10 @@ static inline void cn98xx_enable_dev(struct ecam_device *dev)
 	dev_permit.s.xcp1_dis = dev->config.s.is_mcp_secure;
 	CSR_WRITE(CAVM_ECAMX_DOMX_DEVX_PERMIT(dev->ecam, dev->domain,
 		     dev->dev), dev_permit.u);
+
+	if (dev->config.s.is_sec_devpa)
+		disable_devmem_ns_access(dev);
+
 	debug_plat_ecam("enable_dev E%d:DOM%d:D%d\n", dev->ecam, dev->domain, dev->dev);
 }
 
@@ -397,6 +404,10 @@ static inline void cn98xx_disable_dev(struct ecam_device *dev)
 	dev_permit.s.xcp1_dis = dev->config.s.is_mcp_secure;
 	CSR_WRITE(CAVM_ECAMX_DOMX_DEVX_PERMIT(dev->ecam, dev->domain,
 		     dev->dev), dev_permit.u);
+
+	if (dev->config.s.is_sec_devpa)
+		disable_devmem_ns_access(dev);
+
 	debug_plat_ecam("disable_dev E%d:DOM%d:D%d\n", dev->ecam, dev->domain, dev->dev);
 }
 
@@ -413,6 +424,10 @@ static inline void cn98xx_enable_func(struct ecam_device *dev)
 	rsl_permit.s.xcp1_dis = dev->config.s.is_mcp_secure;
 	CSR_WRITE(CAVM_ECAMX_DOMX_RSLX_PERMIT(dev->ecam, dev->domain,
 		     dev->func), rsl_permit.u);
+
+	if (dev->config.s.is_sec_devpa)
+		disable_devmem_ns_access(dev);
+
 	debug_plat_ecam("enable_func E%d:DOM%d:F%d\n", dev->ecam, dev->domain, dev->func);
 }
 
@@ -429,6 +444,10 @@ static inline void cn98xx_disable_func(struct ecam_device *dev)
 	rsl_permit.s.xcp1_dis = dev->config.s.is_mcp_secure;
 	CSR_WRITE(CAVM_ECAMX_DOMX_RSLX_PERMIT(dev->ecam, dev->domain,
 		     dev->func), rsl_permit.u);
+
+	if (dev->config.s.is_sec_devpa)
+		disable_devmem_ns_access(dev);
+
 	debug_plat_ecam("disable_func E%d:DOM%d:F%d\n", dev->ecam, dev->domain, dev->func);
 }
 
@@ -523,11 +542,13 @@ static int cn98xx_get_secure_settings(struct ecam_device *dev, uint64_t pconfig)
 	dev->config.s.is_secure = 0;
 	dev->config.s.is_mcp_secure = 0;
 	dev->config.s.is_scp_secure = 0;
+	dev->config.s.is_sec_devpa = 0;
 
 	sdev = secure_devs;
 	while (sdev->devid != ECAM_INVALID_PCC_IDL_ID) {
 		if (cn98xx_matched_dev(sdev, pccpf_id.u, vsec_ctl.u)) {
 			dev->config.s.is_secure = 1;
+			dev->config.s.is_sec_devpa = sdev->secure_devpa;
 			break;
 		}
 		sdev++;
