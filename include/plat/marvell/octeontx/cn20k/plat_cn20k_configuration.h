@@ -8,6 +8,9 @@
 #ifndef __PLAT_CN20K_CONFIGURATION_H__
 #define __PLAT_CN20K_CONFIGURATION_H__
 
+#include "cavm-arch.h"
+#include "cavm-csrs-ecam.h"
+
 /* Used to initialize individual device IOBN security settings */
 struct cn20k_stream_security_setting {
 	uint32_t streamid;    /* id of instance 0, see CAVM_PCC_DEV_CON_E_xxx */
@@ -44,5 +47,15 @@ void plat_cn20k_set_secondary_cpu_jump_addr(int core_id, uint64_t entrypoint_add
 
 #define CAVM_DSUUB_BAR0_REGION4_SIZE	4096
 #define CAVM_DSUUB_BAR0_REGION4_BASE	0xB0000
+
+#define CAVM_ECAM_BAR_E_ECAMX_PF_BAR0(a)			\
+	(cavm_is_model(OCTEONTX_CN20KA)				\
+		? CAVM_ECAM_BAR_E_ECAMX_PF_BAR0_CN20KA(a)	\
+		: CAVM_ECAM_BAR_E_ECAMX_PF_BAR0_CNF20KA(a))
+
+#define CAVM_ECAM_BAR_E_ECAMX_PF_BAR0_SIZE			\
+	(cavm_is_model(OCTEONTX_CN20KA)				\
+		? CAVM_ECAM_BAR_E_ECAMX_PF_BAR0_CN20KA_SIZE	\
+		: CAVM_ECAM_BAR_E_ECAMX_PF_BAR0_CNF20KA_SIZE)
 
 #endif /* __PLAT_CN20K_CONFIGURATION_H__ */
