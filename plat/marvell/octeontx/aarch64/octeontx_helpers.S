@@ -29,7 +29,7 @@
 	.globl	platform_mem_init
 	.globl	octeontx_sec_entry_point
 
-#if defined(PLAT_CN10K_FAMILY)
+#if (defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY))
 	.extern enable_hotplug
 #endif
 
@@ -72,7 +72,7 @@ endfunc plat_get_my_entrypoint
 	 */
 func plat_secondary_cold_boot_setup
 
-#if defined(PLAT_CN10K_FAMILY)
+#if (defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY))
 	/* Enable Activity Monitors used by SCP Power Control firmware for cn10k */ 
 	mov x1, 0xf
 	msr S3_3_C13_C2_5, x1
@@ -137,7 +137,7 @@ endfunc plat_crash_console_init
 	 * ---------------------------------------------
 	 */
 func plat_crash_console_putc
-#if defined(PLAT_CN10K_FAMILY) && defined(IMAGE_BL31) && defined(SAVE_FATAL_ERRLOGS)
+#if (defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY)) && defined(IMAGE_BL31) && defined(SAVE_FATAL_ERRLOGS)
 	mov_imm	x1, WORK_BUFFER_BASE
 	str	x2, [x1]
 	str	x30, [x1, #8]
