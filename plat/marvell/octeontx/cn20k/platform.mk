@@ -90,7 +90,6 @@ PLAT_BL_COMMON_SOURCES	+=	plat/marvell/octeontx/cn20k/plat_non_fip_image.c\
 				plat/marvell/octeontx/cn20k/plat_tim.c		\
 				plat/marvell/octeontx/cn20k/plat_ecam.c		\
 				plat/marvell/octeontx/cn20k/cn20k_ea.c		\
-				plat/marvell/octeontx/cn20k/aarch64/plat_octeontx_common.S	\
 				lib/cpus/aarch64/neoverse_hermes.S \
 				plat/marvell/octeontx/cn20k/aarch64/plat_helpers.S	\
 				plat/marvell/octeontx/cn20k/plat_io_storage.c	\
