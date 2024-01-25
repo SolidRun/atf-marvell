@@ -1096,8 +1096,12 @@ int sfp_parse_eeprom_data(int portm_idx)
 	sfp_shared_data_t *sh_data;
 	portm_config_t *portm;
 	int lmac_enabled = 0;
+	int mod_status = 0;
 
 	portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
+
+	/* Obtain the module status */
+	mod_status = sfp_get_mod_status(portm_idx);
 
 	if (portm->mac_type == PORTM_ETH) {
 		int eth_id, lmac_id;
@@ -1182,9 +1186,11 @@ retry_read_eeprom:
 				ret = cap_info->trans_type;
 				break;
 			default:
-				if (lmac_enabled)
+				if (lmac_enabled && (mod_status != SFP_MOD_STATE_EEPROM_UPDATED)) {
+					/* report error only when the module is plugged/unplugged */
 					ERROR("%s: PORTM%d unknown transceiver type inserted\n", __func__,
 									portm_idx);
+				}
 				ret = SFP_TRANS_TYPE_UNKNOWN;
 			}
 		} else	{
