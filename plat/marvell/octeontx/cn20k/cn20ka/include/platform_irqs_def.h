@@ -29,29 +29,29 @@
 /* Definitions of IRQ SPI (Shared Peripheral Interrupt) IDs (range 0x20-0x3FC) */
 #define SPI_IRQ_OFFSET			0x20
 
-/* UAA definitons (range 0x20 - 0x27) */
-#define UAA_SPI_IRQ_DEVS		0x8
+/* UAA definitons (range 0x20 - 0x30) */
+#define UAA_SPI_IRQ_DEVS		16
 #define UAA_SPI_IRQ_BASE		(SPI_IRQ_OFFSET)
 #define UAA_SPI_IRQ(dev)		((dev) + UAA_SPI_IRQ_BASE)
 
-/* Base SPI for GPIO interrupt to be handled in ATF (range 0x3e - 0x41)*/
+/* Base SPI for GPIO interrupt to be handled in ATF (range 0x31 - 0x34)*/
 #define GPIO_SPI_IRQS			0x4
-#define GPIO_SPI_IRQ_BASE		(UAA_SPI_IRQ_BASE)
+#define GPIO_SPI_IRQ_BASE		(UAA_SPI_IRQ_BASE + UAA_SPI_IRQ_DEVS)
 #define GPIO_SPI_IRQ(irq)		((irq) + GPIO_SPI_IRQ_BASE)
 
-/* Default SPI to be used by kernel GPIO driver when intercepting interrupts (interrupt 0x42)*/
+/* Default SPI to be used by kernel GPIO driver when intercepting interrupts (interrupt 0x35)*/
 #define GPIO_SPI_NSEC_IRQS		0x1
 #define GPIO_SPI_IRQ_NSEC_BASE	(GPIO_SPI_IRQ_BASE + GPIO_SPI_IRQS)
 #define GPIO_SPI_IRQ_NSEC(irq)	((irq) + GPIO_SPI_IRQ_NSEC_BASE)
 
-/* interrupt 0x5f */
+/* interrupt 0x36 */
 #define EMMC_SPI_IRQS		1
-#define EMMC_SPI_IRQ_BASE	(GPIO_SPI_IRQ_NSEC_BASE)
+#define EMMC_SPI_IRQ_BASE	(GPIO_SPI_IRQ_NSEC_BASE + GPIO_SPI_NSEC_IRQS)
 #define EMMC_SPI_IRQ(irq)	((irq) + EMMC_SPI_IRQ_BASE)
 
-/* interrupt (range 0x78 - 0x79) */
+/* interrupt (range 0x43 - 0x44) */
 #define XSPI_SPI_IRQS		2
-#define XSPI_SPI_IRQ_BASE	(EMMC_SPI_IRQ_BASE)
+#define XSPI_SPI_IRQ_BASE	(EMMC_SPI_IRQ_BASE +  EMMC_SPI_IRQS)
 #define XSPI_SPI_IRQ(irq)	((irq) + XSPI_SPI_IRQ_BASE)
 
 #endif /* __PLATFORM_IRQS_DEF_H__ */
