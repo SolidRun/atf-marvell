@@ -31,7 +31,7 @@
 
 /* UAA definitons (range 0x20 - 0x30) */
 #define UAA_SPI_IRQ_DEVS		16
-#define UAA_SPI_IRQ_BASE		(SPI_IRQ_OFFSET)
+#define UAA_SPI_IRQ_BASE		(SPI_IRQ_OFFSET + 4) //Start from 36
 #define UAA_SPI_IRQ(dev)		((dev) + UAA_SPI_IRQ_BASE)
 
 /* Base SPI for GPIO interrupt to be handled in ATF (range 0x31 - 0x34)*/
