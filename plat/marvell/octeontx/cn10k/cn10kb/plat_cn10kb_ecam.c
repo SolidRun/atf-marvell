@@ -345,6 +345,8 @@ struct ecam_init_callback plat_init_callbacks[] = {
 	{0xa0fc, 0x177d, init_rvu_rid}, /* 0xfc - PCC_DEV_IDL_E::RVU_NPA_VF */
 	{0xa0f9, 0x177d, init_rvu_rid}, /* 0xf9 - PCC_DEV_IDL_E::RVU_SSO_PF */
 	{0xa0fa, 0x177d, init_rvu_rid}, /* 0xfa - PCC_DEV_IDL_E::RVU_SSO_VF */
+	{0xa0e0, 0x177d, init_rvu_rid}, /* 0xe0 - PCC_DEV_IDL_E::RVU_REP_PF */
+	{0xa0e1, 0x177d, init_rvu_rid}, /* 0xe1 - PCC_DEV_IDL_E::RVU_REP_VF */
 	{0xa095, 0x177d, init_emmc},
 #if RAS_EXTENSION
 	{0xa090, 0x177d, init_dss},

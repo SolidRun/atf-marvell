@@ -134,7 +134,9 @@ static void octeontx_init_rvu_pan(int *hwvf, int rvu)
 	/* Increment already allocated HWVFs */
 	*hwvf += rvu_dev[rvu].num_vfs;
 }
+#endif
 
+#if defined(PLAT_CN10K_FAMILY)
 static void octeontx_init_rvu_rep(int *hwvf, int rvu)
 {
 	rvu_dev[rvu].enable = TRUE;
@@ -588,10 +590,12 @@ static int octeontx_init_rvu_from_fdt(void)
 		uninit_pfs++;
 		WARN("RVU: skipping fixed IPSEC allocation\n");
 	}
+
+	/* Initialise the representors */
+	octeontx_init_rvu_rep(&current_hwvf, RVU_REP);
 #endif
 
 #if defined(PLAT_cn10ka)
-	octeontx_init_rvu_rep(&current_hwvf, RVU_REP);
 	octeontx_init_rvu_pan(&current_hwvf, RVU_PAN);
 #endif
 	/*
