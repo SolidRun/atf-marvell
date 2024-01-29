@@ -511,27 +511,18 @@ err1:
 		size = x2;
 		enum update_ret uret = SPI_BAD_PARAMETER;
 
-		int spi_bus = plat_octeontx_bcfg->bcfg.boot_dev.controller;
-		if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock[spi_bus]) != 0) {
-			uret = SPI_ALREADY_IN_PROGRESS;
+		ret = check_dram_boundary(user_buf, size);
+		if (ret ||
+		   ((size != sizeof(struct smc_update_descriptor)) &&
+		   (size != sizeof(struct smc_update_descriptor_0100)) &&
+		   (size != sizeof(struct smc_update_descriptor_prev)))) {
+			ERROR("Invalid descriptor address or size\n");
 			ret = -1;
-		} else {
-			ret = check_dram_boundary(user_buf, size);
-
-			if (ret ||
-			    ((size != sizeof(struct smc_update_descriptor)) &&
-			     (size != sizeof(struct smc_update_descriptor_0100)) &&
-			    (size != sizeof(struct smc_update_descriptor_prev)))
-			    ) {
-				ERROR("Invalid descriptor address or size\n");
-				ret = -1;
-				goto err;
-			}
-			dram_end = octeontx_dram_size();
-			ret = spi_smc_update(user_buf, size, dram_end, &uret);
+			goto err;
 		}
+		dram_end = octeontx_dram_size();
+		ret = spi_smc_update(user_buf, size, dram_end, &uret);
 err:
-		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[spi_bus]);
 		SMC_RET2(handle, ret, uret);
 		break;
 	}
