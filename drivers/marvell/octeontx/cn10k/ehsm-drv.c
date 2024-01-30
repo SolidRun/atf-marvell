@@ -101,6 +101,12 @@ int ehsm_verify_init(const struct tim_load_info *li,
 	if (!li->hshi_parsed)
 		return -ENEEDAUTH;
 
+#if defined(PLAT_CN20K_FAMILY)
+	if (cavm_is_platform(PLATFORM_EMULATOR) || cavm_is_platform(PLATFORM_ASIM)) {
+		WARN("EHSM disabled in emulator\n");
+		return 0;
+	}
+#endif
 	if (cavm_is_platform(PLATFORM_EMULATOR)) {
 		WARN("EHSM disabled in emulator\n");
 		return 0;
@@ -151,7 +157,12 @@ int ehsm_verify_image(const void *image, const struct tim_load_info *li,
 	assert(size > 0);
 	assert(li != NULL);
 	assert(li->hash_size >= 0 && li->hash_size <= sizeof(digest_out));
-
+#if defined(PLAT_CN20K_FAMILY)
+	if (cavm_is_platform(PLATFORM_EMULATOR) || cavm_is_platform(PLATFORM_ASIM)) {
+		WARN("Verification disabled in emulator\n");
+		return 0;
+	}
+#endif
 	if (cavm_is_platform(PLATFORM_EMULATOR)) {
 		WARN("Verification disabled in emulator\n");
 		return 0;
@@ -298,6 +309,10 @@ int ehsm_verify_update(struct ehsm_handle *ehandle, const void *ptr,
 		return -EINVAL;
 	}
 
+#if defined(PLAT_CN20K_FAMILY)
+	if (cavm_is_platform(PLATFORM_EMULATOR) || cavm_is_platform(PLATFORM_ASIM))
+		return 0;
+#endif
 	if (cavm_is_platform(PLATFORM_EMULATOR))
 		return 0;
 
@@ -351,6 +366,12 @@ int ehsm_verify_final(struct ehsm_handle *ehandle,
 	if (ehsm_check_alignment(ptr))
 		nonsecure = true;
 
+#if defined(PLAT_CN20K_FAMILY)
+	if (cavm_is_platform(PLATFORM_EMULATOR) || cavm_is_platform(PLATFORM_ASIM)) {
+		WARN("EHSM hashing disabled in emulator\n");
+		return 0;
+	}
+#endif
 	if (cavm_is_platform(PLATFORM_EMULATOR)) {
 		WARN("EHSM hashing disabled in emulator\n");
 		return 0;
@@ -443,6 +464,12 @@ int ehsm_verify_tim_digital_signature(const struct tim_handle *th,
 	uint8_t *buffer = NULL;
 	bool key_found = false;
 
+#if defined(PLAT_CN20K_FAMILY)
+	if (cavm_is_platform(PLATFORM_EMULATOR) || cavm_is_platform(PLATFORM_ASIM)) {
+		WARN("EHSM disabled in emulator\n");
+		return 0;
+	}
+#endif
 	if (cavm_is_platform(PLATFORM_EMULATOR)) {
 		WARN("EHSM disabled in emulator\n");
 		return 0;
@@ -577,6 +604,12 @@ int ehsm_csr_read(int reg_off, uint32_t *reg_val)
 	struct ehsm_handle ehandle;
 	enum sec_return ret;
 
+#if defined(PLAT_CN20K_FAMILY)
+	if (cavm_is_platform(PLATFORM_EMULATOR) || cavm_is_platform(PLATFORM_ASIM)) {
+		WARN("EHSM disabled in emulator\n");
+		return 0;
+	}
+#endif
 	if (cavm_is_platform(PLATFORM_EMULATOR)) {
 		WARN("EHSM disabled in emulator\n");
 		return 0;
@@ -701,6 +734,12 @@ int ehsm_pie_get_session_key(uintptr_t user_buf, bool nsec, uintptr_t size)
 	int err = 0, ns_map_size = 0;
 	uint64_t base_addr = 0;
 
+#if defined(PLAT_CN20K_FAMILY)
+	if (cavm_is_platform(PLATFORM_EMULATOR) || cavm_is_platform(PLATFORM_ASIM)) {
+		WARN("EHSM disabled in emulator\n");
+		return 0;
+	}
+#endif
 	if (cavm_is_platform(PLATFORM_EMULATOR)) {
 		WARN("EHSM disabled in emulator\n");
 		return 0;
@@ -791,6 +830,12 @@ int ehsm_pie_rkek_protected_provision(uintptr_t user_buf, bool nsec, uintptr_t s
 	int err = 0, ns_map_size = 0;
 	uint64_t base_addr = 0;
 
+#if defined(PLAT_CN20K_FAMILY)
+	if (cavm_is_platform(PLATFORM_EMULATOR) || cavm_is_platform(PLATFORM_ASIM)) {
+		WARN("EHSM disabled in emulator\n");
+		return 0;
+	}
+#endif
 	if (cavm_is_platform(PLATFORM_EMULATOR)) {
 		WARN("EHSM disabled in emulator\n");
 		return 0;
@@ -888,6 +933,12 @@ int ehsm_smc_get_challenge(uint32_t auth_cmd_id,
 	int err = 0, ns_map_size = 0;
 	uint64_t base_addr = 0;
 
+#if defined(PLAT_CN20K_FAMILY)
+	if (cavm_is_platform(PLATFORM_EMULATOR) || cavm_is_platform(PLATFORM_ASIM)) {
+		WARN("EHSM disabled in emulator\n");
+		return 0;
+	}
+#endif
 	if (cavm_is_platform(PLATFORM_EMULATOR)) {
 		WARN("EHSM disabled in emulator\n");
 		return 0;
@@ -992,6 +1043,12 @@ int ehsm_smc_auth_cmd(uintptr_t user_buf, bool nsec, uintptr_t size)
 	int err = 0, ns_map_size = 0;
 	uint64_t base_addr = 0;
 
+#if defined(PLAT_CN20K_FAMILY)
+	if (cavm_is_platform(PLATFORM_EMULATOR) || cavm_is_platform(PLATFORM_ASIM)) {
+		WARN("EHSM disabled in emulator\n");
+		return 0;
+	}
+#endif
 	if (cavm_is_platform(PLATFORM_EMULATOR)) {
 		WARN("EHSM disabled in emulator\n");
 		return 0;
