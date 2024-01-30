@@ -55,7 +55,7 @@ int plat_octeontx_get_ecams_count(void)
 
 int plat_octeontx_get_iobn_count(void)
 {
-	return 3;
+	return 7;
 }
 
 int plat_octeontx_is_lmc_enabled(unsigned lmc)
@@ -94,7 +94,7 @@ int plat_octeontx_get_cpt_count(void)
 
 int plat_octeontx_get_uaa_count(void)
 {
-	return 8;
+	return 16;
 }
 
 void plat_add_mmio(void)
