@@ -329,42 +329,6 @@ static int matched_dev(struct secure_devices *dev,
 	return 0;
 }
 
-static inline void enable_iodid_dev(struct ecam_device *dev, uint64_t pconfig)
-{
-	cavm_pccpf_xxx_vsec_permit_t pccpf_permit;
-
-	/* enable dev */
-	pccpf_permit.u = octeontx_read32(pconfig + CAVM_PCCPF_XXX_VSEC_PERMIT);
-	pccpf_permit.s.sec_dis = 0;
-	pccpf_permit.s.nsec_dis = 0;
-	pccpf_permit.s.xcp0_dis = dev->config.s.is_scp_secure;
-	pccpf_permit.s.xcp1_dis = dev->config.s.is_mcp_secure;
-	pccpf_permit.s.xcp2_dis = dev->config.s.is_ecp_secure;
-	pccpf_permit.s.xcp3_dis = dev->config.s.is_pcp_secure;
-	octeontx_write32(pconfig + CAVM_PCCPF_XXX_VSEC_PERMIT, pccpf_permit.u);
-
-	debug_plat_ecam("%s E%d:IODID%u\n",
-			__func__, dev->ecam, dev->iodid);
-}
-
-static inline void disable_iodid_dev(struct ecam_device *dev, uint64_t pconfig)
-{
-	cavm_pccpf_xxx_vsec_permit_t pccpf_permit;
-
-	/* enable dev */
-	pccpf_permit.u = octeontx_read32(pconfig + CAVM_PCCPF_XXX_VSEC_PERMIT);
-	pccpf_permit.s.sec_dis = 0;
-	pccpf_permit.s.nsec_dis = 1;
-	pccpf_permit.s.xcp0_dis = dev->config.s.is_scp_secure;
-	pccpf_permit.s.xcp1_dis = dev->config.s.is_mcp_secure;
-	pccpf_permit.s.xcp2_dis = dev->config.s.is_ecp_secure;
-	pccpf_permit.s.xcp3_dis = dev->config.s.is_pcp_secure;
-	octeontx_write32(pconfig + CAVM_PCCPF_XXX_VSEC_PERMIT, pccpf_permit.u);
-
-	debug_plat_ecam("%s E%d:IODID%u\n",
-			__func__, dev->ecam, dev->iodid);
-}
-
 static int get_secure_settings(struct ecam_device *dev, uint64_t pconfig)
 {
 	cavm_pccpf_xxx_id_t pccpf_id;
@@ -465,6 +429,4 @@ const struct ecam_platform_defs plat_ops = {
 	.get_plat_inits = get_init_callbacks,
 	.skip_bus = skip_bus,
 	.program_ssid = program_ssid,
-	.enable_iodid_dev = enable_iodid_dev,
-	.disable_iodid_dev = disable_iodid_dev,
 };

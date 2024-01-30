@@ -111,13 +111,6 @@ static void octeontx_ecam_iodid_dev_enumerate(struct ecam_device *device)
 			device->config.s.is_scp_secure,
 			device->config.s.is_mcp_secure);
 
-	/* configure secure settings */
-	if (device->config.s.is_secure) {
-		plat_ops.disable_iodid_dev(device, pconfig);
-	} else {
-		plat_ops.enable_iodid_dev(device, pconfig);
-	}
-
 	/* Program SSID for the device if applicable for
 	 * the platform
 	 */
