@@ -124,7 +124,7 @@ static void init_xspi(uint64_t config_base, uint64_t config_size)
 	*sctl |= 0x1;
 
 	enable_msix(config_base, cap_pointer, &table_size, &bir);
-	if (config_base & 0x8000)
+	if (config_base & 0x100000)
 		spi_id = 1;
 	else
 		spi_id = 0;
