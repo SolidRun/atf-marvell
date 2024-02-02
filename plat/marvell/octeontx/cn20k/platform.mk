@@ -98,6 +98,7 @@ PLAT_BL_COMMON_SOURCES	+=	plat/marvell/octeontx/cn20k/plat_non_fip_image.c\
 				drivers/marvell/octeontx/cn20k/emmc_driver_funcs.c \
 				drivers/marvell/octeontx/cn20k/emmc_wrapper_funcs.c \
 				drivers/marvell/octeontx/cn20k/fw_load.c	\
+				drivers/marvell/octeontx/cn20k/rvu.c	\
 				drivers/marvell/octeontx/cn20k/fdtebf_helper.c
 
 BL2_SOURCES		+= 	plat/marvell/octeontx/cn20k/plat_board_cfg.c	\

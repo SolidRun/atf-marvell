@@ -43,6 +43,7 @@
 #include "cavm-csrs-spi.h"
 #include "cavm-csrs-tad_cmn.h"
 #include "cavm-csrs-uaa.h"
+#include "cavm-csrs-rvu.h"
 
 #define NCB_COUNT			5
 
@@ -95,6 +96,11 @@ int plat_octeontx_get_cpt_count(void)
 int plat_octeontx_get_uaa_count(void)
 {
 	return 16;
+}
+
+int plat_octeontx_get_rvu_count(void)
+{
+	return 96;
 }
 
 void plat_add_mmio(void)
@@ -182,6 +188,12 @@ void plat_add_mmio(void)
 	for (i = 0; i < NCB_COUNT; ++i)
 		add_map_record(CAVM_NCB_BAR_E_NCBX_PF_BAR0(i),
 				CAVM_NCB_BAR_E_NCBX_PF_BAR0_SIZE, attr);
+
+	/* RVU device mappings */
+	add_map_record(CAVM_RVU_BAR_E_RVU_PFX_BAR0(0), CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE, attr);
+	device_type_count = plat_octeontx_get_rvu_count();
+	for (i = 0; i < device_type_count; ++i)
+		add_map_record(CAVM_RVU_BAR_E_RVU_PFX_FUNCX_BAR2(i, 0), CAVM_RVU_BAR_E_RVU_PFX_FUNCX_BAR2_SIZE, attr);
 
 	/*
 	 * Map DSU UB for core power management

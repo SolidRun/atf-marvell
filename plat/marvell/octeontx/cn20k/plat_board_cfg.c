@@ -51,6 +51,53 @@
 #define PERSIST_DATA_SPI_BUS	0
 #define PERSIST_DATA_SPI_CS	0
 
+/**
+ * parse_rvu_config - fill rvu_pf_t structure of rvu_config
+ * @fdt: pointer to the device tree blob
+ *
+ * returns:
+ *	0 on success, -1 otherwise
+ */
+static void parse_rvu_config(const void *fdt)
+{
+	int offset, len, index, ents;
+	rvu_pf_cfg_t *pf_cfg;
+	const int *val;
+	size_t cells;
+
+	plat_octeontx_bcfg->rvu_cfg.valid = 0;
+	offset = fdt_path_offset(fdt, "/rvu_cfg");
+	if (offset < 0) {
+		ERROR("RVU: Unable to find rvu_cfg node\n");
+		return;
+	}
+
+	val = fdt_getprop(fdt, offset, "config", &len);
+	if (!val) {
+		WARN("RVU: No device config found\n");
+		return;
+	}
+
+	/* 8 cells <pfno devid rev class_code vf_devid num_vfs msix_vec enable> */
+	cells = 8;
+	ents = len / (cells * sizeof(uint32_t));
+
+	for (index = 0; index < ents; index++) {
+		pf_cfg = &(plat_octeontx_bcfg->rvu_cfg.pf_cfg[index]);
+		pf_cfg->pf_id = fdt32_to_cpu(*(val + (cells * index)));
+		pf_cfg->devid = fdt32_to_cpu(*(val + (cells * index) + 1));
+		pf_cfg->rev = fdt32_to_cpu(*(val + (cells * index) + 2));
+		pf_cfg->cls_code = fdt32_to_cpu(*(val + (cells * index) + 3));
+		pf_cfg->vf_devid = fdt32_to_cpu(*(val + (cells * index) + 4));
+		pf_cfg->num_vfs = fdt32_to_cpu(*(val + (cells * index) + 5));
+		pf_cfg->num_msix_vec = fdt32_to_cpu(*(val + (cells * index) + 6));
+		pf_cfg->enable = fdt32_to_cpu(*(val + (cells * index) + 7));
+	}
+
+	plat_octeontx_bcfg->rvu_cfg.num_dev = ents;
+	plat_octeontx_bcfg->rvu_cfg.valid = 1;
+}
+
 int plat_get_core_count(void)
 {
 	uint64_t rst_ap_available;
@@ -291,6 +338,8 @@ int plat_octeontx_fill_board_details(void)
 	parse_spi_config(fdt);
 
 	get_persist_data_config(fdt);
+
+	parse_rvu_config(fdt);
 
 	return 0;
 }

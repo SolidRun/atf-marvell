@@ -84,6 +84,10 @@
 #include <mbedtls/oid.h>
 #endif
 
+#if defined(PLAT_CN20K_FAMILY)
+#include "rvu_20k.h"
+#endif
+
 #include "cavm-csrs-uaa.h"
 
 /* Pointer to memory visible to both BL2 and BL31 for passing data */
@@ -637,6 +641,10 @@ void bl2_platform_setup(void)
 
 	/* Enumerate devices on ECAMs */
 	octeontx_pci_init();
+
+#if defined(PLAT_CN20K_FAMILY)
+	rvu_devices_init();
+#endif
 
 #if defined(PLAT_CN10K_FAMILY)
 	/* Reserve RAS memory after RVU */

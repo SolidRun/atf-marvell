@@ -70,6 +70,24 @@ typedef struct persist_data_config {
 	uint8_t rsvd0;
 } persist_data_cfg_t;
 
+#define RVU_MAX_PFS	96
+typedef struct rvu_pf_cfg {
+	uint16_t devid;
+	uint16_t vf_devid;
+	uint16_t cls_code;
+	uint8_t rev;
+	int pf_id;
+	int num_vfs;
+	int num_msix_vec;
+	bool enable;
+} rvu_pf_cfg_t;
+
+typedef struct rvu_config {
+	int valid;
+	int num_dev;
+	rvu_pf_cfg_t pf_cfg[RVU_MAX_PFS];
+} rvu_config_t;
+
 typedef struct plat_octeontx_board_cfg {
 	board_cfg_t bcfg;
 	spi_config_t spi_cfg[MAX_SPI_BUS];
@@ -78,6 +96,7 @@ typedef struct plat_octeontx_board_cfg {
 	int asym_mem_config;
 	uint64_t adbg_dram_region_base;
 	persist_data_cfg_t persist_cfg;
+	rvu_config_t rvu_cfg;
 } plat_octeontx_board_cfg_t;
 
 extern plat_octeontx_board_cfg_t * const plat_octeontx_bcfg;
