@@ -2440,8 +2440,10 @@ static void __program_local_mac(const void *fdt, int rpm_id, int lmac_id, int pf
 static void cn10k_rpm_assign_mac(const void *fdt)
 {
 	int mac_id_num, mac_num;
-	int p, pf_idx = 0;
-	int lane, id = 0, cnt = 0;
+	int rpm_id, pf_idx = 0;
+	int lmac_id, id = 0, cnt = 0;
+	rpm_config_t *rpm;
+	cavm_rpmx_const_t rpm_const;
 
 	/* Parse EBF DT file, to find variables to set MAC address:
 	 *   BOARD-MAC-ADDRESS-NUM-ID
@@ -2462,37 +2464,37 @@ static void cn10k_rpm_assign_mac(const void *fdt)
 
 	debug_dts("BOARD-MAC-ADDRESS-NUM=%d\n", mac_num);
 
-	for (p = 0; p < MAX_PORTM; p++) {
-		portm_config_t *portm;
+	for (rpm_id = 0; rpm_id < MAX_RPM; rpm_id++) {
+		rpm = &plat_octeontx_bcfg->rpm_cfg[rpm_id];
 
-		portm = &(plat_octeontx_bcfg->portm_cfg[p]);
-		if (!(portm && (portm->port_enable) && (portm->mac_type == PORTM_ETH))) {
-			id++;
-			continue;
-		}
-		for (lane = 0; lane < portm->num_lmacs; lane++, id++, cnt++) {
-			int rpm_id, lmac_id;
-			rpm_lmac_config_t *lmac;
+		rpm_const.u = CSR_READ(CAVM_RPMX_CONST(rpm_id));
+		if (rpm->enable) {
+			for (lmac_id = 0; lmac_id < rpm_const.s.lmacs; lmac_id++) {
+				rpm_lmac_config_t *lmac;
 
-			rpm_id = portm->mac_num;
-			lmac_id = portm->mac_lane + lane;
-			lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
+				lmac = &rpm->lmac_cfg[lmac_id];
+				if (lmac->lmac_enable) {
 
-			debug_dts("%d:%d: pf_idx %d, cnt %d, id %d\n", rpm_id, lmac_id, pf_idx, cnt, id);
-			if (!lmac->lmac_enable)
-				continue;
+					debug_dts("%d:%d: pf_idx %d, cnt %d, id %d\n", rpm_id, lmac_id, pf_idx, cnt, id);
 
-			if (mac_id_num) {
-				__program_local_mac(fdt, rpm_id, lmac_id, pf_idx, id, 0, 1);
-				pf_idx += 1;
-			} else if (mac_num) {
-				/* Do not program rvu pf if requested macs are all programmed */
-				if (cnt >= mac_num)
-					return;
+					if (mac_id_num) {
+						__program_local_mac(fdt, rpm_id, lmac_id, pf_idx, id, 0, 1);
+						pf_idx += 1;
+					} else if (mac_num) {
+						/* Do not program rvu pf if requested macs are all programmed */
+						if (cnt >= mac_num)
+							return;
 
-				__program_local_mac(fdt, rpm_id, lmac_id, pf_idx, 0, cnt, 0);
-				pf_idx += 1;
+						__program_local_mac(fdt, rpm_id, lmac_id, pf_idx, 0, id, 0);
+						pf_idx += 1;
+					}
+				}
+				id++;
+				cnt++;
 			}
+		} else {
+			id += rpm_const.s.lmacs;
+			continue;
 		}
 	}
 	/* Program the number of macs configurations */
