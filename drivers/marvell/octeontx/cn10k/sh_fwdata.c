@@ -20,6 +20,7 @@
 #include <plat_scfg.h>
 #include <sfp_mgmt.h>
 #include <libfdt.h>
+#include <plat_sdp.h>
 
 #ifdef NT_FW_CONFIG
 #include <plat_npc_mcam_profile.h>
@@ -140,6 +141,11 @@ static void sh_fwdata_update_ptp(struct sh_fwdata *fwdata)
 		fwdata->ptp_ext_tstamp = 1;
 }
 
+static void sh_fwdata_update_sdp(struct sh_fwdata *fwdata)
+{
+	memcpy(&fwdata->sdp_data, &plat_octeontx_bcfg->sdp_data, SDP_INFO_SZ);
+}
+
 void sh_fwdata_init(void)
 {
 	cavm_rst_pllx_t rst_pll;
@@ -201,6 +207,7 @@ void sh_fwdata_init(void)
 	fwdata->mcam_sz = cn10k_get_npc_profile_size(0);
 #endif
 	sh_fwdata_update_ptp(fwdata);
+	sh_fwdata_update_sdp(fwdata);
 }
 
 void sh_fwdata_set_lmac_type(int rpm_id, int lmac_id, int mac_type)

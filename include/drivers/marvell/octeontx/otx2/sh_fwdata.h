@@ -9,6 +9,7 @@
 #define __SH_FWDATA_H_
 
 #include <rvu.h>
+#include <plat_sdp.h>
 
 /* API declarations */
 /* CGX related shared firmware data */
@@ -78,7 +79,8 @@ struct sh_fwdata {
 	uint64_t rvu_af_msixtr_base;
 	uint32_t ptp_ext_clk_rate;
 	uint32_t ptp_ext_tstamp;
- #define FWDATA_RESERVED_MEM 1022
+	struct sdp_fw_data sdp_data;
+ #define FWDATA_RESERVED_MEM 1014
 	uint64_t reserved[FWDATA_RESERVED_MEM];
 	/* Do not add new fields below this line */
 #define ETH_MAX		9
