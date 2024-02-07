@@ -1390,10 +1390,14 @@ static int cn10k_parse_sw_rvu(const void *fdt, int parentoffset,
 		 * If missing, issue warning message, then default to legacy.
 		 * All others simply default to legacy (no warning).
 		 */
+#if defined(PLAT_cn10ka)
+		WARN("RVU: node %s, no provision-mode, using LEGACY\n", name);
+#else
 		if ((sw_rvu_pf >= SW_RVU_SDP_PF(0)) &&
 		    (sw_rvu_pf - SW_RVU_SDP_PF(0) < SW_RVU_SDP_NUM_PF))
 			WARN("RVU: node %s, no provision-mode, using LEGACY\n",
 			     name);
+#endif
 		sw_pf->mapping = SW_RVU_MAP_LEGACY;
 	} else if (!strncmp(str, "LEGACY", 6))
 		sw_pf->mapping = SW_RVU_MAP_LEGACY;
