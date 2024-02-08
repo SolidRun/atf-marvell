@@ -14,12 +14,12 @@
 typedef union {
 	uint64_t u;
 	struct {
-		uint64_t baud_mhz : 16;
+		uint64_t baud_mhz : 20;
 		uint64_t mode     :  8;	/* cn10k_portm_modes_t */
 		uint64_t ref_clk  :  4;
 		uint64_t flags    :  8;
-		uint64_t fec      :  12; /* cn10k_portm_fec_t */
-		uint64_t reserved : 16;
+		uint64_t fec      : 12; /* cn10k_portm_fec_t */
+		uint64_t reserved : 12;
 	} s;
 } gserm_state_lane_t;
 
