@@ -95,7 +95,7 @@ int plat_octeontx_get_cpt_count(void)
 
 int plat_octeontx_get_uaa_count(void)
 {
-	return 16;
+	return 15;
 }
 
 int plat_octeontx_get_rvu_count(void)
