@@ -117,6 +117,20 @@ static uint64_t get_bar_val_from_pccpf_xxx_bar(struct pcie_config *pconfig,
 
 uint64_t get_bar_val(struct pcie_config *pconfig, int bar)
 {
+#if defined(PLAT_CN20K_FAMILY)
+	uint64_t config_base = (uint64_t) pconfig;
+	uint64_t iodid = ((config_base & ECAM_IODID_MASK) >> ECAM_IODID_SHIFT);
+	uint64_t cn20k_bar = bar / 2;
+	uint64_t bar_val;
+
+	/* bar = (0xc << 44) | (node << 44) | (iodid << 32) | (barnumber << 30) */
+	bar_val = config_base & 0xF00000000000ll;
+	bar_val |= (iodid << CSR_IODID_SHIFT);
+	bar_val |= (cn20k_bar << CSR_BAR_SHIFT);
+
+	return bar_val;
+#endif
+
 	uint32_t cap;
 	/* Capability offset in bytes */
 	int cap_offset = pconfig->cap_pointer;
