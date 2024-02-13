@@ -22,6 +22,8 @@
 
 #define MAX_GPIO_INTERRUPTS		64
 
+#define PCP_UART			15
+
 /*************************************************
 
 |---------------------|==>Secure Memory 16MB @0

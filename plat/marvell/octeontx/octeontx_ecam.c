@@ -285,6 +285,10 @@ static void init_uaa(uint64_t config_base, uint64_t config_size)
 	union cavm_pccpf_xxx_cmd cmd;
 
 	vsec_ctl.u = octeontx_read32(config_base + CAVM_PCCPF_XXX_VSEC_CTL);
+#if defined(PLAT_CN20K_FAMILY)
+	if (vsec_ctl.s.inst_num == PCP_UART)
+		return;
+#endif
 
 	/* Bypass SMMU translation for MSIx delivery, since we pretend
 	 * UAA as non PCI device for non secure world
