@@ -1233,6 +1233,7 @@ static int set_permissions(struct ecam_device *dev, uint64_t bar)
 		mrml_rslx_permit.s.nsec_dis = 1;
 		mrml_rslx_permit.s.xcp0_dis = dev->config.s.is_scp_secure;
 		mrml_rslx_permit.s.xcp1_dis = dev->config.s.is_mcp_secure;
+		VERBOSE("Writing MRML_RSLX_PERMIT[0x%x] <-- 0x%lx\n", idx, mrml_rslx_permit.u);
 		CSR_WRITE(CAVM_MRML_RSLX_PERMIT(idx), mrml_rslx_permit.u);
 	} else if (bar && is_devmem_ncb(bar)) {
 		idx = MRML_NCB_INDEX(bar);
@@ -1242,6 +1243,7 @@ static int set_permissions(struct ecam_device *dev, uint64_t bar)
 		mrml_ncbx_permit.s.xcp0_dis = dev->config.s.is_scp_secure;
 		mrml_ncbx_permit.s.xcp1_dis = dev->config.s.is_mcp_secure;
 
+		VERBOSE("Writing MRML_NCBX_PERMIT[0x%x] <-- 0x%lx\n", idx, mrml_ncbx_permit.u);
 		CSR_WRITE(CAVM_MRML_NCBX_PERMIT(idx), mrml_ncbx_permit.u);
 	}
 
