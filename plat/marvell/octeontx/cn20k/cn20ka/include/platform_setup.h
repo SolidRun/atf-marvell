@@ -40,4 +40,7 @@ static const unsigned char plat_octeontx_power_domain_tree_desc[] = {
 	PLATFORM_MAX_CPUS_PER_CLUSTER,
 };
 
+/* plat APIs specific to Octeon family */
+int plat_get_max_lane_num(int qlm);
+
 #endif /* __CN20KA_PLAT_SETUP_H__ */

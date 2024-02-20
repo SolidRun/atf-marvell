@@ -13,7 +13,7 @@
 #define MAX_LMC 0
 #define MAX_CCU 0
 
-#define MAX_QLM 0
-#define MAX_LANES_PER_QLM 0
+#define MAX_QLM 3
+#define MAX_LANES_PER_QLM 4
 
 #endif /* __PLATFORM_BOARD_CFG_H__ */

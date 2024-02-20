@@ -8,6 +8,9 @@
 #ifndef __PLAT_CN20K_CONFIGURATION_H__
 #define __PLAT_CN20K_CONFIGURATION_H__
 
+#define CN20KAS_PKG 0
+#define CN20KA_PKG  1
+
 /* Used to initialize individual device IOBN security settings */
 struct cn20k_stream_security_setting {
 	uint32_t streamid;    /* id of instance 0, see CAVM_PCC_DEV_CON_E_xxx */
@@ -17,6 +20,13 @@ struct cn20k_stream_security_setting {
 	int      phys_nsec;
 };
 
+int plat_octeontx_get_cpt_count(void);
+int plat_octeontx_get_rpm_count(void);
+int plat_octeontx_get_gserm_count(void);
+int plat_octeontx_get_portm_count(void);
+int plat_portm_get_max_lane_cnt(int portm_idx);
+int plat_get_refclk_term_gserm_num(int refclk_idx);
+int plat_get_altpkg(void);
 unsigned int plat_configure_rid(void);
 struct cn20k_stream_security_setting *plat_get_cn20k_stream_security(int *count);
 void plat_cn20k_set_secondary_cpu_jump_addr(int core_id, uint64_t entrypoint_addr);

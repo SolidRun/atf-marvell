@@ -44,6 +44,7 @@
 #include "cavm-csrs-tad_cmn.h"
 #include "cavm-csrs-uaa.h"
 #include "cavm-csrs-rvu.h"
+#include "cavm-csrs-gserm.h"
 
 #define NCB_COUNT			5
 
@@ -93,6 +94,21 @@ int plat_octeontx_get_cpt_count(void)
 	return 1;
 }
 
+int plat_octeontx_get_rpm_count(void)
+{
+	return MAX_RPM;
+}
+
+int plat_octeontx_get_gserm_count(void)
+{
+	return MAX_GSERM;
+}
+
+int plat_octeontx_get_portm_count(void)
+{
+	return MAX_PORTM;
+}
+
 int plat_octeontx_get_uaa_count(void)
 {
 	return 16;
@@ -101,6 +117,68 @@ int plat_octeontx_get_uaa_count(void)
 int plat_octeontx_get_rvu_count(void)
 {
 	return 96;
+}
+
+/* Return the GSERM that provides termination for the REF_CLK. */
+int plat_get_refclk_term_gserm_num(int refclk_idx)
+{
+	int gserm;
+
+	/* REF_CLK0 & 1 (PCIe) are not terminated by a GSERM */
+	if (refclk_idx == 2)
+		gserm = 0;
+	else
+		gserm = -1;
+
+	return gserm;
+}
+
+/* Return number of lanes available for different QLMs.
+ * QLM 0 : starts at GSERM0
+ */
+int plat_get_max_lane_num(int qlm)
+{
+	int lanes = 0;
+
+	switch (qlm) {
+	case 0:
+	case 1:
+		lanes = 1;
+		break;
+	case 2:
+		lanes = 4;
+		break;
+	default:
+		lanes = 0;
+		break;
+	}
+	return lanes;
+}
+
+/* Return number of lanes available for different PORTMS.
+ */
+int plat_portm_get_max_lane_cnt(int portm_idx)
+{
+	int lanes = 0;
+
+	switch (portm_idx) {
+	case 2:
+		lanes = 4;
+		break;
+	case 4:
+		lanes = 2;
+		break;
+	case 0:
+	case 1:
+	case 3:
+	case 5:
+		lanes = 1;
+		break;
+	default:
+		lanes = 0;
+		break;
+	}
+	return lanes;
 }
 
 void plat_add_mmio(void)

@@ -92,6 +92,9 @@ PLAT_BL_COMMON_SOURCES	+=	plat/marvell/octeontx/cn20k/plat_non_fip_image.c\
 				plat/marvell/octeontx/cn20k/cn20k_ea.c		\
 				lib/cpus/aarch64/neoverse_hermes.S \
 				plat/marvell/octeontx/cn20k/aarch64/plat_helpers.S	\
+				plat/marvell/octeontx/cn20k/plat_portm_cfg.c	\
+				drivers/marvell/octeontx/cn20k/portm_helper.c	\
+				drivers/marvell/octeontx/cn20k/qlm.c	\
 				plat/marvell/octeontx/cn20k/plat_io_storage.c	\
 				drivers/marvell/octeontx/cn20k/ehsm-drv.c	\
 				drivers/marvell/octeontx/cn20k/emmc_driver_calls.c \
@@ -102,6 +105,7 @@ PLAT_BL_COMMON_SOURCES	+=	plat/marvell/octeontx/cn20k/plat_non_fip_image.c\
 				drivers/marvell/octeontx/cn20k/fdtebf_helper.c
 
 BL2_SOURCES		+= 	plat/marvell/octeontx/cn20k/plat_board_cfg.c	\
+				plat/marvell/octeontx/cn20k/plat_scfg.c		\
 				plat/marvell/octeontx/cn20k/plat_cn20k_iobn.c	\
 				${LIBTIM_SRCS}
 

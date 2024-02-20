@@ -251,6 +251,21 @@ int plat_setup_psci_ops(uintptr_t sec_entrypoint,
 #endif
 }
 
+/*
+ * Return alternative pkg information
+ *
+ * @return non-zero if an alternative package
+ *     0 = Normal package (cn20kas)
+ *     1 = Alternative package 1 (cn20ka)
+ */
+int plat_get_altpkg(void)
+{
+	union cavm_gpio_pkg_ver pkg_ver;
+
+	pkg_ver.u = CSR_READ(CAVM_GPIO_PKG_VER);
+	return pkg_ver.s.pkg_ver;
+}
+
 void plat_octeontx_cpu_setup(void)
 {
 	uint64_t addr;
