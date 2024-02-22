@@ -33,6 +33,17 @@ int octeontx_register_gpio_handlers(void);
 int gpio_install_irq(uint64_t gpio_num, uint64_t sp, uint64_t  cpu,
 		     uint64_t isr_base);
 void gpio_clear_irq(uint64_t gpio_num);
+/** Register with gpio driver */
+void octeontx_gpio_init(void);
+/**
+ * Configure a GPIO pin
+ *
+ * @param	gpio		GPIO pin number
+ * @param	output		True if pin is output
+ * @param	function	Function to assign to pin
+ * @param	value		Value to set pin if output
+ */
+void octeontx_gpio_config(int gpio, bool output, uint32_t function, bool value);
 
 extern int gpio_intercept_interrupts;
 extern volatile struct gpio_irq gpio_ints[MAX_GPIO_INTERRUPTS];

@@ -14,6 +14,7 @@
 #include <inttypes.h>
 #include <lib/psci/psci.h>
 #include <errno.h>
+#include <drivers/gpio.h>
 #include <drivers/arm/gic_common.h>
 #include <drivers/arm/gicv3.h>
 #include <plat/common/platform.h>
@@ -458,4 +459,92 @@ int gpio_clr_out (int pin)
 	return 0;
 }
 
+static int octeontx_gpio_get_direction(int gpio)
+{
+	cavm_gpio_bit_cfgx_t gpio_bit_cfg;
 
+	gpio_bit_cfg.u = CSR_READ(CAVM_GPIO_BIT_CFGX(gpio));
+
+	return gpio_bit_cfg.s.tx_oe ? GPIO_DIR_OUT : GPIO_DIR_IN;
+}
+
+static void octeontx_gpio_set_direction(int gpio, int direction)
+{
+	cavm_gpio_bit_cfgx_t gpio_bit_cfg;
+
+	gpio_bit_cfg.u = CSR_READ(CAVM_GPIO_BIT_CFGX(gpio));
+	gpio_bit_cfg.s.tx_oe = direction == GPIO_DIR_OUT;
+	gpio_bit_cfg.s.pin_sel = 0;
+	CSR_WRITE(CAVM_GPIO_BIT_CFGX(gpio), gpio_bit_cfg.u);
+}
+
+static int octeontx_gpio_get_value(int gpio)
+{
+	cavm_gpio_rx_dat_t rx_dat;
+	cavm_gpio_rx1_dat_t rx1_dat;
+
+	if (octeontx_gpio_get_direction(gpio) != GPIO_DIR_IN)
+		return -1;
+	if (gpio < 64) {
+		rx_dat.u = CSR_READ(CAVM_GPIO_RX_DAT);
+		return !!(rx_dat.s.dat & (1ULL << gpio));
+	}
+	rx1_dat.u = CSR_READ(CAVM_GPIO_RX1_DAT);
+	return !!(rx1_dat.s.dat & (1ULL << (gpio - 64)));
+}
+
+static void octeontx_gpio_set_value(int gpio, int value)
+{
+	if (value)
+		gpio_set_out(gpio);
+	else
+		gpio_clr_out(gpio);
+}
+
+static void octeontx_gpio_set_pull(int gpio, int pull)
+{
+	/* Not yet implemented */
+}
+
+static int octeontx_gpio_get_pull(int gpio)
+{
+	/* Not yet implemented */
+	return 0;
+}
+
+static const gpio_ops_t gpio_ops = {
+	.get_direction = octeontx_gpio_get_direction,
+	.set_direction = octeontx_gpio_set_direction,
+	.get_value = octeontx_gpio_get_value,
+	.set_value = octeontx_gpio_set_value,
+	.set_pull = octeontx_gpio_set_pull,
+	.get_pull = octeontx_gpio_get_pull,
+};
+
+void octeontx_gpio_init(void)
+{
+	gpio_init(&gpio_ops);
+}
+
+/**
+ * Configure a GPIO pin
+ *
+ * @param	gpio		GPIO pin number
+ * @param	output		True if pin is output
+ * @param	function	Function to assign to pin
+ * @param	value		Value to set pin if output
+ */
+void octeontx_gpio_config(int gpio, bool output, uint32_t function, bool value)
+{
+	union cavm_gpio_bit_cfgx pin_cfg;
+
+	pin_cfg.u = CSR_READ(CAVM_GPIO_BIT_CFGX(gpio));
+	pin_cfg.s.pin_sel = function;
+	pin_cfg.s.tx_oe = output;
+
+	if (output)
+		gpio_set_out(gpio);
+	else
+		gpio_clr_out(gpio);
+	CSR_WRITE(CAVM_GPIO_BIT_CFGX(gpio), pin_cfg.u);
+}
