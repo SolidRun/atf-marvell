@@ -3,12 +3,23 @@
  * SPDX-License-Identifier: BSD-3-Clause
  * https://spdx.org/licenses
  **********************license end**************************************/
-
+//#define DEBUG_ATF_EMMC
 #include <string.h>
+#include <drivers/gpio.h>
+#include <timers_octeontx.h>
+#include <utils.h>
+#include <drivers/gpio.h>
+#include <gpio_octeontx.h>
 #include "emmc_wrapper_funcs.h"
 #include "emmc_driver_funcs.h"
 #include "cavm-csrs-cpc.h"
 #include "cavm-csrs-emmc.h"
+#include "cavm-csrs-gpio.h"
+/**
+ * Do not enable this unless you have hours to wait for booting up since
+ * this will dump a LOT of debugging information
+ */
+//#define EMMC_DEV_DEBUG
 
 /****************************************************************
  *   Description:
@@ -28,8 +39,43 @@ extern uint32_t emmc_last_cmd;
 static uint32_t taac_ns;
 static uint32_t taac_clks;
 static uint64_t wait_on_dat_longest_time;
-
 static srs12_intr_res_t last_result;
+static srs12_intr_res_t last_set_result;
+static save_state_t saved_state;
+static bool fake_init;
+
+enum sdhci_fsms {
+	FSM_DEB = 0x00,
+	FSM_FIN = 0x01,
+	FSM_BUFFER = 0x02,
+	FSM_BUSY = 0x03,
+	FSM_WRX = 0x04,
+	FSM_RDX = 0x05,
+	FSM_XFR = 0x06,
+	FSM_BIU = 0x07,
+	FSM_ABORT = 0x08,
+	FSM_ADMA = 0x09,
+	FSM_DCTRL = 0x0a,
+	FSM_DMA_DATAPATH = 0x0b,
+	FSM_DMA_CTRL = 0x0c,
+	FSM_TUNE_CTRL = 0x0d,
+	FSM_STEP = 0x0e,
+	FSM_STATUS = 0x0f,
+	FSM_READ_PATTERN = 0x10,
+	FSM_BOOT = 0x11,
+	FSM_CQE = 0x12,
+	FSM_EXEC = 0x13,
+	FSM_CITIMER = 0x14,
+	FSM_QUEUE1 = 0x15,
+	FSM_AXI2AHBLITE = 0x16,
+	FSM_IP = 0x2000,
+	FSM_CMD = 0x2001,
+	FSM_CMD_CTRL = 0x2002,
+	FSM_CMD2 = 0x2003,
+	FSM_BLOCK = 0x2004,
+	FSM_INF_XFER_END = 0x2005,
+	FSM_INF_XFER_REND = 0x2006,
+};
 
 #define UNSTUFF_BITS(resp, start, size)					\
 	({								\
@@ -54,6 +100,638 @@ static const unsigned int taac_mant[] = {
 	35,	40,	45,	50,	55,	60,	70,	80,
 };
 
+/******************************************************************************
+ *  Description: Save state
+ *  Input Parameters: None
+ *  Output Parameters: None
+ *  Returns: None
+ *******************************************************************************/
+uint32_t emmc_save_state(void)
+{
+	if (saved_state.state_saved) {
+		return SDMMC_GENERAL_ERROR;
+	}
+	saved_state.ctrl1.all = CSR_READ(CAVM_EMMCX_HOST_SRS_SRS10(0));
+	saved_state.dma_descr_addr = CSR_READ(CAVM_EMMCX_HOST_SRS_SRS22(0)) |
+				     (CSR_READ(CAVM_EMMCX_HOST_SRS_SRS23(0)) << 32);
+	saved_state.state_saved = true;
+	return 0;
+}
+
+uint32_t emmc_restore_state(void)
+{
+	if (!saved_state.state_saved) {
+		return SDMMC_GENERAL_ERROR;
+	}
+	CSR_WRITE(CAVM_EMMCX_HOST_SRS_SRS10(0), saved_state.ctrl1.all);
+	CSR_WRITE(CAVM_EMMCX_HOST_SRS_SRS22(0), saved_state.dma_descr_addr & 0xffffffff);
+	CSR_WRITE(CAVM_EMMCX_HOST_SRS_SRS23(0), saved_state.dma_descr_addr >> 32);
+	saved_state.state_saved = false;
+	return 0;
+}
+
+#ifdef EMMC_DEV_DEBUG
+static void print_buffer(const void *buffer, size_t size) __attribute__((unused));
+static void print_buffer(const void *buffer, size_t size)
+{
+	unsigned long i;
+	static const char hex_str[] = "0123456789abcdef";
+	const uint8_t *ptr = buffer;
+	char line[80];
+	char *cptr = line;
+
+	for (i = 0; i < size; i++) {
+		if (i % 16 == 0) {
+			cptr += snprintf(line, sizeof(line), "%p: ", ptr);
+			*cptr++ = hex_str[(i >> 12) & 0xf];
+			*cptr++ = hex_str[(i >> 8) & 0xf];
+			*cptr++ = hex_str[(i >> 4) & 0xf];
+			*cptr++ = hex_str[i & 0xf];
+			*cptr++ = ':';
+		} else if (i % 8 == 0) {
+			*cptr++ = ' ';
+			*cptr++ = '-';
+		}
+		*cptr++ = ' ';
+		*cptr++ = hex_str[(*ptr >> 4) & 0xf];
+		*cptr++ = hex_str[*ptr & 0xf];
+		ptr++;
+		if (i % 16 == 15) {
+			*cptr = '\0';
+			cptr = line;
+			INFO("%s\n", line);
+		}
+	}
+	if (cptr != line) {
+		*cptr = '\0';
+		INFO("%s\n", line);
+	}
+}
+
+/**
+ * This prints out the debugging state machines in a human readable format
+ *
+ * @param fsm	State machine to print out
+ */
+static void print_fsm(unsigned  int fsm)
+{
+	union cavm_emmcx_host_hrs_hrs32 hrs32;
+	const char *fsm_name;
+	const char *fsm_state_name = "UNKNOWN";
+	static const char * const fsm_names[] = {
+		"DEB",		/* 0x00 */
+		"FIN",		/* 0x01 */
+		"BUFFER",	/* 0x02 */
+		"BUSY",		/* 0x03 */
+		"WRX",		/* 0x04 */
+		"RDX",		/* 0x05 */
+		"XFR",		/* 0x06 */
+		"BIU",		/* 0x07 */
+		"ABORT",	/* 0x08 */
+		"ADMA",		/* 0x09 */
+		"DCTRL",	/* 0x0a */
+		"DMA_DATAPATH",	/* 0x0b */
+		"DMA_CTRL",	/* 0x0c */
+		"TUNE_CTRL",	/* 0x0d */
+		"STEP",		/* 0x0e */
+		"STATUS",	/* 0x0f */
+		"READ_PATTERN",	/* 0x10 */
+		"BOOT",		/* 0x11 */
+		"CQE",		/* 0x12 */
+		"EXEC",		/* 0x13 */
+		"CITIMER",	/* 0x14 */
+		"QUEUE1",	/* 0x15 */
+		"AXI2AHBLITE",	/* 0x16 */
+	};
+	static const char * const fsm_ext_names[] = {
+		"IP",		/* 0x2000 */
+		"CMD",
+		"CMD_CTRL",
+		"CMD2",
+		"BLOCK",
+		"INF_XFER_END",
+		"INF_XFER_REND",
+	};
+
+	static const char * const dbg_states[] = {
+		"RESET",
+		"DEBOUNCE",
+		"CARD_IN",
+		"NO_CARD",
+	};
+	static const char * const fin_states[] = {
+		"IDLE",
+		"WRITE_SEL",
+		"WRITE",
+		"WRITE_END",
+		"READ_SEL",
+		"READ",
+		"READ_END",
+	};
+	static const char * const biu_states[] = {
+		"RESET",
+		"IDLE",
+		"CMDSEL",
+		"CMDABORT",
+		"CMDNORMAL",
+		"CMDSEND",
+		"RSPWAIT0",
+		"RSPWAIT",
+		"RSPWRITE",
+		"STARTXFER",
+		"RESERVED10",
+		"RSPERROR",
+		"RESERVED12",
+		"RESERVED13",
+		"RESERVED14",
+		"RESERVED15",
+		"ACTIVATE_S0"
+	};
+	static const char * const xfer_states[] = {
+		"RESET",
+		"IDLE",
+		"READ",
+		"WRITE",
+		"LOAD",
+		"SBG_REQ",
+		"SBG_INT",
+		"SBG_WAIT",
+		"FAKE",
+	};
+
+	static const char * const exec_states[] = {
+		"IDLE",
+		"QPOP",
+		"QPOP_RDY",
+		"TD",
+		"TD_READY",
+		"SETUP",
+		"WAIT",
+		"COMPLETE",
+		"ERR",
+		"ERR__WAIT",
+		"DCMD_CMD13"
+	};
+
+	static const char * const rdx_states[] = {
+		"RESET",
+		"IDLE",
+		"ACTIVE",
+		"BIUWAIT",
+		"RDXCOMPLETE",
+	};
+
+	static const char * const *wrx_states = rdx_states;
+
+	static const char * const busy_states[] = {
+		"IDLE",
+		"WAITING",
+		"ACTIVE",
+	};
+
+	static const char * const abort_states[] = {
+		"INACTIVE",
+		"WAITING",
+		"TRIGGERED",
+		"ACTIVE",
+	};
+
+	static const char * const dctrl_states[] = {
+		"IDLE",
+		"CFG",
+		"CFG2",
+		"CFG3",
+		"CFG4",
+		"WAIT",
+		"END",
+		"ENABLE",
+		"ACTIVE",
+		"PROCEND",
+		"ERROR",
+		"ERRORLEN",
+		"LENVAL",
+		"SUSPEND",
+		"MERR",
+	};
+
+	static const char * const dma_datapath_states[] = {
+		"IDLE",
+		"TRANS",
+	};
+
+	static const char * const adma_states[] = {
+		"IDLE",
+		"INITIAL",
+		"DESCFETCH",
+		"DESCFETCH2",
+		"PROCESS",
+		"CFG",
+		"WAIT",
+		"END",
+		"ENABLE",
+		"ACTIVE",
+		"PROCEND",
+		"ERROR",
+		"ERRORLEN",
+		"LENVAL",
+		"SUSPEND",
+		"MERR",
+	};
+
+	static const char * const dma_ctrl_states[] = {
+		"IDLE",
+		"REQFIRST",
+		"REQ",
+		"END",
+		"BNDWAIT",
+		"BND",
+		"WAIT",
+	};
+
+	static const char * const status_states[] = {
+		"IDLE",
+		"START",
+		"ACTIVE",
+		"CALC",
+		"CALC2",
+		"CALC3",
+		"UPDATE_POS",
+		"END",
+	};
+
+	static const char * const read_pattern_states[] = {
+		"IDLE",
+		"START",
+		"CONT",
+		"SKIP",
+	};
+
+	static const char * const tune_ctrl_states[] = {
+		"IDLE",
+		"REQ",
+		"ACK",
+		"INA",
+	};
+
+	static const char * const cmd_states[] = {
+		"IDLE",
+		"SEND",
+		"END",
+		"WAIT",
+		"RESP",
+		"COMPLETE",
+		"GAP",
+		"ERROR",
+		"BOOT",
+	};
+
+	static const char * const cmd_ctrl_states[] = {
+		"IDLE",
+		"NORMAL",
+		"AUTOCMD12",
+		"AUTOCMD23",
+		"NORMAL_BEFORE_AUTOCMD12",
+		"CMD13_BEFORE_AUTOCMD12",
+	};
+
+	static const char * const cmd2_states[] = {
+		"IDLE",
+		"UNKNOWN1",
+		"REQ",
+		"WAIT",
+	};
+
+	static const char * const xfer_end_states[] = {
+		"IDLE",
+		"WLAST",
+		"WIDLE",
+		"WENDREQ",
+		"WENDACK",
+		"WEND",
+		"WEND2",
+	};
+
+	static const char * const xfer_rend_states[] = {
+		"RIDLE",
+		"RABORT",
+		"RWAIT",
+		"RWAIT2",
+	};
+
+	static const char * const citimer_states[] = {
+		"IDLE",
+		"CMD13REQ",
+		"WAIT",
+	};
+
+	static const char * const step_states[] = {
+		"STEP_IDL",
+		"TUNERRRST",
+		"TUNEERR",
+		"TUNEOKAY",
+		"COMMIT",
+	};
+
+	static const char * const block_states[] = {
+		"IDLE (wait for data)",
+		"START (send/recv start bit)",
+		"DATA (write/read data block)",
+		"CRC (generate/check CRC)",
+		"STOP (send/recv stop bit)",
+		"WAIT (wait CRC response)",
+		"RESP (CRC response from card)",
+		"GAP (gap between data blocks)",
+		"COMPLETE (last block complete)",
+		"READWAIT (wait state between data blocks)",
+		"ABORT (data transfer aborted)",
+		"BUSY (busy from card)",
+		"SBG (stop at block gap)",
+		"INACTIVE (wait in inactive for transfer abort)",
+		"BOOTACKWAIT (boot acknowledge wait)"
+		"BOOTACK (boot acknowledge)"
+	};
+
+	static const char * const ip_states[] = {
+		"DISABLE",
+		"PERIOD",
+		"ENABLE",
+	};
+#if 0
+	static const char * const ocp_wrap_states[] = {
+		"IDLE",
+		"WRITE_SEL",
+		"WRITE",
+		"WRITE_END",
+		"READ_SEL",
+		"READ",
+		"READ_END",
+	};
+#endif
+	static const char * const buffer_states[] = {
+		"SPRAM_RD_WR_SEL_IDLE",
+		"SPRAM_RD_WR_SEL_WAIT0",
+		"SPRAM_READ_WR_SEL_INIT0",
+		"SPRAM_RD_WR_SEL_ACTIVE0",
+		"SPRAM_RD_WR_SEL_WAIT1",
+		"SPRAM_RD_WR_SEL_INIT1",
+		"SPRAM_RD_WR_SEL_ACTIVE1",
+	};
+
+	static const char * const axi2ahblite_states[] = {
+		"IDLE",
+		"RD",
+		"WR",
+		"WR_PART",
+		"BUSY",
+	};
+
+	if (fsm <= 0x16)
+		fsm_name = fsm_names[fsm];
+	else if (fsm >= 0x2000 && fsm <= 0x2006)
+		fsm_name = fsm_ext_names[fsm - 0x2000];
+	else
+		fsm_name = "UNKNOWN";
+
+
+	hrs32.u = 0;
+	hrs32.s.load = 1;
+	hrs32.s.addr = fsm;
+	CSR_WRITE(CAVM_EMMCX_HOST_HRS_HRS32(0), hrs32.u);
+	do {
+		hrs32.u = CSR_READ(CAVM_EMMCX_HOST_HRS_HRS32(0));
+	} while (hrs32.s.load == 1);
+	switch (fsm) {
+	case FSM_DEB:
+		fsm_state_name = dbg_states[hrs32.s.data];
+		break;
+	case FSM_FIN:
+		if (hrs32.s.data <= 6)
+			fsm_state_name = fin_states[hrs32.s.data];
+		break;
+	case FSM_BUFFER:
+		fsm_state_name = buffer_states[hrs32.s.data];
+		break;
+	case FSM_BUSY:
+		fsm_state_name = busy_states[hrs32.s.data];
+		break;
+	case FSM_WRX:
+		fsm_state_name = wrx_states[hrs32.s.data];
+		break;
+	case FSM_RDX:
+		fsm_state_name = rdx_states[hrs32.s.data];
+		break;
+	case FSM_XFR:
+		fsm_state_name = xfer_states[hrs32.s.data];
+		break;
+	case FSM_BIU:
+		fsm_state_name = biu_states[hrs32.s.data];
+		break;
+	case FSM_ABORT:
+		fsm_state_name = abort_states[hrs32.s.data];
+		break;
+	case FSM_ADMA:
+		fsm_state_name = adma_states[hrs32.s.data];
+		break;
+	case FSM_DCTRL:
+		fsm_state_name = dctrl_states[hrs32.s.data];
+		break;
+	case FSM_DMA_DATAPATH:
+		fsm_state_name = dma_datapath_states[hrs32.s.data];
+		break;
+	case FSM_DMA_CTRL:
+		fsm_state_name = dma_ctrl_states[hrs32.s.data];
+		break;
+	case FSM_TUNE_CTRL:
+		fsm_state_name = tune_ctrl_states[hrs32.s.data];
+		break;
+	case FSM_STEP:
+		fsm_state_name = step_states[hrs32.s.data];
+		break;
+	case FSM_STATUS:
+		fsm_state_name = status_states[hrs32.s.data];
+		break;
+	case FSM_READ_PATTERN:
+		fsm_state_name = read_pattern_states[hrs32.s.data];
+		break;
+	case FSM_BOOT:
+		break;
+	case FSM_CQE:
+		break;
+	case FSM_EXEC:
+		fsm_state_name = exec_states[hrs32.s.data];
+		break;
+	case FSM_CITIMER:
+		fsm_state_name = citimer_states[hrs32.s.data];
+		break;
+	case FSM_QUEUE1:
+		break;
+	case FSM_AXI2AHBLITE:
+		fsm_state_name = axi2ahblite_states[hrs32.s.data];
+		break;
+	case FSM_IP:
+		fsm_state_name = ip_states[hrs32.s.data];
+		break;
+	case FSM_CMD:
+		fsm_state_name = cmd_states[hrs32.s.data];
+		break;
+	case FSM_CMD_CTRL:
+		fsm_state_name = cmd_ctrl_states[hrs32.s.data];
+		break;
+	case FSM_CMD2:
+		fsm_state_name = cmd2_states[hrs32.s.data];
+		break;
+	case FSM_BLOCK:
+		fsm_state_name = block_states[hrs32.s.data];
+		break;
+	case FSM_INF_XFER_END:
+		fsm_state_name = xfer_end_states[hrs32.s.data];
+		break;
+	case FSM_INF_XFER_REND:
+		fsm_state_name = xfer_rend_states[hrs32.s.data];
+		break;
+	default:
+		break;
+	}
+	INFO("FSM: %s (0x%x), state: %s (0x%x)\n",
+	     fsm_name, fsm, fsm_state_name, hrs32.s.data);
+}
+
+static uint32_t read_phy(uint32_t reg)
+{
+	CSR_WRITE(CAVM_EMMCX_HOST_HRS_HRS04(0), reg);
+	return CSR_READ(CAVM_EMMCX_HOST_HRS_HRS05(0));
+}
+
+static void print_phy(void)
+{
+	INFO("PHY regs:\n");
+	INFO("  PHY_DQ_TIMING: 0x%x\n", read_phy(EMMC_PHY_DQ_TIMING_ADDR));
+	INFO("  PHY_DQS_TIMING: 0x%x\n", read_phy(EMMC_PHY_DQS_TIMING_ADDR));
+	INFO("  PHY_GATE_LPBK_CTRL: 0x%x\n", read_phy(EMMC_PHY_GATE_LPBK_CTRL_ADDR));
+	INFO("  MASTER_CTRL: 0x%x\n", read_phy(EMMC_PHY_MASTER_CTRL_ADDR));
+	INFO("  SLAVE_CTRL: 0x%x\n", read_phy(EMMC_PHY_SLAVE_CTRL_ADDR));
+	INFO("  PHY_CTRL: 0x%x\n", read_phy(EMMC_PHY_CTRL_ADDR));
+	INFO("  GPIO_CTRL: 0x%x\n", read_phy(EMMC_PHY_GPIO_CTRL_ADDR));
+}
+
+static void print_regs(const char *s)
+{
+	uint32_t val;
+
+	INFO("%s:\n", s);
+	print_phy();
+	INFO("HRS:\n");
+	val = CSR_READ(CAVM_EMMCX_HOST_HRS_HRS00(0));
+	INFO("  HRS00: 0x%x\n", val);
+	val = CSR_READ(CAVM_EMMCX_HOST_HRS_HRS01(0));
+	INFO("  HRS01: 0x%x\n", val);
+	val = CSR_READ(CAVM_EMMCX_HOST_HRS_HRS02(0));
+	INFO("  HRS02: 0x%x\n", val);
+	val = CSR_READ(CAVM_EMMCX_HOST_HRS_HRS03(0));
+	INFO("  HRS03: 0x%x\n", val);
+	val = CSR_READ(CAVM_EMMCX_HOST_HRS_HRS06(0));
+	INFO("  HRS06 EMMC mode: 0x%x\n", val);
+	val = CSR_READ(CAVM_EMMCX_HOST_HRS_HRS07(0));
+	INFO("  HRS07 EMMC mode: 0x%x\n", val);
+	val = CSR_READ(CAVM_EMMCX_HOST_HRS_HRS08(0));
+	INFO("  HRS08: 0x%x\n", val);
+	val = CSR_READ(CAVM_EMMCX_HOST_HRS_HRS09(0));
+	INFO("  HRS09: 0x%x\n", val);
+	val = CSR_READ(CAVM_EMMCX_HOST_HRS_HRS10(0));
+	INFO("  HRS10: 0x%x\n", val);
+	val = CSR_READ(CAVM_EMMCX_HOST_HRS_HRS11(0));
+	INFO("  HRS11: 0x%x\n", val);
+	val = CSR_READ(CAVM_EMMCX_HOST_HRS_HRS12(0));
+	INFO("  HRS12: 0x%x\n", val);
+	val = CSR_READ(CAVM_EMMCX_HOST_HRS_HRS13(0));
+	INFO("  HRS13: 0x%x\n", val);
+	val = CSR_READ(CAVM_EMMCX_HOST_HRS_HRS16(0));
+	INFO("  HRS16: 0x%x\n", val);
+	val = CSR_READ(CAVM_EMMCX_HOST_HRS_HRS29(0));
+	INFO("  HRS29: 0x%x\n", val);
+	for (val = 0; val <= 0x16; val++)
+		print_fsm(val);
+	for (val = 0x2000; val <= 0x2006; val++)
+		print_fsm(val);
+	val = CSR_READ(CAVM_EMMCX_HOST_HRS_HRS32(0));
+	INFO("  HRS32: 0x%x\n", val);
+	val = CSR_READ(CAVM_EMMCX_HOST_HRS_HRS36(0));
+	INFO("  HRS36: 0x%x\n", val);
+	INFO("SRS:\n");
+	val = CSR_READ(CAVM_EMMCX_HOST_SRS_SRS00(0));
+	INFO("  SRS00: 0x%x\n", val);
+	val = CSR_READ(CAVM_EMMCX_HOST_SRS_SRS01(0));
+	INFO("  SRS01: 0x%x\n", val);
+	val = CSR_READ(CAVM_EMMCX_HOST_SRS_SRS03(0));
+	INFO("  SRS03: 0x%x\n", val);
+	val = CSR_READ(CAVM_EMMCX_HOST_SRS_SRS04(0));
+	INFO("  SRS04: 0x%x\n", val);
+	val = CSR_READ(CAVM_EMMCX_HOST_SRS_SRS05(0));
+	INFO("  SRS05: 0x%x\n", val);
+	val = CSR_READ(CAVM_EMMCX_HOST_SRS_SRS06(0));
+	INFO("  SRS06: 0x%x\n", val);
+	val = CSR_READ(CAVM_EMMCX_HOST_SRS_SRS07(0));
+	INFO("  SRS07: 0x%x\n", val);
+	val = CSR_READ(CAVM_EMMCX_HOST_SRS_SRS09(0));
+	INFO("  SRS09: 0x%x\n", val);
+	val = CSR_READ(CAVM_EMMCX_HOST_SRS_SRS10(0));
+	INFO("  SRS10: 0x%x\n", val);
+	val = CSR_READ(CAVM_EMMCX_HOST_SRS_SRS11(0));
+	INFO("  SRS11: 0x%x\n", val);
+	val = CSR_READ(CAVM_EMMCX_HOST_SRS_SRS12(0));
+	INFO("  SRS12: 0x%x\n", val);
+	val = CSR_READ(CAVM_EMMCX_HOST_SRS_SRS13(0));
+	INFO("  SRS13: 0x%x\n", val);
+	val = CSR_READ(CAVM_EMMCX_HOST_SRS_SRS14(0));
+	INFO("  SRS14: 0x%x\n", val);
+	val = CSR_READ(CAVM_EMMCX_HOST_SRS_SRS15(0));
+	INFO("  SRS15: 0x%x\n", val);
+	val = CSR_READ(CAVM_EMMCX_HOST_SRS_SRS16(0));
+	INFO("  SRS16: 0x%x\n", val);
+	val = CSR_READ(CAVM_EMMCX_HOST_SRS_SRS17(0));
+	INFO("  SRS17: 0x%x\n", val);
+	val = CSR_READ(CAVM_EMMCX_HOST_SRS_SRS18(0));
+	INFO("  SRS18: 0x%x\n", val);
+	val = CSR_READ(CAVM_EMMCX_HOST_SRS_SRS19(0));
+	INFO("  SRS19: 0x%x\n", val);
+}
+#else
+static inline void print_regs(const char *)
+{
+}
+#endif
+/****************************************************************
+ *   Description: Read the CPC 100Mhz reference clock
+ *   Input: None
+ *   Output: None
+ *   Returns: clock tick converted to milliseconds
+ *****************************************************************/
+static uint64_t get_time_ms(void)
+{
+	return octeontx_get_dtime_usec(0) / 1000;
+}
+
+static void card_power_init(void)
+{
+#ifdef SD_POWER_GPIO
+	int value;
+
+	if (cavm_is_platform(PLATFORM_ASIM))
+		return;
+
+	octeontx_gpio_init();
+
+	gpio_set_direction(SD_POWER_GPIO, GPIO_DIR_IN);
+	udelay(100);
+	value = gpio_get_value(SD_POWER_GPIO);
+	debug_emmc("%s: Configuring power GPIO %d, strap is %s\n", __func__, SD_POWER_GPIO,
+		   value ? "HIGH" : "LOW");
+	octeontx_gpio_config(SD_POWER_GPIO, true, 0, !value);
+	mdelay(200);
+	octeontx_gpio_config(SD_POWER_GPIO, true, CAVM_GPIO_PIN_SEL_E_EMMC_RST, value);
+	mdelay(200);
+#endif
+}
 
 /******************************************************************************
  *  Description: Initialize the card
@@ -70,17 +748,23 @@ uint32_t card_init(void)
 
 	debug_emmc("EMMC Starting card init\n");
 
-	if (!cavm_is_platform(PLATFORM_ASIM)) {
-		bus_width = 8;
-	}
 	wait_on_dat_longest_time = 0;
 
+	zeromem(&crd_prop, sizeof(crd_prop));
+	zeromem(&last_cmd_resp, sizeof(last_cmd_resp));
+	zeromem(&img_txfer_upd, sizeof(img_txfer_upd));
+	zeromem(&card_txfer_upd, sizeof(card_txfer_upd));
+	zeromem(&last_cmd_framed, sizeof(last_cmd_framed));
+	zeromem(&card_reg, sizeof(card_reg));
+	zeromem(&blk_ctrl, sizeof(blk_ctrl));
+
 	crd_prop.SdhClock = EMMC_CLOCK50MHZRATE;
-	udelay(1000);
 	crd_prop.strictErrChk = 0;
 	crd_prop.emmc_dma_type = NODMA;
 	crd_prop.last_send_cmd_resptype = 0;
 	crd_prop.card_state = UNINITIALIZED;
+
+	card_power_init();
 
 	/* Issue a full reset. */
 	if (emmc_FullSWReset() != NO_ERROR)
@@ -96,6 +780,7 @@ uint32_t card_init(void)
 	emmc_SetBusRate(crd_prop.SdhClock, EMMC_CLOCK200KHZRATE);
 	emmc_SetDataTimeout(EMMC_CLOCK_27_MULT);
 	emmc_EnableDisableIntSources(1);
+	emmc_SetDmaMode(NODMA);
 
 	result = identify_card();
 	if (result != NO_ERROR)
@@ -114,12 +799,17 @@ uint32_t card_init(void)
 	/*send CMD2 to get the CID numbers */
 	wrapper_SendSetupCommand(STD_MMC_CMD2, 0, EMMC_RESTYPE_R2 | EMMC_136_RES);
 	result = get_response(STD_MMC_CMD2, MMC_RESPONSE_R2);
-	if (result != NO_ERROR)
+	if (result != NO_ERROR) {
+		WARN("%s: CMD2 response failed\n", __func__);
 		return SDMMCInitializationError;
+	}
 
 	/* Next its CMD3 to assign an RCA to the cards */
 	if (crd_prop.SD == TYPE_SD) {
-		wrapper_SendSetupCommand(STD_MMC_CMD3, argument, EMMC_RESTYPE_R6 | EMMC_48_RES);
+		bus_width = 4;
+		argument = 0;
+		wrapper_SendSetupCommand(STD_MMC_CMD3, argument,
+					 EMMC_RESTYPE_R6 | EMMC_48_RES);
 		result = get_response(STD_MMC_CMD3, MMC_RESPONSE_R6);
 	} else {
 		/* build an RCA for this session. Try to base the RCA on the serial number.
@@ -136,16 +826,21 @@ uint32_t card_init(void)
 		wrapper_SendSetupCommand(STD_MMC_CMD3, argument, EMMC_RESTYPE_R1 | EMMC_48_RES);
 		result = get_response(STD_MMC_CMD3, MMC_RESPONSE_R1);
 	}
-	if (result != NO_ERROR)
+	if (result != NO_ERROR) {
+		WARN("%s: SD/MMC CMD3 response failed\n", __func__);
 		return SDMMCInitializationError;
+	}
 
 	/* send CMD13 to check the status of the card
 	 * Make sure card is stdby mode
 	 */
 	result = emmc_CheckCardStatus((uint32_t)0x700, (uint32_t)R1_LOCKEDCARDMASK);
-	if (result != NO_ERROR)
+	if (result != NO_ERROR) {
+		WARN("%s: Check card status failed\n", __func__);
 		return SDMMCInitializationError;
+	}
 
+	udelay(1000);
 	/* now we are beyond the point where some cards have subtle
 	 * non-compliance issues with the spec.
 	 * for example, some cards leave the error bits from
@@ -183,24 +878,49 @@ uint32_t card_init(void)
 	if (!cavm_is_platform(PLATFORM_ASIM)) {
 
 		result = SetHighSpeedTiming();
-		/*send CMD13 to check the status of the card */
+		/* send CMD13 to check the status of the card */
 		result = emmc_CheckCardStatus((uint32_t)0x900, (uint32_t)R1_LOCKEDCARDMASK);
-		if (result != NO_ERROR)
+		if (result != NO_ERROR) {
+			WARN("%s: Setting high-speed timing failed\n", __func__);
 			return SDMMCInitializationError;
+		}
 
-		/*Attempt to Increase Bus width */
+		/* Attempt to Increase Bus width */
 		result = emmc_SetBusWidth(bus_width);
+		if (result != NO_ERROR)
+			WARN("%s: Setting bus width to %d failed\n", __func__, bus_width);
 
 		/*send CMD13 to check the status of the card */
-		result = emmc_CheckCardStatus((uint32_t)0x900, (uint32_t)R1_LOCKEDCARDMASK);
-		if (result != NO_ERROR)
+		result |= emmc_CheckCardStatus((uint32_t)0x900, (uint32_t)R1_LOCKEDCARDMASK);
+		if (result != NO_ERROR) {
+			WARN("%s: check status after bus width failed\n", __func__);
 			return SDMMCInitializationError;
+		}
 	}
 
 	/* Set up State, Ready for Data transfers */
 	crd_prop.card_state = READY;
 
 	return NO_ERROR;
+}
+
+/******************************************************************************
+ *  Description: Initialize global variables
+ *  Input Parameters: None
+ *  Output Parameters: None
+ *  Returns: None
+ *******************************************************************************/
+void fake_card_init(void)
+{
+	taac_ns = 0;
+	taac_clks = 0;
+	crd_prop.strictErrChk = 1;
+	crd_prop.ReadBlockSize = SDHC_BLOCK_LEN;
+	crd_prop.WriteBlockSize = SDHC_BLOCK_LEN;
+	crd_prop.emmc_dma_type = NODMA;
+	crd_prop.last_send_cmd_resptype = 0;
+	crd_prop.card_state = READY;
+	fake_init = true;
 }
 
 /******************************************************************************
@@ -213,9 +933,16 @@ uint32_t get_response(uint32_t cmd, uint32_t response_type)
 {
 	uint32_t i, temp, temp2, temp3;
 	uint32_t result = 0;
-	/* Default to 1 second timeout */
-	int timeout_us = 1000000;
+	uint32_t *resp = NULL;
+	uint32_t m, e;
+	uint64_t start_time;
+	uint64_t d_time;
+	bool timed_out = false;
+	int min_loops = 3;
 
+	/* Default to 1 second timeout */
+	int timeout_us = 10000000;
+#if 0	/* Disabled for now */
 	/*
 	 * If we know the taac_ns value from chip capabilities then
 	 * use that as the timeout value.
@@ -224,17 +951,21 @@ uint32_t get_response(uint32_t cmd, uint32_t response_type)
 		/*
 		 * convert nanosecond to microseconds
 		 */
-		timeout_us = taac_ns / 1000;
+		timeout_us = div_round_up(taac_ns, 1000);
+		debug_emmc("%s: taac_ns: %u, timeout_us: %d\n", __func__,
+			   taac_ns, timeout_us);
 		/*
 		 * It is recommended to double timeout on block writes (CMD24)
 		 */
 		if (cmd == STD_MMC_CMD24)
 			timeout_us *= 2;
 	}
-
+#endif
+	start_time = octeontx_get_dtime_usec(0);
 	do {
 		emmc_isr();
-
+		d_time = octeontx_get_dtime_usec(start_time);
+		timed_out = (d_time > timeout_us) && (min_loops-- < 0);
 		/* if the command had an error, the command may have aborted
 		 * without setting the command complete bit. for example,
 		 * if no response is received, then the command is aborted,
@@ -242,27 +973,30 @@ uint32_t get_response(uint32_t cmd, uint32_t response_type)
 		 * will not assert. check for such a scenario here.
 		 */
 		if (crd_prop.card_state == FAULT) {
-			INFO("MMC driver wait for response set FAULT cmd: %d\n",
-				 emmc_last_cmd);
+			debug_emmc("%s: MMC driver wait for response set FAULT cmd: %d\n",
+				   __func__, emmc_last_cmd);
+			print_regs("get_response FAULT state:");
 			result = SDMMC_GENERAL_ERROR;
 			return result;
 		}
 
 		if (last_cmd_resp.CommandComplete) {
-			if (last_cmd_resp.TransferComplete)
+			if (response_type != MMC_RESPONSE_R1B) {
+				timed_out = false;
 				break;
-
-			if ((crd_prop.card_state != WRITE) &&
-				(response_type != MMC_RESPONSE_R1B))
+			} else if (last_cmd_resp.TransferComplete) {
+				timed_out = false;
 				break;
+			}
 		}
-		udelay(1);
-		timeout_us--;
+	} while (!timed_out);
 
-	} while (timeout_us > 0);
-
-	if (timeout_us <= 0) {
-		WARN("%s timeout\n", __func__);
+	if (timed_out) {
+		debug_emmc("%s: start time: %lu, now: %lu, dtime: %lu\n",
+			   __func__, start_time, octeontx_get_dtime_usec(0), d_time);
+		debug_emmc("%s timed out after %lu us, cmd: %u\n",
+			   __func__, d_time, emmc_last_cmd);
+		print_regs("get_response timeout");
 		return SDMMC_CMD_TIMEOUT;
 	}
 
@@ -280,6 +1014,18 @@ uint32_t get_response(uint32_t cmd, uint32_t response_type)
 			for (i = 0; i < 4; i++)
 				card_reg.csd.csd_value[i] = last_cmd_resp.pBuffer[i];
 
+			/* CRC is stripped so we need to do some shifting */
+			resp = &card_reg.csd.csd_value[0];
+			for (i = 0; i < 4; i++) {
+				resp[i] <<= 8;
+				if (i != 3)
+					resp[i] |= resp[i + 1] << 24;
+			}
+			m = UNSTUFF_BITS(resp, 115, 4); /* Multiplier */
+			e = UNSTUFF_BITS(resp, 112, 3); /* Time unit */
+			taac_ns = div_round_up(taac_exp[e] * taac_mant[m], 10);
+			taac_clks = UNSTUFF_BITS(resp, 104, 8) * 100;
+
 			/* Optionally we could record maximum block lengths from the CSD.
 			 * But some devices cheat and put incorrect values in this field.
 			 * Save off read Block Size, play it safe, for now hard code to 512 Bytes
@@ -291,9 +1037,9 @@ uint32_t get_response(uint32_t cmd, uint32_t response_type)
 			/* Capture Erase Granularity. */
 			if (crd_prop.SD == TYPE_SD) {
 				/* Check Erase Single Block Enable - Bit 46 */
-				if ((card_reg.csd.csd_value[1] >> 14) & 1)
+				if ((card_reg.csd.csd_value[1] >> 14) & 1) {
 					crd_prop.EraseSize = crd_prop.WriteBlockSize;
-				else {
+				} else {
 					crd_prop.EraseSize = ((card_reg.csd.csd_value[1] >> 7) &
 						0x7F) + 1;
 					crd_prop.EraseSize *= crd_prop.WriteBlockSize;
@@ -305,14 +1051,6 @@ uint32_t get_response(uint32_t cmd, uint32_t response_type)
 				crd_prop.EraseSize *= crd_prop.WriteBlockSize;
 			}
 
-			uint32_t *resp = &card_reg.csd.csd_value[0];
-				/* CRC is stripped so we need to do some shifting */
-			for (i = 0; i < 4; i++) {
-				resp[i] <<= 8;
-				if (i != 3)
-					resp[i] |= resp[i + 1] >> 24;
-			}
-
 			/* Now calculate the capacity of this card */
 			temp = ((card_reg.csd.csd_value[2] >> 16) & 0xF);   /* Get READ_BL_LEN */
 			temp = 1 << temp;  /* Now we have Max Block Length */
@@ -322,15 +1060,6 @@ uint32_t get_response(uint32_t cmd, uint32_t response_type)
 			temp3 |= ((card_reg.csd.csd_value[2] & 0x3FF) << 2); /* Get C_SIZE */
 			temp3++;
 			crd_prop.CardCapacity = temp3 * temp2 * temp; /*Total Size of the card in Bytes*/
-
-			uint32_t m = 0;
-			uint32_t e = 0;
-
-
-			m = UNSTUFF_BITS(resp, 115, 4); // multiplier
-			e = UNSTUFF_BITS(resp, 112, 3); // time unit
-			taac_ns	 = (taac_exp[e] * taac_mant[m] + 9) / 10;
-			taac_clks	 = UNSTUFF_BITS(resp, 104, 8) * 100;
 		} else /* Assume CID */ {
 			/* Copy the CSD values from the buffer */
 			for (i = 0; i < 4; i++)
@@ -338,10 +1067,10 @@ uint32_t get_response(uint32_t cmd, uint32_t response_type)
 
 			/* Now capture the serial number from the CID - 32 bit number */
 			if (crd_prop.SD == TYPE_MMC) {
-				card_reg.cid.serialnum = (card_reg.cid.cid_value[0] >> 16) & (0xFFFF);
+				card_reg.cid.serialnum = (card_reg.cid.cid_value[0] >> 16) & 0xFFFF;
 				card_reg.cid.serialnum |= (card_reg.cid.cid_value[1] << 16);
 			} else {
-				card_reg.cid.serialnum = (card_reg.cid.cid_value[0] >> 24) & (0xFF);
+				card_reg.cid.serialnum = (card_reg.cid.cid_value[0] >> 24) & 0xFF;
 				card_reg.cid.serialnum |= (card_reg.cid.cid_value[1] << 8);
 			}
 		}
@@ -388,19 +1117,23 @@ void emmc_isr(void)
 	uint32_t cmderror = 0;
 	uint32_t reg_srs15 = 0;
 	uint32_t resptype = 0;
-	uint32_t temp = 0;
 	/* that strange mask is all possible error bits in the card stat field. */
 	uint32_t   r1_resp_error_bits = 0xfdffc080;
 
 	/*EMMC Host Error/Normal Interrupt Statu Register*/
 	result.all = CSR_READ(CAVM_EMMCX_HOST_SRS_SRS12(0));
 	last_result.all = result.all;
+	if (result.all != 0)
+		last_set_result = result;
+	last_cmd_resp.int_response.all = result.all;
 
 	CSR_INIT(sts_reg, CAVM_EMMCX_HOST_SRS_SRS09(0));
 
 
 	/* Check for any error */
 	if (result.s.cmd_complete) {
+		debug_emmc("%s: Command %u complete, result: 0x%x\n", __func__,
+			   emmc_last_cmd, result.all);
 		/* if we're in strict error checking mode, and
 		 * if the completing command has an R1 or R1B status,
 		 * look for any error bits in the card status field
@@ -418,12 +1151,17 @@ void emmc_isr(void)
 	}
 
 	if (result.s.err_intr || cmderror) {
+		debug_emmc("%s: Result 0x%x or cmderror 0x%x, cmd: %u\n",
+			   __func__, result.all, cmderror, emmc_last_cmd);
 		if ((result.s.cmd_tout_err) ||  (result.s.data_tout_err) || cmderror) {
 			/* this cleas the command inhibit flag in sd_present_state_1. */
 			emmc_CMDSWReset();
 			/* this clears the data inhibit flag and stops mclk. */
 			emmc_DataSWReset();
+			debug_emmc("%s: cmd_tout_error: 0x%x, data_tout_err: 0x%x\n",
+				   __func__, result.s.cmd_tout_err, result.s.data_tout_err);
 		} else if (result.s.auto_cmd12_err) {
+			debug_emmc("%s: cmd12 error\n", __func__);
 			/* acmd 12 error requires examining a separate error status register: */
 			reg_srs15 = CSR_READ(CAVM_EMMCX_HOST_SRS_SRS15(0));
 
@@ -463,6 +1201,7 @@ void emmc_isr(void)
 	}
 
 	if (result.s.txfr_complete) {
+		debug_emmc("%s: Transfer complete\n", __func__);
 		/* Indicate that the response has been read */
 		last_cmd_resp.TransferComplete = 1;
 	}
@@ -472,7 +1211,7 @@ void emmc_isr(void)
 		if (result.s.txfr_complete) {
 #ifdef TBD
 			if (crd_prop.OpModeAttribs.OpMode == NORMAL_MODE) {
-				img_txfer_upd.img_cur_sz_txfer += (img_txfer_upd.NumBlocks * crd_prop.ReadBlockSize);
+				img_txfer_upd.img_cur_sz_txfer += (img_txfer_upd.NumBlocks * HARD512BLOCKLENGTH);
 				/* Update the image read status when the whole image is read                 */
 				if (img_txfer_upd.img_cur_sz_txfer == img_txfer_upd.img_size)
 					img_txfer_upd.img_txfer_status = 1;
@@ -489,16 +1228,15 @@ void emmc_isr(void)
 		}
 	}
 
-
+	/* Clear interrupts */
+	emmc_clear_interrupts(result.all);
 	if (crd_prop.emmc_dma_type == NODMA) {
 		/* Handle State based interrupts XFRCOMP, BUFRDRDY, BUFWRRDY */
 		switch (crd_prop.card_state) {
 		case WRITE:
 		{
 			if (result.s.buf_wr_rdy) {
-				temp = card_txfer_upd.WordIndex;
-				if (sts_reg.s.bwe)
-					emmc_writefifo();
+				emmc_writefifo();
 
 				img_txfer_upd.img_cur_sz_txfer += (card_txfer_upd.WordIndex * 4);
 				/* Update the image read status when the whole image is written */
@@ -508,32 +1246,33 @@ void emmc_isr(void)
 				/* Are we done sending all of data? */
 				if (card_txfer_upd.TransWordSize == card_txfer_upd.WordIndex)
 					crd_prop.card_state = DATATRAN;
-				/*since we are doing block by block, write 1 block*/
-				if (card_txfer_upd.WordIndex >= ((temp*4) + crd_prop.WriteBlockSize)/4)
-					crd_prop.card_state = READY;
-
 			}
 			break;
 		}
 		case READ:
 		{ // NO READ
+			debug_emmc("%s: Read, result: 0x%x\n", __func__, result.all);
 			if (result.s.buf_rd_rdy) {
-				temp = card_txfer_upd.WordIndex;
-				if (result.s.buf_rd_rdy)
-					emmc_readfifo();
+				debug_emmc("%s: Buffer read ready\n", __func__);
+				emmc_readfifo();
 
 				img_txfer_upd.img_cur_sz_txfer += (card_txfer_upd.WordIndex * 4);
 				/* Update the image read status when the whole image is read */
-				if (img_txfer_upd.img_cur_sz_txfer == img_txfer_upd.img_size)
+				if (img_txfer_upd.img_cur_sz_txfer == img_txfer_upd.img_size) {
+					debug_emmc("%s: read xfer finished\n", __func__);
 					img_txfer_upd.img_txfer_status = 1;
+				}
 
 				/* Are we done sending all of data? */
-				if (card_txfer_upd.TransWordSize == card_txfer_upd.WordIndex)
+				if (card_txfer_upd.TransWordSize == card_txfer_upd.WordIndex) {
+					debug_emmc("%s: Moving to DATARUN\n", __func__);
 					crd_prop.card_state = DATATRAN;
-				/*since we are doing block by block, read 1 block*/
-				if (card_txfer_upd.WordIndex >= ((temp*4) + crd_prop.ReadBlockSize)/4)
-					crd_prop.card_state = READY;
+				}
 			}
+			debug_emmc("%s: word index: %u, img_cur_sz_txfer: %u, img size: %u, state: %d, complete: %u\n",
+				   __func__, card_txfer_upd.WordIndex,
+				   img_txfer_upd.img_cur_sz_txfer, img_txfer_upd.img_size,
+				   crd_prop.card_state, result.s.txfr_complete);
 			break;
 		}
 		case DATATRAN:
@@ -541,16 +1280,12 @@ void emmc_isr(void)
 			/* Wait for Transfer Complete Signal */
 			if (result.s.txfr_complete)
 				crd_prop.card_state = READY;
-
 			break;
 		}
 		default:
 			break;
 		}
 	}
-
-	/* Clear the interrupts */
-	emmc_clear_interrupts(result.all);
 }
 
 /****************************************************************
@@ -562,37 +1297,40 @@ void emmc_isr(void)
 
 void emmc_readfifo(void)
 {
-	uint32_t data;
+	volatile uint32_t data;
 	uint32_t index = 0;
-	uint32_t temp_index = 0;
+	uint32_t data_index;
 
 	volatile uint32_t *pBuffer;
 
 	pBuffer = &data;
-	temp_index = card_txfer_upd.WordIndex;
-	debug_emmc("In start emmc_readinfo temp_index::%x\n", temp_index);
+	debug_emmc("%s: word index: %u, trans word size: %u, start discard words: %u, end discard words: %u\n",
+		   __func__, card_txfer_upd.WordIndex,
+		   card_txfer_upd.TransWordSize,
+		   card_txfer_upd.StartDiscardWords,
+		   card_txfer_upd.EndDiscardWords);
+
+	debug_emmc("%s: Pre-reading %u words\n", __func__, card_txfer_upd.StartDiscardWords);
 	/* Ignore Pre Bytes */
-	for (index = 0; (index < EMMC_FIFOWORDSIZE) && (temp_index <
-		card_txfer_upd.StartDiscardWords); index++, temp_index++) {
+	for (index = 0; index < card_txfer_upd.StartDiscardWords; index++)
 		*pBuffer = CSR_READ(CAVM_EMMCX_HOST_SRS_SRS08(0));
-	}
 
 	/* Read Requested Data */
-	for (; ((index < EMMC_FIFOWORDSIZE) && (temp_index <
-		(card_txfer_upd.TransWordSize - card_txfer_upd.EndDiscardWords)));
-		index++, temp_index++) {
-		((uint32_t *)((unsigned long)(card_txfer_upd.LocalAddr)))[temp_index] =
+	debug_emmc("%s: Reading words %u .. %u\n", __func__, index,
+		   (card_txfer_upd.TransWordSize - card_txfer_upd.EndDiscardWords));
+	for (data_index = 0;
+	     index < card_txfer_upd.TransWordSize - card_txfer_upd.EndDiscardWords;
+	     index++, data_index++)
+		((uint32_t *)((unsigned long)(card_txfer_upd.LocalAddr)))[data_index] =
 			CSR_READ(CAVM_EMMCX_HOST_SRS_SRS08(0));
-	}
 
+	debug_emmc("%s: Discarding %u words at the end\n", __func__,
+		   card_txfer_upd.TransWordSize - index);
 	/* Ignore Trailing Bytes */
-	for (; (index < EMMC_FIFOWORDSIZE) && (temp_index <
-		card_txfer_upd.TransWordSize); index++, temp_index++) {
+	for (; index < card_txfer_upd.TransWordSize; index++)
 		*pBuffer = CSR_READ(CAVM_EMMCX_HOST_SRS_SRS08(0));
-	}
 
-	card_txfer_upd.WordIndex = temp_index;
-	debug_emmc("In end emmc_readinfo temp_index::%x\n", temp_index);
+	card_txfer_upd.WordIndex = index;
 }
 
 /****************************************************************
@@ -604,34 +1342,15 @@ void emmc_readfifo(void)
 void emmc_writefifo(void)
 {
 	uint32_t index;
-	uint32_t buffer = 0x0;
-	uint32_t temp_index = 0;
 
-	temp_index = card_txfer_upd.WordIndex;
-
-	debug_emmc("In start emmc_writeinfo temp_index::%x\n", temp_index);
-	/* Ignore Pre Bytes */
-	for (index = 0; (index < EMMC_FIFOWORDSIZE) && (temp_index <
-		card_txfer_upd.StartDiscardWords); index++, temp_index++) {
-		CSR_WRITE(CAVM_EMMCX_HOST_SRS_SRS08(0), buffer);
+	if (card_txfer_upd.StartDiscardWords || card_txfer_upd.EndDiscardWords) {
+		WARN("%s: Not a complete block!\n", __func__);
 	}
 
-	/* Write Requested Data */
-	for (; ((index < EMMC_FIFOWORDSIZE) && (temp_index <
-		(card_txfer_upd.TransWordSize - card_txfer_upd.EndDiscardWords)))
-		; index++, temp_index++) {
+	for (index = 0; index < card_txfer_upd.TransWordSize; index++)
 		CSR_WRITE(CAVM_EMMCX_HOST_SRS_SRS08(0),
-			((uint32_t *)((unsigned long)(card_txfer_upd.LocalAddr)))[temp_index]);
-	}
-
-	/* Ignore Trailing Bytes */
-	for (; (index < EMMC_FIFOWORDSIZE) && (temp_index <
-		card_txfer_upd.TransWordSize); index++, temp_index++) {
-		CSR_WRITE(CAVM_EMMCX_HOST_SRS_SRS08(0), buffer);
-	}
-
-	card_txfer_upd.WordIndex = temp_index;
-	debug_emmc("In end emmc_writeinfo temp_index::%x\n", temp_index);
+			((uint32_t *)((unsigned long)(card_txfer_upd.LocalAddr)))[index]);
+	card_txfer_upd.WordIndex = index;
 }
 
 /****************************************************************
@@ -648,13 +1367,24 @@ uint32_t identify_card(void)
 	uint32_t HighCapacity = 0;
 	uint32_t attempts = 0;
 	uint32_t F8_Return = 0;
-	uint32_t loop_count  = 5;
+	uint64_t start, timeout = 100000;
+	bool timedout;
 
+	print_regs("About to send CMD0");
 	crd_prop.SD = TYPE_SD;
+	mdelay(5);
 	/* Send CMD0 (GO_IDLE_STATE) to get card into idle state */
 	wrapper_SendSetupCommand(STD_MMC_CMD0, argument,
 		(EMMC_RESTYPE_NONE | EMMC_NO_RES));
 	error =  get_response(STD_MMC_CMD0, MMC_RESPONSE_NONE);
+	if (error) {
+		print_regs("CMD0 error");
+		mdelay(100);
+		/* Try again.  Send CMD0 (GO_IDLE_STATE) to get card into idle state */
+		wrapper_SendSetupCommand(STD_MMC_CMD0, argument,
+			(EMMC_RESTYPE_NONE | EMMC_NO_RES));
+		error =  get_response(STD_MMC_CMD0, MMC_RESPONSE_NONE);
+	}
 	/* Check for High Capacity Cards First
 	 * This do while sending SD specific command, not necessarily for MMC
 	 */
@@ -685,6 +1415,7 @@ uint32_t identify_card(void)
 		attempts++;
 	} while (!HighCapacity && (attempts < 3));
 
+	debug_emmc("%s: Card type: %u\n", __func__, crd_prop.SD);
 	/* First time, pass NULL argument to get back values card is compatible with
 	 * Send appropriate CMD Sequence to Identify the type of card inserted
 	 * Set HCS and voltage window for ACMD41 to start initialization.
@@ -693,22 +1424,27 @@ uint32_t identify_card(void)
 	card_reg.ocr = 0; /* Make sure to clear out OCR. */
 
 	/*  Wait for the Response based on the CommandComplete interrupt signal */
-	for (attempts = 0; attempts <= loop_count; attempts++) {
+	start = octeontx_get_dtime_usec(0);
+	attempts = 0;
+	do {
 		switch (crd_prop.SD) {
 		case TYPE_SD: /* Assume SD */
 			wrapper_SendSetupCommand(STD_SD_CMD55, 0, EMMC_RESTYPE_R1 | EMMC_48_RES);
 			error = get_response(STD_SD_CMD55, MMC_RESPONSE_R1);
+			if (error)
+				WARN("%s: Error getting response from CMD55\n", __func__);
 			wrapper_SendSetupCommand(STD_SD_ACMD41, argument, EMMC_RESTYPE_R3 |
 				EMMC_48_RES);
 			error = get_response(STD_SD_ACMD41, MMC_RESPONSE_R3);
-
+			if (error)
+				WARN("%s: Error getting response from ACMD41\n", __func__);
 			if (card_reg.ocr == 0)
 				crd_prop.SD = TYPE_MMC;
 			else
 				result = NO_ERROR;
 			break;
 		case TYPE_MMC: /* Assume MMC */
-			loop_count = 1000; // Try for 1 second per the JEDEC spec
+			timeout = 1000000; // Try for 1 second per the JEDEC spec
 			wrapper_SendSetupCommand(STD_MMC_CMD1, argument, EMMC_RESTYPE_R3 | EMMC_48_RES);
 			error = get_response(STD_MMC_CMD1, MMC_RESPONSE_R3);
 
@@ -721,15 +1457,20 @@ uint32_t identify_card(void)
 			return STD_NotFoundError;
 		}
 
+		timedout = octeontx_get_dtime_usec(start) > timeout && attempts++ > 3;
 		if ((card_reg.ocr & 0x80000000) == 0x80000000)
 			break;
-		else if (attempts == loop_count)
+		else if (timedout)  {
+			WARN("%s: timed out\n", __func__);
 			return STD_NotFoundError;
+		}
 		udelay(1000);
-	};
+	} while (!timedout);
 
-	if (error != NO_ERROR)
+	if (error != NO_ERROR) {
+		WARN("%s: Not found\n", __func__);
 		return STD_NotFoundError;
+	}
 
 	/* Assign Access Mode. */
 	if (!F8_Return && (crd_prop.SD == TYPE_SD))
@@ -798,11 +1539,35 @@ uint32_t emmc_CheckCardStatus(uint32_t resp_to_match, uint32_t mask)
 
 	/* Mask out undesired check bits */
 	cardstatus = (last_cmd_resp.R1_RESP) & mask;
+	debug_emmc("%s: response: 0x%x, masked response: 0x%x, mask: 0x%x\n",
+		   __func__, last_cmd_resp.R1_RESP, cardstatus, mask);
 
 	if ((cardstatus == resp_to_match) && (result == NO_ERROR))
 		return NO_ERROR;
 	else
 		return STD_TimeOutError;
+}
+
+/****************************************************************
+ *   Description: Reverses the byte order in an array
+ *   Input: Buffer and size to reverse
+ *   Output: Reversed buffer
+ *   Returns: none
+ *****************************************************************/
+static void reverse_bytes(uint8_t *buf, uint32_t size)
+{
+	int i, j;
+	uint8_t temp;
+
+	i = 0;
+	j = size - 1;
+	while (j > i) {
+		temp = buf[i];
+		buf[i] = buf[j];
+		buf[j] = temp;
+		i++;
+		j--;
+	}
 }
 
 /****************************************************************
@@ -813,11 +1578,11 @@ uint32_t emmc_CheckCardStatus(uint32_t resp_to_match, uint32_t mask)
  *****************************************************************/
 uint32_t emmc_SDGet_SCR(void)
 {
-	uint32_t temp = 0;
 	uint32_t argument = 0;
 	uint32_t org_blk_size;
 	volatile uint32_t result = NO_ERROR;
 	emmc_blk_cntl ctrl_blk;
+	union cavm_emmcx_host_srs_srs15 srs15;
 
 	/* Issue ACMD51 to read in the SCR */
 	wrapper_SendSetupCommand(STD_SD_CMD55, card_reg.rca, MM4_RT_R1 | EMMC_48_RES);
@@ -858,7 +1623,7 @@ uint32_t emmc_SDGet_SCR(void)
 	}
 
 	/* Wait for the Read to Complete */
-	result = get_status_within(STD_SD_ACMD51, taac_ns/1000000);
+	result = get_status_within(EMMC_READ_SCR_TIMEOUT_MS);
 	if (result != NO_ERROR) {
 		ctrl_blk.s.xfr_blksz = org_blk_size;
 		CSR_WRITE(CAVM_EMMCX_HOST_SRS_SRS01(0), ctrl_blk.all);
@@ -885,9 +1650,11 @@ uint32_t emmc_SDGet_SCR(void)
 	}
 
 	/* Swap the byte ordering */
-	temp = card_reg.scr.scr_value[0];
-	card_reg.scr.scr_value[0] = card_reg.scr.scr_value[1];
-	card_reg.scr.scr_value[1] = temp;
+	reverse_bytes((uint8_t *)&card_reg.scr.scr_value[0],
+		      sizeof(scr_layout_t));
+	srs15.u = CSR_READ(CAVM_EMMCX_HOST_SRS_SRS15(0));
+	srs15.s.cmd23e = !!(card_reg.scr.scr_value[1] & 2);
+	CSR_WRITE(CAVM_EMMCX_HOST_SRS_SRS15(0), srs15.u);
 
 	return NO_ERROR;
 }
@@ -917,6 +1684,7 @@ uint32_t wrapper_SendDataCommandNoAuto12(uint32_t cmd,
 	/* save the info for use by the isr: */
 	card_txfer_upd.RespType = (resp_type >> 8) & 0x000000ff;
 	card_txfer_upd.cmd = cmd;
+	emmc_last_cmd = cmd;
 
 	/*Block count is disabled for ADMA2 */
 	blk_count = (crd_prop.emmc_dma_type == ADMA2) ? 0 : 1;
@@ -940,6 +1708,8 @@ uint32_t wrapper_SendDataCommand(uint32_t cmd, uint32_t argument,
 	uint32_t result = NO_ERROR;
 	uint32_t fAutoCmd23En;
 
+	debug_emmc("%s: cmd: %u, argument: 0x%x, blk_type: 0x%x, data_dir: 0x%x, resp_type: 0x%x\n",
+		   __func__, cmd, argument, blk_type, data_dir, resp_type);
 	/* no need to clear out any fault state that may be left
 	 * over from a previously failed transaction.
 	 * that's because the caller has set State to read or
@@ -953,14 +1723,14 @@ uint32_t wrapper_SendDataCommand(uint32_t cmd, uint32_t argument,
 	/* save the info for use by the isr: */
 	card_txfer_upd.RespType = (resp_type >> 8) & 0x000000ff;
 	card_txfer_upd.cmd = cmd;
+	emmc_last_cmd = cmd;
 
-	if ((crd_prop.emmc_dma_type == ADMA2) && (crd_prop.SD == TYPE_MMC))
+	if (((crd_prop.emmc_dma_type == ADMA2) && (crd_prop.SD == TYPE_MMC)) ||
+	    ((crd_prop.SD == TYPE_SD && card_reg.scr.scr_value[1] & (1 << 1)) &&
+	    (blk_type == MM4_MULTI_BLOCK_TRAN)))
 		fAutoCmd23En = 1;
 	else
 		fAutoCmd23En = 0;
-
-
-
 
 	result = emmc_SendDataCommand(cmd, argument, blk_type, data_dir,
 		resp_type & 0x000000ff, 0, fAutoCmd23En,
@@ -977,6 +1747,8 @@ uint32_t wrapper_SendDataCommand(uint32_t cmd, uint32_t argument,
 uint32_t wrapper_SendSetupCommand(uint32_t cmd, uint32_t argument, uint32_t resp_type)
 {
 	uint32_t result = NO_ERROR;
+
+	debug_emmc("%s(%u, 0x%x, 0x%x)\n", __func__, cmd, argument, resp_type);
 	/* clear out any fault status that may be left over from a previously
 	 * failed transaction.
 	 */
@@ -989,6 +1761,7 @@ uint32_t wrapper_SendSetupCommand(uint32_t cmd, uint32_t argument, uint32_t resp
 	/* save the info for use by the isr: */
 	card_txfer_upd.RespType = (resp_type >> 8) & 0x000000ff;
 	card_txfer_upd.cmd = cmd;
+	emmc_last_cmd = cmd;
 
 	/* clear out any bits not for the SD_CMD.RES_TYPE field */
 	//debug_emmc("In wrapper_SendSetupCommand for cmd::%d argument::%x\n",cmd,argument);
@@ -1002,18 +1775,20 @@ uint32_t wrapper_SendSetupCommand(uint32_t cmd, uint32_t argument, uint32_t resp
  *   Output: None
  *   Returns: Result
  *****************************************************************/
-uint32_t get_status_within(uint32_t cmd, uint32_t msecs)
+uint32_t get_status_within(uint32_t msecs)
 {
-	uint32_t timeout = msecs*1000;
-
+	uint64_t start = octeontx_get_dtime_usec(0);
+	uint32_t loops = 0;
 	do {
 		emmc_isr();
 
 		if ((crd_prop.card_state == FAULT) || (crd_prop.card_state == READY))
 			return NO_ERROR;
 		udelay(1);
-	} while (timeout--); /* detection loop with timeout */
+	} while (octeontx_get_dtime_usec(start) < msecs * 1000 || loops++ < 2); /* detection loop with timeout */
 
+	debug_emmc("%s: Timed out, status: 0x%lx, cmd: %u\n", __func__,
+		   CSR_READ(CAVM_EMMCX_HOST_SRS_SRS12(0)), emmc_last_cmd);
 	return STD_TimeOutError;
 }
 
@@ -1120,6 +1895,9 @@ uint32_t emmc_CardShutdown(void)
 {
 	emmc_cntl1    emmc_ctrl1;
 
+	if (fake_init)
+		return NO_ERROR;
+
 	/* Initialize Flash Properties */
 	emmc_ctrl1.all = CSR_READ(CAVM_EMMCX_HOST_SRS_SRS10(0));
 
@@ -1147,7 +1925,6 @@ uint32_t emmc_CardShutdown(void)
 
 	/* Disable internal clocks. */
 	emmc_StopInternalBusClock();
-
 	return NO_ERROR;
 }
 
@@ -1233,7 +2010,6 @@ uint32_t change_parition(uint32_t part_num)
  *****************************************************************/
 uint32_t emmc_read_blocks(void)
 {
-	uint8_t  buffer[512];
 	uint32_t argument;
 	uint32_t result = NO_ERROR;
 	emmc_blk_cntl emmc_blk;
@@ -1243,11 +2019,11 @@ uint32_t emmc_read_blocks(void)
 #endif
 	/*clear the pre and post bytes buffer. for debug purposes
 	 */
-	memset((void *)buffer, 0, 512);
 #ifdef TBD
 	memset((void *)admaDesc, 0, NO_ADMA_TX_DESCS * sizeof(ADMA_DESCRIPTOR));
 #endif
 
+	debug_emmc("%s Entry\n", __func__);
 	/* Must set MMC NUMBLK
 	 */
 	emmc_blk.all = CSR_READ(CAVM_EMMCX_HOST_SRS_SRS01(0));
@@ -1259,6 +2035,7 @@ uint32_t emmc_read_blocks(void)
 		emmc_blk.s.dma_bufsz = MM4_512_HOST_DMA_BDRY;
 		CSR_WRITE(CAVM_EMMCX_HOST_SRS_SRS00(0), card_txfer_upd.LocalAddr);
 	}
+	debug_emmc("%s: Writing 0x%x to SRS01\n", __func__, emmc_blk.all);
 	CSR_WRITE(CAVM_EMMCX_HOST_SRS_SRS01(0), emmc_blk.all);
 
 	/* Set up State
@@ -1275,30 +2052,42 @@ uint32_t emmc_read_blocks(void)
 	if (crd_prop.AccessMode == SECTOR_ACCESS)
 		argument /= HARD512BLOCKLENGTH;
 	else if (crd_prop.AccessMode == BYTE_ACCESS)
-		argument = argument - (argument % crd_prop.ReadBlockSize);
+		argument = argument - (argument % HARD512BLOCKLENGTH);
 
+	debug_emmc("%s: access mode: 0x%x, argument: 0x%x, card address: 0x%x\n",
+		   __func__, crd_prop.AccessMode, argument, card_txfer_upd.card_addr);
 	// Send Read Command
-	// TBD: Update CMD17 Read 1 blcok -> CMD18 Read N blocks
 	result = wrapper_SendDataCommand(STD_MMC_CMD17, argument,
 		MM4_SINGLE_BLOCK_TRAN, MM4_CARD_TO_HOST_DATA,
-		EMMC_RESTYPE_R1 | EMMC_48_RES);
-	if (result != NO_ERROR)
+		EMMC_RESTYPE_R1 | EMMC_48_RES | EMMC_48_CRC | EMMC_48_CHECK_INDEX);
+	if (result != NO_ERROR) {
+		debug_emmc("%s: wrapper_SendDataCommand returned 0x%x\n",
+			   __func__, result);
 		return result;
+	}
 
-	result = get_status_within(STD_MMC_CMD17, taac_ns/1000000);
-	if (result != NO_ERROR)
+	result = get_status_within(1000);
+	if (result != NO_ERROR) {
+		debug_emmc("%s: get_status_within returned 0x%x\n",
+			   __func__, result);
 		return STD_TimeOutError;
+	}
 
 	/* This state entered if ISR detected an error.
 	 */
-	if (crd_prop.card_state == FAULT)
+	if (crd_prop.card_state == FAULT) {
+		debug_emmc("%s: card state is FAULT\n", __func__);
 		return STD_ReadError;
+	}
 
 	/* Get the Card Response
 	 */
 	result = get_response(STD_MMC_CMD17, MMC_RESPONSE_R1);
-	if ((result != NO_ERROR) || ((last_cmd_resp.R1_RESP & R1_LOCKEDCARDMASK)
-		!= 0x900) || (crd_prop.card_state == FAULT)) {
+	if ((result != NO_ERROR) ||
+	    ((last_cmd_resp.R1_RESP & R1_LOCKEDCARDMASK) != 0x900) ||
+	     (crd_prop.card_state == FAULT)) {
+		debug_emmc("%s: get_response returned 0x%x\n",
+			   __func__, result);
 		result = STD_ReadError;
 		crd_prop.card_state = FAULT;
 		/* Send a stop command
@@ -1307,6 +2096,7 @@ uint32_t emmc_read_blocks(void)
 	} else {
 		crd_prop.card_state = READY;
 	}
+	debug_emmc("%s: Returning %u\n", __func__, result);
 	return result;
 }
 
@@ -1320,17 +2110,15 @@ uint32_t emmc_read_blocks(void)
  *****************************************************************/
 uint32_t emmc_WriteBlocks(void)
 {
-	uint8_t  buffer[512];
 	uint32_t argument;
 	uint32_t result = NO_ERROR;
 	emmc_blk_cntl emmc_blk;
+
 #ifdef TBD
 	ADMA_DESCRIPTOR admaDesc[NO_ADMA_TX_DESCS];
 #endif
-
 	/*clear the pre and post bytes buffer. for debug purposes
 	 */
-	memset((void *)buffer, 0, 512);
 #ifdef TBD
 	memset((void *)admaDesc, 0, NO_ADMA_TX_DESCS * sizeof(ADMA_DESCRIPTOR));
 #endif
@@ -1360,18 +2148,23 @@ uint32_t emmc_WriteBlocks(void)
 		 * ^block offsets.
 		 */
 		argument /= HARD512BLOCKLENGTH;
-	else if (crd_prop.AccessMode == BYTE_ACCESS)
+	else if (crd_prop.AccessMode == BYTE_ACCESS) {
+		debug_emmc("%s: Write in byte access mode\n", __func__);
 		argument = argument - (argument % crd_prop.WriteBlockSize);
+	}
 
 	result = wrapper_SendDataCommand(STD_MMC_CMD24, argument,
 		MM4_SINGLE_BLOCK_TRAN, MM4_HOST_TO_CARD_DATA,
-		EMMC_RESTYPE_R1 | EMMC_48_RES);
-	if (result != NO_ERROR)
+		EMMC_RESTYPE_R1 | EMMC_48_RES_WITH_BUSY |
+		EMMC_48_CRC | EMMC_48_CHECK_INDEX);
+	if (result != NO_ERROR) {
+		debug_emmc("%s: send data cmd24 returned 0x%x\n", __func__, result);
 		return result;
+	}
 
 	/* It is recommended to double wait time for write operations
 	 */
-	result = get_status_within(STD_MMC_CMD24, (taac_ns/1000000)*2);
+	result = get_status_within(EMMC_WRITE_BLOCK_TIMEOUT_MS);
 
 	if (result != NO_ERROR) {
 		debug_emmc("%s: %d get_status_within failed result: %d\n", __func__, __LINE__, result);
@@ -1409,7 +2202,7 @@ uint32_t emmc_WriteBlocks(void)
 	 */
 	/* FIXME: implement the formula, which is based on info from the CSD...
 	 */
-	if (!emmc_WaitReady(600)) {
+	if (!emmc_WaitReady(1000)) {
 		result = STD_WriteError;
 		ERROR("%s:%d FAULT\n", __func__, __LINE__);
 		crd_prop.card_state = FAULT;
@@ -1425,25 +2218,9 @@ uint32_t emmc_WriteBlocks(void)
 
 
 /****************************************************************
- *   Description: Read the CPC 100Mhz reference clock
- *   Input: None
- *   Output: None
- *   Returns: clock tick converted to milliseconds
- *****************************************************************/
-
-static uint64_t get_time_ms(void)
-{
-	/* CPC_TIMER100 is a 100Mhz clock so it fires every 10ns.
-	 * To convert to msec divice by 100000.
-	 */
-	return CSR_READ(CAVM_CPC_TIMER100)/100000;
-
-}
-
-/****************************************************************
  *   Description: Writes the required number of blocks to
  *                CardAddress
- *   Input: None
+ *   Input: timeout in ms
  *   Output: Address starting with CardAddress will contain
  *           content from LocalAddress
  *   Returns: None
@@ -1508,8 +2285,8 @@ uint32_t emmc_WaitReady(uint32_t timeout)
 
 	if (get_time_ms() - start_time > wait_on_dat_longest_time) {
 		wait_on_dat_longest_time = get_time_ms() - start_time;
-		INFO("MMC: longest write delay: %ld ms\n",
-			 wait_on_dat_longest_time);
+		debug_emmc("MMC: longest write delay: %ld ms\n",
+			   wait_on_dat_longest_time);
 	}
 
 	if (!writecomplete) {

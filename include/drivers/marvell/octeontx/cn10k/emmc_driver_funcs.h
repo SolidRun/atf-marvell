@@ -5,42 +5,39 @@
  **********************license end**************************************/
 #ifndef _EMMC_DRIVER_H
 #define _EMMC_DRIVER_H
-
 #include <octeontx_common.h>
 #include <drivers/delay_timer.h>
 #include "emmc_standard.h"
 #include "cavm-csrs-emmc.h"
 
-#undef  DEBUG_ATF_EMMC
-//#define  DEBUG_ATF_EMMC
-
-
 #ifdef DEBUG_ATF_EMMC
-	#define debug_emmc printf
+	#define debug_emmc(...) INFO(__VA_ARGS__)
 #else
 	#define debug_emmc(...) ((void) (0))
 #endif
 
-#define EMMC_CSR_WAIT_FOR_FIELD(csr, field, op, value, timeout_usec)\
-	({int result;                                                   \
-	do {                                                            \
-		int64_t done = timeout_usec;                                \
-		typedef_##csr c;                                            \
-		uint64_t _tmp_address = csr;                                \
-		while (1) {                                                 \
-			c.u = cavm_csr_read(0, bustype_##csr, busnum_##csr,     \
-				sizeof(typedef_##csr), _tmp_address);               \
-			if ((c.s.field) op (value)) {                           \
-				result = 0;                                         \
-				break;                                              \
-			} else if (done-- <= 0) {                                \
-				result = -1;                                        \
-				break;                                              \
-			} else                                                  \
-			udelay(1);                                              \
-		}                                                           \
-	} while (0);                                                    \
-	result; })
+#define EMMC_CSR_WAIT_FOR_FIELD(csr, field, op, value, timeout_usec)		\
+({int result;									\
+	do {									\
+		int64_t done = timeout_usec;					\
+		typedef_##csr c;						\
+		uint64_t _tmp_address = csr;					\
+		while (1) {							\
+			c.u = cavm_csr_read(0, bustype_##csr, busnum_##csr,	\
+				sizeof(typedef_##csr), _tmp_address);		\
+			if ((c.s.field) op (value)) {				\
+				result = 0;					\
+				break;						\
+			} else if (done-- <= 0) {				\
+				result = -1;					\
+				break;						\
+			} else {						\
+				udelay(1);					\
+			}							\
+		}								\
+	} while (0);								\
+result;										\
+})
 
 #define SETBIT(X)                     ((uint32_t)1 << X)
 #define RSHIFTBITS(pattern, pos)      (pattern << pos)
@@ -60,6 +57,15 @@ typedef enum {
 	FAULT          /* Fault */
 } EMMC_TXFER_STATE;
 
+#define EMMC_READ_BLOCK_TIMEOUT_MS  8
+#define EMMC_READ_SCR_TIMEOUT_MS    8
+#define EMMC_WRITE_BLOCK_TIMEOUT_MS 1000
+
+/** Maximum number of bytes in a DMA descriptor */
+#define EMMC_MAX_ADMA_LEN	65536
+
+/** Maximum number of blocks to transfer (enough for 16MiB) */
+#define EMMC_MAX_BLOCK_COUNT	32768
 /* specific to EMMC PHY IP configs*/
 /*Pre-Initialization Sequence specific to this particular SD/eMMC Host Controller IP*/
 
@@ -71,6 +77,9 @@ typedef enum {
 #define EMMC_PHY_MASTER_CTRL_ADDR           (EMMC_DLL_PHY_BASE + 0x200C)
 #define EMMC_PHY_SLAVE_CTRL_ADDR            (EMMC_DLL_PHY_BASE + 0x2010)
 #define EMMC_PHY_CTRL_ADDR                  (EMMC_DLL_PHY_BASE + 0x2080)
+#define EMMC_PHY_GPIO_CTRL_ADDR             (EMMC_DLL_PHY_BASE + 0x2088)
+
+#define EMMC_PHY_CTRL_PHONY_DQS_TIMING      (0x3f << 4)
 
 #define EMMC_SET_DATA_SELECT_OE_END_    0
 #define EMMC_SET_IO_MASK_END_          27
@@ -93,8 +102,8 @@ typedef enum {
 #define EMMC_SET_UNDERRUN_SUPPRESS_    18
 
 /*MMC-SDR*/
-#define EMMC_MMC_SDR_DLL_PHY_DQS            0x780000
-#define EMMC_MMC_SDR_DLL_PHY_GATE_LPBK_CTRL 0x81a00040
+#define EMMC_MMC_SDR_DLL_PHY_DQS            0x780001
+#define EMMC_MMC_SDR_DLL_PHY_GATE_LPBK_CTRL 0x40
 #define EMMC_MMC_SDR_DLL_PHY_MASTER_CTRL    0
 #define EMMC_MMC_SDR_DLL_PHY_SLAVE_CTRL     0
 #define EMMC_MMC_SDR_PHY_CTRL               0
@@ -136,7 +145,7 @@ typedef enum {
 
 /* SDCLK Frequency Select */
 #define EMMC_CLOCK_CTRL_SD_FREQ_SEL_LO_MSK    (RSHIFTBITS(0XFF, 8))
-#define EMMC_CLOCK_CTRL_SD_FREQ_SEL_HI_MSK    (RSHIFTBITS(0x03, 3))
+#define EMMC_CLOCK_CTRL_SD_FREQ_SEL_HI_MSK    (RSHIFTBITS(0x03, 6))
 #define EMMC_CLOCK_CTRL_SD_FREQ_SEL_LO_BASE   (8)
 #define EMMC_CLOCK_CTRL_SD_FREQ_SEL_HI_BASE   (6)
 
@@ -181,6 +190,8 @@ typedef enum {
 #define EMMC_136_RES          1
 #define EMMC_48_RES           2
 #define EMMC_48_RES_WITH_BUSY 3
+#define EMMC_48_CRC           8
+#define EMMC_48_CHECK_INDEX   0x10
 #define EMMC_RT_BUSYMASK      0x8000
 #define EMMC_RT_BUSY          0x8000
 
@@ -223,6 +234,7 @@ typedef enum {
 #define EMMC_ERROR_INT_STATUS_CPL_TIMEOUT_ERR     (SETBIT(30))
 #define EMMC_ERROR_INT_STATUS_AXI_RESP_ERR        (SETBIT(29))
 #define EMMC_ERROR_INT_STATUS_SPI_ERR             (SETBIT(28))
+#define EMMC_ERROR_INT_STATUS_RESPONSE_ERROR      (SETBIT(27))
 #define EMMC_ERROR_INT_STATUS_ADMA_ERR            (SETBIT(25))
 #define EMMC_ERROR_INT_STATUS_AUTO_CMD12_ERR      (SETBIT(24))
 #define EMMC_ERROR_INT_STATUS_CUR_LIMIT_ERR       (SETBIT(23))
@@ -285,7 +297,6 @@ typedef struct {
 	uint32_t img_txfer_status;
 } img_txfer_t;
 
-
 /* ********************* cmd framed ******************************** */
 typedef union {
 	uint32_t all;
@@ -333,6 +344,7 @@ typedef struct {
 	/* TBD  uint32_t CommandError;     */
 	uint32_t SendStopCommand;
 	uint32_t R1_RESP;
+	srs12_intr_res_t int_response;
 } emmc_response_t;
 
 typedef struct {
@@ -374,6 +386,23 @@ typedef struct {
 	uint32_t AccessMode;
 } card_properties_t;
 
+#define ADMA_DESC_ATTR_VALID	1
+#define ADMA_DESC_ATTR_END	2
+#define ADMA_DESC_ATTR_INT	4
+#define ADMA_DESC_ATTR_ACT1	8
+#define ADMA_DESC_ATTR_ACT2	0x10
+#define ADMA_DESC_ATTR_XFER_DATA	ADMA_DESC_ATTR_ACT2
+#define ADMA_MAX_ENTRIES	16
+
+typedef struct {
+	uint8_t  attr;
+	uint8_t  reserved;
+	uint16_t len;
+	uint32_t addr_lo;
+	uint32_t addr_hi;
+} adma_desc_t;
+#define ADMA_TABLE_MAX_ENTRIES \
+	((EMMC_MAX_BLOCK_COUNT * SDHC_BLOCK_LEN) / sizeof(adma_desc_t))
 
 #define NODMA 0
 #define SDMA  1
@@ -383,8 +412,8 @@ typedef struct {
 #define BYTE_ACCESS   0
 #define SECTOR_ACCESS 1
 
-#define HOST_CAPACITY_SUPPORTED     0x40000000
 #define VDD_WINDOW                  0x00ff8000
+#define HOST_CAPACITY_SUPPORTED     0x40000000
 #define OCR_ACCESS_MODE_MASK        0x60000000
 #define SDHC_BLOCK_LEN              512
 #define HARD512BLOCKLENGTH          SDHC_BLOCK_LEN
@@ -424,6 +453,8 @@ typedef union {
 
 
 /* ********************* EMMC_CNTL1 ******************************** */
+#define EMMC_CNTL1_DMA_ADMA2_32BIT	2
+#define EMMC_CNTL1_DMA_ADMA2_64BIT	3
 typedef union {
 	uint32_t all;
 	struct {
@@ -449,7 +480,15 @@ typedef union {
 	} s;
 } emmc_cntl1;
 
+
+typedef struct {
+	emmc_cntl1 ctrl1;
+	uint64_t dma_descr_addr;
+	bool state_saved;
+} save_state_t;
+
 /*fucntion declarations*/
+void emmc_SetDmaMode(uint32_t dma_mode);
 uint32_t emmc_FullSWReset(void);
 void emmc_SetControllerVoltage(void);
 void emmc_PreInitSequence(uint32_t sdclk);

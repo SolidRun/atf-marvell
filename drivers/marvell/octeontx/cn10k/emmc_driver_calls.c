@@ -23,6 +23,28 @@ card_registers_t  card_reg;
 emmc_blk_cntl   blk_ctrl;
 
 uint8_t is_last_read_success;
+static bool init_completed;
+
+/****************************************************************
+ *   Description: Allows skipping of initialization, i.e. SMC calls
+ *   Input: initialized - set true to skip initialization in open
+ *   Output: All the needed hardware should be un-initialized.
+ *   Returns: None
+ *****************************************************************/
+void emmc_set_initialized(bool initialized)
+{
+	debug_emmc("%s(%d) Entry\n", __func__, initialized);
+	init_completed = initialized;
+	if (initialized) {
+		crd_prop.StrictErrorCheck = 1;
+		crd_prop.card_state = READY;
+		crd_prop.AccessMode = SECTOR_ACCESS;
+		crd_prop.ReadBlockSize = HARD512BLOCKLENGTH;
+		crd_prop.WriteBlockSize = HARD512BLOCKLENGTH;
+		is_last_read_success = true;
+		fake_card_init();
+	}
+}
 
 /****************************************************************
  *   Description: Initializes the SDMMC port on the platform and
@@ -36,7 +58,14 @@ uint32_t emmc_open(uint32_t part_num)
 {
 	uint32_t status = NO_ERROR;
 
+	if (init_completed) {
+		debug_emmc("%s(%u): Init already completed (skipped)\n", __func__, part_num);
+		return NO_ERROR;
+	}
+
 	if ((crd_prop.card_state == READY) && is_last_read_success) {
+		debug_emmc("%s(%u): card state is ready, no init needed\n",
+			   __func__, part_num);
 		return NO_ERROR;
 	}
 	crd_prop.StrictErrorCheck = 0;
@@ -44,10 +73,12 @@ uint32_t emmc_open(uint32_t part_num)
 	/* Find a card in the desired controller */
 	status = card_init();
 	if (status != NO_ERROR) {
+		debug_emmc("%s: card_init() returned 0x%x\n", __func__, status);
 		emmc_close();
 		return status;
 	}
-	debug_emmc("Done card init - card state::%d\n\n", crd_prop.card_state);
+	debug_emmc("Done card init - card state::%d\n\n",
+		   crd_prop.card_state);
 	/*TBD check if needed*/
 #ifdef TBD
 	if (change_parition(part_num) != NO_ERROR)
@@ -110,7 +141,7 @@ uint32_t emmc_read(uint64_t pBuffer, uint32_t flash_offset, uint32_t length)
 	uint32_t result = NO_ERROR;
 	uint32_t temp_img_sz;
 
-	debug_emmc("%s flash_offset::%x pbuffer::%llx length::%x\n",
+	debug_emmc("%s: flash_offset::%x pbuffer::%lx length::%x\n",
 		__func__, flash_offset, pBuffer, length);
 	is_last_read_success = 0;
 	/* We will divide the original data we want to read from flash into
@@ -141,25 +172,27 @@ uint32_t emmc_read(uint64_t pBuffer, uint32_t flash_offset, uint32_t length)
 
 	/* Make sure State is correct
 	 */
-	if (crd_prop.card_state != READY)
+	if (crd_prop.card_state != READY) {
+		debug_emmc("%s: Card not ready\n", __func__);
 		return SDMMCDeviceNotReadyError;
+	}
 	/* LPAddress is 0 by default but could be non-zero if enabled by IOCTL.
 	 */
-	/* TBD ned to understand
+	/* TBD need to understand
 	 */
 #ifdef TBD
 	flash_offset += this->LPAddress;
 #endif
 	/*Block boundary offset
 	 */
-	block_boundary = crd_prop.ReadBlockSize - 1;
+	block_boundary = HARD512BLOCKLENGTH - 1;
 
 	/*fill the image attributes
 	 */
 	img_txfer_upd.img_start_addr = flash_offset & (~block_boundary);
 	temp_img_sz = length + (flash_offset - img_txfer_upd.img_start_addr);
-	img_txfer_upd.img_size = temp_img_sz % crd_prop.ReadBlockSize ?
-		((temp_img_sz & (~block_boundary)) + crd_prop.ReadBlockSize) :
+	img_txfer_upd.img_size = temp_img_sz % HARD512BLOCKLENGTH ?
+		((temp_img_sz & (~block_boundary)) + HARD512BLOCKLENGTH) :
 		temp_img_sz;
 	img_txfer_upd.img_cur_sz_txfer = 0;
 	img_txfer_upd.img_txfer_status = IMAGE_XFR_NOTDONE;
@@ -168,20 +201,28 @@ uint32_t emmc_read(uint64_t pBuffer, uint32_t flash_offset, uint32_t length)
 	/* RAZA TODO - check that flash offset and size are in range
 	 * Check if Start Address and size are word aligned
 	 */
-	if (((flash_offset % 4) != 0) || ((local_buffer % 4) != 0))
+	if (((flash_offset % 4) != 0) || ((local_buffer % 4) != 0)) {
+		debug_emmc("%s: Alignment error\n", __func__);
 		return SDMMC_ADDR_MISALIGN_ERROR;
+	}
 
+	if (flash_offset % HARD512BLOCKLENGTH) {
+		debug_emmc("%s: Using non-block flash offset 0x%x\n",
+			   __func__, flash_offset);
+	}
 	/* We divide the initial size that will be read from the flash into
 	 * chunks whose size is determined by read_chunk variable.
 	 * This while loop iterates through each chunk and and calls the READ
 	 * FLASH function for each.
 	 */
+	debug_emmc("%s: Remaining size: %u\n", __func__,
+		   remaining_size);
 	while (remaining_size > 0) {
 		/* Calculate read size */
-		if (remaining_size > read_chunk)
+		if (remaining_size > read_chunk) {
 			current_read_size = read_chunk -
 				(remaining_flash_offset % read_chunk);
-		else {
+		} else {
 			/* Checking the read size exceed the chunk boundary
 			 * or not.
 			 * If start offset + read size larger than chunk
@@ -197,34 +238,33 @@ uint32_t emmc_read(uint64_t pBuffer, uint32_t flash_offset, uint32_t length)
 				current_read_size = remaining_size;
 			}
 		}
-
+		debug_emmc("Current read size: %u\n", current_read_size);
 		/* Does the start/end addresses align on Block Boundries?
 		 *  Probably not, record discard bytes
 		 */
 		card_txfer_upd.card_addr = remaining_flash_offset;
 		card_txfer_upd.StartDiscardWords = remaining_flash_offset %
-			crd_prop.ReadBlockSize;
+			HARD512BLOCKLENGTH;
 
 		if (((remaining_flash_offset + current_read_size) %
-			crd_prop.ReadBlockSize) == 0)
+			HARD512BLOCKLENGTH) == 0)
 			card_txfer_upd.EndDiscardWords = 0;
 		else
-			card_txfer_upd.EndDiscardWords = crd_prop.ReadBlockSize -
+			card_txfer_upd.EndDiscardWords = HARD512BLOCKLENGTH -
 				((remaining_flash_offset + current_read_size) %
-				crd_prop.ReadBlockSize);
+				HARD512BLOCKLENGTH);
 
 		card_txfer_upd.NumBlocks = (card_txfer_upd.EndDiscardWords +
 			card_txfer_upd.StartDiscardWords + current_read_size) /
-			crd_prop.ReadBlockSize;
+			HARD512BLOCKLENGTH;
 		/* Total Transfer size including pre and post, in words
 		 */
 		card_txfer_upd.TransWordSize = card_txfer_upd.NumBlocks *
-			crd_prop.ReadBlockSize / 4;
+			HARD512BLOCKLENGTH / 4;
 
 		/* Convert to # of words
 		 */
-		card_txfer_upd.LocalAddr = local_buffer -
-			card_txfer_upd.StartDiscardWords;
+		card_txfer_upd.LocalAddr = local_buffer;
 		card_txfer_upd.StartDiscardWords /= 4;
 		card_txfer_upd.EndDiscardWords /= 4;
 		/* Stores Index of Current read position
@@ -233,9 +273,18 @@ uint32_t emmc_read(uint64_t pBuffer, uint32_t flash_offset, uint32_t length)
 
 		/* Kick off the Read
 		 */
+		debug_emmc("Num blocks: %u, local addr: 0x%lx\n",
+			   card_txfer_upd.NumBlocks, card_txfer_upd.LocalAddr);
+		debug_emmc("Start discard words: %u, end discard words: %u, num blocks: %u\n",
+			   card_txfer_upd.StartDiscardWords,
+			   card_txfer_upd.EndDiscardWords,
+			   card_txfer_upd.NumBlocks);
+		debug_emmc("%s: Calling emmc_read_blocks()\n", __func__);
 		result = emmc_read_blocks();
 		if (crd_prop.card_state == FAULT) {
 			result = (emmc_GetCardErrorState());
+
+			debug_emmc("%s: error state: 0x%x\n", __func__, result);
 			break;
 		}
 
@@ -249,6 +298,7 @@ uint32_t emmc_read(uint64_t pBuffer, uint32_t flash_offset, uint32_t length)
 
 	crd_prop.card_state = READY;
 	is_last_read_success = 1;
+	debug_emmc("%s: returning 0x%x\n", __func__, result);
 	return result;
 }
 
@@ -356,14 +406,14 @@ uint32_t emmc_GetCardErrorState(void)
  *   Output: Desired Values are written to flash
  *   Returns: status
  *****************************************************************/
-uint32_t emmc_write(uint64_t pBuffer, uint32_t flash_offset,
-	uint32_t size)
+uint32_t emmc_write(uint64_t pBuffer, uint32_t flash_offset, uint32_t size)
 {
 	uint32_t result = NO_ERROR;
-	uint32_t temp_img_sz;
-	uint32_t local_buffer = (uint32_t)pBuffer;
+	uintptr_t local_buffer = (uintptr_t)pBuffer;
+	uint8_t temp_block_buffer[HARD512BLOCKLENGTH];
+	uint32_t start_offset;
 
-	debug_emmc("%s flash_offset::%x pbuffer::%llx length::%x\n",
+	debug_emmc("%s flash_offset::%x pbuffer::%lx length::%x\n",
 		__func__, flash_offset, pBuffer, size);
 	/* We will divide the original data we want to write to flash into big
 	 * chunks.
@@ -392,88 +442,101 @@ uint32_t emmc_write(uint64_t pBuffer, uint32_t flash_offset,
 	flash_offset += this->LPAddress;
 #endif
 
-	/*Block boundary offset
-	 */
-	block_boundary = crd_prop.WriteBlockSize - 1;
-
-	/*fill the image attributes
-	 */
-	img_txfer_upd.img_start_addr = flash_offset & (~block_boundary);
-	temp_img_sz = size + (flash_offset - img_txfer_upd.img_start_addr);
-	img_txfer_upd.img_size = temp_img_sz % crd_prop.ReadBlockSize ?
-		((temp_img_sz & (~block_boundary)) + crd_prop.ReadBlockSize) :
-		temp_img_sz;
-	img_txfer_upd.img_cur_sz_txfer = 0;
-	img_txfer_upd.img_txfer_status = IMAGE_XFR_NOTDONE;
-
-	/* Make sure State is correct
-	 */
-	if (crd_prop.card_state != READY)
-		return SDMMCDeviceNotReadyError;
-
 	/* Check if Start Address and size are word aligned
 	 */
 	if (((flash_offset % 4) != 0) || ((local_buffer % 4) != 0))
 		return SDMMC_ADDR_MISALIGN_ERROR;
+
+	/* Block boundary offset */
+	block_boundary = crd_prop.WriteBlockSize - 1;
+	start_offset = flash_offset % HARD512BLOCKLENGTH;
+	if (crd_prop.card_state != READY)
+		return SDMMCDeviceNotReadyError;
+	card_txfer_upd.StartDiscardWords = 0;
+	card_txfer_upd.EndDiscardWords = 0;
+
+	/* If we don't start on a block boundary, perform a read-modify-write */
+	if (start_offset) {
+		uint32_t write_size = HARD512BLOCKLENGTH - start_offset;
+
+		if (size < write_size)
+			write_size = size;
+		result = emmc_read((uint64_t)temp_block_buffer,
+				   flash_offset & ~HARD512BLOCKLENGTH,
+				   HARD512BLOCKLENGTH);
+		if (result != NO_ERROR) {
+			debug_emmc("%s error reading block\n", __func__);
+			return result;
+		}
+		debug_emmc("%s: Performing start read-modify-write for offset %u, size %u\n",
+			   __func__, start_offset, write_size);
+		memcpy(temp_block_buffer + start_offset,
+		       (void *)pBuffer,
+		       write_size);
+		img_txfer_upd.img_size = HARD512BLOCKLENGTH;
+		img_txfer_upd.img_cur_sz_txfer = 0;
+		img_txfer_upd.img_start_addr = flash_offset & ~(HARD512BLOCKLENGTH - 1);
+		img_txfer_upd.img_txfer_status = IMAGE_XFR_NOTDONE;
+
+		card_txfer_upd.card_addr = flash_offset & ~block_boundary;
+		card_txfer_upd.LocalAddr = (uint64_t)temp_block_buffer;
+		card_txfer_upd.NumBlocks = 1;
+		card_txfer_upd.WordIndex = 0;
+		card_txfer_upd.TransWordSize = HARD512BLOCKLENGTH / 4;
+		if (crd_prop.card_state != READY)
+			return SDMMCDeviceNotReadyError;
+		result = emmc_WriteBlocks();
+		if (crd_prop.card_state == FAULT)
+			result = emmc_GetCardErrorState();
+
+		if (result != NO_ERROR) {
+			debug_emmc("%s: Error 0x%x writing partial block\n", __func__, result);
+			return result;
+		}
+		if (size == write_size)
+			return result;
+		if (crd_prop.card_state != READY)
+			return SDMMCDeviceNotReadyError;
+
+		/* Move to next block */
+		remaining_flash_offset += HARD512BLOCKLENGTH - start_offset;
+		local_buffer += write_size;
+		remaining_size -= write_size;
+	}
+	/* fill the image attributes */
+	img_txfer_upd.img_start_addr = remaining_flash_offset;
+	img_txfer_upd.img_size = remaining_size > HARD512BLOCKLENGTH ?
+		HARD512BLOCKLENGTH : remaining_size;
+	img_txfer_upd.img_cur_sz_txfer = 0;
+	img_txfer_upd.img_txfer_status = IMAGE_XFR_NOTDONE;
+
 
 	/* We divide the initial size that will be written to the flash into
 	 * chunks whose size is determined by write_chunk variable.
 	 * This while loop iterates through each chunk and and calls the
 	 * WRITE FLASH function for each.
 	 */
-	while (remaining_size > 0) {
+	while (remaining_size >= write_chunk) {
 		/* If the remaining size is larger than 32 MB, then we keep
 		 * writing 32 MB.
 		 * Otherwise, we only write the remaining number of bytes.
 		 */
-		if (remaining_size > write_chunk)
-			current_write_size = write_chunk - (remaining_flash_offset %
-				write_chunk);
-		else {
-			/* Checking the write size exceed the chunk boundary or not.
-			 * If start offset + write size larger than chunk boundary, we
-			 *  minus the extra part
-			 */
-			if ((remaining_flash_offset + remaining_size) >
-				(remaining_flash_offset + write_chunk -
-				(remaining_flash_offset % write_chunk))) {
+		current_write_size = write_chunk;
 
-				current_write_size = remaining_size -
-					((remaining_size + remaining_flash_offset)
-					% write_chunk);
-			} else {
-				current_write_size = remaining_size;
-			}
-		}
 		/* Does the start/end addresses align on Block Boundries? Probably not,
-		 *  record discard bytes
+		 * record discard bytes
 		 */
 		card_txfer_upd.card_addr = remaining_flash_offset;
 
-		card_txfer_upd.StartDiscardWords = remaining_flash_offset %
-			crd_prop.WriteBlockSize;
 
-		if (((remaining_flash_offset + current_write_size) %
-			crd_prop.WriteBlockSize) == 0)
-			card_txfer_upd.EndDiscardWords = 0;
-		else
-			card_txfer_upd.EndDiscardWords = crd_prop.WriteBlockSize -
-				((remaining_flash_offset + current_write_size) %
-				crd_prop.WriteBlockSize);
-
-		card_txfer_upd.NumBlocks = (card_txfer_upd.EndDiscardWords +
-			card_txfer_upd.StartDiscardWords + current_write_size) /
-			crd_prop.WriteBlockSize;
+		card_txfer_upd.NumBlocks = 1;
 		/* Total Transfer size including pre and post, in words
 		 */
 		card_txfer_upd.TransWordSize = card_txfer_upd.NumBlocks *
 			crd_prop.WriteBlockSize / 4;
 
-		/* Convert to # of words
-		 */
-		card_txfer_upd.StartDiscardWords /= 4;
-		card_txfer_upd.EndDiscardWords /= 4;
-		card_txfer_upd.LocalAddr = local_buffer - card_txfer_upd.StartDiscardWords;
+		/* Convert to # of words */
+		card_txfer_upd.LocalAddr = local_buffer;
 		/* Stores Index of Current write position
 		 */
 		card_txfer_upd.WordIndex = 0;
@@ -486,14 +549,48 @@ uint32_t emmc_write(uint64_t pBuffer, uint32_t flash_offset,
 			break;
 		}
 
-		/* Adjust the local_buffer address, flash_offset, and the
-		 *  remaining_size which are used in the while loop.
+		/*
+		 * Adjust the local_buffer address, flash_offset, and the
+		 * remaining_size which are used in the while loop.
 		 */
 		local_buffer += current_write_size;
 		remaining_flash_offset += current_write_size;
 		remaining_size -= current_write_size;
 
 	} /* End while */
+
+	/* If there's a partial block at the end, perform another read-modify-write */
+	if (remaining_size) {
+		debug_emmc("%s: Writing partial block at end of size %u to offset 0x%x\n",
+			   __func__, remaining_size, remaining_flash_offset);
+		result = emmc_read((uint64_t)temp_block_buffer,
+				   remaining_flash_offset,
+				   HARD512BLOCKLENGTH);
+		if (result != NO_ERROR) {
+			debug_emmc("%s: Error reading last partial block at %u\n",
+				   __func__, remaining_flash_offset);
+			return result;
+		}
+		memcpy(temp_block_buffer, (void *)local_buffer, remaining_size);
+		img_txfer_upd.img_size = HARD512BLOCKLENGTH;
+		img_txfer_upd.img_cur_sz_txfer = 0;
+		img_txfer_upd.img_start_addr = remaining_flash_offset;
+		img_txfer_upd.img_txfer_status = IMAGE_XFR_NOTDONE;
+
+		card_txfer_upd.card_addr = remaining_flash_offset;
+		card_txfer_upd.LocalAddr = (uint64_t)temp_block_buffer;
+		card_txfer_upd.NumBlocks = 1;
+		card_txfer_upd.WordIndex = 0;
+		card_txfer_upd.TransWordSize = HARD512BLOCKLENGTH / 4;
+		if (crd_prop.card_state != READY)
+			return SDMMCDeviceNotReadyError;
+		result = emmc_WriteBlocks();
+		if (crd_prop.card_state == FAULT)  {
+			result = emmc_GetCardErrorState();
+			debug_emmc("%s: Error 0x%x writing last partial block\n",
+				   __func__, result);
+		}
+	}
 
 	crd_prop.card_state = READY;
 

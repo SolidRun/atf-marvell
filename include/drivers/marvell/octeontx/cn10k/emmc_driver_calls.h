@@ -17,6 +17,14 @@ struct emmc_driver {
 };
 
 /****************************************************************
+ *   Description: Allows skipping of initialization, i.e. SMC calls
+ *   Input: initialized - set true to skip initialization in open
+ *   Output: All the needed hardware should be un-initialized.
+ *   Returns: None
+ *****************************************************************/
+void emmc_set_initialized(bool initialized);
+
+/****************************************************************
  *   Description: Initializes the SDMMC port on the platform and
  *                all of the other necessary hardware needed for
  *                SDMMC reading, writing and erasing.

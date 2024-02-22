@@ -84,6 +84,10 @@ ifdef DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS
     $(eval $(call add_define,DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS))
 endif
 
+ifneq ($(SD_POWER_GPIO),)
+    $(eval $(call add_define,SD_POWER_GPIO=$(SD_POWER_GPIO)))
+endif
+
 # Define DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS to enable phys diagnostic cmds
 DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS		:=	1
 ifdef DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS

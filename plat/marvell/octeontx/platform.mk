@@ -74,6 +74,8 @@ MARVELL_GIC_SOURCES	:=	${GICV3_SOURCES}	\
 				drivers/marvell/octeontx/gicv3_setup.c	\
 
 PLAT_BL_COMMON_SOURCES	:=	drivers/arm/pl011/aarch64/pl011_console.S	\
+				drivers/marvell/octeontx/gpio_octeontx.c	\
+				drivers/gpio/gpio.c				\
 				drivers/marvell/octeontx/mmc.c			\
 				drivers/marvell/octeontx/twsi_core.c		\
 				drivers/marvell/octeontx/twsi.c			\
@@ -111,7 +113,6 @@ BL2_SOURCES +=			drivers/io/io_memmap.c					\
 
 BL31_SOURCES		+=	${MARVELL_GIC_SOURCES}		\
 				lib/timers/timers.c					\
-				drivers/marvell/octeontx/gpio_octeontx.c		\
 				drivers/marvell/octeontx/gti_watchdog.c                 \
 				plat/marvell/octeontx/octeontx_bl31_setup.c		\
 				plat/marvell/octeontx/octeontx_ehf.c			\

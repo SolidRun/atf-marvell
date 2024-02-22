@@ -160,7 +160,8 @@ void plat_timer_set_period(uint64_t period)
 	curr_period = period;
 }
 
-static uint32_t plat_get_timer_value(void)
+/** Returns 64-bit timer value since ATF uses 32-bit value */
+static inline uint64_t octeontx_get_timer_value(void)
 {
 	/*
 	 * Generic delay timer implementation expects the timer to be a down
@@ -172,8 +173,12 @@ static uint32_t plat_get_timer_value(void)
 #else
 	volatile uint64_t count = ~CSR_READ(CAVM_RST_REF_CNTR);
 #endif
-
 	return count;
+}
+
+static uint32_t plat_get_timer_value(void)
+{
+	return octeontx_get_timer_value();
 }
 
 static timer_ops_t plat_timer_ops;
@@ -204,4 +209,19 @@ int plat_timers_init(void)
 	plat_timer_enable(0);
 	timers_octeontx_init_delay();
 	return 0;
+}
+
+/**
+ * Get the delta time from start in microseconds
+ *
+ * @param	start	start time, set to 0 for current time
+ *
+ * @return	number of microseconds since start
+ */
+uint64_t octeontx_get_dtime_usec(uint64_t start)
+{
+	uint64_t now =
+		div_round_up(-octeontx_get_timer_value() * plat_timer_ops.clk_mult,
+			     plat_timer_ops.clk_div);
+	return now - start;
 }
