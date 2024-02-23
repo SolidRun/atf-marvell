@@ -26,7 +26,6 @@
 #include "cavm-csrs.h"
 #include "cavm-csrs-tad_cmn.h"
 #include "cavm-csrs-rnm.h"
-#include "cavm-csrs-dpi.h"
 
 #define NCB_COUNT			5
 
@@ -325,8 +324,6 @@ void plat_add_mmio(void)
 		add_map_record(CAVM_PEM_BAR_E_PEMX_PF_BAR0(i), CAVM_PEM_BAR_E_PEMX_PF_BAR0_SIZE, attr);
 		add_map_record(CAVM_PEM_BAR_E_PEMX_PF_BAR4(i), CAVM_PEM_BAR_E_PEMX_PF_BAR4_SIZE, attr);
 	}
-
-	add_map_record(CAVM_DPI_BAR_E_DPIX_PF_BAR0(0), CAVM_DPI_BAR_E_DPIX_PF_BAR0_SIZE, attr);
 
 	device_type_count = plat_octeontx_get_gserm_count();
 	for (i = 0; i < device_type_count; i++) {

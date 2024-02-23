@@ -167,11 +167,6 @@ static void octeontx_init_rvu_af(int *hwvf)
 	rvu_dev[RVU_AF].pf_res_nix_id = NIX_DISABLED;
 	rvu_dev[RVU_AF].pci.pf_devid = CAVM_PCC_DEV_IDL_E_RVU_AF & DEVID_MASK;
 	rvu_dev[RVU_AF].pci.vf_devid = CAVM_PCC_DEV_IDL_E_SW_RVU_AF_VF & DEVID_MASK;
-#if defined(PLAT_cn10ka)
-	if (is_pem_in_ep_mode(0))
-		rvu_dev[RVU_AF].pci.vf_devid =
-			CAVM_PCC_DEV_IDL_E_SW_RVU_SDP_VF & DEVID_MASK;
-#endif
 	rvu_dev[RVU_AF].pci.class_code = RVU_CLASS_CODE & CLASS_CODE_MASK;
 	/* Increment already allocated HWVFs */
 	*hwvf += rvu_dev[RVU_AF].num_vfs;
