@@ -28,9 +28,6 @@
 #define PEMX_CFG_LANES_BIT_MASK		0x3
 #define PEMX_CFG_LANES_BIT_POS		1
 
-#define RVU_SDP_CHAN_BASE 0x80
-#define RVU_SDP_NUM_CHAN  7         // ilog2(RVU_SDP_CHAN_BASE)
-
 #define SDP_INFO_SZ			512
 
 struct sdp_epf_info {
