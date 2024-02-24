@@ -312,10 +312,18 @@ void octeontx_init_iobn(uint64_t config_base, uint64_t config_size)
 	 * So we need to allow more than 64 bit access for RNG block
 	 * RNG IOBN = 1 and NCB = 0xf.
 	 */
-	if (iobn_nr == 1) {
-		acc.u = CSR_READ(CAVM_IOBNX_NCBX_ACC(iobn_nr, RNG_DID));
-		acc.s.all_cmds = 1;
-		CSR_WRITE(CAVM_IOBNX_NCBX_ACC(iobn_nr, RNG_DID), acc.u);
+	if (cavm_is_model(OCTEONTX_CN10KB)) {
+		if (iobn_nr == 0) {
+			acc.u = CSR_READ(CAVM_IOBNX_NCBX_ACC(iobn_nr, RNG_DID));
+			acc.s.all_cmds = 1;
+			CSR_WRITE(CAVM_IOBNX_NCBX_ACC(iobn_nr, RNG_DID), acc.u);
+		}
+	} else {
+		if (iobn_nr == 1) {
+			acc.u = CSR_READ(CAVM_IOBNX_NCBX_ACC(iobn_nr, RNG_DID));
+			acc.s.all_cmds = 1;
+			CSR_WRITE(CAVM_IOBNX_NCBX_ACC(iobn_nr, RNG_DID), acc.u);
+		}
 	}
 
 	/* Permit all access types for ML to access NCB requests */
