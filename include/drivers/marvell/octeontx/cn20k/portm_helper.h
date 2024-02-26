@@ -6,6 +6,8 @@
 #ifndef __PORTM_HELPER_H__
 #define __PORTM_HELPER_H__
 
+#include <plat_eth_cfg.h>
+
 /**
  * Updates Portm struct Tx Eq settings based on dts or default settings
  *

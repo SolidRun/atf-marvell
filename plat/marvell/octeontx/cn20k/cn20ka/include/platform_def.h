@@ -57,6 +57,11 @@
 |      128 KB	      |
 |---------------------|==>Non Secure memory Base @ 16MB
 |		      |
+|	ETH Config    |
+|	Shared memory |
+|	1 MB	      |
+|		      |
+|---------------------|
 |	Shared memory |
 |	for EFI Var   |
 |	1 MB	      |
@@ -129,6 +134,9 @@
 #define WORK_BUFFER_CRASHLOG_BASE	(WORK_BUFFER_BASE + CRASHLOG_BUF_BASE)
 #define WORK_BUFFER_CRASHLOG_SIZE	4096
 #define WORK_BUFFER_CRASH_MAGIC		0xDEADAABBCCDDDEAD
+
+#define ETH_LINK_SHMEM_BASE             (NS_MEMORY_BASE)
+#define ETH_LINK_SHMEM_SIZE             0x100000 /* 1MB */
 
 /* Shared memory area for EFI variables */
 #define EFI_VAR_MEM_BASE		(ETH_LINK_SHMEM_BASE + ETH_LINK_SHMEM_SIZE)

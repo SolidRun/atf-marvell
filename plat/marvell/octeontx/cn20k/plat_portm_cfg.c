@@ -12,9 +12,9 @@
 #include <assert.h>
 #include <octeontx_common.h>
 #include <plat_cn20k_configuration.h>
+#include <plat_eth_cfg.h>
 #include "plat_portm_cfg.h"
 #include <plat_scfg.h>
-#include <gserm.h>
 
 #define DISABLE -1
 

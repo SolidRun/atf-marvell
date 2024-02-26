@@ -5,9 +5,8 @@
 
 #include <stdlib.h>
 #include <octeontx_common.h>
-#include <qlm.h>
+#include <plat_eth_cfg.h>
 
-#include "rpm.h"
 #include "cavm-csrs-rpm.h"
 
 static const struct gserm_mode_strmap_s gsermmode_strmap[] = {

@@ -11,13 +11,8 @@
 #define __PLAT_BOARD_CFG_H__
 
 #include <platform_dt.h>
-#include <qlm.h>
 #include <platform_scfg.h>
-#include <sfp_intf.h>
-#include <eth_intf.h>
-#include <phy_mgmt.h>
 #include <octeontx_board_cfg.h>
-#include <plat_portm_cfg.h>
 
 typedef enum ccs_region_id {
 	SEC_REGION_0,
@@ -33,61 +28,6 @@ typedef enum ccs_region_id {
 	NSECURE_NONPRESERVE_1,
 	CCS_REGION_IDX_MAX,
 } ccs_region_index_t;
-
-#define MDIO_NUM 2
-
-typedef struct lmac_mode_info {
-	uint32_t available:1;
-	uint32_t an_disable:1;
-	uint32_t sgmii_speed:4;
-	uint32_t sgmii_duplex:1;
-	uint32_t reserved1:25;
-} lmac_mode_info_t;
-
-/* Define LMAC structure. */
-typedef struct rpm_lmac_config {
-	/* for RVU */
-	int num_rvu_vfs;
-	int num_msix_vec;
-	int mode;		/* LMAC type */
-	int portm_idx;		/* PORTM index of the LMAC */
-	int port_enable;	/* From EBF DT, if a PORTM is enabled or not */
-	/* NOTE: when this bit is set, it doesn't necessarily
-	 * mean the link is up until the user sends LINK UP command
-	 */
-	int lmac_enable;
-	uint8_t local_mac_address[6];
-	uint64_t supported_link_modes;	/* rpm_mode_t enum */
-	int phy_present;
-	int phy_mode;		/* MAC or PHY mode for SGMII */
-	int phy_port;
-	phy_config_t *phy_config;
-	int phy_adv_speed; /* To indicate PHY driver that this is not mode/speed change but only to advertise speed */
-	int phy_advertised_speed[ETH_LINK_MAX];
-	bool sfp_slot;
-	sfp_slot_info_t *sfp_info;
-	lmac_mode_info_t lmac_mode_info[CAVM_RPM_LMAC_TYPES_E_MAX];
-	int sgmii_1000x_mode;	/* SGMII or 1000x mode for SGMII */
-	int sgmii_speed;	/* SGMII/USGMII speed if AN disabled */
-	int sgmii_duplex;	/* SGMII/USGMII duplex if AN disabled */
-	int an_disable;
-} rpm_lmac_config_t;
-
-typedef enum {
-	NIX0 = 1,
-	NIX1 = 2
-} nix_block_t;
-
-typedef struct rpm_config {
-	uint32_t lmac_count:4;
-	uint32_t lmacs_used:4;
-	/* for RVU */
-	uint32_t enable:1;
-	uint32_t is_rfoe:1;
-	uint16_t lanes_used_mask;
-	rpm_lmac_config_t lmac_cfg[MAX_LMAC_PER_RPM];
-	nix_block_t nix_block;
-} rpm_config_t;
 
 typedef enum {
 	SPI_MEM_OP_UNKNOWN = 0,
@@ -111,19 +51,6 @@ struct xspi_cs_config {
 	uint32_t erase_seq_1;
 	uint32_t erase_seq_2;
 };
-
-typedef struct gserm_plat_config {
-	uint32_t lane_map;      /* Port MAC to SERDES lane mapping.
-				 * Nibble # = MAC lane (fixed #)
-				 * Nibble Value = Connected GSERM SERDES lane
-				 */
-	uint8_t synce_mode;	/* GSERM SYNC-E mode */
-	uint8_t refclk_conn;    /* Set to 1 if a REF_CLK is terminated to the GSERM clock circuit */
-	uint8_t refclk_term;    /* REF_CLK termination: 0 = 50 Ohm, 1 = None */
-	uint8_t rx_cal_setting; /* GSERM Phase Adaptation Calibration Value
-				 * cnf10ka only
-				 */
-} gserm_plat_config_t;
 
 typedef struct spi_config {
 	uint32_t has_efivar;
@@ -163,17 +90,7 @@ typedef struct rvu_config {
 
 typedef struct plat_octeontx_board_cfg {
 	board_cfg_t bcfg;
-	rpm_config_t rpm_cfg[MAX_RPM];
-	portm_config_t portm_cfg[MAX_PORTM];
-	gserm_plat_config_t gserm_plat_cfg[MAX_GSERM];
-	sfp_slot_info_t sfp_slots[MAX_PORTM];
-	led_gpio_info_t led_info[MAX_PORTM];
-	uint32_t led_blink_rate; /* in milli hertz */
-	phy_config_t phys[MAX_PORTM];
-	int timer1_ms;		/* RPM timer 1 callback frequency */
-	int timer2_ms;		/* RPM timer 2 callback frequency */
 	spi_config_t spi_cfg[MAX_SPI_BUS];
-	int ignore_eth_persist_data;
 	int do_switch_reset; /* Flag to Save EBF SWITCH_MICROINIT dt prop */
 	int reserved_os_memory_size;
 	int asym_mem_config;
@@ -182,11 +99,6 @@ typedef struct plat_octeontx_board_cfg {
 	rvu_config_t rvu_cfg;
 } plat_octeontx_board_cfg_t;
 
-/* Frequency in Hz for GPIO activity LED */
-#define GPIO_LED_ACTVITY_FREQ_HZ 0x4ULL
-/* Supported range for setting LED blink rate */
-#define GPIO_LED_ACTIVITY_MIN_RATE 250
-#define GPIO_LED_ACTIVITY_MAX_RATE 30000
 extern plat_octeontx_board_cfg_t * const plat_octeontx_bcfg;
 uint64_t ccs_region_get_info(ccs_region_index_t index, uint64_t *start);
 void check_fdt_trims(void *fdt);

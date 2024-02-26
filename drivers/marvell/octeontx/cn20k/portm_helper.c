@@ -9,7 +9,7 @@
 #include <libfdt.h>
 #include <stdlib.h>
 #include <assert.h>
-#include <plat_board_cfg.h> /* Needed */
+#include <plat_eth_cfg.h> /* Needed */
 #include <octeontx_common.h>
 #include <plat_scfg.h>
 #include <fdtebf_helper.h>
@@ -61,7 +61,7 @@ void fill_portm_tx_eq_info(int portm_idx, portm_modes_t portm_mode)
 		return;
 	}
 
-	portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
+	portm = &(plat_octeontx_eth_cfg->portm_cfg[portm_idx]);
 
 	default_tx_tuning.portm_mode = portm_mode;
 	if (portm_get_default_tx_eq(&default_tx_tuning)) {
@@ -136,8 +136,8 @@ void fill_portm_lane_map(int portm_idx)
 	gserm_plat_config_t *gserm;
 	int mac_lane, portm_first, gser_lane;
 
-	portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
-	gserm = &(plat_octeontx_bcfg->gserm_plat_cfg[portm->gserm]);
+	portm = &(plat_octeontx_eth_cfg->portm_cfg[portm_idx]);
+	gserm = &(plat_octeontx_eth_cfg->gserm_plat_cfg[portm->gserm]);
 	/* Determine which MAC lane the portm connects to */
 	portm_first = portm_gserm_get_first_portm_num(portm->gserm);
 	mac_lane = portm_idx - portm_first;
@@ -163,7 +163,7 @@ void fill_portm_mac_info(int portm_idx, portm_modes_t portm_mode)
 	portm_mac_type_t mac_type;
 	portm_config_t *portm;
 
-	portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
+	portm = &(plat_octeontx_eth_cfg->portm_cfg[portm_idx]);
 	mac_type = portm_get_mode_desc_mac_type(portm_mode);
 	portm->mac_type = mac_type;
 	portm->num_lmacs = portm_get_mode_desc_mac_num(portm_mode);
@@ -193,7 +193,7 @@ void fill_portms_used(int portm_idx, portm_modes_t portm_mode)
 	int num_macs = portm_get_mode_desc_mac_num(portm_mode);
 	int max_gser_lanes;
 
-	portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
+	portm = &(plat_octeontx_eth_cfg->portm_cfg[portm_idx]);
 
 	max_gser_lanes = plat_octeontx_scfg->qlm_max_lane_num[portm->gserm];
 	/* Figure out how many portms are used by this port */
@@ -234,7 +234,7 @@ int portm_802_3ap_cfg(int portm_idx, portm_ap_802_3_config_t *ap_802_3_cfg,
 	portm_ap_802_3_adv_t ap_adv_temp = {0};
 	portm_ap_802_3_adv_t *ap_adv;
 
-	portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
+	portm = &(plat_octeontx_eth_cfg->portm_cfg[portm_idx]);
 	ap_adv = &portm->ap_802_3_adv;
 
 	for (int cfg = 0; cfg < PORTM_MAX_AN_CFGS; cfg++) {
