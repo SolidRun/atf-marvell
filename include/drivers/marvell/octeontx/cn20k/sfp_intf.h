@@ -152,8 +152,6 @@ typedef struct sfp_slot_info {
 	char name[16];
 	/* TWSI details for EEPROM connection */
 	i2c_info_t i2c_eeprom_info;
-	/* TWSI details for DIAG connection (if applicable) */
-	i2c_info_t i2c_diag_info;
 	/* SFP : GPIO details for tx_disable pin */
 	gpio_info_t tx_disable;
 	/* SFP : GPIO details for mod_abs pin */
@@ -180,8 +178,6 @@ typedef struct sfp_slot_info {
 	uint32_t eeprom_addr;
 	/* different power levels in mW */
 	uint32_t max_power;
-	/*QSFP mod select pin output value to select module*/
-	uint32_t  qsfp_modsel_output;
 } sfp_slot_info_t;
 
 /* Data structure to hold LED information
