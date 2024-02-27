@@ -10,7 +10,7 @@
 #define SFP_MAX_EEPROM_SIZE    0x100
 
 /* Type of GPIO pin */
-typedef enum {
+typedef enum __attribute__((__packed__)) {
 	GPIO_PIN_NONE = 0,
 	/* GPIO pin is directly connected to SoC */
 	GPIO_PIN_DEFAULT,
@@ -29,14 +29,14 @@ typedef enum {
 	GPIO_PIN_OTHER,
 } gpio_type_e;
 
-typedef enum i2c_mux_type {
+typedef enum __attribute__((__packed__)) i2c_mux_type {
 	I2C_SWITCH,
 	I2C_MUX,
 	I2C_OTHER
 } i2c_mux_type_e;
 
 /* Type of i2c bus */
-typedef enum {
+typedef enum __attribute__((__packed__)) {
 	I2C_BUS_NONE = 0,
 	I2C_BUS_DEFAULT,    /* Directly connected to SoC */
 	I2C_BUS_PCA9540,
@@ -51,7 +51,7 @@ typedef enum {
 } i2c_bus_type_e;
 
 /* SFF compliance revisions */
-typedef enum {
+typedef enum __attribute__((__packed__)) {
 	ETH_MODULE_SFF_NONE = 0,
 	ETH_MODULE_SFF_8079,
 	ETH_MODULE_SFF_8472,
@@ -122,7 +122,7 @@ typedef struct gpio_info {
  * sfp_mod_state_info : Module status
  * sfp_data_state_info : EEPROM status
  */
-typedef enum sfp_mod_state_info {
+typedef enum __attribute__((__packed__)) sfp_mod_state_info {
 	/* Module disconnected */
 	SFP_MOD_STATE_ABSENT = 0,
 	/* Module connected */
@@ -133,7 +133,7 @@ typedef enum sfp_mod_state_info {
 	SFP_MOD_STATE_OTHER
 } sfp_mod_state_info_t;
 
-typedef enum sfp_data_state_info {
+typedef enum __attribute__((__packed__)) sfp_data_state_info {
 	SFP_DATA_STATE_IDLE = 0,
 	/* MCP is updating the data
 	 * (before read of EEPROM, this state to be set)
@@ -202,7 +202,7 @@ typedef struct led_gpio_info {
 } led_gpio_info_t;
 
 /* Ownership of shared memory */
-typedef enum sfp_own {
+typedef enum __attribute__((__packed__)) sfp_own {
 	SFP_OWN_NONE = 0,
 	SFP_OWN_AP,
 	SFP_OWN_MCP
@@ -232,7 +232,7 @@ typedef struct sfp_context {
 } sfp_context_t;
 
 /* FIXME: this is not complete list */
-typedef enum async_req_id {
+typedef enum __attribute__((__packed__)) async_req_id {
 	SFP_REQ_NONE = 0,
 	SFP_REQ_TX_ENABLE,    /* Turn ON transmitter */
 	SFP_REQ_TX_DISABLE,    /* Turn OFF transmitter */

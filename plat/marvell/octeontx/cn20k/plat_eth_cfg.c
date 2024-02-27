@@ -868,9 +868,7 @@ static void rpm_lmacs_check_linux(void *fdt,
 		lmac->num_rvu_vfs = DEFAULT_VFS;
 		lmac->num_msix_vec = DEFAULT_MSIX_LMAC;
 		lmac->sfp_slot = 0;
-		lmac->sfp_info = NULL;
 		lmac->phy_present = 0;
-		lmac->phy_config = NULL;
 		lmac->lmac_enable = 0;
 	}
 
@@ -942,7 +940,6 @@ static void rpm_lmacs_check_linux(void *fdt,
 			}
 
 			if (pctx->phy_offsets[portm_idx].atf_mgmt) {
-				lmac->phy_config = phy;
 				lmac->phy_present = 1;
 				lmac->phy_port = fdt_get_int32(fdt, "port", phy_offset);
 			}
@@ -1030,7 +1027,6 @@ static void rpm_lmacs_check_linux(void *fdt,
 			}
 
 			if (pctx->sfp_offsets[portm_idx].atf_mgmt) {
-				lmac->sfp_info = sfp;
 				lmac->sfp_slot = 1;
 			}
 		}

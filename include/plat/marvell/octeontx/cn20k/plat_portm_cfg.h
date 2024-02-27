@@ -10,7 +10,7 @@
 
 #define PORTM_MAX_AN_CFGS 10
 
-typedef enum {
+typedef enum __attribute__((__packed__)) {
 	PORTM_MODE_DISABLED       = 0,   /* Port is disabled (all chips) */
 	PORTM_MODE_INVALID        = 1,   /* Invalid port specified */
 	PORTM_MODE_INACTIVE       = 2,   /* Associated SERDES lane used by another Port */
@@ -112,7 +112,7 @@ typedef struct portm_ap_802_3_adv {
 	uint32_t  an_nonce_dis : 1;        /* Disables Nonce check. Loopback=1 (Nonce disabled), Normal=0 */
 } portm_ap_802_3_adv_t;
 
-typedef enum {
+typedef enum __attribute__((__packed__)) {
 	PORTM_FEC_DISABLED = 0,      /* No FEC requested */
 	PORTM_FEC_BASER = 1,         /* BASE-R FEC requested */
 	PORTM_FEC_RS = 2,            /* RS-FEC requested */
@@ -129,21 +129,21 @@ typedef struct portm_ap_802_3_config {
 	int               fec_abil[PORTM_MAX_AN_CFGS];   /* Sets fec_abil bit for feq requested */
 } portm_ap_802_3_config_t;
 
-typedef enum {
+typedef enum __attribute__((__packed__)) {
 	PORTM_FEC_ABIL_DISABLED = 0, /* Disable FEC ability advertisement */
 	PORTM_FEC_ABIL_BASER = 1,    /* Enable BASE-R FEC abil advertisements */
 	PORTM_FEC_ABIL_RS = 2,       /* Enable RS-FEC ability advertisements */
 	PORTM_FEC_ABIL_BASER_RS = 3, /* Enable BASE-R and RS-FEC abil advertisements */
 } portm_fec_abil_t;
 
-typedef enum {
+typedef enum __attribute__((__packed__)) {
 	PORTM_DIS = 0,     /* Disabled port */
 	PORTM_ETH = 1,     /* Protocol used for Ethernet */
 	PORTM_JESD = 2,    /* Protocol used for JESD */
 	PORTM_CPRI = 3,    /* Protocol used for CPRI */
 } portm_mac_type_t;
 
-typedef enum {
+typedef enum __attribute__((__packed__)) {
 	PORTM_PCS_NONE        = 0,   /* No Eth PCS or 802.3ap mode */
 	PORTM_PCS_1000BASE_X  = 1,   /* SGMII/1000BASE-X */
 	PORTM_PCS_QSGMII      = 2,   /* QSGMII */
@@ -158,14 +158,14 @@ typedef enum {
 	PORTM_PCS_100GBASE_R2 = 10,  /* 100GAUI-2, 100GBASE-KR2/CR2 */
 } portm_pcs_type_t;
 
-typedef enum portm_gserm_lpbk_mode {
+typedef enum __attribute__((__packed__)) portm_gserm_lpbk_mode {
 	PORTM_LPBK_MODE_NONE,
 	PORTM_LPBK_MODE_NEA,
 	PORTM_LPBK_MODE_NED,
 	PORTM_LPBK_MODE_FED,
 } portm_gserm_lpbk_mode_t;
 
-typedef enum portm_rx_termination {
+typedef enum __attribute__((__packed__)) portm_rx_termination {
 	PORTM_RX_TERMINATION_AC = 0,
 	PORTM_RX_TERMINATION_DC = 1,
 } portm_rx_termination_t;

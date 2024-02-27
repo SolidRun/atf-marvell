@@ -38,7 +38,7 @@ int gserm_get_mode_from_string(const char *str);
 struct gserm_mode_strmap_s gserm_get_mode_strmap(int gserm_mode);
 
 /* PHY types */
-typedef enum phy_type {
+typedef enum __attribute__((__packed__)) phy_type {
 	PHY_NONE = 0,
 } phy_type_t;
 
@@ -54,7 +54,7 @@ typedef struct phy_config {
 	int fdt_offset; /* offset of PHY node in Linux DT */
 } phy_config_t;
 
-typedef enum tx_eq_limits {
+typedef enum __attribute__((__packed__)) tx_eq_limits {
 	TXEQ_PRE2_MIN = 0,
 	TXEQ_PRE2_MAX = 9,
 	TXEQ_PRE1_MIN = -22,
@@ -67,7 +67,7 @@ typedef enum tx_eq_limits {
 } tx_eq_limits_t;
 
 /* LINK speed types */
-enum eth_link_speed {
+enum __attribute__((__packed__)) eth_link_speed {
 	ETH_LINK_NONE,
 	ETH_LINK_10M,
 	ETH_LINK_100M,
@@ -111,11 +111,9 @@ typedef struct rpm_lmac_config {
 	int phy_present;
 	int phy_mode;		/* MAC or PHY mode for SGMII */
 	int phy_port;
-	phy_config_t *phy_config;
 	int phy_adv_speed; /* To indicate PHY driver that this is not mode/speed change but only to advertise speed */
 	int phy_advertised_speed[ETH_LINK_MAX];
 	bool sfp_slot;
-	sfp_slot_info_t *sfp_info;
 	lmac_mode_info_t lmac_mode_info[CAVM_RPM_LMAC_TYPES_E_MAX];
 	int sgmii_1000x_mode;	/* SGMII or 1000x mode for SGMII */
 	int sgmii_speed;	/* SGMII/USGMII speed if AN disabled */
