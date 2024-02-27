@@ -49,6 +49,7 @@
 #include "cavm-csrs-iobn.h"
 #include "cavm-csrs-mrml.h"
 #include "cavm-csrs-rst.h"
+#include "cavm-csrs-smmu.h"
 #include "cavm-sw-csrs.h"
 #include "cavm-csrs-ncb.h"
 #include "cavm-csrs-apa.h"
@@ -145,6 +146,7 @@ void bl31_el3_plat_prepare_exit(void)
 void plat_octeontx_setup(void)
 {
 	int core;
+	cavm_smmux_gbpa_t smmu_gbpa;
 
 #if defined(IMAGE_BL31)
 #if defined(SAVE_FATAL_ERRLOGS)
@@ -157,6 +159,16 @@ void plat_octeontx_setup(void)
 	plat_gpio_irq_setup();
 
 	plat_set_emmc_msix_vectors();
+
+	/* Bypass SMMU transactions */
+	smmu_gbpa.u = CSR_READ(CAVM_SMMUX_GBPA(0));
+	smmu_gbpa.s.abrt = 0;
+	smmu_gbpa.s.update = 1;
+	CSR_WRITE(CAVM_SMMUX_GBPA(0), smmu_gbpa.u);
+
+	do {
+		smmu_gbpa.u = CSR_READ(CAVM_SMMUX_GBPA(0));
+	} while (smmu_gbpa.s.update);
 
 	/* Setup APA wdog interrupts */
 	//plat_apa_wdog_intr_init();
