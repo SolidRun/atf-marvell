@@ -40,6 +40,10 @@
 #endif
 #define RST_REF_CLK 50
 
+CASSERT((__builtin_offsetof(struct sh_fwdata, eth_fw_data)
+	== FWDATA_CGX_LMAC_OFFSET),
+	assert_sh_fwdata_eth_fw_data_ptr_offset_mismatch);
+
 static struct eth_lmac_fwdata_s *get_sh_cgx_fwdata_ptr(int cgx_id, int lmac_id)
 {
 	struct sh_fwdata *fw_data;
