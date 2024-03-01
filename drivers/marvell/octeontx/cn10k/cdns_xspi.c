@@ -20,7 +20,9 @@
 //#include "cavm-csrs-gpio.h"
 #include "cavm-csrs-spi.h"
 #include "cavm-csrs-ehsm.h"
+#if !defined(PLAT_CN20K_FAMILY)
 #include <ehsm-drv.h>
+#endif
 //#include "cavm-csrs-rst.h"
 //#include "cavm-csrs-cpc.h"
 
@@ -822,10 +824,12 @@ void prepare_opcomands(int spi_con, int cs, uint64_t end_spi_addr)
 		addr_current = XSPI_ADDRESSING_3B;
 	addr_new = end_spi_addr < ADDR_LIMIT_3B ? XSPI_ADDRESSING_3B : XSPI_ADDRESSING_4B;
 
+#if !defined(PLAT_CN20K_FAMILY)
 	/* Check if safemode fuse bit is set */
 	CSR_INIT(fuse_bits, CAVM_EHSM_BIU_BOOTROM_CONFIG_STATUS);
 	if (fuse_bits.s.bootrom_rsvd_param & EHSM_BOOTROM_RESERVED_PARAM_0)
 		safemode = 1;
+#endif
 
 	/*Check if we are in safemode now*/
 	if (read_seq_0.s.read_seq_p1_cmd_val == SPINOR_OP_READ_4B)
