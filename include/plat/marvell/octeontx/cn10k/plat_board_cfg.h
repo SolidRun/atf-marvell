@@ -18,6 +18,7 @@
 #include <phy_mgmt.h>
 #include <octeontx_board_cfg.h>
 #include <plat_portm_cfg.h>
+#include <plat_sdp.h>
 
 typedef enum ccs_region_id {
 	SEC_REGION_0,
@@ -267,6 +268,7 @@ typedef struct plat_octeontx_board_cfg {
 	uint64_t adbg_dram_region_base;
 	ppr_config_t ppr_config;
 	int mgmt_port;
+	struct sdp_fw_data sdp_data;
 } plat_octeontx_board_cfg_t;
 
 /* Frequency in Hz for GPIO activity LED */

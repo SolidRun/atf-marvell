@@ -112,7 +112,11 @@
 #define MAX_RVU_PFS		32
 #define MAX_RVU_VFS		256
 
+#if defined(PLAT_cn10ka)
+#define SW_RVU_SDP_NUM_PF       0
+#else
 #define SW_RVU_SDP_NUM_PF       1
+#endif
 
 /* Priority levels for OcteonTX platforms */
 #if SDEI_SUPPORT
