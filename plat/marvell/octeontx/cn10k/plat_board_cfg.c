@@ -28,12 +28,15 @@
 #include <portm_helper.h>
 #include <fdtebf_helper.h>
 #include <eth_intf.h>
+#include <plat_sdp.h>
 
 #include "cavm-csrs-ecam.h"
 #include "cavm-csrs-gpio.h"
 #include "cavm-csrs-mio_tws.h"
 #include "cavm-csrs-rst.h"
 #include "cavm-csrs-tad.h"
+#include "cavm-csrs-dpi.h"
+#include "cavm-csrs-pem.h"
 
 /* for LEGACY logging, define DEBUG_ATF_DTS to enable debug logs */
 #if !defined(MRVL_TF_LOG_MODULE)
@@ -153,6 +156,10 @@ static struct parser_context_s {
 	node_info_t sfp_offsets[MAX_PORTM];
 	node_info_t phy_offsets[MAX_PORTM];
 } parser_context;
+
+#ifdef PLAT_cn10ka
+static struct sdp_dev sdp;
+#endif
 
 static int fdt_check_compatible_new_old_fmt(const void *fdt, int nodeoffset,
 		char *compatible)
@@ -1327,6 +1334,235 @@ static int cn10k_parse_rvu_admin(const void *fdt, int parentoffset,
 	return 0;
 }
 
+#ifdef PLAT_cn10ka
+static int cn10k_parse_sdp_ringinfo(const void *fdt, int parentoffset,
+				    const char *name)
+{
+	int offset, len, idx, cnt, val, num_vfs, num_val;
+	struct sdp_node_info *info = &sdp.fw_data.info;
+	const uint32_t *ptr;
+
+	cnt = 0;
+	/* Find offset of *name node */
+	offset = fdt_subnode_offset(fdt, parentoffset, name);
+	if (offset < 0) {
+		WARN("RVU: No %s node in FDT\n", name);
+		return -1;
+	}
+
+	ptr = fdt_getprop(fdt, offset, "num-rvu-vfs", &len);
+	if (!ptr) {
+		WARN("SDP DTS: Failed to get num-rvu-vfs\n");
+		return -1;
+	}
+
+	if (len != sizeof(uint32_t)) {
+		WARN("SDP DTS: Wrong field length: num-rvu-vfs\n");
+		return -1;
+	}
+	info->max_rvu_vfs =  fdt32_to_cpu(*ptr);
+
+	/* Get number of SDP PFs */
+	ptr = fdt_getprop(fdt, offset, "num-sdp-pfs", &len);
+	if (!ptr) {
+		WARN("RVU: SDP DTS: Failed to get num-sdp-pfs\n");
+		return -1;
+	}
+
+	if (len != sizeof(uint32_t)) {
+		WARN("RVU: SDP DTS: Wrong field length: num-sdp-pfs\n");
+		return -1;
+	}
+	sdp.num_sdp_pfs = fdt32_to_cpu(*ptr);
+	num_vfs = sdp.num_sdp_pfs;
+
+	/* Get number of SDP VFs per PF */
+	ptr = fdt_getprop(fdt, offset, "num-sdp-vfs", &len);
+	if (!ptr) {
+		WARN("RVU: SDP DTS: Failed to get num-sdp-vfs\n");
+		return -1;
+	}
+
+	num_val = len / sizeof(uint32_t);
+	if (num_val != sdp.num_sdp_pfs) {
+		WARN("RVU: error: num-sdp-vfs length %d is not same as number of SDP PFs %d\n",
+		     num_val, sdp.num_sdp_pfs);
+		return -1;
+	}
+
+	ptr = fdt_getprop(fdt, offset, "num-sdp-vfs", NULL);
+	for (idx = 0; idx < sdp.num_sdp_pfs; idx++) {
+		val = fdt32_to_cpu(*(ptr + idx));
+		if (val > 128) {
+			WARN("RVU: Error: Max SDP VFs %d > 128\n", val);
+			return -1;
+		}
+		sdp.epf[idx].num_sdp_vfs = val;
+		sdp.epf[idx].start_vf_idx = sdp.num_sdp_pfs + cnt;
+		cnt += val;
+		num_vfs += val;
+	}
+
+	if (info->max_rvu_vfs < num_vfs) {
+		WARN("RVU: Error: Max RVU VFs(%d) is less than required SDP VFs(%d)",
+		     info->max_rvu_vfs, num_vfs);
+	}
+
+	/* Do not have more than num_vfs of RVU VFs */
+	info->max_rvu_vfs = num_vfs;
+
+	/* Get number of rings per PF */
+	ptr = fdt_getprop(fdt, offset,  "num-sdp-pf-rings", &len);
+	if (!ptr) {
+		WARN("RVU: SDP DTS: Failed to get num-sdp-pf-rings\n");
+		return -1;
+	}
+	sdp.num_sdp_pf_rings = fdt32_to_cpu(*ptr);
+	/* Get number of rings per VF */
+	ptr = fdt_getprop(fdt, offset, "num-sdp-vf-rings", &len);
+	if (!ptr) {
+		WARN("RVU: SDP DTS: Failed to get num-sdp-vf-rings\n");
+		return -1;
+	}
+
+	num_val = len / sizeof(uint32_t);
+	if (num_val != sdp.num_sdp_pfs) {
+		WARN("RVU: error: num-sdp-vf-rings length %d is not same as number of SDP PFs %d\n",
+		     num_val, sdp.num_sdp_pfs);
+		return -1;
+	}
+
+	ptr = fdt_getprop(fdt, offset, "num-sdp-vf-rings", NULL);
+	for (idx = 0; idx < sdp.num_sdp_pfs; idx++) {
+		val = fdt32_to_cpu(*(ptr + idx));
+		sdp.epf[idx].num_sdp_vf_rings = val;
+	}
+
+	/* Get PF rings for RVU SDP PF */
+	ptr = fdt_getprop(fdt, offset, "num-rvu-pf-rings", &len);
+	if (!ptr) {
+		WARN("RVU: SDP DTS: Failed to get num-rvu-pf-rings\n");
+		return -1;
+	}
+	if (len != sizeof(uint32_t)) {
+		WARN("RVU: DTS: Wrong field length: num-rvu-pf-rings\n");
+		return -1;
+	}
+	info->num_pf_rings = fdt32_to_cpu(*ptr);
+
+	ptr = fdt_getprop(fdt, offset, "pf-srn", &len);
+	if (!ptr) {
+		WARN("RVU: DTS: Failed to get pf-srn\n");
+		return -1;
+	}
+
+	if (len != sizeof(uint32_t)) {
+		WARN("RVU:  DTS: Wrong field length: pf-srn\n");
+		return -1;
+	}
+	info->pf_srn = fdt32_to_cpu(*ptr);
+
+	VERBOSE("RVU: SDP num_pfs:%d, rings_per_pf:%d\n", sdp.num_sdp_pfs, sdp.num_sdp_pf_rings);
+	for (idx = 0; idx < sdp.num_sdp_pfs; idx++) {
+		VERBOSE("PF%d num_vfs: %d, rings_per_vf: %d\n",
+			idx, sdp.epf[idx].num_sdp_vfs, sdp.epf[idx].num_sdp_vf_rings);
+	}
+
+	VERBOSE("RVU sdp pf rings:%d\n", info->num_pf_rings);
+	return 0;
+}
+
+static void cn10k_config_ringinfo(void)
+{
+	uint32_t rpvf[SDP_MAX_EPFS], numvf[SDP_MAX_EPFS];
+	uint64_t ep_pem, npem, epf_base;
+	uint32_t npfs, rppf, epf_srn, pf_srn;
+	uint32_t ring, func, pf, vf;
+	uint64_t cfg, val;
+	uint32_t mac;
+
+	npfs = sdp.num_sdp_pfs;
+	rppf = sdp.num_sdp_pf_rings;
+
+	for (pf = 0; pf < npfs; pf++) {
+		numvf[pf] = sdp.epf[pf].num_sdp_vfs;
+		rpvf[pf] = sdp.epf[pf].num_sdp_vf_rings;
+	}
+
+	/* populate total rings into vf_rings[] */
+	pf = 0;
+	for (vf = 0; vf < sdp.fw_data.info.max_rvu_vfs; vf++) {
+		if (vf == (sdp.epf[pf].start_vf_idx + numvf[pf]))
+			pf++;
+
+		if (vf < npfs)
+			sdp.fw_data.info.vf_rings[vf] = sdp.num_sdp_pf_rings;
+		else
+			sdp.fw_data.info.vf_rings[vf] = sdp.epf[pf].num_sdp_vf_rings;
+
+	}
+
+	pf_srn = sdp.fw_data.info.pf_srn;
+
+	sdp.valid_ep_pem_mask = VALID_EP_PEMS_MASK_106XX;
+	sdp.mac_mask = MAC_MASK_CN10K;
+	npem = 0;
+	epf_srn = 0;
+
+	for (ep_pem = 0; ep_pem < MAX_PEMS; ep_pem++) {
+		if (!(sdp.valid_ep_pem_mask & (1ul << ep_pem)))
+			continue;
+		cfg = CSR_READ(CAVM_PEMX_CFG(ep_pem));
+		if ((!((cfg >> PEMX_CFG_LANES_BIT_POS) &
+		       PEMX_CFG_LANES_BIT_MASK)) ||
+		    ((cfg >> PEMX_CFG_HOSTMD_BIT_POS) &
+		     PEMX_CFG_HOSTMD_BIT_MASK))
+			continue;
+		/* found the PEM in endpoint mode */
+		epf_base = 0;
+		val = (((uint64_t)rppf << RPPF_BIT_96XX) |
+		       ((uint64_t)pf_srn << PF_SRN_BIT_96XX) |
+		       ((uint64_t)npfs << NPFS_BIT_96XX));
+		mac = ep_pem & sdp.mac_mask;
+		CSR_WRITE(CAVM_SDPX_MACX_PF_RING_CTL(0, mac), val);
+
+		epf_srn = (npfs * rppf) + pf_srn;
+		for (pf = 0; pf < npfs; pf++) {
+			val = (((uint64_t)numvf[pf] << RINFO_NUMVF_BIT) |
+			       ((uint64_t)rpvf[pf] << RINFO_RPVF_BIT) |
+			       ((uint64_t)(epf_srn) << RINFO_SRN_BIT));
+			CSR_WRITE(CAVM_SDPX_EPFX_RINFO(0, 0), val);
+
+			epf_srn += numvf[pf] * rpvf[pf];
+			epf_base++;
+		}
+		npem++;
+	}
+
+	/* assign function to a ring */
+	epf_srn = (npfs * rppf) + pf_srn;
+	for (pf = 0; pf < npfs; pf++) {
+		func = 0;
+		val = func | pf << 8;
+
+		for (ring = pf_srn; ring < (pf_srn + rppf); ring++)
+			CSR_WRITE(CAVM_SDPX_EPVF_RINGX(0, ring), val);
+
+		func = 1;
+		for (vf = 0; vf < numvf[pf]; vf++) {
+			uint32_t srn = epf_srn + (vf * rpvf[pf]);
+
+			val = func | pf << 8;
+			for (ring = srn; ring < (srn + rpvf[pf]); ring++)
+				CSR_WRITE(CAVM_SDPX_EPVF_RINGX(0, ring), val);
+			func++;
+		}
+		epf_srn += numvf[pf] * rpvf[pf];
+		pf_srn += rppf;
+	}
+}
+#endif
+
 /**
  * cn10k_parse_sw_rvu - fill rvu_sw_pf_t structure of rvu_config
  * @fdt: pointer to the device tree blob
@@ -1423,6 +1659,10 @@ static void cn10k_parse_rvu_config(const void *fdt, int *fdt_vfs)
 {
 	int offset, rc, soc_offset, i;
 	char node_name[32];
+#ifdef PLAT_cn10ka
+	rvu_sw_rvu_pf_t *sw_pf;
+	uint64_t regval;
+#endif
 
 	/* Initialize all SW_RVU_PF mappings to NONE */
 	for (i = 0; i < SW_RVU_NUM_PF; i++)
@@ -1499,6 +1739,34 @@ static void cn10k_parse_rvu_config(const void *fdt, int *fdt_vfs)
 		/* Not an error if SDP is absent from FDT. */
 		(void)rc;
 	}
+#ifdef PLAT_cn10ka
+	if (is_pem_in_ep_mode(0)) {
+		/* channel config */
+		regval = RVU_SDP_CHAN_BASE;
+		regval |= RVU_SDP_NUM_CHAN << 16;
+		CSR_WRITE(CAVM_SDPX_LINK_CFG(0), regval);
+
+		regval = CSR_READ(CAVM_SDPX_GBL_CONTROL(0));
+		regval |= (1 << 2); /* BPFLR_D disable clearing BP in FLR */
+		CSR_WRITE(CAVM_SDPX_GBL_CONTROL(0), regval);
+
+		/* todo */
+		//CSR_WRITE(CAVM_SDPX_RX_OUT_WMARK(0), SDP_OUT_BP_WMARK);
+
+		cn10k_parse_sdp_ringinfo(fdt, offset, RVU_SDP_FDT_NODE);
+		cn10k_config_ringinfo();
+
+		/* Populate AFVFs based on SDP VF number */
+		sw_pf = &(plat_octeontx_bcfg->rvu_config.admin_pf);
+		sw_pf->num_rvu_vfs = cn10k_handle_num_rvu_vfs(sdp.fw_data.info.max_rvu_vfs, DEFAULT_AF_PF0_VFS,
+							      fdt_vfs, RVU_ADMIN_FDT_NODE);
+
+		/* Update shared firmware data */
+		sdp.fw_data.valid = true;
+		memcpy(&plat_octeontx_bcfg->sdp_data, &sdp.fw_data, SDP_INFO_SZ);
+	}
+#endif
+
 #endif /* RVU_SDP_FDT_NODE */
 
 #ifdef RVU_REE_FDT_NODE
