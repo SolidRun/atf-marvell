@@ -231,7 +231,7 @@ int cn10k_ras_gic_isr(uint32_t id, uint32_t flag, void *cookie)
 int cn10k_ras_enable_gic(void)
 {
 	/* Enable GIC ras interrupts*/
-	//cavm_gic_ras_enable();
+	cavm_gic_ras_enable();
 
 	return 0;
 }
