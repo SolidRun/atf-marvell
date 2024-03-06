@@ -110,9 +110,8 @@ void cn10k_fill_portm_tx_eq_info(int portm_idx, cn10k_portm_modes_t portm_mode)
 		if (tx_tuning.tx_pre2 == -1) {
 			debug_dts("%s: PORTM%d.L%d: PORTM-LANE-TX-PRE2 not defined. Using default setting\n", __func__, portm_idx, lane);
 			tx_tuning.tx_pre2 = default_tx_tuning.tx_pre2;
-		} else {
-			tx_tuning.tx_pre2 = -tx_tuning.tx_pre2;
 		}
+
 		/* Check that the Tx eq settings are valid */
 		tx_tuning.portm_mode = portm_mode;
 		if (!cn10k_portm_tx_tuning_valid(portm_idx, lane, &tx_tuning)) {

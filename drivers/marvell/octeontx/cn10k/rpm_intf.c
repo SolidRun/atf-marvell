@@ -767,11 +767,10 @@ static int rpm_set_serdes_tx_tune(int portm_idx, int tx_main, int tx_pre1, int t
 
 	/*
 	 * Regardless if user provides a signed value or not
-	 * pre2/pre1/post will be treated as negative
+	 * pre1/post will be treated as negative
 	 */
 	tx_post = (tx_post < 0) ? tx_post : -tx_post;
 	tx_pre1 = (tx_pre1 < 0) ? tx_pre1 : -tx_pre1;
-	tx_pre2 = (tx_pre2 < 0) ? tx_pre2 : -tx_pre2;
 	tx_tuning.tx_post = tx_post;
 	tx_tuning.tx_pre1 = tx_pre1;
 	tx_tuning.tx_pre2 = tx_pre2;

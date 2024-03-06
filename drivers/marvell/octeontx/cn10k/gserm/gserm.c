@@ -1741,7 +1741,7 @@ int gserm_tx_eq_params_set(int portm_idx, int lane_idx,
 	struct gserm_config gserm_cfg = {0};
 	MCESD_STATUS ret;
 	portm_tx_tuning_t tx_tuning;
-	int pre2, pre1, post;
+	int pre1, post;
 
 	cfg = gserm_get_portm_cfg(portm_idx);
 	if (!cfg)
@@ -1781,19 +1781,18 @@ int gserm_tx_eq_params_set(int portm_idx, int lane_idx,
 
 	/*
 	 * Regardless if user provides a signed value or not
-	 * pre2/pre1/post will be treated as negative
+	 * pre1/post will be treated as negative
 	 */
 #define NEG(_a) ((_a) < 0 ? (_a) : -(_a))
 	post = NEG((int16_t)params->s.post);
 	pre1 = NEG((int16_t)params->s.pre1);
-	pre2 = NEG((int16_t)params->s.pre2);
 
 	params->s.post = post;
 	tx_tuning.tx_post = post;
 	params->s.pre1 = pre1;
 	tx_tuning.tx_pre1 = pre1;
-	params->s.pre2 = pre2;
-	tx_tuning.tx_pre2 = pre2;
+
+	tx_tuning.tx_pre2 = (int16_t)params->s.pre2;
 
 	/* Check if the new set of parameters is valid */
 	if (!cn10k_portm_tx_tuning_valid(portm_idx, lane_idx, &tx_tuning)) {

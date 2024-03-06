@@ -41,8 +41,8 @@ typedef union comphy_firmware_info
 } comphy_firmware_info_t;
 
 typedef enum tx_eq_limits {
-	TXEQ_PRE2_MIN = -9,
-	TXEQ_PRE2_MAX = 0,
+	TXEQ_PRE2_MIN = 0,
+	TXEQ_PRE2_MAX = 9,
 	TXEQ_PRE1_MIN = -22,
 	TXEQ_PRE1_MAX = 0,
 	TXEQ_MAIN_MIN = 35,
