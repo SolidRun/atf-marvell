@@ -306,9 +306,9 @@ void plat_gti_access_secure_memory_setup(int do_secure)
 	 * dev_idx - Stream's dev number (stream_id<7:0>)
 	 * bus_idx - Stream's bus number (stream_id<15:8>).
 	 */
-	uint64_t bus_idx = (CAVM_PCC_DEV_CON_E_GTI_CN20KA >> 8) & 0xFF;
-	uint64_t domain_idx = (CAVM_PCC_DEV_CON_E_GTI_CN20KA >> 16) & 0xFF;
-	uint64_t dev_idx = (CAVM_PCC_DEV_CON_E_GTI_CN20KA >> 3) & 0xFF;
+	uint64_t bus_idx = (CAVM_PCC_DEV_CON_E_GTI >> 8) & 0xFF;
+	uint64_t domain_idx = (CAVM_PCC_DEV_CON_E_GTI >> 16) & 0xFF;
+	uint64_t dev_idx = (CAVM_PCC_DEV_CON_E_GTI >> 3) & 0xFF;
 
 	cavm_iobnx_domx_busx_streams_t iobn_domx_busx_stream;
 	cavm_iobnx_domx_devx_streams_t iobn_domx_devx_stream;
