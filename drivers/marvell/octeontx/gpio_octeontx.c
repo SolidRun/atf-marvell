@@ -481,16 +481,20 @@ static void octeontx_gpio_set_direction(int gpio, int direction)
 static int octeontx_gpio_get_value(int gpio)
 {
 	cavm_gpio_rx_dat_t rx_dat;
-	cavm_gpio_rx1_dat_t rx1_dat;
 
 	if (octeontx_gpio_get_direction(gpio) != GPIO_DIR_IN)
 		return -1;
-	if (gpio < 64) {
-		rx_dat.u = CSR_READ(CAVM_GPIO_RX_DAT);
-		return !!(rx_dat.s.dat & (1ULL << gpio));
+
+#if !(defined(PLAT_CN20K_FAMILY) || defined(PLAT_cn10kb))
+	if (gpio >= 64) {
+		cavm_gpio_rx1_dat_t rx1_dat;
+		rx1_dat.u = CSR_READ(CAVM_GPIO_RX1_DAT);
+		return !!(rx1_dat.s.dat & (1ULL << (gpio - 64)));
 	}
-	rx1_dat.u = CSR_READ(CAVM_GPIO_RX1_DAT);
-	return !!(rx1_dat.s.dat & (1ULL << (gpio - 64)));
+#endif
+	rx_dat.u = CSR_READ(CAVM_GPIO_RX_DAT);
+
+	return !!(rx_dat.s.dat & (1ULL << gpio));
 }
 
 static void octeontx_gpio_set_value(int gpio, int value)
