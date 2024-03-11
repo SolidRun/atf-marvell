@@ -260,8 +260,7 @@ void plat_cn10k_fdt_tad_pmu_node_refresh(void)
 	fdt_setprop(fdt, offs, "reg", reg, sizeof(reg));
 }
 
-uint32_t retrieve_dmc_mask_or_ddr_speed(char *string,
-					uint32_t default_val)
+static uint32_t retrieve_ebf_config(char *string, uint32_t default_val)
 {
 	const char *str = NULL;
 	uint32_t cavium_bdk;
@@ -295,7 +294,7 @@ void plat_cn10k_fdt_ddr_pmu_node_refresh(void)
 	}
 
 	/* Retrieve DDR speed */
-	ddr_speed = retrieve_dmc_mask_or_ddr_speed("DDR-SPEED", 0xc80);
+	ddr_speed = retrieve_ebf_config("DDR-SPEED", 0xc80);
 
 	/* Update DDR PMU node with "marvell,ddr-speed" property */
 	ddr_speed = cpu_to_fdt32(ddr_speed);
@@ -336,7 +335,7 @@ void plat_cn10k_fdt_ddr_mpam_pmu_update(void)
 	uint32_t dmc_mask;
 
 	/* Retrieve DMC mask */
-	dmc_mask = retrieve_dmc_mask_or_ddr_speed("DDR-DMC-MASK", 0x1);
+	dmc_mask = retrieve_ebf_config("DDR-DMC-MASK", 0x1);
 
 	switch (dmc_mask) {
 	case 0x1: {
