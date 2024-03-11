@@ -104,6 +104,8 @@ Number of VFs/MSIX property for each sub-node defined to be used by RVU driver::
    "num-msix-vec"
 
 This is optional. If not, default number of VFs and MSIX per VF are assigned.
+The "num-rvu-vfs" are re-configured if PORTM-NUM-RVU-VFS.P%d is defined in
+ebf board dts file
 
 2.4 Autonegotiation
 ^^^^^^^^^^^^^^^^^^^
