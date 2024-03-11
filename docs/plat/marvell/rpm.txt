@@ -1644,6 +1644,32 @@ Choice: E
 
 (INS)SHORT CHANNEL request (Default = -1, DISABLE = 0, ENABLE = 1):
 
+4.8 Configure InterPacketGap (IPG)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+IPG settings can be configured via the EBF Setup menu or the EBF DTS
+file.  There are two separate settings that are available:
+
+.. code-block:: bash
+
+     PORTM-IPG-XGMII = "<val>";
+     PORTM-IPG-CGMII = "<val>";
+
+     PORTM-IPG-XGMII.P%d = "<val>";
+     PORTM-IPG-CGMII.P%d = "<val>";
+
+The entries PORTM-IPG-XGMII applies to 10G and 25G modes, the supported
+values are: -1 which means use the CSR default value, 0 which means use
+minimal IPG, or values in the range of 5-8 for normal operation.
+The entries PORTM-IPG-CGMII applies to 40G, 50G, and 100G modes, the
+supported values are -1, which means use the CSR default value, 0 which
+means use minimal IPG or values in the range of 1-8 for normal operation.
+IPG does not apply to slower modes.
+
+If the .P%d is excluded from the entry, the setting will be the default
+value for all ports.  If a port specific value is provided, it will take
+priority over the default value.
+
+
 5 PHY management
 ----------------
 

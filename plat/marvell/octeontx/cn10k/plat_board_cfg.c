@@ -3140,6 +3140,23 @@ static void cn10k_fill_portm_details(void *fdt)
 		portm->mgmt_port = cn10k_fdtebf_get_num(fdt, prop, 10);
 		debug_dts("PORTM%d: is used for mgmt port %d\n", portm_idx, portm->mgmt_port);
 
+		/* Read port mode IPG setting*/
+		snprintf(prop, sizeof(prop), "PORTM-IPG-XGMII.P%d", portm_idx);
+		portm->ipg_xgmii = cn10k_fdtebf_get_num(fdt, prop, 10);
+		if ((portm->ipg_xgmii != 0) &&
+		    ((portm->ipg_xgmii < 5) || (portm->ipg_xgmii > 8))) {
+			ERROR("%s is invalid (%d) - must be 0, or 5-8\n", prop, portm->ipg_xgmii);
+			portm->ipg_xgmii = -1;
+		}
+		snprintf(prop, sizeof(prop), "PORTM-IPG-CGMII.P%d", portm_idx);
+		portm->ipg_cgmii = cn10k_fdtebf_get_num(fdt, prop, 10);
+		if ((portm->ipg_cgmii < 0) || (portm->ipg_cgmii > 8)) {
+			ERROR("%s is invalid (%d) - must be between 0 and 8\n", prop, portm->ipg_cgmii);
+			portm->ipg_cgmii = -1;
+		}
+
+		debug_dts("IPG PortM%d = XGMII: %d - CGMII: %d\n", portm_idx, portm->ipg_xgmii, portm->ipg_cgmii);
+
 		/* Read the FEC type from EBF DT */
 		snprintf(prop, sizeof(prop), "PORTM-FEC.P%d", portm_idx);
 		fec = cn10k_fdtebf_get_num(fdt, prop, 10);

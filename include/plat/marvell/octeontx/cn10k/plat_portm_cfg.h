@@ -280,6 +280,8 @@ typedef struct portm_config {
 	int tx_precode[MAX_LANES_PER_PORTM];  /* Tx Precode Enable */
 	int rx_precode[MAX_LANES_PER_PORTM];  /* Rx Precode Enable */
 	int mgmt_port;			    /* MGMT/Debug port */
+	int ipg_xgmii;			    /* IPG for 10/25G modes */
+	int ipg_cgmii;			    /* IPG for 40/50/100G modes */
 } portm_config_t;
 
 /**
