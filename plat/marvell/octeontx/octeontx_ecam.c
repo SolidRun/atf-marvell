@@ -549,7 +549,7 @@ static inline int octeontx_bus_is_rsl(struct ecam_device *device)
 void octeontx_ecam_dev_init(struct ecam_device *device, unsigned int ecam)
 {
 #if defined(PLAT_CN20K_FAMILY)
-	device->base_addr = ECAM_PF_BAR0(ecam);
+	device->base_addr = FIXED_ECAM_BAR;
 #else
 	device->base_addr = ECAM_PF_BAR2(ecam);
 #endif

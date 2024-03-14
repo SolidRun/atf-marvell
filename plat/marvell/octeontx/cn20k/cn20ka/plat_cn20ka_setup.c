@@ -164,12 +164,10 @@ void plat_add_mmio(void)
 		add_map_record(CAVM_UAA_BAR_E_UAAX_PF_BAR4(i), CAVM_UAA_BAR_E_UAAX_PF_BAR4_SIZE, attr);
 	}
 
-#define ECAM_PF_BAR_SIZE 0x40000000ul
-
 	device_type_count = plat_octeontx_get_ecams_count();
 	for (i = 0; i < device_type_count; i++) {
-		add_map_record(CAVM_ECAM_BAR_E_ECAMX_PF_BAR0(i), ECAM_PF_BAR_SIZE, attr);
-		add_map_record(ECAM_PF_BAR2(i), CAVM_ECAM_BAR_E_ECAMX_PF_BAR2_SIZE, attr);
+		add_map_record(CAVM_ECAM_BAR_E_ECAMX_PF_BAR0(i), CAVM_ECAM_BAR_E_ECAMX_PF_BAR0_SIZE, attr);
+		add_map_record(FIXED_ECAM_BAR, CAVM_ECAM_BAR_E_ECAMX_PF_BAR2_SIZE, attr);
 	}
 	device_type_count = plat_octeontx_get_iobn_count();
 	for (i = 0; i < device_type_count; ++i) {

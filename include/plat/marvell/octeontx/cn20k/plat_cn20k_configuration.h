@@ -45,4 +45,6 @@ void plat_cn20k_set_secondary_cpu_jump_addr(int core_id, uint64_t entrypoint_add
 #define CAVM_DSUUB_BAR0_REGION4_SIZE	4096
 #define CAVM_DSUUB_BAR0_REGION4_BASE	0xB0000
 
+#define FIXED_ECAM_BAR			0xc10000000000ll
+
 #endif /* __PLAT_CN20K_CONFIGURATION_H__ */
