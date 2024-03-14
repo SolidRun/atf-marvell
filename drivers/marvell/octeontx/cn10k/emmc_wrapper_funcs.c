@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  * https://spdx.org/licenses
  **********************license end**************************************/
-//#define DEBUG_ATF_EMMC
+
 #include <string.h>
 #include <drivers/gpio.h>
 #include <timers_octeontx.h>
@@ -906,21 +906,40 @@ uint32_t card_init(void)
 
 /******************************************************************************
  *  Description: Initialize global variables
- *  Input Parameters: None
+ *  Input Parameters:
+ *	rca	RCA value to use
+ *	ocr	OCR value to use
+ *	is_sd	True for SD card, false for eMMC
  *  Output Parameters: None
  *  Returns: None
  *******************************************************************************/
-void fake_card_init(void)
+void fake_card_init(uint16_t rca, uint32_t ocr, bool is_sd)
 {
 	taac_ns = 0;
 	taac_clks = 0;
+
+	if (ocr == 0)
+		ocr = 0xc0ff8080;
+	if (rca == 0)
+		rca = 1;
+
 	crd_prop.strictErrChk = 1;
 	crd_prop.ReadBlockSize = SDHC_BLOCK_LEN;
 	crd_prop.WriteBlockSize = SDHC_BLOCK_LEN;
 	crd_prop.emmc_dma_type = NODMA;
 	crd_prop.last_send_cmd_resptype = 0;
 	crd_prop.card_state = READY;
+	crd_prop.AccessMode = (ocr & OCR_ACCESS_MODE_MASK) == OCR_ACCESS_MODE_SECTOR ?
+				SECTOR_ACCESS : BYTE_ACCESS;
 	fake_init = true;
+
+	card_reg.ocr = ocr;
+	card_reg.rca = rca << 16;
+	crd_prop.SD = is_sd ? TYPE_SD : TYPE_MMC;
+	INFO("%s: rca: 0x%x, ocr: 0x%x, %s, %s access\n",
+	     __func__, rca, ocr,
+	     crd_prop.SD == TYPE_SD ? "SD" : "eMMC",
+	     crd_prop.AccessMode == SECTOR_ACCESS ? "sector" : "byte");
 }
 
 /******************************************************************************
@@ -1132,8 +1151,8 @@ void emmc_isr(void)
 
 	/* Check for any error */
 	if (result.s.cmd_complete) {
-		debug_emmc("%s: Command %u complete, result: 0x%x\n", __func__,
-			   emmc_last_cmd, result.all);
+		//debug_emmc("%s: Command %u complete, result: 0x%x\n", __func__,
+		//	   emmc_last_cmd, result.all);
 		/* if we're in strict error checking mode, and
 		 * if the completing command has an R1 or R1B status,
 		 * look for any error bits in the card status field
@@ -1201,7 +1220,7 @@ void emmc_isr(void)
 	}
 
 	if (result.s.txfr_complete) {
-		debug_emmc("%s: Transfer complete\n", __func__);
+		//debug_emmc("%s: Transfer complete\n", __func__);
 		/* Indicate that the response has been read */
 		last_cmd_resp.TransferComplete = 1;
 	}
@@ -1250,29 +1269,19 @@ void emmc_isr(void)
 			break;
 		}
 		case READ:
-		{ // NO READ
-			debug_emmc("%s: Read, result: 0x%x\n", __func__, result.all);
+		{
 			if (result.s.buf_rd_rdy) {
-				debug_emmc("%s: Buffer read ready\n", __func__);
 				emmc_readfifo();
 
 				img_txfer_upd.img_cur_sz_txfer += (card_txfer_upd.WordIndex * 4);
 				/* Update the image read status when the whole image is read */
-				if (img_txfer_upd.img_cur_sz_txfer == img_txfer_upd.img_size) {
-					debug_emmc("%s: read xfer finished\n", __func__);
+				if (img_txfer_upd.img_cur_sz_txfer == img_txfer_upd.img_size)
 					img_txfer_upd.img_txfer_status = 1;
-				}
 
 				/* Are we done sending all of data? */
-				if (card_txfer_upd.TransWordSize == card_txfer_upd.WordIndex) {
-					debug_emmc("%s: Moving to DATARUN\n", __func__);
+				if (card_txfer_upd.TransWordSize == card_txfer_upd.WordIndex)
 					crd_prop.card_state = DATATRAN;
-				}
 			}
-			debug_emmc("%s: word index: %u, img_cur_sz_txfer: %u, img size: %u, state: %d, complete: %u\n",
-				   __func__, card_txfer_upd.WordIndex,
-				   img_txfer_upd.img_cur_sz_txfer, img_txfer_upd.img_size,
-				   crd_prop.card_state, result.s.txfr_complete);
 			break;
 		}
 		case DATATRAN:
@@ -1294,7 +1303,6 @@ void emmc_isr(void)
  *   Output: buffer will contain the contents of the read fifo
  *   Returns: None
  *****************************************************************/
-
 void emmc_readfifo(void)
 {
 	volatile uint32_t data;
@@ -1304,28 +1312,16 @@ void emmc_readfifo(void)
 	volatile uint32_t *pBuffer;
 
 	pBuffer = &data;
-	debug_emmc("%s: word index: %u, trans word size: %u, start discard words: %u, end discard words: %u\n",
-		   __func__, card_txfer_upd.WordIndex,
-		   card_txfer_upd.TransWordSize,
-		   card_txfer_upd.StartDiscardWords,
-		   card_txfer_upd.EndDiscardWords);
-
-	debug_emmc("%s: Pre-reading %u words\n", __func__, card_txfer_upd.StartDiscardWords);
-	/* Ignore Pre Bytes */
 	for (index = 0; index < card_txfer_upd.StartDiscardWords; index++)
 		*pBuffer = CSR_READ(CAVM_EMMCX_HOST_SRS_SRS08(0));
 
 	/* Read Requested Data */
-	debug_emmc("%s: Reading words %u .. %u\n", __func__, index,
-		   (card_txfer_upd.TransWordSize - card_txfer_upd.EndDiscardWords));
 	for (data_index = 0;
 	     index < card_txfer_upd.TransWordSize - card_txfer_upd.EndDiscardWords;
 	     index++, data_index++)
 		((uint32_t *)((unsigned long)(card_txfer_upd.LocalAddr)))[data_index] =
 			CSR_READ(CAVM_EMMCX_HOST_SRS_SRS08(0));
 
-	debug_emmc("%s: Discarding %u words at the end\n", __func__,
-		   card_txfer_upd.TransWordSize - index);
 	/* Ignore Trailing Bytes */
 	for (; index < card_txfer_upd.TransWordSize; index++)
 		*pBuffer = CSR_READ(CAVM_EMMCX_HOST_SRS_SRS08(0));
@@ -1374,6 +1370,14 @@ uint32_t identify_card(void)
 	crd_prop.SD = TYPE_SD;
 	mdelay(5);
 	/* Send CMD0 (GO_IDLE_STATE) to get card into idle state */
+	argument = 0xf0f0f0f0;
+	wrapper_SendSetupCommand(STD_MMC_CMD0, argument,
+		(EMMC_RESTYPE_NONE | EMMC_NO_RES));
+	error =  get_response(STD_MMC_CMD0, MMC_RESPONSE_NONE);
+	if (error != NO_ERROR) {
+		INFO("%s: Going to pre-idle state failed\n", __func__);
+	}
+	argument = 0;
 	wrapper_SendSetupCommand(STD_MMC_CMD0, argument,
 		(EMMC_RESTYPE_NONE | EMMC_NO_RES));
 	error =  get_response(STD_MMC_CMD0, MMC_RESPONSE_NONE);
@@ -1388,6 +1392,7 @@ uint32_t identify_card(void)
 	/* Check for High Capacity Cards First
 	 * This do while sending SD specific command, not necessarily for MMC
 	 */
+	argument = (SDVHS_2_7_TO_3_6 << SDVHSARGSHIFT) | SDVHSCHECKPATTERN;
 	do {
 		/* Start with SD
 		 * Try High Voltage range first:
@@ -1396,7 +1401,6 @@ uint32_t identify_card(void)
 		 * however, even some SD cards may miss this command, so that's why it is
 		 * sent out twice. See SD spec, step 4 of figure 9 in card init and id section.
 		 */
-		argument = (SDVHS_2_7_TO_3_6 << SDVHSARGSHIFT) | SDVHSCHECKPATTERN;
 		wrapper_SendSetupCommand(STD_SD_CMD8, argument, EMMC_RESTYPE_R7 | EMMC_48_RES);
 
 		/* get the response (if any) to XLLP_SD_CMD8. */
@@ -1475,7 +1479,7 @@ uint32_t identify_card(void)
 	/* Assign Access Mode. */
 	if (!F8_Return && (crd_prop.SD == TYPE_SD))
 		crd_prop.AccessMode = BYTE_ACCESS;
-	else if (card_reg.ocr & OCR_ACCESS_MODE_MASK)
+	else if ((card_reg.ocr & OCR_ACCESS_MODE_MASK) == OCR_ACCESS_MODE_SECTOR)
 		crd_prop.AccessMode = SECTOR_ACCESS;
 	else
 		crd_prop.AccessMode = BYTE_ACCESS;
@@ -1533,6 +1537,7 @@ uint32_t emmc_CheckCardStatus(uint32_t resp_to_match, uint32_t mask)
 	uint32_t cardstatus;
 
 	/*send CMD13 to check the status of the card */
+	debug_emmc("%s(CMD%u, RCA: 0x%x)\n", __func__, resp_to_match, card_reg.rca);
 	argument = card_reg.rca;
 	wrapper_SendSetupCommand(STD_MMC_CMD13, argument, EMMC_RESTYPE_R1 | EMMC_48_RES);
 	result = get_response(STD_MMC_CMD13, MMC_RESPONSE_R1);
@@ -1708,8 +1713,6 @@ uint32_t wrapper_SendDataCommand(uint32_t cmd, uint32_t argument,
 	uint32_t result = NO_ERROR;
 	uint32_t fAutoCmd23En;
 
-	debug_emmc("%s: cmd: %u, argument: 0x%x, blk_type: 0x%x, data_dir: 0x%x, resp_type: 0x%x\n",
-		   __func__, cmd, argument, blk_type, data_dir, resp_type);
 	/* no need to clear out any fault state that may be left
 	 * over from a previously failed transaction.
 	 * that's because the caller has set State to read or
@@ -1898,6 +1901,7 @@ uint32_t emmc_CardShutdown(void)
 	if (fake_init)
 		return NO_ERROR;
 
+	debug_emmc("%s: Shutting down\n", __func__);
 	/* Initialize Flash Properties */
 	emmc_ctrl1.all = CSR_READ(CAVM_EMMCX_HOST_SRS_SRS10(0));
 
@@ -2023,19 +2027,16 @@ uint32_t emmc_read_blocks(void)
 	memset((void *)admaDesc, 0, NO_ADMA_TX_DESCS * sizeof(ADMA_DESCRIPTOR));
 #endif
 
-	debug_emmc("%s Entry\n", __func__);
-	/* Must set MMC NUMBLK
-	 */
+	/* Must set MMC NUMBLK */
 	emmc_blk.all = CSR_READ(CAVM_EMMCX_HOST_SRS_SRS01(0));
-	/*blk_cnt is used in PIO/SDMA mode
-	 */
+	/* blk_cnt is used in PIO/SDMA mode */
 	emmc_blk.s.blk_cnt = card_txfer_upd.NumBlocks;
 
 	if (crd_prop.emmc_dma_type == SDMA) {
 		emmc_blk.s.dma_bufsz = MM4_512_HOST_DMA_BDRY;
 		CSR_WRITE(CAVM_EMMCX_HOST_SRS_SRS00(0), card_txfer_upd.LocalAddr);
 	}
-	debug_emmc("%s: Writing 0x%x to SRS01\n", __func__, emmc_blk.all);
+	/* debug_emmc("%s: Writing 0x%x to SRS01\n", __func__, emmc_blk.all); */
 	CSR_WRITE(CAVM_EMMCX_HOST_SRS_SRS01(0), emmc_blk.all);
 
 	/* Set up State
@@ -2054,12 +2055,11 @@ uint32_t emmc_read_blocks(void)
 	else if (crd_prop.AccessMode == BYTE_ACCESS)
 		argument = argument - (argument % HARD512BLOCKLENGTH);
 
-	debug_emmc("%s: access mode: 0x%x, argument: 0x%x, card address: 0x%x\n",
-		   __func__, crd_prop.AccessMode, argument, card_txfer_upd.card_addr);
 	// Send Read Command
 	result = wrapper_SendDataCommand(STD_MMC_CMD17, argument,
-		MM4_SINGLE_BLOCK_TRAN, MM4_CARD_TO_HOST_DATA,
-		EMMC_RESTYPE_R1 | EMMC_48_RES | EMMC_48_CRC | EMMC_48_CHECK_INDEX);
+					 MM4_SINGLE_BLOCK_TRAN, MM4_CARD_TO_HOST_DATA,
+					 EMMC_RESTYPE_R1 | EMMC_48_RES | EMMC_48_CRC |
+					 EMMC_48_CHECK_INDEX);
 	if (result != NO_ERROR) {
 		debug_emmc("%s: wrapper_SendDataCommand returned 0x%x\n",
 			   __func__, result);
@@ -2073,15 +2073,13 @@ uint32_t emmc_read_blocks(void)
 		return STD_TimeOutError;
 	}
 
-	/* This state entered if ISR detected an error.
-	 */
+	/* This state entered if ISR detected an error. */
 	if (crd_prop.card_state == FAULT) {
 		debug_emmc("%s: card state is FAULT\n", __func__);
 		return STD_ReadError;
 	}
 
-	/* Get the Card Response
-	 */
+	/* Get the Card Response */
 	result = get_response(STD_MMC_CMD17, MMC_RESPONSE_R1);
 	if ((result != NO_ERROR) ||
 	    ((last_cmd_resp.R1_RESP & R1_LOCKEDCARDMASK) != 0x900) ||
@@ -2096,7 +2094,7 @@ uint32_t emmc_read_blocks(void)
 	} else {
 		crd_prop.card_state = READY;
 	}
-	debug_emmc("%s: Returning %u\n", __func__, result);
+	/* debug_emmc("%s: Returning %u\n", __func__, result); */
 	return result;
 }
 
@@ -2123,11 +2121,9 @@ uint32_t emmc_WriteBlocks(void)
 	memset((void *)admaDesc, 0, NO_ADMA_TX_DESCS * sizeof(ADMA_DESCRIPTOR));
 #endif
 
-	/* Must set MMC NUMBLK
-	 */
+	/* Must set MMC NUMBLK */
 	emmc_blk.all = CSR_READ(CAVM_EMMCX_HOST_SRS_SRS01(0));
-	/*blk_cnt is used in PIO/SDMA mode
-	 */
+	/* blk_cnt is used in PIO/SDMA mode */
 	emmc_blk.s.blk_cnt = card_txfer_upd.NumBlocks;
 
 	if (crd_prop.emmc_dma_type == SDMA) {
@@ -2136,12 +2132,10 @@ uint32_t emmc_WriteBlocks(void)
 	}
 	CSR_WRITE(CAVM_EMMCX_HOST_SRS_SRS01(0), emmc_blk.all);
 
-	/* Set up State
-	 */
+	/* Set up State */
 	crd_prop.card_state = WRITE;
 
-	/* Do a CMD 24 single block write
-	 */
+	/* Do a CMD 24 single block write */
 	argument = card_txfer_upd.card_addr;
 	if (crd_prop.AccessMode == SECTOR_ACCESS)
 		/* In sector mode addressing; all addresses need to be specified as
@@ -2162,15 +2156,13 @@ uint32_t emmc_WriteBlocks(void)
 		return result;
 	}
 
-	/* It is recommended to double wait time for write operations
-	 */
+	/* It is recommended to double wait time for write operations */
 	result = get_status_within(EMMC_WRITE_BLOCK_TIMEOUT_MS);
 
 	if (result != NO_ERROR) {
 		debug_emmc("%s: %d get_status_within failed result: %d\n", __func__, __LINE__, result);
 	}
-	/* This state entered if ISR detected an error.
-	 */
+	/* This state entered if ISR detected an error. */
 	if (crd_prop.card_state == FAULT)
 		return SDMMCWriteError;
 
@@ -2193,11 +2185,9 @@ uint32_t emmc_WriteBlocks(void)
 	/* the write data transfer completed...now must wait for the card to
 	 * assert the ready line.
 	 * (the ready status from the last data transfer is meaningless here
-	 * because it was left
-	 * over from the write command that initiated the data transfer.)
-	 * section 7.7.2 of the mmc 4.3 spec defines a formula for the
-	 * timeout value.
-	 * for now, just use a constant. Samsung KLMxGxxExM defines max write
+	 * because it was left over from the write command that initiated the data transfer.)
+	 * section 7.7.2 of the mmc 4.3 spec defines a formula for the timeout value.
+	 * for now, just use a constant.  Samsung KLMxGxxExM defines max write
 	 * timeout as 600 ms
 	 */
 	/* FIXME: implement the formula, which is based on info from the CSD...
@@ -2260,8 +2250,7 @@ uint32_t emmc_WaitReady(uint32_t timeout)
 	}
 
 	do {
-		/*send CMD13 to check the status of the card
-		 */
+		/* send CMD13 to check the status of the card */
 		wrapper_SendSetupCommand(STD_MMC_CMD13, argument,
 			EMMC_RESTYPE_R1 | EMMC_48_RES);
 

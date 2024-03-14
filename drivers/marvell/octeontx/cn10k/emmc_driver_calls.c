@@ -24,25 +24,48 @@ emmc_blk_cntl   blk_ctrl;
 
 uint8_t is_last_read_success;
 static bool init_completed;
+static bool fake_initialized;
+static int open_count = 0;
 
 /****************************************************************
  *   Description: Allows skipping of initialization, i.e. SMC calls
- *   Input: initialized - set true to skip initialization in open
+ *   Input:
+ *	initialized - set true to skip initialization in open
+ *	rca - 16-bit RCA value to use, if 0, 1 will be used
+ *	byte_mode - true to use byte mode, false for sector mode
+ *	is_sd - true for SD cards, false for eMMC
+ *	v17_195 - true if voltage is 1.7-1.95V (bit 7 of OCR)
+ *	v27_36 - true if voltage is 2.7-3.6V (bits 15-23 of OCR)
+ *
  *   Output: All the needed hardware should be un-initialized.
  *   Returns: None
  *****************************************************************/
-void emmc_set_initialized(bool initialized)
+void emmc_set_initialized(bool initialized, uint16_t rca,
+			  bool byte_mode, bool is_sd,
+			  bool v17_195, bool v27_36)
 {
-	debug_emmc("%s(%d) Entry\n", __func__, initialized);
+	uint32_t ocr = 0x80000000;
+
+	debug_emmc("%s(%d, 0x%x, %d, %d, %d, %d) Entry\n",
+		   __func__, initialized, rca, byte_mode, is_sd, v17_195, v27_36);
+
+	if (!byte_mode)
+		ocr |= OCR_ACCESS_MODE_SECTOR;
+	if (v17_195)
+		ocr |= BIT(7);
+	if (v27_36)
+		ocr |= 0x00ff8000;	/* 15-23 */
 	init_completed = initialized;
 	if (initialized) {
 		crd_prop.StrictErrorCheck = 1;
 		crd_prop.card_state = READY;
-		crd_prop.AccessMode = SECTOR_ACCESS;
 		crd_prop.ReadBlockSize = HARD512BLOCKLENGTH;
 		crd_prop.WriteBlockSize = HARD512BLOCKLENGTH;
 		is_last_read_success = true;
-		fake_card_init();
+		fake_initialized = true;
+		debug_emmc("%s: Performing fake init, rca: 0x%x, ocr: 0x%x, %s\n",
+			   __func__, rca, ocr, is_sd ? "SD" : "eMMC");
+		fake_card_init(rca, ocr, is_sd);
 	}
 }
 
@@ -58,7 +81,10 @@ uint32_t emmc_open(uint32_t part_num)
 {
 	uint32_t status = NO_ERROR;
 
-	if (init_completed) {
+	if (open_count > 0)
+		return NO_ERROR;
+	open_count++;
+	if (init_completed || fake_initialized) {
 		debug_emmc("%s(%u): Init already completed (skipped)\n", __func__, part_num);
 		return NO_ERROR;
 	}
@@ -88,6 +114,7 @@ uint32_t emmc_open(uint32_t part_num)
 	// to handle only open close calls without read
 	if (status == NO_ERROR)
 		is_last_read_success = 1;
+	debug_emmc("%s(%u) done\n", __func__, part_num);
 	return status;
 }
 
@@ -101,22 +128,35 @@ uint32_t emmc_close(void)
 {
 	uint32_t result = NO_ERROR;
 
+	open_count--;
+	if (open_count > 0)
+		return NO_ERROR;
 	/* Is this even initialized? */
-	if (crd_prop.card_state == UNINITIALIZED)
+	if (crd_prop.card_state == UNINITIALIZED) {
+		debug_emmc("%s: Card not initialized\n", __func__);
 		return result;
+	}
+#if 0
 	if ((crd_prop.card_state == READY) && is_last_read_success) {
+		debug_emmc("%s: Card state ready, successful\n", ___func__);
 		return NO_ERROR;
 	}
-
-	/* Shutdown */
-	emmc_CardShutdown();
-
-	/* Restore MMC GPIO's to their default settings */
-#ifdef TBD
-	emmc_DisableMMCSlots();
 #endif
+	if (!fake_initialized) {
+		debug_emmc("%s: Shutting down eMMC\n", __func__);
+		/* Shutdown */
+		emmc_CardShutdown();
 
+		/* Restore MMC GPIO's to their default settings */
+#ifdef TBD
+		emmc_DisableMMCSlots();
+#endif
+	} else {
+		debug_emmc("%s: Skipping card shutdown due to fake init\n", __func__);
+	}
+	fake_initialized = false;
 	crd_prop.card_state = UNINITIALIZED;
+	debug_emmc("%s: Close done\n", __func__);
 	return result;
 }
 
@@ -238,9 +278,8 @@ uint32_t emmc_read(uint64_t pBuffer, uint32_t flash_offset, uint32_t length)
 				current_read_size = remaining_size;
 			}
 		}
-		debug_emmc("Current read size: %u\n", current_read_size);
 		/* Does the start/end addresses align on Block Boundries?
-		 *  Probably not, record discard bytes
+		 * Probably not, record discard bytes
 		 */
 		card_txfer_upd.card_addr = remaining_flash_offset;
 		card_txfer_upd.StartDiscardWords = remaining_flash_offset %
@@ -257,29 +296,18 @@ uint32_t emmc_read(uint64_t pBuffer, uint32_t flash_offset, uint32_t length)
 		card_txfer_upd.NumBlocks = (card_txfer_upd.EndDiscardWords +
 			card_txfer_upd.StartDiscardWords + current_read_size) /
 			HARD512BLOCKLENGTH;
-		/* Total Transfer size including pre and post, in words
-		 */
+		/* Total Transfer size including pre and post, in words */
 		card_txfer_upd.TransWordSize = card_txfer_upd.NumBlocks *
 			HARD512BLOCKLENGTH / 4;
 
-		/* Convert to # of words
-		 */
+		/* Convert to # of words */
 		card_txfer_upd.LocalAddr = local_buffer;
 		card_txfer_upd.StartDiscardWords /= 4;
 		card_txfer_upd.EndDiscardWords /= 4;
-		/* Stores Index of Current read position
-		 */
+		/* Stores Index of Current read position */
 		card_txfer_upd.WordIndex = 0;
 
-		/* Kick off the Read
-		 */
-		debug_emmc("Num blocks: %u, local addr: 0x%lx\n",
-			   card_txfer_upd.NumBlocks, card_txfer_upd.LocalAddr);
-		debug_emmc("Start discard words: %u, end discard words: %u, num blocks: %u\n",
-			   card_txfer_upd.StartDiscardWords,
-			   card_txfer_upd.EndDiscardWords,
-			   card_txfer_upd.NumBlocks);
-		debug_emmc("%s: Calling emmc_read_blocks()\n", __func__);
+		/* Kick off the Read */
 		result = emmc_read_blocks();
 		if (crd_prop.card_state == FAULT) {
 			result = (emmc_GetCardErrorState());
@@ -289,7 +317,7 @@ uint32_t emmc_read(uint64_t pBuffer, uint32_t flash_offset, uint32_t length)
 		}
 
 		/* Adjust the local_buffer address, flash_offset, and the remaining_size
-		 *  which are used in the while loop.
+		 * which are used in the while loop.
 		 */
 		local_buffer += current_read_size;
 		remaining_flash_offset += current_read_size;

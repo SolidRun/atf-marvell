@@ -579,6 +579,10 @@ __aligned(32) static uint8_t rd_buffer[BUF_SIZE] = {0};
 
 static int fnode;	/* Firmware node in device tree */
 
+extern void emmc_set_initialized(bool initialized, uint16_t rca,
+				 bool byte_mode, bool is_sd,
+				 bool v17_195, bool v27_36);
+
 static enum update_ret
 octeontx_read_tim(const struct smc_update_descriptor *desc, uint64_t offset,
 		  size_t max_size, uint8_t *buffer, struct tim_handle *handle,
@@ -2167,6 +2171,11 @@ static enum update_ret setup_media(struct io_handle *io_handle,
 	enum update_ret uret = UPDATE_OK;
 	const io_dev_connector_t *conn = NULL;
 	bool is_mmc = !!(desc->update_flags & UPDATE_FLAG_EMMC);
+	uint16_t rca = 0;
+	bool byte_mode = false;
+	bool is_sd = false;
+	bool v17_195 = false;
+	bool v27_36 = false;
 
 	/* Set the starting offset and length of the block storage */
 	if (desc->update_flags & UPDATE_FLAG_BACKUP) {
@@ -2211,6 +2220,25 @@ static enum update_ret setup_media(struct io_handle *io_handle,
 	}
 
 	/* Now open the IO device */
+	if (is_mmc) {
+		if ((desc->version >= UPDATE_MMC_DATA_VERSION) && (desc->cs & (1U << 31))) {
+			rca = desc->cs & 0xffff;
+			byte_mode = !!(desc->cs & (1 << 16));
+			is_sd = !!(desc->cs & (1 << 17));
+			v17_195 = !!(desc->cs & (1 << 18));
+			v27_36 = !!(desc->cs & (1 << 20));
+			debug_fw_update("%s data: RCA: 0x%x, %s mode, 1.7-1.95V %sabled, 2.7-3.6V %sabled\n",
+					is_sd ? "SD" : "eMMC", rca,
+					byte_mode ? "byte" : "sector",
+					v17_195 ? "en" : "dis", v27_36 ? "en" : "dis");
+		} else {
+			debug_fw_update("%s: Extra MMC/SD info missing, using defaults.  Version: 0x%x, cs: 0x%x\n",
+					__func__, desc->version, desc->cs);
+			UINFO("Extra MMC/SD info missing, choosing defaults.  SD will not work.\n");
+		}
+		emmc_set_initialized(true, rca, byte_mode, is_sd, v17_195, v27_36);
+	}
+
 	debug_fw_update("Opening media IO device\n");
 	ret = io_dev_open(conn, (uintptr_t)io_handle->spec,
 			  io_handle->dev_handle);
@@ -2227,6 +2255,7 @@ static enum update_ret setup_media(struct io_handle *io_handle,
 		uret = UPDATE_IO_DEV_INIT_ERROR;
 		goto media_error;
 	}
+	debug_fw_update("Opening IO handles\n");
 	/* Open it for read/write/seek */
 	ret = io_open(*(io_handle->dev_handle), (uintptr_t)io_handle->spec,
 		      io_handle->io_handle);
@@ -2250,6 +2279,7 @@ static enum update_ret setup_media(struct io_handle *io_handle,
 		}
 	}
 
+	INFO("%s: Setup %s done\n", __func__, is_mmc ? "mmc" : "spi");
 	return UPDATE_OK;
 
 media_error:
@@ -2263,17 +2293,20 @@ media_error:
  */
 static enum update_ret media_done(struct io_handle *io_h)
 {
-	debug_fw_update("%s: Closing device handles\n", __func__);
+	debug_fw_update("%s: Closing device handle\n", __func__);
 	if (io_h->io_handle != NULL && *io_h->io_handle != (uintptr_t)NULL) {
+		INFO("%s: Closing IO handle\n", __func__);
 		io_close(*io_h->io_handle);
 		*io_h->io_handle = (uintptr_t)NULL;
 		io_h->io_handle = NULL;
 	}
 	if (io_h->dev_handle != NULL && *io_h->dev_handle != (uintptr_t)NULL) {
+		INFO("%s: Closing dev handle\n", __func__);
 		io_dev_close(*io_h->dev_handle);
 		*io_h->dev_handle = (uintptr_t)NULL;
 		io_h->dev_handle = NULL;
 	}
+	debug_fw_update("%s: Done.\n", __func__);
 	return UPDATE_OK;
 }
 
@@ -3776,6 +3809,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	size_t copy_size = desc_size;
 	bool spi_unlock = false;
 	bool desc_response_required = false;
+	bool is_mmc;
 
 	assert(uret);
 	prepare_mapping_storage(&uParams);
@@ -3903,11 +3937,39 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	size = update_desc.image_size;
 	bus = update_desc.bus;
 	cs = update_desc.cs;
+	is_mmc = !!(update_desc.update_flags & UPDATE_FLAG_EMMC);
 	if (update_desc.async_operation != 0)
 		async_operation = true;
 
-	if ((bus >= MAX_SPI_BUS) || (cs >= MAX_SPI_CS)) {
-		UERROR("Invalid bus 0x%x or chip select 0x%x\n", bus, cs);
+	UINFO("Verifying %s bus: 0x%x, cs: 0x%x, version: 0x%x\n",
+	      is_mmc ? "eMMC" : "SD", bus, cs, update_desc.version);
+	if ((is_mmc && bus > 0) || (!is_mmc && bus >= MAX_SPI_BUS)) {
+		UERROR("Invalid bus 0x%x\n", bus);
+		*uret = UPDATE_INVALID_MEDIA;
+		goto error;
+	}
+	if (is_mmc) {
+		if (update_desc.async_operation) {
+			UERROR("Asynchronous operation is only supported by SPI, not eMMC\n");
+			*uret = UPDATE_INVALID_MEDIA;
+			goto error;
+		}
+		if (update_desc.version < UPDATE_MMC_DATA_VERSION) {
+			if (cs != 0) {
+				UERROR("Invalid eMMC CS value 0x%x\n", cs);
+				*uret = UPDATE_INVALID_MEDIA;
+				goto error;
+			}
+		} else {
+			if (!(cs & UPDATE_MMC_CS_FLAG)) {
+				UERROR("Invalid eMMC CS value 0x%x, flag 0x%llx not set\n",
+				       cs, UPDATE_MMC_CS_FLAG);
+				*uret = UPDATE_INVALID_MEDIA;
+				goto error;
+			}
+		}
+	} else if (cs >= MAX_SPI_CS) {
+		UERROR("Invalid SPI chip select 0x%x\n", cs);
 		*uret = UPDATE_INVALID_MEDIA;
 		goto error;
 	}
@@ -3919,14 +3981,14 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 		*uret = UPDATE_BAD_ALIGNMENT;
 		goto error;
 	}
-
-	if (plat_octeontx_bcfg->spi_cfg[bus].cs[cs] != 1) {
-		UERROR("SPI BUS 0x%x chip select 0x%x is unavailable\n",
-		     bus, cs);
-		*uret = UPDATE_INVALID_MEDIA;
-		goto error;
+	if (!is_mmc) {
+		if (plat_octeontx_bcfg->spi_cfg[bus].cs[cs] != 1) {
+			UERROR("SPI BUS 0x%x chip select 0x%x is unavailable\n",
+			bus, cs);
+			*uret = UPDATE_INVALID_MEDIA;
+			goto error;
+		}
 	}
-
 	/* Round up to page size */
 	ns_map_size = (size + PAGE_SIZE - 1) & -PAGE_SIZE;
 	/* Make sure address is page aligned */
@@ -4041,6 +4103,7 @@ error:
 		}
 
 	} else if (!async_operation) {
+		INFO("Done updating media\n");
 		media_done(&io_handle);
 		octeontx_mmap_remove_dynamic_region_with_sync(base_addr,
 							      ns_map_size);
@@ -4258,7 +4321,6 @@ error:
 		log_info.log_bytes_used = 0;
 		log_info.log_size_bytes = 0;
 	}
-
 	if (spi_unlock)
 		spi_dev_unlock(bus);
 	if (spi_unlock_sw)
@@ -4439,8 +4501,8 @@ static int check_get_version(struct smc_version_info *vinfo,
  */
 enum smc_version_ret
 flash_copy_object(struct io_handle *src_handle, struct io_handle *dst_handle,
-		      uint64_t src_object_addr, size_t src_object_size,
-		      uint64_t src_tim_addr, size_t src_tim_size)
+		  uint64_t src_object_addr, size_t src_object_size,
+		  uint64_t src_tim_addr, size_t src_tim_size)
 {
 	int ret;
 	size_t bytes_left, read_size;
@@ -5434,7 +5496,8 @@ static int prepare_vinfo(struct smc_version_info *vinfo, struct verification_dat
  *
  * @return	0 for success, -1 on error.
  */
-static int flash_smc_get_versions(struct smc_version_info *vinfo, struct verification_data *vdata)
+static int flash_smc_get_versions(struct smc_version_info *vinfo,
+				  struct verification_data *vdata)
 {
 	INFO("Obtaining object version information\n");
 	if (vinfo->magic_number != VERSION_MAGIC) {
@@ -5672,6 +5735,12 @@ int smc_check_versions(uint64_t desc_buf, uint64_t desc_size,
 	if (vinfo->version_flags & SMC_VERSION_ASYNC_OPERATION) {
 		int i;
 
+		if (vinfo->version_flags & VERSION_FLAG_EMMC) {
+			UERROR("Asynchronous operations are not supported with eMMC\n");
+			*uret = UPDATE_INVALID_MEDIA;
+			err = -EINVAL;
+			goto error;
+		}
 		async_operation = true;
 
 		/* prepare data for async clone */

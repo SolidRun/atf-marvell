@@ -18,11 +18,20 @@ struct emmc_driver {
 
 /****************************************************************
  *   Description: Allows skipping of initialization, i.e. SMC calls
- *   Input: initialized - set true to skip initialization in open
+ *   Input:
+ *	initialized - set true to skip initialization in open
+ *	rca - 16-bit RCA value to use, if 0, 1 will be used
+ *	byte_mode - true to use byte mode, false for sector mode
+ *	is_sd - true for SD cards, false for eMMC
+ *	v17_195 - true if voltage is 1.7-1.95V (bit 7 of OCR)
+ *	v27_36 - true if voltage is 2.7-3.6V (bits 15-23 of OCR)
+ *
  *   Output: All the needed hardware should be un-initialized.
  *   Returns: None
  *****************************************************************/
-void emmc_set_initialized(bool initialized);
+void emmc_set_initialized(bool initialized, uint16_t rca,
+			  bool byte_mode, bool is_sd,
+			  bool v17_195, bool v27_36);
 
 /****************************************************************
  *   Description: Initializes the SDMMC port on the platform and

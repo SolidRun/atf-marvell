@@ -10,11 +10,14 @@
 uint32_t card_init(void);
 /******************************************************************************
  *  Description: Initialize global variables
- *  Input Parameters: None
+ *  Input Parameters:
+ *	rca	RCA value to use
+ *	ocr	OCR value to use
+ *	is_sd	True for SD card, false for eMMC
  *  Output Parameters: None
  *  Returns: None
  *******************************************************************************/
-void fake_card_init(void);
+void fake_card_init(uint16_t rca, uint32_t ocr, bool is_sd);
 
 uint32_t get_response(uint32_t cmd, uint32_t response_type);
 void emmc_isr(void);

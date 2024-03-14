@@ -415,6 +415,8 @@ typedef struct {
 #define VDD_WINDOW                  0x00ff8000
 #define HOST_CAPACITY_SUPPORTED     0x40000000
 #define OCR_ACCESS_MODE_MASK        0x60000000
+#define OCR_ACCESS_MODE_SECTOR      0x40000000
+#define OCR_ACCESS_MODE_BYTE        0x00000000
 #define SDHC_BLOCK_LEN              512
 #define HARD512BLOCKLENGTH          SDHC_BLOCK_LEN
 #define EMMC_FIFOWORDSIZE           0x80

@@ -27,6 +27,19 @@
 
 #define VERIFY_LOG_SIZE		1024
 
+/** Location to put RCA in the cs field */
+#define UPDATE_MMC_CS_RCA(rca)		((rca) & 0xffff)
+/** Set to configure byte addressing (low capacity) */
+#define UPDATE_MMC_CS_FLAG_BYTE_ACCESS	BIT(16)
+/** Set if device is SD, clear for eMMC */
+#define UPDATE_MMC_CS_FLAG_SD		BIT(17)
+/** Flag set for 1.7-1.95V support */
+#define UPDATE_MMC_CS_FLAG_1_8V		BIT(18)
+/** Flag set for 2.7-3.6V */
+#define UPDATE_MMC_CS_FLAG_3_3V		BIT(19)
+/** Flag to set when not SPI NOR CS */
+#define UPDATE_MMC_CS_FLAG		BIT(31)
+
 /**
  * TIM0 is special and needs to be handled different than other TIMs.
  */
@@ -167,8 +180,10 @@ struct smc_update_obj_info {
 #define UPDATE_LOG_VERSION		0x0100
 /** Minimum version with per-object return data */
 #define UPDATE_OBJ_RETCODE_VERSION	0x0200
+/** Pass eMMC/SD info in cs field */
+#define UPDATE_MMC_DATA_VERSION		0x0201
 /** Current smc_update_descriptor version */
-#define UPDATE_VERSION			0x0200
+#define UPDATE_VERSION			0x0201
 
 #define UPDATE_VERSION_0100_size	sizeof(struct smc_update_0100_descriptor)
 #define UPDATE_VERSION_0200_size	sizeof(struct smc_update_descriptor)
@@ -233,7 +248,19 @@ struct smc_update_descriptor {
 	uint64_t	image_addr;	/** Address of image (CPIO file) */
 	uint64_t	image_size;	/** Size of image (CPIO file) */
 	uint32_t	bus;		/** SPI BUS number */
-	uint32_t	cs;		/** SPI chip select number */
+	/**
+	 * For SPI, this is the chip select, typically 0 or 1.
+	 *
+	 * For eMMC, it is formatted as follows:
+	 * bits    description
+	 * 0-15    RCA value
+	 * 16      0 = sector access, 1 = byte access
+	 * 17      0 = eMMC, 1 = SD
+	 * 18      1.70-1.95V
+	 * 19      2.7-3.6V
+	 * 31      0 = SPI, 1 = eMMC/SD
+	 */
+	uint32_t	cs;
 	uint32_t	async_operation; /** use asynchronus SPI operations */
 	uint32_t	retcode;	/** Return code for async operations */
 	uint64_t	user_addr;	/** Passed to customer function */
@@ -274,8 +301,10 @@ struct smc_update_descriptor_prev {
 #define READ_MIN_VERSION		0x0000
 /** Minimum version that includes log support */
 #define READ_LOG_VERSION		0x0100
+/** Include data for eMMC/SD in cs field */
+#define READ_EMMC_DATA_VERSION		0x0101
 /** Current smc_read_flash_descriptor version */
-#define READ_VERSION			0x0100
+#define READ_VERSION			0x0101
 
 /** Log progress */
 #define READ_FLAG_LOG_PROGRESS	BIT(0)
@@ -290,7 +319,19 @@ struct smc_read_flash_descriptor {
 	uint64_t        offset;         /** Offset in flash */
 	uint64_t        length;         /** Length to read */
 	uint32_t        bus;            /** SPI BUS number */
-	uint32_t        cs;             /** SPI chip select number */
+	/**
+	 * For SPI, this is the chip select, typically 0 or 1.
+	 *
+	 * For eMMC, it is formatted as follows:
+	 * bits    description
+	 * 0-15    RCA value
+	 * 16      0 = sector access, 1 = byte access
+	 * 17      0 = eMMC, 1 = SD
+	 * 18      1.70-1.95V
+	 * 19      2.7-3.6V
+	 * 31      0 = SPI, 1 = eMMC
+	 */
+	uint32_t        cs;
 	uint32_t        async_spi;      /** Async SPI operations */
 	uint16_t        version;        /** Version of descriptor */
 	uint16_t        read_flags;     /** Flags passed to read process */
@@ -461,22 +502,49 @@ enum smc_version_ret {
 	BACKUP_IO_ERASE_ERROR,
 };
 
-#define VERSION_MAGIC		0x4e535256	/** VRSN */
-#define VERSION_INFO_VERSION	0x0103		/** 1.3 */
+#define VERSION_MAGIC			0x4e535256	/** VRSN */
 
-#define VERSION_MIN_VERSION	 0x0100
+#define VERSION_MIN_VERSION	 	0x0100
 /** Minimum version that includes force clone support */
-#define VERSION_FORCE_CLONE_MIN_VERSION	 0x0102
+#define VERSION_FORCE_CLONE_MIN_VERSION	0x0102
 /** Minimum version that includes log support */
-#define VERSION_LOG_MIN_VERSION	 0x0103
+#define VERSION_LOG_MIN_VERSION	 	0x0103
+/** Adds RCA and other fields passed in cs field */
+#define VERSION_MMC_DATA_VERSION	0x0104
+#define VERSION_INFO_VERSION		0x0104		/** 1.4 */
 
 struct smc_version_info {
 	uint32_t	magic_number;	/** VRSN */
 	uint16_t	version;	/** Version of descriptor */
 	uint16_t	version_flags;	/** Flags passed to version process */
 	uint32_t	bus;		/** SPI BUS number */
-	uint32_t	cs;		/** SPI chip select number */
+	/**
+	 * For SPI, this is the chip select, typically 0 or 1.
+	 *
+	 * For eMMC, it is formatted as follows:
+	 * bits    description
+	 * 0-15    RCA value
+	 * 16      0 = sector access, 1 = byte access
+	 * 17      0 = eMMC, 1 = SD
+	 * 18      1.70-1.95V
+	 * 19      2.0-2.6V
+	 * 20      2.7-3.6V
+	 * 31      0 = SPI, 1 = eMMC
+	 */
+	uint32_t	cs;
 	uint32_t	target_bus;	/** Target bus used for copying */
+	/**
+	 * For SPI, this is the chip select, typically 0 or 1.
+	 *
+	 * For eMMC, it is formatted as follows:
+	 * bits    description
+	 * 0-15    RCA value
+	 * 16      0 = sector access, 1 = byte access
+	 * 17      0 = eMMC, 1 = SD
+	 * 18      1.70-1.95V
+	 * 19      2.7-3.6V
+	 * 31      0 = SPI, 1 = eMMC
+	 */
 	uint32_t	target_cs;	/** Target CS used for copying */
 	/*
 	 * Note that currently the work buffers are not used since the images
