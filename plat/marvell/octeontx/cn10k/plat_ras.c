@@ -128,6 +128,7 @@ static void cn10k_core_ras_notify(cn10k_core_err_info_t *err_info, uint64_t erx_
 	char *frs;
 	char ring_name[8] = {0};
 	uint32_t core = plat_my_core_pos();
+	bool fatal = 0;
 #ifdef SAVE_FATAL_ERRLOGS
 	struct otx2_ghes_err_record err_rec_local;
 	int ghes_ring_invalid = 0;
@@ -241,12 +242,13 @@ static void cn10k_core_ras_notify(cn10k_core_err_info_t *err_info, uint64_t erx_
 	info->virt_fault_addr     = 0;
 	info->physical_fault_addr = err_info->err_addr;
 
+	fatal = (err_rec->error_severity == CPER_SEV_FATAL);
 #ifdef SAVE_FATAL_ERRLOGS
 	if (!ghes_ring_invalid)	{
 #endif
 		debug_ras("ring: %p, hd/tl/sz %d/%d/%d\n", err_ring, err_ring->head,
 			err_ring->tail, err_ring->size);
-		otx2_send_ghes(&plat_octeontx_bcfg->ras_config, err_rec, OCTEONTX_SDEI_RAS_AP0_EVENT + core, 0);
+		otx2_send_ghes(&plat_octeontx_bcfg->ras_config, err_rec, OCTEONTX_SDEI_RAS_AP0_EVENT + core, fatal);
 #ifdef SAVE_FATAL_ERRLOGS
 	}
 	crashdump_add(CRASHDUMP_TYPE_CPER, err_rec, sizeof(struct otx2_ghes_err_record));

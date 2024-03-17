@@ -313,6 +313,8 @@ struct otx2_ghes_err_ring {
 struct otx2_ghes_err_record *otx2_begin_ghes(ras_config_t *rc, const char *name,
 			struct otx2_ghes_err_ring **ringp);
 
+struct fdt_ghes *otx2_find_ghes(ras_config_t *rc, const char *name);
+
 void otx2_send_ghes(ras_config_t *rc, struct otx2_ghes_err_record *rec, int event, bool bert);
 
 void otx2_map_ghes(ras_config_t *rc);

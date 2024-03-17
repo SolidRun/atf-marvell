@@ -160,6 +160,8 @@ static void parse_crashdump_fdt_config(const void *fdt)
 				freg = fdt_getprop(fdt, child, "reg", NULL);
 				cd_base = fdt32p_to_cpu(&freg[0]);
 				cd_size = fdt32p_to_cpu(&freg[1]);
+				preg = fdt_getprop(fdt, child, "bert-offset", NULL);
+				cd_size = fdt32_to_cpu(*preg);
 				debug_printf("Crashdump base 0x%x size 0x%x\n", cd_base, cd_size);
 				/* Read parent node to get bus num */
 				preg = fdt_getprop(fdt, fdt_parent_offset(fdt, offset),	"reg", NULL);

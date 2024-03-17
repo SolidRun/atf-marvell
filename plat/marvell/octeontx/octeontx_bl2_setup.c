@@ -662,6 +662,8 @@ void bl2_platform_setup(void)
 
 	/* Update metadata memory region for coresight DT nodes */
 	plat_initialize_coresight_metadata_area();
+
+	plat_initialize_bert_area();
 #else
 	if (!plat_ras_feature_supported())
 		plat_remove_ras_fdt_nodes();

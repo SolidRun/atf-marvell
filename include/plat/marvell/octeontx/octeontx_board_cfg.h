@@ -75,6 +75,7 @@ struct fdt_ghes {
 	#define MAX_GHES_OBJ	28
 	typedef struct ras_config {
 		struct fdt_ghes fdt_ghes[MAX_GHES_OBJ];
+		struct fdt_ghes fdt_bert;
 		int nr_ghes;
 	} ras_config_t;
 #else

@@ -178,6 +178,7 @@ static bool cn10k_ras_dss_notify(uint64_t ch, dss_err_info_t info,
 	struct otx2_ghes_err_ring *err_ring;
 	struct cper_sec_mem_err *dss;
 	bool is_secure = 0;
+	bool fatal = 0;
 	int fr = 0;
 
 	cavm_dssx_ddrctl_regb_ddrc_ch0_ecccaddr0_t ecccaddr0;
@@ -257,7 +258,8 @@ static bool cn10k_ras_dss_notify(uint64_t ch, dss_err_info_t info,
 			ch, addr.rank, addr.bg);
 	err_rec->fru_text[fr] = '\0';
 
-	otx2_send_ghes(&plat_octeontx_bcfg->ras_config, err_rec, OCTEONTX_SDEI_RAS_DSS_EVENT, 0);
+	fatal = (err_rec->error_severity == CPER_SEV_FATAL);
+	otx2_send_ghes(&plat_octeontx_bcfg->ras_config, err_rec, OCTEONTX_SDEI_RAS_DSS_EVENT, fatal);
 
 	return err_rec->error_severity == CPER_SEV_FATAL;
 }

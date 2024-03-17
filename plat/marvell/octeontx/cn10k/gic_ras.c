@@ -88,6 +88,7 @@ void cn10k_ras_gic_notify(struct gic_err_info *errinfo, int sev)
 	struct cper_sec_platform_err *cper_rec;
 	struct otx2_ghes_err_record *err_rec;
 	struct otx2_ghes_err_ring *err_ring;
+	bool fatal = 0;
 	int fr = 0;
 
 	if (errinfo == NULL)
@@ -125,11 +126,12 @@ void cn10k_ras_gic_notify(struct gic_err_info *errinfo, int sev)
 			gic_err_types[errinfo->recnum], sev);
 	err_rec->fru_text[fr] = '\0';
 
+	fatal = (err_rec->error_severity == CPER_SEV_FATAL);
 	if (err_rec)
 		otx2_send_ghes(&plat_octeontx_bcfg->ras_config,
 			err_rec,
 			OCTEONTX_SDEI_RAS_GIC_EVENT,
-			0);
+			fatal);
 }
 
 /* Probe to check the GIC error interrupt status */

@@ -37,6 +37,7 @@
 #include <mem_console.h>
 #endif
 #include <cavm-csrs-fus.h>
+#include <bert.h>
 
 #if defined(PLAT_cnf10ka) || defined(PLAT_cnf10kb)
 #include <bphy.h>
@@ -380,9 +381,9 @@ void plat_octeontx_setup(void)
 	int core;
 
 #if defined(IMAGE_BL31)
-#if defined(SAVE_FATAL_ERRLOGS)
 	void *fdt = fdt_ptr;
-
+	bert_init(fdt);
+#if defined(SAVE_FATAL_ERRLOGS)
 	crashdump_init(fdt);
 #endif
 #endif
@@ -1118,6 +1119,110 @@ void plat_initialize_ghes_hest_area(void)
 exit:
 	if (fail)
 		ERROR("GHES/HEST area not available\n");
+}
+
+/*
+ * plat_initialize_boot_error_data_area()
+ *
+ * The Boot Error Data area shares the reserved memory accessible
+ * to both firmware and Linux (i.e. non-secure, non-preserved region).
+ * Adjust the DT settings to account for Boot Error Data area.
+ *
+ * on entry,
+ *   void
+ *
+ * returns,
+ *   void
+ */
+void plat_initialize_bert_area(void)
+{
+	const char *bert_name = "/reserved-memory/ghes-bert";
+	const char *bert_dev_name = "/soc@0/bed-bert";
+	int bert_fdt_off, bert_dev_off, freg_len;
+	uint64_t bert_base, bert_size;
+	const void *fdt = fdt_ptr;
+	char fdt_node_name[31];
+	const fdt64_t *freg64;
+	fdt64_t dt_ranges[9];
+	struct {
+		/* NOTE: these are in FDT format, not CPU format */
+		fdt64_t addr; /* DT address-cells = 2 */
+		fdt64_t size; /* DT size-cells = 2 */
+	} dt_regs;
+
+	bert_fdt_off = fdt_path_offset(fdt, bert_name);
+	if (bert_fdt_off == -1) {
+		WARN("Missing bert in DT\n");
+		return;
+	}
+
+	bert_dev_off = fdt_path_offset(fdt, bert_dev_name);
+	if (bert_dev_off == -1) {
+		WARN("Missing bert in DT\n");
+		return;
+	}
+
+	if (!cavm_is_platform(PLATFORM_HW)) {
+		WARN("Removing bert nodes, as its not a platform");
+		fdt_del_node((void *) fdt, bert_fdt_off);
+		fdt_del_node((void *) fdt, bert_dev_off);
+		return;
+	}
+
+	/* Retrieve bert reserved memory DT settings */
+	bert_base = bert_size = 0;
+	freg64 = fdt_getprop(fdt, bert_fdt_off, "reg", &freg_len);
+	if (freg64 && (freg_len >= (sizeof(*freg64) * 2)))
+		bert_size = fdt64p_to_cpu(&freg64[1]);
+
+	if (!bert_size || (bert_size & PAGE_SIZE_MASK)) {
+		WARN("Invalid size 0x%" PRIx64 "for %s\n", bert_size, bert_name);
+		return;
+	}
+
+	bert_base = octeontx_dram_cut_region_tail(bert_size, NSECURE_NONPRESERVE);
+	if (!bert_base) {
+		WARN("Failed to reserve BERT memory\n");
+		return;
+	}
+
+	/* Set reserved memory DT property */
+	dt_regs.addr = cpu_to_fdt64(bert_base);
+	dt_regs.size = cpu_to_fdt64(bert_size);
+	if (fdt_setprop((void *)fdt, bert_fdt_off, "reg", &dt_regs, sizeof(dt_regs))) {
+		WARN("Unable to set BERT reg property 0x%" PRIx64 "/0x%" PRIx64 "\n",
+		     bert_base, bert_size);
+		return;
+	}
+
+	/* Update reserved memory DT node name with updated address */
+	snprintf(fdt_node_name, sizeof(fdt_node_name), "ghes-bert@%016" PRIx64, bert_base);
+	if (fdt_set_name((void *)fdt, bert_fdt_off, fdt_node_name)) {
+		WARN("Unable to set BERT DT node name %s\n", fdt_node_name);
+		return;
+	}
+
+	INFO("Set BERT reserved memory DT node (%s) 0x%" PRIx64 "/0x%" PRIx64 "\n",
+	     fdt_node_name, bert_base, bert_size);
+
+	/* The 'fdt_set_name' may have changed this offset; retrieve it again */
+	bert_dev_off = fdt_path_offset(fdt, bert_dev_name);
+
+	/* set device driver DT 'ranges' values */
+	dt_ranges[0] = 0;
+	dt_ranges[1] = cpu_to_fdt64(bert_base);
+	dt_ranges[2] = cpu_to_fdt64(bert_size);
+	/* set all three ranges to same value */
+	dt_ranges[3] = dt_ranges[6] = dt_ranges[0];
+	dt_ranges[4] = dt_ranges[7] = dt_ranges[1];
+	dt_ranges[5] = dt_ranges[8] = dt_ranges[2];
+	if (fdt_setprop((void *)fdt, bert_dev_off, "ranges", dt_ranges,
+			sizeof(dt_ranges[0]) * 9)) {
+		ERROR("Unable to set BERT device driver DT ranges\n");
+		return;
+	}
+
+	octeontx_fill_ras_bert_details(fdt, "/soc@0/bed-bert", "marvell,bed-bert");
 }
 
 uint64_t get_dev_config(struct ecam_device *dev)

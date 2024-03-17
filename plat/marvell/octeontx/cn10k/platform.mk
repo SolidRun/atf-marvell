@@ -180,6 +180,7 @@ BL31_SOURCES		+=	plat/marvell/octeontx/cn10k/plat_ras.c \
 				plat/marvell/octeontx/cn10k/tad_ras.c \
 				plat/marvell/octeontx/cn10k/mdc_ras.c \
 				plat/marvell/octeontx/cn10k/gic_ras.c \
+				plat/marvell/octeontx/cn10k/bert.c \
 				lib/extensions/ras/std_err_record.c \
 				lib/extensions/ras/ras_common.c
 endif

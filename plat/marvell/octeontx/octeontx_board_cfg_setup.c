@@ -359,7 +359,7 @@ void octeontx_fill_ras_hest_details(const void *fdt, const char *path,
 	c->nr_ghes = cnt;
 }
 
-#if !(defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY))
+#if !(defined(PLAT_CN20K_FAMILY))
 void octeontx_fill_ras_bert_details(const void *fdt, const char *path,
 		const char *compatible)
 {

@@ -7,6 +7,9 @@
 
 #include <inttypes.h>
 #include <octeontx_ras.h>
+#if (defined(PLAT_CN10K_FAMILY))
+#include <bert.h>
+#endif
 
 #if RAS_EXTENSION
 
@@ -85,7 +88,6 @@ struct fdt_ghes *otx2_find_ghes(ras_config_t *rc, const char *name)
 			fdt_ghes = &rc->fdt_ghes[i];
 	}
 
-#ifndef PLAT_CN10K_FAMILY
 	if (!strcmp(name, rc->fdt_bert.name)) {
 		debug_ras("%s(%s) finds entry: %p %p %p\n",
 			__func__, name,
@@ -96,7 +98,6 @@ struct fdt_ghes *otx2_find_ghes(ras_config_t *rc, const char *name)
 		if (rc->fdt_bert.base[0])
 			fdt_ghes = &rc->fdt_bert;
 	}
-#endif
 
 	return fdt_ghes;
 }
@@ -223,7 +224,6 @@ int otx2_acpi_estatus_init(struct fdt_ghes *gh, uint32_t type)
 
 static void otx2_acpi_estatus_setup(ras_config_t *rc, struct otx2_ghes_err_record *rec, int event, bool bert)
 {
-	struct otx2_ghes_err_ring *ring = NULL;
 	struct octeontx_estatus_record *estatus = NULL;
 	struct fdt_ghes *fdt_ghes = NULL;
 	int i = 0, cper_len;
@@ -240,7 +240,6 @@ static void otx2_acpi_estatus_setup(ras_config_t *rc, struct otx2_ghes_err_recor
 	fdt_ghes = &rc->fdt_ghes[i];
 
 	estatus = fdt_ghes->base[GHES_PTR_STATUS];
-	ring = fdt_ghes->base[GHES_PTR_RING];
 
 	estatus->estatus.error_severity = rec->error_severity;
 	estatus->estatus.block_status = 1;
@@ -251,7 +250,11 @@ static void otx2_acpi_estatus_setup(ras_config_t *rc, struct otx2_ghes_err_recor
 
 	if (bert) {
 		struct otx2_ghes_err_mem_rec *r = NULL;
+		__aligned(8) static uint8_t buf[4096];
+		r = (struct otx2_ghes_err_mem_rec *)buf;
 
+#if !(defined(PLAT_CN10K_FAMILY))
+		struct otx2_ghes_err_ring *ring = NULL;
 		fdt_ghes = otx2_find_ghes(rc, "bert");
 		if (!fdt_ghes)
 			return;
@@ -267,6 +270,7 @@ static void otx2_acpi_estatus_setup(ras_config_t *rc, struct otx2_ghes_err_recor
 			r = r + (head-1);
 		else
 			r = r + (size-1);
+#endif
 
 		r->estatus.block_status = 1;
 		r->estatus.error_severity = rec->error_severity;
@@ -280,6 +284,10 @@ static void otx2_acpi_estatus_setup(ras_config_t *rc, struct otx2_ghes_err_recor
 		memcpy((guid_t *)r->gdata.section_type, &CPER_SEC_PLATFORM_MEM, sizeof(guid_t));
 		memcpy(r->gdata.fru_text, rec->fru_text, sizeof(r->gdata.fru_text));
 		memcpy(&r->cper, &rec->u, cper_len);
+
+#if (defined(PLAT_CN10K_FAMILY))
+		bert_add(r);
+#endif
 	}
 }
 
@@ -342,7 +350,6 @@ void otx2_map_ghes(ras_config_t *rc)
 			MT_MEMORY | MT_RW | MT_NS);
 	}
 
-#ifndef PLAT_CN10K_FAMILY
 	/* add mapping for BERT memory */
 	lo = ~0ULL;
 	hi = 0;
@@ -370,7 +377,6 @@ void otx2_map_ghes(ras_config_t *rc)
 		mmap_add_region(lo, lo, hi + 1 - lo,
 			MT_MEMORY | MT_RW | MT_NS);
 	}
-#endif
 }
 
 #endif // RAS_EXTENSION

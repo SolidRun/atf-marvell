@@ -103,6 +103,7 @@ void cn10k_ras_tad_notify(uint8_t tadx, cavm_tadx_int_w1c_t tad_int)
 	cavm_tadx_nderr_addr_t ndaddr;
 	cavm_tadx_nderr_info_t ndinfo;
 	int fr = 0;
+	bool fatal = 0;
 
 	err_rec = otx2_begin_ghes(&plat_octeontx_bcfg->ras_config, "tad", &err_ring);
 	if (!err_rec) {
@@ -209,7 +210,8 @@ void cn10k_ras_tad_notify(uint8_t tadx, cavm_tadx_int_w1c_t tad_int)
 	CSR_WRITE(CAVM_TADX_DERR_ADDR(tadx), daddr.u);
 	CSR_WRITE(CAVM_TADX_NDERR_INFO(tadx), ndinfo.u);
 
-	otx2_send_ghes(&plat_octeontx_bcfg->ras_config, err_rec, OCTEONTX_SDEI_RAS_TAD_EVENT, 0);
+	fatal = (err_rec->error_severity == CPER_SEV_FATAL);
+	otx2_send_ghes(&plat_octeontx_bcfg->ras_config, err_rec, OCTEONTX_SDEI_RAS_TAD_EVENT, fatal);
 }
 
 

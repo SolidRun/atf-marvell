@@ -98,6 +98,7 @@ void cn10k_ras_mdc_notify(cavm_mdc_ecc_status_t st)
 	const char *type_tok = NULL;
 	const char *type = NULL;
 	union cavm_mdc_ras_entry_s entry;
+	bool fatal = 0;
 	int fr = 0;
 
 	err_rec = otx2_begin_ghes(&plat_octeontx_bcfg->ras_config,
@@ -142,7 +143,8 @@ void cn10k_ras_mdc_notify(cavm_mdc_ecc_status_t st)
 	debug_ras("MDC ECC %s chn %d.%d.%d Row:%d\n",
 		type, st.s.chain_id, st.s.hub_id, st.s.node_id, st.s.row);
 
-	otx2_send_ghes(&plat_octeontx_bcfg->ras_config, err_rec, OCTEONTX_SDEI_RAS_MDC_EVENT, 0);
+	fatal = (err_rec->error_severity == CPER_SEV_FATAL);
+	otx2_send_ghes(&plat_octeontx_bcfg->ras_config, err_rec, OCTEONTX_SDEI_RAS_MDC_EVENT, fatal);
 }
 
 int cn10k_ras_mdc_isr(uint32_t id, uint32_t flags, void *cookie)

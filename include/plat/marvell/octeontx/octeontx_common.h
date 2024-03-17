@@ -171,6 +171,7 @@ void plat_initialize_boot_error_data_area(unsigned long attr);
 void plat_initialize_ghes_hest_area(void);
 void plat_initialize_coresight_metadata_area(void);
 void plat_initialize_pem0_bar4(void);
+void plat_initialize_bert_area(void);
 
 bool plat_ras_feature_supported(void);
 void plat_remove_ras_fdt_nodes(void);
