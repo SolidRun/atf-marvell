@@ -347,7 +347,6 @@ void cavm_setup_platform(void)
 		__cavm_platform = cavm_fuse_read_range(0, CAVM_FUS_FUSE_NUM_E_RUN_PLATFORMX(0), 3);
 #else
 	__cavm_platform = cavm_fuse_read_range(0, CAVM_FUSE_NUM_E_RUN_PLATFORMX(0), 3);
-	__cavm_platform = PLATFORM_ASIM;
 #endif
 }
 
