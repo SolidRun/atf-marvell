@@ -54692,6 +54692,192 @@ static inline uint64_t CAVM_GSERPX_EOM_CTRL_REG0(uint64_t a)
 #define arguments_CAVM_GSERPX_EOM_CTRL_REG0(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) gserp#_eom_debug0
+ *
+ * INTERNAL: GSERP Phy
+ */
+union cavm_gserpx_eom_debug0
+{
+    uint64_t u;
+    struct cavm_gserpx_eom_debug0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_27_63        : 37;
+        uint64_t eom_eye_left          : 11; /**< [ 26: 16](R/W/H) EOM left edge
+                                                                 internal */
+        uint64_t reserved_11_15        : 5;
+        uint64_t eom_eye_right         : 11; /**< [ 10:  0](R/W/H) EOM right edge
+                                                                 internal */
+#else /* Word 0 - Little Endian */
+        uint64_t eom_eye_right         : 11; /**< [ 10:  0](R/W/H) EOM right edge
+                                                                 internal */
+        uint64_t reserved_11_15        : 5;
+        uint64_t eom_eye_left          : 11; /**< [ 26: 16](R/W/H) EOM left edge
+                                                                 internal */
+        uint64_t reserved_27_63        : 37;
+#endif /* Word 0 - End */
+    } s;
+    struct cavm_gserpx_eom_debug0_cn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t reserved_27_31        : 5;
+        uint64_t eom_eye_left          : 11; /**< [ 26: 16](R/W/H) EOM left edge
+                                                                 internal */
+        uint64_t reserved_11_15        : 5;
+        uint64_t eom_eye_right         : 11; /**< [ 10:  0](R/W/H) EOM right edge
+                                                                 internal */
+#else /* Word 0 - Little Endian */
+        uint64_t eom_eye_right         : 11; /**< [ 10:  0](R/W/H) EOM right edge
+                                                                 internal */
+        uint64_t reserved_11_15        : 5;
+        uint64_t eom_eye_left          : 11; /**< [ 26: 16](R/W/H) EOM left edge
+                                                                 internal */
+        uint64_t reserved_27_31        : 5;
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } cn;
+};
+typedef union cavm_gserpx_eom_debug0 cavm_gserpx_eom_debug0_t;
+
+static inline uint64_t CAVM_GSERPX_EOM_DEBUG0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_EOM_DEBUG0(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e09000c890ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=1) || (a==15)))
+        return 0x87e09000c890ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a==0) || (a==15)))
+        return 0x87e09000c890ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a==0) || (a==15)))
+        return 0x87e09000c890ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERPX_EOM_DEBUG0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_EOM_DEBUG0(a) cavm_gserpx_eom_debug0_t
+#define bustype_CAVM_GSERPX_EOM_DEBUG0(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_EOM_DEBUG0(a) "GSERPX_EOM_DEBUG0"
+#define device_bar_CAVM_GSERPX_EOM_DEBUG0(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_EOM_DEBUG0(a) (a)
+#define arguments_CAVM_GSERPX_EOM_DEBUG0(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) gserp#_eom_debug1
+ *
+ * INTERNAL: GSERP Phy
+ */
+union cavm_gserpx_eom_debug1
+{
+    uint64_t u;
+    struct cavm_gserpx_eom_debug1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t eom_ui_search_fail    : 1;  /**< [ 31: 31](R/W/H) EOM ui search fail
+                                                                 internal */
+        uint64_t eom_center_search_fail : 1; /**< [ 30: 30](R/W/H) EOM center search fail
+                                                                 internal */
+        uint64_t eom_align_eye_chk_pass : 1; /**< [ 29: 29](R/W/H) EOM align eye check pass
+                                                                 internal */
+        uint64_t eom_debug_en          : 1;  /**< [ 28: 28](R/W/H) EOM debug enable
+                                                                 internal */
+        uint64_t reserved_27           : 1;
+        uint64_t eom_center_search_start : 11;/**< [ 26: 16](R/W/H) EOM center search start
+                                                                 internal */
+        uint64_t eom_ui_search_step    : 16; /**< [ 15:  0](R/W/H) EOM ui search step
+                                                                 internal */
+#else /* Word 0 - Little Endian */
+        uint64_t eom_ui_search_step    : 16; /**< [ 15:  0](R/W/H) EOM ui search step
+                                                                 internal */
+        uint64_t eom_center_search_start : 11;/**< [ 26: 16](R/W/H) EOM center search start
+                                                                 internal */
+        uint64_t reserved_27           : 1;
+        uint64_t eom_debug_en          : 1;  /**< [ 28: 28](R/W/H) EOM debug enable
+                                                                 internal */
+        uint64_t eom_align_eye_chk_pass : 1; /**< [ 29: 29](R/W/H) EOM align eye check pass
+                                                                 internal */
+        uint64_t eom_center_search_fail : 1; /**< [ 30: 30](R/W/H) EOM center search fail
+                                                                 internal */
+        uint64_t eom_ui_search_fail    : 1;  /**< [ 31: 31](R/W/H) EOM ui search fail
+                                                                 internal */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gserpx_eom_debug1_s cn; */
+};
+typedef union cavm_gserpx_eom_debug1 cavm_gserpx_eom_debug1_t;
+
+static inline uint64_t CAVM_GSERPX_EOM_DEBUG1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_EOM_DEBUG1(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e09000c898ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=1) || (a==15)))
+        return 0x87e09000c898ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a==0) || (a==15)))
+        return 0x87e09000c898ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a==0) || (a==15)))
+        return 0x87e09000c898ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERPX_EOM_DEBUG1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_EOM_DEBUG1(a) cavm_gserpx_eom_debug1_t
+#define bustype_CAVM_GSERPX_EOM_DEBUG1(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_EOM_DEBUG1(a) "GSERPX_EOM_DEBUG1"
+#define device_bar_CAVM_GSERPX_EOM_DEBUG1(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_EOM_DEBUG1(a) (a)
+#define arguments_CAVM_GSERPX_EOM_DEBUG1(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) gserp#_eom_debug2
+ *
+ * INTERNAL: GSERP Phy
+ */
+union cavm_gserpx_eom_debug2
+{
+    uint64_t u;
+    struct cavm_gserpx_eom_debug2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t eom_center_search_step_right : 16;/**< [ 31: 16](R/W/H) EOM center search step right
+                                                                 internal */
+        uint64_t eom_center_search_step_left : 16;/**< [ 15:  0](R/W/H) EOM center search step left
+                                                                 internal */
+#else /* Word 0 - Little Endian */
+        uint64_t eom_center_search_step_left : 16;/**< [ 15:  0](R/W/H) EOM center search step left
+                                                                 internal */
+        uint64_t eom_center_search_step_right : 16;/**< [ 31: 16](R/W/H) EOM center search step right
+                                                                 internal */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gserpx_eom_debug2_s cn; */
+};
+typedef union cavm_gserpx_eom_debug2 cavm_gserpx_eom_debug2_t;
+
+static inline uint64_t CAVM_GSERPX_EOM_DEBUG2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_EOM_DEBUG2(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e09000c8a0ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=1) || (a==15)))
+        return 0x87e09000c8a0ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a==0) || (a==15)))
+        return 0x87e09000c8a0ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a==0) || (a==15)))
+        return 0x87e09000c8a0ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERPX_EOM_DEBUG2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_EOM_DEBUG2(a) cavm_gserpx_eom_debug2_t
+#define bustype_CAVM_GSERPX_EOM_DEBUG2(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_EOM_DEBUG2(a) "GSERPX_EOM_DEBUG2"
+#define device_bar_CAVM_GSERPX_EOM_DEBUG2(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_EOM_DEBUG2(a) (a)
+#define arguments_CAVM_GSERPX_EOM_DEBUG2(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) gserp#_eom_err_reg00
  *
  * INTERNAL: GSERP Phy EOM ERROR COUNT
@@ -55347,12 +55533,10 @@ union cavm_gserpx_esm_reg0
                                                                  internal */
         uint64_t esm_phase_lane        : 11; /**< [ 26: 16](R/W/H) Eye Shape Monitor Phase Value (-1024 ~ +1023) */
         uint64_t esm_lpnum_lane        : 16; /**< [ 15:  0](R/W/H) Eye Shape Monitor Loop Number
-                                                                 internal
                                                                  [15:8] Adaption loop number
                                                                  [7:0] Polarity loop number */
 #else /* Word 0 - Little Endian */
         uint64_t esm_lpnum_lane        : 16; /**< [ 15:  0](R/W/H) Eye Shape Monitor Loop Number
-                                                                 internal
                                                                  [15:8] Adaption loop number
                                                                  [7:0] Polarity loop number */
         uint64_t esm_phase_lane        : 11; /**< [ 26: 16](R/W/H) Eye Shape Monitor Phase Value (-1024 ~ +1023) */
@@ -84309,6 +84493,218 @@ static inline uint64_t CAVM_GSERPX_OPT_STRUCT_9(uint64_t a)
 #define arguments_CAVM_GSERPX_OPT_STRUCT_9(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) gserp#_pcie_sq_force_0
+ *
+ * INTERNAL: GSERP Phy
+ */
+union cavm_gserpx_pcie_sq_force_0
+{
+    uint64_t u;
+    struct cavm_gserpx_pcie_sq_force_0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t pcie_sq_refthr_base_force_g5_lane : 8;/**< [ 31: 24](R/W/H) SOC Gen6 Customized Value For PCIE SQ Reference Threshold */
+        uint64_t pcie_sq_refthr_base_force_g4_lane : 8;/**< [ 23: 16](R/W/H) SOC Gen5 Customized Value For PCIE SQ Reference Threshold */
+        uint64_t pcie_sq_refthr_base_force_g3_lane : 8;/**< [ 15:  8](R/W/H) SOC Gen4 Customized Value For PCIE SQ Reference Threshold */
+        uint64_t pcie_sq_refthr_base_force_g2_lane : 8;/**< [  7:  0](R/W/H) SOC Gen3 Customized Value For PCIE SQ Reference Threshold */
+#else /* Word 0 - Little Endian */
+        uint64_t pcie_sq_refthr_base_force_g2_lane : 8;/**< [  7:  0](R/W/H) SOC Gen3 Customized Value For PCIE SQ Reference Threshold */
+        uint64_t pcie_sq_refthr_base_force_g3_lane : 8;/**< [ 15:  8](R/W/H) SOC Gen4 Customized Value For PCIE SQ Reference Threshold */
+        uint64_t pcie_sq_refthr_base_force_g4_lane : 8;/**< [ 23: 16](R/W/H) SOC Gen5 Customized Value For PCIE SQ Reference Threshold */
+        uint64_t pcie_sq_refthr_base_force_g5_lane : 8;/**< [ 31: 24](R/W/H) SOC Gen6 Customized Value For PCIE SQ Reference Threshold */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gserpx_pcie_sq_force_0_s cn; */
+};
+typedef union cavm_gserpx_pcie_sq_force_0 cavm_gserpx_pcie_sq_force_0_t;
+
+static inline uint64_t CAVM_GSERPX_PCIE_SQ_FORCE_0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_PCIE_SQ_FORCE_0(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e09000c888ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=1) || (a==15)))
+        return 0x87e09000c888ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a==0) || (a==15)))
+        return 0x87e09000c888ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a==0) || (a==15)))
+        return 0x87e09000c888ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERPX_PCIE_SQ_FORCE_0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_PCIE_SQ_FORCE_0(a) cavm_gserpx_pcie_sq_force_0_t
+#define bustype_CAVM_GSERPX_PCIE_SQ_FORCE_0(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_PCIE_SQ_FORCE_0(a) "GSERPX_PCIE_SQ_FORCE_0"
+#define device_bar_CAVM_GSERPX_PCIE_SQ_FORCE_0(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_PCIE_SQ_FORCE_0(a) (a)
+#define arguments_CAVM_GSERPX_PCIE_SQ_FORCE_0(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) gserp#_pcie_sq_result_0
+ *
+ * INTERNAL: GSERP Phy
+ */
+union cavm_gserpx_pcie_sq_result_0
+{
+    uint64_t u;
+    struct cavm_gserpx_pcie_sq_result_0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_30_63        : 34;
+        uint64_t sq_cal_result_g3_lane : 6;  /**< [ 29: 24](R/W/H) Indicator for PCIe SQ Calibration Result Gen4
+                                                                 internal */
+        uint64_t reserved_22_23        : 2;
+        uint64_t sq_cal_result_g2_lane : 6;  /**< [ 21: 16](R/W/H) Indicator for PCIe SQ Calibration Result Gen3
+                                                                 internal */
+        uint64_t reserved_14_15        : 2;
+        uint64_t sq_cal_result_g1_lane : 6;  /**< [ 13:  8](R/W/H) Indicator for PCIe SQ Calibration Result Gen2
+                                                                 internal */
+        uint64_t reserved_6_7          : 2;
+        uint64_t sq_cal_result_g0_lane : 6;  /**< [  5:  0](R/W/H) Indicator for PCIe SQ Calibration Result Gen1
+                                                                 internal */
+#else /* Word 0 - Little Endian */
+        uint64_t sq_cal_result_g0_lane : 6;  /**< [  5:  0](R/W/H) Indicator for PCIe SQ Calibration Result Gen1
+                                                                 internal */
+        uint64_t reserved_6_7          : 2;
+        uint64_t sq_cal_result_g1_lane : 6;  /**< [ 13:  8](R/W/H) Indicator for PCIe SQ Calibration Result Gen2
+                                                                 internal */
+        uint64_t reserved_14_15        : 2;
+        uint64_t sq_cal_result_g2_lane : 6;  /**< [ 21: 16](R/W/H) Indicator for PCIe SQ Calibration Result Gen3
+                                                                 internal */
+        uint64_t reserved_22_23        : 2;
+        uint64_t sq_cal_result_g3_lane : 6;  /**< [ 29: 24](R/W/H) Indicator for PCIe SQ Calibration Result Gen4
+                                                                 internal */
+        uint64_t reserved_30_63        : 34;
+#endif /* Word 0 - End */
+    } s;
+    struct cavm_gserpx_pcie_sq_result_0_cn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t reserved_30_31        : 2;
+        uint64_t sq_cal_result_g3_lane : 6;  /**< [ 29: 24](R/W/H) Indicator for PCIe SQ Calibration Result Gen4
+                                                                 internal */
+        uint64_t reserved_22_23        : 2;
+        uint64_t sq_cal_result_g2_lane : 6;  /**< [ 21: 16](R/W/H) Indicator for PCIe SQ Calibration Result Gen3
+                                                                 internal */
+        uint64_t reserved_14_15        : 2;
+        uint64_t sq_cal_result_g1_lane : 6;  /**< [ 13:  8](R/W/H) Indicator for PCIe SQ Calibration Result Gen2
+                                                                 internal */
+        uint64_t reserved_6_7          : 2;
+        uint64_t sq_cal_result_g0_lane : 6;  /**< [  5:  0](R/W/H) Indicator for PCIe SQ Calibration Result Gen1
+                                                                 internal */
+#else /* Word 0 - Little Endian */
+        uint64_t sq_cal_result_g0_lane : 6;  /**< [  5:  0](R/W/H) Indicator for PCIe SQ Calibration Result Gen1
+                                                                 internal */
+        uint64_t reserved_6_7          : 2;
+        uint64_t sq_cal_result_g1_lane : 6;  /**< [ 13:  8](R/W/H) Indicator for PCIe SQ Calibration Result Gen2
+                                                                 internal */
+        uint64_t reserved_14_15        : 2;
+        uint64_t sq_cal_result_g2_lane : 6;  /**< [ 21: 16](R/W/H) Indicator for PCIe SQ Calibration Result Gen3
+                                                                 internal */
+        uint64_t reserved_22_23        : 2;
+        uint64_t sq_cal_result_g3_lane : 6;  /**< [ 29: 24](R/W/H) Indicator for PCIe SQ Calibration Result Gen4
+                                                                 internal */
+        uint64_t reserved_30_31        : 2;
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } cn;
+};
+typedef union cavm_gserpx_pcie_sq_result_0 cavm_gserpx_pcie_sq_result_0_t;
+
+static inline uint64_t CAVM_GSERPX_PCIE_SQ_RESULT_0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_PCIE_SQ_RESULT_0(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e09000c878ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=1) || (a==15)))
+        return 0x87e09000c878ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a==0) || (a==15)))
+        return 0x87e09000c878ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a==0) || (a==15)))
+        return 0x87e09000c878ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERPX_PCIE_SQ_RESULT_0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_PCIE_SQ_RESULT_0(a) cavm_gserpx_pcie_sq_result_0_t
+#define bustype_CAVM_GSERPX_PCIE_SQ_RESULT_0(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_PCIE_SQ_RESULT_0(a) "GSERPX_PCIE_SQ_RESULT_0"
+#define device_bar_CAVM_GSERPX_PCIE_SQ_RESULT_0(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_PCIE_SQ_RESULT_0(a) (a)
+#define arguments_CAVM_GSERPX_PCIE_SQ_RESULT_0(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) gserp#_pcie_sq_result_1
+ *
+ * INTERNAL: GSERP Phy
+ */
+union cavm_gserpx_pcie_sq_result_1
+{
+    uint64_t u;
+    struct cavm_gserpx_pcie_sq_result_1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t pcie_sq_refthr_base_force_g1_lane : 8;/**< [ 31: 24](R/W/H) SOC Gen2 Customized Value For PCIE SQ Reference Threshold */
+        uint64_t pcie_sq_refthr_base_force_g0_lane : 8;/**< [ 23: 16](R/W/H) SOC Gen1 Customized Value For PCIE SQ Reference Threshold */
+        uint64_t ts_fast_pll_cal_tempc_overflow_lane : 1;/**< [ 15: 15](R/W/H) TS Fast PLL Cal TEMPC Overflow Flag
+                                                                 internal */
+        uint64_t rs_fast_pll_cal_tempc_overflow_lane : 1;/**< [ 14: 14](R/W/H) RS Fast PLL Cal TEMPC Overflow Flag
+                                                                 internal */
+        uint64_t sq_cal_result_g5_lane : 6;  /**< [ 13:  8](R/W/H) Indicator for PCIe SQ Calibration Result Gen6
+                                                                 internal */
+        uint64_t ts_fast_pll_cal_tempc_underflow_lane : 1;/**< [  7:  7](R/W/H) TS Fast PLL Cal TEMPC Underflow Flag
+                                                                 internal */
+        uint64_t rs_fast_pll_cal_tempc_underflow_lane : 1;/**< [  6:  6](R/W/H) RS Fast PLL Cal TEMPC Underflow Flag
+                                                                 internal */
+        uint64_t sq_cal_result_g4_lane : 6;  /**< [  5:  0](R/W/H) Indicator for PCIe SQ Calibration Result Gen5
+                                                                 internal */
+#else /* Word 0 - Little Endian */
+        uint64_t sq_cal_result_g4_lane : 6;  /**< [  5:  0](R/W/H) Indicator for PCIe SQ Calibration Result Gen5
+                                                                 internal */
+        uint64_t rs_fast_pll_cal_tempc_underflow_lane : 1;/**< [  6:  6](R/W/H) RS Fast PLL Cal TEMPC Underflow Flag
+                                                                 internal */
+        uint64_t ts_fast_pll_cal_tempc_underflow_lane : 1;/**< [  7:  7](R/W/H) TS Fast PLL Cal TEMPC Underflow Flag
+                                                                 internal */
+        uint64_t sq_cal_result_g5_lane : 6;  /**< [ 13:  8](R/W/H) Indicator for PCIe SQ Calibration Result Gen6
+                                                                 internal */
+        uint64_t rs_fast_pll_cal_tempc_overflow_lane : 1;/**< [ 14: 14](R/W/H) RS Fast PLL Cal TEMPC Overflow Flag
+                                                                 internal */
+        uint64_t ts_fast_pll_cal_tempc_overflow_lane : 1;/**< [ 15: 15](R/W/H) TS Fast PLL Cal TEMPC Overflow Flag
+                                                                 internal */
+        uint64_t pcie_sq_refthr_base_force_g0_lane : 8;/**< [ 23: 16](R/W/H) SOC Gen1 Customized Value For PCIE SQ Reference Threshold */
+        uint64_t pcie_sq_refthr_base_force_g1_lane : 8;/**< [ 31: 24](R/W/H) SOC Gen2 Customized Value For PCIE SQ Reference Threshold */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gserpx_pcie_sq_result_1_s cn; */
+};
+typedef union cavm_gserpx_pcie_sq_result_1 cavm_gserpx_pcie_sq_result_1_t;
+
+static inline uint64_t CAVM_GSERPX_PCIE_SQ_RESULT_1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_PCIE_SQ_RESULT_1(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e09000c880ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=1) || (a==15)))
+        return 0x87e09000c880ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a==0) || (a==15)))
+        return 0x87e09000c880ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a==0) || (a==15)))
+        return 0x87e09000c880ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERPX_PCIE_SQ_RESULT_1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_PCIE_SQ_RESULT_1(a) cavm_gserpx_pcie_sq_result_1_t
+#define bustype_CAVM_GSERPX_PCIE_SQ_RESULT_1(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_PCIE_SQ_RESULT_1(a) "GSERPX_PCIE_SQ_RESULT_1"
+#define device_bar_CAVM_GSERPX_PCIE_SQ_RESULT_1(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_PCIE_SQ_RESULT_1(a) (a)
+#define arguments_CAVM_GSERPX_PCIE_SQ_RESULT_1(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) gserp#_ph_ctrl_reg0
  *
  * INTERNAL: GSERP Phy
@@ -84433,9 +84829,39 @@ union cavm_gserpx_ph_os_boundary
         uint64_t ph_os_dat_min_lane    : 8;  /**< [ 31: 24](R/W/H) Phase OS Lower Boundary */
         uint64_t ph_os_dat_max_lane    : 8;  /**< [ 23: 16](R/W/H) Phase OS Upper Boundary */
         uint64_t cdr_lock_detect_interface_lane : 8;/**< [ 15:  8](R/W/H) CDR Lock Detect Interface For SOC0x0: No CDR lock0x1: CDR lock0xFA: DTL disabled0xFB: CDR freeze0xFC: CLAMPING = 1 0xFD: RX_FOFFSET_RDY not ready0xFE: No CDR lock signal0xFF: CDR lock result is pending */
-        uint64_t reserved_0_7          : 8;
+        uint64_t ts_pll_poweron_close_lp_lock_check_lane : 1;/**< [  7:  7](R/W/H) TS PLL Lock Indicator For Power On Close Loop Check
+                                                                 internal */
+        uint64_t ts_pll_fast_cal_close_lp_lock_check_lane : 1;/**< [  6:  6](R/W/H) TS PLL Lock Indicator For Fast Calibration On Close Loop Check
+                                                                 internal */
+        uint64_t rs_pll_poweron_close_lp_lock_check_lane : 1;/**< [  5:  5](R/W/H) RS PLL Lock Indicator For Power On Close Loop Check
+                                                                 internal */
+        uint64_t rs_pll_fast_cal_close_lp_lock_check_lane : 1;/**< [  4:  4](R/W/H) RS PLL Lock Indicator For Fast Calibration On Close Loop Check
+                                                                 internal */
+        uint64_t ts_pll_poweron_cal_lock_timeout_lane : 1;/**< [  3:  3](R/W/H) Indicator For TS PLL Power On Lock Timeout
+                                                                 internal */
+        uint64_t ts_pll_fast_cal_lock_timeout_lane : 1;/**< [  2:  2](R/W/H) Indicator For TS PLL Fast Cal Lock Timeout
+                                                                 internal */
+        uint64_t rs_pll_poweron_cal_lock_timeout_lane : 1;/**< [  1:  1](R/W/H) Indicator For RS PLL Power On Lock Timeout
+                                                                 internal */
+        uint64_t rs_pll_fast_cal_lock_timeout_lane : 1;/**< [  0:  0](R/W/H) Indicator For RS PLL Fast Cal Lock Timeout
+                                                                 internal */
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_7          : 8;
+        uint64_t rs_pll_fast_cal_lock_timeout_lane : 1;/**< [  0:  0](R/W/H) Indicator For RS PLL Fast Cal Lock Timeout
+                                                                 internal */
+        uint64_t rs_pll_poweron_cal_lock_timeout_lane : 1;/**< [  1:  1](R/W/H) Indicator For RS PLL Power On Lock Timeout
+                                                                 internal */
+        uint64_t ts_pll_fast_cal_lock_timeout_lane : 1;/**< [  2:  2](R/W/H) Indicator For TS PLL Fast Cal Lock Timeout
+                                                                 internal */
+        uint64_t ts_pll_poweron_cal_lock_timeout_lane : 1;/**< [  3:  3](R/W/H) Indicator For TS PLL Power On Lock Timeout
+                                                                 internal */
+        uint64_t rs_pll_fast_cal_close_lp_lock_check_lane : 1;/**< [  4:  4](R/W/H) RS PLL Lock Indicator For Fast Calibration On Close Loop Check
+                                                                 internal */
+        uint64_t rs_pll_poweron_close_lp_lock_check_lane : 1;/**< [  5:  5](R/W/H) RS PLL Lock Indicator For Power On Close Loop Check
+                                                                 internal */
+        uint64_t ts_pll_fast_cal_close_lp_lock_check_lane : 1;/**< [  6:  6](R/W/H) TS PLL Lock Indicator For Fast Calibration On Close Loop Check
+                                                                 internal */
+        uint64_t ts_pll_poweron_close_lp_lock_check_lane : 1;/**< [  7:  7](R/W/H) TS PLL Lock Indicator For Power On Close Loop Check
+                                                                 internal */
         uint64_t cdr_lock_detect_interface_lane : 8;/**< [ 15:  8](R/W/H) CDR Lock Detect Interface For SOC0x0: No CDR lock0x1: CDR lock0xFA: DTL disabled0xFB: CDR freeze0xFC: CLAMPING = 1 0xFD: RX_FOFFSET_RDY not ready0xFE: No CDR lock signal0xFF: CDR lock result is pending */
         uint64_t ph_os_dat_max_lane    : 8;  /**< [ 23: 16](R/W/H) Phase OS Upper Boundary */
         uint64_t ph_os_dat_min_lane    : 8;  /**< [ 31: 24](R/W/H) Phase OS Lower Boundary */
@@ -108307,6 +108733,55 @@ static inline uint64_t CAVM_GSERPX_RPTA_CONFIG_1(uint64_t a)
 #define arguments_CAVM_GSERPX_RPTA_CONFIG_1(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) gserp#_rs_pll_fast_cal_tempc_record
+ *
+ * INTERNAL: GSERP Phy
+ */
+union cavm_gserpx_rs_pll_fast_cal_tempc_record
+{
+    uint64_t u;
+    struct cavm_gserpx_rs_pll_fast_cal_tempc_record_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t rs_pll_fast_cal_tempc_fmea_1_lane : 16;/**< [ 31: 16](R/W/H) RS Fast PLL TEMPC FMEASURE Record1
+                                                                 internal */
+        uint64_t rs_pll_fast_cal_tempc_fmea_0_lane : 16;/**< [ 15:  0](R/W/H) RS Fast PLL TEMPC FMEASURE Record0
+                                                                 internal */
+#else /* Word 0 - Little Endian */
+        uint64_t rs_pll_fast_cal_tempc_fmea_0_lane : 16;/**< [ 15:  0](R/W/H) RS Fast PLL TEMPC FMEASURE Record0
+                                                                 internal */
+        uint64_t rs_pll_fast_cal_tempc_fmea_1_lane : 16;/**< [ 31: 16](R/W/H) RS Fast PLL TEMPC FMEASURE Record1
+                                                                 internal */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gserpx_rs_pll_fast_cal_tempc_record_s cn; */
+};
+typedef union cavm_gserpx_rs_pll_fast_cal_tempc_record cavm_gserpx_rs_pll_fast_cal_tempc_record_t;
+
+static inline uint64_t CAVM_GSERPX_RS_PLL_FAST_CAL_TEMPC_RECORD(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_RS_PLL_FAST_CAL_TEMPC_RECORD(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e09000c8b0ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=1) || (a==15)))
+        return 0x87e09000c8b0ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a==0) || (a==15)))
+        return 0x87e09000c8b0ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a==0) || (a==15)))
+        return 0x87e09000c8b0ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERPX_RS_PLL_FAST_CAL_TEMPC_RECORD", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_RS_PLL_FAST_CAL_TEMPC_RECORD(a) cavm_gserpx_rs_pll_fast_cal_tempc_record_t
+#define bustype_CAVM_GSERPX_RS_PLL_FAST_CAL_TEMPC_RECORD(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_RS_PLL_FAST_CAL_TEMPC_RECORD(a) "GSERPX_RS_PLL_FAST_CAL_TEMPC_RECORD"
+#define device_bar_CAVM_GSERPX_RS_PLL_FAST_CAL_TEMPC_RECORD(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_RS_PLL_FAST_CAL_TEMPC_RECORD(a) (a)
+#define arguments_CAVM_GSERPX_RS_PLL_FAST_CAL_TEMPC_RECORD(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) gserp#_rs_pll_vco_amp
  *
  * INTERNAL: GSERP Phy
@@ -119668,7 +120143,11 @@ union cavm_gserpx_serdes_reset_state
     struct cavm_gserpx_serdes_reset_state_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
+        uint64_t reserved_32_63        : 32;
+        uint64_t ts_fast_pll_cal_tempc_mux_hold_sel_2c_lane : 8;/**< [ 31: 24](R/W/H) TS Fast PLL Cal TEMPC Record
+                                                                 internal */
+        uint64_t rs_fast_pll_cal_tempc_mux_hold_sel_2c_lane : 8;/**< [ 23: 16](R/W/H) RS Fast PLL Cal TEMPC Record
+                                                                 internal */
         uint64_t serdes_rx_reset_state_lane : 8;/**< [ 15:  8](R/W/H) SerDes Rx Reset State
                                                                  internal */
         uint64_t serdes_tx_reset_state_lane : 8;/**< [  7:  0](R/W/H) SerDes Tx Reset State
@@ -119678,29 +120157,14 @@ union cavm_gserpx_serdes_reset_state
                                                                  internal */
         uint64_t serdes_rx_reset_state_lane : 8;/**< [ 15:  8](R/W/H) SerDes Rx Reset State
                                                                  internal */
-        uint64_t reserved_16_63        : 48;
+        uint64_t rs_fast_pll_cal_tempc_mux_hold_sel_2c_lane : 8;/**< [ 23: 16](R/W/H) RS Fast PLL Cal TEMPC Record
+                                                                 internal */
+        uint64_t ts_fast_pll_cal_tempc_mux_hold_sel_2c_lane : 8;/**< [ 31: 24](R/W/H) TS Fast PLL Cal TEMPC Record
+                                                                 internal */
+        uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    struct cavm_gserpx_serdes_reset_state_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t reserved_24_31        : 8;
-        uint64_t reserved_16_23        : 8;
-        uint64_t serdes_rx_reset_state_lane : 8;/**< [ 15:  8](R/W/H) SerDes Rx Reset State
-                                                                 internal */
-        uint64_t serdes_tx_reset_state_lane : 8;/**< [  7:  0](R/W/H) SerDes Tx Reset State
-                                                                 internal */
-#else /* Word 0 - Little Endian */
-        uint64_t serdes_tx_reset_state_lane : 8;/**< [  7:  0](R/W/H) SerDes Tx Reset State
-                                                                 internal */
-        uint64_t serdes_rx_reset_state_lane : 8;/**< [ 15:  8](R/W/H) SerDes Rx Reset State
-                                                                 internal */
-        uint64_t reserved_16_23        : 8;
-        uint64_t reserved_24_31        : 8;
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } cn;
+    /* struct cavm_gserpx_serdes_reset_state_s cn; */
 };
 typedef union cavm_gserpx_serdes_reset_state cavm_gserpx_serdes_reset_state_t;
 
@@ -130857,6 +131321,100 @@ static inline uint64_t CAVM_GSERPX_TRAIN_LOG(uint64_t a)
 #define arguments_CAVM_GSERPX_TRAIN_LOG(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) gserp#_train_log_1
+ *
+ * INTERNAL: GSERP Phy
+ */
+union cavm_gserpx_train_log_1
+{
+    uint64_t u;
+    struct cavm_gserpx_train_log_1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_25_63        : 39;
+        uint64_t g5_eq_done_lane       : 1;  /**< [ 24: 24](R/W/H) Indicator for PCIe Phase2 Or Phase3 Ever Completed On GEN6
+                                                                 internal */
+        uint64_t reserved_17_23        : 7;
+        uint64_t g4_eq_done_lane       : 1;  /**< [ 16: 16](R/W/H) Indicator for PCIe Phase2 Or Phase3 Ever Completed On GEN5
+                                                                 internal */
+        uint64_t reserved_9_15         : 7;
+        uint64_t g3_eq_done_lane       : 1;  /**< [  8:  8](R/W/H) Indicator for PCIe Phase2 Or Phase3 Ever Completed On GEN4
+                                                                 internal */
+        uint64_t reserved_1_7          : 7;
+        uint64_t g2_eq_done_lane       : 1;  /**< [  0:  0](R/W/H) Indicator for PCIe Phase2 Or Phase3 Ever Completed On GEN3
+                                                                 internal */
+#else /* Word 0 - Little Endian */
+        uint64_t g2_eq_done_lane       : 1;  /**< [  0:  0](R/W/H) Indicator for PCIe Phase2 Or Phase3 Ever Completed On GEN3
+                                                                 internal */
+        uint64_t reserved_1_7          : 7;
+        uint64_t g3_eq_done_lane       : 1;  /**< [  8:  8](R/W/H) Indicator for PCIe Phase2 Or Phase3 Ever Completed On GEN4
+                                                                 internal */
+        uint64_t reserved_9_15         : 7;
+        uint64_t g4_eq_done_lane       : 1;  /**< [ 16: 16](R/W/H) Indicator for PCIe Phase2 Or Phase3 Ever Completed On GEN5
+                                                                 internal */
+        uint64_t reserved_17_23        : 7;
+        uint64_t g5_eq_done_lane       : 1;  /**< [ 24: 24](R/W/H) Indicator for PCIe Phase2 Or Phase3 Ever Completed On GEN6
+                                                                 internal */
+        uint64_t reserved_25_63        : 39;
+#endif /* Word 0 - End */
+    } s;
+    struct cavm_gserpx_train_log_1_cn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t reserved_25_31        : 7;
+        uint64_t g5_eq_done_lane       : 1;  /**< [ 24: 24](R/W/H) Indicator for PCIe Phase2 Or Phase3 Ever Completed On GEN6
+                                                                 internal */
+        uint64_t reserved_17_23        : 7;
+        uint64_t g4_eq_done_lane       : 1;  /**< [ 16: 16](R/W/H) Indicator for PCIe Phase2 Or Phase3 Ever Completed On GEN5
+                                                                 internal */
+        uint64_t reserved_9_15         : 7;
+        uint64_t g3_eq_done_lane       : 1;  /**< [  8:  8](R/W/H) Indicator for PCIe Phase2 Or Phase3 Ever Completed On GEN4
+                                                                 internal */
+        uint64_t reserved_1_7          : 7;
+        uint64_t g2_eq_done_lane       : 1;  /**< [  0:  0](R/W/H) Indicator for PCIe Phase2 Or Phase3 Ever Completed On GEN3
+                                                                 internal */
+#else /* Word 0 - Little Endian */
+        uint64_t g2_eq_done_lane       : 1;  /**< [  0:  0](R/W/H) Indicator for PCIe Phase2 Or Phase3 Ever Completed On GEN3
+                                                                 internal */
+        uint64_t reserved_1_7          : 7;
+        uint64_t g3_eq_done_lane       : 1;  /**< [  8:  8](R/W/H) Indicator for PCIe Phase2 Or Phase3 Ever Completed On GEN4
+                                                                 internal */
+        uint64_t reserved_9_15         : 7;
+        uint64_t g4_eq_done_lane       : 1;  /**< [ 16: 16](R/W/H) Indicator for PCIe Phase2 Or Phase3 Ever Completed On GEN5
+                                                                 internal */
+        uint64_t reserved_17_23        : 7;
+        uint64_t g5_eq_done_lane       : 1;  /**< [ 24: 24](R/W/H) Indicator for PCIe Phase2 Or Phase3 Ever Completed On GEN6
+                                                                 internal */
+        uint64_t reserved_25_31        : 7;
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } cn;
+};
+typedef union cavm_gserpx_train_log_1 cavm_gserpx_train_log_1_t;
+
+static inline uint64_t CAVM_GSERPX_TRAIN_LOG_1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_TRAIN_LOG_1(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e09000c870ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=1) || (a==15)))
+        return 0x87e09000c870ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a==0) || (a==15)))
+        return 0x87e09000c870ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a==0) || (a==15)))
+        return 0x87e09000c870ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERPX_TRAIN_LOG_1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_TRAIN_LOG_1(a) cavm_gserpx_train_log_1_t
+#define bustype_CAVM_GSERPX_TRAIN_LOG_1(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_TRAIN_LOG_1(a) "GSERPX_TRAIN_LOG_1"
+#define device_bar_CAVM_GSERPX_TRAIN_LOG_1(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_TRAIN_LOG_1(a) (a)
+#define arguments_CAVM_GSERPX_TRAIN_LOG_1(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) gserp#_train_log_time_0
  *
  * INTERNAL: GSERP Phy
@@ -135534,6 +136092,55 @@ static inline uint64_t CAVM_GSERPX_TRX_TRAIN_IF_TIMERS_ENABLE_LANE(uint64_t a)
 #define device_bar_CAVM_GSERPX_TRX_TRAIN_IF_TIMERS_ENABLE_LANE(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_GSERPX_TRX_TRAIN_IF_TIMERS_ENABLE_LANE(a) (a)
 #define arguments_CAVM_GSERPX_TRX_TRAIN_IF_TIMERS_ENABLE_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) gserp#_ts_pll_fast_cal_tempc_record
+ *
+ * INTERNAL: GSERP Phy
+ */
+union cavm_gserpx_ts_pll_fast_cal_tempc_record
+{
+    uint64_t u;
+    struct cavm_gserpx_ts_pll_fast_cal_tempc_record_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t ts_pll_fast_cal_tempc_fmea_1_lane : 16;/**< [ 31: 16](R/W/H) TS Fast PLL TEMPC FMEASURE Record1
+                                                                 internal */
+        uint64_t ts_pll_fast_cal_tempc_fmea_0_lane : 16;/**< [ 15:  0](R/W/H) TS Fast PLL TEMPC FMEASURE Record0
+                                                                 internal */
+#else /* Word 0 - Little Endian */
+        uint64_t ts_pll_fast_cal_tempc_fmea_0_lane : 16;/**< [ 15:  0](R/W/H) TS Fast PLL TEMPC FMEASURE Record0
+                                                                 internal */
+        uint64_t ts_pll_fast_cal_tempc_fmea_1_lane : 16;/**< [ 31: 16](R/W/H) TS Fast PLL TEMPC FMEASURE Record1
+                                                                 internal */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gserpx_ts_pll_fast_cal_tempc_record_s cn; */
+};
+typedef union cavm_gserpx_ts_pll_fast_cal_tempc_record cavm_gserpx_ts_pll_fast_cal_tempc_record_t;
+
+static inline uint64_t CAVM_GSERPX_TS_PLL_FAST_CAL_TEMPC_RECORD(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_TS_PLL_FAST_CAL_TEMPC_RECORD(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e09000c8a8ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=1) || (a==15)))
+        return 0x87e09000c8a8ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a==0) || (a==15)))
+        return 0x87e09000c8a8ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a==0) || (a==15)))
+        return 0x87e09000c8a8ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERPX_TS_PLL_FAST_CAL_TEMPC_RECORD", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_TS_PLL_FAST_CAL_TEMPC_RECORD(a) cavm_gserpx_ts_pll_fast_cal_tempc_record_t
+#define bustype_CAVM_GSERPX_TS_PLL_FAST_CAL_TEMPC_RECORD(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_TS_PLL_FAST_CAL_TEMPC_RECORD(a) "GSERPX_TS_PLL_FAST_CAL_TEMPC_RECORD"
+#define device_bar_CAVM_GSERPX_TS_PLL_FAST_CAL_TEMPC_RECORD(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_TS_PLL_FAST_CAL_TEMPC_RECORD(a) (a)
+#define arguments_CAVM_GSERPX_TS_PLL_FAST_CAL_TEMPC_RECORD(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) gserp#_ts_pll_vco_amp
