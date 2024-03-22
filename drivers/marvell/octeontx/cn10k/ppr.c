@@ -25,6 +25,7 @@
 #include <plat_cn10k_configuration.h>
 #include <octeontx_semaphore.h>
 #include <drivers/delay_timer.h>
+#include <flash_helper.h>
 
 #include <platform_dt.h>
 
@@ -341,33 +342,6 @@ static inline int32_t spi_flash_config(void)
 	return 0;
 }
 
-static void flash_dump(uint32_t addr, void *buf, void *reference_buf, uint32_t length)
-{
-	if (!(mrvl_tf_log_modules & MRVL_TF_LOG_MODULE_PPR))
-		return;
-
-	uint32_t *_buf = (uint32_t *)buf;
-	uint32_t _addr = addr;
-	uint32_t _length = length;
-
-	printf("\nSaved Data:");
-	for (int i = 0; i < _length/4; i++, _addr += 4) {
-		if (i == 0 || (i > 15 && i%16 == 0))
-			printf("\n0x%08x: ", _addr);
-		printf("%08x ", _buf[i]);
-	}
-
-	_buf = (uint32_t *)reference_buf;
-	_addr = addr;
-	printf("\nReference Data:");
-	for (int i = 0; i < _length/4; i++, _addr += 4) {
-		if (i == 0 || (i > 15 && i%16 == 0))
-			printf("\n0x%08x: ", _addr);
-		printf("%08x ", _buf[i]);
-	}
-	printf("\n");
-}
-
 /*
  * spi_flash_write - read block of memory starting from aligned address
  * (erase block size aligned), modify any chunk of data from block
@@ -375,72 +349,15 @@ static void flash_dump(uint32_t addr, void *buf, void *reference_buf, uint32_t l
  */
 static int32_t spi_flash_write(void *in, int length, int loc)
 {
-	__aligned(8) static uint8_t cmp_buf[ERASE_SIZE_64K] = {0};
-	__aligned(8) static uint8_t wr_buf[ERASE_SIZE_64K] = {0};
+	struct flash_data fdata;
 
-	int bytes_remain = length;
-	int sector_addr = 0;
-	int sector_offset = 0;
-	int chunk = 0;
-	int ret = 0;
-	void *wr = 0;
-	void *buf = in;
+	fdata.bus = bus;
+	fdata.cs = cs;
+	fdata.mode = mode;
+	fdata.erase_size = ERASE_SIZE;
+	fdata.location = loc;
 
-	debug("%s size 0x%x to 0x%x\n", __func__, length, loc);
-
-	while (bytes_remain > 0) {
-
-		buf += chunk;
-		wr = buf;
-
-		sector_addr   = loc & ~(ERASE_SIZE - 1);
-		sector_offset = loc &  (ERASE_SIZE - 1);
-
-		chunk = ERASE_SIZE - sector_offset;
-		chunk = (chunk <= bytes_remain) ? chunk : bytes_remain;
-
-		debug("sector_addr=0x%x, sector_offset=0x%x, chunk=0x%x\n",
-			  sector_addr, sector_offset, chunk);
-
-		if (sector_offset || (chunk < ERASE_SIZE)) {
-			wr = wr_buf;
-			memset(wr, 0, sizeof(wr_buf));
-			if (spi_nor_read(wr, ERASE_SIZE, sector_addr, mode, bus, cs) < 0) {
-				ERROR("Failed read flash offset: 0x%x\n", sector_addr);
-				return length - bytes_remain;
-			}
-			memcpy(wr + sector_offset, buf, chunk);
-		}
-
-		if (spi_nor_erase(sector_addr, mode, bus, cs)) {
-			ERROR("Failed erase flash offset: 0x%x\n", sector_addr);
-			return length - bytes_remain;
-		}
-		if (spi_nor_write(wr, ERASE_SIZE, sector_addr, mode, bus, cs) < 0) {
-			ERROR("Failed write flash offset 0x%x\n", sector_addr);
-			return length - bytes_remain;
-		}
-
-		bytes_remain -= chunk;
-		loc += chunk;
-
-		if (cavm_is_platform(PLATFORM_ASIM))
-			continue;
-
-		memset(cmp_buf, 0, sizeof(cmp_buf));
-		if (spi_nor_read(cmp_buf, ERASE_SIZE, sector_addr, mode, bus, cs) < 0) {
-			ERROR("Failed read flash offset 0x%x\n", sector_addr);
-			return length - bytes_remain;
-		}
-		ret = memcmp(cmp_buf, wr, ERASE_SIZE);
-		if (ret) {
-			ERROR("Failed to compare flash data at 0x%x %d, %d (For dump enable PPR statistics & Verbosity)\n", sector_addr, ret, bytes_remain);
-			flash_dump(sector_addr, wr, cmp_buf, ERASE_SIZE);
-			return length - bytes_remain;
-		}
-	}
-
-	return length;
+	return save_to_flash(in, length, &fdata);
 }
 
 static int32_t ppr_mrr_read_header(void)

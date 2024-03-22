@@ -15,6 +15,7 @@
 #include <spi.h>
 #include <libfdt.h>
 #include <plat_board_cfg.h>
+#include <flash_helper.h>
 
 #ifndef DEBUG_CRASHDUMP
 #define DEBUG_CRASHDUMP 0
@@ -245,93 +246,10 @@ flash_exit:
 	return 0;
 }
 
-static inline int save_to_flash(void *blk, uint32_t size)
-{
-	int bytes_remain = size;
-	int sector_addr = 0;
-	int sector_offset = 0;
-	int chunk = 0;
-	uint32_t loc;
-	void *wr = 0;
-
-	if (!crashdump.to_flash)
-		return 0;
-
-	if ((crashdump.flash_cd_next + size) >= (crashdump.flash_cd_offset + crashdump.flash_cd_size))
-		debug_printf("Crashdump data size exceeding the crashdump region\n");
-
-	loc = crashdump.flash_cd_next;
-
-	debug_printf("%s blk %p size %d loc 0x%x bytes_remain %d\n", __func__, blk, size, loc, size);
-
-	while (bytes_remain > 0) {
-
-		blk += chunk;
-		wr = blk;
-
-		sector_addr   = loc & ~(ERASE_SIZE - 1);
-		sector_offset = loc &  (ERASE_SIZE - 1);
-
-		chunk = ERASE_SIZE - sector_offset;
-		chunk = (chunk <= bytes_remain) ? chunk : bytes_remain;
-
-		debug_printf("sector_addr=0x%x, sector_offset=0x%x, chunk=0x%x\n",
-			  sector_addr, sector_offset, chunk);
-
-		/* Read and writeback the page only when the sector offset is not aligned
-		 *  by page size.
-		 */
-		if (sector_offset) {
-			wr = wrbuf;
-			memset(wr, 0, ERASE_SIZE);
-			if (spi_nor_read(wr, ERASE_SIZE, sector_addr, mode, bus, cs) < 0) {
-				debug_printf("Failed read flash offset: 0x%x\n", sector_addr);
-				return size - bytes_remain;
-			}
-			debug_printf("copy chunk %d at 0x%x\n", chunk, (sector_addr + sector_offset));
-			memcpy(wr + sector_offset, blk, chunk);
-		}
-
-		if (spi_nor_erase(sector_addr, mode, bus, cs)) {
-			debug_printf("Failed erase flash offset: 0x%x\n", sector_addr);
-			return size - bytes_remain;
-		}
-
-		if (spi_nor_write(wr, ERASE_SIZE, sector_addr, mode, bus, cs) < 0) {
-			debug_printf("Failed write flash offset 0x%x\n", sector_addr);
-			return size - bytes_remain;
-		}
-
-		bytes_remain -= chunk;
-		loc += chunk;
-
-		if (cavm_is_platform(PLATFORM_ASIM))
-			continue;
-
-#ifdef CHECK_SPI_WRITE
-		memset(buf, 0, ERASE_SIZE);
-		debug_printf("buf %p sector_addr 0x%x\n", buf, sector_addr);
-		if (spi_nor_read(buf, ERASE_SIZE, sector_addr, mode, bus, cs) < 0) {
-			debug_printf("Failed read flash offset 0x%x\n", sector_addr);
-			return size - bytes_remain;
-		}
-		ret = memcmp(buf, wr, ERASE_SIZE);
-		if (ret) {
-			debug_printf("Failed compare flash data failed 0x%x %d\n", sector_addr, ret);
-			return size - bytes_remain;
-		}
-#endif
-	}
-
-	debug_printf("Crashdump saved size %d\n", size);
-	crashdump.flash_cd_next += size;
-
-	return 0;
-}
-
 int32_t crashdump_add(uint8_t type, void *data, uint32_t size)
 {
 	struct crashdump_block *blk;
+	struct flash_data fdata;
 	uint8_t *ptr;
 	uint8_t checksum;
 	int index;
@@ -368,7 +286,20 @@ int32_t crashdump_add(uint8_t type, void *data, uint32_t size)
 		dump_console_crashdump(blk, SIZEOF_CRASHDUMP_BLK(size), 1);
 
 	/* Dump to flash */
-	save_to_flash(blk, SIZEOF_CRASHDUMP_BLK(size));
+	if (!crashdump.to_flash)
+		return 0;
+
+	if ((crashdump.flash_cd_next + size) >= (crashdump.flash_cd_offset + crashdump.flash_cd_size))
+		debug_printf("Crashdump data size exceeding the crashdump region\n");
+
+	fdata.bus = bus;
+	fdata.cs = cs;
+	fdata.mode = mode;
+	fdata.erase_size = ERASE_SIZE;
+	fdata.location = crashdump.flash_cd_next;
+
+	save_to_flash(blk, SIZEOF_CRASHDUMP_BLK(size), &fdata);
+	crashdump.flash_cd_next += size;
 
 	spin_unlock(&crashdump_lock);
 	return 0;
