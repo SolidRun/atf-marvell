@@ -26,6 +26,23 @@ bool sdei_event_is_enable(int ev_num)
 	return (se->state & (1 << 1));
 }
 
+static int get_event_record_len(int event)
+{
+	switch (event) {
+	case OCTEONTX_SDEI_RAS_MDC_EVENT:
+	case OCTEONTX_SDEI_RAS_MCC_EVENT:
+	case OCTEONTX_SDEI_RAS_LMC_EVENT:
+		return sizeof(struct cper_sec_mem_err);
+	case OCTEONTX_SDEI_RAS_GIC_EVENT:
+		return sizeof(struct cper_sec_platform_err);
+	default:
+		if ((event >= OCTEONTX_SDEI_RAS_AP0_EVENT) &&
+		(event < (OCTEONTX_SDEI_RAS_AP0_EVENT + OCTEONTX_SDEI_RAS_MAX_APEVENTS)))
+			return sizeof(struct processor_error);
+	}
+	return 0;
+}
+
 /*
  * err_ring_init()
  *
@@ -161,6 +178,7 @@ int otx2_acpi_estatus_init(struct fdt_ghes *gh, uint32_t type)
 	struct octeontx_estatus_record *rec;
 	struct acpi_hest_generic_status *estatus;
 	struct acpi_hest_generic_data *gdata;
+	int cper_len = 0;
 
 	if (!gh) {
 		debug_ras("cannot find estatus '%s'\n", gh->name);
@@ -182,9 +200,23 @@ int otx2_acpi_estatus_init(struct fdt_ghes *gh, uint32_t type)
 
 	estatus->block_status = 0;
 	estatus->raw_data_offset = sizeof(struct acpi_hest_generic_status) + sizeof(struct acpi_hest_generic_data);
-	estatus->data_length = sizeof(struct acpi_hest_generic_data) + ((type == REC_MEM) ? sizeof(struct cper_sec_mem_err) : sizeof(struct processor_error));
-	gdata->error_data_length = (type == REC_MEM) ? sizeof(struct cper_sec_mem_err) : sizeof(struct processor_error);
-	memcpy((guid_t *)gdata->section_type, (type == REC_MEM) ? &CPER_SEC_PLATFORM_MEM : &CPER_SEC_PROC_ARM, sizeof(guid_t));
+	switch (type) {
+	case REC_MEM:
+		cper_len = sizeof(struct cper_sec_mem_err);
+		memcpy((guid_t *)gdata->section_type, &CPER_SEC_PLATFORM_MEM, sizeof(guid_t));
+		break;
+	case REC_CORE:
+		cper_len = sizeof(struct processor_error);
+		memcpy((guid_t *)gdata->section_type, &CPER_SEC_PROC_ARM, sizeof(guid_t));
+		break;
+	case REC_PLAT:
+		cper_len = sizeof(struct cper_sec_platform_err);
+		memcpy((guid_t *)gdata->section_type, &CPER_SEC_PLATFORM_GIC, sizeof(guid_t));
+		break;
+	}
+
+	estatus->data_length = sizeof(struct acpi_hest_generic_data) + cper_len;
+	gdata->error_data_length = cper_len;
 
 	return 0;
 }
@@ -194,7 +226,7 @@ static void otx2_acpi_estatus_setup(ras_config_t *rc, struct otx2_ghes_err_recor
 	struct otx2_ghes_err_ring *ring = NULL;
 	struct octeontx_estatus_record *estatus = NULL;
 	struct fdt_ghes *fdt_ghes = NULL;
-	int i = 0;
+	int i = 0, cper_len;
 
 	for (i = 0; rc && i < rc->nr_ghes; i++)
 		if (event == rc->fdt_ghes[i].id)
@@ -202,6 +234,8 @@ static void otx2_acpi_estatus_setup(ras_config_t *rc, struct otx2_ghes_err_recor
 
 	if (i == rc->nr_ghes)
 		return;
+
+	cper_len = get_event_record_len(event);
 
 	fdt_ghes = &rc->fdt_ghes[i];
 
@@ -238,14 +272,14 @@ static void otx2_acpi_estatus_setup(ras_config_t *rc, struct otx2_ghes_err_recor
 		r->estatus.error_severity = rec->error_severity;
 		r->estatus.raw_data_offset = sizeof(struct acpi_hest_generic_status) + sizeof(struct acpi_hest_generic_data);
 		r->estatus.raw_data_length = 0;
-		r->estatus.data_length = sizeof(struct acpi_hest_generic_data) + sizeof(struct cper_sec_mem_err);
+		r->estatus.data_length = sizeof(struct acpi_hest_generic_data) + cper_len;
 
-		r->gdata.error_data_length = sizeof(struct cper_sec_mem_err);
+		r->gdata.error_data_length = cper_len;
 		r->gdata.error_severity = rec->error_severity;
 		r->gdata.validation_bits = CPER_SEC_VALID_FRU_TEXT;
 		memcpy((guid_t *)r->gdata.section_type, &CPER_SEC_PLATFORM_MEM, sizeof(guid_t));
 		memcpy(r->gdata.fru_text, rec->fru_text, sizeof(r->gdata.fru_text));
-		memcpy(&r->cper, &rec->u, sizeof(struct cper_sec_mem_err));
+		memcpy(&r->cper, &rec->u, cper_len);
 	}
 }
 
