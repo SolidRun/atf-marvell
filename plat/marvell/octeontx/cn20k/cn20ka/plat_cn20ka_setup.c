@@ -266,10 +266,12 @@ void plat_add_mmio(void)
 				CAVM_NCB_BAR_E_NCBX_PF_BAR0_SIZE, attr);
 
 	/* RVU device mappings */
-	add_map_record(CAVM_RVU_BAR_E_RVU_PFX_BAR0(0), CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE, attr);
+	add_map_record(CAVM_RVU_BAR_E_RVU_PFX_BAR0_CN20KA(0),
+			CAVM_RVU_BAR_E_RVU_PFX_BAR0_CN20KA_SIZE, attr);
 	device_type_count = plat_octeontx_get_rvu_count();
 	for (i = 0; i < device_type_count; ++i)
-		add_map_record(CAVM_RVU_BAR_E_RVU_PFX_FUNCX_BAR2(i, 0), CAVM_RVU_BAR_E_RVU_PFX_FUNCX_BAR2_SIZE, attr);
+		add_map_record(CAVM_RVU_BAR_E_RVU_PFX_FUNCX_BAR2_CN20KA(i, 0),
+				CAVM_RVU_BAR_E_RVU_PFX_FUNCX_BAR2_CN20KA_SIZE, attr);
 
 	/*
 	 * Map DSU UB for core power management
