@@ -318,7 +318,9 @@ static int octeontx_pwrc_init_scmi(scmi_channel_plat_info_t *plat_scmi_info)
 	assert(plat_scmi_info);
 
 	plat_scmi_info->scmi_mbx_mem = plat_get_scmi_mbox_addr();
+
 	plat_scmi_info->db_reg_addr = plat_get_scmi_db_addr();
+
 	plat_scmi_info->db_preserve_mask = PLAT_SCMI_DB_PRESERVE_MASK;
 	plat_scmi_info->db_modify_mask = PLAT_SCMI_DB_MODIFY_MASK;
 
@@ -338,7 +340,9 @@ int octeontx_pwrc_setup(void)
 		VERBOSE("SCMI Initialization failed, fallback to legacy PM\n");
 		return -1;
 	}
-
+#if defined(IMAGE_BL2) && defined(PLAT_CN20K_FAMILY)
+	scmi_octeontx_boot_ecp(&scmi_channel);
+#endif
 	return 0;
 }
 

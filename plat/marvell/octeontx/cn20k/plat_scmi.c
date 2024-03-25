@@ -380,6 +380,41 @@ static int scmi_fill_octeontx_shutdown(octeontx_shutdown_config_type_t *board_ty
 	return SCMI_E_SUCCESS;
 }
 
+#if defined(IMAGE_BL2)
+int scmi_octeontx_boot_ecp(void *p)
+{
+	mailbox_mem_t *mbx_mem;
+	int token = 0, ret;
+	scmi_channel_t *ch = (scmi_channel_t *)p;
+
+	if (validate_scmi_channel(ch, XCP_SCP)) {
+		WARN(">>>> %s invalid channel\n", __func__);
+		return -1;
+	}
+
+	scmi_get_channel(ch);
+
+	mbx_mem = (mailbox_mem_t *)(ch->info->scmi_mbx_mem);
+	mbx_mem->msg_header = SCMI_MSG_CREATE(SCMI_CAVM_CONFIG_PROTO_ID,
+			SCMI_CAVM_BOOT_ECP_MSG, token);
+	mbx_mem->len = SCMI_CAVM_BOOT_ECP_MSG_LEN;
+	mbx_mem->flags = SCMI_FLAG_RESP_POLL;
+
+	scmi_send_sync_command(ch);
+
+	/* Get the return values */
+	SCMI_PAYLOAD_RET_VAL1(mbx_mem->payload, ret);
+	assert_scmi(mbx_mem->len == SCMI_CAVM_BOOT_ECP_RESP_LEN);
+	assert_scmi(token == SCMI_MSG_GET_TOKEN(mbx_mem->msg_header));
+
+	scmi_put_channel(ch);
+	WARN("Invalid SCMI BOOT ECP return value: %d\n", ret);
+	return ret == SCMI_E_SUCCESS ?
+		SCMI_CAVM_FLSF_RET_OK : SCMI_CAVM_FLSF_RET_FAIL;
+
+}
+#endif
+
 int scmi_octeontx_flsf_fw_booted(void *p)
 {
 	mailbox_mem_t *mbx_mem;

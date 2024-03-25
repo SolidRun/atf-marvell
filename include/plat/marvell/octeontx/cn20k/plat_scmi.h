@@ -49,6 +49,9 @@
 #define SCMI_CAVM_FLSF_FW_BOOTED_MSG_LEN		4
 #define SCMI_CAVM_FLSF_FW_BOOTED_RESP_LEN		12
 
+#define SCMI_CAVM_BOOT_ECP_MSG_LEN		4
+#define SCMI_CAVM_BOOT_ECP_RESP_LEN		12
+
 #define SCMI_CAVM_FLSF_CLR_FORCE_2NDRY_MSG_LEN		4
 #define SCMI_CAVM_FLSF_CLR_FORCE_2NDRY_RESP_LEN		12
 
@@ -83,7 +86,7 @@
 #define SCMI_PWR_STATE_SET_FLAG_ASYNC	1
 
 /* SCMI helper defines */
-#define AP_SECURE0_TO_XCP_MBOX_ADDR	0x78000
+#define AP_SECURE0_TO_XCP_MBOX_ADDR	0x260000
 #define AP_SECURE0_TO_XCP_MBOX_OFFSET	(AP_SECURE0_TO_XCP_MBOX_ADDR / 0x8)
 
 #define SCMI_AGENT_AP0_SECURE		(0)
@@ -197,6 +200,7 @@
 #define SCMI_CAVM_FLSF_CLR_FORCE_2NDRY_MSG	0x7
 #define SCMI_CAVM_LINK_CONFIG_MSG			0x8
 #define SCMI_CAVM_CST_PRESRV_REGION_CONFIG_MSG	0x9
+#define SCMI_CAVM_BOOT_ECP_MSG			0xa
 
 /* FailSafe status return codes */
 #define SCMI_CAVM_FLSF_RET_OK		0x0
@@ -370,6 +374,9 @@ void scmi_get_channel(scmi_channel_t *ch);
 void scmi_send_sync_command(scmi_channel_t *ch);
 void scmi_put_channel(scmi_channel_t *ch);
 
+#if defined(IMAGE_BL2)
+int scmi_octeontx_boot_ecp(void *p);
+#endif
 
 static int is_scp_running(void)
 {

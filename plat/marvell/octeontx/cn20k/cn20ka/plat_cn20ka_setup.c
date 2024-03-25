@@ -45,6 +45,8 @@
 #include "cavm-csrs-uaa.h"
 #include "cavm-csrs-rvu.h"
 #include "cavm-csrs-gserm.h"
+#include "cavm-csrs-xcp.h"
+#include "cavm-csrs-cpc.h"
 
 #define NCB_COUNT			5
 
@@ -181,6 +183,28 @@ int plat_portm_get_max_lane_cnt(int portm_idx)
 	return lanes;
 }
 
+/*
+ * SCP reserved region for SCMI communication in CPC RAM, use 
+ * appropriate window
+ */
+void plat_map_cpc_mem(void)
+{
+	cavm_cpc_const_t cpc_const;
+	unsigned long cpc_ram_size, attr;
+
+	/* Calculate CPC RAM size based on a number of 64KB memory regions */
+	cpc_const.u = CSR_READ(CAVM_CPC_CONST);
+	cpc_ram_size = cpc_const.s.mem_regions * 0x10000;
+
+	attr = MT_DEVICE | MT_RW | MT_SECURE;
+	add_map_record(CAVM_CPC_RAM_MEMX(0),
+		       cpc_ram_size, attr);
+
+	/* Map required XCP memory region for doorbell registers */
+	add_map_record(CAVM_XCP_BAR_E_XCPX_PF_BAR0(CAVM_CPC_XCP_MAP_E_SCP),
+		       CAVM_XCP_BAR_E_XCPX_PF_BAR0_SIZE, attr);
+}
+
 void plat_add_mmio(void)
 {
 	uint64_t base;
@@ -260,6 +284,7 @@ void plat_add_mmio(void)
 
 	add_map_record(CAVM_SAM_BAR_E_SAM_PF_BAR0,
 				CAVM_SAM_BAR_E_SAM_PF_BAR0_SIZE, attr);
+	plat_map_cpc_mem();
 
 	for (i = 0; i < NCB_COUNT; ++i)
 		add_map_record(CAVM_NCB_BAR_E_NCBX_PF_BAR0(i),

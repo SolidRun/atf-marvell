@@ -210,28 +210,17 @@ void plat_pwrc_setup(void)
 {
 	int rc;
 
-	if (cavm_is_platform(PLATFORM_EMULATOR) || cavm_is_platform(PLATFORM_ASIM))
+#if defined(IMAGE_BL31)
+	if (cavm_is_platform(PLATFORM_EMULATOR)
+	    || cavm_is_platform(PLATFORM_ASIM)) {
 		return;
-
-#ifdef SCMI_WITH_LEGACY_PM
-	/*
-	 * Initialize SCMI for custom Cavium configuration protocol.
-	 * Initialize legacy pwrc for PSCI
-	 */
-	rc = octeontx_pwrc_setup();
-	if (rc)
-		WARN("SCMI initialize failed with %d\n", rc);
-	octeontx_legacy_pwrc_setup();
-#else
-	/*
-	 * Try to initialize SCMI, in case of error,
-	 * fallback to legacy PM driver
-	 */
-	rc = octeontx_pwrc_setup();
-	if (rc) {
-		octeontx_legacy_pwrc_setup();
 	}
 #endif
+
+	rc = octeontx_pwrc_setup();
+	if (rc) {
+		ERROR("pwrc_setup failed\n");
+	}
 }
 
 int plat_setup_psci_ops(uintptr_t sec_entrypoint,

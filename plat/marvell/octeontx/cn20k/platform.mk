@@ -109,16 +109,18 @@ BL2_SOURCES		+= 	plat/marvell/octeontx/cn20k/plat_board_cfg.c	\
 				plat/marvell/octeontx/cn20k/plat_eth_cfg.c		\
 				plat/marvell/octeontx/cn20k/plat_scfg.c		\
 				plat/marvell/octeontx/cn20k/plat_cn20k_iobn.c	\
+				plat/marvell/octeontx/cn20k/plat_pwrc.c		\
+				plat/marvell/octeontx/cn20k/plat_scmi.c		\
 				${LIBTIM_SRCS}
 
 BL31_SOURCES		+=	plat/marvell/octeontx/cn20k/plat_topology.c	\
 				drivers/marvell/octeontx/cn20k/spi_smc_load.c	\
 				drivers/arm/gic/v3/gic-x00.c			\
 				plat/marvell/octeontx/cn20k/plat_pm.c		\
-				plat/marvell/octeontx/cn20k/plat_pwrc.c		\
-				plat/marvell/octeontx/cn20k/plat_scmi.c		\
 				plat/marvell/octeontx/cn20k/plat_legacy_pm_ops.c\
 				drivers/io/io_storage.c				\
+				plat/marvell/octeontx/cn20k/plat_pwrc.c		\
+				plat/marvell/octeontx/cn20k/plat_scmi.c		\
 				drivers/io/io_block.c
 
 ifdef NT_FW_CONFIG

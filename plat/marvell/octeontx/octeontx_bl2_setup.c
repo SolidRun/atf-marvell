@@ -86,6 +86,7 @@
 
 #if defined(PLAT_CN20K_FAMILY)
 #include "rvu_20k.h"
+#include "plat_scmi.h"
 #endif
 
 #include "cavm-csrs-uaa.h"
@@ -637,6 +638,10 @@ void bl2_platform_setup(void)
 #if defined(PLAT_CN10K_FAMILY)
 	octeontx_init_heap();
 	gserm_reset_init();
+#endif
+
+#if defined(PLAT_CN20K_FAMILY)
+	plat_pwrc_setup();
 #endif
 
 	/* Enumerate devices on ECAMs */
