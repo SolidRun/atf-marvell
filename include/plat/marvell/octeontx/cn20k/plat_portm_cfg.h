@@ -204,39 +204,44 @@ typedef struct {
 
 /* Define PORTM structure. */
 typedef struct portm_config {
-	portm_modes_t portm_mode;          /* Current PORTM mode */
-	int port_enable;                   /* Set to 1 if port is enabled */
-	int gserm;                         /* GSERM number */
-	portm_mac_type_t mac_type;         /* MAC type used by portm */
-	portm_pcs_type_t pcs_type;         /* PCS type used by portm_mode (Eth only) */
-	int mac_num;                       /* MAC number */
-	int mac_lane;                      /* Lowest MAC lane */
-	int num_lmacs;                     /* Number of LMACs */
-	int portms_used;                   /* Number of portm's used by port (typically equal to gser_numlanes) */
-	uint32_t lane_map;                 /* Port MAC to SERDES lane mapping.
-					    * Nibble # = Portm MAC lane (fixed #)
-					    * Nibble Value = Connected SERDES lane
-					    */
-	portm_fec_t fec;                   /* PORTM FEC.*/
-	portm_fec_t line_fec;              /* PHY Line-side FEC.*/
-	int gser_numlanes;                 /* Number of SERDES lanes used by current portm_mode */
-	int an_lt_ena;                     /* Set to 1 if Clause 72 AN enabled */
-	int an_master_lane;                /* AN master lane */
+	uint64_t portm_mode:8;			/* enum portm_modes_t */
+	uint64_t port_enable:1;
+	uint64_t mac_type:2;			/* enum portm_mac_type_t */
+	uint64_t pcs_type:5;			/* enum portm_pcs_type_t */
+	uint64_t gserm:4;
+	uint64_t mac_num:4;
+	uint64_t mac_lane:3;
+	uint64_t num_lmacs:3;
+	uint64_t portms_used:2;
+	uint64_t lane_map:16;			/* Port MAC to SERDES lane mapping
+						 * Nibble # = Portm MAC lane (fixed #)
+						 * Nibble Value = Connected SERDES lane
+						 */
+
+	uint64_t fec:3;				/* PORTM FEC (enum portm_fec_t) */
+	uint64_t line_fec:3;			/* PHY Line-side FEC (enum portm_fec_t) */
+	uint64_t gser_numlanes:2;
+	uint64_t an_lt_ena:1;			/* Set to 1 if Clause 72 AN enabled */
+	uint64_t an_master_lane:2;		/* AN master lane */
+	uint64_t rx_term:1;			/* Specifies Rx termination (0=AC, 1=DC) */
+	uint64_t gserm_lpbk_mode:2;		/* enum portm_gserm_lpbk_mode_t */
+	uint64_t gserm_prbs_ena:2;		/* enum portm_gserm_prbs_mode_t */
+
+	uint32_t short_channel:1;		/* Applicable only for 50GAUI C2M */
+	uint32_t mgmt_port:1;			/* MGMT/Debug port */
+	uint32_t rsvd:30;
+
 	portm_ap_802_3_adv_t ap_802_3_adv; /* 802.3 AP advertisement struct */
-	portm_gserm_lpbk_mode_t gserm_lpbk_mode; /* Specifies current PORTM GSERM loopback mode */
-	int gserm_prbs_ena;                /* Specifies whether GSERM PRBS is enabled on PORTM */
-	portm_rx_termination_t rx_term;    /* Specifies Rx termination (0=AC, 1=DC) */
-	int short_channel;		   /* Applicable only for 50GAUI C2M */
+
 	/* Index = MAC lane #'s */
-	int tx_main[MAX_LANES_PER_PORTM];   /* Current tx main setting */
-	int tx_post[MAX_LANES_PER_PORTM];   /* Current tx post setting */
-	int tx_pre1[MAX_LANES_PER_PORTM];   /* Current tx pre1 setting */
-	int tx_pre2[MAX_LANES_PER_PORTM];   /* Current tx pre2 setting */
-	int tx_pol[MAX_LANES_PER_PORTM];    /* Tx Polarity */
-	int rx_pol[MAX_LANES_PER_PORTM];    /* Rx Polarity */
-	int tx_precode[MAX_LANES_PER_PORTM];  /* Tx Precode Enable */
-	int rx_precode[MAX_LANES_PER_PORTM];  /* Rx Precode Enable */
-	int mgmt_port;			    /* MGMT/Debug port */
+	int tx_main[MAX_LANES_PER_PORTM];	/* Current tx main setting */
+	int tx_post[MAX_LANES_PER_PORTM];	/* Current tx post setting */
+	int tx_pre1[MAX_LANES_PER_PORTM];	/* Current tx pre1 setting */
+	int tx_pre2[MAX_LANES_PER_PORTM];	/* Current tx pre2 setting */
+	int tx_pol[MAX_LANES_PER_PORTM];	/* Tx Polarity */
+	int rx_pol[MAX_LANES_PER_PORTM];	/* Rx Polarity */
+	int tx_precode[MAX_LANES_PER_PORTM];	/* Tx Precode Enable */
+	int rx_precode[MAX_LANES_PER_PORTM];	/* Rx Precode Enable */
 } portm_config_t;
 
 /**
@@ -264,6 +269,15 @@ const char *portm_fec_type_to_str(portm_fec_t fec_type);
  * @return mode
  */
 portm_modes_t portm_cfg_string_to_mode(const char *val);
+
+/**
+ * Return an array describing the modes allowed for a PORTM
+ *
+ * @param portm    PORTM to describe
+ *
+ * @return Mode description
+ */
+const portm_gserm_mac_map_t *portm_get_gserm_mac_map(void);
 
 /**
  * Get the first portm connected to GSERM
