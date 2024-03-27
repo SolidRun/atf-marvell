@@ -840,9 +840,7 @@ void cn10k_fatal_reboot(void)
 	octeontx_scp_sys_reboot();
 #else
 	isb();
-	printf("Fatal Error: Cold reboot is required\n");
-	while (1)
-		wfi();
+	printf("!!! FATAL ERROR : CONTINUING AFTER FATAL ERROR !!!\n");
 #endif
 }
 

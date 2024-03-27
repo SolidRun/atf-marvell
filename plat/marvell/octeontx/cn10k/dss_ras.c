@@ -367,9 +367,6 @@ int cn10k_ras_dss_isr(uint32_t id, uint32_t flags, void *cookie)
 		if (fatal) {
 			ERROR("System needs to be rebooted\n");
 			cn10k_fatal_reboot();
-			/* Should not reach here */
-			while (1)
-				;
 		}
 	}
 	return 0;
