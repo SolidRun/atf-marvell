@@ -145,15 +145,6 @@ struct otx2_ghes_err_record *otx2_begin_ghes(ras_config_t *rc, const char *name,
 		return NULL;
 	}
 
-	/* if consumer not registered */
-	if (strncmp(name, "bert", 4) && !sdei_event_is_enable(gh->id)) {
-		debug_ras("%s sdei 0x%x disabled\n", __func__, gh->id);
-		return NULL;
-	}
-
-	if (!sdei_event_is_enable(gh->id))
-		return NULL;
-
 	head = err_ring->head;
 	dsbsy();
 
@@ -297,6 +288,9 @@ void otx2_send_ghes(ras_config_t *rc, struct otx2_ghes_err_record *rec, int even
 
 #if SDEI_SUPPORT
 	int ret = 0;
+
+	if (!sdei_event_is_enable(event))
+		return;
 
 	debug_ras("RAS SDEI dispatch: 0x%x\n", event);
 	ret = sdei_dispatch_event(event);
