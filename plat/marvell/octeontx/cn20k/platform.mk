@@ -81,7 +81,8 @@ include ${LIBTIM_DIR}/libtim.mk
 
 PLAT_INCLUDES		+=	-Iinclude/plat/marvell/octeontx/cn20k	\
 				-Iinclude/drivers/marvell/octeontx/cn20k\
-				-I${LIBTIM_DIR}
+				-I${LIBTIM_DIR} \
+				-I${ETH_INCLUDES}
 
 PLAT_BL_COMMON_SOURCES	+=	plat/marvell/octeontx/cn20k/plat_non_fip_image.c\
 				plat/marvell/octeontx/cn20k/plat_security.c	\

@@ -6,7 +6,8 @@
 # include cn20k platform common makefile
 include plat/marvell/octeontx/cn20k/platform.mk
 
-PLAT_INCLUDES		+=	-Iplat/marvell/octeontx/cn20k/cn20ka/include
+PLAT_INCLUDES		+=	-Iplat/marvell/octeontx/cn20k/cn20ka/include \
+				-I${ETH_INCLUDES}/cn20ka
 
 PLAT_BL_COMMON_SOURCES	+=	plat/marvell/octeontx/cn20k/cn20ka/plat_cn20ka_setup.c
 
