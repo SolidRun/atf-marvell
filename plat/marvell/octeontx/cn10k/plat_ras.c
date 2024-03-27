@@ -548,6 +548,80 @@ void cn10k_per_cpu_ras_init(void)
 	}
 }
 
+void plat_read_ebf_errors(void)
+{
+	struct error_q_shmem *ebf_shmem;
+	struct otx2_ghes_err_record *err_rec = NULL;
+	struct otx2_ghes_err_ring *err_ring;
+	struct fdt_ghes *gh_dss, *gh_tad, *gh_mdc;
+	struct ebf_rec *ebf_err;
+
+	volatile uint32_t head = 0;
+	ras_config_t *rc;
+	int i = 0, count;
+
+	rc = &plat_octeontx_bcfg->ras_config;
+
+	ebf_shmem = (void *)NS_RAS_EBFERR_BASE;
+
+	count = ebf_shmem->count;
+
+	if (count <= 0)
+		return;
+
+	gh_dss = otx2_find_ghes(rc, "dss");
+	if (!gh_dss)
+		return;
+
+	gh_tad = otx2_find_ghes(rc, "tad");
+	if (!gh_tad)
+		return;
+
+	gh_mdc = otx2_find_ghes(rc, "mdc");
+	if (!gh_mdc)
+		return;
+
+	while (i < count) {
+		switch (ebf_shmem->rec[i].type) {
+		case RAS_ERR_TYPE_TAD:
+			err_ring = gh_tad->base[GHES_PTR_RING];
+			break;
+		case RAS_ERR_TYPE_MDC:
+			err_ring = gh_mdc->base[GHES_PTR_RING];
+			break;
+		case RAS_ERR_TYPE_DSS:
+			err_ring = gh_dss->base[GHES_PTR_RING];
+			break;
+		default:
+			return;
+		}
+
+		if (err_ring) {
+			ebf_err = &ebf_shmem->rec[i];
+			head = err_ring->head;
+			dsbsy();
+			err_rec = &err_ring->records[head];
+			memset(err_rec, 0, sizeof(*err_rec));
+
+			head++;
+			head %= err_ring->size;
+			err_ring->head = head;
+			dsbsy();
+
+			memcpy(&err_rec->u, &ebf_err->u, sizeof(err_rec->u));
+			memcpy(&err_rec->fru_text, &ebf_err->fru_text,
+			       sizeof(err_rec->fru_text));
+			err_rec->error_severity = ebf_err->error_severity;
+			err_rec->syndrome = ebf_err->syndrome;
+			flush_dcache_range((uintptr_t)err_rec,
+					   sizeof(struct otx2_ghes_err_record));
+		}
+		i++;
+	}
+
+	memset((void *)NS_RAS_EBFERR_BASE, 0, NS_RAS_EBFERR_SIZE);
+}
+
 int cn10k_ras_init(void)
 {
 	struct otx2_ghes_err_ring *err_ring;
@@ -629,6 +703,11 @@ int cn10k_ras_init(void)
 
 		ret = otx2_acpi_estatus_init(&cfg->fdt_ghes[i], type);
 	}
+
+#if defined(PLAT_CN10K_FAMILY)
+	/* Read ras errors from ebf and populate in resp ring */
+	plat_read_ebf_errors();
+#endif
 
 	return ret;
 }

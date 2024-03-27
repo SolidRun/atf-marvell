@@ -310,6 +310,30 @@ struct otx2_ghes_err_ring {
 	struct otx2_ghes_err_record records[0] __aligned(8);
 };
 
+enum {
+	RAS_ERR_TYPE_TAD = 1,
+	RAS_ERR_TYPE_MDC = 2,
+	RAS_ERR_TYPE_DSS = 3,
+};
+
+struct ebf_rec {
+	int type; //TAD/MDC/DSS
+	union rec {
+		struct cper_sec_mem_err dss;
+		struct cper_sec_mem_err mdc;
+		struct cper_sec_mem_err tad;
+	} u;
+	uint32_t error_severity;
+	char fru_text[OTX2_GHES_ERR_REC_FRU_TEXT_LEN];
+	uint64_t syndrome;
+} __packed;
+
+struct error_q_shmem {
+	uint32_t count;
+	uint32_t max_recs;
+	struct ebf_rec rec[0];
+} __packed;
+
 struct otx2_ghes_err_record *otx2_begin_ghes(ras_config_t *rc, const char *name,
 			struct otx2_ghes_err_ring **ringp);
 

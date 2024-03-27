@@ -539,6 +539,10 @@ void plat_add_mmio()
 
 	mmap_add_region(PORTM_MODE_BOOT_CFG_DATA_BASE, PORTM_MODE_BOOT_CFG_DATA_BASE,
 		PORTM_MODE_BOOT_CFG_DATA_SIZE, (MT_MEMORY | MT_RW | MT_NS));
+
+	/* Shared memory region for EBF RAS Errors */
+	mmap_add_region(NS_RAS_EBFERR_BASE, NS_RAS_EBFERR_BASE,
+			NS_RAS_EBFERR_SIZE, (MT_MEMORY | MT_RW | MT_NS));
 }
 
 void plat_set_gpio_msix_vectors(int gpio_num, int irq_num, int enable)

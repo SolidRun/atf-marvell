@@ -254,7 +254,14 @@
  */
 #define BL32_NSEC_SHMEM_SIZE		0x00800000
 #define BL32_NSEC_SHMEM_BASE		(FWLOG_NS_MEM_BASE - BL32_NSEC_SHMEM_SIZE)
+#else
+#define BL32_NSEC_SHMEM_SIZE		0x0
 #endif
+
+#define NS_RAS_EBFERR_SIZE		0x40000
+#define NS_RAS_EBFERR_BASE		0x04000000 - (FWLOG_NS_MEM_SIZE + \
+						     BL32_NSEC_SHMEM_SIZE + \
+						     NS_RAS_EBFERR_SIZE)
 
 #ifndef __ASSEMBLER__
 int plat_is_irq_ns(uint32_t irq);
