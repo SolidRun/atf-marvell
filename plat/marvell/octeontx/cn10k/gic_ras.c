@@ -168,7 +168,7 @@ void cavm_gic_ras_enable(void)
 
 	debug_ras("%s records %d\n", __func__, gic_nerr_recs);
 
-	for (idx = 0; idx < gic_nerr_recs; idx++) {
+	for (idx = 1; idx < gic_nerr_recs; idx++) {
 		debug_ras("ERX[%d]FR 0x%lx\n", idx,
 			(long) octeontx_read64(CAVM_GICT_ERRX_ADDR(idx)));
 		erxctl.u = octeontx_read64(CAVM_GICT_ERRX_CTLR(idx));
