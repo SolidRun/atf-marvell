@@ -272,3 +272,35 @@ Output example AP CORE error:
 {9}[Hardware Error]:     transaction type: Instruction
 {9}[Hardware Error]:     cache level: 0
 {9}[Hardware Error]:    physical fault address: 0x0000000000000000
+
+BERT
+====
+
+ATF will save the error record in case of fatal error using bert feature.
+When the fatal error happens, the error record will be saved in spi flash.
+Then in subsequent boot, during bert initialization, bert region will be
+read from flash, and if valid bert record found, it will be copied
+to the dram node populated in fdt as part of reserved memory.
+This fdt node will then be available to further boot stages to read the
+error record.
+
+SPI flash to have a "fatal_error_atf" partition with minimal 64k for
+bert-offset:
+
+FDT configuration:
+	partitions {
+		...
+		...
+        part3: partition@16e0000 {
+            label = "fatal_error_atf";
+            reg = <0x16E0000 0x00100000>;
+		    cd-offset = <0x0>;
+		    bert-offset = <0xF0000>;
+        };
+		...
+		...
+	};
+
+Also, bert node is required in reserved memory for this feature.
+dram config: ghes_bert_reserved node in reserved-memory and
+	     subsequent bed-bert node similar as ghes_hest node.
