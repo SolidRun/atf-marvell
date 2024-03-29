@@ -27,7 +27,7 @@
 #define debug_dts(...) ((void) (0))
 #endif
 
-plat_octeontx_ethernet_cfg_t * const plat_octeontx_eth_cfg = (void *)ETH_LINK_SHMEM_BASE;
+plat_octeontx_ethernet_cfg_t * const plat_octeontx_eth_cfg = (void *)ETH_CFG_SHMEM_BASE;
 
 /* List of GPIO types - used as expanders in case of SFP/QSFP/PHY */
 static gpio_compat_t gpio_compat_list[] = {
