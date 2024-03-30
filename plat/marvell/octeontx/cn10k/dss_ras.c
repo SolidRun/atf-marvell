@@ -226,7 +226,7 @@ static bool cn10k_ras_dss_notify(uint64_t ch, dss_err_info_t info,
 	dss->bank          = addr.bank;
 	dss->row           = addr.row;
 	dss->column        = addr.col;
-	dss->bit_pos       = info.ecc_bit;
+	dss->bit_pos       = cn10k_dram_flip2bit(ch, info.ecc_bit);
 	dss->error_type    = info.dbe ? 3 : 2;
 	if (info.is_sbr && info.dbe)
 		dss->error_type = 14;
