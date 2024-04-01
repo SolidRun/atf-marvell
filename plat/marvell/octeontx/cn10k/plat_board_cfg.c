@@ -3143,14 +3143,15 @@ static void cn10k_fill_portm_details(void *fdt)
 		/* Read port mode IPG setting*/
 		snprintf(prop, sizeof(prop), "PORTM-IPG-XGMII.P%d", portm_idx);
 		portm->ipg_xgmii = cn10k_fdtebf_get_num(fdt, prop, 10);
-		if ((portm->ipg_xgmii != 0) &&
+		if ((portm->ipg_xgmii != -1) &&
+		    (portm->ipg_xgmii != 0) &&
 		    ((portm->ipg_xgmii < 5) || (portm->ipg_xgmii > 8))) {
 			ERROR("%s is invalid (%d) - must be 0, or 5-8\n", prop, portm->ipg_xgmii);
 			portm->ipg_xgmii = -1;
 		}
 		snprintf(prop, sizeof(prop), "PORTM-IPG-CGMII.P%d", portm_idx);
 		portm->ipg_cgmii = cn10k_fdtebf_get_num(fdt, prop, 10);
-		if ((portm->ipg_cgmii < 0) || (portm->ipg_cgmii > 8)) {
+		if ((portm->ipg_cgmii < -1) || (portm->ipg_cgmii > 8)) {
 			ERROR("%s is invalid (%d) - must be between 0 and 8\n", prop, portm->ipg_cgmii);
 			portm->ipg_cgmii = -1;
 		}
