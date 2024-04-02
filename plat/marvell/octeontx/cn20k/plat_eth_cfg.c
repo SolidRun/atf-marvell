@@ -1134,7 +1134,7 @@ static void rpm_check_linux(void *fdt)
 	}
 	offset = fdt_node_offset_by_compatible(fdt, offset, "pci-bridge");
 	if (offset < 0) {
-		ERROR("DT: Unable to find mrml_bridge node.\n");
+		INFO("DT: Unable to find mrml_bridge node.\n");
 		return;
 	}
 
@@ -1144,7 +1144,7 @@ static void rpm_check_linux(void *fdt)
 		rpm_offset = fdt_subnode_offset(fdt, offset, name);
 
 		if (rpm_offset < 0) {
-			ERROR("DT: %s node is not present in the device tree\n", name);
+			INFO("DT: %s node is not present in the device tree\n", name);
 			continue;
 		}
 
