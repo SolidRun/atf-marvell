@@ -824,13 +824,6 @@ void prepare_opcomands(int spi_con, int cs, uint64_t end_spi_addr)
 		addr_current = XSPI_ADDRESSING_3B;
 	addr_new = end_spi_addr < ADDR_LIMIT_3B ? XSPI_ADDRESSING_3B : XSPI_ADDRESSING_4B;
 
-#if !defined(PLAT_CN20K_FAMILY)
-	/* Check if safemode fuse bit is set */
-	CSR_INIT(fuse_bits, CAVM_EHSM_BIU_BOOTROM_CONFIG_STATUS);
-	if (fuse_bits.s.bootrom_rsvd_param & EHSM_BOOTROM_RESERVED_PARAM_0)
-		safemode = 1;
-#endif
-
 	/*Check if we are in safemode now*/
 	if (read_seq_0.s.read_seq_p1_cmd_val == SPINOR_OP_READ_4B)
 		safemode = 1;
@@ -990,6 +983,13 @@ int spi_config(uint64_t spi_clk, uint32_t mode, int cpol, int cpha,
 
 	if (mode != 0)
 		safemode = true;
+
+#if !defined(PLAT_CN20K_FAMILY)
+	/* Check if safemode fuse bit is set */
+	CSR_INIT(fuse_bits, CAVM_EHSM_BIU_BOOTROM_CONFIG_STATUS);
+	if (fuse_bits.s.bootrom_rsvd_param & EHSM_BOOTROM_RESERVED_PARAM_0)
+		safemode = true;
+#endif
 
 	/* Try to load config from db
 	 * In caise of load fail, rerun device-discovery
