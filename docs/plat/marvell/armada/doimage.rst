@@ -6,8 +6,6 @@ a boot media installation in format that accepted by Marvell SoC BootROM.
 The flash image format is compatible with the following Marvell SoC product
 lines:
 
-- ARMADA 7K (88F70xx)
-- ARMADA 8K (88F80xx)
 - OCTEON TX2 (CN913x)
 
 The "doimage" supports both trusted and untrusted flash image formats.
