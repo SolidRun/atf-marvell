@@ -123,6 +123,7 @@ BL31_SOURCES		+=	plat/marvell/octeontx/cn20k/plat_topology.c	\
 				drivers/io/io_storage.c				\
 				plat/marvell/octeontx/cn20k/plat_pwrc.c		\
 				plat/marvell/octeontx/cn20k/plat_scmi.c		\
+				plat/marvell/octeontx/cn20k/plat_svc.c		\
 				drivers/io/io_block.c
 
 ifdef NT_FW_CONFIG
