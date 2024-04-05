@@ -400,7 +400,7 @@ int scmi_octeontx_boot_ecp(void *p)
 	mbx_mem->len = SCMI_CAVM_BOOT_ECP_MSG_LEN;
 	mbx_mem->flags = SCMI_FLAG_RESP_POLL;
 
-	scmi_send_sync_command(ch);
+	//scmi_send_sync_command(ch);
 
 	/* Get the return values */
 	SCMI_PAYLOAD_RET_VAL1(mbx_mem->payload, ret);
