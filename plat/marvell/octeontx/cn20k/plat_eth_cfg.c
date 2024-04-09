@@ -1132,11 +1132,6 @@ static void rpm_check_linux(void *fdt)
 		ERROR("DT: Can't find RPM information in the Linux DT.\n");
 		return;
 	}
-	offset = fdt_node_offset_by_compatible(fdt, offset, "pci-bridge");
-	if (offset < 0) {
-		INFO("DT: Unable to find mrml_bridge node.\n");
-		return;
-	}
 
 	for (i = 0; i < plat_octeontx_scfg->rpm_count; i++) {
 		rpm = &(plat_octeontx_eth_cfg->rpm_cfg[i]);
