@@ -555,7 +555,7 @@ static int dss_disable_einj(int ch)
 	if (cavm_is_model(OCTEONTX_CNF10KB) && (ch > 3))
 		return -1;
 
-	debug_ras("%s %d\n", __func__, ch);
+	debug_ras("%s ch:%d\n", __func__, ch);
 
 	sbr_state = 0;
 	reg_SBRCTL.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRCTL(ch));
