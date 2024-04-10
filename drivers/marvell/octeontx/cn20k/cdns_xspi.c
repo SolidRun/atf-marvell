@@ -928,6 +928,7 @@ uint32_t spi_dev_lock(int spi_con)
 			*spi_lock[spi_con] = ATF_OWN;
 			break;
 		}
+		mdelay(1);
 		timeout--;
 	}
 
@@ -938,7 +939,7 @@ uint32_t spi_dev_lock(int spi_con)
 	while (timeout >= 0) {
 		if (*spi_lock[spi_con] != ATF_OWN)
 			break;
-
+		mdelay(1);
 		timeout--;
 	}
 

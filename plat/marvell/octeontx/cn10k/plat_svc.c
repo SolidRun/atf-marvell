@@ -405,7 +405,7 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 	{
 		int spi_bus = plat_octeontx_bcfg->bcfg.boot_dev.controller;
 		user_buf = x1;
-		if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock[spi_bus]) != 0) {
+		if (octeontx_ctr_sem_try_lock_timeout(&octeontx_smc_spi_lock[spi_bus], 1000) != 0) {
 			ret = -2;
 		} else {
 			/* Check if NS user_buf is a valid DRAM address */
@@ -416,8 +416,8 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 				ret = load_efi_image(user_buf, &img_size,
 						     1, NSEC_BUF);
 			}
+			octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[spi_bus]);
 		}
-		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[spi_bus]);
 		SMC_RET2(handle, ret, img_size);
 		break;
 	}
@@ -434,7 +434,7 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 		     SMC_RET1(handle, -1);
 		}
 
-		if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock[bus]) != 0) {
+		if (octeontx_ctr_sem_try_lock_timeout(&octeontx_smc_spi_lock[bus], 1000) != 0) {
 			ret = -2;
 		} else {
 			/* Check if NS user_buf is a valid DRAM address */
@@ -444,8 +444,8 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 				/* Perform EFI variable store write to SPI-NOR */
 				ret = spi_write_efi_var(user_buf, img_size);
 			}
+			octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[bus]);
 		}
-		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[bus]);
 		SMC_RET1(handle, ret);
 		break;
 	}
@@ -463,7 +463,7 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 		     SMC_RET1(handle, -1);
 		}
 
-		if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock[bus]) != 0) {
+		if (octeontx_ctr_sem_try_lock_timeout(&octeontx_smc_spi_lock[bus], 1000) != 0) {
 			ret = -2;
 		} else {
 			/* Check if NS user_buf is a valid DRAM address */
@@ -473,8 +473,8 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 				/* Perform EFI variable store read from SPI-NOR */
 				ret = spi_read_efi_var(user_buf, &img_size);
 			}
+			octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[bus]);
 		}
-		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[bus]);
 		SMC_RET2(handle, ret, img_size);
 		break;
 	}
@@ -486,7 +486,7 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 
 		int spi_bus = plat_octeontx_bcfg->bcfg.boot_dev.controller;
 
-		if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock[spi_bus]) != 0) {
+		if (octeontx_ctr_sem_try_lock_timeout(&octeontx_smc_spi_lock[spi_bus], 1000) != 0) {
 			ret = -2;
 		} else {
 			/* Check if NS user_buf is a valid DRAM address */
@@ -498,9 +498,9 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 
 			/* Perform Switch firmware load */
 			ret = load_switch_fw(user_buf, user_buf1, &img_size, NSEC_BUF);
+			octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[spi_bus]);
 		}
 err1:
-		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[spi_bus]);
 		SMC_RET2(handle, ret, img_size);
 		break;
 	}
@@ -1055,12 +1055,12 @@ err3:
 	case PLAT_OCTEONTX_SEC_SPI_OP:
 		/* Perform an operation on secure SPI */
 		img_size = x3;
-		if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock[x4 & 0xF]) != 0) {
+		if (octeontx_ctr_sem_try_lock_timeout(&octeontx_smc_spi_lock[x4 & 0xF], 1000) != 0) {
 			ret = -2;
 		} else {
 			ret = sec_spi_operation(x1, x2, &img_size, x4);
+			octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[x4 & 0xF]);
 		}
-		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[x4 & 0xF]);
 		SMC_RET2(handle, ret, img_size);
 		break;
 
@@ -1091,7 +1091,7 @@ err3:
 			ERROR("Failed to get persistent data\n");
 			SMC_RET1(handle, -1);
 		}
-		if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock[cfg->bus]) != 0) {
+		if (octeontx_ctr_sem_try_lock_timeout(&octeontx_smc_spi_lock[cfg->bus], 1000) != 0) {
 			ret = -2;
 		} else {
 			if (x1 == UPDATE_USERDEF_PRESERVE_MEMSZ) {
@@ -1099,8 +1099,8 @@ err3:
 			} else {
 				ret = -1;
 			}
+			octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[cfg->bus]);
 		}
-		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[cfg->bus]);
 		SMC_RET1(handle, ret);
 	}
 	break;
@@ -1225,7 +1225,7 @@ err5:
 			SMC_RET1(handle, -16);
 		}
 
-		if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock[cfg->bus]) != 0) {
+		if (octeontx_ctr_sem_try_lock_timeout(&octeontx_smc_spi_lock[cfg->bus], 1000) != 0) {
 			ret = -16; /* Set result to busy */
 		} else {
 			/* Perform actual work */
@@ -1233,12 +1233,12 @@ err5:
 							 &next, &power_on,
 							 &reboot_mem_len,
 							 &poweron_mem_len);
+			octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[cfg->bus]);
 		}
 		ret_x3 = poweron_mem_len;
 		ret_x3 <<= 32;
 		ret_x3 |= reboot_mem_len;
 
-		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[cfg->bus]);
 		SMC_RET4(handle, ret, next, power_on, ret_x3);
 	}
 	break;

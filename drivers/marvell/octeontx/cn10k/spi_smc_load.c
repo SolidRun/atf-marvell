@@ -751,10 +751,9 @@ static int _spi_update_persistent_data(uintptr_t buffer, uint64_t sz, size_t pda
 
 	offset = cfg->offset + pdata_offset;
 
-	if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock[cfg->bus]) != 0) {
+	if (octeontx_ctr_sem_try_lock_timeout(&octeontx_smc_spi_lock[cfg->bus], 1000) != 0) {
 		ERROR("%s: SPI_%d: Sem Lock failed\n", __func__, cfg->bus);
-		ret = -1;
-		goto err;
+		return -1;
 	}
 
 	if (spi_dev_lock(cfg->bus)) {
@@ -790,10 +789,9 @@ static int _spi_read_persistent_data(uintptr_t buffer, uint64_t *sz, size_t pdat
 
 	offset = cfg->offset + pdata_offset;
 
-	if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock[cfg->bus]) != 0) {
+	if (octeontx_ctr_sem_try_lock_timeout(&octeontx_smc_spi_lock[cfg->bus], 1000) != 0) {
 		ERROR("%s: SPI_%d: Sem Lock failed\n", __func__, cfg->bus);
-		ret = -1;
-		goto err;
+		return -1;
 	}
 
 	if (spi_dev_lock(cfg->bus)) {
@@ -838,9 +836,8 @@ int spi_update_mac_addr_persistent_data(uintptr_t log_entry, size_t sz)
 
 	offset = PERSIST_MAC_ADDRESS_OFFSET + cfg->offset;
 
-	if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock[cfg->bus]) != 0) {
+	if (octeontx_ctr_sem_try_lock_timeout(&octeontx_smc_spi_lock[cfg->bus], 1000) != 0) {
 		ERROR("%s: SPI_%d: Sem Lock failed\n", __func__, cfg->bus);
-		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[cfg->bus]);
 		return -1;
 	}
 
@@ -876,9 +873,8 @@ int spi_read_mac_addr_persistent_data(uintptr_t log_entry, size_t *sz)
 
 	offset = PERSIST_MAC_ADDRESS_OFFSET + cfg->offset;
 
-	if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock[cfg->bus]) != 0) {
+	if (octeontx_ctr_sem_try_lock_timeout(&octeontx_smc_spi_lock[cfg->bus], 1000) != 0) {
 		ERROR("%s: SPI_%d: Sem Lock failed\n", __func__, cfg->bus);
-		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[cfg->bus]);
 		return -1;
 	}
 

@@ -101,7 +101,7 @@ static file_state_t spi_state_data[SPI_MAX_STATES];
 /* Global lock to sync between ATF and OS */
 #define SPI_0_LOCK_BYTE (uint32_t *)0x80400000208c
 #define SPI_1_LOCK_BYTE (uint32_t *)0x80500000208c
-static uint32_t *spi_lock[] = {SPI_0_LOCK_BYTE, SPI_1_LOCK_BYTE};
+static volatile uint32_t *spi_lock[] = {SPI_0_LOCK_BYTE, SPI_1_LOCK_BYTE};
 #define ATF_OWN		0x01
 
 /** Needed for block writes to temporarily store data */

@@ -242,9 +242,8 @@ static int async_tim_handler(int tim)
 	enum delayed_spi_op_type type_saved = spi_ops[spi_op_cnt].type;
 
 	//Try lock SW lock
-	if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock[bus]) != 0) {
+	if (octeontx_ctr_sem_try_lock_timeout(&octeontx_smc_spi_lock[bus], 1000) != 0) {
 		UERROR("%s: SPI_%d: Sem Lock failed\n", __func__, bus);
-		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[bus]);
 		timer_start(timer_hd);
 		return 0;
 	}
@@ -605,19 +604,19 @@ static void spi_async_block_completed(bool start)
  *					async execution with error, and call last transfer callback.
  * @param	cb_params		pointer to user callback params
  * @param	callback_init		callback_init fuction - executed as first callback
- * 					Callback params:
- * 					void* - pointer to userdata
- * 					returns callback status. Value other than
- * 					SPI_OP_CALLBACK_CONTINUE will finish current block
+ *					Callback params:
+ *					void* - pointer to userdata
+ *					returns callback status. Value other than
+ *					SPI_OP_CALLBACK_CONTINUE will finish current block
  * @param	cb_init			pointer to init callback params
  * @param	callback_cont		callback_cont fuction - executed as continous callback
- * 					Callback params:
- * 					void* - pointer to userdata
- * 					returns callback status. Value other than
- * 					SPI_OP_CALLBACK_CONTINUE will finish current block
+ *					Callback params:
+ *					void* - pointer to userdata
+ *					returns callback status. Value other than
+ *					SPI_OP_CALLBACK_CONTINUE will finish current block
  * @param	cb_cont			pointer to continous callback params
  * @param	callback_tmax_usec	Max duration of time tracking block. if set to 0 time
- * 					tracking will be disabled.
+ *					tracking will be disabled.
  */
 void spi_async_add_block_callback(int (*callback)(void*, int, struct delayed_block_params *),
 				  void *cb_params,
@@ -660,13 +659,13 @@ void spi_async_add_block_callback(int (*callback)(void*, int, struct delayed_blo
  * @param	mem_addr	Address of memory buffer
  * @param	data_size	Size of the data to be written
  * @param	callback	callback function - executed after completing block
- * 				Callback params:
- * 				void* - pointer to user data
- * 				int - current block number
- * 				struct delayed_block_params* - pointer to structure 
- * 								describing performed operation
- * 				returns callback status. Value not equal to 0 will break
- * 				async execution with error, and call last transfer callback.
+ *				Callback params:
+ *				void* - pointer to user data
+ *				int - current block number
+ *				struct delayed_block_params* - pointer to structure
+ *								describing performed operation
+ *				returns callback status. Value not equal to 0 will break
+ *				async execution with error, and call last transfer callback.
  * @param	cb_params	pointer to user callback params
  */
 void spi_async_add_block_write(int bus, int cs, uint64_t spi_addr, void *mem_addr,
@@ -704,13 +703,13 @@ void spi_async_add_block_write(int bus, int cs, uint64_t spi_addr, void *mem_add
  * @param	mem_addr	Address of memory buffer
  * @param	data_size	Size of the data to be read
  * @param	callback	callback function - executed after completing block
- * 				Callback params:
- * 				void* - pointer to user data
- * 				int - current block number
- * 				struct delayed_block_params* - pointer to structure 
- * 								describing performed operation
- * 				returns callback status. Value not equal to 0 will break
- * 				async execution with error, and call last transfer callback.
+ *				Callback params:
+ *				void* - pointer to user data
+ *				int - current block number
+ *				struct delayed_block_params* - pointer to structure
+ *								describing performed operation
+ *				returns callback status. Value not equal to 0 will break
+ *				async execution with error, and call last transfer callback.
  * @param	cb_params	pointer to user callback params
  */
 void spi_async_add_block_read(int bus, int cs, uint64_t spi_addr, void *mem_addr,
@@ -731,7 +730,7 @@ void spi_async_add_block_read(int bus, int cs, uint64_t spi_addr, void *mem_addr
 	block_ops[block_op_cnt].param.cs = cs;
 	block_op_cnt++;
 
-	INFO("%s: Adding spi%d:%d read block: %d: from: %" PRIx64 ", spiaddr: %" PRIx64 ", size: %" PRIx64 "\n",
+	INFO("%s: Adding spi%d:%d read block: %d: from: %lx, spiaddr: %lx, size: %lx\n",
 								__func__,
 								bus, cs,
 								(block_op_cnt-1),
@@ -809,8 +808,8 @@ int spi_async_init_delayed(bool debug_flag)
  * Start SPI operations in timer callback.
  *
  * @param	block_callback	callback function - executed after completing whole transfer chain
- * 				Callback params:
- * 				void* - pointer to user data
+ *				Callback params:
+ *				void* - pointer to user data
  * @param	params		pointer to user callback params
  */
 void spi_async_start(enum spi_dc_ret (*block_callback)(void *), void *params)
