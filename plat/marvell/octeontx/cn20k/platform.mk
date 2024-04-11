@@ -111,6 +111,7 @@ BL2_SOURCES		+= 	plat/marvell/octeontx/cn20k/plat_board_cfg.c	\
 				plat/marvell/octeontx/cn20k/plat_cn20k_iobn.c	\
 				plat/marvell/octeontx/cn20k/plat_pwrc.c		\
 				plat/marvell/octeontx/cn20k/plat_scmi.c		\
+				${PSCI_LIB_SOURCES}				\
 				${LIBTIM_SRCS}
 
 BL31_SOURCES		+=	plat/marvell/octeontx/cn20k/plat_topology.c	\

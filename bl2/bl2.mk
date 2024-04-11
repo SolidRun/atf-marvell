@@ -9,7 +9,6 @@ BL2_SOURCES		+=	bl2/bl2_image_load_v2.c			\
 				bl2/${ARCH}/bl2_arch_setup.c		\
 				lib/locks/exclusive/${ARCH}/spinlock.S	\
 				plat/common/${ARCH}/platform_up_stack.S	\
-				${PSCI_LIB_SOURCES}			\
 				${MBEDTLS_SOURCES}
 
 ifeq (${ARCH},aarch64)
