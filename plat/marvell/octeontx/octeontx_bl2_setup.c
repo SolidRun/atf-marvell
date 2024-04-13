@@ -85,7 +85,6 @@
 #endif
 
 #if defined(PLAT_CN20K_FAMILY)
-#include "rvu_20k.h"
 #include "plat_scmi.h"
 #endif
 
@@ -646,10 +645,6 @@ void bl2_platform_setup(void)
 
 	/* Enumerate devices on ECAMs */
 	octeontx_pci_init();
-
-#if defined(PLAT_CN20K_FAMILY)
-	rvu_devices_init();
-#endif
 
 #if defined(PLAT_CN10K_FAMILY)
 	/* Reserve RAS memory after RVU */

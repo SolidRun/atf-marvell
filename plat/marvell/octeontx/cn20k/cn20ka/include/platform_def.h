@@ -73,6 +73,9 @@
 |	config	      |
 |	256 KB	      |
 |---------------------|
+|  RVU MSIX Table     |
+|    16 MB             |
+|---------------------|
 |		      |
 |---------------------|
 |		      |
@@ -159,4 +162,8 @@
 #else
 #define NT_FW_CONFIG_LIMIT		0x0
 #endif
+
+/* Memory reserved for RVU MSIX table (16MB) */
+#define RVU_MEM_BASE			(NT_FW_CONFIG_BASE + NT_FW_CONFIG_LIMIT)
+#define RVU_MEM_SIZE			(0x1000000)
 #endif

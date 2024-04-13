@@ -28,6 +28,8 @@
 #include "cavm-csrs-spi.h"
 #include "cavm-csrs-pccpf_iii.h"
 
+#include "rvu_20k.h"
+
 /* for LEGACY logging, define DEBUG_ATF_PLAT_ECAM to enable debug logs */
 #undef DEBUG_ATF_PLAT_ECAM
 
@@ -126,6 +128,16 @@ static void init_rvu_rid(uint64_t config_base, uint64_t config_size)
 	octeontx_write32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL, vsec_sctl.u);
 }
 
+static void init_rvu(uint64_t config_base, uint64_t config_size)
+{
+	union cavm_pccpf_xxx_vsec_sctl vsec_sctl;
+
+	vsec_sctl.u = octeontx_read32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL);
+	vsec_sctl.s.rid = plat_configure_rid();
+	octeontx_write32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL, vsec_sctl.u);
+	rvu_devices_init();
+}
+
 static void init_xspi(uint64_t config_base, uint64_t config_size)
 {
 	union cavm_pccpf_xxx_vsec_sctl vsec_sctl;
@@ -183,6 +195,7 @@ static void init_rnm(uint64_t config_base, uint64_t config_size)
 
 struct ecam_init_callback plat_init_callbacks[] = {
 	{0xa00a, 0x177d, init_gpio},
+	{0xa065, 0x177d, init_rvu},
 	{0xa063, 0x177d, init_rvu_rid}, /* 0x63 - PCC_DEV_IDL_E::RVU */
 	{0xa0f2, 0x177d, init_rvu_rid}, /* 0xf2 - PCC_DEV_IDL_E::RVU_CPT10_PF */
 	{0xa0f3, 0x177d, init_rvu_rid}, /* 0xf3 - PCC_DEV_IDL_E::RVU_CPT10_VF */

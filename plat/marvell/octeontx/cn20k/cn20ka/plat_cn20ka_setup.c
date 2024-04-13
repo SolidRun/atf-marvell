@@ -293,13 +293,18 @@ void plat_add_mmio(void)
 				CAVM_NCB_BAR_E_NCBX_PF_BAR0_SIZE, attr);
 
 	/* RVU device mappings */
-	add_map_record(CAVM_RVU_BAR_E_RVU_PFX_BAR0_CN20KA(0),
-			CAVM_RVU_BAR_E_RVU_PFX_BAR0_CN20KA_SIZE, attr);
-	device_type_count = plat_octeontx_get_rvu_count();
-	for (i = 0; i < device_type_count; ++i)
-		add_map_record(CAVM_RVU_BAR_E_RVU_PFX_FUNCX_BAR2_CN20KA(i, 0),
-				CAVM_RVU_BAR_E_RVU_PFX_FUNCX_BAR2_CN20KA_SIZE, attr);
+#define RVU_PFX_BAR0		0x850000000000ll
+#define RVU_PFX_BAR0_SIZE	0x10000000ull
 
+	add_map_record(RVU_PFX_BAR0, 0x10000000ull, attr);
+
+	/* Add regions for required for RVU init */
+	add_map_record(RVU_PFX_BAR0 +
+		       CAVM_RVU_BLOCK_ADDR_E_NIXX(0) * RVU_PFX_BAR0_SIZE,
+		       RVU_PFX_BAR0_SIZE, attr);
+	add_map_record(RVU_PFX_BAR0 +
+		       CAVM_RVU_BLOCK_ADDR_E_NPA * RVU_PFX_BAR0_SIZE,
+		       RVU_PFX_BAR0_SIZE, attr);
 	/*
 	 * Map DSU UB for core power management
 	 * Errata: IPBUPERS-151, skip the reserved register space.
@@ -349,6 +354,8 @@ void plat_add_mmio(void)
 			NT_FW_CONFIG_LIMIT, (MT_MEMORY | MT_RW | MT_NS));
 #endif
 
+	mmap_add_region(RVU_MEM_BASE, RVU_MEM_BASE,
+			RVU_MEM_SIZE, (MT_MEMORY | MT_RW | MT_NS));
 #if 0
 	/* Shared memory region for EFI variables */
 	mmap_add_region(EFI_VAR_MEM_BASE, EFI_VAR_MEM_BASE,
