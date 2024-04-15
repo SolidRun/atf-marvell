@@ -809,12 +809,24 @@ void plat_el3_arch_setup(void)
 	uint64_t fwlog_size;
 
 	if (sec_fwlogmem && sec_fwlogmem->fwlog_base != 0) {
-		fwlog_size = sec_fwlogmem->fwlog_ptr - sec_fwlogmem->fwlog_base;
+		if (sec_fwlogmem->wraparound == 1)
+			fwlog_size = sec_fwlogmem->fwlog_end - sec_fwlogmem->fwlog_base;
+		else
+			fwlog_size = sec_fwlogmem->fwlog_ptr - sec_fwlogmem->fwlog_base;
 		/* Disable the console mem */
 		console_set_scope((console_t *)&fwlog_buf, 0);
 		/* Copy the firmware logs from secure memory to non-secure */
-		memcpy((char *)ns_fwlogmem->fwlog_ptr, (char *)sec_fwlogmem->fwlog_base, fwlog_size);
-		ns_fwlogmem->fwlog_ptr = ns_fwlogmem->fwlog_ptr + fwlog_size;
+		if ((ns_fwlogmem->fwlog_ptr + fwlog_size) < ns_fwlogmem->fwlog_end) {
+			memcpy((char *)ns_fwlogmem->fwlog_ptr, (char *)sec_fwlogmem->fwlog_base, fwlog_size);
+			ns_fwlogmem->fwlog_ptr = ns_fwlogmem->fwlog_ptr + fwlog_size;
+		} else {
+			uint64_t fwlog_frag_len = ns_fwlogmem->fwlog_end - ns_fwlogmem->fwlog_ptr;
+			memcpy((char *)ns_fwlogmem->fwlog_ptr, (char *)sec_fwlogmem->fwlog_base, fwlog_frag_len);
+			fwlog_size -= fwlog_frag_len;
+			memcpy((char *)ns_fwlogmem->fwlog_base, (char *)sec_fwlogmem->fwlog_base + fwlog_frag_len, fwlog_size);
+			ns_fwlogmem->fwlog_ptr = ns_fwlogmem->fwlog_base + fwlog_size;
+			ns_fwlogmem->wraparound = 1;
+		}
 		fwlog_buf.base = FWLOG_NS_MEM_BASE;
 		console_set_scope((console_t *)&fwlog_buf, CONSOLE_FLAG_RUNTIME);
 	}
