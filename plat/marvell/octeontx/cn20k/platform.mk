@@ -120,6 +120,7 @@ BL31_SOURCES		+=	plat/marvell/octeontx/cn20k/plat_topology.c	\
 				plat/marvell/octeontx/cn20k/plat_pm.c		\
 				plat/marvell/octeontx/cn20k/plat_legacy_pm_ops.c\
 				plat/marvell/octeontx/cn20k/plat_svc.c		\
+				plat/marvell/octeontx/cn20k/pcp_mbox.c		\
 				drivers/io/io_storage.c				\
 				plat/marvell/octeontx/cn20k/plat_pwrc.c		\
 				plat/marvell/octeontx/cn20k/plat_scmi.c		\

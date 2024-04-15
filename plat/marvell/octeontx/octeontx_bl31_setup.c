@@ -301,6 +301,9 @@ void bl31_platform_setup()
 
 	/* Intialize the power controller */
 	plat_pwrc_setup();
+#if defined(PLAT_CN20K_FAMILY)
+	pcp_mbox_init();
+#endif
 	octeontx_init_heap();
 #if defined(PLAT_CN10K_FAMILY)
 	octeontx_apa_wdog_init();
