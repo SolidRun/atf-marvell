@@ -1464,6 +1464,8 @@ static void fill_portm_details(void *fdt)
 	portm_fec_t fec, fec_orig;
 	int gserm_idx;
 	int ret, usr_mode = 0;
+	int eth_trace_level;
+	int eth_verbose_level;
 
 	offset = fdt_path_offset(fdt, "/marvell,ebf");
 	if (offset < 0) {
@@ -1640,6 +1642,28 @@ static void fill_portm_details(void *fdt)
 		portm->fec = fec;
 		portm->rx_term = rx_term;
 		portm->port_enable = 1;
+
+		/* Ethernet Trace and level */
+		snprintf(prop, sizeof(prop), "ETHERNET-TRACE-LEVEL.P%d", portm_idx);
+		eth_trace_level = cn10k_fdtebf_get_num(fdt, prop, 16);
+		if (eth_trace_level == -1) {
+			debug_dts("%s: No ethernet_trace_level found for portm %d\n", __func__, portm_idx);
+			eth_trace_level = 0;
+		}
+		portm->ethernet_trace_level = eth_trace_level;
+		debug_dts("%s: PORTM%d: ethernet_trace_level %d\n", __func__, portm_idx, portm->ethernet_trace_level);
+
+		/* Ethernet Verbose level */
+		snprintf(prop, sizeof(prop), "ETHERNET-VERBOSE-LEVEL.P%d", portm_idx);
+		eth_verbose_level = cn10k_fdtebf_get_num(fdt, prop, 16);
+		if (eth_verbose_level == -1) {
+			debug_dts("%s: No ethernet_verbose_level found for portm %d\n", __func__, portm_idx);
+			eth_verbose_level = 0;
+		}
+		portm->ethernet_verbose_level = eth_verbose_level;
+		debug_dts("%s: PORTM%d: ethernet_verbose_level %d\n", __func__, portm_idx, portm->ethernet_verbose_level);
+
+
 
 		/* Figure out how many portms are used by this port */
 		/* Note: CN10k does not support connecting 2 GSERM's to 1 RPM */
