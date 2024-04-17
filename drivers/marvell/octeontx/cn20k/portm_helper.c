@@ -73,14 +73,14 @@ void fill_portm_tx_eq_info(int portm_idx, portm_modes_t portm_mode)
 	for (int lane = 0; lane < portm->gser_numlanes; lane++) {
 		/* Get Tx Main */
 		snprintf(prop, sizeof(prop), "PORTM-LANE-TX-MAIN.%s.P%d.LANE%d", portm_mode_str, portm_idx, lane);
-		tx_tuning.tx_main = cn10k_fdtebf_get_num(fdt, prop, 10);
+		tx_tuning.tx_main = fdtebf_get_num(fdt, prop, 10);
 		if (tx_tuning.tx_main == -1) {
 			debug_dts("%s: PORTM%d.L%d: PORTM-LANE-TX-MAIN not defined. Using default setting\n", __func__, portm_idx, lane);
 			tx_tuning.tx_main = default_tx_tuning.tx_main;
 		}
 		/* Get Tx Post */
 		snprintf(prop, sizeof(prop), "PORTM-LANE-TX-POST.%s.P%d.LANE%d", portm_mode_str, portm_idx, lane);
-		tx_tuning.tx_post = cn10k_fdtebf_get_num(fdt, prop, 10);
+		tx_tuning.tx_post = fdtebf_get_num(fdt, prop, 10);
 		if (tx_tuning.tx_post == -1) {
 			debug_dts("%s: PORTM%d.L%d: PORTM-LANE-TX-POST not defined. Using default setting\n", __func__, portm_idx, lane);
 			tx_tuning.tx_post = default_tx_tuning.tx_post;
@@ -89,7 +89,7 @@ void fill_portm_tx_eq_info(int portm_idx, portm_modes_t portm_mode)
 		}
 		/* Get Tx Pre1 */
 		snprintf(prop, sizeof(prop), "PORTM-LANE-TX-PRE1.%s.P%d.LANE%d", portm_mode_str, portm_idx, lane);
-		tx_tuning.tx_pre1 = cn10k_fdtebf_get_num(fdt, prop, 10);
+		tx_tuning.tx_pre1 = fdtebf_get_num(fdt, prop, 10);
 		if (tx_tuning.tx_pre1 == -1) {
 			debug_dts("%s: PORTM%d.L%d: PORTM-LANE-TX-PRE1 not defined. Using default setting\n", __func__, portm_idx, lane);
 			tx_tuning.tx_pre1 = default_tx_tuning.tx_pre1;
@@ -98,7 +98,7 @@ void fill_portm_tx_eq_info(int portm_idx, portm_modes_t portm_mode)
 		}
 		/* Get Tx Pre2 */
 		snprintf(prop, sizeof(prop), "PORTM-LANE-TX-PRE2.%s.P%d.LANE%d", portm_mode_str, portm_idx, lane);
-		tx_tuning.tx_pre2 = cn10k_fdtebf_get_num(fdt, prop, 10);
+		tx_tuning.tx_pre2 = fdtebf_get_num(fdt, prop, 10);
 		if (tx_tuning.tx_pre2 == -1) {
 			debug_dts("%s: PORTM%d.L%d: PORTM-LANE-TX-PRE2 not defined. Using default setting\n", __func__, portm_idx, lane);
 			tx_tuning.tx_pre2 = default_tx_tuning.tx_pre2;

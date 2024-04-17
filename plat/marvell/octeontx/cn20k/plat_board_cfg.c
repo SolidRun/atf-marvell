@@ -251,7 +251,7 @@ static void parse_spi_config(const void *fdt)
 	for (bus = 0; bus < MAX_SPI_BUS; bus++) {
 		for (cs = 0; cs < MAX_SPI_CS; cs++) {
 			snprintf(name, 64, "SPI%d-CS%d-FLASH-SECTOR-64K", bus, cs);
-			val = cn10k_fdtebf_get_num(fdt, name, 16);
+			val = fdtebf_get_num(fdt, name, 16);
 			plat_octeontx_bcfg->spi_cfg[bus].erase_64k[cs] = (val == 1) ? 1 : 0;
 			debug_dts("SPI%d CS%d erase_64k %d val %d\n", bus, cs,
 				  plat_octeontx_bcfg->spi_cfg[bus].erase_64k[cs], val);

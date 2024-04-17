@@ -1296,7 +1296,7 @@ static int fill_portm_802_3ap_struct(void *fdt, int portm_idx, portm_modes_t *po
 
 			/* Read the FEC_REQ from EBF DT */
 			snprintf(prop, sizeof(prop), "PORTM-802-3AP-FEC-REQ.CFG%d.P%d", cfg, portm_idx);
-			fec_req = cn10k_fdtebf_get_num(fdt, prop, 10);
+			fec_req = fdtebf_get_num(fdt, prop, 10);
 
 			if (fec_req == -1)
 				fec_req = portm_get_mode_desc_fec_low(ap_mode);
@@ -1322,7 +1322,7 @@ static int fill_portm_802_3ap_struct(void *fdt, int portm_idx, portm_modes_t *po
 			if (portm_get_mode_desc_fec_abil(ap_mode)) {
 				/* Read the 802.3AP FEC_ABIL from EBF DT */
 				snprintf(prop, sizeof(prop), "PORTM-802-3AP-FEC-ABIL.CFG%d.P%d", cfg, portm_idx);
-				fec_abil = cn10k_fdtebf_get_num(fdt, prop, 10);
+				fec_abil = fdtebf_get_num(fdt, prop, 10);
 
 				if (fec_abil == -1)
 					fec_abil = PORTM_FEC_ABIL_DISABLED;
@@ -1388,7 +1388,7 @@ static void fill_gserm_details(void *fdt)
 		lane_mask = 0;
 		gserm = &(plat_octeontx_eth_cfg->gserm_plat_cfg[gserm_idx]);
 		snprintf(prop, sizeof(prop), "PORTM-MAC-TO-SERDES-MAP.GSER%d", gserm_idx);
-		mac_ser_lane_map = cn10k_fdtebf_get_num(fdt, prop, 16);
+		mac_ser_lane_map = fdtebf_get_num(fdt, prop, 16);
 		portm_first = portm_gserm_get_first_portm_num(gserm_idx);
 
 		if (mac_ser_lane_map == -1) {
@@ -1432,7 +1432,7 @@ static void fill_gserm_details(void *fdt)
 	/* Capture REF_CLK termination dts settings */
 	for (int refclk_idx = 0; refclk_idx < MAX_REFCLK; refclk_idx++) {
 		snprintf(prop, sizeof(prop), "REF-CLK-TERM.CLK%d", refclk_idx);
-		refclk_term = cn10k_fdtebf_get_num(fdt, prop, 10);
+		refclk_term = fdtebf_get_num(fdt, prop, 10);
 		if (refclk_term == -1) {
 			refclk_term = 1;
 		}
@@ -1504,12 +1504,12 @@ static void fill_portm_details(void *fdt)
 
 		/* Read mgmt/debug port mode */
 		snprintf(prop, sizeof(prop), "ETHERNET-MGMT-PORT.P%d", portm_idx);
-		portm->mgmt_port = cn10k_fdtebf_get_num(fdt, prop, 10);
+		portm->mgmt_port = fdtebf_get_num(fdt, prop, 10);
 		debug_dts("PORTM%d: is used for mgmt port %d\n", portm_idx, portm->mgmt_port);
 
 		/* Read the FEC type from EBF DT */
 		snprintf(prop, sizeof(prop), "PORTM-FEC.P%d", portm_idx);
-		fec = cn10k_fdtebf_get_num(fdt, prop, 10);
+		fec = fdtebf_get_num(fdt, prop, 10);
 
 		if (fec == -1)
 			fec = portm_get_mode_desc_fec_low(portm_mode);
@@ -1527,7 +1527,7 @@ static void fill_portm_details(void *fdt)
 
 		/* Read the short channel type from EBF DT */
 		snprintf(prop, sizeof(prop), "PORTM-SCH.P%d", portm_idx);
-		usr_mode = cn10k_fdtebf_get_num(fdt, prop, 10);
+		usr_mode = fdtebf_get_num(fdt, prop, 10);
 
 		if ((portm_mode != PORTM_MODE_50GAUI_1_C2M) && ((usr_mode == 0) || (usr_mode == 1)))
 			debug_dts("PORTM%d: Short channel request not supported for %s mode\n",
@@ -1544,7 +1544,7 @@ static void fill_portm_details(void *fdt)
 
 		/* Read the Rx Termination type from EBF DT */
 		snprintf(prop, sizeof(prop), "PORTM-RX-TERMINATION.P%d", portm_idx);
-		rx_term = cn10k_fdtebf_get_num(fdt, prop, 10);
+		rx_term = fdtebf_get_num(fdt, prop, 10);
 
 		if (rx_term == -1)
 			rx_term = PORTM_RX_TERMINATION_AC;
@@ -1583,7 +1583,7 @@ static void fill_portm_details(void *fdt)
 		for (int lane = 0; lane < plat_octeontx_scfg->portm_max_lane_cnt[portm_idx]; lane++) {
 			/* Get Rx Polarity */
 			snprintf(prop, sizeof(prop), "PORTM-LANE-RX-POLARITY.P%d.LANE%d", portm_idx, lane);
-			rx_pol = cn10k_fdtebf_get_num(fdt, prop, 10);
+			rx_pol = fdtebf_get_num(fdt, prop, 10);
 			if (rx_pol == -1) {
 				debug_dts("%s: PORTM%d.L%d: PORTM-LANE-RX-POLARITY not defined. Using non-inverted polarity\n", __func__, portm_idx, lane);
 				rx_pol = 0;
@@ -1591,7 +1591,7 @@ static void fill_portm_details(void *fdt)
 
 			/* Get Tx Polarity */
 			snprintf(prop, sizeof(prop), "PORTM-LANE-TX-POLARITY.P%d.LANE%d", portm_idx, lane);
-			tx_pol = cn10k_fdtebf_get_num(fdt, prop, 10);
+			tx_pol = fdtebf_get_num(fdt, prop, 10);
 			if (tx_pol == -1) {
 				debug_dts("%s: PORTM%d.L%d: PORTM-LANE-TX-POLARITY not defined. Using non-inverted polarity\n", __func__, portm_idx, lane);
 				tx_pol = 0;
@@ -1599,7 +1599,7 @@ static void fill_portm_details(void *fdt)
 
 			/* Get Rx Precode */
 			snprintf(prop, sizeof(prop), "PORTM-LANE-RX-PRECODE-EN.P%d.LANE%d", portm_idx, lane);
-			rx_precode = cn10k_fdtebf_get_num(fdt, prop, 10);
+			rx_precode = fdtebf_get_num(fdt, prop, 10);
 			if (rx_precode == -1) {
 				debug_dts("%s: PORTM%d.L%d: PORTM-LANE-RX-PRECODE-EN not defined. Disabling Rx precode\n", __func__, portm_idx, lane);
 				rx_precode = 0;
@@ -1607,7 +1607,7 @@ static void fill_portm_details(void *fdt)
 
 			/* Get Tx Precode */
 			snprintf(prop, sizeof(prop), "PORTM-LANE-TX-PRECODE-EN.P%d.LANE%d", portm_idx, lane);
-			tx_precode = cn10k_fdtebf_get_num(fdt, prop, 10);
+			tx_precode = fdtebf_get_num(fdt, prop, 10);
 			if (tx_precode == -1) {
 				debug_dts("%s: PORTM%d.L%d: PORTM-LANE-TX-PRECODE-EN not defined. Disabling Tx precode\n", __func__, portm_idx, lane);
 				tx_precode = 0;
@@ -1623,7 +1623,7 @@ static void fill_portm_details(void *fdt)
 				  portm_idx, lane, rx_precode, tx_precode);
 		}
 		snprintf(prop, sizeof(prop), "PORTM-802-3AP-MASTER-LANE.P%d", portm_idx);
-		an_master_lane = cn10k_fdtebf_get_num(fdt, prop, 10);
+		an_master_lane = fdtebf_get_num(fdt, prop, 10);
 
 		if (an_master_lane == -1)
 			an_master_lane = 0;
@@ -1645,7 +1645,7 @@ static void fill_portm_details(void *fdt)
 
 		/* Ethernet Trace and level */
 		snprintf(prop, sizeof(prop), "ETHERNET-TRACE-LEVEL.P%d", portm_idx);
-		eth_trace_level = cn10k_fdtebf_get_num(fdt, prop, 16);
+		eth_trace_level = fdtebf_get_num(fdt, prop, 16);
 		if (eth_trace_level == -1) {
 			debug_dts("%s: No ethernet_trace_level found for portm %d\n", __func__, portm_idx);
 			eth_trace_level = 0;
@@ -1655,7 +1655,7 @@ static void fill_portm_details(void *fdt)
 
 		/* Ethernet Verbose level */
 		snprintf(prop, sizeof(prop), "ETHERNET-VERBOSE-LEVEL.P%d", portm_idx);
-		eth_verbose_level = cn10k_fdtebf_get_num(fdt, prop, 16);
+		eth_verbose_level = fdtebf_get_num(fdt, prop, 16);
 		if (eth_verbose_level == -1) {
 			debug_dts("%s: No ethernet_verbose_level found for portm %d\n", __func__, portm_idx);
 			eth_verbose_level = 0;
@@ -1788,7 +1788,7 @@ int plat_octeontx_fill_eth_details(void *fdt)
 {
 	plat_octeontx_eth_cfg->ignore_eth_persist_data = 0;
 
-	if (cn10k_fdtebf_get_num(fdt, "ETHERNET-PERSIST-SETTINGS-IGNORE", 10) == 1)
+	if (fdtebf_get_num(fdt, "ETHERNET-PERSIST-SETTINGS-IGNORE", 10) == 1)
 		plat_octeontx_eth_cfg->ignore_eth_persist_data = 1;
 
 

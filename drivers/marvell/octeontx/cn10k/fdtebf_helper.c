@@ -11,6 +11,11 @@
 #include <strtol.h>
 #include <string.h>
 
+#if defined(PLAT_CN10K_FAMILY)
+  #define DTS_BASE "/cavium,bdk"
+#else
+  #define DTS_BASE "/marvell,ebf"
+#endif
 static const char *fdtebf_get_value(const void *fdt_addr, int offset, const char *name)
 {
 	char n[64];
@@ -32,14 +37,14 @@ static const char *fdtebf_get_value(const void *fdt_addr, int offset, const char
 	return NULL;
 }
 
-long cn10k_fdtebf_get_num(const void *fdt_addr, const char *prop, int base)
+long fdtebf_get_num(const void *fdt_addr, const char *prop, int base)
 {
 	long ret;
 	int offset;
 	const char *buf;
 	char *endptr = NULL;
 
-	offset = fdt_path_offset(fdt_addr, "/cavium,bdk");
+	offset = fdt_path_offset(fdt_addr, DTS_BASE);
 	buf = fdtebf_get_value(fdt_addr, offset, prop);
 	if (!buf)
 		return -1;
