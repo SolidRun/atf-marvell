@@ -14,6 +14,8 @@
 #include <plat_board_cfg.h>
 #include <plat_eth_cfg.h>
 
+#include "cavm-csrs-rpm.h"
+
 #if defined(MRVL_TF_LOG_MODULE)
 #  undef MRVL_TF_LOG_MODULE
 #  define MRVL_TF_LOG_MODULE  MRVL_TF_LOG_MODULE_PARSE
@@ -1246,6 +1248,92 @@ static void rpm_check_linux(void *fdt)
 			fdt_nop_node(fdt, pctx->sfp_offsets[i].offset);
 }
 
+static void __program_local_mac(const void *fdt, int rpm_id, int lmac_id, int pf_idx, int id)
+{
+	long mac = -1;
+	char name[32];
+	rpm_lmac_config_t *lmac;
+
+	debug_dts("%s: id %d\n", __func__, id);
+	snprintf(name, sizeof(name), "BOARD-MAC-ADDRESS-ID%d", id);
+	mac = fdtebf_get_num(fdt, name, 16);
+	if (mac == -1) {
+		debug_dts("MAC address is not defined for ID%d\n", id);
+		mac = 0;
+	}
+	debug_dts("BOARD-MAC-ADDRESS-ID%d = %lx\n", id, mac);
+
+	lmac =  &plat_octeontx_eth_cfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
+	plat_octeontx_eth_cfg->pf_macs[pf_idx] = mac;
+	debug_dts("%d:%d:Programming pf_id%d with mac %lx\n", rpm_id, lmac_id, pf_idx, mac);
+	lmac->local_mac_address[0] = (mac >> 40) & 0xff;
+	lmac->local_mac_address[1] = (mac >> 32) & 0xff;
+	lmac->local_mac_address[2] = (mac >> 24) & 0xff;
+	lmac->local_mac_address[3] = (mac >> 16) & 0xff;
+	lmac->local_mac_address[4] = (mac >> 8) & 0xff;
+	lmac->local_mac_address[5] = mac & 0xff;
+}
+
+/* Assign all the possible MAC addresses to the LMAC initialized.
+ * This is made according to the values from the EBF DT file:
+ *   BOARD-MAC-ADDRESS-ID-NUM
+ *   BOARD-MAC-ADDRESS-IDx
+ * MAC addresses are assigned in order rpm0/lmac0 = ID0, rpm0/lmac1 = ID1, ...
+ */
+static void rpm_assign_mac(const void *fdt)
+{
+	int mac_id_num;
+	int rpm_id, pf_idx = 0;
+	int lmac_id, id = 0;
+	rpm_config_t *rpm;
+	cavm_rpmx_const_t rpm_const;
+
+	/* Parse EBF DT file, to find variables to set MAC address:
+	 *   BOARD-MAC-ADDRESS-NUM-ID
+	 *   BOARD-MAC-ADDRESS-ID
+	 */
+
+	mac_id_num = fdtebf_get_num(fdt, "BOARD-MAC-ADDRESS-ID-NUM", 10);
+	if (mac_id_num == 0 || mac_id_num == -1)
+		mac_id_num = fdtebf_get_num(fdt, "BOARD-MAC-ADDRESS-ID-NUM", 16);
+	debug_dts("BOARD-MAC-ADDRESS-ID-NUM=%d\n", mac_id_num);
+
+	for (rpm_id = 0; rpm_id < MAX_RPM; rpm_id++) {
+		rpm = &plat_octeontx_eth_cfg->rpm_cfg[rpm_id];
+#ifdef PLAT_cn20ka
+		// TODO: Convert to using RPM CSR value - running into mapping issues
+		if (rpm_id < 2)
+			rpm_const.s.lmacs = MAX_LMAC_PER_RPM;
+		else
+			rpm_const.s.lmacs = 4;
+#else
+		rpm_const.u = CSR_READ(CAVM_RPMX_CONST(rpm_id));
+#endif
+		if (!rpm->enable) {
+			id += rpm_const.s.lmacs;
+			continue;
+		}
+
+		for (lmac_id = 0; lmac_id < rpm_const.s.lmacs; lmac_id++) {
+			rpm_lmac_config_t *lmac;
+
+			lmac = &rpm->lmac_cfg[lmac_id];
+			if (lmac->lmac_enable) {
+
+				debug_dts("%d:%d: pf_idx %d, id %d\n", rpm_id, lmac_id, pf_idx, id);
+
+				if (mac_id_num > 0) {
+					__program_local_mac(fdt, rpm_id, lmac_id, pf_idx, id);
+					pf_idx += 1;
+				}
+			}
+			id++;
+		}
+	}
+	/* Program the number of macs configurations */
+	plat_octeontx_eth_cfg->pf_mac_num = pf_idx;
+}
+
 /**
  * Programs 802.3AP advertisement structure
  * If 802_3ap mode is specified, update the portm_mode to
@@ -1731,9 +1819,7 @@ static void fill_rpm_details(void *fdt)
 	}
 
 	rpm_check_linux(fdt);
-
-	/* REVISIT TODO: Is this needed for cn20k here */
-	//rpm_assign_mac(fdt);
+	rpm_assign_mac(fdt);
 }
 
 static void fill_timer_ms(const void *fdt)
@@ -1790,7 +1876,6 @@ int plat_octeontx_fill_eth_details(void *fdt)
 
 	if (fdtebf_get_num(fdt, "ETHERNET-PERSIST-SETTINGS-IGNORE", 10) == 1)
 		plat_octeontx_eth_cfg->ignore_eth_persist_data = 1;
-
 
 	fill_gserm_details(fdt);
 
