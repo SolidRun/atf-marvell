@@ -106,6 +106,48 @@ static struct parser_context_s {
 	node_info_t phy_offsets[MAX_PORTM];
 } parser_context;
 
+/* Output information specific for CN20K, for now only RPM. */
+void plat_octeontx_print_board_variables(void)
+{
+	int i, j;
+	rpm_config_t *rpm;
+	rpm_lmac_config_t *lmac;
+	portm_config_t *portm;
+
+	for (i = 0; i < plat_octeontx_scfg->rpm_count; i++) {
+		rpm = &(plat_octeontx_eth_cfg->rpm_cfg[i]);
+		debug_dts("RPM%d: lmac_count = %d\n", i, rpm->lmac_count);
+		for (j = 0; j < MAX_LMAC_PER_RPM; j++) {
+			lmac = &rpm->lmac_cfg[j];
+			portm = &(plat_octeontx_eth_cfg->portm_cfg[lmac->portm_idx]);
+			if (!lmac->port_enable)
+				continue;
+			debug_dts("RPM%d.LMAC%d: portm mode = %d, short channel = %d, mode = %s:%d AN disable=%d sgmii_speed=%d sgmii_duplex=%d\n",
+					i,
+					j,
+					portm->portm_mode,
+					portm->short_channel,
+					gserm_get_mode_strmap(portm->portm_mode).ebf_str,
+					lmac->mode,
+					lmac->an_disable,
+					lmac->sgmii_speed,
+					lmac->sgmii_duplex);
+			debug_dts("\tnum_rvu_vfs=%d, num_msix_vec=%d\n",
+					lmac->num_rvu_vfs,
+					lmac->num_msix_vec);
+			debug_dts("\tMAC=%x:%x:%x:%x:%x:%x\n",
+					lmac->local_mac_address[0],
+					lmac->local_mac_address[1],
+					lmac->local_mac_address[2],
+					lmac->local_mac_address[3],
+					lmac->local_mac_address[4],
+					lmac->local_mac_address[5]);
+			debug_dts("\tLMAC enable=%d\n", lmac->lmac_enable);
+			debug_dts("\tLMAC fec type=%d\n", portm->fec);
+		}
+	}
+}
+
 static int fdt_check_compatible_new_old_fmt(const void *fdt, int nodeoffset,
 		char *compatible)
 {
