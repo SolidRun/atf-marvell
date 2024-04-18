@@ -16,6 +16,7 @@
 #include <octeontx_ecam.h>
 #include <plat_cn20k_configuration.h>
 #include <plat_board_cfg.h>
+#include <plat_eth_cfg.h>
 #include <platform_irqs_def.h>
 #include <plat_scfg.h>
 #include <octeontx_utils.h>
@@ -43,7 +44,26 @@
 
 extern uint64_t get_iodid_dev_config(struct ecam_device *dev);
 
+static int ecam_probe_rpm(uint64_t arg)
+{
+	int rpm_idx;
+
+	debug_plat_ecam("%s arg %" PRId64 "\n", __func__, arg);
+
+	rpm_idx = arg;
+
+	if ((rpm_idx < 0) && (rpm_idx > plat_octeontx_get_rpm_count()))
+		ERROR("%s: Invalid rpm_index %d\n", __func__, rpm_idx);
+
+	/* FIXME: For now, return 1 always and not based on
+	 * rpm->enable as for cn20k, disable_dev API is not
+	 * implemented
+	 */
+	return 1;
+}
+
 struct ecam_probe_callback probe_callbacks[] = {
+	{0xa09f, 0x177d, ecam_probe_rpm, 0},
 	{ECAM_INVALID_DEV_ID, 0, 0, 0}
 };
 
