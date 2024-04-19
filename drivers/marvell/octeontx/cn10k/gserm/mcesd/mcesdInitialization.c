@@ -1,5 +1,5 @@
 /*******************************************************************************
-Copyright (c) 2021 Marvell.
+Copyright (C) 2021, Marvell International Ltd. and its affiliates
 If you received this File from Marvell and you have entered into a commercial
 license agreement (a "Commercial License") with Marvell, the File is licensed
 to you under the terms of the applicable Commercial License.
@@ -9,8 +9,6 @@ to you under the terms of the applicable Commercial License.
 This file contains functions for initializing the driver and setting 
 up the user-provide access functions for the Marvell CE SERDES IPs
 ********************************************************************/
-#include "mcesdTop.h"
-#include "mcesdApiTypes.h"
 #include "mcesdInitialization.h"
 
 MCESD_STATUS mcesdLoadDriver

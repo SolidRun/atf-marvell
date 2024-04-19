@@ -1,5 +1,5 @@
 /*******************************************************************************
-Copyright (c) 2019 Marvell.
+Copyright (C) 2019, Marvell International Ltd. and its affiliates
 If you received this File from Marvell and you have entered into a commercial
 license agreement (a "Commercial License") with Marvell, the File is licensed
 to you under the terms of the applicable Commercial License.
@@ -78,7 +78,7 @@ MCESD_STATUS API_N5XC56GP5X4_WriteField
     MCESD_ATTEMPT(API_N5XC56GP5X4_ReadReg(devPtr, lane, fieldPtr->reg, &regValue));
 
     /* Modify the register value with the desired field value */
-    combinedValue = (regValue & fieldPtr->retainMask) | (value << fieldPtr->loBit);
+    combinedValue = (regValue & fieldPtr->retainMask) | ((value << fieldPtr->loBit) & fieldPtr->mask);
 
     /* Call low level API_N5N5XC56GP5X4_HwWriteReg() since the lane switching was already done */
     MCESD_ATTEMPT(API_N5XC56GP5X4_HwWriteReg(devPtr, fieldPtr->reg, combinedValue));

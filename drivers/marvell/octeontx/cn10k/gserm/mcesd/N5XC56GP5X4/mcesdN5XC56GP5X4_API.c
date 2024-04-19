@@ -1,5 +1,5 @@
 /*******************************************************************************
-Copyright (c) 2019 Marvell.
+Copyright (C) 2019, Marvell International Ltd. and its affiliates
 If you received this File from Marvell and you have entered into a commercial
 license agreement (a "Commercial License") with Marvell, the File is licensed
 to you under the terms of the applicable Commercial License.
@@ -24,14 +24,32 @@ higher-level functions to configure Marvell CE SERDES IP:
 
 /* Forward internal function prototypes used only in this module */
 static MCESD_U32 INT_N5XC56GP5X4_ComputeTxEqEmMain(IN MCESD_U32 pre3Cursor, IN MCESD_U32 pre2Cursor, IN MCESD_U32 preCursor, IN MCESD_U32 postCursor, IN MCESD_U32 naCursor);
-static MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_ConvertToMilliCodes(IN MCESD_DEV_PTR devPtr, IN MCESD_U8 lane, IN MCESD_FIELD_PTR fieldPtr, OUT MCESD_32 *tapValue);
-static MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_ConvertToAverageMilliCodes(IN MCESD_DEV_PTR devPtr, IN MCESD_U8 lane, IN MCESD_FIELD_PTR fieldTopPtr, IN MCESD_FIELD_PTR fieldMidPtr, IN MCESD_FIELD_PTR fieldBotPtr, OUT MCESD_32 *tapValue);
-static MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_ConvertMsbLsbToMilliCodes(IN MCESD_DEV_PTR devPtr, IN MCESD_U8 lane, IN MCESD_FIELD_PTR fieldMSBPtr, IN MCESD_FIELD_PTR fieldLSBPtr, OUT MCESD_32 *tapValue);
+static MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_DC(IN MCESD_DEV_PTR devPtr, IN MCESD_U8 lane, IN MCESD_FIELD_PTR fieldPtr, OUT MCESD_32* tapValue);
+static MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_DC_E(IN MCESD_DEV_PTR devPtr, IN MCESD_U8 lane, IN MCESD_FIELD_PTR fieldPtr, OUT MCESD_32* tapValue);
+static MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_VREF(IN MCESD_DEV_PTR devPtr, IN MCESD_U8 lane, IN MCESD_FIELD_PTR fieldPtr, OUT MCESD_32* tapValue);
+static MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_F0(IN MCESD_DEV_PTR devPtr, IN MCESD_U8 lane, IN MCESD_FIELD_PTR fieldPtr, OUT MCESD_32* tapValue);
+static MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_F1(IN MCESD_DEV_PTR devPtr, IN MCESD_U8 lane, IN MCESD_FIELD_PTR fieldPtr, OUT MCESD_32* tapValue);
+static MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_F1P5(IN MCESD_DEV_PTR devPtr, IN MCESD_U8 lane, IN MCESD_FIELD_PTR fieldPtr, OUT MCESD_32* tapValue);
+static MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_F2(IN MCESD_DEV_PTR devPtr, IN MCESD_U8 lane, IN MCESD_FIELD_PTR fieldPtr, OUT MCESD_32* tapValue);
+static MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_F3_F4(IN MCESD_DEV_PTR devPtr, IN MCESD_U8 lane, IN MCESD_FIELD_PTR fieldTopPtr, IN MCESD_FIELD_PTR fieldMidPtr, IN MCESD_FIELD_PTR fieldBotPtr, OUT MCESD_32* tapValue);
+static MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_F5_F6_F7(IN MCESD_DEV_PTR devPtr, IN MCESD_U8 lane, IN MCESD_FIELD_PTR fieldMSBPtr, IN MCESD_FIELD_PTR fieldLSBPtr, OUT MCESD_32* tapValue);
+static MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_F8_F9_F10(IN MCESD_DEV_PTR devPtr, IN MCESD_U8 lane, IN MCESD_FIELD_PTR fieldMSBPtr, IN MCESD_FIELD_PTR fieldLSBPtr, OUT MCESD_32* tapValue);
+static MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_F11TOF15(IN MCESD_DEV_PTR devPtr, IN MCESD_U8 lane, IN MCESD_FIELD_PTR field, OUT MCESD_32* tapValue);
+static MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_FF(IN MCESD_DEV_PTR devPtr, IN MCESD_U8 lane, IN MCESD_FIELD_PTR field, OUT MCESD_32* tapValue);
+#ifdef MCESD_EOM_STATS
+#endif
 static MCESD_STATUS INT_N5XC56GP5X4_PhyGenDataToPCIE(IN MCESD_U32 phyGenData, OUT E_N5XC56GP5X4_SERDES_SPEED *speedPCIE);
 static MCESD_STATUS INT_N5XC56GP5X4_DisplayEntryPAM2(IN MCESD_U32 data, OUT S_N5XC56GP5X4_TLOG_ENTRY* entry);
 static MCESD_STATUS INT_N5XC56GP5X4_DisplayEntryPAM4(IN MCESD_U32 data, OUT S_N5XC56GP5X4_TLOG_ENTRY* entry);
 #ifdef N5XC56GP5X4_DFE_MILLIVOLTS
 static MCESD_STATUS INT_N5XC56GP5X4_GetDfeF0(IN MCESD_DEV_PTR devPtr, IN MCESD_U8 lane, INOUT MCESD_U32 *table);
+static MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_ConvertToAverageCodes(IN MCESD_DEV_PTR devPtr, IN MCESD_U8 lane, IN MCESD_FIELD_PTR fieldTopPtr, IN MCESD_FIELD_PTR fieldMidPtr, IN MCESD_FIELD_PTR fieldBotPtr, OUT MCESD_32* tapValue);
+static MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_ConvertToCodes(IN MCESD_DEV_PTR devPtr, IN MCESD_U8 lane, IN MCESD_FIELD_PTR fieldPtr, OUT MCESD_32* tapValue);
+static MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_ConvertMsbLsbToCodes(IN MCESD_DEV_PTR devPtr, IN MCESD_U8 lane, IN MCESD_FIELD_PTR fieldMSBPtr, IN MCESD_FIELD_PTR fieldLSBPtr, OUT MCESD_32* tapValue);
+#else
+static MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_ConvertToMilliCodes(IN MCESD_DEV_PTR devPtr, IN MCESD_U8 lane, IN MCESD_FIELD_PTR fieldPtr, OUT MCESD_32* tapValue);
+static MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_ConvertToAverageMilliCodes(IN MCESD_DEV_PTR devPtr, IN MCESD_U8 lane, IN MCESD_FIELD_PTR fieldTopPtr, IN MCESD_FIELD_PTR fieldMidPtr, IN MCESD_FIELD_PTR fieldBotPtr, OUT MCESD_32* tapValue);
+static MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_ConvertMsbLsbToMilliCodes(IN MCESD_DEV_PTR devPtr, IN MCESD_U8 lane, IN MCESD_FIELD_PTR fieldMSBPtr, IN MCESD_FIELD_PTR fieldLSBPtr, OUT MCESD_32* tapValue);
 #endif
 
 MCESD_STATUS API_N5XC56GP5X4_GetFirmwareRev
@@ -123,33 +141,39 @@ MCESD_STATUS API_N5XC56GP5X4_RxInit
     IN MCESD_U32 timeout
 )
 {
+    MCESD_STATUS status = MCESD_OK;
+
     switch (lane)
     {
     case 0:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_RX_INIT0, 0));
         MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_RX_INIT0, 1));
-        MCESD_ATTEMPT(API_N5XC56GP5X4_PollPin(devPtr, N5XC56GP5X4_PIN_RX_INITDON0, 1, timeout));
+        status = API_N5XC56GP5X4_PollPin(devPtr, N5XC56GP5X4_PIN_RX_INITDON0, 1, timeout);
         MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_RX_INIT0, 0));
         break;
     case 1:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_RX_INIT1, 0));
         MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_RX_INIT1, 1));
-        MCESD_ATTEMPT(API_N5XC56GP5X4_PollPin(devPtr, N5XC56GP5X4_PIN_RX_INITDON1, 1, timeout));
+        status = API_N5XC56GP5X4_PollPin(devPtr, N5XC56GP5X4_PIN_RX_INITDON1, 1, timeout);
         MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_RX_INIT1, 0));
         break;
     case 2:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_RX_INIT2, 0));
         MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_RX_INIT2, 1));
-        MCESD_ATTEMPT(API_N5XC56GP5X4_PollPin(devPtr, N5XC56GP5X4_PIN_RX_INITDON2, 1, timeout));
+        status = API_N5XC56GP5X4_PollPin(devPtr, N5XC56GP5X4_PIN_RX_INITDON2, 1, timeout);
         MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_RX_INIT2, 0));
         break;
     case 3:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_RX_INIT3, 0));
         MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_RX_INIT3, 1));
-        MCESD_ATTEMPT(API_N5XC56GP5X4_PollPin(devPtr, N5XC56GP5X4_PIN_RX_INITDON3, 1, timeout));
+        status = API_N5XC56GP5X4_PollPin(devPtr, N5XC56GP5X4_PIN_RX_INITDON3, 1, timeout);
         MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_RX_INIT3, 0));
         break;
     default:
         return MCESD_FAIL; /* Invalid lane */
     }
 
-    return MCESD_OK;
+    return status;
 }
 
 MCESD_STATUS API_N5XC56GP5X4_SetTxEqParam
@@ -295,6 +319,9 @@ MCESD_STATUS API_N5XC56GP5X4_SetTxEqAll
 )
 {
     MCESD_U32 data, pre2Value, preValue, mainValue, postValue;
+
+    /* Get Polarity */
+    N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_TO_ANA_TX_FIR_POL, lane, data);
 
     /* Set Polarity */
     N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_FIR_TAP_POL_F, lane, 1);
@@ -493,7 +520,15 @@ MCESD_STATUS API_N5XC56GP5X4_SetDfeEnable
     IN MCESD_BOOL state
 )
 {
-    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_DFE_EN, lane, state);
+    if (devPtr->ipMajorRev >= 2)
+    {
+        /* RX.X >= R2.0 */
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4R2P0_DFE_EN, lane, state);
+    }
+    else
+    {
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_DFE_EN, lane, state);
+    }
 
     return MCESD_OK;
 }
@@ -507,7 +542,16 @@ MCESD_STATUS API_N5XC56GP5X4_GetDfeEnable
 {
     MCESD_U32 data;
 
-    N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_DFE_EN, lane, data);
+    if (devPtr->ipMajorRev >= 2)
+    {
+        /* RX.X >= R2.0 */
+        N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4R2P0_DFE_EN, lane, data);
+    }
+    else
+    {
+        N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_DFE_EN, lane, data);
+    }
+    
     *state = (MCESD_BOOL)data;
 
     return MCESD_OK;
@@ -520,7 +564,15 @@ MCESD_STATUS API_N5XC56GP5X4_SetFreezeDfeUpdates
     IN MCESD_BOOL state
 )
 {
-    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_DFE_UP_DIS, lane, state);
+    if (devPtr->ipMajorRev >= 2)
+    {
+        /* RX.X >= R2.0 */
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4R2P0_DFE_UPDATEDIS, lane, state);
+    }
+    else
+    {
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_DFE_UP_DIS, lane, state);
+    }
 
     return MCESD_OK;
 }
@@ -534,7 +586,16 @@ MCESD_STATUS API_N5XC56GP5X4_GetFreezeDfeUpdates
 {
     MCESD_U32 data;
 
-    N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_DFE_UP_DIS, lane, data);
+    if (devPtr->ipMajorRev >= 2)
+    {
+        /* RX.X >= R2.0 */
+        N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4R2P0_DFE_UPDATEDIS, lane, data);
+    }
+    else
+    {
+        N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_DFE_UP_DIS, lane, data);
+    }
+    
     *state = (MCESD_BOOL)data;
 
     return MCESD_OK;
@@ -559,61 +620,60 @@ MCESD_STATUS API_N5XC56GP5X4_GetDfeTap
     {
         MCESD_FIELD fieldList[3] = { F_N5XC56GP5X4_DC_D_T_E_SM, F_N5XC56GP5X4_DC_D_M_E_SM, F_N5XC56GP5X4_DC_D_B_E_SM };
 
-        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertToMilliCodes(devPtr, lane, &(fieldList[eyeTmb]), tapValue));
+        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_DC(devPtr, lane, &(fieldList[eyeTmb]), tapValue));
     }
     break;
     case N5XC56GP5X4_DFE_DC_E:
     {
-        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertToMilliCodes(devPtr, lane, &((MCESD_FIELD)F_N5XC56GP5X4_DC_E_E_SM), tapValue));
+        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_DC_E(devPtr, lane, &((MCESD_FIELD)F_N5XC56GP5X4_DC_E_E_SM), tapValue));
     }
     break;
     case N5XC56GP5X4_DFE_VREF:
     {
         MCESD_FIELD fieldList[3] = { F_N5XC56GP5X4_VREF_T_E_SM, F_N5XC56GP5X4_VREF_M_E_SM, F_N5XC56GP5X4_VREF_B_E_SM };
 
-        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertToMilliCodes(devPtr, lane, &(fieldList[eyeTmb]), tapValue));
+        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_VREF(devPtr, lane, &(fieldList[eyeTmb]), tapValue));
     }
     break;
     case N5XC56GP5X4_DFE_F0:
     {
+        /* F0 tap is always a positive number. Unlike other DFE Taps, F0 tap is not in signed magnitude encoding. */
         MCESD_FIELD fieldList[3] = { F_N5XC56GP5X4_F0_D_T_E_SM, F_N5XC56GP5X4_F0_D_M_E_SM, F_N5XC56GP5X4_F0_D_B_E_SM };
-        MCESD_U32 data;
 
-        N5XC56GP5X4_READ_FIELD(devPtr, EXTRACT_FIELD(fieldList[eyeTmb]), lane, data);
-        *tapValue = data * 1000; /* F0 tap is not signed. Unlike other DFE taps, we do not treat it like signed magnitude */
+        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_F0(devPtr, lane, &(fieldList[eyeTmb]), tapValue));
     }
     break;
     case N5XC56GP5X4_DFE_F1:
     {
         MCESD_FIELD fieldList[3] = { F_N5XC56GP5X4_F1_D_T_E_SM, F_N5XC56GP5X4_F1_D_M_E_SM, F_N5XC56GP5X4_F1_D_B_E_SM };
 
-        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertToMilliCodes(devPtr, lane, &(fieldList[eyeTmb]), tapValue));
+        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_F1(devPtr, lane, &(fieldList[eyeTmb]), tapValue));
     }
     break;
     case N5XC56GP5X4_DFE_F1P5:
     {
-        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertToMilliCodes(devPtr, lane, &((MCESD_FIELD)F_N5XC56GP5X4_F1P5_E_SM), tapValue));
+        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_F1P5(devPtr, lane, &((MCESD_FIELD)F_N5XC56GP5X4_F1P5_E_SM), tapValue));
     }
     break;
     case N5XC56GP5X4_DFE_F2:
     {
         MCESD_FIELD fieldList[3] = { F_N5XC56GP5X4_F2_D_T_E_SM, F_N5XC56GP5X4_F2_D_M_E_SM, F_N5XC56GP5X4_F2_D_B_E_SM };
 
-        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertToMilliCodes(devPtr, lane, &(fieldList[eyeTmb]), tapValue));
+        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_F2(devPtr, lane, &(fieldList[eyeTmb]), tapValue));
     }
     break;
     case N5XC56GP5X4_DFE_F3:
     {
         MCESD_FIELD fieldList[3] = { F_N5XC56GP5X4_F3_T_E_SM, F_N5XC56GP5X4_F3_M_E_SM, F_N5XC56GP5X4_F3_B_E_SM };
 
-        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertToAverageMilliCodes(devPtr, lane, &fieldList[0], &fieldList[1], &fieldList[2], tapValue));
+        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_F3_F4(devPtr, lane, &fieldList[0], &fieldList[1], &fieldList[2], tapValue));
     }
     break;
     case N5XC56GP5X4_DFE_F4:
     {
         MCESD_FIELD fieldList[3] = { F_N5XC56GP5X4_F4_T_E_SM, F_N5XC56GP5X4_F4_M_E_SM, F_N5XC56GP5X4_F4_B_E_SM };
 
-        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertToAverageMilliCodes(devPtr, lane, &fieldList[0], &fieldList[1], &fieldList[2], tapValue));
+        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_F3_F4(devPtr, lane, &fieldList[0], &fieldList[1], &fieldList[2], tapValue));
     }
     break;
     case N5XC56GP5X4_DFE_F5:
@@ -621,7 +681,7 @@ MCESD_STATUS API_N5XC56GP5X4_GetDfeTap
         MCESD_FIELD msbField = F_N5XC56GP5X4_F5_MSB_E_SM;
         MCESD_FIELD lsbField = F_N5XC56GP5X4_F5_LSB_E_SM;
 
-        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertMsbLsbToMilliCodes(devPtr, lane, &msbField, &lsbField, tapValue));
+        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_F5_F6_F7(devPtr, lane, &msbField, &lsbField, tapValue));
     }
     break;
     case N5XC56GP5X4_DFE_F6:
@@ -629,7 +689,7 @@ MCESD_STATUS API_N5XC56GP5X4_GetDfeTap
         MCESD_FIELD msbField = F_N5XC56GP5X4_F6_MSB_E_SM;
         MCESD_FIELD lsbField = F_N5XC56GP5X4_F6_LSB_E_SM;
 
-        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertMsbLsbToMilliCodes(devPtr, lane, &msbField, &lsbField, tapValue));
+        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_F5_F6_F7(devPtr, lane, &msbField, &lsbField, tapValue));
     }
     break;
     case N5XC56GP5X4_DFE_F7:
@@ -637,7 +697,7 @@ MCESD_STATUS API_N5XC56GP5X4_GetDfeTap
         MCESD_FIELD msbField = F_N5XC56GP5X4_F7_MSB_E_SM;
         MCESD_FIELD lsbField = F_N5XC56GP5X4_F7_LSB_E_SM;
 
-        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertMsbLsbToMilliCodes(devPtr, lane, &msbField, &lsbField, tapValue));
+        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_F5_F6_F7(devPtr, lane, &msbField, &lsbField, tapValue));
     }
     break;
     case N5XC56GP5X4_DFE_F8:
@@ -645,7 +705,7 @@ MCESD_STATUS API_N5XC56GP5X4_GetDfeTap
         MCESD_FIELD msbField = F_N5XC56GP5X4_F8_MSB_E_SM;
         MCESD_FIELD lsbField = F_N5XC56GP5X4_F8_LSB_E_SM;
 
-        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertMsbLsbToMilliCodes(devPtr, lane, &msbField, &lsbField, tapValue));
+        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_F8_F9_F10(devPtr, lane, &msbField, &lsbField, tapValue));
     }
     break;
     case N5XC56GP5X4_DFE_F9:
@@ -653,7 +713,7 @@ MCESD_STATUS API_N5XC56GP5X4_GetDfeTap
         MCESD_FIELD msbField = F_N5XC56GP5X4_F9_MSB_E_SM;
         MCESD_FIELD lsbField = F_N5XC56GP5X4_F9_LSB_E_SM;
 
-        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertMsbLsbToMilliCodes(devPtr, lane, &msbField, &lsbField, tapValue));
+        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_F8_F9_F10(devPtr, lane, &msbField, &lsbField, tapValue));
     }
     break;
     case N5XC56GP5X4_DFE_F10:
@@ -661,84 +721,84 @@ MCESD_STATUS API_N5XC56GP5X4_GetDfeTap
         MCESD_FIELD msbField = F_N5XC56GP5X4_F10_MSB_E_SM;
         MCESD_FIELD lsbField = F_N5XC56GP5X4_F10_LSB_E_SM;
 
-        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertMsbLsbToMilliCodes(devPtr, lane, &msbField, &lsbField, tapValue));
+        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_F8_F9_F10(devPtr, lane, &msbField, &lsbField, tapValue));
     }
     break;
     case N5XC56GP5X4_DFE_F11:
     {
         MCESD_FIELD field = F_N5XC56GP5X4_F11_E_SM;
 
-        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertToMilliCodes(devPtr, lane, &field, tapValue));
+        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_F11TOF15(devPtr, lane, &field, tapValue));
     }
     break;
     case N5XC56GP5X4_DFE_F12:
     {
         MCESD_FIELD field = F_N5XC56GP5X4_F12_E_SM;
 
-        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertToMilliCodes(devPtr, lane, &field, tapValue));
+        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_F11TOF15(devPtr, lane, &field, tapValue));
     }
     break;
     case N5XC56GP5X4_DFE_F13:
     {
         MCESD_FIELD field = F_N5XC56GP5X4_F13_E_SM;
 
-        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertToMilliCodes(devPtr, lane, &field, tapValue));
+        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_F11TOF15(devPtr, lane, &field, tapValue));
     }
     break;
     case N5XC56GP5X4_DFE_F14:
     {
         MCESD_FIELD field = F_N5XC56GP5X4_F14_E_SM;
 
-        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertToMilliCodes(devPtr, lane, &field, tapValue));
+        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_F11TOF15(devPtr, lane, &field, tapValue));
     }
     break;
     case N5XC56GP5X4_DFE_F15:
     {
         MCESD_FIELD field = F_N5XC56GP5X4_F15_E_SM;
 
-        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertToMilliCodes(devPtr, lane, &field, tapValue));
+        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_F11TOF15(devPtr, lane, &field, tapValue));
     }
     break;
     case N5XC56GP5X4_DFE_FF0:
     {
         MCESD_FIELD field = F_N5XC56GP5X4_FF0_E_SM;
 
-        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertToMilliCodes(devPtr, lane, &field, tapValue));
+        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_FF(devPtr, lane, &field, tapValue));
     }
     break;
     case N5XC56GP5X4_DFE_FF1:
     {
         MCESD_FIELD field = F_N5XC56GP5X4_FF1_E_SM;
 
-        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertToMilliCodes(devPtr, lane, &field, tapValue));
+        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_FF(devPtr, lane, &field, tapValue));
     }
     break;
     case N5XC56GP5X4_DFE_FF2:
     {
         MCESD_FIELD field = F_N5XC56GP5X4_FF2_E_SM;
 
-        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertToMilliCodes(devPtr, lane, &field, tapValue));
+        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_FF(devPtr, lane, &field, tapValue));
     }
     break;
     case N5XC56GP5X4_DFE_FF3:
     {
         MCESD_FIELD field = F_N5XC56GP5X4_FF3_E_SM;
 
-        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertToMilliCodes(devPtr, lane, &field, tapValue));
+        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_FF(devPtr, lane, &field, tapValue));
     }
     break;
     case N5XC56GP5X4_DFE_FF4:
     {
         MCESD_FIELD field = F_N5XC56GP5X4_FF4_E_SM;
 
-        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertToMilliCodes(devPtr, lane, &field, tapValue));
+        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_FF(devPtr, lane, &field, tapValue));
     }
     break;
     case N5XC56GP5X4_DFE_FF5:
     {
         MCESD_FIELD field = F_N5XC56GP5X4_FF5_E_SM;
 
-        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertToMilliCodes(devPtr, lane, &field, tapValue));
+        MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_FF(devPtr, lane, &field, tapValue));
     }
     break;
     default:
@@ -748,12 +808,438 @@ MCESD_STATUS API_N5XC56GP5X4_GetDfeTap
     return MCESD_OK;
 }
 
+MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_DC
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN MCESD_FIELD_PTR fieldPtr,
+    OUT MCESD_32* tapValue
+)
+{
+#ifdef N5XC56GP5X4_DFE_MILLIVOLTS
+    MCESD_32 sign;
+    MCESD_U32 res;
+
+    N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_OFST_RES, lane, res);
+
+    MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertToCodes(devPtr, lane, fieldPtr, tapValue));
+    sign = (*tapValue > 0) ? 1 : -1;
+    *tapValue *= sign;      /* absolute value */
+
+    *tapValue = sign * N5XC56GP5X4_DFE_DC_TABLE_RES[res][*tapValue];
+#else
+    MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertToMilliCodes(devPtr, lane, fieldPtr, tapValue));
+#endif
+    return MCESD_OK;
+}
+
+MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_DC_E
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN MCESD_FIELD_PTR fieldPtr,
+    OUT MCESD_32* tapValue
+)
+{
+#ifdef N5XC56GP5X4_DFE_MILLIVOLTS
+    MCESD_32 sign;
+
+    MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertToCodes(devPtr, lane, fieldPtr, tapValue));
+    sign = (*tapValue > 0) ? 1 : -1;
+    *tapValue *= sign;      /* absolute value */
+
+    *tapValue = sign * N5XC56GP5X4_DFE_DC_E_TABLE[*tapValue];
+#else
+    MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertToMilliCodes(devPtr, lane, fieldPtr, tapValue));
+#endif
+    return MCESD_OK;
+}
+
+MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_VREF
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN MCESD_FIELD_PTR fieldPtr,
+    OUT MCESD_32* tapValue
+)
+{
+#ifdef N5XC56GP5X4_DFE_MILLIVOLTS
+    MCESD_U32 sign, tableSelData, res;
+
+    N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_VREF_SHIFT, lane, tableSelData);
+    N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_DFE_RES_VREF, lane, res);
+
+    MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertToCodes(devPtr, lane, fieldPtr, tapValue));
+    sign = (*tapValue > 0) ? 1 : -1;
+    *tapValue *= sign;      /* absolute value */
+
+    *tapValue = sign * N5XC56GP5X4_DFE_VREF_TABLE[tableSelData][res][*tapValue];
+#else
+    MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertToMilliCodes(devPtr, lane, fieldPtr, tapValue));
+#endif
+    return MCESD_OK;
+}
+
+static MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_F0
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN MCESD_FIELD_PTR fieldPtr,
+    OUT MCESD_32* tapValue
+)
+{
+#ifdef N5XC56GP5X4_DFE_MILLIVOLTS
+    MCESD_U32 code;
+    MCESD_U32 table[64];
+
+    MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeF0(devPtr, lane, table));
+    MCESD_ATTEMPT(API_N5XC56GP5X4_ReadField(devPtr, lane, fieldPtr, &code));
+
+    *tapValue = table[code];
+#else
+    MCESD_U32 code;
+
+    MCESD_ATTEMPT(API_N5XC56GP5X4_ReadField(devPtr, lane, fieldPtr, &code));
+    *tapValue = code * 1000;
+#endif
+
+    return MCESD_OK;
+}
+
+MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_F1
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN MCESD_FIELD_PTR fieldPtr,
+    OUT MCESD_32* tapValue
+)
+{
+#ifdef N5XC56GP5X4_DFE_MILLIVOLTS
+    MCESD_U32 sign, tableSelData, res;
+
+    N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_F1_D_T_E_SM, lane, tableSelData);
+    tableSelData >>= 0x6;  /* only the msb */
+    N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_DFE_RES_F1, lane, res);
+
+    MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertToCodes(devPtr, lane, fieldPtr, tapValue));
+    sign = (*tapValue > 0) ? 1 : -1;
+    *tapValue *= sign;      /* absolute value */
+
+    *tapValue = sign * N5XC56GP5X4_DFE_F1_TABLE[tableSelData][res][*tapValue];
+#else
+    MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertToMilliCodes(devPtr, lane, fieldPtr, tapValue));
+#endif
+    return MCESD_OK;
+}
+
+MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_F1P5
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN MCESD_FIELD_PTR fieldPtr,
+    OUT MCESD_32* tapValue
+)
+{
+#ifdef N5XC56GP5X4_DFE_MILLIVOLTS
+    MCESD_U32 sign, res;
+
+    N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_DFE_RES_F1P5, lane, res);
+
+    MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertToCodes(devPtr, lane, fieldPtr, tapValue));
+    sign = (*tapValue > 0) ? 1 : -1;
+    *tapValue *= sign;      /* absolute value */
+
+    *tapValue = sign * N5XC56GP5X4_DFE_F1P5_TABLE[res][*tapValue];
+#else
+    MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertToMilliCodes(devPtr, lane, fieldPtr, tapValue));
+#endif
+    return MCESD_OK;
+}
+
+MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_F2
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN MCESD_FIELD_PTR fieldPtr,
+    OUT MCESD_32* tapValue
+)
+{
+#ifdef N5XC56GP5X4_DFE_MILLIVOLTS
+    MCESD_U32 sign, res;
+
+    N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_DFE_RES_F1, lane, res);
+
+    MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertToCodes(devPtr, lane, fieldPtr, tapValue));
+    sign = (*tapValue > 0) ? 1 : -1;
+    *tapValue *= sign;      /* absolute value */
+
+    *tapValue = sign * N5XC56GP5X4_DFE_F2_TABLE[res][*tapValue];
+#else
+    MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertToMilliCodes(devPtr, lane, fieldPtr, tapValue));
+#endif
+    return MCESD_OK;
+}
+
+static MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_F3_F4
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN MCESD_FIELD_PTR fieldTopPtr,
+    IN MCESD_FIELD_PTR fieldMidPtr,
+    IN MCESD_FIELD_PTR fieldBotPtr,
+    OUT MCESD_32* tapValue
+)
+{
+#ifdef N5XC56GP5X4_DFE_MILLIVOLTS
+    MCESD_U32 multiplier, res, resDoubleData;
+
+    MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertToAverageCodes(devPtr, lane, fieldTopPtr, fieldMidPtr, fieldBotPtr, tapValue));
+
+    N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_DFE_RES_F34, lane, res);
+    N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_DFE_RES_DOUBLE, lane, resDoubleData);
+
+    multiplier = (0 == res) ? 70 : 110;
+
+    if (0 == resDoubleData)
+    {
+        *tapValue *= multiplier;  /* 1.0 */
+    }
+    else if (1 == resDoubleData)
+    {
+        *tapValue *= multiplier;
+        *tapValue += (*tapValue / 4);  /* 1.25 */
+    }
+    else if (2 == resDoubleData)
+    {
+        *tapValue *= multiplier;
+        *tapValue += (*tapValue / 2);  /* 1.5 */
+    }
+    else
+    {
+        *tapValue *= (multiplier * 2);  /* 2.0 */
+    }
+#else
+    MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertToAverageMilliCodes(devPtr, lane, fieldTopPtr, fieldMidPtr, fieldBotPtr, tapValue));
+#endif
+    return MCESD_OK;
+}
+
+static MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_F5_F6_F7
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN MCESD_FIELD_PTR msbField,
+    IN MCESD_FIELD_PTR lsbField,
+    OUT MCESD_32* tapValue
+)
+{
+#ifdef N5XC56GP5X4_DFE_MILLIVOLTS
+    MCESD_U32 multiplier, res, resDoubleData;
+
+    MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertMsbLsbToCodes(devPtr, lane, msbField, lsbField, tapValue));
+
+    N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_DFE_RES_F567, lane, res);
+    N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_DFE_RES_DOUBLE, lane, resDoubleData);
+
+    multiplier = (0 == res) ? 50 : 70;
+
+    if (0 == resDoubleData)
+    {
+        *tapValue *= multiplier;  /* 1.0 */
+    }
+    else if (1 == resDoubleData)
+    {
+        *tapValue *= multiplier;
+        *tapValue += (*tapValue / 4);  /* 1.25 */
+    }
+    else if (2 == resDoubleData)
+    {
+        *tapValue *= multiplier;
+        *tapValue += (*tapValue / 2);  /* 1.5 */
+    }
+    else
+    {
+        *tapValue *= (multiplier * 2);  /* 2.0 */
+    }
+#else
+    MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertMsbLsbToMilliCodes(devPtr, lane, msbField, lsbField, tapValue));
+#endif
+    return MCESD_OK;
+}
+
+static MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_F8_F9_F10
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN MCESD_FIELD_PTR msbField,
+    IN MCESD_FIELD_PTR lsbField,
+    OUT MCESD_32* tapValue
+)
+{
+#ifdef N5XC56GP5X4_DFE_MILLIVOLTS
+    MCESD_U32 multiplier, res, resDoubleData;
+
+    MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertMsbLsbToCodes(devPtr, lane, msbField, lsbField, tapValue));
+
+    N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_DFE_RES_F8TO10, lane, res);
+    N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_DFE_RES_DOUBLE, lane, resDoubleData);
+
+    multiplier = (0 == res) ? 35 : 55;
+
+    if (0 == resDoubleData)
+    {
+        *tapValue *= multiplier;  /* 1.0 */
+    }
+    else if (1 == resDoubleData)
+    {
+        *tapValue *= multiplier;
+        *tapValue += (*tapValue / 4);  /* 1.25 */
+    }
+    else if (2 == resDoubleData)
+    {
+        *tapValue *= multiplier;
+        *tapValue += (*tapValue / 2);  /* 1.5 */
+    }
+    else
+    {
+        *tapValue *= (multiplier * 2);  /* 2.0 */
+    }
+#else
+    MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertMsbLsbToMilliCodes(devPtr, lane, msbField, lsbField, tapValue));
+#endif
+    return MCESD_OK;
+}
+
+static MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_F11TOF15
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN MCESD_FIELD_PTR field,
+    OUT MCESD_32* tapValue
+)
+{
+#ifdef N5XC56GP5X4_DFE_MILLIVOLTS
+    MCESD_U32 multiplier, res, resDoubleData;
+
+    MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertToCodes(devPtr, lane, field, tapValue));
+
+    N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_DFE_RES_F11TO15, lane, res);
+    N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_DFE_RES_DOUBLE, lane, resDoubleData);
+
+    multiplier = (0 == res) ? 35 : 55;
+
+    if (0 == resDoubleData)
+    {
+        *tapValue *= multiplier;  /* 1.0 */
+    }
+    else if (1 == resDoubleData)
+    {
+        *tapValue *= multiplier;
+        *tapValue += (*tapValue / 4);  /* 1.25 */
+    }
+    else if (2 == resDoubleData)
+    {
+        *tapValue *= multiplier;
+        *tapValue += (*tapValue / 2);  /* 1.5 */
+    }
+    else
+    {
+        *tapValue *= (multiplier * 2);  /* 2.0 */
+    }
+#else
+    MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertToMilliCodes(devPtr, lane, field, tapValue));
+#endif
+    return MCESD_OK;
+}
+
+static MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_FF
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN MCESD_FIELD_PTR field,
+    OUT MCESD_32* tapValue
+)
+{
+#ifdef N5XC56GP5X4_DFE_MILLIVOLTS
+    MCESD_U32 multiplier, res, resDoubleData;
+
+    MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertToCodes(devPtr, lane, field, tapValue));
+
+    N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_DFE_RES_FLOATING, lane, res);
+    N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_DFE_RES_DOUBLE, lane, resDoubleData);
+
+    multiplier = (0 == res) ? 35 : 55;
+
+    if (0 == resDoubleData)
+    {
+        *tapValue *= multiplier;  /* 1.0 */
+    }
+    else if (1 == resDoubleData)
+    {
+        *tapValue *= multiplier;
+        *tapValue += (*tapValue / 4);  /* 1.25 */
+    }
+    else if (2 == resDoubleData)
+    {
+        *tapValue *= multiplier;
+        *tapValue += (*tapValue / 2);  /* 1.5 */
+    }
+    else
+    {
+        *tapValue *= (multiplier * 2);  /* 2.0 */
+    }
+#else
+    MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertToMilliCodes(devPtr, lane, field, tapValue));
+#endif
+    return MCESD_OK;
+}
+
+MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_ConvertToCodes(IN MCESD_DEV_PTR devPtr, IN MCESD_U8 lane, IN MCESD_FIELD_PTR fieldPtr, OUT MCESD_32* tapValue)
+{
+    MCESD_U32 code;
+
+    MCESD_ATTEMPT(API_N5XC56GP5X4_ReadField(devPtr, lane, fieldPtr, &code));
+    *tapValue = ConvertSignedMagnitudeToI32(code, fieldPtr->totalBits); /* Codes */
+
+    return MCESD_OK;
+}
+
+MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_ConvertToAverageCodes(IN MCESD_DEV_PTR devPtr, IN MCESD_U8 lane, IN MCESD_FIELD_PTR fieldTopPtr, IN MCESD_FIELD_PTR fieldMidPtr, IN MCESD_FIELD_PTR fieldBotPtr, OUT MCESD_32* tapValue)
+{
+    MCESD_32 top, mid, bot;
+
+    MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertToCodes(devPtr, lane, fieldTopPtr, &top));
+    MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertToCodes(devPtr, lane, fieldMidPtr, &mid));
+    MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeTap_ConvertToCodes(devPtr, lane, fieldBotPtr, &bot));
+    *tapValue = (top + mid + bot) / 3;
+
+    return MCESD_OK;
+}
+
+#ifdef N5XC56GP5X4_DFE_MILLIVOLTS
+
+MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_ConvertMsbLsbToCodes(IN MCESD_DEV_PTR devPtr, IN MCESD_U8 lane, IN MCESD_FIELD_PTR fieldMSBPtr, IN MCESD_FIELD_PTR fieldLSBPtr, OUT MCESD_32* tapValue)
+{
+    MCESD_U32 msbData, lsbData;
+    MCESD_32 msb, lsb;
+
+    MCESD_ATTEMPT(API_N5XC56GP5X4_ReadField(devPtr, lane, fieldMSBPtr, &msbData));
+    MCESD_ATTEMPT(API_N5XC56GP5X4_ReadField(devPtr, lane, fieldLSBPtr, &lsbData));
+    msb = ConvertSignedMagnitudeToI32(msbData, fieldMSBPtr->totalBits);
+    lsb = ConvertSignedMagnitudeToI32(lsbData, fieldLSBPtr->totalBits);
+    *tapValue = ((msb * 2) + lsb) / 3;      /* Codes */
+
+    return MCESD_OK;
+}
+
+#else
+
 MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_ConvertToMilliCodes
 (
-    IN MCESD_DEV_PTR devPtr, 
-    IN MCESD_U8 lane, 
-    IN MCESD_FIELD_PTR fieldPtr, 
-    OUT MCESD_32 *tapValue
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN MCESD_FIELD_PTR fieldPtr,
+    OUT MCESD_32* tapValue
 )
 {
     MCESD_U32 code;
@@ -765,12 +1251,12 @@ MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_ConvertToMilliCodes
 
 MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_ConvertToAverageMilliCodes
 (
-    IN MCESD_DEV_PTR devPtr, 
-    IN MCESD_U8 lane, 
-    IN MCESD_FIELD_PTR fieldTopPtr, 
-    IN MCESD_FIELD_PTR fieldMidPtr, 
-    IN MCESD_FIELD_PTR fieldBotPtr, 
-    OUT MCESD_32 *tapValue
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN MCESD_FIELD_PTR fieldTopPtr,
+    IN MCESD_FIELD_PTR fieldMidPtr,
+    IN MCESD_FIELD_PTR fieldBotPtr,
+    OUT MCESD_32* tapValue
 )
 {
     MCESD_32 top, mid, bot;
@@ -782,7 +1268,6 @@ MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_ConvertToAverageMilliCodes
     *tapValue = (top + mid + bot) / 3;
     return MCESD_OK;
 }
-
 
 MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_ConvertMsbLsbToMilliCodes
 (
@@ -803,6 +1288,8 @@ MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_ConvertMsbLsbToMilliCodes
     *tapValue = (((msb * 2) + lsb) * 1000) / 3; /* milli-Codes */
     return MCESD_OK;
 }
+
+#endif
 
 MCESD_STATUS API_N5XC56GP5X4_SetMcuBroadcast
 (
@@ -836,9 +1323,6 @@ MCESD_STATUS API_N5XC56GP5X4_SetPowerIvRef
 )
 {
     MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_PU_IVREF, state));
-#ifdef N5XC56GP5X4_ISOLATION
-    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_PU_IVREF_FM_REG, 255 /* ignored*/, 1);
-#endif
 
     return MCESD_OK;
 }
@@ -1402,26 +1886,16 @@ MCESD_STATUS API_N5XC56GP5X4_GetTxRxBitRate
     E_N5XC56GP5X4_PHYMODE mode;
     MCESD_U32 txData, rxData;
 
-    switch (lane)
+    if (devPtr->ipMajorRev >= 2)
     {
-    case 0:
-        MCESD_ATTEMPT(API_N5XC56GP5X4_HwGetPinCfg(devPtr, N5XC56GP5X4_PIN_PHY_GEN_TX0, &txData));
-        MCESD_ATTEMPT(API_N5XC56GP5X4_HwGetPinCfg(devPtr, N5XC56GP5X4_PIN_PHY_GEN_RX0, &rxData));
-        break;
-    case 1:
-        MCESD_ATTEMPT(API_N5XC56GP5X4_HwGetPinCfg(devPtr, N5XC56GP5X4_PIN_PHY_GEN_TX1, &txData));
-        MCESD_ATTEMPT(API_N5XC56GP5X4_HwGetPinCfg(devPtr, N5XC56GP5X4_PIN_PHY_GEN_RX1, &rxData));
-        break;
-    case 2:
-        MCESD_ATTEMPT(API_N5XC56GP5X4_HwGetPinCfg(devPtr, N5XC56GP5X4_PIN_PHY_GEN_TX2, &txData));
-        MCESD_ATTEMPT(API_N5XC56GP5X4_HwGetPinCfg(devPtr, N5XC56GP5X4_PIN_PHY_GEN_RX2, &rxData));
-        break;
-    case 3:
-        MCESD_ATTEMPT(API_N5XC56GP5X4_HwGetPinCfg(devPtr, N5XC56GP5X4_PIN_PHY_GEN_TX3, &txData));
-        MCESD_ATTEMPT(API_N5XC56GP5X4_HwGetPinCfg(devPtr, N5XC56GP5X4_PIN_PHY_GEN_RX3, &rxData));
-        break;
-    default:
-        return MCESD_FAIL; /* Invalid lane */
+        /* RX.X >= R2.0 */
+        N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4R2P0_PHY_GEN_TX_RD, lane, txData);
+        N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4R2P0_PHY_GEN_RX_RD, lane, rxData);
+    }
+    else
+    {
+        N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_PIN_PHY_GEN_TX_RD, lane, txData);
+        N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_PIN_PHY_GEN_RX_RD, lane, rxData);
     }
 
     MCESD_ATTEMPT(API_N5XC56GP5X4_GetPhyMode(devPtr, &mode));
@@ -1756,12 +2230,36 @@ MCESD_STATUS API_N5XC56GP5X4_SetTrainingTimeout
 
     if (type == N5XC56GP5X4_TRAINING_TRX)
     {
-        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_TIMER_EN, lane, training->enable);
+        if (devPtr->ipMajorRev >= 2)
+        {
+            /* RX.X >= R2.0 */
+            if (training->enable == 0)
+            {
+                MCESD_DBG_ERROR("API_N5XC56GP5X4_SetTrainingTimeout: R2.0+ Can't disable training timeout enable\n");
+                return MCESD_FAIL;
+            }
+        }
+        else
+        {
+            N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_TIMER_EN, lane, training->enable);
+        }
         N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TRX_TIMER, lane, training->timeout);
     }
     else
     {
-        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RX_TIMER_EN, lane, training->enable);
+        if (devPtr->ipMajorRev >= 2)
+        {
+            /* RX.X >= R2.0 */
+            if (training->enable == 0)
+            {
+                MCESD_DBG_ERROR("API_N5XC56GP5X4_SetTrainingTimeout: R2.0+ Can't disable training timeout enable\n");
+                return MCESD_FAIL;
+            }
+        }
+        else
+        {
+            N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RX_TIMER_EN, lane, training->enable);
+        }
         N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RX_TIMER, lane, training->timeout);
     }
 
@@ -1783,12 +2281,28 @@ MCESD_STATUS API_N5XC56GP5X4_GetTrainingTimeout
 
     if (type == N5XC56GP5X4_TRAINING_TRX)
     {
-        N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_TX_TIMER_EN, lane, enableData);
+        if (devPtr->ipMajorRev >= 2)
+        {
+            /* RX.X >= R2.0 */
+            enableData = 1;
+        }
+        else
+        {
+            N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_TX_TIMER_EN, lane, enableData);
+        }
         N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_TRX_TIMER, lane, timeoutData);
     }
     else
     {
-        N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_RX_TIMER_EN, lane, enableData);
+        if (devPtr->ipMajorRev >= 2)
+        {
+            /* RX.X >= R2.0 */
+            enableData = 1;
+        }
+        else
+        {
+            N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_RX_TIMER_EN, lane, enableData);
+        }
         N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_RX_TIMER, lane, timeoutData);
     }
 
@@ -2172,11 +2686,8 @@ MCESD_STATUS API_N5XC56GP5X4_SetSquelchThreshold
     IN MCESD_16 threshold
 )
 {
-    if (threshold > N5XC56GP5X4_SQ_THRESH_MAX)
-        return MCESD_FAIL;
-
     N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_SQ_INDV, lane, 1);
-    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_SQ_RES_EXT, lane, threshold + 0x20);
+    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_SQ_RES_EXT, lane, threshold);
 
     return MCESD_OK;
 }
@@ -2191,7 +2702,7 @@ MCESD_STATUS API_N5XC56GP5X4_GetSquelchThreshold
     MCESD_U32 data;
 
     N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_SQ_RES_RD, lane, data);
-    *threshold = (MCESD_16)data - 0x20;
+    *threshold = (MCESD_16)data;
 
     return MCESD_OK;
 }
@@ -3183,28 +3694,28 @@ MCESD_STATUS API_N5XC56GP5X4_StartPhyTest
 {
     if (N5XC56GP5X4_PHYTEST_TX == type)
     {
-        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_PHYREADY, lane, 0);
-        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_EN_MODE, lane, 2);
         N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_EN, lane, 1);
         N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_RST, lane, 0);
         MCESD_ATTEMPT(API_N5XC56GP5X4_Wait(devPtr, 5));
         N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_RST, lane, 1);
         MCESD_ATTEMPT(API_N5XC56GP5X4_Wait(devPtr, 5));
         N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_RST, lane, 0);
-        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_PHYREADY, lane, 1);
     }
 
     if (N5XC56GP5X4_PHYTEST_RX == type)
     {
-        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RX_PHYREADY, lane, 0);
-        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RX_EN_MODE, lane, 2);
         N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RX_EN, lane, 1);
         N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RX_RST, lane, 0);
         MCESD_ATTEMPT(API_N5XC56GP5X4_Wait(devPtr, 5));
         N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RX_RST, lane, 1);
         MCESD_ATTEMPT(API_N5XC56GP5X4_Wait(devPtr, 5));
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RST_FRAME_SYNC, lane, 0);
+        MCESD_ATTEMPT(API_N5XC56GP5X4_Wait(devPtr, 5));
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RST_FRAME_SYNC, lane, 1);
+        MCESD_ATTEMPT(API_N5XC56GP5X4_Wait(devPtr, 5));
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RST_FRAME_SYNC, lane, 0);
+        MCESD_ATTEMPT(API_N5XC56GP5X4_Wait(devPtr, 5));
         N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RX_RST, lane, 0);
-        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RX_PHYREADY, lane, 1);
     }
 
     return MCESD_OK;
@@ -3220,18 +3731,17 @@ MCESD_STATUS API_N5XC56GP5X4_StopPhyTest
     if (N5XC56GP5X4_PHYTEST_RX == type)
     {
         N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RX_EN, lane, 0);
-        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RX_PHYREADY, lane, 0);
     }
 
     if (N5XC56GP5X4_PHYTEST_TX == type)
     {
         N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_EN, lane, 0);
-        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_PHYREADY, lane, 0);
     }
 
     return MCESD_OK;
 }
 
+#ifdef MCESD_EOM_STATS
 MCESD_STATUS API_N5XC56GP5X4_EOMInit
 (
     IN MCESD_DEV_PTR devPtr,
@@ -3264,7 +3774,6 @@ MCESD_STATUS API_N5XC56GP5X4_EOMFinalize
 
 
 
-
 #ifdef N5XC56GP5X4_DFE_MILLIVOLTS
 MCESD_STATUS API_N5XC56GP5X4_EOMConvertWidthHeight
 (
@@ -3274,16 +3783,16 @@ MCESD_STATUS API_N5XC56GP5X4_EOMConvertWidthHeight
     IN MCESD_U16 heightUpper,
     IN MCESD_U16 heightLower,
     OUT MCESD_U32 *widthmUI,
-    OUT MCESD_U32 *height100uVUpper,
-    OUT MCESD_U32 *height100uVLower
+    OUT MCESD_U32 *height10uVUpper,
+    OUT MCESD_U32 *height10uVLower
 )
 {
     MCESD_U16 phaseStepCount, voltageStepCount;
     MCESD_U32 table[64];
 
     *widthmUI = 0;
-    *height100uVUpper = 0;
-    *height100uVLower = 0;
+    *height10uVUpper = 0;
+    *height10uVLower = 0;
 
     if (0 == width)
         return MCESD_FAIL; /* Division by 0 Error */
@@ -3294,12 +3803,19 @@ MCESD_STATUS API_N5XC56GP5X4_EOMConvertWidthHeight
 
     /* Convert height */
     MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeF0(devPtr, lane, table));
-    *height100uVUpper = table[heightUpper];
-    *height100uVLower = table[heightLower];
+    *height10uVUpper = table[heightUpper];
+    *height10uVLower = table[heightLower];
 
     return MCESD_OK;
 }
+#endif
 
+
+
+
+#endif
+
+#ifdef N5XC56GP5X4_DFE_MILLIVOLTS
 MCESD_STATUS INT_N5XC56GP5X4_GetDfeF0
 (
     IN MCESD_DEV_PTR devPtr,
@@ -3320,16 +3836,10 @@ MCESD_STATUS INT_N5XC56GP5X4_GetDfeF0
         else
             table[i] = N5XC56GP5X4_DFE_F0_TABLE[tableSelData][resData][i];
     }
-    
+
     return MCESD_OK;
 }
 #endif
-
-
-
-#ifdef MCESD_EOM_STATS
-#endif
-
 
 MCESD_STATUS API_N5XC56GP5X4_ExecuteCDS
 (
@@ -3477,17 +3987,12 @@ MCESD_STATUS API_N5XC56GP5X4_SetReservedInputRX0
     IN MCESD_BOOL fieldOverride
 )
 {
-#ifdef N5XC56GP5X4_ISOLATION
-    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RSRVD_INPUT_RX_FM, lane, 0x1);
-    (void)fieldOverride;    /* Field override is ignored in isolation mode */
-#else
     N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RSRVD_INPUT_RX_FM, lane, fieldOverride);
     if (fieldOverride)
     {
         N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RSRVD_INPUT_RX, lane, enable);
         return MCESD_OK;
     }
-#endif
 
     switch (lane)
     {
@@ -3533,7 +4038,7 @@ MCESD_STATUS API_N5XC56GP5X4_SetMcuRemoteCmd
     IN E_N5XC56GP5X4_MRC_SUB subCategory,
     IN MCESD_U8 cmdNum,
     IN MCESD_U8 controlBits,
-    IN MCESD_U16 remoteStatus
+    IN MCESD_U32 remoteStatus
 )
 {
     MCESD_U32 cmd = cmdType << 24;
@@ -3659,11 +4164,6 @@ MCESD_STATUS API_N5XC56GP5X4_SetMcuRemoteCmd
         return MCESD_FAIL; /* Invalid lane */
     }
 
-#ifdef N5XC56GP5X4_ISOLATION
-    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_MCU_REMOTE_CMD_FM, lane, 1);
-    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_MCU_REMOTE_STA_FM, lane, 1);
-#endif
-
     return MCESD_OK;
 }
 
@@ -3691,10 +4191,6 @@ MCESD_STATUS API_N5XC56GP5X4_SetMcuRemoteReq
     default:
         return MCESD_FAIL; /* Invalid lane */
     }
-
-#ifdef N5XC56GP5X4_ISOLATION
-    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_MCU_REMOTE_REQ_FM, lane, 1);
-#endif
 
     return MCESD_OK;
 }
@@ -3778,15 +4274,17 @@ MCESD_STATUS API_N5XC56GP5X4_DisplayTrainingLog
     MCESD_U8 index = 0;
     MCESD_BOOL isPAM4, bufferFull;
 
-    MCESD_DBG_INFO("--------------------------------------------------------------------------------\n");
-    MCESD_DBG_INFO("API_N5XC56GP5X4_DisplayTrainingLog(lane=%d)\n", lane);
+    memset(&entry, 0x0, sizeof(S_N5XC56GP5X4_TLOG_ENTRY));
+
+    MCESD_DBG_CRITIC_INFO("--------------------------------------------------------------------------------\n");
+    MCESD_DBG_CRITIC_INFO("API_N5XC56GP5X4_DisplayTrainingLog(lane=%d)\n", lane);
 
     baseAddr = 0x6A00;
     N5XC56GP5X4_READ_FIELD(devPtr, FIELD_DEFINE(baseAddr, 7, 0) /* counter */, lane, data);
     logCount = (MCESD_U16)data;
     if (0 == logCount)
     {
-        MCESD_DBG_INFO("No entries in log\n");
+        MCESD_DBG_CRITIC_INFO("No entries in log\n");
         return MCESD_OK;
     }
 
@@ -3804,12 +4302,12 @@ MCESD_STATUS API_N5XC56GP5X4_DisplayTrainingLog
 
         if (isPAM4)
         {
-           MCESD_DBG_INFO("Log Entry: %d (PAM4)\n", iterLog);
+           MCESD_DBG_CRITIC_INFO("Log Entry: %d (PAM4)\n", iterLog);
            MCESD_ATTEMPT(INT_N5XC56GP5X4_DisplayEntryPAM4(data, &entry));
         }
         else
         {
-           MCESD_DBG_INFO("Log Entry: %d (PAM2)\n", iterLog);
+           MCESD_DBG_CRITIC_INFO("Log Entry: %d (PAM2)\n", iterLog);
            MCESD_ATTEMPT(INT_N5XC56GP5X4_DisplayEntryPAM2(data, &entry));
         }
 
@@ -3819,7 +4317,7 @@ MCESD_STATUS API_N5XC56GP5X4_DisplayTrainingLog
 
     *validEntries = index;
 
-    MCESD_DBG_INFO("--------------------------------------------------------------------------------\n");
+    MCESD_DBG_CRITIC_INFO("--------------------------------------------------------------------------------\n");
 
     return MCESD_OK;
 }
@@ -3842,8 +4340,8 @@ static MCESD_STATUS INT_N5XC56GP5X4_DisplayEntryPAM2
     entry->pam2.remoteReqPreset = (MCESD_BOOL)rawValue;
     leftString = (1 == rawValue) ? N5XC56GP5X4_STRING_PRESET_COE : N5XC56GP5X4_STRING_NORMAL_OP;
     
-	snprintf(msg, sizeof(msg), "    REMOTE_REQ_PRESET       %s\n", leftString);
-    MCESD_DBG_INFO(msg);
+    sprintf(msg, "    REMOTE_REQ_PRESET       %s\n", leftString);
+    MCESD_DBG_CRITIC_INFO(msg);
 
     /* REMOTE REQUEST CTRL_G1 */
     rawValue = (data >> 28) & 0x3;
@@ -3855,8 +4353,8 @@ static MCESD_STATUS INT_N5XC56GP5X4_DisplayEntryPAM2
     entry->pam2.remoteReqStsG1 = (E_N5XC56GP5X4_TLOG2_STS)rawValue;
     rightString = (rawValue < 2) ? (0 == rawValue ? N5XC56GP5X4_STRING_NO_UPDATE : N5XC56GP5X4_STRING_UPDATED) : (2 == rawValue ? N5XC56GP5X4_STRING_MIN : N5XC56GP5X4_STRING_MAX);
 
-	snprintf(msg, sizeof(msg), "    REMOTE_REQ_CTRL_G1      %-16sREMOTE_REQ_STS_G1       %s\n", leftString, rightString);
-    MCESD_DBG_INFO(msg);
+    sprintf(msg, "    REMOTE_REQ_CTRL_G1      %-16sREMOTE_REQ_STS_G1       %s\n", leftString, rightString);
+    MCESD_DBG_CRITIC_INFO(msg);
 
     /* REMOTE REQUEST CTRL_G0 */
     rawValue = (data >> 26) & 0x3;
@@ -3868,8 +4366,8 @@ static MCESD_STATUS INT_N5XC56GP5X4_DisplayEntryPAM2
     entry->pam2.remoteReqStsG0 = (E_N5XC56GP5X4_TLOG2_STS)rawValue;
     rightString = (rawValue < 2) ? (0 == rawValue ? N5XC56GP5X4_STRING_NO_UPDATE : N5XC56GP5X4_STRING_UPDATED) : (2 == rawValue ? N5XC56GP5X4_STRING_MIN : N5XC56GP5X4_STRING_MAX);
 
-	snprintf(msg, sizeof(msg), "    REMOTE_REQ_CTRL_G0      %-16sREMOTE_REQ_STS_G0       %s\n", leftString, rightString);
-    MCESD_DBG_INFO(msg);
+    sprintf(msg, "    REMOTE_REQ_CTRL_G0      %-16sREMOTE_REQ_STS_G0       %s\n", leftString, rightString);
+    MCESD_DBG_CRITIC_INFO(msg);
 
     /* REMOTE REQUEST CTRL_GN1 */
     rawValue = (data >> 24) & 0x3;
@@ -3881,8 +4379,8 @@ static MCESD_STATUS INT_N5XC56GP5X4_DisplayEntryPAM2
     entry->pam2.remoteReqStsGN1 = (E_N5XC56GP5X4_TLOG2_STS)rawValue;
     rightString = (rawValue < 2) ? (0 == rawValue ? N5XC56GP5X4_STRING_NO_UPDATE : N5XC56GP5X4_STRING_UPDATED) : (2 == rawValue ? N5XC56GP5X4_STRING_MIN : N5XC56GP5X4_STRING_MAX);
 
-	snprintf(msg, sizeof(msg), "    REMOTE_REQ_CTRL_GN1     %-16sREMOTE_REQ_STS_GN1      %s\n", leftString, rightString);
-    MCESD_DBG_INFO(msg);
+    sprintf(msg, "    REMOTE_REQ_CTRL_GN1     %-16sREMOTE_REQ_STS_GN1      %s\n", leftString, rightString);
+    MCESD_DBG_CRITIC_INFO(msg);
 
     /* INITIALIZE */
     rawValue = (data >> 30) & 0x1;
@@ -3894,16 +4392,16 @@ static MCESD_STATUS INT_N5XC56GP5X4_DisplayEntryPAM2
     entry->pam2.ready = (MCESD_BOOL)rawValue;
     rightString = (1 == rawValue) ? N5XC56GP5X4_STRING_TRUE : N5XC56GP5X4_STRING_FALSE;
 
-	snprintf(msg, sizeof(msg), "    INITIALIZE              %-16sREADY                   %s\n", leftString, rightString);
-    MCESD_DBG_INFO(msg);
+    sprintf(msg, "    INITIALIZE              %-16sREADY                   %s\n", leftString, rightString);
+    MCESD_DBG_CRITIC_INFO(msg);
 
     /* LOCAL REQUEST PRESET */
     rawValue = (data >> 13) & 0x3;
     entry->pam2.localReqPreset = (rawValue > N5XC56GP5X4_TLOG2_PRESET1) ? N5XC56GP5X4_TLOG2_PRESET_NA : (E_N5XC56GP5X4_TLOG2_PRESET)rawValue;
     leftString = (rawValue > N5XC56GP5X4_TLOG2_PRESET1) ? N5XC56GP5X4_STRING_DASH : (0 == rawValue ? N5XC56GP5X4_STRING_PRESET0 : N5XC56GP5X4_STRING_PRESET1);
 
-	snprintf(msg, sizeof(msg), "    LOCAL_REQ_PRESET        %s\n", leftString);
-    MCESD_DBG_INFO(msg);
+    sprintf(msg, "    LOCAL_REQ_PRESET        %s\n", leftString);
+    MCESD_DBG_CRITIC_INFO(msg);
 
     /* LOCAL REQUEST CTRL_G1 */
     rawValue = (data >> 11) & 0x3;
@@ -3915,8 +4413,8 @@ static MCESD_STATUS INT_N5XC56GP5X4_DisplayEntryPAM2
     entry->pam2.localReqStsG1 = (E_N5XC56GP5X4_TLOG2_STS)rawValue;
     rightString = (rawValue < 2) ? (0 == rawValue ? N5XC56GP5X4_STRING_NO_UPDATE : N5XC56GP5X4_STRING_UPDATED) : (2 == rawValue ? N5XC56GP5X4_STRING_MIN : N5XC56GP5X4_STRING_MAX);
 
-	snprintf(msg, sizeof(msg), "    LOCAL_REQ_CTRL_G1       %-16sLOCAL_REQ_STS_G1        %s\n", leftString, rightString);
-    MCESD_DBG_INFO(msg);
+    sprintf(msg, "    LOCAL_REQ_CTRL_G1       %-16sLOCAL_REQ_STS_G1        %s\n", leftString, rightString);
+    MCESD_DBG_CRITIC_INFO(msg);
 
     /* LOCAL REQUEST CTRL_G0 */
     rawValue = (data >> 9) & 0x3;
@@ -3928,8 +4426,8 @@ static MCESD_STATUS INT_N5XC56GP5X4_DisplayEntryPAM2
     entry->pam2.localReqStsG0 = (E_N5XC56GP5X4_TLOG2_STS)rawValue;
     rightString = (rawValue < 2) ? (0 == rawValue ? N5XC56GP5X4_STRING_NO_UPDATE : N5XC56GP5X4_STRING_UPDATED) : (2 == rawValue ? N5XC56GP5X4_STRING_MIN : N5XC56GP5X4_STRING_MAX);
 
-	snprintf(msg, sizeof(msg), "    LOCAL_REQ_CTRL_G0       %-16sLOCAL_REQ_STS_G0        %s\n", leftString, rightString);
-    MCESD_DBG_INFO(msg);
+    sprintf(msg, "    LOCAL_REQ_CTRL_G0       %-16sLOCAL_REQ_STS_G0        %s\n", leftString, rightString);
+    MCESD_DBG_CRITIC_INFO(msg);
 
     /* LOCAL REQUEST CTRL_GN1 */
     rawValue = (data >> 6) & 0x3;
@@ -3941,8 +4439,8 @@ static MCESD_STATUS INT_N5XC56GP5X4_DisplayEntryPAM2
     entry->pam2.localReqStsGN1 = (E_N5XC56GP5X4_TLOG2_STS)rawValue;
     rightString = (rawValue < 2) ? (0 == rawValue ? N5XC56GP5X4_STRING_NO_UPDATE : N5XC56GP5X4_STRING_UPDATED) : (2 == rawValue ? N5XC56GP5X4_STRING_MIN : N5XC56GP5X4_STRING_MAX);
 
-	snprintf(msg, sizeof(msg), "    LOCAL_REQ_CTRL_GN1      %-16sLOCAL_REQ_STS_GN1       %s\n", leftString, rightString);
-    MCESD_DBG_INFO(msg);
+    sprintf(msg, "    LOCAL_REQ_CTRL_GN1      %-16sLOCAL_REQ_STS_GN1       %s\n", leftString, rightString);
+    MCESD_DBG_CRITIC_INFO(msg);
 
     return MCESD_OK;
 }
@@ -3970,8 +4468,8 @@ static MCESD_STATUS INT_N5XC56GP5X4_DisplayEntryPAM4
     entry->pam4.remoteReqPreset = (E_N5XC56GP5X4_TLOG4_PRESET)rawValue;
     rightString = (rawValue < 2) ? (0 == rawValue ? N5XC56GP5X4_STRING_PRESET0 : N5XC56GP5X4_STRING_PRESET1) : (2 == rawValue ? N5XC56GP5X4_STRING_PRESET2 : N5XC56GP5X4_STRING_PRESET3);
 
-	snprintf(msg, sizeof(msg), "    REMOTE_REQ_CTRL_PATTERN %-16sREMOTE_REQ_PRESET       %s\n", leftString, rightString);
-    MCESD_DBG_INFO(msg);
+    sprintf(msg, "    REMOTE_REQ_CTRL_PATTERN %-16sREMOTE_REQ_PRESET       %s\n", leftString, rightString);
+    MCESD_DBG_CRITIC_INFO(msg);
 
     /* REMOTE REQ CTRL_G */
     rawValue = (data >> 22) & 0x3;
@@ -3980,7 +4478,7 @@ static MCESD_STATUS INT_N5XC56GP5X4_DisplayEntryPAM4
 
     /* REMOTE REQ STS_G */
     rawValue = (data >> 16) & 0x7;
-    entry->pam4.remoteReqStsG = (E_N5XC56GP5X4_TLOG4_CTRL)rawValue;
+    entry->pam4.remoteReqStsG = (E_N5XC56GP5X4_TLOG4_STS)rawValue;
     switch (rawValue)
     {
     case (0):
@@ -4012,8 +4510,8 @@ static MCESD_STATUS INT_N5XC56GP5X4_DisplayEntryPAM4
         rightString = N5XC56GP5X4_STRING_DASH;
     }
 
-	snprintf(msg, sizeof(msg), "    REMOTE_REQ_CTRL_G       %-16sREMOTE_REQ_STS_G        %s\n", leftString, rightString);
-    MCESD_DBG_INFO(msg);
+    sprintf(msg, "    REMOTE_REQ_CTRL_G       %-16sREMOTE_REQ_STS_G        %s\n", leftString, rightString);
+    MCESD_DBG_CRITIC_INFO(msg);
 
     /* REMOTE REQ CTRL_SEL */
     rawValue = (data >> 24) & 0x7;
@@ -4049,8 +4547,8 @@ static MCESD_STATUS INT_N5XC56GP5X4_DisplayEntryPAM4
     entry->pam4.ready = (MCESD_BOOL)rawValue;
     rightString = (1 == rawValue) ? N5XC56GP5X4_STRING_TRUE : N5XC56GP5X4_STRING_FALSE;
 
-	snprintf(msg, sizeof(msg), "    REMOTE_REQ_CTRL_SEL     %-16sREADY                   %s\n", leftString, rightString);
-    MCESD_DBG_INFO(msg);
+    sprintf(msg, "    REMOTE_REQ_CTRL_SEL     %-16sREADY                   %s\n", leftString, rightString);
+    MCESD_DBG_CRITIC_INFO(msg);
 
     /* LOCAL REQ CTRL_PAT */
     rawValue = (data >> 11) & 0x3;
@@ -4062,8 +4560,8 @@ static MCESD_STATUS INT_N5XC56GP5X4_DisplayEntryPAM4
     entry->pam4.localReqPreset = (E_N5XC56GP5X4_TLOG4_PRESET)rawValue;
     rightString = (rawValue < 2) ? (0 == rawValue ? N5XC56GP5X4_STRING_PRESET0 : N5XC56GP5X4_STRING_PRESET1) : (2 == rawValue ? N5XC56GP5X4_STRING_PRESET2 : N5XC56GP5X4_STRING_PRESET3);
 
-	snprintf(msg, sizeof(msg), "    LOCAL_REQ_CTRL_PATTERN  %-16sLOCAL_REQ_PRESET        %s\n", leftString, rightString);
-    MCESD_DBG_INFO(msg);
+    sprintf(msg, "    LOCAL_REQ_CTRL_PATTERN  %-16sLOCAL_REQ_PRESET        %s\n", leftString, rightString);
+    MCESD_DBG_CRITIC_INFO(msg);
 
     /* LOCAL REQ CTRL_G */
     rawValue = (data >> 6) & 0x3;
@@ -4072,7 +4570,7 @@ static MCESD_STATUS INT_N5XC56GP5X4_DisplayEntryPAM4
 
     /* LOCAL REQ STS_G */
     rawValue = data & 0x7;
-    entry->pam4.localReqStsG = (E_N5XC56GP5X4_TLOG4_CTRL)rawValue;
+    entry->pam4.localReqStsG = (E_N5XC56GP5X4_TLOG4_STS)rawValue;
     switch (rawValue)
     {
     case (0):
@@ -4104,8 +4602,8 @@ static MCESD_STATUS INT_N5XC56GP5X4_DisplayEntryPAM4
         rightString = N5XC56GP5X4_STRING_DASH;
     }
 
-	snprintf(msg, sizeof(msg), "    LOCAL_REQ_CTRL_G        %-16sLOCAL_REQ_STS_G         %s\n", leftString, rightString);
-    MCESD_DBG_INFO(msg);
+    sprintf(msg, "    LOCAL_REQ_CTRL_G        %-16sLOCAL_REQ_STS_G         %s\n", leftString, rightString);
+    MCESD_DBG_CRITIC_INFO(msg);
 
     /* LOCAL REQ CTRL_SEL */
     rawValue = (data >> 8) & 0x7;
@@ -4141,8 +4639,106 @@ static MCESD_STATUS INT_N5XC56GP5X4_DisplayEntryPAM4
     entry->pam4.stsAck = (MCESD_BOOL)rawValue;
     rightString = (1 == rawValue) ? N5XC56GP5X4_STRING_TRUE : N5XC56GP5X4_STRING_FALSE;
 
-	snprintf(msg, sizeof(msg), "    LOCAL_REQ_CTRL_SEL      %-16sSTS_ACK                 %s\n", leftString, rightString);
-    MCESD_DBG_INFO(msg);
+    sprintf(msg, "    LOCAL_REQ_CTRL_SEL      %-16sSTS_ACK                 %s\n", leftString, rightString);
+    MCESD_DBG_CRITIC_INFO(msg);
+
+    return MCESD_OK;
+}
+
+MCESD_STATUS API_N5XC56GP5X4_SetTxHiZIdle
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN MCESD_BOOL state
+)
+{
+    E_N5XC56GP5X4_PHYMODE mode;
+
+    MCESD_ATTEMPT(API_N5XC56GP5X4_GetPhyMode(devPtr, &mode));
+    if (mode != N5XC56GP5X4_PHYMODE_SERDES)
+    {
+        return MCESD_FAIL;
+    }
+    
+    switch (lane)
+    {
+    case 0:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_TX_IDLE0, state));
+        break;
+    case 1:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_TX_IDLE1, state));
+        break;
+    case 2:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_TX_IDLE2, state));
+        break;
+    case 3:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_TX_IDLE3, state));
+        break;
+    default:
+        return MCESD_FAIL; /* Invalid lane */
+    }
+    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_ANA_TX_HIZ_EN, lane, state);
+
+    return MCESD_OK;
+}
+
+MCESD_STATUS API_N5XC56GP5X4_GetTxHiZIdle
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    OUT MCESD_BOOL* state
+)
+{
+    MCESD_U32 data;
+    E_N5XC56GP5X4_PHYMODE mode;
+
+    MCESD_ATTEMPT(API_N5XC56GP5X4_GetPhyMode(devPtr, &mode));
+    if (mode != N5XC56GP5X4_PHYMODE_SERDES)
+    {
+        return MCESD_FAIL;
+    }
+
+    N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_ANA_TX_HIZ_EN, lane, data);
+
+    *state = (MCESD_BOOL)data;
+
+    return MCESD_OK;
+}
+
+MCESD_STATUS API_N5XC56GP5X4_DisableTxFirForce
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane
+)
+{
+    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_FIR_TAP_POL_F, lane, 0);
+    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_UP_FORCE, lane, 0);
+    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_C0_FORCE, lane, 0);
+    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_C1_FORCE, lane, 0);
+    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_C2_FORCE, lane, 0);
+    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_C3_FORCE, lane, 0);
+    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_C4_FORCE, lane, 0);
+    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_C5_FORCE, lane, 0);
+
+    return MCESD_OK;
+}
+
+MCESD_STATUS API_N5XC56GP5X4_GetPPM
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    OUT MCESD_32* ppm
+)
+{
+    MCESD_U32 readPpm;
+
+    MCESD_FIELD fofst = F_N5XC56GP5X4_FOFFSET_INPH;
+
+    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_FOFFSET_INPH_REQ, lane, 1);
+    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_FOFFSET_INPH_REQ, lane, 0);
+    N5XC56GP5X4_READ_FIELD(devPtr, EXTRACT_FIELD(fofst), lane, readPpm);
+
+    *ppm = ConvertTwosComplementToI32(readPpm, fofst.totalBits);
 
     return MCESD_OK;
 }

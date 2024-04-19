@@ -1,5 +1,5 @@
 /*******************************************************************************
-Copyright (c) 2019 Marvell.
+Copyright (C) 2019, Marvell International Ltd. and its affiliates
 If you received this File from Marvell and you have entered into a commercial
 license agreement (a "Commercial License") with Marvell, the File is licensed
 to you under the terms of the applicable Commercial License.
@@ -42,6 +42,7 @@ MCESD_STATUS API_N5XC56GP5X4_PowerOnSeq
 
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
 @param[in]  lane - lane number 0, 1, etc.
+@param[in]  resetTxTrainCodingMode - True to reset tx train coding mode
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
@@ -49,7 +50,8 @@ MCESD_STATUS API_N5XC56GP5X4_PowerOnSeq
 MCESD_STATUS API_N5XC56GP5X4_PowerOffLane
 (
     IN MCESD_DEV_PTR devPtr,
-    IN MCESD_U8 lane
+    IN MCESD_U8 lane,
+    IN MCESD_BOOL resetTxTrainCodingMode
 );
 
 #if C_LINKAGE

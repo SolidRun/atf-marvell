@@ -1,5 +1,5 @@
 /*******************************************************************************
-Copyright (c) 2019 Marvell.
+Copyright (C) 2019, Marvell International Ltd. and its affiliates
 If you received this File from Marvell and you have entered into a commercial
 license agreement (a "Commercial License") with Marvell, the File is licensed
 to you under the terms of the applicable Commercial License.
@@ -291,6 +291,10 @@ MCESD_STATUS API_N5XC56GP5X4_GetFreezeDfeUpdates
 @param[in]  tap - DFE tap
 
 @param[out] tapValue - signed value of the specified tap
+
+@note Full tap resolution preserved
+@note Value returned in milli-codes
+@note When compiled with N5XC56GP5X4_DFE_MILLIVOLTS, value is returned in 10uV
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
@@ -921,6 +925,8 @@ MCESD_STATUS API_N5XC56GP5X4_StopTraining
 @param[in]  type - N5XC56GP5X4_TRAINING_TRX or N5XC56GP5X4_TRAINING_RX
 @param[in]  training - S_N5XC56GP5X4_TRAIN_TIMEOUT represents the context for timeout
 
+@note R2.0+ Training timeout enable is always enabled and can't be disabled.
+
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
@@ -940,6 +946,8 @@ MCESD_STATUS API_N5XC56GP5X4_SetTrainingTimeout
 @param[in]  type - N5XC56GP5X4_TRAINING_TRX or N5XC56GP5X4_TRAINING_RX
 
 @param[out] training - S_N5XC56GP5X4_TRAIN_TIMEOUT represents the context for timeout
+
+@note R2.0+ Training timeout enable is always enabled and can't be disabled.
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
@@ -1015,7 +1023,7 @@ MCESD_STATUS API_N5XC56GP5X4_GetSquelchDetect
 
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
 @param[in]  lane - lane number 0, 1, 2, 3, etc.
-@param[in]  threshold - the squelch threshold level (range: N5XC56GP5X4_SQ_THRESH_MIN ~ N5XC56GP5X4_SQ_THRESH_MAX)
+@param[in]  threshold - the squelch threshold level
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
@@ -1571,6 +1579,7 @@ MCESD_STATUS API_N5XC56GP5X4_StopPhyTest
     IN E_N5XC56GP5X4_PHYTEST type
 );
 
+#ifdef MCESD_EOM_STATS
 /**
 @brief  Initializes EOM
 
@@ -1619,13 +1628,13 @@ MCESD_STATUS API_N5XC56GP5X4_EOMFinalize
 @param[in]  heightLower - lower height value in code
 
 @param[out] widthmUI - width converted to mUI
-@param[out] height100uVUpper - upper height converted to 100uV
-@param[out] height100uVLower - lower height converted to 100uV
+@param[out] height10uVUpper - upper height converted to 10uV
+@param[out] height10uVLower - lower height converted to 10uV
 
 @note Preprocessor N5XC56GP5X4_DFE_MILLIVOLTS is required
 @note Converts width to mUI by code * 1000 / maxUI
-@note Converts height to 100uV by look using DFE tables and upper and lower height code values
-@note Height is in 100uV to preserve precision because values in DFE tables are in mV with two significant figures
+@note Converts height to 10uV by look using DFE tables and upper and lower height code values
+@note Height is in 10uV to preserve precision because values in DFE tables are in mV with two significant figures
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
@@ -1638,16 +1647,15 @@ MCESD_STATUS API_N5XC56GP5X4_EOMConvertWidthHeight
     IN MCESD_U16 heightUpper,
     IN MCESD_U16 heightLower,
     OUT MCESD_U32 *widthmUI,
-    OUT MCESD_U32 *height100uVUpper,
-    OUT MCESD_U32 *height100uVLower
+    OUT MCESD_U32 *height10uVUpper,
+    OUT MCESD_U32 *height10uVLower
 );
 #endif
 
 
 
-#ifdef MCESD_EOM_STATS
-#endif
 
+#endif
 
 /**
 @brief  Perform CDS
@@ -1800,7 +1808,7 @@ MCESD_STATUS API_N5XC56GP5X4_SetMcuRemoteCmd
     IN E_N5XC56GP5X4_MRC_SUB subCategory,
     IN MCESD_U8 cmdNum,
     IN MCESD_U8 controlBits,
-    IN MCESD_U16 remoteStatus
+    IN MCESD_U32 remoteStatus
 );
 
 /**
@@ -1880,6 +1888,78 @@ MCESD_STATUS API_N5XC56GP5X4_DisplayTrainingLog
     IN S_N5XC56GP5X4_TLOG_ENTRY logArrayDataPtr[],
     IN MCESD_U32 logArraySizeEntries,
     OUT MCESD_U32 *validEntries
+);
+
+/**
+@brief  Enable/Disable TX HiZ Idle
+
+@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
+@param[in]  lane - lane number 0, 1, 2, 3, etc.
+@param[in]  state - MCESD_TRUE to enable TX HiZ Idle, otherwise MCESD_FALSE
+
+@note Only supported in SERDES mode
+
+@retval MCESD_OK - on success
+@retval MCESD_FAIL - on error
+*/
+MCESD_STATUS API_N5XC56GP5X4_SetTxHiZIdle
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN MCESD_BOOL state
+);
+
+/**
+@brief  Retrieves the state of TX HiZ Idle
+
+@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
+@param[in]  lane - lane number 0, 1, 2, 3, etc.
+
+@param[out] state - MCESD_TRUE when TX HiZ Idle is enabled, otherwise MCESD_FALSE
+
+@note Only supported in SERDES mode
+
+@retval MCESD_OK - on success
+@retval MCESD_FAIL - on error
+*/
+MCESD_STATUS API_N5XC56GP5X4_GetTxHiZIdle
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    OUT MCESD_BOOL* state
+);
+
+/**
+@brief  Disable Tx Fir Force
+
+@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
+@param[in]  lane - lane number 0, 1, 2, 3, etc.
+
+@retval MCESD_OK - on success
+@retval MCESD_FAIL - on error
+*/
+MCESD_STATUS API_N5XC56GP5X4_DisableTxFirForce
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane
+);
+
+/**
+@brief  Gets ppm
+
+@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
+@param[in]  lane - lane number 0, 1, etc.
+
+@param[out] ppm - ppm offset value
+
+@retval MCESD_OK - on success
+@retval MCESD_FAIL - on error
+*/
+MCESD_STATUS API_N5XC56GP5X4_GetPPM
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    OUT MCESD_32* ppm
 );
 
 #if C_LINKAGE

@@ -1,5 +1,5 @@
 /*******************************************************************************
-Copyright (c) 2019 Marvell.
+Copyright (C) 2019, Marvell International Ltd. and its affiliates
 If you received this File from Marvell and you have entered into a commercial
 license agreement (a "Commercial License") with Marvell, the File is licensed
 to you under the terms of the applicable Commercial License.
@@ -23,9 +23,6 @@ extern "C" {
 /* MCU Firmware constants */
 #define N5XC56GP5X4_FW_MAX_SIZE         32768       /* Firmware max size in DWORDS */
 #define N5XC56GP5X4_FW_BASE_ADDR        0x0000      /* Firmware base address */
-
-/* Squelch Detector Threshold Range constants */
-#define N5XC56GP5X4_SQ_THRESH_MAX       0x1F
 
 /* Temperature Sensor constants */
 #define N5XC56GP5X4_TSENE_GAIN          950
@@ -359,10 +356,10 @@ typedef enum
     N5XC56GP5X4_PIN_MCU_REMOTE_STA1 = 148, /* PIN_MCU_REMOTE_STATUS1[31:0] */
     N5XC56GP5X4_PIN_MCU_REMOTE_STA2 = 149, /* PIN_MCU_REMOTE_STATUS2[31:0] */
     N5XC56GP5X4_PIN_MCU_REMOTE_STA3 = 150, /* PIN_MCU_REMOTE_STATUS3[31:0] */
-    N5XC56GP5X4_PIN_TX_TRAIN_ERROR0 = 151,
-    N5XC56GP5X4_PIN_TX_TRAIN_ERROR1 = 152,
-    N5XC56GP5X4_PIN_TX_TRAIN_ERROR2 = 153,
-    N5XC56GP5X4_PIN_TX_TRAIN_ERROR3 = 154,
+    N5XC56GP5X4_PIN_TX_TRAIN_ERROR0,
+    N5XC56GP5X4_PIN_TX_TRAIN_ERROR1,
+    N5XC56GP5X4_PIN_TX_TRAIN_ERROR2,
+    N5XC56GP5X4_PIN_TX_TRAIN_ERROR3,
 } E_N5XC56GP5X4_PIN;
 
 /* TX Equalization Parameters */
@@ -473,42 +470,42 @@ typedef struct
     MCESD_U32 f0d_b;
 } S_N5XC56GP5X4_TRAINED_EYE_H;
 
+/* Eye: Top, Middle, Bottom */
+typedef enum
+{
+    N5XC56GP5X4_EYE_TOP = 0,
+    N5XC56GP5X4_EYE_MID = 1,
+    N5XC56GP5X4_EYE_BOT = 2
+} E_N5XC56GP5X4_EYE_TMB;
+
+#ifdef MCESD_EOM_STATS
 /* Eye Measurement Data @ X,Y and X,-Y */
 typedef struct
 {
     MCESD_32 phase;
     MCESD_U8 voltage;
     MCESD_U64 upperBitCount;
-    MCESD_U32 upperBitErrorCount;
+    MCESD_U64 upperBitErrorCount;
     MCESD_U64 lowerBitCount;
-    MCESD_U32 lowerBitErrorCount;
+    MCESD_U64 lowerBitErrorCount;
 } S_N5XC56GP5X4_EOM_DATA;
-
-/* Eye: Top, Middle, Bottom */
-typedef enum
-{
-    N5XC56GP5X4_EYE_TOP             = 0,
-    N5XC56GP5X4_EYE_MID             = 1,
-    N5XC56GP5X4_EYE_BOT             = 2
-} E_N5XC56GP5X4_EYE_TMB;
 
 /* Eye Raw Data */
 typedef struct
 {
-    MCESD_32 eyeRawData[N5XC56GP5X4_EYE_MAX_PHASE_LEVEL][(N5XC56GP5X4_EYE_MAX_VOLT_STEPS * 2) - 1];
+    MCESD_64 eyeRawData[N5XC56GP5X4_EYE_MAX_PHASE_LEVEL][(N5XC56GP5X4_EYE_MAX_VOLT_STEPS * 2) - 1];
     MCESD_U32 oneUIwidth;
     MCESD_U32 upperEdge;
     MCESD_U32 lowerEdge;
     MCESD_U32 leftEdge;
     MCESD_U32 rightEdge;
     MCESD_U32 relativeCenter;
-    MCESD_U32 sampleCount;
+    MCESD_U64 sampleCount;
 #ifdef N5XC56GP5X4_DFE_MILLIVOLTS
     MCESD_U32 mVTable[64];
 #endif
 } S_N5XC56GP5X4_EYE_RAW, *S_N5XC56GP5X4_EYE_RAW_PTR;
 
-#ifdef MCESD_EOM_STATS
 /* Buffer Structure for Eye-Related Functions */
 typedef struct
 {
@@ -549,6 +546,214 @@ typedef enum
 
 #ifdef N5XC56GP5X4_DFE_MILLIVOLTS
 /* DFE mV Table */
+static const MCESD_U32 N5XC56GP5X4_DFE_DC_TABLE_RES[2][64] =
+{
+    {   /* RES0 */
+            0,      70,     160,     230,     310,     390,     440,     510,
+          570,     640,     690,     730,     790,     840,     900,     940,
+         1000,    1060,    1120,    1190,    1250,    1320,    1380,    1450,
+         1510,    1580,    1650,    1720,    1790,    1870,    1920,    2010,
+         2090,    2150,    2230,    2310,    2390,    2470,    2540,    2630,
+         2700,    2770,    2850,    2940,    3020,    3090,    3160,    3240,
+         3330,    3430,    3500,    3560,    3670,    3740,    3800,    3890,
+         3950,    4020,    4120,    4200,    4260,    4380,    4440,    4510,
+    },
+    {   /* RES1 */
+            0,      70,     160,     240,     320,     420,     530,     650,
+          780,     930,    1040,    1150,    1250,    1380,    1500,    1620,
+         1740,    1870,    2010,    2140,    2270,    2420,    2540,    2700,
+         2830,    2980,    3110,    3270,    3420,    3550,    3710,    3830,
+         3970,    4110,    4250,    4390,    4560,    4700,    4820,    4970,
+         5100,    5230,    5340,    5500,    5630,    5720,    5860,    5970,
+         6090,    6230,    6360,    6510,    6540,    6700,    6780,    6930,
+         7030,    7150,    7220,    7360,    7390,    7510,    7590,    7730,
+    }
+};
+
+static const MCESD_U32 N5XC56GP5X4_DFE_DC_E_TABLE[63] =
+{
+        0,     100,     210,     310,     410,     520,     620,     720,
+      820,     920,    1020,    1130,    1230,    1330,    1440,    1540,
+     1640,    1750,    1850,    1950,    2050,    2150,    2250,    2350,
+     2460,    2570,    2670,    2770,    2870,    2970,    3070,    3180,
+     3280,    3380,    3490,    3590,    3690,    3800,    3900,    4000,
+     4100,    4200,    4300,    4410,    4520,    4620,    4720,    4820,
+     4920,    5030,    5130,    5230,    5330,    5430,    5540,    5650,
+     5750,    5850,    5950,    6050,    6150,    6260,    6360,
+};
+
+static const MCESD_U32 N5XC56GP5X4_DFE_VREF_TABLE[4][4][63] =
+{
+    {   /* T0 */
+        {   /* RES0 */
+                0,     150,     290,     400,     510,     610,     710,     820,
+              920,    1020,    1130,    1240,    1340,    1440,    1550,    1660,
+             1760,    1860,    1960,    2070,    2180,    2280,    2380,    2490,
+             2590,    2690,    2800,    2910,    3010,    3110,    3220,    3330,
+             3430,    3530,    3630,    3740,    3850,    3950,    4050,    4160,
+             4260,    4360,    4470,    4580,    4680,    4780,    4890,    5000,
+             5100,    5200,    5300,    5410,    5520,    5620,    5720,    5830,
+             5930,    6030,    6140,    6250,    6350,    6450,    6560,
+        },
+        {   /* RES1 */
+                0,     250,     490,     660,     830,    1010,    1180,    1350,
+             1530,    1700,    1870,    2050,    2220,    2390,    2560,    2730,
+             2900,    3080,    3260,    3430,    3600,    3780,    3950,    4120,
+             4290,    4460,    4640,    4820,    4990,    5160,    5330,    5500,
+             5670,    5850,    6020,    6190,    6370,    6540,    6710,    6890,
+             7060,    7230,    7400,    7570,    7750,    7930,    8100,    8270,
+             8440,    8620,    8790,    8960,    9140,    9310,    9480,    9660,
+             9830,   10000,   10200,   10300,   10500,   10700,   10900,
+        },
+        {   /* RES2 */
+                0,     300,     590,     800,    1000,    1200,    1410,    1620,
+             1830,    2040,    2240,    2450,    2660,    2860,    3070,    3280,
+             3480,    3690,    3900,    4110,    4320,    4530,    4730,    4930,
+             5140,    5350,    5550,    5760,    5970,    6180,    6390,    6600,
+             6800,    7000,    7210,    7420,    7630,    7840,    8040,    8250,
+             8460,    8660,    8870,    9080,    9280,    9490,    9700,    9910,
+            10100,   10300,   10500,   10700,   10900,   11200,   11400,   11600,
+            11800,   12000,   12200,   12400,   12600,   12800,   13000,
+        },
+        {   /* RES3 */
+                0,     390,     770,    1050,    1330,    1610,    1880,    2150,
+             2430,    2710,    2980,    3260,    3540,    3810,    4080,    4360,
+             4640,    4910,    5180,    5460,    5740,    6020,    6290,    6560,
+             6840,    7120,    7390,    7670,    7950,    8220,    8490,    8770,
+             9050,    9330,    9600,    9870,   10200,   10400,   10700,   11000,
+            11300,   11500,   11800,   12100,   12400,   12600,   12900,   13200,
+            13500,   13700,   14000,   14300,   14600,   14800,   15100,   15400,
+            15700,   15900,   16200,   16500,   16800,   17000,   17300,
+        }
+    },
+    {   /* T1 */
+        {   /* RES0 */
+                0,     150,     290,     400,     510,     610,     710,     820,
+              920,    1020,    1130,    1240,    1340,    1440,    1550,    1660,
+             1760,    1860,    1960,    2070,    2180,    2280,    2380,    2490,
+             2590,    2690,    2800,    2910,    3010,    3110,    3220,    3330,
+             3430,    3530,    3630,    3740,    3850,    3950,    4050,    4160,
+             4260,    4360,    4470,    4580,    4680,    4780,    4890,    5000,
+             5100,    5200,    5300,    5410,    5520,    5620,    5720,    5830,
+             5930,    6030,    6140,    6250,    6350,    6450,    6560,
+        },
+        {   /* RES1 */
+                0,     250,     490,     660,     830,    1010,    1180,    1350,
+             1530,    1700,    1870,    2050,    2220,    2390,    2560,    2730,
+             2900,    3080,    3260,    3430,    3600,    3780,    3950,    4120,
+             4290,    4460,    4640,    4820,    4990,    5160,    5330,    5500,
+             5670,    5850,    6020,    6190,    6370,    6540,    6710,    6890,
+             7060,    7230,    7400,    7570,    7750,    7930,    8100,    8270,
+             8440,    8620,    8790,    8960,    9140,    9310,    9480,    9660,
+             9830,   10000,   10200,   10300,   10500,   10700,   10900,
+        },
+        {   /* RES2 */
+                0,     300,     590,     800,    1000,    1200,    1410,    1620,
+             1830,    2040,    2240,    2450,    2660,    2860,    3070,    3280,
+             3480,    3690,    3900,    4110,    4320,    4530,    4730,    4930,
+             5140,    5350,    5550,    5760,    5970,    6180,    6390,    6600,
+             6800,    7000,    7210,    7420,    7630,    7840,    8040,    8250,
+             8460,    8660,    8870,    9080,    9280,    9490,    9700,    9910,
+            10100,   10300,   10500,   10700,   10900,   11200,   11400,   11600,
+            11800,   12000,   12200,   12400,   12600,   12800,   13000,
+        },
+        {   /* RES3 */
+                0,     390,     770,    1050,    1330,    1610,    1880,    2150,
+             2430,    2710,    2980,    3260,    3540,    3810,    4080,    4360,
+             4640,    4910,    5180,    5460,    5740,    6020,    6290,    6560,
+             6840,    7120,    7390,    7670,    7950,    8220,    8490,    8770,
+             9050,    9330,    9600,    9870,   10200,   10400,   10700,   11000,
+            11300,   11500,   11800,   12100,   12400,   12600,   12900,   13200,
+            13500,   13700,   14000,   14300,   14600,   14800,   15100,   15400,
+            15700,   15900,   16200,   16500,   16800,   17000,   17300,
+        }
+    },
+    {   /* T2 */
+        {   /* RES0 */
+                0,    1730,    3430,    3530,    3630,    3740,    3850,    3950,
+             4050,    4160,    4260,    4360,    4470,    4580,    4680,    4780,
+             4880,    4990,    5100,    5200,    5300,    5410,    5520,    5620,
+             5720,    5830,    5930,    6030,    6140,    6250,    6350,    6450,
+             6550,    6660,    6770,    6870,    6970,    7080,    7190,    7290,
+             7390,    7500,    7600,    7700,    7810,    7920,    8020,    8120,
+             8220,    8330,    8440,    8540,    8640,    8750,    8860,    8960,
+             9060,    9170,    9270,    9370,    9480,    9590,    9690,
+        },
+        {   /* RES1 */
+                0,    2840,    5670,    5850,    6020,    6190,    6370,    6540,
+             6710,    6890,    7060,    7230,    7400,    7570,    7740,    7920,
+             8100,    8270,    8440,    8610,    8780,    8960,    9130,    9300,
+             9480,    9660,    9830,   10000,   10200,   10300,   10500,   10700,
+            10900,   11000,   11200,   11400,   11600,   11700,   11900,   12100,
+            12200,   12400,   12600,   12800,   12900,   13100,   13300,   13500,
+            13600,   13800,   14000,   14100,   14300,   14500,   14700,   14800,
+            15000,   15200,   15400,   15500,   15700,   15900,   16100,
+        },
+        {   /* RES2 */
+                0,    3400,    6790,    7000,    7210,    7420,    7630,    7840,
+             8040,    8250,    8460,    8660,    8870,    9080,    9280,    9490,
+             9700,    9910,   10100,   10300,   10500,   10700,   10900,   11200,
+            11400,   11600,   11800,   12000,   12200,   12400,   12600,   12800,
+            13000,   13200,   13400,   13600,   13800,   14000,   14300,   14500,
+            14700,   14900,   15100,   15300,   15500,   15700,   15900,   16100,
+            16300,   16500,   16700,   17000,   17200,   17400,   17600,   17800,
+            18000,   18200,   18400,   18600,   18800,   19000,   19200,
+        },
+        {   /* RES3 */
+                0,    4530,    9040,    9310,    9590,    9870,   10100,   10400,
+            10700,   11000,   11200,   11500,   11800,   12100,   12400,   12600,
+            12900,   13200,   13500,   13700,   14000,   14300,   14600,   14800,
+            15100,   15400,   15700,   15900,   16200,   16500,   16800,   17000,
+            17300,   17600,   17900,   18100,   18400,   18700,   19000,   19200,
+            19500,   19800,   20100,   20300,   20600,   20900,   21200,   21400,
+            21700,   22000,   22300,   22500,   22800,   23100,   23400,   23600,
+            23900,   24200,   24500,   24800,   25000,   25300,   25600,
+        }
+    },
+    {   /* T3 */
+        {   /* RES0 */
+                0,    3240,    6450,    6550,    6650,    6760,    6860,    6960,
+             7070,    7170,    7270,    7380,    7480,    7580,    7690,    7800,
+             7900,    8000,    8100,    8210,    8320,    8420,    8520,    8630,
+             8730,    8830,    8940,    9040,    9140,    9250,    9350,    9450,
+             9560,    9670,    9770,    9870,    9970,   10100,   10200,   10300,
+            10400,   10500,   10600,   10700,   10800,   10900,   11000,   11100,
+            11200,   11300,   11400,   11500,   11600,   11700,   11800,   12000,
+            12100,   12200,   12300,   12400,   12500,   12600,   12700,
+        },
+        {   /* RES1 */
+                0,    5380,   10700,   10900,   11100,   11200,   11400,   11600,
+            11800,   11900,   12100,   12300,   12400,   12600,   12800,   13000,
+            13100,   13300,   13500,   13700,   13800,   14000,   14200,   14300,
+            14500,   14700,   14900,   15000,   15200,   15400,   15500,   15700,
+            15900,   16100,   16200,   16400,   16600,   16800,   16900,   17100,
+            17300,   17400,   17600,   17800,   18000,   18100,   18300,   18500,
+            18700,   18800,   19000,   19200,   19400,   19500,   19700,   19900,
+            20000,   20200,   20400,   20600,   20700,   20900,   21100,
+        },
+        {   /* RES2 */
+                0,    6430,   12800,   13100,   13300,   13500,   13700,   13900,
+            14100,   14300,   14500,   14700,   14900,   15100,   15300,   15500,
+            15700,   15900,   16200,   16400,   16600,   16800,   17000,   17200,
+            17400,   17600,   17800,   18000,   18200,   18400,   18600,   18900,
+            19100,   19300,   19500,   19700,   19900,   20100,   20300,   20500,
+            20700,   20900,   21100,   21300,   21500,   21700,   22000,   22200,
+            22400,   22600,   22800,   23000,   23200,   23400,   23600,   23800,
+            24000,   24200,   24400,   24600,   24800,   25100,   25300,
+        },
+        {   /* RES3 */
+                0,    8560,   17100,   17400,   17700,   17900,   18200,   18500,
+            18800,   19000,   19300,   19600,   19900,   20100,   20400,   20700,
+            21000,   21200,   21500,   21800,   22100,   22300,   22600,   22900,
+            23200,   23400,   23700,   24000,   24300,   24500,   24800,   25100,
+            25400,   25600,   25900,   26200,   26500,   26800,   27000,   27300,
+            27600,   27900,   28100,   28400,   28700,   29000,   29200,   29500,
+            29800,   30100,   30300,   30600,   30900,   31200,   31400,   31700,
+            32000,   32300,   32500,   32800,   33100,   33400,   33600,
+        }
+    }
+};
+
 static const MCESD_U32 N5XC56GP5X4_DFE_F0_TABLE[4][4][64] =
 {
     {   /* T0 */
@@ -718,6 +923,150 @@ static const MCESD_U32 N5XC56GP5X4_DFE_F0_TABLE[4][4][64] =
             25142,   25394,   25524,   25650,   25982,   26060,   26414,   26444,
             26672,   26853,   26954,   27233,   27239,   27318,   27672,   27773,
         }
+    }
+};
+
+static const MCESD_U32 N5XC56GP5X4_DFE_F1_TABLE[2][4][64] =
+{
+    {   /* T0 */
+        {   /* RES0 */
+                0,      10,     110,     160,     210,     310,     360,     400,
+              410,     460,     510,     510,     560,     600,     610,     660,
+              700,     710,     760,     810,     860,     910,     910,     960,
+             1010,    1060,    1110,    1160,    1210,    1260,    1310,    1360,
+             1410,    1460,    1550,    1600,    1660,    1710,    1760,    1810,
+             1900,    1960,    2010,    2060,    2150,    2210,    2260,    2350,
+             2410,    2460,    2550,    2610,    2660,    2710,    2810,    2860,
+             2950,    3010,    3060,    3160,    3250,    3300,    3360,    3410,
+        },
+        {   /* RES1 */
+                0,      10,     110,     160,     260,     310,     400,     460,
+              550,     610,     660,     750,     810,     860,     950,    1010,
+             1110,    1160,    1260,    1360,    1450,    1510,    1610,    1710,
+             1810,    1910,    2010,    2110,    2210,    2350,    2460,    2560,
+             2700,    2810,    2910,    3010,    3150,    3260,    3360,    3510,
+             3610,    3710,    3850,    3960,    4060,    4160,    4310,    4410,
+             4510,    4610,    4750,    4860,    4960,    5110,    5200,    5310,
+             5410,    5560,    5660,    5760,    5860,    6010,    6110,    6210,
+        },
+        {   /* RES2 */
+                0,      10,     110,     160,     260,     360,     450,     550,
+              660,     810,     900,    1000,    1110,    1210,    1350,    1460,
+             1600,    1710,    1860,    2010,    2160,    2300,    2460,    2610,
+             2800,    2950,    3110,    3260,    3450,    3600,    3760,    3910,
+             4060,    4260,    4410,    4550,    4710,    4860,    5010,    5200,
+             5360,    5510,    5660,    5810,    6000,    6110,    6310,    6460,
+             6610,    6760,    6910,    7110,    7250,    7410,    7550,    7710,
+             7860,    8010,    8110,    8310,    8450,    8560,    8750,    8860,
+        },
+        {   /* RES3 */
+                0,      10,     110,     160,     260,     360,     510,     700,
+              900,    1110,    1260,    1460,    1660,    1850,    2060,    2260,
+             2460,    2710,    2950,    3160,    3410,    3610,    3860,    4100,
+             4310,    4560,    4760,    5010,    5210,    5460,    5710,    5910,
+             6160,    6400,    6600,    6810,    7060,    7300,    7510,    7710,
+             7950,    8150,    8350,    8560,    8710,    8960,    9110,    9360,
+             9550,    9710,    9910,   10100,   10210,   10400,   10560,   10760,
+            10910,   11050,   11160,   11310,   11450,   11600,   11700,   11800,
+        }
+    },
+    {   /* T1 */
+        {   /* RES0 */
+                0,       0,       0,      0 ,      30,      30,      30,      80,
+               80,      80,      80,      80,     120,     130,     130,     130,
+              130,     130,     180,     180,     180,     180,     230,     230,
+              230,     230,     280,     280,     280,     330,     330,     330,
+              330,     380,     380,     380,     430,     430,     430,     480,
+              480,     480,     530,     530,     530,     580,     580,     630,
+              630,     630,     680,     680,     680,     730,     730,     780,
+              780,     780,     830,     830,     880,     880,     930,     930,
+        },
+        {   /* RES1 */
+                0,       0,       0,       0,      30,      30,      80,      80,
+               80,     130,     130,     180,     180,     180,     230,     230,
+              280,     280,     280,     330,     330,     380,     430,     430,
+              480,     480,     530,     530,     580,     630,     630,     680,
+              730,     730,     780,     780,     830,     880,     930,     930,
+              980,    1030,    1030,    1080,    1130,    1180,    1180,    1230,
+             1280,    1280,    1330,    1380,    1430,    1430,    1480,    1530,
+             1530,    1580,    1630,    1680,    1680,    1730,    1780,    1830,
+        },
+        {   /* RES2 */
+                0,       0,       0,       0,      30,      30,      80,      80,
+              130,     180,     180,     230,     280,     280,     330,     380,
+              380,     430,     480,     530,     580,     580,     630,     680,
+              730,     780,     830,     880,     930,     980,    1030,    1080,
+             1130,    1180,    1230,    1280,    1330,    1380,    1430,    1480,
+             1530,    1580,    1630,    1680,    1730,    1780,    1830,    1880,
+             1930,    1980,    2030,    2080,    2130,    2180,    2230,    2280,
+             2330,    2380,    2430,    2480,    2530,    2580,    2630,    2680,
+        },
+        {   /* RES3 */
+                0,       0,       0,       0,      30,      80,      80,     130,
+              180,     280,     330,     380,     430,     480,     530,     580,
+              630,     730,     780,     830,     930,     980,    1080,    1130,
+             1230,    1280,    1330,    1430,    1480,    1580,    1630,    1730,
+             1780,    1880,    1930,    1980,    2080,    2130,    2230,    2280,
+             2380,    2430,    2480,    2580,    2630,    2680,    2780,    2830,
+             2930,    2980,    3080,    3130,    3180,    3280,    3330,    3380,
+             3480,    3530,    3630,    3680,    3730,    3830,    3880,    3980,
+        }
+    }
+};
+
+static const MCESD_U32 N5XC56GP5X4_DFE_F1P5_TABLE[4][32] =
+{
+    {   /* RES0 */
+            0,     160,     340,     490,     580,     650,     740,     800,
+          890,     950,    1050,    1140,    1260,    1350,    1440,    1560,
+         1680,    1780,    1900,    2020,    2140,    2290,    2420,    2540,
+         2690,    2820,    2970,    3090,    3240,    3370,    3540,    3670,
+    },
+    {   /* RES1 */
+            0,     160,     370,     530,     710,     860,    1010,    1170,
+         1320,    1500,    1690,    1870,    2080,    2300,    2510,    2750,
+         2970,    3210,    3460,    3730,    3970,    4190,    4470,    4710,
+         4980,    5230,    5510,    5780,    6030,    6300,    6550,    6790,
+    },
+    {   /* RES2 */
+            0,     180,     370,     590,     860,    1110,    1320,    1590,
+         1840,    2140,    2450,    2750,    3090,    3420,    3760,    4100,
+         4470,    4830,    5200,    5560,    5930,    6300,    6670,    7060,
+         7340,    7700,    8100,    8410,    8770,    9080,    9330,    9630,
+    },
+    {   /* RES3 */
+            0,     190,     400,     650,    1010,    1380,    1710,    2050,
+         2450,    2870,    3300,    3700,    4160,    4650,    5110,    5600,
+         6060,    6510,    6940,    7430,    7920,    8370,    8750,    9110,
+         9450,    9880,   10210,   10580,   10880,   11100,   11430,   11680,
+    }
+};
+
+static const MCESD_U32 N5XC56GP5X4_DFE_F2_TABLE[4][32] =
+{
+    {   /* RES0 */
+            0,     120,     260,     350,     410,     480,     520,     560,
+          630,     690,     760,     800,     870,     940,    1020,    1090,
+         1160,    1220,    1310,    1380,    1470,    1540,    1630,    1700,
+         1790,    1880,    1970,    2060,    2130,    2240,    2330,    2420,
+    },
+    {   /* RES1 */
+            0,     120,     260,     400,     510,     610,     720,     810,
+          930,    1040,    1160,    1280,    1420,    1540,    1700,    1840,
+         1980,    2120,    2290,    2450,    2570,    2740,    2900,    3050,
+         3210,    3380,    3540,    3690,    3850,    4020,    4130,    4320,
+    },
+    {   /* RES2 */
+            0,     120,     280,     420,     610,     780,     920,    1090,
+         1280,    1450,    1640,    1850,    2040,    2260,    2450,    2690,
+         2910,    3120,    3340,    3580,    3800,    4040,    4210,    4440,
+         4690,    4900,    5070,    5290,    5550,    5740,    5880,    6020,
+    },
+    {   /* RES3 */
+            0,     140,     280,     470,     710,     960,    1170,    1390,
+         1630,    1900,    2160,    2450,    2720,    3010,    3280,    3570,
+         3880,    4120,    4460,    4730,    4970,    5260,    5500,    5770,
+         5960,    6280,    6440,    6760,    6950,    7170,    7280,    7500,
     }
 };
 #endif
@@ -900,6 +1249,7 @@ typedef struct
     MCESD_BOOL initRx;
     MCESD_BOOL txOutputEn;
     MCESD_BOOL downloadFw;
+    MCESD_BOOL resetTxTrainCodingMode;
     E_N5XC56GP5X4_DATAPATH dataPath;
     E_N5XC56GP5X4_REFCLK_SEL txRefClkSel;
     E_N5XC56GP5X4_REFCLK_SEL rxRefClkSel;
@@ -918,27 +1268,34 @@ typedef struct
 } S_N5XC56GP5X4_PowerOn;
 
 /* Misc */
+#define F_N5XC56GP5X4_PHY_ISOLATE       FIELD_DEFINE(0xA318, 23, 23)    /* PHY_ISOLATE_MODE */
 #define F_N5XC56GP5X4_LANE_SEL          FIELD_DEFINE(0xA318, 31, 28)
 #define F_N5XC56GP5X4_DFE_EN            FIELD_DEFINE(0x5648, 29, 29)
+#define F_N5XC56GP5X4R2P0_DFE_EN        FIELD_DEFINE(0x564C, 29, 29)
 #define F_N5XC56GP5X4_RSRVD_INPUT_RX_RD FIELD_DEFINE(0x5604, 15, 0)     /* PIN_RESERVED_INPUT_RX_RD_LANE */
 #define F_N5XC56GP5X4_RSRVD_INPUT_RX    FIELD_DEFINE(0x562C, 31, 16)    /* RESERVED_INPUT_RX_LANE */
 #define F_N5XC56GP5X4_RSRVD_INPUT_RX_FM FIELD_DEFINE(0x562C, 15, 15)    /* RESERVED_INPUT_RX_FM_REG_LANE */
+#define F_N5XC56GP5X4_CODING_HW_RST_TX  FIELD_DEFINE(0x30D4, 31, 31)    /* TX_TRAIN_CODING_MODE_HW_RST_TX_LANE */
+#define F_N5XC56GP5X4R2P0_TX_HW_RST_TX  FIELD_DEFINE(0x30D0, 10, 10)    /* TX_TRAIN_CODING_MODE_HW_RST_TX_LANE */
+#define F_N5XC56GP5X4_CODING_HW_RST_RX  FIELD_DEFINE(0x5088, 21, 21)    /* TX_TRAIN_CODING_MODE_HW_RST_RX_LANE */
+#define F_N5XC56GP5X4_FOFFSET_INPH      FIELD_DEFINE(0x32BC, 17, 0)     /* RX_FOFFSET_INPH_LANE */
+#define F_N5XC56GP5X4_FOFFSET_INPH_REQ  FIELD_DEFINE(0x32BC, 18, 18)    /* RX_FOFFSET_INPH_REQ_LANE */
 
 /* Broadcast */
 #define F_N5XC56GP5X4_BROADCAST         FIELD_DEFINE(0xA318, 27, 27)
 
 /* PLL Lock */
-#define F_N5XC56GP5X4_PLL_RS_LOCK       FIELD_DEFINE(0x5800, 30, 30)
-#define F_N5XC56GP5X4_PLL_TS_LOCK       FIELD_DEFINE(0x5700, 6, 6)
+#define F_N5XC56GP5X4_PLL_RS_LOCK       FIELD_DEFINE(0x5800, 30, 30)    /* ANA_PLL_RS_LOCK_RD_LANE */
+#define F_N5XC56GP5X4_PLL_TS_LOCK       FIELD_DEFINE(0x5700, 6, 6)      /* ANA_PLL_TS_LOCK_RD_LANE */
 
 /* Align 90 */
 #define F_N5XC56GP5X4_PH_OS_DAT         FIELD_DEFINE(0x6DDC, 7, 0)
 #define F_N5XC56GP5X4_ALIGN90_CAL_7_0   FIELD_DEFINE(0x19B8, 7, 0)      /* RX_ALIGN90_CAL_SETTING_LANE[7:0] */
 
 /* Squelch Threshold */
-#define F_N5XC56GP5X4_SQ_RES_RD         FIELD_DEFINE(0x1AF0, 6, 1)
-#define F_N5XC56GP5X4_SQ_RES_EXT        FIELD_DEFINE(0x1AEC, 7, 2)
-#define F_N5XC56GP5X4_SQ_INDV           FIELD_DEFINE(0x1AE4, 0, 0)
+#define F_N5XC56GP5X4_SQ_RES_RD         FIELD_DEFINE(0x1AF0, 6, 1)      /* SQ_CAL_RESULT_RD_LANE */
+#define F_N5XC56GP5X4_SQ_RES_EXT        FIELD_DEFINE(0x1AEC, 7, 2)      /* SQ_CAL_RESULT_EXT_LANE */
+#define F_N5XC56GP5X4_SQ_INDV           FIELD_DEFINE(0x1AE4, 0, 0)      /* SQ_CAL_INDV_EXT_EN_LANE */
 
 /* Data Bus Width */
 #define F_N5XC56GP5X4_TX_SEL_BITS       FIELD_DEFINE(0x3034, 31, 31)
@@ -957,27 +1314,27 @@ typedef struct
 #define F_N5XC56GP5X4_FW_BUILD_VER      FIELD_DEFINE(0xE600, 7, 0)
 
 /* TX Equalization Parameters */
-#define F_N5XC56GP5X4_TX_C0             FIELD_DEFINE(0x30CC, 29, 24)
-#define F_N5XC56GP5X4_TX_C1             FIELD_DEFINE(0x30CC, 22, 17)
-#define F_N5XC56GP5X4_TX_C2             FIELD_DEFINE(0x30CC, 14, 9)
-#define F_N5XC56GP5X4_TX_C3             FIELD_DEFINE(0x30CC, 6, 1)
-#define F_N5XC56GP5X4_TX_C4             FIELD_DEFINE(0x30D0, 30, 25)
-#define F_N5XC56GP5X4_TX_C5             FIELD_DEFINE(0x30D0, 22, 17)
-#define F_N5XC56GP5X4_TX_C0_FORCE       FIELD_DEFINE(0x30CC, 30, 30)
-#define F_N5XC56GP5X4_TX_C1_FORCE       FIELD_DEFINE(0x30CC, 23, 23)
-#define F_N5XC56GP5X4_TX_C2_FORCE       FIELD_DEFINE(0x30CC, 15, 15)
-#define F_N5XC56GP5X4_TX_C3_FORCE       FIELD_DEFINE(0x30CC, 7, 7)
-#define F_N5XC56GP5X4_TX_C4_FORCE       FIELD_DEFINE(0x30D0, 31, 31)
-#define F_N5XC56GP5X4_TX_C5_FORCE       FIELD_DEFINE(0x30D0, 23, 23)
-#define F_N5XC56GP5X4_TX_UP             FIELD_DEFINE(0x30D0, 8, 8)
-#define F_N5XC56GP5X4_TX_UP_FORCE       FIELD_DEFINE(0x30D0, 7, 7)
-#define F_N5XC56GP5X4_ANA_TX_C0         FIELD_DEFINE(0x30D4, 29, 24)
-#define F_N5XC56GP5X4_ANA_TX_C1         FIELD_DEFINE(0x30D4, 21, 16)
-#define F_N5XC56GP5X4_ANA_TX_C2         FIELD_DEFINE(0x30D4, 13, 8)
-#define F_N5XC56GP5X4_ANA_TX_C3         FIELD_DEFINE(0x30D4, 5, 0)
-#define F_N5XC56GP5X4_ANA_TX_C4         FIELD_DEFINE(0x30D8, 29, 24)
-#define F_N5XC56GP5X4_ANA_TX_C5         FIELD_DEFINE(0x30D8, 21, 16)
-#define F_N5XC56GP5X4_TX_FIR_TAP_POL    FIELD_DEFINE(0x30D0, 6, 1)
+#define F_N5XC56GP5X4_TX_C0             FIELD_DEFINE(0x30CC, 29, 24)    /* TX_FIR_C0_LANE */
+#define F_N5XC56GP5X4_TX_C1             FIELD_DEFINE(0x30CC, 22, 17)    /* TX_FIR_C1_LANE */
+#define F_N5XC56GP5X4_TX_C2             FIELD_DEFINE(0x30CC, 14, 9)     /* TX_FIR_C2_LANE */
+#define F_N5XC56GP5X4_TX_C3             FIELD_DEFINE(0x30CC, 6, 1)      /* TX_FIR_C3_LANE */
+#define F_N5XC56GP5X4_TX_C4             FIELD_DEFINE(0x30D0, 30, 25)    /* TX_FIR_C4_LANE */
+#define F_N5XC56GP5X4_TX_C5             FIELD_DEFINE(0x30D0, 22, 17)    /* TX_FIR_C5_LANE */
+#define F_N5XC56GP5X4_TX_C0_FORCE       FIELD_DEFINE(0x30CC, 30, 30)    /* TX_FIR_C0_FORCE_LANE */
+#define F_N5XC56GP5X4_TX_C1_FORCE       FIELD_DEFINE(0x30CC, 23, 23)    /* TX_FIR_C1_FORCE_LANE */
+#define F_N5XC56GP5X4_TX_C2_FORCE       FIELD_DEFINE(0x30CC, 15, 15)    /* TX_FIR_C2_FORCE_LANE */
+#define F_N5XC56GP5X4_TX_C3_FORCE       FIELD_DEFINE(0x30CC, 7, 7)      /* TX_FIR_C3_FORCE_LANE */
+#define F_N5XC56GP5X4_TX_C4_FORCE       FIELD_DEFINE(0x30D0, 31, 31)    /* TX_FIR_C4_FORCE_LANE */
+#define F_N5XC56GP5X4_TX_C5_FORCE       FIELD_DEFINE(0x30D0, 23, 23)    /* TX_FIR_C5_FORCE_LANE */
+#define F_N5XC56GP5X4_TX_UP             FIELD_DEFINE(0x30D0, 8, 8)      /* TX_FIR_UPDATE_LANE */
+#define F_N5XC56GP5X4_TX_UP_FORCE       FIELD_DEFINE(0x30D0, 7, 7)      /* TX_FIR_UPDATE_FORCE_LANE */
+#define F_N5XC56GP5X4_ANA_TX_C0         FIELD_DEFINE(0x30D4, 29, 24)    /* TO_ANA_TX_FIR_C0_LANE */
+#define F_N5XC56GP5X4_ANA_TX_C1         FIELD_DEFINE(0x30D4, 21, 16)    /* TO_ANA_TX_FIR_C1_LANE */
+#define F_N5XC56GP5X4_ANA_TX_C2         FIELD_DEFINE(0x30D4, 13, 8)     /* TO_ANA_TX_FIR_C2_LANE */
+#define F_N5XC56GP5X4_ANA_TX_C3         FIELD_DEFINE(0x30D4, 5, 0)      /* TO_ANA_TX_FIR_C3_LANE */
+#define F_N5XC56GP5X4_ANA_TX_C4         FIELD_DEFINE(0x30D8, 29, 24)    /* TO_ANA_TX_FIR_C4_LANE */
+#define F_N5XC56GP5X4_ANA_TX_C5         FIELD_DEFINE(0x30D8, 21, 16)    /* TO_ANA_TX_FIR_C5_LANE*/
+#define F_N5XC56GP5X4_TX_FIR_TAP_POL    FIELD_DEFINE(0x30D0, 6, 1)      /* TX_FIR_TAP_POL_LANE */
 #define F_N5XC56GP5X4_TX_FIR_TAP_POL_F  FIELD_DEFINE(0x30D0, 0, 0)      /* TX_FIR_TAP_POL_FORCE_LANE */
 #define F_N5XC56GP5X4_TO_ANA_TX_FIR_POL FIELD_DEFINE(0x30D8, 13, 8)     /* TO_ANA_TX_FIR_TAP_POL_LANE */
 
@@ -986,19 +1343,19 @@ typedef struct
 #define F_N5XC56GP5X4_ADD_ERR_NUM       FIELD_DEFINE(0x3024, 28, 26)
 
 /* CTLE */
-#define F_N5XC56GP5X4_CURRENT1_SEL      FIELD_DEFINE(0x1050, 3, 0)
-#define F_N5XC56GP5X4_RL1_SEL           FIELD_DEFINE(0x1060, 3, 0)
-#define F_N5XC56GP5X4_RL1_EXTRA         FIELD_DEFINE(0x1038, 2, 0)
-#define F_N5XC56GP5X4_RES1_SEL          FIELD_DEFINE(0x1058, 3, 0)
-#define F_N5XC56GP5X4_CAP1_SEL_G        FIELD_DEFINE(0x1048, 3, 0)
-#define F_N5XC56GP5X4_EN_MID_FREQ       FIELD_DEFINE(0x1088, 4, 4)
-#define F_N5XC56GP5X4_CS1_MID           FIELD_DEFINE(0x1040, 5, 4)
-#define F_N5XC56GP5X4_RS1_MID           FIELD_DEFINE(0x1040, 7, 6)
-#define F_N5XC56GP5X4_CURRENT2_SEL      FIELD_DEFINE(0x1054, 3, 0)
-#define F_N5XC56GP5X4_RL2_SEL           FIELD_DEFINE(0x1064, 3, 0)
-#define F_N5XC56GP5X4_RL2_TUNE_G        FIELD_DEFINE(0x0100, 2, 0)
-#define F_N5XC56GP5X4_RES2_SEL          FIELD_DEFINE(0x105C, 3, 0)
-#define F_N5XC56GP5X4_CAP2_SEL          FIELD_DEFINE(0x104C, 3, 0)
+#define F_N5XC56GP5X4_CURRENT1_SEL      FIELD_DEFINE(0x1050, 3, 0)      /* CTLE_CURRENT1_SEL_LANE */
+#define F_N5XC56GP5X4_RL1_SEL           FIELD_DEFINE(0x1060, 3, 0)      /* CTLE_RL1_SEL_LANE */
+#define F_N5XC56GP5X4_RL1_EXTRA         FIELD_DEFINE(0x1038, 2, 0)      /* CTLE_RL1_EXTRA_LANE */
+#define F_N5XC56GP5X4_RES1_SEL          FIELD_DEFINE(0x1058, 3, 0)      /* CTLE_RES1_SEL_LANE */
+#define F_N5XC56GP5X4_CAP1_SEL_G        FIELD_DEFINE(0x1048, 3, 0)      /* CTLE_CAP1_SEL_G_LANE */
+#define F_N5XC56GP5X4_EN_MID_FREQ       FIELD_DEFINE(0x1088, 4, 4)      /* EN_CTLE_MID_FREQ_LANE */
+#define F_N5XC56GP5X4_CS1_MID           FIELD_DEFINE(0x1040, 5, 4)      /* CTLE_CS1_MID_LANE */
+#define F_N5XC56GP5X4_RS1_MID           FIELD_DEFINE(0x1040, 7, 6)      /* CTLE_RS1_MID_LANE */
+#define F_N5XC56GP5X4_CURRENT2_SEL      FIELD_DEFINE(0x1054, 3, 0)      /* CTLE_CURRENT2_SEL_LANE */
+#define F_N5XC56GP5X4_RL2_SEL           FIELD_DEFINE(0x1064, 3, 0)      /* CTLE_RL2_SEL_LANE */
+#define F_N5XC56GP5X4_RL2_TUNE_G        FIELD_DEFINE(0x0100, 2, 0)      /* CTLE_RL2_TUNE_G_LANE */
+#define F_N5XC56GP5X4_RES2_SEL          FIELD_DEFINE(0x105C, 3, 0)      /* CTLE_RES2_SEL_LANE */
+#define F_N5XC56GP5X4_CAP2_SEL          FIELD_DEFINE(0x104C, 3, 0)      /* CTLE_CAP2_SEL_LANE */
 #define F_N5XC56GP5X4_CTLE_CL1_SEL      FIELD_DEFINE(0x103C, 1, 0)
 #define F_N5XC56GP5X4_CTLE_CL2_SEL      FIELD_DEFINE(0x103C, 3, 2)
 
@@ -1009,69 +1366,93 @@ typedef struct
 #define F_N5XC56GP5X4_REG_SELMUPF       FIELD_DEFINE(0x10C4, 2, 0)
 
 /* DFE */
-#define F_N5XC56GP5X4_DC_D_T_E_SM       FIELD_DEFINE(0x4108, 22, 16)
-#define F_N5XC56GP5X4_DC_E_E_SM         FIELD_DEFINE(0x410C, 22, 16)
-#define F_N5XC56GP5X4_VREF_T_E_SM       FIELD_DEFINE(0x4110, 14, 8)
-#define F_N5XC56GP5X4_F0_D_T_E_SM       FIELD_DEFINE(0x4114, 5, 0)
-#define F_N5XC56GP5X4_F1_D_T_E_SM       FIELD_DEFINE(0x4118, 22, 16)
-#define F_N5XC56GP5X4_F1P5_E_SM         FIELD_DEFINE(0x4140, 13, 8)
-#define F_N5XC56GP5X4_F2_D_T_E_SM       FIELD_DEFINE(0x4120, 5, 0)
-#define F_N5XC56GP5X4_F3_T_E_SM         FIELD_DEFINE(0x4124, 22, 16)
-#define F_N5XC56GP5X4_F4_T_E_SM         FIELD_DEFINE(0x4128, 14, 8)
-#define F_N5XC56GP5X4_F5_LSB_E_SM       FIELD_DEFINE(0x4128, 21, 16)
-#define F_N5XC56GP5X4_F5_MSB_E_SM       FIELD_DEFINE(0x4128, 29, 24)
-#define F_N5XC56GP5X4_F6_LSB_E_SM       FIELD_DEFINE(0x412C, 5, 0)
-#define F_N5XC56GP5X4_F6_MSB_E_SM       FIELD_DEFINE(0x412C, 13, 8)
-#define F_N5XC56GP5X4_F7_LSB_E_SM       FIELD_DEFINE(0x412C, 21, 16)
-#define F_N5XC56GP5X4_F7_MSB_E_SM       FIELD_DEFINE(0x412C, 29, 24)
-#define F_N5XC56GP5X4_F8_LSB_E_SM       FIELD_DEFINE(0x4130, 13, 8)
-#define F_N5XC56GP5X4_F8_MSB_E_SM       FIELD_DEFINE(0x4130, 21, 16)
-#define F_N5XC56GP5X4_F9_LSB_E_SM       FIELD_DEFINE(0x4134, 5, 0)
-#define F_N5XC56GP5X4_F9_MSB_E_SM       FIELD_DEFINE(0x4134, 13, 8)
-#define F_N5XC56GP5X4_F10_LSB_E_SM      FIELD_DEFINE(0x4134, 29, 24)
-#define F_N5XC56GP5X4_F10_MSB_E_SM      FIELD_DEFINE(0x4138, 5, 0)
-#define F_N5XC56GP5X4_F11_E_SM          FIELD_DEFINE(0x4138, 20, 16)
-#define F_N5XC56GP5X4_F12_E_SM          FIELD_DEFINE(0x413C, 4, 0)
-#define F_N5XC56GP5X4_F13_E_SM          FIELD_DEFINE(0x413C, 20, 16)
-#define F_N5XC56GP5X4_F14_E_SM          FIELD_DEFINE(0x413C, 28, 24)
-#define F_N5XC56GP5X4_F15_E_SM          FIELD_DEFINE(0x4140, 4, 0)
-#define F_N5XC56GP5X4_FF0_E_SM          FIELD_DEFINE(0x4130, 5, 0)
-#define F_N5XC56GP5X4_FF1_E_SM          FIELD_DEFINE(0x4130, 29, 24)
-#define F_N5XC56GP5X4_FF2_E_SM          FIELD_DEFINE(0x4134, 21, 16)
-#define F_N5XC56GP5X4_FF3_E_SM          FIELD_DEFINE(0x4138, 13, 8)
-#define F_N5XC56GP5X4_FF4_E_SM          FIELD_DEFINE(0x4138, 29, 24)
-#define F_N5XC56GP5X4_FF5_E_SM          FIELD_DEFINE(0x413C, 13, 8)
-#define F_N5XC56GP5X4_DC_D_M_E_SM       FIELD_DEFINE(0x4108, 14, 8)
-#define F_N5XC56GP5X4_VREF_M_E_SM       FIELD_DEFINE(0x4110, 6, 0)
-#define F_N5XC56GP5X4_F0_D_M_E_SM       FIELD_DEFINE(0x4110, 29, 24)
-#define F_N5XC56GP5X4_F1_D_M_E_SM       FIELD_DEFINE(0x4118, 14, 8)
-#define F_N5XC56GP5X4_F2_D_M_E_SM       FIELD_DEFINE(0x411C, 29, 24)
-#define F_N5XC56GP5X4_F3_M_E_SM         FIELD_DEFINE(0x4124, 14, 8)
-#define F_N5XC56GP5X4_F4_M_E_SM         FIELD_DEFINE(0x4128, 6, 0)
-#define F_N5XC56GP5X4_DC_D_B_E_SM       FIELD_DEFINE(0x4108, 6, 0)
-#define F_N5XC56GP5X4_VREF_B_E_SM       FIELD_DEFINE(0x410C, 30, 24)
-#define F_N5XC56GP5X4_F0_D_B_E_SM       FIELD_DEFINE(0x4110, 21, 16)
-#define F_N5XC56GP5X4_F1_D_B_E_SM       FIELD_DEFINE(0x4118, 6, 0)
-#define F_N5XC56GP5X4_F2_D_B_E_SM       FIELD_DEFINE(0x411C, 21, 16)
-#define F_N5XC56GP5X4_F3_B_E_SM         FIELD_DEFINE(0x4124, 6, 0)
-#define F_N5XC56GP5X4_F4_B_E_SM         FIELD_DEFINE(0x4124, 30, 24)
+#define F_N5XC56GP5X4_DC_D_T_E_SM       FIELD_DEFINE(0x4108, 22, 16)    /* DFE_DC_D_TOP_E_SM_LANE */
+#define F_N5XC56GP5X4_DC_E_E_SM         FIELD_DEFINE(0x410C, 22, 16)    /* DFE_DC_E_E_SM_LANE */
+#define F_N5XC56GP5X4_VREF_T_E_SM       FIELD_DEFINE(0x4110, 14, 8)     /* DFE_VREF_TOP_E_SM_LANE */
+#define F_N5XC56GP5X4_F0_D_T_E_SM       FIELD_DEFINE(0x4114, 5, 0)      /* DFE_F0_D_TOP_E_SM_LANE */
+#define F_N5XC56GP5X4_F1_D_T_E_SM       FIELD_DEFINE(0x4118, 22, 16)    /* DFE_F1_D_TOP_E_SM_LANE */
+#define F_N5XC56GP5X4_F1P5_E_SM         FIELD_DEFINE(0x4140, 13, 8)     /* DFE_F1P5_E_SM_LANE */
+#define F_N5XC56GP5X4_F2_D_T_E_SM       FIELD_DEFINE(0x4120, 5, 0)      /* DFE_F2_D_TOP_E_SM_LANE */
+#define F_N5XC56GP5X4_F3_T_E_SM         FIELD_DEFINE(0x4124, 22, 16)    /* DFE_F3_TOP_E_SM_LANE */
+#define F_N5XC56GP5X4_F4_T_E_SM         FIELD_DEFINE(0x4128, 14, 8)     /* DFE_F4_TOP_E_SM_LANE */
+#define F_N5XC56GP5X4_F5_LSB_E_SM       FIELD_DEFINE(0x4128, 21, 16)    /* DFE_F5_LSB_E_SM_LANE */
+#define F_N5XC56GP5X4_F5_MSB_E_SM       FIELD_DEFINE(0x4128, 29, 24)    /* DFE_F5_MSB_E_SM_LANE */
+#define F_N5XC56GP5X4_F6_LSB_E_SM       FIELD_DEFINE(0x412C, 5, 0)      /* DFE_F6_LSB_E_SM_LANE */
+#define F_N5XC56GP5X4_F6_MSB_E_SM       FIELD_DEFINE(0x412C, 13, 8)     /* DFE_F6_MSB_E_SM_LANE */
+#define F_N5XC56GP5X4_F7_LSB_E_SM       FIELD_DEFINE(0x412C, 21, 16)    /* DFE_F7_LSB_E_SM_LANE */
+#define F_N5XC56GP5X4_F7_MSB_E_SM       FIELD_DEFINE(0x412C, 29, 24)    /* DFE_F7_MSB_E_SM_LANE */
+#define F_N5XC56GP5X4_F8_LSB_E_SM       FIELD_DEFINE(0x4130, 13, 8)     /* DFE_F8_LSB_E_SM_LANE */
+#define F_N5XC56GP5X4_F8_MSB_E_SM       FIELD_DEFINE(0x4130, 21, 16)    /* DFE_F8_MSB_E_SM_LANE */
+#define F_N5XC56GP5X4_F9_LSB_E_SM       FIELD_DEFINE(0x4134, 5, 0)      /* DFE_F9_LSB_E_SM_LANE */
+#define F_N5XC56GP5X4_F9_MSB_E_SM       FIELD_DEFINE(0x4134, 13, 8)     /* DFE_F9_MSB_E_SM_LANE */
+#define F_N5XC56GP5X4_F10_LSB_E_SM      FIELD_DEFINE(0x4134, 29, 24)    /* DFE_F10_LSB_E_SM_LANE */
+#define F_N5XC56GP5X4_F10_MSB_E_SM      FIELD_DEFINE(0x4138, 5, 0)      /* DFE_F10_MSB_E_SM_LANE */
+#define F_N5XC56GP5X4_F11_E_SM          FIELD_DEFINE(0x4138, 20, 16)    /* DFE_F11_E_SM_LANE */
+#define F_N5XC56GP5X4_F12_E_SM          FIELD_DEFINE(0x413C, 4, 0)      /* DFE_F12_E_SM_LANE */
+#define F_N5XC56GP5X4_F13_E_SM          FIELD_DEFINE(0x413C, 20, 16)    /* DFE_F13_E_SM_LANE */
+#define F_N5XC56GP5X4_F14_E_SM          FIELD_DEFINE(0x413C, 28, 24)    /* DFE_F14_E_SM_LANE */
+#define F_N5XC56GP5X4_F15_E_SM          FIELD_DEFINE(0x4140, 4, 0)      /* DFE_F15_E_SM_LANE */
+#define F_N5XC56GP5X4_FF0_E_SM          FIELD_DEFINE(0x4130, 5, 0)      /* DFE_FF0_E_SM_LANE */
+#define F_N5XC56GP5X4_FF1_E_SM          FIELD_DEFINE(0x4130, 29, 24)    /* DFE_FF1_E_SM_LANE */
+#define F_N5XC56GP5X4_FF2_E_SM          FIELD_DEFINE(0x4134, 21, 16)    /* DFE_FF2_E_SM_LANE */
+#define F_N5XC56GP5X4_FF3_E_SM          FIELD_DEFINE(0x4138, 13, 8)     /* DFE_FF3_E_SM_LANE */
+#define F_N5XC56GP5X4_FF4_E_SM          FIELD_DEFINE(0x4138, 29, 24)    /* DFE_FF4_E_SM_LANE */
+#define F_N5XC56GP5X4_FF5_E_SM          FIELD_DEFINE(0x413C, 13, 8)     /* DFE_FF5_E_SM_LANE */
+#define F_N5XC56GP5X4_DC_D_M_E_SM       FIELD_DEFINE(0x4108, 14, 8)     /* DFE_DC_D_MID_E_SM_LANE */
+#define F_N5XC56GP5X4_VREF_M_E_SM       FIELD_DEFINE(0x4110, 6, 0)      /* DFE_VREF_MID_E_SM_LANE */
+#define F_N5XC56GP5X4_F0_D_M_E_SM       FIELD_DEFINE(0x4110, 29, 24)    /* DFE_F0_D_MID_E_SM_LANE */
+#define F_N5XC56GP5X4_F1_D_M_E_SM       FIELD_DEFINE(0x4118, 14, 8)     /* DFE_F1_D_MID_E_SM_LANE */
+#define F_N5XC56GP5X4_F2_D_M_E_SM       FIELD_DEFINE(0x411C, 29, 24)    /* DFE_F2_D_MID_E_SM_LANE */
+#define F_N5XC56GP5X4_F3_M_E_SM         FIELD_DEFINE(0x4124, 14, 8)     /* DFE_F3_MID_E_SM_LANE */
+#define F_N5XC56GP5X4_F4_M_E_SM         FIELD_DEFINE(0x4128, 6, 0)      /* DFE_F4_MID_E_SM_LANE */
+#define F_N5XC56GP5X4_DC_D_B_E_SM       FIELD_DEFINE(0x4108, 6, 0)      /* DFE_DC_D_BOT_E_SM_LANE */
+#define F_N5XC56GP5X4_VREF_B_E_SM       FIELD_DEFINE(0x410C, 30, 24)    /* DFE_VREF_BOT_E_SM_LANE */
+#define F_N5XC56GP5X4_F0_D_B_E_SM       FIELD_DEFINE(0x4110, 21, 16)    /* DFE_F0_D_BOT_E_SM_LANE */
+#define F_N5XC56GP5X4_F1_D_B_E_SM       FIELD_DEFINE(0x4118, 6, 0)      /* DFE_F1_D_BOT_E_SM_LANE */
+#define F_N5XC56GP5X4_F2_D_B_E_SM       FIELD_DEFINE(0x411C, 21, 16)    /* DFE_F2_D_BOT_E_SM_LANE */
+#define F_N5XC56GP5X4_F3_B_E_SM         FIELD_DEFINE(0x4124, 6, 0)      /* DFE_F3_BOT_E_SM_LANE */
+#define F_N5XC56GP5X4_F4_B_E_SM         FIELD_DEFINE(0x4124, 30, 24)    /* DFE_F4_BOT_E_SM_LANE */
 #define F_N5XC56GP5X4_F0_DC_SHIFT       FIELD_DEFINE(0x1088, 6, 5)
 #define F_N5XC56GP5X4_DFE_RES_F0        FIELD_DEFINE(0x106C, 5, 4)
 #define F_N5XC56GP5X4_DFE_F0_RES_DOUBLE FIELD_DEFINE(0x1068, 3, 3)
+#define F_N5XC56GP5X4_OFST_RES          FIELD_DEFINE(0x10B4, 7, 7)
+#define F_N5XC56GP5X4_DFE_RES_VREF      FIELD_DEFINE(0x1074, 1, 0)
+#define F_N5XC56GP5X4_VREF_SHIFT        FIELD_DEFINE(0x1110, 5, 4)
+#define F_N5XC56GP5X4_DFE_RES_F1        FIELD_DEFINE(0x106C, 3, 2)
+#define F_N5XC56GP5X4_DFE_RES_F1P5      FIELD_DEFINE(0x106C, 1, 0)
+#define F_N5XC56GP5X4_DFE_RES_F2        FIELD_DEFINE(0x1070, 6, 5)
+#define F_N5XC56GP5X4_DFE_RES_F34       FIELD_DEFINE(0x1070, 4, 4)
+#define F_N5XC56GP5X4_DFE_RES_DOUBLE    FIELD_DEFINE(0x106C, 7, 6)
+#define F_N5XC56GP5X4_DFE_RES_F567      FIELD_DEFINE(0x1070, 3, 3)
+#define F_N5XC56GP5X4_DFE_RES_F8TO10    FIELD_DEFINE(0x1070, 2, 2)
+#define F_N5XC56GP5X4_DFE_RES_F11TO15   FIELD_DEFINE(0x1070, 1, 1)
+#define F_N5XC56GP5X4_DFE_RES_FLOATING  FIELD_DEFINE(0x1070, 0, 0)
 
 /* Trained Eye Height */
-#define F_N5XC56GP5X4_F0_D_T_O_2C       FIELD_DEFINE(0x418C, 7, 0)
-#define F_N5XC56GP5X4_F0_S_T_O_2C       FIELD_DEFINE(0x418C, 31, 24)
-#define F_N5XC56GP5X4_F0_D_T_E_2C       FIELD_DEFINE(0x41C8, 7, 0)
-#define F_N5XC56GP5X4_F0_S_T_E_2C       FIELD_DEFINE(0x41C8, 31, 24)
-#define F_N5XC56GP5X4_F0_D_M_O_2C       FIELD_DEFINE(0x4188, 31, 24)
-#define F_N5XC56GP5X4_F0_S_M_O_2C       FIELD_DEFINE(0x418C, 23, 16)
-#define F_N5XC56GP5X4_F0_D_M_E_2C       FIELD_DEFINE(0x41C4, 31, 24)
-#define F_N5XC56GP5X4_F0_S_M_E_2C       FIELD_DEFINE(0x41C8, 23, 16)
-#define F_N5XC56GP5X4_F0_D_B_O_2C       FIELD_DEFINE(0x4188, 23, 16)
-#define F_N5XC56GP5X4_F0_S_B_O_2C       FIELD_DEFINE(0x418C, 15, 8)
-#define F_N5XC56GP5X4_F0_D_B_E_2C       FIELD_DEFINE(0x41C4, 23, 16)
-#define F_N5XC56GP5X4_F0_S_B_E_2C       FIELD_DEFINE(0x41C8, 15, 8)
+#define F_N5XC56GP5X4_F0_D_T_O_2C       FIELD_DEFINE(0x418C, 7, 0)      /* DFE_F0_D_TOP_O_2C_LANE */
+#define F_N5XC56GP5X4R2P0_F0_D_T_O_2C   FIELD_DEFINE(0x41C8, 7, 0)      /* DFE_F0_D_TOP_O_2C_LANE */
+#define F_N5XC56GP5X4_F0_S_T_O_2C       FIELD_DEFINE(0x418C, 31, 24)    /* DFE_F0_S_TOP_O_2C_LANE */
+#define F_N5XC56GP5X4R2P0_F0_S_T_O_2C   FIELD_DEFINE(0x41C8, 31, 24)    /* DFE_F0_S_TOP_O_2C_LANE */
+#define F_N5XC56GP5X4_F0_D_T_E_2C       FIELD_DEFINE(0x41C8, 7, 0)      /* DFE_F0_D_TOP_E_2C_LANE */
+#define F_N5XC56GP5X4R2P0_F0_D_T_E_2C   FIELD_DEFINE(0x418C, 7, 0)      /* DFE_F0_D_TOP_E_2C_LANE */
+#define F_N5XC56GP5X4_F0_S_T_E_2C       FIELD_DEFINE(0x41C8, 31, 24)    /* DFE_F0_S_TOP_E_2C_LANE */
+#define F_N5XC56GP5X4R2P0_F0_S_T_E_2C   FIELD_DEFINE(0x418C, 31, 24)    /* DFE_F0_S_TOP_E_2C_LANE */
+#define F_N5XC56GP5X4_F0_D_M_O_2C       FIELD_DEFINE(0x4188, 31, 24)    /* DFE_F0_D_MID_O_2C_LANE */
+#define F_N5XC56GP5X4R2P0_F0_D_M_O_2C   FIELD_DEFINE(0x41C4, 31, 24)    /* DFE_F0_D_MID_O_2C_LANE */
+#define F_N5XC56GP5X4_F0_S_M_O_2C       FIELD_DEFINE(0x418C, 23, 16)    /* DFE_F0_S_MID_O_2C_LANE */
+#define F_N5XC56GP5X4R2P0_F0_S_M_O_2C   FIELD_DEFINE(0x41C8, 23, 16)    /* DFE_F0_S_MID_O_2C_LANE */
+#define F_N5XC56GP5X4_F0_D_M_E_2C       FIELD_DEFINE(0x41C4, 31, 24)    /* DFE_F0_D_MID_E_2C_LANE */
+#define F_N5XC56GP5X4R2P0_F0_D_M_E_2C   FIELD_DEFINE(0x4188, 31, 24)    /* DFE_F0_D_MID_E_2C_LANE */
+#define F_N5XC56GP5X4_F0_S_M_E_2C       FIELD_DEFINE(0x41C8, 23, 16)    /* DFE_F0_S_MID_E_2C_LANE */
+#define F_N5XC56GP5X4R2P0_F0_S_M_E_2C   FIELD_DEFINE(0x418C, 23, 16)    /* DFE_F0_S_MID_E_2C_LANE */
+#define F_N5XC56GP5X4_F0_D_B_O_2C       FIELD_DEFINE(0x4188, 23, 16)    /* DFE_F0_D_BOT_O_2C_LANE */
+#define F_N5XC56GP5X4R2P0_F0_D_B_O_2C   FIELD_DEFINE(0x41C4, 23, 16)    /* DFE_F0_D_BOT_O_2C_LANE */
+#define F_N5XC56GP5X4_F0_S_B_O_2C       FIELD_DEFINE(0x418C, 15, 8)     /* DFE_F0_S_BOT_O_2C_LANE */
+#define F_N5XC56GP5X4R2P0_F0_S_B_O_2C   FIELD_DEFINE(0x41C8, 15, 8)     /* DFE_F0_S_BOT_O_2C_LANE */
+#define F_N5XC56GP5X4_F0_D_B_E_2C       FIELD_DEFINE(0x41C4, 23, 16)    /* DFE_F0_D_BOT_E_2C_LANE */
+#define F_N5XC56GP5X4R2P0_F0_D_B_E_2C   FIELD_DEFINE(0x4188, 23, 16)    /* DFE_F0_D_BOT_E_2C_LANE */
+#define F_N5XC56GP5X4_F0_S_B_E_2C       FIELD_DEFINE(0x41C8, 15, 8)     /* DFE_F0_S_BOT_E_2C_LANE */
+#define F_N5XC56GP5X4R2P0_F0_S_B_E_2C   FIELD_DEFINE(0x418C, 15, 8)     /* DFE_F0_S_BOT_E_2C_LANE */
 #define F_N5XC56GP5X4_DFE_ADAPT         FIELD_DEFINE(0x4000, 13, 13)
 #define F_N5XC56GP5X4_CLI_CMD           FIELD_DEFINE(0x6068, 7, 0)
 #define F_N5XC56GP5X4_CLI_ARGS          FIELD_DEFINE(0x606C, 31, 0)
@@ -1086,9 +1467,9 @@ typedef struct
 #define F_N5XC56GP5X4_RX_TIMER_EN       FIELD_DEFINE(0x6034, 30, 30)
 
 /* Data Path */
-#define F_N5XC56GP5X4_D_TX2RX_LPBK      FIELD_DEFINE(0x3248, 31, 31)
-#define F_N5XC56GP5X4_A_TX2RX_LPBK      FIELD_DEFINE(0x1130, 3, 3)
-#define F_N5XC56GP5X4_D_RX2TX_LPBK      FIELD_DEFINE(0x3024, 31, 31)
+#define F_N5XC56GP5X4_D_TX2RX_LPBK      FIELD_DEFINE(0x3248, 31, 31)    /* LOCAL_DIG_TX2RX_LPBK_EN_LANE */
+#define F_N5XC56GP5X4_A_TX2RX_LPBK      FIELD_DEFINE(0x1130, 3, 3)      /* LOCAL_ANA_TX2RX_LPBK_EN_LANE */
+#define F_N5XC56GP5X4_D_RX2TX_LPBK      FIELD_DEFINE(0x3024, 31, 31)    /* LOCAL_DIG_RX2TX_LPBK_EN_LANE */
 #define F_N5XC56GP5X4_DTL_CLAMPING      FIELD_DEFINE(0x3260, 26, 24)    /* DTL_CLAMPING_SEL */
 #define F_N5XC56GP5X4_R2T_NO_STOP       FIELD_DEFINE(0x3024, 25, 25)    /* RX2TX_FIFO_NO_STOP */
 #define F_N5XC56GP5X4_R2T_RD_START      FIELD_DEFINE(0x3024, 24, 24)    /* RX2TX_FIFO_RD_START_POINT */
@@ -1098,39 +1479,36 @@ typedef struct
 #define F_N5XC56GP5X4_DFE_SQ_EN         FIELD_DEFINE(0x4040, 29, 29)
 
 /* PHY Test Pattern */
-#define F_N5XC56GP5X4_CLI_START         FIELD_DEFINE(0x6068, 8, 8)
-#define F_N5XC56GP5X4_TX_PAT_SEL        FIELD_DEFINE(0x3098, 29, 24)
-#define F_N5XC56GP5X4_RX_PAT_SEL        FIELD_DEFINE(0x3280, 29, 24)
-#define F_N5XC56GP5X4_TXD_SWAP          FIELD_DEFINE(0x3024, 18, 18)
-#define F_N5XC56GP5X4_TXDATA_SWAP       FIELD_DEFINE(0x3024, 5, 5)
-#define F_N5XC56GP5X4_RXD_SWAP          FIELD_DEFINE(0x3248, 27, 27)
-#define F_N5XC56GP5X4_RXDATA_SWAP       FIELD_DEFINE(0x3248, 24, 24)
-#define F_N5XC56GP5X4_RX_CNT_4732       FIELD_DEFINE(0x3290, 31, 16)
-#define F_N5XC56GP5X4_RX_CNT_3100       FIELD_DEFINE(0x3294, 31, 0)
-#define F_N5XC56GP5X4_RX_ERR_4732       FIELD_DEFINE(0x3298, 31, 16)
-#define F_N5XC56GP5X4_RX_ERR_3100       FIELD_DEFINE(0x329C, 31, 0)
-#define F_N5XC56GP5X4_TX_UP_7948        FIELD_DEFINE(0x309C, 31, 0)
-#define F_N5XC56GP5X4_TX_UP_4716        FIELD_DEFINE(0x30A0, 31, 0)
-#define F_N5XC56GP5X4_TX_UP_1500        FIELD_DEFINE(0x30A4, 31, 16)
-#define F_N5XC56GP5X4_RX_UP_7948        FIELD_DEFINE(0x3284, 31, 0)
-#define F_N5XC56GP5X4_RX_UP_4716        FIELD_DEFINE(0x3288, 31, 0)
-#define F_N5XC56GP5X4_RX_UP_1500        FIELD_DEFINE(0x328C, 31, 16)
+#define F_N5XC56GP5X4_TX_PAT_SEL        FIELD_DEFINE(0x3098, 29, 24)    /* PT_TX_PATTERN_SEL_LANE */
+#define F_N5XC56GP5X4_RX_PAT_SEL        FIELD_DEFINE(0x3280, 29, 24)    /* PT_RX_PATTERN_SEL_LANE */
+#define F_N5XC56GP5X4_TXD_SWAP          FIELD_DEFINE(0x3024, 18, 18)    /* TXD_MSB_LSB_SWAP_LANE */
+#define F_N5XC56GP5X4_TXDATA_SWAP       FIELD_DEFINE(0x3024, 5, 5)      /* TXDATA_MSB_LSB_SWAP_LANE */
+#define F_N5XC56GP5X4_RXD_SWAP          FIELD_DEFINE(0x3248, 27, 27)    /* RXD_MSB_LSB_SWAP_LANE */
+#define F_N5XC56GP5X4_RXDATA_SWAP       FIELD_DEFINE(0x3248, 24, 24)    /* RXDATA_MSB_LSB_SWAP_LANE */
+#define F_N5XC56GP5X4_RX_CNT_4732       FIELD_DEFINE(0x3290, 31, 16)    /* PT_RX_CNT_LANE[47:32] */
+#define F_N5XC56GP5X4_RX_CNT_3100       FIELD_DEFINE(0x3294, 31, 0)     /* PT_RX_CNT_LANE[31:00] */
+#define F_N5XC56GP5X4_RX_ERR_4732       FIELD_DEFINE(0x3298, 31, 16)    /* PT_RX_ERR_CNT_LANE[47:32] */
+#define F_N5XC56GP5X4_RX_ERR_3100       FIELD_DEFINE(0x329C, 31, 0)     /* PT_RX_ERR_CNT_LANE[31:00] */
+#define F_N5XC56GP5X4_TX_UP_7948        FIELD_DEFINE(0x309C, 31, 0)     /* PT_TX_USER_PATTERN_LANE[79:48] */
+#define F_N5XC56GP5X4_TX_UP_4716        FIELD_DEFINE(0x30A0, 31, 0)     /* PT_TX_USER_PATTERN_LANE[47:16] */
+#define F_N5XC56GP5X4_TX_UP_1500        FIELD_DEFINE(0x30A4, 31, 16)    /* PT_TX_USER_PATTERN_LANE[15:00] */
+#define F_N5XC56GP5X4_RX_UP_7948        FIELD_DEFINE(0x3284, 31, 0)     /* PT_RX_USER_PATTERN_LANE[79:48] */
+#define F_N5XC56GP5X4_RX_UP_4716        FIELD_DEFINE(0x3288, 31, 0)     /* PT_RX_USER_PATTERN_LANE[47:16] */
+#define F_N5XC56GP5X4_RX_UP_1500        FIELD_DEFINE(0x328C, 31, 16)    /* PT_RX_USER_PATTERN_LANE[15:00] */
 
 /* PHY Test */
-#define F_N5XC56GP5X4_TX_PHYREADY       FIELD_DEFINE(0x3098, 30, 30)
-#define F_N5XC56GP5X4_RX_PHYREADY       FIELD_DEFINE(0x3280, 22, 22)
-#define F_N5XC56GP5X4_TX_EN_MODE        FIELD_DEFINE(0x3098, 3, 2)
-#define F_N5XC56GP5X4_RX_EN_MODE        FIELD_DEFINE(0x3280, 31, 30)
-#define F_N5XC56GP5X4_TX_EN             FIELD_DEFINE(0x3098, 31, 31)
-#define F_N5XC56GP5X4_RX_EN             FIELD_DEFINE(0x3280, 23, 23)
-#define F_N5XC56GP5X4_TRX_EN            FIELD_DEFINE(0x328C, 8, 8)
-#define F_N5XC56GP5X4_TX_RST            FIELD_DEFINE(0x3098, 5, 5)
-#define F_N5XC56GP5X4_RX_RST            FIELD_DEFINE(0x328C, 7, 7)
-#define F_N5XC56GP5X4_RX_LOCK           FIELD_DEFINE(0x328C, 0, 0)
-#define F_N5XC56GP5X4_RX_PASS           FIELD_DEFINE(0x328C, 1, 1)
-#define F_N5XC56GP5X4_RX_CNT_RST        FIELD_DEFINE(0x3280, 21, 21)
-#define F_N5XC56GP5X4_DFE_RATE          FIELD_DEFINE(0x4010, 9, 8)
+#define F_N5XC56GP5X4_RST_FRAME_SYNC    FIELD_DEFINE(0x321C, 26, 26)    /* RST_FRAME_SYNC_DET_CLK_LANE */
+#define F_N5XC56GP5X4_TX_EN             FIELD_DEFINE(0x3098, 31, 31)    /* PT_TX_EN_LANE */
+#define F_N5XC56GP5X4_RX_EN             FIELD_DEFINE(0x3280, 23, 23)    /* PT_RX_EN_LANE */
+#define F_N5XC56GP5X4_TRX_EN            FIELD_DEFINE(0x328C, 8, 8)      /* PT_TRX_EN_LANE */
+#define F_N5XC56GP5X4_TX_RST            FIELD_DEFINE(0x3098, 5, 5)      /* PT_TX_RST_LANE */
+#define F_N5XC56GP5X4_RX_RST            FIELD_DEFINE(0x328C, 7, 7)      /* PT_RX_RST_LANE */
+#define F_N5XC56GP5X4_RX_LOCK           FIELD_DEFINE(0x328C, 0, 0)      /* PT_RX_LOCK_LANE */
+#define F_N5XC56GP5X4_RX_PASS           FIELD_DEFINE(0x328C, 1, 1)      /* PT_RX_PASS_LANE */
+#define F_N5XC56GP5X4_RX_CNT_RST        FIELD_DEFINE(0x3280, 21, 21)    /* PT_RX_CNT_RST_LANE */
+#define F_N5XC56GP5X4_DFE_RATE          FIELD_DEFINE(0x4010, 9, 8)      /* DFE_RATE_MODE_LANE */
 #define F_N5XC56GP5X4_DFE_UP_DIS        FIELD_DEFINE(0x5648, 25, 25)    /* DFE_UPDATE_DIS_LANE */
+#define F_N5XC56GP5X4R2P0_DFE_UPDATEDIS FIELD_DEFINE(0x564C, 25, 25)    /* DFE_UPDATE_DIS_LANE */
 #define F_N5XC56GP5X4_TRAIN_DONE        FIELD_DEFINE(0x608C, 0, 0)
 #define F_N5XC56GP5X4_MCU_DEBUGF        FIELD_DEFINE(0x34F4, 31, 24)
 #define F_N5XC56GP5X4_DFE_SAT_EN        FIELD_DEFINE(0x4040, 31, 30)
@@ -1140,100 +1518,127 @@ typedef struct
 
 /* EOM */
 #define F_N5XC56GP5X4_ESM_PATH_SEL      FIELD_DEFINE(0x6058, 16, 16)
-#define F_N5XC56GP5X4_ESM_DFEADAPT      FIELD_DEFINE(0x6058, 13, 10)
-#define F_N5XC56GP5X4_ADAPT_EVEN        FIELD_DEFINE(0x6DE4, 8, 8)
-#define F_N5XC56GP5X4_ADAPT_ODD         FIELD_DEFINE(0x6DE4, 9, 9)
+#define F_N5XC56GP5X4_ESM_DFEADAPT      FIELD_DEFINE(0x6058, 13, 10)    /* ESM_DFE_ADAPT_SPLR_EN_LANE */
+#define F_N5XC56GP5X4_ADAPT_EVEN        FIELD_DEFINE(0x6DE4, 8, 8)      /* ADAPT_EVEN_ENABLE_LANE */
+#define F_N5XC56GP5X4_ADAPT_ODD         FIELD_DEFINE(0x6DE4, 9, 9)      /* ADAPT_ODD_ENABLE_LANE */
 #define F_N5XC56GP5X4_ESM_EN            FIELD_DEFINE(0x6058, 18, 18)
 #define F_N5XC56GP5X4_EOM_READY         FIELD_DEFINE(0x603C, 3, 3)
 #define F_N5XC56GP5X4_ESM_LPNUM         FIELD_DEFINE(0x6078, 15, 0)
 #define F_N5XC56GP5X4_ESM_PHASE         FIELD_DEFINE(0x6078, 26, 16)
 #define F_N5XC56GP5X4_ESM_VOLTAGE       FIELD_DEFINE(0x603C, 15, 8)
 #define F_N5XC56GP5X4_EOM_DFE_CALL      FIELD_DEFINE(0x603C, 4, 4)
-#define F_N5XC56GP5X4_VC_T_P_3100       FIELD_DEFINE(0x4220, 31, 0)     /* EOM_VLD_CNT_TOP_P [31:00] */
-#define F_N5XC56GP5X4_VC_T_P_3932       FIELD_DEFINE(0x4238, 23, 16)
-#define F_N5XC56GP5X4_VC_T_N_3100       FIELD_DEFINE(0x422C, 31, 0)
-#define F_N5XC56GP5X4_VC_T_N_3932       FIELD_DEFINE(0x423C, 23, 16)
-#define F_N5XC56GP5X4_VC_M_P_3100       FIELD_DEFINE(0x4224, 31, 0)
-#define F_N5XC56GP5X4_VC_M_P_3932       FIELD_DEFINE(0x4238, 15, 8)
-#define F_N5XC56GP5X4_VC_M_N_3100       FIELD_DEFINE(0x4230, 31, 0)
-#define F_N5XC56GP5X4_VC_M_N_3932       FIELD_DEFINE(0x423C, 15, 8)
-#define F_N5XC56GP5X4_VC_B_P_3100       FIELD_DEFINE(0x4228, 31, 0)
-#define F_N5XC56GP5X4_VC_B_P_3932       FIELD_DEFINE(0x4238, 7, 0)
-#define F_N5XC56GP5X4_VC_B_N_3100       FIELD_DEFINE(0x4234, 31, 0)
-#define F_N5XC56GP5X4_VC_B_N_3932       FIELD_DEFINE(0x423C, 7, 0)
-#define F_N5XC56GP5X4_EOM_EC_T_P        FIELD_DEFINE(0x4200, 31, 0)
-#define F_N5XC56GP5X4_EOM_EC_T_N        FIELD_DEFINE(0x420C, 31, 0)
-#define F_N5XC56GP5X4_EOM_EC_M_P        FIELD_DEFINE(0x4204, 31, 0)
-#define F_N5XC56GP5X4_EOM_EC_M_N        FIELD_DEFINE(0x4210, 31, 0)
-#define F_N5XC56GP5X4_EOM_EC_B_P        FIELD_DEFINE(0x4208, 31, 0)
-#define F_N5XC56GP5X4_EOM_EC_B_N        FIELD_DEFINE(0x4214, 31, 0)
+#define F_N5XC56GP5X4_VC_T_P_3100       FIELD_DEFINE(0x4220, 31, 0)     /* EOM_VLD_CNT_TOP_P[31:00] */
+#define F_N5XC56GP5X4_VC_T_P_3932       FIELD_DEFINE(0x4238, 23, 16)    /* EOM_VLD_CNT_TOP_P[39:32] */
+#define F_N5XC56GP5X4_VC_T_N_3100       FIELD_DEFINE(0x422C, 31, 0)     /* EOM_VLD_CNT_TOP_N_LANE[31:00] */
+#define F_N5XC56GP5X4_VC_T_N_3932       FIELD_DEFINE(0x423C, 23, 16)    /* EOM_VLD_CNT_TOP_N_LANE[39:32] */
+#define F_N5XC56GP5X4_VC_M_P_3100       FIELD_DEFINE(0x4224, 31, 0)     /* EOM_VLD_CNT_MID_P_LANE[31:00] */
+#define F_N5XC56GP5X4_VC_M_P_3932       FIELD_DEFINE(0x4238, 15, 8)     /* EOM_VLD_CNT_MID_P_LANE[39:32] */
+#define F_N5XC56GP5X4_VC_M_N_3100       FIELD_DEFINE(0x4230, 31, 0)     /* EOM_VLD_CNT_MID_N_LANE[31:00] */
+#define F_N5XC56GP5X4_VC_M_N_3932       FIELD_DEFINE(0x423C, 15, 8)     /* EOM_VLD_CNT_MID_N_LANE[39:32] */
+#define F_N5XC56GP5X4_VC_B_P_3100       FIELD_DEFINE(0x4228, 31, 0)     /* EOM_VLD_CNT_BOT_P_LANE[31:00] */
+#define F_N5XC56GP5X4_VC_B_P_3932       FIELD_DEFINE(0x4238, 7, 0)      /* EOM_VLD_CNT_BOT_P_LANE[39:32] */
+#define F_N5XC56GP5X4_VC_B_N_3100       FIELD_DEFINE(0x4234, 31, 0)     /* EOM_VLD_CNT_BOT_N_LANE[31:00] */
+#define F_N5XC56GP5X4_VC_B_N_3932       FIELD_DEFINE(0x423C, 7, 0)      /* EOM_VLD_CNT_BOT_N_LANE[39:32] */
+#define F_N5XC56GP5X4_EOM_EC_T_P        FIELD_DEFINE(0x4200, 31, 0)     /* EOM_ERR_CNT_TOP_P_LANE */
+#define F_N5XC56GP5X4_EOM_EC_T_N        FIELD_DEFINE(0x420C, 31, 0)     /* EOM_ERR_CNT_TOP_N_LANE */
+#define F_N5XC56GP5X4_EOM_EC_M_P        FIELD_DEFINE(0x4204, 31, 0)     /* EOM_ERR_CNT_MID_P_LANE */
+#define F_N5XC56GP5X4_EOM_EC_M_N        FIELD_DEFINE(0x4210, 31, 0)     /* EOM_ERR_CNT_MID_N_LANE */
+#define F_N5XC56GP5X4_EOM_EC_B_P        FIELD_DEFINE(0x4208, 31, 0)     /* EOM_ERR_CNT_BOT_P_LANE */
+#define F_N5XC56GP5X4_EOM_EC_B_N        FIELD_DEFINE(0x4214, 31, 0)     /* EOM_ERR_CNT_BOT_N_LANE */
 #define F_N5XC56GP5X4_RXSPEED_DIV       FIELD_DEFINE(0x10E4, 4, 2)
+#define F_N5XC56GP5X4_ANA_TX_HIZ_EN     FIELD_DEFINE(0x3004, 31, 31)
+#define F_N5XC56GP5X4_PIN_PHY_GEN_TX_RD FIELD_DEFINE(0x5500, 14, 9)
+#define F_N5XC56GP5X4R2P0_PHY_GEN_TX_RD FIELD_DEFINE(0x5500, 9, 0)      /* PIN_PHY_GEN_TX_RD_LANE */
+#define F_N5XC56GP5X4_PIN_PHY_GEN_RX_RD FIELD_DEFINE(0x5600, 23, 18)
+#define F_N5XC56GP5X4R2P0_PHY_GEN_RX_RD FIELD_DEFINE(0x5600, 25, 16)    /* PIN_PHY_GEN_RX_RD_LANE */
 
 #ifdef N5XC56GP5X4_ISOLATION
 /* PHY Isolate */
-#define F_N5XC56GP5X4_PHY_ISOLATE       FIELD_DEFINE(0xA318, 23, 23)    /* PHY_ISOLATE_MODE */
 #define F_N5XC56GP5X4_FW_READY          FIELD_DEFINE(0xA424, 14, 14)
+#define F_N5XC56GP5X4R2P0_FW_READY      FIELD_DEFINE(0xA428, 14, 14)
 #define F_N5XC56GP5X4_MCU_INIT_DONE     FIELD_DEFINE(0xA200, 7, 7)
 #define F_N5XC56GP5X4_BG_RDY            FIELD_DEFINE(0xA41C, 24, 24)
+#define F_N5XC56GP5X4R2P0_BG_RDY        FIELD_DEFINE(0xA420, 24, 24)
 
 /* RX Init */
 #define F_N5XC56GP5X4_RX_INIT           FIELD_DEFINE(0x5630, 24, 24)
+#define F_N5XC56GP5X4R2P0_RX_INIT       FIELD_DEFINE(0x5630, 4, 4)
 #define F_N5XC56GP5X4_RX_INIT_DONE      FIELD_DEFINE(0x3200, 19, 19)
 
 /* Power IV Ref */
 #define F_N5XC56GP5X4_PU_IVREF          FIELD_DEFINE(0xA420, 2, 2)
+#define F_N5XC56GP5X4R2P0_PU_IVREF      FIELD_DEFINE(0xA424, 2, 2)
 #define F_N5XC56GP5X4_PU_IVREF_FM_REG   FIELD_DEFINE(0xA420, 1, 1)
+#define F_N5XC56GP5X4R2P0_PU_IVREF_FM_R FIELD_DEFINE(0xA424, 1, 1)      /* PU_IVREF_FM_REG */
 
 /* Power Up Transmitter/Receiver/PLL */
 #define F_N5XC56GP5X4_PU_TX             FIELD_DEFINE(0x5530, 13, 13)
+#define F_N5XC56GP5X4R2P0_PU_TX         FIELD_DEFINE(0x5534, 4, 4)
 #define F_N5XC56GP5X4_ANA_PU_TX         FIELD_DEFINE(0x3000, 30, 30)
 #define F_N5XC56GP5X4_ANA_PU_TX_FORCE   FIELD_DEFINE(0x3000, 31, 31)
 #define F_N5XC56GP5X4_PU_RX             FIELD_DEFINE(0x5624, 8, 8)
+#define F_N5XC56GP5X4R2P0_PU_RX         FIELD_DEFINE(0x5624, 6, 6)
 #define F_N5XC56GP5X4_ANA_PU_RX         FIELD_DEFINE(0x3200, 30, 30)
 #define F_N5XC56GP5X4_ANA_PU_RX_FORCE   FIELD_DEFINE(0x3200, 31, 31)
 #define F_N5XC56GP5X4_PU_PLL            FIELD_DEFINE(0x5530, 15, 15)
+#define F_N5XC56GP5X4R2P0_PU_PLL        FIELD_DEFINE(0x5534, 6, 6)
 
 /* TX Output */
 #define F_N5XC56GP5X4_TX_IDLE           FIELD_DEFINE(0x3014, 18, 18)
 
 /* PHY Mode */
 #define F_N5XC56GP5X4_PHY_MODE          FIELD_DEFINE(0xA420, 14, 12)
+#define F_N5XC56GP5X4R2P0_PHY_MODE      FIELD_DEFINE(0xA424, 14, 12)
+#define F_N5XC56GP5X4_PHY_MODE_RD       FIELD_DEFINE(0xA408, 6, 4)      /* PIN_PHY_MODE_RD */
+#define F_N5XC56GP5X4R2P0_PHY_MODE_RD   FIELD_DEFINE(0xA40C, 30, 28)    /* PIN_PHY_MODE_RD */
 
 /* Reference Frequency */
 #define F_N5XC56GP5X4_REF_FREF_TX       FIELD_DEFINE(0x5538, 23, 19)    /* REF_FREF_SEL_TX_LANE */
+#define F_N5XC56GP5X4R2P0_REF_FREF_TX   FIELD_DEFINE(0x553C, 23, 16)    /* REF_FREF_SEL_TX_LANE */
 #define F_N5XC56GP5X4_REF_FREF_RX       FIELD_DEFINE(0x5634, 30, 26)    /* REF_FREF_SEL_RX_LANE */
-#define F_N5XC56GP5X4_REFCLK_SEL_TX     FIELD_DEFINE(0x5538, 17, 17)
-#define F_N5XC56GP5X4_REFCLK_SEL_RX     FIELD_DEFINE(0x5634, 24, 24)
+#define F_N5XC56GP5X4R2P0_REF_FREF_RX   FIELD_DEFINE(0x5634, 7, 0)      /* REF_FREF_SEL_RX_LANE */
+#define F_N5XC56GP5X4_REFCLK_SEL_TX     FIELD_DEFINE(0x5538, 17, 17)    /* ANA_PLL_TS_REFCLK_SEL_LANE */
+#define F_N5XC56GP5X4_REFCLK_SEL_RX     FIELD_DEFINE(0x5634, 24, 24)    /* ANA_PLL_RS_REFCLK_SEL_LANE */
 
 /* TX/RX Bitrate */
 #define F_N5XC56GP5X4_PHY_GEN_TX        FIELD_DEFINE(0x5530, 22, 17)
+#define F_N5XC56GP5X4R2P0_PHY_GEN_TX    FIELD_DEFINE(0x5534, 17, 8)
 #define F_N5XC56GP5X4_PHY_GEN_RX        FIELD_DEFINE(0x5624, 15, 10)
+#define F_N5XC56GP5X4R2P0_PHY_GEN_RX    FIELD_DEFINE(0x5624, 17, 8)
 
 /* MCU Frequency */
 #define F_N5XC56GP5X4_MCU_FREQ          FIELD_DEFINE(0xA41C, 15, 0)
+#define F_N5XC56GP5X4R2P0_MCU_FREQ      FIELD_DEFINE(0xA420, 15, 0)
 
 /* TRX Training */
-#define F_N5XC56GP5X4_RX_TRAIN_ENA      FIELD_DEFINE(0x5630, 22, 22)
-#define F_N5XC56GP5X4_RX_TRAIN_COM      FIELD_DEFINE(0x5020, 4, 4)
-#define F_N5XC56GP5X4_RX_TRAIN_FAI      FIELD_DEFINE(0x5020, 3, 3)
-#define F_N5XC56GP5X4_TX_TRAIN_ENA      FIELD_DEFINE(0x5630, 16, 16)
-#define F_N5XC56GP5X4_TX_TRAIN_COM      FIELD_DEFINE(0x5020, 6, 6)
-#define F_N5XC56GP5X4_TX_TRAIN_FAI      FIELD_DEFINE(0x5020, 5, 5)
+#define F_N5XC56GP5X4_RX_TRAIN_ENA      FIELD_DEFINE(0x5630, 22, 22)    /* RX_TRAIN_ENABLE_LANE */
+#define F_N5XC56GP5X4R2P0_RX_TRAIN_EN   FIELD_DEFINE(0x5630, 2, 2)      /* RX_TRAIN_ENABLE_LANE */
+#define F_N5XC56GP5X4_RX_TRAIN_COM      FIELD_DEFINE(0x5020, 4, 4)      /* RX_TRAIN_COMPLETE_LANE */
+#define F_N5XC56GP5X4_RX_TRAIN_FAI      FIELD_DEFINE(0x5020, 3, 3)      /* RX_TRAIN_FAILED_LANE */
+#define F_N5XC56GP5X4_TX_TRAIN_ENA      FIELD_DEFINE(0x5630, 16, 16)    /* TX_TRAIN_ENABLE_LANE */
+#define F_N5XC56GP5X4R2P0_TX_TRAIN_EN   FIELD_DEFINE(0x5634, 28, 28)    /* TX_TRAIN_ENABLE_LANE */
+#define F_N5XC56GP5X4_TX_TRAIN_COM      FIELD_DEFINE(0x5020, 6, 6)      /* TX_TRAIN_COMPLETE_LANE */
+#define F_N5XC56GP5X4_TX_TRAIN_FAI      FIELD_DEFINE(0x5020, 5, 5)      /* TX_TRAIN_FAILED_LANE */
+#define F_N5XC56GP5X4_TX_TRAIN_ERROR    FIELD_DEFINE(0x5020, 2, 1)      /* TX_TRAIN_ERROR_LANE */
 
 /* Squelch Detect */
-#define F_N5XC56GP5X4_RX_SQ_OUT         FIELD_DEFINE(0x3270, 14, 14)
+#define F_N5XC56GP5X4_RX_SQ_OUT         FIELD_DEFINE(0x3270, 14, 14)    /* PIN_RX_SQ_OUT_LPF_RD_LANE */
 
 /* AVDD Select */
 #define F_N5XC56GP5X4_AVDD_SEL          FIELD_DEFINE(0xA41C, 28, 26)
+#define F_N5XC56GP5X4R2P0_AVDD_SEL      FIELD_DEFINE(0xA420, 28, 26)
 
 /* Speed Configuration */
 #define F_N5XC56GP5X4_SPD_CFG           FIELD_DEFINE(0xA420, 7, 4)
+#define F_N5XC56GP5X4R2P0_SPD_CFG       FIELD_DEFINE(0xA424, 7, 4)
 
 /* PHY Test Pattern */
 #define F_N5XC56GP5X4_TX_GRAY_EN        FIELD_DEFINE(0x3098, 6, 6)
 #define F_N5XC56GP5X4_RX_GRAY_EN        FIELD_DEFINE(0x3280, 15, 15)
 #define F_N5XC56GP5X4_TXDATA_PRECODE_EN FIELD_DEFINE(0x5538, 13, 13)    /* TXDATA_PRE_CODE_EN_LANE */
+#define F_N5XC56GP5X4R2P0_TXDATA_PRE_EN FIELD_DEFINE(0x553C, 10, 10)    /* TXDATA_PRE_CODE_EN_LANE */
 #define F_N5XC56GP5X4_RXDATA_PRECODE_EN FIELD_DEFINE(0x5644, 28, 28)    /* RXDATA_PRE_CODE_EN_LANE */
+#define F_N5XC56GP5X4R2P0_RXDATA_PRE_EN FIELD_DEFINE(0x5648, 28, 28)    /* RXDATA_PRE_CODE_EN_LANE */
 
 /* TX/RX Ready */
 #define F_N5XC56GP5X4_PLL_READY_TX      FIELD_DEFINE(0x3000, 20, 20)
@@ -1241,19 +1646,27 @@ typedef struct
 
 /* Reset Core TX RX */
 #define F_N5XC56GP5X4_RESET_CORE_TX     FIELD_DEFINE(0x5538, 28, 28)
+#define F_N5XC56GP5X4R2P0_RESET_CORE_TX FIELD_DEFINE(0x553C, 28, 28)
 #define F_N5XC56GP5X4_RESET_CORE_RX     FIELD_DEFINE(0x5630, 0, 0)
+#define F_N5XC56GP5X4R2P0_RESET_CORE_RX FIELD_DEFINE(0x5634, 11, 11)
 #define F_N5XC56GP5X4_RESET_CORE_ACK_TX FIELD_DEFINE(0x3000, 21, 21)    /* RESET_CORE_ACK_TX_LANE */
 #define F_N5XC56GP5X4_RESET_CORE_ACK_RX FIELD_DEFINE(0x321C, 2, 2)      /* RESET_CORE_ACK_RX_LANE */
 
 /* MCU Command Interface */
 #define F_N5XC56GP5X4_MCU_REMOTE_CMD    FIELD_DEFINE(0x5638, 31, 0)     /* MCU_REMOTE_COMMAND_LANE */
+#define F_N5XC56GP5X4R2P0_MCU_RMTCMD    FIELD_DEFINE(0x563C, 31, 0)     /* MCU_REMOTE_COMMAND_LANE */
 #define F_N5XC56GP5X4_MCU_REMOTE_CMD_FM FIELD_DEFINE(0x563C, 31, 31)    /* MCU_REMOTE_COMMAND_FM_REG_LANE */
+#define F_N5XC56GP5X4R2P0_MCU_RMTCMD_FM FIELD_DEFINE(0x5640, 31, 31)    /* MCU_REMOTE_COMMAND_FM_REG_LANE */
 #define F_N5XC56GP5X4_MCU_REMOTE_CMD_RD FIELD_DEFINE(0x5618, 31, 0)     /* PIN_MCU_REMOTE_COMMAND_RD_LANE */
-#define F_N5XC56GP5X4_MCU_REMOTE_STA    FIELD_DEFINE(0x5640, 31, 0)
+#define F_N5XC56GP5X4_MCU_REMOTE_STA    FIELD_DEFINE(0x5640, 31, 0)     /* MCU_REMOTE_STATUS_LANE */
+#define F_N5XC56GP5X4R2P0_MCU_RMTSTA    FIELD_DEFINE(0x5644, 31, 0)     /* MCU_REMOTE_STATUS_LANE */
 #define F_N5XC56GP5X4_MCU_REMOTE_STA_FM FIELD_DEFINE(0x5644, 31, 31)    /* MCU_REMOTE_STATUS_FM_REG_LANE */
+#define F_N5XC56GP5X4R2P0_MCU_RMTSTA_FM FIELD_DEFINE(0x5648, 31, 31)    /* MCU_REMOTE_STATUS_FM_REG_LANE */
 #define F_N5XC56GP5X4_MCU_REMOTE_STA_RD FIELD_DEFINE(0x5620, 31, 0)     /* PIN_MCU_REMOTE_STATUS_RD_LANE */
 #define F_N5XC56GP5X4_MCU_REMOTE_REQ    FIELD_DEFINE(0x563C, 30, 30)
+#define F_N5XC56GP5X4R2P0_MCU_RMTREQ    FIELD_DEFINE(0x5640, 30, 30)    /* MCU_REMOTE_REQ_LANE */
 #define F_N5XC56GP5X4_MCU_REMOTE_REQ_FM FIELD_DEFINE(0x563C, 29, 29)    /* MCU_REMOTE_REQ_FM_REG_LANE */
+#define F_N5XC56GP5X4R2P0_MCU_RMTREQ_FM FIELD_DEFINE(0x5640, 29, 29)    /* MCU_REMOTE_REQ_FM_REG_LANE */
 #define F_N5XC56GP5X4_MCU_REMOTE_REQ_RD FIELD_DEFINE(0x561C, 31, 31)    /* PIN_MCU_REMOTE_REQ_RD_LANE */
 #define F_N5XC56GP5X4_MCU_LOCAL_ACK     FIELD_DEFINE(0x3530, 16, 16)
 #define F_N5XC56GP5X4_MCU_LOCAL_STATUS  FIELD_DEFINE(0x3534, 31, 0)

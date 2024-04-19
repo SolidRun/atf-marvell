@@ -881,7 +881,7 @@ err3:
 	}
 	break;
 
-	case PLAT_OCTEONTX_LED_BLINK_RATE:
+	case PLAT_OCTEONTX_LED_BLINK_RATE: {
 		enum {
 			GET_LED_BLINK_RATE = 1,
 			SET_LED_BLINK_RATE
@@ -898,7 +898,8 @@ err3:
 		}
 
 		SMC_RET1(handle, ret);
-		break;
+	}
+	break;
 
 #endif /* DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS */
 

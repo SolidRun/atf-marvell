@@ -2,8 +2,8 @@
 #define MCESD_TOP_H
 
 #define MCESD_API_MAJOR_VERSION 2
-#define MCESD_API_MINOR_VERSION 9
-#define MCESD_API_BUILD_ID      2
+#define MCESD_API_MINOR_VERSION 13
+#define MCESD_API_BUILD_ID      0
 
 #define C12GP4                          /* 16FFC_COMPHY_12G_PIPE4, 12FFC_COMPHY_12G_PIPE4 */
 #define C12GP41P2V                      /* 12FFC_COMPHY_12G_PIPE4_1P2V */
@@ -18,7 +18,13 @@
 #define N5C112GX4                       /* 5FFP_COMPHY_112G_ADC_X4_8PLL */
 #define N5C32GP5X4                      /* 5FFP_COMPHY_32G_PIPE5_X4_4PLL */
 #define N5XC56GP5X4                     /* 5FFP_COMPHY_56G_PIPE5_X4_4PLL, 5FFP_COMPHY_56G_PIPE5_X1_2PLL */
+#define N5C64GP6X4                      /* 5FFP_COMPHY_64G_PIPE6_X4_4PLL */
+#define N3C64GP6X4                      /* 3FF_COMPHY_64G_PIPE6_X4_4PLL */
 #define N5XC112GX4                      /* 5FFP_COMPHY_112G_ADC_X4_8PLL */
 #define N5C112GX44PLL                   /* 5FFP_COMPHY_112G_ADC_X4_4PLL */
+#define N5C112GX45PLL                   /* 5FFP_COMPHY_112G_ADC_X4_5PLL */
+#define N5XSR                           /* 5FFP_XSRPHY_112G_X8 */
+#define N5C10GX1                        /* 5FFP_COMPHY_10G_X1_1PLL*/
+#define N5C224GX44PLL                   /* 5FFP_COMPHY_224G_ADC_X4_4PLL */
 
 #endif /* defined MCESD_TOP_H */

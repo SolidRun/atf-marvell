@@ -696,7 +696,7 @@ static void print_regs(const char *s)
 	INFO("  SRS19: 0x%x\n", val);
 }
 #else
-static inline void print_regs(const char *)
+static inline void print_regs(const char *s)
 {
 }
 #endif

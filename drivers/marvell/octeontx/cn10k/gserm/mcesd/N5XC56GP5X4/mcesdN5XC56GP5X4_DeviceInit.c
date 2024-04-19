@@ -1,5 +1,5 @@
 /*******************************************************************************
-Copyright (c) 2019 Marvell.
+Copyright (C) 2019, Marvell International Ltd. and its affiliates
 If you received this File from Marvell and you have entered into a commercial
 license agreement (a "Commercial License") with Marvell, the File is licensed
 to you under the terms of the applicable Commercial License.
@@ -31,8 +31,22 @@ MCESD_STATUS API_N5XC56GP5X4_PowerOnSeq
     MCESD_U16 errCode;
 
 #ifdef N5XC56GP5X4_ISOLATION
-    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_PHY_ISOLATE, 255 /* ignored */, 1);
-    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_BG_RDY, 255 /* ignored */, 1);
+    MCESD_U32 isolation;
+
+    N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_PHY_ISOLATE, 255 /* ignored */, isolation);
+
+    if (isolation)
+    {
+        if (devPtr->ipMajorRev >= 2)
+        {
+            /* RX.X >= R2.0 */
+            N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4R2P0_BG_RDY, 255 /* ignored */, 1);
+        }
+        else
+        {
+            N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_BG_RDY, 255 /* ignored */, 1);
+        }
+    }
 #endif
 
     /* Download MCU Firmware */
@@ -52,7 +66,7 @@ MCESD_STATUS API_N5XC56GP5X4_PowerOnSeq
     for (lane = 0; lane < N5XC56GP5X4_TOTAL_LANES; lane++)
     {
         if (powerOn.u.powerLaneMask & (1 << lane))
-            MCESD_ATTEMPT(API_N5XC56GP5X4_PowerOffLane(devPtr, lane));
+            MCESD_ATTEMPT(API_N5XC56GP5X4_PowerOffLane(devPtr, lane, powerOn.resetTxTrainCodingMode));
     }
 
     /* Set PIN_AVDD_SEL */
@@ -99,9 +113,17 @@ MCESD_STATUS API_N5XC56GP5X4_PowerOnSeq
     }
 
 #ifdef N5XC56GP5X4_ISOLATION
-    if (powerOn.downloadFw)
+    if (powerOn.downloadFw && isolation)
     {
-        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_FW_READY, 255 /* ignored */, 1);
+        if (devPtr->ipMajorRev >= 2)
+        {
+            /* RX.X >= R2.0 */
+            N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4R2P0_FW_READY, 255 /* ignored */, 1);
+        }
+        else
+        {
+            N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_FW_READY, 255 /* ignored */, 1);
+        }
         N5XC56GP5X4_POLL_FIELD(devPtr, F_N5XC56GP5X4_MCU_INIT_DONE, 255 /* ignored */, 1, 1000);
     }
 #endif
@@ -146,13 +168,35 @@ MCESD_STATUS API_N5XC56GP5X4_PowerOnSeq
 MCESD_STATUS API_N5XC56GP5X4_PowerOffLane
 (
     IN MCESD_DEV_PTR devPtr,
-    IN MCESD_U8 lane
+    IN MCESD_U8 lane,
+    IN MCESD_BOOL resetTxTrainCodingMode
 )
 {
     MCESD_ATTEMPT(API_N5XC56GP5X4_StopTraining(devPtr, lane, N5XC56GP5X4_TRAINING_RX));
     MCESD_ATTEMPT(API_N5XC56GP5X4_SetPowerPLL(devPtr, lane, MCESD_FALSE));
     MCESD_ATTEMPT(API_N5XC56GP5X4_SetPowerTx(devPtr, lane, MCESD_FALSE));
     MCESD_ATTEMPT(API_N5XC56GP5X4_SetPowerRx(devPtr, lane, MCESD_FALSE));
+
+    if (resetTxTrainCodingMode)
+    {
+        if (devPtr->ipMajorRev >= 2)
+        {
+            /* RX.X >= R2.0 */
+            N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4R2P0_TX_HW_RST_TX, lane, 1);
+            MCESD_ATTEMPT(API_N5XC56GP5X4_Wait(devPtr, 1));
+            N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4R2P0_TX_HW_RST_TX, lane, 0);
+        }
+        else
+        {
+            N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_CODING_HW_RST_TX, lane, 1);
+            MCESD_ATTEMPT(API_N5XC56GP5X4_Wait(devPtr, 1));
+            N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_CODING_HW_RST_TX, lane, 0);
+        }
+
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_CODING_HW_RST_RX, lane, 1);
+        MCESD_ATTEMPT(API_N5XC56GP5X4_Wait(devPtr, 1));
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_CODING_HW_RST_RX, lane, 0);
+    }
 
     return MCESD_OK;
 }

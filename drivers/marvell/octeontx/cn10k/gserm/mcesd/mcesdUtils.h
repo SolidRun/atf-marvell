@@ -1,5 +1,5 @@
 /*******************************************************************************
-Copyright (c) 2021 Marvell.
+Copyright (C) 2021, Marvell International Ltd. and its affiliates
 If you received this File from Marvell and you have entered into a commercial
 license agreement (a "Commercial License") with Marvell, the File is licensed
 to you under the terms of the applicable Commercial License.
@@ -26,7 +26,11 @@ extern "C" {
 #endif
 #endif
 
+#include "mcesdTop.h"
+#include "mcesdApiTypes.h"
+
 #define MAX_LINE_LEN 80
+#define Y_AXIS_1D_COUNT 20
 
 /**
 @brief  Returns the version number of this API.
@@ -103,7 +107,7 @@ MCESD_STATUS mcesdGetIPRev
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-void mcesdDbgPrint
+MCESD_VOID mcesdDbgPrint
 (
     FILE *stream, 
     MCESD_DBG_LEVEL debug_level, 
@@ -145,6 +149,18 @@ MCESD_STATUS GenerateStringFromU8Array
     OUT char *hexString
 );
 
+MCESD_STATUS PatternStringToU8Array128
+(
+    IN const char *hexString,
+    OUT MCESD_U8 *u8Array
+);
+
+MCESD_STATUS GenerateStringFromU8Array128
+(
+    IN MCESD_U8 *u8Array,
+    OUT char *hexString
+);
+
 MCESD_U32 ConvertU32ToGrayCode
 (
     IN MCESD_U32 raw
@@ -161,6 +177,7 @@ MCESD_STATUS calculateChecksum
     IN MCESD_U32 codeSize,
     OUT MCESD_U32 *checksum
 );
+
 
 
 #if C_LINKAGE

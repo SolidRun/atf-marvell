@@ -1,5 +1,5 @@
 /*******************************************************************************
-Copyright (c) 2019 Marvell.
+Copyright (C) 2019, Marvell International Ltd. and its affiliates
 If you received this File from Marvell and you have entered into a commercial
 license agreement (a "Commercial License") with Marvell, the File is licensed
 to you under the terms of the applicable Commercial License.
@@ -15,7 +15,7 @@ access Marvell's EVB. These functions must be ported to
 the host's specific platform.
 ********************************************************************/
 #ifndef MCESD_N5XC56GP5X4_HWCNTL_H
-#define MCESD_C56GX4_HWCNTL_H
+#define MCESD_N5XC56GP5X4_HWCNTL_H
 
 #ifdef N5XC56GP5X4
 

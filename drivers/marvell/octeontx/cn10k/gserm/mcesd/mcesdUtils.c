@@ -1,5 +1,5 @@
 /*******************************************************************************
-Copyright (c) 2021 Marvell.
+Copyright (C) 2021, Marvell International Ltd. and its affiliates
 If you received this File from Marvell and you have entered into a commercial
 license agreement (a "Commercial License") with Marvell, the File is licensed
 to you under the terms of the applicable Commercial License.
@@ -21,9 +21,8 @@ to you under the terms of the applicable Commercial License.
 #include <string.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include <strtol.h>
 
-#include "mcesdTop.h"
-#include "mcesdApiTypes.h"
 #include "mcesdUtils.h"
 
 MCESD_VOID mcesdGetAPIVersion
@@ -89,7 +88,7 @@ MCESD_STATUS mcesdGetIPRev
 MCESD_DBG_LEVEL mcesd_debug_level = MCESD_DBG_ALL_LVL;
 
 #ifdef _WINDOWS
-void mcesdDbgPrint
+MCESD_VOID mcesdDbgPrint
 (
     FILE *stream, 
     MCESD_DBG_LEVEL debug_level, 
@@ -248,6 +247,54 @@ MCESD_STATUS GenerateStringFromU8Array
     return MCESD_OK;
 }
 
+MCESD_STATUS PatternStringToU8Array128
+(
+    IN const char *hexString,
+    OUT MCESD_U8 *u8Array
+)
+{
+    char normalizedHexString[33] = "00000000000000000000000000000000";
+    int nibbles = (int) strlen(hexString);
+    int normalizedStart = 32 - nibbles;
+    int i;
+
+    if (nibbles > 32)
+        return MCESD_FAIL; /* Pattern String exceeds 128 bit maximum */
+
+    for (i = 0; i < nibbles; i++)
+        normalizedHexString[normalizedStart + i] = hexString[i];
+
+    for (i = 0; i < 16; i++)
+    {
+        char *endPtr;
+        char byteString[3];
+        const char *bytePtr = &(normalizedHexString[i*2]);
+
+        strlcpy(byteString, bytePtr, 2);
+        byteString[2] = '\0';
+        u8Array[ i ] = (MCESD_U8) strtol(byteString, &endPtr, 16);
+    }
+
+    return MCESD_OK;
+}
+
+MCESD_STATUS GenerateStringFromU8Array128
+(
+    IN MCESD_U8 *u8Array,
+    OUT char *hexString
+)
+{
+    char* hexArray = "0123456789ABCDEF";
+    MCESD_32 i;
+    for (i = 0; i < 16; i++)
+    {
+        hexString[i*2] = hexArray[u8Array[i] >> 4];
+        hexString[i * 2 + 1] = hexArray[u8Array[i] & 0xF];
+    }
+    hexString[32] = '\0';
+    return MCESD_OK;
+}
+
 MCESD_U32 ConvertU32ToGrayCode
 (
     IN MCESD_U32 raw
@@ -284,4 +331,5 @@ MCESD_STATUS calculateChecksum
 
     return MCESD_OK;
 }
+
 
