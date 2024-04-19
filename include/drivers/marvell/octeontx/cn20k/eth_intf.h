@@ -1,1 +1,0 @@
-../otx2/eth_intf.h
