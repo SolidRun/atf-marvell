@@ -5,7 +5,7 @@
  * https://spdx.org/licenses
  */
 
-/* Firmware update service for CN10K/CNF10K */
+/* Firmware update service for CN10K/CNF10K/CN20K */
 
 #include <arch.h>
 #include <stdio.h>
@@ -129,6 +129,12 @@ static uint64_t tim0_offset;
 static struct smc_version_info clone_destination;
 
 static bool debug_flag;
+static uint32_t num_current_tim_manifest_entries = 0;
+static struct tim_opaque_data_tim_manifest_entry
+	current_tim_manifest[TIM_MAX_TIM_MANIFEST_ENTRIES];
+static uint32_t num_new_tim_manifest_entries = 0;
+static struct tim_opaque_data_tim_manifest_entry
+	new_tim_manifest[TIM_MAX_TIM_MANIFEST_ENTRIES];
 
 log_info_t log_info = {(void *)0, 0, 0};
 
@@ -217,12 +223,16 @@ struct hash_data {
 };
 
 struct object_group_entry {
-	const char *tim_filename;
-	const char *data_filename;
-	const char *dts_filename;
-	bool optional;			/** Not required for complete update */
+	const char *tim_filename;	/** Filename associated with the TIM */
+	const char *alt_tim_filename;	/** Alternative TIM file name */
+	const char *data_filename;	/** Name of associated data file */
+	const char *alt_data_filename;	/** Alternate data filename */
+	const char *dts_filename;	/** Name in firmware-layout or the TIM manifest */
+	const char *alt_dts_filename;	/** Alternate manifest name */
+	bool optional;			/** TIM not required for complete update */
 	bool skip_version_check;	/** Do not check the version of this entry if missing */
 	bool no_load;			/** Does not load an object */
+	bool data_optional;		/** Data file is optional */
 };
 
 struct object_group {
@@ -233,7 +243,7 @@ struct object_group {
 struct object_entry {
 	struct file_entry *data_file;
 	struct file_entry *tim_file;
-
+	const struct tim_opaque_data_tim_manifest_entry *tim_manifest_entry;
 	struct tim_load_info li;
 	struct tim_opaque_data_version_info version;
 	struct tim_opaque_data_version_info orig_version;
@@ -340,6 +350,7 @@ static const struct object_group_entry cpc_grp[] = {
 		.optional = false,
 		.skip_version_check = true,
 		.no_load = true,
+		.data_optional = true,
 	},
 	{
 		.tim_filename = "scp_bl1.timb",
@@ -348,6 +359,7 @@ static const struct object_group_entry cpc_grp[] = {
 		.optional = false,
 		.skip_version_check = false,
 		.no_load = false,
+		.data_optional = false,
 	},
 	{
 		.tim_filename = "mcp_bl1.timb",
@@ -356,6 +368,7 @@ static const struct object_group_entry cpc_grp[] = {
 		.optional = false,
 		.skip_version_check = false,
 		.no_load = false,
+		.data_optional = false,
 	},
 	{
 		.tim_filename = "ecp_bl1.timb",
@@ -364,6 +377,7 @@ static const struct object_group_entry cpc_grp[] = {
 		.optional = false,
 		.skip_version_check = false,
 		.no_load = false,
+		.data_optional = false,
 	},
 	{ NULL, NULL },
 };
@@ -376,27 +390,54 @@ static const struct object_group_entry ap_bl1_grp[] = {
 		.optional = false,
 		.skip_version_check = false,
 		.no_load = false,
+		.data_optional = false,
 	},
+#if defined(PLAT_CN10K_FAMILY)
 	{
 		.tim_filename = "ep_script-cn10xx.timb",
-		.data_filename = NULL,
+		.data_filename = "gserp-cn10xx.fw",
 		.dts_filename = "rom-script0.fw",
 		.optional = false,
 		.skip_version_check = false,
 		.no_load = true,
+		.data_optional = true,
 	},
 	{
 		.tim_filename = "gserp-cn10xx.timb",
 		.data_filename = "gserp-cn10xx.fw",
 		.dts_filename = "gserp-cn10xx.fw",
-		.optional = false,
+		.optional = true,
 		.skip_version_check = false,
 		.no_load = false,
+		.data_optional = false,
 	},
+#elif defined(PLAT_CN20K_FAMILY)
+	{
+		.tim_filename = "ep_script-cn20xx.timb",
+		.data_filename = "gserp-cn20xx.fw",
+		.dts_filename = "rom-script0.fw",
+		.optional = false,
+		.skip_version_check = false,
+		.no_load = true,
+		.data_optional = true,
+	},
+	{
+		.tim_filename = "gserp-cn20xx.timb",
+		.data_filename = "gserp-cn20xx.fw",
+		.dts_filename = "gserp-cn20xx.fw",
+		.optional = true,
+		.skip_version_check = false,
+		.no_load = false,
+		.data_optional = false,
+	},
+#else
+#error Unsupported family
+#endif
 	{ NULL, NULL },
 };
 
 static const struct object_group_entry gserm_fw_grp[] = {
+#if defined(PLAT_CN10K_FAMILY)
 	{
 		.tim_filename = "gserm-cn10xx.timb",
 		.data_filename = "gserm-cn10xx.fw",
@@ -404,23 +445,23 @@ static const struct object_group_entry gserm_fw_grp[] = {
 		.optional = false,
 		.skip_version_check = false,
 		.no_load = false,
+		.data_optional = false,
 	},
-	{ NULL, NULL },
-};
-
-#if 0 /* This is now part of AP BL1 */
-static const struct object_group_entry gserp_fw_grp[] = {
+#elif defined(PLAT_CN20K_FAMILY)
 	{
-		.tim_filename = "gserp-cn10xx.timb",
-		.data_filename = "gserp-cn10xx.fw",
-		.dts_filename = "gserp-cn10xx.fw",
+		.tim_filename = "gserm-cn20xx.timb",
+		.data_filename = "gserm-cn20xx.fw",
+		.dts_filename = "gserm-cn20xx.fw",
 		.optional = false,
 		.skip_version_check = false,
 		.no_load = false,
+		.data_optional = false,
 	},
+#else
+#error Unsupported family
+#endif
 	{ NULL, NULL },
 };
-#endif
 
 static const struct object_group_entry ap_atf_grp[] = {
 	{
@@ -430,6 +471,7 @@ static const struct object_group_entry ap_atf_grp[] = {
 		.optional = false,
 		.skip_version_check = false,
 		.no_load = false,
+		.data_optional = false,
 	},
 	{
 		.tim_filename = "bl31.timb",
@@ -438,6 +480,7 @@ static const struct object_group_entry ap_atf_grp[] = {
 		.optional = false,
 		.skip_version_check = false,
 		.no_load = false,
+		.data_optional = false,
 	},
 #if defined(INCLUDE_OPTEE)
 	{
@@ -447,6 +490,7 @@ static const struct object_group_entry ap_atf_grp[] = {
 		.optional = false,
 		.skip_version_check = false,
 		.no_load = false,
+		.data_optional = false,
 	},
 #endif
 	{ NULL, NULL },
@@ -466,6 +510,7 @@ static const struct object_group_entry uboot_grp[] = {
 		.optional = false,
 		.skip_version_check = false,
 		.no_load = false,
+		.data_optional = false,
 	},
 	{ NULL, NULL },
 };
@@ -479,12 +524,14 @@ static const struct object_group_entry efi1_grp[] = {
 		.optional = true,
 		.skip_version_check = false,
 		.no_load = false,
+		.data_optional = false,
 	},
 	{ NULL, NULL },
 };
 #endif
 
 static const struct object_group_entry mkex_fw_grp[] = {
+#if defined(PLAT_CN10K_FAMILY)
 	{
 		.tim_filename = "npc_mkex-cn10xx.timb",
 		.data_filename = "npc_mkex-cn10xx.fw",
@@ -492,7 +539,21 @@ static const struct object_group_entry mkex_fw_grp[] = {
 		.optional = false,
 		.skip_version_check = false,
 		.no_load = false,
+		.data_optional = false,
 	},
+#elif defined(PLAT_CN20K_FAMILY)
+	{
+		.tim_filename = "npc_mkex-cn20xx.timb",
+		.data_filename = "npc_mkex-cn20xx.fw",
+		.dts_filename = "npc_mkex-cn20xx.fw",
+		.optional = false,
+		.skip_version_check = false,
+		.no_load = false,
+		.data_optional = false,
+	},
+#else
+#error Unsupported family
+#endif
 	{ NULL, NULL },
 };
 
@@ -505,6 +566,7 @@ static const struct object_group_entry switch_fw_grp[] = {
 		.optional = false,
 		.skip_version_check = false,
 		.no_load = false,
+		.data_optional = false,
 	},
 	{
 		.tim_filename = "switch_fw_ap.timb",
@@ -513,6 +575,7 @@ static const struct object_group_entry switch_fw_grp[] = {
 		.optional = false,
 		.skip_version_check = false,
 		.no_load = false,
+		.data_optional = false,
 	},
 	{ NULL, NULL },
 };
@@ -1191,6 +1254,260 @@ void update_descr_retcodes(struct smc_update_descriptor *desc)
 }
 
 /**
+ * Parse TIM manifest from a TIM buffer
+ *
+ * @param[in]	tim_data	Pointer to TIM
+ * @param	size		Size of TIM in bytes
+ *
+ * @return status of operation
+ */
+static enum update_ret update_parse_tim_manifest(const void *tim_data, size_t size)
+{
+	struct tim_handle *thandle = &_tim_handle;
+	const union tim_headers *hdr = tim_data;
+	struct tim_header_info hinfo;
+	enum tim_return tret;
+	enum update_ret uret = UPDATE_OK;
+
+	tret = tim_get_timh_info(hdr, &hinfo);
+	if (tret != TIM_NO_ERROR) {
+		UERROR("Error parsing TIM %s\n", TIM0_FILENAME);
+		return UPDATE_TIM_ERROR;
+	}
+	if (hinfo.signed_tim_size != size) {
+		UERROR("Error: CPIO TIM0 size %lu doesn't match signed TIM size %u\n",
+		       size, hinfo.signed_tim_size);
+		return UPDATE_TIM_ERROR;
+	}
+	tret = ehsm_verify_tim_digital_signature(thandle, &hinfo, (uint8_t *)hdr);
+	if (tret != TIM_NO_ERROR) {
+		UERROR("Digital signature failed for %s\n", TIM0_FILENAME);
+		return UPDATE_AUTH_ERROR;
+	}
+	tret = tim_load(hdr, 0, thandle);
+	if (tret != TIM_NO_ERROR) {
+		UERROR("Error loading TIM0\n");
+		return UPDATE_TIM_ERROR;
+	}
+
+	num_new_tim_manifest_entries = 0;
+	tret = tim_get_tim_manifest(thandle,
+				    &num_new_tim_manifest_entries,
+				    new_tim_manifest);
+	if (tret != TIM_NO_ERROR || num_new_tim_manifest_entries == 0) {
+		UWARN("No TIM manifest found in TIM0\n");
+		return UPDATE_OK;
+	}
+	if (num_new_tim_manifest_entries > TIM_MAX_TIM_MANIFEST_ENTRIES) {
+		UERROR("TIM manifest contains %u entries, max is %u\n",
+		       num_new_tim_manifest_entries, TIM_MAX_TIM_MANIFEST_ENTRIES);
+		num_new_tim_manifest_entries = 0;
+		uret = UPDATE_TIM_ERROR;
+		goto error;
+	}
+	tret = tim_get_tim_manifest(thandle,
+				    &num_new_tim_manifest_entries,
+				    new_tim_manifest);
+	if (tret != TIM_NO_ERROR) {
+		UERROR("Error %d getting TIM manifest\n", tret);
+		uret = UPDATE_TIM_MANIFEST_MISSING;
+		goto error;
+	}
+	return uret;
+error:
+	num_new_tim_manifest_entries = 0;
+	return uret;
+}
+
+/**
+ * Parses a TIM manifest out of the update file
+ *
+ * @return status of operation
+ */
+static enum update_ret update_parse_new_tim_manifest(void)
+{
+	struct file_entry *fentry;
+
+	fentry = find_file(TIM0_FILENAME);
+	if (!fentry) {
+		UERROR("Error: %s not found in update file!\n", TIM0_FILENAME);
+		return UPDATE_MISSING_TIM;
+	}
+	return update_parse_tim_manifest(fentry->data, fentry->file_size);
+}
+
+/**
+ * Reads the TIM manifest from flash
+ *
+ * @param[in]	desc	Update descriptor needed for media
+ *
+ * @return status of operation
+ */
+static enum update_ret update_parse_flash_manifest(const struct smc_update_descriptor *desc)
+__attribute__((__unused__));
+static enum update_ret update_parse_flash_manifest(const struct smc_update_descriptor *desc)
+{
+	uint64_t offset;
+	size_t max_size;
+	size_t tim_size;
+	const char *root_obj_name;
+	struct tim_handle *thandle = &_tim_handle;
+	int ret;
+	enum update_ret uret;
+	enum tim_return tret;
+	bool is_root_tim;
+
+	ret = get_object_info_from_fdt(TIM0_FDT_NAME, &offset, &max_size,
+				       &is_root_tim, &root_obj_name);
+	if (ret) {
+		UERROR("TIM0 not found in FDT!\n");
+		return UPDATE_MISSING_TIM;
+	}
+	tim_size = EP_TIM_MAX_SIZE;
+	uret = octeontx_read_tim(desc, offset, max_size, tim_buffer,
+				 thandle, &tim_size);
+	if (uret != UPDATE_OK) {
+		UERROR("Error reading TIM0 from offset 0x%lx\n", offset);
+		return uret;
+	}
+	num_current_tim_manifest_entries = 0;
+	tret = tim_get_tim_manifest(thandle,
+				    &num_current_tim_manifest_entries,
+				    NULL);
+	if (tret != TIM_NO_ERROR || num_current_tim_manifest_entries == 0) {
+		UWARN("No TIM manifest found in TIM0\n");
+		return UPDATE_TIM_MANIFEST_MISSING;
+	}
+	if (num_current_tim_manifest_entries > TIM_MAX_TIM_MANIFEST_ENTRIES) {
+		UERROR("TIM manifest in flash contains %u entries, max is %u\n",
+		       num_current_tim_manifest_entries, TIM_MAX_TIM_MANIFEST_ENTRIES);
+		num_current_tim_manifest_entries = 0;
+		return UPDATE_TIM_MANIFEST_CORRUPT;
+	}
+	tret = tim_get_tim_manifest(thandle,
+				    &num_current_tim_manifest_entries,
+				    current_tim_manifest);
+	if (tret != TIM_NO_ERROR) {
+		UERROR("Error %d getting TIM manifest\n", tret);
+		return UPDATE_TIM_MANIFEST_MISSING;
+	}
+	return UPDATE_OK;
+}
+
+/**
+ * Find an entry in the TIM manifest by name
+ *
+ * @param	current		True for current (flash) manifest, false for
+ *				update file manifest
+ * @param[in]	name		Name of entry to search for
+ * @param[out]	match_entry	Pointer to matching manifest entry
+ * @param[out]	location	Location in flash
+ * @param[out]	partition	Partition of entry (file handle not used for flash)
+ * @param[out]	max_size	Maximum size of TIM
+ * @param[out]	trust_mode	TIM trust mode
+ * @param[out]	flags		Manifest flags
+ *
+ * @return	UPDATE_OK, UPDATE_TIM_MANIFEST_MISSING,
+ *		UPDATE_TIM_MANIFEST_ENTRY_MISSING,
+ *		UPDATE_TIM_MANIFEST_CORRUPT
+ *
+ * Note: Output parameters may be NULL if not needed.
+ */
+static enum update_ret update_get_manifest_entry(
+				bool current,
+				const char *name,
+				const struct tim_opaque_data_tim_manifest_entry **match_entry,
+				uint64_t *location,
+				uint32_t *partition,
+				uint32_t *max_size,
+				enum tim_trusted *trust_mode,
+				uint32_t *flags)
+{
+	const struct tim_opaque_data_tim_manifest_entry *entry;
+	uint32_t count;
+	uint32_t i;
+
+	if (current) {
+		count = num_current_tim_manifest_entries;
+		entry = current_tim_manifest;
+	} else {
+		count = num_new_tim_manifest_entries;
+		entry = new_tim_manifest;
+	}
+	if (count == 0)
+		return UPDATE_TIM_MANIFEST_MISSING;
+	if (count >= TIM_MAX_TIM_MANIFEST_ENTRIES)
+		return UPDATE_TIM_MANIFEST_CORRUPT;
+	for (i = 0; i < count; i++) {
+		if (!strncmp(name, (const char *)entry->name,
+			     TIM_FILE_RECORD_MAX_NAME_SIZE)) {
+			if (match_entry)
+				*match_entry = entry;
+			if (location)
+				*location = entry->location;
+			if (partition)
+				*partition = entry->file_handle;
+			if (max_size)
+				*max_size = entry->max_size;
+			if (trust_mode)
+				*trust_mode = entry->trust_mode;
+			if (flags)
+				*flags = entry->flags;
+			return UPDATE_OK;
+		}
+		entry++;
+	}
+	return UPDATE_TIM_MANIFEST_ENTRY_MISSING;
+}
+
+/**
+ * Make sure that all of the TIMs in the update file are in the TIM manifest
+ * We can't go the other way because an update might not be complete.
+ */
+static enum update_ret update_process_new_manifest(void)
+{
+	const struct tim_opaque_data_tim_manifest_entry *entry;
+	const struct file_entry *tim_file;
+	struct object_entry *obj;
+	enum update_ret uret;
+	uint64_t location;
+	uint32_t partition;
+	uint32_t max_size;
+	enum tim_trusted trust_mode;
+	uint32_t flags;
+
+	entry = new_tim_manifest;
+	if (num_new_tim_manifest_entries == 0)
+		return UPDATE_TIM_MANIFEST_MISSING;
+	if (num_new_tim_manifest_entries >= TIM_MAX_TIM_MANIFEST_ENTRIES)
+		return UPDATE_TIM_MANIFEST_CORRUPT;
+
+	/* Make sure that every TIM found is in the manifest */
+	for_each_object(obj) {
+		tim_file = obj->tim_file;
+		if (tim_file == NULL) {
+			UERROR("Could not find TIM!\n");
+			return UPDATE_MISSING_FILE;
+		}
+		uret = update_get_manifest_entry(false,
+						 tim_file->filename,
+						 &entry,
+						 &location,
+						 &partition,
+						 &max_size,
+						 &trust_mode,
+						 &flags);
+		if (uret == UPDATE_TIM_MANIFEST_ENTRY_MISSING) {
+			UERROR("Could not find %s in TIM manifest\n",
+			       tim_file->filename);
+			return uret;
+		}
+		obj->tim_manifest_entry = entry;
+	}
+	return UPDATE_OK;
+}
+
+/**
  * Processes all of the TIMs in an update file
  */
 static enum update_ret update_process_tims(void)
@@ -1202,11 +1519,22 @@ static enum update_ret update_process_tims(void)
 	const union tim_headers *hdr;
 	struct tim_load_info *li;
 	struct tim_header_info hinfo;
+	enum update_ret uret;
 	enum tim_return tret;
 	int err;
 	const char *root_obj_name = NULL;
 	bool is_root_tim = false;
 	bool no_load_info = false;
+
+	UINFO("Parsing update TIM manifest in TIM0\n");
+	uret = update_parse_new_tim_manifest();
+	if (uret == UPDATE_TIM_MANIFEST_MISSING) {
+		ULOG("No TIM manifest found in update TIM0\n");
+	} else if (uret != UPDATE_OK) {
+		ULOG("Error parsing update TIM manifest\n");
+		UERROR("Error parsing update TIM manifest\n");
+		return uret;
+	}
 
 	UINFO("Processing TIMs\n");
 	debug_fw_update("%s: Processing TIMs\n", __func__);
@@ -1270,7 +1598,8 @@ static enum update_ret update_process_tims(void)
 			debug_fw_update("Getting version info for %s\n", fentry->filename);
 			err = tim_get_version_info(thandle, &oentry->version);
 			if (err) {
-				debug_fw_update("%s contains no version data\n", fentry->filename);
+				debug_fw_update("%s contains no version data\n",
+						fentry->filename);
 				oentry->no_version = 1;
 			}
 
@@ -1279,6 +1608,10 @@ static enum update_ret update_process_tims(void)
 				    !li->tim_dato_filename_parsed) {
 					UWARN("TIM %s missing required blocks\n",
 					      fentry->filename);
+					UWARN("Hash found: %d, Source addr: %d, layout name found: %d\n",
+					      li->hshi_parsed,
+					      li->tim_src_loc_parsed,
+					      li->tim_dato_filename_parsed);
 					return UPDATE_TIM_ERROR;
 				}
 				debug_fw_update("%s: TIM associated with %s\n",
@@ -1356,7 +1689,7 @@ static enum update_ret update_process_tims(void)
 			}
 		}
 	}
-	return UPDATE_OK;
+	return uret;
 }
 
 /**
@@ -1406,7 +1739,7 @@ static int check_group(const struct object_group_entry *group)
 		if (gentry->data_filename) {
 			fentry = find_file(gentry->data_filename);
 			if (!fentry) {
-				if (!gentry->optional) {
+				if (!gentry->data_optional) {
 					UWARN("Update file not complete, missing required data file %s\n",
 					     d_filename);
 					complete = false;
@@ -3728,6 +4061,13 @@ static int octeontx_cn10k_update_fw(struct smc_update_descriptor *desc,
 	}
 	all_present = (err == 1);
 
+	ret = update_process_new_manifest();
+	if (ret == UPDATE_TIM_MANIFEST_MISSING) {
+		UWARN("TIM manifest is missing\n");
+	} else if (ret != UPDATE_OK) {
+		UERROR("Error processing TIM manifest\n");
+		goto error;
+	}
 	gti_wdog_pet();
 	UINFO("Validating objects...\n");
 	ret = check_files(desc);
