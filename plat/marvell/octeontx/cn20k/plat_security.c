@@ -106,7 +106,7 @@ void dump_ccs_region_config(void)
 			asc_offset.u = CSR_READ(CAVM_SAM_ASC_REGIONX_OFFSET(index));
 			asc_attr.u = CSR_READ(CAVM_SAM_ASC_REGIONX_ATTR(index));
 			VERBOSE("%d: DMC_MASK = 0x%x, OFFSET = 0x%x\n",
-				 index, asc_attr.s.dmc_mask, asc_offset.s.offset);
+				 index, asc_attr.s.dss_mask, asc_offset.s.offset);
 
 			switch (index) {
 			case SECURE_NONPRESERVE:

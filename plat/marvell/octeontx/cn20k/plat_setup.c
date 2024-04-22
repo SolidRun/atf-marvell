@@ -47,7 +47,6 @@
 #include "cavm-csrs-emmc.h"
 #include "cavm-csrs-rnm.h"
 #include "cavm-csrs-iobn.h"
-#include "cavm-csrs-mrml.h"
 #include "cavm-csrs-rst.h"
 #include "cavm-csrs-smmu.h"
 #include "cavm-sw-csrs.h"

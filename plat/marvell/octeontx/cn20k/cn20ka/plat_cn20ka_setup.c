@@ -32,7 +32,6 @@
 #include "cavm-csrs-gpio.h"
 #include "cavm-csrs-gti.h"
 #include "cavm-csrs-iobn.h"
-#include "cavm-csrs-mrml.h"
 #include "cavm-csrs-mio_tws.h"
 #include "cavm-csrs-ncb.h"
 #include "cavm-csrs-pccpf.h"
@@ -221,7 +220,6 @@ void plat_add_mmio(void)
 	attr = MT_DEVICE | MT_RW | MT_SECURE;
 	add_map_record(CAVM_RST_BAR_E_RSTX_PF_BAR0(1), CAVM_RST_BAR_E_RSTX_PF_BAR0_SIZE, attr);
 	add_map_record(CAVM_RST_BAR_E_RSTX_PF_BAR4(1), CAVM_RST_BAR_E_RSTX_PF_BAR4_SIZE, attr);
-	add_map_record(CAVM_MRML_BAR_E_MRML_PF_BAR0, CAVM_MRML_BAR_E_MRML_PF_BAR0_SIZE, attr);
 
 	add_map_record(CAVM_TAD_CMN_BAR_E_TAD_CMN_PF_BAR0,
 		       CAVM_TAD_CMN_BAR_E_TAD_CMN_PF_BAR0_SIZE, attr);

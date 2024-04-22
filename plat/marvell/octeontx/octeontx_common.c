@@ -337,10 +337,8 @@ uint64_t cavm_fuse_read_range(cavm_node_t node, int fuse, int width)
 /* Return platform type by reading fuses */
 void cavm_setup_platform(void)
 {
-#if defined(PLAT_CN10K_FAMILY)
+#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY)
 	__cavm_platform = cavm_fuse_read_range(0, CAVM_FUSE_NUM_E_RUN_PLATFORMX(0), 3);
-#elif defined(PLAT_cn20ka)
-	__cavm_platform = cavm_fuse_read_range(0, CAVM_FUSE_NUM_E_RUN_PLATFORMX_CN20KA(0), 3);
 #else
 	if (cavm_is_model(OCTEONTX_CN8XXX)) {
 		cavm_mio_fus_dat2_t fus_dat;
