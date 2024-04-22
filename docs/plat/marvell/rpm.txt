@@ -130,6 +130,22 @@ Example of disabling autonegotiation and setting speed to 100M:
 This is applicable only for SGMII/QSGMII modes. For 1000 BASE-X, if PHY is
 not present, AN is by default disabled.
 
+1000 Base-X Autonegotiation:
+
+With 1000BASE_X mode, AN is by default disabled and the speed is set to 1000Mbps by default,
+speed can be changed by "cn10k,sgmii-set-speed=<speed>" to 10, 100 and 1000Mbps.
+
+To Enable 1000BASE_X Auto negotaiation the below dts propery should be present,
+"cn10k,1000BaseX-enable-autoneg"
+
+Example:
+	 ethernetA8: sgmii@00 {
+             reg = <0>;
+             qsfp-slot = <&qsfp_0>;
+             cn10k,1000BaseX-enable-autoneg;
+         };
+
+
 2.5 FEC Configuration
 ^^^^^^^^^^^^^^^^^^^^^
 

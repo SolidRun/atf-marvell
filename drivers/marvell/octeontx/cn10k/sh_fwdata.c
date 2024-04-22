@@ -276,9 +276,12 @@ void sh_fwdata_set_supported_an(int rpm_id, int lmac_id)
 
 	if (lmac_cfg->phy_present)
 		fwdata->supported_an = 1;
-	else	/* FIXME : to add a separate field for AN as this function doesn't support SGMII */
-		fwdata->supported_an = cn10k_portm_get_mode_desc_ap_sup(portm->portm_mode);
-
+	else {
+		if (portm->portm_mode == PORTM_MODE_1000BASE_X)
+			fwdata->supported_an = 1;
+		else
+			fwdata->supported_an = cn10k_portm_get_mode_desc_ap_sup(portm->portm_mode);
+	}
 	debug_shmem_mgmt("%s: %d:%d supported AN %lld\n", __func__,
 			rpm_id, lmac_id,
 			fwdata->supported_an);

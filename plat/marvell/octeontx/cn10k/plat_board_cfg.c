@@ -2257,13 +2257,23 @@ static void cn10k_fill_lmac_mode_info(void *fdt, rpm_lmac_config_t *lmac,
 		const int *val;
 		int len, speed;
 
-		val = fdt_getprop(fdt, offset,
-				"cn10k,sgmii-disable-autoneg",
-				&len);
-		if (val)
-			info->an_disable = 1;
-		else
-			info->an_disable = 0;
+		if (lmac->sgmii_1000x_mode) {
+			val = fdt_getprop(fdt, offset,
+					"cn10k,1000BaseX-enable-autoneg",
+					&len);
+			if (val)
+				info->an_disable = 0;
+			else
+				info->an_disable = 1;
+		} else {
+			val = fdt_getprop(fdt, offset,
+					"cn10k,sgmii-disable-autoneg",
+					&len);
+			if (val)
+				info->an_disable = 1;
+			else
+				info->an_disable = 0;
+		}
 
 		speed = cn10k_fdt_get_int32(fdt,
 			"cn10k,sgmii-set-speed", offset);

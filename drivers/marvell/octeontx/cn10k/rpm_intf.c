@@ -160,9 +160,12 @@ static void rpm_set_link_state(int rpm_id, int lmac_id,
 	/* Update AN field in the link status */
 	if (lmac_cfg->phy_present && lmac_cfg->phy_config)
 		an = lmac_cfg->phy_config->req_an;
-	else /* FIXME : to add a separate field for AN as this function doesn't support SGMII */
-		an = cn10k_portm_get_mode_desc_ap_sup(portm->portm_mode);
-
+	else {
+		if (portm->portm_mode == PORTM_MODE_1000BASE_X)
+			an = !(lmac_cfg->an_disable);
+		else
+			an = cn10k_portm_get_mode_desc_ap_sup(portm->portm_mode);
+	}
 	/* Update supported AN to SM when updating link status */
 	sh_fwdata_set_supported_an(rpm_id, lmac_id);
 
@@ -893,6 +896,7 @@ static speed_mode_map_s rpm_speed_mode_map[] = {
 };
 
 static speed_mode_map_s rpm_group1_speed_mode_map[] = {
+	{(1ULL << ETH_MODE_1000_BASEX_BIT), PORTM_MODE_1000BASE_X, ETH_LINK_1G},
 	{(1ULL << ETH_MODE_2500_BASEX_BIT), PORTM_MODE_2500BASE_X, ETH_LINK_2HG},
 	{(1ULL << ETH_MODE_5000_BASEX_BIT), PORTM_MODE_5000BASE_X, ETH_LINK_5G},
 	{(1ULL << ETH_MODE_O_USGMII_BIT), PORTM_MODE_O_USGMII, ETH_LINK_1G},
@@ -905,6 +909,7 @@ static speed_mode_map_s rpm_group1_speed_mode_map[] = {
 };
 
 static rpm_lmac_speed_list_s rpm_group1_speed_list[] = {
+	{PORTM_MODE_1000BASE_X, {ETH_LINK_1G} },
 	{PORTM_MODE_2500BASE_X, {ETH_LINK_2HG}},
 	{PORTM_MODE_5000BASE_X, {ETH_LINK_5G}},
 	{PORTM_MODE_O_USGMII, {ETH_LINK_10M, ETH_LINK_100M, ETH_LINK_1G}},
@@ -1259,11 +1264,14 @@ static void rpm_update_lmac_mode_config(int rpm_id, int lmac_id)
 {
 	rpm_lmac_config_t *lmac;
 	lmac_mode_info_t *mode_info;
+	portm_config_t *portm;
 
 	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
 	mode_info = &lmac->lmac_mode_info[lmac->mode];
+	portm = &(plat_octeontx_bcfg->portm_cfg[lmac->portm_idx]);
 
-	lmac->an_disable = mode_info->an_disable;
+	if (portm->portm_mode != PORTM_MODE_1000BASE_X)
+		lmac->an_disable = mode_info->an_disable;
 
 	rpm_set_supported_link_modes(rpm_id, lmac_id);
 }
@@ -1749,12 +1757,14 @@ static int rpm_handle_eth_mode_change(int portm_idx,
 	/* If PORTM mode is same, check for the requested speed, AN and duplex */
 	if (portm->portm_mode == portm_mode) {
 		if ((lmac->mode == CAVM_RPM_LMAC_TYPES_E_USGMII) ||
-			(lmac->mode == CAVM_RPM_LMAC_TYPES_E_USXGMII)) {
+			(lmac->mode == CAVM_RPM_LMAC_TYPES_E_USXGMII) ||
+			(portm->portm_mode == PORTM_MODE_1000BASE_X)) {
 			/* Check if speed/an/duplex is requested to be changed are valid
 			 * and applicable to this mode and update PHY or
 			 * ecp_link_update_sgmii_speed_dplx()
 			 */
 			speed_valid = check_if_speed_is_valid_for_mode_group1(portm_mode, req_speed);
+
 			if (!speed_valid) {
 				debug_rpm_intf("%s: PORTM%d Requested speed is not valid for portm mode\n",
 						__func__, portm_idx);
@@ -1765,7 +1775,6 @@ static int rpm_handle_eth_mode_change(int portm_idx,
 			lmac->an_disable = !req_an;
 			lmac->sgmii_speed = req_speed;
 			lmac->sgmii_duplex = req_duplex;
-
 			ecp_link_update_sgmii_speed_dplx(portm_idx, lmac_id);
 		} else {
 			WARN("%s: PORTM%d Requested mode is same as current mode, Ignore request\n",
