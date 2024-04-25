@@ -696,6 +696,8 @@ static int dss_read_poisoned_address(uint64_t address, uint64_t etype)
 		dmbsy();
 		flush_dcache_range(aligned_address, 64);
 		dmbsy();
+		inv_dcache_range(aligned_address, 64);
+		dmbsy();
 		udelay(1000);
 	}
 
