@@ -23,6 +23,7 @@
 #include "cavm-csrs-rvu.h"
 #include "cavm-csrs-npa.h"
 #include "cavm-csrs-pccpf.h"
+#include "cavm-csrs-ecam.h"
 
 #include "cavm-csrs-spi.h"
 
@@ -49,6 +50,47 @@ static int get_max_rvu_pfs(void)
 
 	cfg = RVU_CSR_READ(RVU_AF_BAR0_BASE, RVU_PRIV_CONST);
 	return ((cfg >> 33) & 0xFF);
+}
+
+/* Skip pci enemuration of non-active PFs */
+static void rvu_disable_ecam_access(void)
+{
+	union cavm_ecamx_domx_busx_permit bus_permit;
+	union cavm_ecamx_domx_devx_permit dev_permit;
+	int pf, ecam = 0, domain = 2, dev = 0, bus = 0;
+
+	for (pf = 0; pf < get_max_rvu_pfs(); pf++) {
+		if (rvu_dev[pf].enable)
+			continue;
+		/* Disable bus */
+		bus = pf + 2;
+		/* At bus 0x22 and 0x43 bridges are connected. so skip them */
+		if (bus == 0x22 || bus == 0x43)
+			bus = pf + 3;
+		bus_permit.u = RVU_CSR_READ(ECAMX_PF_BAR0(ecam),
+					    ECAMX_DOMX_BUSX_PERMIT(domain, bus));
+		bus_permit.s.sec_dis = 0;
+		bus_permit.s.nsec_dis = 1;
+		bus_permit.s.xcp0_dis = 0;
+		bus_permit.s.xcp1_dis = 0;
+		bus_permit.s.xcp2_dis = 0;
+		bus_permit.s.xcp3_dis = 0;
+		RVU_CSR_WRITE(ECAMX_PF_BAR0(ecam),
+			      ECAMX_DOMX_BUSX_PERMIT(domain, bus),
+			      bus_permit.u);
+		/* Device disable */
+		dev_permit.u = RVU_CSR_READ(ECAMX_PF_BAR0(ecam),
+					    ECAMX_DOMX_DEVX_PERMIT(domain, dev));
+		dev_permit.s.sec_dis = 0;
+		dev_permit.s.nsec_dis = 1;
+		dev_permit.s.xcp0_dis = 0;
+		dev_permit.s.xcp1_dis = 0;
+		dev_permit.s.xcp2_dis = 0;
+		dev_permit.s.xcp3_dis = 0;
+		RVU_CSR_WRITE(ECAMX_PF_BAR0(ecam),
+			      ECAMX_DOMX_DEVX_PERMIT(domain, dev),
+			      dev_permit.u);
+	}
 }
 
 /* This function set the msix vector offset for all rvu blocks */
@@ -266,4 +308,5 @@ void rvu_devices_init(void)
 		}
 	}
 	config_rvu_pci();
+	rvu_disable_ecam_access();
 }

@@ -61,6 +61,12 @@
 
 #define NDCX_PRIV_AF_INT_CFG(a)		(0xc00002f8 | (a) << 28)
 
+#define ECAMX_PF_BAR0(a) (0xc10400000000ll + 0x1000000ll * (a))
+#define ECAMX_PF_BAR2(a) (0xc10040000000ll + 0x100000000ll * (a))
+
+#define ECAMX_DOMX_BUSX_PERMIT(a, b)	(0x20000 + 0x800 * ((a) & 0x3) + 8 * ((b) & 0xff))
+#define ECAMX_DOMX_DEVX_PERMIT(a, b)	(0x40000 + 0x800 * ((a) & 0x3) + 8 * ((b) & 0x1f))
+
 typedef struct pci_config {
 	int pf_devid;
 	int vf_devid;
