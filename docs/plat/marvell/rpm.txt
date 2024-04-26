@@ -1078,8 +1078,12 @@ Following are the parameters expected:
        uint64_t tx_pre:8;
        uint64_t tx_post:8;
        uint64_t tx_pre2:8;
-       uint64_t reserved2:16;
+       uint64_t portm_lane_mask:4;
+       uint64_t reserved2:12;
   };
+
+The portm_lane_mask is 4-bit, where each bit position is a PORTM lane idx.
+When the portm_lane_mask is not provided (portm_lane_mask = 0) tuning will be applied for all the lanes, same as in case of portm_lane_mask = 0xf.
 
 3.2.4.16 STOP ETH LINK TIMERS
 """""""""""""""""""""""""""""

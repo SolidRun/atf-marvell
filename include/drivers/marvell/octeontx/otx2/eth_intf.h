@@ -659,7 +659,8 @@ struct eth_gser_tune {
 	uint64_t tx_post:8;
 #ifdef PLAT_CN10K_FAMILY
 	uint64_t tx_pre2:8;
-	uint64_t reserved2:16;
+	uint64_t portm_lane_mask:4;
+	uint64_t reserved2:12;
 #else
 	uint64_t reserved2:24;
 #endif

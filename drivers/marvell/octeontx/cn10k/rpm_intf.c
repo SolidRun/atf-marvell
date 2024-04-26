@@ -749,14 +749,15 @@ fec_fail:
 	return -1;
 }
 
-static int rpm_set_serdes_tx_tune(int portm_idx, int tx_main, int tx_pre1, int tx_pre2,
-				  int tx_post, rpm_lmac_context_t *lmac_ctx)
+static int rpm_set_serdes_tx_tune(int portm_idx, uint8_t portm_lane_mask, int tx_main, int tx_pre1,
+				  int tx_pre2, int tx_post, rpm_lmac_context_t *lmac_ctx)
 {
 	portm_config_t *portm;
 	portm_tx_tuning_t tx_tuning = {0};
 	int mac_id, lmac_id;
 	uint64_t init_time, tune_timeout;
 	int req_in_prog = 1, ret, txeq_match = 0;
+	uint8_t apply_mask = portm_lane_mask ? portm_lane_mask : 0xf;
 
 	portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
 	mac_id = portm->mac_num;
@@ -786,6 +787,9 @@ static int rpm_set_serdes_tx_tune(int portm_idx, int tx_main, int tx_pre1, int t
 
 	/* Check if new Tx eq settings already match exiting Tx eq settings */
 	for (int lane_idx = 0; lane_idx < portm->gser_numlanes; lane_idx++) {
+		if ((apply_mask & (1 << lane_idx)) == 0)
+			continue;
+
 		if ((portm->tx_main[lane_idx] == tx_main)
 		    && (portm->tx_post[lane_idx] == tx_post)
 		    && (portm->tx_pre1[lane_idx] == tx_pre1)
@@ -805,6 +809,9 @@ static int rpm_set_serdes_tx_tune(int portm_idx, int tx_main, int tx_pre1, int t
 
 	/* Update portm_cfg with new Tx eq settings */
 	for (int lane_idx = 0; lane_idx < portm->gser_numlanes; lane_idx++) {
+		if ((apply_mask & (1 << lane_idx)) == 0)
+			continue;
+
 		portm->tx_main[lane_idx] = tx_main;
 		portm->tx_post[lane_idx] = tx_post;
 		portm->tx_pre1[lane_idx] = tx_pre1;
@@ -2236,6 +2243,7 @@ static int rpm_process_requests(int rpm_id, int lmac_id,
 						rpm_id, lmac_id, 1));
 			ret = rpm_set_serdes_tx_tune(
 				 scratchx1.s.gser_tune.portm_idx,
+				 (uint8_t)scratchx1.s.gser_tune.portm_lane_mask,
 				 scratchx1.s.gser_tune.tx_main,
 				 (int8_t)scratchx1.s.gser_tune.tx_pre,
 				 (int8_t)scratchx1.s.gser_tune.tx_pre2,
