@@ -119,13 +119,18 @@ static void init_gpio(uint64_t config_base, uint64_t config_size)
 	octeontx_write32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL, vsec_sctl.u);
 }
 
-static void init_rvu_rid(uint64_t config_base, uint64_t config_size)
+static void init_rvu_ssid_rid(uint64_t config_base)
 {
+	union cavm_pccpf_xxx_vsec_sctl2 vsec_sctl2;
 	union cavm_pccpf_xxx_vsec_sctl vsec_sctl;
 
 	vsec_sctl.u = octeontx_read32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL);
 	vsec_sctl.s.rid = plat_configure_rid();
 	octeontx_write32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL, vsec_sctl.u);
+
+	vsec_sctl2.u = octeontx_read32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL2);
+	vsec_sctl2.s.ssid |= 0x20;
+	octeontx_write32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL2, vsec_sctl2.u);
 }
 
 static void init_rvu(uint64_t config_base, uint64_t config_size)
@@ -195,20 +200,25 @@ static void init_rnm(uint64_t config_base, uint64_t config_size)
 
 struct ecam_init_callback plat_init_callbacks[] = {
 	{0xa00a, 0x177d, init_gpio},
-	{0xa065, 0x177d, init_rvu},
-	{0xa063, 0x177d, init_rvu_rid}, /* 0x63 - PCC_DEV_IDL_E::RVU */
-	{0xa0f2, 0x177d, init_rvu_rid}, /* 0xf2 - PCC_DEV_IDL_E::RVU_CPT10_PF */
-	{0xa0f3, 0x177d, init_rvu_rid}, /* 0xf3 - PCC_DEV_IDL_E::RVU_CPT10_VF */
-	{0xa0f6, 0x177d, init_rvu_rid}, /* 0xf6 - PCC_DEV_IDL_E::RVU_SDP_PF */
-	{0xa0f8, 0x177d, init_rvu_rid}, /* 0xf8 - PCC_DEV_IDL_E::RVU_AF_VF */
-	{0xa0fb, 0x177d, init_rvu_rid}, /* 0xfb - PCC_DEV_IDL_E::RVU_NPA_PF */
-	{0xa0fc, 0x177d, init_rvu_rid}, /* 0xfc - PCC_DEV_IDL_E::RVU_NPA_VF */
-	{0xa0f9, 0x177d, init_rvu_rid}, /* 0xf9 - PCC_DEV_IDL_E::RVU_SSO_PF */
-	{0xa0fa, 0x177d, init_rvu_rid}, /* 0xfa - PCC_DEV_IDL_E::RVU_SSO_VF */
+	{0xa065, 0x177d, init_rvu}, /* RVU AF */
 	{0xa095, 0x177d, init_emmc},
 	{0xa09b, 0x177d, init_xspi},
 	{0xa098, 0x177d, init_rnm},
 	{ECAM_INVALID_DEV_ID, 0, 0}
+};
+
+struct rvu_dev_list rvu_devs[] = {
+	{0xa065},
+	{0xa063}, /* 0x63 - PCC_DEV_IDL_E::RVU */
+	{0xa0f2}, /* 0xf2 - PCC_DEV_IDL_E::RVU_CPT10_PF */
+	{0xa0f3}, /* 0xf3 - PCC_DEV_IDL_E::RVU_CPT10_VF */
+	{0xa0f6}, /* 0xf6 - PCC_DEV_IDL_E::RVU_SDP_PF */
+	{0xa0f8}, /* 0xf8 - PCC_DEV_IDL_E::RVU_AF_VF */
+	{0xa0fb}, /* 0xfb - PCC_DEV_IDL_E::RVU_NPA_PF */
+	{0xa0fc}, /* 0xfc - PCC_DEV_IDL_E::RVU_NPA_VF */
+	{0xa0f9}, /* 0xf9 - PCC_DEV_IDL_E::RVU_SSO_PF */
+	{0xa0fa}, /* 0xfa - PCC_DEV_IDL_E::RVU_SSO_VF */
+	{ECAM_INVALID_DEV_ID}
 };
 
 /*
@@ -422,20 +432,21 @@ static int get_secure_settings(struct ecam_device *dev, uint64_t pconfig)
 
 static void program_ssid(struct ecam_device *dev, uint64_t pconfig)
 {
-#ifdef DEBUG_ATF_PLAT_ECAM
 	cavm_pccpf_xxx_id_t pccpf_id;
-#endif
-	cavm_pccpf_xxx_vsec_sctl2_t vsec_sctl2;
+	uint8_t i;
 
-#ifdef DEBUG_ATF_PLAT_ECAM
 	pccpf_id.u = octeontx_read32(pconfig + CAVM_PCCPF_XXX_ID);
+#ifdef DEBUG_ATF_PLAT_ECAM
 	debug_plat_ecam("%s: DeviceID=0x%04x\n", __func__, pccpf_id.s.devid);
 #endif
-	/* Program Sub system ID with chip type */
-	vsec_sctl2.u = octeontx_read32(pconfig + CAVM_PCCPF_XXX_VSEC_SCTL2);
-	vsec_sctl2.s.ssid = ((CAVM_PCC_PROD_E_CN106XX << 8) & 0xFFFF);
-	octeontx_write32(pconfig + CAVM_PCCPF_XXX_VSEC_SCTL2, vsec_sctl2.u);
 
+	/* For now program Sub system ID only for RVU dev */
+	for (i = 0; rvu_devs[i].devid != ECAM_INVALID_DEV_ID; i++) {
+		if (rvu_devs[i].devid == pccpf_id.s.devid) {
+			init_rvu_ssid_rid(pconfig);
+			return;
+		}
+	}
 	return;
 }
 

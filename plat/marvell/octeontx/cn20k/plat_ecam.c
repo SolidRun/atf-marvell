@@ -115,7 +115,7 @@ static void octeontx_ecam_iodid_dev_enumerate(struct ecam_device *device)
 	 * the platform
 	 */
 	if (plat_ops.program_ssid) {
-		/* FIXME */
+		plat_ops.program_ssid(device, pconfig);
 	}
 
 	debug_plat_ecam("%s: pconfig: 0x%" PRIx64 ", value: 0x%x\n",

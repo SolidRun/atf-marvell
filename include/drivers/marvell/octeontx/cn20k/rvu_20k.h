@@ -77,4 +77,8 @@ struct rvu_device {
 	pci_config_t pci; /* PCI configuration */
 };
 
+struct rvu_dev_list {
+	int devid;
+};
+
 void rvu_devices_init(void);
