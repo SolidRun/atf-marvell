@@ -360,6 +360,7 @@ int cn10k_ras_dss_isr(uint32_t id, uint32_t flags, void *cookie)
 
 		bool fatal = cn10k_ras_dss_notify(ch, dss_err_info, eccstat);
 
+
 		CSR_WRITE(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCTL(ch), eccctl.u);
 
 		CSR_WRITE(CAVM_DSSX_INT_W1C(ch), int_stat.u);
@@ -367,6 +368,11 @@ int cn10k_ras_dss_isr(uint32_t id, uint32_t flags, void *cookie)
 			cn10k_fatal_error_handler();
 
 		if (fatal) {
+		       /*
+			* Give the kernel some time to dump CPER information
+			* before shutting down
+			*/
+			mdelay(1000);
 			ERROR("System needs to be rebooted\n");
 			cn10k_fatal_reboot();
 		}
