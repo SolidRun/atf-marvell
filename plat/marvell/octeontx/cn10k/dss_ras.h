@@ -1,6 +1,7 @@
 #ifndef __DSS_RAS_H__
 #define __DSS_RAS_H__
 #include <cavm-csrs-dss.h>
+#include "cn10k-dram-xlate.h"
 
 #define cavm_clock_get_count(...)	read_cntpct_el0()
 #define cavm_clock_get_rate(...)	read_cntfrq_el0()
@@ -14,22 +15,7 @@
 //#define BLM (MAX_DATA_LANES - 1)	// BLM == Byte-Lane Mask
 #define MAX_POLL_COUNT			100000
 
-typedef struct {
-	uint64_t phys_addr; // needs 44(?) bits
-	uint64_t offset;    // channel local offset
-	uint32_t ch;        // DSS/DMC number
-	int ch_mask;        // channel mask
-	// channel local geometry info
-	uint32_t row;       // needs 18 bits
-	uint16_t rank;      // needs 1 bit
-	uint16_t bg;        // needs 3 bits
-	uint16_t bank;      // needs 2 bits
-	uint16_t col;       // needs 11 (ECC) or 12 bits (POISON) ???
-} addr_xlate_t;
-
 extern int cn10k_get_ch_mask(void);
-extern void cn10k_dram_xlate_to_pa(addr_xlate_t *xlate);
-extern int cn10k_dram_xlate_from_pa(addr_xlate_t *xlate);
 
 /* These routines are based on Table 13-2 in the DWC Databook
  *

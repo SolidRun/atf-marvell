@@ -419,18 +419,21 @@ static int dss_setup_einj_addr(uint64_t address, int etype, int in_bits)
 	cavm_dssx_ddrctl_regb_arb_port0_sbrctl_t reg_SBRCTL;
 	cavm_dssx_ddrctl_regb_arb_port0_sbrstat_t reg_SBRSTAT;
 	static uint32_t sbr_state;
-	int ret;
 	int time_out;
 	uint64_t aligned_address = address & ~BLM;
 	int byte_offset = (address & BLM);
 	addr_xlate_t xlate;
 	int ch = 0;
 
+	cavm_dssx_int_w1c_t int_stat;
+	cavm_dssx_ddrctl_regb_ddrc_ch0_eccstat_t eccstat;
+	cavm_dssx_ddrctl_regb_ddrc_ch0_eccctl_t eccctl;
+	cavm_dssx_ddrctl_regb_ddrc_ch0_eccerrcnt_t eccerrcnt;
+
 	xlate.phys_addr = aligned_address;
 	xlate.ch_mask = cn10k_get_ch_mask();
-	ret = cn10k_dram_xlate_from_pa(&xlate);
-	if (ret)
-		return ret;
+	if (cn10k_dram_xlate_from_pa(&xlate))
+		return -1;
 
 	reg_ECCCFG0.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCFG0(xlate.ch));
 	if (reg_ECCCFG0.s.ecc_mode == 0) {
@@ -514,6 +517,11 @@ static int dss_setup_einj_addr(uint64_t address, int etype, int in_bits)
 	reg_SWCTL_2.s.sw_done = 1;
 	reg_OPCTRL1_2.s.dis_hif = 0;
 
+	int_stat.u = CSR_READ(CAVM_DSSX_INT_W1C(ch));
+	eccstat.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCSTAT(ch));
+	eccctl.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCTL(ch));
+	eccerrcnt.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCTL(ch));
+
 	dmbsy();
 
 	//setup poison start
@@ -536,6 +544,10 @@ static int dss_setup_einj_addr(uint64_t address, int etype, int in_bits)
 		reg_SBRCTL.s.scrub_en = sbr_state;
 		CSR_WRITE(CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRCTL(ch), reg_SBRCTL.u);
 	}
+
+	debug_ras("DSS %d INT_W1C: 0x%lx ECCSTAT: 0x%x ECCCTL: 0x%x ECCERRCNT: 0x%x MPIDR: 0x%x\n",
+		(uint8_t) ch, (uint64_t) int_stat.u,
+		eccstat.u, eccctl.u, eccerrcnt.u, (uint32_t)read_mpidr_el1());
 
 	return 0;
 }
@@ -624,11 +636,16 @@ static int dss_read_poisoned_address(uint64_t address, uint64_t etype)
 	addr_xlate_t xlate;
 	int32_t ret = 0;
 
+	cavm_dssx_int_w1c_t int_stat;
+	cavm_dssx_ddrctl_regb_ddrc_ch0_eccstat_t eccstat;
+	cavm_dssx_ddrctl_regb_ddrc_ch0_eccctl_t eccctl;
+	cavm_dssx_ddrctl_regb_ddrc_ch0_eccerrcnt_t eccerrcnt;
+	int ch = 0;
+
 	xlate.phys_addr = aligned_address;
 	xlate.ch_mask = cn10k_get_ch_mask();
-	ret = cn10k_dram_xlate_from_pa(&xlate);
-	if (ret)
-		return ret;
+	if (cn10k_dram_xlate_from_pa(&xlate))
+		return -1;
 
 	if (!is_secure_address(xlate.phys_addr)) {
 		ret = octeontx_mmap_add_dynamic_region_with_sync(address, address,
@@ -680,7 +697,17 @@ static int dss_read_poisoned_address(uint64_t address, uint64_t etype)
 	udelay(1000);
 
 	dss_disable_einj(xlate.ch);
-	debug_ras("Trigger ECC for 0x%" PRIx64 "\n", aligned_address);
+
+	int_stat.u = CSR_READ(CAVM_DSSX_INT_W1C(ch));
+	eccstat.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCSTAT(ch));
+	eccctl.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCTL(ch));
+	eccerrcnt.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCTL(ch));
+
+	debug_ras("DSS %d INT_W1C: 0x%lx ECCSTAT: 0x%x ECCCTL: 0x%x ECCERRCNT: 0x%x MPIDR: 0x%x\n",
+		(uint8_t) ch, (uint64_t) int_stat.u,
+		eccstat.u, eccctl.u, eccerrcnt.u, (uint32_t)read_mpidr_el1());
+
+	debug_ras("Trigger ECC for 0x%lx\n", aligned_address);
 
 	dmbsy();
 #if DATA_LANE_BITS == 2

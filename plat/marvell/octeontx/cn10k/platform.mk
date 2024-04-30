@@ -107,10 +107,13 @@ LIBMCESD_DIR		:=      drivers/marvell/octeontx/cn10k/gserm/mcesd
 LIBMCESD_SOURCES	:=	$(filter %.c, $(call rwildcard, $(LIBMCESD_DIR), *))
 LIBMCESD_INCLUDES	:=	$(patsubst %,-I%, $(sort $(dir $(call rwildcard, $(LIBMCESD_DIR), *))))
 
+CN10K_DRAM_COMMON	:=	plat/marvell/octeontx/cn10k/dram-common
+
 PLAT_INCLUDES		+=	-Iinclude/plat/marvell/octeontx/cn10k	\
 				-Iinclude/drivers/marvell/octeontx/cn10k\
 				-I${LIBTIM_DIR} \
-				$(LIBMCESD_INCLUDES)
+				$(LIBMCESD_INCLUDES) \
+				-I${CN10K_DRAM_COMMON}
 
 PLAT_BL_COMMON_SOURCES	+=	plat/marvell/octeontx/cn10k/plat_non_fip_image.c\
 				plat/marvell/octeontx/cn10k/plat_security.c	\
@@ -173,7 +176,8 @@ BL31_SOURCES		+=	plat/marvell/octeontx/cn10k/plat_topology.c	\
 				drivers/marvell/octeontx/cn10k/rpm_flash_ops.c	\
 				plat/marvell/octeontx/cn10k/dram_mapping.c	\
 				drivers/io/io_storage.c				\
-				drivers/io/io_block.c
+				drivers/io/io_block.c				\
+				$(CN10K_DRAM_COMMON)/cn10k-dram-translation.c
 ifeq (${RAS_EXTENSION},1)
 BL31_SOURCES		+=	plat/marvell/octeontx/cn10k/plat_ras.c \
 				plat/marvell/octeontx/cn10k/smc_ras.c \
