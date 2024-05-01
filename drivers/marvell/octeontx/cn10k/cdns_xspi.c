@@ -985,9 +985,10 @@ int spi_config(uint64_t spi_clk, uint32_t mode, int cpol, int cpha,
 		      int spi_con, int cs)
 {
 	bool safemode = false;
+#if !defined(PLAT_CN20K_FAMILY)
 	bool saved_safemode = safemode;
 	int read_spi_fuse = 0;
-
+#endif
 	handle_gpio_as_spi(spi_con);
 
 	if (mode != 0)
