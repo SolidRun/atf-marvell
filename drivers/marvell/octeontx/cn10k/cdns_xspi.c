@@ -712,6 +712,13 @@ static int cdns_xspi_config(int spi_con, int cs, bool phy_training,
 	union cavm_spix_ctrl_cmd_stat_ctrl_status spi_status;
 	int safemode = smode;
 
+#if !defined(PLAT_CN20K_FAMILY)
+	/* Check if safemode fuse bit is set */
+	CSR_INIT(fuse_bits, CAVM_EHSM_BIU_BOOTROM_CONFIG_STATUS);
+	if (fuse_bits.s.bootrom_rsvd_param & EHSM_BOOTROM_RESERVED_PARAM_0)
+		safemode = 1;
+#endif
+
 	INFO("%s: SPI_%d: Running device-discovery\n", __func__, spi_con);
 
 	hw_version.u = CSR_READ(CAVM_SPIX_CTRL_CONSTS_SPI_CTRL_VERSION(spi_con));
@@ -978,6 +985,8 @@ int spi_config(uint64_t spi_clk, uint32_t mode, int cpol, int cpha,
 		      int spi_con, int cs)
 {
 	bool safemode = false;
+	bool saved_safemode = safemode;
+	int read_spi_fuse = 0;
 
 	handle_gpio_as_spi(spi_con);
 
@@ -986,9 +995,16 @@ int spi_config(uint64_t spi_clk, uint32_t mode, int cpol, int cpha,
 
 #if !defined(PLAT_CN20K_FAMILY)
 	/* Check if safemode fuse bit is set */
-	CSR_INIT(fuse_bits, CAVM_EHSM_BIU_BOOTROM_CONFIG_STATUS);
-	if (fuse_bits.s.bootrom_rsvd_param & EHSM_BOOTROM_RESERVED_PARAM_0)
-		safemode = true;
+	if (read_spi_fuse)
+		safemode = saved_safemode;
+	else {
+		CSR_INIT(fuse_bits, CAVM_EHSM_BIU_BOOTROM_CONFIG_STATUS);
+		if (fuse_bits.s.bootrom_rsvd_param & EHSM_BOOTROM_RESERVED_PARAM_0) {
+			safemode = true;
+			saved_safemode = safemode;
+			read_spi_fuse = 1;
+		}
+	}
 #endif
 
 	/* Try to load config from db
