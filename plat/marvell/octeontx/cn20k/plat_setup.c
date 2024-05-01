@@ -209,7 +209,8 @@ void plat_pwrc_setup(void)
 {
 	int rc;
 
-#if defined(IMAGE_BL31)
+#if 0
+//defined(IMAGE_BL31)
 	if (cavm_is_platform(PLATFORM_EMULATOR)
 	    || cavm_is_platform(PLATFORM_ASIM)) {
 		return;
