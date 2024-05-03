@@ -33,6 +33,11 @@ tools/stm32image/stm32image.exe
 tools/sptool/__pycache__/
 tools/marvell/doimage/doimage_client
 tools/marvell/doimage/doimage_server
+drivers/marvell/octeontx/cn10k/libtim/*.h
+drivers/marvell/octeontx/cn10k/libtim/*.a
+drivers/marvell/octeontx/cn20k/libtim/*.h
+drivers/marvell/octeontx/cn20k/libtim/*.a
+include/plat/marvell/octeontx/cn20k/csr
 
 # GNU GLOBAL files
 GPATH
