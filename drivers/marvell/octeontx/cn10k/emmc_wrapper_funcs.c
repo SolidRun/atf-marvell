@@ -2187,7 +2187,7 @@ uint32_t emmc_WriteBlocks(void)
 	 * (the ready status from the last data transfer is meaningless here
 	 * because it was left over from the write command that initiated the data transfer.)
 	 * section 7.7.2 of the mmc 4.3 spec defines a formula for the timeout value.
-	 * for now, just use a constant.  Samsung KLMxGxxExM defines max write
+	 * for now, just use a constant. KLMxGxxExM defines max write
 	 * timeout as 600 ms
 	 */
 	/* FIXME: implement the formula, which is based on info from the CSD...
