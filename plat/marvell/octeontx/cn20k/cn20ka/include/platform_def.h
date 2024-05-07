@@ -7,6 +7,7 @@
 
 #ifndef __PLATFORM_DEF_H__
 #define __PLATFORM_DEF_H__
+#include <ns_mem_layout.h>
 #include <plat_cn20k_def.h>
 
 #define PLATFORM_CORE_PER_CLUSTER	35
@@ -74,7 +75,7 @@
 |	256 KB	      |
 |---------------------|
 |  RVU MSIX Table     |
-|    16 MB             |
+|    16 MB            |
 |---------------------|
 |		      |
 |---------------------|
@@ -141,29 +142,4 @@
 #define WORK_BUFFER_CRASHLOG_SIZE	4096
 #define WORK_BUFFER_CRASH_MAGIC		0xDEADAABBCCDDDEAD
 
-#define ETH_CFG_SHMEM_BASE              (NS_MEMORY_BASE)
-#define ETH_CFG_SHMEM_SIZE              0x100000 /* 1MB */
-
-#define SH_FWDATA_BASE                  (ETH_CFG_SHMEM_BASE + ETH_CFG_SHMEM_SIZE)
-#define SH_FWDATA_SIZE                  0x100000 /* 1MB */
-
-/* Shared memory area for EFI variables */
-#define EFI_VAR_MEM_BASE		(SH_FWDATA_BASE + SH_FWDATA_SIZE)
-#define EFI_VAR_MEM_SIZE		0x100000 /* 1MB */
-
-/*
- * Memory reserved for NT_FW_CONFIG.
- * Currently it's used only by MKEX profiles,
- * 256KB are reserved for this puprose.
- */
-#define NT_FW_CONFIG_BASE		(EFI_VAR_MEM_BASE + EFI_VAR_MEM_SIZE)
-#ifdef NT_FW_CONFIG
-#define NT_FW_CONFIG_LIMIT		0x40000
-#else
-#define NT_FW_CONFIG_LIMIT		0x0
-#endif
-
-/* Memory reserved for RVU MSIX table (16MB) */
-#define RVU_MEM_BASE			(NT_FW_CONFIG_BASE + NT_FW_CONFIG_LIMIT)
-#define RVU_MEM_SIZE			(0x1000000)
 #endif

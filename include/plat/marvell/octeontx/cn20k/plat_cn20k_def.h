@@ -79,18 +79,6 @@
 
 #define NS_DMA_MEMORY_SIZE		0x100000
 
-/* Location of trusted dram on the base cn20k */
-/* Secure Memory */
-#define TZDRAM_BASE			0x00000000
-#define TZDRAM_SIZE			0x01000000
-
-/* Non secure memory */
-#define NS_MEMORY_BASE			(TZDRAM_BASE + TZDRAM_SIZE)
-
-/* Load address of BL33 in cn20k platform. */
-#define NS_IMAGE_BASE			0x04000000
-#define NS_IMAGE_MAX_SIZE		(0x40000000 - NS_IMAGE_BASE)
-
 /* FIXME */
 #define GIC_RDIST_OFFSET	0x80000ll
 #define GIC_PF_BAR4		(CAVM_GIC_BAR_E_GIC_PF_BAR0 + GIC_RDIST_OFFSET)

@@ -38,6 +38,7 @@ drivers/marvell/octeontx/cn10k/libtim/*.a
 drivers/marvell/octeontx/cn20k/libtim/*.h
 drivers/marvell/octeontx/cn20k/libtim/*.a
 include/plat/marvell/octeontx/cn20k/csr
+include/plat/marvell/octeontx/cn20k/ns_mem_layout.h
 
 # GNU GLOBAL files
 GPATH
