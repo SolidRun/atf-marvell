@@ -93,7 +93,9 @@
 #define AUTOCMD_WRITE_INTO_FLASH 1
 #define SPI_FLASH_PROGRAM_PAGE_SIZE 256
 
+#if !defined(PLAT_CN20K_FAMILY)
 extern int handle_gpio_as_spi(int spi_conn);
+#endif
 
 uint32_t spi_mode;
 static file_state_t spi_state_data[SPI_MAX_STATES];
@@ -988,8 +990,9 @@ int spi_config(uint64_t spi_clk, uint32_t mode, int cpol, int cpha,
 #if !defined(PLAT_CN20K_FAMILY)
 	bool saved_safemode = safemode;
 	int read_spi_fuse = 0;
-#endif
+
 	handle_gpio_as_spi(spi_con);
+#endif
 
 	if (mode != 0)
 		safemode = true;
@@ -1019,7 +1022,9 @@ int spi_config(uint64_t spi_clk, uint32_t mode, int cpol, int cpha,
 int spi_nor_read(uint8_t *buf, int buf_size, uint32_t addr,
 			int addr_len, int spi_con, int cs)
 {
+#if !defined(PLAT_CN20K_FAMILY)
 	handle_gpio_as_spi(spi_con);
+#endif
 	if (!cdns_xspi_verify_cs(spi_con, cs))
 		handle_opcmd_reload(spi_con, cs, 0);
 
@@ -1037,7 +1042,9 @@ int spi_nor_write(const uint8_t *buf, int buf_size, uint32_t addr,
 	int op_size;
 	int bs = buf_size;
 
+#if !defined(PLAT_CN20K_FAMILY)
 	handle_gpio_as_spi(spi_con);
+#endif
 	if (!cdns_xspi_verify_cs(spi_con, cs))
 		handle_opcmd_reload(spi_con, cs, 0);
 
@@ -1060,7 +1067,9 @@ int spi_nor_write(const uint8_t *buf, int buf_size, uint32_t addr,
 
 int spi_nor_erase(uint32_t addr, int addr_len, int spi_con, int cs)
 {
+#if !defined(PLAT_CN20K_FAMILY)
 	handle_gpio_as_spi(spi_con);
+#endif	
 	if (!cdns_xspi_verify_cs(spi_con, cs))
 		handle_opcmd_reload(spi_con, cs, 0);
 

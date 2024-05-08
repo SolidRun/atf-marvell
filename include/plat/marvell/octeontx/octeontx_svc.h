@@ -30,6 +30,59 @@
 #define OCTEONTX_PUTC			0xc2000a01
 
 /*
+ * x1 - image ID
+ * x2 - efi_image_buffer_pointer
+ *
+ * Return:
+ *	x0:
+ *		0 -- Success
+ *		-1 -- Invalid Arguments
+ *		-2 -- SPI_CONFIG_ERR
+ *		-3 -- SPI_MMAP_ERR
+ *		-5 -- EIO
+ *	x1: efi Image size
+ */
+#define PLAT_OCTEONTX_LOAD_EFI_APP		0xc2000b08
+#if 0
+/*
+ *
+ * Return:
+ *	x0:
+ *		0 -- Success
+ *		-1 -- Invalid Arguments
+ *		-5 -- EIO
+ *	x1: efi shared memory physical address
+ *	x2: efi shared memory size
+ */
+#define PLAT_OCTEONTX_GET_EFI_SHARED_MEM	0xc2000b09
+#endif
+/*
+ * x1 - user_buffer
+ * x2 - size
+ * x3 - bus
+ * x4 - chip select
+ *
+ * Return:
+ *	x0:
+ *		0 -- Success
+ *		-1 -- Invalid Arguments
+ *	x1: efi Image size
+ */
+#define PLAT_OCTEONTX_WRITE_EFI_VAR		0xc2000b0a
+
+/*
+ * x1 - user_buffer
+ * x2 - buffer size
+ *
+ * Return:
+ *	x0:
+ *		0 -- Success
+ *		-1 -- Invalid Arguments
+ *	x1: variable container size
+ */
+#define PLAT_OCTEONTX_READ_EFI_VAR		0xc2000b1d
+
+/*
  * X1 - kernel_wdog_callback, X2 - cpu,
  * X3 - watchdog_timeout_ms, X4 - coremask
  */

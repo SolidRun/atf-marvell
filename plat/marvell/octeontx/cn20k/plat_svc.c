@@ -12,8 +12,20 @@
 #include <octeontx_common.h>
 #include <stdint.h>
 #include <plat_scmi.h>
+#include <spi_ops.h>
+#include <platform_def.h>
+#include <spinlock.h>
+#include <plat_board_cfg.h>
+#include <octeontx_semaphore.h>
+#include <smccc_helpers.h>
+
+#include "cavm-csrs-gpio.h"
+
+#define NSEC_BUF	1
 
 extern void *scmi_handle;
+
+octeontx_ctr_sem_t octeontx_smc_spi_lock[MAX_SPI_BUS];
 
 WEAK uintptr_t cn20k_svc_smc_handler(uint32_t smc_fid,
 				    u_register_t x1,
@@ -28,6 +40,27 @@ WEAK uintptr_t cn20k_svc_smc_handler(uint32_t smc_fid,
 	SMC_RET1(handle, SMC_UNK);
 }
 
+int get_efivar_spi_bus(void)
+{
+	int found = 0, bus, i, j;
+
+	for (i = 0; i < MAX_SPI_BUS; i++) {
+		for (j = 0; j < MAX_SPI_CS; j++) {
+			if (plat_octeontx_bcfg->spi_cfg[i].has_efivar &&
+			    plat_octeontx_bcfg->spi_cfg[i].cs[j]) {
+				found = 1;
+				bus = i;
+				break;
+			}
+		}
+	}
+
+	if (found)
+		return bus;
+
+	return -1;
+}
+
 uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 					u_register_t x1,
 					u_register_t x2,
@@ -37,6 +70,8 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 					void *handle,
 					u_register_t flags)
 {
+	uintptr_t user_buf;
+	uint64_t img_size = 0;
 	int ret = 0;
 
 	VERBOSE("%s: smc_fid = 0x%x\n", __func__, smc_fid);
@@ -52,6 +87,83 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 		SMC_RET1(handle, ret);
 		break;
 
+	case PLAT_OCTEONTX_LOAD_EFI_APP:
+	{
+		int spi_bus = plat_octeontx_bcfg->bcfg.boot_dev.controller;
+		user_buf = x1;
+		if (octeontx_ctr_sem_try_lock_timeout(&octeontx_smc_spi_lock[spi_bus], 1000) != 0) {
+			ret = -2;
+		} else {
+			/* Check if NS user_buf is a valid DRAM address */
+			if (NULL == (void *)user_buf) {
+				ret = -1;
+			} else {
+				/* Perform EFI App load */
+				ret = load_efi_image(user_buf, &img_size,
+						     1, NSEC_BUF);
+			}
+			octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[spi_bus]);
+		}
+		SMC_RET2(handle, ret, img_size);
+		break;
+	}
+	case PLAT_OCTEONTX_WRITE_EFI_VAR:
+	{
+		user_buf = x1;
+		img_size = x2;
+
+		int bus = get_efivar_spi_bus();
+
+		if (bus < 0) {
+			WARN("%s: EFI variable flash unknown, check device tree\n",
+		     __func__);
+		     SMC_RET1(handle, -1);
+		}
+
+		if (octeontx_ctr_sem_try_lock_timeout(&octeontx_smc_spi_lock[bus], 1000) != 0) {
+			ret = -2;
+		} else {
+			/* Check if NS user_buf is a valid DRAM address */
+			if (NULL == (void *)user_buf) {
+				ret = -1;
+			} else {
+				/* Perform EFI variable store write to SPI-NOR */
+				ret = spi_write_efi_var(user_buf, img_size);
+			}
+			octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[bus]);
+		}
+		SMC_RET1(handle, ret);
+		break;
+	}
+
+	case PLAT_OCTEONTX_READ_EFI_VAR:
+	{
+		user_buf = x1;
+		img_size = x2;
+
+		int bus = get_efivar_spi_bus();
+
+		if (bus < 0) {
+			WARN("%s: EFI variable flash unknown, check device tree\n",
+		     __func__);
+		     SMC_RET1(handle, -1);
+		}
+
+		if (octeontx_ctr_sem_try_lock_timeout(&octeontx_smc_spi_lock[bus], 1000) != 0) {
+			ret = -2;
+		} else {
+			/* Check if NS user_buf is a valid DRAM address */
+			if (NULL == (void *)user_buf) {
+				ret = -1;
+			} else {
+				/* Perform EFI variable store read from SPI-NOR */
+				ret = spi_read_efi_var(user_buf, &img_size);
+			}
+			octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[bus]);
+		}
+		SMC_RET2(handle, ret, img_size);
+		break;
+	}
 	default:
 		return cn20k_svc_smc_handler(smc_fid, x1, x2, x3, x4,
 					    cookie, handle, flags);
@@ -61,3 +173,4 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 
 	return ret;
 }
+
