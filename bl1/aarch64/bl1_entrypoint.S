@@ -6,6 +6,7 @@
 
 #include <arch.h>
 #include <el3_common_macros.S>
+#include <platform_def.h>
 
 	.globl	bl1_entrypoint
 

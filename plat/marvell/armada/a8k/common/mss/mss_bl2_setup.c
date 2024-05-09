@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Marvell International Ltd.
+ * Copyright (c) 2018 Marvell.
  *
  * SPDX-License-Identifier:     BSD-3-Clause
  * https://spdx.org/licenses
@@ -16,7 +16,7 @@
 
 #include <armada_common.h>
 #include <marvell_plat_priv.h> /* timer functionality */
-
+#include "mss_defs.h"
 #include "mss_scp_bootloader.h"
 
 /* MSS windows configuration */
@@ -121,7 +121,12 @@ int bl2_plat_handle_scp_bl2(image_info_t *scp_bl2_image_info)
 
 uintptr_t bl2_plat_get_cp_mss_regs(int ap_idx, int cp_idx)
 {
-	return MVEBU_CP_REGS_BASE(cp_idx) + 0x280000;
+	return MVEBU_CP_REGS_BASE(cp_idx) + MSS_CP_REGS_OFFSET;
+}
+
+uintptr_t bl2_plat_get_cp_mss_sram(int ap_idx, int cp_idx)
+{
+	return MVEBU_CP_REGS_BASE(cp_idx) + MSS_CP_SRAM_OFFSET;
 }
 
 uintptr_t bl2_plat_get_ap_mss_regs(int ap_idx)

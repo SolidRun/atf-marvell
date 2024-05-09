@@ -105,6 +105,24 @@ loop1:
 
 	msr	csselr_el1, x10		// select current cache level in csselr
 	isb				// isb to sych the new cssr&csidr
+#if ARM_ARCH_AT_LEAST(8, 3)
+	mrs     x1, id_aa64mmfr2_el1
+	ubfx	x1, x1, #20, #4
+	cbz	x1, branch_ccsid32	// 0 means CCSIDR in 32 bit format
+	mrs	x1, ccsidr_el1		// read the new ccsidr
+	and	x2, x1, #7		// extract the length of the cache lines
+	add	x2, x2, #4		// add 4 (line length offset)
+	ubfx	x4, x1, #3, #21		// maximum way number
+	clz	w5, w4			// bit position of way size increment
+	lsl	w9, w4, w5		// w9 = aligned max way number
+	lsl	w16, w8, w5		// w16 = way number loop decrement
+	orr	w9, w10, w9		// w9 = combine way and cache number
+	ubfx	x6, x1, #32, #24	// w6 = max set number
+	lsl	w17, w8, w2		// w17 = set number loop decrement
+	dsb	sy			// barrier before we start this level
+	br	x14			// jump to DC operation specific loop
+branch_ccsid32:
+#endif
 	mrs	x1, ccsidr_el1		// read the new ccsidr
 	and	x2, x1, #7		// extract the length of the cache lines
 	add	x2, x2, #4		// add 4 (line length offset)
@@ -113,7 +131,7 @@ loop1:
 	lsl	w9, w4, w5		// w9 = aligned max way number
 	lsl	w16, w8, w5		// w16 = way number loop decrement
 	orr	w9, w10, w9		// w9 = combine way and cache number
-	ubfx	w6, w1, #13, #15	// w6 = max set number
+	ubfx	x6, x1, #13, #15	// w6 = max set number
 	lsl	w17, w8, w2		// w17 = set number loop decrement
 	dsb	sy			// barrier before we start this level
 	br	x14			// jump to DC operation specific loop
@@ -123,10 +141,10 @@ loop1:
 	bti	j
 #endif
 loop2_\_op:
-	lsl	w7, w6, w2		// w7 = aligned max set number
+	lsl	x7, x6, x2		// w7 = aligned max set number
 
 loop3_\_op:
-	orr	w11, w9, w7		// combine cache, way and set number
+	orr	x11, x9, x7		// combine cache, way and set number
 	dc	\_op, x11
 	subs	w7, w7, w17		// decrement set number
 	b.hs	loop3_\_op

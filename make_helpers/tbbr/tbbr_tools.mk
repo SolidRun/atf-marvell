@@ -30,6 +30,7 @@
 #   BL31_KEY
 #   BL32_KEY
 #   BL33_KEY
+#   OPENSSL_ENGINE
 #
 
 # Certificate generation tool default parameters
@@ -65,6 +66,9 @@ $(if ${PROT_KEY},$(eval $(call CERT_ADD_CMD_OPT,${PROT_KEY},--prot-key)))
 $(if ${TRUSTED_WORLD_KEY},$(eval $(call CERT_ADD_CMD_OPT,${TRUSTED_WORLD_KEY},--trusted-world-key)))
 $(if ${NON_TRUSTED_WORLD_KEY},$(eval $(call CERT_ADD_CMD_OPT,${NON_TRUSTED_WORLD_KEY},--non-trusted-world-key)))
 
+# Select OpenSSL engine in the cert_create tool command line options
+$(if ${OPENSSL_ENGINE},$(eval $(call CERT_ADD_CMD_OPT,${OPENSSL_ENGINE},--engine)))
+$(if ${OPENSSL_ENGINE},$(eval $(call CERT_ADD_CMD_OPT,${OPENSSL_ENGINE},--engine,FWU_)))
 
 # Add the BL2 CoT (image cert)
 ifeq (${BL2_AT_EL3}, 0)
@@ -103,10 +107,3 @@ ifneq (${COT},dualroot)
 endif
 endif
 
-# Add SiP owned Secure Partitions CoT (image cert)
-ifneq (${SP_LAYOUT_FILE},)
-    $(eval $(call TOOL_ADD_PAYLOAD,${BUILD_PLAT}/sip_sp_content.crt,--sip-sp-cert))
-ifeq (${COT},dualroot)
-    $(eval $(call TOOL_ADD_PAYLOAD,${BUILD_PLAT}/plat_sp_content.crt,--plat-sp-cert))
-endif
-endif

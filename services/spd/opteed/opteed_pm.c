@@ -104,7 +104,7 @@ static void opteed_cpu_on_finish_handler(u_register_t unused)
 
 	opteed_init_optee_ep_state(&optee_on_entrypoint, opteed_rw,
 				(uint64_t)&optee_vector_table->cpu_on_entry,
-				0, 0, 0, optee_ctx);
+				0, 0, 0, 0, 0, optee_ctx);
 
 	/* Initialise this cpu's secure context */
 	cm_init_my_context(&optee_on_entrypoint);
@@ -164,6 +164,7 @@ static int32_t opteed_cpu_migrate_info(u_register_t *resident_cpu)
 	return OPTEE_MIGRATE_INFO;
 }
 
+#ifndef INCLUDE_OPTEE
 /*******************************************************************************
  * System is about to be switched off. Allow the OPTEED/OPTEE to perform
  * any actions needed.
@@ -203,7 +204,7 @@ static void opteed_system_reset(void)
 	 * must continue the reset anyway */
 	opteed_synchronous_sp_entry(optee_ctx);
 }
-
+#endif
 
 /*******************************************************************************
  * Structure populated by the OPTEE Dispatcher to be given a chance to
@@ -218,6 +219,11 @@ const spd_pm_ops_t opteed_pm = {
 	.svc_suspend_finish = opteed_cpu_suspend_finish_handler,
 	.svc_migrate = NULL,
 	.svc_migrate_info = opteed_cpu_migrate_info,
+#ifdef INCLUDE_OPTEE
+	.svc_system_off = NULL,
+	.svc_system_reset = NULL,
+#else
 	.svc_system_off = opteed_system_off,
 	.svc_system_reset = opteed_system_reset,
+#endif
 };

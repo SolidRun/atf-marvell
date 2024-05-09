@@ -42,7 +42,7 @@ enum{
 static const unsigned int KEY_SIZES[KEY_ALG_MAX_NUM][KEY_SIZE_MAX_NUM] = {
 	{ 2048, 1024, 3072, 4096 },	/* KEY_ALG_RSA */
 #ifndef OPENSSL_NO_EC
-	{}				/* KEY_ALG_ECDSA */
+	{ 224, 160, 256, 384 }		/* KEY_ALG_ECDSA */
 #endif /* OPENSSL_NO_EC */
 };
 
@@ -68,7 +68,8 @@ int key_init(void);
 key_t *key_get_by_opt(const char *opt);
 int key_new(key_t *key);
 int key_create(key_t *key, int type, int key_bits);
-int key_load(key_t *key, unsigned int *err_code);
+int key_load_from_file(key_t *key, unsigned int *err_code);
+int key_load_using_engine(key_t *key, unsigned int *err_code, ENGINE *e);
 int key_store(key_t *key);
 
 /* Macro to register the keys used in the CoT */

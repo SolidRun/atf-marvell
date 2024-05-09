@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Marvell International Ltd.
+ * Copyright (c) 2018 Marvell.
  *
  * SPDX-License-Identifier:     BSD-3-Clause
  * https://spdx.org/licenses
@@ -31,6 +31,7 @@
 #define PLL_FREQ_2000			0x2FC9F002 /* 2000 */
 #define PLL_FREQ_2200			0x2AC57001 /* 2200 */
 #define PLL_FREQ_2400			0x2AE5F001 /* 2400 */
+#define PLL_FREQ_2500			0x2B063001 /* 2500 */
 
 /* CPU PLL control registers */
 #define AP807_CPU_PLL_CTRL(cluster)	\
@@ -46,7 +47,7 @@ static void pll_set_freq(unsigned int freq_val)
 {
 	int i;
 
-	if (freq_val != PLL_FREQ_2200)
+	if ((freq_val != PLL_FREQ_2200) && (freq_val != PLL_FREQ_2500))
 		return;
 
 	for (i = 0 ; i < AP807_CLUSTER_NUM ; i++) {
@@ -98,10 +99,13 @@ void ap807_clocks_init(unsigned int freq_option)
 	 * 0x0: 764x: change to 2000 MHz.
 	 * 0x2: 744x change to 1800 MHz, 764x change to 2200/2400.
 	 * 0x3: 3900/744x/764x change to 1200 MHz.
+	 * 0x8: 9130H: change to 2500 MHz.
 	 */
 
 	if (freq_option == CPU_2200_DDR_1200_RCLK_1200)
 		pll_set_freq(PLL_FREQ_2200);
+	else if (freq_option == CPU_2500_DDR_1200_RCLK_1200)
+		pll_set_freq(PLL_FREQ_2500);
 
 	/* Switch from ARO to PLL */
 	aro_to_pll();

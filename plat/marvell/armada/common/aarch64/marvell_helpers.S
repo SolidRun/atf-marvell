@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2020, ARM Limited. All rights reserved.
- * Copyright (C) 2018 Marvell International Ltd.
+ * Copyright (c) 2018 Marvell.
  *
  * SPDX-License-Identifier:     BSD-3-Clause
  * https://spdx.org/licenses
@@ -132,7 +132,7 @@ mmu_off:
 endfunc disable_mmu_dcache
 
 	/* -----------------------------------------------------
-	 * Disable all TLB entries
+	 * Invalidate all TLB entries
 	 * -----------------------------------------------------
 	 */
 func invalidate_tlb_all

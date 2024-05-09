@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Marvell International Ltd.
+ * Copyright (c) 2018 Marvell.
  *
  * SPDX-License-Identifier:     BSD-3-Clause
  * https://spdx.org/licenses
@@ -33,7 +33,7 @@
  * RGF Window Enable bit[0] = 1
  * 0x37f9b809 - 11011111111 0011011100000 0010 0 1
  */
-#define ERRATA_WA_CCU_WIN4	0x37f9b809U
+#define ERRATA_WA_CCU_WIN4	0x37f9b809
 
 /*
  * Physical address of the highest address of window bits[31:19] = 0xFFF
@@ -42,7 +42,7 @@
  * RGF Window Enable bit[0] = 1
  * 0x7ffa0009 - 111111111111 0100000000000 0010 0 1
  */
-#define ERRATA_WA_CCU_WIN5	0x7ffa0009U
+#define ERRATA_WA_CCU_WIN5	0x7ffa0009
 
 /*
  * Physical address of the highest address of window bits[31:19] = 0x1FFF
@@ -51,7 +51,7 @@
  * RGF Window Enable bit[0] = 1
  * 0xfffc000d - 1111111111111 1000000000000 0011 0 1
  */
-#define ERRATA_WA_CCU_WIN6	0xfffc000dU
+#define ERRATA_WA_CCU_WIN6	0xfffc000d
 
 #define IS_DRAM_TARGET(tgt)		((((tgt) == DRAM_0_TID) || \
 					((tgt) == DRAM_1_TID) || \

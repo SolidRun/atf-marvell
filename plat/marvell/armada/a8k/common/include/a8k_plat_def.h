@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Marvell International Ltd.
+ * Copyright (c) 2018 Marvell.
  *
  * SPDX-License-Identifier:     BSD-3-Clause
  * https://spdx.org/licenses
@@ -64,7 +64,8 @@
 #define MVEBU_AP_GPIO_DATA_IN		(MVEBU_AP_GPIO_REGS + 0x10)
 #define MVEBU_AP_I2C_BASE		(MVEBU_REGS_BASE + 0x511000)
 #define MVEBU_CP0_I2C_BASE		(MVEBU_CP_REGS_BASE(0) + 0x701000)
-#define MVEBU_AP_EXT_TSEN_BASE		(MVEBU_RFU_BASE + 0x8084)
+#define MVEBU_AP_GEN_MGMT_BASE		(MVEBU_RFU_BASE + 0x8000)
+#define MVEBU_AP_EXT_TSEN_BASE		(MVEBU_AP_GEN_MGMT_BASE + 0x84)
 
 #define MVEBU_AP_MC_TRUSTZONE_REG_LOW(ap, win)	(MVEBU_REGS_BASE_AP(ap) + \
 							0x20080 + ((win) * 0x8))
@@ -81,10 +82,11 @@
 #define MVEBU_MCI_REG_BASE_REMAP(index)		(0xFD000000 + \
 						((index) * 0x1000000))
 
-#define MVEBU_PCIE_X4_MAC_BASE(x)	(MVEBU_CP_REGS_BASE(x) + 0x600000)
-#define MVEBU_COMPHY_BASE(x)		(MVEBU_CP_REGS_BASE(x) + 0x441000)
-#define MVEBU_HPIPE_BASE(x)		(MVEBU_CP_REGS_BASE(x) + 0x120000)
-#define MVEBU_CP_DFX_OFFSET		(0x400200)
+#define MVEBU_PCIE_X4_MAC_BASE(x)		(MVEBU_CP_REGS_BASE(x) + 0x600000)
+#define MVEBU_PCIE_X4_SHADOW_MAC_BASE(x)	(MVEBU_PCIE_X4_MAC_BASE(x) + 0x4000)
+#define MVEBU_COMPHY_BASE(x)			(MVEBU_CP_REGS_BASE(x) + 0x441000)
+#define MVEBU_HPIPE_BASE(x)			(MVEBU_CP_REGS_BASE(x) + 0x120000)
+#define MVEBU_CP_DFX_OFFSET			(0x400200)
 
 /*****************************************************************************
  * MVEBU memory map related constants

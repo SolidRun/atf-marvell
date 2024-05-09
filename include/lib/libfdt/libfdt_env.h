@@ -35,6 +35,19 @@ typedef uint64_t FDT_BITWISE fdt64_t;
 			 (EXTRACT_BYTE(x, 4) << 24) | (EXTRACT_BYTE(x, 5) << 16) | \
 			 (EXTRACT_BYTE(x, 6) << 8) | EXTRACT_BYTE(x, 7))
 
+/* operand is a POINTER to value */
+#define EXTRACT_PBYTE(p, n) ((unsigned long long)((uint8_t *)p)[n])
+#define CPUP_TO_FDT64(p)    ((EXTRACT_PBYTE(p, 0) << 56) | \
+			     (EXTRACT_PBYTE(p, 1) << 48) | \
+			     (EXTRACT_PBYTE(p, 2) << 40) | \
+			     (EXTRACT_PBYTE(p, 3) << 32) | \
+			     (EXTRACT_PBYTE(p, 4) << 24) | \
+			     (EXTRACT_PBYTE(p, 5) << 16) | \
+			     (EXTRACT_PBYTE(p, 6) << 8) | EXTRACT_PBYTE(p, 7))
+#define CPUP_TO_FDT32(p)    ((EXTRACT_PBYTE(p, 0) << 24) | \
+			     (EXTRACT_PBYTE(p, 1) << 16) | \
+			     (EXTRACT_PBYTE(p, 2) << 8) | EXTRACT_PBYTE(p, 3))
+
 static inline uint16_t fdt16_to_cpu(fdt16_t x)
 {
 	return (FDT_FORCE uint16_t)CPU_TO_FDT16(x);
@@ -61,6 +74,19 @@ static inline fdt64_t cpu_to_fdt64(uint64_t x)
 {
 	return (FDT_FORCE fdt64_t)CPU_TO_FDT64(x);
 }
+
+/* operand is a POINTER */
+static inline uint64_t fdt64p_to_cpu(const fdt64_t *px)
+{
+	return (FDT_FORCE fdt64_t)CPUP_TO_FDT64(px);
+}
+
+/* operand is a POINTER */
+static inline uint32_t fdt32p_to_cpu(const fdt32_t *px)
+{
+	return (FDT_FORCE fdt32_t)CPUP_TO_FDT32(px);
+}
+
 #undef CPU_TO_FDT64
 #undef CPU_TO_FDT32
 #undef CPU_TO_FDT16

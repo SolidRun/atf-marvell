@@ -197,7 +197,7 @@ endef
 #   $(2) = cert_create command line option for the specified parameter
 #   $(3) = FIP prefix (optional) (if FWU_, target is fwu_fip instead of fip)
 define CERT_ADD_CMD_OPT
-    $(3)CRT_ARGS += $(2) $(1)
+    $(3)CRT_ARGS += $(2) "$(1)"
 endef
 
 # TOOL_ADD_IMG allows the platform to specify an external image to be packed
@@ -283,7 +283,6 @@ $(OBJ): $(2) $(filter-out %.d,$(MAKEFILE_LIST)) | lib$(3)_dirs
 
 endef
 
-
 # MAKE_C builds a C source file and generates the dependency file
 #   $(1) = output directory
 #   $(2) = source file (%.c)
@@ -294,10 +293,11 @@ $(eval OBJ := $(1)/$(patsubst %.c,%.o,$(notdir $(2))))
 $(eval DEP := $(patsubst %.o,%.d,$(OBJ)))
 $(eval BL_CPPFLAGS := $(BL$(call uppercase,$(3))_CPPFLAGS) -DIMAGE_BL$(call uppercase,$(3)))
 $(eval BL_CFLAGS := $(BL$(call uppercase,$(3))_CFLAGS))
+$(eval $(call MRVL_TF_LOG_DEF,$(2),$(3)))
 
 $(OBJ): $(2) $(filter-out %.d,$(MAKEFILE_LIST)) | bl$(3)_dirs
 	$$(ECHO) "  CC      $$<"
-	$$(Q)$$(CC) $$(LTO_CFLAGS) $$(TF_CFLAGS) $$(CFLAGS) $(BL_CPPFLAGS) $(BL_CFLAGS) $(MAKE_DEP) -c $$< -o $$@
+	$$(Q)$$(CC) $$(LTO_CFLAGS) $$(TF_CFLAGS) $$(CFLAGS) $(BL_CPPFLAGS) $(BL_CFLAGS) $(MAKE_DEP) $(MRVL_TF_LOGGING) -c $$< -o $$@
 
 -include $(DEP)
 

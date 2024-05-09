@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Marvell International Ltd.
+ * Copyright (c) 2018 Marvell.
  *
  * SPDX-License-Identifier:     BSD-3-Clause
  * https://spdx.org/licenses
@@ -13,6 +13,7 @@
 #define HEADER_VERSION	0x1
 
 #define MSS_IDRAM_SIZE	0x10000 /* 64KB */
+#define MSS_SRAM_SIZE	0x8000 /* 32KB */
 
 /* Types definitions */
 typedef struct file_header {

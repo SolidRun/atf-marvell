@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Marvell International Ltd.
+ * Copyright (c) 2018 Marvell.
  *
  * SPDX-License-Identifier:	BSD-3-Clause
  * https://spdx.org/licenses
@@ -16,7 +16,7 @@
 #include <drivers/marvell/mochi/ap_setup.h>
 #include <lib/mmio.h>
 
-#include <mvebu_def.h>
+#include <a8k_plat_def.h>
 
 #define SMMU_sACR				(MVEBU_SMMU_BASE + 0x10)
 #define SMMU_sACR_PG_64K			(1 << 16)
@@ -71,6 +71,23 @@
 #define MVEBU_AXI_ATTR_REG(index)		(MVEBU_AXI_ATTR_BASE + \
 							0x4 * index)
 
+#define XOR_STREAM_ID_REG(ch)	(MVEBU_REGS_BASE + 0x410010 + (ch) * 0x20000)
+#define XOR_STREAM_ID_MASK	0xFFFF
+#define SDIO_STREAM_ID_REG	(MVEBU_RFU_BASE + 0x4600)
+#define SDIO_STREAM_ID_MASK	0xFF
+
+/* Do not use the default Stream ID 0 */
+#define A807_STREAM_ID_BASE	(0x1)
+
+static uintptr_t stream_id_reg[] = {
+	XOR_STREAM_ID_REG(0),
+	XOR_STREAM_ID_REG(1),
+	XOR_STREAM_ID_REG(2),
+	XOR_STREAM_ID_REG(3),
+	SDIO_STREAM_ID_REG,
+	0
+};
+
 enum axi_attr {
 	AXI_SDIO_ATTR = 0,
 	AXI_DFX_ATTR,
@@ -83,8 +100,8 @@ static void ap_sec_masters_access_en(uint32_t enable)
 	 * The access is disabled in trusted boot mode
 	 * Could only be done in EL3
 	 */
-	if (enable != 0) {
-		mmio_clrsetbits_32(SEC_MOCHI_IN_ACC_REG, 0x0U, /* no clear */
+	if (enable) {
+		mmio_clrsetbits_32(SEC_MOCHI_IN_ACC_REG, 0, /* no clear */
 				   SEC_IN_ACCESS_ENA_ALL_MASTERS);
 #if LLC_SRAM
 		/* Do not change access security level
@@ -99,7 +116,7 @@ static void ap_sec_masters_access_en(uint32_t enable)
 	} else {
 		mmio_clrsetbits_32(SEC_MOCHI_IN_ACC_REG,
 				   SEC_IN_ACCESS_ENA_ALL_MASTERS,
-				   0x0U /* no set */);
+				   0 /* no set */);
 #if LLC_SRAM
 		/* Return PIDI access level to the default */
 		mmio_clrsetbits_32(SEC_MOCHI_IN_ACC_REG,
@@ -160,6 +177,20 @@ static void mci_remap_indirect_access_base(void)
 		mmio_write_32(MCIX4_807_REG_START_ADDR_REG(mci),
 				  MVEBU_MCI_REG_BASE_REMAP(mci) >>
 				  MCI_REMAP_OFF_SHIFT);
+}
+
+/* Set a unique stream id for all DMA capable devices */
+static void ap807_stream_id_init(void)
+{
+	int i;
+
+	for (i = 0; stream_id_reg[i] != 0; i++) {
+		uint32_t mask = stream_id_reg[i] == SDIO_STREAM_ID_REG ?
+				SDIO_STREAM_ID_MASK : XOR_STREAM_ID_MASK;
+
+		mmio_clrsetbits_32(stream_id_reg[i], mask,
+				   i + A807_STREAM_ID_BASE);
+	}
 }
 
 static void ap807_axi_attr_init(void)
@@ -264,6 +295,9 @@ void ap_init(void)
 
 	/* configure CCU windows */
 	init_ccu(MVEBU_AP0);
+
+	/* Set the stream IDs for DMA masters */
+	ap807_stream_id_init();
 
 	/* configure the SMMU */
 	setup_smmu();

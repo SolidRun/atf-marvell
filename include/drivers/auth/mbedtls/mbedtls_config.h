@@ -26,6 +26,11 @@
 #define TF_MBEDTLS_SHA512		3
 
 /*
+ * Cipher types currently supported on mbed TLS libraries
+ */
+#define TBBR_AES_128_CBC 1
+
+/*
  * Configuration file to build mbed TLS with the required features for
  * Trusted Boot
  */
@@ -70,6 +75,11 @@
 #define MBEDTLS_X509_RSASSA_PSS_SUPPORT
 #endif
 
+#if (TBBR_CIPHER_TYPE_ID == TBBR_AES_128_CBC)
+#define MBEDTLS_AES_C
+#define MBEDTLS_CIPHER_MODE_CBC
+#endif
+
 #define MBEDTLS_SHA256_C
 #if (TF_MBEDTLS_HASH_ALG_ID != TF_MBEDTLS_SHA256)
 #define MBEDTLS_SHA512_C
@@ -102,11 +112,26 @@
 /* Memory buffer allocator options */
 #define MBEDTLS_MEMORY_ALIGN_MULTIPLE		8
 
-/*
- * Prevent the use of 128-bit division which
- * creates dependency on external libraries.
- */
-#define MBEDTLS_NO_UDBL_DIVISION
+/* Enable the platform-specific entropy code. */
+#define MBEDTLS_ENTROPY_C
+
+/* platform entropy is "OS-level" */
+#define MBEDTLS_NO_PLATFORM_ENTROPY
+
+/* we provide hardware entropy source 'mbedtls_hardware_poll()' */
+#define MBEDTLS_ENTROPY_HARDWARE_ALT
+
+/* prerequesite to 'MBEDTLS_CTR_DRBG_C' */
+#define MBEDTLS_AES_C
+
+/* Enable the CTR_DRBG AES-256-based random generator. */
+#define MBEDTLS_CTR_DRBG_C
+
+/* Enable the cipher layer */
+#define MBEDTLS_CIPHER_C
+
+/* This cipher is used for Attestation signing key decryption */
+#define MBEDTLS_CIPHER_MODE_CTR
 
 #ifndef __ASSEMBLER__
 /* System headers required to build mbed TLS with the current configuration */

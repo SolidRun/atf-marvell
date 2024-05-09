@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Marvell International Ltd.
+ * Copyright (c) 2018 Marvell.
  * Copyright (C) 2018 Icenowy Zheng <icenowy@aosc.io>
  *
  * SPDX-License-Identifier:     BSD-3-Clause

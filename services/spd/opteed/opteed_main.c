@@ -98,6 +98,8 @@ static int32_t opteed_setup(void)
 	uint64_t opteed_pageable_part;
 	uint64_t opteed_mem_limit;
 	uint64_t dt_addr;
+	uint64_t secure_ext_base;
+	uint64_t secure_ext_size;
 
 	linear_id = plat_my_core_pos();
 
@@ -126,6 +128,8 @@ static int32_t opteed_setup(void)
 	opteed_pageable_part = optee_ep_info->args.arg1;
 	opteed_mem_limit = optee_ep_info->args.arg2;
 	dt_addr = optee_ep_info->args.arg3;
+	secure_ext_base = optee_ep_info->args.arg4;
+	secure_ext_size = optee_ep_info->args.arg5;
 
 	opteed_init_optee_ep_state(optee_ep_info,
 				opteed_rw,
@@ -133,6 +137,8 @@ static int32_t opteed_setup(void)
 				opteed_pageable_part,
 				opteed_mem_limit,
 				dt_addr,
+				secure_ext_base,
+				secure_ext_size,
 				&opteed_sp_context[linear_id]);
 
 	/*

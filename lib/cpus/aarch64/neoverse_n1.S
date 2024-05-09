@@ -1,15 +1,15 @@
 /*
- * Copyright (c) 2017-2020, ARM Limited and Contributors. All rights reserved.
+ * Copyright (c) 2017-2022, Arm Limited and Contributors. All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
 #include <arch.h>
 #include <asm_macros.S>
-#include <neoverse_n1.h>
 #include <cpuamu.h>
 #include <cpu_macros.S>
-#include <context.h>
+#include <neoverse_n1.h>
+#include "wa_cve_2022_23960_bhb_vector.S"
 
 /* Hardware handled coherency */
 #if HW_ASSISTED_COHERENCY == 0
@@ -22,19 +22,10 @@
 #endif
 
 	.global neoverse_n1_errata_ic_trap_handler
-	.global is_scu_present_in_dsu
 
-/*
- * Check DSU is configured with SCU and L3 unit
- * 1-> SCU present
- * 0-> SCU not present
- */
-func is_scu_present_in_dsu
-	mrs	x0, CPUCFR_EL1
-	ubfx	x0, x0, #SCU_SHIFT, #1
-	eor	x0, x0, #1
-	ret
-endfunc is_scu_present_in_dsu
+#if WORKAROUND_CVE_2022_23960
+	wa_cve_2022_23960_bhb_vector_table NEOVERSE_N1_BHB_LOOP_COUNT, neoverse_n1
+#endif /* WORKAROUND_CVE_2022_23960 */
 
 /* --------------------------------------------------
  * Errata Workaround for Neoverse N1 Erratum 1043202.
@@ -420,6 +411,15 @@ func check_errata_1868343
 	b	cpu_rev_var_ls
 endfunc check_errata_1868343
 
+func check_errata_cve_2022_23960
+#if WORKAROUND_CVE_2022_23960
+	mov	x0, #ERRATA_APPLIES
+#else
+	mov	x0, #ERRATA_MISSING
+#endif
+	ret
+endfunc check_errata_cve_2022_23960
+
 func neoverse_n1_reset_func
 	mov	x19, x30
 
@@ -515,7 +515,7 @@ func neoverse_n1_reset_func
 	msr	CPUAMCNTENSET_EL0, x0
 #endif
 
-#if NEOVERSE_N1_EXTERNAL_LLC
+#if NEOVERSE_Nx_EXTERNAL_LLC
 	/* Some system may have External LLC, core needs to be made aware */
 	mrs     x0, NEOVERSE_N1_CPUECTLR_EL1
 	orr     x0, x0, NEOVERSE_N1_CPUECTLR_EL1_EXTLLC_BIT
@@ -525,6 +525,15 @@ func neoverse_n1_reset_func
 #if ERRATA_DSU_936184
 	bl	errata_dsu_936184_wa
 #endif
+
+#if IMAGE_BL31 && WORKAROUND_CVE_2022_23960
+	/*
+	 * The Neoverse-N1 generic vectors are overridden to apply errata
+         * mitigation on exception entry from lower ELs.
+	 */
+	adr	x0, wa_cve_vbar_neoverse_n1
+	msr	vbar_el3, x0
+#endif /* IMAGE_BL31 && WORKAROUND_CVE_2022_23960 */
 
 	isb
 	ret	x19
@@ -574,6 +583,7 @@ func neoverse_n1_errata_report
 	report_errata ERRATA_N1_1542419, neoverse_n1, 1542419
 	report_errata ERRATA_N1_1868343, neoverse_n1, 1868343
 	report_errata ERRATA_DSU_936184, neoverse_n1, dsu_936184
+	report_errata WORKAROUND_CVE_2022_23960, neoverse_n1, cve_2022_23960
 
 	ldp	x8, x30, [sp], #16
 	ret

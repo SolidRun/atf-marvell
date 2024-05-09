@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Marvell International Ltd.
+ * Copyright (c) 2018 Marvell.
  *
  * SPDX-License-Identifier:     BSD-3-Clause
  * https://spdx.org/licenses
@@ -61,6 +61,11 @@
 					SAR_RST_PCIE1_CLOCK_CONFIG_CP1_OFFSET)
 #define SAR_STATUS_0_REG			200
 #define DFX_FROM_COMPHY_ADDR(x)			((x & ~0xffffff) + DFX_BASE)
+/* Common Phy training  */
+#define COMPHY_TRX_TRAIN_COMPHY_OFFS		0x1000
+#define COMPHY_TRX_TRAIN_RX_TRAIN_ENABLE	0x1
+#define COMPHY_TRX_RELATIVE_ADDR(comphy_index)	(comphy_train_base + \
+			(comphy_index) * COMPHY_TRX_TRAIN_COMPHY_OFFS)
 
 /* The same Units Soft Reset Config register are accessed in all PCIe ports
  * initialization, so a spin lock is defined in case when more than 1 CPUs
@@ -328,14 +333,14 @@ static void mvebu_cp110_polarity_invert(uintptr_t addr, uint8_t phy_polarity_inv
 	uint32_t mask, data;
 
 	/* Set RX / TX polarity */
-	data = mask = 0x0U;
-	if ((phy_polarity_invert & COMPHY_POLARITY_TXD_INVERT) != 0) {
+	data = mask = 0;
+	if (phy_polarity_invert & COMPHY_POLARITY_TXD_INVERT) {
 		data |= (1 << HPIPE_SYNC_PATTERN_TXD_INV_OFFSET);
 		mask |= HPIPE_SYNC_PATTERN_TXD_INV_MASK;
 		debug("%s: inverting TX polarity\n", __func__);
 	}
 
-	if ((phy_polarity_invert & COMPHY_POLARITY_RXD_INVERT) != 0) {
+	if (phy_polarity_invert & COMPHY_POLARITY_RXD_INVERT) {
 		data |= (1 << HPIPE_SYNC_PATTERN_RXD_INV_OFFSET);
 		mask |= HPIPE_SYNC_PATTERN_RXD_INV_MASK;
 		debug("%s: inverting RX polarity\n", __func__);
@@ -652,7 +657,7 @@ static int mvebu_cp110_comphy_sata_power_on(uint64_t comphy_base,
 		0x0 << HPIPE_PWR_CTR_RST_DFE_OFFSET,
 		HPIPE_PWR_CTR_RST_DFE_MASK);
 
-	if (phy_polarity_invert != 0)
+	if (phy_polarity_invert)
 		mvebu_cp110_polarity_invert(hpipe_addr + HPIPE_SYNC_PATTERN_REG,
 					    phy_polarity_invert);
 
@@ -829,7 +834,8 @@ static int mvebu_cp110_comphy_sgmii_power_on(uint64_t comphy_base,
 
 static int mvebu_cp110_comphy_xfi_power_on(uint64_t comphy_base,
 					   uint8_t comphy_index,
-					   uint32_t comphy_mode)
+					   uint32_t comphy_mode,
+					   uint64_t comphy_train_base)
 {
 	uintptr_t hpipe_addr, sd_ip_addr, comphy_addr, addr;
 	uint32_t mask, data, speed = COMPHY_GET_SPEED(comphy_mode);
@@ -837,7 +843,6 @@ static int mvebu_cp110_comphy_xfi_power_on(uint64_t comphy_base,
 	uint8_t ap_nr, cp_nr;
 
 	debug_enter();
-
 	mvebu_cp110_get_ap_and_cp_nr(&ap_nr, &cp_nr, comphy_base);
 
 	if (rx_trainng_done[ap_nr][cp_nr][comphy_index]) {
@@ -937,7 +942,7 @@ static int mvebu_cp110_comphy_xfi_power_on(uint64_t comphy_base,
 	 * addition to the PHY reset
 	 */
 	mask = SD_EXTERNAL_CONFIG1_TX_IDLE_MASK;
-	data = 0x0U;
+	data = 0x0 << SD_EXTERNAL_CONFIG1_TX_IDLE_OFFSET;
 	reg_set(sd_ip_addr + SD_EXTERNAL_CONFIG1_REG, data, mask);
 
 	/* Start comphy Configuration */
@@ -1233,6 +1238,14 @@ static int mvebu_cp110_comphy_xfi_power_on(uint64_t comphy_base,
 	mask |= SD_EXTERNAL_CONFIG1_RF_RESET_IN_MASK;
 	data |= 0x1 << SD_EXTERNAL_CONFIG1_RF_RESET_IN_OFFSET;
 	reg_set(sd_ip_addr + SD_EXTERNAL_CONFIG1_REG, data, mask);
+
+	/* Force rx training on 10G port */
+	data = mmio_read_32(COMPHY_TRX_RELATIVE_ADDR(comphy_index));
+	data |= COMPHY_TRX_TRAIN_RX_TRAIN_ENABLE;
+	mmio_write_32(COMPHY_TRX_RELATIVE_ADDR(comphy_index), data);
+	mdelay(200);
+	data &= ~COMPHY_TRX_TRAIN_RX_TRAIN_ENABLE;
+	mmio_write_32(COMPHY_TRX_RELATIVE_ADDR(comphy_index), data);
 
 	debug_exit();
 
@@ -1540,7 +1553,7 @@ static int mvebu_cp110_comphy_pcie_power_on(uint64_t comphy_base,
 
 	/* Disable G0/G1/GN1 adaptation */
 	mask = HPIPE_TX_TRAIN_CTRL_G1_MASK | HPIPE_TX_TRAIN_CTRL_GN1_MASK
-		| HPIPE_TX_TRAIN_CTRL_G0_OFFSET;
+		| HPIPE_TX_TRAIN_CTRL_G0_MASK;
 	data = 0;
 	reg_set(hpipe_addr + HPIPE_TX_TRAIN_CTRL_REG, data, mask);
 
@@ -2284,7 +2297,6 @@ static int mvebu_cp110_comphy_ap_power_on(uint64_t comphy_base,
 					  uint32_t comphy_mode)
 {
 	uint32_t mask, data;
-	uint8_t ap_nr, cp_nr;
 	uintptr_t comphy_addr = comphy_addr =
 				COMPHY_ADDR(comphy_base, comphy_index);
 
@@ -2301,10 +2313,16 @@ static int mvebu_cp110_comphy_ap_power_on(uint64_t comphy_base,
 	reg_set(comphy_addr + COMMON_PHY_CFG1_REG, data, mask);
 	debug_exit();
 
-	/* Start AP Firmware */
-	mvebu_cp110_get_ap_and_cp_nr(&ap_nr, &cp_nr, comphy_base);
-	mg_start_ap_fw(cp_nr, comphy_index);
+#if MSS_SUPPORT
+	do {
+		uint8_t ap_nr, cp_nr;
 
+		/* start ap fw */
+		mvebu_cp110_get_ap_and_cp_nr(&ap_nr, &cp_nr, comphy_base);
+		mg_start_ap_fw(cp_nr, comphy_index);
+
+	} while (0);
+#endif
 	return 0;
 }
 
@@ -2343,8 +2361,10 @@ int mvebu_cp110_comphy_digital_reset(uint64_t comphy_base,
 	return 0;
 }
 
-int mvebu_cp110_comphy_power_on(uint64_t comphy_base, uint8_t comphy_index,
-				uint64_t comphy_mode)
+int mvebu_cp110_comphy_power_on(uint64_t comphy_base,
+				uint8_t comphy_index,
+				uint64_t comphy_mode,
+				uint64_t comphy_train_base)
 {
 	int mode = COMPHY_GET_MODE(comphy_mode);
 	int err = 0;
@@ -2368,7 +2388,8 @@ int mvebu_cp110_comphy_power_on(uint64_t comphy_base, uint8_t comphy_index,
 	case (COMPHY_SFI_MODE):
 		err = mvebu_cp110_comphy_xfi_power_on(comphy_base,
 						      comphy_index,
-						      comphy_mode);
+						      comphy_mode,
+						      comphy_train_base);
 		break;
 	case (COMPHY_PCIE_MODE):
 		err = mvebu_cp110_comphy_pcie_power_on(comphy_base,

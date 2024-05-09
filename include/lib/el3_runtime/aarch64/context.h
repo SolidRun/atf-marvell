@@ -46,7 +46,9 @@
 #define CTX_GPREG_X29		U(0xe8)
 #define CTX_GPREG_LR		U(0xf0)
 #define CTX_GPREG_SP_EL0	U(0xf8)
-#define CTX_GPREGS_END		U(0x100)
+#define CTX_GPREG_LR_BCK	U(0x100)
+#define CTX_GPREG_TMP_HANDLE	U(0x108)
+#define CTX_GPREGS_END		U(0x110)
 
 /*******************************************************************************
  * Constants that allow assembler code to access members of and the 'el3_state'
@@ -60,7 +62,9 @@
 #define CTX_SPSR_EL3		U(0x18)
 #define CTX_ELR_EL3		U(0x20)
 #define CTX_PMCR_EL0		U(0x28)
-#define CTX_EL3STATE_END	U(0x30)
+#define CTX_CPTR_EL3		U(0x30)
+#define CTX_ZCR_EL3		U(0x38)
+#define CTX_EL3STATE_END	U(0x40) /* Align to the next 16 byte boundary */
 
 /*******************************************************************************
  * Constants that allow assembler code to access members of and the
@@ -323,6 +327,26 @@
 #define CTX_PAUTH_REGS_END	U(0)
 #endif /* CTX_INCLUDE_PAUTH_REGS */
 
+#define EL0ISR_CTX_GPREGS_OFFSET	(CTX_PAUTH_REGS_OFFSET + \
+					 CTX_PAUTH_REGS_END)
+#define CTX_GPREG_X0_BCK	U(0x110)
+#define CTX_GPREG_X1_BCK	U(0x118)
+#define CTX_GPREG_X2_BCK	U(0x120)
+#define CTX_GPREG_X3_BCK	U(0x128)
+#define CTX_GPREG_X4_BCK	U(0x130)
+#define CTX_GPREG_X5_BCK	U(0x138)
+#define EL0ISR_CTX_GPREGS_END	0x140
+
+#define EL0ISR_CTX_SYSREGS_OFFSET	(EL0ISR_CTX_GPREGS_OFFSET + \
+					 EL0ISR_CTX_GPREGS_END)
+#define EL0ISR_CTX_TCR_EL12	0x0
+#define EL0ISR_CTX_TTBR0_EL12	0x10
+#define EL0ISR_CTX_TTBR1_EL12	0x20
+#define EL0ISR_CTX_SCR_EL3	0x30
+#define EL0ISR_CTX_SPSR_EL3	0x40
+#define EL0ISR_CTX_ELR_EL3	0x50
+#define EL0ISR_CTX_SYSREGS_END	0x60
+
 #ifndef __ASSEMBLER__
 
 #include <stdint.h>
@@ -353,6 +377,9 @@
 #if CTX_INCLUDE_PAUTH_REGS
 # define CTX_PAUTH_REGS_ALL	(CTX_PAUTH_REGS_END >> DWORD_SHIFT)
 #endif
+
+#define EL0ISR_CTX_GPREGS_ALL	(EL0ISR_CTX_GPREGS_END >> DWORD_SHIFT)
+#define EL0ISR_CTX_SYSREGS_ALL	(EL0ISR_CTX_SYSREGS_END >> DWORD_SHIFT)
 
 /*
  * AArch64 general purpose register context structure. Usually x0-x18,
@@ -386,6 +413,9 @@ DEFINE_REG_STRUCT(el2_sysregs, CTX_EL2_SYSREGS_ALL);
 #if CTX_INCLUDE_FPREGS
 DEFINE_REG_STRUCT(fp_regs, CTX_FPREG_ALL);
 #endif
+
+DEFINE_REG_STRUCT(el0isr_gp_regs, EL0ISR_CTX_GPREGS_ALL);
+DEFINE_REG_STRUCT(el0isr_sys_regs, EL0ISR_CTX_SYSREGS_ALL);
 
 /*
  * Miscellaneous registers used by EL3 firmware to maintain its state
@@ -432,6 +462,8 @@ typedef struct cpu_context {
 #if CTX_INCLUDE_PAUTH_REGS
 	pauth_t pauth_ctx;
 #endif
+	el0isr_gp_regs_t el0isr_gpregs_ctx;
+	el0isr_sys_regs_t el0isr_sysregs_ctx;
 } cpu_context_t;
 
 /* Macros to access members of the 'cpu_context_t' structure */
@@ -448,6 +480,9 @@ typedef struct cpu_context {
 #if CTX_INCLUDE_PAUTH_REGS
 # define get_pauth_ctx(h)	(&((cpu_context_t *) h)->pauth_ctx)
 #endif
+
+#define get_el0isr_gpregs_ctx(h) (&((cpu_context_t *) h)->el0isr_gpregs_ctx)
+#define get_el0isr_sysregs_ctx(h) (&((cpu_context_t *) h)->el0isr_sysregs_ctx)
 
 /*
  * Compile time assertions related to the 'cpu_context' structure to
@@ -474,6 +509,11 @@ CASSERT(CTX_CVE_2018_3639_OFFSET == __builtin_offsetof(cpu_context_t, cve_2018_3
 CASSERT(CTX_PAUTH_REGS_OFFSET == __builtin_offsetof(cpu_context_t, pauth_ctx), \
 	assert_core_context_pauth_offset_mismatch);
 #endif
+CASSERT(EL0ISR_CTX_GPREGS_OFFSET == __builtin_offsetof(cpu_context_t,	\
+	el0isr_gpregs_ctx), assert_core_context_el0isr_gpregs_offset_mismatch);
+CASSERT(EL0ISR_CTX_SYSREGS_OFFSET == __builtin_offsetof(cpu_context_t,	\
+	el0isr_sysregs_ctx),						\
+	assert_core_context_el0isr_sysregs_offset_mismatch);
 
 /*
  * Helper macro to set the general purpose registers that correspond to

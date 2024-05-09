@@ -18,6 +18,7 @@
 #define EOF            -1
 
 int printf(const char *fmt, ...) __printflike(1, 2);
+int sprintf(char *s, const char *fmt, ...) __printflike(2, 3);
 int snprintf(char *s, size_t n, const char *fmt, ...) __printflike(3, 4);
 
 #ifdef STDARG_H

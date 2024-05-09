@@ -180,7 +180,11 @@
 	 * CPTR_EL3.TFP: Set to zero so that accesses to the V- or Z- registers
 	 *  by Advanced SIMD, floating-point or SVE instructions (if implemented)
 	 *  do not trap to EL3.
+	 *
+	 * CPTR_EL3.EZ: Set to zero so that all SVE functionality is trapped
+	 *  to EL3 by default.
 	 */
+
 	mov_imm x0, (CPTR_EL3_RESET_VAL & ~(TCPAC_BIT | TTA_BIT | TFP_BIT))
 	msr	cptr_el3, x0
 
@@ -193,7 +197,9 @@
 	cmp	x0, #ID_AA64PFR0_DIT_SUPPORTED
 	bne	1f
 	mov	x0, #DIT_BIT
+	/*
 	msr	DIT, x0
+	*/
 1:
 	.endm
 
@@ -316,7 +322,8 @@
 	 * Set the exception vectors.
 	 * ---------------------------------------------------------------------
 	 */
-	adr	x0, \_exception_vectors
+	adrp	x0, \_exception_vectors
+	add	x0,x0,:lo12:\_exception_vectors
 	msr	vbar_el3, x0
 	isb
 

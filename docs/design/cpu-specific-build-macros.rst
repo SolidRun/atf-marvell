@@ -29,6 +29,10 @@ vulnerability workarounds should be applied at runtime.
    platform contains at least 1 CPU that requires dynamic mitigation.
    Defaults to 0.
 
+-  ``WORKAROUND_CVE_2022_23960``: Enables mitigation for `CVE-2022-23960`_.
+   This build option should be set to 1 if the target platform contains at
+   least 1 CPU that requires this mitigation. Defaults to 1.
+
 .. _arm_cpu_macros_errata_workarounds:
 
 CPU Errata Workarounds
@@ -306,6 +310,57 @@ For Neoverse N1, the following errata build flags are defined :
 -  ``ERRATA_N1_1868343``: This applies errata 1868343 workaround to Neoverse-N1
    CPU. This needs to be enabled only for revision <= r4p0 of the CPU.
 
+For Neoverse N2, the following errata build flags are defined :
+
+-  ``ERRATA_N2_2002655``: This applies errata 2002655 workaround to Neoverse-N2
+   CPU. This needs to be enabled for revision r0p0 of the CPU, it is still open.
+
+-  ``ERRATA_N2_2067956``: This applies errata 2067956 workaround to Neoverse-N2
+   CPU. This needs to be enabled for revision r0p0 of the CPU and is still open.
+
+-  ``ERRATA_N2_2025414``: This applies errata 2025414 workaround to Neoverse-N2
+   CPU. This needs to be enabled for revision r0p0 of the CPU and is still open.
+
+-  ``ERRATA_N2_2189731``: This applies errata 2189731 workaround to Neoverse-N2
+   CPU. This needs to be enabled for revision r0p0 of the CPU and is still open.
+
+-  ``ERRATA_N2_2138956``: This applies errata 2138956 workaround to Neoverse-N2
+   CPU. This needs to be enabled for revision r0p0 of the CPU and is still open.
+
+-  ``ERRATA_N2_2138953``: This applies errata 2138953 workaround to Neoverse-N2
+   CPU. This needs to be enabled for revision r0p0 of the CPU and is still open.
+
+-  ``ERRATA_N2_2242415``: This applies errata 2242415 workaround to Neoverse-N2
+   CPU. This needs to be enabled for revision r0p0 of the CPU and is still open.
+
+-  ``ERRATA_N2_2138958``: This applies errata 2138958 workaround to Neoverse-N2
+   CPU. This needs to be enabled for revision r0p0 of the CPU and is still open.
+
+-  ``ERRATA_N2_2242400``: This applies errata 2242400 workaround to Neoverse-N2
+   CPU. This needs to be enabled for revision r0p0 of the CPU and is still open.
+
+-  ``ERRATA_N2_2280757``: This applies errata 2280757 workaround to Neoverse-N2
+   CPU. This needs to be enabled for revision r0p0 of the CPU and is still open.
+
+-  ``ERRATA_N2_2313941``: This applies errata 2313941 workaround to Neoverse-N2
+   CPU. This needs to be enabled for revision r0p0 of the CPU and is still open.
+
+-  ``ERRATA_N2_2388450``: This applies errata 2388450 workaround to Neoverse-N2
+   CPU. This needs to be enabled for revision r0p0 - r1p2 of the CPU and is
+   still open.
+
+-  ``ERRATA_N2_2855383``: This applies errata 2855383 workaround to Neoverse-N2
+   CPU. This needs to be enabled for revision r0p0 - r1p2 of the CPU and is
+   still open.
+
+-  ``ERRATA_N2_2779511``: This applies errata 2779511 workaround to Neoverse-N2
+   CPU. This needs to be enabled for revision r0p0 - r1p2 of the CPU and is
+   still open.
+
+-  ``ERRATA_N2_EEL2``: This applies previous context errata workaround to Neoverse-N2
+   CPU. This needs to be enabled for revision r0p0 - r0p3 of the CPU and is
+   still open.
+
 DSU Errata Workarounds
 ----------------------
 
@@ -369,10 +424,11 @@ architecture that can be enabled by the platform as desired.
    Cortex-A57 based platform must make its own decision on whether to use
    the optimization. This flag is disabled by default.
 
--  ``NEOVERSE_N1_EXTERNAL_LLC``: This flag indicates that an external last
+-  ``NEOVERSE_Nx_EXTERNAL_LLC``: This flag indicates that an external last
    level cache(LLC) is present in the system, and that the DataSource field
    on the master CHI interface indicates when data is returned from the LLC.
    This is used to control how the LL_CACHE* PMU events count.
+   Default value is 0 (Disabled).
 
 --------------
 
@@ -380,6 +436,7 @@ architecture that can be enabled by the platform as desired.
 
 .. _CVE-2017-5715: http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-5715
 .. _CVE-2018-3639: http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-3639
+.. _CVE-2022-23960: https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-23960
 .. _Cortex-A53 MPCore Software Developers Errata Notice: http://infocenter.arm.com/help/topic/com.arm.doc.epm048406/index.html
 .. _Cortex-A57 MPCore Software Developers Errata Notice: http://infocenter.arm.com/help/topic/com.arm.doc.epm049219/index.html
 .. _Cortex-A72 MPCore Software Developers Errata Notice: http://infocenter.arm.com/help/topic/com.arm.doc.epm012079/index.html

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2020 Marvell International Ltd.
+ * Copyright (c) 2018 Marvell.
  *
  * SPDX-License-Identifier:     BSD-3-Clause
  * https://spdx.org/licenses
@@ -12,7 +12,9 @@
 #include <drivers/marvell/amb_adec.h>
 #include <drivers/marvell/iob.h>
 #include <drivers/marvell/mochi/cp110_setup.h>
+#include <drivers/rambus/trng_ip_76.h>
 
+#include <efuse_def.h>
 #include <plat_marvell.h>
 
 /*
@@ -74,6 +76,14 @@
 #define PCIE0_REFCLK_BUFF_SOURCE			0x400
 
 /*******************************************************************************
+ * PCIE SYSRST OUTn Config Register
+ ******************************************************************************/
+#define MVEBU_PCIE_SYSRST_OUT_CONFIG			(0x440254)
+#define PCIE0_RST_OUT_MASK				BIT(1)
+#define PCIE1_RST_OUT_MASK				BIT(2)
+#define PCIE2_RST_OUT_MASK				BIT(3)
+
+/*******************************************************************************
  * MSS Device Push Set Register
  ******************************************************************************/
 #define MVEBU_CP_MSS_DPSHSR_REG				(0x280040)
@@ -105,6 +115,13 @@
 #define MVEBU_RTC_READ_OUTPUT_DELAY_MASK		0xFFFF
 #define MVEBU_RTC_READ_OUTPUT_DELAY_DEFAULT		0x1F
 
+/*******************************************************************************
+ * TRNG Configuration
+ ******************************************************************************/
+#define MVEBU_TRNG_BASE					(0x760000)
+#define MVEBU_EFUSE_TRNG_ENABLE_EFUSE_WORD		MVEBU_AP_LDX_220_189_EFUSE_OFFS
+#define MVEBU_EFUSE_TRNG_ENABLE_BIT_OFFSET		13	/* LD0[202] */
+
 enum axi_attr {
 	AXI_ADUNIT_ATTR = 0,
 	AXI_COMUNIT_ATTR,
@@ -130,7 +147,7 @@ enum axi_attr {
 #define USB3H_1_STREAM_ID_REG	(RFU_STREAM_ID_BASE + 0x10)
 #define SATA_0_STREAM_ID_REG	(RFU_STREAM_ID_BASE + 0x14)
 #define SATA_1_STREAM_ID_REG	(RFU_STREAM_ID_BASE + 0x18)
-#define SDIO_0_STREAM_ID_REG	(RFU_STREAM_ID_BASE + 0x28)
+#define SDIO_STREAM_ID_REG	(RFU_STREAM_ID_BASE + 0x28)
 
 #define CP_DMA_0_STREAM_ID_REG  (0x6B0010)
 #define CP_DMA_1_STREAM_ID_REG  (0x6D0010)
@@ -138,14 +155,14 @@ enum axi_attr {
 /* We allocate IDs 128-255 for PCIe */
 #define MAX_STREAM_ID		(0x80)
 
-uintptr_t stream_id_reg[] = {
+static uintptr_t stream_id_reg[] = {
 	USB3H_0_STREAM_ID_REG,
 	USB3H_1_STREAM_ID_REG,
 	CP_DMA_0_STREAM_ID_REG,
 	CP_DMA_1_STREAM_ID_REG,
 	SATA_0_STREAM_ID_REG,
 	SATA_1_STREAM_ID_REG,
-	SDIO_0_STREAM_ID_REG,
+	SDIO_STREAM_ID_REG,
 	0
 };
 
@@ -180,8 +197,9 @@ static void cp110_pcie_clk_cfg(uintptr_t base)
 	pcie0_clk = (reg & SAR_PCIE0_CLK_CFG_MASK) >> SAR_PCIE0_CLK_CFG_OFFSET;
 	pcie1_clk = (reg & SAR_PCIE1_CLK_CFG_MASK) >> SAR_PCIE1_CLK_CFG_OFFSET;
 
-	/* CP110 revision A2 */
-	if (cp110_rev_id_get(base) == MVEBU_CP110_REF_ID_A2) {
+	/* CP110 revision A2 or CN913x */
+	if (cp110_rev_id_get(base) == MVEBU_CP110_REF_ID_A2 ||
+	    cp110_device_id_get(base) == MVEBU_CN9130_DEV_ID) {
 		/*
 		 * PCIe Reference Clock Buffer Control register must be
 		 * set according to the clock direction (input/output)
@@ -210,6 +228,19 @@ static void cp110_pcie_clk_cfg(uintptr_t base)
 		}
 	}
 }
+
+#if PCI_EP_SUPPORT
+/* Set SYSRST_OUTn configuration */
+static void cp110_pcie_sysrst_out_cfg(uintptr_t base)
+{
+	uint32_t data;
+
+	/* Do Not Mask PCIe0/1/2_Rst_Out from influencing the SYSRST_OUTn */
+	data = mmio_read_32(base + MVEBU_PCIE_SYSRST_OUT_CONFIG);
+	data &= ~(PCIE0_RST_OUT_MASK | PCIE1_RST_OUT_MASK | PCIE2_RST_OUT_MASK);
+	mmio_write_32(base + MVEBU_PCIE_SYSRST_OUT_CONFIG, data);
+}
+#endif
 
 /* Set a unique stream id for all DMA capable devices */
 static void cp110_stream_id_init(uintptr_t base, uint32_t stream_id)
@@ -378,6 +409,36 @@ static void cp110_amb_adec_init(uintptr_t base)
 	init_amb_adec(base);
 }
 
+static void cp110_trng_init(uintptr_t base)
+{
+	static int done;
+	int ret;
+	uint32_t reg_val, efuse;
+
+	/* Set access to LD0 */
+	reg_val = mmio_read_32(MVEBU_AP_EFUSE_SRV_CTRL_REG);
+	reg_val &= ~EFUSE_SRV_CTRL_LD_SELECT_MASK;
+	mmio_write_32(MVEBU_AP_EFUSE_SRV_CTRL_REG, reg_val);
+
+	/* Obtain the AP LD0 bit defining TRNG presence */
+	efuse = mmio_read_32(MVEBU_EFUSE_TRNG_ENABLE_EFUSE_WORD);
+	efuse >>= MVEBU_EFUSE_TRNG_ENABLE_BIT_OFFSET;
+	efuse &= 1;
+
+	if (efuse == 0) {
+		VERBOSE("TRNG is not present, skipping");
+		return;
+	}
+
+	if (!done) {
+		ret = eip76_rng_probe(base + MVEBU_TRNG_BASE);
+		if (ret) {
+			ERROR("Failed to init TRNG @ 0x%lx\n", base);
+			return;
+		}
+		done = 1;
+	}
+}
 void cp110_init(uintptr_t cp110_base, uint32_t stream_id)
 {
 	INFO("%s: Initialize CPx - base = %lx\n", __func__, cp110_base);
@@ -405,6 +466,14 @@ void cp110_init(uintptr_t cp110_base, uint32_t stream_id)
 
 	/* Reset RTC if needed */
 	cp110_rtc_init(cp110_base);
+
+	/* TRNG init - for CP0 only */
+	cp110_trng_init(cp110_base);
+
+#if PCI_EP_SUPPORT
+	/* Configure PCIe SYSRST OUT */
+	cp110_pcie_sysrst_out_cfg(cp110_base);
+#endif
 }
 
 /* Do the minimal setup required to configure the CP in BLE */

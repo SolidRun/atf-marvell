@@ -8,6 +8,7 @@
 #include <assert.h>
 #include <stdio.h>
 
+#include <spinlock.h>
 #include <common/debug.h>
 #include <plat/common/platform.h>
 
@@ -26,6 +27,7 @@ void tf_log(const char *fmt, ...)
 	unsigned int log_level;
 	va_list args;
 	const char *prefix_str;
+	static spinlock_t lock;
 
 	/* We expect the LOG_MARKER_* macro as the first character */
 	log_level = fmt[0];
@@ -37,6 +39,7 @@ void tf_log(const char *fmt, ...)
 	if (log_level > max_log_level)
 		return;
 
+	spin_lock(&lock);
 	prefix_str = plat_log_get_prefix(log_level);
 
 	while (*prefix_str != '\0') {
@@ -47,6 +50,7 @@ void tf_log(const char *fmt, ...)
 	va_start(args, fmt);
 	(void)vprintf(fmt + 1, args);
 	va_end(args);
+	spin_unlock(&lock);
 }
 
 /*

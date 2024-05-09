@@ -11,6 +11,7 @@ BL1_SOURCES		+=	bl1/bl1_main.c				\
 				bl1/${ARCH}/bl1_exceptions.S		\
 				lib/cpus/${ARCH}/cpu_helpers.S		\
 				lib/cpus/errata_report.c		\
+				lib/locks/exclusive/aarch64/spinlock.S	\
 				lib/el3_runtime/${ARCH}/context_mgmt.c	\
 				plat/common/plat_bl1_common.c		\
 				plat/common/${ARCH}/platform_up_stack.S \

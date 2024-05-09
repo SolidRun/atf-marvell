@@ -218,11 +218,23 @@
 	ret
 	.endm
 
+	/* This macro is to workaround MRVL AP-37119 */
+	.macro before_eret
+#if (defined(PLAT_f95) || defined(PLAT_t96))
+	/*
+	 * Assume that invalidating ASID 0, VA 0 will not cause a performance
+	 * regression.  Page that contains VA 0 is normally an invalid page.
+	 */
+	tlbi VALE1, xzr
+#endif
+	.endm
+
 	/*
 	 * Macro for mitigating against speculative execution beyond ERET.
 	 * If possible use Speculation Barrier instruction defined in ARMv8.5
 	 */
 	.macro exception_return
+	before_eret
 	eret
 #if ARM_ARCH_AT_LEAST(8, 5)
 	sb

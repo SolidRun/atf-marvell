@@ -209,7 +209,11 @@ void __init bl31_prepare_next_image_entry(void)
 
 	/* Program EL3 registers to enable entry into the next EL */
 	next_image_info = bl31_plat_get_next_image_ep_info(image_type);
-	assert(next_image_info != NULL);
+	if (next_image_info == NULL) {
+		ERROR("%s: next image entry %d is NULL\n", __func__,
+				image_type);
+		panic();
+	}
 	assert(image_type == GET_SECURITY_STATE(next_image_info->h.attr));
 
 	INFO("BL31: Preparing for EL3 exit to %s world\n",

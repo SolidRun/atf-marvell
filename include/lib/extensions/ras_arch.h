@@ -251,7 +251,9 @@ static inline void ser_sys_select_record(unsigned int idx)
 	unsigned int max_idx __unused =
 		(unsigned int) read_erridr_el1() & ERRIDR_MASK;
 
+#if !defined(PLAT_CN10K_FAMILY)
 	assert(idx < max_idx);
+#endif
 
 	write_errselr_el1(idx);
 	isb();

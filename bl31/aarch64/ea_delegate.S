@@ -170,6 +170,9 @@ func delegate_sync_ea
 	 * fatal error handler rather than the generic EA one.
 	 */
 	ubfx    x2, x1, #EABORT_SET_SHIFT, #EABORT_SET_WIDTH
+	cmp	x2, #ERROR_STATUS_SET_UER
+	b.eq	1f
+
 	cmp     x2, #ERROR_STATUS_SET_UC
 	b.ne    1f
 
@@ -206,6 +209,9 @@ func delegate_async_ea
 	 * fatal error handler rather than the generic EA one.
 	 */
 	ubfx	x2, x1, #EABORT_AET_SHIFT, #EABORT_AET_WIDTH
+	cmp	x2, #ERROR_STATUS_SET_UER
+	b.eq	1f
+
 	cmp	x2, #ERROR_STATUS_UET_UC
 	b.ne	1f
 

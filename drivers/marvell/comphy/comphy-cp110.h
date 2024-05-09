@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Marvell International Ltd.
+ * Copyright (c) 2018 Marvell.
  *
  * SPDX-License-Identifier:     BSD-3-Clause
  * https://spdx.org/licenses
@@ -355,7 +355,7 @@
 #define HPIPE_CDR_LOCK_DET_EN_MASK		\
 			(0x1 << HPIPE_CDR_LOCK_DET_EN_OFFSET)
 
-#define HPIPE_SYNC_PATTERN_REG			0x090
+#define HPIPE_SYNC_PATTERN_REG                  0x090
 #define HPIPE_SYNC_PATTERN_TXD_INV_OFFSET	10
 #define HPIPE_SYNC_PATTERN_TXD_INV_MASK	\
 	(0x1 << HPIPE_SYNC_PATTERN_TXD_INV_OFFSET)

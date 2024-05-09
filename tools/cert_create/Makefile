@@ -16,13 +16,20 @@ MAKE_HELPERS_DIRECTORY := ../../make_helpers/
 include ${MAKE_HELPERS_DIRECTORY}build_macros.mk
 include ${MAKE_HELPERS_DIRECTORY}build_env.mk
 
-# Common source files.
+ifdef SSL_HSM_INSTALL_DIR
+  OPENSSL_DIR	:= ${SSL_HSM_INSTALL_DIR}
+  LDFLAGS	:= -Wl,-rpath=${SSL_HSM_INSTALL_DIR}/lib
+else
+  LDFLAGS	:=
+endif
+
 OBJECTS := src/cert.o \
            src/cmd_opt.o \
            src/ext.o \
            src/key.o \
            src/main.o \
-           src/sha.o
+           src/sha.o \
+	   src/engine.o
 
 # Chain of trust.
 ifeq (${COT},tbbr)
@@ -66,7 +73,7 @@ ${BINARY}: ${OBJECTS} Makefile
 	@echo 'const char build_msg[] = "Built : "__TIME__", "__DATE__; \
                 const char platform_msg[] = "${PLAT_MSG}";' | \
                 ${HOSTCC} -c ${HOSTCCFLAGS} -xc - -o src/build_msg.o
-	${Q}${HOSTCC} src/build_msg.o ${OBJECTS} ${LIB_DIR} ${LIB} -o $@
+	${Q}${HOSTCC} src/build_msg.o ${OBJECTS} ${LIB_DIR} ${LIB} ${LDFLAGS} -o $@
 
 %.o: %.c
 	@echo "  HOSTCC  $<"

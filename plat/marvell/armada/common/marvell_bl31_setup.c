@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Marvell International Ltd.
+ * Copyright (c) 2018 Marvell.
  *
  * SPDX-License-Identifier:     BSD-3-Clause
  * https://spdx.org/licenses
@@ -195,6 +195,10 @@ void bl31_platform_setup(void)
 void bl31_plat_runtime_setup(void)
 {
 	marvell_bl31_plat_runtime_setup();
+}
+
+void bl31_plat_warmboot_setup(void)
+{
 }
 
 /*****************************************************************************

@@ -62,6 +62,9 @@ unsigned int plat_my_core_pos(void);
 int plat_core_pos_by_mpidr(u_register_t mpidr);
 int plat_get_mbedtls_heap(void **heap_addr, size_t *heap_size);
 
+#if defined(PLAT_CN10K_FAMILY) && defined(INCLUDE_OPTEE)
+unsigned long plat_get_ext_secure_base(uint64_t *start);
+#endif
 #if STACK_PROTECTOR_ENABLED
 /*
  * Return a new value to be used for the stack protection's canary.
@@ -244,6 +247,7 @@ void bl31_early_platform_setup2(u_register_t arg0, u_register_t arg1,
 void bl31_plat_arch_setup(void);
 void bl31_platform_setup(void);
 void bl31_plat_runtime_setup(void);
+void bl31_plat_warmboot_setup(void);
 struct entry_point_info *bl31_plat_get_next_image_ep_info(uint32_t type);
 
 /*******************************************************************************
@@ -285,9 +289,7 @@ int plat_set_nv_ctr(void *cookie, unsigned int nv_ctr);
 int plat_set_nv_ctr2(void *cookie, const struct auth_img_desc_s *img_desc,
 		unsigned int nv_ctr);
 int get_mbedtls_heap_helper(void **heap_addr, size_t *heap_size);
-int plat_get_enc_key_info(enum fw_enc_status_t fw_enc_status, uint8_t *key,
-			  size_t *key_len, unsigned int *flags,
-			  const uint8_t *img_id, size_t img_id_len);
+int plat_get_crypt_key(unsigned char **key, unsigned int *key_len);
 
 /*******************************************************************************
  * Secure Partitions functions

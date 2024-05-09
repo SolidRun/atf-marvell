@@ -13,7 +13,8 @@ ifeq (${MBEDTLS_DIR},)
   $(error Error: MBEDTLS_DIR not set)
 endif
 
-MBEDTLS_INC		=	-I${MBEDTLS_DIR}/include
+INCLUDES		+=	-I${MBEDTLS_DIR}/include		\
+				-Iinclude/drivers/auth/mbedtls
 
 # Specify mbed TLS configuration file
 MBEDTLS_CONFIG_FILE	:=	"<drivers/auth/mbedtls/mbedtls_config.h>"
@@ -31,10 +32,10 @@ LIBMBEDTLS_SRCS		:= $(addprefix ${MBEDTLS_DIR}/library/,	\
 					memory_buffer_alloc.c			\
 					oid.c 					\
 					platform.c 				\
-					platform_util.c				\
 					bignum.c				\
 					gcm.c 					\
 					md.c					\
+					md_wrap.c				\
 					pk.c 					\
 					pk_wrap.c 				\
 					pkparse.c 				\
@@ -45,7 +46,6 @@ LIBMBEDTLS_SRCS		:= $(addprefix ${MBEDTLS_DIR}/library/,	\
 					ecp_curves.c				\
 					ecp.c					\
 					rsa.c					\
-					rsa_internal.c				\
 					x509.c 					\
 					x509_crt.c 				\
 					)
@@ -82,6 +82,9 @@ endif
 
 ifeq (${TF_MBEDTLS_KEY_ALG},ecdsa)
     TF_MBEDTLS_KEY_ALG_ID	:=	TF_MBEDTLS_ECDSA
+    ifeq (${KEY_SIZE},)
+        KEY_SIZE		:=	256
+    endif
 else ifeq (${TF_MBEDTLS_KEY_ALG},rsa)
     TF_MBEDTLS_KEY_ALG_ID	:=	TF_MBEDTLS_RSA
 else ifeq (${TF_MBEDTLS_KEY_ALG},rsa+ecdsa)

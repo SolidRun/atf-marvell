@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Marvell International Ltd.
+ * Copyright (c) 2018 Marvell.
  *
  * SPDX-License-Identifier:     BSD-3-Clause
  * https://spdx.org/licenses
@@ -140,6 +140,7 @@ struct addr_map_win ccu_memory_map[] = {
 	{0x00000000f2000000,	0xe000000,  IO_0_TID}, /* IO window */
 	{0x00000000c0000000,	0x30000000,  IO_0_TID}, /* IO window */
 	{0x0000000800000000,	0x100000000,  IO_0_TID}, /* IO window */
+	{0x0000002000000000,	0x70e000000,	IO_0_TID}, /* IO for CV-OS */
 #endif
 };
 

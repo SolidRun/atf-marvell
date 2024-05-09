@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Marvell International Ltd.
+ * Copyright (c) 2018 Marvell.
  *
  * SPDX-License-Identifier:     BSD-3-Clause
  * https://spdx.org/licenses
@@ -31,6 +31,9 @@
 #define MAX_STREAM_ID_PER_CP		(0x10)
 #define STREAM_ID_BASE			(0x40)
 
+#define MVEBU_SECUREBOOT_CTRL_REG	(MVEBU_RFU_BASE + 0x4730)
+#define MVEBU_SECUREBOOT_EN_MASK	BIT(0)
+
 static inline uint32_t cp110_device_id_get(uintptr_t base)
 {
 	/* Returns:
@@ -48,6 +51,12 @@ static inline uint32_t cp110_rev_id_get(uintptr_t base)
 	return (mmio_read_32(base + MVEBU_DEVICE_ID_REG) &
 		MVEBU_DEVICE_REV_MASK) >>
 		MVEBU_DEVICE_REV_OFFSET;
+}
+
+static inline uint32_t is_secure(void)
+{
+	return !!(mmio_read_32(MVEBU_SECUREBOOT_CTRL_REG) &
+			       MVEBU_SECUREBOOT_EN_MASK);
 }
 
 void cp110_init(uintptr_t cp110_base, uint32_t stream_id);

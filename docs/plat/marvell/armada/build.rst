@@ -9,7 +9,7 @@ Build Instructions
 
     .. code:: shell
 
-        > export CROSS_COMPILE=/path/to/toolchain/aarch64-linux-gnu-
+        > export CROSS_COMPILE=/path/to/toolchain/aarch64-marvell-linux-gnu-
 
 (2) Set path for FIP images:
 
@@ -26,7 +26,7 @@ BL33 should be ``~/project/u-boot/u-boot.bin``
 
        *u-boot.bin* should be used and not *u-boot-spl.bin*
 
-Set MSS/SCP image path (mandatory only for A7K/8K/CN913x)
+Set MSS/SCP image path (mandatory only for A7K/8K/CN913x when MSS_SUPPORT=1)
 
     .. code:: shell
 
@@ -89,6 +89,12 @@ There are several build options:
 - MARVELL_SECURE_BOOT
 
         Build trusted(=1)/non trusted(=0) image, default is non trusted.
+
+- DO_NOT_ENCRYPT
+
+        For A7K/8K/CN913x trusted boot only, ignore the AES key value from the configuration file.
+        Do not encrypt the trusted boot image, only sign it. Default value is 0 (follow
+        the configuration file settings).
 
 - BLE_PATH
 
@@ -218,8 +224,8 @@ Special Build Flags
     In order to work in 32bit DDR, instead of the default 64bit ECC DDR,
     this flag should be set to 1.
 
-For more information about build options, please refer to the
-:ref:`Build Options` document.
+For more information about build options, please refer to section
+'Summary of build options' in the :ref:`User Guide`.
 
 
 Build output

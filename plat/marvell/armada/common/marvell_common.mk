@@ -1,4 +1,4 @@
-# Copyright (C) 2018 Marvell International Ltd.
+# Copyright (c) 2018 Marvell.
 #
 # SPDX-License-Identifier:     BSD-3-Clause
 # https://spdx.org/licenses
@@ -7,6 +7,7 @@ MARVELL_PLAT_BASE		:= plat/marvell/armada
 MARVELL_PLAT_INCLUDE_BASE	:= include/plat/marvell/armada
 
 include plat/marvell/version.mk
+include plat/marvell/marvell.mk
 
 VERSION_STRING			+=(Marvell-${SUBVERSION})
 
@@ -85,3 +86,5 @@ endif
 ifeq (${MSS_SUPPORT}, 1)
 include $(MARVELL_PLAT_BASE)/common/mss/mss_common.mk
 endif
+
+fip: mrvl_flash

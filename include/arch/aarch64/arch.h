@@ -30,6 +30,7 @@
 #define MPIDR_MT_MASK		(ULL(1) << 24)
 #define MPIDR_CPU_MASK		MPIDR_AFFLVL_MASK
 #define MPIDR_CLUSTER_MASK	(MPIDR_AFFLVL_MASK << MPIDR_AFFINITY_BITS)
+#define MPIDR_NODE_MASK		MPIDR_AFFLVL_MASK << (2 * MPIDR_AFFINITY_BITS)
 #define MPIDR_AFFINITY_BITS	U(8)
 #define MPIDR_AFFLVL_MASK	ULL(0xff)
 #define MPIDR_AFF0_SHIFT	U(0)
@@ -95,6 +96,7 @@
 #define ICC_EOIR0_EL1		S3_0_c12_c8_1
 #define ICC_EOIR1_EL1		S3_0_c12_c12_1
 #define ICC_SGI0R_EL1		S3_0_c12_c11_7
+#define ICC_AP0R0_El1		S3_0_C12_C8_4
 
 /*******************************************************************************
  * Definitions for EL2 system registers for save/restore routine
@@ -167,6 +169,7 @@
 #define ID_AA64PFR0_GIC_MASK	ULL(0xf)
 #define ID_AA64PFR0_SVE_SHIFT	U(32)
 #define ID_AA64PFR0_SVE_MASK	ULL(0xf)
+#define ID_AA64PFR0_SVE_LENGTH	U(4)
 #define ID_AA64PFR0_SEL2_SHIFT	U(36)
 #define ID_AA64PFR0_SEL2_MASK	ULL(0xf)
 #define ID_AA64PFR0_MPAM_SHIFT	U(40)
@@ -414,6 +417,8 @@
 #define HCR_AMO_BIT		(ULL(1) << 5)
 #define HCR_IMO_BIT		(ULL(1) << 4)
 #define HCR_FMO_BIT		(ULL(1) << 3)
+#define HCR_BSU0_BIT		(ULL(1) << 10)
+#define HCR_BSU1_BIT		(ULL(1) << 11)
 
 /* ISR definitions */
 #define ISR_A_SHIFT		U(8)
@@ -442,7 +447,7 @@
 #define TTA_BIT			(U(1) << 20)
 #define TFP_BIT			(U(1) << 10)
 #define CPTR_EZ_BIT		(U(1) << 8)
-#define CPTR_EL3_RESET_VAL	U(0x0)
+#define CPTR_EL3_RESET_VAL	(TCPAC_BIT | TTA_BIT | TFP_BIT & ~(CPTR_EZ_BIT))
 
 /* CPTR_EL2 definitions */
 #define CPTR_EL2_RES1		((U(1) << 13) | (U(1) << 12) | (U(0x3ff)))
@@ -700,6 +705,9 @@
 #define ESR_ISS_EABORT_EA_BIT		U(9)
 
 #define EC_BITS(x)			(((x) >> ESR_EC_SHIFT) & ESR_EC_MASK)
+
+#define ESR_WNR_MASK			U(0x40)
+#define ESR_FAR_ELX_NOT_VALID_MASK	U(0x400)
 
 /* Reset bit inside the Reset management register for EL3 (RMR_EL3) */
 #define RMR_RESET_REQUEST_SHIFT 	U(0x1)
@@ -988,5 +996,13 @@
 #define DSU_CLUSTER_PWR_OFF	0
 #define DSU_CLUSTER_PWR_ON	1
 #define DSU_CLUSTER_PWR_MASK	U(1)
+
+/* ACTLR_EL3 definitions */
+#define ACTLR_EL3_ACTLREN_BIT		(ULL(1) << 0)
+#define ACTLR_EL3_ECTLREN_BIT		(ULL(1) << 1)
+#define ACTLR_EL3_PWREN_BIT		(ULL(1) << 7)
+#define ACTLR_EL3_TSIDEN_BIT		(ULL(1) << 10)
+#define ACTLR_EL3_SMEN_BIT		(ULL(1) << 11)
+#define ACTLR_EL3_CLUSTERPMUEN_BIT	(ULL(1) << 12)
 
 #endif /* ARCH_H */

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Marvell International Ltd.
+ * Copyright (c) 2018 Marvell.
  *
  * SPDX-License-Identifier:     BSD-3-Clause
  * https://spdx.org/licenses
@@ -91,8 +91,6 @@
 
 #define PLAT_MARVELL_CORE_COUNT			(PLAT_MARVELL_CLUSTER_COUNT * \
 						PLAT_MARVELL_CLUSTER_CORE_COUNT)
-
-#define PLAT_MAX_CPUS_PER_CLUSTER		PLAT_MARVELL_CLUSTER_CORE_COUNT
 
 /* Part of DRAM that is used as Trusted ROM */
 #define PLAT_MARVELL_TRUSTED_ROM_BASE		PLAT_MARVELL_ATF_LOAD_ADDR
@@ -198,5 +196,7 @@
 #define IRQ_SEC_OS_TICK_INT			MARVELL_IRQ_SEC_PHY_TIMER
 
 #define MVEBU_PMU_IRQ_WA
+
+#define SHARED_DDR_BTW_BLE_UBOOT 0x6000000
 
 #endif /* PLATFORM_DEF_H */
