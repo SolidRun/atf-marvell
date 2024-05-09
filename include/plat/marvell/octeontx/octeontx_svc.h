@@ -43,7 +43,7 @@
  *	x1: efi Image size
  */
 #define PLAT_OCTEONTX_LOAD_EFI_APP		0xc2000b08
-#if 0
+
 /*
  *
  * Return:
@@ -55,7 +55,7 @@
  *	x2: efi shared memory size
  */
 #define PLAT_OCTEONTX_GET_EFI_SHARED_MEM	0xc2000b09
-#endif
+
 /*
  * x1 - user_buffer
  * x2 - size
