@@ -160,7 +160,7 @@ void cn10k_fill_portm_lane_map(int portm_idx)
 }
 
 /**
- * Checks if the PORTM is connected through MUX (to be called for THOR VRAN NIC card only)
+ * Checks if the PORTM is connected through MUX (to be called for RINLINE2 boards only)
  *
  * @param portm_idx  PORTM
  *

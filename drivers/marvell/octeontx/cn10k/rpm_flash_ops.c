@@ -45,7 +45,7 @@ static int rpm_read_flash_lmac_params(uint8_t *buf, uint64_t *buflen)
 
 #ifdef PLAT_cnf10kb
 /* These functions are added to support retimer MUX config via SMC call (sysfs)
- * interface for VRAN NIC Thor board
+ * interface (RINLINE2 boards)
  */
 
 #define MAX_RETIMERS 4

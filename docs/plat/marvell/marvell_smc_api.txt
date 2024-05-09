@@ -899,7 +899,7 @@ PLAT_OCTEONTX_CONFIG_RETIMER
   * Description:
       This SMC call handles updating persistent memory for Retimer (mode & gserm index).
       New Retimer configuration is effective on the next boot
-  * Supported platforms: CNF10KB (Thor VRAN NIC board)
+  * Supported platforms: CNF10KB (RINLINE2 boards)
 
 PLAT_OCTEONTX_SEND_FW_VERSION_TO_SCP
   * SMC FID: 0xc2000b16
