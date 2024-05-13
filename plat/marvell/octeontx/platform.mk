@@ -25,7 +25,7 @@ PLAT_CSR_INCLUDE        ?=       include/plat/marvell/octeontx/csr
 
 # Check if xSPI or MPI should be build
 CN10K_PLATS = cn10ka cnf10ka cnf10kb cn10kb
-CN20K_PLATS = cn20ka
+CN20K_PLATS = cn20ka cnf20ka
 ifeq (${PLAT},$(filter ${PLAT}, ${CN10K_PLATS}))
        BUILD_XSPI=1
 else

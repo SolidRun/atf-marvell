@@ -185,6 +185,7 @@ void plat_octeontx_setup(void)
  * Bits 3..2: major pass
  * Bits 7..4: midr id:
  *      cn20ka  : 0x5
+ *      cnf20ka : 0x6
  */
 unsigned int plat_configure_rid(void)
 {
@@ -197,6 +198,8 @@ unsigned int plat_configure_rid(void)
 	min = (fus >> __OM_MINOR_SHIFT) & 0x3;
 	if (cavm_is_model(OCTEONTX_CN20KA))
 		val = 0x50;
+	else if (cavm_is_model(OCTEONTX_CNF20KA))
+		val = 0x60;
 
 	val |= (min | (maj << 2));
 
