@@ -46,6 +46,7 @@
 #include "cavm-csrs-gserm.h"
 #include "cavm-csrs-xcp.h"
 #include "cavm-csrs-cpc.h"
+#include "cavm-csrs-rpm.h"
 
 #define NCB_COUNT			5
 
@@ -346,6 +347,13 @@ void plat_add_mmio(void)
 				attr);
 	}
 
+        device_type_count = plat_octeontx_get_rpm_count();
+        for (i = 0; i < device_type_count; i++) {
+                add_map_record(CAVM_RPM_BAR_E_RPMX_PF_BAR0(i),
+                               CAVM_RPM_BAR_E_RPMX_PF_BAR0_SIZE, attr);
+                add_map_record(CAVM_RPM_BAR_E_RPMX_PF_BAR4(i),
+                               CAVM_RPM_BAR_E_RPMX_PF_BAR4_SIZE, attr);
+        }
 	mmap_add_region(ETH_CFG_SHMEM_BASE, ETH_CFG_SHMEM_BASE,
 			ETH_CFG_SHMEM_SIZE, (MT_MEMORY | MT_RW | MT_NS));
 

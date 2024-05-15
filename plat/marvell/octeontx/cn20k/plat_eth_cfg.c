@@ -1300,15 +1300,7 @@ static void rpm_assign_mac(const void *fdt)
 
 	for (rpm_id = 0; rpm_id < MAX_RPM; rpm_id++) {
 		rpm = &plat_octeontx_eth_cfg->rpm_cfg[rpm_id];
-#ifdef PLAT_cn20ka
-		// TODO: Convert to using RPM CSR value - running into mapping issues
-		if (rpm_id < 2)
-			rpm_const.s.lmacs = MAX_LMAC_PER_RPM;
-		else
-			rpm_const.s.lmacs = 4;
-#else
 		rpm_const.u = CSR_READ(CAVM_RPMX_CONST(rpm_id));
-#endif
 		if (!rpm->enable) {
 			id += rpm_const.s.lmacs;
 			continue;
