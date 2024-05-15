@@ -1263,7 +1263,7 @@ void update_descr_retcodes(struct smc_update_descriptor *desc)
  */
 static enum update_ret update_parse_tim_manifest(const void *tim_data, size_t size)
 {
-	struct tim_handle *thandle = &_tim_handle;
+	struct tim_handle *thandle = NULL;
 	const union tim_headers *hdr = tim_data;
 	struct tim_header_info hinfo;
 	enum tim_return tret;
@@ -1272,22 +1272,29 @@ static enum update_ret update_parse_tim_manifest(const void *tim_data, size_t si
 	tret = tim_get_timh_info(hdr, &hinfo);
 	if (tret != TIM_NO_ERROR) {
 		UERROR("Error parsing TIM %s\n", TIM0_FILENAME);
-		return UPDATE_TIM_ERROR;
+		uret = UPDATE_TIM_ERROR;
+		goto done;
 	}
 	if (hinfo.signed_tim_size != size) {
 		UERROR("Error: CPIO TIM0 size %lu doesn't match signed TIM size %u\n",
 		       size, hinfo.signed_tim_size);
-		return UPDATE_TIM_ERROR;
+		uret = UPDATE_TIM_ERROR;
+		goto done;
 	}
+	thandle = &_tim_handle;
+	tret = tim_load(hdr, 0, thandle);
+	if (tret != TIM_NO_ERROR) {
+		thandle = NULL;
+		UERROR("Error loading TIM0\n");
+		uret = UPDATE_TIM_ERROR;
+		goto done;
+	}
+
 	tret = ehsm_verify_tim_digital_signature(thandle, &hinfo, (uint8_t *)hdr);
 	if (tret != TIM_NO_ERROR) {
 		UERROR("Digital signature failed for %s\n", TIM0_FILENAME);
-		return UPDATE_AUTH_ERROR;
-	}
-	tret = tim_load(hdr, 0, thandle);
-	if (tret != TIM_NO_ERROR) {
-		UERROR("Error loading TIM0\n");
-		return UPDATE_TIM_ERROR;
+		uret = UPDATE_AUTH_ERROR;
+		goto done;
 	}
 
 	num_new_tim_manifest_entries = 0;
@@ -1296,14 +1303,17 @@ static enum update_ret update_parse_tim_manifest(const void *tim_data, size_t si
 				    new_tim_manifest);
 	if (tret != TIM_NO_ERROR || num_new_tim_manifest_entries == 0) {
 		UWARN("No TIM manifest found in TIM0\n");
-		return UPDATE_OK;
+		uret = UPDATE_OK;
+		goto done;
 	}
+	debug_fw_update("Found %u TIM manifest entries in update file\n",
+			num_new_tim_manifest_entries);
 	if (num_new_tim_manifest_entries > TIM_MAX_TIM_MANIFEST_ENTRIES) {
 		UERROR("TIM manifest contains %u entries, max is %u\n",
 		       num_new_tim_manifest_entries, TIM_MAX_TIM_MANIFEST_ENTRIES);
 		num_new_tim_manifest_entries = 0;
 		uret = UPDATE_TIM_ERROR;
-		goto error;
+		goto done;
 	}
 	tret = tim_get_tim_manifest(thandle,
 				    &num_new_tim_manifest_entries,
@@ -1311,11 +1321,11 @@ static enum update_ret update_parse_tim_manifest(const void *tim_data, size_t si
 	if (tret != TIM_NO_ERROR) {
 		UERROR("Error %d getting TIM manifest\n", tret);
 		uret = UPDATE_TIM_MANIFEST_MISSING;
-		goto error;
+		goto done;
 	}
-	return uret;
-error:
-	num_new_tim_manifest_entries = 0;
+done:
+	if (thandle != NULL)
+		tim_shutdown(thandle);
 	return uret;
 }
 
@@ -1343,15 +1353,17 @@ static enum update_ret update_parse_new_tim_manifest(void)
  *
  * @return status of operation
  */
-static enum update_ret update_parse_flash_manifest(const struct smc_update_descriptor *desc)
+static enum update_ret
+update_parse_flash_manifest(const struct smc_update_descriptor *desc)
 __attribute__((__unused__));
-static enum update_ret update_parse_flash_manifest(const struct smc_update_descriptor *desc)
+static enum update_ret
+update_parse_flash_manifest(const struct smc_update_descriptor *desc)
 {
 	uint64_t offset;
 	size_t max_size;
 	size_t tim_size;
 	const char *root_obj_name;
-	struct tim_handle *thandle = &_tim_handle;
+	struct tim_handle *thandle = NULL;
 	int ret;
 	enum update_ret uret;
 	enum tim_return tret;
@@ -1364,11 +1376,13 @@ static enum update_ret update_parse_flash_manifest(const struct smc_update_descr
 		return UPDATE_MISSING_TIM;
 	}
 	tim_size = EP_TIM_MAX_SIZE;
+	thandle = &_tim_handle;
 	uret = octeontx_read_tim(desc, offset, max_size, tim_buffer,
 				 thandle, &tim_size);
 	if (uret != UPDATE_OK) {
 		UERROR("Error reading TIM0 from offset 0x%lx\n", offset);
-		return uret;
+		thandle = NULL;
+		goto done;
 	}
 	num_current_tim_manifest_entries = 0;
 	tret = tim_get_tim_manifest(thandle,
@@ -1376,21 +1390,27 @@ static enum update_ret update_parse_flash_manifest(const struct smc_update_descr
 				    NULL);
 	if (tret != TIM_NO_ERROR || num_current_tim_manifest_entries == 0) {
 		UWARN("No TIM manifest found in TIM0\n");
-		return UPDATE_TIM_MANIFEST_MISSING;
+		uret = UPDATE_TIM_MANIFEST_MISSING;
+		goto done;
 	}
 	if (num_current_tim_manifest_entries > TIM_MAX_TIM_MANIFEST_ENTRIES) {
 		UERROR("TIM manifest in flash contains %u entries, max is %u\n",
 		       num_current_tim_manifest_entries, TIM_MAX_TIM_MANIFEST_ENTRIES);
 		num_current_tim_manifest_entries = 0;
-		return UPDATE_TIM_MANIFEST_CORRUPT;
+		uret = UPDATE_TIM_MANIFEST_CORRUPT;
+		goto done;
 	}
 	tret = tim_get_tim_manifest(thandle,
 				    &num_current_tim_manifest_entries,
 				    current_tim_manifest);
 	if (tret != TIM_NO_ERROR) {
 		UERROR("Error %d getting TIM manifest\n", tret);
-		return UPDATE_TIM_MANIFEST_MISSING;
+		uret = UPDATE_TIM_MANIFEST_MISSING;
+		goto done;
 	}
+done:
+	if (thandle != NULL)
+		tim_shutdown(thandle);
 	return UPDATE_OK;
 }
 
@@ -1482,11 +1502,24 @@ static enum update_ret update_process_new_manifest(void)
 	if (num_new_tim_manifest_entries >= TIM_MAX_TIM_MANIFEST_ENTRIES)
 		return UPDATE_TIM_MANIFEST_CORRUPT;
 
+	debug_fw_update("Getting %u manifest entries\n", num_new_tim_manifest_entries);
 	/* Make sure that every TIM found is in the manifest */
 	for_each_object(obj) {
 		tim_file = obj->tim_file;
 		if (tim_file == NULL) {
-			UERROR("Could not find TIM!\n");
+			UERROR("%s: Could not find TIM for object at %p!\n",
+			       __func__, obj);
+			UERROR("%s: TIM file: %p, data file: %p, group entry: %p\n",
+			       __func__, obj->tim_file, obj->data_file,
+			       obj->group);
+			if (obj->group) {
+				UERROR("%s: Group TIM: %s\n", __func__,
+				       obj->group->tim_filename);
+				UERROR("%s: data file: %s\n", __func__,
+				       obj->group->data_filename);
+				UERROR("%s: DTS name: %s\n", __func__,
+				       obj->group->dts_filename);
+			}
 			return UPDATE_MISSING_FILE;
 		}
 		uret = update_get_manifest_entry(false,
@@ -1503,6 +1536,8 @@ static enum update_ret update_process_new_manifest(void)
 			return uret;
 		}
 		obj->tim_manifest_entry = entry;
+		debug_fw_update("%s: Found %s in new manifest\n",
+				__func__, tim_file->filename);
 	}
 	return UPDATE_OK;
 }
@@ -1512,7 +1547,7 @@ static enum update_ret update_process_new_manifest(void)
  */
 static enum update_ret update_process_tims(void)
 {
-	struct tim_handle *thandle = &_tim_handle;
+	struct tim_handle *thandle = NULL;
 	struct object_entry *oentry;
 	struct file_entry *fentry;
 	struct file_entry *dfile = NULL;
@@ -1551,29 +1586,43 @@ static enum update_ret update_process_tims(void)
 			oentry = alloc_object();
 			if (!oentry) {
 				UWARN("Out of objects!!!\n");
-				return UPDATE_NO_MEM;
+				uret = UPDATE_NO_MEM;
+				goto done;
 			}
-			oentry->tim_file = fentry;
 			fentry->object = oentry;
-			zeromem(thandle, sizeof(*thandle));
+			/* Free resources from last TIM */
+			if (thandle != NULL) {
+				debug_fw_update("%s: Shutting down previous TIM data\n",
+						__func__);
+				tim_shutdown(thandle);
+				thandle = NULL;
+			}
 			hdr = (union tim_headers *)fentry->data;
 			/*
 			 * We don't know the source address from which the
 			 * TIM is loaded so we use the DATO location field
 			 */
-			tret = tim_load(hdr, TIM_SRC_ADDRESS_UNKNOWN, thandle);
-			if (tret != TIM_NO_ERROR) {
-				UWARN("Error %d processing TIM %s\n",
-				      tret, fentry->filename);
-				return UPDATE_TIM_ERROR;
-			}
-
+			debug_fw_update("%s: Parsing TIM %s header\n",
+					__func__, fentry->filename);
 			tret = tim_get_timh_info(hdr, &hinfo);
 			if (tret != TIM_NO_ERROR) {
 				UERROR("Error parsing TIM %s\n",
 				       fentry->filename);
-				return UPDATE_TIM_ERROR;
+				uret = UPDATE_TIM_ERROR;
+				goto done;
 			}
+			debug_fw_update("%s: Loading TIM %s from %p\n", __func__,
+					fentry->filename, hdr);
+			thandle = &_tim_handle;
+			tret = tim_load(hdr, TIM_SRC_ADDRESS_UNKNOWN, thandle);
+			if (tret != TIM_NO_ERROR) {
+				UWARN("Error %d processing TIM %s at %p\n",
+				      tret, fentry->filename, hdr);
+				thandle = NULL;
+				uret = UPDATE_TIM_ERROR;
+				goto done;
+			}
+
 			debug_fw_update("Verifying signature\n");
 			UINFO("Verifying digital signature\n");
 			err = ehsm_verify_tim_digital_signature(thandle,
@@ -1582,7 +1631,8 @@ static enum update_ret update_process_tims(void)
 			if (err) {
 				UERROR("Digital signature failed for %s\n",
 				       fentry->filename);
-				return UPDATE_AUTH_ERROR;
+				uret = UPDATE_AUTH_ERROR;
+				goto done;
 			}
 
 			UINFO("TIM digital signature check passed\n");
@@ -1592,7 +1642,8 @@ static enum update_ret update_process_tims(void)
 			debug_fw_update("tim_get_load_info returned %d\n", err);
 			if (err && err != TIM_NO_LOAD_INFO) {
 				UWARN("Invalid TIM %s\n", fentry->filename);
-				return UPDATE_TIM_ERROR;
+				uret = UPDATE_TIM_ERROR;
+				goto done;
 			}
 			li = &oentry->li;
 			debug_fw_update("Getting version info for %s\n", fentry->filename);
@@ -1612,7 +1663,8 @@ static enum update_ret update_process_tims(void)
 					      li->hshi_parsed,
 					      li->tim_src_loc_parsed,
 					      li->tim_dato_filename_parsed);
-					return UPDATE_TIM_ERROR;
+					uret = UPDATE_TIM_ERROR;
+					goto done;
 				}
 				debug_fw_update("%s: TIM associated with %s\n",
 						__func__, li->data_filename);
@@ -1642,7 +1694,8 @@ static enum update_ret update_process_tims(void)
 				if (dfile == NULL) {
 					UWARN("Error: could not find %s in update file\n",
 					      li->data_filename);
-					return UPDATE_TIM_ERROR;
+					uret = UPDATE_TIM_ERROR;
+					goto done;
 				}
 				debug_fw_update("dfile: %s, li: %s, fentry: %s\n",
 						dfile->filename, li->data_filename,
@@ -1652,7 +1705,8 @@ static enum update_ret update_process_tims(void)
 					      fentry->filename,
 					      oentry->li.image_length,
 					      dfile->filename, dfile->file_size);
-					return UPDATE_TIM_ERROR;
+					uret = UPDATE_TIM_ERROR;
+					goto done;
 				}
 				fentry->file_loc = li->tim_src_address;
 				dfile->file_loc = li->src_address;
@@ -1687,8 +1741,15 @@ static enum update_ret update_process_tims(void)
 					UWARN("%s: Tim address unknown for %s!\n",
 					      __func__, fentry->filename);
 			}
+			oentry->tim_file = fentry;
+			debug_fw_update("%s: Object: %p TIM file: %p, tim name: %s\n",
+					__func__, oentry, fentry,
+					fentry->filename);
 		}
 	}
+done:
+	if (thandle != NULL)
+		tim_shutdown(thandle);
 	return uret;
 }
 
@@ -2143,7 +2204,7 @@ enum update_ret check_flash_object(const struct smc_update_descriptor *desc,
 
 done:
 	if (!async_operation && !no_load) {
-		zeromem(fl_hdl, sizeof(*fl_hdl));
+		tim_shutdown(fl_hdl);
 		zeromem(fl_li, sizeof(*fl_li));
 	}
 	return uret;
@@ -2954,6 +3015,9 @@ static enum update_ret erase_ebf_config_data(struct smc_update_descriptor *desc)
  *		UPDATE_IO_ERROR for media I/O errors
  *		UPDATE_MISSING_TIM if media is erased at TIM location
  *		UPDATE_TIM_ERROR if the TIM is invalid
+ *
+ * @NOTE: 	The TIM handle must be freed with tim_shutdown when done,
+ *		except if an error is returned.
  */
 static enum update_ret
 octeontx_read_tim(const struct smc_update_descriptor *desc, uint64_t offset,
@@ -3033,6 +3097,7 @@ octeontx_read_tim(const struct smc_update_descriptor *desc, uint64_t offset,
 	if (ret != 0) {
 		UERROR("TIM signature verification failed with %d for TIM at offset 0x%lx\n",
 		       ret, offset);
+		tim_shutdown(handle);
 		ret = UPDATE_AUTH_ERROR;
 		goto done;
 	}
@@ -3120,6 +3185,7 @@ octeontx_read_tim_io(struct io_handle *io, uint64_t offset,
 	if (ret != 0) {
 		UERROR("TIM signature verification failed for TIM at offset 0x%lx\n",
 		       offset);
+		tim_shutdown(handle);
 		ret = UPDATE_AUTH_ERROR;
 		goto done;
 	}
@@ -3127,7 +3193,6 @@ octeontx_read_tim_io(struct io_handle *io, uint64_t offset,
 	if (tim_size)
 		*tim_size = hinfo.signed_tim_size;
 done:
-
 	return ret;
 }
 
@@ -3249,6 +3314,8 @@ static enum update_ret save_tim0(const struct smc_update_descriptor *desc)
 		tim0_offset = 0;
 		tim0_size = 0;
 		zeromem(tim0_buffer, sizeof(tim0_buffer));
+	} else {
+		tim_shutdown(thdl);
 	}
 	return uret;
 }
@@ -4741,16 +4808,19 @@ static int check_get_version(struct smc_version_info *vinfo,
 			UWARN("Version information is missing in the TIM %s\n",
 			     ventry->name);
 			ventry->retcode = RET_TIM_NO_VERSION;
-			return RET_TIM_NO_VERSION;
+			ret = RET_TIM_NO_VERSION;
+			goto done;
 		}
-		return 0;
+		ret = RET_OK;
+		goto done;
 	} else if (tret != TIM_NO_ERROR) {
 		ventry->retcode = RET_TIM_INVALID;
 		VLOG(ventry, "The TIM for %s is missing the load information",
 		     ventry->name);
 		UWARN("The TIM for %s is missing the load information\n",
 		     ventry->name);
-		return RET_TIM_INVALID;
+		ret = RET_TIM_INVALID;
+		goto done;
 	} else {
 		if (size && tli->image_length > size) {
 			ventry->retcode = RET_IMAGE_TOO_BIG;
@@ -4760,7 +4830,8 @@ static int check_get_version(struct smc_version_info *vinfo,
 			     tli->image_length, ventry->name, size);
 			UWARN("Reported TIM size 0x%x for %s is larger than maximum size 0x%lx\n",
 			     tli->image_length, ventry->name, size);
-			return RET_IMAGE_TOO_BIG;
+			ret = RET_IMAGE_TOO_BIG;
+			goto done;
 		}
 		ventry->object_size = tli->image_length;
 		ventry->object_address = tli->src_address;
@@ -4772,7 +4843,8 @@ static int check_get_version(struct smc_version_info *vinfo,
 		UWARN("Version information is missing in the TIM %s\n",
 		     ventry->name);
 		ventry->retcode = RET_TIM_NO_VERSION;
-		return RET_TIM_NO_VERSION;
+		ret = RET_TIM_NO_VERSION;
+		goto done;
 	}
 
 	ventry->name[VER_MAX_NAME_LENGTH - 1] = '\0';
@@ -4786,7 +4858,8 @@ static int check_get_version(struct smc_version_info *vinfo,
 			ventry->retcode = RET_NAME_MISMATCH;
 			strlcpy(ventry->name, tli->data_filename,
 				sizeof(ventry->name));
-			return RET_NAME_MISMATCH;
+			ret = RET_NAME_MISMATCH;
+			goto done;
 		}
 	} else {
 		strlcpy(ventry->name, tli->data_filename, sizeof(ventry->name));
@@ -4807,7 +4880,8 @@ static int check_get_version(struct smc_version_info *vinfo,
 			ventry->retcode = RET_TIM_NO_HASH;
 			VLOG(ventry, "Hash not present in TIM");
 			UWARN("Hash not present in TIM\n");
-			return RET_TIM_NO_HASH;
+			ret = RET_TIM_NO_HASH;
+			goto done;
 		}
 		zeromem(digest, sizeof(digest));
 		ret = verify_hash(udesc, tli, digest, &hash_size);
@@ -4818,15 +4892,19 @@ static int check_get_version(struct smc_version_info *vinfo,
 			UWARN("%s hash in TIM does not match object\n",
 			     ventry->name);
 			ventry->retcode = RET_HASH_NO_MATCH;
-			return RET_HASH_NO_MATCH;
+			ret = RET_HASH_NO_MATCH;
+			goto done;
 		} else if (ret != UPDATE_OK) {
 			VLOG(ventry, "eHSM hash engine error %d", ret);
 			UWARN("eHSM hash engine error %d\n", ret);
 			ventry->retcode = RET_HASH_NO_MATCH;
-			return RET_HASH_ENGINE_ERROR;
+			ret = RET_HASH_ENGINE_ERROR;
+			goto done;
 		}
 	}
-	return 0;
+done:
+	tim_shutdown(thdl);
+	return RET_OK;
 }
 
 /**

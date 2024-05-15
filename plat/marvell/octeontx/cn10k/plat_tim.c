@@ -101,7 +101,7 @@ int plat_read_tim(int boot_type, unsigned int image_id,
 	tim_spec_info_t *tspec;
 	union tim_headers *hdr = (union tim_headers *)tim_buffer;
 	struct tim_header_info *hinfo = &tim_hdr_info;
-	struct tim_handle *handle = &tim_handle;
+	struct tim_handle *handle = NULL;
 	uintptr_t image_handle;
 	size_t bytes_read;
 	size_t addr;
@@ -188,8 +188,10 @@ int plat_read_tim(int boot_type, unsigned int image_id,
 	}
 
 	/* Validate TIM */
+	handle = &tim_handle;
 	ret = tim_load(hdr, 0, handle);
 	if (ret != TIM_NO_ERROR) {
+		handle = NULL;
 		ERROR("Error %d parsing TIM\n", ret);
 		ret = -ENOENT;
 		goto done;
@@ -224,6 +226,8 @@ int plat_read_tim(int boot_type, unsigned int image_id,
 	INFO("Found %s at address 0x%lx size 0x%lx\n",
 	     filename, tspec->spec.offset, tspec->spec.length);
 done:
+	if (handle != NULL)
+		tim_shutdown(handle);
 	/* Close the SPI device before return */
 	io_close(image_handle);
 	memset(hinfo, 0, sizeof(*hinfo));
