@@ -10,7 +10,6 @@
 #include <common/debug.h>
 #include <arch_helpers.h>
 #include <lib/extensions/ras.h>
-#include <bakery_lock.h>
 #include <plat_ras.h>
 
 #define ID_AA64MMFR2_EL1_IESB_SHIFT      U(12)
@@ -20,8 +19,6 @@
 #define ERROR_SYNDROME_IESB_MASK	0x1
 
 #define CN10K_SERROR_SYNDROME		0xbe000011
-
-DEFINE_BAKERY_LOCK(cn10k_ras_lock);
 
 void plat_ea_handler(unsigned int ea_reason, uint64_t syndrome, void *cookie,
 		void *handle, uint64_t flags)

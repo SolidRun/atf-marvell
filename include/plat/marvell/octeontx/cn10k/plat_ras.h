@@ -11,7 +11,6 @@
 #include <lib/extensions/ras.h>
 #include <plat_board_cfg.h>
 #include <octeontx_ras.h>
-#include <bakery_lock.h>
 
 /*
  * It is number of all RAS interrupts.
@@ -335,9 +334,5 @@ extern int cn10k_ras_dss_isr(uint32_t id, uint32_t flags, void *cookie);
 extern int cn10k_ras_enable_dss(void);
 void cn10k_fatal_error_handler(void);
 void cn10k_fatal_reboot(void);
-
-DECLARE_BAKERY_LOCK(cn10k_ras_lock);
-#define ras_lock()          bakery_lock_get(&cn10k_ras_lock)
-#define ras_unlock()        bakery_lock_release(&cn10k_ras_lock)
 
 #endif /* __PLAT_RAS_H__ */
