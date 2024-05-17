@@ -1864,3 +1864,398 @@ void phy_marvell_3310_supported_modes(int eth_id, int lmac_id) {
 			(1ULL << ETH_MODE_SGMII_10M_BIT) |
 			(1ULL << ETH_MODE_SGMII_100M_BIT));
 }
+
+
+6 SFP MANAGEMENT
+----------------
+
+For network ports with SFP/QSFP slots, before RPM is configured, module capabilities are to be known.  Mostly, the module EEPROM will be connected via TWSI bus and since TWSI operations are slow, all TWSI accesses for SFP/QSFP slots are offloaded to MCP (MIPS based Management Control Processor).
+
+6.1 SHARED MEMORY
+^^^^^^^^^^^^^^^^^
+
+ATF and MCP use shared memory to communicate with each other for SFP management.
+This SM is fixed memory in non-secure region and will include the data structures
+required to save the SFP module status, EEPROM data (256 bytes) and device tree info
+to access the TWSI bus, I2C multiplexer/switch, GPIO expanders etc.
+
+**SM data structure:**
+
+.. code-block:: c
+
+	#define SFP_MAX_EEPROM_SIZE     0x100
+	typedef struct sfp_shared_data {
+		uint32_t size;
+		uint32_t intf_rev;
+		/* SFP/QSFP EEPROM data */
+		uint8_t buf[SFP_MAX_EEPROM_SIZE];
+		char board_model[64];
+		/* Module info from DT based on board */
+		sfp_slot_info_t sfp_slot;
+		/* LED information from DT based on board*/
+		led_gpio_info_t led_info;
+		/* State machine for SFP/QSFP state */
+		sfp_context_t sfp_ctx;
+		uint32_t portm_idx;
+	} sfp_shared_data_t;
+..
+
+   **Note**\ :
+   This data structure is separately maintained for each LMAC.
+   If the LMAC doesn’t have SFP/QSFP module connected,
+   this SM doesn’t have any impact.
+
+
+**Context structure in SM:**
+
+.. code-block:: c
+
+	/* Data structures to be shared between AP and MCP */
+	typedef struct sfp_context {
+		/* indicates whether the sfp info is valid */
+		uint32_t valid;
+		/* transceiver state, sfp_mod_state_info_t*/
+		uint32_t mod_status;
+		/* transceiver data status, sfp_data_state_info_t*/
+		uint32_t data_status;
+		/* lock to prevent conflict of access between AP and MCP */
+		uint32_t lock;
+		/* SFF-8419 provides details of these pins */
+		uint32_t mod_abs;        /* state of mod_abs pin for SFP */
+		uint32_t tx_disable;     /* state of tx_disable pin for SFP */
+		uint32_t tx_fault;       /* state of tx_fault pin for SFP */
+		uint32_t rx_los;         /* state of rx_los pin for SFP */
+		/* SFF-8438 provides details of these pins */
+		uint32_t select;         /* state of Select pin for QSFP */
+		uint32_t reset;          /* state of reset pin for QSFP */
+		uint32_t lp_mode;        /* state of LPmode pin for QSFP */
+		uint32_t interrupt;      /* state of Interrupt pin for QSFP */
+		uint32_t mod_prs;        /* state of Mod present pin for QSFP */
+	} sfp_context_t;
+
+**State Machine:**
+
+.. code-block:: c
+
+	/* State machine maintain for SFP/QSFP management for communication
+	* between AP & MCP
+	* sfp_mod_state_info: Module status
+	* sfp_data_state_info: EEPROM status
+	*
+	typedef enum sfp_mod_state_info {
+		/* Module disconnected */
+		SFP_MOD_STATE_ABSENT = 0,
+		/* Module connected */
+		SFP_MOD_STATE_PRESENT,
+		/* Update of EEPROM every 5s */
+		SFP_MOD_STATE_EEPROM_UPDATED,
+		/* Other state */
+		SFP_MOD_STATE_OTHER
+	} sfp_mod_state_info_t;
+
+	typedef enum sfp_data_state_info {
+		SFP_DATA_STATE_IDLE = 0,
+		/* MCP is updating the data
+		 * (before read of EEPROM, this state to be set)
+                 */
+		SFP_DATA_STATE_READ_EEPROM,
+		/* MCP read the eeprom data and EEPROM data is valid */
+		SFP_DATA_STATE_EEPROM_VALID,
+		/* MCP read the eeprom data and data is not valid.
+		 * MCP should read the EEPROM again or throw error to user
+		 */
+		SFP_DATA_STATE_EEPROM_NVAL,
+	} sfp_data_state_info_t;
+
+**Code Flow:**
+
+
+* Initial mod_state will be module not present.
+
+* MCP to first check the module availability, and if module is present,
+  updates the state to ``MOD_PRS``.
+
+* If module is present, MCP to update the state as ``READ_EEPROM`` before reading
+  the data from EEPROM and once the data is read from EEPROM and checksum is
+  validated, state is updated to ``EEPROM_VALID``
+
+* The above steps (2 & 3) to be continued when periodically polling
+  for the status (every 1 ms).
+
+* If the module is not present, state should be maintained at ``MOD_ABS``.
+
+* During periodic polling, if there is a change is module status
+  (either from module connected->disconnected or disconnected->connected),
+  state should be updated accordingly.
+
+* AP, upon request from user to bring the LINK up, checks for the current state.
+  If the current data state is ``EEPROM_VALID``\ , reads the EEPROM data,
+  parses the info and obtains the cable type.
+
+
+* AP obtains the Auto-Negotiation (AN), Forward Error Correction (FEC),
+    max speed capabilities and validate it against user options.
+
+* Using these options, configure RPM to bring the LINK up.
+
+* If the LINK is up, timer #2 running to obtain the status periodically
+    by reading the module status.
+
+* If there is a change in module status (disconnected->connected),
+
+    * Read the EEPROM capabilities
+
+    * Case 1: If the link was never brought up and link request was
+      already sent,  try to bring the link up
+
+    * Case 2: If the link was already active earlier, handled it as a link change.
+
+    * If there is a change in module status (connected->disconnected),
+    send a asynchronous notification to user about this.
+
+* If the module state is not present/data state is not ``EEPROM_VALID``\ ,
+  AP will retry for 5 times to check the status before returning the error
+  to user (At this point, link will not be brought up).
+  But later, link will be brought up when the module status is obtained
+  by poll timer #2
+
+6.2 AP->SCP
+^^^^^^^^^^^
+
+ATF when initializing SCMI driver, initializes SM with info parsed from DT
+related to accessing SFP/QSFP slots and sends ``SCMI_CAVM_SFP_CONFIG_MSG``
+to SCP which is passed to MCP.
+
+6.3 MCP->AP
+^^^^^^^^^^^
+
+MCP runs its own firmware known as MCP BL1 (compiled for 32-bit microMIPS architecture).
+MCP is viewed as non-secure agent. It runs several tasks in cooperative multitasking way.
+MSI-X interrupts could be programmatically routed to one of the three GIB interrupt lines.
+Besides there is mailbox interrupt line as well.
+
+6.3.1 Access to main RAM (MMIO windows)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+MCP accesses shared memory region via special hardware mechanism - programmatically
+configured MMIO windows that map certain fixed regions of MCP's MMIO virtual address
+space into the AP's virtual or physical address space. Thus any access to the mapped
+32-bit wide MMIO address range at MCP side is transparently forwarded to the
+corresponding AP's RAM. It's recommended to access shared RAM using 32-bit wide
+operations and 32-bit aligned offsets.
+
+Address of shared memory region is received during start up of AP BL1 via SCMI message
+using custom vendor-specific protocol. Since MCP is non-secure agent it setups 32-bit
+NCB-based cache-able virtual window. Then MCP BL1 setups mapping for one on the four
+fixed address ranges to the received virtual address via special CSRs
+(\ ``CAVM_XCPX_WINX_CFG`` and ``CAVM_XCPX_WINX_ADDR``\ ).
+
+6.3.2 SFP management tasks
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+MCP BL1 uses two always running tasks and few temporary tasks for SFP management
+activities.
+
+First is status loop task that polls for status changes. At the beginning, it waits
+for SCMI configuration message from AP BL1 (received through SCP) and then configure
+required hardware (like I2C switches and GPIO expanders) and starts second task
+for handling asynchronous request from ATF.
+
+Once done with configuration, status loop task goes into the never ending loop
+polling QSFP/SFP ports pointed out by configuration data from shared memory region.
+Upon detected status change it reports about a change to ATF and, in case of new
+connection observed, starts a task for reading and validating EEPROM.
+
+A task for reading EEPROM implements EEPROM reading sequence, copies just read EEPROM
+to the shared memory region and then finishes.
+
+Both status loop task and asynchronous command handling task have highest priority.
+When possible (time left) they yield execution to allow other tasks to proceed.
+Status loop task does that once per millisecond and asynchronous command task - once
+per microsecond.
+
+6.3.3 TWSI locking
+~~~~~~~~~~~~~~~~~~
+
+Depending on hardware design, required for SFP management GPIOs could situated under
+the same TWSI controller and/or same I2C switch/mux and GPIO expander, so transactions
+should not access same hardware in the same time.
+
+Currently, a global lock for TWSI access is implemented such that no new TWSI transaction
+is allowed until previous one is done. Task that requested TWSI transaction is blocked and
+yield for about 1 microsecond before next attempt to acquire the lock. Going forward,
+parallel access to different TWSI controllers may be allowed to improve responsiveness
+and overall latencies of SFP management's activities.
+
+6.3.4 Interrupt handling
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Currently no interrupts are involved in SFP management related code. However, MCP BL1 has
+framework in place to signal interrupts to AP in the similar way to SCMI notifications from
+MCP Bl1 to AP cores.
+
+6.4 MCP Processing (Accessing SFP/QSFP module)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+For SFP, First 128 bytes of data from EEPROM can be read.
+
+.. Note::
+
+   If the module is connected, but the data is not read, it should be re-tried.
+   We should have a re-try limit of either 3 or 5 depending on the performance
+   before returning error to the user.
+
+
+**SFP Sequence:**
+
+	* Check for module detect.
+	* If Module is present, assert TX disable
+	* Read the data from EEPROM
+	* Update SM
+
+For QSFP, some transceivers cannot be identified in low power mode.
+In that case, set it to high power mode, before reading from EEPROM.
+
+**QSFP Sequence:**
+
+	* Check for module present
+	* Assert module select
+	* Configure power class
+
+  * First read byte 1 to check if memory map is flat or paged
+  * If paged, select page select to 0 (upper mem 00h)
+  * Read Byte 129 (TABLE 6-16 EXTENDED IDENTIFIER VALUES from ``SFF-8636``\ )
+    to read the power class.
+
+* If the power class is one of 1.5, 2.0, 2.5, 3.0 W MAX, no need to do anything.
+
+* If the power is one of 4.0 W, 4.5 W, 5.0 W mac, set byte 93 bit 2 to
+  enable high power mode. But, before enabling the high power class, check
+  the MAX power level supported by the board.
+  This info will be available in DT (which will be updated in SM for MCP to read)
+
+..
+
+   *With reference to SFF8636*\ :
+
+   The memory map is arranged into a single lower page address space of 128 bytes
+   and multiple upper address pages. This structure permits timely access to
+   addresses in the lower page such as interrupt flags and monitors.
+   Less time critical entries such as serial ID information and threshold settings
+   are available with the page select function. Data used for interrupt handling
+   is located in Lower Page 00h to enable single block read operations for time
+   critical data.
+
+   Upper Page 01h and Upper Page 02h are optional.
+
+   Upper Page 01h allows implementation of application select table while
+
+   Upper Page 02h provides a user read/write space.
+
+   Implementation of these two pages is optional.
+
+   Lower and Upper Page 00h are always implemented.
+
+* Read EEPROM
+  Lower Page 00: Bytes 0 – 127
+  First read 128 bytes from EEPROM:
+
+
+  * Byte 0: Identifier (\ ``SFF 8024``\ )
+
+  * Byte 1: Revision Compliance
+
+  * Byte 2:
+
+
+    * Bit 0 : Data_Not_Ready : If it is low, data is available
+    * Bit 2 : Upper memory flat or paged
+
+  * Check if Byte 2, bit 0 is low for data to be ready.
+
+  * If data is ready, check byte 2 bit 2 for upper memory type.
+
+  * If bit 2 is 0, select page 0 by writing 0 to byte 127
+
+  * After setting page select, it is better to give a delay
+    (\ ``QLOGIC`` reference: 500 us).
+
+  * Now, upper page 00h contents (another 128 bytes: 128 – 255)
+    are read which  is used for read only identification information.
+    These contents are copied to SM as well.
+
+6.5 I2C Switches supported
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Following table lists the I2C MUX/Switches supported and the corresponding DTS compatible for each of the types.
+
+.. code-block:: c
+
+  /* List of native I2C buses */
+  static i2c_compat_t i2c_native_compat_list[] = {
+    { "cavium,thunder-8890-twsi", I2C_BUS_DEFAULT, I2C_OTHER,  0, 6},
+    { "cavium,thunderx-i2c", I2C_BUS_DEFAULT, I2C_OTHER,  0, 6},
+  };
+
+  /* List of I2C Mux/Switch types */
+  static const i2c_compat_t i2c_compat_list[] = {
+    { "nxp,pca9540", I2C_BUS_PCA9540, I2C_MUX,    4, 2 },
+    { "nxp,pca9542", I2C_BUS_PCA9542, I2C_MUX,    4, 2 },
+    { "nxp,pca9543", I2C_BUS_PCA9543, I2C_SWITCH, 0, 2 },
+    { "nxp,pca9544", I2C_BUS_PCA9544, I2C_MUX,    4, 4 },
+    { "nxp,pca9545", I2C_BUS_PCA9545, I2C_SWITCH, 0, 4 },
+    { "nxp,pca9546", I2C_BUS_PCA9546, I2C_SWITCH, 0, 4 },
+    { "nxp,pca9547", I2C_BUS_PCA9547, I2C_MUX,    8, 8 },
+    { "nxp,pca9548", I2C_BUS_PCA9548, I2C_SWITCH, 0, 8 },
+  };
+
+6.6 GPIO Expanders supported
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Following table lists the GPIO expanders supported and the corresponding DTS compatible for each of the GPIO expanders.
+
+If a GPIO expander needs to be added other than the listed, this array in ATF and driver for the GPIO expander in MCP(if it doesn't belong to the following generic expander types), should be incorporated.
+
+.. code-block:: c
+
+  static const gpio_compat_t gpio_compat_list[] = {
+    { "cavium,thunder-8890-gpio", GPIO_PIN_DEFAULT, 64 },   /* 64 pins for T9x */
+    { "nxp,pca9505",    GPIO_PIN_PCA953X, 40 },
+    { "nxp,pca9698",    GPIO_PIN_PCA953X, 40 },
+    { "nxp,pca9534",    GPIO_PIN_PCA953X, 8 },
+    { "nxp,pca9535",    GPIO_PIN_PCA953X, 16 },
+    { "nxp,pca9536",    GPIO_PIN_PCA953X, 4 },
+    { "nxp,pca9537",    GPIO_PIN_PCA953X, 4 },
+    { "nxp,pca9538",    GPIO_PIN_PCA953X, 8 },
+    { "nxp,pca9539",    GPIO_PIN_PCA953X, 16 },
+    { "nxp,pca9554",    GPIO_PIN_PCA953X, 8 },
+    { "nxp,pca9554a",   GPIO_PIN_PCA953X, 8 },
+    { "nxp,pca9555",    GPIO_PIN_PCA953X, 16 },
+    { "nxp,pca9555a",   GPIO_PIN_PCA953X, 16 },
+    { "nxp,pca9556",    GPIO_PIN_PCA953X, 8 },
+    { "nxp,pca9557",    GPIO_PIN_PCA953X, 8 },
+    { "nxp,pca9574",    GPIO_PIN_PCA957X, 8 },
+    { "nxp,pca9575",    GPIO_PIN_PCA957X, 16 },
+    { "maxim,max7310",  GPIO_PIN_PCA953X, 8 },
+    { "maxim,max7312",  GPIO_PIN_PCA953X, 16 },
+    { "maxim,max7313",  GPIO_PIN_PCA953X, 16 },
+    { "maxim,max7315",  GPIO_PIN_PCA953X, 8 },
+    { "ti,pca6107",     GPIO_PIN_PCA953X, 8 },
+    { "ti,tca6408",     GPIO_PIN_PCA953X, 8 },
+    { "ti,tca6416",     GPIO_PIN_PCA953X, 16 },
+    { "ti,tca9554",     GPIO_PIN_PCA953X, 8 },
+    { "nxp,pcf8574",    GPIO_PIN_PCF857X, 8 },
+    { "nxp,pcf8574a",   GPIO_PIN_PCF857X, 8 },
+    { "nxp,pca8574",    GPIO_PIN_PCF857X, 8 },
+    { "nxp,pca9670",    GPIO_PIN_PCF857X, 8 },
+    { "nxp,pca9672",    GPIO_PIN_PCF857X, 8 },
+    { "nxp,pca9674",    GPIO_PIN_PCF857X, 8 },
+    { "nxp,pca8575",    GPIO_PIN_PCF857X, 16 },
+    { "nxp,pcf8575",    GPIO_PIN_PCF857X, 16 },
+    { "nxp,pca9671",    GPIO_PIN_PCF857X, 16 },
+    { "nxp,pca9673",    GPIO_PIN_PCF857X, 16 },
+    { "nxp,pca9675",    GPIO_PIN_PCF857X, 16 },
+    { "maxim,max7328",  GPIO_PIN_PCF857X, 8 },
+    { "maxim,max7329",  GPIO_PIN_PCF857X, 8 },
+    { "cavium,cpld96xx",    GPIO_PIN_CPLD,  8},
+  };
