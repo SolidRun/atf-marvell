@@ -124,6 +124,7 @@ static struct tim_handle _tim_handle;
 static struct tim_load_info _tim_load_info;
 __aligned(8) static uint8_t tim_buffer[EP_TIM_MAX_SIZE];
 __aligned(8) static uint8_t tim0_buffer[EP_TIM_MAX_SIZE];
+__aligned(8) static uint8_t temp_tim_buffer[EP_TIM_MAX_SIZE];
 static size_t tim0_size;
 static uint64_t tim0_offset;
 static struct smc_version_info clone_destination;
@@ -665,6 +666,8 @@ static enum update_ret update_tim0(const uint8_t *tim0, uint64_t offset,
 static int flash_smc_get_versions(struct smc_version_info *vinfo,
 				  struct verification_data *vdata);
 
+static enum update_ret get_tim0_address_size(uint64_t *address, size_t *size);
+
 enum spi_dc_ret async_clone_callback(void *p);
 
 enum spi_dc_ret async_update_callback(void *p);
@@ -700,6 +703,66 @@ enum async_file_check_ret marvell_cust_verify_fw_update_image_async(struct smc_u
 enum async_file_check_ret marvell_cust_verify_fw_update_image_async(struct smc_update_descriptor *desc, uint32_t count)
 {
 	return ASYNC_CHECK_DONE;
+}
+
+/**
+ * Customer defined function to perform board and chip verification
+ *
+ * @param[in]	desc	Update descriptor
+ * @param[in]	binfo	Board information stored in TIM0
+ *
+ * @return	0 for success, -1 if verification failed
+ */
+int marvell_cust_verify_fw_update_board(const struct smc_update_descriptor *desc,
+					const struct tim_board_info *new_binfo,
+					const struct tim_board_info *old_binfo)
+	__attribute__((weak));
+int marvell_cust_verify_fw_update_board(const struct smc_update_descriptor *desc,
+					const struct tim_board_info *new_binfo,
+					const struct tim_board_info *old_binfo)
+{
+	uint32_t chip_id_version = plat_get_soc_version();
+	uint8_t chip_id = chip_id_version & 0xff;
+
+	debug_fw_update("Checking if update chip ID 0x%x matches 0x%x\n",
+			new_binfo->chip_id & 0xff, chip_id);
+	if ((new_binfo->chip_id & 0xff) != chip_id) {
+		UWARN("Update chip ID 0x%x does not match 0x%x\n",
+		      new_binfo->chip_id & 0xff, chip_id);
+		return -1;
+	}
+#if 0
+	/*
+	 * This is an example of how a manufacturer could verify that the image
+	 * is the correct image for this device.
+	 */
+	/* Check that the manufacturer matches */
+	if (strncmp((const char *)old_binfo->manufacturer,
+		    (const char *)new_binfo->manufacturer,
+		    TIM_MAX_NAME_LENGTH)) {
+		UWARN("%s: Manufacturer %s doesn't match existing manufacturer %s\n",
+		__func__, (const char *)new_binfo->manufacturer,
+		(const char *)old_binfo->manufacturer);
+	}
+	/* Check that the board name matches */
+	if (strncmp((const char *)old_binfo->board_name,
+		    (const char *)new_binfo->board_name,
+		    TIM_MAX_NAME_LENGTH)) {
+		UWARN("%s: New board %s doesn't match old board %s\n",
+		      __func__, (const char *)new_binfo->board_name,
+		      (const char *)old_binfo->board_name);
+	}
+	/* Check that the product ID matches */
+	if (strncmp((const char *)old_binfo->product_id,
+		    (const char *)new_binfo->product_id,
+	            TIM_MAX_NAME_LENGTH)) {
+		UWARN("%s: New board %s doesn't match old board %s\n",
+		      __func__, (const char *)new_binfo->product_id,
+		      (const char *)old_binfo->product_id);
+	}
+#endif
+	debug_fw_update("Board information matches\n");
+	return 0;
 }
 
 static void print_version_data(const char *str,
@@ -1540,6 +1603,115 @@ static enum update_ret update_process_new_manifest(void)
 				__func__, tim_file->filename);
 	}
 	return UPDATE_OK;
+}
+
+static enum update_ret update_verify_chipid_board(const struct smc_update_descriptor *desc)
+{
+	struct file_entry *fentry = find_file(TIM0_FILENAME);
+	struct tim_handle *thandle = NULL;
+	struct tim_board_info old_binfo, new_binfo;
+	uint64_t offset;
+	size_t size;
+	enum tim_return tret;
+	const union tim_headers *hdr;
+	struct tim_header_info hinfo;
+	enum update_ret uret = UPDATE_OK;
+	int ret;
+
+	debug_fw_update("%s: Getting new TIM0 board info\n", __func__);
+	if (!(desc->update_flags & UPDATE_FLAG_VERIFY_BOARD_INFO)) {
+		UINFO("Skipping board verification\n");
+		return UPDATE_OK;
+	}
+	if (!fentry) {
+		UERROR("%s: %s not found\n", __func__, TIM0_FILENAME);
+		return UPDATE_MISSING_TIM;
+	}
+
+	hdr = fentry->data;
+	zeromem(&old_binfo, sizeof(old_binfo));
+	zeromem(&new_binfo, sizeof(new_binfo));
+	tret = tim_get_timh_info(hdr, &hinfo);
+	if (tret != TIM_NO_ERROR) {
+		UERROR("Error parsing TIM %s\n", TIM0_FILENAME);
+		uret = UPDATE_TIM_ERROR;
+		goto done;
+	}
+	if (hinfo.signed_tim_size != fentry->file_size) {
+		UERROR("%s: Error: CPIO TIM0 size %lu doesn't match signed TIM size %u\n",
+		       __func__,
+		       fentry->file_size,
+		       hinfo.signed_tim_size);
+		uret = UPDATE_TIM_ERROR;
+		goto done;
+	}
+	thandle = &_tim_handle;
+	tret = tim_load(hdr, 0, thandle);
+	if (tret != TIM_NO_ERROR) {
+		thandle = NULL;
+		UERROR("Error loading TIM0\n");
+		uret = UPDATE_TIM_ERROR;
+		goto done;
+	}
+	debug_fw_update("New TIM0 parsed\n");
+	tret = tim_get_board_info(thandle,
+				  &new_binfo.chip_id,
+				  new_binfo.manufacturer,
+				  new_binfo.sdk_version,
+				  new_binfo.release_type,
+				  new_binfo.board_name,
+				  new_binfo.board_revision,
+				  new_binfo.product_id,
+				  new_binfo.product_description);
+	if (tret != TIM_NO_ERROR) {
+		UWARN("Board info missing in update file\n");
+		uret = UPDATE_BOARD_INFO_MISSING;
+		goto done;
+	}
+	tim_shutdown(thandle);
+	thandle = NULL;
+
+	debug_fw_update("Parsing old TIM0\n");
+	uret = get_tim0_address_size(&offset, &size);
+	if (uret != UPDATE_OK) {
+		UERROR("%s: Could not get address/size of TIM0\n", __func__);
+		goto done;
+	}
+
+	thandle = &_tim_handle;
+	uret = octeontx_read_tim(desc, offset, sizeof(temp_tim_buffer),
+				 temp_tim_buffer, thandle, &size);
+	if (uret != UPDATE_OK) {
+		UERROR("Error reading TIM0 from offset 0x%lx, size 0x%lx\n",
+		       offset, size);
+		thandle = NULL;
+		goto done;
+	}
+	tret = tim_get_board_info(thandle,
+				  &old_binfo.chip_id,
+				  old_binfo.manufacturer,
+				  old_binfo.sdk_version,
+				  old_binfo.release_type,
+				  old_binfo.board_name,
+				  old_binfo.board_revision,
+				  old_binfo.product_id,
+				  old_binfo.product_description);
+	if (tret != TIM_NO_ERROR) {
+		UWARN("Board info missing in existing flash image\n");
+		uret = UPDATE_BOARD_INFO_MISSING;
+		goto done;
+	}
+	zeromem(temp_tim_buffer, sizeof(temp_tim_buffer));
+	debug_fw_update("%s: Verifying board info\n", __func__);
+	ret = marvell_cust_verify_fw_update_board(desc, &new_binfo, &old_binfo);
+	if (ret != 0) {
+		uret = UPDATE_BOARD_INFO_INCOMPATIBLE;
+		goto done;
+	}
+done:
+	if (thandle != NULL)
+		tim_shutdown(thandle);
+	return uret;
 }
 
 /**
@@ -4119,6 +4291,12 @@ static int octeontx_cn10k_update_fw(struct smc_update_descriptor *desc,
 	}
 
 	gti_wdog_pet();
+	ret = update_verify_chipid_board(desc);
+	if (ret != UPDATE_OK) {
+		UERROR("Board information mismatch, update not supported\n");
+		goto error;
+	}
+	gti_wdog_pet();
 	UINFO("Validating all objects are present in available groups...\n");
 	debug_fw_update("%s: Checking groups\n", __func__);
 	err = check_groups();
@@ -4218,6 +4396,9 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	bool desc_response_required = false;
 	bool is_mmc;
 	bool spi_unlock_sw = false;
+	bool descr_mapped = false;
+	bool image_mapped = false;
+	bool console_mapped = false;
 
 	assert(uret);
 	prepare_mapping_storage(&uParams);
@@ -4255,6 +4436,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 		err = -SPI_MMAP_ERR;
 		goto error;
 	}
+	descr_mapped = true;
 
 	update_desc_async_ptr = (struct smc_update_descriptor *) desc_buf;
 	zeromem(&update_desc, sizeof(update_desc));
@@ -4277,6 +4459,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 								      desc_ns_map_size);
 			desc_base_addr = 0;
 			desc_ns_map_size = 0;
+			descr_mapped = false;
 		}
 	} else {
 		add_mapped_region(&uParams, desc_base_addr, desc_ns_map_size);
@@ -4326,6 +4509,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 			console_map_size = 0;
 			goto error;
 		}
+		console_mapped = true;
 		if (update_desc.async_operation) {
 			add_mapped_region(&uParams, console_base_addr, console_map_size);
 		}
@@ -4408,7 +4592,8 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	if (base_addr + ns_map_size >= dram_end) {
 		UWARN("Invalid image address 0x%lx or size 0x%lx\n", addr, size);
 		*uret = UPDATE_MMAP_ERROR;
-		return -SPI_MMAP_ERR;
+		err = -SPI_MMAP_ERR;
+		goto error;
 	}
 	debug_fw_update("Adding image mapping, address: 0x%lx, base: 0x%lx, map size: 0x%x\n",
 			addr, base_addr, ns_map_size);
@@ -4423,7 +4608,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 		ns_map_size = 0;
 		goto error;
 	}
-
+	image_mapped = true;
 	if (fdt_check_header(fdt_ptr)) {
 		UERROR("Invalid device tree\n");
 		*uret = UPDATE_DT_ERROR;
@@ -4488,19 +4673,24 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	}
 
 error:
-	if (desc_response_required && !update_desc.async_operation && !err) {
+	if (desc_response_required && descr_mapped &&
+	    !update_desc.async_operation && !err) {
 		INFO("Filling in descriptor return codes\n");
 		update_descr_retcodes(&update_desc);
 		memcpy((void *)desc_buf, &update_desc,
 		       sizeof(struct smc_update_descr_obj_retcode));
 		octeontx_mmap_remove_dynamic_region_with_sync(desc_base_addr,
 							      desc_ns_map_size);
+		descr_mapped = false;
 	}
 	if (err) {
 		media_done(&io_handle);
-		if (base_addr && ns_map_size)
+		if (base_addr && ns_map_size && image_mapped)
 			octeontx_mmap_remove_dynamic_region_with_sync(base_addr,
 								      ns_map_size);
+		if (console_mapped && console_base_addr && console_map_size)
+			octeontx_mmap_remove_dynamic_region_with_sync(console_base_addr,
+								      console_map_size);
 		/* In async case - make sure everything is unmapped */
 		if (async_operation) {
 			update_desc_async_ptr->retcode = *uret;
