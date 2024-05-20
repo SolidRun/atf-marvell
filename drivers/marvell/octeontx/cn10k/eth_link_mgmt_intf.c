@@ -201,9 +201,9 @@ void ecp_link_update_sgmii_speed_dplx(int portm_idx, int specific_lmac)
 			lmac = &rpm->lmac_cfg[lmac_id + idx];
 			debug_eth_link_intf("%s lmac %d an_disable %d mac_speed %d mac_duplex %d\n", __func__, lmac_id + idx,
 				lmac->an_disable, lmac->sgmii_speed, lmac->sgmii_duplex);
-			sh_data->lpcs_speed_dplx[idx].an_disable = lmac->an_disable;
-			sh_data->lpcs_speed_dplx[idx].mac_speed = lmac->sgmii_speed;
-			sh_data->lpcs_speed_dplx[idx].mac_duplex = lmac->sgmii_duplex;
+			sh_data->lpcs_speed_dplx[lmac_id + idx].an_disable = lmac->an_disable;
+			sh_data->lpcs_speed_dplx[lmac_id + idx].mac_speed = lmac->sgmii_speed;
+			sh_data->lpcs_speed_dplx[lmac_id + idx].mac_duplex = lmac->sgmii_duplex;
 		}
 	}
 }
