@@ -804,7 +804,11 @@ static int rpm_set_serdes_tx_tune(int portm_idx, uint8_t portm_lane_mask, int tx
 	if (txeq_match) {
 		debug_rpm_intf("%s: PORTM%d (RPM%d.LMAC%d) New Tx Equalization matches current Tx eq\n",
 			       __func__, portm_idx, mac_id, lmac_id);
-		return 0;
+		/*
+		 * Continue to set Tx Eq despite the settings seems to be the same,
+		 * as in some cases, i.e. SerDes Power Down/Up from the serdes-cli tool,
+		 * Tx tuning can get reset w/o being noticed by the link mgmt driver.
+		 */
 	}
 
 	/* Update portm_cfg with new Tx eq settings */
