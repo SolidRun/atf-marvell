@@ -72,9 +72,9 @@ typedef struct persist_data_config {
 
 #define RVU_MAX_PFS	96
 typedef struct rvu_pf_cfg {
+	uint64_t cls_code;
 	uint16_t devid;
 	uint16_t vf_devid;
-	uint16_t cls_code;
 	uint8_t rev;
 	int pf_id;
 	int num_vfs;

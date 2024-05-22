@@ -51,6 +51,8 @@
 #define RVU_PRIV_PFX_ID_CFG(a)		(0x8000120 | (a) << 16)
 #define RVU_PRIV_PFX_INT_CFG(a)		(0x8000200 | (a) << 16)
 #define RVU_PRIV_PFX_MSIX_CFG(a)	(0x8000110 | (a) << 16)
+#define RVU_PRIV_PFX_DISC(a)		(0x8000208 | (a) << 16)
+#define RVU_PRIV_HWVFX_DISC(a)		(0xD000000 | (a) << 12)
 
 #define NPA_PRIV_AF_INT_CFG		0x30010000
 #define NPA_PRIV_LFX_INT_CFG(a)		(0x30010020 | (a) << 8)
@@ -70,7 +72,7 @@
 typedef struct pci_config {
 	int pf_devid;
 	int vf_devid;
-	int class_code;
+	uint64_t class_code;
 } pci_config_t;
 
 struct rvu_device {

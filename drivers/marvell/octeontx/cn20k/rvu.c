@@ -52,6 +52,14 @@ static int get_max_rvu_pfs(void)
 	return ((cfg >> 33) & 0xFF);
 }
 
+static int get_max_rvu_vfs(void)
+{
+	uint64_t cfg;
+
+	cfg = RVU_CSR_READ(RVU_AF_BAR0_BASE, RVU_PRIV_CONST);
+	return ((cfg >> 21) & 0xFFF);
+}
+
 /* Skip pci enemuration of non-active PFs */
 static void rvu_disable_ecam_access(void)
 {
@@ -91,6 +99,21 @@ static void rvu_disable_ecam_access(void)
 			      ECAMX_DOMX_DEVX_PERMIT(domain, dev),
 			      dev_permit.u);
 	}
+}
+
+static void rvu_pf_disc_reset(void)
+{
+	int id;
+	int pf_max = get_max_rvu_pfs();
+	int vf_max = get_max_rvu_vfs();
+
+	/* Reset PFs DISC register */
+	for (id = 1; id < pf_max; id++)
+		RVU_CSR_WRITE(RVU_AF_BAR0_BASE, RVU_PRIV_PFX_DISC(id), 0x0ull);
+	/* Reset VFs DISC register */
+	for (id = 0; id < vf_max; id++)
+		RVU_CSR_WRITE(RVU_AF_BAR0_BASE, RVU_PRIV_HWVFX_DISC(id),
+			      0x0ull);
 }
 
 /* This function set the msix vector offset for all rvu blocks */
@@ -220,7 +243,7 @@ static void dump_rvu_devs(void)
 			  rvu_dev[pf].first_hwvf, rvu_dev[pf].pf_num_msix_vec,
 			  rvu_dev[pf].vf_num_msix_vec);
 		debug_rvu("PCI Settings:\n"
-			  "pf_devid=0x%x, vf_devid=0x%x, class_code=0x%x\n",
+			  "pf_devid=0x%x, vf_devid=0x%x, class_code=0x%lx\n",
 			  rvu_dev[pf].pci.pf_devid, rvu_dev[pf].pci.vf_devid,
 			  rvu_dev[pf].pci.class_code);
 	}
@@ -309,4 +332,5 @@ void rvu_devices_init(void)
 	}
 	config_rvu_pci();
 	rvu_disable_ecam_access();
+	rvu_pf_disc_reset();
 }
