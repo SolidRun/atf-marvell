@@ -497,6 +497,38 @@ func check_errata_2779511
 	b	cpu_rev_var_range
 endfunc check_errata_2779511
 
+/* -------------------------------------------------------------------
+ * Errata Workaround for Neoverse N2 Erratum 3604871
+ * This applies to revision r0p0-r1p2 of Neoverse V2.it is still open.
+ * Inputs:
+ * x0: variant[4:7] and revision[0:3] of current cpu.
+ * Shall clobber: x0-x17
+ * -------------------------------------------------------------------
+ */
+
+func errata_n2_3604871_wa
+        /* Check version. */
+        mov     x17, x30
+        bl      check_errata_3604871
+        cbz     x0, 1f
+
+        /* If erratum applies, set Bit58 in CPUACTLR3_EL1 */
+        mrs     x0, NEOVERSE_N2_CPUACTLR3_EL1
+        orr     x0, x0, #NEOVERSE_N2_CPUACTLR3_EL1_BIT_58
+        msr     NEOVERSE_N2_CPUACTLR3_EL1, x0
+        isb
+
+1:
+        ret     x17
+endfunc errata_n2_3604871_wa
+
+func check_errata_3604871
+        /* Applies to r0p0 - r1p2 */
+        mov     x1, #0x00
+        mov     x2, #0x12
+        b       cpu_rev_var_range
+endfunc check_errata_3604871
+
 func check_errata_cve_2022_23960
 #if WORKAROUND_CVE_2022_23960
 	mov	x0, #ERRATA_APPLIES
@@ -655,6 +687,11 @@ func neoverse_n2_reset_func
 #if ERRATA_N2_2779511
 	mov	x0, x18
 	bl	errata_n2_2779511_wa
+#endif
+
+#if ERRATA_N2_3604871
+	mov	x0, x18
+	bl	errata_n2_3604871_wa
 #endif
 
 #if ERRATA_N2_2340933

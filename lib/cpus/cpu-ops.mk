@@ -718,6 +718,10 @@ ERRATA_N2_2855383	?=0
 # and is still open.
 ERRATA_N2_EEL2		?=0
 
+# Flag to apply erratum 3604871 workaround during reset. This erratum applies
+# to Neoverse N2 cpu
+ERRATA_N2_3604871	?=0
+
 # Flag to apply DSU erratum 798953. This erratum applies to DSUs revision r0p0.
 # Applying the workaround results in higher DSU power consumption on idle.
 ERRATA_DSU_798953	?=0
@@ -1359,6 +1363,10 @@ $(eval $(call add_define,ERRATA_N2_2855383))
 # Process ERRATA_N2_EEL2 flag
 $(eval $(call assert_boolean,ERRATA_N2_EEL2))
 $(eval $(call add_define,ERRATA_N2_EEL2))
+
+# Process ERRATA_N2_3604871 flag
+$(eval $(call assert_boolean,ERRATA_N2_3604871))
+$(eval $(call add_define,ERRATA_N2_3604871))
 
 # Process ERRATA_DSU_798953 flag
 $(eval $(call assert_boolean,ERRATA_DSU_798953))
