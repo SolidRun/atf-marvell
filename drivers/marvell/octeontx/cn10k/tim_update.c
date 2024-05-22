@@ -93,6 +93,8 @@ static const char *TRAILER = "TRAILER!!!";
 static const uint32_t EBF_CONFIG_OFFSET_CNF10KB = 0x00FD0000;
 static const uint32_t EBF_CONFIG_OFFSET = 0x01FD0000;
 static const uint32_t EBF_CONFIG_SIZE = 0x20000;
+/* Maximum number of optional groups, shouldn't be more than 1-2 */
+#define MAX_OPT_GROUPS		4
 
 /* Software lock */
 extern octeontx_ctr_sem_t octeontx_smc_spi_lock[MAX_SPI_BUS];
@@ -136,7 +138,6 @@ static struct tim_opaque_data_tim_manifest_entry
 static uint32_t num_new_tim_manifest_entries = 0;
 static struct tim_opaque_data_tim_manifest_entry
 	new_tim_manifest[TIM_MAX_TIM_MANIFEST_ENTRIES];
-
 log_info_t log_info = {(void *)0, 0, 0};
 
 #define SPI_ASYNC_COPY_SIZE (0x1000)
@@ -224,12 +225,12 @@ struct hash_data {
 };
 
 struct object_group_entry {
-	const char *tim_filename;	/** Filename associated with the TIM */
-	const char *alt_tim_filename;	/** Alternative TIM file name */
-	const char *data_filename;	/** Name of associated data file */
+	const char *tim_filename;		/** Filename associated with the TIM */
+	const char *alt_tim_filename;		/** Alternative TIM file name */
+	const char *data_filename;		/** Name of associated data file */
 	const char *alt_data_filename;	/** Alternate data filename */
-	const char *dts_filename;	/** Name in firmware-layout or the TIM manifest */
-	const char *alt_dts_filename;	/** Alternate manifest name */
+	const char *dts_filename;		/** Name in firmware-layout or the TIM manifest */
+	const char *alt_dts_filename;		/** Alternate manifest name */
 	bool optional;			/** TIM not required for complete update */
 	bool skip_version_check;	/** Do not check the version of this entry if missing */
 	bool no_load;			/** Does not load an object */
@@ -290,6 +291,16 @@ static struct verification_data verif_data[VDATA_INTANCES] = {0};
 static struct async_clone_data async_clone_internal;
 static struct async_update_data aupdate_data;
 
+struct opt_group {
+	struct object_group_entry group;
+	/* Needed for temporary storage */
+	char dts_filename[TIM_MAX_NAME_LENGTH];
+	char data_filename[TIM_MAX_NAME_LENGTH];
+};
+
+static struct opt_group opt_groups[MAX_OPT_GROUPS];
+static struct opt_group *first_free_opt_group = &opt_groups[0];
+static struct opt_group *last_free_opt_group = &opt_groups[MAX_OPT_GROUPS-1];
 static enum update_ret media_done(struct io_handle *io_handle);
 
 struct object_alt_layout {
@@ -483,17 +494,36 @@ static const struct object_group_entry ap_atf_grp[] = {
 		.no_load = false,
 		.data_optional = false,
 	},
-#if defined(INCLUDE_OPTEE)
+	{ NULL, NULL },
+};
+
+static const struct object_group_entry optee_grp[] = {
 	{
 		.tim_filename = "tee.timb",
 		.data_filename = "tee.bin",
 		.dts_filename = "tee.bin",
+#if defined(INCLUDE_OPTEE)
 		.optional = false,
+#else
+		.optional = true,
+#endif
 		.skip_version_check = false,
 		.no_load = false,
 		.data_optional = false,
 	},
-#endif
+	{ NULL, NULL },
+};
+
+static const struct object_group_entry efi_app1_grp[] = {
+	{
+		.tim_filename = "efi_app1.timb",
+		.data_filename = "efi_app1.efi",
+		.dts_filename = "efi_app1.efi",
+		.optional = true,
+		.skip_version_check = false,
+		.no_load = false,
+		.data_optional = false,
+	},
 	{ NULL, NULL },
 };
 
@@ -597,7 +627,6 @@ static const struct object_group_entry switch_fw_grp[] = {
 # define file_groups	file_groups_cn10k
 static const struct object_group file_groups_cn10k[] = {
 	OBJECT_GROUP_CREATE_ENTRY(&cpc_grp[0], false),
-	OBJECT_GROUP_CREATE_ENTRY(&cpc_grp[0], false),
 	OBJECT_GROUP_CREATE_ENTRY(&ap_bl1_grp[0], false),
 	OBJECT_GROUP_CREATE_ENTRY(&gserm_fw_grp[0], false),
 	OBJECT_GROUP_CREATE_ENTRY(&ap_atf_grp[0], false),
@@ -605,6 +634,8 @@ static const struct object_group file_groups_cn10k[] = {
 	OBJECT_GROUP_CREATE_ENTRY(&efi1_grp[0], false),
 	OBJECT_GROUP_CREATE_ENTRY(&mkex_fw_grp[0], false),
 	OBJECT_GROUP_CREATE_ENTRY(&switch_fw_grp[0], false),
+	OBJECT_GROUP_CREATE_ENTRY(&optee_grp[0], true),
+	OBJECT_GROUP_CREATE_ENTRY(&efi_app1_grp[0], true),
 	OBJECT_GROUP_CREATE_ENTRY(NULL, false),
 };
 
@@ -620,6 +651,8 @@ static const struct object_group file_groups_cnf10k[] = {
 	OBJECT_GROUP_CREATE_ENTRY(&ap_atf_grp[0], false),
 	OBJECT_GROUP_CREATE_ENTRY(&uboot_grp[0], false),
 	OBJECT_GROUP_CREATE_ENTRY(&mkex_fw_grp[0], false),
+	OBJECT_GROUP_CREATE_ENTRY(&optee_grp[0], true),
+	OBJECT_GROUP_CREATE_ENTRY(&efi_app1_grp[0], true),
 	OBJECT_GROUP_CREATE_ENTRY(NULL, false),
 };
 
@@ -1749,10 +1782,9 @@ static enum update_ret update_process_tims(void)
 		int offset;
 
 		offset = strlen(fentry->filename) - tim_ext_len;
-
 		debug_fw_update("%s: file: %s, update filename ext offset: 0x%x\n",
 				__func__, fentry->filename, offset);
-		if (!strcmp(fentry->filename + offset, tim_ext)) {
+		if ((offset <= 0) || !strcmp(fentry->filename + offset, tim_ext)) {
 			debug_fw_update("Allocating object for %s\n",
 					fentry->filename);
 			oentry = alloc_object();
@@ -1926,6 +1958,103 @@ done:
 }
 
 /**
+ * Allocate a temporary group entry if none is found and update the object with it.
+ *
+ * @param[in]		object	Object missing a group
+ * @return		New group entry or NULL if resources are unavailable or there
+ *			is an error.
+ *
+ * If a new component is found in the update file that is not included in the groups
+ * this will attempt to create a temporary group.  The names in the group attempt
+ * to be sane based on the current naming in the firmware layout support.
+ *
+ * Note that the entire group thing will likely go away since the new requirement is
+ * all updates must contain everything.
+ *
+ * Also note that these temporary groups are never freed since they're likely to
+ * be reused.
+ *
+ * Any group allocated will be marked as optional.
+ */
+struct object_group_entry *alloc_group_entry(const struct object_entry *object)
+{
+	struct opt_group *opt_group = NULL;
+	struct object_group_entry *group = NULL;
+	int offset;
+
+
+	/* First see if it's already allocated */
+	for (opt_group = &opt_groups[0]; opt_group <= last_free_opt_group; opt_group++) {
+		group = &opt_group->group;
+		if (group->optional &&
+		    !strncmp((char *)group->dts_filename, object->tim_file->filename,
+			     TIM_MAX_NAME_LENGTH)) {
+			UINFO("Reusing optional group for %s\n",
+			      (char *)group->dts_filename);
+			return group;
+		}
+	}
+
+	if (!first_free_opt_group) {
+		UERROR("%s: Out of free groups\n", __func__);
+		return NULL;
+	}
+
+	opt_group = first_free_opt_group;
+	zeromem(opt_group, sizeof(*opt_group));
+	if (first_free_opt_group == last_free_opt_group) {
+		WARN("No more free optional groups\n");
+		first_free_opt_group = NULL;
+	} else {
+		first_free_opt_group++;
+	}
+	group = &opt_group->group;
+	group->tim_filename = object->tim_file->filename;
+	if (object->data_file) {
+		strlcpy(opt_group->data_filename, object->data_file->filename,
+			TIM_MAX_NAME_LENGTH);
+		opt_group->data_filename[TIM_MAX_NAME_LENGTH - 1] = '\0';
+		group->data_filename = opt_group->data_filename;
+		group->dts_filename = group->data_filename;
+	} else {
+		strlcpy((char *)opt_group->dts_filename,
+			object->tim_file->filename,
+			sizeof(opt_group->dts_filename));
+		opt_group->dts_filename[TIM_MAX_NAME_LENGTH - 1] = '\0';
+		offset = strlen((char *)opt_group->dts_filename) - tim_ext_len;
+		if (offset <= 0) {
+			UERROR("TIM filename %s is invalid\n", opt_group->dts_filename);
+			goto error;
+		}
+		if (strcmp((char *)opt_group->dts_filename + offset, tim_ext)) {
+			UERROR("TIM filename %s is missing .timb\n", opt_group->dts_filename);
+			goto error;
+		}
+		opt_group->dts_filename[offset] = 0;
+		group->dts_filename = opt_group->dts_filename;
+		group->optional = true;
+		group->skip_version_check = true;
+		group->no_load = (object->data_file == NULL);
+	}
+	UINFO("Created temporary group for %s\n", group->dts_filename);
+	return group;
+
+error:
+	/* Free up the group entry */
+	if (opt_group != NULL) {
+		zeromem(opt_group, sizeof(*opt_group));
+		if (first_free_opt_group == NULL)
+			first_free_opt_group = last_free_opt_group;
+		else if (first_free_opt_group > &opt_groups[0])
+			--first_free_opt_group;
+		else {
+			UERROR("%s: This should never happen!\n", __func__);
+		}
+	}
+	return NULL;
+}
+
+/**
  * Checks if a group is present and valid or not
  *
  * @param[in]	group	group to check
@@ -1943,8 +2072,7 @@ static int check_group(const struct object_group_entry *group)
 	const char *d_filename;
 
 	UINFO("Verifying all files are present in available groups\n");
-	for (gentry = group; gentry->tim_filename || gentry->data_filename;
-	     gentry++) {
+	for (gentry = group; gentry->tim_filename; gentry++) {
 		t_filename = gentry->tim_filename != NULL ?
 			gentry->tim_filename : "none";
 		d_filename = gentry->data_filename != NULL ?
@@ -1952,6 +2080,7 @@ static int check_group(const struct object_group_entry *group)
 		debug_fw_update("%s: Checking %s, %s\n", __func__,
 				t_filename, d_filename);
 		if (gentry->tim_filename) {
+			UINFO("Looking for %s in group check\n", gentry->tim_filename);
 			fentry = find_file(gentry->tim_filename);
 			if (!fentry) {
 				if (!gentry->optional) {
@@ -1959,7 +2088,8 @@ static int check_group(const struct object_group_entry *group)
 					      t_filename);
 					complete = false;
 				} else {
-					UINFO("No TIM found for %s\n", gentry->tim_filename);
+					UINFO("No TIM found for %s, file is optional\n",
+					      gentry->tim_filename);
 				}
 			} else {
 				assert(fentry->object != NULL);
@@ -2017,6 +2147,7 @@ static int check_groups(void)
 {
 	const struct object_group *group;
 	const struct object_group *plat_groups = &file_groups[0];
+	struct object_entry *oentry;
 	bool all_found = true;
 	bool none_found = true;
 	int found, num_found = 0;
@@ -2051,6 +2182,21 @@ static int check_groups(void)
 		UWARN("No valid object groups found\n");
 		return UPDATE_GROUP_ERROR;
 	}
+	/* Now make sure all entries are assigned to a group */
+	UINFO("Looking for extra objects\n");
+	for_each_object(oentry) {
+		if (!oentry->group) {
+			UINFO("No group found for %s, creating group\n",
+			      oentry->tim_file->filename);
+			oentry->group = alloc_group_entry(oentry);
+			if (oentry->group == NULL) {
+				UERROR("Could not allocate group for object with TIM %s\n",
+				       oentry->tim_file->filename);
+				return UPDATE_GROUP_ERROR;
+			}
+		}
+	}
+
 	if (all_found) {
 		debug_fw_update("All file groups found\n");
 		UINFO("All file groups found\n");
