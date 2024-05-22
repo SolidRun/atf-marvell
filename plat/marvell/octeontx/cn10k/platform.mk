@@ -19,6 +19,8 @@ WORKAROUND_IPBUPERS-503 := 1
 
 ENABLE_AMU		:= 1
 
+ENABLE_3438991		:= 1
+
 # Enable NonSecure access for Coresight's ETE and TRBE blocks
 ENABLE_TRBE_FOR_NS		:= 1
 ENABLE_SYS_REG_TRACE_FOR_NS	:= 1

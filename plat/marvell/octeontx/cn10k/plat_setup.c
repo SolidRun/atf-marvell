@@ -682,6 +682,18 @@ void plat_octeontx_cpu_setup(void)
 	val |= (1ULL << 0);
 	__asm__ volatile ("msr S3_0_C15_C1_1, %0" : : "r"(val));
 
+#if ENABLE_3438991
+	/* Workaround for IPBUPERS-664 (ARM3438991)
+	 * Misprogramming the Contiguous bit can produce OA, access permission,
+	 * and memory attributes that are not consistent with any of the
+	 * programmed translation table values
+	 * Set CPUECTLR_EL1[46] to 1 to avoid the workaround
+	 */
+	__asm__ volatile ("mrs %0, S3_0_C15_C1_4" : "=&r"(val));
+	val |= (1ULL << 46);
+	__asm__ volatile ("msr S3_0_C15_C1_4, %0" : : "r"(val));
+#endif
+
 #if DBG_ALLOW_SYST_REG_AC
 	plat_octeontx_dbg_sysreg_set();
 #endif
