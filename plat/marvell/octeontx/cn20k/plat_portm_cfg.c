@@ -291,11 +291,10 @@ static const portm_modes_t portm_1_lane_slow_usgmii_usxgmii[] = {
 	PORTM_MODE_SGMII,
 	PORTM_MODE_1000BASE_X,
 	PORTM_MODE_SFI_1G,
-	PORTM_MODE_2500BASE_X,
-	PORTM_MODE_5000BASE_X,
 	PORTM_MODE_XFI,
 	PORTM_MODE_SFI,
-	PORTM_MODE_10GBASE_KR,
+	PORTM_MODE_25GAUI_C2C,
+	PORTM_MODE_25GAUI_C2M,
 
 	/* USGMII */
 	PORTM_MODE_QSGMII,
@@ -315,14 +314,14 @@ static const portm_modes_t portm_1_lane_slow_usgmii_usxgmii[] = {
 	PORTM_MODE_DISABLED
 };
 
-static const portm_modes_t portm_1_lane_20ka_mcm[] = {
-	PORTM_MODE_XFI, /* Temporary for Bring-up */
+static const portm_modes_t portm_1_lane_cn20ka_mcm[] = {
+	PORTM_MODE_XFI,
 	PORTM_MODE_50GBASE_USR,
 	PORTM_MODE_DISABLED
 };
 
-static const portm_modes_t portm_2_lane_20ka_mcm[] = {
-	PORTM_MODE_XFI, /* Temporary for Bring-up */
+static const portm_modes_t portm_2_lane_cn20ka_mcm[] = {
+	PORTM_MODE_XFI,
 	PORTM_MODE_50GBASE_USR,
 	PORTM_MODE_100GBASE_USR2,
 	PORTM_MODE_DISABLED
@@ -379,11 +378,11 @@ const portm_modes_t *portm_get_mode_desc(int portm)
 			case 1:
 				return portm_1_lane_slow_usgmii_usxgmii;
 			case 2:
-			case 4:
-				return portm_2_lane_20ka_mcm;
+				return portm_2_lane_cn20ka_mcm;
 			case 3:
+			case 4:
 			case 5:
-				return portm_1_lane_20ka_mcm;
+				return portm_1_lane_cn20ka_mcm;
 			default:
 				return NULL;
 			}
