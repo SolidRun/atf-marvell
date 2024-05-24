@@ -24,6 +24,7 @@
 #include "cavm-csrs-npa.h"
 #include "cavm-csrs-pccpf.h"
 #include "cavm-csrs-ecam.h"
+#include "cavm-csrs-apr.h"
 
 #include "cavm-csrs-spi.h"
 
@@ -99,6 +100,35 @@ static void rvu_disable_ecam_access(void)
 			      ECAMX_DOMX_DEVX_PERMIT(domain, dev),
 			      dev_permit.u);
 	}
+}
+
+static uint64_t next_pow2(uint64_t x)
+{
+	if (x == 1)
+		return x;
+	if (!(x & (x - 1)))
+		return x;
+
+	return (1 << (64 - __builtin_clzl(x - 1)));
+}
+
+static void rvu_apr_init(void)
+{
+	union cavm_apr_af_lmt_cfg af_lmt_cfg;
+	union cavm_apr_af_lmt_map_base lmt_map_base;
+	uint64_t cfg = RVU_CSR_READ(RVU_AF_BAR0_BASE, RVU_PRIV_CONST);
+	int pfs, vfs;
+
+	pfs = (cfg >> 33) & 0xFF;
+	vfs = (cfg >> 41) & 0xFF;
+
+	af_lmt_cfg.u = 0;
+	af_lmt_cfg.s.pfs = __builtin_ctzl(next_pow2(pfs));
+	af_lmt_cfg.s.funcs = __builtin_ctzl(next_pow2(vfs));
+	RVU_CSR_WRITE(RVU_AF_BAR0_BASE, APR_AF_LMT_CFG, af_lmt_cfg.u);
+
+	lmt_map_base.u = APR_TABLE_BASE;
+	RVU_CSR_WRITE(RVU_AF_BAR0_BASE, APR_AF_LMT_MAP_BASE, lmt_map_base.u);
 }
 
 static void rvu_pf_disc_reset(void)
@@ -333,4 +363,5 @@ void rvu_devices_init(void)
 	config_rvu_pci();
 	rvu_disable_ecam_access();
 	rvu_pf_disc_reset();
+	rvu_apr_init();
 }

@@ -11,7 +11,8 @@
 #include <cassert.h>
 
 #define MSIX_TABLE_BASE		RVU_MEM_BASE
-#define MSIX_TABLE_SIZE		0x200000
+#define MSIX_TABLE_SIZE		0x1000000
+#define APR_TABLE_BASE		MSIX_TABLE_BASE + MSIX_TABLE_SIZE
 
 /*
  * Due to hardware errata, RVU_PRIV_PF()_MSIX_CFG fields PF_MSIXT_OFFSET
@@ -62,6 +63,9 @@
 #define NIX_PRIV_LFX_CFG(a)		(48000010 | (a) << 8)
 
 #define NDCX_PRIV_AF_INT_CFG(a)		(0xc00002f8 | (a) << 28)
+
+#define APR_AF_LMT_MAP_BASE		(0x160000008)
+#define APR_AF_LMT_CFG			(0x160000000)
 
 #define ECAMX_PF_BAR0(a) (0xc10400000000ll + 0x1000000ll * (a))
 #define ECAMX_PF_BAR2(a) (0xc10040000000ll + 0x100000000ll * (a))

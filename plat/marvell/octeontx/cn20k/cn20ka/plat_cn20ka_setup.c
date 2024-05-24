@@ -306,6 +306,9 @@ void plat_add_mmio(void)
 	add_map_record(RVU_PFX_BAR0 +
 		       CAVM_RVU_BLOCK_ADDR_E_NPA * RVU_PFX_BAR0_SIZE,
 		       RVU_PFX_BAR0_SIZE, attr);
+	add_map_record(RVU_PFX_BAR0 +
+		       CAVM_RVU_BLOCK_ADDR_E_APR * RVU_PFX_BAR0_SIZE,
+		       RVU_PFX_BAR0_SIZE, attr);
 	/*
 	 * Map DSU UB for core power management
 	 * Errata: IPBUPERS-151, skip the reserved register space.
