@@ -307,6 +307,9 @@ void plat_add_mmio(void)
 		       CAVM_RVU_BLOCK_ADDR_E_NPA * RVU_PFX_BAR0_SIZE,
 		       RVU_PFX_BAR0_SIZE, attr);
 	add_map_record(RVU_PFX_BAR0 +
+		       CAVM_RVU_BLOCK_ADDR_E_CPTX(0) * RVU_PFX_BAR0_SIZE,
+		       RVU_PFX_BAR0_SIZE, attr);
+	add_map_record(RVU_PFX_BAR0 +
 		       CAVM_RVU_BLOCK_ADDR_E_APR * RVU_PFX_BAR0_SIZE,
 		       RVU_PFX_BAR0_SIZE, attr);
 	/*

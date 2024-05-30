@@ -22,9 +22,11 @@
 #include "cavm-csrs-nix.h"
 #include "cavm-csrs-rvu.h"
 #include "cavm-csrs-npa.h"
+#include "cavm-csrs-cpt.h"
 #include "cavm-csrs-pccpf.h"
 #include "cavm-csrs-ecam.h"
 #include "cavm-csrs-apr.h"
+#include "cavm-csrs-rpm.h"
 
 #include "cavm-csrs-spi.h"
 
@@ -45,6 +47,17 @@
 
 static struct rvu_device rvu_dev[RVU_MAX_PFS];
 
+#define __const_hweight8(w)             \
+		((unsigned int)               \
+		((!!((w) & (1ULL << 0))) +    \
+		(!!((w) & (1ULL << 1))) +     \
+		(!!((w) & (1ULL << 2))) +     \
+		(!!((w) & (1ULL << 3))) +     \
+		(!!((w) & (1ULL << 4))) +     \
+		(!!((w) & (1ULL << 5))) +     \
+		(!!((w) & (1ULL << 6))) +     \
+		(!!((w) & (1ULL << 7)))))
+
 static int get_max_rvu_pfs(void)
 {
 	uint64_t cfg;
@@ -59,6 +72,19 @@ static int get_max_rvu_vfs(void)
 
 	cfg = RVU_CSR_READ(RVU_AF_BAR0_BASE, RVU_PRIV_CONST);
 	return ((cfg >> 21) & 0xFFF);
+}
+
+static int get_rpm_intf_cnt(void)
+{
+	cavm_rpmx_cmr_rx_lmacs_t rpm_rx_lmacs;
+	int rpm_id, eth_intf = 0;
+
+	for (rpm_id = 0; rpm_id < plat_octeontx_get_rpm_count() ; rpm_id++) {
+		rpm_rx_lmacs.u = RVU_CSR_READ(RPM_PF_BAR0(rpm_id),
+					      RPMX_CMR_RX_LMACS);
+		eth_intf += __const_hweight8(rpm_rx_lmacs.s.lmac_exist);
+	}
+	return eth_intf;
 }
 
 /* Skip pci enemuration of non-active PFs */
@@ -112,6 +138,44 @@ static uint64_t next_pow2(uint64_t x)
 	return (1 << (64 - __builtin_clzl(x - 1)));
 }
 
+static void config_apr_table_ents(int max_pfs, int max_vfs)
+{
+	uint64_t ent_addr, val = 0, ent_base_addr;
+	union cavm_apr_af_lmt_ctl lmt_ctl;
+	int pf, vf;
+
+	for (pf = 0; pf < max_pfs; pf++) {
+		if (!rvu_dev[pf].enable)
+			continue;
+
+		ent_base_addr = APR_TABLE_BASE +
+				((pf * max_vfs) + pf) *
+				RVU_LMT_MAPTBL_ENTRY_SIZE;
+		ent_addr = ent_base_addr;
+		/* Enable 2K LMT Lines per PF */
+		val |= 0x1ull << 20 | 0x6ull << 16;
+		octeontx_write64((ent_addr + 0x8), val);
+		if (rvu_dev[pf].num_vfs) {
+			for (vf = 0; vf < rvu_dev[pf].num_vfs; vf++) {
+				ent_addr = ent_base_addr + ((vf + 1) *
+					   RVU_LMT_MAPTBL_ENTRY_SIZE);
+				octeontx_write64((ent_addr + 0x8), val);
+			}
+		}
+	}
+
+	/* Maintain LPC coherence after table setup/modifications
+	 * as per APR chapter in HRM.
+	 */
+	lmt_ctl.s.flush = 0x1;
+	RVU_CSR_WRITE(RVU_AF_BAR0_BASE, APR_AF_LMT_CTL, lmt_ctl.u);
+	do {
+		lmt_ctl.u = RVU_CSR_READ(RVU_AF_BAR0_BASE, APR_AF_LMT_CTL);
+	} while (lmt_ctl.s.flush == 0x0);
+	lmt_ctl.s.flush = 0x0;
+	RVU_CSR_WRITE(RVU_AF_BAR0_BASE, APR_AF_LMT_CTL, lmt_ctl.u);
+}
+
 static void rvu_apr_init(void)
 {
 	union cavm_apr_af_lmt_cfg af_lmt_cfg;
@@ -129,6 +193,7 @@ static void rvu_apr_init(void)
 
 	lmt_map_base.u = APR_TABLE_BASE;
 	RVU_CSR_WRITE(RVU_AF_BAR0_BASE, APR_AF_LMT_MAP_BASE, lmt_map_base.u);
+	config_apr_table_ents(pfs, vfs);
 }
 
 static void rvu_pf_disc_reset(void)
@@ -152,6 +217,7 @@ static void conf_af_block_vec_offset(void)
 	union cavm_rvu_priv_pfx_int_cfg af_int_cfg;
 	union cavm_nixx_priv_af_int_cfg nix_int_cfg;
 	union cavm_npa_priv_af_int_cfg npa_int_cfg;
+	union cavm_cptx_priv_af_int_cfg	cpt_int_cfg;
 	int af_msix_used = 0;
 
 	/*TODO: Should add mbox interrupts */
@@ -162,7 +228,6 @@ static void conf_af_block_vec_offset(void)
 	af_int_cfg.s.msix_offset = af_msix_used;
 	RVU_CSR_WRITE(RVU_AF_BAR0_BASE, RVU_PRIV_PFX_INT_CFG(0), af_int_cfg.u);
 	af_msix_used += af_int_cfg.s.msix_size;
-
 	/*
 	 * Configure next blocks accordingly to the number
 	 * of MSI-X AF interrupts already consumed
@@ -177,6 +242,11 @@ static void conf_af_block_vec_offset(void)
 	npa_int_cfg.s.msix_offset = af_msix_used;
 	RVU_CSR_WRITE(RVU_AF_BAR0_BASE, NPA_PRIV_AF_INT_CFG, npa_int_cfg.u);
 	af_msix_used += npa_int_cfg.s.msix_size;
+
+	cpt_int_cfg.u = RVU_CSR_READ(RVU_AF_BAR0_BASE, CPTX_PRIV_AF_INT_CFG(0));
+	cpt_int_cfg.s.msix_offset = af_msix_used;
+	RVU_CSR_WRITE(RVU_AF_BAR0_BASE, CPTX_PRIV_AF_INT_CFG(0), cpt_int_cfg.u);
+	af_msix_used += cpt_int_cfg.s.msix_size;
 }
 
 static int msix_enable(void)
@@ -297,7 +367,7 @@ static void config_rvu_pci(void)
 	}
 }
 
-static void config_rvu_dev(int pf, rvu_pf_cfg_t *pf_cfg, int *hwvf)
+static void config_rvu_dev(int pf, rvu_pf_cfg_t *pf_cfg, int *hwvf, int rpm_map)
 {
 
 	rvu_dev[pf].enable = pf_cfg->enable;
@@ -306,11 +376,20 @@ static void config_rvu_dev(int pf, rvu_pf_cfg_t *pf_cfg, int *hwvf)
 	rvu_dev[pf].pf_num_msix_vec = pf_cfg->num_msix_vec;
 	rvu_dev[pf].pci.pf_devid = pf_cfg->devid & DEVID_MASK;
 	rvu_dev[pf].pci.vf_devid = pf_cfg->vf_devid & DEVID_MASK;
+	if (rpm_map) {
+		rvu_dev[pf].enable = 1;
+		rvu_dev[pf].pci.pf_devid = PCI_DEVID_OCTEONTX2_RVU_PF;
+		rvu_dev[pf].pci.vf_devid = PCI_DEVID_OCTEONTX2_RVU_VF;
+	}
+
 	rvu_dev[pf].vf_num_msix_vec = pf_cfg->num_vfs ? pf_cfg->num_msix_vec : 0;
 	rvu_dev[pf].pci.class_code = pf_cfg->cls_code & CLASS_CODE_MASK;
 
+	if (!pf)
+		rvu_dev[pf].pf_num_msix_vec = RVU_AF_VEC_COUNT;
+
 	/*Skip hwvf allocation for disable pf */
-	if (!pf_cfg->enable)
+	if (!rvu_dev[pf].enable)
 		return;
 
 	/* Increment already allocated HWVFs */
@@ -319,7 +398,7 @@ static void config_rvu_dev(int pf, rvu_pf_cfg_t *pf_cfg, int *hwvf)
 
 static int init_rvu_dev_from_fdt(void)
 {
-	int current_hwvf = 0, ent;
+	int current_hwvf = 0, ent, max_rpm_intf, rpm_map = 0;
 	rvu_config_t *rvu_cfg;
 	rvu_pf_cfg_t *pf_cfg = NULL;
 
@@ -331,9 +410,13 @@ static int init_rvu_dev_from_fdt(void)
 	}
 
 	/* Now initialize devices passed in dts */
+	max_rpm_intf = get_rpm_intf_cnt();
 	for (ent = 0; ent < rvu_cfg->num_dev; ent++) {
+		if (ent)
+			rpm_map = (ent <= max_rpm_intf) ? true : false;
+
 		pf_cfg = &rvu_cfg->pf_cfg[ent];
-		config_rvu_dev(pf_cfg->pf_id, pf_cfg, &current_hwvf);
+		config_rvu_dev(pf_cfg->pf_id, pf_cfg, &current_hwvf, rpm_map);
 	}
 	return 0;
 }

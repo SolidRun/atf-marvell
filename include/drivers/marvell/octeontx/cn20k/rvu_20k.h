@@ -33,13 +33,17 @@
 
 /* Number of AF interrupts consumed by PF0 */
 #define RVU_AF_INT_VEC_E_MSIX_SIZE	5
-#define RVU_AF_VEC_COUNT		38 /* AF + NIX + NPA + CPT + TIM + SSO*/
+#define RVU_AF_VEC_COUNT		384 /* AF+mbox+NIX+NPA+CPT+TIM+SSO */
 
+#define RVU_LMT_MAPTBL_ENTRY_SIZE (sizeof(uint64_t) * 2)
 
 #define TRUE	1
 #define FALSE	0
 
 #define RVU_AF	0
+
+#define PCI_DEVID_OCTEONTX2_RVU_PF   0xA063
+#define PCI_DEVID_OCTEONTX2_RVU_VF   0xA064
 
 #define RVU_CSR_WRITE(base, offset, val) (*(volatile uint64_t *)(base + offset) = cavm_cpu_to_le64((val)))
 #define RVU_CSR_READ(base, offset) cavm_le64_to_cpu(*(volatile uint64_t *)(base + offset))
@@ -66,12 +70,20 @@
 
 #define APR_AF_LMT_MAP_BASE		(0x160000008)
 #define APR_AF_LMT_CFG			(0x160000000)
+#define APR_AF_LMT_CTL			(0x160000010)
+
+#define CPTX_PRIV_AF_INT_CFG(a)		(0xa0042000 + 0x10000000 * ((a) & 0x1))
 
 #define ECAMX_PF_BAR0(a) (0xc10400000000ll + 0x1000000ll * (a))
 #define ECAMX_PF_BAR2(a) (0xc10040000000ll + 0x100000000ll * (a))
 
 #define ECAMX_DOMX_BUSX_PERMIT(a, b)	(0x20000 + 0x800 * ((a) & 0x3) + 8 * ((b) & 0xff))
 #define ECAMX_DOMX_DEVX_PERMIT(a, b)	(0x40000 + 0x800 * ((a) & 0x3) + 8 * ((b) & 0x1f))
+
+
+#define RPM_PF_BAR0(a)		(0xc0e000000000 + 0x100000000 * (a))
+#define RPMX_CMR_RX_LMACS	0x100
+#define RPMX_CONST		0x2000
 
 typedef struct pci_config {
 	int pf_devid;
