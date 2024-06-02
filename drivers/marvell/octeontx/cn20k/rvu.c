@@ -149,7 +149,7 @@ static void config_apr_table_ents(int max_pfs, int max_vfs)
 			continue;
 
 		ent_base_addr = APR_TABLE_BASE +
-				((pf * max_vfs) + pf) *
+				((pf * max_vfs)) *
 				RVU_LMT_MAPTBL_ENTRY_SIZE;
 		ent_addr = ent_base_addr;
 		/* Enable 2K LMT Lines per PF */
@@ -180,11 +180,10 @@ static void rvu_apr_init(void)
 {
 	union cavm_apr_af_lmt_cfg af_lmt_cfg;
 	union cavm_apr_af_lmt_map_base lmt_map_base;
-	uint64_t cfg = RVU_CSR_READ(RVU_AF_BAR0_BASE, RVU_PRIV_CONST);
 	int pfs, vfs;
 
-	pfs = (cfg >> 33) & 0xFF;
-	vfs = (cfg >> 41) & 0xFF;
+	pfs = APR_MAX_RVU_PFS;
+	vfs = APR_MAX_RVU_VFS;
 
 	af_lmt_cfg.u = 0;
 	af_lmt_cfg.s.pfs = __builtin_ctzl(next_pow2(pfs));
@@ -221,7 +220,7 @@ static void conf_af_block_vec_offset(void)
 	int af_msix_used = 0;
 
 	/*TODO: Should add mbox interrupts */
-	af_msix_used += RVU_AF_INT_VEC_E_MSIX_SIZE;
+	af_msix_used += RVU_AF_INT_VEC_E_CNT;
 
 	/* Configure RVU_PF_INT_VEC_E right next to RVU_AF */
 	af_int_cfg.u = RVU_CSR_READ(RVU_AF_BAR0_BASE, RVU_PRIV_PFX_INT_CFG(0));

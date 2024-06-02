@@ -30,9 +30,11 @@
 
 #define MAX_RVU_VFS_PER_PF		128
 #define RVU_MSIX_VEC_SIZE		16
+#define APR_MAX_RVU_VFS			256
+#define APR_MAX_RVU_PFS			96
 
 /* Number of AF interrupts consumed by PF0 */
-#define RVU_AF_INT_VEC_E_MSIX_SIZE	5
+#define RVU_AF_INT_VEC_E_CNT		74
 #define RVU_AF_VEC_COUNT		384 /* AF+mbox+NIX+NPA+CPT+TIM+SSO */
 
 #define RVU_LMT_MAPTBL_ENTRY_SIZE (sizeof(uint64_t) * 2)
