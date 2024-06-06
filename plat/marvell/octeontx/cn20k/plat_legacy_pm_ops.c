@@ -16,6 +16,7 @@
 #include <drivers/delay_timer.h>
 
 #include "cavm-csrs-rst.h"
+#include "cavm-csrs-xcp.h"
 
 //#include <plat_board_cfg.h>
 
@@ -36,6 +37,9 @@ static void __dead2 plat_octeontx_legacy_system_reset(void)
 	// SCP should auto restart after reset
 	rst_boot.s.rboot = 0;
 	CSR_WRITE(CAVM_RSTX_BOOT(1), rst_boot.u);
+
+	CSR_WRITE(CAVM_XCPX_BOOT_JUMP(0), 0x0);
+	CSR_WRITE(CAVM_XCPX_INITVTOR(0), 0x0);
 
 	// entire system reset
 	rst_chip.s.soft_rst = 1;
