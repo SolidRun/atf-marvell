@@ -2165,12 +2165,17 @@ static int check_groups(void)
 			return UPDATE_GROUP_ERROR;
 		if (!found) {
 			if (!group->optional) {
-				UINFO("Group containing TIM %s not found\n",
-				     group->entry->tim_filename);
-				all_found = false;
+				if (!group->entry->optional) {
+					UINFO("Group containing required TIM %s not found\n",
+					      group->entry->tim_filename);
+					all_found = false;
+				} else {
+					UINFO("Group containing optional TIM %s not found (OK)\n",
+					      group->entry->tim_filename);
+				}
 			} else {
-				UINFO("Optional group containing TIM %s not found\n",
-				     group->entry->tim_filename);
+				UINFO("Optional group containing TIM %s not found (OK)\n",
+				group->entry->tim_filename);
 			}
 		} else {
 			num_found++;
