@@ -1,7 +1,7 @@
 Marvell "doimage" flash image builder
 =====================================
 
-Marvell "doimage" utility is used for contructing flash images suitable for
+Marvell "doimage" utility is used for constructing flash images suitable for
 a boot media installation in format that accepted by Marvell SoC BootROM.
 The flash image format is compatible with the following Marvell SoC product
 lines:
@@ -11,7 +11,7 @@ lines:
 The "doimage" supports both trusted and untrusted flash image formats.
 Untrusted image is normally created by standalone self-contained "doimage"
 executable.
-Trusted image requres production of digital signatures for various flash image
+Trusted image requires production of digital signatures for various flash image
 components.
 
 Each signature is created using dedicated RSA-2048 private key and later
@@ -24,7 +24,7 @@ is able to create digital signatures using RSA private keys.
 This use case prevents the private keys from sharing across all hosts able to
 build flash images.
 
-The above reqirement is covered by client-server split-execution doimage model.
+The above requirement is covered by client-server split-execution doimage model.
 
 :WARNING:
        The client-server model of the image formatter is supplied in a form of
@@ -79,8 +79,8 @@ The client and server system setups contain the following components:
 || *kak_pub_pem.key*  in            ||                                        |
 || tools/marvell/doimage/secure/    ||                                        |
 +-----------------------------------+-----------------------------------------+
-|| **CA certificate**               || CA cerfificate for server connection   |
-|| See example file *rootCA.crt* in || authentication. The server cerificate  |
+|| **CA certificate**               || CA certificate for server connection   |
+|| See example file *rootCA.crt* in || authentication. The server certificate |
 || tools/marvell/doimage/secure/    || should be signed by the same CA        |
 +-----------------------------------+-----------------------------------------+
 
@@ -91,7 +91,7 @@ The client and server system setups contain the following components:
 || Component                        || Description                            |
 +===================================+=========================================+
 || **doimage_server**               || The server executable to be used for   |
-||                                  || responding to client signatire         |
+||                                  || responding to client signature         |
 ||                                  || creation requests.                     |
 +-----------------------------------+-----------------------------------------+
 || **server configuration file**    || Server configuration file defining all |
@@ -106,7 +106,7 @@ The client and server system setups contain the following components:
 || *kak_priv_pem.key* in            || used on client side                    |
 || tools/marvell/doimage/secure/    ||                                        |
 +-----------------------------------+-----------------------------------------+
-|| **CA certificate**               || CA cerfificate used for creation of    |
+|| **CA certificate**               || CA certificate used for creation of    |
 || See example file *rootCA.crt* in || server certificate(s).                 |
 || tools/marvell/doimage/secure/    ||                                        |
 +-----------------------------------+-----------------------------------------+
@@ -114,7 +114,7 @@ The client and server system setups contain the following components:
 || See example file *rootCA.key* in || server certificate(s). This file is    |
 || tools/marvell/doimage/secure/    || not used for the TLS connection setup. |
 +-----------------------------------+-----------------------------------------+
-|| **server certificate**           || Server cerfificate presented to the    |
+|| **server certificate**           || Server certificate presented to the    |
 || See example file *localhost.crt* || client upon TLS connection setup.      |
 || in tools/marvell/doimage/secure/ ||                                        |
 +-----------------------------------+-----------------------------------------+
@@ -175,7 +175,7 @@ This example uses the same computer for client-server connection
       Create signature for key index 3 (CSK)
 
 #. The flash image could be verified using the client binary in the same way
-   as it is done with stanalone utility:
+   as it is done with standalone utility:
 
    .. code:: shell
 
@@ -255,8 +255,8 @@ How to create certificates
 The example application uses custom CA (Marvell) and server located on the same
 machine as the client (localhost). This configuration is only useful for basic
 tests.
-In order to deploy real application, new CA and server cerfificates should be
-created and propagated to client and server configration files.
+In order to deploy real application, new CA and server certificates should be
+created and propagated to client and server configuration files.
 The CA root key and certificate are created only once even multiple signage
 servers exist.
 Every new server certificate is created using the same CA attributes.
@@ -269,7 +269,7 @@ company name as an example.
 
       openssl genrsa -des3 -out QuittersCA.key 4096
 
-#. Create and self-sign the root CA cerificate using previously generated
+#. Create and self-sign the root CA certificate using previously generated
    root CA key (SHA1 is retired now, so SHA2 should be used):
 
    .. code:: shell
@@ -316,7 +316,7 @@ company name as an example.
 
       # *tools/marvell/doimage/secure/server.cfg*
       #
-      # SSL ceritifates and server key
+      # SSL certificates and server key
       server_key_file = "<path-to>>/quitters.com.key";
       server_cert_file = "<path-to>>/quitters.com.crt";
       ca_cert_file = "<path-to>>/QuittersCA.crt";

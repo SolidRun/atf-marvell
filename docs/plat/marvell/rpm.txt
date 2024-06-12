@@ -135,7 +135,7 @@ not present, AN is by default disabled.
 With 1000BASE_X mode, AN is by default disabled and the speed is set to 1000Mbps by default,
 speed can be changed by "cn10k,sgmii-set-speed=<speed>" to 10, 100 and 1000Mbps.
 
-To Enable 1000BASE_X Auto negotaiation the below dts propery should be present,
+To Enable 1000BASE_X Auto negotiation the below dts property should be present,
 "cn10k,1000BaseX-enable-autoneg"
 
 Example:
