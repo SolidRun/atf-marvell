@@ -294,24 +294,24 @@ void plat_add_mmio(void)
 				CAVM_NCB_BAR_E_NCBX_PF_BAR0_SIZE, attr);
 
 	/* RVU device mappings */
-#define RVU_PFX_BAR0		0x850000000000ll
-#define RVU_PFX_BAR0_SIZE	0x10000000ull
 
-	add_map_record(RVU_PFX_BAR0, 0x10000000ull, attr);
+	add_map_record(CAVM_RVU_BAR_E_RVU_PFX_BAR0(0) +
+		       CAVM_RVU_BLOCK_ADDR_E_RVUM,
+		       CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE, attr);
 
 	/* Add regions for required for RVU init */
-	add_map_record(RVU_PFX_BAR0 +
-		       CAVM_RVU_BLOCK_ADDR_E_NIXX(0) * RVU_PFX_BAR0_SIZE,
-		       RVU_PFX_BAR0_SIZE, attr);
-	add_map_record(RVU_PFX_BAR0 +
-		       CAVM_RVU_BLOCK_ADDR_E_NPA * RVU_PFX_BAR0_SIZE,
-		       RVU_PFX_BAR0_SIZE, attr);
-	add_map_record(RVU_PFX_BAR0 +
-		       CAVM_RVU_BLOCK_ADDR_E_CPTX(0) * RVU_PFX_BAR0_SIZE,
-		       RVU_PFX_BAR0_SIZE, attr);
-	add_map_record(RVU_PFX_BAR0 +
-		       CAVM_RVU_BLOCK_ADDR_E_APR * RVU_PFX_BAR0_SIZE,
-		       RVU_PFX_BAR0_SIZE, attr);
+	add_map_record(CAVM_RVU_BAR_E_RVU_PFX_BAR0(0) +
+		       CAVM_RVU_BLOCK_ADDR_E_NIXX(0) * CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE,
+		       CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE, attr);
+	add_map_record(CAVM_RVU_BAR_E_RVU_PFX_BAR0(0) +
+		       CAVM_RVU_BLOCK_ADDR_E_NPA * CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE,
+		       CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE, attr);
+	add_map_record(CAVM_RVU_BAR_E_RVU_PFX_BAR0(0) +
+		       CAVM_RVU_BLOCK_ADDR_E_CPTX(0) * CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE,
+		       CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE, attr);
+	add_map_record(CAVM_RVU_BAR_E_RVU_PFX_BAR0(0) +
+		       CAVM_RVU_BLOCK_ADDR_E_APR * CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE,
+		       CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE, attr);
 	/*
 	 * Map DSU UB for core power management
 	 * Errata: IPBUPERS-151, skip the reserved register space.
