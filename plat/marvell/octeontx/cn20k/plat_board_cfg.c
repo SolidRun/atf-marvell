@@ -23,7 +23,6 @@
 #include <octeontx_utils.h>
 #include <strtol.h>
 #include <fdtebf_helper.h>
-#include <plat_eth_cfg.h>
 
 #include "cavm-csrs-ecam.h"
 #include "cavm-csrs-rst.h"
@@ -346,4 +345,92 @@ int plat_octeontx_fill_board_details(void)
 	parse_rvu_config(fdt);
 
 	return 0;
+}
+
+/**
+ * cn20k_fdt_update_mailbox_memory_range - Update rvu mbox memory range in fdt
+ * @address: Mailbox address of ranges property
+ * @size: Mailbox size of ranges property
+ *
+ * returns:
+ *	0 on success and -ve on error.
+ */
+int cn20k_fdt_update_mailbox_memory_range(uint64_t address, uint64_t size)
+{
+	size_t pci_addr_cells, addr_cells, size_cells, range_cells;
+	uint32_t addr_hi, addr_lo;
+	int offset, soc_offset;
+	void *fdt = fdt_ptr;
+	uint32_t range[100];
+	size_t range_size;
+	char node_name[32];
+	const int *val;
+	int len, i, index = -1;
+
+	soc_offset = offset = fdt_path_offset(fdt, "/soc@0");
+	if (soc_offset < 0) {
+		ERROR("%s: RVU: Unable to find soc@0 node error %d\n",
+		      __func__, offset);
+		return soc_offset;
+	}
+
+	/* Parse ECAM2 node to fix RVU mailbox ranges property */
+	snprintf(node_name, sizeof(node_name), "pci@%" PRIx64 "",
+		 (uint64_t) ECAM_PF_BAR2(2));
+	offset = fdt_subnode_offset(fdt, soc_offset, node_name);
+	if (offset < 0) {
+		ERROR("%s: RVU: Unable to find ecam2 node %s, error %d\n",
+		      __func__, node_name, offset);
+		return offset;
+	}
+
+	val = fdt_getprop(fdt, offset, "ranges", &len);
+	if (!val) {
+		ERROR("%s: RVU: ranges property not found in ecam2 node: %s\n",
+		      __func__, node_name);
+		return -FDT_ERR_NOTFOUND;
+	}
+
+	/*
+	 * For now assume - 3 cells for PCI addresses, 2 cells for address
+	 * and 2 cells for size. (3 + 2 + 2) * 4 = 28 bytes size each entry
+	 * of a range.
+	 */
+	pci_addr_cells = 3;
+	size_cells = addr_cells = 2;
+	range_cells = pci_addr_cells + size_cells + addr_cells;
+	range_size = range_cells * sizeof(uint32_t);
+	if (len % range_size) {
+		ERROR("%s: RVU: improper ranges property of ecam2 node: %s\n",
+		      __func__, node_name);
+		return -FDT_ERR_BADOFFSET;
+	}
+
+	/* By default mailbox ranges entry have cpu address less than 64M */
+	for (index = 0; index < len / range_size; index++) {
+		addr_hi = fdt32_to_cpu(*(val + range_cells * index +
+					 pci_addr_cells));
+		addr_lo = fdt32_to_cpu(*(val + range_cells * index +
+					 pci_addr_cells + 1));
+		if ((addr_hi == 0x0) && (addr_lo < 0x4000000))
+			break;
+	}
+
+	if (index < 0) {
+		ERROR("%s: RVU: mailbox entry missing in ranges property of "
+		      "ecam2 node: %s\n", __func__, node_name);
+		return -FDT_ERR_BADOFFSET;
+	}
+
+	/* update only the mailbox entry in ranges property */
+	memcpy(range, val, len);
+	i = (range_cells * index) + 1;
+	range[i++] = cpu_to_fdt32((uint32_t)(address >> 32));
+	range[i++] = cpu_to_fdt32((uint32_t)address);
+	range[i++] = cpu_to_fdt32((uint32_t)(address >> 32));
+	range[i++] = cpu_to_fdt32((uint32_t)address);
+	range[i++] = cpu_to_fdt32((uint32_t)(size >> 32));
+	range[i++] = cpu_to_fdt32((uint32_t)size);
+
+	return fdt_setprop(fdt, offset, "ranges", &range[0], len);
 }

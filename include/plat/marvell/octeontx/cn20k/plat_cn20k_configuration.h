@@ -31,6 +31,16 @@ unsigned int plat_configure_rid(void);
 struct cn20k_stream_security_setting *plat_get_cn20k_stream_security(int *count);
 void plat_cn20k_set_secondary_cpu_jump_addr(int core_id, uint64_t entrypoint_addr);
 
+void plat_octeontx_get_eth_lmac_rvu_info(unsigned int eth_id,
+					 unsigned int lmac_id,
+					 int *num_rvu_vfs,
+					 int *num_msix_vec,
+					 int *nix_block);
+int plat_octeontx_get_eth_count(void);
+int plat_octeontx_get_eth_lmac_count(void);
+int plat_octeontx_is_enabled_eth_lmac(unsigned int eth_id,
+				      unsigned int lmac_id);
+
 #define CAVM_GIC_ANB_NCBI_P_OVR_OFFSET	0x10
 #define CAVM_GIC_ANB_NCBI_NP_OVR_OFFSET 0x20
 #define CAVM_GIC_ANB_REG_START		0x10012000

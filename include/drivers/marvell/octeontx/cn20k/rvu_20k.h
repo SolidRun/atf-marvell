@@ -9,10 +9,12 @@
 #define __RVU_20K_H_
 
 #include <cassert.h>
+#include <plat_cn20k_def.h>
 
 #define MSIX_TABLE_BASE		RVU_MEM_BASE
 #define MSIX_TABLE_SIZE		0x1000000
 #define APR_TABLE_BASE		MSIX_TABLE_BASE + MSIX_TABLE_SIZE
+#define APR_TABLE_SIZE		RVU_LMT_MAPTBL_ENTRY_SIZE * MAX_RVU_PFS * MAX_RVU_VFS
 
 /*
  * Due to hardware errata, RVU_PRIV_PF()_MSIX_CFG fields PF_MSIXT_OFFSET
@@ -30,8 +32,6 @@
 
 #define MAX_RVU_VFS_PER_PF		128
 #define RVU_MSIX_VEC_SIZE		16
-#define APR_MAX_RVU_VFS			256
-#define APR_MAX_RVU_PFS			96
 
 /* Number of AF interrupts consumed by PF0 */
 #define RVU_AF_INT_VEC_E_CNT		74
@@ -43,14 +43,14 @@
 #define FALSE	0
 
 #define RVU_AF	0
+#define RVU_ETH_FIRST	1
+#define RVU_ETH_LAST	(MAX_RVU_PFS - 7) /* i.e. last-6 */
 
 #define PCI_DEVID_OCTEONTX2_RVU_PF   0xA063
 #define PCI_DEVID_OCTEONTX2_RVU_VF   0xA064
 
 #define RVU_CSR_WRITE(base, offset, val) (*(volatile uint64_t *)(base + offset) = cavm_cpu_to_le64((val)))
 #define RVU_CSR_READ(base, offset) cavm_le64_to_cpu(*(volatile uint64_t *)(base + offset))
-
-#define RVU_AF_BAR0_BASE		0x850000000000ll
 
 #define RVU_AF_MSIXTR_BASE		0x010
 #define RVU_PRIV_CONST			0x8000000
@@ -75,6 +75,9 @@
 #define APR_AF_LMT_CTL			(0x160000010)
 
 #define CPTX_PRIV_AF_INT_CFG(a)		(0xa0042000 + 0x10000000 * ((a) & 0x1))
+
+#define NIX_DISABLED			U(-1)
+#define MAX_NIX				2
 
 #define ECAMX_PF_BAR0(a) (0xc10400000000ll + 0x1000000ll * (a))
 #define ECAMX_PF_BAR2(a) (0xc10040000000ll + 0x100000000ll * (a))
