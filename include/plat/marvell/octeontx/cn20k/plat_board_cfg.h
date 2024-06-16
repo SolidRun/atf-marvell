@@ -13,6 +13,7 @@
 #include <platform_dt.h>
 #include <platform_scfg.h>
 #include <octeontx_board_cfg.h>
+#include <plat_eth_cfg.h>
 
 /* Define enum for configuring ASC regions so that software can use
  * fixed mapping instead of using hardcode value. Allocate a separate
@@ -71,7 +72,6 @@ typedef struct persist_data_config {
 	uint8_t rsvd0;
 } persist_data_cfg_t;
 
-#define RVU_MAX_PFS	96
 typedef struct rvu_pf_cfg {
 	uint64_t cls_code;
 	uint16_t devid;
@@ -86,7 +86,7 @@ typedef struct rvu_pf_cfg {
 typedef struct rvu_config {
 	int valid;
 	int num_dev;
-	rvu_pf_cfg_t pf_cfg[RVU_MAX_PFS];
+	rvu_pf_cfg_t pf_cfg[MAX_RVU_PFS];
 } rvu_config_t;
 
 typedef struct plat_octeontx_board_cfg {
@@ -97,11 +97,14 @@ typedef struct plat_octeontx_board_cfg {
 	uint64_t adbg_dram_region_base;
 	persist_data_cfg_t persist_cfg;
 	rvu_config_t rvu_cfg;
+	int rvu_rsvd_reg_index; /* ASC region index for RVU MEM and LMTLINES */
 } plat_octeontx_board_cfg_t;
 
 extern plat_octeontx_board_cfg_t * const plat_octeontx_bcfg;
 uint64_t ccs_region_get_info(ccs_region_index_t index, uint64_t *start);
 void check_fdt_trims(void *fdt);
+int cn20k_fdt_update_mailbox_memory_range(uint64_t address, uint64_t size);
+uint64_t rvu_rsvd_region_info(uint64_t *start, uint64_t *size);
 
 #define SPI_CTRL0_ADDR	U(0xcf10)
 #define SPI_CTRL1_ADDR	U(0xcf11)
