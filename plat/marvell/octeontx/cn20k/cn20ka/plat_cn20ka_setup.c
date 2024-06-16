@@ -118,7 +118,7 @@ int plat_octeontx_get_uaa_count(void)
 
 int plat_octeontx_get_rvu_count(void)
 {
-	return 96;
+	return MAX_RVU_PFS;
 }
 
 /* Return the GSERM that provides termination for the REF_CLK. */
@@ -310,6 +310,9 @@ void plat_add_mmio(void)
 		       CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE, attr);
 	add_map_record(CAVM_RVU_BAR_E_RVU_PFX_BAR0(0) +
 		       CAVM_RVU_BLOCK_ADDR_E_APR * CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE,
+		       CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE, attr);
+	add_map_record(CAVM_RVU_BAR_E_RVU_PFX_BAR0(0) +
+		       CAVM_RVU_BLOCK_ADDR_E_RVU_MBOX * CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE,
 		       CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE, attr);
 	/*
 	 * Map DSU UB for core power management
