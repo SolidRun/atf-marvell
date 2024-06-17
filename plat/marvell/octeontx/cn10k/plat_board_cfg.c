@@ -2769,13 +2769,13 @@ static void cn10k_rpm_assign_mac(const void *fdt)
 	 */
 
 	mac_id_num = cn10k_fdtebf_get_num(fdt, "BOARD-MAC-ADDRESS-ID-NUM", 10);
-	if (!mac_id_num)
+	if (mac_id_num == -1)
 		mac_id_num = cn10k_fdtebf_get_num(fdt, "BOARD-MAC-ADDRESS-ID-NUM", 16);
 	debug_dts("BOARD-MAC-ADDRESS-ID-NUM=%d\n", mac_id_num);
 
 	/* Now configure MAC address based on base address */
 	mac_num	= cn10k_fdtebf_get_num(fdt, "BOARD-MAC-ADDRESS-NUM", 10);
-	if (!mac_num)
+	if (mac_num == -1)
 		mac_num = cn10k_fdtebf_get_num(fdt, "BOARD-MAC-ADDRESS-NUM", 16);
 
 	debug_dts("BOARD-MAC-ADDRESS-NUM=%d\n", mac_num);
