@@ -20,19 +20,21 @@
 #include <plat_portm_cfg.h>
 #include <plat_sdp.h>
 
+
+/* Define enum for configuring ASC regions so that software can use
+ * fixed mapping instead of using hardcode value. Allocate a separate
+ * asc region for each feature.
+ */
 typedef enum ccs_region_id {
-	SEC_REGION_0,
-	SECURE_NONPRESERVE = SEC_REGION_0,
-	NSEC_REGION_0,
-	NSECURE_NONPRESERVE = NSEC_REGION_0,
-	NSEC_LMT_REGION,
-	NSEC_PRESERVE_REGION_0,
-	USER_PRESERVE_REGION_0,
-#if defined(INCLUDE_OPTEE)
-	SEC_REGION_1,
-#endif
-	NSECURE_NONPRESERVE_1,
-	CCS_REGION_IDX_MAX,
+    SEC_ASC0,       // Secure region (16 MB fixed)
+    NSEC_M_ASC0,    // Total memory after allocating other memory regions
+    NSEC_0_LMT,     // Reserved for LMTlines by ATF
+    NSEC_P_ASC0,    // Preserved memory region for RAMOOPs (configurable)
+    NSEC_P_ASC1,    // Preserved memory region for Custom region (configurable)
+    NSEC_M_ASC1,    // Additional memory region for discrete memory
+    SEC_0_OPTEE,    // Configurable region for OPTEE use
+    NSEC_M_ASC2,    // Configurable region based on strip mode (node1)
+    CCS_REGION_IDX_MAX,   // limit to MAX_NUM_ASC_REGIONS
 } ccs_region_index_t;
 
 typedef enum {

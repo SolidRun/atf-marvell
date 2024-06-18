@@ -65,7 +65,7 @@ uint64_t octeontx_dram_reserve(uint64_t size, ccs_region_index_t index, int *new
 	uint64_t new_base = 0;
 
 	/* Support memory reservation from NSECURE_NONPRESERVE only */
-	if (index != NSECURE_NONPRESERVE) {
+	if (index != NSEC_M_ASC0) {
 		ERROR("%s: Unsupported memory reservation type %d\n",
 		      __func__, index);
 		return 0;
@@ -101,7 +101,7 @@ uint64_t octeontx_dram_cut_region_tail(uint64_t size, ccs_region_index_t index)
 	uint64_t addr = 0;
 	int ret;
 
-	if (index != NSECURE_NONPRESERVE) {
+	if (index != NSEC_M_ASC0) {
 		ERROR("%s: Unsupported memory reservation type %d\n", __func__, index);
 		return 0;
 	}

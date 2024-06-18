@@ -1053,7 +1053,7 @@ void cn10k_reserve_mbox_lmtline_memory(uint64_t *mem_base, uint64_t *mem_size)
 	uint64_t size, rsize = 0;
 	uint64_t pow2, base;
 	int pf, num_funcs;
-	int lmt_asc_idx = NSEC_LMT_REGION;
+	int lmt_asc_idx = NSEC_0_LMT;
 
 	for (pf = 0; pf < octeontx_get_max_rvu_pfs(); pf++) {
 		if (!rvu_dev[pf].enable)
@@ -1076,7 +1076,7 @@ void cn10k_reserve_mbox_lmtline_memory(uint64_t *mem_base, uint64_t *mem_size)
 			rsize += rvu_dev[pf].num_vfs * RVU_PF_LMT_LMTLINE_SIZE;
 	}
 
-	base = octeontx_dram_reserve(rsize, NSECURE_NONPRESERVE, &lmt_asc_idx);
+	base = octeontx_dram_reserve(rsize, NSEC_M_ASC0, &lmt_asc_idx);
 	if (base == 0) {
 		ERROR("%s: RVU: Mbox/LMTLine memory allocation fails(%" PRIx64 ")\n",
 		      __func__, rsize);

@@ -1060,7 +1060,7 @@ void plat_initialize_ghes_hest_area(void)
 		goto exit;
 	}
 
-	ghes_base = octeontx_dram_cut_region_tail(ghes_size, NSECURE_NONPRESERVE);
+	ghes_base = octeontx_dram_cut_region_tail(ghes_size, NSEC_M_ASC0);
 
 	/* set GHES DT values */
 	dt_regs.addr = cpu_to_fdt64(ghes_base);
@@ -1204,7 +1204,7 @@ void plat_initialize_bert_area(void)
 		return;
 	}
 
-	bert_base = octeontx_dram_cut_region_tail(bert_size, NSECURE_NONPRESERVE);
+	bert_base = octeontx_dram_cut_region_tail(bert_size, NSEC_M_ASC0);
 	if (!bert_base) {
 		WARN("Failed to reserve BERT memory\n");
 		return;
@@ -1632,7 +1632,7 @@ void plat_initialize_pem0_bar4(void)
 
 	/* Add PEM_BAR4_INDEX_SIZE for 4MB address alignment */
 	rsvd_size += PEM_BAR4_INDEX_SIZE;
-	rsvd_base = octeontx_dram_cut_region_tail(rsvd_size, NSECURE_NONPRESERVE);
+	rsvd_base = octeontx_dram_cut_region_tail(rsvd_size, NSEC_M_ASC0);
 	if (!rsvd_base) {
 		WARN("Failed to reserve PEM0 memory\n");
 		return;
