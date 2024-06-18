@@ -21,6 +21,7 @@ ERRATA_N2_3604871	:= 1
 ENABLE_AMU		:= 1
 
 ENABLE_3438991		:= 1
+$(eval $(call add_define,ENABLE_3438991))
 
 # Enable NonSecure access for Coresight's ETE and TRBE blocks
 ENABLE_TRBE_FOR_NS		:= 1
