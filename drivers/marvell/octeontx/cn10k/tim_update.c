@@ -4443,7 +4443,10 @@ static int octeontx_cn10k_update_fw(struct smc_update_descriptor *desc,
 
 	gti_wdog_pet();
 	ret = update_verify_chipid_board(desc);
-	if (ret != UPDATE_OK) {
+	if (ret == UPDATE_BOARD_INFO_MISSING) {
+		UWARN("Update is missing board information.  It is possible this update is not compatible with this device.\n");
+		UWARN("Note that earlier firmware versions do not contain this information.\n");
+	} else if (ret != UPDATE_OK) {
 		UERROR("Board information mismatch, update not supported\n");
 		goto error;
 	}
