@@ -2544,7 +2544,7 @@ static void cn10k_adjust_rpm_rvu_vfs(void *fdt)
 				if (lmac->lmac_enable) {
 					char name[64];
 					snprintf(name, 64, "PORTM-NUM-RVU-VFS.P%d", lmac->portm_idx);
-					rvu_vfs = retrieve_ebf_config(name, 0x3);
+					rvu_vfs = retrieve_ebf_config(name, 0x0);
 
 					//printf("%d:%d:p%d: Using rvu_vfs = %d\n", rpm_id, lmac_id, lmac->portm_idx, rvu_vfs);
 					if (rvu_vfs == 0)
