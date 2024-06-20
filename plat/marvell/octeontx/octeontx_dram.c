@@ -65,7 +65,11 @@ uint64_t octeontx_dram_reserve(uint64_t size, ccs_region_index_t index, int *new
 	uint64_t new_base = 0;
 
 	/* Support memory reservation from NSECURE_NONPRESERVE only */
+#if defined(PLAT_CN10K_FAMILY)
 	if (index != NSEC_M_ASC0) {
+#elif defined(PLAT_CN20K_FAMILY)
+	if (index != NSEC_M_ASC1) {
+#endif
 		ERROR("%s: Unsupported memory reservation type %d\n",
 		      __func__, index);
 		return 0;
@@ -101,7 +105,11 @@ uint64_t octeontx_dram_cut_region_tail(uint64_t size, ccs_region_index_t index)
 	uint64_t addr = 0;
 	int ret;
 
+#if defined(PLAT_CN10K_FAMILY)
 	if (index != NSEC_M_ASC0) {
+#elif defined(PLAT_CN20K_FAMILY)
+	if (index != NSEC_M_ASC1) {
+#endif
 		ERROR("%s: Unsupported memory reservation type %d\n", __func__, index);
 		return 0;
 	}

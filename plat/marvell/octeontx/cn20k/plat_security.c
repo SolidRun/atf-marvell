@@ -56,27 +56,27 @@ typedef struct ccs_region {
 
 struct ccs_region ccs_map[MAX_ASC_REGIONS] = {
 	/* Secure-Non preserve memory used by ATF */
-	[SEC_REGION_0] = {
+	[SEC_ASC0] = {
 		.free = 0,
 		.attr = CCS_ATTR_SEC_BIT_MASK | CCS_ATTR_MAND_BIT_MASK | CCS_ATTR_FIXD_BIT_MASK,
 		},
+	/* Non-Secure-Non preserve memory for ECP */
+	[NSEC_M_ASC0] = {
+		.free = 0,
+		.attr = CCS_ATTR_MAND_BIT_MASK,
+		},
 	/* Non-Secure-Non preserve memory for uboot and linux */
-	[NSEC_REGION_0] = {
+	[NSEC_M_ASC1] = {
 		.free = 0,
 		.attr = CCS_ATTR_MAND_BIT_MASK,
 		},
 	/* Non-Secure-Non preserve memory for LMT lines */
-	[NSEC_LMT_REGION] = {
-		.free = 1,
-		.attr = 0,
-		},
-	/* Non secure preserve memory, not used */
-	[NSEC_PRESERVE_REGION_0] = {
+	[NSEC_0_LMT] = {
 		.free = 1,
 		.attr = 0,
 		},
 	/* User defined non secure preserve memory */
-	[USER_PRESERVE_REGION_0] = {
+	[NSEC_P_ASC1] = {
 		.free = 1,
 		.attr = 0,
 		},
@@ -109,33 +109,33 @@ void dump_ccs_region_config(void)
 				 index, asc_attr.s.dss_mask, asc_offset.s.offset);
 
 			switch (index) {
-			case SECURE_NONPRESERVE:
+			case SEC_ASC0:
 				NOTICE("Secure Non Preserve Memory Region: "
 				"0x%" PRIx64 " to 0x%" PRIx64 " (%" PRId64 "MB)\n", start, end,
 				((end - start + 1) >> 20));
 				break;
-			case NSECURE_NONPRESERVE:
+			case NSEC_M_ASC0:
+				NOTICE("Non-Secure Non Preserve Memory Region for ECP: "
+				"0x%" PRIx64 " to 0x%" PRIx64 " (%" PRId64 "MB)\n", start, end,
+				((end - start + 1) >> 20));
+				break;
+			case NSEC_M_ASC1:
 				NOTICE("Non-Secure Non Preserve Memory Region: "
 				"0x%" PRIx64 " to 0x%" PRIx64 " (%" PRId64 "MB)\n", start, end,
 				((end - start + 1) >> 20));
 				break;
-			case NSEC_LMT_REGION:
+			case NSEC_0_LMT:
 				NOTICE("LMT Memory Region: "
 				"0x%" PRIx64 " to 0x%" PRIx64 " (%" PRId64 "MB)\n", start, end,
 				((end - start + 1) >> 20));
 				break;
-			case NSEC_PRESERVE_REGION_0:
+			case NSEC_P_ASC0:
 				NOTICE("Non-Secure Preserve Memory Region: "
 				"0x%" PRIx64 " to 0x%" PRIx64 " (%" PRId64 "MB)\n", start, end,
 				((end - start + 1) >> 20));
 				break;
-			case USER_PRESERVE_REGION_0:
+			case NSEC_P_ASC1:
 				NOTICE("User Non-Secure Preserved Memory Region: "
-				"0x%" PRIx64 " to 0x%" PRIx64 " (%" PRId64 "MB)\n", start, end,
-				((end - start + 1) >> 20));
-				break;
-			case NSECURE_NONPRESERVE_1:
-				NOTICE("Non-Secure Non Preserve Memory Region 1: "
 				"0x%" PRIx64 " to 0x%" PRIx64 " (%" PRId64 "MB)\n", start, end,
 				((end - start + 1) >> 20));
 				break;
@@ -151,8 +151,6 @@ void init_ccs_region_map(void)
 	cavm_sam_asc_regionx_attr_t asc_attr;
 	ccs_region_t *region;
 
-	plat_octeontx_bcfg->asym_mem_config = 0;
-
 	memset(ccs_map, 0, sizeof(ccs_map));
 	for (index = 0; index < MAX_ASC_REGIONS; index++) {
 		region = &ccs_map[index];
@@ -164,14 +162,10 @@ void init_ccs_region_map(void)
 			continue;
 		}
 
-		if (NSECURE_NONPRESERVE_1 == index)
-			plat_octeontx_bcfg->asym_mem_config = 1;
-
 		if (asc_attr.s.s_en)
 			region->attr |= CCS_ATTR_SEC_BIT_MASK;
 
-		if ((index == NSEC_PRESERVE_REGION_0) ||
-			(index == USER_PRESERVE_REGION_0))
+		if ((index == NSEC_P_ASC0) || (index == NSEC_P_ASC1))
 			region->attr |= CCS_ATTR_PRESERVE_BIT_MASK;
 
 		region->start = CSR_READ(CAVM_SAM_ASC_REGIONX_START(index));
@@ -249,6 +243,7 @@ int adjust_asc_region(ccs_region_index_t index, uint64_t size, int *new_index)
 
 	reg_start = CSR_READ(CAVM_SAM_ASC_REGIONX_START(index));
 	reg_end = CSR_READ(CAVM_SAM_ASC_REGIONX_END(index));
+
 
 	/* REGIONX_END always reports lower 24 bits as 0 */
 	reg_end |= ASC_DEF_SIZE_MASK;
@@ -353,22 +348,12 @@ int memory_region_get_last_nsec(uint64_t *start, uint64_t alloc_sz)
 {
 	uint64_t size;
 
-	if (plat_octeontx_bcfg->asym_mem_config) {
-		size = sam_region_get_info(NSECURE_NONPRESERVE_1, start);
-		if (!size)
-			return -1;
+	size = sam_region_get_info(NSEC_M_ASC1, start);
+	if (!size)
+		return -1;
 
-		size -= ccs_map[NSECURE_NONPRESERVE_1].rsvd_memsz;
-		ccs_map[NSECURE_NONPRESERVE_1].rsvd_memsz += alloc_sz;
-	}
-	else {
-		size = sam_region_get_info(NSECURE_NONPRESERVE, start);
-		if (!size)
-			return -1;
-
-		size -= ccs_map[NSECURE_NONPRESERVE].rsvd_memsz;
-		ccs_map[NSECURE_NONPRESERVE].rsvd_memsz += alloc_sz;
-	}
+	size -= ccs_map[NSEC_M_ASC1].rsvd_memsz;
+	ccs_map[NSEC_M_ASC1].rsvd_memsz += alloc_sz;
 
 	*start = *start + size - alloc_sz;
 
@@ -377,12 +362,9 @@ int memory_region_get_last_nsec(uint64_t *start, uint64_t alloc_sz)
 
 uint64_t plat_get_memory_size(void)
 {
-	uint64_t addr, size = 0;
+	uint64_t addr;
 
-	size = memory_region_get_info(NSECURE_NONPRESERVE, &addr);
-	if (plat_octeontx_bcfg->asym_mem_config)
-		size += memory_region_get_info(NSECURE_NONPRESERVE_1, &addr);
-	return size;
+	return memory_region_get_info(NSEC_M_ASC1, &addr);
 }
 
 /* Flush the LLC Cache */
@@ -397,10 +379,10 @@ void octeontx_security_setup(void)
 	 * It's expected that EBF has allocated second region.
 	 * Now mark it as non-secure.
 	 */
-	adjust_asc_region_security(NSECURE_NONPRESERVE);
-	adjust_asc_region_security(NSECURE_NONPRESERVE_1);
-	adjust_asc_region_security(NSEC_PRESERVE_REGION_0);
-	adjust_asc_region_security(USER_PRESERVE_REGION_0);
+	adjust_asc_region_security(NSEC_M_ASC0);
+	adjust_asc_region_security(NSEC_M_ASC1);
+	adjust_asc_region_security(NSEC_P_ASC0);
+	adjust_asc_region_security(NSEC_P_ASC1);
 
 	VERBOSE("Flushing L1C\n");
 	dcsw_op_all(DCCISW);
@@ -491,10 +473,7 @@ int adjust_asc_region_next_avail(uint64_t size,  int *new_index, uint64_t *new_b
 	int idx, ret;
 	uint64_t region_base = 0, region_size = 0;
 
-	if (plat_octeontx_bcfg->asym_mem_config)
-		idx = NSECURE_NONPRESERVE_1;
-	else
-		idx = NSECURE_NONPRESERVE;
+	idx = NSEC_M_ASC1;
 
 	ret = adjust_asc_region(idx, size, new_index);
 	if (!ret) {

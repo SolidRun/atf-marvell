@@ -14,19 +14,19 @@
 #include <platform_scfg.h>
 #include <octeontx_board_cfg.h>
 
+/* Define enum for configuring ASC regions so that software can use
+ * fixed mapping instead of using hardcode value. Allocate a separate
+ * asc region for each feature.
+ */
 typedef enum ccs_region_id {
-	SEC_REGION_0,
-	SECURE_NONPRESERVE = SEC_REGION_0,
-	NSEC_REGION_0,
-	NSECURE_NONPRESERVE = NSEC_REGION_0,
-	NSEC_M_ASC0 = NSECURE_NONPRESERVE,
-	NSEC_LMT_REGION,
-	NSEC_PRESERVE_REGION_0,
-	USER_PRESERVE_REGION_0,
-#if defined(INCLUDE_OPTEE)
-	SEC_REGION_1,
-#endif
-	NSECURE_NONPRESERVE_1,
+	SEC_ASC0,       // Secure region (16 MB fixed)
+	NSEC_M_ASC0,    // Shared memory region used by ECP & ATF for ethernet data
+	NSEC_M_ASC1,    // Total memory after allocating other memory regions
+	NSEC_0_LMT,     // Reserved for LMTlines by ATF
+	NSEC_P_ASC0,    // Preserved memory region for RAMOOPs (configurable)
+	NSEC_P_ASC1,    // Preserved memory region for Custom region (configurable)
+	SEC_0_OPTEE,    // Configurable region for OPTEE use
+	NSEC_ASC_MAX,   // limit to MAX_NUM_ASC_REGIONS	
 	CCS_REGION_IDX_MAX,
 } ccs_region_index_t;
 
@@ -94,7 +94,6 @@ typedef struct plat_octeontx_board_cfg {
 	spi_config_t spi_cfg[MAX_SPI_BUS];
 	int do_switch_reset; /* Flag to Save EBF SWITCH_MICROINIT dt prop */
 	int reserved_os_memory_size;
-	int asym_mem_config;
 	uint64_t adbg_dram_region_base;
 	persist_data_cfg_t persist_cfg;
 	rvu_config_t rvu_cfg;
