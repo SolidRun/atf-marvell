@@ -502,7 +502,7 @@ static const struct object_group_entry optee_grp[] = {
 		.tim_filename = "tee.timb",
 		.data_filename = "tee.bin",
 		.dts_filename = "tee.bin",
-#if defined(INCLUDE_OPTEE)
+#if defined(PLAT_CN20K_FAMILY)
 		.optional = false,
 #else
 		.optional = true,
