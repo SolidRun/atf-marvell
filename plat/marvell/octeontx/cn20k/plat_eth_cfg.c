@@ -1584,7 +1584,9 @@ static void fill_portm_details(void *fdt)
 
 		/* Read mgmt/debug port mode */
 		snprintf(prop, sizeof(prop), "ETHERNET-MGMT-PORT.P%d", portm_idx);
-		portm->mgmt_port = fdtebf_get_num(fdt, prop, 10);
+		if (fdtebf_get_num(fdt, prop, 10) > 0) {
+			portm->mgmt_port = 1;
+		}
 		debug_dts("PORTM%d: is used for mgmt port %d\n", portm_idx, portm->mgmt_port);
 
 		/* Read the FEC type from EBF DT */
