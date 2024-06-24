@@ -57,20 +57,27 @@
 |	FDT	      |
 |      128 KB	      |
 |---------------------|==>Non Secure memory Base @ 16MB
-|		      |
 |	ETH Config    |
 |	Shared memory |
+|	15 MB	      |
+|---------------------|
+|	FW DATA	      |
+|	ETH Link      |
+|	Shared memory |
 |	1 MB	      |
-|		      |
 |---------------------|
 |	Shared memory |
 |	for EFI Var   |
 |	1 MB	      |
 |---------------------|
-|	NT FW	      |
-|	config	      |
-|	256 KB	      |
+|	NT FW         |
+|	config        |
+|	256 KB        |
 |---------------------|
+|  RVU MSIX Table     |
+|    16 MB + 384 KB   |
+|---------------------|
+|		      |
 |		      |
 |---------------------|
 |		      |
