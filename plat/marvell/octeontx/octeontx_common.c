@@ -57,7 +57,7 @@ unsigned long plat_get_ext_secure_base(uint64_t *start)
 {
 	uint64_t size;
 
-	size = memory_region_get_info(SEC_REGION_1, start);
+	size = memory_region_get_info(SEC_0_OPTEE, start);
 	return size;
 }
 #endif
