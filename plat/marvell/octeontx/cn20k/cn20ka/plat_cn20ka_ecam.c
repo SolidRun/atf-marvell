@@ -198,12 +198,23 @@ static void init_rnm(uint64_t config_base, uint64_t config_size)
 	octeontx_write32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL, vsec_sctl.u);
 }
 
+static void init_rpm(uint64_t config_base, uint64_t config_size)
+{
+	union cavm_pccpf_xxx_vsec_sctl vsec_sctl;
+	uint16_t iodid = ((config_base & ECAM_IODID_MASK) >> ECAM_IODID_SHIFT);
+
+	vsec_sctl.u = octeontx_read32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL);
+	vsec_sctl.s.rid = iodid & 0xF;
+	octeontx_write32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL, vsec_sctl.u);
+}
+
 struct ecam_init_callback plat_init_callbacks[] = {
 	{0xa00a, 0x177d, init_gpio},
 	{0xa065, 0x177d, init_rvu}, /* RVU AF */
 	{0xa095, 0x177d, init_emmc},
 	{0xa09b, 0x177d, init_xspi},
 	{0xa098, 0x177d, init_rnm},
+	{0xa09f, 0x177d, init_rpm},
 	{ECAM_INVALID_DEV_ID, 0, 0}
 };
 
