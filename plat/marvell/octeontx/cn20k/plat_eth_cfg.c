@@ -108,6 +108,7 @@ static struct parser_context_s {
 	node_info_t phy_offsets[MAX_PORTM];
 } parser_context;
 
+
 /* Output information specific for CN20K, for now only RPM. */
 void plat_octeontx_print_board_variables(void)
 {
@@ -686,6 +687,20 @@ sfp_update:
 	ERROR("%s: %s: SFP slot info not parsed fully\n",
 			__func__, dbg_prefix);
 	return ret;
+}
+
+int plat_cn20k_is_rpm_lmac_enable(unsigned int rpm_id, unsigned int lmac_id)
+{
+	rpm_config_t *rpm;
+	int enabled = 0;
+
+	if ((rpm_id < MAX_RPM) && (lmac_id < MAX_LMAC_PER_RPM)) {
+		rpm = &(plat_octeontx_eth_cfg->rpm_cfg[rpm_id]);
+		enabled = rpm->enable &&
+			  rpm->lmac_cfg[lmac_id].lmac_enable;
+	}
+
+	return enabled;
 }
 
 /* Fill RPM structure, if possible.

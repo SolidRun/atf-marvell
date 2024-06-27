@@ -18,6 +18,7 @@
 #include <debug.h>
 #include <octeontx_utils.h>
 #include <plat_cn20k_configuration.h>
+#include <plat_eth_cfg.h>
 
 #include "cavm-csrs-nix.h"
 #include "cavm-csrs-rvu.h"
@@ -76,15 +77,16 @@ static int get_max_rvu_vfs(void)
 
 static int get_rpm_intf_cnt(void)
 {
-	cavm_rpmx_cmr_rx_lmacs_t rpm_rx_lmacs;
-	int rpm_id, eth_intf = 0;
+	int rpm_id, lmac_id;
+	int eth_cnt = 0;
 
 	for (rpm_id = 0; rpm_id < plat_octeontx_get_rpm_count() ; rpm_id++) {
-		rpm_rx_lmacs.u = RVU_CSR_READ(RPM_PF_BAR0(rpm_id),
-					      RPMX_CMR_RX_LMACS);
-		eth_intf += __const_hweight8(rpm_rx_lmacs.s.lmac_exist);
+		for (lmac_id = 0; lmac_id < MAX_LMAC_PER_RPM; lmac_id++) {
+			if (plat_cn20k_is_rpm_lmac_enable(rpm_id, lmac_id))
+				eth_cnt++;
+		}
 	}
-	return eth_intf;
+	return eth_cnt;
 }
 
 /* Skip pci enemuration of non-active PFs */
