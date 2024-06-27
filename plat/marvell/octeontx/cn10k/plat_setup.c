@@ -1601,23 +1601,20 @@ void plat_initialize_pem0_bar4(void)
 	} dt_regs;
 
 	rsvd_fdt_off = fdt_path_offset(fdt, pem0_rsvd_mem_name);
-	if (rsvd_fdt_off == -1) {
-		WARN("Missing pem0-rsvd-mem in DT\n");
-		return;
-	}
-
 	bar4_fdt_off = fdt_path_offset(fdt, pem0_bar4_mem_name);
-	if (bar4_fdt_off == -1) {
-		WARN("Missing pem0-bar4-mem in DT\n");
-		return;
+	if (rsvd_fdt_off < 0 || bar4_fdt_off < 0) {
+		VERBOSE("Missing PEM0 BAR4 related nodes missing from DT\n");
+		goto exit;
 	}
 
-	if (!cavm_is_platform(PLATFORM_HW)) {
-		WARN("Removing pem0-rsvd-mem and pem0-bar4-mem nodes, as its not a platform");
-		fdt_del_node((void *) fdt, rsvd_fdt_off);
-		fdt_del_node((void *) fdt, bar4_fdt_off);
-		return;
+	if (fdt_getprop(fdt, rsvd_fdt_off, "hide_node", NULL) ||
+	    fdt_getprop(fdt, bar4_fdt_off, "hide_node", NULL)) {
+		VERBOSE("PEM0 BAR4 memory node will be hidden\n");
+		goto exit;
 	}
+
+	if (!cavm_is_platform(PLATFORM_HW))
+		goto exit;
 
 	/* Retrieve PEM0 reserved memory DT settings */
 	rsvd_size = 0;
@@ -1627,7 +1624,7 @@ void plat_initialize_pem0_bar4(void)
 
 	if (!rsvd_size || (rsvd_size & PAGE_SIZE_MASK) || (rsvd_size < PEM_BAR4_SIZE)) {
 		WARN("Invalid size 0x%" PRIx64 " for %s\n", rsvd_size, pem0_rsvd_mem_name);
-		return;
+		goto exit;
 	}
 
 	/* Add PEM_BAR4_INDEX_SIZE for 4MB address alignment */
@@ -1635,7 +1632,7 @@ void plat_initialize_pem0_bar4(void)
 	rsvd_base = octeontx_dram_cut_region_tail(rsvd_size, NSEC_M_ASC0);
 	if (!rsvd_base) {
 		WARN("Failed to reserve PEM0 memory\n");
-		return;
+		goto exit;
 	}
 
 	/* Set reserved memory DT property */
@@ -1644,14 +1641,14 @@ void plat_initialize_pem0_bar4(void)
 	if (fdt_setprop((void *)fdt, rsvd_fdt_off, "reg", &dt_regs, sizeof(dt_regs))) {
 		WARN("Unable to set pem0-rsvd-mem reg property 0x%" PRIx64 "/0x%" PRIx64 "\n",
 		     rsvd_base, rsvd_size);
-		return;
+		goto exit;
 	}
 
 	/* Update reserved memory DT node name with updated address */
 	snprintf(fdt_node_name, sizeof(fdt_node_name), "pem0-rsvd-mem@%016" PRIx64, rsvd_base);
 	if (fdt_set_name((void *)fdt, rsvd_fdt_off, fdt_node_name)) {
 		WARN("Unable to set pem0-rsvd-mem DT node name %s\n", fdt_node_name);
-		return;
+		goto exit;
 	}
 
 	INFO("Set PEM0 reserved memory DT node (%s) 0x%" PRIx64 "/0x%" PRIx64 "\n",
@@ -1673,16 +1670,26 @@ void plat_initialize_pem0_bar4(void)
 	if (fdt_setprop((void *)fdt, bar4_fdt_off, "reg", &dt_regs, sizeof(dt_regs))) {
 		WARN("Unable to set pem0-bar4-mem reg property 0x%" PRIx64 "/0x%" PRIx64 "\n",
 		     bar4_base, (uint64_t)PEM_BAR4_SIZE);
-		return;
+		goto exit;
 	}
 
 	/* Update BAR4 memory DT node name with updated address */
 	snprintf(fdt_node_name, sizeof(fdt_node_name), "pem0-bar4-mem@%016" PRIx64, bar4_base);
 	if (fdt_set_name((void *)fdt, bar4_fdt_off, fdt_node_name)) {
 		WARN("Unable to set pem0-bar4-mem DT node name %s\n", fdt_node_name);
-		return;
+		goto exit;
 	}
 
 	INFO("Set PEM0 bar4 memory DT node (%s) 0x%" PRIx64 "/0x%" PRIx64 "\n",
 	     fdt_node_name, bar4_base, (uint64_t)PEM_BAR4_SIZE);
+
+	return;
+exit:
+	if (rsvd_fdt_off >= 0)
+		fdt_del_node((void *)fdt, rsvd_fdt_off);
+
+	if (bar4_fdt_off >= 0)
+		fdt_del_node((void *)fdt, bar4_fdt_off);
+
+	return;
 }
