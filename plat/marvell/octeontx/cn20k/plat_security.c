@@ -483,13 +483,3 @@ int adjust_asc_region_next_avail(uint64_t size,  int *new_index, uint64_t *new_b
 
 	return ret;
 }
-
-uint64_t rvu_rsvd_region_info(uint64_t *start, uint64_t *size)
-{
-	uint64_t addr = 0, sz;
-
-	sz = sam_region_get_info(plat_octeontx_bcfg->rvu_rsvd_reg_index, &addr);
-	*size = sz;
-	*start = addr;
-	return 0;
-}
