@@ -203,6 +203,9 @@ void plat_map_cpc_mem(void)
 	/* Map required XCP memory region for doorbell registers */
 	add_map_record(CAVM_XCP_BAR_E_XCPX_PF_BAR0(CAVM_CPC_XCP_MAP_E_SCP),
 		       CAVM_XCP_BAR_E_XCPX_PF_BAR0_SIZE, attr);
+
+	add_map_record(CAVM_XCP_BAR_E_XCPX_PF_BAR0(CAVM_CPC_XCP_MAP_E_PCP),
+		       CAVM_XCP_BAR_E_XCPX_PF_BAR0_SIZE, attr);
 }
 
 void plat_add_mmio(void)
@@ -234,10 +237,6 @@ void plat_add_mmio(void)
 	/* Enable eHSM */
 	add_map_record(CAVM_EHSM_BAR_E_EHSM_PF_BAR0,
 		       CAVM_EHSM_BAR_E_EHSM_PF_BAR0_SIZE, attr);
-
-	/* Map required PCP memory region for doorbell registers */
-	add_map_record(CAVM_XCP_BAR_E_XCPX_PF_BAR0(CAVM_CPC_XCP_MAP_E_PCP),
-                       CAVM_XCP_BAR_E_XCPX_PF_BAR0_SIZE, attr);
 
 	device_type_count = plat_octeontx_get_mpi_count();
 	for (i = 0; i < device_type_count; i++) {

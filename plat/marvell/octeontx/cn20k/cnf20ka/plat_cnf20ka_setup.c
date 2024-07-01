@@ -187,6 +187,9 @@ void plat_map_cpc_mem(void)
 	/* Map required XCP memory region for doorbell registers */
 	add_map_record(CAVM_XCP_BAR_E_XCPX_PF_BAR0(CAVM_CPC_XCP_MAP_E_SCP),
 		       CAVM_XCP_BAR_E_XCPX_PF_BAR0_SIZE, attr);
+
+	add_map_record(CAVM_XCP_BAR_E_XCPX_PF_BAR0(CAVM_CPC_XCP_MAP_E_PCP),
+		       CAVM_XCP_BAR_E_XCPX_PF_BAR0_SIZE, attr);
 }
 
 void plat_add_mmio(void)
