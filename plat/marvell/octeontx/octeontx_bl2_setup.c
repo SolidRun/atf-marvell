@@ -61,7 +61,7 @@
 #endif
 
 #if defined(ENABLE_RECORD_FWLOG)
-#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_OTX2_FAMILY)
+#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_OTX2_FAMILY) || defined(PLAT_CN20K_FAMILY)
 #include <mem_console.h>
 #endif
 #endif
@@ -560,7 +560,7 @@ void bl2_el3_early_platform_setup(u_register_t arg0, u_register_t arg1,
 	console_set_scope((console_t *)&console, CONSOLE_FLAG_RUNTIME);
 
 #if defined(ENABLE_RECORD_FWLOG)
-#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_OTX2_FAMILY)
+#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_OTX2_FAMILY) || defined(PLAT_CN20K_FAMILY)
 	struct fw_logbuf_header *sec_fwlogmem = (struct fw_logbuf_header *) FWLOG_SEC_BASE;
 	/* Use WORK_BUFFER MEMORY to save the logs till MMU is enabled */
 	sec_fwlogmem->fwlog_base = (uint64_t) FWLOG_SEC_BASE + sizeof(struct fw_logbuf_header);
@@ -568,8 +568,6 @@ void bl2_el3_early_platform_setup(u_register_t arg0, u_register_t arg1,
 	sec_fwlogmem->fwlog_ptr = sec_fwlogmem->fwlog_base;
 	console_mem_register(FWLOG_SEC_BASE, 0, 0, &fwlog_buf);
 	console_set_scope((console_t *)&fwlog_buf, CONSOLE_FLAG_RUNTIME);
-	//console_mem_register(FWLOG_SEC_BASE, 0, 0, &fwlog_buf);
-	//console_set_scope((console_t *)&fwlog_buf, CONSOLE_FLAG_RUNTIME);
 #endif
 #endif
 	console_switch_state(CONSOLE_FLAG_RUNTIME);
