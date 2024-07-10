@@ -319,7 +319,7 @@ struct smc_update_descriptor_prev {
 #define READ_VERSION			0x0101
 
 /** Log progress */
-#define READ_FLAG_LOG_PROGRESS	BIT(0)
+#define READ_FLAG_LOG_PROGRESS		BIT(0)
 /** Debug */
 #define READ_FLAG_DEBUG			BIT(1)
 
@@ -455,12 +455,12 @@ struct smc_version_info_entry {
 /**
  * Set this to enable async operations
  */
-#define SMC_VERSION_ASYNC_OPERATION			BIT(8)
+#define SMC_VERSION_ASYNC_OPERATION		BIT(8)
 
 /**
  * Set this to skip failed images, instead of faili whole clone operation
  */
-#define SMC_VERSION_SKIP_FAIL_CHECK			BIT(9)
+#define SMC_VERSION_SKIP_FAIL_CHECK		BIT(9)
 
 /**
  * Set this to skip failed images, instead of faili whole clone operation
@@ -470,12 +470,12 @@ struct smc_version_info_entry {
 /**
  * Set this to store log progress in buffer
  */
-#define SMC_VERSION_LOG_PROGRESS			BIT(11)
+#define SMC_VERSION_LOG_PROGRESS		BIT(11)
 
 /**
  * Set this to get debug info
  */
-#define SMC_VERSION_DEBUG					BIT(12)
+#define SMC_VERSION_DEBUG			BIT(12)
 
 
 /**
