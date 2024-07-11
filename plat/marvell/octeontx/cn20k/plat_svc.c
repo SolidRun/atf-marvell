@@ -164,6 +164,14 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 		SMC_RET2(handle, ret, img_size);
 		break;
 	}
+	case PLAT_OCTEONTX_RVU_RSVD_REG_INFO:
+		uint64_t reg_addr = 0, reg_size = 0;
+		//spin_lock(&octeontx_smc_rvu_lock);
+		ret = rvu_rsvd_region_info(&reg_addr, &reg_size);
+		//spin_unlock(&octeontx_smc_rvu_lock);
+		SMC_RET3(handle, ret, reg_addr, reg_size);
+		break;
+
 	default:
 		return cn20k_svc_smc_handler(smc_fid, x1, x2, x3, x4,
 					    cookie, handle, flags);
