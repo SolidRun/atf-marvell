@@ -161,7 +161,7 @@ static void rpm_set_link_state(int rpm_id, int lmac_id,
 	if (lmac_cfg->phy_present && lmac_cfg->phy_config)
 		an = lmac_cfg->phy_config->req_an;
 	else {
-		if (portm->portm_mode == PORTM_MODE_1000BASE_X)
+		if (cn10k_lpcs_an_disable_mode(portm->portm_mode))
 			an = !(lmac_cfg->an_disable);
 		else
 			an = cn10k_portm_get_mode_desc_ap_sup(portm->portm_mode);
@@ -1769,7 +1769,7 @@ static int rpm_handle_eth_mode_change(int portm_idx,
 	if (portm->portm_mode == portm_mode) {
 		if ((lmac->mode == CAVM_RPM_LMAC_TYPES_E_USGMII) ||
 			(lmac->mode == CAVM_RPM_LMAC_TYPES_E_USXGMII) ||
-			(portm->portm_mode == PORTM_MODE_1000BASE_X)) {
+			(cn10k_lpcs_an_disable_mode(portm->portm_mode))) {
 			/* Check if speed/an/duplex is requested to be changed are valid
 			 * and applicable to this mode and update PHY or
 			 * ecp_link_update_sgmii_speed_dplx()

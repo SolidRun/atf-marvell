@@ -70,4 +70,26 @@ void cn10k_fill_portms_used(int portm_idx, cn10k_portm_modes_t portm_mode);
 int cn10k_portm_802_3ap_cfg(int portm_idx, portm_ap_802_3_config_t *ap_802_3_cfg,
 				    cn10k_portm_modes_t *portm_mode, int *numlanes);
 
+/**
+ * Checks if the provided portm_mode has AN enabled or disabled by default
+ * ONLY for lowspeed modes (pcs_type = 1000BASE_X)
+ *
+ * @pararm[in] portm_mode - Mode to check
+ *
+ * @return 1 if AN is disabled by default, 0 if AN is enabled, -1 if mode is not low speed
+ */
+static inline int cn10k_lpcs_an_disable_mode(cn10k_portm_modes_t portm_mode)
+{
+	if ((portm_mode == PORTM_MODE_1000BASE_X) ||
+	    (portm_mode == PORTM_MODE_2500BASE_X) ||
+	    (portm_mode == PORTM_MODE_5000BASE_X) ||
+	    (portm_mode == PORTM_MODE_SFI_1G))
+		return 1;
+	else if (portm_mode == PORTM_MODE_SGMII)
+		return 0;
+	else
+		return -1;
+
+}
+
 #endif /* __PORTM_HELPER_H__ */

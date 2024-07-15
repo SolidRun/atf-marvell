@@ -127,7 +127,7 @@ Example of disabling autonegotiation and setting speed to 100M:
    };
 
 .. Note::
-This is applicable only for SGMII/QSGMII modes. For 1000 BASE-X, if PHY is
+This is applicable only for SGMII/QSGMII modes. For 1000 BASE-X, 2500 BASE-X, and SFI-1G if PHY is
 not present, AN is by default disabled.
 
 1000 Base-X Autonegotiation:
@@ -135,7 +135,7 @@ not present, AN is by default disabled.
 With 1000BASE_X mode, AN is by default disabled and the speed is set to 1000Mbps by default,
 speed can be changed by "cn10k,sgmii-set-speed=<speed>" to 10, 100 and 1000Mbps.
 
-To Enable 1000BASE_X Auto negotiation the below dts property should be present,
+To Enable 1000 BASE-X, 2500 BASE-X, or SFI-1G Auto negotiation the below dts property should be present,
 "cn10k,1000BaseX-enable-autoneg"
 
 Example:
