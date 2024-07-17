@@ -657,9 +657,13 @@ void bl2_platform_setup(void)
 
 	/* Reserve memory for PEM0 BAR4 and configure index registers */
 	plat_initialize_pem0_bar4();
+#endif
 
+#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_CN20K_FAMILY)
 	dump_ccs_region_config();
+#endif
 
+#if defined(PLAT_CN10K_FAMILY)
 	/* Update metadata memory region for coresight DT nodes */
 	plat_initialize_coresight_metadata_area();
 
