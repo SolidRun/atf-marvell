@@ -547,7 +547,11 @@ static void config_lmt_map_table(void)
 		/* Enable 2K LMT Lines per PF */
 		/* TODO for cn20ka: remove hard-coded values */
 		val |= 0x1ull << 20 | 0x6ull << 16;
-		pf_lmt_addr.u = CSR_READ(CAVM_RVU_MBOX_AF_PFX_LMTLINE_ADDR(pf));
+		if (cavm_is_model(OCTEONTX_CNF20KA)) {
+			pf_lmt_addr.u = CSR_READ(CAVM_RVU_MBOX_AF_PFX_LMTLINE_ADDR(pf));
+		} else {
+			pf_lmt_addr.u = CSR_READ(CAVM_RVU_AF_PFX_LMTLINE_ADDR(pf));
+		}
 		debug_rvu("RVU: PF%u LMT entry @ %p, LMTLINE_ADDR 0x%" PRIx64 "\n",
 			  pf, (void *)lmt_ent_addr, pf_lmt_addr.u);
 		octeontx_write64(lmt_ent_addr, pf_lmt_addr.u);
@@ -635,7 +639,11 @@ static void cn20k_mailbox_enable(void)
 			continue;
 
 		pf_bar0_addr.u = base;
-		CSR_WRITE(CAVM_RVU_MBOX_AF_PFX_ADDR(pf), pf_bar0_addr.u);
+		if (cavm_is_model(OCTEONTX_CNF20KA)) {
+			CSR_WRITE(CAVM_RVU_MBOX_AF_PFX_ADDR(pf), pf_bar0_addr.u);
+		} else {
+			CSR_WRITE(CAVM_RVU_AF_AFPF_MBOXX_ADDR(pf), pf_bar0_addr.u);
+		}
 
 		/* For a PF mailbox memory should be arranged as mbox region to
 		 * communicate with AF followed by mbox region space
@@ -664,8 +672,11 @@ static void cn20k_mailbox_enable(void)
 		}
 		/* Configure PF LMTLINE  address (contiguous to mailboxes) */
 		pf_lmt_addr.u = base + (num_funcs * RVU_PF_MAILBOX_SIZE);
-		CSR_WRITE(CAVM_RVU_MBOX_AF_PFX_LMTLINE_ADDR(pf), pf_lmt_addr.u);
-
+		if (cavm_is_model(OCTEONTX_CNF20KA)) {
+			CSR_WRITE(CAVM_RVU_MBOX_AF_PFX_LMTLINE_ADDR(pf), pf_lmt_addr.u);
+		} else {
+			CSR_WRITE(CAVM_RVU_AF_PFX_LMTLINE_ADDR(pf), pf_lmt_addr.u);
+		}
 		base += size;
 	}
 
