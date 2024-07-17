@@ -154,6 +154,23 @@ static void octeontx_init_rvu_rep(int *hwvf, int rvu)
 }
 #endif
 
+#if OPTEE_RVUAF_SUPPORT
+static void octeontx_init_rvu_resrv_optee(int *hwvf, int rvu)
+{
+	rvu_dev[rvu].enable = TRUE;
+	rvu_dev[rvu].num_vfs = 0;
+	rvu_dev[rvu].first_hwvf = 0;
+	rvu_dev[rvu].pf_num_msix_vec = 256;
+	rvu_dev[rvu].vf_num_msix_vec = 0;
+	rvu_dev[rvu].pf_res_nix_id = 0;
+
+	rvu_dev[rvu].pci.pf_devid = CAVM_PCC_DEV_IDL_E_RVU_RESRV_OPTEE & DEVID_MASK;
+	rvu_dev[rvu].pci.class_code = RVU_CLASS_CODE & CLASS_CODE_MASK;
+	/* Increment already allocated HWVFs */
+	*hwvf += rvu_dev[rvu].num_vfs;
+}
+#endif
+
 static void octeontx_init_rvu_af(int *hwvf)
 {
 	rvu_dev[RVU_AF].enable = TRUE;
@@ -598,6 +615,10 @@ static int octeontx_init_rvu_from_fdt(void)
 
 	/* Initialise the representors */
 	octeontx_init_rvu_rep(&current_hwvf, RVU_REP);
+#endif
+
+#if OPTEE_RVUAF_SUPPORT
+	octeontx_init_rvu_resrv_optee(&current_hwvf, RVU_RESRV_OPTEE);
 #endif
 
 #if defined(PLAT_cn10ka)
@@ -1334,6 +1355,33 @@ static void conf_msix_admin_blk_offset(void)
 	assert(af_msix_used <= rvu_dev[0].pf_num_msix_vec);
 }
 
+#if OPTEE_RVUAF_SUPPORT
+/*
+ * Configure Reserve RVU PF's interrupt map at PF's MSI-X table.
+ */
+static void conf_msix_resrv_pf_blk_offset(void)
+{
+	union cavm_rvu_priv_pfx_int_cfg pf_int_cfg;
+	union cavm_nixx_priv_lfx_int_cfg nix_int_cfg;
+	int nixlf_resrv, nix_id;
+	int pf_msix_used = 0;
+
+	/* Configure RVU_PF_INT_VEC_E */
+	pf_int_cfg.u = CSR_READ(CAVM_RVU_PRIV_PFX_INT_CFG(RVU_RESRV_OPTEE));
+	pf_int_cfg.s.msix_offset = pf_msix_used;
+	CSR_WRITE(CAVM_RVU_PRIV_PFX_INT_CFG(RVU_RESRV_OPTEE), pf_int_cfg.u);
+	pf_msix_used += pf_int_cfg.s.msix_size;
+
+
+	nix_id = rvu_dev[RVU_RESRV_OPTEE].pf_res_nix_id;
+	nixlf_resrv = octeontx2_get_resrv_nix_lf(nix_id);
+
+	nix_int_cfg.u = CSR_READ(CAVM_NIXX_PRIV_LFX_INT_CFG(nix_id, nixlf_resrv));
+	nix_int_cfg.s.msix_offset = pf_msix_used;
+	CSR_WRITE(CAVM_NIXX_PRIV_LFX_INT_CFG(nix_id, nixlf_resrv), nix_int_cfg.u);
+}
+#endif
+
 static int msix_enable(void)
 {
 	uint32_t msix_offset = 0;
@@ -1411,6 +1459,11 @@ static int msix_enable(void)
 
 		CSR_WRITE(CAVM_RVU_PRIV_PFX_MSIX_CFG(pf), pfx_msix_cfg.u);
 	}
+
+#if OPTEE_RVUAF_SUPPORT
+	/* Configure msix offsets for reserved RVU PF */
+	conf_msix_resrv_pf_blk_offset();
+#endif
 
 	return 0;
 }
@@ -1571,11 +1624,34 @@ static int octeontx2_get_max_npa_lfs(void)
 static int octeontx2_get_max_nix_lfs(int nix)
 {
 	cavm_nixx_af_const2_t nixx_af_const2;
+	int max_nix_lfs;
 
 	nixx_af_const2.u = CSR_READ(CAVM_NIXX_AF_CONST2(nix));
 
-	return nixx_af_const2.s.lfs;
+	max_nix_lfs = nixx_af_const2.s.lfs;
+#if OPTEE_RVUAF_SUPPORT
+	/* Reserve last NIX LF i.e 127 for reserved PF 25
+	 * So, return number of LFs one less than max supported.
+	 */
+	max_nix_lfs -= 1;
+#endif
+	return max_nix_lfs;
+
 }
+
+#if OPTEE_RVUAF_SUPPORT
+/* Returns reserved NIX LF */
+int octeontx2_get_resrv_nix_lf(int nix)
+{
+	cavm_nixx_af_const2_t nixx_af_const2;
+	int max_nix_lfs;
+
+	nixx_af_const2.u = CSR_READ(CAVM_NIXX_AF_CONST2(nix));
+	max_nix_lfs = nixx_af_const2.s.lfs;
+
+	return max_nix_lfs - 1;
+}
+#endif
 
 /* This is workaround for errata RVU-35948 */
 static void rvu_errata_35948(void)
@@ -1614,6 +1690,10 @@ int octeontx_clear_lf_to_pf_mapping(void)
 	int pf, lf, nix;
 
 	for (pf = 0; pf < octeontx_get_max_rvu_pfs(); pf++) {
+#if OPTEE_RVUAF_SUPPORT
+		if (pf == RVU_RESRV_OPTEE)
+			continue;
+#endif
 		for (nix = 0; nix < plat_octeontx_scfg->nix_count; nix++) {
 			for (lf = 0;
 			     lf < octeontx2_get_max_nix_lfs(nix);
@@ -1671,14 +1751,25 @@ void octeontx_rvu_init(void)
 				WARN("RVU: non-existent NIX%d used on PF%d\n",
 				     nix_id, pf);
 			} else if (nix_id != NIX_DISABLED) {
-				debug_rvu("RVU: provision NIX%d/LF%d to PF%d\n",
-					  nix_id, nixlf_id[nix_id], pf);
-				pf_enable_nix(nix_id, pf, nixlf_id[nix_id]);
-				nixlf_id[nix_id]++;
-				debug_rvu("RVU: provision NPA LF%d to PF%d\n",
-					  npalf_id, pf);
-				pf_enable_npa(pf, npalf_id);
-				npalf_id++;
+#if OPTEE_RVUAF_SUPPORT
+				if (pf == RVU_RESRV_OPTEE) {
+					int nixlf_resrv = octeontx2_get_resrv_nix_lf(nix_id);
+
+					debug_rvu("RVU : provision NIX%d/LF%d to PF%d\n",
+						  nix_id, nixlf_resrv, pf);
+					pf_enable_nix(nix_id, pf, nixlf_resrv);
+				} else
+#endif
+				{
+					debug_rvu("RVU: provision NIX%d/LF%d to PF%d\n",
+						  nix_id, nixlf_id[nix_id], pf);
+					pf_enable_nix(nix_id, pf, nixlf_id[nix_id]);
+					nixlf_id[nix_id]++;
+					debug_rvu("RVU: provision NPA LF%d to PF%d\n",
+						  npalf_id, pf);
+					pf_enable_npa(pf, npalf_id);
+					npalf_id++;
+				}
 			}
 		}
 		else 	/* Disable unused PFs */

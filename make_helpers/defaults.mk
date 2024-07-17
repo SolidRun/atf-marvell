@@ -484,3 +484,7 @@ DRTM_SUPPORT			:= 0
 # Check platform if cache management operations should be performed.
 # Disabled by default.
 CONDITIONAL_CMO			:= 0
+
+# Check platform for OPTEE RVU AF driver support
+# Disabled by default
+OPTEE_RVUAF_SUPPORT		:= 0

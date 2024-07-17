@@ -103,7 +103,8 @@ CASSERT(MSIX_TABLE_BASE + MSIX_TABLE_SIZE <= SH_FWDATA_BASE,
 #define CAVM_PCC_DEV_IDL_E_RVU_REP_VF (0xe1)
 #define CAVM_PCC_DEV_IDL_E_RVU_PAN (0xe2)
 #define CAVM_PCC_DEV_IDL_E_EP_HP_PF (0xe3)
-#define CAVM_PCC_DEV_IDL_E_SW_RSVDX(a) (0xe4 + (a))
+#define CAVM_PCC_DEV_IDL_E_RVU_RESRV_OPTEE (0xe4)
+#define CAVM_PCC_DEV_IDL_E_SW_RSVDX(a) (0xe5 + (a))
 #endif
 
 typedef struct pci_config {
@@ -126,7 +127,8 @@ typedef enum {
 	RVU_AF            = 0,
 	RVU_ETH_FIRST     = 1,
 #if defined(PLAT_CN10K_FAMILY)
-	RVU_ETH_LAST      = MAX_RVU_PFS - 7 /* i.e. last-6 */,
+	RVU_ETH_LAST      = MAX_RVU_PFS - 8 /* i.e. last-7 */,
+	RVU_RESRV_OPTEE	  = MAX_RVU_PFS - 7 /* i.e. last-6 */,
 	RVU_PAN		  = MAX_RVU_PFS - 6 /* i.e. last-5 */,
 	RVU_REP		  = MAX_RVU_PFS - 5 /* i.e. last-4 */,
 	FIXED_RVU_IPSEC   = MAX_RVU_PFS - 4 /* i.e. last-3 */,
@@ -141,5 +143,8 @@ typedef enum {
 
 int octeontx_clear_lf_to_pf_mapping(void);
 void octeontx_rvu_init(void);
+#if OPTEE_RVUAF_SUPPORT
+int octeontx2_get_resrv_nix_lf(int nix);
+#endif
 
 #endif

@@ -1305,6 +1305,7 @@ $(eval $(call add_defines,\
         ENABLE_FEAT_TWED \
 	CONDITIONAL_CMO \
 	CRYPTO_BOARD_BOOT \
+	OPTEE_RVUAF_SUPPORT \
 )))
 
 ifeq (${SANITIZE_UB},trap)
