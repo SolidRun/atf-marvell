@@ -653,10 +653,6 @@ For Cortex-A510, the following errata build flags are defined :
    CPU. This needs to be enabled for revision r0p0 - r1p2 of the CPU and is
    still open.
 
--  ``ERRATA_N2_EEL2``: This applies previous context errata workaround to Neoverse-N2
-   CPU. This needs to be enabled for revision r0p0 - r0p3 of the CPU and is
-   still open.
-
 DSU Errata Workarounds
 ----------------------
 

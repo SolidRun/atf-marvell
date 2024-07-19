@@ -20,41 +20,6 @@
 #error "Neoverse-N2 supports only AArch64. Compile with CTX_INCLUDE_AARCH32_REGS=0"
 #endif
 
-	.global errata_n2_eel2_wa
-
-/* --------------------------------------------------
- * Errata Workaround for Neoverse N2:
- * AP core may execute instructions consistent with previous context-
- * synchronized state when SCR_EL3._waEEL2 is changed
- *
- * This applies to revision r0p0 - r0p3 of Neoverse N2. it is still open.
- * Shall clobber: x0-x18
- * ---------------------------------------------------------------
- */
-func errata_n2_eel2_wa
-	bl	cpu_get_rev_var
-	mov	x18, x0
-	mov	x0, x18
-	bl	check_errata_eel2
-	cbz	x0, 1f
-
-	mrs	x0,scr_el3
-	ldr	x1,=0x8
-	eor	x2,x0,x1
-	msr	scr_el3,x2
-	isb
-	msr	scr_el3,x0
-1:
-	ret
-endfunc errata_n2_eel2_wa
-
-func check_errata_eel2
-	/* Applies to r0p0 - r0p3 */
-	mov	x1, #0x00
-	mov	x2, #0x03
-	b	cpu_rev_var_range
-endfunc check_errata_eel2
-
 #if WORKAROUND_CVE_2022_23960
 	wa_cve_2022_23960_bhb_vector_table NEOVERSE_N2_BHB_LOOP_COUNT, neoverse_n2
 #endif /* WORKAROUND_CVE_2022_23960 */
@@ -803,7 +768,6 @@ func neoverse_n2_errata_report
 	report_errata ERRATA_DSU_2313941, neoverse_n2, dsu_2313941
 	report_errata ERRATA_N2_2340933, neoverse_n2, 2340933
 	report_errata ERRATA_N2_2855383, neoverse_n2, 2855383
-	report_errata ERRATA_N2_EEL2, neoverse_n2, eel2
 
 	ldp	x8, x30, [sp], #16
 	ret
