@@ -18,6 +18,9 @@
 #include <drivers/auth/auth_mod.h>
 #include <drivers/auth/crypto_mod.h>
 #include <drivers/io/io_storage.h>
+#include <drivers/io/io_driver.h>
+#include <drivers/io/io_block.h>
+#include <drivers/io/io_mmc.h>
 #include <libfdt.h>
 #include <lib/utils.h>
 #include <lib/xlat_tables/xlat_tables_defs.h>
@@ -38,10 +41,15 @@
 #define DBG(...) ((void) (0))
 #endif
 
-#define TIM_BLOCK_MAX_SIZE	0x1000
+#define TIM_BLOCK_MAX_SIZE	0x4000
 
 #define MMAP_IMAGE_BUF_EN	((uint32_t)1 << 31)
 #define MMAP_ATTR(attr)		((uint32_t)attr & (MMAP_IMAGE_BUF_EN - 1))
+
+static const io_dev_connector_t *emmc_dev_con;
+static uintptr_t emmc_dev_handle;
+static uintptr_t emmc_io_handle;
+static io_block_dev_spec_t emmc_spec;
 
 struct spi_image_info {
 	int bus;
@@ -49,6 +57,18 @@ struct spi_image_info {
 	uint32_t offset;
 	uint32_t size;
 	char *file;
+};
+
+struct emmc_image_info {
+	uint32_t offset;
+	uint32_t size;
+	char *file;
+	int bus;
+	uint16_t rca;
+	bool byte_mode;
+	bool is_sd;
+	bool v17_195;
+	bool v27_36;
 };
 
 /* Buffer to read TIMs */
@@ -66,6 +86,9 @@ extern unsigned long spi_dev_read(uintptr_t efi_buf, uint64_t *efi_size,
 extern int spi_dev_write(uintptr_t efi_buf, uint64_t efi_size,
 			   int loc, int bus, int cs);
 
+extern void emmc_set_initialized(bool initialized, uint16_t rca,
+				 bool byte_mode, bool is_sd,
+				 bool v17_195, bool v27_36);
 #if defined(IMAGE_BL2)
 /*******************************************************************************
  * Internal function to load an image at a specific address given
@@ -261,6 +284,12 @@ static int spi_load_fw_image(struct spi_image_info *spi_dev, uintptr_t img_addr,
 	}
 	DBG("%s %s %x %x\n", __func__, spi_dev->file, (uint32_t) TIM_TIMH_SIZE,
 		      (uint32_t) hinfo.signed_tim_size);
+	if (hinfo->signed_tim_size > TIM_BLOCK_MAX_SIZE) {
+		ERROR("TIM size 0x%x exceeds maximum size 0x%x\n",
+		      hinfo->signed_tim_size, TIM_BLOCK_MAX_SIZE);
+		err = -1;
+		goto err;
+	}
 	/* Read the rest of the TIM */
 	if (spi_dev_read_aligned((uintptr_t)tim_block_buf + TIM_TIMH_SIZE,
 			   (uint64_t) (hinfo->signed_tim_size - TIM_TIMH_SIZE),
@@ -327,6 +356,152 @@ err:
 	return err;
 }
 
+int emmc_load_firmware_image(struct emmc_image_info *emmc_dev,
+			     uintptr_t img_addr,
+			     uint32_t *size, uint32_t map_attr)
+{
+	union tim_headers *hdr = (union tim_headers *)tim_block_buf;
+	struct tim_header_info *hinfo = &tim_header_info;
+	struct tim_handle *handle = &tim_handle;
+	struct tim_load_info *tim_info = &tim_load_info;
+	uint32_t map_required = MMAP_IMAGE_BUF_EN & map_attr;
+	size_t bytes_read = 0;
+	int ret;
+	bool io_dev_opened = false;
+	bool io_opened = false;
+
+	if (size != NULL)
+		*size = 0;
+	if (map_required) {
+		/* Map Non-secure memory buffer */
+		if (octeontx_mmap_add_dynamic_region_with_sync(img_addr, img_addr,
+							       emmc_dev->size,
+							       MMAP_ATTR(map_attr))) {
+			DBG("Switch: mmap failed (%d)\n", err);
+			return -SPI_MMAP_ERR;
+		}
+	}
+	if (emmc_dev_con == NULL) {
+		ret = register_io_dev_emmc(&emmc_dev_con);
+		if (ret != 0) {
+			ERROR("Could not register eMMC device\n");
+			goto error;
+		}
+	}
+	emmc_set_initialized(true, emmc_dev->rca, emmc_dev->byte_mode, emmc_dev->is_sd,
+			     emmc_dev->v17_195, emmc_dev->v27_36);
+
+	ret = io_dev_open(emmc_dev_con, (uintptr_t)&emmc_spec, &emmc_dev_handle);
+	if (ret != 0) {
+		ERROR("Could not open EMMC device connector\n");
+		goto error;
+	}
+	io_dev_opened = true;
+	ret = io_dev_init(emmc_dev_handle, (uintptr_t)NULL);
+	if (ret != 0) {
+		ERROR("Could not initialize eMMC device\n");
+		goto error;
+	}
+	ret = io_open(emmc_dev_handle, (uintptr_t)&emmc_spec,
+		      &emmc_io_handle);
+	if (ret != 0) {
+		ERROR("Could not open eMMC device\n");
+		goto error;
+	}
+	io_opened = true;
+	ret = io_seek(emmc_io_handle, IO_SEEK_SET, emmc_dev->offset);
+	if (ret) {
+		ERROR("Could not seek to eMMC address 0x%x\n", emmc_dev->offset);
+		goto error;
+	};
+
+	ret = io_read(emmc_io_handle, (uintptr_t)hdr, TIM_TIMH_SIZE, &bytes_read);
+	if (ret != 0) {
+		ERROR("Could not read from eMMC device\n");
+		goto error;
+	}
+	ret = tim_get_timh_info(hdr, hinfo);
+	if (ret != 0) {
+		ERROR("Could not parse TIM header\n");
+		goto error;
+	}
+	if (hinfo->signed_tim_size > TIM_BLOCK_MAX_SIZE) {
+		ERROR("TIM size 0x%x exceeds maximum size 0x%x\n",
+		      hinfo->signed_tim_size, TIM_BLOCK_MAX_SIZE);
+		ret = -1;
+		goto error;
+	}
+	ret = io_read(emmc_io_handle, (uintptr_t)tim_block_buf + TIM_TIMH_SIZE,
+		      hinfo->signed_tim_size - TIM_TIMH_SIZE, &bytes_read);
+	if (ret != 0) {
+		ERROR("Could not read from eMMC device\n");
+		goto error;
+	}
+
+	ret = tim_load(hdr, emmc_dev->offset, handle);
+	if (ret != 0) {
+		ERROR("Error %d parsing TIM\n", ret);
+		goto error;
+	}
+
+	ret = tim_get_load_info(handle, tim_info);
+	if (ret != TIM_NO_ERROR) {
+		ERROR("Error %d getting TIM file information\n", ret);
+		ret = -ENOENT;
+		goto error;
+	}
+	if (!tim_info->lodi_parsed && !tim_info->litc_parsed) {
+		ERROR("Could not find LODI or LITC block in TIM\n");
+		ret = -ENOENT;
+		goto error;
+	}
+	if (!tim_info->hshi_parsed) {
+		ERROR("Could not find HSHI block in TIM\n");
+		ret = -ENOENT;
+		goto error;
+	}
+	ret = io_seek(emmc_io_handle, IO_SEEK_SET, (uint32_t)tim_get_file_src_address(tim_info));
+	if (ret) {
+		ERROR("Could not seek to address 0x%x\n",
+		      (uint32_t)tim_get_file_src_address(tim_info));
+		ret = -EIO;
+		goto error;
+	}
+	ret = io_read(emmc_io_handle, img_addr, tim_get_file_size(tim_info), &bytes_read);
+	if (ret != 0) {
+		ERROR("Could not read object, 0x%lx bytes\n", tim_get_file_size(tim_info));
+		ret = -EIO;
+		goto error;
+	}
+
+	ret = ehsm_verify_image((const void *)img_addr, tim_info, NULL, NULL);
+	if (ret != 0) {
+		ERROR("Hash for %s mismatch\n", emmc_dev->file);
+		ret = -EIO;
+		goto error;
+	}
+	if (size != NULL)
+		*size = tim_get_file_size(tim_info);
+error:
+	if (io_opened)
+		io_close(emmc_io_handle);
+	emmc_io_handle = 0;
+
+	if (io_dev_opened)
+		io_dev_close(emmc_dev_handle);
+	emmc_dev_handle = 0;
+	zeromem(handle, sizeof(*handle));
+	zeromem(hinfo, sizeof(*hinfo));
+	zeromem(tim_info, sizeof(*tim_info));
+
+	if (map_required) {
+		/* unmap non-secure memory buffer */
+		octeontx_mmap_remove_dynamic_region_with_sync(img_addr,
+							      emmc_dev->size);
+	}
+	return ret;
+}
+
 #if defined(IMAGE_BL2)
 int load_gserx_image(void *buf, uint32_t *size)
 {
@@ -358,34 +533,59 @@ int load_gserx_image(void *buf, uint32_t *size)
  * Function to load EFI image.
  */
 int load_efi_image(uintptr_t efi_img_buf, uint64_t *efi_img_size,
-			   int image_id, bool nsec)
+		   uint64_t load_params, int image_id, bool nsec)
 {
 	int err = 0;
 	char buf[16];
 	uint32_t img_size, attr;
+	int boot_type = plat_octeontx_bcfg->bcfg.boot_dev.boot_type;
 	struct spi_image_info spi_dev;
-
-	spi_dev.bus = plat_octeontx_bcfg->bcfg.boot_dev.controller;
-	spi_dev.cs = plat_octeontx_bcfg->bcfg.boot_dev.cs;
-	spi_dev.file = buf;
-
-	/* Load efi image */
-	snprintf(buf, 16, "efi_app%d.efi", image_id);
-	err = spi_get_image_info(&spi_dev);
-	if (err) {
-		DBG("Failed to find efi app %s\n", spi_dev.file);
-		return err;
-	}
+	struct emmc_image_info emmc_dev;
 
 	if (nsec)
 		attr = MMAP_IMAGE_BUF_EN | MT_RW | MT_NS;
 	else
 		attr = 0;
+	snprintf(buf, 16, "efi_app%d.efi", image_id);
 
-	err = spi_load_fw_image(&spi_dev,
-				efi_img_buf,
-				&img_size,
-				attr);
+	if (boot_type == OCTEONTX_BOOT_SPI) {
+		spi_dev.bus = plat_octeontx_bcfg->bcfg.boot_dev.controller;
+		spi_dev.cs = plat_octeontx_bcfg->bcfg.boot_dev.cs;
+		spi_dev.file = buf;
+
+		/* Load efi image */
+		err = spi_get_image_info(&spi_dev);
+		if (err) {
+			DBG("Failed to find efi app %s\n", spi_dev.file);
+			return err;
+		}
+
+		err = spi_load_fw_image(&spi_dev,
+					efi_img_buf,
+					&img_size,
+					attr);
+	} else {
+		uint32_t cs = (uint32_t)load_params;
+
+		emmc_dev.bus = plat_octeontx_bcfg->bcfg.boot_dev.controller;
+		emmc_dev.rca = cs & 0xffff;
+		emmc_dev.byte_mode = !!(cs & (1 << 16));
+		emmc_dev.is_sd = !!(cs & (1 << 17));
+		emmc_dev.v17_195 = !!(cs & (1 << 18));
+		emmc_dev.v27_36 = !!(cs & (1 << 20));
+		emmc_dev.file = buf;
+		err = parse_fw_address_size(buf, &emmc_dev.offset, &emmc_dev.size);
+		if (err) {
+			DBG("Failed to find EFI app %s\n", emmc_dev.file);
+			return err;
+		}
+		if (!(cs & (1U << 31))) {
+			ERROR("%s: eMMC chip select value 0x%x not marked for eMMC!\n", __func__,
+			      cs);
+			return -EIO;
+		}
+		err = emmc_load_firmware_image(&emmc_dev, efi_img_buf, &img_size, attr);
+	}
 
 	if (err) {
 		DBG("Failed to load efi app %s\n", spi_dev.file);

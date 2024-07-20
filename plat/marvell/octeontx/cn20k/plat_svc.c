@@ -18,6 +18,7 @@
 #include <plat_board_cfg.h>
 #include <octeontx_semaphore.h>
 #include <smccc_helpers.h>
+#include <fw_load.h>
 
 #include "cavm-csrs-gpio.h"
 
@@ -73,6 +74,7 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 	uintptr_t user_buf;
 	uint64_t img_size = 0;
 	int ret = 0;
+	uint64_t efi_params = 0;
 
 	VERBOSE("%s: smc_fid = 0x%x\n", __func__, smc_fid);
 
@@ -90,7 +92,9 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 	case PLAT_OCTEONTX_LOAD_EFI_APP:
 	{
 		int spi_bus = plat_octeontx_bcfg->bcfg.boot_dev.controller;
+
 		user_buf = x1;
+		efi_params = x2;
 		if (octeontx_ctr_sem_try_lock_timeout(&octeontx_smc_spi_lock[spi_bus], 1000) != 0) {
 			ret = -2;
 		} else {
@@ -99,7 +103,7 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 				ret = -1;
 			} else {
 				/* Perform EFI App load */
-				ret = load_efi_image(user_buf, &img_size,
+				ret = load_efi_image(user_buf, &img_size, efi_params,
 						     1, NSEC_BUF);
 			}
 			octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[spi_bus]);

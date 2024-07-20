@@ -1,0 +1,1 @@
+../cn10k/fw_load.h
