@@ -145,10 +145,11 @@ int plat_get_max_lane_num(int qlm)
 
 	switch (qlm) {
 	case 0:
-	case 1:
-		lanes = 1;
+		/* GSERM */
+		lanes = 2;
 		break;
-	case 2:
+	case 1:
+		/* GSERH */
 		lanes = 4;
 		break;
 	default:
