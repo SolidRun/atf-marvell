@@ -1837,12 +1837,10 @@ static void fill_timer_ms(const void *fdt)
 	const uint32_t *reg;
 
 	/* By default, update timer to 0.5s */
-	plat_octeontx_eth_cfg->timer1_ms = 500;
-	plat_octeontx_eth_cfg->timer2_ms = 500;
+	plat_octeontx_eth_cfg->timer_ms = 500;
 
 	if (cavm_is_platform(PLATFORM_EMULATOR)) {
-		plat_octeontx_eth_cfg->timer1_ms = 50;
-		plat_octeontx_eth_cfg->timer2_ms = 50;
+		plat_octeontx_eth_cfg->timer_ms = 50;
 		return;
 	}
 
@@ -1859,21 +1857,11 @@ static void fill_timer_ms(const void *fdt)
 			 * ignore value.
 			 */
 			if (val >= 200)
-				plat_octeontx_eth_cfg->timer1_ms = val;
+				plat_octeontx_eth_cfg->timer_ms = val;
 		}
 
-		reg = (fdt_getprop(fdt, offset, "link_mgmt_timer",
-				NULL));
-		if (reg) {
-			val = fdt32_to_cpu(*reg);
-			/* If the timer frequency is less than 200ms
-			 * ignore value.
-			 */
-			if (val >= 200)
-				plat_octeontx_eth_cfg->timer2_ms = val;
-		}
 	} else
-		debug_dts("%s: Not able to find eth_poll_timer node, using 1sec as default\n", __func__);
+		debug_dts("%s: Not able to find eth_poll_timer node, using %d ms as default\n", __func__, plat_octeontx_eth_cfg->timer_ms);
 }
 
 /*
