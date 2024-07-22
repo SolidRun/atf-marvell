@@ -260,6 +260,11 @@ int32_t bert_add(struct otx2_ghes_err_mem_rec *data)
 	uint32_t size;
 	struct flash_data fdata;
 
+	if ((bert.bert_offset == 0) || (bert.bert_size == 0)) {
+		debug_printf("Bert is not enabled\n");
+		return -1;
+	}
+
 	size = sizeof(struct otx2_ghes_err_mem_rec);
 
 	blk = (struct bert_block *)buf_add;
