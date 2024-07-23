@@ -1881,6 +1881,9 @@ static void fill_timer_ms(const void *fdt)
  */
 int plat_octeontx_fill_eth_details(void *fdt)
 {
+	/* Make sure config is empty */
+	memset(plat_octeontx_eth_cfg, 0x0, sizeof(plat_octeontx_ethernet_cfg_t));
+
 	plat_octeontx_eth_cfg->ignore_eth_persist_data = 0;
 
 	if (fdtebf_get_num(fdt, "ETHERNET-PERSIST-SETTINGS-IGNORE", 10) == 1)
