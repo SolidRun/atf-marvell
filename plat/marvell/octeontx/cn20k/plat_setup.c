@@ -52,6 +52,7 @@
 #include "cavm-sw-csrs.h"
 #include "cavm-csrs-ncb.h"
 #include "cavm-csrs-apa.h"
+#include "cavm-csrs-aux_gpio.h"
 
 /* Each of these can be overridden by the platform - this is uncommon */
 #pragma weak plat_octeontx_get_eth_count
@@ -246,14 +247,14 @@ int plat_setup_psci_ops(uintptr_t sec_entrypoint,
  * Return alternative pkg information
  *
  * @return non-zero if an alternative package
- *     0 = Normal package (cn20kas)
+ *     2 = Normal package (cn20kas)
  *     1 = Alternative package 1 (cn20ka)
  */
 int plat_get_altpkg(void)
 {
 	union cavm_gpio_pkg_ver pkg_ver;
 
-	pkg_ver.u = CSR_READ(CAVM_GPIO_PKG_VER);
+	pkg_ver.u = CSR_READ(CAVM_AUX_GPIO_PKG_VER);
 	return pkg_ver.s.pkg_ver;
 }
 

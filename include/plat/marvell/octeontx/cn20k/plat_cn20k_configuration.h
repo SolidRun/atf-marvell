@@ -8,7 +8,7 @@
 #ifndef __PLAT_CN20K_CONFIGURATION_H__
 #define __PLAT_CN20K_CONFIGURATION_H__
 
-#define CN20KAS_PKG 0
+#define CN20KAS_PKG 2
 #define CN20KA_PKG  1
 
 /* Used to initialize individual device IOBN security settings */
