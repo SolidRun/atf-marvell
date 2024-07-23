@@ -112,6 +112,7 @@ typedef enum phy_type {
 	PHY_MARVELL_1780,
 #endif
 #ifdef MARVELL_PHY_2540
+	PHY_MARVELL_2111,
 	PHY_MARVELL_2540,
 #endif
 	PHY_VITESSE_8574,

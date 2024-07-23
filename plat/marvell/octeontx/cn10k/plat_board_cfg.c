@@ -136,6 +136,7 @@ static const phy_compatible_type_t phy_compat_list[] = {
 	{ "marvell,88x1780", PHY_MARVELL_1780},
 #endif
 #ifdef MARVELL_PHY_2540
+	{ "marvell,88x2111", PHY_MARVELL_2111},
 	{ "marvell,88x2540", PHY_MARVELL_2540},
 #endif
 	{ "marvell,88e1514", PHY_MARVELL_88E1514},

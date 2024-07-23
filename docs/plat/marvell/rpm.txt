@@ -1715,6 +1715,7 @@ PHYs are expected to be accessed via MDIO bus and details of PHY address and bus
 		PHY_MARVELL_1780,
 	#endif
 	#ifdef MARVELL_PHY_2540
+		PHY_MARVELL_2111,
 		PHY_MARVELL_2540,
 	#endif
 		PHY_GENERIC_8023_C22,
@@ -1738,6 +1739,7 @@ the appropriate PHY
 		{ "marvell,88x1780", PHY_MARVELL_1780},
 	#endif
 	#ifdef MARVELL_PHY_2540
+		{ "marvell,88x2111", PHY_MARVELL_2111},
 		{ "marvell,88x2540", PHY_MARVELL_2540},
 	#endif
 		{ "marvell,88e1514", PHY_MARVELL_88E1514},

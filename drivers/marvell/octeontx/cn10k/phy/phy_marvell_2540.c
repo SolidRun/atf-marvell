@@ -105,7 +105,7 @@ void phy_marvell_2540_probe(int eth_id, int lmac_id)
 }
 
 /* To set the operating mode of the PHY if required */
-void phy_marvell_2540_config(int eth_id, int lmac_id)
+void phy_marvell_combined_config(int drv_type, int eth_id, int lmac_id)
 {
 	cn10k_portm_modes_t portm_mode;
 	rpm_lmac_config_t *lmac;
@@ -115,6 +115,7 @@ void phy_marvell_2540_config(int eth_id, int lmac_id)
 	MTD_U16 forced_speed = 0;
 	int usxgmii_mp = 0;
 	MTD_U16 avail_speeds = MTD_ALL_SPEEDS_AVAILABLE;
+	int max_ports = 0;
 
 	lmac = plat_eth_get_lmac_cfg(eth_id, lmac_id);
 	if (!lmac)
@@ -136,9 +137,16 @@ void phy_marvell_2540_config(int eth_id, int lmac_id)
 			 portm_mode, phy_cfg->req_an);
 
 	port = lmac->phy_port;
-	if (port > 3) {
-		ERROR("%s %d:%d requested port: %u is invalid\n",
-		       __func__, eth_id, lmac_id, port);
+
+	if (drv_type == PHY_MARVELL_2540) {
+		max_ports = 3;
+	} else {
+		max_ports = 1;
+	}
+
+	if (port > max_ports) {
+		ERROR("%s %d:%d requested port: %u is invalid - max_ports: %d\n",
+		       __func__, eth_id, lmac_id, port, max_ports);
 		return;
 	}
 
@@ -180,21 +188,33 @@ void phy_marvell_2540_config(int eth_id, int lmac_id)
 		break;
 
 	case PORTM_MODE_10G_DXGMII:
-		mac_mode = MTD_MAC_TYPE_10G_DXGMII;
-		usxgmii_mp = 1;
-		avail_speeds =  MTD_SPEED_10M_HD | MTD_SPEED_10M_FD |
-				MTD_SPEED_100M_HD | MTD_SPEED_100M_FD |
-				MTD_SPEED_1GIG_HD | MTD_SPEED_1GIG_FD |
-				MTD_SPEED_2P5GIG_FD | MTD_SPEED_5GIG_FD;
+		if (drv_type == PHY_MARVELL_2540) {
+			mac_mode = MTD_MAC_TYPE_10G_DXGMII; // 1
+			usxgmii_mp = 1;
+			avail_speeds =  MTD_SPEED_10M_HD | MTD_SPEED_10M_FD |
+					MTD_SPEED_100M_HD | MTD_SPEED_100M_FD |
+					MTD_SPEED_1GIG_HD | MTD_SPEED_1GIG_FD |
+					MTD_SPEED_2P5GIG_FD | MTD_SPEED_5GIG_FD;
+		} else {
+			printf("%s: %d:%d unsupported portm_mode: %d\n",
+				 __func__, eth_id, lmac_id, portm_mode);
+			return;
+		}
 		break;
 
 	case PORTM_MODE_10G_QXGMII:
-		mac_mode = MTD_MAC_TYPE_10G_QXGMII;
-		usxgmii_mp = 1;
-		avail_speeds =  MTD_SPEED_10M_HD | MTD_SPEED_10M_FD |
-				MTD_SPEED_100M_HD | MTD_SPEED_100M_FD |
-				MTD_SPEED_1GIG_HD | MTD_SPEED_1GIG_FD |
-				MTD_SPEED_2P5GIG_FD;
+		if (drv_type == PHY_MARVELL_2540) {
+			mac_mode = MTD_MAC_TYPE_10G_QXGMII; // 2
+			usxgmii_mp = 1;
+			avail_speeds =  MTD_SPEED_10M_HD | MTD_SPEED_10M_FD |
+					MTD_SPEED_100M_HD | MTD_SPEED_100M_FD |
+					MTD_SPEED_1GIG_HD | MTD_SPEED_1GIG_FD |
+					MTD_SPEED_2P5GIG_FD;
+		} else {
+			printf("%s: %d:%d unsupported portm_mode: %d\n",
+				 __func__, eth_id, lmac_id, portm_mode);
+			return;
+		}
 		break;
 
 	default:
@@ -219,6 +239,16 @@ void phy_marvell_2540_config(int eth_id, int lmac_id)
 	else
 		MTD_API_CALL(eth_id, lmac_id, mtdEnableSpeeds,
 			     &priv->mtd_dev, port, avail_speeds, MTD_TRUE);
+}
+
+void phy_marvell_2111_config(int eth_id, int lmac_id)
+{
+	phy_marvell_combined_config(PHY_MARVELL_2111, eth_id, lmac_id);
+}
+
+void phy_marvell_2540_config(int eth_id, int lmac_id)
+{
+	phy_marvell_combined_config(PHY_MARVELL_2540, eth_id, lmac_id);
 }
 
 /* To enable/disable AN */
@@ -382,9 +412,24 @@ phy_drv_t marvell_2540_drv = {
 		.shutdown		= phy_generic_shutdown,
 	};
 
+phy_drv_t marvell_2111_drv = {
+		.drv_name		= "MARVELL-88X2111",
+		.drv_type		= PHY_MARVELL_2111,
+		.flags			= 0,
+		.probe			= phy_marvell_2540_probe,
+		.config			= phy_marvell_2111_config,
+		.set_an			= phy_marvell_2540_set_an,
+		.reset			= phy_generic_reset,
+		.get_link_status	= phy_marvell_2540_get_link_status,
+		.set_supported_modes	= phy_marvell_2540_supported_modes,
+		.shutdown		= phy_generic_shutdown,
+	};
+
 phy_drv_t *marvell_2540_check_type(int type)
 {
 	if (marvell_2540_drv.drv_type == type)
 		return &marvell_2540_drv;
+	if (marvell_2111_drv.drv_type == type)
+		return &marvell_2111_drv;
 	return NULL;
 }
