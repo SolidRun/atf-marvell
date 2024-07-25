@@ -105,6 +105,10 @@ CASSERT(MSIX_TABLE_BASE + MSIX_TABLE_SIZE <= SH_FWDATA_BASE,
 #define CAVM_PCC_DEV_IDL_E_EP_HP_PF (0xe3)
 #define CAVM_PCC_DEV_IDL_E_RVU_RESRV_OPTEE (0xe4)
 #define CAVM_PCC_DEV_IDL_E_SW_RSVDX(a) (0xe5 + (a))
+
+#define NIX_LF_QINT_OFFSET		0
+#define NIX_LF_CINT_OFFSET		64
+#define NIX_LF_NUM_INT			64
 #endif
 
 typedef struct pci_config {

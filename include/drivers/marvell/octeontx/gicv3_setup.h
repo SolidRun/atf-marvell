@@ -27,6 +27,7 @@
 				+ SDEI_SGI_IRQS \
 				+ RAS_CORE_SPI_IRQS \
 				+ RAS_GIC_SPI_IRQS \
+				+ RVUPF_RESRV_SPI_IRQS \
 				)
 
 

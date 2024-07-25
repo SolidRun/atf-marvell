@@ -16,6 +16,7 @@
 #include <platform_def.h>
 #include <octeontx_irqs_def.h>
 #include <plat_cn10k_configuration.h>
+#include <rvu.h>
 
 #include "cavm-csrs-ecam.h"
 #include "cavm-csrs-iobn.h"
@@ -105,6 +106,9 @@ void octeontx_init_iobn(uint64_t config_base, uint64_t config_size)
 		{ CAVM_PCC_DEV_CON_E_MDC, 1, 0 /* strm */, 0 /* phys */ },
 		{ CAVM_PCC_DEV_CON_E_TADX(0), 1, 0 /* strm */, 0 /* phys */ },
 		{ CAVM_PCC_DEV_CON_E_DSSX(0), 1, 0 /* strm */, 0 /* phys */ },
+#endif
+#if OPTEE_RVUAF_SUPPORT
+		{ CAVM_PCC_DEV_CON_E_RVUX(RVU_RESRV_OPTEE), 1, 0 /* strm */, 0 /* phys */ },
 #endif
 	};
 	/* These settings are platform-specific */

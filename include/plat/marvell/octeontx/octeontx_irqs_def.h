@@ -117,4 +117,9 @@
 #define RAS_GIC_SPI_IRQS	0
 #define RAS_GIC_SPI_IRQ(irq)	(-1)
 #endif
+
+#ifndef RVUPF_RESRV_SPI_IRQ
+#define RVUPF_RESRV_SPI_IRQS	0
+#define RVUPF_RESRV_SPI_IRQ(irq)	(-1)
+#endif
 #endif /* __OCTEONTX_IRQS_DEF_H__ */

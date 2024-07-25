@@ -26,6 +26,9 @@
 #elif defined(PLAT_CN20K_FAMILY)
 #  include <plat_cn20k_configuration.h>
 #endif
+#if defined(PLAT_CN10K_FAMILY)
+#include <rvu.h>
+#endif
 
 #include "cavm-csrs-ecam.h"
 #include "cavm-csrs-gpio.h"
@@ -36,6 +39,9 @@
 #include "cavm-csrs-pccpf.h"
 #include "cavm-csrs-pem.h"
 #include "cavm-csrs-smmu.h"
+#if defined(PLAT_CN10K_FAMILY)
+#include "cavm-csrs-nix.h"
+#endif
 
 /* for LEGACY logging, define DEBUG_ATF_ECAM to enable debug logs */
 #undef DEBUG_ATF_ECAM
@@ -511,6 +517,68 @@ static void init_iobn(uint64_t config_base, uint64_t config_size)
 	octeontx_init_iobn(config_base, config_size);
 }
 
+#if OPTEE_RVUAF_SUPPORT
+static void init_rvupf_resrv_optee(uint64_t config_base, uint64_t config_size)
+{
+	union cavm_pccpf_xxx_vsec_sctl vsec_sctl;
+	union cavm_pccpf_xxx_msix_table msix_table;
+	union cavm_nixx_priv_lfx_int_cfg nix_int_cfg;
+	struct pcie_config *pconfig = (struct pcie_config *)config_base;
+	uint8_t cap_pointer = pconfig->cap_pointer;
+	uint16_t table_size = 0;
+	uint8_t bir = 0, i = 0;
+	uint64_t vector_base, qint_vbase, cint_vbase;
+	int nixlf_resrv;
+
+	VERBOSE("RVUPF resrv init called config_base:%" PRIx64 " size:%" PRIx64 "\n",
+			config_base, config_size);
+
+	vsec_sctl.u = octeontx_read32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL);
+	vsec_sctl.s.rid = plat_configure_rid();
+	vsec_sctl.s.msix_sec_en = 1;
+	vsec_sctl.s.msix_sec = 1;
+	vsec_sctl.s.msix_sec_phys = 1;
+	vsec_sctl.s.msix_phys = 1;
+	octeontx_write32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL, vsec_sctl.u);
+
+	enable_msix(config_base, cap_pointer, &table_size, &bir);
+
+	msix_table.u = octeontx_read32(config_base + CAVM_PCCPF_XXX_MSIX_TABLE);
+
+	nixlf_resrv = octeontx2_get_resrv_nix_lf(0);
+	nix_int_cfg.u = CSR_READ(CAVM_NIXX_PRIV_LFX_INT_CFG(0, nixlf_resrv));
+
+	if (table_size) {
+		vector_base = get_bar_val(pconfig, bir) + (msix_table.u & ~0x7U);
+		qint_vbase = vector_base + nix_int_cfg.s.msix_offset * RVU_MSIX_VEC_SIZE +
+					   NIX_LF_QINT_OFFSET * RVU_MSIX_VEC_SIZE;
+		for (i = 0; i < NIX_LF_NUM_INT; i++) {
+			octeontx_write64(qint_vbase, CAVM_GICD_SETSPI_SR);
+			VERBOSE("RVUPF rersv qint_vbase%d 0x%" PRIx64 " 0x%" PRIx64 "\n", i,
+				qint_vbase, octeontx_read64(qint_vbase));
+			qint_vbase += 8;
+			octeontx_write64(qint_vbase, RVUPF_RESRV_SPI_IRQ(0));
+			VERBOSE("RVUPF resrv qint_vbase%d 0x%" PRIx64 " 0x%" PRIx64 "\n", i,
+				qint_vbase, octeontx_read64(qint_vbase));
+			qint_vbase += 8;
+		}
+
+		cint_vbase = vector_base + nix_int_cfg.s.msix_offset * RVU_MSIX_VEC_SIZE +
+					   NIX_LF_CINT_OFFSET * RVU_MSIX_VEC_SIZE;
+		for (i = 0; i < NIX_LF_NUM_INT; i++) {
+			octeontx_write64(cint_vbase, CAVM_GICD_SETSPI_SR);
+			VERBOSE("RVUPF rersv cint_vbase%d 0x%" PRIx64 " 0x%" PRIx64 "\n", i,
+				cint_vbase, octeontx_read64(cint_vbase));
+			cint_vbase += 8;
+			octeontx_write64(cint_vbase, RVUPF_RESRV_SPI_IRQ(0));
+			VERBOSE("RVUPF resrv cint_vbase%d 0x%" PRIx64 " 0x%" PRIx64 "\n", i,
+				cint_vbase, octeontx_read64(cint_vbase));
+			cint_vbase += 8;
+		}
+	}
+}
+#endif
+
 /*
  * This is the callback structure that holds callback for
  * different devices.
@@ -530,6 +598,9 @@ struct ecam_init_callback init_callbacks[] = {
 	{0xa027, 0x177d, init_iobn},
 	{0xa06b, 0x177d, init_iobn},
 	{0xa094, 0x177d, init_iobn},
+#if OPTEE_RVUAF_SUPPORT
+	{0xa0e4, 0x177d, init_rvupf_resrv_optee},
+#endif
 	{ECAM_INVALID_DEV_ID, 0, 0},	//no more callbacks
 };
 

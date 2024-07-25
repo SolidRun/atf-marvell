@@ -196,6 +196,18 @@ static void initialize_interrupt_array(interrupt_prop_t *intr_array)
 		intr_array[idx].intr_cfg = GIC_INTR_CFG_EDGE;
 		idx++;
 	}
+#if OPTEE_RVUAF_SUPPORT
+	/* Configure to forward reserved RVUPF IRQs to Secure-EL1
+	 * for OPTEE to handle.
+	 */
+	for (i = 0; i < RVUPF_RESRV_SPI_IRQS; i++) {
+		intr_array[idx].intr_num = RVUPF_RESRV_SPI_IRQ(i);
+		intr_array[idx].intr_pri = PLAT_IRQ_PRI;
+		intr_array[idx].intr_grp = INTR_TYPE_S_EL1;
+		intr_array[idx].intr_cfg = GIC_INTR_CFG_EDGE;
+		idx++;
+	}
+#endif
 }
 
 static gicv3_driver_data_t octeontx_gic_data = {

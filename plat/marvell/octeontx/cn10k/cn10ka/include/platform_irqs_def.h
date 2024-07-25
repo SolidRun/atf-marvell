@@ -125,4 +125,27 @@
 #define RAS_GIC_SPI_IRQ_BASE		(GTI_CWD_GBL_SPI_IRQ_BASE + GTI_CWD_GBL_SPI_IRQS)
 #define RAS_GIC_SPI_IRQ(dev)		RAS_GIC_SPI_IRQ_BASE
 
+/* Update the Last SPI interrupt number
+ * This is to ensure last allocated SPI number not overlap with the other.
+ */
+#define LAST_SPI_IRQ			(RAS_GIC_SPI_IRQ_BASE + RAS_GIC_SPI_IRQS - 1)
+
+/* RESRV OPTEE RVU PF NIX LF interrupt 0x200
+ * Picked SPI IRQ ID 0x200 so that IRQ number remain same for all platforms
+ * and same is used in OP-TEE side RVU AF driver.
+ */
+#if OPTEE_RVUAF_SUPPORT
+#define RVUPF_RESRV_SPI_IRQS		0x1
+#define RVUPF_RESRV_SPI_IRQ_BASE	0x200
+#define RVUPF_RESRV_SPI_IRQ(irq)	RVUPF_RESRV_SPI_IRQ_BASE
+
+#if LAST_SPI_IRQ >= RVUPF_RESRV_SPI_IRQ_BASE
+#error "LAST_SPI_IRQ and RVUPF_RESRV_SPI_IRQ_BASE should not overlap!!!"
+#endif
+
+#else
+#define RVUPF_RESRV_SPI_IRQS		0
+#define RVUPF_RESRV_SPI_IRQ(irq)	(-1)
+#endif
+
 #endif /* __PLATFORM_IRQS_DEF_H__ */
