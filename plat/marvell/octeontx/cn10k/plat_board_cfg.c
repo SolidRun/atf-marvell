@@ -2149,7 +2149,7 @@ static int cn10k_fill_rpm_struct(int portm_idx, int rpm_idx, int fec)
 		rpm->lmac_count++;
 
 		/* In case of specific lowspeed modes, update the property of LMAC */
-		if (cn10k_lpcs_an_disable_mode(portm_mode)) {
+		if (cn10k_lpcs_an_disable_mode(portm_mode) > 0) {
 			lmac->sgmii_1000x_mode = 1;
 		}
 	}
