@@ -171,8 +171,6 @@ static void parse_bert_fdt_config(const void *fdt)
 		offset = fdt_node_offset_by_compatible(fdt, offset, "fixed-partitions");
 	}
 
-	bus = 1;
-
 	bert.bert_offset = bert_base;
 	bert.bert_size = bert_size;
 	bert.bert_next = bert_base;
