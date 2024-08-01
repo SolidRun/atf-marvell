@@ -281,13 +281,32 @@ void plat_add_mmio(void)
 				CAVM_NCB_BAR_E_NCBX_PF_BAR0_SIZE, attr);
 
 	/* RVU device mappings */
-	add_map_record(CAVM_RVU_BAR_E_RVU_PFX_BAR0(0),
-			CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE, attr);
-	device_type_count = plat_octeontx_get_rvu_count();
-	for (i = 0; i < device_type_count; ++i)
-		add_map_record(CAVM_RVU_BAR_E_RVU_PFX_FUNCX_BAR2(i, 0),
-				CAVM_RVU_BAR_E_RVU_PFX_FUNCX_BAR2_SIZE, attr);
+	add_map_record(CAVM_RVU_BAR_E_RVU_PFX_BAR0(0) +
+		       CAVM_RVU_BLOCK_ADDR_E_RVUM,
+		       CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE, attr);
 
+	/* Add regions for required for RVU init */
+	add_map_record(CAVM_RVU_BAR_E_RVU_PFX_BAR0(0) +
+		       CAVM_RVU_BLOCK_ADDR_E_NIXX(0) * CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE,
+		       CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE, attr);
+	add_map_record(CAVM_RVU_BAR_E_RVU_PFX_BAR0(0) +
+		       CAVM_RVU_BLOCK_ADDR_E_NPA * CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE,
+		       CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE, attr);
+	add_map_record(CAVM_RVU_BAR_E_RVU_PFX_BAR0(0) +
+		       CAVM_RVU_BLOCK_ADDR_E_CPTX(0) * CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE,
+		       CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE, attr);
+	add_map_record(CAVM_RVU_BAR_E_RVU_PFX_BAR0(0) +
+		       CAVM_RVU_BLOCK_ADDR_E_APR * CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE,
+		       CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE, attr);
+	add_map_record(CAVM_RVU_BAR_E_RVU_PFX_BAR0(0) +
+		       CAVM_RVU_BLOCK_ADDR_E_RVU_MBOX * CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE,
+		       CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE, attr);
+	add_map_record(CAVM_RVU_BAR_E_RVU_PFX_BAR0(0) +
+				CAVM_RVU_BLOCK_ADDR_E_TIM * CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE,
+				CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE, attr);
+	add_map_record(CAVM_RVU_BAR_E_RVU_PFX_BAR0(0) +
+				CAVM_RVU_BLOCK_ADDR_E_SSO * CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE,
+				CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE, attr);
 	/*
 	 * Map DSU UB for core power management
 	 * Errata: IPBUPERS-151, skip the reserved register space.
@@ -343,6 +362,9 @@ void plat_add_mmio(void)
 	mmap_add_region(NT_FW_CONFIG_BASE, NT_FW_CONFIG_BASE,
 			NT_FW_CONFIG_LIMIT, (MT_MEMORY | MT_RW | MT_NS));
 #endif
+
+	mmap_add_region(RVU_MEM_BASE, RVU_MEM_BASE,
+			RVU_MEM_SIZE, (MT_MEMORY | MT_RW | MT_NS));
 }
 
 void plat_set_gpio_msix_vectors(int gpio_num, int irq_num, int enable)
