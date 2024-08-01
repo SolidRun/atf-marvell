@@ -31,6 +31,8 @@
 #include "cavm-csrs-ecam.h"
 #include "cavm-csrs-apr.h"
 #include "cavm-csrs-rpm.h"
+#include "cavm-csrs-tim.h"
+#include "cavm-csrs-sso.h"
 
 #include "cavm-csrs-spi.h"
 
@@ -192,6 +194,9 @@ static void conf_af_block_vec_offset(void)
 	union cavm_nixx_priv_af_int_cfg nix_int_cfg;
 	union cavm_npa_priv_af_int_cfg npa_int_cfg;
 	union cavm_cptx_priv_af_int_cfg	cpt_int_cfg;
+	union cavm_sso_priv_af_int_cfg sso_int_cfg;
+	union cavm_tim_priv_af_int_cfg tim_int_cfg;
+	union cavm_rvu_priv_pfx_disc af_disc;
 	int af_msix_used = 0;
 
 	/*TODO: Should add mbox interrupts */
@@ -207,20 +212,41 @@ static void conf_af_block_vec_offset(void)
 	 * of MSI-X AF interrupts already consumed
 	 */
 	/*TODO: Use RVU_PF_DISC register to check block is implemeted */
-	nix_int_cfg.u = RVU_CSR_READ(RVU_AF_BAR0_BASE, NIX_PRIV_AF_INT_CFG);
-	nix_int_cfg.s.msix_offset = af_msix_used;
-	RVU_CSR_WRITE(RVU_AF_BAR0_BASE, NIX_PRIV_AF_INT_CFG, nix_int_cfg.u);
-	af_msix_used += nix_int_cfg.s.msix_size;
+	af_disc.u = RVU_CSR_READ(RVU_AF_BAR0_BASE, RVU_PRIV_PFX_DISC(0));
+	if ((af_disc.u >> BLKADDR_NIX0) & 0x1) {
+		nix_int_cfg.u = RVU_CSR_READ(RVU_AF_BAR0_BASE, NIX_PRIV_AF_INT_CFG);
+		nix_int_cfg.s.msix_offset = af_msix_used;
+		RVU_CSR_WRITE(RVU_AF_BAR0_BASE, NIX_PRIV_AF_INT_CFG, nix_int_cfg.u);
+		af_msix_used += nix_int_cfg.s.msix_size;
+	}
 
-	npa_int_cfg.u = RVU_CSR_READ(RVU_AF_BAR0_BASE, NPA_PRIV_AF_INT_CFG);
-	npa_int_cfg.s.msix_offset = af_msix_used;
-	RVU_CSR_WRITE(RVU_AF_BAR0_BASE, NPA_PRIV_AF_INT_CFG, npa_int_cfg.u);
-	af_msix_used += npa_int_cfg.s.msix_size;
+	if ((af_disc.u >> BLKADDR_NPA) & 0x1) {
+		npa_int_cfg.u = RVU_CSR_READ(RVU_AF_BAR0_BASE, NPA_PRIV_AF_INT_CFG);
+		npa_int_cfg.s.msix_offset = af_msix_used;
+		RVU_CSR_WRITE(RVU_AF_BAR0_BASE, NPA_PRIV_AF_INT_CFG, npa_int_cfg.u);
+		af_msix_used += npa_int_cfg.s.msix_size;
+	}
 
-	cpt_int_cfg.u = RVU_CSR_READ(RVU_AF_BAR0_BASE, CPTX_PRIV_AF_INT_CFG(0));
-	cpt_int_cfg.s.msix_offset = af_msix_used;
-	RVU_CSR_WRITE(RVU_AF_BAR0_BASE, CPTX_PRIV_AF_INT_CFG(0), cpt_int_cfg.u);
-	af_msix_used += cpt_int_cfg.s.msix_size;
+	if ((af_disc.u >> BLKADDR_CPT0) & 0x1) {
+		cpt_int_cfg.u = RVU_CSR_READ(RVU_AF_BAR0_BASE, CPTX_PRIV_AF_INT_CFG(0));
+		cpt_int_cfg.s.msix_offset = af_msix_used;
+		RVU_CSR_WRITE(RVU_AF_BAR0_BASE, CPTX_PRIV_AF_INT_CFG(0), cpt_int_cfg.u);
+		af_msix_used += cpt_int_cfg.s.msix_size;
+	}
+
+	if ((af_disc.u >> BLKADDR_SSO) & 0x1) {
+		sso_int_cfg.u = RVU_CSR_READ(RVU_AF_BAR0_BASE, SSO_PRIV_AF_INT_CFG);
+		sso_int_cfg.s.msix_offset = af_msix_used;
+		RVU_CSR_WRITE(RVU_AF_BAR0_BASE, SSO_PRIV_AF_INT_CFG, sso_int_cfg.u);
+		af_msix_used += sso_int_cfg.s.msix_size;
+	}
+
+	if ((af_disc.u >> BLKADDR_TIM) & 0x1) {
+		tim_int_cfg.u = RVU_CSR_READ(RVU_AF_BAR0_BASE, TIM_PRIV_AF_INT_CFG);
+		tim_int_cfg.s.msix_offset = af_msix_used;
+		RVU_CSR_WRITE(RVU_AF_BAR0_BASE, TIM_PRIV_AF_INT_CFG, tim_int_cfg.u);
+		af_msix_used += tim_int_cfg.s.msix_size;
+	}
 }
 
 static int msix_enable(void)

@@ -319,6 +319,12 @@ void plat_add_mmio(void)
 	add_map_record(CAVM_RVU_BAR_E_RVU_PFX_BAR0(0) +
 		       CAVM_RVU_BLOCK_ADDR_E_RVU_MBOX * CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE,
 		       CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE, attr);
+	add_map_record(CAVM_RVU_BAR_E_RVU_PFX_BAR0(0) +
+				CAVM_RVU_BLOCK_ADDR_E_TIM * CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE,
+				CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE, attr);
+	add_map_record(CAVM_RVU_BAR_E_RVU_PFX_BAR0(0) +
+				CAVM_RVU_BLOCK_ADDR_E_SSO * CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE,
+				CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE, attr);
 	/*
 	 * Map DSU UB for core power management
 	 * Errata: IPBUPERS-151, skip the reserved register space.

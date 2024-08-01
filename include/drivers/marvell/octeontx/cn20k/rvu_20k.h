@@ -76,6 +76,9 @@
 
 #define CPTX_PRIV_AF_INT_CFG(a)		(0xa0042000 + 0x10000000 * ((a) & 0x1))
 
+#define SSO_PRIV_AF_INT_CFG		(0x70003000)
+#define TIM_PRIV_AF_INT_CFG		(0x90022000)
+
 #define NIX_DISABLED			U(-1)
 #define MAX_NIX				2
 
@@ -89,6 +92,24 @@
 #define RPM_PF_BAR0(a)		(0xc0e000000000 + 0x100000000 * (a))
 #define RPMX_CMR_RX_LMACS	0x100
 #define RPMX_CONST		0x2000
+
+enum rvu_block_addr_e {
+	BLKADDR_RVUM	= 0x0ULL,
+	BLKADDR_LMT	= 0x1ULL,
+	BLKADDR_MSIX	= 0x2ULL,
+	BLKADDR_NPA	= 0x3ULL,
+	BLKADDR_NIX0	= 0x4ULL,
+	BLKADDR_NIX1	= 0x5ULL,
+	BLKADDR_NPC	= 0x6ULL,
+	BLKADDR_SSO	= 0x7ULL,
+	BLKADDR_SSOW	= 0x8ULL,
+	BLKADDR_TIM	= 0x9ULL,
+	BLKADDR_CPT0	= 0xaULL,
+	BLKADDR_CPT1	= 0xbULL,
+	BLKADDR_APR	= 0x16ULL,
+	BLKADDR_MBOX	= 0x1bULL,
+	BLK_COUNT	= 0x1cULL,
+};
 
 typedef struct pci_config {
 	int pf_devid;
