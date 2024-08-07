@@ -1715,9 +1715,10 @@ static enum update_ret update_verify_chipid_board(const struct smc_update_descri
 	uret = octeontx_read_tim(desc, offset, sizeof(temp_tim_buffer),
 				 temp_tim_buffer, thandle, &size);
 	if (uret != UPDATE_OK) {
-		UERROR("Error reading TIM0 from offset 0x%lx, size 0x%lx\n",
-		       offset, size);
+		UWARN("Error reading TIM0 from offset 0x%lx, size 0x%lx\n",
+		      offset, size);
 		thandle = NULL;
+		uret = UPDATE_BOARD_INFO_MISSING;
 		goto done;
 	}
 	tret = tim_get_board_info(thandle,
@@ -4447,7 +4448,7 @@ static int octeontx_cn10k_update_fw(struct smc_update_descriptor *desc,
 		UWARN("Update is missing board information.  It is possible this update is not compatible with this device.\n");
 		UWARN("Note that earlier firmware versions do not contain this information.\n");
 	} else if (ret != UPDATE_OK) {
-		UERROR("Board information mismatch, update not supported\n");
+		UERROR("Board information mismatch, update not supported, ret: %d\n", ret);
 		goto error;
 	}
 	gti_wdog_pet();
@@ -4544,7 +4545,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	bool async_operation = false;
 	struct io_handle io_handle;
 	uintptr_t console_base_addr = 0;
-	size_t console_map_size = 0;
+	int console_map_size = 0;
 	size_t copy_size = desc_size;
 	bool spi_unlock = false;
 	bool desc_response_required = false;
@@ -4590,6 +4591,8 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 		err = -SPI_MMAP_ERR;
 		goto error;
 	}
+	UINFO("Mapped descriptor at 0x%lx base address 0x%lx, size: 0x%x\n",
+	      desc_buf, desc_base_addr, desc_ns_map_size);
 	descr_mapped = true;
 
 	update_desc_async_ptr = (struct smc_update_descriptor *) desc_buf;
@@ -4607,17 +4610,8 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	 */
 	*uret = UPDATE_OK;
 	uParams.count = 0;
-	if (!update_desc.async_operation) {
-		if (!desc_response_required) {
-			octeontx_mmap_remove_dynamic_region_with_sync(desc_base_addr,
-								      desc_ns_map_size);
-			desc_base_addr = 0;
-			desc_ns_map_size = 0;
-			descr_mapped = false;
-		}
-	} else {
+	if (update_desc.async_operation)
 		add_mapped_region(&uParams, desc_base_addr, desc_ns_map_size);
-	}
 
 	base_addr = 0;
 	ns_map_size = 0;
@@ -4664,9 +4658,9 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 			goto error;
 		}
 		console_mapped = true;
-		if (update_desc.async_operation) {
+		if (update_desc.async_operation)
 			add_mapped_region(&uParams, console_base_addr, console_map_size);
-		}
+
 		log_info.update_log = (char *)update_desc.output_console;
 		log_info.log_bytes_used = 0;
 		log_info.log_size_bytes = update_desc.output_console_size;
@@ -4762,6 +4756,8 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 		ns_map_size = 0;
 		goto error;
 	}
+	UINFO("Mapped image at 0x%lx, base address: 0x%lx, size: 0x%x\n",
+	      addr, base_addr, ns_map_size);
 	image_mapped = true;
 	if (fdt_check_header(fdt_ptr)) {
 		UERROR("Invalid device tree\n");
@@ -4833,18 +4829,27 @@ error:
 		update_descr_retcodes(&update_desc);
 		memcpy((void *)desc_buf, &update_desc,
 		       sizeof(struct smc_update_descr_obj_retcode));
+		UINFO("Unmappiing descriptor at 0x%lx, size: 0x%x\n",
+		      desc_base_addr, desc_ns_map_size);
 		octeontx_mmap_remove_dynamic_region_with_sync(desc_base_addr,
 							      desc_ns_map_size);
 		descr_mapped = false;
 	}
 	if (err) {
 		media_done(&io_handle);
-		if (base_addr && ns_map_size && image_mapped)
+		if (base_addr && ns_map_size && image_mapped) {
+			UINFO("Unmapping image address 0x%lx, size: 0x%x\n",
+			      base_addr, ns_map_size);
 			octeontx_mmap_remove_dynamic_region_with_sync(base_addr,
 								      ns_map_size);
-		if (console_mapped && console_base_addr && console_map_size)
+		}
+		if (console_mapped && console_base_addr && console_map_size) {
+			UINFO("Unmapping console address 0x%lx, size: 0x%x\n",
+			      console_base_addr, console_map_size);
+			log_info.update_log[log_info.log_size_bytes - 1] = '\0';
 			octeontx_mmap_remove_dynamic_region_with_sync(console_base_addr,
 								      console_map_size);
+		}
 		/* In async case - make sure everything is unmapped */
 		if (async_operation) {
 			update_desc_async_ptr->retcode = *uret;
@@ -4859,9 +4864,13 @@ error:
 	} else if (!async_operation) {
 		INFO("Done updating media\n");
 		media_done(&io_handle);
+		UINFO("Unmapping image address 0x%lx, size: 0x%x\n",
+		      base_addr, ns_map_size);
 		octeontx_mmap_remove_dynamic_region_with_sync(base_addr,
 							      ns_map_size);
 		if (console_base_addr != 0 && console_map_size != 0) {
+			UINFO("Unmapping console address 0x%lx, size: 0x%x\n",
+			      console_base_addr, console_map_size);
 			log_info.update_log[log_info.log_size_bytes - 1] = '\0';
 			octeontx_mmap_remove_dynamic_region_with_sync(console_base_addr,
 								      console_map_size);
@@ -6438,6 +6447,12 @@ int smc_check_versions(uint64_t desc_buf, uint64_t desc_size,
 		     vinfo->magic_number);
 		*uret = -SPI_BAD_MAGIC_NUMBER;
 		err = -EINVAL;
+		goto error;
+	}
+	if (vinfo->num_objects > SMC_MAX_VERSION_ENTRIES) {
+		UERROR("Too many version object entries, max is %d\n", SMC_MAX_VERSION_ENTRIES);
+		err = -EINVAL;
+		*uret = SPI_BAD_PARAMETER;
 		goto error;
 	}
 
