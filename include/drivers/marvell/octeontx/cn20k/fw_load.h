@@ -11,7 +11,7 @@
 /**
  * Load an EFI image
  */
-int load_efi_image(uintptr_t efi_img_buf, uint64_t *efi_image_size,
-		   uint64_t load_params, int image_id, bool nsec);
+int load_image_from_boot_device(uintptr_t img_buf, uint64_t *image_size,
+		   uint64_t load_params, char *image_name, bool nsec);
 
 #endif /* __FW_LOAD_H__ */

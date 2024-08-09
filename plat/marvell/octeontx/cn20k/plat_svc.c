@@ -103,8 +103,9 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 				ret = -1;
 			} else {
 				/* Perform EFI App load */
-				ret = load_efi_image(user_buf, &img_size, efi_params,
-						     1, NSEC_BUF);
+				ret = load_image_from_boot_device(user_buf,
+					    &img_size, efi_params,
+					    "efi_app1.efi", NSEC_BUF);
 			}
 			octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock[spi_bus]);
 		}

@@ -356,7 +356,7 @@ err:
 	return err;
 }
 
-int emmc_load_firmware_image(struct emmc_image_info *emmc_dev,
+int load_image_from_boot_device_emmc(struct emmc_image_info *emmc_dev,
 			     uintptr_t img_addr,
 			     uint32_t *size, uint32_t map_attr)
 {
@@ -502,6 +502,30 @@ error:
 	return ret;
 }
 
+int load_image_from_boot_device_spi(struct spi_image_info spi_dev,
+			     uintptr_t img_buf,
+			     uint32_t *size, uint32_t map_attr)
+{
+	int err;
+	uint32_t img_size;
+
+	/* Load image from SPI flash */
+	err = spi_get_image_info(&spi_dev);
+	if (err) {
+		DBG("Failed to find image %s\n", spi_dev.file);
+		return err;
+	}
+
+	err = spi_load_fw_image(&spi_dev, img_buf, &img_size, map_attr);
+
+	if (size == NULL)
+		*size = 0;
+	else
+		*size = img_size;
+
+	return err;
+}
+
 #if defined(IMAGE_BL2)
 int load_gserx_image(void *buf, uint32_t *size)
 {
@@ -530,41 +554,31 @@ int load_gserx_image(void *buf, uint32_t *size)
 #endif
 
 /*
- * Function to load EFI image.
+ * Function to load firmwae from boot device image.
  */
-int load_efi_image(uintptr_t efi_img_buf, uint64_t *efi_img_size,
-		   uint64_t load_params, int image_id, bool nsec)
+int load_image_from_boot_device(uintptr_t img_buf, uint64_t *size,
+		   uint64_t load_params, char *name, bool nsec)
 {
 	int err = 0;
-	char buf[16];
 	uint32_t img_size, attr;
 	int boot_type = plat_octeontx_bcfg->bcfg.boot_dev.boot_type;
-	struct spi_image_info spi_dev;
-	struct emmc_image_info emmc_dev;
 
 	if (nsec)
 		attr = MMAP_IMAGE_BUF_EN | MT_RW | MT_NS;
 	else
 		attr = 0;
-	snprintf(buf, 16, "efi_app%d.efi", image_id);
+
 
 	if (boot_type == OCTEONTX_BOOT_SPI) {
+		struct spi_image_info spi_dev;
+
 		spi_dev.bus = plat_octeontx_bcfg->bcfg.boot_dev.controller;
 		spi_dev.cs = plat_octeontx_bcfg->bcfg.boot_dev.cs;
-		spi_dev.file = buf;
+		spi_dev.file = name;
 
-		/* Load efi image */
-		err = spi_get_image_info(&spi_dev);
-		if (err) {
-			DBG("Failed to find efi app %s\n", spi_dev.file);
-			return err;
-		}
-
-		err = spi_load_fw_image(&spi_dev,
-					efi_img_buf,
-					&img_size,
-					attr);
-	} else {
+		err = load_image_from_boot_device_spi(spi_dev, img_buf, &img_size, attr);
+	} else if (boot_type == OCTEONTX_BOOT_EMMC) {
+		struct emmc_image_info emmc_dev;
 		uint32_t cs = (uint32_t)load_params;
 
 		emmc_dev.bus = plat_octeontx_bcfg->bcfg.boot_dev.controller;
@@ -573,10 +587,10 @@ int load_efi_image(uintptr_t efi_img_buf, uint64_t *efi_img_size,
 		emmc_dev.is_sd = !!(cs & (1 << 17));
 		emmc_dev.v17_195 = !!(cs & (1 << 18));
 		emmc_dev.v27_36 = !!(cs & (1 << 20));
-		emmc_dev.file = buf;
-		err = parse_fw_address_size(buf, &emmc_dev.offset, &emmc_dev.size);
+		emmc_dev.file = name;
+		err = parse_fw_address_size(name, &emmc_dev.offset, &emmc_dev.size);
 		if (err) {
-			DBG("Failed to find EFI app %s\n", emmc_dev.file);
+			DBG("Failed to find %s image\n", emmc_dev.file);
 			return err;
 		}
 		if (!(cs & (1U << 31))) {
@@ -584,15 +598,18 @@ int load_efi_image(uintptr_t efi_img_buf, uint64_t *efi_img_size,
 			      cs);
 			return -EIO;
 		}
-		err = emmc_load_firmware_image(&emmc_dev, efi_img_buf, &img_size, attr);
+		err = load_image_from_boot_device_emmc(&emmc_dev, img_buf, &img_size, attr);
+	} else {
+		WARN("Unsupported boot device: %d\n", boot_type);
+		return -1;
 	}
 
 	if (err) {
-		DBG("Failed to load efi app %s\n", spi_dev.file);
+		DBG("Failed to load efi app\n");
 		return err;
 
 	}
-	*efi_img_size = img_size;
+	*size = img_size;
 	return 0;
 }
 
