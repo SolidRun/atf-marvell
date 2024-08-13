@@ -58,6 +58,14 @@
 /* Driver will select 12.5MHz */
 #define CONFIG_SPI_FREQUENCY		13000000
 
+typedef struct spi_lock {
+	uint32_t k_support;
+	uint32_t bl_support;
+	uint32_t atf_support;
+	uint32_t owner;
+	uint32_t lock;
+} spi_lock_t;
+
 typedef struct file_state {
 	/*
 	 * Use the 'in_use' flag as any value for base and file_pos could be

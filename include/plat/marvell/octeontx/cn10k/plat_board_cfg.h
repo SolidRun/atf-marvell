@@ -224,6 +224,7 @@ typedef struct spi_config {
 	uint32_t configured[MAX_SPI_CS];
 	uint32_t erase_64k[MAX_SPI_CS];
 	struct xspi_cs_config cs_configuration[MAX_SPI_BUS][MAX_SPI_CS];
+	bool lock_initialized;
 } spi_config_t;
 
 typedef struct usb_config {

@@ -1929,6 +1929,53 @@ static int cn10k_parse_boot_device(const void *fdt, const int offset)
 	return 0;
 }
 
+static void refresh_spi_configuration(void)
+{
+	void *fdt = fdt_ptr;
+	const uint32_t *reg;
+	uint32_t regs[20];
+	int i, node, reg_length;
+
+	node = fdt_node_offset_by_compatible(fdt, -1, "cdns,xspi-nor");
+	if (node < 0) {
+		WARN("Failed to find xSPI node\n");
+		return;
+	}
+
+	while (node > 0) {
+		reg = fdt_getprop(fdt, node, "reg", &reg_length);
+
+		if (sizeof(regs) != reg_length) {
+			WARN("Incorrect reg size detected\n");
+			return;
+		}
+
+		for (i = 0 ; i < 20 ; i++) {
+			regs[i] = fdt32_to_cpu(*(reg + i));
+		}
+
+		if (regs[0] == SPI_CTRL1_ADDR) {
+			regs[16] = ((uint64_t)SPI_1_LOCK_DATA_BASE >> 32) & 0xFFFFFFFF;
+			regs[17] = SPI_1_LOCK_DATA_BASE & 0xffffffff;
+			regs[18] = ((uint64_t)SPI_1_LOCK_DATA_SIZE >> 32) & 0xFFFFFFFF;
+			regs[19] = SPI_1_LOCK_DATA_SIZE & 0xFFFFFFFF;
+		} else {
+			regs[16] = ((uint64_t)SPI_0_LOCK_DATA_BASE >> 32) & 0xFFFFFFFF;
+			regs[17] = SPI_0_LOCK_DATA_BASE & 0xffffffff;
+			regs[18] = ((uint64_t)SPI_0_LOCK_DATA_SIZE >> 32) & 0xFFFFFFFF;
+			regs[19] = SPI_0_LOCK_DATA_SIZE & 0xFFFFFFFF;
+		}
+
+		for (i = 0 ; i < 20 ; i++) {
+			regs[i] = cpu_to_fdt32(regs[i]);
+		}
+
+		fdt_setprop(fdt, node, "reg", regs, sizeof(regs));
+
+		node = fdt_node_offset_by_compatible(fdt, node, "cdns,xspi-nor");
+	}
+}
+
 /*
  * Parse SPI Controller Config from FDT
  */
@@ -1954,6 +2001,7 @@ static void cn10k_parse_spi_config(const void *fdt)
 		/* Read parent node to get bus num */
 		preg = fdt_getprop(fdt, fdt_parent_offset(fdt, node),
 				   "reg", NULL);
+
 		if (preg) {
 			addr = fdt32_to_cpu(*preg);
 			if (addr == SPI_CTRL0_ADDR)
@@ -1988,6 +2036,9 @@ static void cn10k_parse_spi_config(const void *fdt)
 		plat_octeontx_bcfg->spi_cfg[bus].cs[cs] = 1;
 		node = fdt_node_offset_by_compatible(fdt, node, "spi-flash");
 	}
+
+	refresh_spi_configuration();
+
 	/* Delete secure SPI node from fdt */
 	for (bus = 0; bus < MAX_SPI_BUS; bus++) {
 		if (parent_node[bus]) {

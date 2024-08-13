@@ -936,10 +936,33 @@ int cdns_xspi_auto_memop(uint64_t spi_addr, uint32_t len, void* buf,
 	return cdns_xspi_wait_for_auto_complete(spi_con, timeout);
 }
 
-uint32_t spi_dev_lock(int spi_con)
+#if defined(PLAT_CN10K_FAMILY)
+int spi_unlock(uint32_t *lock)
 {
-	uint32_t val = 0;
+	__atomic_fetch_sub(lock, 1, __ATOMIC_SEQ_CST);
+	return 0;
+}
+
+int spi_trylock(uint32_t *lock)
+{
 	int timeout = 0xFF;
+
+	do {
+		if (__atomic_fetch_add(lock, 1, __ATOMIC_SEQ_CST) == 0)
+			return 0;
+		__atomic_fetch_sub(lock, 1, __ATOMIC_SEQ_CST);
+	} while (timeout--);
+
+	return 1;
+}
+
+uint32_t spi_lock_compatibility(int spi_con)
+#else
+uint32_t spi_dev_lock(int spi_con)
+#endif
+{
+	int timeout = 0xFF;
+	uint32_t val;
 
 	while (timeout >= 0) {
 		val = *spi_lock[spi_con];
@@ -973,6 +996,55 @@ fail:
 	return val;
 }
 
+#if defined(PLAT_CN10K_FAMILY)
+uint32_t spi_dev_lock(int spi_con)
+{
+	spi_lock_t *lock = (spi_lock_t *) (spi_con == 1 ? SPI_1_LOCK_DATA_BASE : SPI_0_LOCK_DATA_BASE);
+
+	if (lock->k_support != 0) {
+		if (spi_trylock(&lock->lock) != 0) {
+			VERBOSE("SPI_%d: lock failed for lock\n", spi_con);
+			return 1;
+		}
+
+		if (lock->owner == 0 || lock->owner == ATF_OWN) {
+			lock->owner = ATF_OWN;
+		} else {
+			VERBOSE("SPI_%d owned by: %d\n", spi_con, lock->owner);
+			spi_unlock(&lock->lock);
+			return 1;
+		}
+		spi_unlock(&lock->lock);
+	} else {
+		return spi_lock_compatibility(spi_con);
+	}
+
+	return 0;
+}
+
+uint32_t spi_dev_unlock(int spi_con)
+{
+	spi_lock_t *lock = (spi_lock_t *) (spi_con == 1 ? SPI_1_LOCK_DATA_BASE : SPI_0_LOCK_DATA_BASE);
+
+	/* To avoid consequences of locking the lock between kernel and
+	 * ATF do not lock lock when lock is released.
+	 */
+	if (lock->k_support != 0) {
+		if (lock->owner != ATF_OWN) {
+			VERBOSE("SPI_%d: lock owned by: %d\n", spi_con, lock->owner);
+			return 1;
+		}
+		lock->owner = 0;
+	} else {
+		if (*spi_lock[spi_con] != ATF_OWN)
+			return *spi_lock[spi_con];
+
+		*spi_lock[spi_con] = 0;
+	}
+
+	return 0;
+}
+#else
 uint32_t spi_dev_unlock(int spi_con)
 {
 	if (*spi_lock[spi_con] != ATF_OWN)
@@ -982,6 +1054,7 @@ uint32_t spi_dev_unlock(int spi_con)
 
 	return 0;
 }
+#endif
 
 int spi_config(uint64_t spi_clk, uint32_t mode, int cpol, int cpha,
 		      int spi_con, int cs)
@@ -992,6 +1065,24 @@ int spi_config(uint64_t spi_clk, uint32_t mode, int cpol, int cpha,
 	int read_spi_fuse = 0;
 
 	handle_gpio_as_spi(spi_con);
+#endif
+
+#if defined(PLAT_CN10K_FAMILY)
+	if (plat_octeontx_bcfg->spi_cfg[0].lock_initialized == false) {
+		spi_lock_t *lock_0 = (spi_lock_t *) SPI_1_LOCK_DATA_BASE;
+		spi_lock_t *lock_1 = (spi_lock_t *) SPI_0_LOCK_DATA_BASE;
+
+		memset(lock_0, 0x00, sizeof(spi_lock_t));
+		memset(lock_1, 0x00, sizeof(spi_lock_t));
+
+		lock_0->atf_support = 1;
+		lock_1->atf_support = 1;
+
+		INFO("SPI lock initialized\n");
+
+		plat_octeontx_bcfg->spi_cfg[0].lock_initialized = true;
+		plat_octeontx_bcfg->spi_cfg[1].lock_initialized = true;
+	}
 #endif
 
 	if (mode != 0)
