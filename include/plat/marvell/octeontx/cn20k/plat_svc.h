@@ -33,6 +33,19 @@
  */
 #define PLAT_OCTEONTX_RVU_RSVD_REG_INFO		0xc2000b07
 
+/*
+ * x1 - super_image_buffer_pointer
+ * x2 - cm3_image_buffer_pointer
+ * x3 - Flags used to re-configure eMMC. Only used when booting firmware from
+ *      eMMC boot device
+ *
+ * Return:
+ *	x0: 0 for Success otherwise error while loading image
+ *	x1: cm3 Image size
+ */
+#define PLAT_OCTEONTX_LOAD_SWITCH_FW		0xc2000b06
+
+
  /* Number of family specific SMCs */
 #define CN20K_NUM_SMC_CALLS                      3
 

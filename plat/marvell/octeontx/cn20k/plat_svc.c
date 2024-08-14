@@ -74,7 +74,6 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 	uintptr_t user_buf;
 	uint64_t img_size = 0;
 	int ret = 0;
-	uint64_t efi_params = 0;
 
 	VERBOSE("%s: smc_fid = 0x%x\n", __func__, smc_fid);
 
@@ -89,8 +88,32 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 		SMC_RET1(handle, ret);
 		break;
 
+	case PLAT_OCTEONTX_LOAD_SWITCH_FW:
+	{
+		uintptr_t user_buf1;
+		uint64_t load_params;
+		user_buf = x1;
+		user_buf1 = x2;
+		load_params = x3;
+
+		/* Check if NS user_buf is a valid DRAM address */
+		if ((NULL == (void *)user_buf) || (NULL == (void *)user_buf1)) {
+			ret = -1;
+			goto err1;
+		}
+
+		/* Perform Switch firmware load */
+		ret = load_switch_fw(user_buf, user_buf1, &img_size,
+					load_params, NSEC_BUF);
+
+err1:
+		SMC_RET2(handle, ret, img_size);
+		break;
+	}
 	case PLAT_OCTEONTX_LOAD_EFI_APP:
 	{
+		uint64_t efi_params = 0;
+
 		int spi_bus = plat_octeontx_bcfg->bcfg.boot_dev.controller;
 
 		user_buf = x1;

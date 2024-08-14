@@ -507,7 +507,7 @@ int load_image_from_boot_device_spi(struct spi_image_info spi_dev,
 			     uint32_t *size, uint32_t map_attr)
 {
 	int err;
-	uint32_t img_size;
+	uint32_t img_size = 0;
 
 	/* Load image from SPI flash */
 	err = spi_get_image_info(&spi_dev);
@@ -518,9 +518,7 @@ int load_image_from_boot_device_spi(struct spi_image_info spi_dev,
 
 	err = spi_load_fw_image(&spi_dev, img_buf, &img_size, map_attr);
 
-	if (size == NULL)
-		*size = 0;
-	else
+	if (size != NULL)
 		*size = img_size;
 
 	return err;
@@ -617,34 +615,18 @@ int load_image_from_boot_device(uintptr_t img_buf, uint64_t *size,
  * Function to load switch firmware.
  */
 int load_switch_fw(uintptr_t super_img_buf, uintptr_t cm3_img_buf,
-			   uint64_t *cm3_size, bool nsec)
+		      uint64_t *cm3_size, uint64_t load_params, bool nsec)
 {
+#define BUF_SIZE 20
 	int err = 0;
-	char *name;
-	uint32_t img_size, attr;
-	struct spi_image_info spi_dev;
+	char name[BUF_SIZE];
+	uint64_t img_size = 0;
 
 	/* Load super image */
-	name = "switch_fw_super.fw";
-	spi_dev.bus = plat_octeontx_bcfg->bcfg.boot_dev.controller;
-	spi_dev.cs = plat_octeontx_bcfg->bcfg.boot_dev.cs;
-	spi_dev.file = (char *) name;
+	snprintf(name, BUF_SIZE, "switch_fw_super.fw");
 
-	err = spi_get_image_info(&spi_dev);
-	if (err) {
-		DBG("Failed to find Switch Super Image %s\n", name);
-		return err;
-	}
-
-	if (nsec)
-		attr = MMAP_IMAGE_BUF_EN | MT_RW | MT_NS;
-	else
-		attr = 0;
-
-	err = spi_load_fw_image(&spi_dev,
-				super_img_buf,
-				&img_size,
-				attr);
+	err = load_image_from_boot_device(super_img_buf, &img_size,
+					  load_params, name, nsec);
 
 	if (err) {
 		DBG("Failed to load Switch Super Image %s\n", name);
@@ -652,23 +634,17 @@ int load_switch_fw(uintptr_t super_img_buf, uintptr_t cm3_img_buf,
 	}
 
 	/* Load cm3 image */
-	name = "switch_fw_ap.fw";
-	spi_dev.file = (char *) name;
-	err = spi_get_image_info(&spi_dev);
-	if (err) {
-		DBG("Failed to load Switch CM3 Image %s\n", name);
-		return err;
-	}
+	snprintf(name, BUF_SIZE, "switch_fw_ap.fw");
 
-	err = spi_load_fw_image(&spi_dev,
-				cm3_img_buf,
-				&img_size,
-				attr);
+	err = load_image_from_boot_device(cm3_img_buf, &img_size,
+					  load_params, name, nsec);
 
 	if (err) {
 		DBG("Failed to load Switch CM3 Image %s\n", name);
 		return err;
 	}
+
 	*cm3_size = img_size;
-	return 0;
+
+	return err;
 }
