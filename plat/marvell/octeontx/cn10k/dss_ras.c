@@ -429,14 +429,25 @@ static int dss_setup_einj_addr(uint64_t address, int etype, int in_bits)
 	cavm_dssx_ddrctl_regb_ddrc_ch0_eccstat_t eccstat;
 	cavm_dssx_ddrctl_regb_ddrc_ch0_eccctl_t eccctl;
 	cavm_dssx_ddrctl_regb_ddrc_ch0_eccerrcnt_t eccerrcnt;
+	cavm_dssx_ddrctl_regb_ddrc_ch0_crcparctl1_t crcctl;
 
 	xlate.phys_addr = aligned_address;
 	xlate.ch_mask = cn10k_get_ch_mask();
 	if (cn10k_dram_xlate_from_pa(&xlate))
 		return -1;
 
-	reg_ECCCFG0.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCFG0(xlate.ch));
-	if (reg_ECCCFG0.s.ecc_mode == 0) {
+	ch = xlate.ch;
+
+	crcctl.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCPARCTL1(ch));
+	reg_ECCCFG0.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCFG0(ch));
+
+	if (cavm_is_model(OCTEONTX_CN10KB)) {
+		if (!(crcctl.cn10kb.rd_crc_enable && crcctl.cn10kb.wr_crc_enable)
+		    || (reg_ECCCFG0.s.ecc_mode == 0)) {
+			ERROR("%s no ecc mode\n", __func__);
+			return -1;
+		}
+	} else if (reg_ECCCFG0.s.ecc_mode == 0) {
 		ERROR("%s no ecc mode\n", __func__);
 		return -1;
 	}
@@ -445,8 +456,6 @@ static int dss_setup_einj_addr(uint64_t address, int etype, int in_bits)
 		ERROR("%s unaligned address\n", __func__);
 		return -1;
 	}
-
-	ch = xlate.ch;
 
 	if (cavm_is_model(OCTEONTX_CN10KA) && (ch > 5))
 		return -1;
