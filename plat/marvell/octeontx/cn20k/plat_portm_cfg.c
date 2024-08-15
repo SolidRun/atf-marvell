@@ -175,112 +175,103 @@ const char *portm_fec_type_to_str(portm_fec_t fec_type)
 }
 
 /* Support 1, 2, and 4 SERDES Lane Ethernet PORTM modes (excluding QSGMII) */
-static const portm_modes_t portm_4_lane_5000base_x[] = {
+static const portm_modes_t portm_4_lane[] = {
 	/* Ethernet - 1 lane */
 	PORTM_MODE_SGMII,
 	PORTM_MODE_1000BASE_X,
-	PORTM_MODE_2500BASE_X,
-	PORTM_MODE_5000BASE_X,
 	PORTM_MODE_SFI_1G,
 	PORTM_MODE_XFI,
 	PORTM_MODE_SFI,
-	PORTM_MODE_10GBASE_KR,
+	//PORTM_MODE_10GBASE_KR,
 	PORTM_MODE_25GAUI_C2C,
 	PORTM_MODE_25GAUI_C2M,
-	PORTM_MODE_25GBASE_CR,
-	PORTM_MODE_25GBASE_KR,
-	PORTM_MODE_25GBASE_CR_C,
-	PORTM_MODE_25GBASE_KR_C,
+	//PORTM_MODE_25GBASE_CR,
+	//PORTM_MODE_25GBASE_KR,
+	//PORTM_MODE_25GBASE_CR_C,
+	//PORTM_MODE_25GBASE_KR_C,
 	PORTM_MODE_50GAUI_1_C2C,
 	PORTM_MODE_50GAUI_1_C2M,
-	PORTM_MODE_50GBASE_CR,
-	PORTM_MODE_50GBASE_KR,
-	PORTM_MODE_10G_SXGMII,
+	//PORTM_MODE_50GBASE_CR,
+	//PORTM_MODE_50GBASE_KR,
 	/* Ethernet - 2 lane */
 	PORTM_MODE_LAUI_2_C2C,
 	PORTM_MODE_LAUI_2_C2M,
-	PORTM_MODE_50GBASE_CR2_C,
-	PORTM_MODE_50GBASE_KR2_C,
+	//PORTM_MODE_50GBASE_CR2_C,
+	//PORTM_MODE_50GBASE_KR2_C,
 	PORTM_MODE_100GAUI_2_C2C,
 	PORTM_MODE_100GAUI_2_C2M,
-	PORTM_MODE_100GBASE_CR2,
-	PORTM_MODE_100GBASE_KR2,
+	//PORTM_MODE_100GBASE_CR2,
+	//PORTM_MODE_100GBASE_KR2,
 	/* Ethernet - 4 lane */
 	PORTM_MODE_XLAUI,
 	PORTM_MODE_XLAUI_C2M,
-	PORTM_MODE_40GBASE_CR4,
-	PORTM_MODE_40GBASE_KR4,
+	//PORTM_MODE_40GBASE_CR4,
+	//PORTM_MODE_40GBASE_KR4,
 	PORTM_MODE_CAUI_4_C2C,
 	PORTM_MODE_CAUI_4_C2M,
-	PORTM_MODE_100GBASE_CR4,
-	PORTM_MODE_100GBASE_KR4,
+	//PORTM_MODE_100GBASE_CR4,
+	//PORTM_MODE_100GBASE_KR4,
 	/* Ethernet - 802_3AP */
-	PORTM_MODE_802_3AP,
+	//PORTM_MODE_802_3AP,
 
 	PORTM_MODE_DISABLED
 };
 
 /* Support 1 and 2 SERDES Lane Ethernet (excluding QSGMII) PORTM modes  */
-static const portm_modes_t portm_2_lane_5000base_x[] = {
+static const portm_modes_t portm_2_lane[] = {
 	/* Ethernet - 1 lane */
 	PORTM_MODE_SGMII,
 	PORTM_MODE_1000BASE_X,
-	PORTM_MODE_2500BASE_X,
-	PORTM_MODE_5000BASE_X,
 	PORTM_MODE_SFI_1G,
 	PORTM_MODE_XFI,
 	PORTM_MODE_SFI,
-	PORTM_MODE_10GBASE_KR,
+	//PORTM_MODE_10GBASE_KR,
 	PORTM_MODE_25GAUI_C2C,
 	PORTM_MODE_25GAUI_C2M,
-	PORTM_MODE_25GBASE_CR,
-	PORTM_MODE_25GBASE_KR,
-	PORTM_MODE_25GBASE_CR_C,
-	PORTM_MODE_25GBASE_KR_C,
+	//PORTM_MODE_25GBASE_CR,
+	//PORTM_MODE_25GBASE_KR,
+	//PORTM_MODE_25GBASE_CR_C,
+	//PORTM_MODE_25GBASE_KR_C,
 	PORTM_MODE_50GAUI_1_C2C,
 	PORTM_MODE_50GAUI_1_C2M,
-	PORTM_MODE_50GBASE_CR,
-	PORTM_MODE_50GBASE_KR,
-	PORTM_MODE_10G_SXGMII,
+	//PORTM_MODE_50GBASE_CR,
+	//PORTM_MODE_50GBASE_KR,
 	/* Ethernet - 2 lane */
 	PORTM_MODE_LAUI_2_C2C,
 	PORTM_MODE_LAUI_2_C2M,
-	PORTM_MODE_50GBASE_CR2_C,
-	PORTM_MODE_50GBASE_KR2_C,
+	//PORTM_MODE_50GBASE_CR2_C,
+	//PORTM_MODE_50GBASE_KR2_C,
 	PORTM_MODE_100GAUI_2_C2C,
 	PORTM_MODE_100GAUI_2_C2M,
-	PORTM_MODE_100GBASE_CR2,
-	PORTM_MODE_100GBASE_KR2,
+	//PORTM_MODE_100GBASE_CR2,
+	//PORTM_MODE_100GBASE_KR2,
 	/* Ethernet - 802_3AP */
-	PORTM_MODE_802_3AP,
+	//PORTM_MODE_802_3AP,
 
 	PORTM_MODE_DISABLED
 };
 
-/* Support 1 SERDES Lane Ethernet (excluding QSGMII, 5000BASE-X) modes */
-static const portm_modes_t portm_1_lane_5000base_x[] = {
+/* Support 1 SERDES Lane Ethernet */
+static const portm_modes_t portm_1_lane[] = {
 	/* 1 lane */
 	PORTM_MODE_SGMII,
 	PORTM_MODE_1000BASE_X,
-	PORTM_MODE_2500BASE_X,
-	PORTM_MODE_5000BASE_X,
 	PORTM_MODE_SFI_1G,
 	PORTM_MODE_XFI,
 	PORTM_MODE_SFI,
-	PORTM_MODE_10GBASE_KR,
+	//PORTM_MODE_10GBASE_KR,
 	PORTM_MODE_25GAUI_C2C,
 	PORTM_MODE_25GAUI_C2M,
-	PORTM_MODE_25GBASE_CR,
-	PORTM_MODE_25GBASE_KR,
-	PORTM_MODE_25GBASE_CR_C,
-	PORTM_MODE_25GBASE_KR_C,
+	//PORTM_MODE_25GBASE_CR,
+	//PORTM_MODE_25GBASE_KR,
+	//PORTM_MODE_25GBASE_CR_C,
+	//PORTM_MODE_25GBASE_KR_C,
 	PORTM_MODE_50GAUI_1_C2C,
 	PORTM_MODE_50GAUI_1_C2M,
-	PORTM_MODE_50GBASE_CR,
-	PORTM_MODE_50GBASE_KR,
-	PORTM_MODE_10G_SXGMII,
+	//PORTM_MODE_50GBASE_CR,
+	//PORTM_MODE_50GBASE_KR,
 	/* 802_3AP */
-	PORTM_MODE_802_3AP,
+	//PORTM_MODE_802_3AP,
 
 	PORTM_MODE_DISABLED
 };
@@ -327,14 +318,12 @@ static const portm_modes_t portm_2_lane_cn20ka_mcm[] = {
 	PORTM_MODE_DISABLED
 };
 
-static const portm_gserm_mac_map_t portm_gserm_mac_map_cn20ka[] = {
+static const portm_gserm_mac_map_t portm_gserm_mac_map_cnf20ka[] = {
 	/*Port  GSER  G-LANE  MAX-LANE  ETH_MAC  E-LANE   O_MAC    O_LANE */
-	{0,      0,     0,      0,      0,       0,       DISABLE, DISABLE},
-	{1,      0,     2,      2,      1,       0,       DISABLE, DISABLE},
-	{2,      1,     0,      3,      2,       0,       DISABLE, DISABLE},
-	{3,      1,     1,      3,      2,       1,       DISABLE, DISABLE},
-	{4,      1,     2,      3,      2,       2,       DISABLE, DISABLE},
-	{5,      1,     3,      3,      2,       3,       DISABLE, DISABLE},
+	{0,      0,     0,      3,      0,       0,       DISABLE, DISABLE},
+	{1,      0,     1,      3,      0,       1,       DISABLE, DISABLE},
+	{2,      0,     2,      3,      0,       2,       DISABLE, DISABLE},
+	{3,      0,     3,      3,      0,       3,       DISABLE, DISABLE},
 };
 
 static const portm_gserm_mac_map_t portm_gserm_mac_map_cn20kas[] = {
@@ -363,12 +352,12 @@ const portm_modes_t *portm_get_mode_desc(int portm)
 			case 1:
 				return portm_1_lane_slow_usgmii_usxgmii;
 			case 2:
-				return portm_4_lane_5000base_x;
+				return portm_4_lane;
 			case 4:
-				return portm_2_lane_5000base_x;
+				return portm_2_lane;
 			case 3:
 			case 5:
-				return portm_1_lane_5000base_x;
+				return portm_1_lane;
 			default:
 				return NULL;
 			}
@@ -387,6 +376,18 @@ const portm_modes_t *portm_get_mode_desc(int portm)
 				return NULL;
 			}
 		}
+	} else if (cavm_is_model(OCTEONTX_CNF20KA)) {
+		switch (portm) {
+		case 0:
+			return portm_4_lane;
+		case 2:
+			return portm_2_lane;
+		case 1:
+		case 3:
+			return portm_1_lane;
+		default:
+			return NULL;
+		}
 	}
 	return NULL;
 }
@@ -400,12 +401,10 @@ const portm_modes_t *portm_get_mode_desc(int portm)
  */
 const portm_gserm_mac_map_t *portm_get_gserm_mac_map(void)
 {
-	if (cavm_is_model(OCTEONTX_CN20KA)) {
-		if (plat_get_altpkg() == CN20KA_PKG)
-			return portm_gserm_mac_map_cn20ka;
-		else
-			return portm_gserm_mac_map_cn20kas;
-	}
+	if (cavm_is_model(OCTEONTX_CN20KA))
+		return portm_gserm_mac_map_cn20kas;
+	else if (cavm_is_model(OCTEONTX_CNF20KA))
+		return portm_gserm_mac_map_cnf20ka;
 
 	return NULL;
 }
