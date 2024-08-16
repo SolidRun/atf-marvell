@@ -330,7 +330,7 @@ static const portm_modes_t portm_2_lane_cn20ka_mcm[] = {
 static const portm_gserm_mac_map_t portm_gserm_mac_map_cn20ka[] = {
 	/*Port  GSER  G-LANE  MAX-LANE  ETH_MAC  E-LANE   O_MAC    O_LANE */
 	{0,      0,     0,      0,      0,       0,       DISABLE, DISABLE},
-	{1,      0,     1,      0,      1,       0,       DISABLE, DISABLE},
+	{1,      0,     2,      2,      1,       0,       DISABLE, DISABLE},
 	{2,      1,     0,      3,      2,       0,       DISABLE, DISABLE},
 	{3,      1,     1,      3,      2,       1,       DISABLE, DISABLE},
 	{4,      1,     2,      3,      2,       2,       DISABLE, DISABLE},
@@ -340,7 +340,7 @@ static const portm_gserm_mac_map_t portm_gserm_mac_map_cn20ka[] = {
 static const portm_gserm_mac_map_t portm_gserm_mac_map_cn20kas[] = {
 	/*Port  GSER  G-LANE  MAX-LANE  ETH_MAC  E-LANE   O_MAC    O_LANE */
 	{0,      0,     0,      0,      0,       0,       DISABLE, DISABLE},
-	{1,      0,     1,      0,      1,       0,       DISABLE, DISABLE},
+	{1,      0,     2,      2,      1,       0,       DISABLE, DISABLE},
 	{2,      1,     0,      3,      2,       0,       DISABLE, DISABLE},
 	{3,      1,     1,      3,      2,       1,       DISABLE, DISABLE},
 	{4,      1,     2,      3,      2,       2,       DISABLE, DISABLE},
