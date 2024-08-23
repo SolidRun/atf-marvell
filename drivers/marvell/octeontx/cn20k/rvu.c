@@ -105,18 +105,16 @@ static int get_rpm_intf_cnt(void)
 static void rvu_disable_ecam_access(void)
 {
 	union cavm_ecamx_domx_busx_permit bus_permit;
-	union cavm_ecamx_domx_devx_permit dev_permit;
-	int max_pf, pf, ecam = 0, domain = 2, dev = 0, bus = 0;
+	int max_pf, pf, ecam = 0, domain, bus;
 
 	max_pf = get_max_rvu_pfs();
 	for (pf = 0; pf < max_pf; pf++) {
 		if (rvu_dev[pf].enable)
 			continue;
-		/* Disable bus */
-		bus = pf + 2;
-		/* At bus 0x22 and 0x43 bridges are connected. so skip them */
-		if (bus == 0x22 || bus == 0x43)
-			bus = pf + 3;
+
+		bus = 1 + (pf % 32);
+		domain = 2 + (pf / 32);
+
 		bus_permit.u = RVU_CSR_READ(ECAMX_PF_BAR0(ecam),
 					    ECAMX_DOMX_BUSX_PERMIT(domain, bus));
 		bus_permit.s.sec_dis = 0;
@@ -128,18 +126,6 @@ static void rvu_disable_ecam_access(void)
 		RVU_CSR_WRITE(ECAMX_PF_BAR0(ecam),
 			      ECAMX_DOMX_BUSX_PERMIT(domain, bus),
 			      bus_permit.u);
-		/* Device disable */
-		dev_permit.u = RVU_CSR_READ(ECAMX_PF_BAR0(ecam),
-					    ECAMX_DOMX_DEVX_PERMIT(domain, dev));
-		dev_permit.s.sec_dis = 0;
-		dev_permit.s.nsec_dis = 1;
-		dev_permit.s.xcp0_dis = 0;
-		dev_permit.s.xcp1_dis = 0;
-		dev_permit.s.xcp2_dis = 0;
-		dev_permit.s.xcp3_dis = 0;
-		RVU_CSR_WRITE(ECAMX_PF_BAR0(ecam),
-			      ECAMX_DOMX_DEVX_PERMIT(domain, dev),
-			      dev_permit.u);
 	}
 }
 
