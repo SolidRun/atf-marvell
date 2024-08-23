@@ -627,6 +627,18 @@ void octeontx_ecam_dev_init(struct ecam_device *device, unsigned int ecam)
 	device->ecam = ecam;
 }
 
+#if OPTEE_RVUAF_SUPPORT
+static void octeontx_disable_resrv_rvupf_dev(void)
+{
+	struct ecam_device resrv_rvu_dev =  {.ecam = 0, .domain = 2,
+					     .bus = 0x1a, .dev = 0,
+					     .func = 0 };
+
+	octeontx_ecam_dev_init(&resrv_rvu_dev, resrv_rvu_dev.ecam);
+	plat_ops.disable_bus(&resrv_rvu_dev);
+}
+#endif
+
 /*
  * Method to use probe_callbacks structure defined in
  * SoC-specific ECAM files to determine if given device should
@@ -936,4 +948,9 @@ void octeontx_pci_init(void)
 	ecam_count = plat_ops.get_ecam_count();
 	for (ecam = 0; ecam < ecam_count; ecam++)
 		plat_ecam_setup(ecam);
+
+#if OPTEE_RVUAF_SUPPORT
+	/* Hide reserved RVU PF from Kernel PCIe device enumeration.*/
+	octeontx_disable_resrv_rvupf_dev();
+#endif
 }
