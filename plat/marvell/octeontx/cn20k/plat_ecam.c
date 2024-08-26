@@ -97,6 +97,7 @@ int disable_devmem_ns_access(struct ecam_device *dev)
 
 static void disable_device(struct ecam_device *device)
 {
+#ifdef PLAT_cn20ka
 	cavm_pccpf_xxx_vsec_streamid_t vsec_streamid;
 	uint64_t pconfig;
 
@@ -118,6 +119,7 @@ static void disable_device(struct ecam_device *device)
 		if (device->config.s.is_sec_devpa)
 			disable_devmem_ns_access(device);
 	}
+#endif
 }
 
 static void octeontx_ecam_iodid_dev_enumerate(struct ecam_device *device)
