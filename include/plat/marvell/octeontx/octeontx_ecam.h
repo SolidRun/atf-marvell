@@ -206,7 +206,6 @@ struct ecam_platform_defs {
 	int (*is_domain_present)(struct ecam_device *dev);
 	int (*get_secure_settings)(struct ecam_device *dev, uint64_t pconfig);
 	uint64_t (*get_dev_config)(struct ecam_device *dev);
-	uint64_t (*get_iodid_dev_config)(struct ecam_device *dev);
 	struct ecam_probe_callback *(*get_probes)(void);
 	struct ecam_init_callback *(*get_plat_inits)(void);
 	int (*is_bus_disabled)(struct ecam_device *dev);
@@ -218,8 +217,11 @@ struct ecam_platform_defs {
 	void (*enable_func)(struct ecam_device *dev);
 	void (*disable_func)(struct ecam_device *dev);
 	void (*program_ssid)(struct ecam_device *dev, uint64_t pconfig);
-	void (*enable_iodid_dev)(struct ecam_device *dev, uint64_t pconfig);
-	void (*disable_iodid_dev)(struct ecam_device *dev, uint64_t pconfig);
+#if defined(PLAT_CN20K_FAMILY)
+	uint64_t (*get_iodid_dev_config)(struct ecam_device *dev);
+	void (*enable_bus_devfn)(struct ecam_device *dev);
+	void (*disable_bus_devfn)(struct ecam_device *dev);
+#endif
 };
 
 /*

@@ -26,6 +26,7 @@
 #include "cavm-csrs-iobn.h"
 #include "cavm-csrs-pccbr.h"
 #include "cavm-csrs-pccpf.h"
+#include "cavm-csrs-pccpf_iii.h"
 #include "cavm-csrs-pem.h"
 #include "cavm-csrs-smmu.h"
 
@@ -70,6 +71,55 @@ uint64_t get_iodid_dev_config(struct ecam_device *dev)
 	return pconfig;
 }
 
+int disable_devmem_ns_access(struct ecam_device *dev)
+{
+	uint64_t config_base;
+	cavm_pccpf_xxx_vsec_permit_t vsec_permit;
+
+	/* Get address of the device */
+	config_base = get_iodid_dev_config(dev);
+	if (!config_base) {
+		debug_plat_ecam("%s: Unable to get config\n", __func__);
+		return -1;
+	}
+
+	vsec_permit.u = octeontx_read32(config_base + CAVM_PCCPF_XXX_VSEC_PERMIT);
+	vsec_permit.s.sec_dis = 0;
+	vsec_permit.s.nsec_dis = 1;
+	vsec_permit.s.xcp0_dis = dev->config.s.is_scp_secure;
+	vsec_permit.s.xcp1_dis = dev->config.s.is_mcp_secure;
+	vsec_permit.s.xcp2_dis = dev->config.s.is_ecp_secure;
+	vsec_permit.s.xcp3_dis = dev->config.s.is_pcp_secure;
+	VERBOSE("Writing CAVM_PCCPF_XXX_VSEC_PERMIT - 0x%x\n", vsec_permit.u);
+	octeontx_write32(config_base + CAVM_PCCPF_XXX_VSEC_PERMIT, vsec_permit.u);
+	return 0;
+}
+
+static void disable_device(struct ecam_device *device)
+{
+	cavm_pccpf_xxx_vsec_streamid_t vsec_streamid;
+	uint64_t pconfig;
+
+	pconfig = plat_ops.get_iodid_dev_config(device);
+	vsec_streamid.u = octeontx_read32(pconfig + CAVM_PCCPF_XXX_VSEC_STREAMID);
+	if (vsec_streamid.s.bus == 0)
+		plat_ops.disable_dev(device);
+	else if (vsec_streamid.s.bus > 0 && vsec_streamid.s.bus < 5)
+		plat_ops.disable_bus_devfn(device);
+	else {
+		/*
+		 * For vsec_streamid.s.bus > 4 there is no way to disable ecam
+		 * scanning from atf because ECAMX_DOMX*_PERMIT CSRs available
+		 * only for bus number 0 to 4, pcp will handle this
+		 * functionality internally
+		 * Only disable access to the CSR core of the device if
+		 * device's is_sec_devpa is true
+		 */
+		if (device->config.s.is_sec_devpa)
+			disable_devmem_ns_access(device);
+	}
+}
+
 static void octeontx_ecam_iodid_dev_enumerate(struct ecam_device *device)
 {
 	uint64_t pconfig;
@@ -95,7 +145,7 @@ static void octeontx_ecam_iodid_dev_enumerate(struct ecam_device *device)
 	if (!rc) {
 		debug_plat_ecam("%s: Probe returned with rc=%d\n",
 				__func__, rc);
-		plat_ops.disable_dev(device);
+		disable_device(device);
 		return;
 	}
 
@@ -104,12 +154,19 @@ static void octeontx_ecam_iodid_dev_enumerate(struct ecam_device *device)
 
 	debug_plat_ecam("%s: E%u:IODID:%u:FUN%u\n"
 			"pconfig: 0x%" PRIx64 ", secure:%u, scp:%u, "
-			"mcp:%u\n",
+			"mcp:%u, ecp:%u, pcp:%u\n",
 			__func__, device->ecam, device->iodid,
 			device->func, pconfig,
 			device->config.s.is_secure,
 			device->config.s.is_scp_secure,
-			device->config.s.is_mcp_secure);
+			device->config.s.is_mcp_secure,
+			device->config.s.is_ecp_secure,
+			device->config.s.is_pcp_secure);
+
+	/* configure secure settings for device */
+	if (device->config.s.is_secure) {
+		disable_device(device);
+	}
 
 	/* Program SSID for the device if applicable for
 	 * the platform
