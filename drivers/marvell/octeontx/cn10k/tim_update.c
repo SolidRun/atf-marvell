@@ -1886,6 +1886,11 @@ static enum update_ret update_process_tims(void)
 								       &root_obj_name);
 					if (err)
 						UWARN("tim0 not detected as root TIM in firmware layout\n");
+					if (root_obj_name == NULL) {
+						UWARN("Could not find root object name in FDT\n");
+						uret = UPDATE_TIM_ERROR;
+						goto done;
+					}
 					dfile = find_file(root_obj_name);
 					debug_fw_update("%s %s associated with %s in update file\n",
 							dfile ? "Found" : "Did not find",
@@ -3701,7 +3706,7 @@ static enum update_ret skip_tim0(void)
 	struct file_entry *fentry;
 	struct object_entry *oentry;
 
-	fentry = find_file("tim0.timb");
+	fentry = find_file(TIM0_FILENAME);
 	if (fentry == NULL)
 		return UPDATE_TIM_MISSING;
 	oentry = fentry->object;
