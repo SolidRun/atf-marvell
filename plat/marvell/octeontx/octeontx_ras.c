@@ -61,6 +61,12 @@ static int get_event_record_len(int event)
 void err_ring_init(struct otx2_ghes_err_ring *err_ring, int len, int entries)
 {
 	if (err_ring && len) {
+		/* On reset, clear GHES ring buffer
+		 * stale data and prepare buffer for
+		 * new data
+		 */
+		memset((void *)err_ring, 0x0, (size_t)len);
+
 		err_ring->sig = OTX2_GHES_ERR_RING_SIG;
 		err_ring->head = 0;
 		err_ring->tail = 0;
