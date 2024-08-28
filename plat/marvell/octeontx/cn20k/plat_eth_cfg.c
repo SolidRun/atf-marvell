@@ -866,41 +866,73 @@ static void fill_lmac_mode_info(void *fdt, rpm_lmac_config_t *lmac,
 		const int *val;
 		int len, speed;
 
-		val = fdt_getprop(fdt, offset,
+		if (lmac->sgmii_1000x_mode) {
+			val = fdt_getprop(fdt, offset,
+					"cn20k,1000BaseX-enable-autoneg",
+					&len);
+			if (val)
+				info->an_disable = 0;
+			else
+				info->an_disable = 1;
+		} else {
+
+			val = fdt_getprop(fdt, offset,
 				"cn20k,sgmii-disable-autoneg",
 				&len);
-		if (val)
-			info->an_disable = 1;
-		else
-			info->an_disable = 0;
+			if (val)
+				info->an_disable = 1;
+			else
+				info->an_disable = 0;
 
-		speed = fdt_get_int32(fdt,
-			"cn20k,sgmii-set-speed", offset);
+			speed = fdt_get_int32(fdt,
+				"cn20k,sgmii-set-speed", offset);
 
-		switch (speed) {
-		case 10:
-			info->sgmii_speed = ETH_LINK_10M;
-			break;
-		case 100:
-			info->sgmii_speed = ETH_LINK_100M;
-			break;
-		case 2500:
-			info->sgmii_speed = ETH_LINK_2HG;
-			break;
-		case 5000:
-			info->sgmii_speed = ETH_LINK_5G;
-			break;
-		case 10000:
-			info->sgmii_speed = ETH_LINK_10G;
-			break;
-		case 1000:
-		default:
-			info->sgmii_speed = ETH_LINK_1G;
-			break;
+			switch (speed) {
+			case 10:
+				info->sgmii_speed = ETH_LINK_10M;
+				break;
+			case 100:
+				info->sgmii_speed = ETH_LINK_100M;
+				break;
+			case 2500:
+				info->sgmii_speed = ETH_LINK_2HG;
+				break;
+			case 5000:
+				info->sgmii_speed = ETH_LINK_5G;
+				break;
+			case 10000:
+				info->sgmii_speed = ETH_LINK_10G;
+				break;
+			case 1000:
+			default:
+				info->sgmii_speed = ETH_LINK_1G;
+				break;
+			}
 		}
 
 		info->sgmii_duplex = 1;
 	}
+}
+
+static void fill_shmem_link_sgmii_speed_dplx(int portm_idx, int rpm_idx, int lmac_idx, int lmac_type)
+{
+	rpm_config_t *rpm;
+	rpm_lmac_config_t *lmac;
+	lmac_mode_info_t *mode_info;
+	portm_config_t *portm_cfg;
+
+	rpm = &plat_octeontx_eth_cfg->rpm_cfg[rpm_idx];
+	lmac = &rpm->lmac_cfg[lmac_idx];
+	mode_info = &lmac->lmac_mode_info[lmac_type];
+	portm_cfg = &plat_octeontx_eth_cfg->portm_cfg[portm_idx];
+
+	debug_dts("%s portm_idx %d rpm_idx %d lmac %d an_disable %d mac_speed %d mac_duplex %d\n",
+				__func__, portm_idx, rpm_idx, lmac_idx,
+				mode_info->an_disable, mode_info->sgmii_speed, mode_info->sgmii_duplex);
+
+	portm_cfg->lpcs_speed_dplx[lmac_idx].an_disable = mode_info->an_disable;
+	portm_cfg->lpcs_speed_dplx[lmac_idx].mac_speed = mode_info->sgmii_speed;
+	portm_cfg->lpcs_speed_dplx[lmac_idx].mac_duplex = mode_info->sgmii_duplex;
 }
 
 /* Get the LMAC information from the Linux DT file. The following properties
@@ -969,6 +1001,9 @@ static void rpm_lmacs_check_linux(void *fdt,
 
 		fill_lmac_mode_info(fdt, lmac, lmac_type, lmac_offset,
 					  rpm_idx, lmac_idx);
+
+		if (lmac_type == CAVM_RPM_LMAC_TYPES_E_SGMII)
+			fill_shmem_link_sgmii_speed_dplx(portm_idx, rpm_idx, lmac_idx, lmac_type);
 
 		if (!lmac->port_enable)
 			goto next_node;
