@@ -60,7 +60,7 @@ int plat_octeontx_get_ecams_count(void)
 
 int plat_octeontx_get_iobn_count(void)
 {
-	return 7;
+	return 8;
 }
 
 int plat_octeontx_is_lmc_enabled(unsigned lmc)

@@ -221,6 +221,7 @@ struct ecam_platform_defs {
 	uint64_t (*get_iodid_dev_config)(struct ecam_device *dev);
 	void (*enable_bus_devfn)(struct ecam_device *dev);
 	void (*disable_bus_devfn)(struct ecam_device *dev);
+	void (*iobn_cfg_stream)(struct ecam_device *dev, uint8_t iobn, uint64_t attr);
 #endif
 };
 

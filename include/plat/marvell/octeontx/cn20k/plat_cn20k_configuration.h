@@ -20,6 +20,7 @@ struct cn20k_stream_security_setting {
 	int      phys_nsec;
 };
 
+int plat_octeontx_get_iobn_count(void);
 int plat_octeontx_get_cpt_count(void);
 int plat_octeontx_get_rpm_count(void);
 int plat_octeontx_get_gserm_count(void);

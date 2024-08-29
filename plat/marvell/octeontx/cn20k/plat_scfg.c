@@ -42,6 +42,7 @@ static void fill_refclk_gserm_term(void)
 
 int plat_octeontx_fill_soc_details(void)
 {
+	plat_octeontx_scfg->iobn_count = plat_octeontx_get_iobn_count();
 	plat_octeontx_scfg->rpm_count = plat_octeontx_get_rpm_count();
 	assert(plat_octeontx_scfg->rpm_count <= MAX_RPM);
 	plat_octeontx_scfg->gserm_count = plat_octeontx_get_gserm_count();

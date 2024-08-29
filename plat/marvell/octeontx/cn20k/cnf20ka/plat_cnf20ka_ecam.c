@@ -18,6 +18,7 @@
 #include <plat_board_cfg.h>
 #include <platform_irqs_def.h>
 #include <plat_scfg.h>
+#include <plat_iobn.h>
 #include <octeontx_utils.h>
 
 #include "cavm-csrs-ecam.h"
@@ -26,6 +27,7 @@
 #include "cavm-csrs-emmc.h"
 #include "cavm-csrs-spi.h"
 #include "cavm-csrs-pccpf_iii.h"
+#include "cavm-csrs-iobn.h"
 
 #include "rvu_20k.h"
 
@@ -670,6 +672,57 @@ static inline void disable_bus_devfn(struct ecam_device *dev)
 			vsec_streamid.s.func, bus_func_permit.u);
 }
 
+static inline void iobn_cfg_stream(struct ecam_device *dev, uint8_t iobn, uint64_t attr)
+{
+	cavm_pccpf_xxx_vsec_streamid_t vsec_streamid;
+	cavm_ecamx_const_t ecam_const;
+	uint64_t config_base, dombus, val;
+	uint8_t idx = 0;
+	uint8_t device;
+	int cam_found = 0;
+
+	/* Get address of the device */
+	config_base = get_iodid_dev_config(dev);
+	if (!config_base) {
+		debug_plat_ecam("%s: Unable to get config\n", __func__);
+		return;
+	}
+
+	vsec_streamid.u = octeontx_read32(config_base + CAVM_PCCPF_XXX_VSEC_STREAMID);
+	device = (vsec_streamid.s.func >> STREAM_DEV_SHIFT) & (OCTEONTX_ECAM_MAX_DEV - 1);
+
+	ecam_const.u = CSR_READ(CAVM_ECAMX_CONST(0));
+
+	if ((dev->ecam >= ecam_const.cn20ka.ecams) ||
+	    (vsec_streamid.s.dmn >= ecam_const.cn20ka.max_domains) ||
+	    (vsec_streamid.s.bus >= OCTEONTX_ECAM_MAX_BUS) ||
+	    (device >= OCTEONTX_ECAM_MAX_DEV) ||
+	    (iobn >= plat_octeontx_scfg->iobn_count)) {
+		ERROR("%s IOBN%d:DOM%d:B%dDEV%d\n", __func__, iobn,
+		      vsec_streamid.s.dmn, vsec_streamid.s.bus, device);
+		return;
+	}
+
+	dombus = (vsec_streamid.u >> 8) & STREAM_DB_MASK;
+
+	while(!cam_found && idx < MAX_CAM_ENTRIES) {
+		val = CSR_READ(CAVM_IOBNX_STRM_CAMX_DOMBUS(iobn, idx));
+
+		if (STREAM_DOMBUS(val) == dombus) {
+			CSR_WRITE(CAVM_IOBNX_STRMX_CAM_DEVX(iobn, idx, vsec_streamid.s.func), attr);
+			cam_found = 1;
+		}
+		idx++;
+	}
+
+	if (!cam_found) {
+		ERROR("%s IOBN%d:DOM%d:B%dDEV%d\n", __func__, iobn,
+		      vsec_streamid.s.dmn, vsec_streamid.s.bus, device);
+	}
+	debug_plat_ecam("%s IOBN%d:DOM%d:B%ddev%d = 0x%lx\n", __func__, iobn,
+			vsec_streamid.s.dmn, vsec_streamid.s.bus, device, attr);
+}
+
 struct ecam_probe_callback *get_probe_callbacks(void)
 {
 	return &probe_callbacks[0];
@@ -695,4 +748,5 @@ const struct ecam_platform_defs plat_ops = {
 	.disable_dev = disable_dev,
 	.enable_bus_devfn = enable_bus_devfn,
 	.disable_bus_devfn = disable_bus_devfn,
+	.iobn_cfg_stream = iobn_cfg_stream,
 };
