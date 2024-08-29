@@ -24,7 +24,6 @@
 #include "cavm-csrs-nix.h"
 #include "cavm-csrs-apr.h"
 #include "cavm-csrs-rvu.h"
-#include "cavm-csrs-rvu_mbox.h"
 #include "cavm-csrs-npa.h"
 #include "cavm-csrs-cpt.h"
 #include "cavm-csrs-pccpf.h"
@@ -542,7 +541,7 @@ static int init_rvu_dev_from_fdt(void)
 
 static void config_lmt_map_table(void)
 {
-	union cavm_rvu_mbox_af_pfx_lmtline_addr pf_lmt_addr;
+	union cavm_rvu_af_pfx_lmtline_addr pf_lmt_addr;
 	union cavm_apr_af_lmt_ctl lmt_ctl;
 	uint64_t lmt_ent_addr;
 	uint64_t val = 0, lmt_ent_base_addr;
@@ -559,11 +558,7 @@ static void config_lmt_map_table(void)
 		/* Enable 2K LMT Lines per PF */
 		/* TODO for cn20ka: remove hard-coded values */
 		val |= 0x1ull << 20 | 0x6ull << 16;
-		if (cavm_is_model(OCTEONTX_CNF20KA)) {
-			pf_lmt_addr.u = CSR_READ(CAVM_RVU_MBOX_AF_PFX_LMTLINE_ADDR(pf));
-		} else {
-			pf_lmt_addr.u = CSR_READ(CAVM_RVU_AF_PFX_LMTLINE_ADDR(pf));
-		}
+		pf_lmt_addr.u = CSR_READ(CAVM_RVU_AF_PFX_LMTLINE_ADDR(pf));
 		debug_rvu("RVU: PF%u LMT entry @ %p, LMTLINE_ADDR 0x%" PRIx64 "\n",
 			  pf, (void *)lmt_ent_addr, pf_lmt_addr.u);
 		octeontx_write64(lmt_ent_addr, pf_lmt_addr.u);
@@ -636,8 +631,8 @@ void cn20k_reserve_mbox_lmtline_memory(uint64_t *mem_base, uint64_t *mem_size)
 
 static void cn20k_mailbox_enable(void)
 {
-	union cavm_rvu_mbox_af_pfx_lmtline_addr pf_lmt_addr;
-	cavm_rvu_mbox_af_pfx_addr_t pf_bar0_addr;
+	union cavm_rvu_af_pfx_lmtline_addr pf_lmt_addr;
+	cavm_rvu_af_afpf_mboxx_addr_t pf_bar0_addr;
 	uint64_t size;
 	uint64_t base, limit;
 	int pf, num_funcs, max_pf;
@@ -651,11 +646,7 @@ static void cn20k_mailbox_enable(void)
 			continue;
 
 		pf_bar0_addr.u = base;
-		if (cavm_is_model(OCTEONTX_CNF20KA)) {
-			CSR_WRITE(CAVM_RVU_MBOX_AF_PFX_ADDR(pf), pf_bar0_addr.u);
-		} else {
-			CSR_WRITE(CAVM_RVU_AF_AFPF_MBOXX_ADDR(pf), pf_bar0_addr.u);
-		}
+		CSR_WRITE(CAVM_RVU_AF_AFPF_MBOXX_ADDR(pf), pf_bar0_addr.u);
 
 		/* For a PF mailbox memory should be arranged as mbox region to
 		 * communicate with AF followed by mbox region space
@@ -684,11 +675,7 @@ static void cn20k_mailbox_enable(void)
 		}
 		/* Configure PF LMTLINE  address (contiguous to mailboxes) */
 		pf_lmt_addr.u = base + (num_funcs * RVU_PF_MAILBOX_SIZE);
-		if (cavm_is_model(OCTEONTX_CNF20KA)) {
-			CSR_WRITE(CAVM_RVU_MBOX_AF_PFX_LMTLINE_ADDR(pf), pf_lmt_addr.u);
-		} else {
-			CSR_WRITE(CAVM_RVU_AF_PFX_LMTLINE_ADDR(pf), pf_lmt_addr.u);
-		}
+		CSR_WRITE(CAVM_RVU_AF_PFX_LMTLINE_ADDR(pf), pf_lmt_addr.u);
 		base += size;
 	}
 

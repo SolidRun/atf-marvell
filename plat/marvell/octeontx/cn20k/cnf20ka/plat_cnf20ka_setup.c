@@ -373,7 +373,7 @@ void plat_set_gpio_msix_vectors(int gpio_num, int irq_num, int enable)
 	int intr_pinx;
 
 	/* Get the offset of interrupt vector for that GPIO line */
-	intr_pinx = CAVM_GPIO_INT_VEC_E_MC_INTR_PPX(gpio_num);
+	intr_pinx = CAVM_GPIO_INT_VEC_E_INTR_PINX(gpio_num);
 
 	/* INTR_PINX vector address */
 	vector_ptr =  CAVM_GPIO_BAR_E_GPIO_PF_BAR4 + intr_pinx * 0x10;
@@ -421,6 +421,7 @@ void plat_gpio_irq_setup(void)
  */
 void plat_gti_access_secure_memory_setup(int do_secure)
 {
+#if 0
 	/*
 	 * dev_idx - Stream's dev number (stream_id<7:0>)
 	 * bus_idx - Stream's bus number (stream_id<15:8>).
@@ -459,6 +460,7 @@ void plat_gti_access_secure_memory_setup(int do_secure)
 				iobn_domx_devx_stream.u);
 		}
 	}
+#endif
 }
 
 void plat_gti_irq_setup(int core)

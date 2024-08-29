@@ -361,6 +361,13 @@ void gti_watchdog_poke(int core)
 /**
  * Poke the generic watchdog(GTI_WR0 or GTI_WR1)
  */
+#if defined(PLAT_CN20K_FAMILY)
+/* Poke non-secure wdog*/
+void gti_watchdog_generic_poke(void)
+{
+	CSR_WRITE(CAVM_GTI_WR_WRR, 0);
+}
+#else
 void gti_watchdog_generic_poke(int wdg)
 {
 	if (wdg != 0 && wdg != 1)
@@ -368,6 +375,7 @@ void gti_watchdog_generic_poke(int wdg)
 
 	CSR_WRITE(CAVM_GTI_WRX_WRR(wdg), 0);
 }
+#endif
 
 /**
  * This pets the watchdog
@@ -379,8 +387,13 @@ void gti_wdog_pet(void)
 	/* Core watchdog used by ATF */
 	gti_watchdog_poke(core_id);
 
+#if defined(PLAT_CN20K_FAMILY)
+	/* Poke non-secure wdog*/
+	gti_watchdog_generic_poke();
+#else
 	/* Poke GT_WR1, as linux is using only generic watchdog */
 	gti_watchdog_generic_poke(1);
+#endif
 }
 
 

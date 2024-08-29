@@ -24,8 +24,11 @@ void gti_watchdog_poke(int core);
 /**
  * Poke the generic watchdog(GTI_WR0 or GTI_WR1)
  */
+#if defined(PLAT_CN20K_FAMILY)
+void gti_watchdog_generic_poke(void);
+#else
 void gti_watchdog_generic_poke(int wdg);
-
+#endif
 int gti_wdog_remove_handler(void);
 
 int gti_wdog_install_handler(uint64_t core, uint64_t gti_elr,

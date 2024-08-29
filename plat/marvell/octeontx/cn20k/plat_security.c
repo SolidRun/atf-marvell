@@ -409,16 +409,19 @@ void octeontx_configure_mmc_security(int secure)
 	 * (stream ID<7:0>)
 	 * bus_idx - Stream's bus number (stream_id<15:8>).
 	 */
+#if 0
 	uint64_t rsl_idx = CAVM_PCC_DEV_CON_E_EMMCX(0) & 0xFF;
 	uint64_t bus_idx = (CAVM_PCC_DEV_CON_E_EMMCX(0) >> 8) & 0xFF;
 	uint64_t domain_idx = (CAVM_PCC_DEV_CON_E_EMMCX(0) >> 16) & 0xFF;
 	cavm_iobnx_rslx_streams_t iobn_rslx_stream;
 	cavm_iobnx_domx_busx_streams_t iobn_domx_busx_stream;
+#endif
 
 	/* Check for MMC boot, if not return here */
 	if (plat_octeontx_bcfg->bcfg.boot_dev.boot_type != OCTEONTX_BOOT_EMMC)
 		return;
 
+#if 0
 	for (int iobn_idx = 0; iobn_idx < plat_octeontx_scfg->iobn_count;
 				iobn_idx++) {
 		if (secure) {
@@ -464,6 +467,7 @@ void octeontx_configure_mmc_security(int secure)
 			 */
 		}
 	}
+#endif
 }
 
 /* Allocate a new region by reducing the memory from the last available
