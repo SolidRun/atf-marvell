@@ -165,6 +165,7 @@ void sh_fwdata_init(void)
 		ERROR("SHARED FWDATA size misconfiguration\n");
 		return;
 	}
+	VERBOSE("%s: shared data base = 0x%lx\n", __func__, get_sh_fwdata_base());
 	memset(fwdata, 0, sizeof(*fwdata));
 	fwdata->header_magic = SH_FWDATA_HEADER_MAGIC;
 	fwdata->version = SH_FWDATA_VERSION;
