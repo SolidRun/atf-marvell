@@ -689,6 +689,17 @@ sfp_update:
 	return ret;
 }
 
+int plat_cn20k_is_rpm_enable(unsigned int rpm_id)
+{
+	rpm_config_t *rpm;
+
+	if ((rpm_id < MAX_RPM)) {
+		rpm = &(plat_octeontx_eth_cfg->rpm_cfg[rpm_id]);
+		return rpm->enable;
+	}
+	return 0;
+}
+
 int plat_cn20k_is_rpm_lmac_enable(unsigned int rpm_id, unsigned int lmac_id)
 {
 	rpm_config_t *rpm;

@@ -86,7 +86,7 @@
 #define ECAMX_PF_BAR2(a) (0xc10040000000ll + 0x100000000ll * (a))
 
 #define ECAMX_DOMX_BUSX_PERMIT(a, b)	(0x20000 + 0x800 * ((a) & 0x7) + 8 * ((b) & 0xff))
-#define ECAMX_DOMX_DEVX_PERMIT(a, b)	(0x40000 + 0x800 * ((a) & 0x7) + 8 * ((b) & 0x1f))
+#define ECAMX_DOMX_BUSX_FUNCX_PERMIT(a, b, c)	(0x60000 + 0x4000 * ((a) & 0x7) + 0x800 * ((b) & 0x7) + 8 * ((c) & 0xff))
 
 
 #define RPM_PF_BAR0(a)		(0xc0e000000000 + 0x100000000 * (a))

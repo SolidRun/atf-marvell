@@ -100,6 +100,32 @@ static int get_rpm_intf_cnt(void)
 	return eth_cnt;
 }
 
+/* Skip pci enemuration of non active RPMs */
+static void rvu_disable_rpm_access(void)
+{
+	union cavm_ecamx_domx_busx_funcx_permit func_permit;
+	int rpm_id, ecam = 0, domain = 0, bus = 1, func = 0;
+
+	for (rpm_id = 0; rpm_id < plat_octeontx_get_rpm_count() ; rpm_id++) {
+		if (plat_cn20k_is_rpm_enable(rpm_id))
+			continue;
+
+		/* Device disable */
+		func = (rpm_id + 2) << 3;
+		func_permit.u = RVU_CSR_READ(ECAMX_PF_BAR0(ecam),
+					     ECAMX_DOMX_BUSX_FUNCX_PERMIT(domain, bus, func));
+		func_permit.s.sec_dis = 0;
+		func_permit.s.nsec_dis = 1;
+		func_permit.s.xcp0_dis = 0;
+		func_permit.s.xcp1_dis = 0;
+		func_permit.s.xcp2_dis = 0;
+		func_permit.s.xcp3_dis = 0;
+		RVU_CSR_WRITE(ECAMX_PF_BAR0(ecam),
+			      ECAMX_DOMX_BUSX_FUNCX_PERMIT(domain, bus, func),
+			      func_permit.u);
+	}
+}
+
 /* Skip pci enemuration of non-active PFs */
 static void rvu_disable_ecam_access(void)
 {
@@ -724,4 +750,5 @@ void rvu_devices_init(void)
 	config_rvu_pci();
 	rvu_disable_ecam_access();
 	rvu_pf_disc_reset();
+	rvu_disable_rpm_access();
 }
