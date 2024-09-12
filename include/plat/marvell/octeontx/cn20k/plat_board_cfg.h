@@ -98,6 +98,8 @@ typedef struct plat_octeontx_board_cfg {
 	persist_data_cfg_t persist_cfg;
 	rvu_config_t rvu_cfg;
 	int rvu_rsvd_reg_index; /* ASC region index for RVU MEM and LMTLINES */
+	int num_chiplet; /* Number of chiplets */
+	int max_nodes;
 } plat_octeontx_board_cfg_t;
 
 extern plat_octeontx_board_cfg_t * const plat_octeontx_bcfg;

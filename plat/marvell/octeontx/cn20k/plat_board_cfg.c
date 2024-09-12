@@ -178,6 +178,33 @@ static int parse_boot_device(const void *fdt, const int offset)
 	return 0;
 }
 
+static int parse_chiplet_info(const void *fdt, const int offset)
+{
+	const char *propstr;
+	int32_t num_chiplet;
+
+	propstr = fdt_getprop(fdt, offset, "EBF-NUM-CHIPLET", NULL);
+	if (!propstr) {
+		VERBOSE("EBF-NUM-CHIPLET is not found in device tree\n");
+		return -1;
+	}
+
+	num_chiplet = strtol(propstr, NULL, 16);
+	debug_dts("NUM_CHIPLET: %d\n", num_chiplet);
+
+	plat_octeontx_bcfg->num_chiplet = num_chiplet;
+
+	if (plat_octeontx_bcfg->num_chiplet >= 0)
+		plat_octeontx_bcfg->max_nodes = plat_octeontx_bcfg->num_chiplet + 1;
+	else {
+		/* Only compute chiplet node */
+		plat_octeontx_bcfg->max_nodes = 1;
+	}
+	debug_dts("MAX_NODES: %d\n", plat_octeontx_bcfg->max_nodes);
+
+	return 0;
+}
+
 /*
  * Parse SPI Controller Config from FDT
  */
@@ -333,6 +360,11 @@ int plat_octeontx_fill_board_details(void)
 	rc = parse_boot_device(fdt, offset);
 	if (rc) {
 		debug_dts("boot device not defined\n");
+	}
+
+	rc = parse_chiplet_info(fdt, offset);
+	if (rc) {
+		debug_dts("EBF-NUM-CHIPLET not defined\n");
 	}
 
 	plat_octeontx_fill_eth_details(fdt);
