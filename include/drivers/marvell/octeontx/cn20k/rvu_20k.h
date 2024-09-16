@@ -48,6 +48,7 @@
 
 #define PCI_DEVID_OCTEONTX2_RVU_PF   0xA063
 #define PCI_DEVID_OCTEONTX2_RVU_VF   0xA064
+#define PCI_DEVID_OCTEONTX2_RVU_BPHY_PF	0xA0e4
 
 #define RVU_CSR_WRITE(base, offset, val) (*(volatile uint64_t *)(base + offset) = cavm_cpu_to_le64((val)))
 #define RVU_CSR_READ(base, offset) cavm_le64_to_cpu(*(volatile uint64_t *)(base + offset))
@@ -108,7 +109,24 @@ enum rvu_block_addr_e {
 	BLKADDR_CPT1	= 0xbULL,
 	BLKADDR_APR	= 0x16ULL,
 	BLKADDR_MBOX	= 0x1bULL,
-	BLK_COUNT	= 0x1cULL,
+	BLKADDR_BGEN0	= 0x20ULL,
+	BLKADDR_MAB0	= 0x21ULL,
+	BLKADDR_CPRI0	= 0x22ULL,
+	BLKADDR_MLAB0	= 0x23ULL,
+	BLKADDR_BMEMA0	= 0x24ULL,
+	BLKADDR_BMEMB0	= 0x25ULL,
+	BLKADDR_PSM0	= 0x26ULL,
+	BLKADDR_RFOE0	= 0x27ULL,
+	BLKADDR_BGEN1	= 0x28ULL,
+	BLKADDR_MAB1	= 0x29ULL,
+	BLKADDR_CPRI1	= 0x2aULL,
+	BLKADDR_MLAB1	= 0x2bULL,
+	BLKADDR_BMEMA1	= 0x2cULL,
+	BLKADDR_BMEMB1	= 0x2dULL,
+	BLKADDR_PSM1	= 0x2eULL,
+	BLKADDR_RFOE1	= 0x2fULL,
+	BLK_COUNT	= 0x30ULL,
+
 };
 
 typedef struct pci_config {

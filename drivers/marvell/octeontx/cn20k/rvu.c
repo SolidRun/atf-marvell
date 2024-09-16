@@ -185,17 +185,27 @@ static void rvu_pf_disc_reset(void)
 {
 	int id;
 	int pf_max = get_max_rvu_pfs();
-	//int vf_max = get_max_rvu_vfs();
 
 	/* Reset PFs DISC register */
-	for (id = 1; id < pf_max; id++)
+	for (id = 1; id < pf_max; id++) {
 		RVU_CSR_WRITE(RVU_AF_BAR0_BASE, RVU_PRIV_PFX_DISC(id), 0x0ull);
-#if 0
-	/* Reset VFs DISC register */ TODO:
-	for (id = 0; id < vf_max; id++)
-		RVU_CSR_WRITE(RVU_AF_BAR0_BASE, RVU_PRIV_HWVFX_DISC(id),
-			      0x0ull);
-#endif
+
+		/* Enable bphy blocks for bphy PF */
+		if (rvu_dev[id].pci.pf_devid == PCI_DEVID_OCTEONTX2_RVU_BPHY_PF &&
+		    plat_octeontx_bcfg->num_chiplet >= 1) {
+			debug_rvu("Found %d chiplet. Config BPHY PF DISC\n",
+				  plat_octeontx_bcfg->num_chiplet);
+			RVU_CSR_WRITE(RVU_AF_BAR0_BASE, RVU_PRIV_PFX_DISC(id),
+				       (1ULL << BLKADDR_BGEN0) | (1ULL << BLKADDR_PSM0) |
+				       (1ULL << BLKADDR_MAB0) | (1ULL << BLKADDR_BMEMA0) |
+				       (1ULL << BLKADDR_BMEMB0) | (1ULL << BLKADDR_MLAB0));
+			if (plat_octeontx_bcfg->num_chiplet == 2)
+				RVU_CSR_WRITE(RVU_AF_BAR0_BASE, RVU_PRIV_PFX_DISC(id),
+				       (1ULL << BLKADDR_BGEN1) | (1ULL << BLKADDR_PSM1) |
+				       (1ULL << BLKADDR_MAB1) | (1ULL << BLKADDR_BMEMA1) |
+				       (1ULL << BLKADDR_BMEMB1) | (1ULL << BLKADDR_MLAB1));
+		}
+	}
 }
 
 /* This function set the msix vector offset for all rvu blocks */
