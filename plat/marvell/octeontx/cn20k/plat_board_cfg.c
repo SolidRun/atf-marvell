@@ -47,7 +47,11 @@
  * SW Persist Data address should match flash layout.
  * Default address, bus and CS
  */
+#ifdef PLAT_cnf20ka
+#define PERSIST_DATA_ADDR	0x0F90000
+#else
 #define PERSIST_DATA_ADDR	0x1F90000
+#endif
 #define PERSIST_DATA_SPI_BUS	0
 #define PERSIST_DATA_SPI_CS	0
 
