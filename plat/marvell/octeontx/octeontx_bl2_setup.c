@@ -638,6 +638,15 @@ void bl2_platform_setup(void)
 #endif
 
 #if defined(PLAT_CN20K_FAMILY)
+	extern int load_gserx_images(void *, uint32_t *, void *, uint32_t *);
+	{
+		uint32_t gserm_sz = ETH_CFG_GSERM_FW_SIZE;
+		uint32_t gserh_sz = ETH_CFG_GSERH_FW_SIZE;
+
+		load_gserx_images((void *) ETH_CFG_GSERM_FW_BASE, &gserm_sz,
+				  (void *) ETH_CFG_GSERH_FW_BASE, &gserh_sz);
+	}
+
 	plat_pwrc_setup();
 #endif
 

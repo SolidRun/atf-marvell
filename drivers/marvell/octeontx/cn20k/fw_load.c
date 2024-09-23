@@ -525,29 +525,51 @@ int load_image_from_boot_device_spi(struct spi_image_info spi_dev,
 }
 
 #if defined(IMAGE_BL2)
-int load_gserx_image(void *buf, uint32_t *size)
+int load_gserx_images(void *gserm_buf, uint32_t *gserm_buf_size,
+		     void *gserh_buf, uint32_t *gserh_buf_size)
 {
-	image_info_t image_data;
+	image_info_t gserx_image_data;
 	int err = 0;
 
-	memset((void *)&image_data, 0, sizeof(image_info_t));
+	memset((void *)&gserx_image_data, 0, sizeof(image_info_t));
+	gserx_image_data.image_base = (uintptr_t) gserm_buf;
+	gserx_image_data.image_size = 0;
+	gserx_image_data.image_max_size = *gserm_buf_size;
 
-	image_data.image_base = (uintptr_t) buf;
-	image_data.image_size = 0;
-	image_data.image_max_size = *size;
-
-	err = load_image(SOC_FW_CONFIG_ID, &image_data);
+	err = load_image(SOC_FW_CONFIG_ID, &gserx_image_data);
 	if (err == 0) {
-		flush_dcache_range(image_data.image_base,
-				image_data.image_size);
-		*size = image_data.image_size;
+		flush_dcache_range(gserx_image_data.image_base,
+				gserx_image_data.image_size);
+		*gserm_buf_size = gserx_image_data.image_size;
 
-		VERBOSE("%s GSERx Image @0x%lx MaxBufSz 0x%x Image size 0x%x\n",
-		       __func__, (unsigned long)buf, image_data.image_max_size, *size);
+		INFO("%s GSERM Image @0x%lx MaxBufSz 0x%x Image size 0x%x\n",
+		       __func__, (unsigned long)gserm_buf, gserx_image_data.image_max_size, *gserm_buf_size);
 
+	} else {
+		ERROR("%s: failed to load GSERM Image\n", __func__);
+		return err;
 	}
 
-	return err;
+	memset((void *)&gserx_image_data, 0, sizeof(image_info_t));
+	gserx_image_data.image_base = (uintptr_t) gserh_buf;
+	gserx_image_data.image_size = 0;
+	gserx_image_data.image_max_size = *gserh_buf_size;
+
+	err = load_image(FW_CONFIG_ID, &gserx_image_data);
+	if (err == 0) {
+		flush_dcache_range(gserx_image_data.image_base,
+				gserx_image_data.image_size);
+		*gserh_buf_size = gserx_image_data.image_size;
+
+		INFO("%s GSERH Image @0x%lx MaxBufSz 0x%x Image size 0x%x\n",
+		       __func__, (unsigned long)gserh_buf, gserx_image_data.image_max_size, *gserh_buf_size);
+
+	} else {
+		ERROR("%s: failed to load GSERH Image\n", __func__);
+		return err;
+	}
+
+	return 0;
 }
 #endif
 

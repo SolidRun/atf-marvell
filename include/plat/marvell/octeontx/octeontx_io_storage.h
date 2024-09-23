@@ -12,6 +12,22 @@
 #include <libtim.h>
 #include <drivers/io/io_storage.h>
 
+#define TIM_SPEC_SIGNATURE     (0xf65689bb7775c42eULL)
+
+/**
+ * SPEC data is encapsulated along with TIM data
+ */
+typedef struct {
+	io_block_spec_t spec;
+	uint64_t signature;     /** To verify container */
+	struct tim_load_info tim_info;
+	unsigned int image_id;
+} tim_spec_info_t;
+#endif	/* PLAT_CN10K_FAMILY || PLAT_CN20K_FAMILY */
+
+
+#if defined(PLAT_CN10K_FAMILY)
+
 #define TIM_SPEC_BL31		0
 #ifdef INCLUDE_OPTEE
 #define TIM_SPEC_BL32		1
@@ -36,18 +52,40 @@
 #endif
 #endif
 
-#define TIM_SPEC_SIGNATURE     (0xf65689bb7775c42eULL)
+#endif // PLAT_CN10K_FAMILY
 
-/**
- * SPEC data is encapsulated along with TIM data
- */
-typedef struct {
-	io_block_spec_t spec;
-	uint64_t signature;     /** To verify container */
-	struct tim_load_info tim_info;
-	unsigned int image_id;
-} tim_spec_info_t;
-#endif	/* PLAT_CN10K_FAMILY */
+
+#if defined(PLAT_CN20K_FAMILY)
+
+#define TIM_SPEC_BL31		0
+#ifdef INCLUDE_OPTEE
+#define TIM_SPEC_BL32		1
+#define TIM_SPEC_BL33		2
+#define TIM_SPEC_SOC_FW_CONFIG	3
+#define TIM_SPEC_FW_CONFIG	4
+
+#ifdef NT_FW_CONFIG
+# define TIM_SPEC_NT_FW_CONFIG	5
+# define TIM_NUM_SPECS		6
+#else
+# define TIM_NUM_SPECS		5
+#endif
+#else
+#define TIM_SPEC_BL33		1
+#define TIM_SPEC_SOC_FW_CONFIG	2
+#define TIM_SPEC_FW_CONFIG	3
+
+#ifdef NT_FW_CONFIG
+# define TIM_SPEC_NT_FW_CONFIG	4
+# define TIM_NUM_SPECS		5
+#else
+# define TIM_NUM_SPECS		4
+#endif
+#endif
+
+#endif // PLAT_CN20K_FAMILY
+
+
 
 void octeontx_io_setup(void);
 

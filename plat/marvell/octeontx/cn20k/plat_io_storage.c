@@ -39,6 +39,9 @@ static uintptr_t bl32_dev_handle;
 #endif
 static const io_dev_connector_t *soc_fw_dev_con;
 static uintptr_t soc_fw_dev_handle;
+
+static const io_dev_connector_t *fw_dev_con;
+static uintptr_t fw_dev_handle;
 #ifdef NT_FW_CONFIG
 static const io_dev_connector_t *nt_fw_dev_con;
 static uintptr_t nt_fw_dev_handle;
@@ -69,6 +72,10 @@ static const io_uuid_spec_t soc_fw_config_uuid_spec = {
 	.uuid = UUID_SOC_FW_CONFIG,
 };
 
+static const io_uuid_spec_t fw_config_uuid_spec = {
+	.uuid = UUID_FW_CONFIG,
+};
+
 #if defined(NT_FW_CONFIG)
 static const io_uuid_spec_t nt_fw_config_uuid_spec = {
 	.uuid = UUID_NT_FW_CONFIG,
@@ -89,6 +96,7 @@ static int open_bl32_image(const uintptr_t spec);
 #endif
 static int open_bl33_image(const uintptr_t spec);
 static int open_soc_fw_image(const uintptr_t spec);
+static int open_fw_image(const uintptr_t spec);
 #ifdef NT_FW_CONFIG
 static int open_nt_fw_image(const uintptr_t spec);
 #endif
@@ -137,10 +145,19 @@ static const struct plat_io_policy policies[] = {
 	[SOC_FW_CONFIG_ID] = {
 		&soc_fw_dev_handle,
 		(uintptr_t)&soc_fw_config_uuid_spec,
-		"gserm-cn10xx.fw",
+		"gserm-cn20xx.fw",
 		&tim_specs[TIM_SPEC_SOC_FW_CONFIG],
 		open_soc_fw_image,
 	},
+
+	[FW_CONFIG_ID] = {
+		&fw_dev_handle,
+		(uintptr_t)&fw_config_uuid_spec,
+		"gserh-cn20xx.fw",
+		&tim_specs[TIM_SPEC_FW_CONFIG],
+		open_fw_image,
+	},
+
 #if defined(NT_FW_CONFIG)
 	[NT_FW_CONFIG_ID] = {
 		&nt_fw_dev_handle,
@@ -172,6 +189,11 @@ static int open_bl33_image(const uintptr_t spec)
 static int open_soc_fw_image(const uintptr_t spec)
 {
 	return io_dev_init(soc_fw_dev_handle, 0);
+}
+
+static int open_fw_image(const uintptr_t spec)
+{
+	return io_dev_init(fw_dev_handle, 0);
 }
 
 #ifdef NT_FW_CONFIG
@@ -236,6 +258,9 @@ void octeontx_io_setup(void)
 	io_result = register_io_dev_dummy(&soc_fw_dev_con);
 	assert(io_result == 0);
 
+	io_result = register_io_dev_dummy(&fw_dev_con);
+	assert(io_result == 0);
+
 #ifdef NT_FW_CONFIG
 	io_result = register_io_dev_dummy(&nt_fw_dev_con);
 	assert(io_result == 0);
@@ -261,6 +286,10 @@ void octeontx_io_setup(void)
 
 	io_result = io_dev_open(soc_fw_dev_con, (uintptr_t)NULL,
 				&soc_fw_dev_handle);
+	assert(io_result == 0);
+
+	io_result = io_dev_open(fw_dev_con, (uintptr_t)NULL,
+				&fw_dev_handle);
 	assert(io_result == 0);
 #ifdef NT_FW_CONFIG
 	io_result = io_dev_open(nt_fw_dev_con, (uintptr_t)NULL,
