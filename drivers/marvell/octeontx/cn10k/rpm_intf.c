@@ -2028,7 +2028,6 @@ static int rpm_get_port_mode(int rpm_id, int lmac_id,
 
 	return 0;
 }
-
 static int rpm_dump_ecp_state(int rpm_id, int lmac_id,
 			struct eth_ecp_dump_state_args *args)
 {
@@ -2274,8 +2273,17 @@ static int rpm_process_requests(int rpm_id, int lmac_id,
 			/* Read the command arguments from SCRATCH(1) */
 			scratchx1.u = CSR_READ(CAVM_RPMX_CMRX_SCRATCHX(
 						rpm_id, lmac_id, 1));
-			ret = rpm_dump_ecp_state(rpm_id, lmac_id,
+			if (mrvl_tf_log_modules & MRVL_TF_LOG_MODULE_ECP_SM_HIST) {
+				ret = rpm_dump_ecp_state(rpm_id, lmac_id,
 					&scratchx1.s.ecp_dump_state_args);
+			} else {
+				/* When the ecp_dump_state is requested OnDemand, enable the debug logs */
+				mrvl_tf_log_modules |= MRVL_TF_LOG_MODULE_ECP_SM_HIST;
+				ret = rpm_dump_ecp_state(rpm_id, lmac_id,
+					&scratchx1.s.ecp_dump_state_args);
+				/* After OnDemand dump, disable the debug logs */
+				mrvl_tf_log_modules &= (~MRVL_TF_LOG_MODULE_ECP_SM_HIST);
+			}
 			break;
 		}
 	} else {
