@@ -198,12 +198,14 @@ static void rvu_pf_disc_reset(void)
 			RVU_CSR_WRITE(RVU_AF_BAR0_BASE, RVU_PRIV_PFX_DISC(id),
 				       (1ULL << BLKADDR_BGEN0) | (1ULL << BLKADDR_PSM0) |
 				       (1ULL << BLKADDR_MAB0) | (1ULL << BLKADDR_BMEMA0) |
-				       (1ULL << BLKADDR_BMEMB0) | (1ULL << BLKADDR_MLAB0));
+				       (1ULL << BLKADDR_BMEMB0) | (1ULL << BLKADDR_MLAB0) |
+				       (1ULL << BLKADDR_RFOE0)  | (1ULL << BLKADDR_CPRI0));
 			if (plat_octeontx_bcfg->num_chiplet == 2)
 				RVU_CSR_WRITE(RVU_AF_BAR0_BASE, RVU_PRIV_PFX_DISC(id),
 				       (1ULL << BLKADDR_BGEN1) | (1ULL << BLKADDR_PSM1) |
 				       (1ULL << BLKADDR_MAB1) | (1ULL << BLKADDR_BMEMA1) |
-				       (1ULL << BLKADDR_BMEMB1) | (1ULL << BLKADDR_MLAB1));
+				       (1ULL << BLKADDR_BMEMB1) | (1ULL << BLKADDR_MLAB1) |
+				       (1ULL << BLKADDR_RFOE1)  | (1ULL << BLKADDR_CPRI1));
 		}
 	}
 }
