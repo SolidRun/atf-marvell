@@ -26,6 +26,7 @@
 #include "cavm-csrs-gic.h"
 #include "cavm-csrs-emmc.h"
 #include "cavm-csrs-spi.h"
+#include "cavm-csrs-fuse.h"
 
 /* for LEGACY logging, define DEBUG_ATF_PLAT_ECAM to enable debug logs */
 #undef DEBUG_ATF_PLAT_ECAM
@@ -396,6 +397,7 @@ struct secure_devices secure_devs[] = {
 	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_EMMC2, ECAM_ALL_INSTANCES, NSEC_DEVPA},
 	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_SPI, ECAM_ALL_INSTANCES, NSEC_DEVPA},
 	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_RST5, ECAM_ALL_INSTANCES, SEC_DEVPA},
+	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_MCS, ECAM_ALL_INSTANCES, NSEC_DEVPA},
 	{ECAM_INVALID_PROD_ID, ECAM_INVALID_PCC_IDL_ID, ECAM_ALL_INSTANCES, NSEC_DEVPA}
 };
 
@@ -692,7 +694,13 @@ static int get_secure_settings(struct ecam_device *dev, uint64_t pconfig)
 			if (((pccpf_id.s.devid & 0xff) == CAVM_PCC_DEV_IDL_E_SPI) &&
 			    plat_octeontx_bcfg->spi_cfg[vsec_ctl.s.inst_num].is_secure)
 				dev->config.s.is_sec_devpa = SEC_DEVPA;
-			else
+			else if (((pccpf_id.s.devid & 0xff) == CAVM_PCC_DEV_IDL_E_MCS)) {
+				if (cavm_fuse_read_range(0, CAVM_FUSE_NUM_E_MCS_FULL_CRIPPLEX(0), 7) == 0x7ful)
+					dev->config.s.is_secure = 1;
+				else
+					dev->config.s.is_secure = 0;
+				debug_plat_ecam("MSC is secure = %d\n", dev->config.s.is_secure);
+			} else
 				dev->config.s.is_sec_devpa = sdev->secure_devpa;
 			break;
 		}
