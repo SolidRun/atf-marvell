@@ -191,7 +191,7 @@ static void rvu_pf_disc_reset(void)
 		RVU_CSR_WRITE(RVU_AF_BAR0_BASE, RVU_PRIV_PFX_DISC(id), 0x0ull);
 
 		/* Enable bphy blocks for bphy PF */
-		if (rvu_dev[id].pci.pf_devid == PCI_DEVID_OCTEONTX2_RVU_BPHY_PF &&
+		if (rvu_dev[id].pci.pf_devid == (PCI_DEVID_OCTEONTX2_RVU_BPHY_PF & DEVID_MASK) &&
 		    plat_octeontx_bcfg->num_chiplet >= 1) {
 			debug_rvu("Found %d chiplet. Config BPHY PF DISC\n",
 				  plat_octeontx_bcfg->num_chiplet);
